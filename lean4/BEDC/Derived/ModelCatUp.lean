@@ -273,4 +273,50 @@ theorem ModelCatBHistSourcePacket_root_threshold_obligation_triad [AskSetup] [Pa
     unary_cont_closed rootUnary lambdaUnary downstreamRow
   exact ⟨downstreamUnary, rootRow, downstreamRow, pkgSig⟩
 
+theorem ModelCatBHistSourcePacket_public_certificate_boundary [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda publicSurface
+      publicEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      Cont lift factor publicSurface ->
+        Cont publicSurface lambda publicEndpoint ->
+          SemanticNameCert (fun row : BHist => hsame row publicEndpoint)
+              (fun row : BHist => hsame row publicEndpoint)
+              (fun row : BHist => hsame row publicEndpoint) hsame ∧
+            UnaryHistory publicEndpoint ∧ hsame publicSurface (append lift factor) ∧
+              hsame publicEndpoint (append publicSurface lambda) ∧
+                PkgSig bundle lambda pkg := by
+  intro packet surfaceRow endpointRow
+  have rows :=
+    ModelCatBHistSourcePacket_root_threshold_obligation_triad packet surfaceRow endpointRow
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row publicEndpoint)
+          (fun row : BHist => hsame row publicEndpoint)
+          (fun row : BHist => hsame row publicEndpoint) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicEndpoint (hsame_refl publicEndpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, rows.left, rows.right.left, rows.right.right.left, rows.right.right.right⟩
+
 end BEDC.Derived.ModelCatUp
