@@ -25,14 +25,14 @@ def ShortestPathWeightedGraphCarrier [AskSetup] [PackageSetup]
         Cont weightedPath path endpoint ∧ PkgSig bundle endpoint pkg
 
 def ShortestPathRelaxationLedgerCarrier [AskSetup] [PackageSetup]
-    (vertices edges weights source target path incidence weightedPath endpoint before after
-      predecessor relaxationStep relaxationLedger certificate : BHist)
+    (vertices edges weights source target path incidence weightedPath endpoint beforeAfter
+      predecessor relaxation transport : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
       weightedPath endpoint bundle pkg ∧
-    UnaryHistory before ∧ UnaryHistory after ∧ UnaryHistory predecessor ∧
-      Cont before predecessor relaxationStep ∧ Cont endpoint relaxationStep relaxationLedger ∧
-        Cont relaxationLedger after certificate ∧ PkgSig bundle certificate pkg
+    UnaryHistory beforeAfter ∧ UnaryHistory relaxation ∧
+      Cont endpoint beforeAfter predecessor ∧
+        Cont predecessor relaxation transport ∧ PkgSig bundle transport pkg
 
 theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint : BHist}
@@ -58,6 +58,89 @@ theorem ShortestPathWeightedGraphCarrier_visible_path_ledger [AskSetup] [Package
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
+
+theorem ShortestPathWeightedGraphCarrier_relaxation_cont_closure [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint beforeAfter
+      predecessor relaxation transport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
+        weightedPath endpoint bundle pkg ->
+      Cont endpoint beforeAfter predecessor ->
+        Cont predecessor relaxation transport ->
+          PkgSig bundle transport pkg ->
+            UnaryHistory beforeAfter ->
+              UnaryHistory relaxation ->
+                ShortestPathRelaxationLedgerCarrier vertices edges weights source target path
+                    incidence weightedPath endpoint beforeAfter predecessor relaxation transport
+                    bundle pkg ∧
+                  UnaryHistory predecessor ∧ UnaryHistory transport ∧
+                    hsame predecessor (append endpoint beforeAfter) ∧
+                      hsame transport (append predecessor relaxation) := by
+  intro carrier predecessorRow transportRow transportPkg beforeAfterUnary relaxationUnary
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weightedPathUnary carrier.right.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.right.left
+  have predecessorUnary : UnaryHistory predecessor :=
+    unary_cont_closed endpointUnary beforeAfterUnary predecessorRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed predecessorUnary relaxationUnary transportRow
+  exact
+    ⟨⟨carrier, beforeAfterUnary, relaxationUnary, predecessorRow, transportRow, transportPkg⟩,
+      predecessorUnary,
+      transportUnary,
+      predecessorRow,
+      transportRow⟩
+
+theorem ShortestPathWeightedGraphCarrier_visible_relaxation_namecert_surface [AskSetup]
+    [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint beforeAfter
+      predecessor relaxation transport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ShortestPathRelaxationLedgerCarrier vertices edges weights source target path incidence
+        weightedPath endpoint beforeAfter predecessor relaxation transport bundle pkg ->
+      UnaryHistory incidence ∧ UnaryHistory weightedPath ∧ UnaryHistory endpoint ∧
+        UnaryHistory predecessor ∧ UnaryHistory transport ∧
+          Cont vertices edges incidence ∧ Cont incidence weights weightedPath ∧
+            Cont weightedPath path endpoint ∧ Cont endpoint beforeAfter predecessor ∧
+              Cont predecessor relaxation transport ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle transport pkg := by
+  intro ledger
+  have carrier : ShortestPathWeightedGraphCarrier vertices edges weights source target path
+      incidence weightedPath endpoint bundle pkg := ledger.left
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weightedPathUnary carrier.right.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.right.left
+  have beforeAfterUnary : UnaryHistory beforeAfter := ledger.right.left
+  have relaxationUnary : UnaryHistory relaxation := ledger.right.right.left
+  have predecessorUnary : UnaryHistory predecessor :=
+    unary_cont_closed endpointUnary beforeAfterUnary ledger.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed predecessorUnary relaxationUnary ledger.right.right.right.right.left
+  exact
+    ⟨incidenceUnary,
+      weightedPathUnary,
+      endpointUnary,
+      predecessorUnary,
+      transportUnary,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      ledger.right.right.right.left,
+      ledger.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right,
+      ledger.right.right.right.right.right⟩
 
 theorem ShortestPathWeightedGraphCarrier_relaxation_certificate_scope [AskSetup] [PackageSetup]
     {vertices edges weights source target path incidence weightedPath endpoint relaxation
@@ -111,51 +194,54 @@ theorem ShortestPathWeightedGraphCarrier_relaxation_certificate_scope [AskSetup]
       certificateRow,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
-theorem ShortestPathRelaxationLedgerCarrier_continuation_closure [AskSetup] [PackageSetup]
-    {vertices edges weights source target path incidence weightedPath endpoint before after
-      predecessor relaxationStep relaxationLedger certificate : BHist}
+theorem ShortestPathWeightedGraphCarrier_relaxation_soundness [AskSetup] [PackageSetup]
+    {vertices edges weights source target path incidence weightedPath endpoint relaxation
+      certificate predecessor soundness : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ShortestPathWeightedGraphCarrier vertices edges weights source target path incidence
         weightedPath endpoint bundle pkg ->
-      UnaryHistory before ->
-        UnaryHistory after ->
-          UnaryHistory predecessor ->
-            Cont before predecessor relaxationStep ->
-              Cont endpoint relaxationStep relaxationLedger ->
-                Cont relaxationLedger after certificate ->
-                  PkgSig bundle certificate pkg ->
-                    ShortestPathRelaxationLedgerCarrier vertices edges weights source target
-                        path incidence weightedPath endpoint before after predecessor
-                        relaxationStep relaxationLedger certificate bundle pkg ∧
-                      UnaryHistory relaxationStep ∧ UnaryHistory relaxationLedger ∧
-                        UnaryHistory certificate ∧
-                          hsame relaxationStep (append before predecessor) ∧
-                            hsame relaxationLedger (append endpoint relaxationStep) ∧
-                              hsame certificate (append relaxationLedger after) := by
-  intro carrier beforeUnary afterUnary predecessorUnary relaxationStepRow relaxationLedgerRow
-    certificateRow certificateSig
-  have pathLedger := ShortestPathWeightedGraphCarrier_visible_path_ledger carrier
-  have endpointUnary : UnaryHistory endpoint := pathLedger.right.right.left
-  have relaxationStepUnary : UnaryHistory relaxationStep :=
-    unary_cont_closed beforeUnary predecessorUnary relaxationStepRow
-  have relaxationLedgerUnary : UnaryHistory relaxationLedger :=
-    unary_cont_closed endpointUnary relaxationStepUnary relaxationLedgerRow
+      Cont source target relaxation ->
+        Cont endpoint relaxation certificate ->
+          Cont relaxation path predecessor ->
+            Cont predecessor endpoint soundness ->
+              UnaryHistory relaxation ∧ UnaryHistory certificate ∧
+                UnaryHistory predecessor ∧ UnaryHistory soundness ∧
+                  hsame relaxation (append source target) ∧
+                    hsame certificate (append endpoint relaxation) ∧
+                      hsame predecessor (append relaxation path) ∧
+                        hsame soundness (append predecessor endpoint) ∧
+                          PkgSig bundle endpoint pkg := by
+  intro carrier relaxationRow certificateRow predecessorRow soundnessRow
+  have sourceUnary : UnaryHistory source := carrier.right.right.right.left
+  have targetUnary : UnaryHistory target := carrier.right.right.right.right.left
+  have pathUnary : UnaryHistory path := carrier.right.right.right.right.right.left
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have weightedPathUnary : UnaryHistory weightedPath :=
+    unary_cont_closed incidenceUnary carrier.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weightedPathUnary pathUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  have relaxationUnary : UnaryHistory relaxation :=
+    unary_cont_closed sourceUnary targetUnary relaxationRow
   have certificateUnary : UnaryHistory certificate :=
-    unary_cont_closed relaxationLedgerUnary afterUnary certificateRow
-  have relaxationCarrier :
-      ShortestPathRelaxationLedgerCarrier vertices edges weights source target path incidence
-        weightedPath endpoint before after predecessor relaxationStep relaxationLedger certificate
-        bundle pkg :=
-    ⟨carrier, beforeUnary, afterUnary, predecessorUnary, relaxationStepRow, relaxationLedgerRow,
-      certificateRow, certificateSig⟩
+    unary_cont_closed endpointUnary relaxationUnary certificateRow
+  have predecessorUnary : UnaryHistory predecessor :=
+    unary_cont_closed relaxationUnary pathUnary predecessorRow
+  have soundnessUnary : UnaryHistory soundness :=
+    unary_cont_closed predecessorUnary endpointUnary soundnessRow
   exact
-    ⟨relaxationCarrier,
-      relaxationStepUnary,
-      relaxationLedgerUnary,
+    ⟨relaxationUnary,
       certificateUnary,
-      relaxationStepRow,
-      relaxationLedgerRow,
-      certificateRow⟩
+      predecessorUnary,
+      soundnessUnary,
+      relaxationRow,
+      certificateRow,
+      predecessorRow,
+      soundnessRow,
+      carrier.right.right.right.right.right.right.right.right.right⟩
 
 theorem ShortestPathVisiblePathLedger [AskSetup] [PackageSetup]
     {vertices edges weights source target incidence path weightLedger endpoint : BHist}
