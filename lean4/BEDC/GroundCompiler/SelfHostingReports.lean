@@ -61,6 +61,75 @@ def P9SelfHostingSupport (report : P9Report) : Prop :=
 def P9FullNoHiddenSupport (report : P9Report) : Prop :=
   report.remainingObligations = []
 
+structure P9CompilerFieldStatus where
+  compilerCandidate : EventFlow
+  recognizedCompilerFlow : EventFlow
+  compilerCertificateFlow : EventFlow
+  inputDomainFlow : EventFlow
+  outputDomainFlow : EventFlow
+  encodingRuleFlow : EventFlow
+  decodingRuleFlow : EventFlow
+  roundTripProofFlow : EventFlow
+  recognizerHierarchyFlow : EventFlow
+  ledgerFlow : EventFlow
+  failureFlow : EventFlow
+  noHostLeakFlow : EventFlow
+  kernelConservativityFlow : EventFlow
+  selfDescriptionFlow : EventFlow
+  sealFlow : EventFlow
+
+inductive P9SelfHostingStatusKind : Type where
+  | notSelfHosting
+  | selfHostingWithObligations
+  | fullyDischarged
+
+structure P9SelfHostingStatusRecord where
+  compilerFlow : EventFlow
+  selfCompilationFlow : EventFlow
+  outputCompilerFlow : EventFlow
+  behaviorEquivalenceFlow : EventFlow
+  selfCompilationLedger : EventFlow
+  dischargedObligations : List EventFlow
+  remainingObligations : List EventFlow
+  noHostLeakAudit : EventFlow
+  status : P9SelfHostingStatusKind
+
+structure P9AuditChecklist where
+  includesP8Requirements : Prop
+  separatesCompilerCandidates : Prop
+  recognizedRequiresGeneratedRecognizer : Prop
+  separatesRecognizedFromCertified : Prop
+  certifiedRequiresCompleteCertificate : Prop
+  separatesBehaviorRecordsFromHostExecution : Prop
+  behaviorRecordsRequireSoundness : Prop
+  separatesSelfCompilationCandidates : Prop
+  selfCompilationRequiresLedger : Prop
+  separatesBehaviorEquivalenceFromRawEquality : Prop
+  recordsBootstrapObligations : Prop
+  separatesObligationsFromFullDischarge : Prop
+  requiresNoHostLeakAudit : Prop
+  globalStatusRequiresVerificationFlow : Prop
+  rejectsHostCompilerIdentity : Prop
+  includesCannotClaimAnnotations : Prop
+
+def P9AuditChecklistComplete (checklist : P9AuditChecklist) : Prop :=
+  checklist.includesP8Requirements /\
+    checklist.separatesCompilerCandidates /\
+    checklist.recognizedRequiresGeneratedRecognizer /\
+    checklist.separatesRecognizedFromCertified /\
+    checklist.certifiedRequiresCompleteCertificate /\
+    checklist.separatesBehaviorRecordsFromHostExecution /\
+    checklist.behaviorRecordsRequireSoundness /\
+    checklist.separatesSelfCompilationCandidates /\
+    checklist.selfCompilationRequiresLedger /\
+    checklist.separatesBehaviorEquivalenceFromRawEquality /\
+    checklist.recordsBootstrapObligations /\
+    checklist.separatesObligationsFromFullDischarge /\
+    checklist.requiresNoHostLeakAudit /\
+    checklist.globalStatusRequiresVerificationFlow /\
+    checklist.rejectsHostCompilerIdentity /\
+    checklist.includesCannotClaimAnnotations
+
 structure SoundP9Report (report : P9Report) where
   recognizedCompilerBacked :
     forall C : EventFlow,
@@ -109,5 +178,19 @@ theorem sound_p9_report_full_claim_requires_empty_obligations
         P9FullNoHiddenSupport report := by
   intro hSound hFull
   exact hSound.fullyDischargedOnlyWhenEmpty hFull
+
+def P9AdequacySupport
+    (checklist : P9AuditChecklist) (report : P9Report) : Prop :=
+  P9AuditChecklistComplete checklist /\
+    SoundP9Report report /\
+    P9SelfHostingSupport report
+
+theorem p9_adequacy
+    {checklist : P9AuditChecklist} {report : P9Report} :
+    P9AuditChecklistComplete checklist ->
+      SoundP9Report report ->
+        P9AdequacySupport checklist report := by
+  intro hChecklist hReport
+  exact ⟨hChecklist, hReport, sound_p9_report_supports_self_hosting hReport⟩
 
 end BEDC.GroundCompiler.SelfHostingReports

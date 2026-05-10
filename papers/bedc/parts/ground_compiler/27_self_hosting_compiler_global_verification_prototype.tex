@@ -398,6 +398,8 @@ A $P_9$ report is an output view containing decoded event flow, compiler candida
 
 \begin{definition}[Compiler field and self-hosting status]
 \label{def:self-hosting-field-status}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9CompilerFieldStatus}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9SelfHostingStatusRecord}
 For each compiler candidate $C$, the report records recognized compiler-flow status, compiler certificate-flow status, input-domain flow, output-domain flow, encoding-rule flow, decoding-rule flow, round-trip proof flow, recognizer-hierarchy flow, ledger flow, failure flow, no-host-leak flow, kernel-conservativity flow, self-description flow, and seal flow.
 
 Self-hosting status records compiler-flow $C$, self-compilation flow $SC$, output compiler-flow $C'$, behavior-equivalence $C'\equiv_{\mathrm{comp}}C$, self-compilation ledger, discharged obligations, remaining obligations, no-host-leak audit result, and status as not self-hosting, self-hosting with obligations, or fully discharged.
@@ -435,6 +437,7 @@ A sound $P_9$ report distinguishes compiler candidate, recognized compiler-flow,
 
 \begin{definition}[$P_9$ audit checklist]
 \label{def:self-hosting-p9-audit}
+\leandef{BEDC.GroundCompiler.SelfHostingReports.P9AuditChecklist}
 A $P_9$ prototype must satisfy:
 \begin{enumerate}
 \item all $P_8$ audit requirements;
@@ -458,6 +461,7 @@ A $P_9$ prototype must satisfy:
 
 \begin{theorem}[$P_9$ adequacy theorem]
 \label{thm:self-hosting-p9-adequacy}
+\leanchecked{BEDC.GroundCompiler.SelfHostingReports.p9\_adequacy}
 If a prototype satisfies the $P_9$ audit checklist, uses sound $P_8$ reports, and every compiler, self-hosting, and global verification claim is backed by generated recognizers, certificates, ledgers, and bootstrap accounting, then it is adequate as a self-hosting compiler and global verification prototype.
 \end{theorem}
 
