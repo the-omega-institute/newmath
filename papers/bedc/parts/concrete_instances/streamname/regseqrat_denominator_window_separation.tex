@@ -51,6 +51,56 @@ outside the StreamName source packet, so the denominator window has exactly
 the stated dependency surface.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat denominator subwindow transport]
+\label{thm:streamname-regseqrat-denominator-subwindow-transport}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let
+$\mathcal P,\mathcal Q:\mathsf{ProbeBundle}$ be finite observation bundles.
+Suppose $\mathcal Q$ is certified as a subwindow of $\mathcal P$ by
+$$
+\forall m,\ \mathsf{InBundle}(m,\mathcal Q)\land\mathsf{UnaryHistory}(m)
+\to
+\mathsf{InBundle}(m,\mathcal P)\land\mathsf{UnaryHistory}(m).
+$$
+Then every denominator-window packet accepted over $\mathcal P$ restricts to a
+denominator-window packet over $\mathcal Q$ whose public surface is exactly
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q),\\
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal Q),\qquad
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\\
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+The restricted packet exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion object, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+First restrict the finite StreamName classifier. The certified inclusion of
+$\mathcal Q$ in $\mathcal P$ is precisely the input required by
+\autoref{thm:rat-stream-name-finite-window-subwindow-restriction}, so the
+accepted $\mathcal P$ packet supplies
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$.
+
+Now apply
+\autoref{thm:streamname-regseqrat-denominator-window-separation} inside the
+subwindow $\mathcal Q$. For each certified observation $n$ in $\mathcal Q$, this
+exposes the unary-history row, the $\mathcal Q$ bundle-membership row, and the
+pointwise rational-history classifier $\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+Next read the endpoint through
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage}. The dyadic
+observation row is therefore attached to the same subwindow observation rather
+than to any ambient host index.
+
+Finally use
+\autoref{thm:streamname-finite-observation-realup-seal-scope}. It keeps the
+$\RegSeqRat$ regularity row, the $\RealUp$ seal classifier, completion,
+quotienting, and host-index equality outside the finite StreamName source
+packet. The transported subwindow packet is exactly the displayed public
+surface and no larger.
+\end{proof}
+
 \begin{theorem}[StreamName RealUp denominator-window normal form]
 \label{thm:streamname-realup-denominator-window-normal-form}
 A denominator window handed from $\StreamNameUp$ to both $\RegSeqRat$ and a
