@@ -32,6 +32,44 @@ def MarkovChainTransitionCarrier [AskSetup] [PackageSetup]
         Cont probSource randomVarRows lawRows ∧ Cont lawRows transitionRows contLedger ∧
           Cont provenance contLedger endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem MarkovChainTransitionCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} (token : PkgSig bundle BHist.Empty pkg) :
+    let SourceSpec : BHist -> Prop := fun row =>
+      exists probSource timeLedger randomVarRows lawRows transitionRows contLedger
+        provenance : BHist,
+        MarkovChainTransitionCarrier probSource timeLedger randomVarRows lawRows transitionRows
+          contLedger provenance row bundle pkg
+    SemanticNameCert SourceSpec SourceSpec SourceSpec
+      (fun h k : BHist => SourceSpec h ∧ SourceSpec k ∧ hsame h k) := by
+  let SourceSpec : BHist -> Prop := fun row =>
+    exists probSource timeLedger randomVarRows lawRows transitionRows contLedger
+      provenance : BHist,
+      MarkovChainTransitionCarrier probSource timeLedger randomVarRows lawRows transitionRows
+        contLedger provenance row bundle pkg
+  have emptySource : SourceSpec BHist.Empty := by
+    exact
+      ⟨BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty,
+        ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+          unary_empty, unary_empty, rfl, rfl, rfl, token⟩⟩
+  constructor
+  · constructor
+    · exact ⟨BHist.Empty, emptySource⟩
+    · intro h source
+      exact ⟨source, source, hsame_refl h⟩
+    · intro h k classified
+      exact ⟨classified.right.left, classified.left, hsame_symm classified.right.right⟩
+    · intro h k r classifiedHK classifiedKR
+      exact
+        ⟨classifiedHK.left, classifiedKR.right.left,
+          hsame_trans classifiedHK.right.right classifiedKR.right.right⟩
+    · intro h k classified _source
+      exact classified.right.left
+  · intro h source
+    exact source
+  · intro h source
+    exact source
+
 theorem MarkovChainTransitionCarrier_kernel_classifier_stability [AskSetup] [PackageSetup]
     {probSource timeLedger randomVarRows lawRows transitionRows contLedger provenance endpoint
       probSource' timeLedger' randomVarRows' lawRows' transitionRows' contLedger' provenance'
@@ -284,5 +322,48 @@ theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
       carrier.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.right,
       carrier.right.right.right.right.right.right.right.right.right.left⟩
+
+theorem MarkovChainBHistTransitionCarrier_probspace_randomvar_source_boundary
+    [AskSetup] [PackageSetup]
+    {prob random law transition controw provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MarkovChainBHistTransitionCarrier prob random law transition controw provenance endpoint
+        bundle pkg ->
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint ∧ UnaryHistory h)
+        (fun h : BHist =>
+          hsame h endpoint ∧ Cont random transition controw ∧ Cont prob law provenance ∧
+            Cont provenance controw endpoint)
+        hsame := by
+  intro carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    carrier.right.right.right.right.right.right.left
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row other target sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows rowSource
+        exact hsame_trans (hsame_symm sameRows) rowSource
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro source (unary_transport endpointUnary (hsame_symm source))
+    ledger_sound := by
+      intro row source
+      exact
+        And.intro source
+          (And.intro carrier.right.right.right.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.right.right.right.left
+              carrier.right.right.right.right.right.right.right.right.right.left))
+  }
 
 end BEDC.Derived.MarkovChainUp
