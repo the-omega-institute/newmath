@@ -359,4 +359,43 @@ theorem InfCatBHistSourcePacket_source_classifier_obligations [AskSetup] [Packag
     ⟨transported.left, transported.right.left, transported.right.right, consumerUnary,
       boundaryUnary⟩
 
+theorem InfCatBHistSourcePacket_stability_exactness_ledger_obligations [AskSetup]
+    [PackageSetup]
+    {simplicial category horn lift provenance transport simplicial' category' horn' lift'
+      provenance' transport' consumer consumer' boundary boundary' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InfCatBHistSourcePacket simplicial category horn lift provenance transport bundle pkg ->
+      hsame simplicial simplicial' -> hsame category category' -> hsame horn horn' ->
+        hsame provenance provenance' -> Cont simplicial' horn' lift' ->
+          Cont provenance' lift' transport' -> PkgSig bundle transport' pkg ->
+            Cont lift transport consumer -> Cont lift' transport' consumer' ->
+              Cont horn transport boundary -> Cont horn' transport' boundary' ->
+                InfCatBHistSourcePacket simplicial' category' horn' lift' provenance'
+                    transport' bundle pkg ∧
+                  hsame lift lift' ∧ hsame transport transport' ∧
+                    hsame consumer consumer' ∧ hsame boundary boundary' ∧
+                      UnaryHistory consumer' ∧ UnaryHistory boundary' := by
+  intro packet sameSimplicial sameCategory sameHorn sameProvenance liftRow'
+    transportRow' pkgRow' consumerRow consumerRow' boundaryRow boundaryRow'
+  have transported :=
+    InfCatBHistSourcePacket_quasicategory_classifier_surface packet sameSimplicial
+      sameCategory sameHorn sameProvenance liftRow' transportRow' pkgRow'
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame transported.right.left transported.right.right consumerRow consumerRow'
+  have sameBoundary : hsame boundary boundary' :=
+    cont_respects_hsame sameHorn transported.right.right boundaryRow boundaryRow'
+  have liftUnary' : UnaryHistory lift' :=
+    transported.left.right.right.right.left
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed transported.left.right.right.right.right.left liftUnary' transportRow'
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed liftUnary' transportUnary' consumerRow'
+  have hornUnary' : UnaryHistory horn' :=
+    transported.left.right.right.left
+  have boundaryUnary' : UnaryHistory boundary' :=
+    unary_cont_closed hornUnary' transportUnary' boundaryRow'
+  exact
+    ⟨transported.left, transported.right.left, transported.right.right, sameConsumer,
+      sameBoundary, consumerUnary', boundaryUnary'⟩
+
 end BEDC.Derived.InfCatUp
