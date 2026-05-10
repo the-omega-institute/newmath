@@ -208,3 +208,47 @@ constant-window or $\RegSeqRat$ rows, no quotient, arithmetic, order,
 completion, host stream equality, or standard bridge row can enter the
 selected-tail boundary.
 \end{proof}
+
+\begin{theorem}[StreamName constant directed RealUp source uniqueness]
+\label{thm:streamname-constant-window-directed-realup-source-uniqueness}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ and $\{J_j\}_{j\in J}$ be two directed finite families of
+inhabited constant rational $\StreamNameUp$ windows over the same
+$\mathsf{BHist}$ source. Suppose a finite-window $\RealUp$ consumer of the
+first family and a finite-window $\RealUp$ consumer of the second family overlap
+on a certified common directed subwindow $K$, with the displayed
+$\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, and $\Pkg$
+rows inherited from both directed systems.
+
+Then the public $\StreamNameUp$ component exposed to the two $\RealUp$
+consumers on $K$ is uniquely the constant rational stream row determined by
+$\mathsf{RatHistoryClassifier}(a,b)$ and the finite $\mathsf{ProbeBundle}$
+ledger on $K$. No alternative $\RegSeqRat$ source row, $\RealUp$ source row, or
+host stream row can be read at that overlap without first passing through the
+same $\StreamNameUp$ finite-window carrier and classifier.
+\end{theorem}
+\begin{proof}
+Restrict both directed constant-window families to the common directed
+subwindow $K$. The restricted packages still carry the same
+$\mathsf{BHist}$ source, the inherited unary observation rows, and the finite
+$\mathsf{ProbeBundle}$ ledgers displayed by the two original systems.
+
+Apply
+\autoref{thm:streamname-constant-window-directed-overlap-exactness} to the
+restricted directed families. It identifies the public StreamName component on
+$K$ with the single rational-history classifier row
+$\mathsf{RatHistoryClassifier}(a,b)$, using only the displayed $\hsame$ rows
+and the finite probe ledgers.
+
+Next use \autoref{thm:streamname-constant-window-real-boundary}. A
+finite-window $\RealUp$ consumer may inspect only that StreamName carrier,
+classifier, and ledger surface. Thus the consumer has no independent access to
+a completion row, host stream equality, or an external source selector.
+
+Finally apply
+\autoref{thm:streamname-constant-window-directed-regseq-real-tail-boundary}.
+Any $\RegSeqRat$ tail seen by the $\RealUp$ side is selected through the same
+constant StreamName finite-window rows and the displayed $\Cont/\hsame$ ledger.
+Therefore every available RealUp source row factors through the unique
+StreamName component on $K$.
+\end{proof}
