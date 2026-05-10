@@ -155,4 +155,40 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
 
+theorem StackCarrierPacket_descent_obligation [AskSetup] [PackageSetup]
+    {site sheaf object arrow transport restriction provenance carrier endpoint
+      descentEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory site ->
+      UnaryHistory sheaf ->
+        UnaryHistory object ->
+          UnaryHistory arrow ->
+            UnaryHistory transport ->
+              UnaryHistory restriction ->
+                UnaryHistory provenance ->
+                  Cont site sheaf carrier ->
+                    Cont object arrow transport ->
+                      Cont carrier restriction endpoint ->
+                        Cont transport restriction descentEndpoint ->
+                          PkgSig bundle endpoint pkg ->
+                            UnaryHistory carrier ∧ UnaryHistory endpoint ∧
+                              UnaryHistory descentEndpoint ∧ hsame carrier (append site sheaf) ∧
+                                hsame transport (append object arrow) ∧
+                                  hsame endpoint (append carrier restriction) ∧
+                                    hsame descentEndpoint (append transport restriction) ∧
+                                      PkgSig bundle endpoint pkg := by
+  intro siteUnary sheafUnary objectUnary arrowUnary _ restrictionUnary _ siteSheafCarrier
+  intro objectArrowTransport carrierRestrictionEndpoint transportRestrictionDescent endpointPkg
+  have carrierUnary : UnaryHistory carrier :=
+    unary_cont_closed siteUnary sheafUnary siteSheafCarrier
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed objectUnary arrowUnary objectArrowTransport
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrierUnary restrictionUnary carrierRestrictionEndpoint
+  have descentUnary : UnaryHistory descentEndpoint :=
+    unary_cont_closed transportUnary restrictionUnary transportRestrictionDescent
+  exact
+    ⟨carrierUnary, endpointUnary, descentUnary, siteSheafCarrier, objectArrowTransport,
+      carrierRestrictionEndpoint, transportRestrictionDescent, endpointPkg⟩
+
 end BEDC.Derived.StackUp

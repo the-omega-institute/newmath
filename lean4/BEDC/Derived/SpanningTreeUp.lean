@@ -167,4 +167,47 @@ theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
               (And.intro reachabilityLedger
                 (And.intro provenanceEndpoint endpointPkg)))))))
 
+theorem SpanningTreeCarrierPacket_classifier_obligation [AskSetup] [PackageSetup]
+    {vertex graphEdge treeEdge root incidence reachability acyclicity provenance treeLedger
+      endpoint classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory vertex ->
+      UnaryHistory graphEdge ->
+        UnaryHistory treeEdge ->
+          UnaryHistory root ->
+            UnaryHistory acyclicity ->
+              UnaryHistory provenance ->
+                Cont graphEdge treeEdge incidence ->
+                  Cont root incidence reachability ->
+                    Cont reachability acyclicity treeLedger ->
+                      Cont provenance treeLedger endpoint ->
+                        Cont endpoint acyclicity classifier ->
+                          PkgSig bundle endpoint pkg ->
+                            UnaryHistory incidence ∧ UnaryHistory reachability ∧
+                              UnaryHistory treeLedger ∧ UnaryHistory endpoint ∧
+                                UnaryHistory classifier ∧
+                                  hsame incidence (append graphEdge treeEdge) ∧
+                                    hsame reachability (append root incidence) ∧
+                                      hsame treeLedger (append reachability acyclicity) ∧
+                                        hsame endpoint (append provenance treeLedger) ∧
+                                          hsame classifier (append endpoint acyclicity) ∧
+                                            PkgSig bundle endpoint pkg := by
+  intro _ graphEdgeUnary treeEdgeUnary rootUnary acyclicityUnary provenanceUnary
+  intro edgeIncidence rootReachability reachabilityLedger provenanceEndpoint endpointClassifier
+  intro endpointPkg
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed graphEdgeUnary treeEdgeUnary edgeIncidence
+  have reachabilityUnary : UnaryHistory reachability :=
+    unary_cont_closed rootUnary incidenceUnary rootReachability
+  have ledgerUnary : UnaryHistory treeLedger :=
+    unary_cont_closed reachabilityUnary acyclicityUnary reachabilityLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary ledgerUnary provenanceEndpoint
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed endpointUnary acyclicityUnary endpointClassifier
+  exact
+    ⟨incidenceUnary, reachabilityUnary, ledgerUnary, endpointUnary, classifierUnary,
+      edgeIncidence, rootReachability, reachabilityLedger, provenanceEndpoint, endpointClassifier,
+      endpointPkg⟩
+
 end BEDC.Derived.SpanningTreeUp
