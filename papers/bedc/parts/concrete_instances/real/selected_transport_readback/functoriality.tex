@@ -122,6 +122,66 @@ certificate, standard bridge, arithmetic or order operation, hidden selector,
 or additional endpoint row.
 \end{proof}
 
+\begin{theorem}[Real selected transport readback pullback uniqueness]
+\label{thm:real-selected-transport-readback-pullback-uniqueness}
+Let $K$ be a certified common finite $\RealUp$ source window with finite
+probe bundle $\mathcal{P}:\mathsf{ProbeBundle}$ and selected bundled
+observation $n:\Hist$ with $\mathsf{InBundle}(n,\mathcal{P})$. Let
+$$
+\mathcal{T}_1:K\to W_1,\qquad
+\mathcal{T}_2:K\to W_2
+$$
+be two selected unary-context transports into observation windows $W_1$ and
+$W_2$. Suppose their restrictions over $K$ expose the same
+$\StreamNameUp$ classifier rows, the same $\RegSeqRat$ tail-classifier rows,
+the same DyadicRatCore endpoint rows, and the same
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ ledger.
+
+Then the selected readback packets in $W_1$ and $W_2$ expose one common finite
+$\RegSeqRat$ tail-classifier row on $K$. The row is determined by the shared
+finite source surface alone: the two readbacks may be viewed as pullbacks of
+the same selected source readback, and their endpoint, contextual,
+appended-tail, common-shape, cancellation, and selected-tail exactness faces
+agree after restriction to $K$.
+
+No quotient carrier, completion object, Classical representative,
+metric-completeness certificate, arithmetic or order structure, standard
+bridge, or hidden selector is part of this uniqueness statement.
+\end{theorem}
+\begin{proof}
+First restrict both transported packets to the certified finite source window
+$K$. The hypothesis identifies the visible $\StreamNameUp$ classifier rows,
+the $\RegSeqRat$ tail classifiers, the DyadicRatCore endpoint rows, and the
+$\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$ membership
+surface used by the selected readback.
+
+Next apply
+\autoref{thm:real-selected-transport-readback-identity} on $K$. It says that
+the identity readback over the shared source surface exposes exactly the
+original finite $\RegSeqRat$ tail-classifier row attached to $n$.
+
+Now apply
+\autoref{thm:real-selected-transport-readback-functoriality} separately to
+the identity transport on $K$ followed by $\mathcal{T}_1$, and to the identity
+transport on $K$ followed by $\mathcal{T}_2$. Since the two restrictions carry
+the same $\hsame/\Cont/\Pkg$ ledger and the same
+$\mathsf{RealLedgerPolicy}$ row, the two transported packets read back the
+same row as the identity packet when pulled to $K$.
+
+Finally use
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+on the two selected packets. Tail-class exactness leaves only the displayed
+e-one tail class and its finite $\RegSeqRat$ classifier row. Those rows are
+the same by the common-source hypotheses, so the two selected readbacks expose
+one finite tail-classifier row on $K$.
+
+The exclusions follow because every cited result is stated inside the
+finite-window readback ledger. None introduces quotient representatives,
+completion, Classical choice, metric completeness, arithmetic or order
+operations, or bridge data.
+\end{proof}
+
 Fit: traditional target functoriality of selected finite-window readback for
 RealUp transports; BEDC source $\RealUp$ selected transport, RatUp endpoint
 readback, StreamNameUp finite-window rows, RegSeqRat tail classifiers, and
