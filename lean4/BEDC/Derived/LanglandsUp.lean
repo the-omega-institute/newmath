@@ -216,6 +216,25 @@ theorem LanglandsCorrespondenceLedger_source_certificate_scope [AskSetup] [Packa
                                           sourceCont, answerCont, observationCont,
                                           endpointCont, packageSig⟩
 
+theorem LanglandsBHistCorrespondenceCarrier_generated_rows_unary [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      UnaryHistory localFactor ∧ UnaryHistory ledger ∧ UnaryHistory endpoint := by
+  intro carrier
+  have localFactorUnary : UnaryHistory localFactor :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.left ledgerUnary
+      carrier.right.right.right.right.right.right.right.left
+  exact And.intro localFactorUnary (And.intro ledgerUnary endpointUnary)
+
 theorem LanglandsLFactorClassifier_endpoint_confluence [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
       ledger endpoint galoisSourceA automorphicSourceA galoisAnswerA automorphicAnswerA

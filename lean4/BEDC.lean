@@ -64,6 +64,7 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CstaralgebraUp
@@ -186,7 +187,9 @@ import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
+import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
 import BEDC.Derived.OptionUp.Determinism
@@ -218,6 +221,7 @@ import BEDC.Derived.OptionUp.PayloadDescent
 import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
 import BEDC.Derived.OptionUp.PayloadDescentCommonTarget
@@ -604,6 +608,7 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
@@ -651,6 +656,7 @@ import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
+import BEDC.Derived.LambdaCalcUp.ConstructorTransport
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
