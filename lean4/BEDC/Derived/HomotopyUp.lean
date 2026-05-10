@@ -315,6 +315,36 @@ theorem HomotopyBHistSourcePacket_endpoint_classifier_row [AskSetup] [PackageSet
                 (And.intro endpointCont
                   packet.right.right.right.right.right.right.right.right)))))))))
 
+theorem HomotopyBHistSourcePacket_continuousmap_dependency_surface [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory deformation ∧
+        UnaryHistory endpointRead ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+          Cont deformation interval endpointRead ∧ Cont endpointRead provenance ledger ∧
+            Cont ledger target endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed endpointReadUnary packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packet.right.left
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro endpointReadUnary
+          (And.intro ledgerUnary
+            (And.intro endpointUnary
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.right.left
+                    packet.right.right.right.right.right.right.right.right))))))))
+
 theorem HomotopyBHistSourcePacket_identity_deformation_row [AskSetup] [PackageSetup]
     {endpoint interval provenance endpointRead ledger endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
