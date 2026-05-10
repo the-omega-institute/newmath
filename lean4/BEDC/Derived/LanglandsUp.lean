@@ -35,6 +35,17 @@ def LanglandsLFactorClassifier [AskSetup] [PackageSetup]
       hsame galoisAnswer galoisAnswer' ∧ hsame automorphicAnswer automorphicAnswer' ∧
         hsame provenance provenance' ∧ PkgSig bundle endpoint' pkg
 
+def LanglandsCorrespondenceLedger [AskSetup] [PackageSetup]
+    (galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
+      observationLedger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧ UnaryHistory galoisAnswer ∧
+    UnaryHistory automorphicAnswer ∧ UnaryHistory localFactor ∧
+      Cont galoisSource automorphicSource packageLedger ∧
+        Cont galoisAnswer automorphicAnswer localFactor ∧
+          Cont packageLedger localFactor observationLedger ∧
+            Cont observationLedger localFactor endpoint ∧ PkgSig bundle endpoint pkg
+
 theorem LanglandsLFactorClassifier_local_factor_stability [AskSetup] [PackageSetup]
     {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
       ledger endpoint galoisSource' automorphicSource' galoisAnswer' automorphicAnswer'
@@ -77,62 +88,92 @@ theorem LanglandsLFactorClassifier_local_factor_stability [AskSetup] [PackageSet
         localFactorRow', ledgerRow', endpointRow', pkgSig'⟩,
       sameLocalFactor, sameLedger, sameEndpoint⟩
 
-def LanglandsCorrespondenceCarrier
-    (galoisSource automorphicSource galoisAnswers automorphicAnswers localFactors sourcePair
-      observed : BHist) : Prop :=
-  UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧ UnaryHistory galoisAnswers ∧
-    UnaryHistory automorphicAnswers ∧ UnaryHistory localFactors ∧ UnaryHistory sourcePair ∧
-      UnaryHistory observed ∧ Cont galoisSource automorphicSource sourcePair ∧
-        Cont galoisAnswers automorphicAnswers localFactors ∧
-          Cont sourcePair localFactors observed
-
-theorem LanglandsCorrespondenceCarrier_local_factor_stability
-    {galoisSource automorphicSource galoisAnswers automorphicAnswers localFactors sourcePair
-      observed galoisSource' automorphicSource' galoisAnswers' automorphicAnswers'
-      localFactors' sourcePair' observed' : BHist} :
-    LanglandsCorrespondenceCarrier galoisSource automorphicSource galoisAnswers
-        automorphicAnswers localFactors sourcePair observed ->
-      hsame galoisSource galoisSource' ->
-        hsame automorphicSource automorphicSource' ->
-          hsame galoisAnswers galoisAnswers' ->
-            hsame automorphicAnswers automorphicAnswers' ->
-              Cont galoisSource' automorphicSource' sourcePair' ->
-                Cont galoisAnswers' automorphicAnswers' localFactors' ->
-                  Cont sourcePair' localFactors' observed' ->
-                    LanglandsCorrespondenceCarrier galoisSource' automorphicSource'
-                        galoisAnswers' automorphicAnswers' localFactors' sourcePair'
-                        observed' ∧
-                      hsame sourcePair sourcePair' ∧ hsame localFactors localFactors' ∧
-                        hsame observed observed' := by
-  intro carrier sameGaloisSource sameAutomorphicSource sameGaloisAnswers
-  intro sameAutomorphicAnswers sourcePairRow' localFactorsRow' observedRow'
-  have galoisSourceUnary' : UnaryHistory galoisSource' :=
-    unary_transport carrier.left sameGaloisSource
-  have automorphicSourceUnary' : UnaryHistory automorphicSource' :=
-    unary_transport carrier.right.left sameAutomorphicSource
-  have galoisAnswersUnary' : UnaryHistory galoisAnswers' :=
-    unary_transport carrier.right.right.left sameGaloisAnswers
-  have automorphicAnswersUnary' : UnaryHistory automorphicAnswers' :=
-    unary_transport carrier.right.right.right.left sameAutomorphicAnswers
-  have sourcePairUnary' : UnaryHistory sourcePair' :=
-    unary_cont_closed galoisSourceUnary' automorphicSourceUnary' sourcePairRow'
-  have localFactorsUnary' : UnaryHistory localFactors' :=
-    unary_cont_closed galoisAnswersUnary' automorphicAnswersUnary' localFactorsRow'
-  have observedUnary' : UnaryHistory observed' :=
-    unary_cont_closed sourcePairUnary' localFactorsUnary' observedRow'
-  have sameSourcePair : hsame sourcePair sourcePair' :=
+theorem LanglandsLocalFactor_stability [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor provenance
+      ledger endpoint galoisSource' automorphicSource' galoisAnswer' automorphicAnswer'
+      localFactor' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsBHistCorrespondenceCarrier galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor provenance ledger endpoint bundle pkg ->
+      hsame galoisSource galoisSource' -> hsame automorphicSource automorphicSource' ->
+        hsame galoisAnswer galoisAnswer' -> hsame automorphicAnswer automorphicAnswer' ->
+          hsame provenance provenance' ->
+            Cont galoisAnswer' automorphicAnswer' localFactor' ->
+              Cont galoisSource' automorphicSource' ledger' ->
+                Cont provenance' ledger' endpoint' -> PkgSig bundle endpoint' pkg ->
+                  LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+                      automorphicAnswer localFactor provenance ledger endpoint galoisSource'
+                      automorphicSource' galoisAnswer' automorphicAnswer' localFactor'
+                      provenance' ledger' endpoint' bundle pkg ∧
+                    LanglandsBHistCorrespondenceCarrier galoisSource' automorphicSource'
+                      galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+                      endpoint' bundle pkg ∧
+                    hsame localFactor localFactor' ∧ hsame ledger ledger' ∧
+                      hsame endpoint endpoint' := by
+  intro carrier sameGaloisSource sameAutomorphicSource sameGaloisAnswer
+    sameAutomorphicAnswer sameProvenance localFactorRow' ledgerRow' endpointRow' pkgSig'
+  have classified : LanglandsLFactorClassifier galoisSource automorphicSource galoisAnswer
+      automorphicAnswer localFactor provenance ledger endpoint galoisSource'
+      automorphicSource' galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+      endpoint' bundle pkg :=
+    ⟨carrier, sameGaloisSource, sameAutomorphicSource, sameGaloisAnswer,
+      sameAutomorphicAnswer, sameProvenance, pkgSig'⟩
+  have sameLocalFactor : hsame localFactor localFactor' :=
+    cont_respects_hsame sameGaloisAnswer sameAutomorphicAnswer
+      carrier.right.right.right.right.right.left localFactorRow'
+  have sameLedger : hsame ledger ledger' :=
     cont_respects_hsame sameGaloisSource sameAutomorphicSource
-      carrier.right.right.right.right.right.right.right.left sourcePairRow'
-  have sameLocalFactors : hsame localFactors localFactors' :=
-    cont_respects_hsame sameGaloisAnswers sameAutomorphicAnswers
-      carrier.right.right.right.right.right.right.right.right.left localFactorsRow'
-  have sameObserved : hsame observed observed' :=
-    cont_respects_hsame sameSourcePair sameLocalFactors
-      carrier.right.right.right.right.right.right.right.right.right observedRow'
+      carrier.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameLedger
+      carrier.right.right.right.right.right.right.right.left endpointRow'
+  have transportedCarrier : LanglandsBHistCorrespondenceCarrier galoisSource'
+      automorphicSource' galoisAnswer' automorphicAnswer' localFactor' provenance' ledger'
+      endpoint' bundle pkg :=
+    ⟨unary_transport carrier.left sameGaloisSource,
+      unary_transport carrier.right.left sameAutomorphicSource,
+      unary_transport carrier.right.right.left sameGaloisAnswer,
+      unary_transport carrier.right.right.right.left sameAutomorphicAnswer,
+      unary_transport carrier.right.right.right.right.left sameProvenance,
+      localFactorRow', ledgerRow', endpointRow', pkgSig'⟩
   exact
-    ⟨⟨galoisSourceUnary', automorphicSourceUnary', galoisAnswersUnary',
-      automorphicAnswersUnary', localFactorsUnary', sourcePairUnary', observedUnary',
-      sourcePairRow', localFactorsRow', observedRow'⟩,
-      sameSourcePair, sameLocalFactors, sameObserved⟩
+    ⟨classified, transportedCarrier, sameLocalFactor, sameLedger, sameEndpoint⟩
+
+theorem LanglandsCorrespondenceLedger_source_certificate_scope [AskSetup] [PackageSetup]
+    {galoisSource automorphicSource galoisAnswer automorphicAnswer localFactor packageLedger
+      observationLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LanglandsCorrespondenceLedger galoisSource automorphicSource galoisAnswer
+        automorphicAnswer localFactor packageLedger observationLedger endpoint bundle pkg ->
+      UnaryHistory galoisSource ∧ UnaryHistory automorphicSource ∧
+        UnaryHistory galoisAnswer ∧ UnaryHistory automorphicAnswer ∧
+          UnaryHistory localFactor ∧ Cont galoisSource automorphicSource packageLedger ∧
+            Cont galoisAnswer automorphicAnswer localFactor ∧
+              Cont packageLedger localFactor observationLedger ∧
+                Cont observationLedger localFactor endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro ledger
+  cases ledger with
+  | intro galoisUnary rest =>
+      cases rest with
+      | intro automorphicUnary rest =>
+          cases rest with
+          | intro galoisAnswerUnary rest =>
+              cases rest with
+              | intro automorphicAnswerUnary rest =>
+                  cases rest with
+                  | intro localFactorUnary rest =>
+                      cases rest with
+                      | intro sourceCont rest =>
+                          cases rest with
+                          | intro answerCont rest =>
+                              cases rest with
+                              | intro observationCont rest =>
+                                  cases rest with
+                                  | intro endpointCont packageSig =>
+                                      exact
+                                        ⟨galoisUnary, automorphicUnary, galoisAnswerUnary,
+                                          automorphicAnswerUnary, localFactorUnary,
+                                          sourceCont, answerCont, observationCont,
+                                          endpointCont, packageSig⟩
 
 end BEDC.Derived.LanglandsUp
