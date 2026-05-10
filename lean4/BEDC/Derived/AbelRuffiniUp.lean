@@ -27,6 +27,37 @@ theorem AbelRuffiniDerivedSeriesLedger_assoc_surface
         ⟨tail, next, repacked.left, repacked.right, subgroupUnary, tailUnary, nextUnary,
           nextUnary, hsame_refl next⟩
 
+theorem AbelRuffiniPolynomialGaloisObligation_source_surface
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface : BHist} :
+    UnaryHistory polynomial ->
+      UnaryHistory base ->
+        UnaryHistory splittingField ->
+          UnaryHistory galoisRow ->
+            Cont polynomial base coefficientLedger ->
+              Cont splittingField galoisRow galoisLedger ->
+                Cont coefficientLedger galoisLedger sourceSurface ->
+                  UnaryHistory coefficientLedger ∧ UnaryHistory galoisLedger ∧
+                    UnaryHistory sourceSurface ∧
+                      hsame coefficientLedger (append polynomial base) ∧
+                        hsame galoisLedger (append splittingField galoisRow) ∧
+                          hsame sourceSurface (append coefficientLedger galoisLedger) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary
+  intro coefficientRow galoisLedgerRow sourceSurfaceRow
+  have coefficientUnary : UnaryHistory coefficientLedger :=
+    unary_cont_closed polynomialUnary baseUnary coefficientRow
+  have galoisLedgerUnary : UnaryHistory galoisLedger :=
+    unary_cont_closed splittingFieldUnary galoisRowUnary galoisLedgerRow
+  have sourceSurfaceUnary : UnaryHistory sourceSurface :=
+    unary_cont_closed coefficientUnary galoisLedgerUnary sourceSurfaceRow
+  exact
+    ⟨coefficientUnary,
+      galoisLedgerUnary,
+      sourceSurfaceUnary,
+      coefficientRow,
+      galoisLedgerRow,
+      sourceSurfaceRow⟩
+
 theorem AbelRuffiniDerivedSeriesLedger_finite_transport
     {galois s5 subgroup commutator next obstruction endpoint : BHist} :
     UnaryHistory galois -> UnaryHistory s5 -> UnaryHistory subgroup ->

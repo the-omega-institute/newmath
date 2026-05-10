@@ -129,6 +129,29 @@ theorem TuringMachineObligationSurface_bounded_trace_ledger
     ⟨configurationUnary, traceUnary, readbackUnary, boundedUnary, endpointUnary, configurationRow,
       traceRow, readbackRow, boundedRow, endpointRow⟩
 
+theorem TuringMachineBoundedReadback_soundness
+    {trace tape head readback bound bounded output : BHist} :
+    UnaryHistory trace ->
+      UnaryHistory tape ->
+        UnaryHistory head ->
+          UnaryHistory bound ->
+            Cont tape head readback ->
+              Cont trace readback bounded ->
+                Cont bounded bound output ->
+                  UnaryHistory readback ∧ UnaryHistory bounded ∧ UnaryHistory output ∧
+                    hsame readback (append tape head) ∧
+                      hsame bounded (append trace readback) ∧
+                        hsame output (append bounded bound) := by
+  intro traceUnary tapeUnary headUnary boundUnary readbackRow boundedRow outputRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have boundedUnary : UnaryHistory bounded :=
+    unary_cont_closed traceUnary readbackUnary boundedRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed boundedUnary boundUnary outputRow
+  exact
+    ⟨readbackUnary, boundedUnary, outputUnary, readbackRow, boundedRow, outputRow⟩
+
 theorem TuringMachineHaltedTrace_ledger_exactness {halted : BHist} {rows : List BHist}
     {endpoint ledger : BHist} :
     TuringMachineHaltedTrace halted rows endpoint -> UnaryHistory halted ->
