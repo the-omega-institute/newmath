@@ -137,4 +137,48 @@ theorem ModelCatBHistSourcePacket_category_dependency_boundary [AskSetup] [Packa
     cont_respects_hsame sameCategory sameCof liftCont transportedLift
   exact ⟨categoryUnary', cofUnary', liftUnary', sameLift, pkgSig⟩
 
+theorem ModelCatBHistSourcePacket_lifting_square_boundary [AskSetup] [PackageSetup]
+    {category cof fib weak lift factor provenance rho lambda : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelCatBHistSourcePacket category cof fib weak lift factor provenance rho lambda bundle
+        pkg ->
+      SemanticNameCert (fun row : BHist => hsame row lift)
+          (fun row : BHist => hsame row lift) (fun row : BHist => hsame row lift)
+          hsame ∧
+        UnaryHistory cof ∧ UnaryHistory fib ∧ UnaryHistory weak ∧ UnaryHistory lift ∧
+          Cont category cof lift ∧ hsame lift (append category cof) ∧
+            PkgSig bundle lambda pkg := by
+  intro packet
+  obtain ⟨categoryUnary, cofUnary, fibUnary, weakUnary, _provenanceUnary, _rhoUnary,
+    liftCont, _factorCont, _lambdaCont, pkgSig⟩ := packet
+  have liftUnary : UnaryHistory lift :=
+    unary_cont_closed categoryUnary cofUnary liftCont
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row lift)
+          (fun row : BHist => hsame row lift) (fun row : BHist => hsame row lift)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro lift (hsame_refl lift)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, cofUnary, fibUnary, weakUnary, liftUnary, liftCont, liftCont, pkgSig⟩
+
 end BEDC.Derived.ModelCatUp
