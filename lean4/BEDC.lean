@@ -95,6 +95,7 @@ import BEDC.Derived.GaloisExtUp.PublicLedgerCoverage
 import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.KolmogorovUp
@@ -107,6 +108,7 @@ import BEDC.Derived.ModelCatUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -160,6 +162,7 @@ import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.DoubleExteriorObligations
 import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
+import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.DiffGaloisUp
@@ -592,6 +595,7 @@ import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
+import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.RatReflexiveEmbedding
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -621,6 +625,7 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.ActionRows
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope

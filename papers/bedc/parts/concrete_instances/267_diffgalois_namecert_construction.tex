@@ -8,14 +8,16 @@ The differential-Galois interface $\DiffGaloisUp$ packages the Picard-Vessiot Ga
 
 A $\DiffGaloisUp$ token carries: a differential field $(K,\partial)$ over a $\NumFieldUp$ subfield, a linear differential operator $L=\sum a_i\partial^i$ with coefficients in $K$, a $\SeqUp$-typed solution-space row $V$ of dimension equal to the order of $L$, and the differential-Galois group $G$ acting on $V$ that fixes $K^\partial$ pointwise. The carrier accepts a Picard-Vessiot certificate when the solution space exists, the differential-Galois group $G$ acts faithfully on $V$, and the constants $K^\partial$ are exactly the $G$-fixed elements. The classifier is $\hsame$ on the solution-space rows; the ledger keeps the differential operator, the solution-space row, the Galois action, and the constant-field witness visible.
 
-\begin{theorem}[DiffGalois solution-space obligation]
-\label{thm:diffgalois-solution-space-obligation}
-An accepted $\DiffGaloisUp$ Picard-Vessiot row exposes the differential field
-$(K,\partial)$, the coefficient rows of the displayed linear operator
-$L=\sum a_i\partial^i$, a $\SeqUp$ solution-space basis, a
-fundamental-solution row, and the fixed $\hsame$ solution-space classifier as
-finite $\mathsf{BHist}$ data. The carrier reads only these visible rows when
-it certifies solution-space admissibility.
+\begin{theorem}[DiffGalois Picard-Vessiot obligation]
+\label{thm:diffgalois-picard-vessiot-obligation}
+An accepted $\DiffGaloisUp$ Picard-Vessiot row exposes the solution-space,
+differential-operator, and fundamental-solution rows as finite
+$\mathsf{BHist}$ data over $\SeqUp$, $\FieldExtUp$, and $\OdeUp$. The
+differential field $(K,\partial)$ is read through the displayed
+$\FieldExtUp$ row, the coefficient rows of the linear operator
+$L=\sum a_i\partial^i$ are read through the displayed $\OdeUp$ row, and the
+solution-space basis and fundamental-solution matrix are read through the
+$\SeqUp$ row.
 
 The obligation is local to the displayed Picard-Vessiot ledger. It does not
 assert algebraic-group classification, Liouvillian solvability, or an
@@ -34,18 +36,22 @@ Repacking these coordinates gives the stated obligation surface. No step adds
 an algebraic-group classification row, a Liouvillian criterion, or an external
 analytic solution method.
 \end{proof}
+\leanchecked{BEDC.Derived.DiffGaloisUp.DiffGaloisPicardVessiotPacket\_solution\_space\_obligation}
 
-\begin{theorem}[DiffGalois faithful-action obligation]
-\label{thm:diffgalois-faithful-action-obligation}
+\begin{theorem}[DiffGalois faithful action and constant-field exactness]
+\label{thm:diffgalois-faithful-action-constant-field-exactness}
 For an accepted $\DiffGaloisUp$ packet, the displayed
 $\NameCert_{\GaloisGroupUp}$ action row is faithful on the visible
 solution-space basis and transports along the fixed solution-space classifier.
 Two action histories that agree on every displayed basis row are identified by
-the same $\hsame$ solution-space classifier, and the ledger records the action
-only through the Picard-Vessiot basis already exposed by the carrier.
+the same $\hsame$ solution-space classifier. The constant-field row is exactly
+the fixed-point ledger for this action: a displayed row is accepted as a
+constant precisely when the ledger records it as fixed, and every displayed
+fixed row is read back through the same $K^\partial$ coordinate.
 
-This obligation is a finite action-surface statement. It does not classify
-differential-Galois groups or supply a standard model-theoretic bridge.
+This obligation is a finite action-and-fixed-row statement. It does not
+classify differential-Galois groups, assert Liouvillian solvability, or supply
+a standard model-theoretic bridge.
 \end{theorem}
 \leanchecked{BEDC.Derived.DiffGaloisUp.DiffGaloisFaithfulActionLedger\_basis\_fold\_surface}
 \begin{proof}
@@ -59,35 +65,41 @@ rows through the fixed classifier. Transport along $\hsame$ changes only the
 solution-space presentation and keeps the action row attached to the same
 basis surface.
 
+Now read the constant-field coordinate from the same packet. A displayed
+constant row is fixed by the action ledger, and a displayed fixed row is read
+back through $K^\partial$, so exactness is an $\hsame$ transport comparison
+between two visible projections of the same Picard-Vessiot data.
+
 Thus the obligation is witnessed by finite projection from the accepted
 Picard-Vessiot packet rather than by a classification theorem for the ambient
 group.
 \end{proof}
 
-\begin{theorem}[DiffGalois constant-field exactness obligation]
-\label{thm:diffgalois-constant-field-exactness}
-In an accepted $\DiffGaloisUp$ packet, the constant-field row is exactly the
-displayed fixed-point ledger for the $\NameCert_{\GaloisGroupUp}$ action on
-the visible solution-space basis. A row is accepted as a constant precisely
-when the ledger records it as fixed by the displayed action, and every
-displayed fixed row is read back through the same $K^\partial$ coordinate.
-
-The statement closes only this constant-field fixed-point ledger. It does not
-assert algebraic-group classification, Liouvillian solvability, or an
-integration-by-quadratures bridge.
+\begin{theorem}[DiffGalois public certificate export]
+\label{thm:diffgalois-public-certificate-export}
+The Picard-Vessiot obligation and the faithful-action constant-field exactness
+obligation repack into the public $\NameCert_{\DiffGaloisUp}$ boundary. The
+exported certificate exposes the $\FieldExtUp$ differential-field row, the
+$\OdeUp$ operator row, the $\SeqUp$ solution-space and fundamental-solution
+rows, the faithful $\GaloisGroupUp$ action row, and the constant-field
+fixed-row ledger. It excludes Liouvillian solvability, algebraic-group
+classification, integration-by-quadratures, and standard model-theoretic
+bridge claims.
 \end{theorem}
 \begin{proof}
-Read the constant-field coordinate and the action coordinate from the same
-accepted packet. Both are finite $\mathsf{BHist}$ rows attached to the visible
-solution-space basis.
+Apply \autoref{thm:diffgalois-picard-vessiot-obligation}. This supplies the
+differential-field, operator, solution-space, and fundamental-solution rows as
+the visible Picard-Vessiot ledger.
 
-For a displayed constant row, the ledger records that the action fixes it.
-Conversely, a displayed fixed row is read back through the constant-field
-coordinate, so exactness identifies the two rows inside the packet.
+Next apply
+\autoref{thm:diffgalois-faithful-action-constant-field-exactness}. This adds
+the faithful action row and identifies the constant-field coordinate with the
+fixed-row ledger by $\hsame$ transport.
 
-The proof therefore compares two visible ledger projections. It never invokes
-classification of algebraic groups, Liouvillian theory, or an external
-differential-algebra bridge.
+Repacking these rows gives the public $\NameCert_{\DiffGaloisUp}$ boundary.
+No field of the export supplies a Liouvillian criterion, an algebraic-group
+classification theorem, integration-by-quadratures, or a standard
+model-theoretic bridge.
 \end{proof}
 
 \closureat{DiffGaloisUp}{obligationStr}
