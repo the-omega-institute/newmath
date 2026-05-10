@@ -402,3 +402,37 @@ $$
 
 Since $k$ was arbitrary, every equation row of $U$ vanishes at $x$. Pairing this row with the affine-point witness repacks as $\mathsf{V}_{R,n}(U)(x)$ by \autoref{def:affine-finite-family-zero-locus}. The two implications give the displayed equivalence.
 \end{proof}
+
+\begin{theorem}[AffineVar zero-locus is antitone under equation inclusion]
+\label{thm:affinevar-zero-locus-antitone-equation-inclusion}
+In the setup of \autoref{def:affine-finite-family-zero-locus}, let $E,F:\mathsf{HistSpine}$ be finite polynomial-family spines over the same affine $n$-space. If
+$$
+\mathsf{EqFamIncl}(E,F)
+$$
+holds, then for every point history $x:\mathsf{BHist}$,
+$$
+\mathsf{V}_{R,n}(F)(x)
+\Longrightarrow
+\mathsf{V}_{R,n}(E)(x).
+$$
+Thus adding equation occurrences to a finite affine family can only shrink its zero-locus predicate: equation-family inclusion is sent to reverse implication of zero-locus membership.
+\end{theorem}
+\begin{proof}
+Assume $\mathsf{EqFamIncl}(E,F)$, fix $x:\mathsf{BHist}$, and assume $\mathsf{V}_{R,n}(F)(x)$. By \autoref{def:affine-finite-family-zero-locus}, the latter witness consists of an ambient affine-point row
+$$
+\mathsf{AffPoint}_{R,n}(x)
+$$
+and the equation row
+$$
+\forall j:\mathsf{Pos}(F).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{F}(j),x).
+$$
+Keep the same ambient affine-point row for $E$. It remains to prove
+$$
+\forall i:\mathsf{Pos}(E).\;
+\mathsf{PolyEvalZero}_{R,n}(\mathsf{entry}_{E}(i),x).
+$$
+This row is exactly the restriction of the displayed $F$-row along the inclusion $\mathsf{EqFamIncl}(E,F)$: by \autoref{lem:affine-equation-rows-restrict-along-family-inclusion}, every position $i:\mathsf{Pos}(E)$ has a matching position $j:\mathsf{Pos}(F)$ with the same equation readback, and the zero-evaluation predicate transports across that readback equality.
+
+Pairing the retained affine-point row with this restricted equation row repacks, by \autoref{def:affine-finite-family-zero-locus}, as $\mathsf{V}_{R,n}(E)(x)$. Since $x$ was arbitrary, the zero-locus assignment is antitone with respect to finite-position equation inclusion.
+\end{proof}
