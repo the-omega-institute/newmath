@@ -1,78 +1,74 @@
-\chapter{The Halting Problem as a Limit of the Form of Distinction}
+\chapter{Naming Certificate for HaltingDistinctionLimitUp}
 \label{ch:concrete-instances-halting-as-form-of-distinction-limit}
 
-Reading the form of distinction (\autoref{def:form-of-distinction}) as the primitive computational atom and the continuation $\Cont$ as the small-step relation (\autoref{ch:concrete-instances-computation-as-continuation}), the halting problem becomes the question: is there a BEDC classifier on naming certificates that decides, for an arbitrary certificate $\NameCert_{P}$ and history $h$, whether the continuation chain from $h$ in $\NameCert_{P}$ terminates? This chapter records the negative answer as a Tarski-style fixed-point obstruction in BEDC, locates it on the open-meta-loop side of the two-loops structure (\autoref{thm:two-loops}), and notes that the obstruction is, structurally, the same as the form of distinction's irreducibility (\autoref{thm:form-of-distinction-irreducible}) read at the meta level.
+HaltingDistinctionLimitUp names the bridge object that reads the halting problem as the certificate-level limit of the form of distinction. Its rows do not supply a halting oracle; they record the finite continuation ledgers and diagonal-obstruction ledgers by which a proposed classifier is tested against the open meta loop.
 
-\section{Halting as fixed-point obstruction}
-\label{sec:halting-as-form-of-distinction-fixed-point}
+\section{Source spec for HaltingDistinctionLimitUp}
+\label{sec:concrete-instances-halting-as-form-of-distinction-limit-source-spec}
 
-\begin{definition}[Termination of a $\Cont$-chain]
-\label{def:halting-termination}
-The $\Cont$-chain from $h$ in $\NameCert_{P}$ \emph{terminates} when there exists a finite list of marks $[m_1, \ldots, m_n]$ and a sequence $h = h_0, h_1, \ldots, h_n$ with $\Cont_P\,h_i\,m_{i+1}\,h_{i+1}$ for $0 \le i < n$ and no $m, h'$ with $\Cont_P\,h_n\,m\,h'$. Termination is a positive existential at the kernel level.
-\end{definition}
-
-\begin{definition}[Halting predicate]
-\label{def:halting-predicate}
-A \emph{halting predicate} is a naming certificate $\NameCert_H$ over the carrier $\mathcal{C} \times \Hist$ of pairs (certificate, history) whose $\Ext_H$ on $(\NameCert_P, h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates in the sense of \autoref{def:halting-termination}, and whose $\Cont_H$ supplies the kernel-level evidence required by the certificate framework.
-\end{definition}
-
-\begin{theorem}[Undecidability of halting via fixed point of the form of distinction]
-\label{thm:halting-as-form-of-distinction-fixed-point}
-There is no naming certificate $\NameCert_{H}$ over the carrier of all naming certificates whose extension predicate $\Ext_{H}$ decides, for arbitrary $\NameCert_{P}$ and $h$, whether $\Cont$ in $\NameCert_{P}$ terminates from $h$. The obstruction is a Tarski-style fixed-point construction: the assumption of such $\NameCert_{H}$ produces a self-referential certificate whose extension contradicts itself, in direct analogy with G\"odel's incompleteness witness (\autoref{rem:incompleteness-downstream}). The negative result is the open-meta-loop counterpart of the closed ground loop in \autoref{thm:two-loops}: the form of distinction must close at the bottom for BEDC to start, and the same closure forbids any classifier that deciding all its downstream behaviours.
-\leanstmt{BEDC.Reflection.halting\_as\_form\_of\_distinction\_fixed\_point}
-\end{theorem}
-
-\begin{proof}[Sketch]
-Assume a halting predicate $\NameCert_H$ as in \autoref{def:halting-predicate}. Construct the diagonal certificate $\NameCert_D$ over $\mathcal{C}$ whose continuation on input $\NameCert_P$ is: ``run the halting predicate on $(\NameCert_P, h_0)$ for the canonical empty history $h_0$ of $\NameCert_P$; if it reports termination, do not terminate; if it reports non-termination, terminate immediately''. Apply $\NameCert_D$ to itself. If $\NameCert_H$ reports termination on $(\NameCert_D, h_0)$, the diagonal certificate runs forever, contradicting the report. If $\NameCert_H$ reports non-termination, the diagonal certificate halts at the first step, again contradicting the report. The contradiction destroys the assumed $\NameCert_H$ at the certificate level.
-\end{proof}
-
-\section{Halting as open-meta-loop closure}
-\label{sec:halting-meta-loop-closure}
-
-\begin{theorem}[Halting decidability is open-meta-loop closure]
-\label{thm:halting-meta-loop-closure}
-Accepting a halting predicate as in \autoref{def:halting-predicate} closes the open meta loop of \autoref{ch:concrete-instances-reflection-and-limits} at the certificate stratum: it supplies a $\NameCert$-level decision for a predicate over the carrier of all naming certificates, which is precisely the stratum the meta loop refuses to settle.
-\end{theorem}
-
-\begin{proof}[Sketch]
-A halting predicate is, by \autoref{def:halting-predicate}, a $\NameCert$-level decision procedure indexed by the certificate-of-certificates carrier $\mathcal{C}$. By the unification theorem of \autoref{thm:reasoning-forbidden-implements-meta-closure}, supplying a $\NameCert$-level decision indexed by $\mathcal{C}$ closes the open meta loop. The diagonal contradiction of \autoref{thm:halting-as-form-of-distinction-fixed-point} is the kernel-level witness that the closure is inconsistent.
-\end{proof}
-
-\section{Connection to the form of distinction}
-\label{sec:halting-form-of-distinction}
-
-\begin{theorem}[Halting irreducibility is form-of-distinction irreducibility at the meta level]
-\label{thm:halting-form-of-distinction-meta}
-The irreducibility of the halting predicate (\autoref{thm:halting-as-form-of-distinction-fixed-point}) is the meta-level reading of the irreducibility of the form of distinction (\autoref{thm:form-of-distinction-irreducible}): both assert that no kernel-level classifier reduces a certain primitive distinction to anything strictly simpler. The form of distinction is the irreducible primitive at the constructor stratum (telling $\bzero$ and $\bone$ apart); halting is the irreducible primitive at the certificate stratum (telling terminating from non-terminating $\Cont$-chains apart).
-\end{theorem}
-
-\begin{proof}[Sketch]
-\autoref{thm:form-of-distinction-irreducible} shows that any classifier $\sim$ on a carrier $G$ presupposes the form of distinction in its very statement. Read $G$ as $\mathcal{C}$ and $\sim$ as the would-be halting classifier: deciding whether $(\NameCert_P, h) \sim (\NameCert_Q, k)$ in the sense of having the same termination status is an instance of the form of distinction at the certificate stratum. The halting irreducibility is therefore the form-of-distinction irreducibility specialised to $G = \mathcal{C}$ and $\sim$ = halting equivalence; the diagonal contradiction is the explicit witness that this instance does not collapse.
-\end{proof}
-
-\begin{remark}[Two-loops architecture]
-\label{rem:halting-two-loops}
-\autoref{thm:halting-as-form-of-distinction-fixed-point} and \autoref{thm:form-of-distinction-irreducible} sit on the two opposite faces of \autoref{thm:two-loops}: the form of distinction must close at the bottom for the kernel to start (closed ground loop), and the same closure forbids halting decidability at the top (open meta loop). The two-loops structure is, read through this chapter, the discipline that the closure paid at the bottom is the closure refused at the top.
-\end{remark}
-
-\begin{theorem}[Halting predicate exists iff the meta loop closes at the certificate stratum]
-\label{thm:halting-predicate-iff-meta-loop-certificate-stratum}
-Let
+\begin{definition}[Source rows of HaltingDistinctionLimitUp]
+\label{def:concrete-instances-halting-as-form-of-distinction-limit-source-rows}
+A source row is a seven-entry continuation package
 $$
-\mathsf{Halts}(\NameCert_P,h)
+(q, f, r, \ell_T, d, r_D, \ell_D)
 $$
-denote the predicate that the $\Cont_P$-chain from $h$ terminates in the sense of \autoref{def:halting-termination}. The following are equivalent:
-\begin{enumerate}
-\item there exists a halting predicate $\NameCert_H$ in the sense of \autoref{def:halting-predicate};
-\item there exists a $\NameCert$-level decision procedure indexed by the certificate-of-certificates carrier $\mathcal{C}$, with carrier $\mathcal{C}\times\Hist$, whose extension predicate decides $\mathsf{Halts}(\NameCert_P,h)$ for every pair $(\NameCert_P,h)$.
-\end{enumerate}
-In this situation the open meta loop is closed at the certificate stratum precisely by that deciding certificate.
+where $q$ is the encoded certificate-history query, $f$ is the finite fuel or witness surface, $r$ is the observed result, $\ell_T$ is the termination ledger, $d$ is the diagonal branch, $r_D$ is the diagonal result, and $\ell_D$ is the public obstruction ledger. The row is bridge data: it connects an ordinary $\Cont$ trace with the diagonal trace that tests the would-be halting classifier.
+\end{definition}
+\leandef{BEDC.Derived.HaltingDistinctionLimitUp.SourceRows}
+
+\section{Pattern spec}
+\label{sec:concrete-instances-halting-as-form-of-distinction-limit-pattern}
+
+\begin{definition}[Pattern witness for HaltingDistinctionLimitUp]
+\label{def:concrete-instances-halting-as-form-of-distinction-limit-pattern}
+A source row has the HaltingDistinctionLimitUp pattern when its entries form the five displayed continuation links
+$$
+\begin{aligned}
+\Cont(q,f,r),\quad
+\Cont(q,r,\ell_T),\quad
+\Cont(q,\ell_T,d),\quad
+\Cont(d,q,r_D),\quad
+\Cont(r_D,\ell_T,\ell_D).
+\end{aligned}
+$$
+The first two links record a finite positive termination witness; the last three links record the diagonal branch that turns a total certificate-level classifier into an obstruction ledger. This pattern is structural and does not assert that every query has such a witness.
+\end{definition}
+\leandef{BEDC.Derived.HaltingDistinctionLimitUp.Pattern}
+
+\section{Classifier spec}
+\label{sec:concrete-instances-halting-as-form-of-distinction-limit-classifier}
+
+\begin{definition}[Classifier for HaltingDistinctionLimitUp]
+\label{def:concrete-instances-halting-as-form-of-distinction-limit-classifier}
+Two source rows classify the same HaltingDistinctionLimitUp object when their query, fuel, observed result, termination ledger, diagonal branch, diagonal result, and obstruction ledger are respectively $\hsame$-equivalent. The classifier is intentionally componentwise: a row is not identified merely by a reported truth value, because that would smuggle in the global halting decision the chapter is locating as a limit.
+\end{definition}
+\leandef{BEDC.Derived.HaltingDistinctionLimitUp.Classifier}
+
+\section{Stability certificate}
+\label{sec:concrete-instances-halting-as-form-of-distinction-limit-stability}
+
+\begin{theorem}[Stability of HaltingDistinctionLimitUp]
+\label{thm:concrete-instances-halting-as-form-of-distinction-limit-stability}
+The HaltingDistinctionLimitUp pattern is stable under the componentwise classifier: if two rows are classifier-equivalent and the first row carries the five-link continuation pattern, then the second row carries the same pattern. Thus the bridge is closed under replacement of a row by the same encoded query, same termination ledger, same diagonal branch, and same obstruction ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingDistinctionLimitUp.stability}
 
-\begin{proof}
-Assume (1). By \autoref{def:halting-predicate}, the certificate $\NameCert_H$ is already a naming certificate over $\mathcal{C}\times\Hist$ whose extension predicate on $(\NameCert_P,h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates. Its continuation field is the kernel-level evidence required by the certificate framework. Therefore $\NameCert_H$ is exactly a $\NameCert$-level decision procedure of the form stated in (2). By \autoref{thm:halting-meta-loop-closure}, this deciding certificate is exactly what closes the open meta loop at the certificate stratum for the halting predicate.
+\section{Ledger policy}
+\label{sec:concrete-instances-halting-as-form-of-distinction-limit-ledger}
 
-Assume (2). Let $\NameCert_D$ be the stated $\NameCert$-level decision procedure. By hypothesis, $\NameCert_D$ lives over the carrier $\mathcal{C}\times\Hist$, its extension predicate on $(\NameCert_P,h)$ holds exactly when the $\Cont_P$-chain from $h$ terminates, and its continuation field supplies the certificate-level evidence attached to that decision. But these are precisely the clauses of \autoref{def:halting-predicate}. Therefore $\NameCert_D$ is a halting predicate; rename it $\NameCert_H$.
+\begin{definition}[Ledger for HaltingDistinctionLimitUp]
+\label{def:concrete-instances-halting-as-form-of-distinction-limit-ledger}
+The ledger retains the source row together with three readback surfaces: the termination trace, the diagonal trace, and the public endpoint. These are the raw histories needed to audit the bridge from a claimed halting witness to the diagonal obstruction. The ledger records evidence already present in finite $\Cont$ rows; it stores no global predicate deciding halting for all naming certificates.
+\end{definition}
+\leandef{BEDC.Derived.HaltingDistinctionLimitUp.Ledger}
 
-Thus (1) and (2) are equivalent, and the final sentence follows from \autoref{thm:halting-meta-loop-closure} applied to that same deciding certificate.
-\end{proof}
+\begin{closurestatus}{HaltingDistinctionLimitUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter closes the NameCert surface for finite halting-obstruction rows and their componentwise classifier.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HaltingDistinctionLimitUp.stability}
+  \bridgestatus{none}
+  \constructivestory{A HaltingDistinctionLimitUp row is generated by displaying a finite query trace, its termination ledger, a diagonal branch, a diagonal result, and a public obstruction ledger as five $\Cont$ links over $\mathsf{BHist}$. The source accepts only these finite continuation packages; two packages classify together componentwise by $\hsame$ on the query, fuel, result, termination ledger, diagonal branch, diagonal result, and obstruction ledger. The stability theorem says that classified replacement preserves the five-link pattern by direct transport of those displayed histories. The ledger keeps the source row plus termination, diagonal, and public endpoint traces visible, while a global certificate deciding halting for arbitrary naming certificates is explicitly outside the object.}
+  \notclaimed{The chapter does not construct a naming certificate that decides halting for arbitrary certificates and histories.}
+  \upgradepath{A checked bridge to the reflection fixed-point statement would raise this object beyond the present scoped bridge surface.}
+\end{closurestatus}
