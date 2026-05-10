@@ -23,6 +23,27 @@ def PartitionBHistCarrier [AskSetup] [PackageSetup]
       Cont decreaseRows boundary provenance ∧ Cont route provenance endpoint ∧
         PkgSig bundle endpoint pkg
 
+theorem PartitionBHistCarrier_obligation [AskSetup] [PackageSetup]
+    {listRow partRows sumRow decreaseRows boundary route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PartitionBHistCarrier listRow partRows sumRow decreaseRows boundary route provenance
+        endpoint bundle pkg ->
+      UnaryHistory listRow ∧ UnaryHistory partRows ∧ UnaryHistory sumRow ∧
+        UnaryHistory decreaseRows ∧ UnaryHistory boundary ∧ Cont listRow sumRow route ∧
+          Cont decreaseRows boundary provenance ∧ Cont route provenance endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 theorem PartitionBHistCarrier_classifier_stability [AskSetup] [PackageSetup]
     {listRow partRows sumRow decreaseRows boundary route provenance endpoint listRow' partRows'
       sumRow' decreaseRows' boundary' route' provenance' endpoint' : BHist}
