@@ -763,17 +763,15 @@ def build_dependency_graph() -> dict:
 
 
 def build_glossary() -> dict:
-    """Load bilingual glossary from the source-of-truth JSON file.
+    """Load bilingual glossary from the per-term TOML files under
+    ``docs/dossier/data_source/glossary/``.
 
-    The canonical glossary lives in
-    `docs/dossier/data_source/glossary.json` (committed to git). This
-    function strips the `_meta` block and per-entry `aliases` list
-    (both used by `tools/check_glossary.py` as gating data, not needed
-    by the front-end renderer).
+    Strips the ``_meta`` block and per-entry ``aliases`` list (both
+    used by ``tools/check_glossary.py`` as gating data, not needed by
+    the front-end renderer).
     """
-    src = ROOT / "docs" / "dossier" / "data_source" / "glossary.json"
-    with src.open(encoding="utf-8") as fh:
-        data = json.load(fh)
+    from _glossary_loader import load_glossary
+    data = load_glossary()
     out: dict[str, dict] = {}
     for k, v in data.items():
         if k.startswith("_"):
