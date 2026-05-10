@@ -190,6 +190,58 @@ host-index equality outside the packet, so none of them can distinguish the
 two accepted presentations.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat denominator pullback coverage]
+\label{thm:streamname-regseqrat-denominator-pullback-coverage}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
+$\mathcal P:\mathsf{ProbeBundle}$ be a finite unary observation bundle, and
+let $n$ be a certified unary observation. A public denominator-window packet is
+accepted by the $\RegSeqRat$ handoff and by the finite-window $\RealUp$
+consumer exactly when it factors through the finite pullback surface
+$$
+\begin{gathered}
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P),\qquad
+\mathsf{UnaryHistory}(n),\qquad
+\mathsf{InBundle}(n,\mathcal P),\\
+\mathsf{RatHistoryClassifier}(s(n),t(n)),\qquad
+\text{the downstream dyadic observation coverage row.}
+\end{gathered}
+$$
+Equivalently, the denominator packet is covered by the StreamName finite-window
+classifier pulled back along the certified unary row and then read by the
+$\RegSeqRat$ finite-window dyadic observation row. The accepted packet exports
+no $\RegSeqRat$ regularity row, $\RealUp$ seal classifier, completion object,
+quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted public denominator-window
+packet. By
+\autoref{thm:streamname-regseqrat-denominator-window-separation}, the source
+surface can expose only the finite StreamName classifier, the certified unary
+history, the bundle-membership row, and the pointwise rational-history
+classifier.
+
+The finite-window $\RealUp$ consumer then normalizes the same presentation by
+\autoref{thm:streamname-realup-denominator-window-normal-form}. This adds only
+the downstream dyadic observation coverage row and keeps regularity, sealing,
+completion, quotienting, and host-index equality outside the public packet.
+
+It remains to identify the pointwise row used by the handoff. Apply
+\autoref{thm:streamname-pointwise-denominator-window-determinacy} to the
+accepted packet over the same $s$, $t$, $\mathcal P$, and $n$. The pointwise
+coordinate is therefore fixed as
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$, and the downstream coordinate is
+the row supplied by
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage}.
+
+For the reverse direction, suppose the displayed pullback surface is given.
+The finite StreamName classifier and the certified unary row supply the
+pointwise handoff input, and
+\autoref{thm:regseqrat-finite-window-dyadic-observation-coverage} reads that
+input as the dyadic observation coverage row. Repacking these rows through the
+normal form gives an accepted public denominator-window packet for both
+consumers, with exactly the stated exclusions.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat denominator-window subbundle inheritance]
 \label{thm:streamname-regseqrat-denominator-window-subbundle-inheritance}
 Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, let
