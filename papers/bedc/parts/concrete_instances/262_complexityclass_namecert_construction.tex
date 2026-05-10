@@ -8,6 +8,138 @@ The complexity-class interface $\ComplexityClassUp$ packages a resource-bounded 
 
 A $\ComplexityClassUp$ token carries: a deterministic $\TuringMachineUp$ acceptor, a unary modulus $\beta$ that bounds the configuration-trace length as a function of the unary input length, and a resource type tag (time, space, or alternation depth). The carrier accepts an input history $h$ when the bounded simulation of the acceptor on $h$ within $\beta(|h|)$ rows reaches a halted accepting configuration. The classifier is $\hsame$ on input histories of the same unary length; the ledger keeps the modulus value, the trace length, and the halting verdict visible.
 
+\begin{theorem}[ComplexityClassUp bounded acceptance carrier]
+\label{thm:complexityclass-bounded-acceptance-carrier}
+The $\ComplexityClassUp$ bounded acceptance carrier is a finite
+$\mathsf{BHist}$ package consisting of a $\NameCert_{\NatUp}$ unary input-length
+row, a $\NameCert_{\TuringMachineUp}$ deterministic acceptor row, a
+$\NameCert_{\ComputableUp}$ bounded-simulation row, the unary resource modulus
+$\beta$, and the accepted halted verdict. The classifier is $\hsame$ on input
+histories of the same unary length, and the carrier exposes no nondeterminism,
+randomness, oracle computation, average-case complexity, or $\mathsf{P}$ versus
+$\mathsf{NP}$ row.
+\end{theorem}
+\begin{proof}
+Project the finite input-length row from the $\NameCert_{\NatUp}$ coordinate
+and the bounded configuration trace from the $\NameCert_{\TuringMachineUp}$
+coordinate. These rows determine the $\mathsf{BHist}$ source on which the
+unary modulus $\beta$ is evaluated.
+
+Read the halted verdict through the $\NameCert_{\ComputableUp}$ ledger. The
+carrier accepts exactly when that bounded simulation row reaches an accepting
+halted configuration within the displayed modulus value.
+
+The classifier uses $\hsame$ on transported inputs of the same unary length.
+Since the package has no row for nondeterministic branches, random bits,
+oracle calls, average-case sampling, or class separation, none of those data
+can be projected from the carrier.
+\end{proof}
+
+\begin{theorem}[ComplexityClassUp resource modulus monotonicity]
+\label{thm:complexityclass-resource-modulus-monotonicity}
+For $\ComplexityClassUp$, the unary resource modulus is a visible monotone
+ledger row: if two $\mathsf{BHist}$ inputs have unary lengths related by the
+$\NameCert_{\NatUp}$ order row and the smaller input is accepted within
+$\beta(n)$ bounded $\NameCert_{\TuringMachineUp}$ trace rows, then the larger
+bound $\beta(m)$ is an admissible $\NameCert_{\ComputableUp}$ simulation
+budget for the $\hsame$ transported trace. The statement is only a bounded-resource
+monotonicity claim and does not assert a classical complexity-class collapse.
+\end{theorem}
+\begin{proof}
+Read the two unary input-length rows through $\NameCert_{\NatUp}$. The
+monotonicity coordinate of the modulus ledger transports the comparison of
+lengths to the comparison of bounds $\beta(n)$ and $\beta(m)$.
+
+Transport the accepted trace by $\hsame$. The
+$\NameCert_{\TuringMachineUp}$ trace rows remain the same deterministic
+bounded computation after transport, while the enlarged bound only adds unused
+budget rows.
+
+The $\NameCert_{\ComputableUp}$ bounded-simulation ledger therefore reads the
+same accepting verdict under the larger budget. Nothing in the argument adds
+nondeterministic, randomised, oracle, average-case, or separation data.
+\end{proof}
+
+\begin{theorem}[ComplexityClassUp bounded simulation soundness]
+\label{thm:complexityclass-bounded-simulation-soundness}
+Every accepted $\ComplexityClassUp$ row has a sound bounded-simulation
+readback: the $\mathsf{BHist}$ input, the unary length row, the
+$\NameCert_{\TuringMachineUp}$ trace, the unary resource modulus, and the
+$\NameCert_{\ComputableUp}$ verdict determine the same halted-accepting
+configuration after $\hsame$ transport. No unbounded halting predicate or
+universal-machine theorem is read from this surface.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier row. It supplies the input history, unary
+length, displayed modulus value, deterministic trace, and bounded-simulation
+verdict.
+
+Use $\hsame$ to transport the input and trace rows. The deterministic
+$\NameCert_{\TuringMachineUp}$ component fixes each finite transition row, so
+the transported trace has the same halted endpoint inside the transported
+budget.
+
+Read the verdict through the $\NameCert_{\ComputableUp}$ ledger. The result is
+soundness of the bounded accepting simulation only; the carrier contains no
+coordinate for an unbounded halting decision or a universal-machine
+simulation theorem.
+\end{proof}
+
+\begin{theorem}[ComplexityClassUp resource ledger exactness]
+\label{thm:complexityclass-resource-ledger-exactness}
+The $\ComplexityClassUp$ resource ledger is exact: for an accepted row, the
+recorded $\NameCert_{\NatUp}$ input length, unary modulus value, realised
+deterministic $\NameCert_{\TuringMachineUp}$ trace length, bounded
+$\NameCert_{\ComputableUp}$ verdict, and $\hsame$ transport row are precisely
+the rows used by the carrier. Enlarging a bound
+uses the monotone modulus row, but the accepted verdict remains the displayed
+finite $\mathsf{BHist}$ ledger entry.
+\end{theorem}
+\begin{proof}
+Project the resource ledger from the carrier. Its coordinates are the modulus
+value, realised trace length, halted verdict, and transport evidence, all over
+finite $\mathsf{BHist}$ rows.
+
+Apply the monotone modulus row only when the budget is enlarged. The
+underlying deterministic trace and bounded-simulation verdict are not
+recomputed by an external model; they are the same rows already present in the
+carrier.
+
+Thus exactness is the equality of the carrier's accepted row with its visible
+ledger coordinates. There is no additional resource interpretation outside
+the NatUp, TuringMachineUp, ComputableUp, and $\hsame$ surfaces.
+\end{proof}
+
+\begin{theorem}[ComplexityClassUp NameCert obligation surface]
+\label{thm:complexityclass-namecert-obligation-surface}
+The public $\NameCert_{\ComplexityClassUp}$ obligation surface is obtained by
+repacking four rows: the bounded acceptance carrier, unary resource-modulus
+monotonicity, bounded-simulation soundness, and resource-ledger exactness. It
+depends only on finite $\mathsf{BHist}$ rows from $\NameCert_{\NatUp}$,
+$\NameCert_{\TuringMachineUp}$, $\NameCert_{\ComputableUp}$, the classifier
+$\hsame$, and the unary resource modulus. It does not claim nondeterminism,
+randomness, oracle computation, average-case complexity, or $\mathsf{P}$ versus
+$\mathsf{NP}$.
+\end{theorem}
+\begin{proof}
+First take the bounded acceptance carrier from
+\autoref{thm:complexityclass-bounded-acceptance-carrier}. It supplies the
+finite input-length, acceptor, bounded trace, modulus, classifier, and verdict
+rows.
+
+Next add the monotonicity and soundness rows from
+\autoref{thm:complexityclass-resource-modulus-monotonicity} and
+\autoref{thm:complexityclass-bounded-simulation-soundness}. These transport
+accepted traces by $\hsame$ and enlarge resource bounds only through the
+displayed unary modulus.
+
+Finally use \autoref{thm:complexityclass-resource-ledger-exactness} to identify
+the accepted verdict with the visible ledger row. Repacking these four rows
+gives the public naming-certificate obligation surface, and constructor
+inversion shows that no nondeterministic, randomised, oracle, average-case, or
+class-separation coordinate is present.
+\end{proof}
+
 \begin{closurestatus}{\ComplexityClassUp}
   \constructivestory{A $\ComplexityClassUp$ token names a deterministic $\TuringMachineUp$ acceptor together with a displayed unary modulus $\beta$ and a resource-type tag (time, space, or alternation depth). The carrier accepts an input history $h$ when the bounded simulation of the acceptor on $h$, in the sense of $\NameCert_{\ComputableUp}$, halts in an accepting configuration within $\beta(|h|)$ trace rows; the resource-type tag selects whether $\beta$ bounds trace length, head-cell footprint, or alternation depth. The classifier is $\hsame$ on input histories of the same unary length; the source covers unary input lengths, modulus values, configuration-trace lengths, head-cell footprints, and alternation rows; the pattern records halted-acceptance, modulus monotonicity, footprint admissibility, and alternation-depth admissibility rows; the ledger keeps the modulus $\beta(|h|)$, the realised trace length or footprint, the alternation depth, and the halting verdict visible. The five name-certificate obligations are supplied by the bounded-simulation certificate of $\NameCert_{\ComputableUp}$ together with monotonicity of $\beta$: the inhabited identity certificate is the trivial accepter at $\beta\equiv 0$; classifier stability is reflexive, symmetric, and transitive $\hsame$ on inputs of fixed length; transport repacks bounded simulations through input transport; ledger exactness identifies the accepted row with the bounded-simulation verdict; the extension boundary fixes monotonicity of $\beta$ in the unary input length. A history $h$ lies in the signature gap of a $\ComplexityClassUp$ token $p$ when the source-domain accepts the bounded-resource simulation, the signature relation pairs it with the halting verdict, and token introduction names that verdict as $p$. The chapter registers this resource-bounded surface under the name $\ComplexityClassUp$; it is a deterministic-resource-class object with no nondeterministic, randomised, average-case, oracle, or interactive-proof bridge.}
   \theoryclosure{\seedClosure}

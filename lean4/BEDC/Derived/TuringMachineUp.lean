@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.TuringMachineUp
@@ -24,6 +25,21 @@ theorem TuringMachineConfigurationTraceCarrier_configuration_trace_surface
     unary_cont_closed traceUnary boundUnary endpointRow
   exact
     ⟨configurationUnary, traceUnary, endpointUnary, configurationRow, traceRow, endpointRow⟩
+
+theorem TuringMachineStepRow_hsame_transport {current current' bound bound' next next' : BHist} :
+    UnaryHistory current -> UnaryHistory bound -> Cont current bound next -> hsame current current' ->
+      hsame bound bound' -> hsame next next' ->
+        UnaryHistory current' ∧ UnaryHistory bound' ∧ UnaryHistory next' ∧
+          Cont current' bound' next' := by
+  intro currentUnary boundUnary step sameCurrent sameBound sameNext
+  have currentUnary' : UnaryHistory current' := unary_transport currentUnary sameCurrent
+  have boundUnary' : UnaryHistory bound' := unary_transport boundUnary sameBound
+  have nextUnary : UnaryHistory next := unary_cont_closed currentUnary boundUnary step
+  have nextUnary' : UnaryHistory next' := unary_transport nextUnary sameNext
+  have step' : Cont current' bound' next' :=
+    cont_hsame_transport sameCurrent sameBound sameNext step
+  exact And.intro currentUnary'
+    (And.intro boundUnary' (And.intro nextUnary' step'))
 
 inductive TuringMachineHaltedTrace (halted : BHist) : List BHist → BHist → Prop where
   | endpoint : TuringMachineHaltedTrace halted [] halted
