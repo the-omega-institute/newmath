@@ -129,6 +129,7 @@ import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
+import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp

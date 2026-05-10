@@ -81,4 +81,36 @@ theorem DiffFormRootBoundaryConsumer_classifier_scope
       transportedDerivative.right.right.left,
       transportedDerivative.right.right.right⟩
 
+theorem DiffFormRootBoundaryConsumer_carrier_scope {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger omega domega dplus probe' tensor' scalar' source :
+      BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          DiffFormExteriorDerivativeLedger omega domega degree dplus probe probe' tensor tensor'
+              scalar scalar' antisym source ->
+            (UnaryHistory degree ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+                UnaryHistory scalar ∧
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym))))) ∧
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                ledger degree probe tensor scalar antisym ledger ∧
+                UnaryHistory degree ∧ UnaryHistory dplus ∧
+                  Cont degree (BHist.e1 BHist.Empty) dplus := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute derivativeLedger
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have classifierRows :=
+    DiffFormBHistClassifier_reflexivity_obligation (d := degree) (p := probe)
+      (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn scalarCarrier
+  have derivativeRows := DiffFormExteriorDerivativeLedger_degree_raise derivativeLedger
+  exact And.intro coordinateRows
+    (And.intro classifierRows
+      (And.intro derivativeRows.left
+        (And.intro derivativeRows.right.left derivativeRows.right.right)))
+
 end BEDC.Derived.DiffFormUp
