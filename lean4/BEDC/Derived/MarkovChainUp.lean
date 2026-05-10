@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -200,6 +201,80 @@ theorem MarkovChainTransitionPacket_kernel_classifier_stability
         (And.intro lawSource'
           (And.intro readback' (And.intro transportedProvenance transportedLedger))))
   exact And.intro transportedPacket (And.intro sameProvenance sameLedger)
+
+theorem MarkovChainTransitionPacket_semantic_source_boundary
+    {source time current next law transition provenance ledger : BHist} :
+    MarkovChainTransitionPacket source time current next law transition provenance ledger ->
+      SemanticNameCert
+        (fun endpoint : BHist =>
+          exists provenanceRow : BHist, exists transitionRow : BHist, exists lawRow : BHist,
+            MarkovChainTransitionPacket source time current next lawRow transitionRow
+              provenanceRow endpoint)
+        (fun endpoint : BHist =>
+          exists provenanceRow : BHist, exists transitionRow : BHist, exists lawRow : BHist,
+            MarkovChainTransitionPacket source time current next lawRow transitionRow
+              provenanceRow endpoint)
+        (fun endpoint : BHist =>
+          exists provenanceRow : BHist, exists transitionRow : BHist, exists lawRow : BHist,
+            MarkovChainTransitionPacket source time current next lawRow transitionRow
+              provenanceRow endpoint)
+        (fun endpoint endpoint' : BHist => hsame endpoint endpoint') := by
+  intro packet
+  let EndpointCarrier : BHist -> Prop :=
+    fun endpoint : BHist =>
+      exists provenanceRow : BHist, exists transitionRow : BHist, exists lawRow : BHist,
+        MarkovChainTransitionPacket source time current next lawRow transitionRow
+          provenanceRow endpoint
+  have carrierWitness : exists endpoint : BHist, EndpointCarrier endpoint :=
+    Exists.intro ledger
+      (Exists.intro provenance (Exists.intro transition (Exists.intro law packet)))
+  have carrierTransport :
+      forall {endpoint endpoint' : BHist},
+        hsame endpoint endpoint' -> EndpointCarrier endpoint -> EndpointCarrier endpoint' := by
+    intro endpoint endpoint' sameEndpoint carrier
+    cases carrier with
+    | intro provenanceRow rest =>
+        cases rest with
+        | intro transitionRow rest =>
+            cases rest with
+            | intro lawRow endpointPacket =>
+                have endpointCont' : Cont provenanceRow lawRow endpoint' :=
+                  cont_result_hsame_transport endpointPacket.right.right.right.right.right
+                    sameEndpoint
+                exact Exists.intro provenanceRow
+                  (Exists.intro transitionRow
+                    (Exists.intro lawRow
+                      (And.intro endpointPacket.left
+                        (And.intro endpointPacket.right.left
+                          (And.intro endpointPacket.right.right.left
+                            (And.intro endpointPacket.right.right.right.left
+                              (And.intro endpointPacket.right.right.right.right.left
+                                endpointCont')))))))
+  have core : NameCert EndpointCarrier (fun endpoint endpoint' : BHist => hsame endpoint endpoint') :=
+    {
+      carrier_inhabited := carrierWitness
+      equiv_refl := by
+        intro endpoint _carrier
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro endpoint endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro endpoint endpoint' endpoint'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint carrier
+        exact carrierTransport sameEndpoint carrier
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro endpoint carrier
+      exact carrier
+    ledger_sound := by
+      intro endpoint carrier
+      exact carrier
+  }
 
 theorem MarkovChainBHistTransitionCarrier_transition_ledger_exactness
     [AskSetup] [PackageSetup]

@@ -185,6 +185,7 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
 import BEDC.Derived.MarkovChainUp
+import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
 import BEDC.Derived.OptionUp.TaggedClassifier
@@ -603,6 +604,7 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ProbSpaceUp
+import BEDC.Derived.PartitionUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.DistributionUp
