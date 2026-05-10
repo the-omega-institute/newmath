@@ -174,6 +174,48 @@ theorem ComplexityClassNameCertObligationSurface_public_rows
     ⟨resourceUnary, traceUnary, verdictUnary, acceptedUnary, ledgerUnary, publicSurfaceUnary,
       publicSurfaceRow⟩
 
+theorem ComplexityClassResourceModulusMonotonicity_budget_transport
+    {input length length' acceptor trace trace' modulus budget budget' verdict verdict' accepted
+      accepted' : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      hsame length length' -> Cont input length trace -> Cont input length' trace' ->
+        Cont trace modulus budget -> Cont trace' modulus budget' -> Cont acceptor budget verdict ->
+          Cont acceptor budget' verdict' -> Cont input verdict accepted ->
+            Cont input verdict' accepted' ->
+              UnaryHistory length' ∧ UnaryHistory trace' ∧ UnaryHistory budget' ∧
+                UnaryHistory verdict' ∧ UnaryHistory accepted' ∧ hsame trace trace' ∧
+                  hsame budget budget' ∧ hsame verdict verdict' ∧
+                    hsame accepted accepted' := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary sameLength traceRow traceRow'
+  intro budgetRow budgetRow' verdictRow verdictRow' acceptedRow acceptedRow'
+  have lengthUnary' : UnaryHistory length' :=
+    unary_transport lengthUnary sameLength
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed inputUnary lengthUnary traceRow
+  have traceUnary' : UnaryHistory trace' :=
+    unary_cont_closed inputUnary lengthUnary' traceRow'
+  have budgetUnary : UnaryHistory budget :=
+    unary_cont_closed traceUnary modulusUnary budgetRow
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_cont_closed traceUnary' modulusUnary budgetRow'
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed acceptorUnary budgetUnary verdictRow
+  have verdictUnary' : UnaryHistory verdict' :=
+    unary_cont_closed acceptorUnary budgetUnary' verdictRow'
+  have acceptedUnary' : UnaryHistory accepted' :=
+    unary_cont_closed inputUnary verdictUnary' acceptedRow'
+  have traceSame : hsame trace trace' :=
+    cont_respects_hsame (hsame_refl input) sameLength traceRow traceRow'
+  have budgetSame : hsame budget budget' :=
+    cont_respects_hsame traceSame (hsame_refl modulus) budgetRow budgetRow'
+  have verdictSame : hsame verdict verdict' :=
+    cont_respects_hsame (hsame_refl acceptor) budgetSame verdictRow verdictRow'
+  have acceptedSame : hsame accepted accepted' :=
+    cont_respects_hsame (hsame_refl input) verdictSame acceptedRow acceptedRow'
+  exact
+    ⟨lengthUnary', traceUnary', budgetUnary', verdictUnary', acceptedUnary', traceSame,
+      budgetSame, verdictSame, acceptedSame⟩
+
 theorem ComplexityClassResourceModulusMonotonicity_bound_enlargement
     {input length length' acceptor budget budget' trace trace' verdict verdict' accepted
       accepted' : BHist} :
@@ -253,5 +295,68 @@ theorem ComplexityClassResourceModulusMonotonicity_bound_transport
   exact
     ⟨lengthUnary', modulusUnary', traceUnary, traceUnary', budgetUnary, budgetUnary',
       traceSame, budgetSame, verdictSame, acceptedSame⟩
+
+theorem ComplexityClassResourceLedgerExactness_visible_transport
+    {input length length' acceptor modulus modulus' trace trace' budget budget' verdict verdict'
+      accepted accepted' ledger ledger' publicSurface publicSurface' : BHist} :
+    UnaryHistory input -> UnaryHistory length -> UnaryHistory acceptor -> UnaryHistory modulus ->
+      hsame length length' -> hsame modulus modulus' -> Cont input length trace ->
+        Cont input length' trace' -> Cont trace modulus budget ->
+          Cont trace' modulus' budget' -> Cont acceptor budget verdict ->
+            Cont acceptor budget' verdict' -> Cont input verdict accepted ->
+              Cont input verdict' accepted' -> Cont accepted trace ledger ->
+                Cont accepted' trace' ledger' -> Cont ledger modulus publicSurface ->
+                  Cont ledger' modulus' publicSurface' ->
+                    UnaryHistory length' ∧ UnaryHistory modulus' ∧ UnaryHistory trace ∧
+                      UnaryHistory trace' ∧ UnaryHistory budget ∧ UnaryHistory budget' ∧
+                        UnaryHistory ledger ∧ UnaryHistory ledger' ∧ UnaryHistory publicSurface ∧
+                          UnaryHistory publicSurface' ∧ hsame trace trace' ∧
+                            hsame budget budget' ∧ hsame verdict verdict' ∧
+                              hsame accepted accepted' ∧ hsame ledger ledger' ∧
+                                hsame publicSurface publicSurface' := by
+  intro inputUnary lengthUnary acceptorUnary modulusUnary sameLength sameModulus
+  intro traceRow traceRow' budgetRow budgetRow' verdictRow verdictRow' acceptedRow acceptedRow'
+  intro ledgerRow ledgerRow' publicSurfaceRow publicSurfaceRow'
+  have transportData :=
+    ComplexityClassResourceModulusMonotonicity_bound_transport inputUnary lengthUnary
+      acceptorUnary modulusUnary sameLength sameModulus traceRow traceRow' budgetRow budgetRow'
+      verdictRow verdictRow' acceptedRow acceptedRow'
+  have lengthUnary' : UnaryHistory length' := transportData.left
+  have modulusUnary' : UnaryHistory modulus' := transportData.right.left
+  have traceUnary : UnaryHistory trace := transportData.right.right.left
+  have traceUnary' : UnaryHistory trace' := transportData.right.right.right.left
+  have budgetUnary : UnaryHistory budget := transportData.right.right.right.right.left
+  have budgetUnary' : UnaryHistory budget' := transportData.right.right.right.right.right.left
+  have traceSame : hsame trace trace' := transportData.right.right.right.right.right.right.left
+  have budgetSame : hsame budget budget' :=
+    transportData.right.right.right.right.right.right.right.left
+  have verdictSame : hsame verdict verdict' :=
+    transportData.right.right.right.right.right.right.right.right.left
+  have acceptedSame : hsame accepted accepted' :=
+    transportData.right.right.right.right.right.right.right.right.right
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed acceptorUnary budgetUnary verdictRow
+  have verdictUnary' : UnaryHistory verdict' :=
+    unary_cont_closed acceptorUnary budgetUnary' verdictRow'
+  have acceptedUnary : UnaryHistory accepted :=
+    unary_cont_closed inputUnary verdictUnary acceptedRow
+  have acceptedUnary' : UnaryHistory accepted' :=
+    unary_cont_closed inputUnary verdictUnary' acceptedRow'
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed acceptedUnary traceUnary ledgerRow
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed acceptedUnary' traceUnary' ledgerRow'
+  have ledgerSame : hsame ledger ledger' :=
+    cont_respects_hsame acceptedSame traceSame ledgerRow ledgerRow'
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed ledgerUnary modulusUnary publicSurfaceRow
+  have publicSurfaceUnary' : UnaryHistory publicSurface' :=
+    unary_cont_closed ledgerUnary' modulusUnary' publicSurfaceRow'
+  have publicSurfaceSame : hsame publicSurface publicSurface' :=
+    cont_respects_hsame ledgerSame sameModulus publicSurfaceRow publicSurfaceRow'
+  exact
+    ⟨lengthUnary', modulusUnary', traceUnary, traceUnary', budgetUnary, budgetUnary',
+      ledgerUnary, ledgerUnary', publicSurfaceUnary, publicSurfaceUnary', traceSame, budgetSame,
+      verdictSame, acceptedSame, ledgerSame, publicSurfaceSame⟩
 
 end BEDC.Derived.ComplexityClassUp

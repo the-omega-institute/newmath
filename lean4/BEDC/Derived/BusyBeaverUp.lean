@@ -108,6 +108,36 @@ theorem BusyBeaverBoundMonotonicity_bound_transport
     ⟨boundUnary', outputBoundUnary, outputBoundUnary', stepBoundUnary, stepBoundUnary',
       ledgerUnary, ledgerUnary', outputBoundSame, stepBoundSame, ledgerSame⟩
 
+theorem BusyBeaverEnumerationCompleteness_finite_ledger_surface
+    {stateCount machine enumeration branch haltedLedger outsideLedger coverageLedger
+      package : BHist} :
+    UnaryHistory stateCount -> UnaryHistory machine -> UnaryHistory branch ->
+      Cont stateCount machine enumeration -> Cont enumeration branch haltedLedger ->
+        Cont machine branch outsideLedger -> Cont haltedLedger outsideLedger coverageLedger ->
+          Cont coverageLedger stateCount package ->
+            UnaryHistory enumeration ∧ UnaryHistory haltedLedger ∧ UnaryHistory outsideLedger ∧
+              UnaryHistory coverageLedger ∧ UnaryHistory package ∧
+                hsame enumeration (append stateCount machine) ∧
+                  hsame haltedLedger (append enumeration branch) ∧
+                    hsame outsideLedger (append machine branch) ∧
+                      hsame coverageLedger (append haltedLedger outsideLedger) ∧
+                        hsame package (append coverageLedger stateCount) := by
+  intro stateCountUnary machineUnary branchUnary enumerationRow haltedLedgerRow outsideLedgerRow
+  intro coverageLedgerRow packageRow
+  have enumerationUnary : UnaryHistory enumeration :=
+    unary_cont_closed stateCountUnary machineUnary enumerationRow
+  have haltedLedgerUnary : UnaryHistory haltedLedger :=
+    unary_cont_closed enumerationUnary branchUnary haltedLedgerRow
+  have outsideLedgerUnary : UnaryHistory outsideLedger :=
+    unary_cont_closed machineUnary branchUnary outsideLedgerRow
+  have coverageLedgerUnary : UnaryHistory coverageLedger :=
+    unary_cont_closed haltedLedgerUnary outsideLedgerUnary coverageLedgerRow
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed coverageLedgerUnary stateCountUnary packageRow
+  exact
+    ⟨enumerationUnary, haltedLedgerUnary, outsideLedgerUnary, coverageLedgerUnary, packageUnary,
+      enumerationRow, haltedLedgerRow, outsideLedgerRow, coverageLedgerRow, packageRow⟩
+
 theorem BusyBeaverEnumerationCompleteness_finite_coverage
     {stateCount machine enumeration listed branch coverage publicLedger : BHist} :
     UnaryHistory stateCount -> UnaryHistory machine -> UnaryHistory enumeration ->
@@ -159,5 +189,39 @@ theorem BusyBeaverEnumerationCompleteness_append_coverage
             intro m memTail
             exact leftCoverage m (List.Mem.tail head memTail)
           exact ih tailMem tailCoverage
+
+theorem BusyBeaverPerMachineReadback_endpoint_exactness
+    {machine input trace output steps bound bound' haltedLedger outputBound outputBound'
+      stepBound stepBound' ledger ledger' : BHist} :
+    UnaryHistory machine -> UnaryHistory input -> UnaryHistory output -> UnaryHistory steps ->
+      UnaryHistory bound -> hsame bound bound' -> Cont machine input trace ->
+        Cont trace output haltedLedger -> Cont output bound outputBound ->
+          Cont output bound' outputBound' -> Cont steps bound stepBound ->
+            Cont steps bound' stepBound' -> Cont outputBound stepBound ledger ->
+              Cont outputBound' stepBound' ledger' ->
+                UnaryHistory trace ∧ UnaryHistory haltedLedger ∧ UnaryHistory bound' ∧
+                  UnaryHistory outputBound ∧ UnaryHistory outputBound' ∧ UnaryHistory stepBound ∧
+                    UnaryHistory stepBound' ∧ UnaryHistory ledger ∧ UnaryHistory ledger' ∧
+                      hsame haltedLedger (append trace output) ∧
+                        hsame outputBound outputBound' ∧ hsame stepBound stepBound' ∧
+                          hsame ledger ledger' := by
+  intro machineUnary inputUnary outputUnary stepsUnary boundUnary sameBound traceRow
+  intro haltedLedgerRow outputBoundRow outputBoundRow' stepBoundRow stepBoundRow'
+  intro ledgerRow ledgerRow'
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed machineUnary inputUnary traceRow
+  have haltedLedgerUnary : UnaryHistory haltedLedger :=
+    unary_cont_closed traceUnary outputUnary haltedLedgerRow
+  have boundData :=
+    BusyBeaverBoundMonotonicity_bound_transport outputUnary stepsUnary boundUnary sameBound
+      outputBoundRow outputBoundRow' stepBoundRow stepBoundRow' ledgerRow ledgerRow'
+  exact
+    ⟨traceUnary, haltedLedgerUnary, boundData.left, boundData.right.left,
+      boundData.right.right.left, boundData.right.right.right.left,
+      boundData.right.right.right.right.left, boundData.right.right.right.right.right.left,
+      boundData.right.right.right.right.right.right.left, haltedLedgerRow,
+      boundData.right.right.right.right.right.right.right.left,
+      boundData.right.right.right.right.right.right.right.right.left,
+      boundData.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.BusyBeaverUp
