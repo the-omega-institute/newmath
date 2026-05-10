@@ -194,3 +194,58 @@ stated non-claims.
   \notclaimed{The chapter does not close busy-beaver-function computability, asymptotic growth-rate theorems, halting decidability, or a standard recursion-theory bridge.}
   \upgradepath{Public closure requires an exported certificate theorem for the displayed finite enumeration and bounded halted-readback surface.}
 \end{closurestatus}
+
+\begin{theorem}[BusyBeaver per-machine halted-readback determinacy]
+\label{thm:busybeaver-per-machine-halted-readback-determinacy}
+Let $W$ and $W'$ be accepted $\BusyBeaverUp$ witnesses with the same unary
+state-count $n$ and the same displayed finite enumeration $E$ of $n$-state
+two-symbol $\TuringMachineUp$ codes. Let $M$ be one entry of $E$. Suppose the
+ledger of $W$ records for $M$ a halted branch from the displayed empty tape
+with finite transition trace $T$, halted output row $o$, and halted step-count
+row $s$, and the ledger of $W'$ records for the same entry $M$ a halted branch
+from the displayed empty tape with finite transition trace $T'$, halted output
+row $o'$, and halted step-count row $s'$. Then the carrier ledger classifies
+the two readbacks componentwise:
+$$
+  T\hsame T',\qquad o\hsame o',\qquad s\hsame s'.
+$$
+Thus, at fixed enumeration entry, the halted readback of an accepted
+$\BusyBeaverUp$ witness is determined by the deterministic machine code and the
+empty-tape initial row, not by the choice of accepted witness packet.
+\end{theorem}
+\begin{proof}
+Project both accepted witnesses to their common enumeration row. Since the
+entry is the same displayed $M\in E$, both halted branches use the same
+finite-state code, the same deterministic transition table, the same blank-tape
+initial configuration, and the same halting predicate. By
+\autoref{thm:busybeaver-per-machine-readback-exactness}, each public readback
+is the endpoint already attached to the ledger branch at that enumeration
+position; no detached simulator or host computation trace is introduced.
+
+Compare the two finite transition traces from the empty-tape initial row. Their
+zero configurations are classified together because they are the displayed
+initial configuration of the same machine on the same input. If two compared
+current configurations are classified by $\hsame$, then
+\autoref{thm:turingmachine-deterministic-step-stability} transports the common
+transition-table row and classifies the next configurations by $\hsame$ again.
+Induction over the finite trace rows therefore identifies the two deterministic
+runs up to the first halted row exposed by the halted-step ledger.
+
+It remains to rule out a mismatch of the displayed halted index. Once either
+trace reaches a halted configuration, the halted-repeat clause of
+\autoref{thm:turingmachine-halted-repeat-obligation} says that later accepted
+trace rows only repeat that halted configuration. The ledger exactness clause
+of \autoref{thm:turingmachine-ledger-exactness-obligation} gives no second
+branch choice or fresh transition row after that point. Hence the two halted
+branches for the same $M$ expose the same halted-step row in the $\NatUp$
+classifier, so $s\hsame s'$.
+
+At that common halted row the configuration traces have already been compared,
+so the visible tape components and head-position readbacks are compared by the
+finite readback surface of
+\autoref{thm:turingmachine-bounded-readback-soundness}. The halted output rows
+read from those compared endpoints are therefore classified together,
+$o\hsame o'$. Combining the trace comparison, the halted-step comparison, and
+the output readback comparison gives $T\hsame T'$, $s\hsame s'$, and
+$o\hsame o'$ as claimed.
+\end{proof}
