@@ -571,6 +571,38 @@ inductive P7ReportDatum : Type where
 def P7Output : Type :=
   List P7ReportDatum
 
+def SoundP7Report (report : P7Output) : Prop :=
+  (forall T : TheoremCandidateFlow,
+    forall c : List DisplayAlphabet,
+      List.Mem (P7ReportDatum.theoremCode T c) report ->
+        exists R : P7GeneratedTheoremRecognizer,
+          P7SoundTheoremFlow R T /\ c = TheoremCode T) /\
+    (forall T : TheoremCandidateFlow,
+      List.Mem (P7ReportDatum.acceptedTheorem T) report ->
+        P7AcceptedTheoremFlow T)
+
+theorem sound_p7_report_theorem {report : P7Output} :
+    SoundP7Report report ->
+      (forall T : TheoremCandidateFlow,
+        forall c : List DisplayAlphabet,
+          List.Mem (P7ReportDatum.theoremCode T c) report ->
+            exists R : P7GeneratedTheoremRecognizer,
+              P7SoundTheoremFlow R T /\ c = TheoremCode T) /\
+        (forall T : TheoremCandidateFlow,
+          forall c : List DisplayAlphabet,
+            List.Mem (P7ReportDatum.theoremCode T c) report ->
+              List.Mem (P7ReportDatum.acceptedTheorem T) report ->
+                P7AcceptedTheoremFlow T /\ c = AcceptedTheoremCode T) := by
+  intro hSound
+  constructor
+  · exact hSound.left
+  · intro T c hCode hAccepted
+    constructor
+    · exact hSound.right T hAccepted
+    · cases hSound.left T c hCode with
+      | intro _ hWitness =>
+          exact hWitness.right
+
 structure TheoremProofPrototype where
   p6 : DerivAcceptPrototype
   run : P7FormalInput -> P7Output
