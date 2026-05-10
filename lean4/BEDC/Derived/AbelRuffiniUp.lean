@@ -188,4 +188,43 @@ theorem AbelRuffiniPublicCertificate_export
     unary_cont_closed foldUnary s5RowUnary publicSurfaceRow
   exact ⟨coefficientUnary, galoisLedgerUnary, foldUnary, publicSurfaceUnary, publicSurfaceRow⟩
 
+theorem AbelRuffiniPublicCertificateExport_namecert_surface
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> Cont polynomial base coefficientLedger ->
+          Cont splittingField galoisRow galoisLedger ->
+            Cont coefficientLedger galoisLedger sourceSurface ->
+              Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                  Cont boundary s5Row publicSurface ->
+                    UnaryHistory coefficientLedger ∧ UnaryHistory galoisLedger ∧
+                      UnaryHistory sourceSurface ∧ UnaryHistory endpoint ∧ UnaryHistory boundary ∧
+                        UnaryHistory publicSurface ∧
+                          hsame sourceSurface (append coefficientLedger galoisLedger) ∧
+                            hsame endpoint (append next obstruction) ∧
+                              hsame boundary (append sourceSurface endpoint) ∧
+                                hsame publicSurface (append boundary s5Row) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  intro subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow
+  have sourceData :=
+    AbelRuffiniPolynomialGaloisObligation_source_surface (s5Row := s5Row) polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  have subgroupUnary : UnaryHistory subgroup :=
+    unary_cont_closed galoisRowUnary s5RowUnary subgroupRow
+  have endpointData :=
+    AbelRuffiniDerivedSeriesLedger_finite_transport galoisRowUnary s5RowUnary
+      subgroupUnary commutatorUnary obstructionUnary subgroupRow nextRow endpointRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed sourceData.right.right.left endpointData.right.left boundaryRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed boundaryUnary s5RowUnary publicSurfaceRow
+  exact
+    ⟨sourceData.left, sourceData.right.left, sourceData.right.right.left,
+      endpointData.right.left, boundaryUnary, publicSurfaceUnary,
+      sourceData.right.right.right.right.right, endpointData.right.right.right.right,
+      boundaryRow, publicSurfaceRow⟩
+
 end BEDC.Derived.AbelRuffiniUp
