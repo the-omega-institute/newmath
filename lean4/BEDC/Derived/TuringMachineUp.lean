@@ -190,6 +190,66 @@ theorem TuringMachineObligationSurface_rows
     ⟨configurationSurface.left, configurationSurface.right.left,
       configurationSurface.right.right.left, finalLedgerUnary, repeatedRows.left, finalLedgerRow⟩
 
+theorem TuringMachineTraceSourceObligation_source_rows
+    {state tape head bound alphabet configuration trace endpoint source : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory bound ->
+      UnaryHistory alphabet -> Cont state tape configuration -> Cont configuration head trace ->
+        Cont trace bound endpoint -> Cont alphabet endpoint source ->
+          UnaryHistory configuration ∧ UnaryHistory trace ∧ UnaryHistory endpoint ∧
+            UnaryHistory source ∧ hsame configuration (append state tape) ∧
+              hsame trace (append configuration head) ∧ hsame endpoint (append trace bound) ∧
+                hsame source (append alphabet endpoint) := by
+  intro stateUnary tapeUnary headUnary boundUnary alphabetUnary configurationRow traceRow endpointRow
+    sourceRow
+  have configurationSurface :=
+    TuringMachineConfigurationTraceCarrier_configuration_trace_surface stateUnary tapeUnary
+      headUnary boundUnary configurationRow traceRow endpointRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed alphabetUnary configurationSurface.right.right.left sourceRow
+  exact
+    ⟨configurationSurface.left, configurationSurface.right.left,
+      configurationSurface.right.right.left, sourceUnary, configurationSurface.right.right.right.left,
+      configurationSurface.right.right.right.right.left,
+      configurationSurface.right.right.right.right.right, sourceRow⟩
+
+theorem TuringMachineLedgerExactnessObligation_rows_and_boundary
+    {halted endpoint readback ledger boundary : BHist} {haltRows : List BHist} :
+    TuringMachineHaltedTrace halted haltRows endpoint -> UnaryHistory halted ->
+      UnaryHistory readback -> Cont endpoint readback ledger -> Cont ledger halted boundary ->
+        (forall row : BHist, List.Mem row haltRows -> hsame row halted) ∧
+          UnaryHistory endpoint ∧ UnaryHistory ledger ∧ UnaryHistory boundary ∧
+            hsame ledger (append endpoint readback) ∧ hsame boundary (append ledger halted) := by
+  intro haltedTrace haltedUnary readbackUnary ledgerRow boundaryRow
+  have repeatedRows :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed repeatedRows.right readbackUnary ledgerRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary haltedUnary boundaryRow
+  exact ⟨repeatedRows.left, repeatedRows.right, ledgerUnary, boundaryUnary, ledgerRow, boundaryRow⟩
+
+theorem TuringMachineSourceClassifierObligation_source_classifier_surface
+    {state tape head table trace readback source transported : BHist} :
+    UnaryHistory state -> UnaryHistory tape -> UnaryHistory head -> UnaryHistory table ->
+      Cont state tape source -> Cont source head trace -> Cont tape head readback ->
+        Cont trace table transported ->
+          UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory readback ∧
+            UnaryHistory transported ∧ hsame source (append state tape) ∧
+              hsame trace (append source head) ∧ hsame readback (append tape head) ∧
+                hsame transported (append trace table) := by
+  intro stateUnary tapeUnary headUnary tableUnary sourceRow traceRow readbackRow transportedRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed stateUnary tapeUnary sourceRow
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed sourceUnary headUnary traceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed tapeUnary headUnary readbackRow
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed traceUnary tableUnary transportedRow
+  exact
+    ⟨sourceUnary, traceUnary, readbackUnary, transportedUnary, sourceRow, traceRow, readbackRow,
+      transportedRow⟩
+
 theorem TuringMachineSourceClassifierObligation_cont_transport
     {state state' tape tape' head head' bound bound' configuration configuration' trace trace'
       endpoint endpoint' : BHist} :

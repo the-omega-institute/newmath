@@ -18,6 +18,7 @@ The paper-side acceptance discipline says that a mature object is not exported m
 
 \begin{definition}[Strength event flow]
 \label{def:derivcert-generated-strength-event-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.StrengthEventFlow}
 A \emph{strength event flow} is an event flow
 $$
   s \in \mathsf{EventFlow}
@@ -46,6 +47,7 @@ These names are metalanguage. They are not host enum inputs. The corresponding s
 
 \begin{definition}[Generated strength recognizer]
 \label{def:derivcert-generated-strength-recognizer}
+\leandef{BEDC.GroundCompiler.EventFlow.GeneratedStrengthRecognizer}
 A \emph{generated strength recognizer} is an event flow
 $$
   R_s \in \mathsf{EventFlow}.
@@ -59,6 +61,7 @@ where $s$ is the strength event flow and $\sigma$ is the recognized strength rol
 
 \begin{definition}[DerivCert candidate flow]
 \label{def:derivcert-generated-candidate-flow}
+\leandef{BEDC.GroundCompiler.EventFlow.DerivCertCandidateFlow}
 A \emph{DerivCert candidate flow} is an event flow
 $$
   D \in \mathsf{EventFlow}.
@@ -68,6 +71,7 @@ It has not yet been recognized as a derivation certificate. Thus $D \in \mathsf{
 
 \begin{definition}[Generated DerivCert recognizer]
 \label{def:derivcert-generated-recognizer}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.GeneratedDerivCertRecognizer}
 A \emph{generated DerivCert recognizer} is an event flow
 $$
   R_D \in \mathsf{EventFlow}.
@@ -77,6 +81,7 @@ It is not a host parser, Lean structure, YAML schema, or external record constru
 
 \begin{definition}[DerivCert recognition relation]
 \label{def:derivcert-generated-recognition-relation}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.RecognizesDerivCert}
 The derivation-certificate recognition relation is written
 $$
   \mathsf{RecognizesDerivCert}(R_D,D,N,s),
@@ -104,6 +109,7 @@ $$
 
 \begin{definition}[Recognized DerivCert flow]
 \label{def:derivcert-generated-recognized-derivcert-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertFlow}
 Define
 $$
   \mathsf{DerivCertFlow}(D,N,s)
@@ -115,6 +121,7 @@ Thus $D$ is a recognized derivation-certificate flow for $N$ at strength $s$ exa
 
 \begin{principle}[No external DerivCert input]
 \label{prin:derivcert-generated-no-external-input}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_external\_derivcert\_input}
 There is no formal compiler entry point
 $$
   \mathsf{CompileDerivCert}
@@ -136,6 +143,7 @@ If $D$ is a recognized derivation-certificate flow, its code is just $\mathsf{Co
 
 \begin{proposition}[DerivCert recognition does not change channel code]
 \label{prop:derivcert-generated-recognition-preserves-code}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_recognition\_preserves\_code}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$, then the channel encoding of $D$ is still $\mathsf{Compile}(D)$. Derivation-certificate recognition does not add, delete, or rewrite channel bits.
 \end{proposition}
 
@@ -145,6 +153,7 @@ The judgment $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ is a source-level recogni
 
 \begin{corollary}[Recognized DerivCert code is not a separate code]
 \label{cor:derivcert-generated-code-not-separate}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_code\_not\_separate}
 If $D$ is a recognized derivation-certificate flow, then
 $$
   \mathsf{DerivCertCode}(D,N,s) := \mathsf{Compile}(D)
@@ -157,6 +166,7 @@ is the ordinary channel code of $D$, not the output of a separate derivation-cer
 
 \begin{definition}[Recognized DerivCert field subflows]
 \label{def:derivcert-generated-field-subflows}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertFieldSubflow}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$, then $R_D$ may recognize subflows of $D$ as the six export-certificate roles:
 \begin{center}
 \begin{tabular}{l}
@@ -189,6 +199,7 @@ The field names source, classifier, exactness, ledger, stability, and strength a
 
 \begin{definition}[DerivCert-seal subflow]
 \label{def:derivcert-generated-seal-subflow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertSealSubflow}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ and $R_D$ recognizes a terminal subflow $\sigma_D$ of $D$ as expressing derivation-certificate completion, then $\sigma_D$ is a \emph{DerivCert-seal subflow}, written
 $$
   \mathsf{DerivCertSeal}_{R_D}(D,\sigma_D).
@@ -198,6 +209,7 @@ The seal is a source-level subflow, not the channel-level terminator $11$.
 
 \begin{definition}[Complete six-field DerivCert recognition]
 \label{def:derivcert-generated-complete-six-field-recognition}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.CompleteSixFieldDerivCertRecognition}
 The judgment $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ has \emph{complete six-field recognition} when there exist subflows $D_0,D_1,D_2,D_3,D_4,D_5$ and $\sigma_D$ such that
 $$
   \mathsf{DerivSource}_{R_D}(D,D_0),\quad
@@ -214,6 +226,7 @@ $$
 
 \begin{proposition}[DerivCert seal is not the channel terminator]
 \label{prop:derivcert-generated-seal-not-channel-terminator}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.derivcert\_seal\_is\_source\_subflow}
 If $\mathsf{DerivCertSeal}_{R_D}(D,\sigma_D)$, then $\sigma_D$ is a source-level subflow and not the channel-level terminator $11$.
 \end{proposition}
 
@@ -223,11 +236,13 @@ The channel-level $11$ is the event terminator of \autoref{def:channel-encoding-
 
 \begin{principle}[No DerivCert without six recognized fields]
 \label{prin:derivcert-generated-no-derivcert-without-six-fields}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_derivcert\_without\_six\_fields}
 A recognized derivation-certificate flow must have complete six-field recognition: source, classifier, exactness, ledger, stability, strength, and seal subflows are all required. This is the event-flow form of the six export-certificate roles.
 \end{principle}
 
 \begin{theorem}[Incomplete DerivCert flow does not support export]
 \label{thm:derivcert-generated-incomplete-does-not-support-export}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.incomplete\_derivcert\_does\_not\_support\_export}
 If an event flow $D$ lacks any one of the recognized source, classifier, exactness, ledger, stability, or strength field subflows, then $D$ cannot serve as a recognized derivation-certificate flow for $N$ at $s$.
 \end{theorem}
 
@@ -237,11 +252,13 @@ By \autoref{prin:derivcert-generated-no-derivcert-without-six-fields}, a recogni
 
 \begin{corollary}[Strength flow alone is insufficient]
 \label{cor:derivcert-generated-strength-alone-insufficient}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.strength\_flow\_alone\_insufficient}
 Even if an event flow is recognized as a $\mathrm{checkedCert}$ or $\mathrm{bridgeCert}$ strength flow, it does not form a derivation-certificate flow without recognized source, classifier, exactness, ledger, and stability fields.
 \end{corollary}
 
 \begin{definition}[DerivCert field soundness]
 \label{def:derivcert-generated-field-soundness}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.DerivCertFieldSoundness}
 The field soundness relations for a recognized derivation-certificate flow are:
 $$
   \mathsf{DerivSourceSound}_{R_D}(D,D_0,N),
@@ -263,6 +280,7 @@ They witness, respectively, that the source field names the BEDC layer carrying 
 
 \begin{definition}[Sound recognized DerivCert flow]
 \label{def:derivcert-generated-sound-recognized-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.SoundRecognizedDerivCertFlow}
 A recognized judgment $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ is \emph{sound} when there exist subflows $D_0,D_1,D_2,D_3,D_4,D_5$ such that
 $$
   \mathsf{DerivSource}_{R_D}(D,D_0)
@@ -298,6 +316,7 @@ $$
 
 \begin{theorem}[Sound DerivCert recognition establishes DerivCertFlow]
 \label{thm:derivcert-generated-sound-establishes-flow}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.sound\_derivcert\_recognition\_establishes\_flow}
 If $\mathsf{RecognizesDerivCert}(R_D,D,N,s)$ and this recognition is sound, then
 $$
   \mathsf{DerivCertFlow}(D,N,s).
@@ -313,6 +332,7 @@ By \autoref{def:derivcert-generated-sound-recognized-flow}, $D$ contains recogni
 
 \begin{definition}[Accepted flow]
 \label{def:derivcert-generated-accepted-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptedFlow}
 For $N,s \in \mathsf{EventFlow}$, an event flow $A$ is an \emph{accepted flow} for $N$ at $s$ when there exist event flows $C,D$ and recognizers $R_C,R_D$ such that
 $$
   \mathsf{RecognizesNameCert}(R_C,C,N),
@@ -323,10 +343,12 @@ the $\NameCert$ recognition is sound in the sense of \autoref{def:namecert-gener
 $$
   \mathsf{AcceptFlow}(A,N,s).
 $$
+The contained $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow are nonempty event flows.
 \end{definition}
 
 \begin{definition}[Flow-level acceptance gate]
 \label{def:derivcert-generated-accept-gate-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptGateFlow}
 Define the flow-level acceptance gate by
 $$
   \mathsf{AcceptGateFlow}(N,s)
@@ -345,6 +367,7 @@ $$
 
 \begin{theorem}[Accepted flow requires NameCert-flow and DerivCert-flow]
 \label{thm:derivcert-generated-accepted-requires-namecert-derivcert}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_requires\_namecert\_derivcert}
 If $\mathsf{AcceptGateFlow}(N,s)$, then there exist $C,D$ such that
 $$
   \mathsf{NameCertFlow}(C,N)
@@ -359,15 +382,17 @@ By \autoref{def:derivcert-generated-accept-gate-flow}, there is an $A$ with $\ma
 
 \begin{corollary}[Code existence does not imply acceptance]
 \label{cor:derivcert-generated-code-existence-not-acceptance}
-A legal channel stream $c \in \mathsf{LegalZStream}$ does not by itself imply any $\mathsf{AcceptGateFlow}(N,s)$. Acceptance requires decoding and then recognizing sound $\NameCert$, sound derivation-certificate, and acceptance-seal structure in the decoded event flow or its recognized subflows.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.code\_existence\_not\_acceptance}
+A legal channel stream $c \in \mathsf{LegalZStream}$ does not by itself imply $\mathsf{RecognizesAcceptanceCode}(c,N,s)$. Acceptance from code requires decoding and then recognizing nonempty sound $\NameCert$, nonempty sound derivation-certificate, and nonempty acceptance-seal structure in the decoded event flow or its recognized subflows.
 \end{corollary}
 
 \begin{proof}
-Membership $c \in \mathsf{LegalZStream}$ says only that $c$ decodes to an event flow. Acceptance requires additional source-layer recognition judgments. Channel legality alone does not entail those judgments.
+Membership $c \in \mathsf{LegalZStream}$ says only that $c$ decodes to an event flow. Acceptance-code recognition requires additional source-layer recognition judgments on the decoded flow. The empty channel stream is legal because it decodes to the empty event flow, but the empty event flow cannot contain a nonempty $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow. Hence channel legality alone does not entail acceptance-code recognition.
 \end{proof}
 
 \begin{definition}[Accepted object code]
 \label{def:derivcert-generated-accepted-object-code}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.AcceptedObjectCode}
 If $\mathsf{AcceptFlow}(A,N,s)$, define
 $$
   \mathsf{AcceptedObjectCode}(A,N,s) := \mathsf{Compile}(A).
@@ -377,6 +402,7 @@ The code is accepted because its decoded event flow is recognized as an acceptan
 
 \begin{proposition}[Accepted object code is injective on acceptance flows]
 \label{prop:derivcert-generated-accepted-code-injective}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_object\_code\_injective}
 If
 $$
   \mathsf{AcceptedObjectCode}(A,N,s)
@@ -400,21 +426,26 @@ By \autoref{def:derivcert-generated-accepted-object-code}, the equality is $\mat
 
 \begin{definition}[Acceptance recognition from channel code]
 \label{def:derivcert-generated-recognition-from-code}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.RecognizesAcceptanceCode}
 For $c \in \mathsf{LegalZStream}$, define
 $$
   \mathsf{RecognizesAcceptanceCode}(c,N,s)
   \;:\Longleftrightarrow\;
-  \mathsf{AcceptFlow}(\mathsf{Decode}(c),N,s).
+  \exists A,\ \mathsf{Decode}(c)=\mathsf{some}(A)
+  \ \wedge\
+  \mathsf{AcceptFlow}(A,N,s).
 $$
 Thus accepted-object recognition from channel code first decodes to an event flow.
 \end{definition}
 
 \begin{proposition}[No acceptance recognition by channel substring]
 \label{prop:derivcert-generated-no-acceptance-by-channel-substring}
-There is no valid rule that recognizes an accepted object by inspecting channel substrings without first applying
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_acceptance\_recognition\_by\_channel\_substring}
+Any valid recognition of an accepted object from channel code must first exhibit an event flow decoded by
 $$
   \mathsf{Decode}\colon \mathsf{LegalZStream}\to\mathsf{EventFlow}.
 $$
+Equivalently, a judgment $\mathsf{RecognizesAcceptanceCode}(c,N,s)$ factors through some $A$ such that $\mathsf{Decode}(c)=\mathsf{some}(A)$ and $\mathsf{AcceptFlow}(A,N,s)$.
 \end{proposition}
 
 \begin{proof}
@@ -423,9 +454,10 @@ $$
 
 \begin{theorem}[Channel compilation preserves acceptance recognition]
 \label{thm:derivcert-generated-compilation-preserves-acceptance}
-If $\mathsf{AcceptFlow}(A,N,s)$, then
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.channel\_compilation\_preserves\_acceptance}
+If $\mathsf{AcceptFlow}(A,N,s)$, then the channel code $\mathsf{Compile}(A)$ is recognized as acceptance code:
 $$
-  \mathsf{AcceptFlow}(\mathsf{Decode}(\mathsf{Compile}(A)),N,s).
+  \mathsf{RecognizesAcceptanceCode}(\mathsf{Compile}(A),N,s).
 $$
 \end{theorem}
 
@@ -439,6 +471,7 @@ Substitution in $\mathsf{AcceptFlow}(A,N,s)$ gives the result.
 
 \begin{corollary}[Acceptance recognition is invariant under compile-decode]
 \label{cor:derivcert-generated-acceptance-invariant}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.acceptance\_recognition\_invariant}
 For every accepted flow, compiling to a channel stream and decoding back to an event flow preserves its acceptance status.
 \end{corollary}
 
@@ -447,17 +480,20 @@ For every accepted flow, compiling to a channel stream and decoding back to an e
 
 \begin{definition}[Strength monotonicity at flow level]
 \label{def:derivcert-generated-strength-monotonicity}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.StrengthMonotonicityAtFlowLevel}
 The flow-level acceptance gate is \emph{monotone in strength} when, for strength flows $s' \leq s$,
 $$
   \mathsf{AcceptGateFlow}(N,s)
   \Longrightarrow
   \mathsf{AcceptGateFlow}(N,s').
 $$
+At event-flow level, the comparison $s' \leq s$ is witnessed by a recognized derivation-certificate flow for $N$ at $s'$ that occurs as a subflow of the same accepted flow that witnesses acceptance at $s$.
 \end{definition}
 
 \begin{theorem}[Flow-level gate is monotone in strength]
 \label{thm:derivcert-generated-gate-monotone-strength}
-Assume recognized strength flows satisfy
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.gate\_monotone\_strength}
+Assume recognized strength flows are ordered by
 $$
   \mathrm{seed}
   <
@@ -469,20 +505,28 @@ $$
 $$
 and each higher-strength derivation-certificate flow contains the corresponding lower-strength derivation-certificate flow as a recognized subflow. Then
 $$
-  s' \leq s
+  \mathsf{AcceptFlow}(A,N,s)
   \wedge
-  \mathsf{AcceptGateFlow}(N,s)
+  \exists D'\,
+  \big(
+    \mathsf{DerivCertFlow}(D',N,s')
+    \wedge
+    D' \neq \epsilon
+    \wedge
+    \mathsf{DerivCertSourceSubflow}(D',A)
+  \big)
   \Longrightarrow
   \mathsf{AcceptGateFlow}(N,s').
 $$
 \end{theorem}
 
 \begin{proof}
-From $\mathsf{AcceptGateFlow}(N,s)$, take an accepted flow containing a sound $\NameCert$ flow and a sound derivation-certificate flow at strength $s$. The naming certificate is independent of the strength comparison. By the hypothesis on strength nesting, the higher-strength derivation-certificate flow contains the lower-strength derivation-certificate flow as recognized substructure. Using that lower-strength subflow gives the accepted flow at $s'$.
+From $\mathsf{AcceptFlow}(A,N,s)$, take the recognized $\NameCert$ flow, derivation-certificate flow, and acceptance-seal subflow contained in $A$. The naming certificate and seal are independent of the strength comparison. By the hypothesis on strength nesting, $A$ also contains a nonempty recognized derivation-certificate flow $D'$ for $N$ at $s'$. Replacing the strength-$s$ derivation-certificate component by $D'$ gives an accepted flow for $N$ at $s'$, hence $\mathsf{AcceptGateFlow}(N,s')$.
 \end{proof}
 
 \begin{definition}[Reuse flow]
 \label{def:derivcert-generated-reuse-flow}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.ReuseFlow}
 A \emph{reuse flow} is an event flow $U$ recognized as saying that accepted flows for $N_1,\ldots,N_k$ are reused to construct $M$, that transport respects the relevant classifiers, and that $M$ supplies its own certificate fields. It is written
 $$
   \mathsf{ReuseFlow}(U;N_1,\ldots,N_k;M).
@@ -491,32 +535,47 @@ $$
 
 \begin{theorem}[Reuse closure at flow level]
 \label{thm:derivcert-generated-reuse-closure}
-If $\mathsf{AcceptGateFlow}(N_i,s_i)$ for $i=1,\ldots,k$, and if there is a reuse flow
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.reuse\_closure\_at\_flow\_level}
+Let $I=((N_1,s_1),\ldots,(N_k,s_k))$ be a finite list of accepted input flows. If there is a reuse flow
 $$
-  \mathsf{ReuseFlow}(U;N_1,\ldots,N_k;M)
+  \mathsf{ReuseFlow}(U;I;M,s)
 $$
-whose recognized transport is classifier-respecting and whose target $M$ supplies its own sound certificate fields, then
+whose recognized transport is classifier-respecting and whose target component supplies an accepted flow for $M$ at strength $s$, then
 $$
-  \mathsf{AcceptGateFlow}(M,\min_i s_i).
+  \mathsf{AcceptGateFlow}(M,s).
 $$
 \end{theorem}
 
 \begin{proof}
-Each input $N_i$ has an accepted flow at strength $s_i$. The reuse flow supplies classifier-respecting transport from the accepted inputs to the target construction. It does not supply $M$'s own certificates by itself, so the hypothesis that $M$'s certificate fields are recognized and sound is essential. The strength cannot exceed the weakest input strength. Therefore $M$ receives an acceptance flow at $\min_i s_i$, matching the reuse discipline of \autoref{ch:closure-and-verification-discipline}.
+Each pair $(N_i,s_i)$ in $I$ has an accepted flow by the input component of $\mathsf{ReuseFlow}$. The reuse flow supplies classifier-respecting transport from the accepted inputs to the target construction and includes a target acceptance flow for $M$ at strength $s$. Projecting that target component gives $\mathsf{AcceptGateFlow}(M,s)$.
 \end{proof}
 
 \begin{corollary}[Reuse does not erase target certificate obligations]
 \label{cor:derivcert-generated-reuse-does-not-erase-obligations}
-Even if all inputs $N_i$ are accepted, the target $M$ must still supply its own source, classifier, exactness, ledger, stability, and strength flows. Reuse cannot replace $M$'s derivation-certificate flow.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.reuse\_does\_not\_erase\_obligations}
+Even if all inputs $N_i$ are accepted, any accepted target $M$ must still supply its own recognized $\NameCert$ flow and its own recognized derivation-certificate flow:
+$$
+  \mathsf{AcceptGateFlow}(M,s)
+  \Longrightarrow
+  \exists C,D\,
+  \big(
+    \mathsf{NameCertFlow}(C,M)
+    \wedge
+    \mathsf{DerivCertFlow}(D,M,s)
+  \big).
+$$
+Reuse cannot replace $M$'s derivation-certificate flow.
 \end{corollary}
 
 \begin{definition}[Retroactive promotion]
 \label{def:derivcert-generated-retroactive-promotion}
+\leandef{BEDC.GroundCompiler.DerivCertGenerated.RetroactivePromotion}
 A target $M$ is \emph{retroactively promoted} when its accepted strength is claimed to increase merely because its dependencies are later accepted at higher strength, while $M$ itself has no recognized higher-strength flow.
 \end{definition}
 
 \begin{principle}[No retroactive promotion]
 \label{prin:derivcert-generated-no-retroactive-promotion}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.no\_retroactive\_promotion}
 A flow accepted at strength $s$ does not automatically become accepted at a higher strength $s'>s$ merely because its dependencies are later accepted at higher strength. Promoting $M$ requires a recognized higher-strength flow for $M$ itself.
 \end{principle}
 
@@ -525,6 +584,7 @@ A flow accepted at strength $s$ does not automatically become accepted at a high
 
 \begin{theorem}[Accepted flow recognition is conservative over the finite kernel]
 \label{thm:derivcert-generated-conservativity}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_flow\_recognition\_conservativity}
 Adding $\mathsf{RecognizesDerivCert}$, $\mathsf{AcceptFlow}$, $\mathsf{AcceptGateFlow}$, and the associated field-recognition relations does not add new raw marks, history constructors, sameness rules, continuation rules, or kernel-level equalities.
 \end{theorem}
 
@@ -534,7 +594,8 @@ These relations assert certificate recognition, export recognition, and bookkeep
 
 \begin{corollary}[Accepted object code is weaker than object equality]
 \label{cor:derivcert-generated-code-weaker-than-object-equality}
-If two accepted object codes are identified by a classifier or bridge as the same mature object, that does not imply equality of their raw acceptance flows. Raw-flow equality is controlled by channel code equality; mature-object sameness is controlled by classifier and bridge structure.
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.accepted\_object\_code\_weaker\_than\_object\_equality}
+If two accepted object codes are identified by a classifier or bridge as the same mature object, that does not imply equality of their raw acceptance flows. Equivalently, a classifier may identify distinct accepted flows by a coarser event-flow reading. Raw-flow equality is controlled by channel code equality; mature-object sameness is controlled by classifier and bridge structure.
 \end{corollary}
 
 \begin{example}[$\AxisNatUp$ acceptance flow]
