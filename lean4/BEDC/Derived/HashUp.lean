@@ -194,4 +194,18 @@ theorem HashCollisionSuccess_irreflexive_on_message
       | intro d' transcript =>
           exact transcript.right.right.left (msgCert.core.equiv_refl msgCarrier)
 
+theorem HashSecondPreimageSuccess_irreflexive_on_message
+    {HashEval : BHist -> BHist -> Prop}
+    {MsgCarrier : BHist -> Prop}
+    {MsgClassifier DigClassifier : BHist -> BHist -> Prop}
+    (msgCert : SemanticNameCert MsgCarrier MsgCarrier MsgCarrier MsgClassifier)
+    {x : BHist} :
+    MsgCarrier x -> HashSecondPreimageSuccess HashEval MsgClassifier DigClassifier x x -> False := by
+  intro msgCarrier success
+  cases success with
+  | intro d successD =>
+      cases successD with
+      | intro d' transcript =>
+          exact transcript.right.right.left (msgCert.core.equiv_refl msgCarrier)
+
 end BEDC.Derived.HashUp
