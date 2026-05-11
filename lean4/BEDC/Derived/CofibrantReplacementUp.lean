@@ -344,6 +344,38 @@ theorem CofibrantReplacementBHistSource_dependency_boundary [AskSetup] [PackageS
     ⟨dependencyUnary, ledgerUnary, endpointUnary, consumerUnary, ledgerDependencyEndpoint,
       consumerRow, consumerSig⟩
 
+theorem CofibrantReplacementBHistSource_scoped_kernel_dependency_package [AskSetup]
+    [PackageSetup]
+    {object cofibrant arrow factorization lifting dependency ledger endpoint scopedRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementBHistSource object cofibrant arrow factorization lifting dependency
+        ledger endpoint bundle pkg ->
+      Cont endpoint dependency scopedRow ->
+        PkgSig bundle scopedRow pkg ->
+          UnaryHistory object ∧ UnaryHistory cofibrant ∧ UnaryHistory arrow ∧
+            UnaryHistory factorization ∧ UnaryHistory lifting ∧ UnaryHistory dependency ∧
+              UnaryHistory ledger ∧ UnaryHistory endpoint ∧ UnaryHistory scopedRow ∧
+                Cont object cofibrant arrow ∧ Cont arrow factorization ledger ∧
+                  Cont ledger dependency endpoint ∧ Cont endpoint dependency scopedRow ∧
+                    hsame scopedRow (append endpoint dependency) ∧
+                      PkgSig bundle scopedRow pkg := by
+  intro source scopedRowCont scopedRowSig
+  obtain ⟨objectUnary, cofibrantUnary, factorizationUnary, liftingUnary, dependencyUnary,
+    objectCofibrantArrow, arrowFactorizationLedger, ledgerDependencyEndpoint,
+    _endpointSig⟩ := source
+  have arrowUnary : UnaryHistory arrow :=
+    unary_cont_closed objectUnary cofibrantUnary objectCofibrantArrow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed arrowUnary factorizationUnary arrowFactorizationLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary dependencyUnary ledgerDependencyEndpoint
+  have scopedRowUnary : UnaryHistory scopedRow :=
+    unary_cont_closed endpointUnary dependencyUnary scopedRowCont
+  exact
+    ⟨objectUnary, cofibrantUnary, arrowUnary, factorizationUnary, liftingUnary, dependencyUnary,
+      ledgerUnary, endpointUnary, scopedRowUnary, objectCofibrantArrow, arrowFactorizationLedger,
+      ledgerDependencyEndpoint, scopedRowCont, scopedRowCont, scopedRowSig⟩
+
 theorem CofibrantReplacementPacket_five_row_namecert_surface [AskSetup] [PackageSetup]
     {X Q arrow factorization lifting package ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
