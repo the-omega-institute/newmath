@@ -484,6 +484,44 @@ event-flow tokens, so the combined consumer surface is exhausted by the
 $\RegSeqRatUp$ and $\RealUp$ rows already named above.
 \end{proof}
 
+\begin{theorem}[DyadicPrecision public consumer boundary]
+\label{thm:dyadicprecision-public-consumer-boundary}
+The public $\DyadicPrecisionUp$ consumer boundary is the finite packet consisting
+of the precision index, dyadic radius row, finite observation-window row,
+classifier transport, $\RegSeqRatUp$ handoff, $\RealUp$ boundary, exact ledger,
+local $\NameCert$ row, and the TasteGate-visible carrier-event rows of
+\autoref{thm:dyadicprecision-tastegate-carrier-witness}.
+
+Every public consumer read factors through that packet by the radius-window
+coverage, classifier consumer transport, $\RegSeqRatUp$ and $\RealUp$ consumer
+exhaustion, and TasteGate compiler-obligation handoff. The boundary adds no
+closure promotion, hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicprecision-radius-window-coverage}. It lists the
+finite precision index, dyadic radius, observation window, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, $\NameCert$, and exact ledger rows carried by an accepted
+schedule packet.
+
+Use \autoref{thm:dyadicprecision-classifier-consumer-transport} to keep every
+consumer comparison inside those displayed carrier rows. The classifier
+therefore supplies no hidden stream tail, quotient real equality, selected
+limit, trichotomy, completeness witness, or bridge coordinate.
+
+Next invoke
+\autoref{thm:dyadicprecision-regseqrat-realup-consumer-exhaustion}. The
+$\RegSeqRatUp$ handoff and $\RealUp$ boundary read the same finite precision,
+radius, window, transport, provenance, name, and ledger packet.
+
+Finally apply
+\autoref{thm:dyadicprecision-tastegate-compiler-obligation-handoff} together
+with the visible carrier-event rows named in
+\autoref{thm:dyadicprecision-tastegate-carrier-witness}. The public boundary is
+therefore precisely the consumer packet named above, with no paper-axis closure
+promotion asserted here.
+\end{proof}
+
 \closureat{DyadicPrecisionUp}{seedStr}
 \closureat{DyadicPrecisionUp}{obligationStr}[BEDC.Derived.DyadicPrecisionUp.taste\_gate]
 \closureat{DyadicPrecisionUp}{scopedStr}[BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionScheduleTasteGate\_visible\_rows]
