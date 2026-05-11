@@ -107,4 +107,30 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
 
+def ControlObservabilityPacket
+    (state transition output observation matrix trace packet : BHist) : Prop :=
+  Cont state transition observation ∧ Cont observation output matrix ∧ Cont matrix trace packet
+
+theorem ControlObservabilityPacket_trace_ledger_readback
+    {state transition output observation matrix trace packet : BHist}
+    (hP : ControlObservabilityPacket state transition output observation matrix trace packet) :
+    Cont state (append transition (append output trace)) packet ∧ Cont observation output matrix ∧
+      Cont matrix trace packet := by
+  have stateTransition : Cont state transition observation :=
+    hP.left
+  have observationOutput : Cont observation output matrix :=
+    hP.right.left
+  have matrixTrace : Cont matrix trace packet :=
+    hP.right.right
+  cases stateTransition
+  cases observationOutput
+  cases matrixTrace
+  constructor
+  · exact
+      (append_assoc (append state transition) output trace).trans
+        (append_assoc state transition (append output trace))
+  · constructor
+    · rfl
+    · rfl
+
 end BEDC.Derived.ControlObservabilityUp

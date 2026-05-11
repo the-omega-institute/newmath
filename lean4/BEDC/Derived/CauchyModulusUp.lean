@@ -84,4 +84,40 @@ theorem CauchyModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup
             (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+def CauchyModulusCarrier
+    (precision threshold tolerance observation ledger r01 r12 r123 window packet : BHist) :
+    Prop :=
+  UnaryHistory precision ∧ UnaryHistory threshold ∧ Cont precision threshold r01 ∧
+    Cont r01 tolerance r12 ∧ Cont r12 observation r123 ∧ Cont r123 ledger window ∧
+      hsame packet window
+
+theorem CauchyModulusCarrier_finite_window_closure
+    {precision threshold tolerance observation ledger r01 r12 r123 window packet : BHist}
+    (hC :
+      CauchyModulusCarrier precision threshold tolerance observation ledger r01 r12 r123
+        window packet) :
+    Cont precision (append threshold (append tolerance (append observation ledger))) packet ∧
+      hsame packet window := by
+  have precisionThreshold : Cont precision threshold r01 :=
+    hC.right.right.left
+  have thresholdTolerance : Cont r01 tolerance r12 :=
+    hC.right.right.right.left
+  have toleranceObservation : Cont r12 observation r123 :=
+    hC.right.right.right.right.left
+  have observationLedger : Cont r123 ledger window :=
+    hC.right.right.right.right.right.left
+  have packetWindow : hsame packet window :=
+    hC.right.right.right.right.right.right
+  cases precisionThreshold
+  cases thresholdTolerance
+  cases toleranceObservation
+  cases observationLedger
+  cases packetWindow
+  constructor
+  · exact
+      (append_assoc (append (append precision threshold) tolerance) observation ledger).trans
+        ((append_assoc (append precision threshold) tolerance (append observation ledger)).trans
+          (append_assoc precision threshold (append tolerance (append observation ledger))))
+  · rfl
+
 end BEDC.Derived.CauchyModulusUp
