@@ -23,9 +23,21 @@ def VectorBundleFiniteCarrier [AskSetup] [PackageSetup]
   UnaryHistory bundleRow ∧ UnaryHistory vecspace ∧ UnaryHistory trivialization ∧
     UnaryHistory fibre ∧ UnaryHistory transition ∧ UnaryHistory overlap ∧
       UnaryHistory linearity ∧ UnaryHistory contRows ∧ UnaryHistory provenance ∧
-        UnaryHistory endpoint ∧ Cont bundleRow vecspace trivialization ∧
-          Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
-            Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
+      UnaryHistory endpoint ∧ Cont bundleRow vecspace trivialization ∧
+        Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
+          Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
+
+def VectorBundleFiniteCarrier_componentwise_classifier [AskSetup] [PackageSetup]
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+      contRows provenance endpoint probe pkg ∧
+    VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+        linearity' contRows' provenance' endpoint' probe pkg ∧
+      hsame bundleRow bundleRow' ∧ hsame vecspace vecspace' ∧ hsame fibre fibre' ∧
+        hsame transition transition' ∧ hsame contRows contRows' ∧ PkgSig probe endpoint pkg
 
 def VectorBundleComponentwiseClassifier [AskSetup] [PackageSetup]
     (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance endpoint
@@ -198,6 +210,32 @@ theorem VectorBundleFiniteCarrier_carrier_obligation [AskSetup] [PackageSetup]
     ⟨bundleUnary, vecspaceUnary, trivializationUnary, fibreUnary, transitionUnary,
       endpointUnary, bundleVecspaceRow, trivializationOverlapRow, transitionLinearityRow,
       provenanceContRowsRow, pkgSig⟩
+
+def VectorBundleFiniteCarrierClassifier [AskSetup] [PackageSetup]
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+      contRows provenance endpoint probe pkg ∧
+    VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+      linearity' contRows' provenance' endpoint' probe pkg ∧
+      hsame bundleRow bundleRow' ∧ hsame vecspace vecspace' ∧ hsame fibre fibre' ∧
+        hsame overlap overlap' ∧ hsame linearity linearity' ∧ hsame endpoint endpoint'
+
+theorem VectorBundleFiniteCarrierClassifier_transport [AskSetup] [PackageSetup]
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    VectorBundleFiniteCarrierClassifier bundleRow vecspace trivialization fibre transition overlap
+        linearity contRows provenance endpoint bundleRow' vecspace' trivialization' fibre'
+        transition' overlap' linearity' contRows' provenance' endpoint' probe pkg ->
+      VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+          linearity' contRows' provenance' endpoint' probe pkg ∧
+        hsame endpoint endpoint' := by
+  intro classifier
+  exact And.intro classifier.right.left classifier.right.right.right.right.right.right.right
 
 theorem VectorBundleFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
     {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance

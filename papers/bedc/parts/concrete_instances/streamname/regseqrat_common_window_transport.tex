@@ -171,6 +171,52 @@ and host-index obligations is therefore preserved by the composed handoff from
 $\mathcal W_0$ to $\mathcal W_2$.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat common-window endpoint exhaustion]
+\label{thm:streamname-regseqrat-common-window-endpoint-exhaustion}
+Let $\mathcal W_L$ and $\mathcal W_R$ be common-window packages over the same
+$\mathsf{ProbeBundle}$ $\mathcal P$ and the same accepted $\RegSeqRat$ spine.
+For any downstream finite-window $\RealUp$ ledger consuming the endpoint
+handoff, every endpoint row it reads is exactly one of the displayed finite
+rows:
+\begin{enumerate}
+  \item the $\mathsf{RatStreamNameFiniteWindowClassifier}$ row;
+  \item the shared $\mathsf{ProbeBundle}$ row, its $\mathsf{InBundle}$ rows,
+  and the certified $\mathsf{UnaryHistory}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows selected by the
+  common window;
+  \item the accepted $\RegSeqRat$ spine rows;
+  \item the DyadicRatCore endpoint and radius rows determined from that spine;
+  \item the shared $\Cont$, $\hsame$, $\mathsf{Pkg}$, and
+  $\mathsf{RealLedgerPolicy}$ provenance rows.
+\end{enumerate}
+No hidden selector row, host-index equality, quotient row, completion object,
+or $\RealUp$ seal classifier is part of the endpoint surface.
+\end{theorem}
+\begin{proof}
+First project the common-window packages through
+\autoref{thm:streamname-regseqrat-common-window-transport}. This fixes the
+visible finite-window classifier, shared bundle, bundle-membership,
+unary-history, pointwise rational-history, and displayed provenance rows before
+the downstream endpoint ledger is read.
+
+Next apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+accepted $\RegSeqRat$ spine determines the DyadicRatCore endpoint and radius
+rows consumed by the finite-window $\RealUp$ ledger from the same displayed
+source rows; no source-equivalence transport is needed.
+
+Use \autoref{thm:streamname-regseqrat-common-window-tail-stability} to pass to
+the finite tail subwindow actually consumed by the ledger. Tail restriction is
+projection to a finite subfamily of the same $\mathsf{ProbeBundle}$, so it
+cannot expose a new selector, host index, quotient, completion, or seal
+classifier row.
+
+Finally apply \autoref{thm:realup-finite-window-exhaustion-obligation}. The
+terminal $\RealUp$ finite-window consumer reads endpoint data only through the
+displayed endpoint package, DyadicRatCore source rows, and
+$\mathsf{RealLedgerPolicy}$ boundary. Combining the four projections exhausts
+the endpoint surface by exactly the listed rows.
+\end{proof}
+
 \begin{theorem}[StreamName-RegSeqRat-RealUp source boundary exhaustion]
 \label{thm:streamname-regseqrat-realup-source-boundary-exhaustion}
 Let $\mathcal W$ be a certified common finite $\StreamNameUp$ window over a
