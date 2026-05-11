@@ -230,6 +230,177 @@ theorem substitute_shift_at_eq (n : Idx) (v t : Term) :
   | sort =>
       rfl
 
+theorem substitute_closed_via_term_induction
+    (d : Idx) (v t : Term) (h : ClosedAt d t) :
+    substitute d v t = t := by
+  induction t generalizing d v with
+  | var i =>
+      cases h with
+      | varClosed hlt =>
+          unfold substitute
+          rw [nat_beq_false_of_lt _ _ hlt]
+          rw [nat_blt_false_of_lt _ _ hlt]
+  | app f a ihf iha =>
+      cases h with
+      | appClosed hf ha =>
+          unfold substitute
+          rw [ihf d v hf, iha d v ha]
+  | lam dom body ihdom ihbody =>
+      cases h with
+      | lamClosed hdom hbody =>
+          unfold substitute
+          rw [ihdom d v hdom]
+          rw [ihbody (d + 1) (shift 0 1 v) hbody]
+  | pi dom cod ihdom ihcod =>
+      cases h with
+      | piClosed hdom hcod =>
+          unfold substitute
+          rw [ihdom d v hdom]
+          rw [ihcod (d + 1) (shift 0 1 v) hcod]
+  | sort =>
+      rfl
+
+theorem closedAt_succ (d : Idx) (t : Term) :
+    ClosedAt d t → ClosedAt (d + 1) t := by
+  intro h
+  induction h with
+  | varClosed hlt =>
+      apply ClosedAt.varClosed
+      exact Nat.lt_trans hlt (Nat.lt_succ_self _)
+  | appClosed _ _ ihf iha =>
+      apply ClosedAt.appClosed
+      · exact ihf
+      · exact iha
+  | lamClosed _ _ ihdom ihbody =>
+      apply ClosedAt.lamClosed
+      · exact ihdom
+      · exact ihbody
+  | piClosed _ _ ihdom ihcod =>
+      apply ClosedAt.piClosed
+      · exact ihdom
+      · exact ihcod
+  | sortClosed =>
+      exact ClosedAt.sortClosed
+
+theorem closedAt_zero_at (d : Idx) (t : Term) :
+    ClosedAt 0 t → ClosedAt d t := by
+  induction d with
+  | zero =>
+      intro h
+      exact h
+  | succ d ih =>
+      intro h
+      exact closedAt_succ d t (ih h)
+
+theorem nat_succ_lt_of_beq_false_blt_false_succ_lt (d i : Nat) :
+    Nat.beq i d = false →
+    Nat.blt d i = false →
+    i < d + 1 →
+    i + 1 < d + 1 := by
+  induction d generalizing i with
+  | zero =>
+      intro hbeq hblt hlt
+      cases i with
+      | zero =>
+          cases hbeq
+      | succ i =>
+          exact False.elim (Nat.not_lt_zero i (Nat.lt_of_succ_lt_succ hlt))
+  | succ d ih =>
+      intro hbeq hblt hlt
+      cases i with
+      | zero =>
+          exact Nat.succ_lt_succ (Nat.zero_lt_succ d)
+      | succ i =>
+          rw [nat_beq_add_one_add_one] at hbeq
+          rw [nat_blt_add_one_add_one] at hblt
+          exact Nat.succ_lt_succ
+            (ih i hbeq hblt (Nat.lt_of_succ_lt_succ hlt))
+
+theorem substitute_var_closed_boundary
+    (d i : Idx) (s : Term)
+    (hs : ClosedAt d s)
+    (hlt : i < d + 1) :
+    ClosedAt d (substitute d s (Term.var i)) := by
+  induction d generalizing i with
+  | zero =>
+      cases i with
+      | zero =>
+          unfold substitute
+          exact hs
+      | succ i =>
+          exact False.elim (Nat.not_lt_zero i (Nat.lt_of_succ_lt_succ hlt))
+  | succ d ih =>
+      cases i with
+      | zero =>
+          unfold substitute
+          apply ClosedAt.varClosed
+          exact Nat.zero_lt_succ d
+      | succ i =>
+          unfold substitute
+          rw [nat_beq_add_one_add_one]
+          rw [nat_blt_add_one_add_one]
+          cases hbeq : Nat.beq i d
+          · cases hblt : Nat.blt d i
+            · apply ClosedAt.varClosed
+              exact nat_succ_lt_of_beq_false_blt_false_succ_lt d i
+                hbeq hblt (Nat.lt_of_succ_lt_succ hlt)
+            · apply ClosedAt.varClosed
+              exact Nat.lt_of_succ_lt_succ hlt
+          · exact hs
+
+theorem substitute_closed_source_closes_anchor_via_term_induction
+    (d : Idx) {s t : Term}
+    (hclosed_s : ClosedAt 0 s)
+    (hclosed_t : ClosedAt (d + 1) t) :
+    ClosedAt d (substitute d s t) := by
+  induction t generalizing d with
+  | var i =>
+      cases hclosed_t with
+      | varClosed hlt =>
+          exact substitute_var_closed_boundary d i s
+            (closedAt_zero_at d s hclosed_s) hlt
+  | app f a ihf iha =>
+      cases hclosed_t with
+      | appClosed hf ha =>
+          unfold substitute
+          apply ClosedAt.appClosed
+          · exact ihf d hf
+          · exact iha d ha
+  | lam dom body ihdom ihbody =>
+      cases hclosed_t with
+      | lamClosed hdom hbody =>
+          unfold substitute
+          rw [shift_closed 0 s hclosed_s]
+          apply ClosedAt.lamClosed
+          · exact ihdom d hdom
+          · exact ihbody (d + 1) hbody
+  | pi dom cod ihdom ihcod =>
+      cases hclosed_t with
+      | piClosed hdom hcod =>
+          unfold substitute
+          rw [shift_closed 0 s hclosed_s]
+          apply ClosedAt.piClosed
+          · exact ihdom d hdom
+          · exact ihcod (d + 1) hcod
+  | sort =>
+      exact ClosedAt.sortClosed
+
+theorem substitute_var_zero_preserves_typing_closed_anchor
+    {Γ : Ctx} {s B : Term}
+    (hclosed_s : ClosedAt 0 s)
+    (hclosed_B : ClosedAt 0 B)
+    (hs : HasType Γ s B)
+    (ht : HasType (B :: Γ) (Term.var 0) B) :
+    ClosedAt 0 (substitute 0 s (Term.var 0)) ∧
+      HasType Γ (substitute 0 s (Term.var 0)) (substitute 0 s B) := by
+  cases ht with
+  | varRule Γ' i A hlook =>
+      rw [substitute_var_zero]
+      rw [substitute_closed_via_term_induction 0 s B hclosed_B]
+      constructor
+      · exact hclosed_s
+      · exact hs
+
 /-- 替换与提升交换的目标形状。 -/
 def ShiftSubstituteStatement : Prop :=
   ∀ (n d : Idx) (v t : Term),
@@ -261,7 +432,7 @@ theorem closed_term_substitute_preserves_typing
     {Γ : Ctx} {t s A B : Term}
     (hwf : WellFormedCtx (B :: Γ))
     (hclosed_B : ClosedAt 0 B)
-    (hclosed_s : ClosedAt 0 s)
+    (_hclosed_s : ClosedAt 0 s)
     (ht : HasType (B :: Γ) t A)
     (hs : HasType Γ s B)
     (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
