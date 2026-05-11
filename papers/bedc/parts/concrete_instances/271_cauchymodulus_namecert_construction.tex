@@ -305,17 +305,55 @@ and the carrier has no coordinate for a selected limit, a stream quotient, a
 host index equality, or a completion row.
 \end{proof}
 
+\begin{theorem}[CauchyModulus explicit-modulus standard bridge]
+\label{thm:cauchymodulus-explicit-modulus-standard-bridge}
+The public consumer boundary of
+\autoref{thm:cauchymodulus-public-consumer-boundary} is exactly the standard
+constructive explicit-modulus reading of a regular rational name. It consists
+of a visible precision row, a visible tolerance row, a finite threshold row, a
+scheduled observation window, a late-pair comparison ledger, and provenance
+through $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Under this reading, the $\CauchyModulusUp$ packet exports no selected limit,
+hidden threshold choice, stream quotient, host index equality, or completion
+row.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier rows of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier}. These rows display the precision,
+tolerance, threshold, scheduled observation, late-pair comparison, transport,
+and provenance coordinates used by the public consumer boundary.
+
+Apply the monotone-tail obligation of
+\autoref{thm:cauchymodulus-monotone-tail-obligation} and the regularity
+obligation of \autoref{thm:cauchymodulus-regseqrat-regularity-obligation}.
+They identify the late-index threshold and the late-pair comparison ledger as
+finite rows, not as hidden choices or quotient data.
+
+Use \autoref{thm:cauchymodulus-public-consumer-boundary} to collect the same
+rows into the public $\RegSeqRatUp/\RealUp$ consumer surface. The source
+certificates through $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ are already displayed in that boundary.
+
+Repack this finite ledger as the standard explicit-rate schema. Since every
+exported coordinate is a visible row of the original boundary, there is no
+coordinate from which to read a selected limit, hidden threshold choice, stream
+quotient, host index equality, or completion row.
+\end{proof}
+
 \closureat{CauchyModulusUp}{scopedStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface]
 \closureat{CauchyModulusUp}{publicStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary]
+\closureat{CauchyModulusUp}{bridgedStr}
 
 \begin{closurestatus}{\CauchyModulusUp}
   \constructivestory{A $\CauchyModulusUp$ packet is generated from visible $\NatUp$ precision and threshold rows, visible $\RatUp$ tolerance rows, scheduled $\StreamNameUp$ observation rows, and a finite consumption ledger showing how the displayed bound is read by $\RegSeqRat$ and $\RealUp$. This is the Bishop-style explicit-rate object needed for regular rational sequences and real-number convergence, with no stream quotient, ambient limit object, hidden threshold choice, limit selector, or completed real object.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:cauchymodulus-public-consumer-boundary} exports the consumer boundary over $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:cauchymodulus-explicit-modulus-standard-bridge} identifies the public consumer boundary of \autoref{thm:cauchymodulus-public-consumer-boundary} with the standard constructive explicit-modulus schema over $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{The chapter does not close the formal Lean namespace, the full $\NameCert_{\CauchyModulusUp}$ theorem, $\RealUp$ completeness, a Cauchy completion, quotient equality of real names, or a selected limit.}
-  \upgradepath{Bridged closure requires the standard bridge from the public $\CauchyModulusUp$ packet to the reference explicit-modulus reading.}
+  \upgradepath{Bridge-checked closure requires a formal Lean bridge from the public $\CauchyModulusUp$ packet to the same explicit-modulus schema.}
 \end{closurestatus}
