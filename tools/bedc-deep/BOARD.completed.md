@@ -17227,3 +17227,28 @@ Rationale:
 EntropyUp has public paper closure but no bridge boundary: the BHist measure source and log-partition carrier are defined at papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex:9-32; the chapter proves log-partition consumer exhaustion and transport closure at lines 34-89, distribution-integral boundary at lines 91-111, NameCert obligation surface at lines 116-136, log-weight transport determinacy at lines 138-169, and inventory/ledger stability at lines 171-232. Its closure block states that the next paper-axis step is a bridge boundary for the public entropy readback surface at lines 234-245. Prior discovery rejected a generic 'Entropy exported readback surface' as already covered by the distribution-integral boundary, so this candidate deliberately targets the different missing bridge-boundary implication and keeps the exclusions concrete.
 
 ---
+
+### B-681 - GeneratedSameSig append closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | GeneratedSameSig append closure |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If GeneratedSameSig(Π,h,k) and GeneratedSameSig(Θ,h,k), then GeneratedSameSig(BAppend(Π,Θ),h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This lifts the existing core append closure for sameSig to the checker-facing GeneratedSameSig witness layer consumed by exact Globalize. It is a concrete closure target with downstream proof utility, not a duplicate of the core sameSig append theorem because the conclusion is at the witness-object interface. The proposed files are not hubs and are below the 800-line cap.
+
+---
