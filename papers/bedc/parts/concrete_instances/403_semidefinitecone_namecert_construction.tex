@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\SemidefiniteConeUp$}
+\label{ch:concrete-instances-semidefinitecone-namecert}
+
+The $\SemidefiniteConeUp$ interface names the finite certificate surface used by semidefinite programming over symmetric matrix data. In the external optimization presentation of Boyd--Vandenberghe 2004, the semidefinite cone is read through symmetric matrices whose quadratic form is nonnegative on every vector. The BEDC packet below keeps only the displayed finite rows required to name that surface: matrix rows, vector-space rows, convex-combination ledgers, bilinear-form pairings, order witnesses, and package provenance.
+
+\section{Carrier packet}
+\label{sec:semidefinitecone-carrier-packet}
+
+\begin{definition}[SemidefiniteCone carrier packet]
+\label{def:semidefinitecone-bhist-carrier}
+A $\SemidefiniteConeUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+(M,V,C,B,N,P)
+$$
+with the following rows:
+\begin{enumerate}
+\item $M$ is a symmetric-matrix row read through $\MatrixUp$;
+\item $V$ is a vector-space row read through $\VecSpaceUp$ over the same scalar boundary as $M$;
+\item $C$ is a convex-combination ledger from $\ConvexSetUp$ for displayed matrix rows;
+\item $B$ is a bilinear-form pairing row from $\BilinFormUp$ that reads $v^{T}Mv$ as a scalar row for displayed vectors $v$;
+\item $N$ is an order and nonnegativity witness row saying that every vector row explicitly carried by the packet has nonnegative paired scalar value through $\OrderUp$;
+\item $P$ is the $\Pkg$ provenance tying these rows to the cited $\MatrixUp$, $\VecSpaceUp$, $\ConvexSetUp$, $\BilinFormUp$, and $\OrderUp$ certificate boundaries.
+\end{enumerate}
+The carrier predicate is $\mathsf{SDConePacket}(M,V,C,B,N,P)$. Two accepted packets classify together only when their matrix, vector-space, convex-ledger, bilinear-pairing, nonnegativity, and provenance rows transport by displayed $\hsame$ and by the same $\Cont$ routes named in $P$.
+\end{definition}
+
+\begin{theorem}[SemidefiniteCone carrier stability]
+\label{thm:semidefinitecone-carrier-stability}
+Let $D=(M,V,C,B,N,P)$ be an accepted $\SemidefiniteConeUp$ carrier and let $D'=(M',V',C',B',N',P')$ be obtained by displayed $\hsame$ transport of all six rows, with the same $\Cont$ routes through the cited certificate boundaries. Then $D'$ is again an accepted carrier, and its classifier reads exactly the transported matrix, vector, convex, bilinear, nonnegativity, and provenance rows.
+\end{theorem}
+\begin{proof}
+Project the six coordinates of \autoref{def:semidefinitecone-bhist-carrier}. The matrix and vector-space coordinates are ordinary displayed rows, so $\hsame$ transport gives the rows $M'$ and $V'$ with the same scalar boundary.
+
+Next transport the convex-combination ledger and the bilinear-form row. The stated $\Cont$ routes identify the same matrix and vector slots on the transported packet, so the pairing row remains readable as the displayed scalar value attached to $M'$ and $V'$.
+
+Finally transport the order/nonnegativity witness and the package row. Repacking these transported rows gives $\mathsf{SDConePacket}(M',V',C',B',N',P')$, and the classifier has no coordinate other than the transported finite rows.
+\end{proof}
+
+\begin{theorem}[SemidefiniteCone cone-operation ledger]
+\label{thm:semidefinitecone-cone-operation-ledger}
+For accepted $\SemidefiniteConeUp$ carriers $D_0$ and $D_1$ over a common transported vector-space and scalar boundary, the cone-operation surface consists of finite rows for displayed matrix addition, displayed nonnegative scalar multiplication, the convex-combination ledger inherited from $\ConvexSetUp$, the bilinear pairing rows inherited from $\BilinFormUp$, the order witness rows inherited from $\OrderUp$, and $\Pkg$ provenance tying the operation packet to $D_0$ and $D_1$.
+
+The operation ledger exports no spectral decomposition, no eigenvalue existence claim, no analytic closure of the cone, and no positivity predicate from a host matrix library.
+\end{theorem}
+\begin{proof}
+Read the two input carriers through \autoref{def:semidefinitecone-bhist-carrier}. Their matrix rows and common vector-space row supply the finite endpoints of the operation packet.
+
+For addition, use the displayed $\MatrixUp$ addition row and the $\ConvexSetUp$ ledger that records the resulting matrix row as a convex or conic combination with visible coefficients. For nonnegative scalar multiplication, use the scalar row together with the $\OrderUp$ witness that the coefficient is nonnegative.
+
+The bilinear-form row then reads each displayed vector test against the resulting matrix row. Because each nonnegativity assertion is an explicit order row and all dependencies are named in $\Pkg$, the ledger is exhausted by finite BEDC rows and does not appeal to spectral or analytic facts.
+\end{proof}
+
+\begin{theorem}[SemidefiniteCone dual-pairing boundary]
+\label{thm:semidefinitecone-dual-pairing-boundary}
+Every accepted $\SemidefiniteConeUp$ packet exposes its dual-facing read only through the displayed $\BilinFormUp$ pairing row and the transported $\OrderUp$ nonnegativity witness. A consumer may compare a matrix row with a displayed vector or test row through the finite scalar value named by the packet, $\hsame$ transport, $\Cont$ routes, and $\Pkg$ provenance.
+
+The packet does not assert self-duality of the cone, closedness under analytic limits, or equality with any host-space positive-semidefinite predicate.
+\end{theorem}
+\begin{proof}
+Project the bilinear-form row $B$ and the nonnegativity row $N$ from the carrier. These are the only coordinates that connect a matrix row to scalar comparison data.
+
+A dual-facing consumer therefore receives a scalar pairing value only after following the displayed $\BilinFormUp$ row and the package routes named by $P$. The comparison of that scalar value with zero is an $\OrderUp$ row, transported by $\hsame$ when the underlying matrix or vector row is replaced.
+
+No coordinate in the carrier contains a host dual cone, a topological closure assertion, or a spectral certificate. Thus the boundary is exactly the finite pairing-and-order surface stated in the theorem.
+\end{proof}
+
+\begin{theorem}[SemidefiniteCone NameCert obligation surface]
+\label{thm:semidefinitecone-namecert-obligation-surface}
+The local $\NameCert_{\SemidefiniteConeUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet of \autoref{def:semidefinitecone-bhist-carrier};
+\item classifier and stability: the displayed transport statement of \autoref{thm:semidefinitecone-carrier-stability};
+\item cone-operation ledger: the addition and nonnegative scalar-multiplication rows of \autoref{thm:semidefinitecone-cone-operation-ledger};
+\item dual-pairing boundary: the bilinear pairing and order rows of \autoref{thm:semidefinitecone-dual-pairing-boundary};
+\item provenance: the $\Pkg$ row tying the packet to $\MatrixUp$, $\VecSpaceUp$, $\ConvexSetUp$, $\BilinFormUp$, and $\OrderUp$.
+\end{enumerate}
+These rows are the full public seed surface for the semidefinite-cone name.
+\end{theorem}
+\begin{proof}
+The carrier row supplies the displayed matrix, vector-space, convex-ledger, bilinear-pairing, order, and provenance coordinates. This fixes the source domain of the name.
+
+The stability row supplies the classifier behavior under $\hsame$ and $\Cont$ transport. The cone-operation row records the only operation reads available to downstream optimization packets, and the dual-pairing boundary records the only scalar comparison reads.
+
+The provenance row names every dependency certificate used by the packet. Since the construction withholds spectral decomposition, eigenvalue existence, analytic closure, and host matrix positivity, the listed rows exhaust the $\NameCert_{\SemidefiniteConeUp}$ obligation surface.
+\end{proof}
+
+\closureat{SemidefiniteConeUp}{seedStr}
+
+\begin{closurestatus}{\SemidefiniteConeUp}
+  \constructivestory{A semidefinite-cone packet is generated by a symmetric $\MatrixUp$ row, a compatible $\VecSpaceUp$ row, a $\ConvexSetUp$ cone-operation ledger, a $\BilinFormUp$ pairing row, displayed $\OrderUp$ nonnegativity witnesses, and $\Pkg$ provenance for those finite rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary binds the finite carrier, transported classifier, cone-operation ledger, dual-pairing boundary, and dependency provenance for $\SemidefiniteConeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close spectral decomposition, eigenvalue existence, analytic closure, self-duality, host matrix positivity, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier, classifier, cone-operation, dual-pairing, and provenance targets for the displayed semidefinite-cone packet surface.}
+\end{closurestatus}
