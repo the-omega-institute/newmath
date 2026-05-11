@@ -148,6 +148,27 @@ section:
     $\mathrm{var}\ i$.
 \end{itemize}
 
+\subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
+
+The current MetaCIC stack is factored by proof responsibility.
+\texttt{BEDC.MetaCIC.Syntax} provides the term grammar, de Bruijn shifting,
+substitution, and contexts; \texttt{BEDC.MetaCIC.ClosedTerm} defines
+$\mathrm{ClosedAt}$ and the closed-term behavior of shift and substitution;
+\texttt{BEDC.MetaCIC.Beta} gives the one-step $\mathrm{BetaStep}$ relation;
+\texttt{BEDC.MetaCIC.Substitution}, together with
+\texttt{BEDC.MetaCIC.Substitution.Core},
+\texttt{BEDC.MetaCIC.Substitution.Basic}, and
+\texttt{BEDC.MetaCIC.Substitution.Statements}, organizes the syntax-level
+substitution surface; \texttt{BEDC.MetaCIC.Typing} contains the shift-aware
+$\mathrm{HasType}$ judgment; \texttt{BEDC.MetaCIC.SubjectReduction} records
+the preservation interface for beta contraction; \texttt{BEDC.MetaCIC.Confluence}
+contains $\mathrm{BetaStarStep}$ and parallel reduction; \texttt{BEDC.MetaCIC.Normalization}
+proves the atom no-reduction facts; \texttt{BEDC.MetaCIC.AtomInfer} gives
+closed atom type inference; \texttt{BEDC.MetaCIC.TypedExamples} supplies
+concrete typed terms; \texttt{BEDC.MetaCIC.PrettyPrint} gives a structural
+printer for terms; and \texttt{BEDC.MetaCIC.BHistSubstrate} connects the
+reconstruction to the binary-history substrate.
+
 \subsection{Internal Manifest Coverage}\label{subsec:internal-manifest-coverage}
 
 \texttt{BEDC.Manifest} is the Lean-side registry for paper-facing theorem
