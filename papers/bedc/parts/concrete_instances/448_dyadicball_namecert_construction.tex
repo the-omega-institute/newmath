@@ -48,6 +48,38 @@ observation, containment, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
 rows.
 \end{definition}
 
+\begin{theorem}[DyadicBall classifier laws]
+\label{thm:dyadicball-classifier-laws}
+For accepted $\DyadicBallUp$ carriers
+$B=(c,r,k,o,\eta,H,C,P,N)$ and
+$B'=(c',r',k',o',\eta',H',C',P',N')$, the componentwise classifier on the
+center, radius, schedule, observation, containment, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows is reflexive, symmetric, and transitive.
+Whenever it relates $B$ to $B'$, the displayed finite routes transport carrier
+acceptance from $B$ to $B'$.
+
+These laws act only on the rows exposed by
+\autoref{def:dyadicball-carrier}. They introduce no quotient ball, host real
+equality, hidden metric point, or completed real.
+\end{theorem}
+\begin{proof}
+Project the accepted packets through \autoref{def:dyadicball-carrier}. The
+only rows available to the classifier are the center, radius, schedule,
+observation, containment, routing, provenance, and naming rows.
+
+Reflexivity uses the componentwise reflexive $\hsame$ witness on each visible
+row and the displayed identity $\Cont$ routes. Symmetry reverses the same
+componentwise witnesses and routes. Transitivity composes the center, radius,
+schedule, observation, containment, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ comparisons row by row.
+
+For carrier transport, move the accepted rows of $B$ along the classifier
+routes and keep the stated containment ledger in the target packet. Repacking
+the transported rows gives the accepted carrier $B'$. Since the repacking uses
+only the finite rows of the carrier, it cannot create a quotient ball, host
+real equality, hidden metric point, or completed real.
+\end{proof}
+
 \begin{theorem}[DyadicBall radius refinement closure]
 \label{thm:dyadicball-radius-refinement-closure}
 Let $B=(c,r,k,o,\eta,H,C,P,N)$ be an accepted $\DyadicBallUp$ carrier, and let
@@ -142,9 +174,8 @@ finite requirements:
 \begin{enumerate}
 \item carrier: the finite center-radius packet of
 \autoref{def:dyadicball-carrier};
-\item classifier: componentwise $\hsame$ transport of the center, radius,
-schedule, scheduled observation, containment ledger, $\Cont$ routes,
-$\mathsf{Pkg}$ rows, and $\NameCert$ rows;
+\item classifier: the componentwise classifier laws of
+\autoref{thm:dyadicball-classifier-laws};
 \item radius-refinement stability:
 \autoref{thm:dyadicball-radius-refinement-closure} repacks a smaller displayed
 positive radius when the containment ledger is supplied for that radius;
@@ -162,15 +193,41 @@ $\DyadicBallUp$.
 The carrier requirement is \autoref{def:dyadicball-carrier}. It lists every
 coordinate that can appear in an accepted packet.
 
-The classifier requirement follows by transporting those coordinates
-componentwise. The transport data named in the carrier are precisely the
-$\hsame$ witnesses and $\Cont$ routes for the center, radius, schedule,
-observation, containment, provenance, and naming rows.
+The classifier requirement is \autoref{thm:dyadicball-classifier-laws}. It
+records reflexivity, symmetry, transitivity, and carrier transport for exactly
+the componentwise rows named by the carrier.
 
 Radius-refinement stability, regular-window handoff, and real-seal boundary
 are the three theorem rows just stated. Together they cover the local ways a
 dyadic ball packet is refined, consumed by a regular stream window, and read by
 a real-name seal.
+\end{proof}
+
+\begin{theorem}[DyadicBall obligation closure]
+\label{thm:dyadicball-obligation-closure}
+The carrier, classifier, radius-refinement stability, $\RegSeqRatUp$ handoff,
+and $\RealUp$ seal boundary listed in
+\autoref{thm:dyadicball-namecert-obligation-surface} exhaust the local
+obligation set for $\DyadicBallUp$.
+\end{theorem}
+\begin{proof}
+The carrier row is the finite center-radius packet of
+\autoref{def:dyadicball-carrier}. Its classifier row compares exactly the
+center, radius, schedule, scheduled observation, containment ledger,
+$\Cont$ routes, $\mathsf{Pkg}$ rows, and $\NameCert$ rows named by that
+carrier.
+
+The three outgoing obligation rows are the radius-refinement stability theorem
+of \autoref{thm:dyadicball-radius-refinement-closure}, the scheduled
+regular-rational handoff of
+\autoref{thm:dyadicball-regseqrat-window-handoff}, and the real-seal boundary
+of \autoref{thm:dyadicball-real-seal-boundary}. These are the only local
+operations that refine, export, or seal a displayed dyadic-ball packet.
+
+No quotient ball space, host real equality, metric topology, or completeness
+coordinate is present in the carrier. Hence there is no additional local
+obligation row beyond the five rows enumerated in
+\autoref{thm:dyadicball-namecert-obligation-surface}.
 \end{proof}
 
 \closureat{DyadicBallUp}{seedStr}
