@@ -107,6 +107,7 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HypothesisUp
@@ -156,6 +157,7 @@ import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
+import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
@@ -213,6 +215,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
