@@ -50,6 +50,7 @@ For an accepted $\NestedIntervalUp$ carrier, restricting the unary prefix to a s
 
 Thus finite-window refinement is stable without asserting convergence of the infinite chain.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalPacket\_window\_refinement}
 \begin{proof}
 For a restriction, discard the interval rows beyond the shorter unary prefix together with their endpoint, width, inclusion, regular-rational, and seal-facing reads. The remaining rows are still exactly the coordinates required by \autoref{def:nestedinterval-finite-carrier}.
 
@@ -64,6 +65,7 @@ An accepted $\NestedIntervalUp$ carrier hands a $\RegSeqRatUp$ consumer only the
 
 The handoff does not certify regularity beyond the displayed rows, does not seal a completed $\RealUp$ point, and does not identify an intersection element.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalRegSeqRatWindow\_handoff}
 \begin{proof}
 Read the packet through \autoref{def:nestedinterval-finite-carrier}. The only $\RegSeqRatUp$-facing coordinates are the scheduled finite-window reads $R$ and the endpoint and width rows from $O$.
 
@@ -84,6 +86,7 @@ The local $\NameCert_{\NestedIntervalUp}$ obligation surface consists of five fi
 \end{enumerate}
 These rows are the full seed certificate surface for finite dyadic nested-interval names.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_semantic\_name\_certificate}
 \begin{proof}
 Carrier habitation is witnessed by the constant packet: choose one ordered dyadic interval row and repeat it along the displayed unary prefix, with identity inclusion and the same endpoint and width ledger at each row.
 
@@ -100,6 +103,7 @@ The $\RealUp$-facing boundary of an accepted $\NestedIntervalUp$ carrier is limi
 
 The chapter does not claim Cantor nested-interval convergence, real completeness, compactness, Heine--Borel, extraction of a point by choice, or any equality with a host real intersection.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_real\_seal\_boundary}
 \begin{proof}
 Project the seal-facing coordinate $E$ from \autoref{def:nestedinterval-finite-carrier}. Its dependencies are the finite endpoint, width, inclusion, schedule, and regular-rational rows named in the same carrier.
 
@@ -156,6 +160,7 @@ The finite carrier of \autoref{def:nestedinterval-finite-carrier}, endpoint tran
 
 Every consumer-visible row of that boundary is one of the displayed dyadic endpoint rows, endpoint-order rows, width rows, inclusion rows, schedule rows, regular-rational handoff rows, seal-facing rows, $\hsame$ transport rows, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance rows, or $\NameCert$ rows. The boundary exports no infinite intersection point, compactness theorem, host real equality, or choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_public\_window\_boundary}
 \begin{proof}
 Project the accepted packet through the carrier of \autoref{def:nestedinterval-finite-carrier}. The carrier supplies the dyadic endpoint packets, endpoint-order ledgers, width ledgers, adjacent inclusion rows, schedules, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, and visible provenance rows.
 
@@ -178,6 +183,7 @@ transports, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows.
 This bridge boundary adds no infinite intersection point, compactness theorem,
 host real equality, or choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_consumer\_bridge\_boundary}
 \begin{proof}
 Apply \autoref{thm:nestedinterval-public-window-boundary}. The public boundary
 already restricts every consumer-visible coordinate to finite dyadic endpoint,
@@ -195,17 +201,144 @@ real equality row, or choice operator would require a separate coordinate, and
 none is present in the routed boundary.
 \end{proof}
 
+\begin{theorem}[NestedInterval consumer bridge finite-route exactness]
+\label{thm:nestedinterval-consumer-bridge-finite-route-exactness}
+Every public bridge read from the boundary of
+\autoref{thm:nestedinterval-consumer-bridge-boundary} factors through exactly
+one displayed finite route: a dyadic endpoint row, endpoint-order row, width
+row, adjacent inclusion row, $\StreamNameUp$ schedule row, $\RegSeqRatUp$
+handoff row, $\RealUp$ seal-facing row, visible $\hsame$ or $\Cont$ transport,
+$\mathsf{Pkg}$ provenance row, or $\NameCert$ row.
+
+No other public bridge coordinate is available. In particular, the route has no
+infinite intersection read, compactness read, host real equality read, or choice
+read.
+\end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalPacket\_consumer\_bridge\_finite\_route\_exactness}
+\begin{proof}
+Start with the public finite-window boundary of
+\autoref{thm:nestedinterval-public-window-boundary}. It lists the only
+consumer-visible coordinates of the packet: displayed endpoint, order, width,
+inclusion, schedule, handoff, seal-facing, transport, package, and
+name-certificate rows.
+
+Use \autoref{thm:nestedinterval-regseqrat-handoff} for the
+$\RegSeqRatUp$ consumer route. This pins every regular-rational read to the
+scheduled finite endpoint and width rows already displayed by the public
+boundary.
+
+Use \autoref{thm:nestedinterval-real-seal-boundary} for the $\RealUp$ consumer
+route. This pins every real-facing seal read to the same finite endpoint,
+inclusion, schedule, handoff, transport, provenance, and certificate rows.
+
+Finally apply \autoref{thm:nestedinterval-consumer-bridge-boundary}. Since the
+bridge boundary is the union of those displayed finite routes and the
+transport/provenance rows named above, any public bridge read is one of those
+rows. An infinite intersection, compactness principle, host real equality, or
+choice operator would require an extra coordinate not present in the boundary.
+\end{proof}
+
+\begin{theorem}[NestedInterval shared-window RegSeqRat endpoint cofinality]
+\label{thm:nestedinterval-shared-window-regseqrat-endpoint-cofinality}
+Let $P$ and $Q$ be accepted $\NestedIntervalUp$ packets with finite windows
+that overlap at a scheduled unary observation $n$. Suppose both packets display
+the dyadic endpoint rows, width and adjacent-inclusion ledgers,
+$\StreamNameUp$ schedule rows, $\Cont$ routes, $\Pkg$ provenance, and
+$\NameCert$ provenance required by
+\autoref{thm:nestedinterval-consumer-bridge-finite-route-exactness}. Then the
+overlapping observation exposes the same $\RegSeqRatUp$ endpoint row in both
+packets up to $\hsame$ transport:
+$$
+\mathsf{Schedule}(n,P)\land\mathsf{Schedule}(n,Q)
+\Longrightarrow
+\hsame(\mathsf{RegSeqRatEndpoint}(P,n),\mathsf{RegSeqRatEndpoint}(Q,n)).
+$$
+The comparison reads only the displayed dyadic endpoints, width ledgers,
+inclusion ledgers, schedule rows, continuation routes, package provenance, and
+name-certificate rows. It does not read a completed intersection point,
+compactness datum, host real equality row, or choice operator.
+\end{theorem}
+\begin{proof}
+First restrict both accepted packets to the shared scheduled observation using
+\autoref{thm:nestedinterval-window-refinement}. The restriction keeps exactly
+the displayed dyadic endpoints, width rows, adjacent-inclusion rows,
+$\StreamNameUp$ schedule entries, $\Cont$ routes, $\Pkg$ rows, and
+$\NameCert$ provenance attached to the overlap.
+
+Next apply \autoref{thm:nestedinterval-regseqrat-handoff} to each restricted
+packet. This turns the shared finite endpoint and width data into the
+$\RegSeqRatUp$ endpoint rows read by the two consumers.
+
+Compare the two reads through
+\autoref{thm:nestedinterval-consumer-bridge-finite-route-exactness}. Since the
+consumer bridge has only one available finite route at the overlapping
+scheduled observation, both regular-rational endpoint rows are transported
+through the same displayed route and are therefore identified by $\hsame$.
+
+Finally use \autoref{thm:nestedinterval-standard-finite-row-bridge-acceptance}
+to exclude any alternative coordinate. A completed intersection, compactness
+principle, host real equality, or choice-selected point would require data
+outside the accepted finite-row bridge, so it cannot affect the shared-window
+endpoint comparison.
+\end{proof}
+
+\begin{theorem}[NestedInterval standard finite-row bridge acceptance]
+\label{thm:nestedinterval-standard-finite-row-bridge-acceptance}
+Any standard nested-interval bridge accepted for this chapter factors through
+exactly the public finite-window boundary of
+\autoref{thm:nestedinterval-public-window-boundary}, the $\RegSeqRatUp$ and
+$\RealUp$ consumer rows of
+\autoref{thm:nestedinterval-consumer-bridge-boundary}, and the real seal
+boundary of \autoref{thm:nestedinterval-real-seal-boundary}. The accepted
+reading consists only of displayed dyadic endpoints, endpoint-order rows, width
+rows, adjacent inclusion rows, schedule rows, regular-rational handoff rows,
+real seal-facing rows, $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$
+provenance, and $\NameCert$ provenance.
+
+The bridge exposes no infinite intersection point, compactness theorem, host
+real equality, Heine--Borel principle, or choice operator.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:nestedinterval-finite-carrier}. The projection exposes precisely
+the dyadic endpoint packets, endpoint-order ledgers, width ledgers, adjacent
+inclusion rows, schedule provenance, regular-rational handoff rows,
+seal-facing rows, and visible provenance coordinates.
+
+Use \autoref{thm:nestedinterval-public-window-boundary} to identify these
+coordinates as the exported public finite-window rows. This fixes the standard
+finite reading at the level of displayed endpoints, width and inclusion
+ledgers, schedules, transports, package provenance, and name-certificate rows.
+
+Use \autoref{thm:nestedinterval-consumer-bridge-boundary} for the
+$\RegSeqRatUp$ and $\RealUp$ routing. The consumer bridge reads the same
+finite rows through the regular-rational handoff and the seal-facing boundary,
+so it supplies no additional coordinate beyond the public boundary.
+
+Finally use \autoref{thm:nestedinterval-real-seal-boundary} to identify the
+real-facing rows as finite seal reads rather than host real equalities. Thus
+the accepted standard bridge is exactly the finite public and consumer route.
+
+An infinite intersection point, compactness theorem, host real equality row,
+Heine--Borel principle, or choice operator would require a carrier coordinate
+outside \autoref{def:nestedinterval-finite-carrier}, and no such coordinate is
+present.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 \closureat{NestedIntervalUp}{publicStr}
+\closureat{NestedIntervalUp}{bridgedStr}
+\closureat{NestedIntervalUp}{matureStr}
 
 \begin{closurestatus}{\NestedIntervalUp}
   \constructivestory{A nested-interval packet is generated by finite $\mathsf{BHist}$ dyadic interval rows indexed by a unary prefix, lower and upper $\DyadicRatCoreUp$ endpoints, endpoint-order and width ledgers, adjacent nested-inclusion rows, $\StreamNameUp$ schedule provenance, $\RegSeqRatUp$ finite-window reads, $\RealUp$ seal-facing rows, and $\Pkg$ and $\NameCert$ provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:nestedinterval-obligation-scope-packet} and \autoref{thm:nestedinterval-public-window-boundary} bind the scoped packet and public finite-window boundary over the $\DyadicIntervalUp$ endpoint and refinement rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-boundary rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:nestedinterval-standard-finite-row-bridge-acceptance} is the mature finite-row surface binding the standard nested-interval reading to the public finite-window boundary, $\RegSeqRatUp$ and $\RealUp$ consumer rows, seal boundary, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_public\_window\_boundary}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not claim Cantor nested-interval convergence, completeness, compactness, Heine--Borel, extraction of a point by choice, host real intersections, or a standard bridge.}
-  \upgradepath{Bridged closure requires a bridge theorem connecting the public finite-window boundary to the standard nested-interval reading without adding completeness or choice.}
+  \notclaimed{This chapter does not claim Cantor nested-interval convergence, completeness, compactness, Heine--Borel, extraction of a point by choice, or host real intersections.}
+  \upgradepath{The remaining work is formal verification of the finite standard bridge and later checked bridge status.}
 \end{closurestatus}
