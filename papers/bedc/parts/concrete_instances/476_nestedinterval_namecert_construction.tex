@@ -148,6 +148,20 @@ completeness, so the scoped package is exactly the finite dependency surface
 stated above.
 \end{proof}
 
+\begin{theorem}[NestedInterval public finite-window interface]
+\label{thm:nestedinterval-public-finite-window-interface}
+An accepted $\NestedIntervalUp$ packet exports a public finite-window interface consisting exactly of the finite carrier of \autoref{def:nestedinterval-finite-carrier}, endpoint transport of \autoref{thm:nestedinterval-endpoint-transport}, window refinement of \autoref{thm:nestedinterval-window-refinement}, $\RegSeqRatUp$ handoff of \autoref{thm:nestedinterval-regseqrat-handoff}, $\NameCert_{\NestedIntervalUp}$ obligation surface of \autoref{thm:nestedinterval-namecert-obligation-surface}, $\RealUp$ seal boundary of \autoref{thm:nestedinterval-real-seal-boundary}, and scoped dependency package of \autoref{thm:nestedinterval-obligation-scope-packet}.
+
+Every consumer read of this interface is through finite $\mathsf{BHist}$ endpoint rows, inclusion rows, schedule rows, $\hsame$ comparisons, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows. The interface exports no completed intersection, choice-selected point, compactness principle, or host real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:nestedinterval-finite-carrier}. The only rows available at this stage are the endpoint packets, endpoint-order ledgers, width ledgers, adjacent inclusion rows, schedules, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, and the visible provenance rows.
+
+Use endpoint transport and window refinement to account for movement of those rows across $\hsame$ and $\Cont$ routes. Use the $\RegSeqRatUp$ handoff and the local $\NameCert_{\NestedIntervalUp}$ obligation surface to bind the finite consumer reads to the displayed schedules and package provenance.
+
+It remains to exclude off-table principles. The scoped dependency package fixes the permitted primitives, and the $\RealUp$ seal boundary admits only finite endpoint, inclusion, schedule, and handoff rows. A completed intersection, a selected point, compactness, or host real completeness would require an additional coordinate, so none is exported by the public interface.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 
