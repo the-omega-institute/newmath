@@ -298,6 +298,23 @@ codex session 没对话上下文, prompt 必须自洽包含:
 
 push feat 分支不直接撞 codex-auto-dev worker (不同 branch), 但 `gh run list --branch codex-auto-dev --limit 5` 仍是 sanity check, 避免 CI runner 池拥塞.
 
+## CI 监控异步化, 不阻塞开发
+
+PR push 后**不要同步等 CI**: PDF job 通常 4-6 min, Lean4 job 1-2 min, 同步 `gh pr checks --watch` 把这段时间烧在阻塞等待上. 改用一个 Monitor 拉远端 status:
+
+```bash
+# Bash run_in_background: true
+gh pr checks <PR> --watch --interval 30 > /tmp/pr<PR>-ci.log 2>&1
+```
+
+`run_in_background: true` 让任务挂着, 完成时发 task-notification 唤回. 同时继续派遣下一轮 codex worker / 写代码 / 跑本地 build —— 不浪费 wall clock.
+
+**等待开发循环**: codex worker 也 background dispatch, 同样靠 task-notification 唤回. 一个典型回合: dispatch 3 worker (background) + 在 PR 上 push 新内容 + arm CI Monitor (background) + `ScheduleWakeup` 25 min fallback. 然后这个 turn 结束, harness 在事件触发或 fallback 时唤回.
+
+**绝不**用 `gh pr checks <PR> --watch` 在前台同步等. 也**绝不**在 worker 都 background 后立刻 `wait` (除非真的没下一步可做).
+
+CI 失败诊断也尽量懒处理: 如果 PDF 失败是上游 codex 引入的未定义宏 (历史复现: `\origin` / `\ChapterTasteGate` / `\GroundCompiler`), 加 preamble stub macro 即可, 不阻塞.
+
 ---
 
 # The Omega 科研宪章

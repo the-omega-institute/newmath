@@ -331,6 +331,40 @@ regularity, completion, quotient, selected-limit, or host-index coordinate,
 the composite public packet exports none of those objects.
 \end{proof}
 
+\begin{theorem}[StreamNameUp public RegSeqRat reindexing cover lock]
+\label{thm:streamname-public-regseqrat-reindexing-cover-lock}
+Let a finite cover of public $\StreamNameUp$ windows feed downstream
+$\RegSeqRatUp$ or finite $\RealUp$ consumers. Suppose each cover member is
+carried by certified unary reindexing and by displayed $\hsame$, $\Cont$, and
+$\Pkg$ transport. Then the reindexed cover preserves the same union and overlap
+inventories: unary observation rows, $\mathsf{InBundle}$ membership, pointwise
+$\RatUp$ classifier rows, $\DyadicRatCoreUp$ denominator rows, and provenance.
+
+The cover lock exports no $\RegSeqRatUp$ regularity witness, $\RealUp$
+completion row, quotient representative, hidden limit selector, or host index
+equality.
+\end{theorem}
+\begin{proof}
+Begin with the reindexing composition theorem
+\autoref{thm:streamname-public-reindexing-composition}. It shows that certified
+unary reindexing carries exactly the displayed public observation rows,
+membership rows, pointwise rational classifier rows, $\hsame$ comparisons,
+continuation routes, and package provenance.
+
+Use \autoref{thm:streamname-regseqrat-window-union-exhaustion} to read the
+finite cover as one public union inventory. On intersections of cover members,
+apply \autoref{thm:streamname-regseqrat-window-intersection-exhaustion}; the
+overlap rows are the common displayed StreamName observations, membership
+rows, pointwise rational rows, denominator rows, and provenance.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion} to each
+downstream read. It accounts for the dyadic denominator rows consumed by
+regular-rational and finite real-facing windows, while the preceding union and
+intersection steps show that reindexing has added no regularity, completion,
+quotient, hidden selector, or host-equality coordinate.
+\end{proof}
+
 \begin{theorem}[StreamNameUp RegSeqRat window intersection exhaustion]
 \label{thm:streamname-regseqrat-window-intersection-exhaustion}
 Let two downstream finite-window requests over a common public
