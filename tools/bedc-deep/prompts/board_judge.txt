@@ -74,6 +74,19 @@ For each candidate, run the following audit:
    - your independent claude evaluation (this gate)
    Both fit_score and novelty must satisfy thresholds.
 
+11. **Bridge continuation candidates**. If a candidate title, claim, or
+    rationale contains `Automath continuation`, `Bridge continuation target`,
+    `bridge_consumption_mode=board_continuation`,
+    `bridge_consumption_mode=proposal_seed_candidate`, or
+    `bridge_consumption_mode=audit_failure_to_task`, judge it as an
+    evidence-backed continuation, not as a from-scratch discovery item.
+    Keep only if the Automath source evidence has a plausible BEDC-native
+    carrier / classifier / proof-obligation / obstruction / planning fit.
+    If accepted, preserve the source provenance, reuse instruction, expected
+    NewMath delta, and reject-if condition in the returned `claim` or
+    `rationale`; do not collapse it to a generic open problem. Drop
+    `bridge_consumption_mode=evidence_only` candidates from BOARD intake.
+
 Acceptance thresholds:
 - fit_score ≥ 7
 - novelty ≥ 6
