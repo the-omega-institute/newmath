@@ -106,6 +106,7 @@ import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
+import BEDC.Derived.LQRUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
@@ -194,10 +195,12 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
+import BEDC.Derived.LQRUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
