@@ -23,9 +23,21 @@ def VectorBundleFiniteCarrier [AskSetup] [PackageSetup]
   UnaryHistory bundleRow ∧ UnaryHistory vecspace ∧ UnaryHistory trivialization ∧
     UnaryHistory fibre ∧ UnaryHistory transition ∧ UnaryHistory overlap ∧
       UnaryHistory linearity ∧ UnaryHistory contRows ∧ UnaryHistory provenance ∧
-        UnaryHistory endpoint ∧ Cont bundleRow vecspace trivialization ∧
-          Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
-            Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
+      UnaryHistory endpoint ∧ Cont bundleRow vecspace trivialization ∧
+        Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
+          Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
+
+def VectorBundleFiniteCarrier_componentwise_classifier [AskSetup] [PackageSetup]
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+      contRows provenance endpoint probe pkg ∧
+    VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+        linearity' contRows' provenance' endpoint' probe pkg ∧
+      hsame bundleRow bundleRow' ∧ hsame vecspace vecspace' ∧ hsame fibre fibre' ∧
+        hsame transition transition' ∧ hsame contRows contRows' ∧ PkgSig probe endpoint pkg
 
 def VectorBundleComponentwiseClassifier [AskSetup] [PackageSetup]
     (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance endpoint
