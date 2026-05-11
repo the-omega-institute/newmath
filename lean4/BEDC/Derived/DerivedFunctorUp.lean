@@ -62,6 +62,25 @@ theorem DerivedFunctorCarrier_resolution_append_readback
   exact And.intro resolvedReadback
     (And.intro endpointReadback (And.intro carrier.right.left carrier.right.right))
 
+theorem DerivedFunctorCarrier_cycle_boundary_classifier_obligation
+    {functor resolution homology degree resolved endpoint boundary boundaryEndpoint : BHist} :
+    DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->
+      Cont endpoint boundary boundaryEndpoint ->
+        UnaryHistory degree ∧ hsame resolved (append functor resolution) ∧
+          hsame endpoint (append (append functor resolution) homology) ∧
+            hsame boundaryEndpoint (append endpoint boundary) ∧
+              Cont functor resolution resolved ∧ Cont resolved homology endpoint := by
+  intro carrier boundaryRow
+  have readback :=
+    DerivedFunctorCarrier_resolution_append_readback
+      (functor := functor) (resolution := resolution) (homology := homology)
+      (degree := degree) (resolved := resolved) (endpoint := endpoint) carrier
+  exact And.intro carrier.left
+    (And.intro readback.left
+      (And.intro readback.right.left
+        (And.intro boundaryRow
+          (And.intro readback.right.right.left readback.right.right.right))))
+
 theorem DerivedFunctorCarrier_boundary_over_transported_resolution
     {functor resolution homology degree resolved endpoint resolution' resolved' endpoint' : BHist} :
     DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->
