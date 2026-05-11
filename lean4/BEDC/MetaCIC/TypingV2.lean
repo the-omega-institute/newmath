@@ -539,6 +539,25 @@ theorem substitute_preserves_typing_V2_depth1_sort_var_with_weaken
           cases hvar with
           | intro i hi => cases hi
 
+theorem substitute_preserves_typing_V2_app_cod_sort_var_commutes
+    (s a cod : Term)
+    (hclosed_s : ClosedAt 0 s)
+    (hshape_cod : cod = Term.sort ∨ ∃ i : Idx, cod = Term.var i) :
+    substitute 0 (substitute 0 s a)
+        (substitute 1 (shift 0 1 s) cod) =
+      substitute 0 s (substitute 0 a cod) := by
+  rw [shift_closed 0 s hclosed_s]
+  cases hshape_cod with
+  | inl hsort =>
+      cases hsort
+      rfl
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          exact Eq.symm
+            (substitute_substitute_zero_zero_closed_var s a i hclosed_s)
+
 theorem substitute_preserves_typing_V2_pi
     {Γ : Ctx} {s B dom cod : Term}
     (hclosed_B : ClosedAt 0 B)
@@ -609,5 +628,83 @@ theorem substitute_preserves_typing_V2_lam
           (hasTypeV2_shift_weaken_sort_var
             (C := shift 0 1 dom) hs hshape_s)
           hshape_body
+
+theorem substitute_preserves_typing_V2_via_term_induction
+    {Γ : Ctx} {s B A : Term}
+    (t : Term)
+    (hclosed_B : ClosedAt 0 B)
+    (hclosed_s : ClosedAt 0 s)
+    (_hclosed_A : ClosedAt 0 A)
+    (hshape_s : s = Term.sort ∨ ∃ i : Idx, s = Term.var i)
+    (hpi :
+      ∀ dom cod : Term,
+        t = Term.pi dom cod →
+        ClosedAt 0 dom ∧
+          (dom = Term.sort ∨ ∃ i : Idx, dom = Term.var i) ∧
+          (cod = Term.sort ∨ ∃ i : Idx, cod = Term.var i))
+    (hlam :
+      ∀ dom body : Term,
+        t = Term.lam dom body →
+        ClosedAt 0 dom ∧
+          (dom = Term.sort ∨ ∃ i : Idx, dom = Term.var i) ∧
+          (body = Term.sort ∨ ∃ i : Idx, body = Term.var i))
+    (happ :
+      ∀ f a dom cod : Term,
+        t = Term.app f a →
+        HasTypeV2 (B :: Γ) f (Term.pi dom cod) →
+        HasTypeV2 (B :: Γ) a dom →
+        (f = Term.sort ∨ ∃ i : Idx, f = Term.var i) ∧
+          (a = Term.sort ∨ ∃ i : Idx, a = Term.var i) ∧
+          (cod = Term.sort ∨ ∃ i : Idx, cod = Term.var i))
+    (ht : HasTypeV2 (B :: Γ) t A)
+    (hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ (substitute 0 s t) (substitute 0 s A) := by
+  induction t with
+  | sort =>
+      exact substitute_preserves_typing_V2_sort_var
+        hclosed_B ht hs (Or.inl rfl)
+  | var i =>
+      exact substitute_preserves_typing_V2_sort_var
+        hclosed_B ht hs (Or.inr ⟨i, rfl⟩)
+  | app f a _ _ =>
+      cases ht with
+      | appRule Δ f a dom cod hf ha =>
+          have hshape := happ f a dom cod rfl hf ha
+          exact substitute_preserves_typing_V2_app_if_subderivations
+            hclosed_B
+            hclosed_s
+            (substitute_preserves_typing_V2_sort_var
+              hclosed_B hf hs hshape.left)
+            (substitute_preserves_typing_V2_sort_var
+              hclosed_B ha hs hshape.right.left)
+            hs
+            (substitute_preserves_typing_V2_app_cod_sort_var_commutes
+              s a cod hclosed_s hshape.right.right)
+  | lam dom body _ _ =>
+      cases ht with
+      | lamRule Δ dom body cod hdom hbody =>
+          have hshape := hlam dom body rfl
+          exact substitute_preserves_typing_V2_lam
+            hclosed_B
+            hclosed_s
+            hshape.left
+            hshape_s
+            hshape.right.left
+            hshape.right.right
+            (HasTypeV2.lamRule (B :: Γ) dom body cod hdom hbody)
+            hs
+  | pi dom cod _ _ =>
+      cases ht with
+      | piRule Δ dom cod hdom hcod =>
+          have hshape := hpi dom cod rfl
+          exact substitute_preserves_typing_V2_pi
+            hclosed_B
+            hclosed_s
+            hshape.left
+            hshape_s
+            hshape.right.left
+            hshape.right.right
+            (HasTypeV2.piRule (B :: Γ) dom cod hdom hcod)
+            hs
 
 end BEDC.MetaCIC.V2
