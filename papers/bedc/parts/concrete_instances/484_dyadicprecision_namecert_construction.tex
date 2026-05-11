@@ -229,6 +229,49 @@ the local obligation export, because the carrier has no hidden stream tail,
 quotient real, trichotomy, completeness datum, or bridge coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicPrecision TasteGate carrier witness]
+\label{thm:dyadicprecision-tastegate-carrier-witness}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be an accepted $\DyadicPrecisionUp$ schedule carrier. The visible rows of $S$
+determine a $\mathsf{BHistCarrier}$ event-flow reading whose source tokens are
+exactly the finite precision row $n$, the dyadic radius row $\rho$, the
+observation-window row $W$, the componentwise $\hsame$ rows in $H$, the
+displayed $\Cont$ routes in $C$, the $\mathsf{Pkg}$ provenance row $P$, the
+local $\NameCert$ row $N$, and the exact ledger $L$.
+
+Under this reading, the TasteGate obligations for the schedule can inspect only
+those visible source tokens. They cannot read a hidden stream tail, quotient
+real, selected limit, trichotomy principle, completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+Project the accepted schedule through
+\autoref{def:dyadic-precision-schedule-carrier}. The projection lists the
+precision, radius, observation-window, transport, provenance, name, and ledger
+rows as the whole carrier tuple, so these rows give the event-flow source
+tokens of the $\mathsf{BHistCarrier}$ reading.
+
+Use the classifier of
+\autoref{def:dyadic-precision-schedule-classifier} to transport the event-flow
+componentwise. The classifier moves only the displayed unary precision rows,
+dyadic radius rows, finite observation-window rows, package ledgers, and their
+attached $\hsame$ and $\Cont$ witnesses, so no additional event source is
+created by transport.
+
+Now apply \autoref{thm:dyadicprecision-schedule-obligation-export}. Its row
+exhaustion statement identifies the carrier, classifier, local
+$\NameCert$ obligations, consumer handoffs, empty branch, successor branch, and
+exact ledger as the full local schedule surface.
+
+The ground-compiler reading of the same packet is therefore the no-hidden-input
+condition together with conservativity over those visible rows. Since no
+coordinate of the carrier contains an infinite tail, quotient real, selected
+limit, trichotomy, completeness witness, or bridge datum, the TasteGate
+obligations cannot obtain one from the schedule.
+\end{proof}
+
 \closureat{DyadicPrecisionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicPrecisionUp}
