@@ -288,6 +288,46 @@ Dedekind cuts, trichotomy, host equality, or a chosen limit, those data are not
 part of the mature consumer coverage.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion finite-window ledger source exhaustion]
+\label{thm:dyadiccompletion-window-ledger-source-exhaustion}
+Every finite-window read of an accepted $\DyadicCompletionUp$ packet by a
+$\RegSeqRatUp$ or $\RealUp$ consumer factors through exactly the ledger-named
+source rows of \autoref{def:dyadiccompletion-carrier}: dyadic observation
+rows, $\StreamNameUp$ window rows, regular-tail comparison rows,
+real-boundary rows, $\mathsf{BHist}$ history, $\hsame$ transport,
+$\Cont$ continuation, and $\mathsf{Pkg}$ provenance.
+
+Conversely, every ledger-named source row in that carrier is readable by the
+corresponding $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer after the
+displayed transport through the public finite-window handoff.
+
+The exhaustion statement contains no quotient completion, Dedekind cut,
+trichotomy, host equality, chosen limit, or hidden precision schedule.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:dyadiccompletion-streamname-handoff}. A downstream
+window read is sent to one of the displayed $\StreamNameUp$ window rows, and
+the handoff provides no alternate stream carrier.
+
+Next combine \autoref{thm:dyadiccompletion-ledger-boundary} with
+\autoref{thm:dyadiccompletion-public-regseqrat-real-export}. The ledger
+boundary lists the dyadic observation, regular-tail, real-boundary, history,
+transport, continuation, package, and provenance rows, while the public export
+reuses those same rows for $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+For the reverse direction, apply
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge}. Each
+ledger-named row is repacked as a standard finite-window read along the
+displayed transport, so the corresponding $\StreamNameUp$, $\RegSeqRatUp$, or
+$\RealUp$ consumer can read it without adding data.
+
+Finally invoke \autoref{thm:dyadiccompletion-mature-consumer-coverage}. The
+mature coverage theorem identifies the complete consumer boundary, so the two
+directions exhaust the same finite ledger rows and exclude quotient completion,
+Dedekind cuts, trichotomy, host equality, chosen limits, and hidden precision
+schedules.
+\end{proof}
+
 \closureat{DyadicCompletionUp}{obligationStr}
 \closureat{DyadicCompletionUp}{scopedStr}
 \closureat{DyadicCompletionUp}{publicStr}

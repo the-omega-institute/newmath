@@ -16,6 +16,107 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BousfieldLocalizationPacket [AskSetup] [PackageSetup]
+    (model selected localObjects route provenance ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory model ∧ UnaryHistory selected ∧ UnaryHistory localObjects ∧
+    UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+      UnaryHistory endpoint ∧ Cont model selected route ∧
+        Cont route localObjects endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem BousfieldLocalizationPacket_local_object_handoff [AskSetup] [PackageSetup]
+    {model selected localObjects route provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BousfieldLocalizationPacket model selected localObjects route provenance ledger endpoint
+        bundle pkg ->
+      UnaryHistory model ∧ UnaryHistory selected ∧ UnaryHistory localObjects ∧
+        UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+          UnaryHistory endpoint ∧ Cont model selected route ∧
+            Cont route localObjects endpoint ∧ hsame route (append model selected) ∧
+              hsame endpoint (append route localObjects) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have modelUnary : UnaryHistory model :=
+    packet.left
+  have selectedUnary : UnaryHistory selected :=
+    packet.right.left
+  have localObjectsUnary : UnaryHistory localObjects :=
+    packet.right.right.left
+  have routeUnary : UnaryHistory route :=
+    packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    packet.right.right.right.right.right.right.left
+  have routeRow : Cont model selected route :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont route localObjects endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨modelUnary,
+      selectedUnary,
+      localObjectsUnary,
+      routeUnary,
+      provenanceUnary,
+      ledgerUnary,
+      endpointUnary,
+      routeRow,
+      endpointRow,
+      routeRow,
+      endpointRow,
+      pkgSig⟩
+
+def BousfieldLocalizationFinitePacket [AskSetup] [PackageSetup]
+    (model selected localObj classifier provenance ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory model ∧ UnaryHistory selected ∧ UnaryHistory localObj ∧
+    UnaryHistory classifier ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+      Cont model selected classifier ∧ Cont selected localObj ledger ∧ PkgSig bundle ledger pkg
+
+theorem BousfieldLocalizationFinitePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {model selected localObj classifier provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BousfieldLocalizationFinitePacket model selected localObj classifier provenance ledger
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          BousfieldLocalizationFinitePacket model selected localObj classifier provenance ledger
+              bundle pkg ∧ hsame row ledger)
+        (fun row : BHist =>
+          BousfieldLocalizationFinitePacket model selected localObj classifier provenance ledger
+              bundle pkg ∧ hsame row ledger)
+        (fun row : BHist =>
+          BousfieldLocalizationFinitePacket model selected localObj classifier provenance ledger
+              bundle pkg ∧ hsame row ledger)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger ⟨packet, hsame_refl ledger⟩
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same carrier
+        exact ⟨carrier.left, hsame_trans (hsame_symm same) carrier.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 def BousfieldLocalizationFiniteLocalizingPacket [AskSetup] [PackageSetup]
     (model selected localObjects transport provenance certRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -128,10 +229,10 @@ theorem BousfieldLocalizationFiniteLocalizingPacket_namecert_obligations
                               (Or.inr (Or.inr (hsame_trans (hsame_symm same) sameCert)))))
     }
     pattern_sound := by
-      intro row source
+      intro _row source
       exact Or.inr (Or.inr (sourceToCert source))
     ledger_sound := by
-      intro row source
+      intro _row source
       exact sourceToCert source
   }
   exact ⟨cert, modelSelectedTransport, transportProvenanceCert, packageCert⟩
