@@ -481,6 +481,48 @@ there is no row for a quotient rational, host rational equality, completed
 real, or real completeness theorem.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore RegSeqRat bridge handoff exactness]
+\label{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}
+Every $\RegSeqRat$ finite-window handoff that consumes a
+$\DyadicRatCoreUp$ public envelope through the standard source bridge reads
+exactly the signed $\RatUp$ mantissa row, positive $\UnaryHistory$ exponent
+row, denominator ledger, common-exponent classifier, arithmetic window,
+distance window, radius window, $\mathsf{BHist}$ carrier data, $\hsame$
+transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance listed by
+\autoref{thm:dyadicratcore-public-readback-envelope}. Conversely, every public
+envelope row with those visible coordinates supplies the dyadic observation
+interface admitted by the $\RegSeqRat$ handoff. The handoff exports no quotient
+rational, host equality row, completed $\RealUp$ endpoint, or $\RealUp$
+completeness theorem.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:dyadicratcore-regseqrat-window-radius-handoff}. It identifies the
+downstream handoff boundary as a finite read of the displayed dyadic source
+rows and excludes quotient rationals, host epsilon equality, and completed
+$\RealUp$ endpoints from that boundary.
+
+Next apply \autoref{thm:dyadicratcore-public-readback-envelope} and
+\autoref{thm:dyadicratcore-public-bridge-consumer-exactness}. These results
+give the exact public inventory: the signed mantissa, positive unary exponent,
+denominator ledger, classifier, arithmetic, distance, and radius windows,
+$\mathsf{BHist}$ data, $\hsame$ transport, $\Cont$ readback, and
+$\mathsf{Pkg}$ provenance. Use
+\autoref{thm:dyadicratcore-standard-source-bridge} to read the same inventory as
+the standard dyadic source packet consumed at the bridge boundary.
+
+For the converse direction, start with a public envelope row carrying precisely
+those coordinates. Repack the signed mantissa, positive unary exponent,
+denominator ledger, common-exponent classifier, finite windows, carrier data,
+transport, readback, and provenance as the dyadic observation interface already
+admitted by the standard source bridge and by the $\RegSeqRat$ handoff boundary.
+
+The exclusion clauses are the same carrier-inventory inspection. None of the
+referenced rows is a quotient-rational representative, a host equality proof, a
+completed $\RealUp$ endpoint, or a real-completeness field, so neither direction
+can export one.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 
 \begin{closurestatus}{\DyadicRatCoreUp}
