@@ -6,5 +6,73 @@ The von Neumann algebra interface $\VonNeumannAlgUp$ packages a unital $*$-subal
 \section{Carrier definition}
 \label{sec:vonneumannalgebra-carrier}
 
+\begin{definition}[VonNeumannAlgUp BHist carrier]\label{def:vonneumannalgebra-bhist-carrier}
+A $\VonNeumannAlgUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows display the following data:
+$$
+\begin{aligned}
+&\text{a }\CStarAlgUp\text{ source row recording the algebra, unit, multiplication, norm, and }*\text{-operation;}\\
+&\text{a }\HilbertUp\text{ source row recording the Hilbert carrier and its vector-state probes;}\\
+&\text{bounded-operator endpoint rows for each accepted algebra element over the displayed Hilbert carrier;}\\
+&\text{adjoint and multiplication rows comparing the operator endpoints with the }*\text{ and product rows;}\\
+&\text{finite weak-operator test rows, each logged as a probe ledger between displayed test vectors;}\\
+&\text{componentwise }\hsame\text{ rows, }\Cont\text{ readback routes, }\mathsf{Pkg}\text{ provenance, and a }\NameCert\text{ provenance row.}
+\end{aligned}
+$$
+The carrier has no coordinate for completed operator topologies, host subalgebras of $B(H)$, choices of projection lattices, unlogged weak closures, or external equality of von Neumann algebras.
+\end{definition}
+
 \section{The certificate}
 \label{sec:vonneumannalgebra-certificate}
+
+\begin{theorem}[VonNeumannAlgUp carrier obligation]\label{thm:vonneumannalgebra-carrier-obligation}
+The carrier of \autoref{def:vonneumannalgebra-bhist-carrier} is a finite BEDC obligation surface for $\VonNeumannAlgUp$. Every exported algebraic, Hilbert, operator-endpoint, adjoint, multiplication, weak-test, transport, continuation, and provenance read is a projection of one displayed $\mathsf{BHist}$ row.
+\end{theorem}
+\begin{proof}
+Project the packet row by row. The $\CStarAlgUp$ source supplies the finite algebraic surface: carrier, unit, product, norm, and star rows, together with their $\hsame$ comparisons and package provenance.
+
+Project the $\HilbertUp$ source and the bounded-operator endpoint rows next. Each operator endpoint is indexed by a displayed algebra element and the displayed Hilbert carrier, so it has no independent host subalgebra coordinate.
+
+The remaining rows are the weak-operator probes, $\Cont$ readbacks, componentwise $\hsame$ transports, $\mathsf{Pkg}$ provenance, and the $\NameCert$ provenance row. Since the definition lists exactly these coordinates, every consumer-visible read is exhausted by the finite packet.
+\end{proof}
+
+\begin{theorem}[VonNeumannAlgUp weak-operator ledger exactness]\label{thm:vonneumannalgebra-weak-operator-ledger-exactness}
+For an accepted $\VonNeumannAlgUp$ carrier, every weak-operator comparison visible to a consumer is a finite probe-ledger row between displayed $\HilbertUp$ test-vector rows and displayed bounded-operator endpoint rows. The packet exports no completed weak operator topology and no unlogged limit closure.
+\end{theorem}
+\begin{proof}
+Read a visible weak-operator comparison from the public packet. By \autoref{def:vonneumannalgebra-bhist-carrier}, the only weak-operator coordinates are finite probe rows, each naming its two test-vector rows through the $\HilbertUp$ source and its operator endpoint through the bounded-operator ledger.
+
+The $\Cont$ row records the readback route from that probe to the endpoint comparison, and componentwise $\hsame$ transports the same finite probe under classified replacement. There is no carrier coordinate for a completed weak topology or an unlogged net of operators, so the visible comparison is exactly the displayed probe ledger.
+\end{proof}
+
+\begin{theorem}[VonNeumannAlgUp star-operation stability]\label{thm:vonneumannalgebra-star-operation-stability}
+If two accepted $\VonNeumannAlgUp$ carriers are related componentwise by their displayed $\hsame$ rows, then the bounded-operator endpoint assigned to the $\CStarAlgUp$ star row transports to the adjoint endpoint row of the classified carrier, and multiplication endpoints transport along the displayed product rows.
+\end{theorem}
+\begin{proof}
+Use the $\CStarAlgUp$ source row to read the algebraic star and product coordinates. The carrier stores adjoint and multiplication endpoint rows whose indices are those same displayed algebraic coordinates.
+
+Apply componentwise $\hsame$ to the algebra row, Hilbert row, endpoint row, and operation row. The adjoint endpoint is transported along the star coordinate, while the multiplication endpoint is transported along the product coordinate.
+
+The $\Cont$ readback route records that the transported endpoint is the one exported by the target packet. Thus classified replacement preserves the star and multiplication surfaces without invoking host equality of operator algebras.
+\end{proof}
+
+\begin{theorem}[VonNeumannAlgUp NameCert obligation surface]\label{thm:vonneumannalgebra-namecert-obligation-surface}
+The local $\NameCert_{\VonNeumannAlgUp}$ obligation surface consists of the finite carrier, the componentwise classifier on its displayed rows, star and multiplication stability, weak-operator probe-ledger exactness, $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance for the consumed $\CStarAlgUp$ and $\HilbertUp$ certificates.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is the assertion that the rows listed in \autoref{def:vonneumannalgebra-bhist-carrier} form a finite packet. The classifier is componentwise $\hsame$ on the $\CStarAlgUp$, $\HilbertUp$, endpoint, operation, probe, continuation, and provenance rows.
+
+Use \autoref{thm:vonneumannalgebra-star-operation-stability} for operation transport and \autoref{thm:vonneumannalgebra-weak-operator-ledger-exactness} for weak-test exactness. The $\mathsf{Pkg}$ rows record the dependency certificates consumed by those two reads.
+
+Repacking these rows yields the naming-certificate surface. No additional analytic closure, projection lattice, host subalgebra, or external von Neumann algebra equality is exported.
+\end{proof}
+
+\begin{theorem}[VonNeumannAlgUp downstream boundary]\label{thm:vonneumannalgebra-downstream-boundary}
+Any downstream BEDC consumer of a $\VonNeumannAlgUp$ certificate can inspect only the finite algebra row, Hilbert row, bounded-operator endpoint rows, adjoint and multiplication rows, weak-operator probe ledgers, $\hsame$ transports, $\Cont$ readbacks, $\mathsf{Pkg}$ rows, and the $\NameCert$ provenance row displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Let a downstream read be accepted by the $\VonNeumannAlgUp$ certificate. The read factors through the public carrier projection of \autoref{thm:vonneumannalgebra-carrier-obligation}, so it must select one of the rows displayed in \autoref{def:vonneumannalgebra-bhist-carrier}.
+
+If the read concerns weak-operator behavior, \autoref{thm:vonneumannalgebra-weak-operator-ledger-exactness} routes it through a finite probe ledger. If the read concerns algebraic operation stability, \autoref{thm:vonneumannalgebra-star-operation-stability} routes it through the $\CStarAlgUp$ star or product row and the corresponding bounded-operator endpoint.
+
+All remaining reads are transport, continuation, package, or naming-provenance rows. Hence the public boundary is precisely the finite BEDC certificate surface, with no access to completed operator topologies, unlogged weak closures, projection choices, or host subalgebra equality.
+\end{proof}

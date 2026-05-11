@@ -25,6 +25,18 @@ def ControlControllabilityCarrier [AskSetup] [PackageSetup]
         Cont transition control columns ∧ Cont columns matrix endpoint ∧
           Cont contRows horizon endpoint ∧ PkgSig probe endpoint pkg
 
+def ControlControllabilityCarrier_classifier [AskSetup] [PackageSetup]
+    (state input transition control horizon columns matrix contRows endpoint state' input'
+      transition' control' horizon' columns' matrix' contRows' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ControlControllabilityCarrier state input transition control horizon columns matrix contRows
+      endpoint probe pkg ∧
+    ControlControllabilityCarrier state' input' transition' control' horizon' columns' matrix
+        contRows' endpoint' probe pkg ∧
+      hsame state state' ∧ hsame input input' ∧ hsame transition transition' ∧
+        hsame control control' ∧ hsame horizon horizon' ∧ hsame columns columns' ∧
+          hsame matrix matrix' ∧ hsame contRows contRows' ∧ hsame endpoint endpoint'
+
 theorem ControlControllabilityCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {state input transition control horizon columns matrix contRows endpoint : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :
