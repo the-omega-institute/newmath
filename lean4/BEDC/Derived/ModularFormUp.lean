@@ -69,6 +69,27 @@ theorem ModularFormQExpansionCarrier_holomorphic_source_scope
           (And.intro carrier.right.right.right.right.left
             carrier.right.right.right.right.right.left)))
 
+theorem ModularFormQExpansionCarrier_empty_coefficient_classifier
+    {holomorphic automorphic transform provenance provenance' ledger ledger' : BHist} :
+    ModularFormQExpansionCarrier holomorphic automorphic BHist.Empty transform provenance ledger ->
+      ModularFormQExpansionCarrier holomorphic automorphic BHist.Empty transform provenance' ledger' ->
+        hsame provenance provenance' ∧ hsame ledger ledger' ∧
+          UnaryHistory provenance ∧ UnaryHistory ledger := by
+  intro leftCarrier rightCarrier
+  have sameProvenance : hsame provenance provenance' :=
+    cont_deterministic leftCarrier.right.right.right.right.left
+      rightCarrier.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_deterministic leftCarrier.right.right.right.right.right.left
+      rightCarrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed leftCarrier.left unary_empty leftCarrier.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed leftCarrier.right.left leftCarrier.right.right.right.left
+      leftCarrier.right.right.right.right.right.left
+  exact And.intro sameProvenance
+    (And.intro sameLedger (And.intro provenanceUnary ledgerUnary))
+
 theorem ModularFormQExpansionCarrier_namecert_obligation_surface
     {holomorphic automorphic coefficient transform provenance ledger endpoint : BHist} :
     ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance ledger ->
