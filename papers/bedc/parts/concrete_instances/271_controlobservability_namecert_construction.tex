@@ -90,3 +90,27 @@ Constructor inspection of the carrier excludes any additional trace source. Sinc
   \notclaimed{This chapter does not close a host control-system category, analytic trajectory semantics, Kalman decomposition, controllability duality, or a public standard bridge.}
   \upgradepath{The next step is Lean formalization of the displayed scoped rows.}
 \end{closurestatus}
+
+\begin{theorem}[Control-observability zero-dimensional observation ledger]
+\label{thm:control-observability-zero-dimensional-observation-ledger}
+Let $P$ be an accepted $\ControlObservabilityUp$ packet as in \autoref{def:control-observability-carrier}. Suppose its displayed finite-dimensional state-space row has dimension $n=0$, with transition row $A$, output row $C$, finite observation-row ledger
+$$
+\begin{aligned}
+(CA^k)_{0\leq k<n},
+\end{aligned}
+$$
+and stacked observation-matrix row $\mathcal O(A,C)$ formed by stacking exactly those displayed observation rows. Then the observation-row ledger is the empty finite sequence, and the stacked row $\mathcal O(A,C)$ has no entries.
+\end{theorem}
+\begin{proof}
+By \autoref{def:control-observability-carrier}, the only observation rows available to an accepted $\ControlObservabilityUp$ packet are the finite rows
+$$
+\begin{aligned}
+C,\quad CA,\quad CA^2,\quad \ldots,\quad CA^{n-1}.
+\end{aligned}
+$$
+Equivalently, these rows are indexed by the finite interval $0\leq k<n$ and have the displayed form $CA^k$.
+
+If $n=0$, there is no index $k$ satisfying $0\leq k<0$. Hence the finite interval indexing the displayed observation rows is empty. The carrier has no additional observation-row coordinate beyond this finite ledger, so the observation-row sequence of $P$ is empty.
+
+The stacked observation-matrix row $\mathcal O(A,C)$ is, by the same carrier definition, the row obtained from exactly the displayed finite observation rows. Stacking over the empty finite sequence contributes no row. Therefore $\mathcal O(A,C)$ has no entries in the zero-dimensional state-space case.
+\end{proof}
