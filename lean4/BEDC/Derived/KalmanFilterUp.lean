@@ -42,6 +42,23 @@ def KalmanFilterCarrier [AskSetup] [PackageSetup]
                                         Cont posterior covariancePosterior endpoint ∧
                                           PkgSig bundle endpoint pkg
 
+theorem KalmanFilterCarrier_endpoint_closed_generation [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} {P : BHist -> Prop} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      P BHist.Empty ->
+        (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) -> P endpoint := by
+  intro carrier base step
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, _residualUnary,
+      _covarianceUnary, _gainUnary, _posteriorUnary, _innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, _posteriorRow, _covariancePosteriorRow,
+      _endpointRow, _pkgSig⟩
+  exact unary_history_induction base step endpoint endpointUnary
+
 theorem KalmanFilterCarrier_estimate_transport [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
       covariancePosterior provenance endpoint prior' transition' prediction' observation' residual'

@@ -379,4 +379,24 @@ theorem StatManifoldPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right.right)
 
+theorem StatManifoldSourceScope_dependency_boundary [AskSetup] [PackageSetup]
+    {manifold fisher theta distribution metric primal dual provenance ledger manifold' fisher'
+      provenance' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StatManifoldCarrier manifold fisher theta distribution metric primal dual provenance ledger
+        bundle pkg ->
+      hsame manifold manifold' ->
+        hsame fisher fisher' ->
+          Cont manifold' fisher' provenance' ->
+            Cont provenance' dual ledger' ->
+              hsame provenance provenance' ∧ hsame ledger ledger' := by
+  intro carrier sameManifold sameFisher provenanceRow' ledgerRow'
+  rcases carrier with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, provenanceRow, ledgerRow, _⟩
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameManifold sameFisher provenanceRow provenanceRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProvenance (hsame_refl dual) ledgerRow ledgerRow'
+  exact And.intro sameProvenance sameLedger
+
 end BEDC.Derived.StatManifoldUp
