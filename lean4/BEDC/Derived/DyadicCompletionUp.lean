@@ -107,6 +107,40 @@ theorem DyadicCompletionWindowPacket_streamname_handoff [AskSetup] [PackageSetup
     ⟨dyadicUnary, windowUnary, regularTailUnary, handoffUnary, sameRegularTail,
       sameLedger, sameHandoff, handoffPkg⟩
 
+theorem DyadicCompletionWindowPacket_public_regseqrat_real_export [AskSetup] [PackageSetup]
+    {dyadic window regularTail realBoundary ledger provenance handoff publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionWindowPacket dyadic window regularTail realBoundary ledger provenance
+        bundle pkg ->
+      Cont window ledger handoff ->
+        Cont handoff realBoundary publicRow ->
+          PkgSig bundle handoff pkg ->
+            PkgSig bundle publicRow pkg ->
+              UnaryHistory handoff ∧ UnaryHistory publicRow ∧
+                hsame regularTail (append dyadic window) ∧
+                  hsame ledger (append regularTail realBoundary) ∧
+                    hsame handoff (append window ledger) ∧
+                      hsame publicRow (append handoff realBoundary) ∧
+                        PkgSig bundle publicRow pkg := by
+  intro packet handoffRoute publicRoute _handoffPkg publicPkg
+  obtain ⟨_dyadicUnary, windowUnary, _regularTailUnary, realBoundaryUnary, ledgerUnary,
+    _provenanceUnary, regularTailRoute, ledgerRoute, _ledgerPkg⟩ := packet
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed windowUnary ledgerUnary handoffRoute
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed handoffUnary realBoundaryUnary publicRoute
+  have sameRegularTail : hsame regularTail (append dyadic window) :=
+    regularTailRoute
+  have sameLedger : hsame ledger (append regularTail realBoundary) :=
+    ledgerRoute
+  have sameHandoff : hsame handoff (append window ledger) :=
+    handoffRoute
+  have samePublic : hsame publicRow (append handoff realBoundary) :=
+    publicRoute
+  exact
+    ⟨handoffUnary, publicUnary, sameRegularTail, sameLedger, sameHandoff, samePublic,
+      publicPkg⟩
+
 theorem DyadicCompletionWindowPacket_regular_tail_stability [AskSetup] [PackageSetup]
     {dyadic window tail realBoundary ledger provenance dyadic' window' tail' realBoundary'
       ledger' provenance' : BHist}
