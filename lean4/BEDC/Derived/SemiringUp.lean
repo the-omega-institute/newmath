@@ -73,4 +73,55 @@ theorem SemiringLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+def SemiringFiniteSource [AskSetup] [PackageSetup]
+    (add mul shared distrib annihil transport routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory add ∧ UnaryHistory mul ∧ UnaryHistory shared ∧ UnaryHistory distrib ∧
+    UnaryHistory annihil ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+      UnaryHistory provenance ∧ UnaryHistory name ∧ Cont add mul shared ∧
+        Cont shared distrib transport ∧ Cont annihil transport routes ∧
+          Cont routes provenance name ∧ PkgSig bundle name pkg
+
+theorem SemiringFiniteSource_semantic_name_certificate [AskSetup] [PackageSetup]
+    {add mul shared distrib annihil transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        hsame := by
+  intro source
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro name (And.intro source (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowSource
+        exact And.intro rowSource.left (hsame_trans (hsame_symm sameRows) rowSource.right)
+    }
+    pattern_sound := by
+      intro _row rowSource
+      exact rowSource
+    ledger_sound := by
+      intro _row rowSource
+      exact rowSource
+  }
+
 end BEDC.Derived.SemiringUp
