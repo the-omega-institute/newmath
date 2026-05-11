@@ -176,17 +176,64 @@ def merge_with_codex_fallback(target: str, label: str) -> bool:
     return True
 
 
-def push_branch(branch: str, *, set_upstream: bool = False) -> int:
-    """Push `branch` to origin. Returns rc."""
+def push_branch(branch: str, *, set_upstream: bool = False,
+                max_attempts: int = 5) -> int:
+    """Push `branch` to origin with retry-on-race. Returns final rc.
+
+    Multi-producer branches (auto-dev gets pushed by bedc-deep
+    supervisor + codex-auto-dev mirror + external PRs) race on the
+    ref lock. A single push attempt loses that race ~constantly; the
+    outer 600s daemon loop's retry cadence is too slow to win the
+    window. Retry the push 5x with exponential backoff
+    (1s, 2s, 4s, 8s, 16s — total ~31s in worst case) so a single
+    daemon tick has multiple shots at the ref between external pushes.
+
+    Each retry refetches origin and remerges so we push the latest
+    incorporated tip, not a stale local tip that would just race again.
+    """
     env = os.environ.copy()
     env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
-    cmd = ["git", "push"]
-    if set_upstream:
-        cmd.extend(["--set-upstream", "origin", branch])
-    else:
-        cmd.extend(["origin", branch])
-    res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
-    return res.returncode
+    backoff = 1.0
+    last_rc = 1
+    for attempt in range(1, max_attempts + 1):
+        cmd = ["git", "push"]
+        if set_upstream and attempt == 1:
+            cmd.extend(["--set-upstream", "origin", branch])
+        else:
+            cmd.extend(["origin", branch])
+        res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
+        if res.returncode == 0:
+            if attempt > 1:
+                print(f"[sync] push {branch} succeeded on attempt {attempt}",
+                      file=sys.stderr)
+            return 0
+        last_rc = res.returncode
+        if attempt == max_attempts:
+            break
+        # Race condition: refetch + remerge before next push attempt.
+        print(f"[sync] push {branch} attempt {attempt} failed; "
+              f"refetch+remerge then retry in {backoff:.1f}s",
+              file=sys.stderr)
+        time.sleep(backoff)
+        backoff = min(backoff * 2, 16.0)
+        # Pull latest origin into branch via merge --no-ff so a fresh
+        # SHA gets pushed. If the merge itself fails the retry stops.
+        fetch = git("fetch", "origin", branch,
+                    check=False, capture=True)
+        if fetch.returncode != 0:
+            print(f"[sync] push retry refetch failed: {fetch.stderr.strip()[:200]}",
+                  file=sys.stderr)
+            continue
+        merge = git("merge", "--no-ff", "--no-edit", f"origin/{branch}",
+                    check=False, capture=True)
+        if merge.returncode != 0:
+            # Merge conflict or other error — abort and let outer loop
+            # handle (codex conflict resolver path).
+            git("merge", "--abort", check=False, capture=True)
+            print(f"[sync] push retry remerge had conflict; aborting retry",
+                  file=sys.stderr)
+            return last_rc
+    return last_rc
 
 
 def has_remote_branch(branch: str) -> bool:
