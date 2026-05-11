@@ -75,6 +75,34 @@ Transport of closure diagrams follows the Artin move ledger. Braid relations and
 The resulting object is the $\KnotUp$ crossing ledger read through the braid packet's $\Cont$ and $\Pkg$ rows. Since the packet does not contain a Markov-move classifier, an isotopy-completeness theorem, a faithfulness theorem, or a standard bridge row, none of those claims is exported by the closure boundary.
 \end{proof}
 
+\begin{theorem}[BraidGroup scoped Artin source package]
+\label{thm:braidgroup-scoped-artin-source-package}
+Every consumer-facing $\BraidGroupUp$ read is exhausted by the finite
+strand-count row, signed Artin word row, Artin move ledger,
+symmetric-group shadow, Weyl root-action handoff, knot-closure ledger, and the
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance from the
+carrier. The package exports no Markov theorem, braid-group faithfulness, knot
+isotopy completeness, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:braidgroup-word-carrier}. It supplies the
+positive unary strand count, signed adjacent-strand word, classifier ledger,
+dependency provenance, and finite packet ledger.
+
+Apply \autoref{thm:braidgroup-artin-ledger-stability} to identify every
+transported word read with the visible Artin move ledger. Then apply
+\autoref{thm:braidgroup-namecert-obligation-surface} to account for the
+monoid, group, symmetric-group, Weyl-group, and knot dependency rows in the
+NameCert surface.
+
+The two downstream faces are the finite projections already isolated by
+\autoref{thm:braidgroup-weyl-root-action-handoff} and
+\autoref{thm:braidgroup-knot-closure-ledger-boundary}. Their exclusion clauses
+remove Markov moves, Artin-representation faithfulness, knot isotopy
+completeness, and standard bridge data, leaving exactly the scoped Artin source
+package stated above.
+\end{proof}
+
 \closureat{BraidGroupUp}{seedStr}
 \closureat{BraidGroupUp}{obligationStr}
 \closureat{BraidGroupUp}{scopedStr}
