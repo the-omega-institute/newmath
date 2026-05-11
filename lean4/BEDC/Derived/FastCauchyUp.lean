@@ -88,4 +88,27 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
+def FastCauchyFiniteModulusPacket [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius transport window provenance certificate : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory transport ∧ UnaryHistory window ∧ UnaryHistory provenance ∧
+      UnaryHistory certificate ∧ Cont stream modulus window ∧ Cont endpoint radius transport ∧
+        Cont window transport provenance ∧ PkgSig bundle endpoint pkg
+
+theorem FastCauchyFiniteModulusPacket_real_boundary_window [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius transport window provenance certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteModulusPacket stream modulus endpoint radius transport window provenance
+        certificate bundle pkg ->
+      UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+        Cont stream modulus window ∧ Cont endpoint radius transport ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet
+  exact
+    ⟨packet.left, packet.right.left, packet.right.right.left,
+      packet.right.right.right.left, packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.FastCauchyUp
