@@ -330,6 +330,38 @@ For two refinements, apply \autoref{thm:regseqrat-refined-window-gluing}. Agreem
 Finally use \autoref{thm:regseqrat-real-seal-handoff}. Since the seal reads only the finite regular-rational source rows just locked together, the two agreeing refinements present the same $\RealUp$ seal source surface and no hidden quotient, completion, equality, or bridge coordinate is available.
 \end{proof}
 
+\begin{theorem}[RegSeqRat StreamName Dyadic seal refinement lock]
+\label{thm:regseqrat-streamname-dyadic-seal-refinement-lock}
+Let $W_0$ and $W_1$ be accepted finite $\RegSeqRatUp$ windows that refine to a
+common $\StreamNameUp$ schedule. Suppose the two windows agree on the displayed
+$\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint and radius rows,
+regularity ledgers, classifier witnesses, $\hsame$ comparisons, $\Cont$ routes,
+$\Pkg$ provenance, and $\NameCert$ rows. Then their $\RealUp$ seal source reads
+are the same displayed finite BEDC surface.
+
+The refinement lock exports no quotient stream equality, host real equality,
+ambient completion point, $\RealUp$ completeness row, or extra bridge
+coordinate.
+\end{theorem}
+\begin{proof}
+First glue the two windows along the common schedule using
+\autoref{thm:regseqrat-refined-window-gluing}. The hypotheses identify exactly
+the schedule, endpoint, radius, regularity, classifier, transport, provenance,
+and naming rows needed to repack the common refinement as one accepted finite
+$\RegSeqRatUp$ window.
+
+Next apply \autoref{thm:regseqrat-tail-cofinal-real-seal-invariance}. It says
+that cofinal refinement does not change the finite source surface read by the
+$\RealUp$ seal, provided the displayed carrier, classifier, ledger, and
+provenance rows agree on the refinement.
+
+Finally combine \autoref{thm:regseqrat-real-seal-handoff} with
+\autoref{thm:regseqrat-streamname-dyadic-window-lock}. These theorems identify
+the seal-facing read with the same StreamName schedule and DyadicRatCore ledger
+rows already locked by the common refinement, so the result is a finite BEDC
+surface equality and not a host-level equality or completion claim.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]

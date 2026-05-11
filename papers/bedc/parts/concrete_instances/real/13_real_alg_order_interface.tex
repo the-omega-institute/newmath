@@ -432,6 +432,46 @@ rows, none of the excluded full-real, quotient, topology, completeness, or
 bridge data is available to export.
 \end{proof}
 
+\begin{theorem}[RealAlgOrder constant public order-metric interface]
+\label{thm:realalgorder-constant-public-order-metric-interface}
+For constant-rational $\RealUp$ endpoints carried by the $\RealAlgOrder$
+package, every public order read, apartness read, and $\MetricSpaceUp$-facing
+read factors through the RatUp denominator row, the $\Eone$ $\RealUp$
+endpoint, the transported algebra, order, and apartness rows, the positive-gap
+separation packet, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The public boundary exports no nonconstant real arithmetic, trichotomy,
+completeness, topology, quotient carrier, host-real inequality, or standard
+bridge row. Thus order consumers and metric consumers receive the same finite
+$\mathsf{BHist}$ constant-rational interface.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:realalgorder-constant-public-interface-export}. It
+packages the carrier, classifier, algebra, order, apartness, rational boundary,
+and metric handoff rows into one public constant-rational $\RealAlgOrder$
+surface over RatUp denominators, $\Eone$ endpoints, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$ provenance, and the $\NameCert$ ledger.
+
+For the metric-facing read, apply
+\autoref{thm:realalgorder-constant-apartness-metric-handoff}. The handoff
+identifies the displayed $\MetricSpaceUp$ surface with the same constant
+endpoint rows and the same finite positive-separation data.
+
+For the order-facing read, apply
+\autoref{thm:realalgorder-apartness-positive-gap-order-consumer}. This turns
+the positive-gap separation packet into the order-consumer row without adding a
+new full-real comparison principle.
+
+The determinacy and scope controls come from
+\autoref{thm:realalgorder-constant-positive-gap-consumer-determinacy} and
+\autoref{thm:realalgorder-constant-rational-scoped-certificate}. They keep the
+apartness, metric, and order surfaces tied to the transported rational witness,
+the finite $\mathsf{BHist}$ ledger, and the displayed provenance. Since the
+cited rows omit nonconstant arithmetic, trichotomy, completeness, topology,
+quotient carriers, host-real inequalities, and standard bridges, the combined
+public boundary omits them as well.
+\end{proof}
+
 \begin{closurestatus}{\RealAlgOrderUp}
   \constructivestory{A constant-rational real is obtained by taking a $\RatUp$ denominator history $d$ and placing one b1 boundary over it, so the admitted real histories are exactly those of the form $\Eone(d)$ coming from the rational embedding. Two such real histories name the same constant rational when the rational classifier already identifies their underlying denominators; the real layer does not add a second comparison beyond that transported rational one. The source is the constant-rational predicate, the pattern records the b1-embedded shape together with the addition, multiplication, order, and apartness rows, and the ledger keeps the visible real endpoint tied to the rational witness from which it came. Because the rational classifier is an equivalence and the embedding is injective on representatives, the embedded rational supplies the carrier witness, the transported classifier is reflexive, symmetric, and transitive, and any recognized representative remains in the constant-rational subcarrier. A real history $h$ lies in the signature gap of a $\RealAlgOrder$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with a rational witness and evidence ledger, and the token-introduction relation names that witness as $p$; after unfolding, $h$ is $\Eone(d)$ for a rational $d$ classified as the rational value encoded by $p$. Each algebra or order row is read by going down to the rational witness, applying the matching $\RatUp$ row, and embedding the result back upward, as in $\Eone(d)+\Eone(e)$ being computed by $d+e$ before re-embedding. The chapter registers this transport-through-rational construction under the name $\RealAlgOrder$; these rows are inherited through the rational embedding, with no full non-constant real arithmetic, completeness, or standard bridge introduced here.}
   \theoryclosure{\scopedClosure}
