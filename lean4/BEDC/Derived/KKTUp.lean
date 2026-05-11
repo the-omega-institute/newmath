@@ -141,6 +141,25 @@ theorem KKTPrimalDualCarrier_primal_dual_row_obligations [AskSetup] [PackageSetu
   }
   exact And.intro cert carrier
 
+theorem KKTPrimalDualCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasible slack ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger provenance
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          hsame := by
+  intro carrier
+  exact (KKTPrimalDualCarrier_primal_dual_row_obligations carrier).left
+
 def KKTComplementarityLedger [AskSetup] [PackageSetup]
     (residual multiplier slack ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
