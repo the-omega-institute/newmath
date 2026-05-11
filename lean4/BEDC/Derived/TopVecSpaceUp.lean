@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -21,6 +23,44 @@ def TopVecSpaceBHistCarrier [AskSetup] [PackageSetup]
     UnaryHistory scalarLedger ∧ UnaryHistory route ∧ UnaryHistory endpoint ∧
       Cont vec topology addLedger ∧ Cont addLedger scalarLedger route ∧
         Cont route topology endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem TopVecSpaceBHistCarrier_vecspace_source_obligation [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row vec)
+          (fun row : BHist => hsame row vec) (fun row : BHist => hsame row vec) hsame ∧
+        UnaryHistory vec ∧ Cont vec topology addLedger ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row vec)
+        (fun row : BHist => hsame row vec) (fun row : BHist => hsame row vec) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro vec (hsame_refl vec)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
+  exact And.intro cert
+    (And.intro carrier.left
+      (And.intro carrier.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right))
 
 theorem TopVecSpaceBHistCarrier_continuous_addition_obligation [AskSetup] [PackageSetup]
     {vec topology addLedger scalarLedger route endpoint vec' topology' addLedger'
