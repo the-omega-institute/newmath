@@ -30,6 +30,22 @@ For accepted carriers $K=(I_0,\ldots,I_n,S,R,P,L)$ and $K'=(I'_0,\ldots,I'_m,S',
 Concretely, for each unary index requested by both $S$ and $S'$, the classifier supplies displayed $\hsame$ rows between the lower endpoints, displayed $\hsame$ rows between the upper endpoints, the matching $\Cont$ routes for the interval provenance, and equality of the nested-refinement ledger read on that common prefix. It does not quotient infinite chains and does not identify any completed intersection point.
 \end{definition}
 
+\begin{theorem}[NestedDyadicInterval classifier laws]
+\label{thm:nesteddyadicinterval-classifier-laws}
+For accepted $\NestedDyadicIntervalUp$ finite-chain carriers, the componentwise classifier on interval rows, dyadic endpoint rows, containment ledgers, scheduled window rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$ provenance, and $\NameCert$ provenance is reflexive, symmetric, and transitive.
+
+Moreover, if a packet is related to an accepted carrier by this classifier and the displayed interval, endpoint, containment, window, route, package, and certificate rows transport through the classifier data, then the related packet is again an accepted $\NestedDyadicIntervalUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $K=(I_0,\ldots,I_n,S,R,P,L)$ through \autoref{def:nesteddyadicinterval-carrier}. Reflexivity is obtained rowwise from the displayed $\hsame$ reflexivity on each dyadic endpoint row, the identity $\Cont$ route on each containment ledger entry, and the unchanged schedule, provenance, and tail ledger.
+
+For symmetry, reverse each displayed endpoint $\hsame$ row and read the common scheduled window in the opposite direction. The containment rows are not replaced by a completed interval object; they are the same finite ledger entries read through the reversed classifier comparison on the shared window.
+
+For transitivity, compose the endpoint $\hsame$ rows and compose the displayed $\Cont$ routes in each adjacent refinement slot. The scheduled-window rows align by the common finite prefix, so the containment ledger and provenance rows compose component by component.
+
+If a classifier-related packet is transported from an accepted carrier, the preceding rowwise transports rebuild the finite list of interval packets, the nested-refinement ledger, the schedule, the $\mathsf{Pkg}$ row, the $\NameCert$ provenance, and the hidden-tail ledger. Repacking these rows gives an accepted carrier. No completed real point, quotient interval object, open-cover compactness witness, or choice of an infinite tail is introduced.
+\end{proof}
+
 \begin{theorem}[NestedDyadicInterval window transport]
 \label{thm:nesteddyadicinterval-window-transport}
 Let $K=(I_0,\ldots,I_n,S,R,P,L)$ be an accepted $\NestedDyadicIntervalUp$ carrier. If each displayed interval $I_i$ is transported endpointwise through $\hsame$ rows and through the same $\Cont$ routes named by $R$ and $P$, and if the transported schedule names the same unary finite prefix, then the transported packet is again an accepted $\NestedDyadicIntervalUp$ carrier.
