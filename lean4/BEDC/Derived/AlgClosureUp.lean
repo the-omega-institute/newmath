@@ -1,9 +1,11 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.AlgClosureUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 def AlgClosureCarrierPacket
     (fieldExt polynomial root transport ledger provenance : BHist) : Prop :=
@@ -16,8 +18,19 @@ theorem AlgClosureCarrierPacket_source_obligation
         Cont fieldExt ledger provenance ∧ hsame provenance (append fieldExt ledger) := by
   intro packet
   exact And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right packet.right.right))
+
+theorem AlgClosureCarrierPacket_standard_boundary_obligation
+    {fieldExt polynomial root transport ledger provenance : BHist} :
+    AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ->
+      hsame transport root ∧ Cont polynomial root ledger ∧ Cont fieldExt ledger provenance ∧
+        hsame ledger (append polynomial root) ∧ hsame provenance (append fieldExt ledger) := by
+  intro packet
+  exact And.intro packet.left
     (And.intro packet.right.left
-      (And.intro packet.right.right packet.right.right))
+      (And.intro packet.right.right
+        (And.intro packet.right.left packet.right.right)))
 
 theorem AlgClosureCarrierPacket_polynomial_root_classifier_obligation
     {fieldExt fieldExt' polynomial polynomial' root root' transport transport' ledger ledger'
@@ -99,5 +112,61 @@ theorem AlgClosureCarrierPacket_downstream_consumer_obligation
     (And.intro packet.left
       (And.intro packet.right.left
         (And.intro packet.right.right satisfactionRow)))
+
+theorem AlgClosureCarrierPacket_root_carrier_obligation_surface
+    {fieldExt polynomial root transport ledger provenance : BHist} :
+    AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ->
+      SemanticNameCert
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          hsame ∧
+        hsame transport root ∧ Cont polynomial root ledger ∧ Cont fieldExt ledger provenance ∧
+          hsame provenance (append fieldExt ledger) := by
+  intro packet
+  have source := AlgClosureCarrierPacket_source_obligation packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          (fun row : BHist =>
+            AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+              hsame row provenance)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance (And.intro packet (hsame_refl provenance))
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact And.intro carrierRow.left
+          (hsame_trans (hsame_symm sameRows) carrierRow.right)
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
+  exact And.intro cert source
 
 end BEDC.Derived.AlgClosureUp
