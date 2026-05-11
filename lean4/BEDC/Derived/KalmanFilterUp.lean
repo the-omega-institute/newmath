@@ -42,6 +42,23 @@ def KalmanFilterCarrier [AskSetup] [PackageSetup]
                                         Cont posterior covariancePosterior endpoint ∧
                                           PkgSig bundle endpoint pkg
 
+theorem KalmanFilterCarrier_endpoint_closed_generation [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} {P : BHist -> Prop} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      P BHist.Empty ->
+        (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) -> P endpoint := by
+  intro carrier base step
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, _residualUnary,
+      _covarianceUnary, _gainUnary, _posteriorUnary, _innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, _posteriorRow, _covariancePosteriorRow,
+      _endpointRow, _pkgSig⟩
+  exact unary_history_induction base step endpoint endpointUnary
+
 theorem KalmanFilterCarrier_estimate_transport [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
       covariancePosterior provenance endpoint prior' transition' prediction' observation' residual'
@@ -278,6 +295,45 @@ theorem KalmanFilterCarrier_estimate_transport_stability [AskSetup] [PackageSetu
       (And.intro sameResidual
         (And.intro sameInnovation
           (And.intro sameUpdate (And.intro sameCovariancePosterior sameEndpoint))))
+
+theorem KalmanFilterCarrier_downstream_consumer_boundary [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint predictionConsumer updateConsumer finalConsumer
+      finalConsumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      Cont prediction residual predictionConsumer ->
+        Cont update posterior updateConsumer ->
+          Cont predictionConsumer updateConsumer finalConsumer ->
+            hsame finalConsumer finalConsumer' ->
+              UnaryHistory finalConsumer' ∧
+                hsame finalConsumer' (append (append prediction residual) (append update posterior)) ∧
+                  Cont posterior covariancePosterior endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier predictionConsumerRow updateConsumerRow finalConsumerRow sameFinal
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, predictionUnary, _observationUnary, residualUnary,
+      _covarianceUnary, _gainUnary, posteriorUnary, _innovationUnary, updateUnary,
+      covariancePosteriorUnary, _provenanceUnary, _endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, _posteriorRow, _covariancePosteriorRow,
+      endpointRow, pkgSig⟩
+  have predictionConsumerUnary : UnaryHistory predictionConsumer :=
+    unary_cont_closed predictionUnary residualUnary predictionConsumerRow
+  have updateConsumerUnary : UnaryHistory updateConsumer :=
+    unary_cont_closed updateUnary posteriorUnary updateConsumerRow
+  have finalConsumerUnary : UnaryHistory finalConsumer :=
+    unary_cont_closed predictionConsumerUnary updateConsumerUnary finalConsumerRow
+  have finalConsumerUnary' : UnaryHistory finalConsumer' :=
+    unary_transport finalConsumerUnary sameFinal
+  have sameFinalAppend : hsame finalConsumer' (append (append prediction residual)
+      (append update posterior)) := by
+    cases predictionConsumerRow
+    cases updateConsumerRow
+    cases finalConsumerRow
+    cases sameFinal
+    rfl
+  exact And.intro finalConsumerUnary'
+    (And.intro sameFinalAppend (And.intro endpointRow pkgSig))
 
 theorem KalmanFilterCarrier_prediction_update_endpoint_transport [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
