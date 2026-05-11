@@ -41,6 +41,7 @@ regular-tail stability row read through $\RegSeqRatUp$, the $\RealUp$ handoff
 row for accepted real-name consumers, and the precision ledger boundary that
 records every schedule consumed by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionPacket\_namecert\_obligation\_surface}
 \begin{proof}
 Project the carrier coordinates. The dyadic, stream, regular-tail, real-handoff,
 ledger, and provenance rows are all stored as finite $\mathsf{BHist}$ data.
@@ -135,6 +136,41 @@ Any downstream read by $\RegSeqRatUp$ or $\RealUp$ must pass through one of
 those listed routes. Since the carrier has no coordinate for an unstored
 modulus, quotient representative, Dedekind cut, or completed host real, such
 data cannot be projected from the packet.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion obligation closure packet]
+\label{thm:dyadiccompletion-obligation-closure-packet}
+The carrier, componentwise classifier, regular-tail stability, constant dyadic
+embedding, $\StreamNameUp$ handoff, $\RealUp$ boundary, and precision ledger
+form the full paper obligation surface for $\DyadicCompletionUp$. The six
+visible coordinates are scheduled dyadic observations, certified stream
+windows, regular-tail comparison rows, constant dyadic rows, consumer handoff
+routes, and the ledger entries naming every finite precision read.
+
+Every downstream read of the packet passes through a stored finite schedule and
+ledger route. No quotient stream, unstored modulus, Dedekind cut, or completed
+ambient real is introduced by the obligation surface.
+\end{theorem}
+\begin{proof}
+Enumerate the six visible coordinates from \autoref{def:dyadiccompletion-carrier}:
+the dyadic observation row, the stream-window certificate, the regular-tail
+comparison row, the constant dyadic embedding row, the consumer handoff row,
+and the precision ledger.
+
+The local certificate surface is \autoref{thm:dyadiccompletion-namecert-obligation-surface}.
+It identifies the carrier and componentwise classifier as the public obligation
+rows for the packet. The constant dyadic component is supplied by
+\autoref{thm:dyadiccompletion-constant-embedding}.
+
+Regular-tail reads use \autoref{thm:dyadiccompletion-regular-tail-stability},
+and consumer reads use \autoref{thm:dyadiccompletion-streamname-handoff}. Both
+theorems return only rows already indexed by a finite schedule.
+
+It remains to account for the boundary. Apply
+\autoref{thm:dyadiccompletion-ledger-boundary}: every $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ read is named in the precision
+ledger, and the packet contains no extra coordinate from which a completed real
+or quotient stream could be projected.
 \end{proof}
 
 \closureat{DyadicCompletionUp}{obligationStr}
