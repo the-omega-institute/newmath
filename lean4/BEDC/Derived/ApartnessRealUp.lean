@@ -107,6 +107,40 @@ theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetu
                       packet.right.right.right.right.right.right.right)))))))
       (And.intro (hsame_refl radius) (hsame_refl window))
 
+theorem ApartnessRealSeparationPacket_metric_handoff [AskSetup] [PackageSetup]
+    {leftName rightName radius window leftEndpoint rightEndpoint separation metricRow endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory leftName ->
+    UnaryHistory rightName ->
+    UnaryHistory radius ->
+    UnaryHistory window ->
+    UnaryHistory metricRow ->
+    Cont leftName rightName leftEndpoint ->
+    Cont radius window rightEndpoint ->
+    Cont leftEndpoint rightEndpoint separation ->
+    Cont separation metricRow endpoint ->
+    PkgSig bundle endpoint pkg ->
+      UnaryHistory leftEndpoint ∧ UnaryHistory rightEndpoint ∧ UnaryHistory separation ∧
+        UnaryHistory endpoint ∧ hsame separation (append leftEndpoint rightEndpoint) ∧
+          hsame endpoint (append separation metricRow) ∧ PkgSig bundle endpoint pkg := by
+  intro leftUnary rightUnary radiusUnary windowUnary metricUnary leftEndpointRow rightEndpointRow
+    separationRow endpointRow pkgSig
+  have leftEndpointUnary : UnaryHistory leftEndpoint :=
+    unary_cont_closed leftUnary rightUnary leftEndpointRow
+  have rightEndpointUnary : UnaryHistory rightEndpoint :=
+    unary_cont_closed radiusUnary windowUnary rightEndpointRow
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary separationRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed separationUnary metricUnary endpointRow
+  exact And.intro leftEndpointUnary
+    (And.intro rightEndpointUnary
+      (And.intro separationUnary
+        (And.intro endpointUnary
+          (And.intro separationRow
+            (And.intro endpointRow pkgSig)))))
+
 def ApartnessRealMetricHandoffPacket [AskSetup] [PackageSetup]
     (left right radius window leftReadback rightReadback separation provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
