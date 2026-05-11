@@ -17203,3 +17203,27 @@ Rationale:
 This is a concrete bridge between the core signature-sameness predicate and the checker-friendly GeneratedSameSig witness object used by exact Globalize. Existing text defines both sides and gives witness projections, but the paper does not appear to contain a theorem label aligning the two interfaces directly. It is a useful low-risk bridge target rather than a marker-only or closurestatus item.
 
 ---
+
+### B-682 - Entropy public readback bridge boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Entropy public readback bridge boundary |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an EntropyUp public readback surface exposes the displayed source carrier, log-partition rows, transported log-weight and IntegralUp readback rows, Cont ledger, Pkg provenance, and consumer-exact boundary, then a conservative paper bridge may read only those rows and cannot import convergence, measure completion, host entropy equality, or host integral equality.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex`
+
+Rationale:
+EntropyUp has public paper closure but no bridge boundary: the BHist measure source and log-partition carrier are defined at papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex:9-32; the chapter proves log-partition consumer exhaustion and transport closure at lines 34-89, distribution-integral boundary at lines 91-111, NameCert obligation surface at lines 116-136, log-weight transport determinacy at lines 138-169, and inventory/ledger stability at lines 171-232. Its closure block states that the next paper-axis step is a bridge boundary for the public entropy readback surface at lines 234-245. Prior discovery rejected a generic 'Entropy exported readback surface' as already covered by the distribution-integral boundary, so this candidate deliberately targets the different missing bridge-boundary implication and keeps the exclusions concrete.
+
+---
