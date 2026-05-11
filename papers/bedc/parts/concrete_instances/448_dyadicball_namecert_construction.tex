@@ -173,6 +173,33 @@ dyadic ball packet is refined, consumed by a regular stream window, and read by
 a real-name seal.
 \end{proof}
 
+\begin{theorem}[DyadicBall obligation closure]
+\label{thm:dyadicball-obligation-closure}
+The carrier, classifier, radius-refinement stability, $\RegSeqRatUp$ handoff,
+and $\RealUp$ seal boundary listed in
+\autoref{thm:dyadicball-namecert-obligation-surface} exhaust the local
+obligation set for $\DyadicBallUp$.
+\end{theorem}
+\begin{proof}
+The carrier row is the finite center-radius packet of
+\autoref{def:dyadicball-carrier}. Its classifier row compares exactly the
+center, radius, schedule, scheduled observation, containment ledger,
+$\Cont$ routes, $\mathsf{Pkg}$ rows, and $\NameCert$ rows named by that
+carrier.
+
+The three outgoing obligation rows are the radius-refinement stability theorem
+of \autoref{thm:dyadicball-radius-refinement-closure}, the scheduled
+regular-rational handoff of
+\autoref{thm:dyadicball-regseqrat-window-handoff}, and the real-seal boundary
+of \autoref{thm:dyadicball-real-seal-boundary}. These are the only local
+operations that refine, export, or seal a displayed dyadic-ball packet.
+
+No quotient ball space, host real equality, metric topology, or completeness
+coordinate is present in the carrier. Hence there is no additional local
+obligation row beyond the five rows enumerated in
+\autoref{thm:dyadicball-namecert-obligation-surface}.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 
