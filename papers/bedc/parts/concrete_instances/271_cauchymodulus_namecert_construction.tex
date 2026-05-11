@@ -1,136 +1,193 @@
 \chapter{A Concrete Naming Certificate for $\CauchyModulusUp$}
 \label{ch:concrete-instances-cauchymodulus-namecert}
 
-The $\CauchyModulusUp$ interface records the explicit tail-control object used
-by Bishop--Bridges constructive analysis. It sits in the Phase Real and
-Completion order of \autoref{sec:roadmap-l10-construction-order}: the dyadic
-bound rows are read through $\DyadicRatCore$, the tail stream is supplied by
-$\StreamNameUp$, regularity is checked against $\RegSeqRat$, and the eventual
-classifier is transported only after the $\RealUp$ surface is available. The
-chapter is a paper-side support object for constructive Cauchy control; it
-does not claim completeness of $\RealUp$.
+The $\CauchyModulusUp$ interface records the explicit rate data used by the
+Bishop-style regular-sequence construction of $\RegSeqRat$ and $\RealUp$. It
+sits over $\NatUp$, $\RatUp$, and $\StreamNameUp$: natural-number rows index
+observations, rational tolerance rows state requested bounds, stream-name rows
+identify the scheduled observations, and a finite ledger witnesses that the
+displayed modulus bound has been consumed by the downstream regular-sequence
+and real-number carriers.
 
-\section{Carrier definition}
+\section{Carrier and classifier}
 \label{sec:cauchymodulus-carrier}
 
-\begin{definition}[Dyadic tail-bound carrier]
-\label{def:cauchymodulus-dyadic-bound-carrier}
-A $\CauchyModulusUp$ carrier row is a finite $\mathsf{BHist}$ packet
-$$
-M=(s,\mu,b,L)
-$$
-whose source stream $s$ is a $\StreamNameUp$ observation stream over
-$\DyadicRatCore$, whose modulus ledger $\mu$ assigns to each visible tolerance
-row a threshold row, whose bound ledger $b$ records the dyadic inequality
-between any two observations past that threshold, and whose provenance ledger
-$L$ packages the corresponding $\hsame$, $\Cont$, and $\Pkg$ rows. The packet
-is admitted exactly when every displayed late pair in the finite observation
-window carries a $\DyadicRatCore$ comparison row witnessing the requested
-Cauchy bound.
-
-The classifier on accepted packets is componentwise $\hsame$ transport of the
-stream observations, modulus thresholds, dyadic bounds, and provenance rows.
-No quotient over all possible moduli is formed: two packets classify together
-only when their displayed tail-control ledgers can be repacked row by row.
+\begin{definition}[Cauchy-modulus carrier]
+\label{def:cauchymodulus-carrier}
+A $\CauchyModulusUp$ carrier packet is a finite $\mathsf{BHist}$ ledger with
+four visible groups of rows.
+\begin{enumerate}
+\item Unary index rows supplied by $\NatUp$, including the requested precision
+index and the threshold index returned by the modulus.
+\item Dyadic or rational tolerance rows supplied by $\RatUp$, including the
+positive tolerance budget and the displayed comparison to the tolerance read by
+the regular-sequence carrier.
+\item Scheduled observation rows supplied by $\StreamNameUp$, naming the
+stream entries whose late pairwise distance is being bounded.
+\item A finite consumption ledger stating that every displayed observation
+pair past the threshold uses the same modulus row, the same tolerance row, and
+the same $\mathsf{Pkg}$ provenance before it is passed to $\RegSeqRat$ or
+$\RealUp$.
+\end{enumerate}
+The carrier accepts only packets in which the index, tolerance, schedule, and
+consumption rows are present in the same finite history and are connected by
+displayed $\Cont$ routes. It has no quotient of streams, no ambient limit
+object, and no hidden choice of a threshold outside the ledger.
 \end{definition}
 
-\section{The certificate}
-\label{sec:cauchymodulus-certificate}
+\begin{definition}[Cauchy-modulus classifier]
+\label{def:cauchymodulus-classifier}
+The $\CauchyModulusUp$ classifier compares two accepted packets by componentwise
+$\hsame$ on their precision-index rows, threshold-index rows, tolerance rows,
+scheduled observation rows, consumption-ledger rows, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance. Two packets classify together only when the same
+visible modulus schedule can be replayed through the transported finite ledger.
+\end{definition}
+
+\begin{theorem}[Cauchy-modulus $\hsame$ stability]
+\label{thm:cauchymodulus-hsame-stability}
+Let $P$ and $Q$ be accepted $\CauchyModulusUp$ packets. If every index,
+tolerance, scheduled-observation, consumption-ledger, $\Cont$, and
+$\mathsf{Pkg}$ row of $P$ is transported to the corresponding row of $Q$ by
+displayed $\hsame$ comparisons, then $Q$ is accepted by the carrier of
+\autoref{def:cauchymodulus-carrier} and the classifier of
+\autoref{def:cauchymodulus-classifier} identifies the two packets.
+\end{theorem}
+\begin{proof}
+Project $P$ to the four carrier groups. The supplied $\hsame$ rows transport
+the natural indices and rational tolerance rows first, so the threshold still
+answers the same displayed precision request.
+
+Transport the scheduled observation rows through the $\StreamNameUp$ surface.
+The finite consumption ledger then replays the same $\Cont$ routes from the
+transported threshold and tolerance rows to the transported late-observation
+claims.
+
+Finally repack the transported rows with the transported $\mathsf{Pkg}$
+provenance. These are exactly the fields required by the carrier and by the
+componentwise classifier, so $Q$ is accepted and the two packets classify
+together.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus finite-window closure]
+\label{thm:cauchymodulus-cont-window-closure}
+For every accepted $\CauchyModulusUp$ packet and every displayed precision
+request in its $\NatUp$ index rows, the packet exposes a finite $\Cont$ window
+containing the threshold row, the rational tolerance row, the scheduled late
+observation rows, and the consumption ledger read by $\RegSeqRat$ and
+$\RealUp$. No consumer may read a convergence rate except through that finite
+window.
+\end{theorem}
+\begin{proof}
+Inspect the accepted carrier packet at the requested precision row. The
+threshold is present as a visible $\NatUp$ row, and the tolerance budget is
+present as a visible $\RatUp$ row in the same finite history.
+
+The scheduled observation rows are linked to those two rows by the displayed
+$\Cont$ routes. Restrict the packet to the rows mentioned by those routes and
+to the corresponding consumption-ledger entries.
+
+This restricted packet is finite and contains every row used by the downstream
+regular-sequence and real-number readbacks. Since the carrier has no other
+constructor for rate data, every convergence-rate read factors through the
+finite window just described.
+\end{proof}
 
 \begin{theorem}[Monotone tail obligation]
 \label{thm:cauchymodulus-monotone-tail-obligation}
-Let $M=(s,\mu,b,L)$ be an accepted $\CauchyModulusUp$ carrier row. If a
-tolerance row is transported to a smaller positive dyadic tolerance through
-the $\DyadicRatCore$ comparison ledger, then the threshold selected by $\mu$
-can be transported to a threshold that works for the smaller tolerance, and
-the late-pair dyadic-bound rows in $b$ remain accepted after $\hsame$
-transport of the observation indices.
+Let $M$ be an accepted $\CauchyModulusUp$ carrier packet. If a tolerance row is
+transported to a smaller positive dyadic tolerance through the displayed
+comparison ledger, then the threshold selected by the modulus row can be
+transported to a threshold that works for the smaller tolerance, and the
+late-pair bound rows remain accepted after $\hsame$ transport of the
+observation indices.
 \end{theorem}
 \begin{proof}
-Unpack the carrier row of \autoref{def:cauchymodulus-dyadic-bound-carrier}.
-The selected threshold and every late-pair bound are visible rows of the same
-finite $\mathsf{BHist}$ packet, so decreasing the tolerance asks only for a
-refined dyadic comparison row, not for a new stream object.
+Unpack the carrier packet of \autoref{def:cauchymodulus-carrier}. The selected
+threshold and every late-pair bound are visible rows of the same finite
+$\mathsf{BHist}$ ledger, so decreasing the tolerance asks only for a refined
+dyadic or rational comparison row, not for a new stream object.
 
 Transport the observation endpoints by the displayed $\hsame$ rows and compose
-the old dyadic bound with the smaller-tolerance comparison. The provenance
-ledger $L$ supplies the $\Cont$ and $\Pkg$ rows needed to repack the same
-late-pair evidence under the transported threshold.
+the old bound with the smaller-tolerance comparison. The provenance ledger
+supplies the $\Cont$ and $\Pkg$ rows needed to repack the same late-pair
+evidence under the transported threshold.
 \end{proof}
 
 \begin{theorem}[RegSeqRat regularity obligation]
 \label{thm:cauchymodulus-regseqrat-regularity-obligation}
-Every accepted $\CauchyModulusUp$ carrier row whose source stream is a
-$\RegSeqRat$ regular dyadic sequence supplies the explicit regularity data
+Every accepted $\CauchyModulusUp$ carrier packet whose source stream is a
+$\RegSeqRat$ regular rational sequence supplies the explicit regularity data
 required by the $\RegSeqRat$ phase: for displayed indices $m,n$ past the
-threshold chosen by $\mu$, the bound ledger gives the dyadic estimate required
-by the regular-sequence classifier, and this estimate is stable under
-componentwise $\hsame$ transport of $m$, $n$, $s(m)$, and $s(n)$.
+threshold selected by the modulus row, the bound ledger gives the estimate
+required by the regular-sequence classifier, and this estimate is stable under
+componentwise $\hsame$ transport of $m$, $n$, and the scheduled observations.
 \end{theorem}
 \begin{proof}
-Read the $\RegSeqRat$ regularity row as a request for a visible dyadic
-late-pair estimate. The carrier already stores exactly that estimate in $b$,
-indexed by the threshold supplied by $\mu$ and by the two displayed stream
-observations.
+Read the $\RegSeqRat$ regularity row as a request for a visible late-pair
+estimate. The carrier already stores exactly that estimate in the consumption
+ledger, indexed by the threshold and by the two displayed stream observations.
 
 For stability, transport the two indices and observations through the
-classifier of \autoref{def:cauchymodulus-dyadic-bound-carrier}. The
-$\DyadicRatCore$ comparison row is part of the ledger, so the transported
-packet again contains the regularity estimate demanded by $\RegSeqRat$.
+classifier of \autoref{def:cauchymodulus-classifier}. The comparison row is
+part of the ledger, so the transported packet again contains the regularity
+estimate demanded by $\RegSeqRat$.
 \end{proof}
 
 \begin{theorem}[Real classifier transport obligation]
 \label{thm:cauchymodulus-real-classifier-transport-obligation}
 Assume the $\RealUp$ classifier is read from $\RegSeqRat$ representatives by
-dyadic tolerance tests. A $\CauchyModulusUp$ carrier row transports across the
-$\RealUp$ classifier by sending its stream observations through the
+rational tolerance tests. A $\CauchyModulusUp$ carrier packet transports across
+the $\RealUp$ classifier by sending its stream observations through the
 $\RegSeqRat$ classifier, transporting the modulus threshold rows by $\hsame$,
-and reusing the dyadic tail-bound ledger for the transported representatives.
+and reusing the tail-bound ledger for the transported representatives.
 \end{theorem}
 \begin{proof}
-The only analytic datum used by the real classifier is an explicit dyadic
-tolerance test on sufficiently late representatives. The
-$\CauchyModulusUp$ packet exposes this datum as $\mu$ together with the
-late-pair ledger $b$.
+The only analytic datum used by the real classifier is an explicit tolerance
+test on sufficiently late representatives. The $\CauchyModulusUp$ packet
+exposes this datum as a threshold row together with the late-pair ledger.
 
 Apply the $\RegSeqRat$ transport to the representative stream and then repack
-the threshold, dyadic comparison, and provenance rows. Since no equivalence
-class of real numbers is formed, the transport is a row-by-row certificate
-operation inside the displayed $\mathsf{BHist}$ packet.
+the threshold, comparison, and provenance rows. Since no equivalence class of
+real numbers is formed, the transport is a row-by-row certificate operation
+inside the displayed $\mathsf{BHist}$ packet.
 \end{proof}
 
-\begin{theorem}[Cauchy modulus NameCert obligation]
-\label{thm:cauchymodulus-namecert-obligation}
-The local $\NameCert_{\CauchyModulusUp}$ obligation surface consists of the
-dyadic tail-bound carrier of
-\autoref{def:cauchymodulus-dyadic-bound-carrier}, the monotone-tail obligation
-of \autoref{thm:cauchymodulus-monotone-tail-obligation}, the
-$\RegSeqRat$ regularity obligation of
-\autoref{thm:cauchymodulus-regseqrat-regularity-obligation}, and the
-$\RealUp$ classifier transport obligation of
-\autoref{thm:cauchymodulus-real-classifier-transport-obligation}. These rows
-license explicit Cauchy tail control without asserting a completed real
-carrier or a choice of limits.
+\begin{theorem}[Cauchy-modulus NameCert obligation surface]
+\label{thm:cauchymodulus-namecert-obligation-surface}
+The $\CauchyModulusUp$ carrier and classifier of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier} supply the paper-side obligation
+surface for an eventual $\NameCert_{\CauchyModulusUp}$. The source rows are the
+displayed $\NatUp$, $\RatUp$, and $\StreamNameUp$ packets; the classifier is
+componentwise $\hsame$ transport of the finite modulus ledger; the ledger
+exactness condition exports only the threshold, tolerance, scheduled
+observation, $\Cont$, and $\mathsf{Pkg}$ rows consumed by $\RegSeqRat$ and
+$\RealUp$.
 \end{theorem}
 \begin{proof}
-The carrier supplies the source and visible ledger. The monotone-tail theorem
-gives closure of the modulus under stronger tolerances, while the
-$\RegSeqRat$ theorem identifies the same rows with regular dyadic-sequence
-control.
+The carrier definition names the source rows and the finite consumption ledger.
+The classifier definition states exactly how those rows move under
+componentwise $\hsame$ transport.
 
-The real-classifier transport theorem explains how the packet is consumed once
-the $\RealUp$ classifier is available. Repacking these rows yields the local
-name-certificate surface, and the absence of a limit selector keeps the claim
-strictly below real completeness.
+Apply \autoref{thm:cauchymodulus-hsame-stability} for classifier stability and
+\autoref{thm:cauchymodulus-cont-window-closure} for the finite read window.
+Use \autoref{thm:cauchymodulus-monotone-tail-obligation},
+\autoref{thm:cauchymodulus-regseqrat-regularity-obligation}, and
+\autoref{thm:cauchymodulus-real-classifier-transport-obligation} to identify
+the visible tail-control rows consumed by stronger tolerances,
+regular-sequence readback, and real-classifier transport. Together they expose
+the naming-certificate fields at the paper surface without adding hidden
+limits or unrecorded threshold choices.
 \end{proof}
 
 \begin{closurestatus}{\CauchyModulusUp}
-  \constructivestory{A $\CauchyModulusUp$ token names a finite $\mathsf{BHist}$ packet containing a $\StreamNameUp$ dyadic observation stream, a visible modulus threshold ledger, dyadic late-pair bound rows over $\DyadicRatCore$, and provenance rows for $\hsame$, $\Cont$, and $\Pkg$. The packet is consumed by $\RegSeqRat$ as regular Cauchy control and later by $\RealUp$ classifier transport, but it contains no limit selector and no completed real object.}
+  \constructivestory{A $\CauchyModulusUp$ packet is generated from visible $\NatUp$ precision and threshold rows, visible $\RatUp$ tolerance rows, scheduled $\StreamNameUp$ observation rows, and a finite consumption ledger showing how the displayed bound is read by $\RegSeqRat$ and $\RealUp$. This is the Bishop-style explicit-rate object needed for regular rational sequences and real-number convergence, with no stream quotient, ambient limit object, hidden threshold choice, limit selector, or completed real object.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{The seeded paper scope binds the dyadic-bound carrier, monotone-tail obligation, $\RegSeqRat$ regularity obligation, $\RealUp$ classifier transport obligation, and local $\NameCert_{\CauchyModulusUp}$ obligation surface.}
+  \scopeclosed{The seed scope names the natural-index rows, rational-tolerance rows, scheduled stream rows, finite $\Cont$ consumption window, $\hsame$ transports, $\mathsf{Pkg}$ provenance, monotone-tail obligation, $\RegSeqRat$ regularity obligation, $\RealUp$ classifier transport obligation, and local $\NameCert_{\CauchyModulusUp}$ obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{The chapter does not claim $\RealUp$ completeness, a Cauchy completion, quotient equality of real names, or a selected limit.}
-  \upgradepath{Obligation closure requires checked Lean targets for the carrier, monotone-tail transport, regularity readback, real-classifier transport, and local NameCert surface under BEDC.Derived.CauchyModulusUp.}
+  \notclaimed{The chapter does not close the formal Lean namespace, the full $\NameCert_{\CauchyModulusUp}$ theorem, $\RealUp$ completeness, a Cauchy completion, quotient equality of real names, or a selected limit.}
+  \upgradepath{Obligation closure requires Lean targets for the carrier, classifier, $\hsame$ stability, finite-window closure, monotone-tail transport, regularity readback, real-classifier transport, and NameCert obligation surface under BEDC.Derived.CauchyModulusUp.}
 \end{closurestatus}
