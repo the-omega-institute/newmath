@@ -46,3 +46,12 @@ review before adding to `BEDC/Manifest/Entries.lean`.
 markers whose referenced Lean name does not exist in lean4/BEDC/. Informational
 only — does not gate CI. Use as a standing check that paper marker references
 remain consistent with the Lean source.
+
+## metacic-purity subcommand
+
+`python3 lean4/scripts/bedc_ci.py metacic-purity` reports every declaration in
+the `BEDC.MetaCIC` namespace together with its `#print axioms` result.
+Informational only — does not gate CI. Use
+`python3 lean4/scripts/bedc_ci.py metacic-purity --strict` to exit nonzero if a
+MetaCIC theorem or lemma depends on `Classical.choice`, `Quot.sound`, or
+`propext`; non-theorem declarations are still reported.
