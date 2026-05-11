@@ -14,3 +14,4 @@ import BEDC.MetaCIC.HostBridge
 import BEDC.MetaCIC.Weakening
 import BEDC.MetaCIC.Elaborator
 import BEDC.MetaCIC.BHistSubstrate
+import BEDC.MetaCIC.TypingV2
