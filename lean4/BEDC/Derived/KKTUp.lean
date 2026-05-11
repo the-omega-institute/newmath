@@ -338,4 +338,53 @@ theorem KKTCarrierPacket_endpoint_obligation [AskSetup] [PackageSetup]
                                               (And.intro ledgerCont
                                                 (And.intro endpointCont endpointPkg)))))))
 
+theorem KKTCarrierPacket_stationarity_feasibility_transport [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasibility slackness comparison ledger provenance
+      endpoint primal' dual' residual' stationarity' feasibility' slackness' comparison'
+      ledger' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison ledger
+        provenance endpoint probe pkg ->
+      hsame primal primal' ->
+        hsame dual dual' ->
+          hsame residual residual' ->
+            hsame stationarity stationarity' ->
+              hsame feasibility feasibility' ->
+                Cont primal' dual' comparison' ->
+                  Cont residual' stationarity' slackness' ->
+                    Cont feasibility' slackness' ledger' ->
+                      Cont ledger' provenance endpoint' ->
+                        PkgSig probe endpoint' pkg ->
+                          KKTCarrierPacket primal' dual' residual' stationarity' feasibility'
+                              slackness' comparison' ledger' provenance endpoint' probe pkg ∧
+                            hsame comparison comparison' ∧
+                              hsame slackness slackness' ∧
+                                hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro packet samePrimal sameDual sameResidual sameStationarity sameFeasibility
+    comparisonRow' slacknessRow' ledgerRow' endpointRow' pkgSig'
+  have primalUnary' : UnaryHistory primal' :=
+    unary_transport packet.left samePrimal
+  have dualUnary' : UnaryHistory dual' :=
+    unary_transport packet.right.left sameDual
+  have residualUnary' : UnaryHistory residual' :=
+    unary_transport packet.right.right.left sameResidual
+  have feasibilityUnary' : UnaryHistory feasibility' :=
+    unary_transport packet.right.right.right.left sameFeasibility
+  have sameComparison : hsame comparison comparison' :=
+    cont_respects_hsame samePrimal sameDual packet.right.right.right.right.left
+      comparisonRow'
+  have sameSlackness : hsame slackness slackness' :=
+    cont_respects_hsame sameResidual sameStationarity
+      packet.right.right.right.right.right.left slacknessRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameFeasibility sameSlackness
+      packet.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.left endpointRow'
+  exact
+    ⟨⟨primalUnary', dualUnary', residualUnary', feasibilityUnary', comparisonRow',
+        slacknessRow', ledgerRow', endpointRow', pkgSig'⟩,
+      sameComparison, sameSlackness, sameLedger, sameEndpoint⟩
+
 end BEDC.Derived.KKTUp

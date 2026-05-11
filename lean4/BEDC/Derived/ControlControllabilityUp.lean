@@ -115,4 +115,56 @@ theorem ControlControllabilityReachabilityPacket_reachability_ledger [AskSetup]
               (And.intro reachabilityUnary
                 (And.intro firstColumnRow (And.intro reachabilityRow pkgSig))))))))
 
+theorem ControlControllabilityReachabilityPacket_column_transport [AskSetup] [PackageSetup]
+    {state input transition control horizon firstColumn reachability provenance endpoint state'
+      input' transition' control' horizon' firstColumn' reachability' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      hsame state state' ->
+        hsame input input' ->
+          hsame transition transition' ->
+            hsame control control' ->
+              hsame horizon horizon' ->
+                Cont control' horizon' firstColumn' ->
+                  Cont firstColumn' transition' reachability' ->
+                    Cont reachability' provenance endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        ControlControllabilityReachabilityPacket state' input' transition'
+                            control' horizon' firstColumn' reachability' provenance endpoint'
+                            bundle pkg ∧
+                          hsame firstColumn firstColumn' ∧
+                            hsame reachability reachability' ∧ hsame endpoint endpoint' := by
+  intro packet sameState sameInput sameTransition sameControl sameHorizon firstColumnRow'
+    reachabilityRow' endpointRow' pkgSig'
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport packet.left sameState
+  have inputUnary' : UnaryHistory input' :=
+    unary_transport packet.right.left sameInput
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport packet.right.right.left sameTransition
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport packet.right.right.right.left sameControl
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport packet.right.right.right.right.left sameHorizon
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have sameFirstColumn : hsame firstColumn firstColumn' :=
+    cont_respects_hsame sameControl sameHorizon
+      packet.right.right.right.right.right.right.left firstColumnRow'
+  have firstColumnUnary' : UnaryHistory firstColumn' :=
+    unary_cont_closed controlUnary' horizonUnary' firstColumnRow'
+  have sameReachability : hsame reachability reachability' :=
+    cont_respects_hsame sameFirstColumn sameTransition
+      packet.right.right.right.right.right.right.right.left reachabilityRow'
+  have reachabilityUnary' : UnaryHistory reachability' :=
+    unary_cont_closed firstColumnUnary' transitionUnary' reachabilityRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameReachability (hsame_refl provenance)
+      packet.right.right.right.right.right.right.right.right.left endpointRow'
+  exact
+    ⟨⟨stateUnary', inputUnary', transitionUnary', controlUnary', horizonUnary',
+        provenanceUnary, firstColumnRow', reachabilityRow', endpointRow', pkgSig'⟩,
+      sameFirstColumn, sameReachability, sameEndpoint⟩
+
 end BEDC.Derived.ControlControllabilityUp
