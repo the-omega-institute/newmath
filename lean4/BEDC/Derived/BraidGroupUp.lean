@@ -356,4 +356,38 @@ theorem BraidGroupPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     artinStrandPositive, artinWordUnary, moveLedgerRow, artinClassifierRow, closurePkg,
     endpointPkg⟩
 
+theorem BraidGroupArtinPacket_public_namecert_export [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint rootAction knotClosure consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont endpoint dependency rootAction ->
+        Cont endpoint strand knotClosure ->
+          Cont knotClosure rootAction consumer ->
+            PkgSig bundle consumer pkg ->
+              PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory moveLedger ∧
+                UnaryHistory dependency ∧ UnaryHistory rootAction ∧ UnaryHistory knotClosure ∧
+                  UnaryHistory consumer ∧ Cont strand word moveLedger ∧
+                    Cont moveLedger dependency classifier ∧ Cont classifier word endpoint ∧
+                      Cont endpoint dependency rootAction ∧ Cont endpoint strand knotClosure ∧
+                        Cont knotClosure rootAction consumer ∧ PkgSig bundle endpoint pkg ∧
+                          PkgSig bundle consumer pkg := by
+  intro packet rootActionRow knotClosureRow consumerRow consumerPkg
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, moveLedgerRow,
+    classifierRow, endpointRow, endpointPkg⟩ := packet
+  have strandUnary : UnaryHistory strand :=
+    (PositiveUnaryDenominator_unary_and_nonempty strandPositive).left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed moveLedgerUnary dependencyUnary classifierRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed classifierUnary wordUnary endpointRow
+  have rootActionUnary : UnaryHistory rootAction :=
+    unary_cont_closed endpointUnary dependencyUnary rootActionRow
+  have knotClosureUnary : UnaryHistory knotClosure :=
+    unary_cont_closed endpointUnary strandUnary knotClosureRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed knotClosureUnary rootActionUnary consumerRow
+  exact ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, rootActionUnary,
+    knotClosureUnary, consumerUnary, moveLedgerRow, classifierRow, endpointRow, rootActionRow,
+    knotClosureRow, consumerRow, endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.BraidGroupUp
