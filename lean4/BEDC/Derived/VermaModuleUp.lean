@@ -137,4 +137,21 @@ theorem VermaModuleFiniteCarrier_namecert_obligation_surface [AskSetup] [Package
   exact ⟨cert, ledgerUnary, lieRootRow, highestBorelRow, generatorLoweringRow, ledgerRow,
     packageRow⟩
 
+theorem VermaModuleFiniteCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {lie root highest borel generator lowering contRows provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VermaModuleFiniteCarrier lie root highest borel generator lowering contRows provenance
+        endpoint bundle pkg ->
+      UnaryHistory lie ∧ UnaryHistory root ∧ UnaryHistory highest ∧ UnaryHistory borel ∧
+        UnaryHistory generator ∧ UnaryHistory lowering ∧ Cont lie root highest ∧
+          Cont highest borel generator ∧ Cont generator lowering contRows ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨lieUnary, rootUnary, highestUnary, borelUnary, generatorUnary, loweringUnary,
+    _contRowsUnary, _provenanceUnary, lieRootRow, highestBorelRow, generatorLoweringRow,
+    packageRow⟩ := carrier
+  exact
+    ⟨lieUnary, rootUnary, highestUnary, borelUnary, generatorUnary, loweringUnary,
+      lieRootRow, highestBorelRow, generatorLoweringRow, packageRow⟩
+
 end BEDC.Derived.VermaModuleUp
