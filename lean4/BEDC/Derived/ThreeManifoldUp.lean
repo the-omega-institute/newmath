@@ -87,4 +87,37 @@ theorem ThreeManifoldFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
       (And.intro carrier.right.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right))
 
+theorem ThreeManifoldFiniteCarrier_jsj_ledger_exactness [AskSetup] [PackageSetup]
+    {manifold topology decomposition classifier contRows provenance decomposition' contRows' :
+      BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows provenance
+        probe pkg ->
+      hsame decomposition decomposition' ->
+      hsame contRows contRows' ->
+      Cont manifold topology decomposition' ->
+      Cont decomposition' classifier contRows' ->
+        ThreeManifoldFiniteCarrier manifold topology decomposition' classifier contRows'
+          provenance probe pkg ∧ hsame contRows contRows' := by
+  intro carrier sameDecomposition sameContRows manifoldTopologyRow decompositionClassifierRow
+  obtain ⟨manifoldUnary, topologyUnary, decompositionUnary, classifierUnary, contRowsUnary,
+    provenanceUnary, _sourceManifoldTopologyRow, _sourceDecompositionClassifierRow,
+    packageRow⟩ := carrier
+  have decompositionUnary' : UnaryHistory decomposition' :=
+    unary_transport decompositionUnary sameDecomposition
+  have contRowsUnary' : UnaryHistory contRows' :=
+    unary_transport contRowsUnary sameContRows
+  have transportedCarrier :
+      ThreeManifoldFiniteCarrier manifold topology decomposition' classifier contRows'
+          provenance probe pkg :=
+    And.intro manifoldUnary
+      (And.intro topologyUnary
+        (And.intro decompositionUnary'
+          (And.intro classifierUnary
+            (And.intro contRowsUnary'
+              (And.intro provenanceUnary
+                (And.intro manifoldTopologyRow
+                  (And.intro decompositionClassifierRow packageRow)))))))
+  exact And.intro transportedCarrier sameContRows
+
 end BEDC.Derived.ThreeManifoldUp
