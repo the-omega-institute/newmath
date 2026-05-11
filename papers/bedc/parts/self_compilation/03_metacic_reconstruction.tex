@@ -311,6 +311,33 @@ fails, and the closed-term restriction makes a sub-cases tractable
 without resolving the underlying $\mathrm{shift}/\mathrm{substitute}$
 binder-propagation issue identified at finding 7.
 
+\paragraph{Eleventh stage: WF premise does not discharge R8.}
+The proof program for
+$\mathrm{closed\_term\_substitute\_preserves\_typing}$ has a substrate
+constraint: the well-formedness premise
+$\mathrm{WellFormedCtx}\ (B :: \Gamma)$ does not discharge the R8
+counterexample by ruling out the ill-typed source context
+$[\mathrm{var}\ 1]$.
+
+A WF-conformant variant of the R8 counterexample exists:
+$\Gamma = []$, $B = \mathrm{sort}$, $s = \mathrm{sort}$,
+$t = \mathrm{lam}\ (\mathrm{var}\ 0)\ (\mathrm{var}\ 0)$. Here:
+\begin{itemize}
+  \item $\mathrm{WellFormedCtx}\ [\mathrm{sort}]$ is provable
+    because sort itself is well-formed at depth 0;
+  \item $\mathrm{ClosedAt}\ 0\ B$ and $\mathrm{ClosedAt}\ 0\ s$ both hold;
+  \item the source $\mathrm{HasType}\ [\mathrm{sort}]\ t\ A$ types
+    via the lambda rule;
+  \item the substituted target is not derivable under any
+    $\mathrm{HasType}$ rule in the current calculus.
+\end{itemize}
+
+The substrate fix for the main theorem therefore requires either
+re-engineering the lambda typing rule so its codomain tracks shift
+propagation explicitly, changing $\mathrm{Ctx.lookup}$ semantics, or
+restating the main theorem with a different invariant, such as over fully
+closed terms only, where substitute reduces to identity.
+
 \begin{table}[t]
 \centering
 \begin{tabular}{r|p{0.34\linewidth}|p{0.34\linewidth}|l}
@@ -336,6 +363,8 @@ No. & Finding & Consequence & Status \\
 9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
 \hline
 10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 5/5 cases, two conditional \\
+\hline
+11 & WF premise does not discharge R8 counterexample & Substrate redesign of lam typing rule & Open \\
 \hline
 \end{tabular}
 \caption{Substrate-gap findings for MetaCIC substitution preservation.}
@@ -392,8 +421,10 @@ artifacts of impure proof automation.
 \hline
 10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 5/5 cases, two conditional \\
 \hline
+11 & WF premise does not discharge R8 counterexample & Substrate redesign of lam typing rule & Open \\
+\hline
 \end{tabular}
-\caption{Ten substrate-gap findings, each Lean-verified.}
+\caption{Eleven substrate-gap findings, each Lean-verified.}
 \end{table}
 
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
