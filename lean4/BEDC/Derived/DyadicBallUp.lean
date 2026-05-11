@@ -281,6 +281,62 @@ theorem DyadicBallFiniteWindowPacket_real_seal_boundary [AskSetup] [PackageSetup
     ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
       handoffUnary, sealUnary, certUnary, sealBoundaryRow, sealBoundaryRow, pkgRow⟩
 
+theorem DyadicBallFiniteWindowPacket_real_seal_row_boundary [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff
+      sealBoundary row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route
+        provenance certRow handoff sealBoundary bundle pkg ->
+      (hsame row center ∨ hsame row radius ∨ hsame row schedule ∨ hsame row observation ∨
+          hsame row containment ∨ hsame row route ∨ hsame row handoff ∨
+            hsame row sealBoundary ∨ hsame row certRow) ->
+        UnaryHistory row ∧ PkgSig bundle handoff pkg := by
+  intro packet rowVisible
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, _provenanceUnary,
+    certUnary, sealUnary, containmentRow, routeRow, handoffRow, _certProvenanceRow,
+    _certSealRow, pkgRow⟩ := packet
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed centerUnary radiusUnary containmentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed scheduleUnary observationUnary routeRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary routeUnary handoffRow
+  have rowUnary : UnaryHistory row := by
+    cases rowVisible with
+    | inl sameCenter =>
+        exact unary_transport centerUnary (hsame_symm sameCenter)
+    | inr rowVisible =>
+        cases rowVisible with
+        | inl sameRadius =>
+            exact unary_transport radiusUnary (hsame_symm sameRadius)
+        | inr rowVisible =>
+            cases rowVisible with
+            | inl sameSchedule =>
+                exact unary_transport scheduleUnary (hsame_symm sameSchedule)
+            | inr rowVisible =>
+                cases rowVisible with
+                | inl sameObservation =>
+                    exact unary_transport observationUnary (hsame_symm sameObservation)
+                | inr rowVisible =>
+                    cases rowVisible with
+                    | inl sameContainment =>
+                        exact unary_transport containmentUnary (hsame_symm sameContainment)
+                    | inr rowVisible =>
+                        cases rowVisible with
+                        | inl sameRoute =>
+                            exact unary_transport routeUnary (hsame_symm sameRoute)
+                        | inr rowVisible =>
+                            cases rowVisible with
+                            | inl sameHandoff =>
+                                exact unary_transport handoffUnary (hsame_symm sameHandoff)
+                            | inr rowVisible =>
+                                cases rowVisible with
+                                | inl sameSeal =>
+                                    exact unary_transport sealUnary (hsame_symm sameSeal)
+                                | inr sameCert =>
+                                    exact unary_transport certUnary (hsame_symm sameCert)
+  exact ⟨rowUnary, pkgRow⟩
+
 theorem DyadicBallFiniteWindowPacket_common_observation_overlap [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance certRow handoff sealBoundary
       center' radius' containment' route' provenance' certRow' handoff' sealBoundary' commonRadius
