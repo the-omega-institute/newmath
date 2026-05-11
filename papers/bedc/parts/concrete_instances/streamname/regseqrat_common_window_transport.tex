@@ -87,3 +87,41 @@ accepted spine. Since the cited boundaries contain no completion, quotient,
 host-index equality, or hidden selector row, the two packages hand the same
 DyadicRatCore source rows to the $\RealUp$ finite-window ledger.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window tail stability]
+\label{thm:streamname-regseqrat-common-window-tail-stability}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
+packages over a shared $\mathsf{ProbeBundle}$ $\mathcal P$. Suppose the two
+packages determine the same $\RegSeqRat$ dyadic source rows through
+\autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. Then every
+certified tail subwindow of $\mathcal P$ exposes the same $\RegSeqRat$ handoff
+rows and the same terminal $\RealUp$ ledger-boundary rows.
+
+The tail restriction is read only through the displayed
+$\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, DyadicRatCore endpoint rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance. It does not expose
+regularity, completion, quotient, or host-index data as part of the source
+packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport}. The shared
+bundle and pointwise rational-history transport identify the common-window
+handoff rows before any tail restriction is taken.
+
+Apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+hypothesis that the same dyadic source rows are determined fixes the accepted
+$\RegSeqRat$ spine and the DyadicRatCore endpoint rows carried into the
+terminal $\RealUp$ ledger.
+
+Now restrict to a certified tail subwindow. The tail is still a finite subfamily
+of the same $\mathsf{ProbeBundle}$, so the inherited $\mathsf{InBundle}$ and
+$\mathsf{UnaryHistory}$ rows select the same pointwise classifier rows and the
+same endpoint entries.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation}. It
+keeps regularity, completion, quotient, and host-index data outside the source
+packet, so the tail can expose only the already identified $\RegSeqRat$ handoff
+rows and terminal ledger-boundary rows.
+\end{proof}
