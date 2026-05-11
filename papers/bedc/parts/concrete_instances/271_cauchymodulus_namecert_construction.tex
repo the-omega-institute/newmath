@@ -43,6 +43,7 @@ scheduled observation rows, consumption-ledger rows, $\Cont$ routes, and
 $\mathsf{Pkg}$ provenance. Two packets classify together only when the same
 visible modulus schedule can be replayed through the transported finite ledger.
 \end{definition}
+\leandef{BEDC.Derived.CauchyModulusUp.CauchyModulusClassifier}
 
 \begin{theorem}[Cauchy-modulus $\hsame$ stability]
 \label{thm:cauchymodulus-hsame-stability}
@@ -81,6 +82,7 @@ observation rows, and the consumption ledger read by $\RegSeqRat$ and
 $\RealUp$. No consumer may read a convergence rate except through that finite
 window.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_cont\_window\_closure}
 \begin{proof}
 Inspect the accepted carrier packet at the requested precision row. The
 threshold is present as a visible $\NatUp$ row, and the tolerance budget is
@@ -128,6 +130,7 @@ threshold selected by the modulus row, the bound ledger gives the estimate
 required by the regular-sequence classifier, and this estimate is stable under
 componentwise $\hsame$ transport of $m$, $n$, and the scheduled observations.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_regseqrat\_regularity\_handoff}
 \begin{proof}
 Read the $\RegSeqRat$ regularity row as a request for a visible late-pair
 estimate. The carrier already stores exactly that estimate in the consumption
@@ -138,6 +141,7 @@ classifier of \autoref{def:cauchymodulus-classifier}. The comparison row is
 part of the ledger, so the transported packet again contains the regularity
 estimate demanded by $\RegSeqRat$.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusLedgerPacket\_regseqrat\_regularity\_rows}
 
 \begin{theorem}[Real classifier transport obligation]
 \label{thm:cauchymodulus-real-classifier-transport-obligation}
