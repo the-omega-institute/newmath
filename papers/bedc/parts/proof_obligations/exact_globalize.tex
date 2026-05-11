@@ -391,3 +391,24 @@ This target may be upgraded from paper-level to checked only if the report inclu
 \end{enumerate}
 \leanchecked{BEDC.BaseReflection.checked\_acceptance\_gate\_exactBase\_exports\_public\_shape}
 \end{protocol}
+
+\begin{theorem}[Generated signature witness inhabitation]
+\label{thm:generated-same-sig-inhabitation-iff-samesig}
+For every generated probe bundle $\Pi$ and histories $h,k$, the following are equivalent:
+\begin{enumerate}
+  \item there is an element $G:\GeneratedSameSig(\Pi,h,k)$;
+  \item $\sameSig_\Pi(h,k)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Unpack Definition~\autoref{def:generated-same-sig}. An element $G:\GeneratedSameSig(\Pi,h,k)$ consists of histories $s,t$, evidence objects $\Delta,\Theta$, generation judgments
+$$
+\Sig(\Pi,h,s,\Delta)
+\quad\text{and}\quad
+\Sig(\Pi,k,t,\Theta),
+$$
+and a sameness witness $\hsame(s,t)$. These are exactly the witnesses required by Definition~\autoref{def:signature-sameness} for $\sameSig_\Pi(h,k)$. This proves the forward implication.
+
+Conversely, unpack $\sameSig_\Pi(h,k)$ using Definition~\autoref{def:signature-sameness}. It supplies histories $s,t$, evidence objects $\Delta,\Theta$, the two displayed generation judgments, and $\hsame(s,t)$. By Definition~\autoref{def:generated-same-sig}, these fields assemble an element of $\GeneratedSameSig(\Pi,h,k)$.
+\end{proof}
