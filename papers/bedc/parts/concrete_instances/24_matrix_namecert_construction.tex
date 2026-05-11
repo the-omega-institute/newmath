@@ -39,4 +39,38 @@ and explicitly withholds a general finite-dimensional matrix carrier, so the
 public constructor surface is precisely the listed rows and no table API beyond
 them.
 \end{proof}
+
+\begin{theorem}[Matrix singleton concrete schema surface]
+\label{thm:matrix-singleton-concrete-schema-surface}
+The concrete singleton matrix carrier $A_{\emp}$, classifier $\rho_{\emp}$,
+zero and identity endpoints, displayed addition and multiplication by
+$\mathsf{append}$, row and column unary witnesses, and the laws of
+\autoref{thm:singleton-empty-history-matrix-laws} form the non-parametric
+$\MatrixUp$ target surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$.
+
+This surface is the concrete schema available from the singleton package. It
+does not assert a general finite-table carrier, arbitrary scalar matrix
+operations, or a parametric row-and-column family beyond the displayed singleton
+history.
+\end{theorem}
+\begin{proof}
+Read the package data from
+\autoref{def:singleton-empty-history-matrix-instance}. It supplies the carrier
+$A_{\emp}$, classifier $\rho_{\emp}$, zero and identity endpoints, append-based
+addition and multiplication, and the row and column unary witnesses inside the
+same empty-history $\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:singleton-empty-history-matrix-laws}. The law rows are stated
+for exactly those singleton endpoints and append operations, with $\hsame$ and
+$\Cont$ transporting the finite histories and $\mathsf{Pkg}$ recording the
+package provenance.
+
+Finally use
+\autoref{thm:matrix-singleton-empty-public-constructor-surface}. It identifies
+the exported constructor and readback rows as the public singleton surface and
+excludes any general table API. Therefore the displayed rows are precisely the
+non-parametric $\MatrixUp$ schema target exposed by the concrete singleton
+package.
+\end{proof}
 \input{parts/concrete_instances/matrix/finite_fold_multiplication_laws}
