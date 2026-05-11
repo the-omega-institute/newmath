@@ -274,26 +274,18 @@ interval, open-cover compactness, real-completeness, or standard bridge datum
 can enter the scoped dependency package.
 \end{proof}
 
-\begin{theorem}[DyadicInterval public interval certificate surface]
-\label{thm:dyadicinterval-public-interval-certificate-surface}
-The public $\NameCert_{\DyadicIntervalUp}$ interval certificate surface is
-exactly the carrier of \autoref{def:dyadicinterval-carrier}, the endpointwise
-classifier and order rows of \autoref{thm:dyadicinterval-namecert-obligation},
-the nested-refinement ledger of
-\autoref{thm:dyadicinterval-nested-refinement-ledger}, the endpoint transport
-row of \autoref{thm:dyadicinterval-endpoint-classifier-transport}, the
-width-radius exactness row of
-\autoref{thm:dyadicinterval-width-radius-ledger-exactness}, the $\RealUp$ seal
-boundary of \autoref{thm:dyadicinterval-real-seal-source-boundary}, and the
-regular-window handoff of
-\autoref{thm:dyadicinterval-regular-window-seal-handoff}. Consequently every
-$\RegSeqRatUp$ or $\RealUp$ consumer receives only finite endpoint, radius,
-width, order, refinement, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
-rows.
+\begin{theorem}[DyadicInterval refined-width enclosure package]
+\label{thm:dyadicinterval-refined-width-enclosure-package}
+The carrier of \autoref{def:dyadicinterval-carrier}, endpoint classifier
+transport, nested refinement ledger, width-radius exactness, $\RealUp$ seal
+boundary, and regular-window seal handoff assemble the public
+$\NameCert_{\DyadicIntervalUp}$ refined-width enclosure package. Every
+$\RegSeqRatUp$ or $\RealUp$ consumer of this package may read only finite
+endpoint, radius, width, order, refinement, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ rows.
 
-The surface contains no Dedekind cut, host real endpoint, open-cover
-compactness witness, quotient interval, completeness datum, or standard bridge
-datum.
+The package exports no Dedekind cut, host real endpoint, quotient interval,
+open-cover compactness witness, completeness datum, or standard bridge datum.
 \end{theorem}
 \begin{proof}
 Project an accepted public certificate through
@@ -319,7 +311,7 @@ $\RegSeqRatUp$ boundaries read only the finite package just identified:
 endpoint, radius, width, order, refinement, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
 and $\NameCert$ rows.
 
-The cited projections exhaust the public certificate surface. Since none of
+The cited projections exhaust the public refined-width package. Since none of
 those projections supplies Dedekind cuts, host real endpoints, open-cover
 compactness, quotient intervals, completeness data, or standard bridge data,
 no consumer-facing interval certificate can export such a row.
@@ -328,14 +320,15 @@ no consumer-facing interval certificate can export such a row.
 \closureat{DyadicIntervalUp}{seedStr}
 \closureat{DyadicIntervalUp}{obligationStr}
 \closureat{DyadicIntervalUp}{scopedStr}
+\closureat{DyadicIntervalUp}{publicStr}
 
 \begin{closurestatus}{\DyadicIntervalUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped package is exactly the finite $\mathsf{BHist}$ interval carrier, endpointwise classifier, endpoint-order ledger, nested-refinement transport, endpoint transport, width-radius exactness row, and $\RealUp/\RegSeqRatUp$ seal boundary over $\DyadicRatCoreUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public refined-width enclosure package is exactly the finite $\mathsf{BHist}$ interval carrier, endpointwise classifier, endpoint-order ledger, nested-refinement transport, endpoint transport, width-radius exactness row, and $\RealUp/\RegSeqRatUp$ seal boundary over $\DyadicRatCoreUp$.}
   \constructivestory{Construct the interval packet by finite dyadic endpoint reads: $\DyadicRatCoreUp$ supplies endpoints and arithmetic ledgers, the order and width rows record finite bounds, and refinement repacks the same visible rows for $\RegSeqRatUp$ and $\RealUp$ consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind cuts, open-cover compactness, real completeness, quotient intervals, or standard bridge data.}
-  \upgradepath{Public closure next requires a reusable consumer-facing interval certificate surface over this scoped package.}
+  \upgradepath{Bridged closure requires a paper bridge over the public refined-width package.}
 \end{closurestatus}
