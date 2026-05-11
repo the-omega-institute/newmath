@@ -42,27 +42,3 @@ Rationale:
 B-660 covers residual exactness with a known Θ-component; B-659 covers bundle-local same-source membership sharing signatures. Neither gives the unconditional component-split converse to append closure of sameSig. This is the appended-classifier → two-component-classifiers exact split, a genuine converse of the append closure theorem rather than a paraphrase. Lands cleanly in 02_signature_generation.tex.
 
 ---
-
-### B-665 - Second-layer separation is necessary for composite gaps
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Second-layer separation is necessary for composite gaps |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 9/10 |
-
-Problem:
-There exists a finite CompGap setup with firstGap coverage+separation and secondGap coverage but not separation such that the same source falls into composite gaps of two distinct final tokens with finalSame failing.
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/gap_policy.tex`
-
-Rationale:
-Existing ledger composition theorems give the forward direction (first+second separation ⇒ composite separation). The paper currently does not record a witness/obstruction showing second-layer separation cannot be weakened. A concrete two-point witness on b0,b1 final tokens with finalSame=msame closes a genuine gap and converts a sufficient-condition theorem into a tight one. High-novelty obstruction target, fits the proof_obligations layer exactly.
-
----
