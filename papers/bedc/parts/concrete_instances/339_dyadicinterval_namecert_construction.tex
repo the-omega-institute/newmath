@@ -1,0 +1,131 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalUp$}
+\label{ch:concrete-instances-dyadicinterval-namecert}
+
+The $\DyadicIntervalUp$ interface names finite dyadic interval packets in the
+sense of Moore--Kearfott--Cloud interval analysis. It sits between
+$\DyadicRatCoreUp$, which supplies visible dyadic endpoint and radius ledgers,
+and $\RegSeqRatUp$ or $\RealUp$, which consume finite approximation packets
+without importing quotient reals or completeness principles.
+
+\section{Carrier and refinement ledger}
+\label{sec:dyadicinterval-carrier-refinement}
+
+\begin{definition}[DyadicInterval BHist carrier]
+\label{def:dyadicinterval-carrier}
+A $\DyadicIntervalUp$ carrier row is a finite $\mathsf{BHist}$ packet
+$$
+I=(L,R,W,O,M,\rho,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item left and right endpoint rows $L$ and $R$ accepted by
+$\DyadicRatCoreUp$;
+\item a unary nonnegative width row $W$ naming the displayed dyadic
+width bound;
+\item an endpoint-order ledger $O$ proving $L\leq R$ by a
+$\DyadicRatCoreUp$ common-exponent comparison;
+\item midpoint and radius rows $M$ and $\rho$ computed from the same
+endpoint window;
+\item componentwise $\hsame$ rows $H$ and displayed $\Cont$ routes $C$ for
+endpoint, order, midpoint, radius, and width transport;
+\item a $\Pkg$ provenance row $P$ naming the consumed
+$\DyadicRatCoreUp$, $\RatUp$, $\IntUp$, and $\StreamNameUp$ source rows;
+\item a $\NameCert$ row $N$ recording that the public interval packet is
+classified only by endpointwise finite dyadic tolerance.
+\end{enumerate}
+The carrier has no coordinate for Dedekind cuts, open-cover compactness,
+quotient intervals, host real endpoints, or real-completeness data.
+\end{definition}
+
+\begin{theorem}[DyadicInterval nested refinement ledger]
+\label{thm:dyadicinterval-nested-refinement-ledger}
+Let $I=(L,R,W,O,M,\rho,H,C,P,N)$ and
+$I'=(L',R',W',O',M',\rho',H',C',P',N')$ be accepted
+$\DyadicIntervalUp$ carriers. Suppose $I'$ is obtained from $I$ by a nested
+refinement: the transported endpoint rows satisfy $L\leq L'\leq R'\leq R$ in
+the displayed $\DyadicRatCoreUp$ common-exponent ledger, the width row $W'$
+is bounded by the transported width row $W$, and the midpoint and radius rows
+are recomputed from the refined endpoint window. Then $I'$ repacks the same
+kind of endpoint, radius, width, order, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ provenance rows as $I$.
+
+The finite source consumed by $\RegSeqRatUp$ is preserved: a scheduled
+regular-stream window may read the refined endpoint rows, radius row, width
+row, and provenance through the same visible finite dyadic interval surface,
+and it receives no quotient sequence, real-completion object, or hidden
+host-real endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadicinterval-carrier}. The endpoint
+rows, width row, order ledger, midpoint row, radius row, componentwise
+$\hsame$ data, continuation routes, package provenance, and naming row are
+all visible finite rows.
+
+Apply the nested-refinement hypotheses to the endpoint-order ledger. The
+refined endpoints are still accepted $\DyadicRatCoreUp$ rows, and the order
+comparisons are transported through the same common-exponent dyadic ledger.
+
+Recompute the midpoint and radius rows from the refined endpoint window and
+transport the width row along the displayed nonnegative dyadic bound. These
+operations only repack the finite endpoint and arithmetic ledgers already
+named by the carrier.
+
+Finally restrict the consumer view to the rows a $\RegSeqRatUp$ scheduled
+window can read. That view consists exactly of endpoint, radius, width,
+regular dyadic comparison, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance rows, so refinement preserves the finite source surface.
+\end{proof}
+
+\begin{theorem}[DyadicInterval NameCert obligation surface]
+\label{thm:dyadicinterval-namecert-obligation}
+The local $\NameCert_{\DyadicIntervalUp}$ obligation surface consists of five
+finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ interval packet of
+\autoref{def:dyadicinterval-carrier};
+\item classifier: endpointwise dyadic tolerance, comparing left endpoints
+and right endpoints by $\DyadicRatCoreUp$ common-exponent windows while
+preserving the displayed width and radius rows;
+\item endpoint-order stability: componentwise $\hsame$ and $\Cont$
+transport preserve the visible $L\leq R$ ledger;
+\item nested refinement transport: the refinement ledger of
+\autoref{thm:dyadicinterval-nested-refinement-ledger} repacks the same finite
+endpoint, midpoint, radius, width, provenance, and naming rows;
+\item $\RealUp$ seal handoff boundary: a real-name seal may consume only the
+finite interval endpoint, radius, width, order, and provenance rows and gains
+no real-completeness, quotient-interval, or standard-bridge datum.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:dyadicinterval-carrier}. It lists the only
+public coordinates exposed by an accepted $\DyadicIntervalUp$ packet.
+
+The classifier row is endpointwise because the carrier has separate left and
+right $\DyadicRatCoreUp$ endpoint rows. A dyadic-tolerance witness therefore
+uses two common-exponent comparisons, one for each endpoint, together with
+the displayed width and radius rows.
+
+Endpoint-order stability follows by transporting the order ledger through
+the componentwise $\hsame$ and $\Cont$ rows named in the carrier. Nested
+refinement transport is exactly the repacking statement of
+\autoref{thm:dyadicinterval-nested-refinement-ledger}.
+
+At the $\RealUp$ seal boundary, the available source rows are exhausted by
+the carrier, classifier, order, and refinement rows above. Since none of
+those rows contains a Dedekind cut, an open-cover compactness object, a
+quotient interval, or completeness data, the handoff remains a finite BEDC
+source surface.
+\end{proof}
+
+\closureat{DyadicIntervalUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary names the finite $\mathsf{BHist}$ interval carrier, endpointwise dyadic-tolerance classifier, endpoint-order ledger, nested-refinement transport, and $\RealUp$ seal handoff boundary over $\DyadicRatCoreUp$.}
+  \constructivestory{Construct the interval packet by finite dyadic endpoint reads: $\DyadicRatCoreUp$ supplies endpoints and arithmetic ledgers, the order and width rows record finite bounds, and refinement repacks the same visible rows for $\RegSeqRatUp$ and $\RealUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Dedekind cuts, open-cover compactness, real completeness, quotient intervals, or standard bridge data.}
+  \upgradepath{Scoped closure requires checked carrier, endpointwise classifier, endpoint-order stability, nested-refinement transport, and $\RealUp$ seal-handoff targets for the displayed $\DyadicIntervalUp$ source surface.}
+\end{closurestatus}
