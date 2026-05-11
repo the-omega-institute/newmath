@@ -125,3 +125,48 @@ keeps regularity, completion, quotient, and host-index data outside the source
 packet, so the tail can expose only the already identified $\RegSeqRat$ handoff
 rows and terminal ledger-boundary rows.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window composition handoff]
+\label{thm:streamname-regseqrat-common-window-composition-handoff}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be finite
+$\StreamNameUp$ windows. Suppose $\mathcal W_0$ and $\mathcal W_1$ share a
+certified common-window transport surface over the $\mathsf{ProbeBundle}$ row
+$\mathcal P_{01}$, and suppose $\mathcal W_1$ and $\mathcal W_2$ share a
+certified common-window transport surface over the $\mathsf{ProbeBundle}$ row
+$\mathcal P_{12}$. Then the composed handoff from $\mathcal W_0$ to
+$\mathcal W_2$ exposes exactly the same consumer-facing rows read by
+$\RegSeqRat$: the $\StreamNameUp$ finite-window classifier, the
+$\mathsf{UnaryHistory}$ rows, the $\mathsf{InBundle}$ rows, the
+$\mathsf{RatHistoryClassifier}$ rows, the DyadicRatCore source rows, and the
+displayed $\hsame/\Cont/\Pkg$ provenance rows.
+
+The composed handoff exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion datum, quotient row, or host-index equality. Every
+readable downstream row is inherited from the two certified common-window
+surfaces and their certified tail restrictions.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport} to the
+$\mathcal W_0/\mathcal W_1$ surface over $\mathcal P_{01}$. This identifies the
+finite-window classifier, unary-history rows, bundle-membership rows,
+pointwise rational-history rows, and displayed $\hsame/\Cont/\Pkg$ provenance
+read by the first handoff leg.
+
+Apply the same theorem to the $\mathcal W_1/\mathcal W_2$ surface over
+$\mathcal P_{12}$. Since both certified surfaces pass through the same middle
+window $\mathcal W_1$, their visible handoff rows agree at the middle boundary
+before any downstream consumer reads them.
+
+Use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy} on both legs.
+The dyadic source rows supplied to the $\RegSeqRat$ spine and to the terminal
+finite-window $\RealUp$ ledger are determined by the displayed classifier,
+bundle, unary-history, rational-history, $\hsame$, $\Cont$, and $\Pkg$ rows on
+the two certified surfaces.
+
+Finally apply \autoref{thm:streamname-regseqrat-common-window-tail-stability}.
+Certified tail restrictions remain finite subwindows of the displayed bundle
+rows, so composing the two legs cannot add any row outside the inherited
+consumer surface. The separation of regularity, seal, completion, quotient,
+and host-index obligations is therefore preserved by the composed handoff from
+$\mathcal W_0$ to $\mathcal W_2$.
+\end{proof}
