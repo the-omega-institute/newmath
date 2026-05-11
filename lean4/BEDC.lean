@@ -104,10 +104,9 @@ import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
-import BEDC.Derived.HolonomyUp
 import BEDC.Derived.InterpolationUp
-import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KKTUp
+import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.MapperUp
@@ -155,6 +154,7 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
+import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRow
@@ -219,6 +219,7 @@ import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FiniteSuffix
+import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.E1Map
