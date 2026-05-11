@@ -167,6 +167,48 @@ host ball. Therefore the seal boundary is exactly the listed finite row
 surface.
 \end{proof}
 
+\begin{theorem}[DyadicBall intersection refinement handoff]
+\label{thm:dyadicball-intersection-refinement-handoff}
+Let an accepted $\DyadicBallUp$ packet be read through the finite
+center-radius carrier of \autoref{def:dyadicball-carrier}. If the packet is
+refined to a smaller positive dyadic radius by
+\autoref{thm:dyadicball-radius-refinement-closure}, then the refined packet
+exports the same scheduled $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$
+finite-boundary rows as the original packet, except for the transported radius
+row and the containment ledger supplied for that smaller radius.
+
+Concretely, the $\mathsf{BHist}$ center, schedule, scheduled observation,
+componentwise $\hsame$ transports, displayed $\Cont$ windows, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows remain the same rows of the carrier.
+The $\RegSeqRatUp$ endpoint-radius window of
+\autoref{thm:dyadicball-regseqrat-window-handoff} and the $\RealUp$ seal
+surface of \autoref{thm:dyadicball-real-seal-boundary} are read from those
+rows after replacing only the radius and containment coordinates. The handoff
+does not introduce quotient balls, host real equality, completed metric
+points, or selected limits.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:dyadicball-carrier}. Its public rows are the
+finite $\mathsf{BHist}$ center, positive radius, schedule, scheduled
+observation, containment ledger, $\hsame$ transports, $\Cont$ windows,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ certificate.
+
+Apply \autoref{thm:dyadicball-radius-refinement-closure}. The theorem repacks
+the accepted packet at the smaller displayed dyadic radius, using the supplied
+containment ledger for that radius and leaving the center, schedule,
+observation, transport, window, provenance, and certificate rows in place.
+
+Project the repacked packet through
+\autoref{thm:dyadicball-regseqrat-window-handoff} and
+\autoref{thm:dyadicball-real-seal-boundary}. Both projections inspect only the
+carrier rows just listed, so their finite consumer surfaces agree with the
+original packet except at the transported radius and containment entries.
+
+Since no quotient-ball coordinate, host real equality, completed metric point,
+or selected limit occurs in the carrier, none is created by the repacking or by
+either outgoing handoff.
+\end{proof}
+
 \begin{theorem}[DyadicBall NameCert obligation surface]
 \label{thm:dyadicball-namecert-obligation-surface}
 The local $\NameCert_{\DyadicBallUp}$ obligation surface consists of five
