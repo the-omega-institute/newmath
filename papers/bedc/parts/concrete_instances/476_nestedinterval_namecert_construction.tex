@@ -105,6 +105,43 @@ Use \autoref{thm:nestedinterval-regseqrat-handoff} to identify the regular-ratio
 The excluded principles would require additional coordinates: an infinite chain object, a completed intersection, compactness data, or a choice operator selecting a point. The carrier contains none of these, so the seal boundary is exactly the displayed finite surface.
 \end{proof}
 
+\begin{theorem}[NestedInterval obligation scope packet]
+\label{thm:nestedinterval-obligation-scope-packet}
+The nested finite dyadic packet is scoped by $\DyadicIntervalUp$ endpoint and
+refinement rows, scheduled $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff
+rows, $\RealUp$ seal-boundary rows, and the underlying $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. These rows are
+the only dependencies visible to an accepted $\NestedIntervalUp$ carrier.
+
+The packet therefore supports finite nested-interval reads over the real-name
+construction chain without asserting Cantor convergence, compactness,
+completed intersections, selected points, or equality with a host real
+intersection.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:nestedinterval-finite-carrier}.
+Its rows provide the dyadic interval endpoints, endpoint-order ledgers, width
+ledgers, adjacent inclusion rows, schedule provenance, handoff rows, and
+seal-facing rows.
+
+Apply \autoref{thm:nestedinterval-endpoint-transport} to account for endpoint
+transport, then apply \autoref{thm:nestedinterval-window-refinement} to account
+for finite-window restriction and extension. These two results give the
+permitted $\hsame$ and $\Cont$ movement of the nested interval rows.
+
+The consumer boundary is supplied by
+\autoref{thm:nestedinterval-regseqrat-handoff} and by the finite
+$\NameCert_{\NestedIntervalUp}$ surface of
+\autoref{thm:nestedinterval-namecert-obligation-surface}. Together they bind
+the scheduled $\StreamNameUp$ windows, $\RegSeqRatUp$ rows, $\mathsf{Pkg}$
+provenance, and $\NameCert$ rows to the carrier.
+
+Finally use \autoref{thm:nestedinterval-real-seal-boundary}. The seal boundary
+exports only displayed finite rows to $\RealUp$ consumers and excludes infinite
+chains, completed intersections, compactness, choice of a point, and host real
+intersections, so the obligation scope is exactly the packet stated above.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\NestedIntervalUp}
