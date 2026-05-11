@@ -19,7 +19,7 @@ Usage:
     with_pdf_slot.py -- bash -c 'pdflatex ... && pdflatex ...'
 
 Exit codes are pass-through from the wrapped command. 124 on slot wait
-timeout (1200s default).
+timeout (1800s default).
 """
 
 from __future__ import annotations
@@ -32,14 +32,11 @@ import sys
 import time
 from pathlib import Path
 
-# Cap slot-acquire wait at ~1x typical full build time (~260s for the
-# main.pdf double-pass on a clean MBP). If a worker can't acquire a slot
-# within that window the round is contributing nothing useful — bail
-# fast so recovery picks it up rather than letting it tie up codex /
-# worktree state for the full 600s round timeout. Permits are gated
-# from .pipeline_parallel.json key "pdf_build" so the cluster operator
-# can adjust throughput live.
-WAIT_TIMEOUT_S = 300
+# The acquisition lock is held by one queued worker while it waits for a
+# slot. Under loaded paper rounds, a valid wait can exceed a single clean
+# local build, so the timeout must cover the queue horizon rather than only
+# the happy-path pdflatex runtime.
+WAIT_TIMEOUT_S = 1800
 DEFAULT_PERMITS = 2
 
 

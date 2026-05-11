@@ -39,7 +39,7 @@ Only after Step 0 confirmed no abort condition, run:
 git fetch origin <BASE_BRANCH>
 git merge --no-ff --no-edit origin/<BASE_BRANCH>
 ```
-Multiple producers may push to the same base branch. Working on a stale base wastes effort and can produce conflicting edits. If the merge reports conflicts, resolve them additively (keep both sides' independent paragraphs, keep all valid markers), `git add` each resolved file, then `git commit --no-edit` to complete the merge. After resolving, re-run `cd papers/bedc && make` once to confirm the merged tree still compiles.
+Multiple producers may push to the same base branch. Working on a stale base wastes effort and can produce conflicting edits. If the merge reports conflicts, resolve them additively (keep both sides' independent paragraphs, keep all valid markers), `git add` each resolved file, then `git commit --no-edit` to complete the merge. After resolving, re-run `cd papers/bedc && make check` once to confirm the merged tree still compiles (single-pass; full `main.pdf` is the daemon's job).
 
 If `git fetch` reports no changes, proceed unchanged. If it pulls new commits, re-confirm via grep that each target you are about to apply has not already been resolved by another producer; if so, abandon that target rather than re-doing it.
 
@@ -168,7 +168,7 @@ For each target in the list above:
      The grounding theorem MUST be a real Lean target — `bedc_ci.py audit` enforces this and fails the round if the grounding doesn't resolve. `_` in the target must be `\_`-escaped (same as `\leanchecked`).
      Use `\publicClosure` only when the chapter exhibits a public-object surface; use `\bridgedClosure` only if the chapter exhibits a complete `\StdBridge` per `\autoref{ch:acceptance-bridge}`.
    - **Removing or downgrading** a closurestatus block is a deliberate downgrade and reopens the chapter to lean rounds. Don't do this lightly — it should be a separate target, justified by a found defect.
-   - **Drift sync (formalstatus token upgrade)**: a `closure_mark` target may instead be drawn from `critical_path.py` JSON's top-level `drift_chapters[*]` array. In that case the chapter ALREADY has a `closurestatus` block; the round's job is a SINGLE-LINE replacement: change the existing `\formalstatus{\<token>}` line to `\formalstatus{\<objective_formal_grade>}` (read both fields directly from the drift_chapters entry). Do NOT touch `\theoryclosure{...}`, `\leantarget{...}`, `\bridgestatus{...}`, `\scopeclosed{...}`, or `\notclaimed{...}`. Only update `\upgradepath{...}` if its current text references the OLD token (e.g. mentions `theoremCheckedV → axiomCleanV`); rewrite it to point at the new next step (e.g. `axiomCleanV → bridgeCheckedV`). Otherwise leave it. The total diff for a drift-sync round is 1-2 lines. After editing, run `make` (full two-pass) to confirm the token rendered correctly, then commit with subject `P<ROUND_NUM>: sync <X>Up formalstatus to <objective>`.
+   - **Drift sync (formalstatus token upgrade)**: a `closure_mark` target may instead be drawn from `critical_path.py` JSON's top-level `drift_chapters[*]` array. In that case the chapter ALREADY has a `closurestatus` block; the round's job is a SINGLE-LINE replacement: change the existing `\formalstatus{\<token>}` line to `\formalstatus{\<objective_formal_grade>}` (read both fields directly from the drift_chapters entry). Do NOT touch `\theoryclosure{...}`, `\leantarget{...}`, `\bridgestatus{...}`, `\scopeclosed{...}`, or `\notclaimed{...}`. Only update `\upgradepath{...}` if its current text references the OLD token (e.g. mentions `theoremCheckedV → axiomCleanV`); rewrite it to point at the new next step (e.g. `axiomCleanV → bridgeCheckedV`). Otherwise leave it. The total diff for a drift-sync round is 1-2 lines. After editing, run `make check` to confirm the token rendered correctly, then commit with subject `P<ROUND_NUM>: sync <X>Up formalstatus to <objective>`.
    - **Bridge sync (after a lean bridge commit)**: when Phase Review's bridge_candidates HARD GATE fires (lean R-round committed `<X>Up_StdBridge` with subject `R\d+: bridge <X>Up to schema (axiomClean->bridgeCheck)`), this paper round records the upgrade by editing the chapter's `closurestatus` block: change `\bridgestatus{none}` (or `\bridgestatus{paperBridge}`) to `\bridgestatus{bridgeChecked}` AND change `\formalstatus{\axiomCleanV}` (or `\formalstatus{\theoremCheckedV}` if drift sync hadn't run yet) to `\formalstatus{\bridgeCheckedV}`. Update `\upgradepath{...}` to record there is no further upgrade. Do NOT modify `\theoryclosure{...}` (already at `\matureClosure`) or `\leantarget{...}` (still points at the canonical chapter theorem; the bridge is an additional named theorem, not a replacement of leantarget). The total diff is 2-3 lines. Verify the bridge theorem actually exists in `lean4/BEDC/Derived/<X>Up.lean` (or sibling) before recording the upgrade — `bedc_ci.py audit` will reject if not. Commit subject: `P<ROUND_NUM>: record <X>Up bridgeChecked closure`.
    - The block is the manuscript's binding commitment that the theory has reached the named closure grade and the cited Lean target has been verified at the named verification grade. Adding it without coverage or with a fake grounding is a discipline violation that the audit catches.
 
@@ -184,13 +184,22 @@ For each target in the list above:
    - Cited `\leanchecked{Y}` sources from other chapters MAY appear inline in the proof body — drift audit accepts repeated references to the same Lean name across chapters when it is a true bridge.
    - The theme-saturation gate is bypassed for `capstones/` files; bridge theorems are explicitly allowed to span any number of themes. NAMING.md still applies (no mechanical-arity suffixes, no `_iff` twins).
 
-## Step 2: Compile the paper
+## Step 2: Compile the paper (single-pass syntax check)
 ```bash
-cd papers/bedc && make
+cd papers/bedc && make check
 ```
-The Makefile runs `pdflatex -interaction=nonstopmode main.tex` twice. Both passes must exit 0 and produce a clean `main.pdf`. If LaTeX reports `Undefined control sequence`, `Missing $ inserted`, `\label{...} multiply defined`, or `reference ... on page ... undefined`, fix the cause before continuing — do NOT bury warnings.
+`make check` runs a single `pdflatex -draftmode` pass. It catches every
+real syntax-class error (`Undefined control sequence`, `Missing $ inserted`,
+`Extra }`, unresolved `\input{...}`, package errors, `\label{...} multiply
+defined`). It does NOT produce `main.pdf` and does NOT resolve `\autoref`
+page numbers — those are handled asynchronously by the
+`paper_builder_daemon.py` running against the merged main checkout, which
+performs the full `make` double-pass in a dedicated `_paper_builder`
+worktree. Do NOT run `make` (double-pass) inside the round worktree; the
+round only verifies syntax, the daemon does the typeset.
 
-**Iterative debugging shortcut:** while diagnosing a build break or fixing a single edit, you may use `cd papers/bedc && make check` (single `pdflatex -draftmode` pass, ~half the wall time) to confirm syntax / undefined-macro / missing-input errors. `make check` does NOT resolve `\autoref` / TOC / page numbers, so once edits stabilise re-run the full `make` before continuing to Step 3 — drift audit and `\leanchecked` resolution depend on a clean two-pass build.
+If `make check` reports any error, fix the cause before continuing — do
+NOT bury warnings. A clean `make check` exit is sufficient for Step 3.
 
 If a target turns out to be unproveable, compile-breaking, purely explanatory, or lacking a concrete downstream use, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 high-value target is acceptable; a round that lands 0 high-value targets should output an explicit failure message and skip Step 6.
 
@@ -262,7 +271,7 @@ The `prompts: v4.11` line in the commit body is mandatory and must match the val
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
 ## Completion Contract
-- `cd papers/bedc && make` exits 0 and produces `main.pdf`.
+- `cd papers/bedc && make check` exits 0 (full main.pdf is built async by paper_builder_daemon).
 - `python3 lean4/scripts/bedc_ci.py audit` exits 0.
 - If Lean was touched: `cd lean4 && lake build` and `python3 tools/check-axioms.py` exit 0.
 - Diff contains zero forbidden iteration-narrative words.
