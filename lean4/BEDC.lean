@@ -105,6 +105,7 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
+import BEDC.Derived.KKTUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.MapperUp
@@ -113,9 +114,11 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
+import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
+import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
@@ -127,6 +130,7 @@ import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.UnitaryGroupUp
@@ -854,6 +858,7 @@ import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
+import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PublicInterface
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
