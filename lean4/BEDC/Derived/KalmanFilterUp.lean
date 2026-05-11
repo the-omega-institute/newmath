@@ -277,4 +277,43 @@ theorem KalmanFilterCarrier_estimate_transport_stability [AskSetup] [PackageSetu
         (And.intro sameInnovation
           (And.intro sameUpdate (And.intro sameCovariancePosterior sameEndpoint))))
 
+theorem KalmanFilterCarrier_downstream_consumer_boundary [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint predictionConsumer updateConsumer finalConsumer
+      finalConsumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      Cont prediction residual predictionConsumer ->
+        Cont update posterior updateConsumer ->
+          Cont predictionConsumer updateConsumer finalConsumer ->
+            hsame finalConsumer finalConsumer' ->
+              UnaryHistory finalConsumer' ∧
+                hsame finalConsumer' (append (append prediction residual) (append update posterior)) ∧
+                  Cont posterior covariancePosterior endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier predictionConsumerRow updateConsumerRow finalConsumerRow sameFinal
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, predictionUnary, _observationUnary, residualUnary,
+      _covarianceUnary, _gainUnary, posteriorUnary, _innovationUnary, updateUnary,
+      covariancePosteriorUnary, _provenanceUnary, _endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, _posteriorRow, _covariancePosteriorRow,
+      endpointRow, pkgSig⟩
+  have predictionConsumerUnary : UnaryHistory predictionConsumer :=
+    unary_cont_closed predictionUnary residualUnary predictionConsumerRow
+  have updateConsumerUnary : UnaryHistory updateConsumer :=
+    unary_cont_closed updateUnary posteriorUnary updateConsumerRow
+  have finalConsumerUnary : UnaryHistory finalConsumer :=
+    unary_cont_closed predictionConsumerUnary updateConsumerUnary finalConsumerRow
+  have finalConsumerUnary' : UnaryHistory finalConsumer' :=
+    unary_transport finalConsumerUnary sameFinal
+  have sameFinalAppend : hsame finalConsumer' (append (append prediction residual)
+      (append update posterior)) := by
+    cases predictionConsumerRow
+    cases updateConsumerRow
+    cases finalConsumerRow
+    cases sameFinal
+    rfl
+  exact And.intro finalConsumerUnary'
+    (And.intro sameFinalAppend (And.intro endpointRow pkgSig))
+
 end BEDC.Derived.KalmanFilterUp

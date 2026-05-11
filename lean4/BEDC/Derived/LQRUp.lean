@@ -232,6 +232,34 @@ theorem LQRFiniteControlCarrier_transition_transport
     (And.intro sameTransition
       (And.intro sameBackward (And.intro sameProvenance sameEndpoint)))
 
+theorem LQRFiniteControlPacket_finite_horizon_riccati_closure [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint terminal terminal' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      Cont endpoint horizon terminal ->
+        hsame terminal terminal' ->
+          UnaryHistory terminal' ∧ hsame terminal' (append endpoint horizon) ∧
+            Cont successorValue estimatorInput backwardUpdate ∧
+              Cont backwardUpdate horizon predecessorValue ∧
+                Cont predecessorValue cost endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet terminalRow sameTerminal
+  rcases packet with
+    ⟨_stateUnary, _controlUnary, _transitionUnary, _costUnary, horizonUnary,
+      _successorUnary, _estimatorUnary, _backwardUnary, _predecessorUnary, endpointUnary,
+      _transitionRow, _successorRow, backwardRow, predecessorRow, endpointRow,
+      _estimatorRow, _controlRow, _terminalEndpointRow, pkgSig⟩
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed endpointUnary horizonUnary terminalRow
+  have terminalUnary' : UnaryHistory terminal' :=
+    unary_transport terminalUnary sameTerminal
+  have sameTerminalAppend : hsame terminal' (append endpoint horizon) :=
+    hsame_trans (hsame_symm sameTerminal) terminalRow
+  exact And.intro terminalUnary'
+    (And.intro sameTerminalAppend
+      (And.intro backwardRow (And.intro predecessorRow (And.intro endpointRow pkgSig))))
+
 theorem LQR_dynamic_programming_cont_determinacy
     {successor successor' transition transition' control control' cost cost' estimator estimator'
       provenance provenance' st st' stc stc' stcc stcc' stcce stcce' predecessor
