@@ -169,6 +169,59 @@ theorem SignedDigitStreamPacket_window_transport [AskSetup] [PackageSetup]
   exact And.intro transported
     (And.intro sameCarry (And.intro sameEndpoint sameLedger))
 
+def SignedDigitStreamClassifier [AskSetup] [PackageSetup]
+    (digits schedule carry provenance endpoint hidden ledger digits' schedule' carry'
+      provenance' endpoint' hidden' ledger' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ∧
+    SignedDigitStreamPacket digits' schedule' carry' provenance' endpoint' hidden' ledger'
+        bundle pkg ∧
+      hsame digits digits' ∧ hsame schedule schedule' ∧ hsame provenance provenance' ∧
+        hsame hidden hidden'
+
+theorem SignedDigitStreamClassifier_common_window_determinacy [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger digits' schedule' carry'
+      provenance' endpoint' hidden' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamClassifier digits schedule carry provenance endpoint hidden ledger digits'
+        schedule' carry' provenance' endpoint' hidden' ledger' bundle pkg ->
+      hsame carry carry' ∧ hsame endpoint endpoint' ∧ hsame ledger ledger' := by
+  intro classifier
+  have leftPacket :
+      SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg :=
+    classifier.left
+  have rightPacket :
+      SignedDigitStreamPacket digits' schedule' carry' provenance' endpoint' hidden' ledger'
+        bundle pkg :=
+    classifier.right.left
+  have sameDigits : hsame digits digits' :=
+    classifier.right.right.left
+  have sameSchedule : hsame schedule schedule' :=
+    classifier.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    classifier.right.right.right.right.left
+  have sameHidden : hsame hidden hidden' :=
+    classifier.right.right.right.right.right
+  have leftCarryRoute : Cont digits schedule carry :=
+    leftPacket.right.right.right.right.right.right.right.left
+  have rightCarryRoute : Cont digits' schedule' carry' :=
+    rightPacket.right.right.right.right.right.right.right.left
+  have leftEndpointRoute : Cont carry provenance endpoint :=
+    leftPacket.right.right.right.right.right.right.right.right.left
+  have rightEndpointRoute : Cont carry' provenance' endpoint' :=
+    rightPacket.right.right.right.right.right.right.right.right.left
+  have leftLedgerRoute : Cont endpoint hidden ledger :=
+    leftPacket.right.right.right.right.right.right.right.right.right.left
+  have rightLedgerRoute : Cont endpoint' hidden' ledger' :=
+    rightPacket.right.right.right.right.right.right.right.right.right.left
+  have sameCarry : hsame carry carry' :=
+    cont_respects_hsame sameDigits sameSchedule leftCarryRoute rightCarryRoute
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameCarry sameProvenance leftEndpointRoute rightEndpointRoute
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameHidden leftLedgerRoute rightLedgerRoute
+  exact ⟨sameCarry, sameEndpoint, sameLedger⟩
+
 theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -285,5 +338,74 @@ theorem SignedDigitStreamWindowPacket_window_transport [AskSetup] [PackageSetup]
     ⟨digitUnary', scheduleUnary', carryUnary', provenanceUnary', endpointUnary', ledgerUnary',
       digitScheduleCarry', carryProvenanceEndpoint', endpointScheduleLedger', pkgLedger'⟩
   exact ⟨packet', sameCarry, sameEndpoint, sameLedger⟩
+
+theorem SignedDigitStreamPacket_real_regseqrat_window_correspondence [AskSetup]
+    [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      UnaryHistory radius ->
+        Cont endpoint radius regWindow ->
+          PkgSig bundle regWindow pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+                    bundle pkg ∧
+                  UnaryHistory radius ∧ Cont endpoint radius regWindow ∧
+                  PkgSig bundle regWindow pkg ∧
+                  (hsame row endpoint ∨ hsame row regWindow ∨ hsame row ledger))
+              (fun row : BHist =>
+                SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+                    bundle pkg ∧
+                  UnaryHistory radius ∧ Cont endpoint radius regWindow ∧
+                  PkgSig bundle regWindow pkg ∧
+                  (hsame row endpoint ∨ hsame row regWindow ∨ hsame row ledger))
+              (fun row : BHist =>
+                SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+                    bundle pkg ∧
+                  UnaryHistory radius ∧ Cont endpoint radius regWindow ∧
+                  PkgSig bundle regWindow pkg ∧
+                  (hsame row endpoint ∨ hsame row regWindow ∨ hsame row ledger))
+              hsame := by
+  intro packet radiusUnary regWindowRow regWindowSig
+  have sourceAtEndpoint :
+      SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ∧
+        UnaryHistory radius ∧ Cont endpoint radius regWindow ∧
+        PkgSig bundle regWindow pkg ∧
+        (hsame endpoint endpoint ∨ hsame endpoint regWindow ∨ hsame endpoint ledger) :=
+    ⟨packet, radiusUnary, regWindowRow, regWindowSig, Or.inl (hsame_refl endpoint)⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint sourceAtEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        refine ⟨source.left, source.right.left, source.right.right.left,
+          source.right.right.right.left, ?_⟩
+        cases source.right.right.right.right with
+        | inl sameEndpoint =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameEndpoint)
+        | inr rest =>
+            cases rest with
+            | inl sameRegWindow =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameRegWindow))
+            | inr sameLedger =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameLedger))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.SignedDigitStreamUp
