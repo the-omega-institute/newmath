@@ -82,6 +82,38 @@ theorem LyapunovPacket_stability_transport [AskSetup] [PackageSetup]
       provenanceUnary', routesRow', decreaseRow', endpointRow', nameRow', nameSig'⟩
   exact ⟨transported, sameRoutes, sameDecrease, sameEndpoint, sameName⟩
 
+theorem LyapunovPacket_consumer_boundary [AskSetup] [PackageSetup]
+    {state transition quadratic positive decrease transports routes provenance name endpoint consumer
+      controlRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LyapunovPacket state transition quadratic positive decrease transports routes provenance name
+        endpoint bundle pkg ->
+      Cont endpoint state consumer ->
+        Cont consumer quadratic controlRead ->
+          PkgSig bundle controlRead pkg ->
+            UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory quadratic ∧
+              UnaryHistory positive ∧ UnaryHistory decrease ∧ UnaryHistory consumer ∧
+                UnaryHistory controlRead ∧ hsame routes (append state transition) ∧
+                  hsame decrease (append quadratic positive) ∧
+                    hsame endpoint (append decrease transports) ∧
+                      hsame consumer (append endpoint state) ∧
+                        hsame controlRead (append consumer quadratic) ∧
+                          PkgSig bundle controlRead pkg := by
+  intro packet consumerRow controlReadRow controlReadSig
+  obtain ⟨stateUnary, transitionUnary, quadraticUnary, positiveUnary, transportsUnary,
+    _provenanceUnary, routesRow, decreaseRow, endpointRow, _nameRow, _nameSig⟩ := packet
+  have decreaseUnary : UnaryHistory decrease :=
+    unary_cont_closed quadraticUnary positiveUnary decreaseRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed decreaseUnary transportsUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary stateUnary consumerRow
+  have controlReadUnary : UnaryHistory controlRead :=
+    unary_cont_closed consumerUnary quadraticUnary controlReadRow
+  exact ⟨stateUnary, transitionUnary, quadraticUnary, positiveUnary, decreaseUnary, consumerUnary,
+    controlReadUnary, routesRow, decreaseRow, endpointRow, consumerRow, controlReadRow,
+      controlReadSig⟩
+
 def LyapunovLedger [AskSetup] [PackageSetup]
     (state transition quadratic positive decrease transport route provenance name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
