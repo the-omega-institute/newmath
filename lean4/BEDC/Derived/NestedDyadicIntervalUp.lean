@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -75,5 +77,60 @@ theorem NestedDyadicIntervalPacket_window_transport [AskSetup] [PackageSetup]
     ⟨⟨firstUnary', nextUnary', scheduleUnary', refinementUnary', provenanceUnary',
         ledgerUnary', endpointUnary', targetRefinement, targetEndpoint, targetPkg⟩,
       sameRefinement, sameEndpoint⟩
+
+theorem NestedDyadicIntervalPacket_public_finite_window_export [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+                bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+                bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+                bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory first ∧ UnaryHistory next ∧ UnaryHistory schedule ∧
+          UnaryHistory refinement ∧ Cont first next refinement ∧
+            Cont schedule refinement endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  let Surface : BHist -> Prop :=
+    fun row : BHist =>
+      NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+          bundle pkg ∧ hsame row endpoint
+  have endpointSource : Surface endpoint :=
+    And.intro packet (hsame_refl endpoint)
+  have cert : SemanticNameCert Surface Surface Surface hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, packet.left, packet.right.left, packet.right.right.left,
+      packet.right.right.right.left, packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.NestedDyadicIntervalUp
