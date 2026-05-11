@@ -157,6 +157,32 @@ absence, package, and bridge-boundary slots of the ten-field roadmap template,
 so the public packet is exactly their conjunction over the displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[SemidefiniteCone standard bridge boundary]
+\label{thm:semidefinitecone-standard-bridge-boundary}
+Any standard bridge for the public $\SemidefiniteConeUp$ packet must read and
+write exactly the displayed symmetric $\MatrixUp$ row, $\VecSpaceUp$ row,
+$\ConvexSetUp$ cone-operation ledger, $\BilinFormUp$ pairing row, $\OrderUp$
+nonnegativity witnesses, $\hsame$ and $\Cont$ transport rows, and $\mathsf{Pkg}$
+provenance of \autoref{thm:semidefinitecone-public-packet-certificate}. The
+bridge boundary exports no spectral decomposition, eigenvalue existence,
+analytic closure, self-duality theorem, or host matrix positivity predicate.
+\end{theorem}
+\begin{proof}
+Project the public packet theorem. Its carrier coordinates are the symmetric
+matrix row, compatible vector-space row, convex cone-operation ledger,
+bilinear-pairing row, order nonnegativity witnesses, transport rows, and
+provenance rows.
+
+The standard-facing bridge may therefore read those coordinates and may write
+back only the same rows after $\hsame$ and $\Cont$ transport. This is the full
+boundary because the public packet certificate has no additional output slot.
+
+Spectral decomposition, eigenvalue existence, analytic closure, self-duality,
+and host matrix positivity are not among the projected rows. They cannot be
+exported by a bridge whose domain and codomain are restricted to the displayed
+public packet.
+\end{proof}
+
 \closureat{SemidefiniteConeUp}{seedStr}
 \closureat{SemidefiniteConeUp}{obligationStr}
 \closureat{SemidefiniteConeUp}{scopedStr}[BEDC.Derived.SemidefiniteConeUp.SemidefiniteConePacket\_dual\_pairing\_empty\_boundary]
