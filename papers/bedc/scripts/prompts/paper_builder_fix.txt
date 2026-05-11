@@ -1,0 +1,64 @@
+BEDC paper full-PDF build is failing on branch `codex-auto-dev`. Fix it.
+
+## Context
+You are running inside `_paper_builder` worktree, which the
+paper_builder_daemon owns. It has just attempted `make` (full
+double-pass pdflatex) at SHA `{sha}` and failed after {elapsed:.0f}s.
+
+## Rules
+- Edit only inside `papers/bedc/`.
+- Keep the patch minimal: smallest change that lets the next full
+  `make` succeed. Do NOT refactor, do NOT add new content.
+- After fix, run `make check` (pure-text static gates: file size,
+  forbidden math env, marker uniqueness, naming) to confirm static
+  invariants still hold. Do NOT run `make` (full pdflatex) yourself
+  — the daemon re-verifies after you exit.
+- Commit with prefix `paper-builder-fix: ` (single short line), then
+  push to `codex-auto-dev`:
+    git add papers/bedc/
+    git commit -m "paper-builder-fix: <one-line reason>"
+    git fetch origin codex-auto-dev
+    git merge --no-ff --no-edit origin/codex-auto-dev
+    git push origin HEAD:codex-auto-dev
+  If push rejected, repeat fetch+merge+push once.
+- If you cannot identify a safe minimal fix, exit without committing.
+  The daemon will retry on the next merged tip.
+
+## Common failure categories
+
+### `! Undefined control sequence` — `\Foo` used but preamble missing
+- `grep -rn '\\\\Foo' papers/bedc/parts/` to find the call site.
+- Check `papers/bedc/preamble.tex` — if no `\\newcommand{{\\Foo}}` exists,
+  add one. Use `\\ensuremath{{\\mathsf{{Foo}}}}` for math-only placeholders.
+- This is the #1 cause: paper P-rounds invent new Lean-typeclass-like
+  macros (`\\ChapterTasteGate`, `\\GroundCompiler`, etc.) but forget to
+  declare them in preamble.
+
+### `! LaTeX Error: \\mathsf allowed only in math mode`
+- `\\mathsf{{X}}` used outside `$...$` — wrap the call site in math mode,
+  OR redeclare the macro with `\\ensuremath` wrapping.
+
+### `! Missing $ inserted`
+- An identifier with subscripts/superscripts used in text mode.
+  Wrap the offending phrase in `$...$`.
+
+### `! Package XXX Error:` — package complaint
+- Read the message. Often a misused `\\autoref` (label doesn't exist)
+  or a `\\input` to a missing file. Fix the reference or the path.
+
+### Other: read `papers/bedc/main.log` directly
+- `grep -E '^! ' papers/bedc/main.log` lists every TeX-level error
+  in order. Fix the first one — subsequent errors often cascade from
+  it. Re-running `make check` does NOT re-trigger TeX errors (it
+  skips pdflatex), so use the most recent `main.log` from the
+  daemon's last build attempt.
+
+## Build log tail (last 200 lines)
+```
+{log_tail}
+```
+
+## Exit
+Print one line to stdout:
+  `PAPER-BUILDER-FIXED: <one-line description>` — committed and pushed
+  `UNRECOVERABLE: <one-line reason>` — gave up, daemon will retry later
