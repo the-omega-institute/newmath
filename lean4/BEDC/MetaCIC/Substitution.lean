@@ -410,6 +410,66 @@ theorem substitute_var_zero_preserves_typing_closed_anchor
       · exact hclosed_s
       · exact hs
 
+theorem substitute_sort_preserves_typing_closed_anchor
+    {Γ : Ctx} {s B : Term}
+    (_hwf : WellFormedCtx (B :: Γ))
+    (_hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (_ht : HasType (B :: Γ) Term.sort Term.sort)
+    (_hs : HasType Γ s B) :
+    ClosedAt 0 (substitute 0 s Term.sort) ∧
+      HasType Γ (substitute 0 s Term.sort) (substitute 0 s Term.sort) := by
+  constructor
+  · exact ClosedAt.sortClosed
+  · exact HasType.sortRule Γ
+
+theorem substitute_var_nonzero_preserves_typing_closed_anchor
+    {Γ : Ctx} {s B A : Term} (j : Idx)
+    (_hwf : WellFormedCtx (B :: Γ))
+    (_hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (ht : HasType (B :: Γ) (Term.var (j + 1)) A)
+    (_hs : HasType Γ s B) :
+    HasType Γ (substitute 0 s (Term.var (j + 1))) (substitute 0 s A) := by
+  cases ht with
+  | varRule Γ' i A' hlook =>
+      rw [substitute_var_succ_zero]
+      rw [lookup_cons_succ] at hlook
+      cases hΓ : Ctx.lookup Γ j with
+      | none =>
+          rw [hΓ] at hlook
+          cases hlook
+      | some T =>
+          rw [hΓ] at hlook
+          cases hlook
+          rw [substitute_shift_at_eq]
+          exact HasType.varRule Γ j T hΓ
+
+theorem substitute_pi_preserves_typing_closed_anchor
+    {Γ : Ctx} {s B dom cod : Term}
+    (_hwf : WellFormedCtx (B :: Γ))
+    (_hclosed_B : ClosedAt 0 B)
+    (hclosed_s : ClosedAt 0 s)
+    (hclosed_pi : ClosedAt 1 (Term.pi dom cod))
+    (hdom_sub : HasType Γ (substitute 0 s dom) Term.sort)
+    (hcod_sub :
+      HasType (substitute 0 s dom :: Γ)
+        (substitute 1 (shift 0 1 s) cod) Term.sort)
+    (_ht : HasType (B :: Γ) (Term.pi dom cod) Term.sort)
+    (_hs : HasType Γ s B) :
+    ClosedAt 0 (substitute 0 s (Term.pi dom cod)) ∧
+      HasType Γ (substitute 0 s (Term.pi dom cod))
+        (substitute 0 s Term.sort) := by
+  constructor
+  · exact substitute_closed_source_closes_anchor_via_term_induction
+      0 hclosed_s hclosed_pi
+  · unfold substitute
+    exact HasType.piRule Γ
+      (substitute 0 s dom)
+      (substitute 1 (shift 0 1 s) cod)
+      hdom_sub
+      hcod_sub
+
 /-- 替换与提升交换的目标形状。 -/
 def ShiftSubstituteStatement : Prop :=
   ∀ (n d : Idx) (v t : Term),
