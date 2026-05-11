@@ -1,0 +1,56 @@
+\begin{theorem}[StreamName successor-window projection determinacy]
+\label{thm:streamname-successor-window-projection-determinacy}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be certified StreamName observation
+maps, let $n:\mathsf{BHist}$ be a certified unary observation, and let
+$B:\mathsf{ProbeBundle}$ be a finite observation bundle such that
+$\mathsf{BHist.e1}(n)$ is an $\mathsf{InBundle}$ member of $B$. If the public
+finite-window classifier
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)
+$$
+holds, then it determines the projected singleton successor-window classifier
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}
+\bigl(s,t,\mathsf{ProbeBundle.Bcons}(\mathsf{BHist.e1}(n),\mathsf{ProbeBundle.Bnil})\bigr).
+$$
+The projected row is exactly the successor observation row consumed by the
+scheduled constant observation package of
+\autoref{def:streamname-constant-scheduled-observation-package}, by the
+scheduled window reindex stability row of
+\autoref{thm:streamname-scheduled-window-reindex-stability}, and by the RealUp
+finite-window boundary rows
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. It adds no host
+$\mathsf{Nat}$, quotient representative, completion object, metric row, or
+$\RealUp$ completeness datum.
+\end{theorem}
+
+\begin{proof}
+Unfold the public finite-window interface in
+\autoref{thm:streamname-public-finite-window-interface}. The classifier over
+$B$ is a finite family of pointwise $\RatUp$ classifier rows indexed by the
+certified unary observations carried by $B$.
+
+The hypothesis that $\mathsf{BHist.e1}(n)$ is an $\mathsf{InBundle}$ member of
+$B$ gives the inclusion of the singleton successor bundle into $B$. Apply the
+finite-window restriction export of
+\autoref{thm:streamname-finite-window-restriction-export} to retain exactly the
+row indexed by $\mathsf{BHist.e1}(n)$ and to discard every other bundled
+observation.
+
+Now read that singleton row as a scheduled successor observation. The
+successor reindexing stability row for StreamName observations identifies the
+same pointwise classifier after reindexing by the successor observation, and
+\autoref{thm:streamname-scheduled-window-reindex-stability} repacks it as the
+finite input of the scheduled constant observation package.
+
+Finally pass the projected scheduled row through
+\autoref{thm:streamname-scheduled-window-realup-feed} and
+\autoref{thm:streamname-regseqrat-realup-finite-window-feed}. These rows are
+the RealUp finite-window feed rows already cited by
+\autoref{thm:realup-finite-window-exhaustion-obligation} and
+\autoref{thm:realup-streamname-finite-window-ledger-boundary}. The projection
+therefore changes only the finite $\mathsf{ProbeBundle}$ ledger and introduces
+no host $\mathsf{Nat}$ index, quotient representative, completion object,
+metric row, or $\RealUp$ completeness datum.
+\end{proof}
