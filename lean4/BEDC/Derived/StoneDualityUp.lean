@@ -1,3 +1,5 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
@@ -75,5 +77,18 @@ theorem StoneDualityBooleanSource_transport [AskSetup] [PackageSetup]
                   (And.intro sourceRow' (And.intro pkgRowCont' pkgSig'))))))))
   exact And.intro sourceData'
     (And.intro sameDistributive (And.intro sameSource samePkgRow))
+
+theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
+    {booleanRow booleanRow' clopenRow clopenRow' ledger ledger' provenance endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hsame booleanRow booleanRow' -> hsame clopenRow clopenRow' ->
+      Cont booleanRow clopenRow ledger -> Cont booleanRow' clopenRow' ledger' ->
+        Cont ledger provenance endpoint -> Cont ledger' provenance endpoint' ->
+          PkgSig bundle endpoint pkg -> hsame endpoint endpoint' := by
+  intro sameBoolean sameClopen ledgerRow ledgerRow' endpointRow endpointRow' _pkgSig
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
+  exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
 end BEDC.Derived.StoneDualityUp
