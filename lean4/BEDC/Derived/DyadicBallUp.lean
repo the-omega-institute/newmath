@@ -88,4 +88,37 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+def DyadicBallRegSeqRatWindow [AskSetup] [PackageSetup]
+    (center radius schedule observation containment transportRow provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory schedule ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory transportRow ∧
+      UnaryHistory provenance ∧ UnaryHistory cert ∧ Cont schedule observation transportRow ∧
+        Cont center radius containment ∧ PkgSig bundle provenance pkg
+
+theorem DyadicBallRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment transportRow provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallRegSeqRatWindow center radius schedule observation containment transportRow
+        provenance cert bundle pkg ->
+      UnaryHistory schedule ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧
+          Cont schedule observation transportRow ∧ Cont center radius containment ∧
+            PkgSig bundle provenance pkg := by
+  intro window
+  obtain ⟨scheduleUnary, centerUnary, radiusUnary, observationUnary, containmentUnary,
+    _transportUnary, _provenanceUnary, _certUnary, scheduleObservationRow, centerRadiusRow,
+    pkgRow⟩ := window
+  have scheduleHistory : UnaryHistory schedule := scheduleUnary
+  have centerHistory : UnaryHistory center := centerUnary
+  have radiusHistory : UnaryHistory radius := radiusUnary
+  have observationHistory : UnaryHistory observation := observationUnary
+  have containmentHistory : UnaryHistory containment := containmentUnary
+  have scheduleObservation : Cont schedule observation transportRow := scheduleObservationRow
+  have centerRadius : Cont center radius containment := centerRadiusRow
+  have provenancePkg : PkgSig bundle provenance pkg := pkgRow
+  exact
+    ⟨scheduleHistory, centerHistory, radiusHistory, observationHistory, containmentHistory,
+      scheduleObservation, centerRadius, provenancePkg⟩
+
 end BEDC.Derived.DyadicBallUp
