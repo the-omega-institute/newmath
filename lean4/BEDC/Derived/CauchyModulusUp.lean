@@ -84,4 +84,46 @@ theorem CauchyModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup
             (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+def CauchyModulusCarrier [AskSetup] [PackageSetup]
+    (precision tolerance scheduled consumption threshold window endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧
+    UnaryHistory tolerance ∧
+      UnaryHistory scheduled ∧
+        UnaryHistory consumption ∧
+          Cont precision tolerance threshold ∧
+            Cont threshold scheduled window ∧
+              Cont window consumption endpoint ∧
+                PkgSig bundle endpoint pkg
+
+theorem CauchyModulusCarrier_cont_window_closure [AskSetup] [PackageSetup]
+    {precision tolerance scheduled consumption threshold window endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusCarrier precision tolerance scheduled consumption threshold window endpoint
+      bundle pkg ->
+        UnaryHistory threshold ∧
+          UnaryHistory window ∧
+            UnaryHistory endpoint ∧
+              hsame threshold (append precision tolerance) ∧
+                hsame window (append threshold scheduled) ∧
+                  hsame endpoint (append window consumption) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed carrier.left carrier.right.left
+      carrier.right.right.right.right.left
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed thresholdUnary carrier.right.right.left
+      carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed windowUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  exact And.intro thresholdUnary
+    (And.intro windowUnary
+      (And.intro endpointUnary
+        (And.intro carrier.right.right.right.right.left
+          (And.intro carrier.right.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.right.left
+              carrier.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.CauchyModulusUp

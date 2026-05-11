@@ -107,4 +107,46 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
 
+def ControlObservabilityCarrier [AskSetup] [PackageSetup]
+    (state transition output observation trace ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory state ∧
+    UnaryHistory transition ∧
+      UnaryHistory output ∧
+        UnaryHistory ledger ∧
+          Cont transition output observation ∧
+            Cont state observation trace ∧
+              Cont trace ledger endpoint ∧
+                PkgSig bundle endpoint pkg
+
+theorem ControlObservabilityCarrier_ledger_readback [AskSetup] [PackageSetup]
+    {state transition output observation trace ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservabilityCarrier state transition output observation trace ledger endpoint
+      bundle pkg ->
+        UnaryHistory observation ∧
+          UnaryHistory trace ∧
+            UnaryHistory endpoint ∧
+              hsame observation (append transition output) ∧
+                hsame trace (append state observation) ∧
+                  hsame endpoint (append trace ledger) ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed carrier.right.left carrier.right.right.left
+      carrier.right.right.right.right.left
+  have traceUnary : UnaryHistory trace :=
+    unary_cont_closed carrier.left observationUnary
+      carrier.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed traceUnary carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  exact And.intro observationUnary
+    (And.intro traceUnary
+      (And.intro endpointUnary
+        (And.intro carrier.right.right.right.right.left
+          (And.intro carrier.right.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.right.left
+              carrier.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.ControlObservabilityUp
