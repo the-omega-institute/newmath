@@ -338,6 +338,49 @@ packet, and the excluded quotient, completion, host-index, Classical, metric,
 arithmetic, order, and bridge rows remain unread.
 \end{proof}
 
+\begin{theorem}[RealUp dyadic StreamName observation-triangle consumer]
+\label{thm:realup-dyadic-streamname-observation-triangle-consumer}
+Let $R$ be a terminal finite-window $\RealUp$ seal consumer whose source side
+factors through the triangle of
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. Then
+$R$ exposes exactly the common packet listed there: the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+$\mathsf{DyadicRatCore}$ observation rows, endpoint transport rows, visible
+$\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+If two such consumer reads agree on the $\StreamNameUp$ finite-window
+restriction and on the $\RegSeqRat$ handoff interface, then they expose the
+same $\mathsf{DyadicRatCore}$ endpoint rows, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. No quotient row, host index, completion
+datum, arithmetic/order row, or standard bridge row is part of that
+consumer-facing source packet.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. The
+factoring hypothesis places the consumer source on the triangle's common
+packet, so its dyadic readback, finite StreamName restriction, and
+$\RegSeqRat$ handoff are all projections of the same displayed source surface.
+
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage} and
+\autoref{thm:realup-terminal-regseqrat-source-minimality}. Coverage repacks the
+listed rows as a terminal finite-window $\RealUp$ source, while minimality says
+that no further source row can be demanded by such a consumer.
+
+For two reads, use
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Agreement on
+the StreamName finite-window restriction and the $\RegSeqRat$ handoff fixes the
+common-refinement splice, hence fixes the DyadicRatCore endpoint rows and the
+visible $\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The excluded data have no projection from any of these three inputs. Quotient
+rows, host indices, completion data, arithmetic/order rows, and standard bridge
+rows are absent from the triangle packet and remain absent after terminal
+source coverage and splice uniqueness are applied.
+\end{proof}
+
 \begin{theorem}[RealUp terminal common-refinement splice uniqueness]
 \label{thm:realup-terminal-common-refinement-splice-uniqueness}
 Let $C$ be a certified $\StreamNameUp$ common-refinement packet whose displayed
