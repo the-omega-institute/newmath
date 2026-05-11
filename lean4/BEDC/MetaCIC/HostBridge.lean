@@ -111,5 +111,4 @@ section HostBridgeMoreDemos
   -- forallE with binder: ∀ T : Sort 0, T → T
   -- #metacic_decide (∀ T : Sort 0, T → T)
 
-  theorem reflectExpr_sort_deterministic_demo : True := True.intro
 end HostBridgeMoreDemos
