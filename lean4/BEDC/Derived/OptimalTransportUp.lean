@@ -263,4 +263,53 @@ theorem OptimalTransportFiniteCouplingPacket_namecert_obligation_surface
     ⟨cert, sourceMarginalRow, targetMarginalRow, objectiveRow, feasibleRow, dualRow,
       provenanceRow, pkgRow⟩
 
+theorem OptimalTransportFiniteCouplingPacket_public_finite_lp_certificate
+    [AskSetup] [PackageSetup]
+    {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
+      targetMarginal objective feasible dual provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          hsame ∧
+        UnaryHistory objective ∧ UnaryHistory feasible ∧ UnaryHistory dual ∧
+          hsame objective (append cost coupling) ∧ hsame dual (append objective feasible) ∧
+            PkgSig bundle provenance pkg := by
+  intro packet
+  have packetProof := packet
+  obtain ⟨_sourceSupportUnary, _targetSupportUnary, _sourceMassUnary, _targetMassUnary,
+    _costUnary, _couplingUnary, _sourceMarginalUnary, _targetMarginalUnary, objectiveUnary,
+    feasibleUnary, dualUnary, _provenanceUnary, _sourceMarginalRow, _targetMarginalRow,
+    objectiveRow, _feasibleRow, dualRow, _provenanceRow, pkgRow⟩ := packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          hsame :=
+    OptimalTransportFiniteCouplingPacket_semantic_name_certificate packetProof
+  exact
+    ⟨cert, objectiveUnary, feasibleUnary, dualUnary, objectiveRow, dualRow, pkgRow⟩
+
 end BEDC.Derived.OptimalTransportUp
