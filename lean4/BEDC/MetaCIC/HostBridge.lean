@@ -92,3 +92,23 @@ section HostBridgeSanityDemos
   -- Should report typed as sort:
   -- #metacic_decide (Sort 0)
 end HostBridgeSanityDemos
+
+section HostBridgeMoreDemos
+  open BEDC.MetaCIC.HostBridge
+
+  -- Pi: Sort 0 → Sort 0 (host) → MetaCIC pi sort sort
+  -- #metacic_decide (Sort 0 → Sort 0)
+
+  -- Lambda: (fun T : Sort 0 => T) → MetaCIC lam sort (var 0)
+  -- #metacic_decide (fun T : Sort 0 => T)
+
+  -- Application: (fun T : Sort 0 => T) Prop, if reflectExpr handles it.
+  -- #metacic_decide ((fun T : Sort 0 => T) (Sort 0))
+
+  -- Const: Lean's Nat, expected to report cannot encode.
+  -- #metacic_decide Nat
+
+  -- forallE with binder: ∀ T : Sort 0, T → T
+  -- #metacic_decide (∀ T : Sort 0, T → T)
+
+end HostBridgeMoreDemos
