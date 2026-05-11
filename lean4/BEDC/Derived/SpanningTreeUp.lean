@@ -29,8 +29,9 @@ def SpanningTreeCarrierPacket [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory vertices ∧ UnaryHistory graphEdges ∧ UnaryHistory treeEdges ∧
     UnaryHistory root ∧ UnaryHistory incidence ∧ UnaryHistory reachability ∧
-      UnaryHistory acyclic ∧ Cont graphPkg treePkg provenance ∧
-        Cont provenance acyclic endpoint ∧ PkgSig bundle endpoint pkg
+      UnaryHistory acyclic ∧ UnaryHistory graphPkg ∧ UnaryHistory treePkg ∧
+        Cont graphPkg treePkg provenance ∧ Cont provenance acyclic endpoint ∧
+          PkgSig bundle endpoint pkg
 
 theorem SpanningTreeCarrierPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {vertices graphEdges treeEdges root incidence reachability acyclic graphPkg treePkg
@@ -44,7 +45,8 @@ theorem SpanningTreeCarrierPacket_namecert_obligation_surface [AskSetup] [Packag
             Cont provenance acyclic endpoint ∧ PkgSig bundle endpoint pkg := by
   intro packet
   obtain ⟨verticesUnary, graphEdgesUnary, treeEdgesUnary, rootUnary, incidenceUnary,
-    reachabilityUnary, acyclicUnary, provenanceCont, endpointCont, pkgSig⟩ := packet
+    reachabilityUnary, acyclicUnary, _graphPkgUnary, _treePkgUnary, provenanceCont,
+    endpointCont, pkgSig⟩ := packet
   exact
     ⟨verticesUnary, graphEdgesUnary, treeEdgesUnary, rootUnary, incidenceUnary,
       reachabilityUnary, acyclicUnary, provenanceCont, endpointCont, pkgSig⟩
@@ -396,5 +398,31 @@ theorem SpanningTreeCarrierSurface_carrier_obligation [AskSetup] [PackageSetup]
     (And.intro reachabilityRow
       (And.intro ledgerRow
         (And.intro endpointRow pkgSig)))
+
+theorem SpanningTreeCarrierPacket_weight_readback_obligation [AskSetup] [PackageSetup]
+    {vertices graphEdges treeEdges root incidence reachability acyclic graphPkg treePkg
+      provenance endpoint weightRows weightLedger weightedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpanningTreeCarrierPacket vertices graphEdges treeEdges root incidence reachability acyclic
+        graphPkg treePkg provenance endpoint bundle pkg ->
+      UnaryHistory weightRows ->
+        Cont treeEdges weightRows weightLedger ->
+          Cont provenance weightLedger weightedEndpoint ->
+            UnaryHistory weightLedger ∧ UnaryHistory weightedEndpoint ∧
+              hsame weightLedger (append treeEdges weightRows) ∧
+                hsame weightedEndpoint (append provenance weightLedger) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro packet weightRowsUnary weightLedgerRow weightedEndpointRow
+  obtain ⟨_verticesUnary, _graphEdgesUnary, treeEdgesUnary, _rootUnary, _incidenceUnary,
+    _reachabilityUnary, _acyclicUnary, graphPkgUnary, treePkgUnary, provenanceRow,
+    _endpointRow, pkgSig⟩ := packet
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed graphPkgUnary treePkgUnary provenanceRow
+  have weightLedgerUnary : UnaryHistory weightLedger :=
+    unary_cont_closed treeEdgesUnary weightRowsUnary weightLedgerRow
+  have weightedEndpointUnary : UnaryHistory weightedEndpoint :=
+    unary_cont_closed provenanceUnary weightLedgerUnary weightedEndpointRow
+  exact
+    ⟨weightLedgerUnary, weightedEndpointUnary, weightLedgerRow, weightedEndpointRow, pkgSig⟩
 
 end BEDC.Derived.SpanningTreeUp
