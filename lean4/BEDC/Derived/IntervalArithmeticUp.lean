@@ -72,4 +72,49 @@ theorem IntervalArithmeticEndpointPacket_classifier_transport [AskSetup] [Packag
                   (And.intro enclosureRow' (And.intro endpointRow' endpointPkg')))))))))
     (And.intro sameEnclosure sameEndpoint)
 
+def IntervalArithmeticPacket [AskSetup] [PackageSetup]
+    (lower upper lowerObs upperObs enclosure package : BHist) : Prop :=
+  UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory lowerObs ∧ UnaryHistory upperObs ∧
+    UnaryHistory enclosure ∧ UnaryHistory package ∧
+      ∃ bundle : ProbeBundle ProbeName, ∃ pkg : Pkg, PkgSig bundle package pkg
+
+theorem IntervalArithmeticPacket_outward_rounded_addition [AskSetup] [PackageSetup]
+    {lowerA upperA lowerObsA upperObsA enclosureA lowerB upperB lowerObsB upperObsB
+      enclosureB lowerC upperC lowerObsC upperObsC enclosureC packageA packageB endpointC :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalArithmeticPacket lowerA upperA lowerObsA upperObsA enclosureA packageA ->
+      IntervalArithmeticPacket lowerB upperB lowerObsB upperObsB enclosureB packageB ->
+        Cont lowerA lowerB lowerC -> Cont upperA upperB upperC ->
+          Cont lowerObsA lowerObsB lowerObsC -> Cont upperObsA upperObsB upperObsC ->
+            Cont enclosureA enclosureB enclosureC -> Cont packageA packageB endpointC ->
+              PkgSig bundle endpointC pkg ->
+                IntervalArithmeticPacket lowerC upperC lowerObsC upperObsC enclosureC
+                    endpointC ∧
+                  hsame lowerC (append lowerA lowerB) ∧ hsame upperC (append upperA upperB) := by
+  intro packetA packetB lowerRow upperRow lowerObsRow upperObsRow enclosureRow packageRow pkgRow
+  have lowerCUnary : UnaryHistory lowerC :=
+    unary_cont_closed packetA.left packetB.left lowerRow
+  have upperCUnary : UnaryHistory upperC :=
+    unary_cont_closed packetA.right.left packetB.right.left upperRow
+  have lowerObsCUnary : UnaryHistory lowerObsC :=
+    unary_cont_closed packetA.right.right.left packetB.right.right.left lowerObsRow
+  have upperObsCUnary : UnaryHistory upperObsC :=
+    unary_cont_closed packetA.right.right.right.left packetB.right.right.right.left upperObsRow
+  have enclosureCUnary : UnaryHistory enclosureC :=
+    unary_cont_closed packetA.right.right.right.right.left
+      packetB.right.right.right.right.left enclosureRow
+  have endpointCUnary : UnaryHistory endpointC :=
+    unary_cont_closed packetA.right.right.right.right.right.left
+      packetB.right.right.right.right.right.left packageRow
+  exact And.intro
+    (And.intro lowerCUnary
+      (And.intro upperCUnary
+        (And.intro lowerObsCUnary
+          (And.intro upperObsCUnary
+            (And.intro enclosureCUnary
+              (And.intro endpointCUnary
+                (Exists.intro bundle (Exists.intro pkg pkgRow))))))))
+    (And.intro lowerRow upperRow)
+
 end BEDC.Derived.IntervalArithmeticUp
