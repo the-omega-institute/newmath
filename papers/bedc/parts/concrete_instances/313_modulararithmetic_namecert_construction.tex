@@ -50,11 +50,13 @@ For addition, read the displayed $\AddUp$ row on the two representatives. The or
 
 For multiplication, use the same construction with the displayed $\MulUp$ product row. In both cases the resulting packet is exhausted by the representative operation row, the reduction ledger, and the shared provenance, so no quotient-ring object is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_add\_mul\_ledger}
 
 \begin{theorem}[ModularArithmetic Int/Rat handoff]
 \label{thm:modulararithmetic-int-rat-handoff}
 Every accepted $\ModularArithmeticUp$ residue packet exposes its representative and modulus through $\IntUp$ rows, and every rational normalization or denominator-side consumer may read the packet only through the corresponding $\RatUp$ handoff rows, the modulus unary witness, the residue ledger, $\hsame$ transport, $\Cont$ routes, and $\Pkg$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_int\_rat\_handoff}
 \begin{proof}
 The source definition stores the representative and modulus as $\IntUp$ rows. Projecting the packet therefore gives the integer data needed by the residue classifier without invoking any external arithmetic carrier.
 
@@ -73,6 +75,20 @@ The carrier and classifier are the two projections of \autoref{def:modulararithm
 The operation rows are supplied by \autoref{thm:modulararithmetic-add-mul-ledger}. Addition and multiplication both use the same modulus witness, representative rows, finite reduction window, and package provenance.
 
 The handoff row is supplied by \autoref{thm:modulararithmetic-int-rat-handoff}. Together these projections list every coordinate readable from the packet, so the $\NameCert_{\ModularArithmeticUp}$ surface is exhausted by the five displayed rows and no quotient primitive is exported.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic scoped dependency boundary]
+\label{thm:modulararithmetic-scoped-dependency-boundary}
+The five local $\NameCert_{\ModularArithmeticUp}$ rows are scoped exactly by the displayed $\IntUp$ modulus and representative rows, the $\AddUp$ and $\MulUp$ operation rows, the $\OrderUp$ reduction-window row, the $\RatUp$ handoff row, the positive $\mathsf{UnaryHistory}$ modulus witness, the $\mathsf{BHist}$ residue packet, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the dependency certificates named by $\NameCert$. No quotient ring, host congruence class, finite-field structure, or external equality is exported from this scoped boundary.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:modulararithmetic-residue-source}. Its carrier and classifier coordinates give the representative row, modulus row, positive unary witness, residue packet, transported remainder window, continuation routes, package provenance, and dependency certificates.
+
+Use \autoref{thm:modulararithmetic-add-mul-ledger} for the operation surface. The addition and multiplication rows consume only the displayed $\AddUp$ and $\MulUp$ dependencies before repacking the reduced residue through the same modulus witness and $\OrderUp$ reduction window.
+
+Use \autoref{thm:modulararithmetic-int-rat-handoff} for the consumer boundary. The handoff exposes exactly the integer representative and modulus rows to $\RatUp$ consumers, together with the same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ ledgers.
+
+These three projections exhaust the concrete BEDC rows visible in the packet. Since none of the named rows contains a coordinate for quotient-ring equality, host congruence classes, finite-field structure, or external equality, the scoped surface exports no such object.
 \end{proof}
 
 \closureat{ModularArithmeticUp}{seedStr}
