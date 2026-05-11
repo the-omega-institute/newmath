@@ -78,6 +78,44 @@ theorem BraidGroupPacket_artin_ledger_stability [AskSetup] [PackageSetup]
                 (And.intro closureRowCont' closurePkg')))))))
     (And.intro classifierSame (And.intro actionSame closureSame))
 
+theorem BraidGroupPacket_weyl_root_action_handoff [AskSetup] [PackageSetup]
+    {strand word ledger classifier provenance action closureRow rootAction shadow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupPacket strand word ledger classifier provenance action closureRow bundle pkg ->
+      Cont action provenance rootAction -> Cont rootAction word shadow -> PkgSig bundle shadow pkg ->
+        UnaryHistory word ∧ UnaryHistory ledger ∧ UnaryHistory action ∧ UnaryHistory rootAction ∧
+          UnaryHistory shadow ∧ Cont word ledger classifier ∧ Cont classifier provenance action ∧
+            Cont action provenance rootAction ∧ Cont rootAction word shadow ∧
+              PkgSig bundle closureRow pkg ∧ PkgSig bundle shadow pkg := by
+  intro packet rootActionRow shadowRow shadowPkg
+  have wordUnary : UnaryHistory word :=
+    packet.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    packet.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.left
+  have classifierRow : Cont word ledger classifier :=
+    packet.right.right.right.right.left
+  have actionRow : Cont classifier provenance action :=
+    packet.right.right.right.right.right.left
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed (unary_cont_closed wordUnary ledgerUnary classifierRow) provenanceUnary actionRow
+  have rootActionUnary : UnaryHistory rootAction :=
+    unary_cont_closed actionUnary provenanceUnary rootActionRow
+  have shadowUnary : UnaryHistory shadow :=
+    unary_cont_closed rootActionUnary wordUnary shadowRow
+  exact
+    And.intro wordUnary
+      (And.intro ledgerUnary
+        (And.intro actionUnary
+          (And.intro rootActionUnary
+            (And.intro shadowUnary
+              (And.intro classifierRow
+                (And.intro actionRow
+                  (And.intro rootActionRow
+                    (And.intro shadowRow
+                      (And.intro packet.right.right.right.right.right.right.right shadowPkg)))))))))
+
 def BraidGroupArtinPacket [AskSetup] [PackageSetup]
     (strand word moveLedger classifier dependency endpoint : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
@@ -148,6 +186,32 @@ theorem BraidGroupArtinPacket_artin_ledger_stability [AskSetup] [PackageSetup]
                       hsame moveLedger moveLedger' ∧ hsame classifier classifier' ∧
                         hsame endpoint endpoint' :=
   BraidGroupArtinPacket_ledger_stability
+
+theorem BraidGroupArtinPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont endpoint dependency consumer ->
+        PkgSig bundle consumer pkg ->
+          PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory moveLedger ∧
+            UnaryHistory dependency ∧ UnaryHistory classifier ∧ UnaryHistory endpoint ∧
+              UnaryHistory consumer ∧ Cont strand word moveLedger ∧
+                Cont moveLedger dependency classifier ∧ Cont classifier word endpoint ∧
+                  Cont endpoint dependency consumer ∧ hsame endpoint (append classifier word) ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerSig
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, strandWordRow,
+    classifierRow, endpointRow, endpointSig⟩ := packet
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed moveLedgerUnary dependencyUnary classifierRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed classifierUnary wordUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary dependencyUnary consumerRow
+  exact
+    ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, classifierUnary, endpointUnary,
+      consumerUnary, strandWordRow, classifierRow, endpointRow, consumerRow, endpointRow,
+      endpointSig, consumerSig⟩
 
 theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSetup]
     {strand word moveLedger classifier dependency endpoint : BHist}
