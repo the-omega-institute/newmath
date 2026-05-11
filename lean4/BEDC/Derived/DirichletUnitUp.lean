@@ -287,6 +287,49 @@ theorem DirichletUnitHistoryCarrier_regulator_consumer_boundary
         (And.intro regulatorSurfaceUnary
           (And.intro regulatorReadUnary readback.right.right.right.right.right))))
 
+theorem DirichletUnitHistoryCarrier_regulator_consumer_threshold_package
+    {source unit inverse law unitLedger lawLedger provenance rankWitness rankLedger
+      regulatorSurface unitRead inverseRead regulatorRead : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      UnaryHistory rankWitness ->
+        Cont provenance rankWitness rankLedger ->
+          Cont rankLedger provenance regulatorSurface ->
+            Cont unit provenance unitRead ->
+              Cont inverse provenance inverseRead ->
+                Cont unitRead inverseRead regulatorRead ->
+                  UnaryHistory unit ∧ UnaryHistory inverse ∧ UnaryHistory rankWitness ∧
+                    UnaryHistory rankLedger ∧ UnaryHistory regulatorSurface ∧
+                      UnaryHistory unitRead ∧ UnaryHistory inverseRead ∧
+                        UnaryHistory regulatorRead ∧ Cont source unit unitLedger ∧
+                          Cont inverse law lawLedger ∧ Cont unitLedger lawLedger provenance := by
+  intro carrier rankWitnessUnary rankLedgerRow regulatorSurfaceRow unitReadRow inverseReadRow
+    regulatorReadRow
+  have readback :=
+    DirichletUnitHistoryCarrier_readback_obligation
+      (source := source) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (provenance := provenance) carrier
+  have rankLedgerUnary : UnaryHistory rankLedger :=
+    unary_cont_closed readback.right.right.left rankWitnessUnary rankLedgerRow
+  have regulatorSurfaceUnary : UnaryHistory regulatorSurface :=
+    unary_cont_closed rankLedgerUnary readback.right.right.left regulatorSurfaceRow
+  have unitReadUnary : UnaryHistory unitRead :=
+    unary_cont_closed carrier.right.left readback.right.right.left unitReadRow
+  have inverseReadUnary : UnaryHistory inverseRead :=
+    unary_cont_closed carrier.right.right.left readback.right.right.left inverseReadRow
+  have regulatorReadUnary : UnaryHistory regulatorRead :=
+    unary_cont_closed unitReadUnary inverseReadUnary regulatorReadRow
+  exact And.intro carrier.right.left
+    (And.intro carrier.right.right.left
+      (And.intro rankWitnessUnary
+        (And.intro rankLedgerUnary
+          (And.intro regulatorSurfaceUnary
+            (And.intro unitReadUnary
+              (And.intro inverseReadUnary
+                (And.intro regulatorReadUnary
+                  (And.intro carrier.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.left
+                      readback.right.right.right.right.right)))))))))
+
 theorem DirichletUnitHistoryCarrier_inherited_unit_product_closure
     {source unit0 unit1 inverse0 inverse1 law unitProduct inverseProduct unitLedgerProduct
       lawLedgerProduct provenanceProduct : BHist} :
