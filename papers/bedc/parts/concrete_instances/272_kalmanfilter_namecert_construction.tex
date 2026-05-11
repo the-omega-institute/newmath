@@ -134,9 +134,10 @@ data, the interpretation exports exactly the finite prediction-update packet.
 
 \closureat{KalmanFilterUp}{publicStr}[BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_namecert\_obligation\_surface]
 \closureat{KalmanFilterUp}{bridgedStr}[BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_downstream\_consumer\_boundary]
+\closureat{KalmanFilterUp}{matureStr}[BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_zero\_gain\_posterior\_estimate\_collapse]
 
 \begin{closurestatus}{\KalmanFilterUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:kalmanfilter-standard-prediction-update-bridge} binds the public finite Kalman prediction-update packet to $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
   \constructivestory{The construction starts from the finite observation packet and dynamic-system transition row, adds matrix and vector rows for prediction, covariance propagation, innovation, gain, and posterior estimate transport, and records the whole calculation as $\mathsf{BHist}$ rows with $\Cont$ and $\mathsf{Pkg}$ provenance.}
   \formalstatus{\auditCleanV}
@@ -144,7 +145,7 @@ data, the interpretation exports exactly the finite prediction-update packet.
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close stochastic optimality, analytic convergence, probability-space semantics, controllability decomposition, or a machine-checked standard bridge.}
-  \upgradepath{Mature closure requires examples or completeness-style cross-chapter consumption beyond the finite prediction-update bridge.}
+  \upgradepath{No further paper theory-axis upgrade is recorded for the finite Kalman packet; Lean-side bridge checking remains a separate verification axis.}
 \end{closurestatus}
 
 \begin{theorem}[KalmanFilterUp zero-gain posterior estimate collapse]
