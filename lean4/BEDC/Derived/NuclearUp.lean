@@ -298,4 +298,45 @@ theorem NuclearCompactOperator_prefix_transport_obligation
           (And.intro endpointUnary'
             (And.intro prefixRows.left prefixCont)))))
 
+theorem NuclearScopedBHistBoundary_rows
+    {source target operator prefixHist index coefficient vector partialSum tail endpoint
+      operatorEndpoint : BHist} :
+    BanachSingletonCarrier source -> BanachSingletonCarrier target ->
+      OperatorIdealTraceClassCarrier operator ->
+        NuclearRankOnePrefixLedger index coefficient vector partialSum tail ->
+          Cont source operator prefixHist -> Cont prefixHist tail endpoint ->
+            Cont operator tail operatorEndpoint ->
+              UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+                UnaryHistory prefixHist ∧ UnaryHistory tail ∧ UnaryHistory endpoint ∧
+                  UnaryHistory operatorEndpoint ∧
+                    MetricDistanceWitness source BHist.Empty BHist.Empty ∧
+                      MetricDistanceWitness target BHist.Empty BHist.Empty ∧
+                        Cont source operator prefixHist ∧ Cont prefixHist tail endpoint ∧
+                          Cont operator tail operatorEndpoint ∧
+                            hsame partialSum (append coefficient vector) ∧
+                              hsame tail (append index partialSum) := by
+  intro sourceCarrier targetCarrier operatorCarrier ledger prefixCont endpointCont operatorTailCont
+  have boundaryRows :=
+    NuclearDependencyBoundary_obligation sourceCarrier targetCarrier operatorCarrier ledger
+      prefixCont endpointCont
+  have ledgerRows := NuclearRankOnePrefixLedger_tail_readback ledger
+  have operatorRows :=
+    OperatorIdealTraceClass_downstream_boundary_readback operatorCarrier
+  have operatorEndpointUnary : UnaryHistory operatorEndpoint :=
+    unary_cont_closed operatorRows.left ledgerRows.right.left operatorTailCont
+  exact And.intro boundaryRows.left
+    (And.intro boundaryRows.right.left
+      (And.intro boundaryRows.right.right.left
+        (And.intro boundaryRows.right.right.right.left
+          (And.intro boundaryRows.right.right.right.right.left
+            (And.intro boundaryRows.right.right.right.right.right.left
+              (And.intro operatorEndpointUnary
+                (And.intro boundaryRows.right.right.right.right.right.right.left
+                  (And.intro boundaryRows.right.right.right.right.right.right.right.left
+                    (And.intro prefixCont
+                      (And.intro endpointCont
+                        (And.intro operatorTailCont
+                          (And.intro ledgerRows.right.right.left
+                            ledgerRows.right.right.right))))))))))))
+
 end BEDC.Derived.NuclearUp
