@@ -106,6 +106,10 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.Core
+import BEDC.Derived.FastCauchyUp.Middle
+import BEDC.Derived.FastCauchyUp.Tail
+import BEDC.Derived.FastCauchyUp.ExplicitRateSealWindow
 import BEDC.Derived.FastCauchyUp.FinitePacketWindows
 import BEDC.Derived.FastCauchyUp.WindowSynchronization
 import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
@@ -146,6 +150,9 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
+import BEDC.Derived.SignedDigitStreamUp.Core
+import BEDC.Derived.SignedDigitStreamUp.Tail
+import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SpanningTreeUp
@@ -210,6 +217,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
+import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
@@ -240,6 +248,10 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.DyadicBallUp
+import BEDC.Derived.DyadicBallUp.Core
+import BEDC.Derived.DyadicBallUp.Middle
+import BEDC.Derived.DyadicBallUp.Tail
+import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBallUp.RadiusWindowMonotonicity
 import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
 import BEDC.Derived.DyadicCompletionUp
@@ -253,6 +265,7 @@ import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
+import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
@@ -732,6 +745,9 @@ import BEDC.Derived.ResidueUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
+import BEDC.Derived.ConvergenceRadiusUp.PublicExport
+import BEDC.Derived.ConvergenceRadiusUp.PublicBoundaryExactness
+import BEDC.Derived.ConvergenceRadiusUp.PublicBoundary
 import BEDC.Derived.ConvergenceRadiusUp.NameCertificate
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ProbSpaceUp

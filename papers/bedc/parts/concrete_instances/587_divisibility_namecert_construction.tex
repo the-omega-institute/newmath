@@ -49,6 +49,8 @@ transport of $D$ by the componentwise $\hsame$ rows in $l$ gives another
 accepted source with the transported multiplication witness and no additional
 host divisibility predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_mul\_witness\_transport\_closure}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityBHistCarrier\_mul\_witness\_closure}
 \begin{proof}
 Project the carrier of \autoref{def:divisibility-bhist-carrier}. The rows
 $a$, $b$, and $q$ supply the displayed natural-number data, and $w$ is the
@@ -64,6 +66,7 @@ coordinate for an external divisibility relation, quotient class, or
 decidable predicate, so the multiplication witness row exhausts the exported
 divisibility assertion.
 \end{proof}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityLedger\_multiplication\_witness\_closure}
 
 \begin{theorem}[Divisibility order-bounded ledger]
 \label{thm:divisibility-order-bounded-ledger}
@@ -74,6 +77,7 @@ inside the finite search region selected by the dividend row $a$ when such a
 region is requested, and otherwise exports no order fact beyond the visible
 boundedness ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityBHistCarrier\_order\_bounded\_ledger}
 \begin{proof}
 Read $o$ through the carrier of \autoref{def:divisibility-bhist-carrier}. It
 is typed over the same $a$, $b$, and $q$ rows used by the multiplication
@@ -113,6 +117,7 @@ provenance rows of the same packet.
 These five rows form the full public seed obligation for naming finite
 divisibility data over certified natural-number histories.
 \end{theorem}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 The habitation row uses the displayed natural-number unit. With $b=1$ and
 $q=a$, the $\MulUp$ unit ledger supplies the witness row $w$, while the
@@ -161,21 +166,22 @@ law, or host congruence would require a coordinate absent from $D$.
 \end{proof}
 \leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_prime\_modular\_boundary}
 
-\begin{theorem}[Divisibility public certificate export]
-\label{thm:divisibility-public-certificate-export}
-For every accepted finite $\DivisibilityUp$ source
-$D=(a,b,q,w,o,l,p)$, the public $\DivisibilityUp$ certificate surface exported to $\PrimeUp$ and
-$\ModularArithmeticUp$ consists exactly of the carrier rows of
-\autoref{def:divisibility-bhist-carrier}, the multiplication witness of
-\autoref{thm:divisibility-mul-witness-closure}, the optional bounded-search
-ledger of \autoref{thm:divisibility-order-bounded-ledger}, the five
-$\NameCert$ rows of \autoref{thm:divisibility-namecert-obligation-surface},
-and the consumer boundary of
-\autoref{thm:divisibility-prime-modular-boundary}.
+\begin{theorem}[DivisibilityUp public certificate]
+\label{thm:divisibility-public-certificate}
+For every accepted finite $\DivisibilityUp$ source $D=(a,b,q,w,o,l,p)$,
+\autoref{def:divisibility-bhist-carrier},
+\autoref{thm:divisibility-mul-witness-closure},
+\autoref{thm:divisibility-order-bounded-ledger},
+\autoref{thm:divisibility-namecert-obligation-surface}, and
+\autoref{thm:divisibility-prime-modular-boundary} assemble the public
+$\NameCert_{\DivisibilityUp}$ consumer certificate over $\mathsf{BHist}$,
+multiplication witnesses, order-bounded ledgers, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$.
 
 It exports no gcd algorithm, Euclidean division, primality decision,
 quotient residue class, finite-field law, or host congruence.
 \end{theorem}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_public\_consumer\_certificate}
 \begin{proof}
 Project $D$ through \autoref{def:divisibility-bhist-carrier}. The projection
 exposes only the dividend row, divisor row, multiplier row, multiplication
@@ -191,11 +197,11 @@ Apply \autoref{thm:divisibility-namecert-obligation-surface} to package the
 carrier, classifier transport, multiplication, boundedness, and downstream
 readback rows as the displayed $\NameCert_{\DivisibilityUp}$ surface.
 
-Finally, use \autoref{thm:divisibility-prime-modular-boundary} to export the
-same finite packet as the public $\DivisibilityUp$ certificate surface consumed
-by $\PrimeUp$ and $\ModularArithmeticUp$. Any gcd algorithm, Euclidean
-division, primality decision, quotient residue class, finite-field law, or host
-congruence would require a row absent from the certificate.
+Finally, use \autoref{thm:divisibility-prime-modular-boundary} to expose the
+same finite packet as the public $\NameCert_{\DivisibilityUp}$ consumer
+certificate for $\PrimeUp$ and $\ModularArithmeticUp$. Any gcd algorithm,
+Euclidean division, primality decision, quotient residue class, finite-field
+law, or host congruence would require a row absent from the certificate.
 \end{proof}
 
 \begin{theorem}[Divisibility bounded-witness public readback]
@@ -236,14 +242,16 @@ host decidability predicate is exported.
 \closureat{DivisibilityUp}{seedStr}
 \closureat{DivisibilityUp}{obligationStr}
 \closureat{DivisibilityUp}{scopedStr}
+\closureat{DivisibilityUp}{publicStr}[BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_order\_bounded\_ledger]
 
 \begin{closurestatus}{\DivisibilityUp}
   \constructivestory{Divisibility is generated by finite natural-number rows for $a$, $b$, and $q$, a displayed multiplication witness for $b\cdot q=a$, an optional bounded search row, a visible divisibility ledger, and provenance over the arithmetic dependency certificates.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:divisibility-bhist-carrier}, \autoref{thm:divisibility-mul-witness-closure}, \autoref{thm:divisibility-order-bounded-ledger}, \autoref{thm:divisibility-namecert-obligation-surface}, and \autoref{thm:divisibility-prime-modular-boundary} bind the carrier, multiplication-witness row, order-bounded ledger, NameCert obligation surface, and prime/modular consumer boundary for finite divisibility data.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_order\_bounded\_ledger}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close gcd algorithms, Euclidean division, primality decisions, unique factorization, quotient residue classes, finite fields, or a standard bridge.}
-  \upgradepath{Public closure requires one exported DivisibilityUp certificate theorem consumed by PrimeUp and ModularArithmeticUp.}
+  \upgradepath{Bridged closure requires a standard bridge for the finite divisibility witness surface.}
 \end{closurestatus}
