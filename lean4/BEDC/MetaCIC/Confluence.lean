@@ -1,0 +1,367 @@
+import BEDC.MetaCIC.Beta
+
+namespace BEDC.MetaCIC
+
+inductive BetaStarStep : Term → Term → Prop
+  | refl (t : Term) :
+      BetaStarStep t t
+  | step {t u v : Term} :
+      BetaStep t u →
+      BetaStarStep u v →
+      BetaStarStep t v
+
+def BetaStarConfluent : Prop :=
+  ∀ {t u1 u2 : Term},
+    BetaStarStep t u1 →
+    BetaStarStep t u2 →
+    Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v)
+
+inductive BetaParallel : Term → Term → Prop
+  | var (i : Idx) :
+      BetaParallel (Term.var i) (Term.var i)
+  | sort :
+      BetaParallel Term.sort Term.sort
+  | app {f f' a a' : Term} :
+      BetaParallel f f' →
+      BetaParallel a a' →
+      BetaParallel (Term.app f a) (Term.app f' a')
+  | lam {d d' b b' : Term} :
+      BetaParallel d d' →
+      BetaParallel b b' →
+      BetaParallel (Term.lam d b) (Term.lam d' b')
+  | pi {d d' c c' : Term} :
+      BetaParallel d d' →
+      BetaParallel c c' →
+      BetaParallel (Term.pi d c) (Term.pi d' c')
+  | beta {d d' b b' a a' : Term} :
+      BetaParallel d d' →
+      BetaParallel b b' →
+      BetaParallel a a' →
+      BetaParallel (Term.app (Term.lam d b) a) (substitute 0 a' b')
+
+def BetaParallelDiamond : Prop :=
+  ∀ {t u1 u2 : Term},
+    BetaParallel t u1 →
+    BetaParallel t u2 →
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v)
+
+theorem betaStar_one {t u : Term} :
+    BetaStep t u → BetaStarStep t u := by
+  intro h
+  exact BetaStarStep.step h (BetaStarStep.refl u)
+
+theorem betaStar_trans {t u v : Term} :
+    BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
+  intro htu huv
+  induction htu with
+  | refl t =>
+      exact huv
+  | step htw hwu ih =>
+      exact BetaStarStep.step htw (ih huv)
+
+theorem betaParallel_refl (t : Term) :
+    BetaParallel t t := by
+  induction t with
+  | var i =>
+      exact BetaParallel.var i
+  | app f a hf ha =>
+      exact BetaParallel.app hf ha
+  | lam d b hd hb =>
+      exact BetaParallel.lam hd hb
+  | pi d c hd hc =>
+      exact BetaParallel.pi hd hc
+  | sort =>
+      exact BetaParallel.sort
+
+theorem betaStep_to_parallel {t u : Term} :
+    BetaStep t u → BetaParallel t u := by
+  intro h
+  induction h with
+  | beta dom body arg =>
+      exact
+        BetaParallel.beta
+          (betaParallel_refl dom)
+          (betaParallel_refl body)
+          (betaParallel_refl arg)
+  | congApp1 f f' a hff' ih =>
+      exact BetaParallel.app ih (betaParallel_refl a)
+  | congApp2 f a a' haa' ih =>
+      exact BetaParallel.app (betaParallel_refl f) ih
+  | congLam d b b' hbb' ih =>
+      exact BetaParallel.lam (betaParallel_refl d) ih
+
+theorem betaParallel_join_refl_left {t u : Term} :
+    BetaParallel t u →
+    Exists (fun v => BetaParallel t v ∧ BetaParallel u v) := by
+  intro h
+  exact Exists.intro u (And.intro h (betaParallel_refl u))
+
+theorem betaParallel_join_refl_right {t u : Term} :
+    BetaParallel t u →
+    Exists (fun v => BetaParallel u v ∧ BetaParallel t v) := by
+  intro h
+  exact Exists.intro u (And.intro (betaParallel_refl u) h)
+
+theorem betaParallel_var_diamond
+    (i : Idx) {u1 u2 : Term}
+    (h1 : BetaParallel (Term.var i) u1)
+    (h2 : BetaParallel (Term.var i) u2) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1
+  cases h2
+  exact
+    Exists.intro
+      (Term.var i)
+      (And.intro (BetaParallel.var i) (BetaParallel.var i))
+
+theorem betaParallel_sort_diamond
+    {u1 u2 : Term}
+    (h1 : BetaParallel Term.sort u1)
+    (h2 : BetaParallel Term.sort u2) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1
+  cases h2
+  exact
+    Exists.intro
+      Term.sort
+      (And.intro BetaParallel.sort BetaParallel.sort)
+
+theorem betaParallel_app_diamond_of_components
+    {f1 f2 a1 a2 : Term}
+    (hf :
+      Exists (fun g => BetaParallel f1 g ∧ BetaParallel f2 g))
+    (ha :
+      Exists (fun b => BetaParallel a1 b ∧ BetaParallel a2 b)) :
+    Exists
+      (fun v =>
+        BetaParallel (Term.app f1 a1) v ∧
+          BetaParallel (Term.app f2 a2) v) := by
+  cases hf with
+  | intro g hg =>
+      cases hg with
+      | intro hf1g hf2g =>
+          cases ha with
+          | intro b hb =>
+              cases hb with
+              | intro ha1b ha2b =>
+                  exact
+                    Exists.intro
+                      (Term.app g b)
+                      (And.intro
+                        (BetaParallel.app hf1g ha1b)
+                        (BetaParallel.app hf2g ha2b))
+
+theorem betaParallel_lam_diamond_of_components
+    {d1 d2 b1 b2 : Term}
+    (hd :
+      Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hb :
+      Exists (fun c => BetaParallel b1 c ∧ BetaParallel b2 c)) :
+    Exists
+      (fun v =>
+        BetaParallel (Term.lam d1 b1) v ∧
+          BetaParallel (Term.lam d2 b2) v) := by
+  cases hd with
+  | intro e he =>
+      cases he with
+      | intro hd1e hd2e =>
+          cases hb with
+          | intro c hc =>
+              cases hc with
+              | intro hb1c hb2c =>
+                  exact
+                    Exists.intro
+                      (Term.lam e c)
+                      (And.intro
+                        (BetaParallel.lam hd1e hb1c)
+                        (BetaParallel.lam hd2e hb2c))
+
+theorem betaParallel_pi_diamond_of_components
+    {d1 d2 c1 c2 : Term}
+    (hd :
+      Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hc :
+      Exists (fun r => BetaParallel c1 r ∧ BetaParallel c2 r)) :
+    Exists
+      (fun v =>
+        BetaParallel (Term.pi d1 c1) v ∧
+          BetaParallel (Term.pi d2 c2) v) := by
+  cases hd with
+  | intro e he =>
+      cases he with
+      | intro hd1e hd2e =>
+          cases hc with
+          | intro r hr =>
+              cases hr with
+              | intro hc1r hc2r =>
+                  exact
+                    Exists.intro
+                      (Term.pi e r)
+                      (And.intro
+                        (BetaParallel.pi hd1e hc1r)
+                        (BetaParallel.pi hd2e hc2r))
+
+theorem betaParallel_app_independent_diamond
+    {f a f1 f2 a1 a2 : Term}
+    (hf1 : BetaParallel f f1)
+    (hf2 : BetaParallel f f2)
+    (ha1 : BetaParallel a a1)
+    (ha2 : BetaParallel a a2)
+    (hf :
+      ∀ {g1 g2 : Term},
+        BetaParallel f g1 →
+        BetaParallel f g2 →
+        Exists (fun g => BetaParallel g1 g ∧ BetaParallel g2 g))
+    (ha :
+      ∀ {b1 b2 : Term},
+        BetaParallel a b1 →
+        BetaParallel a b2 →
+        Exists (fun b => BetaParallel b1 b ∧ BetaParallel b2 b)) :
+    Exists
+      (fun v =>
+        BetaParallel (Term.app f1 a1) v ∧
+          BetaParallel (Term.app f2 a2) v) := by
+  exact
+    betaParallel_app_diamond_of_components
+      (hf hf1 hf2)
+      (ha ha1 ha2)
+
+theorem betaParallel_lam_shape_diamond
+    {d b u1 u2 : Term}
+    (h1 : BetaParallel (Term.lam d b) u1)
+    (h2 : BetaParallel (Term.lam d b) u2)
+    (hd :
+      ∀ {d1 d2 : Term},
+        BetaParallel d d1 →
+        BetaParallel d d2 →
+        Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hb :
+      ∀ {b1 b2 : Term},
+        BetaParallel b b1 →
+        BetaParallel b b2 →
+        Exists (fun c => BetaParallel b1 c ∧ BetaParallel b2 c)) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1 with
+  | lam hd1 hb1 =>
+      cases h2 with
+      | lam hd2 hb2 =>
+          exact
+            betaParallel_lam_diamond_of_components
+              (hd hd1 hd2)
+              (hb hb1 hb2)
+
+theorem betaParallel_pi_shape_diamond
+    {d c u1 u2 : Term}
+    (h1 : BetaParallel (Term.pi d c) u1)
+    (h2 : BetaParallel (Term.pi d c) u2)
+    (hd :
+      ∀ {d1 d2 : Term},
+        BetaParallel d d1 →
+        BetaParallel d d2 →
+        Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hc :
+      ∀ {c1 c2 : Term},
+        BetaParallel c c1 →
+        BetaParallel c c2 →
+        Exists (fun r => BetaParallel c1 r ∧ BetaParallel c2 r)) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1 with
+  | pi hd1 hc1 =>
+      cases h2 with
+      | pi hd2 hc2 =>
+          exact
+            betaParallel_pi_diamond_of_components
+              (hd hd1 hd2)
+              (hc hc1 hc2)
+
+theorem betaStep_var_absurd
+    (i : Idx) {u : Term} :
+    BetaStep (Term.var i) u → False := by
+  intro h
+  cases h
+
+theorem betaStep_sort_absurd
+    {u : Term} :
+    BetaStep Term.sort u → False := by
+  intro h
+  cases h
+
+theorem betaStep_pi_absurd
+    {d c u : Term} :
+    BetaStep (Term.pi d c) u → False := by
+  intro h
+  cases h
+
+theorem betaStar_var_target
+    (i : Idx) {u : Term}
+    (h : BetaStarStep (Term.var i) u) :
+    u = Term.var i := by
+  cases h with
+  | refl t =>
+      rfl
+  | step hstep _ =>
+      exact False.elim (betaStep_var_absurd i hstep)
+
+theorem betaStar_sort_target
+    {u : Term}
+    (h : BetaStarStep Term.sort u) :
+    u = Term.sort := by
+  cases h with
+  | refl t =>
+      rfl
+  | step hstep _ =>
+      exact False.elim (betaStep_sort_absurd hstep)
+
+theorem betaStar_pi_target
+    {d c u : Term}
+    (h : BetaStarStep (Term.pi d c) u) :
+    u = Term.pi d c := by
+  cases h with
+  | refl t =>
+      rfl
+  | step hstep _ =>
+      exact False.elim (betaStep_pi_absurd hstep)
+
+theorem betaStar_var_join
+    (i : Idx) {u1 u2 : Term}
+    (h1 : BetaStarStep (Term.var i) u1)
+    (h2 : BetaStarStep (Term.var i) u2) :
+    Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
+  cases betaStar_var_target i h1
+  cases betaStar_var_target i h2
+  exact
+    Exists.intro
+      (Term.var i)
+      (And.intro
+        (BetaStarStep.refl (Term.var i))
+        (BetaStarStep.refl (Term.var i)))
+
+theorem betaStar_sort_join
+    {u1 u2 : Term}
+    (h1 : BetaStarStep Term.sort u1)
+    (h2 : BetaStarStep Term.sort u2) :
+    Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
+  cases betaStar_sort_target h1
+  cases betaStar_sort_target h2
+  exact
+    Exists.intro
+      Term.sort
+      (And.intro
+        (BetaStarStep.refl Term.sort)
+        (BetaStarStep.refl Term.sort))
+
+theorem betaStar_pi_join
+    {d c u1 u2 : Term}
+    (h1 : BetaStarStep (Term.pi d c) u1)
+    (h2 : BetaStarStep (Term.pi d c) u2) :
+    Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
+  cases betaStar_pi_target h1
+  cases betaStar_pi_target h2
+  exact
+    Exists.intro
+      (Term.pi d c)
+      (And.intro
+        (BetaStarStep.refl (Term.pi d c))
+        (BetaStarStep.refl (Term.pi d c)))
+
+end BEDC.MetaCIC
