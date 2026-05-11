@@ -134,6 +134,28 @@ theorem RealBallWindowPacket_standard_obligation_boundary [AskSetup] [PackageSet
     ⟨centerUnary, radiusPositive, windowUnary, boundaryUnary, sameWindow, sameLedger,
       sameBoundary, boundaryPkg⟩
 
+theorem RealBallWindowPacket_scoped_dependency_packet [AskSetup] [PackageSetup]
+    {center radius window provenance ledger boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealBallWindowPacket center radius window provenance ledger bundle pkg ->
+      Cont ledger provenance boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory center ∧ PositiveUnaryDenominator radius ∧ UnaryHistory window ∧
+            UnaryHistory provenance ∧ UnaryHistory ledger ∧ UnaryHistory boundary ∧
+              Cont center radius window ∧ Cont window provenance ledger ∧
+                Cont ledger provenance boundary ∧ hsame window (append center radius) ∧
+                  hsame ledger (append window provenance) ∧
+                    hsame boundary (append ledger provenance) ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRoute boundaryPkg
+  obtain ⟨centerUnary, radiusPositive, windowUnary, provenanceUnary, ledgerUnary, windowRoute,
+    ledgerRoute, _ledgerPkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary provenanceUnary boundaryRoute
+  exact
+    ⟨centerUnary, radiusPositive, windowUnary, provenanceUnary, ledgerUnary, boundaryUnary,
+      windowRoute, ledgerRoute, boundaryRoute, windowRoute, ledgerRoute, boundaryRoute,
+      boundaryPkg⟩
+
 theorem RealBallWindowPacket_finite_window_namecert [AskSetup] [PackageSetup]
     {center radius window provenance ledger metricRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
