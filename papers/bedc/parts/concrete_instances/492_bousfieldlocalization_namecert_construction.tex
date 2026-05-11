@@ -38,6 +38,8 @@ The local $\NameCert_{\BousfieldLocalizationUp}$ seed surface consists of the fo
 \end{enumerate}
 These obligations define only the BEDC-kernel naming surface for a displayed Bousfield-localization packet; they do not assert the existence theorem for a localization model structure.
 \end{theorem}
+\leanchecked{BEDC.Derived.BousfieldLocalizationUp.BousfieldLocalizationFinitePacket\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.BousfieldLocalizationUp.BousfieldLocalizationFiniteLocalizingPacket\_namecert\_obligations}
 \begin{proof}
 Read the carrier from \autoref{def:bousfieldlocalization-carrier}. Its six coordinates list exactly the finite rows a Bousfield-localization consumer can inspect: a model-category row, a selected class of maps, fibrant-local-object rows, classifier transport, package provenance, and the local certificate ledger.
 
@@ -54,6 +56,7 @@ Every downstream homotopy consumer of an accepted $\BousfieldLocalizationUp$ pac
 
 The handoff exports no unlicensed quotient localization, no homotopy-category object outside the displayed rows, no global functorial localization, and no choice of representatives for local equivalence classes.
 \end{theorem}
+\leanchecked{BEDC.Derived.BousfieldLocalizationUp.BousfieldLocalizationPacket\_local\_object\_handoff}
 \begin{proof}
 Project the accepted packet $B=(M,S,L,T,P,N)$. The local-object data are exactly the finite rows in $L$, and the inverted-map data are exactly the selected arrows in $S$ interpreted through the displayed model-category ledger $M$.
 
@@ -73,6 +76,7 @@ Now assume that $S$ is empty. If a downstream consumer had an inverted-map row t
 
 It remains only to identify what the consumer may still inspect. The exactness row in \autoref{thm:bousfieldlocalization-namecert-obligations} allows consumer reads only from the recorded rows of the packet or from their finite named provenance. After the empty row $S$ contributes no inverted-map read, the visible nonempty handoff coordinates are exactly the possible reads from $M$, $L$, $T$, $P$, and $N$. This also preserves the exclusions in \autoref{thm:bousfieldlocalization-local-object-handoff}: no quotient localization, homotopy-category object outside the displayed rows, global functorial localization, or representative-choice row is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.BousfieldLocalizationUp.BousfieldLocalizationEmptySelectedMap\_boundary}
 
 \begin{theorem}[BousfieldLocalization two-stage local-object readback]
 \label{thm:bousfieldlocalization-two-stage-local-object-readback}
@@ -160,18 +164,146 @@ localization functor, homotopy-category quotient, derived mapping object, or
 representative choice, none of those data can be exported.
 \end{proof}
 
+\begin{theorem}[BousfieldLocalization bridge boundary]
+\label{thm:bousfieldlocalization-bridge-boundary}
+For an accepted finite public packet
+$$
+B=(M,S,L,T,P,N)
+$$
+of \autoref{def:bousfieldlocalization-carrier}, the public export of
+\autoref{thm:bousfieldlocalization-public-export} determines the bridge boundary
+for $\BousfieldLocalizationUp$ by routing selected-map rows, fibrant-local-object
+rows, classifier transport, provenance, and $\NameCert$ rows through the
+displayed $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ surfaces named by the packet.
+
+The bridge boundary exports no localized model structure, global localization
+functor, homotopy-category quotient, derived mapping object, or representative
+choice.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(M,S,L,T,P,N)$. The six coordinates give the model
+category row, selected-map row, fibrant-local-object row, classifier-transport
+ledger, package provenance, and certificate ledger used by the public packet.
+
+Invoke \autoref{thm:bousfieldlocalization-namecert-obligations} to identify the
+carrier, classifier, stability, exactness, and ledger clauses. The selected-map
+and fibrant-local-object rows are therefore read only as displayed
+$\mathsf{BHist}$ data typed through the $\ModelCatUp$, $\CategoryUp$, and
+$\FunctorUp$ dependency surfaces.
+
+Use \autoref{thm:bousfieldlocalization-scoped-kernel-boundary} to pass from the
+local rows to the scoped kernel boundary, and then use
+\autoref{thm:bousfieldlocalization-local-object-handoff} together with
+\autoref{thm:bousfieldlocalization-two-stage-local-object-readback} for the
+consumer readback. These rows route classifier transport through $\hsame$ and
+$\Cont$, and route provenance through $\mathsf{Pkg}$ and $\NameCert$.
+
+Finally apply \autoref{thm:bousfieldlocalization-public-export}. The public
+object is the same finite packet viewed as a consumer-facing boundary. Since the
+carrier has no coordinate for a localized model structure, global localization
+functor, homotopy-category quotient, derived mapping object, or representative
+choice, no such datum can appear in the bridge boundary.
+\end{proof}
+
+\begin{theorem}[BousfieldLocalization displayed packet bridge exactness]
+\label{thm:bousfieldlocalization-displayed-packet-bridge-exactness}
+For an accepted $\BousfieldLocalizationUp$ packet
+$$
+B=(M,S,L,T,P,N),
+$$
+the displayed bridge boundary is exact exactly when every consumer read factors
+through the selected-map row $S$, fibrant-local-object row $L$,
+model-category row $M$, classifier-transport row $T$, package row $P$, and
+$\NameCert$ row $N$. Equivalently, the bridge exports precisely those six
+packet rows as the finite localizing boundary and exports no localized model
+structure, global localization functor, homotopy-category quotient, derived
+mapping object, or representative choice.
+\end{theorem}
+\begin{proof}
+For exactness to consumer factorization, apply
+\autoref{thm:bousfieldlocalization-namecert-obligations}. It identifies the
+accepted packet carrier, componentwise classifier, stability rows, exact
+readback rows, and ledger coordinates over $M$, $S$, $L$, $T$, $P$, and $N$.
+
+Use \autoref{thm:bousfieldlocalization-local-object-handoff} and
+\autoref{thm:bousfieldlocalization-two-stage-local-object-readback} to route
+the local-object reads through the selected-map row, fibrant-local-object row,
+and classifier-transport ledger. The readback route therefore factors through
+the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ surfaces named by the packet.
+
+For consumer factorization to exactness, apply
+\autoref{thm:bousfieldlocalization-scoped-kernel-boundary} and
+\autoref{thm:bousfieldlocalization-public-export}. A consumer read that factors
+through exactly the six displayed rows is the same scoped finite packet viewed
+as the public $\BousfieldLocalizationUp$ boundary.
+
+Finally invoke \autoref{thm:bousfieldlocalization-bridge-boundary}. Its bridge
+boundary is precisely the finite packet over $M$, $S$, $L$, $T$, $P$, and $N$.
+Since none of those rows contains a localized model structure, global
+localization functor, homotopy-category quotient, derived mapping object, or
+representative choice, the displayed bridge packet is exact with exactly the
+advertised exclusions.
+\end{proof}
+
+\begin{theorem}[BousfieldLocalization mature finite localizing-packet consumer catalogue]
+\label{thm:bousfieldlocalization-mature-consumer-catalogue}
+For every accepted $\BousfieldLocalizationUp$ packet
+$$
+B=(M,S,L,T,P,N),
+$$
+every mature consumer read is one of the following five displayed rows:
+\begin{enumerate}
+\item selected-map rows from $S$ typed through the model-category row $M$;
+\item fibrant-local-object test rows from $L$;
+\item two-stage local-object readbacks through the classifier-transport ledger $T$;
+\item dependency provenance through the package row $P$;
+\item certificate and finite-ledger rows through $N$.
+\end{enumerate}
+The catalogue exports no localized model structure, global localization
+functor, homotopy-category quotient, derived mapping object, or representative
+choice.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through
+\autoref{def:bousfieldlocalization-carrier}. The coordinates $M$, $S$, $L$,
+$T$, $P$, and $N$ are the only rows a consumer can inspect.
+
+Use \autoref{thm:bousfieldlocalization-local-object-handoff} for the selected
+maps and fibrant-local-object tests, and use
+\autoref{thm:bousfieldlocalization-two-stage-local-object-readback} for the
+two-stage readbacks through $T$. These theorems place all localizing reads in
+the displayed $M$, $S$, $L$, and $T$ rows.
+
+Next apply \autoref{thm:bousfieldlocalization-scoped-kernel-boundary} and
+\autoref{thm:bousfieldlocalization-public-export}. They identify the remaining
+dependency and certificate reads with the displayed $\Pkg$ row $P$ and
+$\NameCert$ ledger $N$.
+
+Finally invoke \autoref{thm:bousfieldlocalization-bridge-boundary}. The bridge
+boundary is the same finite packet viewed as a consumer surface, so every
+mature read is exhausted by the five listed rows. Since the carrier has no
+coordinate for a localized model structure, global localization functor,
+homotopy-category quotient, derived mapping object, or representative choice,
+none of those objects is exported.
+\end{proof}
+
 \closureat{BousfieldLocalizationUp}{seedStr}
 \closureat{BousfieldLocalizationUp}{obligationStr}
 \closureat{BousfieldLocalizationUp}{scopedStr}
 \closureat{BousfieldLocalizationUp}{publicStr}
+\closureat{BousfieldLocalizationUp}{bridgedStr}
+\closureat{BousfieldLocalizationUp}{matureStr}
 
 \begin{closurestatus}{\BousfieldLocalizationUp}
   \constructivestory{A Bousfield-localization packet is generated by a displayed $\ModelCatUp$ row, a selected morphism-class row, fibrant-local-object rows, classifier transport by $\hsame$ and $\Cont$, $\Pkg$ provenance, and a $\NameCert$ ledger.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public boundary binds the finite carrier, componentwise classifier, stability, exact readback, ledger boundary, local-object handoff rows, scoped kernel boundary, and public export over $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The bridge boundary binds the finite carrier, componentwise classifier, stability, exact readback, ledger boundary, local-object handoff rows, scoped kernel boundary, public export, finite packet bridge, and the mature consumer boundary of \autoref{thm:bousfieldlocalization-mature-consumer-catalogue} over $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.BousfieldLocalizationUp.BousfieldLocalizationEmptySelectedMap\_boundary}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the existence of a localized model structure, global functorial localization, homotopy-category quotients, derived mapping objects, or representative choices.}
-  \upgradepath{The next paper-axis step is a bridge boundary for the public finite localizing packet over the displayed $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{No further paper theory-axis step is claimed; Lean formalization of the displayed bridge and mature catalogue remains separate.}
 \end{closurestatus}

@@ -5,9 +5,11 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NestedIntervalUp
 
+open BEDC.FKernel.Mark
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
@@ -15,6 +17,255 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive NestedIntervalUp : Type where
+  | mk :
+      (interval endpoint width schedule regular sealRow transportRow provenance cert : BHist) →
+        NestedIntervalUp
+  deriving DecidableEq
+
+def nestedIntervalEncodeBHist : BHist → RawEvent
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: nestedIntervalEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: nestedIntervalEncodeBHist h
+
+def nestedIntervalDecodeBHist : RawEvent → BHist
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (nestedIntervalDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (nestedIntervalDecodeBHist tail)
+
+def nestedIntervalToEventFlow : NestedIntervalUp → EventFlow
+  | NestedIntervalUp.mk interval endpoint width schedule regular sealRow transportRow provenance
+      cert =>
+      [[BMark.b0], nestedIntervalEncodeBHist interval,
+        [BMark.b1, BMark.b0], nestedIntervalEncodeBHist endpoint,
+        [BMark.b1, BMark.b1, BMark.b0], nestedIntervalEncodeBHist width,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0], nestedIntervalEncodeBHist schedule,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          nestedIntervalEncodeBHist regular,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          nestedIntervalEncodeBHist sealRow,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          nestedIntervalEncodeBHist transportRow,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+          nestedIntervalEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+          nestedIntervalEncodeBHist cert]
+
+def nestedIntervalFromEventFlow : EventFlow → Option NestedIntervalUp
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | interval :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | endpoint :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | width :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | schedule :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | regular :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | sealRow :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transportRow :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | cert :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (NestedIntervalUp.mk
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    interval)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    endpoint)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    width)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    schedule)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    regular)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    sealRow)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    transportRow)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    provenance)
+                                                                                  (nestedIntervalDecodeBHist
+                                                                                    cert))
+                                                                          | _ :: _ => none
+
+instance nestedIntervalBHistCarrier : BHistCarrier NestedIntervalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := nestedIntervalToEventFlow
+  fromEventFlow := nestedIntervalFromEventFlow
+
+instance nestedIntervalChapterTasteGate : ChapterTasteGate NestedIntervalUp where
+  round_trip := by
+    intro x
+    have decodeEncode :
+        ∀ h : BHist, nestedIntervalDecodeBHist (nestedIntervalEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    cases x with
+    | mk interval endpoint width schedule regular sealRow transportRow provenance cert =>
+        change
+          some (NestedIntervalUp.mk
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist interval))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist endpoint))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist width))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist schedule))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist regular))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist sealRow))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist transportRow))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist provenance))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist cert))) =
+            some
+              (NestedIntervalUp.mk interval endpoint width schedule regular sealRow transportRow
+                provenance cert)
+        rw [decodeEncode interval, decodeEncode endpoint, decodeEncode width,
+          decodeEncode schedule, decodeEncode regular, decodeEncode sealRow,
+          decodeEncode transportRow, decodeEncode provenance, decodeEncode cert]
+  layer_separation := by
+    intro x y hxy heq
+    apply hxy
+    have decodeEncode :
+        ∀ h : BHist, nestedIntervalDecodeBHist (nestedIntervalEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    have roundTrip :
+        ∀ x : NestedIntervalUp,
+          nestedIntervalFromEventFlow (nestedIntervalToEventFlow x) = some x := by
+      intro x
+      cases x with
+      | mk interval endpoint width schedule regular sealRow transportRow provenance cert =>
+          change
+            some (NestedIntervalUp.mk
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist interval))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist endpoint))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist width))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist schedule))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist regular))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist sealRow))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist transportRow))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist provenance))
+              (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist cert))) =
+              some
+                (NestedIntervalUp.mk interval endpoint width schedule regular sealRow transportRow
+                  provenance cert)
+          rw [decodeEncode interval, decodeEncode endpoint, decodeEncode width,
+            decodeEncode schedule, decodeEncode regular, decodeEncode sealRow,
+            decodeEncode transportRow, decodeEncode provenance, decodeEncode cert]
+    have hread :
+        nestedIntervalFromEventFlow (nestedIntervalToEventFlow x) =
+          nestedIntervalFromEventFlow (nestedIntervalToEventFlow y) :=
+      congrArg nestedIntervalFromEventFlow heq
+    exact Option.some.inj (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
+
+theorem NestedIntervalTasteGate_single_carrier_alignment :
+    (forall h : BHist, nestedIntervalDecodeBHist (nestedIntervalEncodeBHist h) = h) /\
+      (forall x : NestedIntervalUp,
+        nestedIntervalFromEventFlow (BHistCarrier.toEventFlow x) = some x) /\
+      (forall x y : NestedIntervalUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) /\
+      nestedIntervalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  have decodeEncode :
+      ∀ h : BHist, nestedIntervalDecodeBHist (nestedIntervalEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  have roundTrip :
+      ∀ x : NestedIntervalUp,
+        nestedIntervalFromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+    intro x
+    change nestedIntervalFromEventFlow (nestedIntervalToEventFlow x) = some x
+    cases x with
+    | mk interval endpoint width schedule regular sealRow transportRow provenance cert =>
+        change
+          some (NestedIntervalUp.mk
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist interval))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist endpoint))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist width))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist schedule))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist regular))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist sealRow))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist transportRow))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist provenance))
+            (nestedIntervalDecodeBHist (nestedIntervalEncodeBHist cert))) =
+            some
+              (NestedIntervalUp.mk interval endpoint width schedule regular sealRow transportRow
+                provenance cert)
+        rw [decodeEncode interval, decodeEncode endpoint, decodeEncode width,
+          decodeEncode schedule, decodeEncode regular, decodeEncode sealRow,
+          decodeEncode transportRow, decodeEncode provenance, decodeEncode cert]
+  have injective :
+      ∀ x y : NestedIntervalUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y := by
+    intro x y heq
+    change nestedIntervalToEventFlow x = nestedIntervalToEventFlow y at heq
+    have hread :
+        nestedIntervalFromEventFlow (nestedIntervalToEventFlow x) =
+          nestedIntervalFromEventFlow (nestedIntervalToEventFlow y) :=
+      congrArg nestedIntervalFromEventFlow heq
+    have leftRead : nestedIntervalFromEventFlow (nestedIntervalToEventFlow x) = some x := by
+      exact roundTrip x
+    have rightRead : nestedIntervalFromEventFlow (nestedIntervalToEventFlow y) = some y := by
+      exact roundTrip y
+    exact Option.some.inj (Eq.trans leftRead.symm (Eq.trans hread rightRead))
+  exact ⟨decodeEncode, roundTrip, injective, rfl⟩
 
 def NestedIntervalFinitePacket [AskSetup] [PackageSetup]
     (interval endpoint width schedule regular sealRow transportRow provenance cert : BHist)
