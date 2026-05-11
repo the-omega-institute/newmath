@@ -203,4 +203,46 @@ theorem TopVecSpaceBHistCarrier_topology_source_obligation [AskSetup] [PackageSe
         (And.intro carrier.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right)))
 
+theorem TopVecSpaceBHistCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint vec' topology' addLedger'
+      scalarLedger' route' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      hsame vec vec' -> hsame topology topology' -> hsame addLedger addLedger' ->
+      hsame scalarLedger scalarLedger' -> hsame route route' -> hsame endpoint endpoint' ->
+      Cont vec' topology' addLedger' -> Cont addLedger' scalarLedger' route' ->
+      Cont route' topology' endpoint' -> PkgSig bundle endpoint' pkg ->
+        TopVecSpaceBHistCarrier vec' topology' addLedger' scalarLedger' route' endpoint' bundle pkg ∧
+          UnaryHistory vec' ∧ UnaryHistory topology' ∧ UnaryHistory addLedger' ∧
+            UnaryHistory scalarLedger' ∧ UnaryHistory route' ∧ UnaryHistory endpoint' := by
+  intro carrier sameVec sameTopology sameAddLedger sameScalarLedger sameRoute sameEndpoint
+    addLedgerRow' routeRow' endpointRow' pkgSig'
+  have vecUnary' : UnaryHistory vec' :=
+    unary_transport carrier.left sameVec
+  have topologyUnary' : UnaryHistory topology' :=
+    unary_transport carrier.right.left sameTopology
+  have addLedgerUnary' : UnaryHistory addLedger' :=
+    unary_transport carrier.right.right.left sameAddLedger
+  have scalarLedgerUnary' : UnaryHistory scalarLedger' :=
+    unary_transport carrier.right.right.right.left sameScalarLedger
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport carrier.right.right.right.right.left sameRoute
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport carrier.right.right.right.right.right.left sameEndpoint
+  exact
+    And.intro
+      (And.intro vecUnary'
+        (And.intro topologyUnary'
+          (And.intro addLedgerUnary'
+            (And.intro scalarLedgerUnary'
+              (And.intro routeUnary'
+                (And.intro endpointUnary'
+                  (And.intro addLedgerRow'
+                    (And.intro routeRow' (And.intro endpointRow' pkgSig')))))))))
+      (And.intro vecUnary'
+      (And.intro topologyUnary'
+        (And.intro addLedgerUnary'
+          (And.intro scalarLedgerUnary'
+            (And.intro routeUnary' endpointUnary')))))
+
 end BEDC.Derived.TopVecSpaceUp
