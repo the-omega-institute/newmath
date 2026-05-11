@@ -94,7 +94,7 @@ $\RealUp$ boundary of
 \autoref{thm:dyadic-precision-schedule-realup-boundary}, and ledger-exactness
 rows exhaust the obligation surface for finite dyadic precision schedules.
 
-Because this chapter has $\origin{ai}$, promotion beyond seed remains
+Because this chapter is marked with AI origin, promotion beyond seed remains
 conditional on the future TasteGate-backed Lean target. The closure packet adds
 no hidden tail, quotient real, trichotomy, completeness row, or bridge row.
 \end{theorem}
@@ -133,6 +133,26 @@ Project the schedule carrier through \autoref{def:dyadic-precision-schedule-carr
 Now restrict to the empty unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. In that branch there is no successor precision request. The carrier therefore has no later unary row from which to select a refined tolerance and no requested stream position from which to open a nonempty observation window. The selected radius coordinate is exactly the base dyadic radius row supplied by $\DyadicRatCoreUp$ for the empty precision row, and the selected window coordinate is exactly the empty $\StreamNameUp$ observation window.
 
 It remains only to check consumer coverage. By the ledger clause of \autoref{def:dyadic-precision-schedule-carrier}, every consumer-visible precision, radius, and window read is one of the displayed schedule rows recorded by $L$. In the empty branch those displayed rows are precisely the empty unary row $n$, the base dyadic radius row $\rho$, and the empty observation window $W$, with the already-carried $H$, $C$, $P$, and $N$ rows providing transport and provenance. Since the carrier has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external stream tail, there is no further coordinate from which an additional consumer read could be obtained.
+\end{proof}
+
+\begin{theorem}[Dyadic precision successor schedule exactness]
+\label{thm:dyadic-precision-successor-schedule-exactness}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be a $\DyadicPrecisionUp$ schedule carrier in the sense of \autoref{def:dyadic-precision-schedule-carrier}. Suppose $S$ is obtained from the successor unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. Then the successor row is the displayed unary extension of its predecessor precision row, $\rho$ is the transported and refined $\DyadicRatCoreUp$ radius row selected by that successor, and $W$ is the finite $\StreamNameUp$ observation window opened by that successor.
+
+Consequently, every consumer-visible precision, radius, or observation-window read from the successor branch factors through $n$, $\rho$, $W$, $H$, $C$, $P$, $N$, and $L$. The successor branch supplies no hidden Cauchy modulus, completed real object, quotient precision request, external stream tail, trichotomy, completeness, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the schedule carrier through \autoref{def:dyadic-precision-schedule-carrier}. The projected rows are the unary index $n$, the selected radius row $\rho$, the finite observation window $W$, the $\hsame$ witnesses $H$, the displayed $\Cont$ routes $C$, the provenance row $P$, the local naming row $N$, and the exact ledger $L$.
+
+Now restrict to the successor unary precision branch of \autoref{thm:dyadic-precision-schedule-namecert-obligations}. That branch appends one unary successor row to the predecessor precision row. The same branch selects the refined $\DyadicRatCoreUp$ radius row and opens the finite $\StreamNameUp$ observation window requested at that successor precision.
+
+The displayed $\hsame$ witnesses and $\Cont$ routes transport the predecessor schedule rows to the successor rows without changing the finite source surface. Ledger exactness says that every consumer-visible precision, radius, and window read is one of the displayed rows recorded by $L$, while source-domain visibility keeps those rows inside the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ boundaries named by $P$ and $N$.
+
+The carrier has no coordinate for hidden stream tails, quotient precision requests, completed reals, trichotomy, completeness, or bridge data. Thus every consumer read from the successor branch factors through the displayed tuple $(n,\rho,W,H,C,P,N,L)$.
 \end{proof}
 
 \begin{theorem}[Dyadic precision monotone refinement handoff]
@@ -180,8 +200,10 @@ obligations of
 handoff of \autoref{thm:dyadic-precision-schedule-regseqrat-handoff},
 $\RealUp$ boundary of
 \autoref{thm:dyadic-precision-schedule-realup-boundary}, and empty-schedule
-exactness of \autoref{thm:dyadic-precision-empty-schedule-exactness} form the
-full local obligation surface for the finite dyadic precision schedule.
+exactness of \autoref{thm:dyadic-precision-empty-schedule-exactness} together
+with successor-schedule exactness of
+\autoref{thm:dyadic-precision-successor-schedule-exactness} form the full local
+obligation surface for the finite dyadic precision schedule.
 
 Every obligation is read inside a finite $\mathsf{BHist}$ packet and is
 transported only through the displayed $\hsame$ and $\Cont$ rows, with
@@ -201,10 +223,10 @@ visibility. The $\RegSeqRatUp$ handoff and $\RealUp$ boundary then read the same
 precision, radius, window, transport, provenance, and naming rows as consumer
 surfaces.
 
-The empty-schedule exactness theorem supplies the boundary case for the finite
-schedule. Together these rows exhaust the local obligation export, because the
-carrier has no hidden stream tail, quotient real, trichotomy, completeness
-datum, or bridge coordinate.
+The empty-schedule and successor-schedule exactness theorems supply the two
+constructor-boundary cases for the finite schedule. Together these rows exhaust
+the local obligation export, because the carrier has no hidden stream tail,
+quotient real, trichotomy, completeness datum, or bridge coordinate.
 \end{proof}
 
 \closureat{DyadicPrecisionUp}{seedStr}
