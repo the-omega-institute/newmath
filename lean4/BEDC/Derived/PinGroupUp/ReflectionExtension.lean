@@ -39,4 +39,26 @@ theorem PinGroupReflectionExtensionCarrier_bhist_carrier_obligation [AskSetup] [
               (And.intro carrier.right.right.right.right.right.right.left
                 carrier.right.right.right.right.right.right.right))))))
 
+theorem PinGroupReflectionExtensionCarrier_full_orthogonal_projection_obligation
+    [AskSetup] [PackageSetup]
+    {clifford spin reflection parity action provenance ledger endpoint orthogonal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PinGroupReflectionExtensionCarrier clifford spin reflection parity action provenance ledger
+        endpoint bundle pkg ->
+      Cont action spin orthogonal ->
+        UnaryHistory orthogonal ∧ hsame orthogonal (append action spin) ∧
+          Cont reflection parity action ∧ Cont action spin orthogonal ∧
+            PkgSig bundle endpoint pkg := by
+  intro carrier orthogonalRow
+  obtain ⟨_cliffordUnary, spinUnary, reflectionUnary, parityUnary, reflectionParityRow,
+    _provenanceActionRow, _ledgerSpinRow, packageRow⟩ := carrier
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed reflectionUnary parityUnary reflectionParityRow
+  have orthogonalUnary : UnaryHistory orthogonal :=
+    unary_cont_closed actionUnary spinUnary orthogonalRow
+  exact And.intro orthogonalUnary
+    (And.intro orthogonalRow
+      (And.intro reflectionParityRow
+        (And.intro orthogonalRow packageRow)))
+
 end BEDC.Derived.PinGroupUp
