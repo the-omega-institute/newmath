@@ -114,7 +114,7 @@ theorem ThreeManifoldFiniteCarrier_jsj_ledger_exactness [AskSetup] [PackageSetup
       ThreeManifoldFiniteCarrier manifold topology decomposition' classifier contRows'
           provenance probe pkg :=
     And.intro manifoldUnary
-      (And.intro topologyUnary
+        (And.intro topologyUnary
         (And.intro decompositionUnary'
           (And.intro classifierUnary
             (And.intro contRowsUnary'
@@ -122,5 +122,89 @@ theorem ThreeManifoldFiniteCarrier_jsj_ledger_exactness [AskSetup] [PackageSetup
                 (And.intro manifoldTopologyRow
                   (And.intro decompositionClassifierRow packageRow)))))))
   exact And.intro transportedCarrier sameContRows
+
+theorem ThreeManifoldFiniteCarrier_chart_transition_ledger_obligation [AskSetup] [PackageSetup]
+    {manifold topology decomposition classifier contRows provenance manifold' topology'
+      decomposition' classifier' contRows' provenance' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows provenance
+        probe pkg ->
+      hsame manifold manifold' ->
+      hsame topology topology' ->
+      hsame classifier classifier' ->
+      hsame provenance provenance' ->
+      Cont manifold' topology' decomposition' ->
+      Cont decomposition' classifier' contRows' ->
+      PkgSig probe provenance' pkg ->
+      ThreeManifoldFiniteCarrier manifold' topology' decomposition' classifier' contRows'
+          provenance' probe pkg ∧
+        hsame decomposition decomposition' ∧ hsame contRows contRows' := by
+  intro carrier sameManifold sameTopology sameClassifier sameProvenance
+    manifoldTopologyRow decompositionClassifierRow pkgRow
+  obtain ⟨manifoldUnary, topologyUnary, decompositionUnary, classifierUnary, contRowsUnary,
+    provenanceUnary, oldManifoldTopologyRow, oldDecompositionClassifierRow, _oldPkgRow⟩ :=
+    carrier
+  have manifoldUnary' : UnaryHistory manifold' :=
+    unary_transport manifoldUnary sameManifold
+  have topologyUnary' : UnaryHistory topology' :=
+    unary_transport topologyUnary sameTopology
+  have decompositionUnary' : UnaryHistory decomposition' :=
+    unary_cont_closed manifoldUnary' topologyUnary' manifoldTopologyRow
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have contRowsUnary' : UnaryHistory contRows' :=
+    unary_cont_closed decompositionUnary' classifierUnary' decompositionClassifierRow
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have sameDecomposition : hsame decomposition decomposition' :=
+    cont_respects_hsame sameManifold sameTopology oldManifoldTopologyRow manifoldTopologyRow
+  have sameContRows : hsame contRows contRows' :=
+    cont_respects_hsame sameDecomposition sameClassifier oldDecompositionClassifierRow
+      decompositionClassifierRow
+  exact And.intro
+    (And.intro manifoldUnary'
+      (And.intro topologyUnary'
+        (And.intro decompositionUnary'
+          (And.intro classifierUnary'
+            (And.intro contRowsUnary'
+              (And.intro provenanceUnary'
+                (And.intro manifoldTopologyRow
+                  (And.intro decompositionClassifierRow pkgRow))))))))
+    (And.intro sameDecomposition sameContRows)
+
+theorem ThreeManifoldFiniteCarrier_topology_source_scope [AskSetup] [PackageSetup]
+    {manifold topology decomposition classifier contRows provenance topology' decomposition'
+      contRows' : BHist} {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows provenance
+        probe pkg ->
+      hsame topology topology' ->
+        hsame decomposition decomposition' ->
+          Cont manifold topology' decomposition' ->
+            Cont decomposition' classifier contRows' ->
+              ThreeManifoldFiniteCarrier manifold topology' decomposition' classifier contRows'
+                  provenance probe pkg ∧
+                hsame contRows contRows' ∧ PkgSig probe provenance pkg := by
+  intro carrier sameTopology sameDecomposition manifoldTopologyRow decompositionClassifierRow
+  obtain ⟨manifoldUnary, topologyUnary, decompositionUnary, classifierUnary, contRowsUnary,
+    provenanceUnary, _manifoldTopologySource, decompositionClassifierSource, pkgSig⟩ := carrier
+  have topologyUnary' : UnaryHistory topology' :=
+    unary_transport topologyUnary sameTopology
+  have decompositionUnary' : UnaryHistory decomposition' :=
+    unary_transport decompositionUnary sameDecomposition
+  have contRowsSame : hsame contRows contRows' :=
+    cont_respects_hsame sameDecomposition (hsame_refl classifier)
+      decompositionClassifierSource decompositionClassifierRow
+  have contRowsUnary' : UnaryHistory contRows' :=
+    unary_transport contRowsUnary contRowsSame
+  exact And.intro
+    (And.intro manifoldUnary
+      (And.intro topologyUnary'
+        (And.intro decompositionUnary'
+          (And.intro classifierUnary
+            (And.intro contRowsUnary'
+              (And.intro provenanceUnary
+                (And.intro manifoldTopologyRow
+                  (And.intro decompositionClassifierRow pkgSig))))))))
+    (And.intro contRowsSame pkgSig)
 
 end BEDC.Derived.ThreeManifoldUp
