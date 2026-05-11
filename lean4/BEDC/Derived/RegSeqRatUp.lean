@@ -363,6 +363,79 @@ theorem RegSeqRatStreamCarrier_classifier_transport [AskSetup] [PackageSetup]
       regularityProvenanceReadback', pkgSig'⟩
   exact ⟨carrier', sameEndpoint, sameRegularity, sameReadback⟩
 
+theorem RegSeqRatStreamCarrier_dyadic_radius_ledger_readback [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback endpoint' radius' regularity'
+      readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+        bundle pkg ->
+      RegSeqRatClassifier endpoint radius regularity readback endpoint' radius' regularity'
+          readback' ->
+        UnaryHistory radius ∧ UnaryHistory regularity ∧ UnaryHistory radius' ∧
+          UnaryHistory regularity' ∧ hsame radius radius' ∧ hsame regularity regularity' ∧
+            PkgSig bundle readback pkg := by
+  intro carrier classifier
+  obtain ⟨_scheduleUnary, _indexUnary, _endpointUnary, radiusUnary, regularityUnary,
+    _provenanceUnary, _readbackUnary, _scheduleIndexEndpoint, _endpointRadiusRegularity,
+    _regularityProvenanceReadback, pkgSig⟩ := carrier
+  obtain ⟨_endpointUnary, _radiusUnary, _regularityUnary, _readbackUnary,
+    _endpointUnary', radiusUnary', regularityUnary', _readbackUnary', _sameEndpoint,
+    sameRadius, sameRegularity, _sameReadback⟩ := classifier
+  exact ⟨radiusUnary, regularityUnary, radiusUnary', regularityUnary', sameRadius,
+    sameRegularity, pkgSig⟩
+
+theorem RegSeqRatStreamCarrier_finite_window_transport_obligation [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback schedule' index' endpoint'
+      radius' regularity' provenance' readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+        bundle pkg ->
+      hsame schedule schedule' ->
+        hsame index index' ->
+          hsame endpoint endpoint' ->
+            hsame radius radius' ->
+              hsame provenance provenance' ->
+                Cont schedule' index' endpoint' ->
+                  Cont endpoint' radius' regularity' ->
+                    Cont regularity' provenance' readback' ->
+                      PkgSig bundle readback' pkg ->
+                        RegSeqRatStreamCarrier schedule' index' endpoint' radius' regularity'
+                            provenance' readback' bundle pkg ∧
+                          hsame regularity regularity' ∧ hsame readback readback' := by
+  intro carrier sameSchedule sameIndex sameEndpoint sameRadius sameProvenance
+  intro scheduleIndexEndpoint' endpointRadiusRegularity' regularityProvenanceReadback' pkgSig'
+  rcases carrier with
+    ⟨scheduleUnary, indexUnary, _endpointUnary, radiusUnary, regularityUnary, provenanceUnary,
+      readbackUnary, _scheduleIndexEndpoint, endpointRadiusRegularity,
+      regularityProvenanceReadback, _pkgSig⟩
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have indexUnary' : UnaryHistory index' :=
+    unary_transport indexUnary sameIndex
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport _endpointUnary sameEndpoint
+  have radiusUnary' : UnaryHistory radius' :=
+    unary_transport radiusUnary sameRadius
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have sameRegularity : hsame regularity regularity' :=
+    cont_respects_hsame sameEndpoint sameRadius endpointRadiusRegularity
+      endpointRadiusRegularity'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameRegularity sameProvenance regularityProvenanceReadback
+      regularityProvenanceReadback'
+  have regularityUnary' : UnaryHistory regularity' :=
+    unary_transport regularityUnary sameRegularity
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_transport readbackUnary sameReadback
+  have carrier' :
+      RegSeqRatStreamCarrier schedule' index' endpoint' radius' regularity' provenance'
+          readback' bundle pkg :=
+    ⟨scheduleUnary', indexUnary', endpointUnary', radiusUnary', regularityUnary',
+      provenanceUnary', readbackUnary', scheduleIndexEndpoint', endpointRadiusRegularity',
+      regularityProvenanceReadback', pkgSig'⟩
+  exact ⟨carrier', sameRegularity, sameReadback⟩
+
 theorem RegSeqRatClassifier_dyadic_radius_observation [AskSetup] [PackageSetup]
     {endpoint radius regularity readback endpoint' radius' regularity' readback' : BHist} :
     RegSeqRatClassifier endpoint radius regularity readback endpoint' radius' regularity'
