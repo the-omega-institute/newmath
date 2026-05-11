@@ -529,6 +529,49 @@ quotient-rational representative, a host equality witness, a completed
 $\RealUp$ endpoint, or a real-completeness field.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore standard bridge denominator-refinement composition]
+\label{thm:dyadicratcore-standard-bridge-denominator-refinement-composition}
+Let $P$, $P'$, and $P''$ be public $\DyadicRatCoreUp$ bridge packets. Suppose
+that $P'$ is obtained from $P$ by a displayed positive-unary denominator
+refinement, and that $P''$ is obtained from $P'$ by another displayed
+positive-unary denominator refinement. Then the standard dyadic source bridge
+of \autoref{thm:dyadicratcore-standard-source-bridge} transports from $P$ to
+$P''$ by composing the two displayed $\UnaryHistory$ exponent extensions,
+denominator ledgers, common-exponent classifier rows, distance and radius
+windows, $\mathsf{BHist}$ carrier data, $\hsame$ transports, $\Cont$
+readbacks, and $\mathsf{Pkg}$ provenance rows. The composed transport exports
+no quotient rational, host equality, completed $\RealUp$ endpoint, or
+$\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-stability}
+to the refinement from $P$ to $P'$. This gives the transported signed
+mantissa, common-exponent classifier, distance window, monotone-radius row,
+carrier data, transport, readback, and provenance at the first refined
+positive-unary exponent.
+
+Apply the same theorem to the refinement from $P'$ to $P''$. The second
+application transports exactly the same public bridge inventory through the
+second displayed exponent extension and denominator ledger.
+
+Use \autoref{thm:dyadicratcore-common-exponent-exactness} to identify the
+classifier row for the two-step exponent extension with the classifier row
+obtained by composing the two displayed common-exponent lifts. Use
+\autoref{thm:dyadicratcore-monotone-radius-obligation} to read the finite
+distance and radius windows through the composed denominator refinement.
+
+The public rows obtained after the two transports are still the rows listed by
+\autoref{thm:dyadicratcore-public-bridge-consumer-exactness}. Repacking them
+through \autoref{thm:dyadicratcore-standard-source-bridge} gives the standard
+dyadic source bridge from $P$ directly to $P''$.
+
+The exclusion clause is inherited from the two single-step bridge packets and
+from the public source bridge. Neither step introduces a quotient-rational
+representative, host equality witness, completed $\RealUp$ endpoint, or
+real-completeness field, so the composed bridge cannot export one.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore RegSeqRat bridge handoff exactness]
 \label{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}
 Every $\RegSeqRat$ finite-window handoff that consumes a
