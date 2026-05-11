@@ -156,6 +156,42 @@ the local $\NameCert_{\SemiringUp}$ obligation surface and give downstream
 chapters only the named finite semiring source.
 \end{proof}
 
+\begin{theorem}[Semiring concrete history instance]
+\label{thm:semiring-concrete-history-instance}
+For any accepted packet $S=(A,M,Z,D,E,H,C,P,N)$ of
+\autoref{def:semiring-bhist-source}, the additive row, multiplicative row,
+shared-carrier ledger, distributivity ledger, zero-annihilation ledger,
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\SemiringUp}$ row constitute a concrete $\mathsf{BHist}$ semiring
+instance consumed by $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+This instance exports no subtraction row, additive-inverse row, order
+primitive, quotient carrier, or host-algebra operation. Every downstream read
+passes through the finite displayed rows of the packet.
+\end{theorem}
+\begin{proof}
+Project the coordinates $A,M,Z,D,E,H,C,P,N$ from the accepted
+\autoref{def:semiring-bhist-source} packet. The additive, multiplicative, and
+shared-carrier rows are exactly the operation surface of
+\autoref{thm:semiring-additive-multiplicative-obligation-surface}.
+
+The distributivity rows are supplied by
+\autoref{thm:semiring-distributive-ledger-boundary}, and the two
+zero-annihilation rows are supplied by
+\autoref{thm:semiring-zero-annihilation-scope}. These two ledgers give the
+only displayed law rows available to the semiring packet.
+
+The $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the $\Pkg$
+provenance in $P$, and the local name row $N$ are the remaining coordinates of
+\autoref{thm:semiring-namecert-obligation-surface}. Repacking these displayed
+coordinates yields the concrete $\mathsf{BHist}$ semiring instance read by
+$\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+Since no coordinate of $S$ names subtraction, additive inverse, order,
+quotient-carrier equality, or host algebra, no downstream consumer can read
+such data from the instance.
+\end{proof}
+
 \closureat{SemiringUp}{seedStr}
 
 \begin{closurestatus}{\SemiringUp}
