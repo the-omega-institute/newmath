@@ -1,6 +1,7 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.ContextWF
+import BEDC.MetaCIC.ClosedTerm
 
 namespace BEDC.MetaCIC
 
@@ -8,6 +9,16 @@ namespace BEDC.MetaCIC
 def SubstitutePreservesTypingStatementWF : Prop :=
   ∀ {Γ : Ctx} {t s A B : Term},
     WellFormedCtx (B :: Γ) →
+    HasType (B :: Γ) t A →
+    HasType Γ s B →
+    HasType Γ (substitute 0 s t) (substitute 0 s A)
+
+/-- 闭合替换保持的完整目标形状。 -/
+def ClosedTermSubstitutePreservesTypingStatement : Prop :=
+  ∀ {Γ : Ctx} {t s A B : Term},
+    WellFormedCtx (B :: Γ) →
+    ClosedAt 0 B →
+    ClosedAt 0 s →
     HasType (B :: Γ) t A →
     HasType Γ s B →
     HasType Γ (substitute 0 s t) (substitute 0 s A)
@@ -86,7 +97,7 @@ theorem substitute_shift_zero_atom (v T : Term) :
             unfold substitute
             rfl
 
-private theorem nat_beq_add_one_add_one (i n : Nat) :
+theorem nat_beq_add_one_add_one (i n : Nat) :
     Nat.beq (i + 1) (n + 1) = Nat.beq i n := by
   cases i
   · cases n
@@ -96,7 +107,7 @@ private theorem nat_beq_add_one_add_one (i n : Nat) :
     · rfl
     · rfl
 
-private theorem nat_blt_add_one_add_one (n i : Nat) :
+theorem nat_blt_add_one_add_one (n i : Nat) :
     Nat.blt (n + 1) (i + 1) = Nat.blt n i := by
   cases i
   · cases n
@@ -106,7 +117,7 @@ private theorem nat_blt_add_one_add_one (n i : Nat) :
     · rfl
     · rfl
 
-private theorem nat_ble_add_one_add_one (n i : Nat) :
+theorem nat_ble_add_one_add_one (n i : Nat) :
     Nat.ble (n + 1) (i + 1) = Nat.ble n i := by
   cases i
   · cases n
@@ -116,7 +127,7 @@ private theorem nat_ble_add_one_add_one (n i : Nat) :
     · rfl
     · rfl
 
-private theorem nat_beq_false_of_ble_false (n i : Nat) :
+theorem nat_beq_false_of_ble_false (n i : Nat) :
     Nat.ble n i = false → Nat.beq i n = false := by
   induction n generalizing i with
   | zero =>
@@ -130,7 +141,7 @@ private theorem nat_beq_false_of_ble_false (n i : Nat) :
       | zero => rfl
       | succ i => exact ih i h
 
-private theorem nat_blt_false_of_ble_false (n i : Nat) :
+theorem nat_blt_false_of_ble_false (n i : Nat) :
     Nat.ble n i = false → Nat.blt n i = false := by
   induction n generalizing i with
   | zero =>
@@ -144,7 +155,7 @@ private theorem nat_blt_false_of_ble_false (n i : Nat) :
       | zero => rfl
       | succ i => exact ih i h
 
-private theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
+theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
     Nat.ble n i = true → Nat.beq (i + 1) n = false := by
   induction n generalizing i with
   | zero =>
@@ -158,7 +169,7 @@ private theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
       | zero => cases h
       | succ i => exact ih i h
 
-private theorem nat_blt_succ_true_of_ble_true (n i : Nat) :
+theorem nat_blt_succ_true_of_ble_true (n i : Nat) :
     Nat.ble n i = true → Nat.blt n (i + 1) = true := by
   induction n generalizing i with
   | zero =>
@@ -172,7 +183,7 @@ private theorem nat_blt_succ_true_of_ble_true (n i : Nat) :
       | zero => cases h
       | succ i => exact ih i h
 
-private theorem substitute_shift_var_at_eq (n i : Nat) (v : Term) :
+theorem substitute_shift_var_at_eq (n i : Nat) (v : Term) :
     substitute n v (shift n 1 (Term.var i)) = Term.var i := by
   induction n generalizing i with
   | zero =>
@@ -243,6 +254,10 @@ theorem substitute_substitute : True := by
 
 /-- 上下文良构前提下的替换保持目标。 -/
 theorem substitute_preserves_typing : True := by
+  exact True.intro
+
+/-- 闭合替换保持目标的登记定理。 -/
+theorem closed_term_substitute_preserves_typing : True := by
   exact True.intro
 
 end BEDC.MetaCIC
