@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.CofibrantReplacementUp
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 def CofibrantReplacementBHistSource [AskSetup] [PackageSetup]
     (object cofibrant arrow factorization lifting pkgrow ledger : BHist)
@@ -48,5 +50,48 @@ theorem CofibrantReplacementBHistSource_factorization_transport [AskSetup] [Pack
       (And.intro targetObject
         (And.intro targetFactorization (And.intro targetPkg targetPkgSig)))
       (And.intro sameArrow (And.intro sameLifting sameLedger))
+
+def CofibrantReplacementPacket [AskSetup] [PackageSetup]
+    (X Q arrow factorization lifting package ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory X ∧ UnaryHistory Q ∧ UnaryHistory arrow ∧ UnaryHistory factorization ∧
+    UnaryHistory lifting ∧ UnaryHistory package ∧ Cont arrow factorization ledger ∧
+      Cont ledger package endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem CofibrantReplacementPacket_weak_equivalence_ledger_transport [AskSetup]
+    [PackageSetup]
+    {X Q arrow factorization lifting package ledger endpoint X' Q' arrow' factorization'
+      lifting' package' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementPacket X Q arrow factorization lifting package ledger endpoint
+        bundle pkg ->
+      hsame X X' -> hsame Q Q' -> hsame arrow arrow' ->
+        hsame factorization factorization' -> hsame lifting lifting' ->
+          hsame package package' -> Cont arrow' factorization' ledger' ->
+            Cont ledger' package' endpoint' -> PkgSig bundle endpoint' pkg ->
+              CofibrantReplacementPacket X' Q' arrow' factorization' lifting' package'
+                  ledger' endpoint' bundle pkg ∧
+                hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro packet sameX sameQ sameArrow sameFactorization sameLifting samePackage
+  intro ledgerRow' endpointRow' pkgSig'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameArrow sameFactorization
+      packet.right.right.right.right.right.right.left ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger samePackage
+      packet.right.right.right.right.right.right.right.left endpointRow'
+  have transported :
+      CofibrantReplacementPacket X' Q' arrow' factorization' lifting' package' ledger'
+          endpoint' bundle pkg :=
+    ⟨unary_transport packet.left sameX,
+      unary_transport packet.right.left sameQ,
+      unary_transport packet.right.right.left sameArrow,
+      unary_transport packet.right.right.right.left sameFactorization,
+      unary_transport packet.right.right.right.right.left sameLifting,
+      unary_transport packet.right.right.right.right.right.left samePackage,
+      ledgerRow',
+      endpointRow',
+      pkgSig'⟩
+  exact ⟨transported, sameLedger, sameEndpoint⟩
 
 end BEDC.Derived.CofibrantReplacementUp
