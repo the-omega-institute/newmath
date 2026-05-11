@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,41 +12,92 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def OptimalTransportFiniteCoupling [AskSetup] [PackageSetup]
+def OptimalTransportPacket [AskSetup] [PackageSetup]
+    (source target massSource massTarget cost coupling marginal objective feasible dual provenance :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory massSource ∧
+    UnaryHistory massTarget ∧ UnaryHistory cost ∧ UnaryHistory coupling ∧
+      UnaryHistory marginal ∧ UnaryHistory objective ∧ UnaryHistory feasible ∧
+        UnaryHistory dual ∧ UnaryHistory provenance ∧ Cont source target coupling ∧
+          Cont cost coupling objective ∧ Cont marginal objective feasible ∧
+            Cont feasible dual provenance ∧ PkgSig bundle provenance pkg
+
+theorem OptimalTransportPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {source target massSource massTarget cost coupling marginal objective feasible dual provenance :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportPacket source target massSource massTarget cost coupling marginal
+        objective feasible dual provenance bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          OptimalTransportPacket source target massSource massTarget cost coupling marginal
+            objective feasible dual provenance bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          OptimalTransportPacket source target massSource massTarget cost coupling marginal
+            objective feasible dual provenance bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          OptimalTransportPacket source target massSource massTarget cost coupling marginal
+            objective feasible dual provenance bundle pkg ∧ hsame row provenance)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig NameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance (And.intro packet (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+
+def OptimalTransportFiniteCouplingPacket [AskSetup] [PackageSetup]
     (sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
-      targetMarginal objective provenance : BHist)
+      targetMarginal objective feasible dual provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory sourceSupport ∧ UnaryHistory targetSupport ∧ UnaryHistory sourceMass ∧
     UnaryHistory targetMass ∧ UnaryHistory cost ∧ UnaryHistory coupling ∧
-      UnaryHistory sourceMarginal ∧ UnaryHistory targetMarginal ∧
-        UnaryHistory objective ∧ UnaryHistory provenance ∧
-          Cont sourceSupport coupling sourceMarginal ∧
-            Cont targetSupport coupling targetMarginal ∧
-              Cont cost coupling objective ∧ Cont objective provenance objective ∧
-                PkgSig bundle objective pkg
+      UnaryHistory sourceMarginal ∧ UnaryHistory targetMarginal ∧ UnaryHistory objective ∧
+        UnaryHistory feasible ∧ UnaryHistory dual ∧ UnaryHistory provenance ∧
+          Cont coupling sourceMass sourceMarginal ∧
+            Cont coupling targetMass targetMarginal ∧ Cont cost coupling objective ∧
+              Cont sourceMarginal targetMarginal feasible ∧ Cont objective feasible dual ∧
+                Cont dual provenance provenance ∧ PkgSig bundle provenance pkg
 
-theorem OptimalTransportFiniteCoupling_marginal_ledger [AskSetup] [PackageSetup]
+theorem OptimalTransportFiniteCouplingPacket_marginal_ledger [AskSetup] [PackageSetup]
     {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
-      targetMarginal objective provenance : BHist}
+      targetMarginal objective feasible dual provenance : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    OptimalTransportFiniteCoupling sourceSupport targetSupport sourceMass targetMass cost
-        coupling sourceMarginal targetMarginal objective provenance bundle pkg ->
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
       UnaryHistory sourceMarginal ∧ UnaryHistory targetMarginal ∧
-        Cont sourceSupport coupling sourceMarginal ∧
-          Cont targetSupport coupling targetMarginal ∧
-            hsame sourceMarginal (append sourceSupport coupling) ∧
-              hsame targetMarginal (append targetSupport coupling) ∧
-                PkgSig bundle objective pkg := by
-  intro carrier
+        hsame sourceMarginal (append coupling sourceMass) ∧
+          hsame targetMarginal (append coupling targetMass) ∧ PkgSig bundle provenance pkg := by
+  intro packet
   obtain ⟨_sourceSupportUnary, _targetSupportUnary, _sourceMassUnary, _targetMassUnary,
     _costUnary, _couplingUnary, sourceMarginalUnary, targetMarginalUnary, _objectiveUnary,
-    _provenanceUnary, sourceMarginalRow, targetMarginalRow, _objectiveRow,
-    _provenanceRow, pkgRow⟩ := carrier
-  exact
-    ⟨sourceMarginalUnary, targetMarginalUnary, sourceMarginalRow, targetMarginalRow,
-      sourceMarginalRow, targetMarginalRow, pkgRow⟩
+    _feasibleUnary, _dualUnary, _provenanceUnary, sourceMarginalRow, targetMarginalRow,
+    _objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
+  exact ⟨sourceMarginalUnary, targetMarginalUnary, sourceMarginalRow, targetMarginalRow, pkgRow⟩
 
 end BEDC.Derived.OptimalTransportUp
