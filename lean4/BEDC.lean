@@ -69,6 +69,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
@@ -96,10 +97,12 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
-import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
+import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -163,6 +166,7 @@ import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
+import BEDC.Derived.SemiringUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
@@ -220,8 +224,10 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
-import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicBallUp
+import BEDC.Derived.DyadicCompletionUp
+import BEDC.Derived.DyadicPrecisionUp
+import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
