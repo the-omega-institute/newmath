@@ -63,6 +63,34 @@ theorem SpectralMeasurePacket_hsame_stability [AskSetup] [PackageSetup]
         finiteAddUnary', routeCont', endpointCont', provenanceCont', pkgSig'⟩,
       sameRoute, sameEndpoint⟩
 
+theorem SpectralMeasurePacket_projection_ledger_finite_additivity [AskSetup]
+    [PackageSetup]
+    {hilbert observable event projection orthogonality finiteAdd route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasurePacket hilbert observable event projection orthogonality finiteAdd route
+        provenance endpoint bundle pkg ->
+      UnaryHistory route ∧ UnaryHistory endpoint ∧ Cont event projection route ∧
+        Cont orthogonality finiteAdd endpoint ∧ Cont provenance route endpoint ∧
+          hsame route (append event projection) ∧ hsame endpoint (append orthogonality finiteAdd) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  exact
+    And.intro routeUnary
+      (And.intro endpointUnary
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right.right.right))))))
+
 def SpectralMeasureCarrier [AskSetup] [PackageSetup]
     (hilbert observable event projection orthogonality additivity route provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -180,6 +208,33 @@ theorem SpectralMeasureOrthogonalFiniteAdditivity_row [AskSetup] [PackageSetup]
                 (And.intro additivityRow' pkgSig'))))))
       (And.intro sameUnion sameAdditivity)
 
+theorem SpectralMeasureFiniteAdditivityLedger_projection_chain [AskSetup] [PackageSetup]
+    {event projection other union orthogonality additivity transport endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFiniteAdditivityLedger event projection other union orthogonality additivity
+        bundle pkg ->
+      Cont other union transport ->
+        Cont orthogonality additivity endpoint ->
+          Cont additivity transport endpoint ->
+            PkgSig bundle endpoint pkg ->
+              SpectralMeasurePacket event projection other union orthogonality additivity transport
+                additivity endpoint bundle pkg := by
+  intro ledger transportRow endpointRow provenanceRow pkgSig
+  have eventUnary : UnaryHistory event := ledger.left
+  have projectionUnary : UnaryHistory projection := ledger.right.left
+  have otherUnary : UnaryHistory other := ledger.right.right.left
+  have orthogonalityUnary : UnaryHistory orthogonality := ledger.right.right.right.left
+  have unionRow : Cont projection other union := ledger.right.right.right.right.left
+  have additivityRow : Cont union orthogonality additivity :=
+    ledger.right.right.right.right.right.left
+  have unionUnary : UnaryHistory union :=
+    unary_cont_closed projectionUnary otherUnary unionRow
+  have additivityUnary : UnaryHistory additivity :=
+    unary_cont_closed unionUnary orthogonalityUnary additivityRow
+  exact
+    ⟨eventUnary, projectionUnary, otherUnary, unionUnary, orthogonalityUnary,
+      additivityUnary, transportRow, endpointRow, provenanceRow, pkgSig⟩
+
 def SpectralMeasureFinitePacket [AskSetup] [PackageSetup]
     (hilbert observable event projection orthogonality additivity transport provenance
       endpoint : BHist)
@@ -265,6 +320,37 @@ theorem SpectralMeasureFinitePacket_namecert_obligation_surface [AskSetup] [Pack
       (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem SpectralMeasureFinitePacket_projection_ledger_additivity [AskSetup] [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance
+      endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
+        transport provenance endpoint probe pkg ->
+      ∃ orthTransport : BHist,
+        UnaryHistory orthTransport ∧ Cont orthogonality transport orthTransport ∧
+          Cont projection orthTransport endpoint ∧ hsame endpoint (append projection orthTransport) ∧
+            PkgSig probe provenance pkg := by
+  intro packet
+  have orthogonalityUnary : UnaryHistory orthogonality :=
+    packet.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.right.left
+  have projectionOrthogonality : Cont projection orthogonality additivity :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have additivityTransport : Cont additivity transport endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig probe provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right
+  cases cont_assoc_middle_exists projectionOrthogonality additivityTransport with
+  | intro orthTransport transportRows =>
+      have orthTransportUnary : UnaryHistory orthTransport :=
+        unary_cont_closed orthogonalityUnary transportUnary transportRows.left
+      exact Exists.intro orthTransport
+        (And.intro orthTransportUnary
+          (And.intro transportRows.left
+            (And.intro transportRows.right
+              (And.intro transportRows.right pkgSig))))
 
 theorem SpectralMeasureFinitePacket_projection_ledger_transport [AskSetup] [PackageSetup]
     {hilbert observable event projection orthogonality additivity transport provenance endpoint

@@ -136,3 +136,17 @@ assert a separate Lean theorem or standard bridge.
 
 \section{The certificate}
 \label{sec:persistenthom-certificate}
+
+\begin{theorem}[PersistentHomUp empty filtration spine ledger collapse]
+\label{thm:persistenthom-empty-filtration-spine-ledger-collapse}
+Let $P$ be an accepted $\PersistentHomUp$ packet. Suppose that the finite filtration-index spine of $P$ is empty, in the sense that no displayed index entry of $P$ is carried by that spine. Then the filtration ledger of $P$ has no stagewise $\SimplicialComplexUp$ packet row, no stagewise $\HomologyUp$ readback row, no adjacent-stage boundary-map row, no persistence-map row, and no barcode-summary row. Apart from the $\Pkg$ provenance row, every persistence-indexed ledger component of $P$ is empty.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:persistenthom-carrier-obligation-surface} to read the accepted carrier. Its visible non-provenance data are the finite index spine, the $\SimplicialComplexUp$ packet at each carried index, the boundary maps between adjacent stages, the $\HomologyUp$ rows read from those displayed complexes, and the persistence maps induced by the boundary ledger.
+
+Use \autoref{thm:persistenthom-filtration-ledger-exactness} for the ledger side. It says that the filtration ledger exposes exactly the finite filtration indices, the adjacent-stage boundary maps, the $\HomologyUp$ rows computed from the displayed $\SimplicialComplexUp$ stages, the barcode summary rows read from the persistence maps, the $\Cont$ routes witnessing stage transport, and the $\Pkg$ provenance binding the packet.
+
+If a stagewise $\SimplicialComplexUp$ packet row were present, the carrier description would attach it to a displayed filtration index. This contradicts emptiness of the index spine. A $\HomologyUp$ readback row is computed from such a displayed stage, so it cannot occur either. An adjacent-stage boundary-map row has adjacent stage endpoints, hence displayed stage rows and their carried indices; these are absent. A persistence-map row is induced by that adjacent-stage boundary ledger, so it has no source row once the boundary-map rows are absent. Finally, every barcode-summary row is read from the persistence maps by ledger exactness, and therefore no barcode-summary row remains.
+
+Thus all index-dependent filtration, stage, homology, persistence-map, and barcode entries are empty. The only row not eliminated by the empty-spine hypothesis is the package provenance row, which records that the accepted packet is named but supplies no additional persistence-indexed content.
+\end{proof}
