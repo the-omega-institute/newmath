@@ -15,7 +15,8 @@ The supervisor mirrors the local distillation/oracle pipeline style:
 - optionally write local review packets;
 - keep runtime artifacts local-only and ignored by Git.
 
-It never pushes, sends, publishes, submits, or directly edits paper/Lean files.
+It only pushes explicit durable bridge/BOARD outputs when requested; it never
+sends, publishes, submits, or directly edits paper/Lean files.
 BEDC paper/Lean writes remain owned by the BEDC board/supervisor pipeline.
 """
 
@@ -154,6 +155,86 @@ def tracked_dirty_lines(repo: Path) -> list[str]:
 def worktree_dirty_lines(repo: Path) -> list[str]:
     output = _git_stdout(repo, ["status", "--porcelain"], timeout=30)
     return [line for line in output.splitlines() if line.strip() and not line.startswith("!!")]
+
+
+def _status_paths(repo: Path) -> list[str]:
+    output = _git_stdout(repo, ["status", "--porcelain"], timeout=30)
+    paths: list[str] = []
+    for line in output.splitlines():
+        if not line.strip():
+            continue
+        raw = line[3:] if len(line) > 3 else line
+        if " -> " in raw:
+            raw = raw.split(" -> ", 1)[1]
+        path = raw.strip().strip('"')
+        if path:
+            paths.append(path.replace("\\", "/"))
+    return paths
+
+
+def _is_bridge_runtime_path(path: str) -> bool:
+    blocked_prefixes = (
+        "tools/automath_newmath_bridge/inbox/",
+        "tools/automath_newmath_bridge/out/",
+        "tools/automath_newmath_bridge/state/",
+        "tools/automath_newmath_bridge/logs/",
+        "tools/bedc-deep/state/",
+    )
+    return path.startswith(blocked_prefixes)
+
+
+def _allowed_durable_path(path: str) -> bool:
+    if "__pycache__/" in path or path.endswith((".pyc", ".pyo")):
+        return False
+    allowed_exact = {
+        "tools/bedc-deep/BOARD.md",
+        "tools/bedc-deep/BOARD.completed.md",
+    }
+    if path in allowed_exact:
+        return True
+    if path.startswith("tools/automath_newmath_bridge/review_packets/") and path.endswith((".json", ".md")):
+        return True
+    if path.startswith("tools/automath_newmath_bridge/") and _is_bridge_runtime_path(path):
+        return False
+    return path.startswith(("docs/bridge/", "tools/automath_newmath_bridge/"))
+
+
+def commit_and_push_durable(
+    repo: Path,
+    *,
+    message: str,
+    push: bool,
+    allowed_branch_prefixes: tuple[str, ...] = ("bridge/", "codex/"),
+) -> dict[str, Any]:
+    branch = current_branch(repo)
+    all_paths = _status_paths(repo)
+    paths = [p for p in all_paths if _allowed_durable_path(p)]
+    skipped = [p for p in all_paths if p not in paths]
+    if not paths:
+        return {"status": "nothing_to_commit", "branch": branch, "skipped": skipped[:20]}
+    add = _git(repo, ["add", *paths], timeout=60)
+    if add.returncode != 0:
+        return {"status": "add_failed", "branch": branch, "stderr": add.stderr.strip()[:1000]}
+    diff = _git(repo, ["diff", "--cached", "--quiet"], timeout=60)
+    if diff.returncode == 0:
+        return {"status": "nothing_to_commit", "branch": branch, "paths": paths, "skipped": skipped[:20]}
+    commit = _git(repo, ["commit", "-m", message], timeout=180)
+    if commit.returncode != 0:
+        return {"status": "commit_failed", "branch": branch, "stderr": commit.stderr.strip()[:1000]}
+    result: dict[str, Any] = {
+        "status": "committed",
+        "branch": branch,
+        "paths": paths,
+        "skipped": skipped[:20],
+        "stdout": commit.stdout.strip()[:1000],
+    }
+    if push:
+        if not branch.startswith(allowed_branch_prefixes):
+            result["push"] = f"skipped branch {branch}"
+        else:
+            pushed = _git(repo, ["push", "origin", branch], timeout=300)
+            result["push"] = "ok" if pushed.returncode == 0 else pushed.stderr.strip()[:1000]
+    return result
 
 
 def _load_config(path: Path) -> dict[str, Any]:
@@ -356,6 +437,8 @@ def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, An
         "--novelty-threshold",
         str(int(cfg.get("novelty_threshold") or 6)),
     ]
+    if cfg.get("ledger_path"):
+        cmd.extend(["--ledger", str(REPO_ROOT / str(cfg.get("ledger_path")))])
     if apply:
         cmd.append("--apply")
     result = run_command(cmd, timeout=900 if apply else 120)
@@ -377,13 +460,19 @@ def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, An
     }
 
 
-def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]], config_path: Path) -> dict[str, Any]:
+def merge_back_to_bedc(
+    config: dict[str, Any],
+    gate_results: list[dict[str, Any]],
+    config_path: Path,
+    *,
+    push: bool,
+) -> dict[str, Any]:
     """Merge the gated bridge branch back to the configured BEDC branch.
 
-    This is local-only and conservative. It only runs after all bridge gates
+    This is conservative. It only runs after all bridge gates
     pass, the target worktree is on the expected branch, and the target worktree
-    has no tracked or untracked changes. Runtime artifacts remain ignored and
-    are not pushed.
+    has no tracked or untracked changes. Runtime artifacts remain ignored. Push
+    is opt-in and only targets the configured BEDC branch.
     """
     cfg = config.get("merge_back_after_gates")
     if not isinstance(cfg, dict) or not cfg.get("enabled", False):
@@ -428,6 +517,14 @@ def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]
             "reason": (result.stderr or result.stdout).strip()[:1000],
         }
     after = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
+    pushed: str | bool = False
+    remote_after = ""
+    if push:
+        push_result = _git(target, ["push", "origin", target_branch], timeout=300)
+        pushed = "ok" if push_result.returncode == 0 else push_result.stderr.strip()[:1000]
+        fetch = _git(target, ["fetch", "origin", target_branch], timeout=180)
+        if fetch.returncode == 0:
+            remote_after = _git_stdout(target, ["rev-parse", f"origin/{target_branch}"], timeout=30)
     return {
         "status": "merged" if before != after else "up_to_date",
         "target_worktree": str(target),
@@ -436,7 +533,9 @@ def merge_back_to_bedc(config: dict[str, Any], gate_results: list[dict[str, Any]
         "source_commit": source_commit,
         "before": before,
         "after": after,
-        "pushed": False,
+        "pushed": pushed,
+        "remote_after": remote_after,
+        "remote_contains_after": bool(remote_after and remote_after == after),
     }
 
 
@@ -517,8 +616,16 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
     else:
         _log("bedc_board_ingest: disabled by --no-bedc-board-ingest")
 
+    if args.commit_durable:
+        commit_result = commit_and_push_durable(
+            REPO_ROOT,
+            message=f"bridge(newmath): produce Automath continuation targets {_now_iso()}",
+            push=args.push_bridge_branch,
+        )
+        _log(f"commit_durable: {commit_result}")
+
     if not args.no_merge_back_after_gates:
-        merge_back = merge_back_to_bedc(config, gate_results, config_path)
+        merge_back = merge_back_to_bedc(config, gate_results, config_path, push=args.push_bedc_branch)
         _log(f"merge_back_after_gates: {merge_back}")
     else:
         _log("merge_back_after_gates: disabled by --no-merge-back-after-gates")
@@ -572,6 +679,9 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Do not merge this bridge branch into the configured local BEDC branch after gates pass",
     )
+    parser.add_argument("--commit-durable", action="store_true", help="Commit durable bridge/BOARD outputs but not runtime artifacts")
+    parser.add_argument("--push-bridge-branch", action="store_true", help="Push the current bridge branch after durable commit")
+    parser.add_argument("--push-bedc-branch", action="store_true", help="Push the configured BEDC branch after merge-back")
     return parser
 
 

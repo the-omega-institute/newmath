@@ -12,6 +12,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -24,6 +26,9 @@ DEFAULT_GATE_RESULTS = SCRIPT_DIR / "out" / "bridge_gate_results.jsonl"
 DEFAULT_PACKET_DIR = SCRIPT_DIR / "review_packets"
 BEDC_DEEP_DIR = REPO_ROOT / "tools" / "bedc-deep"
 BEDC_INBOX = BEDC_DEEP_DIR / "state" / "candidate_inbox.jsonl"
+DEFAULT_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-board-continuation-ledger.md"
+LEAN_DECL_RE = re.compile(r"^\s*(?:noncomputable\s+)?(?:def|theorem|lemma|abbrev)\s+([A-Za-z0-9_'.]+)", re.M)
+LATEX_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 
 
 def _now_iso() -> str:
@@ -126,20 +131,29 @@ def _packet_path(record: dict[str, Any], packet_dir: Path) -> Path:
 def _write_packet(record: dict[str, Any], packet_dir: Path) -> Path:
     packet_dir.mkdir(parents=True, exist_ok=True)
     path = _packet_path(record, packet_dir)
+    source_refs = _source_refs(record)
+    mode = _bridge_consumption_mode(record)
     packet = {
-        "schema_version": "automath-newmath-bridge-review-packet-v1",
+        "schema_version": "automath-newmath-bridge-evidence-packet-v2",
         "created_at": _now_iso(),
         "status": "needs_bedc_board_review",
+        "bridge_consumption_mode": mode,
         "source_repo": record.get("source_repo"),
         "source_branch_or_ref": record.get("source_branch_or_ref"),
         "source_commit": record.get("source_commit"),
         "source_path": record.get("source_path"),
         "source_artifact_kind": record.get("source_artifact_kind"),
+        "source_theorem_names": source_refs["theorem_names"],
+        "source_paper_labels": source_refs["paper_labels"],
+        "source_paths": [record.get("source_path")],
         "destination_repo": record.get("destination_repo"),
         "destination_branch_or_ref": record.get("destination_branch_or_ref"),
         "destination_path": "tools/bedc-deep/BOARD.md",
-        "destination_artifact_kind": "open_problem_target",
+        "destination_artifact_kind": "bedc_continuation_target",
         "bridge_direction": "automath_to_newmath",
+        "reuse_instruction": _reuse_instruction(mode),
+        "expected_newmath_delta": _expected_newmath_delta(record, mode),
+        "reject_if": _reject_if(record, mode),
         "operator_review_required": True,
         "taste_gate_required": False,
         "audit_required": True,
@@ -156,6 +170,90 @@ def _write_packet(record: dict[str, Any], packet_dir: Path) -> Path:
     return path
 
 
+def _source_repo_path(record: dict[str, Any]) -> Path | None:
+    repo = str(record.get("source_repo") or "")
+    if repo == "the-omega-institute/automath":
+        return (REPO_ROOT.parent / "automath").resolve()
+    if repo == "the-omega-institute/newmath":
+        return REPO_ROOT
+    return None
+
+
+def _source_text(record: dict[str, Any], *, max_chars: int = 120000) -> str:
+    repo_path = _source_repo_path(record)
+    source_ref = str(record.get("source_branch_or_ref") or "HEAD")
+    source_path = str(record.get("source_path") or "")
+    if not repo_path or not source_path:
+        return ""
+    try:
+        proc = subprocess.run(
+            ["git", "-C", str(repo_path), "show", f"{source_ref}:{source_path}"],
+            text=True,
+            capture_output=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+    if proc.returncode != 0:
+        path = repo_path / source_path
+        if path.exists():
+            return path.read_text(encoding="utf-8", errors="replace")[:max_chars]
+        return ""
+    return proc.stdout[:max_chars]
+
+
+def _source_refs(record: dict[str, Any]) -> dict[str, list[str]]:
+    text = _source_text(record)
+    theorem_names = LEAN_DECL_RE.findall(text)[:12] if text else []
+    paper_labels = LATEX_LABEL_RE.findall(text)[:12] if text else []
+    source_path = str(record.get("source_path") or "")
+    if source_path.endswith(".lean") and not theorem_names:
+        theorem_names = [Path(source_path).stem]
+    return {
+        "theorem_names": theorem_names,
+        "paper_labels": paper_labels,
+    }
+
+
+def _bridge_consumption_mode(record: dict[str, Any]) -> str:
+    kind = str(record.get("source_artifact_kind") or "")
+    if kind in {"lean_theorem", "paper_claim"} and _specific_board_claim(record):
+        return "board_continuation"
+    if kind in {"writeback_packet", "candidate_mechanism"}:
+        return "direct_proposal_seed"
+    return "evidence_only"
+
+
+def _reuse_instruction(mode: str) -> str:
+    if mode == "board_continuation":
+        return (
+            "Inspect and consume existing Automath evidence first; do not rediscover "
+            "or re-prove the Automath theorem unless BEDC needs a native restatement."
+        )
+    if mode == "direct_proposal_seed":
+        return (
+            "Use the Automath source as a proposal seed only after BEDC-native intake "
+            "confirms a concrete carrier, classifier, proof-obligation, or paper-planning fit."
+        )
+    return "Record the Automath source as prior evidence only; do not create BEDC theorem work automatically."
+
+
+def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
+    if mode == "board_continuation":
+        return "minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet"
+    if mode == "direct_proposal_seed":
+        return "proposal seed or BOARD candidate after native review; no direct paper or Lean write"
+    return "notes or manifest-consumed status only"
+
+
+def _reject_if(record: dict[str, Any], mode: str) -> str:
+    if mode == "board_continuation":
+        return "no BEDC-native carrier, classifier, proof-obligation shortcut, name-certificate, obstruction, or public-invariant fit"
+    if mode == "direct_proposal_seed":
+        return "source lacks a concrete BEDC landing object or duplicates existing BOARD/paper coverage"
+    return "evidence is contextual only or cannot be cited by a BEDC-native receiving task"
+
+
 def _title(record: dict[str, Any]) -> str:
     kind = str(record.get("source_artifact_kind") or "artifact").replace("_", " ")
     path = str(record.get("source_path") or record.get("artifact_key") or "Automath artifact")
@@ -166,14 +264,35 @@ def _title(record: dict[str, Any]) -> str:
 
 
 def _claim(record: dict[str, Any], packet_rel: str) -> str:
+    mode = _bridge_consumption_mode(record)
+    refs = _source_refs(record)
     specific = _specific_board_claim(record)
+    source = f"{record.get('source_repo')}@{record.get('source_branch_or_ref')}:{record.get('source_path')}"
+    theorem_text = ", ".join(refs["theorem_names"]) if refs["theorem_names"] else "(none extracted)"
+    label_text = ", ".join(refs["paper_labels"]) if refs["paper_labels"] else "(none extracted)"
+    if mode == "board_continuation":
+        body = specific or "Determine the minimal BEDC-native object that can consume this Automath evidence."
+        return (
+            "Bridge continuation target. Automath already supplies prior evidence; "
+            "do not restart discovery from scratch.\n\n"
+            f"Automath source: `{source}`.\n"
+            f"Source commit: `{record.get('source_commit')}`.\n"
+            f"Evidence packet: `{packet_rel}`.\n"
+            f"Source theorem names: {theorem_text}.\n"
+            f"Source paper labels: {label_text}.\n\n"
+            f"Continuation task: {body}\n\n"
+            "Consume this as one of: existing theorem evidence, candidate mechanism, "
+            "proof-obligation shortcut, paper planning source, or reject/blocked because "
+            "it is not BEDC-fit. The worker should inspect the Automath theorem/paper "
+            "evidence first, then write only the minimal BEDC wrapper/proposal/audit "
+            "task needed by NewMath."
+        )
     if specific:
         return specific
     evidence = record.get("evidence_summary")
     if not isinstance(evidence, list) or not evidence:
         evidence = [record.get("next_action") or "Automath source evidence is ready for NewMath-side review."]
     evidence_text = "; ".join(str(item) for item in evidence if str(item).strip())
-    source = f"{record.get('source_repo')}@{record.get('source_branch_or_ref')}:{record.get('source_path')}"
     return (
         "Evaluate whether this Automath artifact should become a BEDC research "
         f"target. Source: {source}. Bridge packet: {packet_rel}. Evidence: "
@@ -226,17 +345,32 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
     priority = int(record.get("priority") or 50)
     fit = min(10, max(7, priority // 10))
     novelty = min(10, max(6, (priority + 8) // 10))
+    mode = _bridge_consumption_mode(record)
+    refs = _source_refs(record)
     return {
         "title": _target_title(record),
         "claim": _claim(record, packet_rel),
         "chapter": "concrete_instances",
-        "relation": "bridge_input",
+        "relation": mode,
         "source": "automath_newmath_bridge",
         "local_inputs": _landing_inputs(record),
+        "bridge_consumption_mode": mode,
+        "bridge_evidence_packet": packet_rel,
+        "source_theorem_names": refs["theorem_names"],
+        "source_paper_labels": refs["paper_labels"],
+        "source_commit": record.get("source_commit"),
+        "source_paths": [record.get("source_path")],
+        "reuse_instruction": _reuse_instruction(mode),
+        "expected_newmath_delta": _expected_newmath_delta(record, mode),
+        "reject_if": _reject_if(record, mode),
         "rationale": (
-            "Automath-to-NewMath bridge gate passed. BEDC board_spawn must still "
-            "judge fit, novelty, dedup, and paper coverage before BOARD append. "
-            f"The bridge review packet is {packet_rel}."
+            "Automath-to-NewMath bridge gate passed as an evidence-backed continuation "
+            "candidate. BEDC board_spawn must still judge fit, novelty, dedup, and "
+            "paper coverage before BOARD append. Use Automath source as prior evidence; "
+            "do not re-prove it unless BEDC needs a native restatement. "
+            f"The bridge evidence packet is {packet_rel}. "
+            f"Expected NewMath delta: {_expected_newmath_delta(record, mode)}. "
+            f"Reject if: {_reject_if(record, mode)}."
         ),
         "fit_score": fit,
         "novelty": novelty,
@@ -341,7 +475,68 @@ def _accepted_packet_rels(result: Any) -> set[str]:
             text = str(rel).strip()
             if text.startswith("tools/automath_newmath_bridge/review_packets/"):
                 rels.add(text)
+        packet_rel = str(item.get("bridge_evidence_packet") or "").strip()
+        if packet_rel.startswith("tools/automath_newmath_bridge/review_packets/"):
+            rels.add(packet_rel)
     return rels
+
+
+def _render_ledger(summary: dict[str, Any], candidates: list[dict[str, Any]]) -> str:
+    lines = [
+        "# Automath BOARD Continuation Ledger",
+        "",
+        "This durable ledger records Automath-to-NewMath bridge candidates that were shaped as evidence-backed BEDC continuation targets.",
+        "Runtime inbox, state, logs, and raw gate output remain untracked.",
+        "",
+        f"Last run: `{_now_iso()}`",
+        "",
+        "| Metric | Value |",
+        "| --- | --- |",
+        f"| Apply | `{summary.get('apply')}` |",
+        f"| Eligible candidates | `{summary.get('eligible_candidates')}` |",
+        f"| Accepted into BOARD | `{summary.get('accepted_count', 0)}` |",
+        f"| Rejected | `{summary.get('rejected_count', 0)}` |",
+        f"| Appended ids | `{', '.join(summary.get('appended_ids') or []) or 'none'}` |",
+        f"| Judge backend | `{summary.get('judge_backend', '')}` |",
+        "",
+        "## Candidate Modes",
+        "",
+        "| Title | Mode | Source commit | Source paths | Evidence packet | Expected NewMath delta |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    if not candidates:
+        lines.append("| _none_ |  |  |  |  |  |")
+    for candidate in candidates:
+        title = str(candidate.get("title") or "").replace("|", "\\|")
+        paths = ", ".join(str(p) for p in candidate.get("source_paths") or [])
+        delta = str(candidate.get("expected_newmath_delta") or "").replace("|", "\\|")
+        lines.append(
+            "| `{}` | `{}` | `{}` | `{}` | `{}` | {} |".format(
+                title,
+                candidate.get("bridge_consumption_mode", ""),
+                candidate.get("source_commit", ""),
+                paths,
+                candidate.get("bridge_evidence_packet", ""),
+                delta,
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "## Policy",
+            "",
+            "- `evidence_only` records are reference material; they should not create BEDC theorem work automatically.",
+            "- `board_continuation` records enter BOARD only as continuation targets with Automath evidence packets.",
+            "- `direct_proposal_seed` records may seed a BEDC-native proposal, but still go through native intake gates.",
+            "- BEDC workers should inspect the Automath evidence first and write only the minimal BEDC-native wrapper, proposal, audit task, or rejection reason.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _write_ledger(path: Path, summary: dict[str, Any], candidates: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(_render_ledger(summary, candidates), encoding="utf-8")
 
 
 def _cleanup_unaccepted_packets(packet_paths: list[Path], accepted_rels: set[str]) -> list[str]:
@@ -375,6 +570,8 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Write durable review packet JSON files without applying BOARD ingest",
     )
+    parser.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="Durable continuation ledger path")
+    parser.add_argument("--no-ledger", action="store_true", help="Do not write durable continuation ledger")
     args = parser.parse_args(argv)
 
     records = _read_jsonl(Path(args.gate_results))
@@ -392,6 +589,8 @@ def main(argv: list[str] | None = None) -> int:
         "apply": bool(args.apply),
     }
     if not candidates:
+        if not args.no_ledger:
+            _write_ledger(Path(args.ledger), summary, candidates)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     if args.apply:
@@ -418,9 +617,13 @@ def main(argv: list[str] | None = None) -> int:
         )
         accepted_rels = _accepted_packet_rels(result)
         summary["removed_unaccepted_packets"] = _cleanup_unaccepted_packets(packets, accepted_rels)
+        if not args.no_ledger:
+            _write_ledger(Path(args.ledger), summary, candidates)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0 if getattr(result, "ok", False) else 1
     summary["dry_run_candidates"] = candidates
+    if not args.no_ledger:
+        _write_ledger(Path(args.ledger), summary, candidates)
     print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 

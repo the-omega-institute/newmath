@@ -211,17 +211,42 @@ Automath source evidence
   -> bridge discovery
   -> bridge_synthesis readiness
   -> bridge_gates
-  -> tools/automath_newmath_bridge/review_packets/*.json
+  -> bridge evidence packet
   -> tools/bedc-deep/board_spawn.py
-  -> tools/bedc-deep/BOARD.md
+  -> evidence-backed BEDC BOARD continuation target
   -> merge back to bedc-claim-packet-pipeline when target is clean
   -> BEDC supervisor owns paper/Lean/push
 ```
 
 The bridge adapter does not write BEDC paper or Lean files. It also does not
 copy a simplified BOARD writer; `board_spawn` remains the only append gate, so
-fit, novelty, dedup, paper coverage, and Claude judge behavior stay native to
-NewMath.
+fit, novelty, dedup, paper coverage, and judge behavior stay native to NewMath.
+
+NewMath consumes Automath evidence in three modes:
+
+| Mode | Meaning | Durable action |
+| --- | --- | --- |
+| `evidence_only` | Automath content is useful context but should not create BEDC theorem work automatically. | Notes, ledger entry, or manifest-consumed status. |
+| `board_continuation` | Automath already has theorem/paper evidence and NewMath needs a BEDC-native wrapper, obstruction, shortcut, or planning object. | Submit a BOARD continuation target with source commit, path, theorem names, paper labels, reuse instruction, expected delta, and rejection rule. |
+| `direct_proposal_seed` | Automath content is close enough to seed a proposal, but still needs native review. | Generate proposal/BOARD seed only through BEDC intake gates. |
+
+BOARD continuation targets must say that Automath is prior evidence. Workers
+should inspect the Automath source first, avoid re-proving it unless BEDC needs
+a native restatement, and produce only the minimal BEDC wrapper, proposal, audit
+task, or rejection reason. Required packet fields are:
+
+```json
+{
+  "bridge_consumption_mode": "board_continuation",
+  "source_theorem_names": [],
+  "source_paper_labels": [],
+  "source_commit": "...",
+  "source_paths": [],
+  "reuse_instruction": "inspect and consume existing Automath evidence; do not rediscover from scratch",
+  "expected_newmath_delta": "minimal BEDC wrapper/proposal/audit task",
+  "reject_if": "no BEDC-native carrier/classifier/proof-obligation fit"
+}
+```
 
 Run one supervised pass:
 
