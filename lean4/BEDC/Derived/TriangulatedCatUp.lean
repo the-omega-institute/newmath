@@ -175,6 +175,25 @@ theorem TriangulatedCatOctahedralLedger_boundary {rows : List BHist} {endpoint :
       · intro rowsEmpty
         cases rowsEmpty
 
+theorem TriangulatedCatOctahedralLedger_face_cont_witness {rows : List BHist}
+    {endpoint face : BHist} :
+    TriangulatedCatOctahedralLedger rows endpoint ->
+      List.Mem face rows ->
+        exists rest : List BHist,
+          exists restEndpoint faceEndpoint : BHist,
+            TriangulatedCatOctahedralLedger rest restEndpoint ∧
+              Cont face restEndpoint faceEndpoint := by
+  intro ledger mem
+  induction ledger with
+  | nil _sameEndpoint =>
+      cases mem
+  | face _faceUnary restLedger contFaceRest ih =>
+      cases mem with
+      | head =>
+          exact Exists.intro _ (Exists.intro _ (Exists.intro _ (And.intro restLedger contFaceRest)))
+      | tail _ tailMem =>
+          exact ih tailMem
+
 def TriangulatedCatPacketCarrier [AskSetup] [PackageSetup]
     (category derived additive shift triangle octahedral route endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

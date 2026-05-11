@@ -1,6 +1,7 @@
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.MeasureUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SpectralTheoremUp
@@ -11,6 +12,7 @@ open BEDC.Derived.RealUp
 open BEDC.Derived.VecSpaceUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem SpectralTheoremSingleton_carrier_classifier_obligation
@@ -174,6 +176,62 @@ theorem SpectralTheoremCarrier_classifier_transport
           (And.intro carrier.right.right.right.left
             (And.intro transportedEndpoint (hsame_refl endpoint'))))))
     (And.intro transportedEndpoint (And.intro endpointUnary provenanceSame))
+
+theorem SpectralTheoremCarrier_public_certificate
+    {endpoint operator spectrum projection calculus provenance : BHist} :
+    SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ->
+      SemanticNameCert
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          hsame ∧
+        Cont operator spectrum projection ∧ Cont projection calculus endpoint ∧
+          hsame provenance endpoint := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            SpectralTheoremCarrier endpoint operator spectrum projection calculus provenance ∧
+              hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro carrier.right.right.right.left
+      (And.intro carrier.right.right.right.right.left carrier.right.right.right.right.right))
 
 theorem SpectralTheoremOperator_measure_row_readback
     {operator spectralSide projection functional endpoint : BHist} :
