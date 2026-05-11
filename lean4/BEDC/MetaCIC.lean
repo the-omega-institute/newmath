@@ -7,3 +7,4 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Examples
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.Checker
+import BEDC.MetaCIC.LeanBridge
