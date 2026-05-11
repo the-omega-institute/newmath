@@ -55,6 +55,7 @@ row, and provenance through the same visible finite dyadic interval surface,
 and it receives no quotient sequence, real-completion object, or hidden
 host-real endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_nested\_refinement\_ledger}
 \begin{proof}
 Project the carrier of \autoref{def:dyadicinterval-carrier}. The endpoint
 rows, width row, order ledger, midpoint row, radius row, componentwise
@@ -75,6 +76,7 @@ window can read. That view consists exactly of endpoint, radius, width,
 regular dyadic comparison, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
 provenance rows, so refinement preserves the finite source surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalEndpointPacket\_nested\_refinement\_ledger}
 
 \begin{theorem}[DyadicInterval NameCert obligation surface]
 \label{thm:dyadicinterval-namecert-obligation}
@@ -117,15 +119,129 @@ quotient interval, or completeness data, the handoff remains a finite BEDC
 source surface.
 \end{proof}
 
+\begin{theorem}[DyadicInterval endpoint classifier transport]
+\label{thm:dyadicinterval-endpoint-classifier-transport}
+Let $I=(L,R,W,O,M,\rho,H,C,P,N)$ and
+$I'=(L',R',W',O',M',\rho',H',C',P',N')$ be accepted
+$\DyadicIntervalUp$ carriers. Suppose the displayed $H$ rows provide
+componentwise $\hsame$ witnesses and the displayed $C$ rows provide
+$\Cont$ routes from the coordinates of $I$ to the corresponding coordinates
+of $I'$. Then every endpointwise dyadic-tolerance witness for the left and
+right endpoint rows of $I$ transports componentwise to $I'$, and the same
+transport repacks the order, midpoint, radius, width, $\mathsf{Pkg}$, and
+$\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:dyadicinterval-carrier}. The
+left endpoint, right endpoint, width, order, midpoint, radius, package, and
+naming coordinates are separate finite rows, and the carrier exposes the
+matching $\hsame$ and $\Cont$ rows for each coordinate.
+
+Transport the classifier in the endpoint coordinates first. The
+dyadic-tolerance witness is endpointwise, so the left-endpoint comparison
+follows the left endpoint route and the right-endpoint comparison follows
+the right endpoint route.
+
+It remains to repack the non-endpoint rows. The order, midpoint, radius, and
+width data are read from the same displayed carrier coordinates, while the
+$\mathsf{Pkg}$ and $\NameCert$ rows are transported by their own visible
+routes. This gives the componentwise target classifier without adding any
+extra source datum.
+\end{proof}
+
+\begin{theorem}[DyadicInterval width-radius ledger exactness]
+\label{thm:dyadicinterval-width-radius-ledger-exactness}
+Every width, midpoint, and radius readback used by the
+$\DyadicIntervalUp$ endpoint classifier is projected from the carrier rows
+of \autoref{def:dyadicinterval-carrier} and, under nested refinement, from
+the transported rows supplied by
+\autoref{thm:dyadicinterval-nested-refinement-ledger}. No classifier
+readback may use an external host-real radius, quotient-interval width, or
+completion-side midpoint.
+\end{theorem}
+\begin{proof}
+The carrier projection exposes exactly the width row $W$, midpoint row $M$,
+and radius row $\rho$. These are the only rows named in
+\autoref{def:dyadicinterval-carrier} for width, midpoint, and radius
+readback.
+
+Under nested refinement, apply
+\autoref{thm:dyadicinterval-nested-refinement-ledger}. The refined endpoint
+window repacks the transported width row and recomputes the midpoint and
+radius rows from that finite window.
+
+Thus every classifier readback is a projection from either the original
+carrier or its nested-refinement transport. Since neither source contains a
+host-real, quotient-interval, or completion coordinate, no such coordinate
+can participate in the readback.
+\end{proof}
+
+\begin{theorem}[DyadicInterval RealUp seal source boundary]
+\label{thm:dyadicinterval-real-seal-source-boundary}
+A $\RealUp$ or $\RegSeqRatUp$ consumer of a $\DyadicIntervalUp$ packet may
+read only the finite endpoint, radius, width, order, refinement, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows displayed in
+\autoref{def:dyadicinterval-carrier},
+\autoref{thm:dyadicinterval-nested-refinement-ledger}, and
+\autoref{thm:dyadicinterval-namecert-obligation}. The consumer receives no
+Dedekind cut, quotient interval, open-cover compactness witness, host real
+equality, or completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. Its finite rows provide the endpoint,
+radius, width, order, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates, and the carrier statement explicitly excludes Dedekind,
+quotient, host-real, and completeness coordinates.
+
+Add the refinement view from
+\autoref{thm:dyadicinterval-nested-refinement-ledger}. Refinement repacks
+the same finite rows after endpoint narrowing; it does not create a new
+completion-side object.
+
+Finally use the obligation surface of
+\autoref{thm:dyadicinterval-namecert-obligation}. The seal handoff row is
+therefore bounded by the carrier, refinement, and naming projections, so a
+$\RealUp$ or $\RegSeqRatUp$ consumer can read only the listed finite
+DyadicInterval rows.
+\end{proof}
+
+\begin{theorem}[DyadicInterval regular-window seal handoff]
+\label{thm:dyadicinterval-regular-window-seal-handoff}
+Let $I=(L,R,W,O,M,\rho,H,C,P,N)$ be an accepted
+$\DyadicIntervalUp$ packet. For any finite regular-stream observation window
+requested by a $\RegSeqRatUp$ or $\RealUp$ consumer, nested refinement
+transports the endpoint, width, radius, order, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows of $I$ into a finite seal-source packet.
+The consumer receives no Dedekind cut, quotient interval, host-real equality,
+open-cover compactness witness, or completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:dyadicinterval-carrier}.
+The available rows are exactly the finite endpoint, width, order, midpoint,
+radius, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates, with
+no completion-side coordinate in the carrier.
+
+Apply \autoref{thm:dyadicinterval-nested-refinement-ledger} to the requested
+regular-stream observation window. Its endpoint narrowing and width-radius
+readback repack the same finite rows after refinement, so the window source is
+again a dyadic interval packet rather than a quotient or host-real object.
+
+Finally use \autoref{thm:dyadicinterval-real-seal-source-boundary}. The
+$\RegSeqRatUp$ or $\RealUp$ consumer boundary can read only the carrier and
+refinement rows just identified. Hence every regular-window read is exhausted
+by the finite seal-source rows transported from $I$.
+\end{proof}
+
 \closureat{DyadicIntervalUp}{seedStr}
+\closureat{DyadicIntervalUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicIntervalUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed boundary names the finite $\mathsf{BHist}$ interval carrier, endpointwise dyadic-tolerance classifier, endpoint-order ledger, nested-refinement transport, and $\RealUp$ seal handoff boundary over $\DyadicRatCoreUp$.}
   \constructivestory{Construct the interval packet by finite dyadic endpoint reads: $\DyadicRatCoreUp$ supplies endpoints and arithmetic ledgers, the order and width rows record finite bounds, and refinement repacks the same visible rows for $\RegSeqRatUp$ and $\RealUp$ consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind cuts, open-cover compactness, real completeness, quotient intervals, or standard bridge data.}
-  \upgradepath{Scoped closure requires checked carrier, endpointwise classifier, endpoint-order stability, nested-refinement transport, and $\RealUp$ seal-handoff targets for the displayed $\DyadicIntervalUp$ source surface.}
+  \upgradepath{Scoped closure requires explicit scope binding of the carrier, endpoint classifier, endpoint-order stability, nested-refinement transport, width-radius exactness, and $\RealUp$ seal handoff against $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
 \end{closurestatus}
