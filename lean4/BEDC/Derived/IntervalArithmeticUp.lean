@@ -72,4 +72,48 @@ theorem IntervalArithmeticEndpointPacket_classifier_transport [AskSetup] [Packag
                   (And.intro enclosureRow' (And.intro endpointRow' endpointPkg')))))))))
     (And.intro sameEnclosure sameEndpoint)
 
+theorem IntervalArithmeticEndpointPacket_outward_rounded_addition [AskSetup] [PackageSetup]
+    {lowerA upperA lowerObsA upperObsA enclosureA provenanceA endpointA lowerB upperB
+      lowerObsB upperObsB enclosureB provenanceB endpointB lowerC upperC lowerObsC
+      upperObsC enclosureC endpointC : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalArithmeticEndpointPacket lowerA upperA lowerObsA upperObsA enclosureA provenanceA
+        endpointA bundle pkg ->
+      IntervalArithmeticEndpointPacket lowerB upperB lowerObsB upperObsB enclosureB provenanceB
+          endpointB bundle pkg ->
+        Cont lowerA lowerB lowerC ->
+          Cont upperA upperB upperC ->
+            Cont lowerObsA lowerObsB lowerObsC ->
+              Cont upperObsA upperObsB upperObsC ->
+                Cont lowerC upperC enclosureC ->
+                  Cont lowerObsC upperObsC endpointC ->
+                    PkgSig bundle endpointC pkg ->
+                      IntervalArithmeticEndpointPacket lowerC upperC lowerObsC upperObsC
+                          enclosureC provenanceA endpointC bundle pkg ∧
+                        Cont lowerA lowerB lowerC ∧ Cont upperA upperB upperC := by
+  intro packetA packetB lowerRow upperRow lowerObsRow upperObsRow enclosureRow endpointRow
+    endpointSig
+  obtain ⟨lowerUnaryA, upperUnaryA, lowerObsUnaryA, upperObsUnaryA, provenanceUnaryA,
+    _enclosureUnaryA, _endpointUnaryA, _enclosureRowA, _endpointRowA, _endpointSigA⟩ :=
+    packetA
+  obtain ⟨lowerUnaryB, upperUnaryB, lowerObsUnaryB, upperObsUnaryB, _provenanceUnaryB,
+    _enclosureUnaryB, _endpointUnaryB, _enclosureRowB, _endpointRowB, _endpointSigB⟩ :=
+    packetB
+  have lowerUnaryC : UnaryHistory lowerC :=
+    unary_cont_closed lowerUnaryA lowerUnaryB lowerRow
+  have upperUnaryC : UnaryHistory upperC :=
+    unary_cont_closed upperUnaryA upperUnaryB upperRow
+  have lowerObsUnaryC : UnaryHistory lowerObsC :=
+    unary_cont_closed lowerObsUnaryA lowerObsUnaryB lowerObsRow
+  have upperObsUnaryC : UnaryHistory upperObsC :=
+    unary_cont_closed upperObsUnaryA upperObsUnaryB upperObsRow
+  have enclosureUnaryC : UnaryHistory enclosureC :=
+    unary_cont_closed lowerUnaryC upperUnaryC enclosureRow
+  have endpointUnaryC : UnaryHistory endpointC :=
+    unary_cont_closed lowerObsUnaryC upperObsUnaryC endpointRow
+  exact
+    ⟨⟨lowerUnaryC, upperUnaryC, lowerObsUnaryC, upperObsUnaryC, provenanceUnaryA,
+        enclosureUnaryC, endpointUnaryC, enclosureRow, endpointRow, endpointSig⟩,
+      lowerRow, upperRow⟩
+
 end BEDC.Derived.IntervalArithmeticUp
