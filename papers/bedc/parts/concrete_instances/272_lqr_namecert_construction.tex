@@ -93,7 +93,8 @@ Finally repack the transported transition row with the transported horizon
 and provenance rows. Since no external dynamics object is present in the
 carrier, the transition readback of $L'$ is precisely this finite BEDC row.
 \end{proof}
-\leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_transition\_transport}
+\leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlCarrier\_transition\_stability}
+\leanvariant{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_transition\_transport}
 
 \begin{theorem}[LQR quadratic-cost exactness]
 \label{thm:lqr-quadratic-cost-exactness}
@@ -144,14 +145,28 @@ policy, a limiting Riccati equation, an external solver, or a host
 optimal-control object.
 \end{proof}
 
-\closureat{LQRUp}{obligationStr}
+\begin{theorem}[LQR scoped dependency certificate]
+\label{thm:lqr-scoped-dependency-certificate}
+For the finite-control carrier of \autoref{def:lqr-finite-control-carrier}, the seed obligation surface, dynamic-programming row, estimator-control boundary, transition stability row, quadratic-cost exactness row, and finite-horizon Riccati closure bind every exported $\LQRUp$ row to the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency-certificate rows. The resulting certificate exports no host stochastic process, infinite-horizon policy, ambient optimizer, or external Riccati solver.
+\end{theorem}
+\begin{proof}
+Project the rows of the carrier in \autoref{def:lqr-finite-control-carrier}. This gives the state, control, transition, cost, horizon, estimator, backward-update, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ coordinates as displayed finite $\mathsf{BHist}$ rows.
+
+Apply the transition stability theorem and the quadratic-cost exactness theorem to the displayed transition and cost coordinates. These two rows bind the dynamics and cost readbacks to the named $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$ dependency packets.
+
+Next apply the dynamic-programming row theorem, the estimator-control boundary, and the finite-horizon Riccati closure theorem. The backward ledger then consumes only the displayed successor value, transition, control, quadratic-cost, estimator-input, horizon, continuation, and provenance rows.
+
+It remains to check the exported packet fields. Exhausting the displayed carrier shows that the only remaining public coordinates are the named dependency certificates and their $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, so no host stochastic process, infinite-horizon policy, ambient optimizer, or external Riccati solver is exported.
+\end{proof}
+
+\closureat{LQRUp}{scopedStr}
 \begin{closurestatus}{\LQRUp}
   \constructivestory{}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The enumerated obligation surface fixes the finite linear-quadratic control carrier over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$, together with displayed transition, quadratic-cost, finite backward-update, and estimator/control consumption rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped dependency certificate binds the finite linear-quadratic control carrier, seed obligation surface, dynamic-programming row, estimator-control boundary, transition stability, quadratic-cost exactness, and finite-horizon Riccati closure to the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency-certificate rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close an analytic stochastic-control model, infinite-horizon regulator, host Riccati solver, projective limit, or public standard bridge.}
-  \upgradepath{Scoped closure requires binding the listed carrier, transition, cost, backward-update, and estimator/control rows to $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency certificate rows.}
+  \upgradepath{The public paper-axis step is a consumer-facing $\NameCert_{\LQRUp}$ export over the scoped finite-control packet.}
 \end{closurestatus}
