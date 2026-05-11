@@ -36,6 +36,16 @@ def ThetaFunctionSourceClassifier [AskSetup] [PackageSetup]
           Cont period' chart' coeff' ∧ Cont provenance' readback' endpoint' ∧
             PkgSig bundle endpoint' pkg
 
+def ThetaFunctionCarrierSource_classifier [AskSetup] [PackageSetup]
+    (period chart coeff provenance readback endpoint period' chart' coeff' provenance'
+      readback' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg pkg' : Pkg) : Prop :=
+  ThetaFunctionCarrierSource period chart coeff provenance readback endpoint bundle pkg ∧
+    ThetaFunctionCarrierSource period' chart' coeff' provenance' readback' endpoint' bundle pkg' ∧
+      hsame period period' ∧ hsame chart chart' ∧ hsame coeff coeff' ∧
+        hsame provenance provenance' ∧ hsame readback readback' ∧
+          hsame endpoint endpoint' ∧ psame bundle pkg pkg'
+
 def ThetaFunctionCarrier [AskSetup] [PackageSetup]
     (period chart coeff readback : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
     Prop :=
