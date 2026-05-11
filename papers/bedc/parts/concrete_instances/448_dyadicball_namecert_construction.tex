@@ -616,6 +616,44 @@ $\RegSeqRatUp/\RealUp$ consumer surface, so the handoff is preserved and no
 excluded host or quotient coordinate is available.
 \end{proof}
 
+\begin{theorem}[DyadicBall terminal Real seal boundary]
+\label{thm:dyadicball-terminal-real-seal-boundary}
+Let $B_0,\ldots,B_n$ be a finite displayed chain of accepted
+$\DyadicBallUp$ packets sharing one schedule row $k$ and one scheduled
+observation row $o$. Suppose the chain carries a terminal positive dyadic
+radius row $\tau$, containment ledgers from $\tau$ into every displayed packet,
+and adjacent-overlap refinement ledgers as in
+\autoref{thm:dyadicball-finite-intersection-basis-package}.
+
+Then every terminal $\RealUp$ seal read of this chain factors through exactly
+the finite package named by
+\autoref{thm:dyadicball-finite-intersection-basis-package}: the shared schedule
+row, the shared observation row, the transported center rows, the terminal
+radius row, the containment ledgers, the adjacent-overlap refinement ledgers,
+the displayed $\hsame$ rows, the displayed $\Cont$ routes, the $\mathsf{Pkg}$
+provenance rows, and the local $\NameCert$ rows.
+
+The seal has no readable row for quotient balls, host real equality, metric
+topology, completion, selected limits, or any real-completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicball-finite-intersection-basis-package} to the
+displayed chain. This assembles the terminal $\RegSeqRatUp/\RealUp$ consumer
+package over the shared schedule and observation rows, the transported centers,
+the terminal radius, the containment ledgers, the adjacent-overlap refinement
+ledgers, and the visible transport, provenance, and naming rows.
+
+Next apply \autoref{thm:dyadicball-real-seal-boundary} to the resulting
+consumer package. The $\RealUp$ seal reads only the rows exported by that
+package, so no host real equality, quotient ball, topology coordinate,
+completion row, selected limit, or real-completeness witness can be inspected.
+
+Finally use \autoref{thm:dyadicball-mature-observation-envelope}. It identifies
+the same terminal package as the mature observation envelope for finite
+center-radius chains, so every terminal seal read remains confined to the named
+finite rows.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
