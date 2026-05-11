@@ -169,6 +169,26 @@ theorem SignedDigitStreamPacket_window_transport [AskSetup] [PackageSetup]
   exact And.intro transported
     (And.intro sameCarry (And.intro sameEndpoint sameLedger))
 
+theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      UnaryHistory radius ->
+        Cont endpoint radius regWindow ->
+          PkgSig bundle regWindow pkg ->
+            UnaryHistory digits ∧ UnaryHistory schedule ∧ UnaryHistory carry ∧
+              UnaryHistory endpoint ∧ UnaryHistory radius ∧ UnaryHistory regWindow ∧
+                hsame carry (append digits schedule) ∧ hsame endpoint (append carry provenance) ∧
+                  hsame ledger (append endpoint hidden) ∧
+                    hsame regWindow (append endpoint radius) ∧ PkgSig bundle regWindow pkg := by
+  intro packet radiusUnary regWindowRow regWindowSig
+  obtain ⟨digitsUnary, scheduleUnary, _provenanceUnary, _hiddenUnary, carryUnary,
+    endpointUnary, _ledgerUnary, carryRow, endpointRow, ledgerRow, _packageRow⟩ := packet
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed endpointUnary radiusUnary regWindowRow
+  exact ⟨digitsUnary, scheduleUnary, carryUnary, endpointUnary, radiusUnary, regWindowUnary,
+    carryRow, endpointRow, ledgerRow, regWindowRow, regWindowSig⟩
+
 def SignedDigitStreamWindowPacket [AskSetup] [PackageSetup]
     (digit schedule carry provenance endpoint ledger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
