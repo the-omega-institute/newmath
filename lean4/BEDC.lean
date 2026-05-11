@@ -774,6 +774,7 @@ import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.WeylGroupUp
+import BEDC.Derived.WeylGroupUp.PublicBoundary
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MonoidUp.StdBridge
