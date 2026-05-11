@@ -196,6 +196,47 @@ def NestedDyadicIntervalClassifier [AskSetup] [PackageSetup]
         hsame refinement refinement' ∧ hsame provenance provenance' ∧
           hsame ledger ledger' ∧ hsame endpoint endpoint'
 
+theorem NestedDyadicIntervalClassifier_laws [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint
+      first' next' schedule' refinement' provenance' ledger' endpoint'
+      first'' next'' schedule'' refinement'' provenance'' ledger'' endpoint'' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint bundle pkg ->
+      NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+        first' next' schedule' refinement' provenance' ledger' endpoint' bundle pkg ->
+        NestedDyadicIntervalClassifier first' next' schedule' refinement' provenance' ledger' endpoint'
+          first'' next'' schedule'' refinement'' provenance'' ledger'' endpoint'' bundle pkg ->
+          NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+            first next schedule refinement provenance ledger endpoint bundle pkg ∧
+          NestedDyadicIntervalClassifier first' next' schedule' refinement' provenance' ledger'
+            endpoint' first next schedule refinement provenance ledger endpoint bundle pkg ∧
+          NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+            first'' next'' schedule'' refinement'' provenance'' ledger'' endpoint'' bundle pkg := by
+  intro packet classifier classifier'
+  obtain ⟨packetLeft, packetRight, sameFirst, sameNext, sameSchedule, sameRefinement,
+    sameProvenance, sameLedger, sameEndpoint⟩ := classifier
+  obtain ⟨_packetMiddle, packetFinal, sameFirst', sameNext', sameSchedule', sameRefinement',
+    sameProvenance', sameLedger', sameEndpoint'⟩ := classifier'
+  have reflexive :
+      NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+        first next schedule refinement provenance ledger endpoint bundle pkg :=
+    ⟨packet, packet, hsame_refl first, hsame_refl next, hsame_refl schedule,
+      hsame_refl refinement, hsame_refl provenance, hsame_refl ledger, hsame_refl endpoint⟩
+  have symmetric :
+      NestedDyadicIntervalClassifier first' next' schedule' refinement' provenance' ledger'
+        endpoint' first next schedule refinement provenance ledger endpoint bundle pkg :=
+    ⟨packetRight, packetLeft, hsame_symm sameFirst, hsame_symm sameNext,
+      hsame_symm sameSchedule, hsame_symm sameRefinement, hsame_symm sameProvenance,
+      hsame_symm sameLedger, hsame_symm sameEndpoint⟩
+  have transitive :
+      NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+        first'' next'' schedule'' refinement'' provenance'' ledger'' endpoint'' bundle pkg :=
+    ⟨packetLeft, packetFinal, hsame_trans sameFirst sameFirst',
+      hsame_trans sameNext sameNext', hsame_trans sameSchedule sameSchedule',
+      hsame_trans sameRefinement sameRefinement', hsame_trans sameProvenance sameProvenance',
+      hsame_trans sameLedger sameLedger', hsame_trans sameEndpoint sameEndpoint'⟩
+  exact ⟨reflexive, symmetric, transitive⟩
+
 theorem NestedDyadicIntervalPacket_shared_prefix_handoff [AskSetup] [PackageSetup]
     {first next schedule refinement provenance ledger endpoint first' next' schedule'
       refinement' provenance' ledger' endpoint' sharedSchedule sharedRefinement

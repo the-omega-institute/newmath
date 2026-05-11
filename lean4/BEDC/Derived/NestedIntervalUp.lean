@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -233,6 +235,63 @@ theorem NestedIntervalPacket_window_refinement [AskSetup] [PackageSetup]
                                       inclusionUnary', scheduleUnary', regReadUnary',
                                       sealFaceUnary', endpointUnary', pkgLedgerUnary',
                                       endpointRow, ledgerRow, pkgRow⟩
+
+theorem NestedIntervalFiniteCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace endpoint
+        pkgLedger bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+              endpoint pkgLedger bundle pkg ∧
+            (hsame row endpoint ∨ hsame row pkgLedger))
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+              endpoint pkgLedger bundle pkg ∧
+            (hsame row endpoint ∨ hsame row pkgLedger))
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+              endpoint pkgLedger bundle pkg ∧
+            (hsame row endpoint ∨ hsame row pkgLedger))
+        hsame := by
+  intro carrier
+  let Surface : BHist -> Prop :=
+    fun row : BHist =>
+      NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+          endpoint pkgLedger bundle pkg ∧
+        (hsame row endpoint ∨ hsame row pkgLedger)
+  have endpointSource : Surface endpoint :=
+    And.intro carrier (Or.inl (hsame_refl endpoint))
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        cases sourceRow.right with
+        | inl endpointRow =>
+            exact And.intro sourceRow.left
+              (Or.inl (hsame_trans (hsame_symm same) endpointRow))
+        | inr ledgerRow =>
+            exact And.intro sourceRow.left
+              (Or.inr (hsame_trans (hsame_symm same) ledgerRow))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 def NestedIntervalRegSeqRatWindow [AskSetup] [PackageSetup]
     (unaryPrefix lower upper width inclusion schedule regRead provenance cert : BHist)
