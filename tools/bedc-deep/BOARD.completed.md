@@ -17129,3 +17129,52 @@ Rationale:
 This is a concrete branch-inversion target for the cons signature rule. Existing paper material records cons generation, nonempty result, tail recovery, and head-mark determinacy, but does not expose the E0/E1 visible-result cases as their own theorem block. It is not a BOARD duplicate, and it lands in the existing signature-generation file safely.
 
 ---
+
+### B-677 - Signature empty-result iff empty bundle
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Signature empty-result iff empty bundle |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under Sig(Π,h,r,Δ), hsame(r,emp) holds if and only if Π = Bnil.
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete inversion/classification theorem over the existing signature-generation surface. The paper already has the two directional ingredients in adjacent theorem blocks, but not the hsame-level iff for an arbitrary generated result r under a single Sig premise. It would make the empty-result boundary explicit without duplicating an existing BOARD title or paper theorem label, and the landing file is below the line cap.
+
+---
+
+### B-679 - Three-bundle signature cut inversion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Three-bundle signature cut inversion |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Sig(BAppend(Π,BAppend(Θ,Ω)),h,u,Λ), there exist component results s, t, w, intermediate continuations b and u′, and ledgers witnessing Sig(Π,h,s), Sig(Θ,h,t), Sig(Ω,h,w), Cont(w,t,b), Cont(b,s,u′), and hsame(u,u′).
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a genuine reverse factorization theorem for triple append at the signature-generation layer. The paper already has binary append inversion and forward three-bundle coherence, but not the reverse cut decomposition from one right-associated signature into three component signatures and two continuation cuts. It is distinct from existing gap-composition BOARD entries and has safe local landing files.
+
+---
