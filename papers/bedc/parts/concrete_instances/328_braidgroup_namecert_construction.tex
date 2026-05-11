@@ -50,11 +50,14 @@ The monoid and group faces are the visible concatenation, empty-word, and invers
 
 The consumer faces are projections of the same packet: $\SymGroupUp$ reads the adjacent transposition shadow, $\WeylGroupUp$ reads the root-action braid rows, and $\KnotUp$ reads braid closure as a finite closure ledger. No face adds host word equality, a presentation quotient, or an unrecorded isotopy class.
 \end{proof}
+\leanchecked{BEDC.Derived.BraidGroupUp.BraidGroupPacket\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.BraidGroupUp.BraidGroupArtinPacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[BraidGroup Weyl root-action handoff]
 \label{thm:braidgroup-weyl-root-action-handoff}
 Every $\WeylGroupUp$ braid-row consumer of a $\BraidGroupUp$ packet reads exactly the signed Artin letters, the adjacent-strand index rows, the braid and far-commutation ledger entries, the symmetric-group shadow row, and the $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance exposed by \autoref{def:braidgroup-word-carrier}. The handoff supplies a finite root-action ledger and supplies no Coxeter completion, host reflection equality, or Artin-representation faithfulness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.BraidGroupUp.BraidGroupPacket\_weyl\_root\_action\_handoff}
 \begin{proof}
 Project the Artin word to its adjacent-strand letters. Each letter has a displayed index row, so the $\WeylGroupUp$ consumer can read it as the corresponding adjacent simple-reflection action row only through the packet ledger.
 
@@ -102,6 +105,39 @@ The two downstream faces are the finite projections already isolated by
 remove Markov moves, Artin-representation faithfulness, knot isotopy
 completeness, and standard bridge data, leaving exactly the scoped Artin source
 package stated above.
+\end{proof}
+
+\begin{theorem}[BraidGroup public NameCert export]
+\label{thm:braidgroup-public-namecert-export}
+The finite Artin-word carrier, Artin ledger stability, NameCert obligation
+surface, Weyl root-action handoff, knot-closure ledger boundary, and scoped
+Artin source package assemble the public $\NameCert_{\BraidGroupUp}$ export.
+Every consumer reads only signed Artin words, strand-count rows,
+braid/inverse/far-commutation ledgers, symmetric-group shadow, Weyl action
+handoff, knot closure ledger, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ provenance, with no Markov theorem, braid faithfulness,
+knot-isotopy completeness, presentation quotient, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier of \autoref{def:braidgroup-word-carrier}. It
+displays the strand count, signed Artin word, classifier ledger, dependency
+provenance, and packet ledger that every public consumer can read.
+
+Use \autoref{thm:braidgroup-artin-ledger-stability} and
+\autoref{thm:braidgroup-namecert-obligation-surface}. These theorems keep the
+braid, inverse, and far-commutation moves inside visible ledgers and identify
+the NameCert rows inherited by the group, monoid, symmetric-group, Weyl-group,
+and knot consumers.
+
+Next apply \autoref{thm:braidgroup-weyl-root-action-handoff},
+\autoref{thm:braidgroup-knot-closure-ledger-boundary}, and
+\autoref{thm:braidgroup-scoped-artin-source-package}. Their exclusion clauses
+remove Markov moves, braid faithfulness, knot-isotopy completeness,
+presentation quotients, and standard bridge data.
+
+The cited carrier and theorem blocks exhaust the consumer-facing rows. Repacking
+them gives the public $\NameCert_{\BraidGroupUp}$ export with exactly the finite
+surface stated above.
 \end{proof}
 
 \closureat{BraidGroupUp}{seedStr}
