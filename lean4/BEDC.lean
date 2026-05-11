@@ -151,6 +151,7 @@ import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
+import BEDC.Derived.CurvatureUp.ConsumerRow
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
 import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
@@ -195,6 +196,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
+import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.RealPhaseSourceCoverage
 import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
@@ -692,6 +694,7 @@ import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
 import BEDC.Derived.LambdaCalcUp.NameCertCarrierObligation
+import BEDC.Derived.LambdaCalcUp.PublicBoundary
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
