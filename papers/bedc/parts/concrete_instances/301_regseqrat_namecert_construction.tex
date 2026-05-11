@@ -227,6 +227,22 @@ The overlap classifier is stable by \autoref{thm:regseqrat-classifier-transport}
 Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the joint schedule, transported overlap rows, and retained non-overlap rows as one finite $\RegSeqRatUp$ carrier and classifier surface. Restricting the repacked window back along either source schedule discards only the other side's rows, so it recovers the original classifier witness for that input window. Since every row used in the construction came from the two projected finite packets and their displayed refinement routes, no quotient sequence, host real equality, completion object, or $\RealUp$ seal row is created.
 \end{proof}
 
+\begin{theorem}[RegSeqRat prefix-window monotonicity]
+\label{thm:regseqrat-prefix-window-monotonicity}
+Let $W$ be an accepted finite scheduled $\RegSeqRatUp$ window over the dyadic-tolerance classifier of \autoref{def:regseqrat-classifier}. Suppose $W'$ is a finite certified $\StreamNameUp$ prefix subwindow of $W$, obtained by restricting the displayed schedule to an initial certified prefix. Then $W'$ repacks as an accepted finite $\RegSeqRatUp$ window over the same dyadic-tolerance classifier.
+
+The endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of the repacked prefix are exactly the projections of the corresponding rows of $W$. The prefix restriction introduces no quotient sequence, host real equality, completion object, or $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Project $W$ by \autoref{thm:regseqrat-scheduled-window-projection}. This exposes the visible finite schedule, endpoint rows, radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows.
+
+Use the certified $\StreamNameUp$ prefix to select the initial sublist of scheduled rows. Since the subwindow is a prefix restriction, every endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ row visible in $W'$ is the corresponding projected row already visible in $W$.
+
+Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack those selected rows as a finite accepted $\RegSeqRatUp$ carrier and classifier surface over the original dyadic-tolerance classifier. No new coordinate is available in this restriction step, so quotient sequences, host real equality, completion objects, and $\RealUp$ seal rows cannot enter the prefix packet.
+
+Finally, when the prefix is compared back with the larger window, use \autoref{thm:regseqrat-refined-window-gluing} on the overlap consisting of the prefix rows. The gluing restriction recovers the same classifier witness on that overlap, because both sides read the same projected endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+\end{proof}
+
 \begin{theorem}[RegSeqRat shifted-tail regularity closure]
 \label{thm:regseqrat-shifted-tail-regularity-closure}
 Let $P$ be an accepted $\RegSeqRatUp$ packet whose stream carrier, dyadic-tolerance classifier, regularity ledger, scheduled windows, and dyadic-radius rows are those of \autoref{def:regseqrat-stream-carrier} and \autoref{def:regseqrat-classifier}. For every certified unary tail index $k$, shifting the schedule of $P$ by $k$ and then reading any finite $\StreamNameUp$ window produces another accepted regular-rational packet over the same dyadic-tolerance classifier.
