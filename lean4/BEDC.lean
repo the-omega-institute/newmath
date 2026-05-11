@@ -127,6 +127,7 @@ import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.StackUp
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -146,6 +147,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
+import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
@@ -172,6 +174,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -188,7 +191,6 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
-import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
@@ -318,6 +320,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp.SourceObligationSurface
 import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
+import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.CarrierObligation
 import BEDC.Derived.SpinGroupUp.StdBridge
@@ -465,8 +468,6 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
-import BEDC.Derived.SpanningTreeUp
-import BEDC.Derived.StackUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.CarrierClassifierObligation
 import BEDC.Derived.TreeUp.ObligationSurface
@@ -665,12 +666,9 @@ import BEDC.Derived.FieldExtUp.SingletonExactnessLedgerCoverage
 import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
-import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
-import BEDC.Derived.ControlObservabilityUp
-import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
@@ -807,7 +805,6 @@ import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.ManifoldUp.StdBridge
-import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.RawMulDistributivity
@@ -846,6 +843,7 @@ import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.EmptyRight
@@ -885,7 +883,6 @@ import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.InnerProductUp
-import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
 import BEDC.Derived.AutomorphicUp
@@ -981,8 +978,6 @@ import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.RingUp.StdBridge
-import BEDC.Derived.SpanningTreeUp
-import BEDC.Derived.StackUp
 import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
 import BEDC.Derived.MatrixUp.PublicConstructorSurface
 import BEDC.Derived.CommRingUp
