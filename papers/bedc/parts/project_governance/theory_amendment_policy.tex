@@ -8,3 +8,32 @@ New material belongs in the chapter whose subject it advances. Concrete-instance
 When an amendment changes the active reading of an existing object, the active label remains the citation target for that object. Theorem- and definition-level labels remain attached to the active formulation.
 
 Deprecation is handled by replacement rather than archival prose. If a definition, theorem phrasing, or policy interface is replaced, the replaced wording is removed from the paper and the active wording takes its place in the relevant chapter. External references to deprecated names should therefore resolve through the active definition's label.
+
+\section{Self-Compilation Surface Governance}\label{sec:self-compilation-governance}
+
+This section codifies which strata of the self-compilation surface BEDC formally claims and which strata BEDC explicitly does not claim. The structural description of the surface is in \autoref{ch:self-compilation}; this section records the corresponding governance rules.
+
+\subsection{Claimed Strata}\label{subsec:self-comp-claimed}
+
+BEDC formally claims:
+\begin{itemize}
+  \item \textbf{L1: Static paper-Lean alignment.} Every \texttt{\textbackslash leanchecked\{X\}} marker in the paper corresponds to an actually existing Lean target $X$ in \texttt{lean4/BEDC/}. This is enforced by \texttt{bedc\_ci.py audit} as a CI gate.
+  \item \textbf{L4-mid: Internal manifest.} A finite, hand-curated subset of paper-anchored theorems are registered in \texttt{BEDC.Manifest} as \texttt{(prop, proof)} pairs. The manifest's wellformedness is the Lean kernel's type-check of the list.
+\end{itemize}
+
+\subsection{Explicitly Not Claimed}\label{subsec:self-comp-not-claimed}
+
+BEDC explicitly does not claim:
+\begin{itemize}
+  \item \textbf{L4a: Internal axiom-free completeness theorem.} A statement of the form ``every paper claim has an axiom-free closed term'' inside BEDC is blocked by Tarski undefinability and Gödel's second incompleteness theorem. BEDC sits inside the host CIC and cannot prove Con(CIC) internally. The verification axis is reported externally by \texttt{bedc\_ci.py axiom-purity}, not as a Lean theorem.
+  \item \textbf{L4c: Theory-axis $\leftrightarrow$ verification-axis bijection.} The two-axis closure tracking, theory closure level versus Lean verification status, is deliberately kept independent. Paper closure does not require Lean verification, and Lean verification does not produce paper closure. A fixed point between the axes is rejected by this policy; the \texttt{axis-confusion} CI gate enforces this.
+\end{itemize}
+
+\subsection{Open Strata}\label{subsec:self-comp-open}
+
+BEDC neither claims nor rejects:
+\begin{itemize}
+  \item \textbf{V2 reconstruction.} Subject reduction, confluence, and other metatheoretic results about the MetaCIC reconstruction are in scope as ordinary theory work without governance commitment to completion.
+  \item \textbf{L4b: Internalized audit.} Moving the external Python audits to Lean elab-time commands is operationally desirable but does not change the theoretical surface; it is treated as engineering refactor.
+  \item \textbf{Reflection bridge.} A bridge between \texttt{BEDC.MetaCIC.HasType} and host Lean's kernel \texttt{\#check} is research-stage and not on a delivery commitment.
+\end{itemize}
