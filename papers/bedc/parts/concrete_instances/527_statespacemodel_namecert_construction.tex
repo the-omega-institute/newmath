@@ -49,6 +49,7 @@ The local $\NameCert_{\StateSpaceModelUp}$ obligation surface consists of five f
 \item hidden-data ledger: the packet records that host trajectories, analytic realizations, stochastic data, and infinite-horizon objects are outside the exported carrier.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_semantic\_name\_certificate}
 \begin{proof}
 Start with the carrier rows. They enumerate exactly the finite state, input, output, matrix, linear-map, transition, observation, continuation, transport, provenance, and hidden-ledger coordinates.
 
@@ -167,10 +168,10 @@ The boundary therefore excludes host trajectory spaces, analytic semigroups, sto
 \begin{closurestatus}{\StateSpaceModelUp}
   \constructivestory{A state-space-model packet is seeded by finite $\mathsf{BHist}$ rows for state, input, output, transition, input-map, observation-map, transition and observation traces, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and a hidden-data ledger.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the finite state, input, output, matrix, linear-map, transition, observation, trace-ledger, transport, continuation, provenance, and name rows to \DynSystemUp, \MatrixUp, \VecSpaceUp, \LinMapUp, \Cont, \hsame, and \Pkg.}
+  \scopeclosed{The scoped surface binds the finite state, input, output, matrix, linear-map, transition, observation, trace-ledger, transport, continuation, provenance, and name rows to $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\Cont$, $\hsame$, and $\Pkg$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host trajectory spaces, analytic semigroups, probability measures, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, or a standard bridge.}
-  \upgradepath{Public closure requires a standard finite-transition bridge and checked export target for the public \StateSpaceModelUp interface.}
+  \upgradepath{Public closure requires a standard finite-transition bridge and a consumer-facing $\StateSpaceModelUp$ export theorem over the scoped finite state-transition packet and its control handoff boundary.}
 \end{closurestatus}
