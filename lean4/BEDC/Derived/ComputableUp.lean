@@ -359,4 +359,27 @@ theorem ComputableBoundedSim_visible_ledger_rows {P n B m phase : BHist} :
     ⟨phaseUnary, phaseRow, run.left, run.right.left, run.right.right.left,
       run.right.right.right.left, run.right.right.right.right⟩
 
+theorem ComputableBoundedGraphCertificate_scope
+    (C : ComputableBoundedGraphCertificate) {n m mPrime : BHist} :
+    C.Graph n m -> C.Graph n mPrime ->
+      UnaryHistory C.program ∧ UnaryHistory n ∧ UnaryHistory (C.bound n) ∧
+        UnaryHistory m ∧ UnaryHistory mPrime ∧
+          ComputableBoundedSim C.program n (C.bound n) m ∧
+            ComputableBoundedSim C.program n (C.bound n) mPrime ∧
+              hsame m mPrime ∧ Cont n (C.bound n) m ∧ Cont n (C.bound n) mPrime := by
+  intro leftGraph rightGraph
+  have leftRun : ComputableBoundedSim C.program n (C.bound n) m :=
+    C.graph_to_sim leftGraph
+  have rightRun : ComputableBoundedSim C.program n (C.bound n) mPrime :=
+    C.graph_to_sim rightGraph
+  have readback : hsame m mPrime ∧ Cont n (C.bound n) m ∧
+      Cont n (C.bound n) mPrime :=
+    ComputableBoundedSim_same_bound_output_hsame leftRun rightRun
+  exact And.intro leftRun.left
+    (And.intro leftRun.right.left
+      (And.intro leftRun.right.right.left
+        (And.intro leftRun.right.right.right.left
+          (And.intro rightRun.right.right.right.left
+            (And.intro leftRun (And.intro rightRun readback))))))
+
 end BEDC.Derived.ComputableUp

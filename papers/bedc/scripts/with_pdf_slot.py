@@ -19,7 +19,7 @@ Usage:
     with_pdf_slot.py -- bash -c 'pdflatex ... && pdflatex ...'
 
 Exit codes are pass-through from the wrapped command. 124 on slot wait
-timeout (1200s default).
+timeout (1800s default).
 """
 
 from __future__ import annotations
@@ -32,7 +32,11 @@ import sys
 import time
 from pathlib import Path
 
-WAIT_TIMEOUT_S = 1200
+# The acquisition lock is held by one queued worker while it waits for a
+# slot. Under loaded paper rounds, a valid wait can exceed a single clean
+# local build, so the timeout must cover the queue horizon rather than only
+# the happy-path pdflatex runtime.
+WAIT_TIMEOUT_S = 1800
 DEFAULT_PERMITS = 2
 
 
@@ -50,6 +54,16 @@ def _read_permits(main_checkout: Path) -> int:
         return int(json.loads(cfg.read_text()).get("pdf_build", DEFAULT_PERMITS))
     except Exception:
         return DEFAULT_PERMITS
+
+
+def _try_flock(path: Path) -> int | None:
+    fd = os.open(str(path), os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        os.close(fd)
+        return None
+    return fd
 
 
 def main(argv: list[str]) -> int:
@@ -70,40 +84,66 @@ def main(argv: list[str]) -> int:
 
     deadline = time.time() + WAIT_TIMEOUT_S
     backoff = 0.5
-    while True:
-        for i in range(permits):
-            slot = gate_dir / f"slot{i}.lock"
-            fd = os.open(str(slot), os.O_RDWR | os.O_CREAT, 0o644)
-            try:
-                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError:
-                os.close(fd)
-                continue
-            try:
-                start = time.time()
-                rc = subprocess.call(argv)
-                elapsed = time.time() - start
-                # Best-effort observability: prepend a marker to slot file so
-                # ls -lt under .pdf-build-gate/ shows recency.
+    queue_fd = None
+    queue_lock = gate_dir / "acquire.lock"
+
+    try:
+        while queue_fd is None:
+            queue_fd = _try_flock(queue_lock)
+            if queue_fd is not None:
+                break
+            if time.time() >= deadline:
+                print(
+                    f"with_pdf_slot.py: timeout waiting for pdf-build "
+                    f"acquisition lock after {WAIT_TIMEOUT_S}s",
+                    file=sys.stderr,
+                )
+                return 124
+            time.sleep(backoff)
+            backoff = min(backoff * 1.5, 5.0)
+
+        backoff = 0.5
+        while True:
+            for i in range(permits):
+                slot = gate_dir / f"slot{i}.lock"
+                fd = _try_flock(slot)
+                if fd is None:
+                    continue
                 try:
-                    os.utime(str(slot), None)
-                except Exception:
-                    pass
-                return rc
-            finally:
-                try:
-                    fcntl.flock(fd, fcntl.LOCK_UN)
+                    fcntl.flock(queue_fd, fcntl.LOCK_UN)
+                    os.close(queue_fd)
+                    queue_fd = None
+
+                    start = time.time()
+                    rc = subprocess.call(argv)
+                    elapsed = time.time() - start
+                    # Best-effort observability: prepend a marker to slot file
+                    # so ls -lt under .pdf-build-gate/ shows recency.
+                    try:
+                        os.utime(str(slot), None)
+                    except Exception:
+                        pass
+                    return rc
                 finally:
-                    os.close(fd)
-        if time.time() >= deadline:
-            print(
-                f"with_pdf_slot.py: timeout waiting for one of {permits} "
-                f"pdf-build slots after {WAIT_TIMEOUT_S}s",
-                file=sys.stderr,
-            )
-            return 124
-        time.sleep(backoff)
-        backoff = min(backoff * 1.5, 5.0)
+                    try:
+                        fcntl.flock(fd, fcntl.LOCK_UN)
+                    finally:
+                        os.close(fd)
+            if time.time() >= deadline:
+                print(
+                    f"with_pdf_slot.py: timeout waiting for one of {permits} "
+                    f"pdf-build slots after {WAIT_TIMEOUT_S}s",
+                    file=sys.stderr,
+                )
+                return 124
+            time.sleep(backoff)
+            backoff = min(backoff * 1.5, 5.0)
+    finally:
+        if queue_fd is not None:
+            try:
+                fcntl.flock(queue_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(queue_fd)
 
 
 if __name__ == "__main__":

@@ -493,4 +493,51 @@ theorem MatroidRestrictions_compose_direct_restriction
       MatroidRestrictionRows_certificate cert subsetLE finiteM emptyM hereditaryM exchangeM
         directRestrict⟩
 
+theorem MatroidRestriction_empty_singleton_independent_family {E : BHist -> Prop}
+    {Rel : BHist -> BHist -> Prop} {Ind IndEmpty : (BHist -> Prop) -> Prop}
+    (emptyM : Ind (fun _z : BHist => False))
+    (finiteEmpty :
+      exists xs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel xs (fun _z : BHist => False))
+    (hereditary : forall {A B : BHist -> Prop},
+      Ind A -> MatroidFinsetSubset E Rel B A -> Ind B)
+    (restrictEmpty : forall I : BHist -> Prop,
+      IndEmpty I <-> Ind I ∧ MatroidFinsetSubset E Rel I (fun _z : BHist => False)) :
+    forall I : BHist -> Prop, IndEmpty I <-> forall z : BHist, I z <-> False := by
+  intro I
+  constructor
+  · intro independentEmpty z
+    have subsetIEmpty : MatroidFinsetSubset E Rel I (fun _z : BHist => False) :=
+      (Iff.mp (restrictEmpty I) independentEmpty).right
+    constructor
+    · intro memberI
+      exact subsetIEmpty.right z memberI
+    · intro falseRow
+      exact False.elim falseRow
+  · intro pointwiseEmpty
+    have finiteI : exists xs : ProbeBundle BHist, MatroidFinsetEnumerates E Rel xs I := by
+      cases finiteEmpty with
+      | intro xs emptyEnum =>
+          exact Exists.intro xs
+            (And.intro emptyEnum.left
+              (by
+                intro z
+                constructor
+                · intro memberI
+                  exact False.elim (Iff.mp (pointwiseEmpty z) memberI)
+                · intro carried
+                  have emptyMember : False :=
+                    Iff.mpr (emptyEnum.right z) carried
+                  exact False.elim emptyMember))
+    apply Iff.mpr (restrictEmpty I)
+    constructor
+    · apply hereditary emptyM
+      constructor
+      · exact finiteI
+      · intro z memberI
+        exact Iff.mp (pointwiseEmpty z) memberI
+    · constructor
+      · exact finiteI
+      · intro z memberI
+        exact Iff.mp (pointwiseEmpty z) memberI
+
 end BEDC.Derived.MatroidUp

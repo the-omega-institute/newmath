@@ -1,0 +1,66 @@
+\begin{theorem}[Prod public finite-data exit package]
+\label{thm:prod-public-finite-data-exit-package}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be BEDC source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their
+source classifiers, and suppose
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$ are the source certificate rows. Assume
+also a witness of
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$. Then the public product
+finite-data exit package consists of the following rows.
+\begin{enumerate}
+  \item The componentwise classifier carries the semantic certificate
+  $$
+  \mathsf{SemanticNameCert}(\mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdHistoryCarrier}(L,R),
+  \mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}).
+  $$
+  \item For any displayed componentwise classifier witness between histories
+  $h,k:\mathsf{BHist}$, the left and right displayed-pair ledger endpoints are
+  readable as
+  $$
+  \mathsf{ProdDisplayedPairLedger}_{L,R}(h)
+  \land
+  \mathsf{ProdDisplayedPairLedger}_{L,R}(k).
+  $$
+  \item For the same histories $h,k:\mathsf{BHist}$, every componentwise
+  classifier witness descends to the checked product history envelope
+  classifier
+  $$
+  \mathsf{ProdHistoryClassifier}(L,R,h,k).
+  $$
+  \item The obligation surface exposes exactly the source $\NameCert$ rows,
+  the componentwise classifier row, the displayed-pair ledger row, the descent
+  row, the $\hsame$ and $\Cont$ transport rows, and the $\mathsf{Pkg}$
+  provenance rows named by \autoref{thm:produp-obligation-surface-package}.
+\end{enumerate}
+Consequently the public product object reads only $\mathsf{BHist}$, $\hsame$,
+$\Cont$, the displayed-pair ledger, the source certificates, and
+$\mathsf{Pkg}$ provenance rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:prod-component-history-classifier-semantic-name-certificate} to
+the two source certificates and the
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ witness. This supplies the
+componentwise semantic certificate row.
+
+Next fix histories $h,k:\mathsf{BHist}$ and a componentwise classifier
+witness between them. Apply
+\autoref{thm:prod-component-history-classifier-displayed-ledger-endpoints} to
+read both displayed-pair ledger endpoints.
+
+Then apply
+\autoref{thm:prod-component-history-classifier-descends-to-envelope} with the
+same componentwise witness and the source soundness rows. This is the descent
+row from the componentwise classifier into the checked product history
+envelope.
+
+Finally read the obligation rows from
+\autoref{thm:produp-obligation-surface-package}. The four rows above mention
+no host tuple equality and no data beyond the listed $\mathsf{BHist}$ carrier,
+$\hsame$, $\Cont$, displayed-pair ledger, source certificate rows, and
+$\mathsf{Pkg}$ provenance, so they repackage exactly the advertised public
+finite-data product surface.
+\end{proof}

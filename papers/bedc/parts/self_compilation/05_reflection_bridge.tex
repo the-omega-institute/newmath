@@ -1,0 +1,86 @@
+\section{Reflection Bridge to the Host Kernel}\label{sec:self-comp-reflection-bridge}
+
+The V1 reconstruction in \autoref{sec:self-comp-metacic} represents CIC
+syntax and typing inside BEDC as inductive predicates. A natural question is
+whether this represented system can be connected back to the host Lean kernel
+that elaborates BEDC itself. This section outlines what such a reflection
+bridge would entail and why the bridge sits above the present scope.
+
+\subsection{Bridge Form}\label{subsec:bridge-form}
+
+A bridge between `\verb|BEDC.MetaCIC.HasType|' and the host kernel would take
+one of two shapes.
+
+\paragraph{Embedding bridge.} A function $\mathsf{embed} : \mathrm{Term}
+\to \mathrm{Expr}_{\mathsf{Lean}}$ takes a MetaCIC term to a Lean expression,
+paired with a soundness theorem
+
+$$
+\begin{aligned}
+\mathsf{embed\text{-}sound} :
+  \mathrm{HasType}\ \Gamma\ t\ A \rightarrow
+  \texttt{Lean.elab}\ (\mathsf{embed}\ t)\ (\mathsf{embed}\ A).
+\end{aligned}
+$$
+
+The function $\mathsf{embed}$ would be defined by structural recursion on
+$\mathrm{Term}$. The soundness theorem would require the host's elaboration
+semantics to be exposed as a first-class object inside BEDC, which it currently
+is not.
+
+\paragraph{Correspondence bridge.} An inductive relation
+$\mathsf{Corresponds} : \mathrm{Term} \to \mathrm{Expr}_{\mathsf{Lean}}
+\to \mathrm{Prop}$ relates a MetaCIC term to a Lean expression structurally,
+without claiming elaboration soundness. This is weaker than the embedding
+bridge but more tractable: only the syntactic shape needs to align, not the
+kernel's behavior.
+
+\subsection{Formal Obstacles}\label{subsec:bridge-obstacles}
+
+Three obstacles prevent immediate implementation.
+
+\paragraph{First, Lean expressions are not first-class BEDC objects.} The host
+kernel's $\mathrm{Expr}$ type lives in `\verb|Lean|' meta machinery, including
+the elaboration monad. Importing $\mathrm{Expr}$ as a BEDC inductive would
+require either using `\verb|Lean.Expr|' from Lean's own module hierarchy, which
+would couple BEDC to non-mathlib Lean meta, or duplicating $\mathrm{Expr}$ as a
+fresh inductive inside BEDC, which pays for syntactic divergence.
+
+\paragraph{Second, elaboration is not a closed-form function.}
+`\verb|Lean.elab|' involves unification, universe polymorphism, instance
+search, and reduction steps that are not expressible as a pure CIC inductive
+predicate. The soundness theorem above is not a target the present MetaCIC
+framework can state, let alone prove.
+
+\paragraph{Third, soundness would require reflection inside CIC.} Even if
+$\mathsf{embed}$ and $\mathsf{Corresponds}$ are defined, a soundness theorem
+connecting represented derivations to host elaboration is itself a
+metatheoretic statement of the kind blocked by Tarski, as described in
+\autoref{sec:self-comp-not-claimed}.
+
+\subsection{Tractable Subgoals}\label{subsec:bridge-subgoals}
+
+Several subgoals are tractable in isolation.
+
+\paragraph{Subgoal A: pretty-printing.} A pure function
+$\mathrm{Term} \to \mathrm{String}$ renders MetaCIC terms in a human-readable
+syntax. This requires no host coupling; it is an exercise in pure BEDC.
+
+\paragraph{Subgoal B: a checker.} A decidable function
+$\mathrm{check} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{Term}
+\to \mathrm{Bool}$ returns $\mathtt{true}$ exactly when
+$\mathrm{HasType}\ \Gamma\ t\ A$ is derivable, paired with soundness and
+completeness theorems against the inductive judgment. This is entirely internal
+to MetaCIC and a natural V2 target.
+
+\paragraph{Subgoal C: a reified elaborator.} A pure BEDC function returns a
+result with explicit failure modes when given an ill-formed MetaCIC term, plus
+an evaluator returning normal forms when typing succeeds. This still does not
+couple to the host kernel, but it produces an artifact that resembles one.
+
+\subsection{Position}\label{subsec:bridge-position}
+
+The reflection bridge is research-stage and outside the present
+self-compilation surface. The chapter records its form so that later work can
+address the subgoals above without re-deriving the question. The bridge is not
+currently a delivery commitment of BEDC.

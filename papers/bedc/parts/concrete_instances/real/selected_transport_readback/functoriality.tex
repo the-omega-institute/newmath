@@ -182,6 +182,53 @@ completion, Classical choice, metric completeness, arithmetic or order
 operations, or bridge data.
 \end{proof}
 
+\begin{theorem}[Real selected transport readback boundary certificate]\label{thm:real-selected-transport-readback-boundary-certificate}
+Let $W$ be a certified finite selected $\RealUp$ observation window, and let
+the selected unary-context readback diagram over $W$ be either composable or
+obtained from a common-source pullback. Suppose every leg of the diagram
+preserves exactly the visible $\StreamNameUp$ classifier rows, the finite
+$\RegSeqRat$ tail-classifier rows, the DyadicRatCore endpoint rows, and the
+displayed $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the selected readback boundary of the diagram is a single finite
+$\RegSeqRat$ tail-classifier row. This row is stable under the identity
+diagram, under unary-context composition, and under common-source pullback:
+all three presentations expose the same selected tail class and the same
+finite readback ledger over the visible window.
+
+The boundary certificate contains no quotient carrier, no completion object,
+no metric-completeness datum, no arithmetic or order structure, no standard
+bridge data, no Classical representative, and no hidden selector.
+\end{theorem}
+\begin{proof}
+For a composable diagram, apply
+\autoref{thm:real-selected-transport-readback-functoriality}. The displayed
+finite ledger rows are preserved along each unary-context leg, so the
+stagewise and composite readbacks expose the same finite $\RegSeqRat$
+tail-classifier row.
+
+For the unit diagram, apply
+\autoref{thm:real-selected-transport-readback-identity}. The selected
+readback over $W$ is unchanged by the identity transport, and the visible
+$\StreamNameUp$, DyadicRatCore, membership, continuation, package, and ledger
+rows are exactly the rows already present in the certified window.
+
+For a common-source pullback, apply
+\autoref{thm:real-selected-transport-readback-pullback-uniqueness}. Agreement
+of the two restrictions on the displayed source rows forces the same selected
+tail class and hence the same finite $\RegSeqRat$ classifier row on the
+pullback window.
+
+These three cases exhaust the boundary operations named in the statement.
+Exactness is therefore the finite ledger inventory itself: the only row left
+at the selected readback boundary is the visible $\RegSeqRat$ tail-classifier
+row, and none of the excluded carriers, representatives, completions,
+metric, order, arithmetic, bridge, or hidden-selection data is introduced by
+the cited finite-window results.
+\end{proof}
+
 Fit: traditional target functoriality of selected finite-window readback for
 RealUp transports; BEDC source $\RealUp$ selected transport, RatUp endpoint
 readback, StreamNameUp finite-window rows, RegSeqRat tail classifiers, and

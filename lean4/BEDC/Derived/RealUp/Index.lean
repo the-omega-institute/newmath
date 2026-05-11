@@ -21,6 +21,7 @@ import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.ReindexedStreamName
 import BEDC.Derived.RealUp.EquivalenceFields
 import BEDC.Derived.RealUp.PairReadback
+import BEDC.Derived.RealUp.MalformedEndpoint
 import BEDC.Derived.RealUp.MalformedSealedDenominator
 import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit

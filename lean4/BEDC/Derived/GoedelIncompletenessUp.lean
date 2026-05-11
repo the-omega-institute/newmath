@@ -135,6 +135,42 @@ theorem GoedelIncompletenessWitnessPacket_proof_checker_obligation
                     packet.right.right.right.right.right.right.right.right.right.right.right.left
                     packet.right.right.right.right.right.right.right.right.right.right.right.right))))))))
 
+theorem GoedelIncompletenessWitnessPacket_undecidable_row_obligation
+    [AskSetup] [PackageSetup]
+    {axiomEnum proofChecker formulaRow goedelNumber provabilityRow fixedPointRow noProofRow
+      noRefutationRow verdictLedger syntaxLedger endpoint provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GoedelIncompletenessWitnessPacket axiomEnum proofChecker formulaRow goedelNumber
+      provabilityRow fixedPointRow noProofRow noRefutationRow verdictLedger syntaxLedger endpoint
+      provenance bundle pkg ->
+        UnaryHistory noProofRow ∧ UnaryHistory noRefutationRow ∧ UnaryHistory syntaxLedger ∧
+          UnaryHistory endpoint ∧ hsame syntaxLedger (append noProofRow noRefutationRow) ∧
+            hsame endpoint (append fixedPointRow verdictLedger) ∧
+              SigRel bundle endpoint provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have verdictUnary : UnaryHistory verdictLedger :=
+    unary_cont_closed packet.left packet.right.left
+      packet.right.right.right.right.right.right.right.left
+  have syntaxUnary : UnaryHistory syntaxLedger :=
+    unary_cont_closed packet.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.right.left
+  have fixedPointUnary : UnaryHistory fixedPointRow :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed fixedPointUnary verdictUnary
+      packet.right.right.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      syntaxUnary,
+      endpointUnary,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 theorem GoedelIncompletenessWitnessPacket_fixed_point_obligation
     [AskSetup] [PackageSetup]
     {axiomEnum proofChecker formulaRow transportedFormula goedelNumber provabilityRow

@@ -216,6 +216,25 @@ theorem SchemeAffineCoverLedger_restriction_exactness
       surface sameOpen restrictedRow ringClassifier
   exact And.intro restricted.left (And.intro restricted.right.left ringClassifier)
 
+theorem SchemeUp_StdBridge
+    {point openHist sectionHist germ ringEndpoint chartEndpoint restrictedOpen
+      restrictedGerm : BHist} :
+    RingedSpaceSingletonSurface point openHist sectionHist germ ringEndpoint ->
+      CommRingSingletonClassifier chartEndpoint BHist.Empty ->
+        hsame openHist restrictedOpen ->
+          Cont restrictedOpen sectionHist restrictedGerm ->
+            RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm
+                chartEndpoint ∧
+              CommRingSingletonClassifier ringEndpoint chartEndpoint ∧
+                hsame germ restrictedGerm := by
+  intro surface chartClassifier sameOpen restrictedRow
+  have bridgeRows :
+      RingedSpaceSingletonSurface point restrictedOpen sectionHist restrictedGerm chartEndpoint ∧
+        hsame germ restrictedGerm ∧ CommRingSingletonClassifier ringEndpoint chartEndpoint :=
+    SchemeAffineCoverLedger_restriction_exactness surface sameOpen restrictedRow chartClassifier
+  exact And.intro bridgeRows.left
+    (And.intro bridgeRows.right.right bridgeRows.right.left)
+
 theorem SchemeAffineCoverLedger_classifier_refinement_transport
     {point openHist midOpen restrictedOpen sectionHist germ midGerm restrictedGerm
       ringEndpoint chartEndpoint : BHist} :

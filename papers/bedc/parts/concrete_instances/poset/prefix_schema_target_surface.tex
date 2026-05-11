@@ -1,0 +1,27 @@
+\section{Poset prefix schema target surface}
+\label{sec:poset-prefix-schema-target-surface}
+
+\begin{theorem}[Poset prefix schema target surface]
+\label{thm:poset-prefix-schema-target-surface}
+The concrete unary-prefix $\PosetUp$ instance of
+\autoref{def:concrete-unary-prefix-poset-instance} supplies the
+non-parametric schema target consumed by $\TotalOrderUp$ and $\LatticeUp$.
+Its exported surface is the carrier $\mathsf{UnaryHistory}$, the relation
+$\mathsf{PreorderPrefixLE}$, the classifier
+$\mathsf{PreorderCarrierClassifierSpec}$, the antisymmetry collapse, the
+finite $\Cont$ comparison ledgers, and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Project the concrete unary-prefix instance. It names the carrier, prefix
+relation, carrier-aware classifier, finite comparison ledger, and provenance
+rows over a fixed $\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:concrete-unary-prefix-poset-laws}. The prefix laws provide
+the reflexive and transitive comparison rows and the antisymmetry collapse
+needed for the partial-order surface.
+
+Finally apply \autoref{thm:poset-root-scoped-certificate-boundary}. It
+identifies exactly these rows as the scoped certificate boundary inherited by
+$\TotalOrderUp$ and $\LatticeUp$, so the schema target is concrete and
+non-parametric.
+\end{proof}

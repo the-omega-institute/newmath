@@ -170,4 +170,32 @@ theorem InducedRepBHistCarrier_namecert_obligation_surface
                 (And.intro boundary.right.right.right.right.right.right.left
                   (And.intro boundary.right.right.right.right.right.right.right surfaceCont))))))))
 
+theorem InducedRepSubgroupSource_boundary
+    {subgroup representation induction restriction frobenius unit counit provenance ledger
+      subgroupReadback : BHist} :
+    UnaryHistory subgroup ->
+      UnaryHistory representation ->
+        UnaryHistory induction ->
+          UnaryHistory restriction ->
+            UnaryHistory unit ->
+              Cont subgroup representation provenance ->
+                Cont induction restriction frobenius ->
+                  Cont frobenius unit counit ->
+                    Cont provenance counit ledger ->
+                      Cont ledger subgroup subgroupReadback ->
+                        UnaryHistory subgroupReadback ∧
+                          hsame subgroupReadback (append ledger subgroup) ∧
+                            UnaryHistory ledger ∧
+                              hsame provenance (append subgroup representation) := by
+  intro subgroupUnary representationUnary inductionUnary restrictionUnary unitUnary provenanceCont
+    frobeniusCont counitCont ledgerCont subgroupReadbackCont
+  have boundary :=
+    InducedRepFrobeniusLedger_boundary subgroupUnary representationUnary inductionUnary
+      restrictionUnary unitUnary provenanceCont frobeniusCont counitCont ledgerCont
+  have subgroupReadbackUnary : UnaryHistory subgroupReadback :=
+    unary_cont_closed boundary.right.right.right.left subgroupUnary subgroupReadbackCont
+  exact And.intro subgroupReadbackUnary
+    (And.intro subgroupReadbackCont
+      (And.intro boundary.right.right.right.left boundary.right.right.right.right.left))
+
 end BEDC.Derived.InducedRepUp

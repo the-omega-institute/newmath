@@ -60,4 +60,36 @@ theorem SOneStandardTopologicalBridgeBoundary_public_rows
       (hsame_trans (hsame_symm readback.right.left) equationEmpty)
   exact ⟨bridgeUnary, bridgeShape, readback.left, readback.right.left, bridgeNonempty⟩
 
+theorem SOneStandardTopologicalBridgeBoundary_componentwise_transport_stability
+    {x y equation point x' y' equation' point' metric bridge : BHist} :
+    SOneComponentClassifier x y equation point x' y' equation' point' ->
+      Cont point equation metric ->
+        Cont metric equation bridge ->
+          SOneHistoryCarrier x' y' equation' point' ∧ Cont point' equation' metric ∧
+            Cont metric equation' bridge ∧ UnaryHistory bridge ∧
+              hsame bridge (append (append point' equation') equation') ∧
+                SOneProductHistoryCarrier point' ∧ hsame equation' SOneUnitHistory := by
+  intro classifier metricRow bridgeRow
+  have targetCarrier : SOneHistoryCarrier x' y' equation' point' := classifier.right.left
+  have sameRows :
+      hsame equation equation' ∧ hsame point point' :=
+    SOneHistoryCarrier_component_classifier_ledger_determinacy classifier.left
+      classifier.right.left classifier.right.right.left classifier.right.right.right
+  have transportedMetric : Cont point' equation' metric := by
+    cases sameRows.left
+    cases sameRows.right
+    exact metricRow
+  have transportedBridge : Cont metric equation' bridge := by
+    cases sameRows.left
+    exact bridgeRow
+  have publicRows :=
+    SOneStandardTopologicalBridgeBoundary_public_rows targetCarrier transportedMetric
+      transportedBridge
+  exact And.intro targetCarrier
+    (And.intro transportedMetric
+      (And.intro transportedBridge
+        (And.intro publicRows.left
+          (And.intro publicRows.right.left
+            (And.intro publicRows.right.right.left publicRows.right.right.right.left)))))
+
 end BEDC.Derived.S1Up

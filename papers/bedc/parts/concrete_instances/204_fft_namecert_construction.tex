@@ -173,3 +173,40 @@ bounds, asymptotic runtime claims, and bridge rows remain unavailable.
   \notclaimed{The chapter does not close analytic error bounds, floating-point bounds, asymptotic runtime claims, operation-optimality claims, or standard bridge rows.}
   \upgradepath{The next theory-axis step is a public-facing export statement for consumers of the finite FFT certificate surface.}
 \end{closurestatus}
+
+\begin{definition}[FFT length-one identity surface]
+\label{def:fft-length-one-identity-surface}
+For an accepted $\FftUp$ source packet of \autoref{def:fft-bhist-source-packet}, write $c$ for its $\ComplexUp$ scalar row, $F$ for its $\FourierUp$ transform row, $x$ for the carrier row produced from $c$ and $F$, $\beta$ for the scheduled butterfly row, $\nu$ for the factorization row, $\lambda$ for the ledger row, $y$ for the endpoint row, $\sigma$ for the stage name, and $\Pi$ for the finite schedule. The predicate $\mathsf{FftLenOneId}(P,x,y)$ holds when the following rows are displayed:
+\begin{itemize}
+  \item the schedule has length one, $\mathsf{BLEN}(\Pi)=1$;
+  \item the carrier membership row of \autoref{thm:fft-carrier-butterfly-obligation} reads $\sigma$ as the unique scheduled stage and reads that stage back as the input row $x$;
+  \item the singleton butterfly row supplied by $\NameCert_{\FourierUp}$ and $\NameCert_{\ComplexUp}$ classifies the butterfly ledger with the input row, $\lambda\sim_{\ComplexUp} x$;
+  \item the length-one factorization ledger is neutral on that ledger, so the endpoint row classifies with the ledger row, $y\sim_{\ComplexUp}\lambda$.
+\end{itemize}
+This surface contains no analytic FFT equality, host array equality, floating-point estimate, asymptotic claim, or standard bridge row.
+\end{definition}
+
+\begin{lemma}[FFT length-one schedule stage exhaustion]
+\label{lem:fft-length-one-schedule-stage-exhaustion}
+Let $P$ be an accepted $\FftUp$ source packet of \autoref{def:fft-bhist-source-packet} with finite schedule $\Pi$. If $\mathsf{BLEN}(\Pi)=1$, then every scheduled butterfly stage read by the carrier obligation is the single stage named by the packet membership row. In particular, the packet exposes no second butterfly stage and no tail-stage membership row.
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:fft-carrier-butterfly-obligation} to the accepted packet. This gives the displayed schedule membership row and the butterfly continuation rows inside the finite $\mathsf{ProbeBundle}$ schedule.
+
+The length-one hypothesis and \autoref{thm:probe-bundle-length-one-iff-singleton} identify $\Pi$ with a singleton bundle. Then \autoref{thm:bundle-member-length-one-singleton} identifies the member supplied by the carrier obligation with that singleton head. A tail membership would be a membership row in $\Bnil$, which is impossible by the same singleton reading. Hence the carrier has exactly the one scheduled stage named by the packet membership row.
+\end{proof}
+
+\begin{theorem}[FFT length-one schedule classifies with the input row]
+\label{thm:fft-length-one-schedule-input-classifier}
+Let $P$ be an accepted $\FftUp$ source packet of \autoref{def:fft-bhist-source-packet}. If $\mathsf{FftLenOneId}(P,x,y)$ holds for its input row $x$ and endpoint row $y$, then the FFT output endpoint is classified with the input row:
+$y\sim_{\ComplexUp}x$.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through \autoref{thm:fft-carrier-butterfly-obligation}. The packet yields the $\ComplexUp$ scalar dependency, the $\FourierUp$ transform dependency, the finite schedule membership row, the singleton butterfly continuation, and the continuation rows that lead to the endpoint.
+
+By the first row of \autoref{def:fft-length-one-identity-surface}, the schedule has length one. The exhaustion lemma \autoref{lem:fft-length-one-schedule-stage-exhaustion} therefore removes every possible tail stage: the butterfly continuation seen by the carrier obligation is the unique scheduled row, and its stage readback is the input row $x$.
+
+The singleton butterfly row in \autoref{def:fft-length-one-identity-surface} classifies the butterfly ledger with the input row, giving $\lambda\sim_{\ComplexUp}x$. Next apply \autoref{thm:fft-ledger-exactness-obligation}. The ledger contains exactly the two dependency rows, the singleton schedule membership row, the butterfly continuation, the factorization row, and their displayed transports; there is no further stage or hidden analytic row that can change the endpoint classification.
+
+The neutral length-one factorization row in \autoref{def:fft-length-one-identity-surface} gives $y\sim_{\ComplexUp}\lambda$. Transitivity of the $\ComplexUp$ classifier supplied by the dependency certificate then composes $y\sim_{\ComplexUp}\lambda$ with $\lambda\sim_{\ComplexUp}x$, yielding $y\sim_{\ComplexUp}x$.
+\end{proof}

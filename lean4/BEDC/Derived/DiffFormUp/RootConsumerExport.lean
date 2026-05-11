@@ -1,3 +1,4 @@
+import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 
 namespace BEDC.Derived.DiffFormUp
@@ -102,5 +103,79 @@ theorem DiffFormRootExport_wedge_threshold {ScalarCarrier : BHist -> Prop}
   have exportUnary : UnaryHistory exportLedger :=
     unary_cont_closed ledgerUnary rootLedgerUnary exportRow
   exact ⟨routed.right.right, routed.right.left, exportUnary, exportRow⟩
+
+theorem DiffFormRootExport_namecert_threshold {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger rootLedger
+      exportLedger : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) dplus -> Cont degree dplus outDegree ->
+            UnaryHistory rightLedger -> hsame ledger rightLedger -> UnaryHistory tensorLedger ->
+              UnaryHistory rootLedger -> Cont ledger rootLedger exportLedger ->
+                DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ∧
+                  DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor
+                    tensor scalar scalar antisym ledger ∧
+                    UnaryHistory exportLedger ∧ hsame exportLedger (append ledger rootLedger) ∧
+                      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                        antisym ledger degree probe tensor scalar antisym ledger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor wedgeRoute rightLedgerUnary sameRightLedger tensorLedgerUnary
+    rootLedgerUnary exportRow
+  have thresholdRows :
+      DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ∧
+        DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor tensor scalar
+          scalar antisym ledger ∧
+          UnaryHistory exportLedger ∧ hsame exportLedger (append ledger rootLedger) :=
+    DiffFormRootExport_wedge_threshold scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor wedgeRoute rightLedgerUnary
+      sameRightLedger tensorLedgerUnary rootLedgerUnary exportRow
+  have classifierRows :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+        degree probe tensor scalar antisym ledger :=
+    DiffFormBHistClassifier_reflexivity_obligation
+      (d := degree) (p := probe) (t := tensor) (s := scalar) (a := antisym) (l := ledger)
+      scalarCert probeIn scalarCarrier
+  exact ⟨thresholdRows.left, thresholdRows.right.left, thresholdRows.right.right.left,
+    thresholdRows.right.right.right, classifierRows⟩
+
+theorem DiffFormRootExport_downstream_law_separation {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger omega domega
+      probePrime tensorPrime scalarPrime : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            UnaryHistory antisym ->
+              Cont degree probe tensor ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger
+                      tensorLedger ->
+                      DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime
+                        tensor tensorPrime scalar scalarPrime antisym ledger ->
+                        UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory degree ∧
+                          UnaryHistory dplus ∧ Cont degree (BHist.e1 BHist.Empty) dplus ∧
+                            Cont degree dplus outDegree ∧ hsame ledger rightLedger ∧
+                              (hsame dplus BHist.Empty -> False) := by
+  intro probeIn scalarCarrier degreeUnary probeUnary antisymUnary tensorRoute scalarRoute
+  intro ledgerRoute wedgeLedger derivativeLedger
+  have boundaryRows :=
+    DiffFormDownstreamConsumer_boundary scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      antisymUnary tensorRoute scalarRoute ledgerRoute wedgeLedger derivativeLedger
+  exact
+    ⟨boundaryRows.left,
+      boundaryRows.right.left,
+      boundaryRows.right.right.left,
+      boundaryRows.right.right.right.left,
+      boundaryRows.right.right.right.right.right.left,
+      boundaryRows.right.right.right.right.left,
+      boundaryRows.right.right.right.right.right.right.left,
+      boundaryRows.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.DiffFormUp

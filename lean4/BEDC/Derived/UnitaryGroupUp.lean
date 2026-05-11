@@ -50,6 +50,25 @@ theorem UnitaryGroupCarrier_classifier_obligation
   exact And.intro unaryHilbert'
     (And.intro unaryAutomorphism' (And.intro sameSource sameTarget))
 
+theorem UnitaryGroupSourceClassifier_obligation
+    {hilbert automorphism preservation source endpoint : BHist} :
+    VecSpaceSingletonCarrier hilbert -> LieGroupSingletonCarrier automorphism ->
+      UnaryHistory preservation -> Cont hilbert automorphism source ->
+        Cont source preservation endpoint ->
+          UnaryHistory endpoint ∧ hsame source hilbert ∧
+            hsame endpoint (append source preservation) := by
+  intro hilbertCarrier automorphismCarrier preservationUnary sourceRow endpointRow
+  have sourceReadback : hsame source hilbert := by
+    cases automorphismCarrier
+    exact cont_right_unit_result sourceRow
+  have hilbertUnary : UnaryHistory hilbert :=
+    unary_transport unary_empty (hsame_symm hilbertCarrier)
+  have sourceUnary : UnaryHistory source :=
+    unary_transport hilbertUnary (hsame_symm sourceReadback)
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed sourceUnary preservationUnary endpointRow
+  exact And.intro endpointUnary (And.intro sourceReadback endpointRow)
+
 theorem UnitaryGroupOperation_stability_obligation
     {left left' right right' product product' inverse inverse' identity identity' : BHist} :
     hsame inverse inverse' -> hsame identity identity' -> hsame right right' ->
@@ -63,6 +82,27 @@ theorem UnitaryGroupOperation_stability_obligation
   have sameProduct : hsame product product' :=
     cont_respects_hsame sameLeft sameRight productRow productRow'
   exact And.intro sameLeft sameProduct
+
+theorem UnitaryGroupOperation_preservation_obligation {hilbert left right product endpoint : BHist} :
+    VecSpaceSingletonCarrier hilbert -> LieGroupSingletonCarrier left ->
+      LieGroupSingletonCarrier right -> Cont left right product -> Cont hilbert product endpoint ->
+        UnaryHistory product ∧ UnaryHistory endpoint ∧
+          hsame product BHist.Empty ∧ hsame endpoint hilbert := by
+  intro hilbertCarrier leftCarrier rightCarrier productRow endpointRow
+  have productEmpty : hsame product BHist.Empty :=
+    cont_respects_hsame leftCarrier rightCarrier productRow (cont_left_unit BHist.Empty)
+  have hilbertUnary : UnaryHistory hilbert :=
+    unary_transport unary_empty (hsame_symm hilbertCarrier)
+  have productUnary : UnaryHistory product :=
+    unary_transport unary_empty (hsame_symm productEmpty)
+  have endpointHilbert : hsame endpoint hilbert :=
+    by
+      cases productEmpty
+      exact cont_right_unit_result endpointRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport hilbertUnary (hsame_symm endpointHilbert)
+  exact And.intro productUnary
+    (And.intro endpointUnary (And.intro productEmpty endpointHilbert))
 
 theorem UnitaryGroupLedger_exactness_obligation
     {hilbert hilbert' automorphism automorphism' source source' target target' : BHist} :
@@ -154,6 +194,29 @@ theorem UnitaryGroupPublicNameCert_export {hilbert automorphism source target en
   }
   exact And.intro endpointCert
     (And.intro endpointUnary (And.intro sourceReadback targetReadback))
+
+theorem UnitaryGroupUp_StdBridge
+    {hilbert automorphism source target endpoint bridgeLedger : BHist} :
+    VecSpaceSingletonCarrier hilbert -> LieGroupSingletonCarrier automorphism ->
+      Cont hilbert automorphism source -> Cont automorphism hilbert target ->
+        Cont source target endpoint -> Cont endpoint automorphism bridgeLedger ->
+          SemanticNameCert (fun row : BHist => hsame row endpoint)
+            (fun row : BHist => hsame row endpoint)
+            (fun row : BHist => hsame row endpoint) hsame ∧
+            UnaryHistory bridgeLedger ∧ hsame source hilbert ∧
+              hsame target automorphism ∧
+                hsame bridgeLedger (append endpoint automorphism) := by
+  intro hilbertCarrier automorphismCarrier sourceRow targetRow endpointRow bridgeLedgerRow
+  have exported :=
+    UnitaryGroupPublicNameCert_export hilbertCarrier automorphismCarrier sourceRow targetRow
+      endpointRow
+  have automorphismUnary : UnaryHistory automorphism :=
+    unary_transport unary_empty (hsame_symm automorphismCarrier)
+  have bridgeLedgerUnary : UnaryHistory bridgeLedger :=
+    unary_cont_closed exported.right.left automorphismUnary bridgeLedgerRow
+  exact
+    ⟨exported.left, bridgeLedgerUnary, exported.right.right.left,
+      exported.right.right.right, bridgeLedgerRow⟩
 
 theorem UnitaryGroupInnerProduct_preservation_obligation
     {hilbert hilbert' automorphism automorphism' inner inner' transported transported' :

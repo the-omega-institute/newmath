@@ -264,6 +264,59 @@ theorem SymGroupPermutationCarrier_composition_inverse_action_obligations [AskSe
                 (And.intro obligation.right.right.right.right.right.right.right.right.left
                   obligation.right.right.right.right.right.right.right.right.right.left)))))))
 
+theorem SymGroupPermutationCarrier_public_certificate_surface [AskSetup] [PackageSetup]
+    {src tgt graph invGraph comp action ledger publicSurface : BHist}
+    {srcBundle tgtBundle : ProbeBundle ProbeName} {srcPkg tgtPkg : Pkg} :
+    SymGroupPermutationCarrier src tgt graph invGraph comp action ledger srcBundle tgtBundle
+        srcPkg tgtPkg ->
+      Cont ledger action publicSurface ->
+        SemanticNameCert
+            (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+            (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+            (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+            hsame ∧
+          GroupSingletonCarrier comp ∧ GroupSingletonCarrier action ∧ UnaryHistory ledger ∧
+            UnaryHistory publicSurface ∧ hsame publicSurface (append ledger action) := by
+  intro carrier publicSurfaceRow
+  have rows := SymGroupPermutationCarrier_carrier_obligation carrier
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed rows.right.right.right.right.right.right.left
+      rows.right.right.right.right.right.left publicSurfaceRow
+  have publicCert :
+      SemanticNameCert
+        (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+        (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+        (fun endpoint : BHist => hsame endpoint publicSurface ∧ UnaryHistory endpoint)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicSurface (And.intro (hsame_refl publicSurface) publicSurfaceUnary)
+      equiv_refl := by
+        intro endpoint _endpointCarrier
+        exact hsame_refl endpoint
+      equiv_symm := by
+        intro _endpoint _endpoint' sameEndpoint
+        exact hsame_symm sameEndpoint
+      equiv_trans := by
+        intro _endpoint _middle _endpoint' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro endpoint endpoint' sameEndpoint endpointCarrier
+        exact And.intro
+          (hsame_trans (hsame_symm sameEndpoint) endpointCarrier.left)
+          (unary_transport endpointCarrier.right sameEndpoint)
+    }
+    pattern_sound := by
+      intro _endpoint source
+      exact source
+    ledger_sound := by
+      intro _endpoint source
+      exact source
+  }
+  exact
+    ⟨publicCert, rows.right.left, rows.right.right.left,
+      rows.right.right.right.right.right.right.left, publicSurfaceUnary, publicSurfaceRow⟩
+
 end BEDC.Derived.SymGroupUp
 
 namespace BEDC.Derived.PermutationUp

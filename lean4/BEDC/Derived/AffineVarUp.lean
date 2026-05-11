@@ -133,6 +133,24 @@ theorem AffineFiniteFamilyZeroLocus_empty_family_iff {AffPoint : BHist -> Prop}
         intro p member
         exact False.elim (inBundle_nil_elim member))
 
+theorem AffineFiniteFamilyZeroLocus_singleton_equation_exactness
+    {AffPoint : BHist -> Prop} {PolyEvalZero : BHist -> BHist -> Prop} {p x : BHist} :
+    AffineFiniteFamilyZeroLocus AffPoint PolyEvalZero
+        (ProbeBundle.Bcons p ProbeBundle.Bnil) x <->
+      (AffPoint x ∧ PolyEvalZero p x) := by
+  constructor
+  · intro locus
+    have headMember : InBundle p (ProbeBundle.Bcons p (ProbeBundle.Bnil : ProbeBundle BHist)) :=
+      Iff.mpr inBundle_singleton_iff rfl
+    exact And.intro locus.left (locus.right headMember)
+  · intro pointAndEquation
+    exact And.intro pointAndEquation.left
+      (by
+        intro q member
+        have sameQP : q = p := Iff.mp inBundle_singleton_iff member
+        cases sameQP
+        exact pointAndEquation.right)
+
 theorem AffineFiniteFamilyZeroLocus_mutual_inclusion_iff {AffPoint : BHist -> Prop}
     {PolyEvalZero : BHist -> BHist -> Prop} {F G : ProbeBundle BHist} {x : BHist} :
     AffineFiniteFamilyEquationInclusion F G ->

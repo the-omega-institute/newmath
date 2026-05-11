@@ -41,4 +41,25 @@ theorem WeylGroupRootSystem_mature_bridge_consumption {support : ProbeBundle BHi
       (WeylGroupStandardReflectionGroup_bridge vector_unary source nextCarrier actionStep
         braidStep))
 
+theorem WeylGroupActionClassifier_stability_obligation {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {root wordA wordB actionA actionAB transportedAction : BHist} :
+    WeylGroupBHistSourceRow support Vector Nonzero root wordA actionA ->
+      GroupSingletonCarrier wordB -> Cont actionA wordB actionAB ->
+        hsame actionAB transportedAction ->
+          WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionAB ∧
+            UnaryHistory transportedAction ∧ hsame actionAB transportedAction ∧
+              hsame actionAB root := by
+  intro source wordBCarrier actionStep sameTransported
+  have closure :
+      WeylGroupBHistSourceRow support Vector Nonzero root (append wordA wordB) actionAB ∧
+        hsame actionAB root ∧ GroupSingletonCarrier (append wordA wordB) :=
+    WeylGroupBHistSourceRow_simple_reflection_word_closure
+      vector_unary source wordBCarrier actionStep
+  have transportedUnary : UnaryHistory transportedAction :=
+    unary_transport closure.left.right.right.right sameTransported
+  exact And.intro closure.left
+    (And.intro transportedUnary (And.intro sameTransported closure.right.left))
+
 end BEDC.Derived.WeylGroupUp

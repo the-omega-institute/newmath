@@ -69,6 +69,27 @@ theorem ModularFormQExpansionCarrier_holomorphic_source_scope
           (And.intro carrier.right.right.right.right.left
             carrier.right.right.right.right.right.left)))
 
+theorem ModularFormQExpansionCarrier_empty_coefficient_classifier
+    {holomorphic automorphic transform provenance provenance' ledger ledger' : BHist} :
+    ModularFormQExpansionCarrier holomorphic automorphic BHist.Empty transform provenance ledger ->
+      ModularFormQExpansionCarrier holomorphic automorphic BHist.Empty transform provenance' ledger' ->
+        hsame provenance provenance' ∧ hsame ledger ledger' ∧
+          UnaryHistory provenance ∧ UnaryHistory ledger := by
+  intro leftCarrier rightCarrier
+  have sameProvenance : hsame provenance provenance' :=
+    cont_deterministic leftCarrier.right.right.right.right.left
+      rightCarrier.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_deterministic leftCarrier.right.right.right.right.right.left
+      rightCarrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed leftCarrier.left unary_empty leftCarrier.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed leftCarrier.right.left leftCarrier.right.right.right.left
+      leftCarrier.right.right.right.right.right.left
+  exact And.intro sameProvenance
+    (And.intro sameLedger (And.intro provenanceUnary ledgerUnary))
+
 theorem ModularFormQExpansionCarrier_namecert_obligation_surface
     {holomorphic automorphic coefficient transform provenance ledger endpoint : BHist} :
     ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance ledger ->
@@ -112,6 +133,46 @@ theorem ModularFormQExpansionCarrier_namecert_obligation_surface
         And.intro source
           (And.intro carrier.right.right.right.right.left
             (And.intro carrier.right.right.right.right.right.left endpointRow))
+  }
+
+theorem ModularFormQExpansionCarrier_semantic_name_certificate
+    {holomorphic automorphic coefficient transform provenance ledger : BHist} :
+    ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+        ledger ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        (fun row : BHist =>
+          ModularFormQExpansionCarrier holomorphic automorphic coefficient transform provenance
+            ledger ∧ hsame row ledger)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (And.intro carrier (hsame_refl ledger))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
   }
 
 end BEDC.Derived.ModularFormUp

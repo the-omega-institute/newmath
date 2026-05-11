@@ -273,7 +273,106 @@ theorem DynSystemFlowPacket_composition_flow_obligation [AskSetup] [PackageSetup
     (And.intro joinedEndpointUnary
       (And.intro joinedRouteUnary
         (And.intro timeABCont
-          (And.intro joinedEndpointCont
-            (And.intro joinedRouteCont joinedRoutePkg)))))
+            (And.intro joinedEndpointCont
+              (And.intro joinedRouteCont joinedRoutePkg)))))
+
+theorem DynSystemUp_StdBridge [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      Cont endpoint route bridge ->
+        PkgSig bundle bridge pkg ->
+          DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append flowWitness ode) ∧
+              hsame bridge (append endpoint route) ∧ PkgSig bundle bridge pkg := by
+  intro packet bridgeRow bridgePkg
+  have endpointRows :=
+    DynSystemFlowPacket_endpoint_coverage packet
+  exact And.intro packet
+    (And.intro endpointRows.right.left
+      (And.intro endpointRows.right.right.right.right.left
+        (And.intro bridgeRow bridgePkg)))
+
+def DynSystemOrbitIteratePacket [AskSetup] [PackageSetup]
+    (index segment endpoint : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory index ∧ UnaryHistory segment ∧ UnaryHistory endpoint ∧ PkgSig bundle segment pkg
+
+theorem DynSystemOrbitIteratePacket_carrier_closure [AskSetup] [PackageSetup]
+    {index segment endpoint segmentNext phase ode time source target flowWitness flowEndpoint
+      route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemOrbitIteratePacket index segment endpoint bundle pkg ->
+      DynSystemFlowPacket phase ode time source target flowWitness flowEndpoint route bundle pkg ->
+        hsame source endpoint ->
+          Cont segment route segmentNext ->
+            PkgSig bundle segmentNext pkg ->
+              DynSystemOrbitIteratePacket (BHist.e1 index) segmentNext flowEndpoint bundle pkg ∧
+                UnaryHistory segmentNext ∧ hsame segmentNext (append segment route) := by
+  intro iterate flow sameSourceEndpoint segmentNextRow segmentNextPkg
+  have flowRows :=
+    DynSystemFlowPacket_endpoint_coverage flow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport flow.right.right.right.left sameSourceEndpoint
+  have segmentNextUnary : UnaryHistory segmentNext :=
+    unary_cont_closed iterate.right.left flowRows.right.right.left segmentNextRow
+  have nextIndexUnary : UnaryHistory (BHist.e1 index) :=
+    unary_e1_closed iterate.left
+  have nextPacket :
+      DynSystemOrbitIteratePacket (BHist.e1 index) segmentNext flowEndpoint bundle pkg :=
+    And.intro nextIndexUnary
+      (And.intro segmentNextUnary
+        (And.intro flowRows.right.left segmentNextPkg))
+  exact And.intro nextPacket (And.intro segmentNextUnary segmentNextRow)
+
+theorem DynSystemFlowPacket_flow_provenance_exactness [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route consumerSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      Cont route endpoint consumerSurface ->
+        PkgSig bundle consumerSurface pkg ->
+          UnaryHistory phase ∧ UnaryHistory ode ∧ UnaryHistory time ∧ UnaryHistory source ∧
+            UnaryHistory target ∧ UnaryHistory flowWitness ∧ UnaryHistory endpoint ∧
+              UnaryHistory route ∧ UnaryHistory consumerSurface ∧
+                Cont (append phase time) source flowWitness ∧ Cont flowWitness ode endpoint ∧
+                  Cont endpoint target route ∧ Cont route endpoint consumerSurface ∧
+                    hsame route (append endpoint target) ∧
+                      hsame consumerSurface (append route endpoint) ∧
+                        PkgSig bundle consumerSurface pkg := by
+  intro packet consumerRow consumerPkg
+  have endpointRows :=
+    DynSystemFlowPacket_endpoint_coverage packet
+  have consumerUnary : UnaryHistory consumerSurface :=
+    unary_cont_closed endpointRows.right.right.left endpointRows.right.left consumerRow
+  constructor
+  · exact packet.left
+  constructor
+  · exact packet.right.left
+  constructor
+  · exact packet.right.right.left
+  constructor
+  · exact packet.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.left
+  constructor
+  · exact endpointRows.left
+  constructor
+  · exact endpointRows.right.left
+  constructor
+  · exact endpointRows.right.right.left
+  constructor
+  · exact consumerUnary
+  constructor
+  · exact packet.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.left
+  constructor
+  · exact packet.right.right.right.right.right.right.right.left
+  constructor
+  · exact consumerRow
+  constructor
+  · exact endpointRows.right.right.right.right.right.left
+  constructor
+  · exact consumerRow
+  · exact consumerPkg
 
 end BEDC.Derived.DynSystemUp

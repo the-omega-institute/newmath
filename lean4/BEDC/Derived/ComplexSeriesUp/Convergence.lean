@@ -85,6 +85,23 @@ theorem ComplexSeriesConv_pointwise_source_limit_transport {zero zero' S T : BHi
                     (And.intro targetPartials
                       (ComplexLimit_hsame_transport sameLimit targetLimitS))))
 
+theorem ComplexSeriesObligationInventory_stability {zero zero' S T : BHist}
+    {c d ps' : BHist -> BHist} :
+    UnaryHistory zero -> ComplexTermSeqCarrier c -> hsame zero zero' ->
+      (forall {n : BHist}, UnaryHistory n -> hsame (c n) (d n)) ->
+        hsame S T -> ComplexSeriesConv zero c S ->
+          (forall n : BHist, UnaryHistory n -> ComplexPartSum zero' d n (ps' n)) ->
+            ComplexSeriesConv zero' d T ∧ ComplexTermSeqCarrier d ∧
+              ComplexSeriesClassifierSpec zero' d T T := by
+  intro _zeroUnary sourceCarrier sameZero pointwise sameLimit conv targetPartials
+  have targetConv : ComplexSeriesConv zero' d T :=
+    ComplexSeriesConv_pointwise_source_limit_transport sameZero pointwise sameLimit conv
+      targetPartials
+  have targetCarrier : ComplexTermSeqCarrier d :=
+    ComplexTermSeqCarrier_hsame_transport pointwise sourceCarrier
+  exact And.intro targetConv
+    (And.intro targetCarrier (And.intro targetConv (hsame_refl T)))
+
 theorem ComplexSeriesConv_sum_unique_shared_witness {zero : BHist}
     {c ps N M M' : BHist -> BHist} {S Sprime diagonal : BHist} :
     (forall n : BHist, UnaryHistory n -> ComplexPartSum zero c n (ps n)) ->

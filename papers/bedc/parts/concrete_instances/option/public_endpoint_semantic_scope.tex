@@ -1,0 +1,56 @@
+\begin{theorem}[Tagged option public endpoint semantic scope]
+\label{thm:option-public-endpoint-semantic-scope}
+Let $S:\mathsf{BHist}\to\mathsf{Prop}$ be a source carrier, let $\sim_S$ be a
+source classifier on source histories, and assume a source
+$\NameCert(S,\sim_S)$. The public $\OptionUp$ endpoint surface determined by
+this data consists exactly of the following finite information:
+\begin{enumerate}
+  \item the empty absent endpoint, represented by $\emp$ up to $\hsame$;
+  \item the b1-tagged present endpoint, represented by $\Eone(a)$ for a source
+  payload $a$ with $S(a)$;
+  \item the carrier, pattern, and ledger equivalence for the tagged option
+  history surface;
+  \item the endpoint semantic fields obtained from
+  $\mathsf{TaggedOptionHistoryClassifier}_{S,\sim_S}$;
+  \item payload classifier transport through the present-present branch; and
+  \item the semantic certificate of
+  \autoref{thm:tagged-option-history-semantic-certificate} and, for
+  $\sim_S=\hsame$, the certificate of
+  \autoref{cor:tagged-option-history-semantic-certificate-hsame}.
+\end{enumerate}
+No additional public endpoint data is supplied by a host `Maybe' type,
+eliminators, a monad API, or a hidden payload projection.
+\end{theorem}
+\begin{proof}
+The absent and present rows are the two constructor-shaped rows of
+$\mathsf{TaggedOptionHistoryCarrier}_S$. The absent row is the empty BEDC
+history $\emp$ up to $\hsame$, and the present row is the one-mark BEDC history
+$\Eone(a)$ with its source provenance $S(a)$.
+
+Apply
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence} to
+identify the carrier, pattern, and ledger descriptions row by row. The branch
+no-confusion theorems
+\autoref{thm:tagged-option-history-mixed-tag-separation} and
+\autoref{thm:tagged-option-history-carrier-mixed-tag-separation} rule out
+any mixed absent-present endpoint row.
+
+For semantic data, apply
+\autoref{thm:tagged-option-history-classifier-endpoint-semantic-fields}. This
+extracts the pattern and ledger fields on both classifier endpoints. Payload
+readback and transport are exactly the present endpoint rows supplied by
+\autoref{thm:tagged-option-history-carrier-present-hsame-readback},
+\autoref{thm:tagged-option-history-carrier-present-source-transport}, and
+\autoref{thm:tagged-option-history-visible-present-exactness}.
+
+It remains to justify that the list is exhaustive. A row of
+$\mathsf{BHist}$ satisfying the public carrier data is either the empty
+endpoint or a one-mark endpoint by the carrier rows; $\hsame$ only changes the
+chosen representative inside the same row; $\Cont$ uses the displayed
+classifier and therefore transports only along the same absent row or along a
+source-certified present payload row; and the source $\NameCert(S,\sim_S)$ is
+the sole provenance for payload classification. Thus the public endpoint
+surface has exactly the six displayed components and nothing from a host
+option eliminator, monad interface, or payload projection outside the visible
+BEDC history.
+\end{proof}

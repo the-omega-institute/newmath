@@ -589,4 +589,11 @@ theorem SOneHistoryCarrier_e1_components_unit_equation_classifier
     (And.intro readback.right.left
       (And.intro equationClassifier readback.right.right.right))
 
+theorem SOneComponentClassifier_equation_transport {x y e p x' y' e' p' : BHist} : SOneComponentClassifier x y e p x' y' e' p' -> SOneLedgerPolicy x y e p x' y' e' p' ∧ SOneProductHistoryCarrier p ∧ SOneProductHistoryCarrier p' ∧ hsame e e' ∧ hsame p p' ∧ Cont x y p ∧ Cont x' y' p' := by
+  intro classifier
+  have ledger := SOneLedgerPolicy_component_readback classifier
+  have sourceReadback := SOneHistoryCarrier_public_readback classifier.left
+  have targetReadback := SOneComponentClassifier_public_readback classifier
+  exact ⟨ledger, sourceReadback.left, targetReadback.left, ledger.right.left, ledger.right.right.left, ledger.right.right.right.left, ledger.right.right.right.right⟩
+
 end BEDC.Derived.S1Up

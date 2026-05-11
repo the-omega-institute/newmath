@@ -44,4 +44,31 @@ theorem SpinGroupRootCarrier_boundary_consumer_exactness [AskSetup] [PackageSetu
       (And.intro conjugationCont
         (And.intro actionCont sourceScope.right.right.right.right)))
 
+theorem SpinGroupRootCarrier_conjugation_action_product_law [AskSetup] [PackageSetup]
+    {unit vector product boundary cliffordEndpoint groupWord spinEndpoint ledger unit' vector'
+      product' boundary' cliffordEndpoint' groupWord' spinEndpoint' ledger' productAction
+      iteratedAction productConsumer iteratedConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpinGroupRootCarrier unit vector product boundary cliffordEndpoint groupWord spinEndpoint
+        ledger bundle pkg ->
+      SpinGroupRootCarrier unit' vector' product' boundary' cliffordEndpoint' groupWord'
+          spinEndpoint' ledger' bundle pkg ->
+        Cont spinEndpoint spinEndpoint' productAction ->
+          Cont productAction groupWord productConsumer ->
+            Cont spinEndpoint' groupWord' iteratedAction ->
+              Cont spinEndpoint iteratedAction iteratedConsumer ->
+                hsame productAction spinEndpoint ->
+                  hsame groupWord iteratedAction ->
+                    hsame productConsumer iteratedConsumer ∧ PkgSig bundle ledger pkg ∧
+                      PkgSig bundle ledger' pkg := by
+  intro carrier carrier' productActionCont productConsumerCont iteratedActionCont
+    iteratedConsumerCont sameProductAction sameGroupIterated
+  have sourceScope := SpinGroupRootCarrier_source_scope carrier
+  have sourceScope' := SpinGroupRootCarrier_source_scope carrier'
+  have sameProductConsumer : hsame productConsumer iteratedConsumer :=
+    cont_respects_hsame sameProductAction sameGroupIterated productConsumerCont
+      iteratedConsumerCont
+  exact And.intro sameProductConsumer
+    (And.intro sourceScope.right.right.right.right sourceScope'.right.right.right.right)
+
 end BEDC.Derived.SpinGroupUp

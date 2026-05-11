@@ -137,4 +137,25 @@ theorem SolvableRadicalsTowerPacket_intermediate_field_stability
       (And.intro endpointSame
         (And.intro towerUnary (And.intro stepUnary endpointUnary))))
 
+theorem SolvableRadicalsTowerPacket_splitting_ledger_exactness
+    [AskSetup] [PackageSetup]
+    {towerDepth intermediateFields rootIndices radicands basePolynomial splittingVerdict
+      towerLedger stepLedger endpoint provenance splittingLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SolvableRadicalsTowerPacket towerDepth intermediateFields rootIndices radicands
+        basePolynomial splittingVerdict towerLedger stepLedger endpoint provenance bundle pkg ->
+      Cont basePolynomial splittingVerdict splittingLedger ->
+        UnaryHistory splittingLedger ∧ hsame splittingLedger (append basePolynomial splittingVerdict) ∧
+          hsame endpoint (append towerLedger stepLedger) ∧ SigRel bundle endpoint provenance ∧
+            PkgSig bundle provenance pkg := by
+  intro packet splittingRow
+  have splittingUnary : UnaryHistory splittingLedger :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.right.right.left
+      splittingRow
+  exact And.intro splittingUnary
+    (And.intro splittingRow
+      (And.intro packet.right.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.SolvableRadicalsUp

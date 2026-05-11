@@ -69,6 +69,51 @@ theorem RootSystemReflectionClosure_result_unary
   exact unary_cont_closed (vector_unary alphaCarrier.right.left)
     (vector_unary betaCarrier.right.left) reflectionRoute
 
+theorem RootSystemReflectionClosure_involution_row
+    {support : ProbeBundle BHist} {Vector Nonzero : BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    {alpha beta reflected : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportCarrier support Vector Nonzero beta ->
+        Cont alpha beta reflected ->
+          Cont alpha reflected beta ->
+            UnaryHistory reflected ∧ UnaryHistory beta ∧ hsame beta (append alpha reflected) := by
+  intro alphaCarrier betaCarrier reflectionRoute readbackRoute
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier betaCarrier
+      reflectionRoute
+  have betaUnary : UnaryHistory beta :=
+    vector_unary betaCarrier.right.left
+  exact And.intro reflectedUnary (And.intro betaUnary readbackRoute)
+
+theorem RootSystemReflectionClosure_axis_negation
+    {support : ProbeBundle BHist}
+    {Vector Nonzero : BHist -> Prop}
+    {VectorClassifier : BHist -> BHist -> Prop}
+    (vector_unary : forall {h : BHist}, Vector h -> UnaryHistory h)
+    (vector_transport :
+      forall {h k : BHist}, Vector h -> VectorClassifier h k -> Vector k)
+    (nonzero_transport : forall {h k : BHist}, Nonzero h -> hsame h k -> Nonzero k)
+    {alpha reflected negAlpha : BHist} :
+    RootSystemFiniteSupportCarrier support Vector Nonzero alpha ->
+      RootSystemFiniteSupportClassifier support VectorClassifier alpha negAlpha ->
+        Cont alpha alpha reflected ->
+          Cont alpha reflected negAlpha ->
+            RootSystemFiniteSupportCarrier support Vector Nonzero negAlpha ∧
+              UnaryHistory reflected ∧ UnaryHistory negAlpha ∧
+                hsame negAlpha (append alpha reflected) := by
+  intro alphaCarrier negClassified reflectionRoute readbackRoute
+  have negCarrier : RootSystemFiniteSupportCarrier support Vector Nonzero negAlpha :=
+    @RootSystemFiniteSupportCarrier_classifier_transport support Vector Nonzero
+      VectorClassifier vector_transport nonzero_transport alpha negAlpha alphaCarrier
+      negClassified
+  have reflectedUnary : UnaryHistory reflected :=
+    RootSystemReflectionClosure_result_unary vector_unary alphaCarrier alphaCarrier
+      reflectionRoute
+  have negUnary : UnaryHistory negAlpha :=
+    vector_unary negCarrier.right.left
+  exact And.intro negCarrier (And.intro reflectedUnary (And.intro negUnary readbackRoute))
+
 theorem RootSystemCartanLedger_cont_transport
     {IntCarrier : BHist -> Prop} {IntClassifier : BHist -> BHist -> Prop}
     (int_transport : forall {h k : BHist}, IntCarrier h -> IntClassifier h k -> IntCarrier k)

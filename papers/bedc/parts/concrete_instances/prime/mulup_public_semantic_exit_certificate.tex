@@ -37,3 +37,80 @@ boundary is exactly the $\NameCert_{\MulUp}$ package consumed by the full
 natural-arithmetic phase, while the excluded cancellation, semiring, and
 standard-bridge data remain outside the theorem.
 \end{proof}
+
+\begin{definition}[MulUp Full Nat audit consumer surface]
+\label{def:mulup-full-nat-audit-consumer-surface}
+The Full Nat audit consumer surface for $\MulUp$ is the finite row family over
+$\mathsf{BHist}$ consisting exactly of the carrier $\mathsf{UnaryHistory}$,
+the classifier $\hsame$, the continuation ledger $\Cont$, the multiplication
+relation $\mathsf{NatMul}$, the semantic result $\NameCert$ row, the right and
+left $\AddUp$ distributivity rows, the unary-prefix $\OrderUp$ monotonicity
+row, and the divisibility-order rows available in the phase-exit package.
+
+Every row in the surface is read through the same unary endpoints, the same
+history classifier, and the same finite continuation ledgers. The surface has
+no coordinate for host multiplication, quotient equality, semiring structure,
+or cancellation outside the displayed divisibility-order rows.
+\end{definition}
+\begin{proof}
+This is the row list projected from
+\autoref{thm:mulup-public-semantic-exit-certificate} and
+\autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. The first theorem
+fixes the carrier, classifier, continuation, multiplication, semantic result,
+and $\AddUp/\OrderUp$ rows; the phase-exit boundary adds the divisibility-order
+consumer rows over the same endpoints.
+\end{proof}
+
+\begin{theorem}[MulUp Full Nat Lean target boundary]
+\label{thm:mulup-full-nat-lean-target-boundary}
+A later Lean audit target for the L7 $\MulUp$ exit may consume exactly the rows
+of \autoref{def:mulup-full-nat-audit-consumer-surface}: $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, $\mathsf{NatMul}$, the semantic result $\NameCert$ row, the
+two $\AddUp$ distributivity rows, the $\OrderUp$ monotonicity row, and the
+divisibility-order rows. It may not consume host multiplication, quotient
+formation, semiring primitives, a cancellation law, or a second carrier.
+\end{theorem}
+\begin{proof}
+Start from the consumer normal form of
+\autoref{thm:mulup-full-nat-arithmetic-consumer-normal-form}. It states that
+the Full Nat Arithmetic consumer reads the phase-exit boundary only through
+the listed $\mathsf{BHist}$ rows.
+
+Next apply \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary}. This
+fixes the concrete source of the $\mathsf{NatMul}$ semantic exit, the additive
+distribution rows, the order row, and the divisibility rows.
+
+Therefore a Lean target whose purpose is audit consumption has no further input
+slot. Any host multiplication, quotient, semiring, cancellation, or alternate
+carrier would be outside the displayed row family and hence outside the
+boundary.
+\end{proof}
+
+\begin{theorem}[MulUp L7 audit-clean exit surface]
+\label{thm:mulup-l7-audit-clean-exit-surface}
+The L7 Full Nat Arithmetic phase-exit surface for $\MulUp$ is assembled by the
+checked $\mathsf{BEDC.Derived.PrimeUp.NatMul\_unary\_mulup\_certificate}$ row,
+the checked
+$\mathsf{BEDC.Derived.PrimeUp.NatMul\_result\_semanticNameCert}$ row, the
+right and left $\AddUp$ distributivity rows, the unary-prefix $\OrderUp$
+monotonicity row, and the divisibility-order rows of the phase-exit package.
+All rows are over $\mathsf{UnaryHistory}$, $\hsame$, finite $\Cont$ ledgers,
+and $\mathsf{NatMul}$.
+\end{theorem}
+\begin{proof}
+Project \autoref{thm:mulup-public-semantic-exit-certificate}. It supplies the
+public $\MulUp$ package and names the checked $\mathsf{NatMul}$ certificate and
+semantic result certificate as the multiplication core.
+
+Use \autoref{thm:mulup-full-nat-arithmetic-phase-exit-boundary} to attach the
+surrounding arithmetic rows: the two $\AddUp$ distributivity rows, the
+$\OrderUp$ monotonicity row, and the divisibility-order consumer rows. The
+normal form theorem \autoref{thm:mulup-full-nat-arithmetic-consumer-normal-form}
+identifies these as the rows available to a Full Nat Arithmetic consumer.
+
+Finally repack the rows through
+\autoref{def:mulup-full-nat-audit-consumer-surface}. The repacking changes no
+carrier, classifier, continuation ledger, or multiplication relation, so the
+result is a single L7 audit-clean exit surface rather than a host arithmetic
+surface.
+\end{proof}

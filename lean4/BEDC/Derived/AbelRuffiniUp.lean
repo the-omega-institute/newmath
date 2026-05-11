@@ -227,4 +227,30 @@ theorem AbelRuffiniPublicCertificateExport_namecert_surface
       sourceData.right.right.right.right.right, endpointData.right.right.right.right,
       boundaryRow, publicSurfaceRow⟩
 
+theorem AbelRuffiniDerivedSeriesLedger_obstruction_endpoint_boundary
+    {galois s5 subgroup commutator next obstruction endpoint boundary : BHist} :
+    UnaryHistory galois -> UnaryHistory s5 -> UnaryHistory subgroup ->
+      UnaryHistory commutator -> UnaryHistory obstruction -> Cont galois s5 subgroup ->
+        Cont subgroup commutator next -> Cont next obstruction endpoint ->
+          Cont subgroup endpoint boundary ->
+            UnaryHistory next ∧ UnaryHistory endpoint ∧ UnaryHistory boundary ∧
+              hsame subgroup (append galois s5) ∧ hsame next (append subgroup commutator) ∧
+                hsame endpoint (append next obstruction) ∧
+                  hsame boundary (append subgroup endpoint) := by
+  intro galoisUnary s5Unary subgroupUnary commutatorUnary obstructionUnary
+  intro subgroupRow nextRow endpointRow boundaryRow
+  have finiteRows :=
+    AbelRuffiniDerivedSeriesLedger_finite_transport galoisUnary s5Unary subgroupUnary
+      commutatorUnary obstructionUnary subgroupRow nextRow endpointRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed subgroupUnary finiteRows.right.left boundaryRow
+  exact
+    ⟨finiteRows.left,
+      finiteRows.right.left,
+      boundaryUnary,
+      finiteRows.right.right.left,
+      finiteRows.right.right.right.left,
+      finiteRows.right.right.right.right,
+      boundaryRow⟩
+
 end BEDC.Derived.AbelRuffiniUp

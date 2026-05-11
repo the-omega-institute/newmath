@@ -6,5 +6,130 @@ The topological-vector-space interface $\TopVecSpaceUp$ packages a vector-space 
 \section{Carrier definition}
 \label{sec:topvecspace-carrier}
 
+\begin{definition}[TopVecSpace BHist carrier]
+\label{def:topvecspace-bhist-carrier}
+A $\TopVecSpaceUp$ BHist carrier is a finite displayed packet
+$$
+(V,\mathcal T,A,S,\lambda,\rho)
+$$
+whose fields are as follows.
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ carrier row, including the displayed zero, addition, negation, scalar-source, scalar-action, and vector-space classifier rows.
+\item $\mathcal T$ is the $\TopologyUp$ open-neighbourhood row over the same displayed carrier, naming the open rows used to test continuity.
+\item $A$ is the finite addition-continuity ledger: each entry records source neighbourhood rows for two vector inputs, the displayed addition endpoint, and the target neighbourhood row.
+\item $S$ is the finite scalar-continuity ledger: each entry records a scalar-source row, a vector-source row, the displayed scalar-action endpoint, and the target neighbourhood row.
+\item $\lambda$ is the finite $\Cont$ ledger transporting the vector-space, topology, addition-continuity, and scalar-continuity rows.
+\item $\rho$ is the $\Pkg$ provenance row naming the $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\TopologyUp}$ dependency certificates.
+\end{enumerate}
+Two packets classify together exactly when the vector-space row, topology row, continuity ledgers, continuation rows, and package provenance are transported componentwise by the available $\hsame$ rows. The carrier exports no host topological-vector-space equality, ambient topology, or analytic continuity predicate outside the displayed ledgers.
+\end{definition}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_endpoint\_route\_readback}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_route\_transport\_boundary}
+
+\begin{theorem}[TopVecSpace vector-space source obligation]
+\label{thm:topvecspace-vecspace-source-obligation}
+Every accepted $\TopVecSpaceUp$ packet projects its algebraic source exactly to the $\VecSpaceUp$ row $V$ of \autoref{def:topvecspace-bhist-carrier}. The zero, addition, negation, scalar-source, scalar-action, and vector-space classifier rows are consumed through $\NameCert_{\VecSpaceUp}$ and transported only by the carried $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to its first field $V$. By the carrier definition, $V$ is the only row that exposes vector-space operations and the vector-space classifier.
+
+The addition and scalar-continuity ledgers may refer to those operations, but they do so by naming the rows already present in $V$. Their references are routed through $\lambda$ and the provenance row $\rho$.
+
+Since no host vector space or ambient equality row is available in the packet, the algebraic source obligation is exactly the displayed $\VecSpaceUp$ source row.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_vecspace\_source\_obligation}
+
+\begin{theorem}[TopVecSpace topology source obligation]
+\label{thm:topvecspace-topology-source-obligation}
+Every accepted $\TopVecSpaceUp$ packet projects its topological source exactly to the $\TopologyUp$ row $\mathcal T$ of \autoref{def:topvecspace-bhist-carrier}. Open-neighbourhood membership, neighbourhood transport, and topological classifier data are consumed through $\NameCert_{\TopologyUp}$ and remain tied to the vector-space carrier only through displayed $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{theorem}
+\begin{proof}
+Project the packet to $\mathcal T$. This row records the open-neighbourhood data used by the continuity ledgers, and it is the only field that consumes the topology certificate.
+
+The vector-space row $V$ supplies the carrier on which those opens are displayed. The connection between $V$ and $\mathcal T$ is not host equality of underlying sets; it is the componentwise transport recorded by $\lambda$ and named by $\rho$.
+
+Thus every topological readback factors through $\NameCert_{\TopologyUp}$ and the finite packet rows. No ambient topology or unlogged neighbourhood filter is exported.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_topology\_source\_obligation}
+
 \section{The certificate}
 \label{sec:topvecspace-certificate}
+
+\begin{theorem}[TopVecSpace continuous addition obligation]
+\label{thm:topvecspace-continuous-addition-obligation}
+For a $\TopVecSpaceUp$ BHist carrier, every addition-continuity claim is a row of the finite ledger $A$. Each such row reads two vector-source neighbourhoods from $\mathcal T$, the displayed addition endpoint from $V$, and the target neighbourhood row from $\mathcal T$, with the route and provenance recorded by $\lambda$ and $\rho$.
+\end{theorem}
+\begin{proof}
+Read an entry of the addition-continuity ledger $A$. Its input neighbourhoods and target neighbourhood are topology rows, while its operation endpoint is the addition row exposed by $V$.
+
+The comparison data for transported packets are supplied componentwise by $\hsame$. The finite continuation ledger $\lambda$ records how the two input neighbourhoods, the addition endpoint, and the target neighbourhood remain aligned after transport.
+
+Repacking these projections gives the addition-continuity obligation. Because the packet contains no host continuity predicate, no external topological-vector-space equality is used.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_continuous\_addition\_obligation}
+
+\begin{theorem}[TopVecSpace continuous scalar obligation]
+\label{thm:topvecspace-continuous-scalar-obligation}
+For a $\TopVecSpaceUp$ BHist carrier, every scalar-continuity claim is a row of the finite ledger $S$. Each such row reads the scalar-source and vector-source coordinates from $V$, the relevant neighbourhood rows from $\mathcal T$, and the scalar-action endpoint from $V$, with transport and provenance recorded by $\lambda$ and $\rho$.
+\end{theorem}
+\begin{proof}
+Read an entry of the scalar-continuity ledger $S$. The scalar coordinate, vector coordinate, and scalar-action endpoint are projected from the $\VecSpaceUp$ row $V$.
+
+Read the neighbourhood coordinates from $\mathcal T$. Their stability under replacement is witnessed by the carried $\hsame$ comparisons and the finite continuation route in $\lambda$.
+
+The provenance row $\rho$ records that the algebraic and topological reads come from the two named dependency certificates. Therefore the scalar-continuity obligation is internal to the displayed packet and does not invoke host topological-vector-space equality.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_continuous\_scalar\_obligation}
+
+\begin{theorem}[TopVecSpace classifier transport]
+\label{thm:topvecspace-classifier-transport}
+Let $P=(V,\mathcal T,A,S,\lambda,\rho)$ and $P'=(V',\mathcal T',A',S',\lambda',\rho')$ be displayed $\TopVecSpaceUp$ packets. If the $\VecSpaceUp$ row, $\TopologyUp$ row, addition-continuity ledger, scalar-continuity ledger, finite $\Cont$ ledger, and $\Pkg$ provenance are transported componentwise by the carried $\hsame$ rows from $P$ to $P'$, then accepted carrier status transports from $P$ to $P'$. Under the same componentwise transport, every accepted addition-continuity ledger row of $P$ transports to an accepted row of $A'$, and every accepted scalar-continuity ledger row of $P$ transports to an accepted row of $S'$.
+\end{theorem}
+\begin{proof}
+Project the two packets to their displayed rows. The carrier definition makes the vector-space row, topology row, the two continuity ledgers, the continuation ledger, and the package provenance the complete classifier surface.
+
+Use the supplied $\hsame$ comparisons on each row. They replace $V$ by $V'$, $\mathcal T$ by $\mathcal T'$, $A$ by $A'$, $S$ by $S'$, $\lambda$ by $\lambda'$, and $\rho$ by $\rho'$ without introducing any coordinate outside the displayed packet.
+
+The accepted carrier predicate is therefore rebuilt by the same finite tuple with primed rows. The addition and scalar obligations follow by applying \autoref{thm:topvecspace-continuous-addition-obligation} and \autoref{thm:topvecspace-continuous-scalar-obligation} to the transported ledgers.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_classifier\_transport}
+
+\begin{theorem}[TopVecSpace NameCert boundary]
+\label{thm:topvecspace-namecert-boundary}
+The carrier definition of \autoref{def:topvecspace-bhist-carrier}, the vector-space and topology source obligations of \autoref{thm:topvecspace-vecspace-source-obligation} and \autoref{thm:topvecspace-topology-source-obligation}, the continuous addition and scalar obligations of \autoref{thm:topvecspace-continuous-addition-obligation} and \autoref{thm:topvecspace-continuous-scalar-obligation}, and the classifier transport of \autoref{thm:topvecspace-classifier-transport} assemble the $\NameCert_{\TopVecSpaceUp}$ boundary over $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_namecert\_boundary}
+\begin{proof}
+Start with a displayed packet $(V,\mathcal T,A,S,\lambda,\rho)$ of \autoref{def:topvecspace-bhist-carrier}. The first two source obligations identify exactly the dependency-certificate rows consumed from $\VecSpaceUp$ and $\TopologyUp$.
+
+The two continuity obligations identify the only analytic rows exposed by the packet: addition is read from $A$, scalar multiplication is read from $S$, and both ledgers route through $\lambda$ with provenance in $\rho$.
+
+Finally apply \autoref{thm:topvecspace-classifier-transport}. It supplies the closure of the accepted packet surface under componentwise $\hsame$ replacement, so the carrier, source, continuity, continuation, and package rows repack as the displayed $\NameCert_{\TopVecSpaceUp}$ boundary.
+\end{proof}
+
+\begin{theorem}[TopVecSpace consumer scope]
+\label{thm:topvecspace-consumer-scope}
+Every downstream consumer of a $\TopVecSpaceUp$ certificate reads only the displayed $\VecSpaceUp$ row $V$, the displayed $\TopologyUp$ row $\mathcal T$, the addition and scalar continuity ledgers $A$ and $S$, the continuation ledger $\lambda$, and the provenance row $\rho$. Such a consumer cannot infer ambient topological-vector-space equality, host continuity of addition or scalar multiplication, or any topology or vector-space structure not present in the displayed packet.
+\end{theorem}
+\begin{proof}
+Inspect the NameCert boundary of \autoref{thm:topvecspace-namecert-boundary}. Its exported rows are precisely the carrier tuple, the two source projections, the two continuity ledgers, the componentwise transport route, and the provenance row.
+
+A consumer read is therefore a projection from those rows. If it asks for algebraic data, it lands in $V$; if it asks for topological data, it lands in $\mathcal T$; if it asks for continuity, it lands in $A$ or $S$ and follows $\lambda$ and $\rho$.
+
+No constructor in the boundary provides host equality of topological vector spaces, an ambient continuity predicate, or an external topology. Those conclusions are therefore outside the consumer scope of the certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_consumer\_scope}
+
+\closureat{TopVecSpaceUp}{obligationStr}[BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_consumer\_scope]
+\closureat{TopVecSpaceUp}{scopedStr}[BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_consumer\_scope]
+
+\begin{closurestatus}{\TopVecSpaceUp}
+  \constructivestory{A topological vector-space packet is generated from a checked $\VecSpaceUp$ source, a checked $\TopologyUp$ source, displayed rows for continuous addition and continuous scalar action, componentwise $\hsame$ transport, backward $\Cont$ provenance, and $\Pkg$ links naming exactly those two sources. The consumer reads only that finite $\mathsf{BHist}$ surface, so algebraic vector-space data, topology data, operation-continuity rows, classifier transport, and downstream consumer scope are all projected from visible rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The seed boundary binds the vector-space source, topology source, continuous addition, continuous scalar action, classifier transport, and consumer scope to $\VecSpaceUp$, $\TopologyUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_consumer\_scope}
+  \bridgestatus{none}
+  \notclaimed{No locally convex theorem, analytic topological-vector-space theorem, host continuity predicate, or standard bridge is claimed here.}
+  \upgradepath{Public closure requires an exported $\TopVecSpaceUp$ consumer surface for the displayed vector-space, topology, continuity, classifier, and provenance packet.}
+\end{closurestatus}

@@ -735,6 +735,40 @@ quotient, host-equality, and direct-read data are absent from each cited
 surface, hence absent from the exhausted consumer boundary.
 \end{proof}
 
+\begin{theorem}[RealUp completion phase selected-window determinacy]
+\label{thm:realup-completion-phase-selected-window-determinacy}
+Let two public consumer rows of the Phase Real and Completion package select
+the same certified unary finite window from the same accepted boundary packet.
+Then both selected reads factor through the same displayed route: the
+DyadicRatCore public observation package, the $\StreamNameUp$ finite-window
+interface, the $\RegSeqRat$ stream-name scoped interface, and the $\RealUp$
+seal/readback rows.
+
+The two selected reads are compared only by the displayed $\hsame$ and
+classifier rows along this route. No quotient representative, host stream
+equality, completion object, or direct $\RealUp$ bypass is available as a
+second comparison path.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:realup-completion-phase-interface-exhaustion} to the two public
+consumer rows. Since both rows select a unary finite window, the exhaustion
+places them in the stream-name branch before any seal/readback row can be
+read.
+
+Use \autoref{thm:streamname-public-finite-window-interface} to identify the
+selected certified window as a public $\StreamNameUp$ finite-window read. Then
+apply \autoref{thm:regseqrat-streamname-scoped-interface} and
+\autoref{thm:regseqrat-finite-window-real-seal-interface} to repack that same
+window as the regular-spine input consumed by the $\RealUp$ seal.
+
+Finally apply \autoref{thm:realup-public-seal-source-determinacy}. It rules
+out a second seal source for the same public read, so the two consumers can be
+compared only through the displayed $\hsame$ and classifier rows. The excluded
+quotient, host-equality, completion, and direct-bypass data are absent by the
+exhaustion theorem.
+\end{proof}
+
 \begin{closurestatus}{\RegSeqRat}
   \constructivestory{A regular rational-sequence row is assembled from a $\StreamNameUp$ rational observation stream and a regularity ledger over certified unary observation histories, with each observed endpoint read through $\RatUp$ and each tolerance request recorded by the dyadic side of the real boundary. The carrier accepts streams only when the pointwise rational-history carrier is available at every unary observation and the regularity witness is stable under the real unary stream classifier; a raw sequence with no StreamName carrier, no pointwise RatUp rows, or no dyadic-tolerance ledger is outside this spine. Two accepted spines are classified when the same unary observations carry pointwise $\RatUp$ classifier rows and the resulting $\mathsf{RealUnaryStreamClassifier}$ transports endpoint histories by $\hsame$, rather than by a quotient of Cauchy sequences. The source specification is the $\StreamNameUp$ carrier plus DyadicRatCore observation surface, the pattern specification records pointwise classifier stability, reflexivity, symmetry, transitivity, endpoint carrier readback, transported stream-name classification, finite-window seal coverage, and the $\RealUp$ seal handoff, and the ledger keeps observation indices, point classifiers, finite windows, regularity requests, and dyadic tolerances visible. The five name-certificate obligations follow from the stream and point classifiers: an admitted spine supplies carrier inhabitation, pointwise RatUp equivalence gives reflexive, symmetric, and transitive classification, and endpoint $\hsame$ transport repacks the same regular stream row. A stream packet $h$ lies in the signature gap of a $\RegSeqRat$ token $p$ when the source-domain accepts its rational observations and regularity ledger, the signature relation pairs it with an answer spine and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the finite windows, pointwise rational classifiers, and dyadic tolerance rows are the entries encoded by $p$. The block registers this rational-stream certificate spine as $\RegSeqRat$; it supplies only the visible interface consumed by the real seal, with no real completeness theorem, arithmetic/order closure, metric completion, quotient carrier, or standard bridge introduced.}
   \theoryclosure{\scopedClosure}

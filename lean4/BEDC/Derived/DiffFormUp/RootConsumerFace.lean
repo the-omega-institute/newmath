@@ -160,4 +160,35 @@ theorem DiffFormRootConsumerFace_disjointness {ScalarCarrier : BHist -> Prop}
                   classified.right.right.right.right.right.right.right)))))))
     classified.right.right.right.right.right.right.right
 
+theorem DiffFormRootConsumerFace_cross_consumer_threshold_package
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus scalarLeft scalarRight : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            Cont degree probe tensor ->
+              UnaryHistory antisym ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    Cont degree (BHist.e1 BHist.Empty) dplus ->
+                      ScalarClassifier scalarLeft scalar ->
+                        ScalarClassifier scalar scalarRight ->
+                          DiffFormBHistClassifier ScalarClassifier probes degree probe tensor
+                              scalarLeft antisym ledger degree probe tensor scalarRight antisym
+                              ledger ∧
+                            DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe
+                              tensor tensor scalar scalar antisym ledger ∧
+                              UnaryHistory dplus := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor leftScalar rightScalar
+  have coverage :=
+    DiffFormRootConsumerFace_coverage scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
+  have crossed :=
+    DiffFormRootConsumerFace_disjointness scalarCert coverage.left leftScalar rightScalar
+  exact And.intro crossed.left (And.intro coverage.right.right coverage.right.left)
+
 end BEDC.Derived.DiffFormUp

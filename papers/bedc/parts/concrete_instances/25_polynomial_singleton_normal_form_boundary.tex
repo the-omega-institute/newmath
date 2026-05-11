@@ -63,3 +63,20 @@ $$
 which is the nil-nil constructor of the finite-spine classifier from \autoref{def:list-classifier-specification}, as isolated by \autoref{thm:list-classifier-case-exactness}. Hence $\mathsf{PolySame}_R(\mathsf{radd}_R(p,q),\mathsf{nil})$ holds.
 \end{proof}
 \leanchecked{BEDC.Derived.PolynomialUp.PolynomialSingletonRawAdd\_singleton\_normal\_form\_boundary}
+
+\begin{definition}[Polynomial singleton constant-source schema instance]
+\label{def:polynomial-singleton-constant-source-schema-instance}
+The concrete constant-source instance for $\PolynomialUp$ uses the singleton empty-history polynomial carrier. Its coefficient source is the existing singleton scalar carrier, its polynomial constructor is the constant singleton coefficient row $\mathsf{cons}(c,\mathsf{nil})$, and its evaluation row is the singleton evaluation readback $\mathsf{PolynomialSingletonEval}$ at the displayed evaluation endpoint. The classifier is the singleton polynomial classifier on these $\mathsf{BHist}$ rows, not an abstract coefficient equivalence.
+\end{definition}
+
+\begin{theorem}[Polynomial singleton constant evaluation boundary]
+\label{thm:polynomial-singleton-constant-evaluation-boundary}
+Every constant-source singleton polynomial from \autoref{def:polynomial-singleton-constant-source-schema-instance} evaluates to the displayed singleton coefficient endpoint. For a coefficient row $c$ and any singleton evaluation endpoint $\alpha$, the readback of the constant spine $\mathsf{cons}(c,\mathsf{nil})$ is classified by the singleton polynomial classifier as the same endpoint $c$; at the empty-history endpoint, the zero constant-term readback gives the same classifier boundary. Thus the evaluation classifier exported by this concrete instance is exactly the singleton coefficient classifier.
+\end{theorem}
+\begin{proof}
+The carrier is the one-coefficient boundary isolated by \autoref{def:polynomial-normalized-singleton-representative} and \autoref{prop:raw-polynomial-addition-leaves-singleton-normal-form}: a constant-source row is presented by the singleton spine $\mathsf{cons}(c,\mathsf{nil})$, with no additional coefficient family or abstract scalar quotient.
+
+The singleton evaluation readback applies the checked singleton row $\mathsf{PolynomialSingletonEval\_singleton}$, which identifies evaluation of $\mathsf{cons}(c,\mathsf{nil})$ with the coefficient endpoint $c$ under the singleton polynomial classifier. At the empty-history endpoint, $\mathsf{PolynomialSingletonEval\_zero\_constant\_term}$ gives the same endpoint boundary for the zero constant-term readback.
+
+Therefore the only classifier visible in the concrete constant-source schema is the singleton polynomial classifier already attached to the coefficient row. Repacking the carrier, constructor, and evaluation readback gives the stated boundary.
+\end{proof}

@@ -160,6 +160,20 @@ theorem AddUnaryContinuationMonoid_activation_package :
           exact unary_continuation_associativity
             unaryA unaryB unaryC contAB contBC contABC contABC2)))
 
+theorem AddUnaryContinuationMonoid_activation_from_stability :
+    NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
+      (∀ {h k r : BHist}, UnaryHistory h -> UnaryHistory k -> Cont h k r ->
+        UnaryHistory r) ∧
+      (∀ {h left right : BHist}, UnaryHistory h -> Cont h BHist.Empty left ->
+        Cont BHist.Empty h right ->
+          UnaryHistory left ∧ UnaryHistory right ∧ hsame left h ∧ hsame right h) ∧
+      (∀ {a b c ab bc abc abc' : BHist}, UnaryHistory a -> UnaryHistory b ->
+        UnaryHistory c -> Cont a b ab -> Cont b c bc -> Cont ab c abc ->
+          Cont a bc abc' -> hsame abc abc') ∧
+      (∀ {h k r r' : BHist}, Cont h k r -> Cont h k r' -> hsame r r') := by
+  exact And.intro add_up_name_certificate
+    (And.intro addLedgerPolicy_from_unary_cont_closed additive_stability_certificate_fields)
+
 theorem AddUp_acceptance_bridge_fields :
     NameCert UnaryHistory AddClassifierSpec ∧ AddLedgerPolicy ∧
       (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧

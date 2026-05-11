@@ -49,6 +49,16 @@ carrier, and transport of $\hsame$ across the append arguments gives the
 required multiplication congruence.
 \end{proof}
 
+\begin{theorem}[Monoid concrete history instance unlock surface]
+\label{thm:monoid-concrete-history-instance-unlock-surface}
+The carrier $\mathsf{UnaryHistory}$, multiplication $\mathsf{append}$, and unit $\emp$ form the concrete $\MonoidUp$ instance consumed by downstream algebra schemas. Associativity is supplied by append associativity, the left and right unit laws are supplied by empty-history append laws, the classifier is the existing unary append monoid classifier, and every exported row is visible through $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
+\end{theorem}
+\begin{proof}
+Use the concrete instance of \autoref{def:concrete-history-monoid-instance} for the carrier, multiplication, unit, and classifier. The law package is exactly \autoref{thm:concrete-history-monoid-laws}: its unit clauses give the empty-history left and right unit laws, its associativity clause gives append associativity up to $\hsame$, and its congruence clause keeps multiplication compatible with the unary append classifier.
+
+The Lean-side names \texttt{BEDC.Derived.MonoidUp.unary\_append\_monoid\_semantic\_name\_certificate} and \texttt{BEDC.Derived.MonoidUp.concrete\_history\_monoid\_laws} are the intended formal anchors for this concrete unlock surface. No abstract carrier parameter, abstract classifier parameter, or transport between unrelated monoid presentations is introduced; downstream schemas consume the displayed $\mathsf{UnaryHistory}$ append instance directly.
+\end{proof}
+
 The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.

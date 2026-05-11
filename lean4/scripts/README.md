@@ -27,3 +27,47 @@ python3 lean4/scripts/bedc_ci.py inventory --json
 - Worktrees live under `.worktrees/` and logs under `lean4/scripts/logs/`.
 - `bedc_ci.py verify-files` runs `lake env lean` on explicit files; the orchestrator itself uses `lake_gate.py` for build concurrency.
 - Run a real formalization round only after reviewing the adapted prompts and dry-run output.
+
+## manifest-coverage subcommand
+
+`python3 lean4/scripts/bedc_ci.py manifest-coverage` reports how many paper
+`\leanchecked{X}` markers are currently registered in `BEDC.Manifest.Entries`
+(the Lean-side hand-curated anchor list of paper-bound theorems). Informational
+only — does not gate CI. As `BEDC.Manifest` grows, the coverage ratio grows
+toward the full paper corpus.
+
+Related: `manifest_codegen.py` emits Lean stubs from paper markers for human
+review before adding to `BEDC/Manifest/Entries.lean`.
+
+## marker-existence-audit subcommand
+
+`python3 lean4/scripts/bedc_ci.py marker-existence-audit` reports paper
+\leanchecked / \leanvariant / \leantarget / \leandef / \leanstmt / \leansorryd
+markers whose referenced Lean name does not exist in lean4/BEDC/. Informational
+only — does not gate CI. Use as a standing check that paper marker references
+remain consistent with the Lean source.
+
+## metacic-purity subcommand
+
+`python3 lean4/scripts/bedc_ci.py metacic-purity` reports every declaration in
+the `BEDC.MetaCIC` namespace together with its `#print axioms` result.
+Informational only — does not gate CI. Use
+`python3 lean4/scripts/bedc_ci.py metacic-purity --strict` to exit nonzero if a
+MetaCIC theorem or lemma depends on `Classical.choice`, `Quot.sound`, or
+`propext`; non-theorem declarations are still reported.
+
+## BEDC.MetaCIC.HostBridge — host Lean ↔ MetaCIC reflection
+
+`lean4/BEDC/MetaCIC/HostBridge.lean` provides:
+
+- `reflectExpr : Lean.Expr → MetaM (Option Term)` — best-effort
+  translation from host Lean `Expr` to `BEDC.MetaCIC.Term`. Covers
+  `sort`, `bvar`, `app`, `lam`, `forallE`, `const`, `fvar`, `mdata`.
+- `#reflect_metacic <term>` elab command — print MetaCIC encoding of
+  a host Lean term in the InfoView.
+
+This module is the entry point for downstream BEDC automation that
+wants to operate on the MetaCIC encoding of host theorems. The
+metaprogramming layer is outside the pure-CIC discipline by design
+(it consumes Lean elaboration data); the output `Term` values
+remain pure-CIC data.

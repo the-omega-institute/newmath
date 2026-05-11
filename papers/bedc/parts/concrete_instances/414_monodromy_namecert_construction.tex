@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\MonodromyUp$}
+\label{ch:concrete-instances-monodromy-namecert}
+
+The $\MonodromyUp$ interface records the finite certificate surface of carrying a fibre or local-system row around a displayed loop and reading back the resulting transport row. The classical reference point is the regular-singular monodromy and Riemann-Hilbert tradition of Deligne, read here only through finite $\NameCert_{\HolonomyUp}$, $\NameCert_{\RiemannHilbertUp}$, $\NameCert_{\SheafUp}$, $\NameCert_{\ConnectionUp}$, and $\NameCert_{\CurvatureUp}$ rows.
+
+\section{Carrier definition}
+\label{sec:monodromy-carrier}
+
+\begin{definition}[Monodromy BHist transport carrier]
+\label{def:monodromy-bhist-transport-carrier}
+A $\MonodromyUp$ carrier is a finite $\mathsf{BHist}$ transport packet
+$$
+(\gamma,b,\mathcal L,F,\lambda,\tau,\rho)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $\gamma$ is a loop row with named source endpoint, return endpoint, and endpoint $\hsame$ comparison.
+\item $b$ is the base endpoint row over which the loop is read.
+\item $\mathcal L$ is a local-system, sheaf, or fibre row supplied through $\NameCert_{\SheafUp}$ together with the connection row supplied through $\NameCert_{\ConnectionUp}$.
+\item $F$ is the returned fibre or stalk row obtained by following the displayed loop.
+\item $\lambda$ is the finite continuation ledger for loop subdivision, transport concatenation, endpoint readback, and returned-row comparison.
+\item $\tau$ records componentwise $\hsame$ transports for the loop row, base endpoint, local-system or fibre row, returned row, and continuation ledger.
+\item $\rho$ is the $\mathsf{Pkg}$ provenance row over $\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$.
+\end{enumerate}
+The carrier exports no analytic fundamental group, no host representation category, and no unbounded continuation procedure beyond these displayed rows.
+\end{definition}
+\leanchecked{BEDC.Derived.MonodromyUp.taste\_gate}
+
+\begin{definition}[Monodromy finite transport classifier]
+\label{def:monodromy-finite-transport-classifier}
+The $\MonodromyUp$ classifier relates two accepted packets exactly when the loop rows, base endpoint rows, local-system or fibre rows, returned rows, finite continuation ledgers, componentwise transport rows, and package provenance rows are related by the displayed $\hsame$ comparisons. The classifier is therefore a finite rowwise comparison on the packet of \autoref{def:monodromy-bhist-transport-carrier}; it does not classify host paths, analytic continuation germs, or representations outside the packet.
+\end{definition}
+
+\section{The certificate}
+\label{sec:monodromy-certificate}
+
+\begin{theorem}[Monodromy loop-continuation obligation]
+\label{thm:monodromy-loop-continuation-obligation}
+Every accepted $\MonodromyUp$ packet binds its loop-continuation row to the displayed base endpoint, local-system or fibre row, connection row, returned row, and finite continuation ledger of \autoref{def:monodromy-bhist-transport-carrier}. If two accepted packets have componentwise $\hsame$ transports of those rows, then the transported returned row is again accepted by the classifier of \autoref{def:monodromy-finite-transport-classifier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonodromyUp.MonodromyTransportCarrier\_loop\_continuation\_stability}
+\leanchecked{BEDC.Derived.MonodromyUp.MonodromyTransportPacket\_loop\_continuation\_obligation}
+\begin{proof}
+Project the accepted packet to its loop row $\gamma$, base endpoint $b$, local-system or fibre row $\mathcal L$, and connection source. These rows name the only source data used by the continuation route.
+
+Next read the finite continuation ledger $\lambda$. Its entries record loop subdivision, transport concatenation, and endpoint readback, so the returned row $F$ is determined by a displayed route rather than by an ambient analytic continuation object.
+
+Finally apply the componentwise $\hsame$ transports stored in $\tau$. The classifier accepts exactly those rowwise transports, and repacking the transported loop, base, fibre, returned row, ledger, and provenance rows gives another accepted $\MonodromyUp$ packet.
+\end{proof}
+
+\begin{theorem}[Monodromy returned-row provenance exactness]
+\label{thm:monodromy-returned-row-provenance-exactness}
+For any accepted $\MonodromyUp$ packet, every returned fibre row or returned stalk row accepted by the classifier is obtained from the displayed loop row, base endpoint row, local-system or fibre row, finite continuation ledger, componentwise $\hsame$ transports, and $\Pkg$ provenance named in \autoref{def:monodromy-bhist-transport-carrier}. A transported returned row is accepted only through these same rows. No host path equality, analytic continuation germ, or external representation row supplies a returned-row source for the packet.
+\end{theorem}
+\begin{proof}
+Project the packet to $\gamma$, $b$, $\mathcal L$, $F$, $\lambda$, $\tau$, and $\rho$. These coordinates name the loop, endpoint, local-system or fibre source, returned row, continuation ledger, rowwise transports, and package provenance visible to the classifier.
+
+Apply \autoref{thm:monodromy-loop-continuation-obligation} to the transport step. The obligation binds the returned row to the displayed loop route and to the finite continuation ledger, and the transported returned row is repacked by the same componentwise $\hsame$ transports.
+
+The classifier of \autoref{def:monodromy-finite-transport-classifier} has no coordinate for host paths, analytic germs, or representation rows outside the packet. Hence every accepted returned row, including a transported one, has exactly the displayed provenance listed in the carrier.
+\end{proof}
+
+\begin{theorem}[Monodromy NameCert obligation surface]
+\label{thm:monodromy-namecert-obligation-surface}
+The seed $\NameCert_{\MonodromyUp}$ obligation surface consists of five finite rows.
+\begin{enumerate}
+\item The carrier row supplied by \autoref{def:monodromy-bhist-transport-carrier}.
+\item The classifier row supplied by \autoref{def:monodromy-finite-transport-classifier}.
+\item The loop-continuation stability row supplied by \autoref{thm:monodromy-loop-continuation-obligation}.
+\item The returned-row provenance row of \autoref{thm:monodromy-returned-row-provenance-exactness}, naming the consumed $\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$ certificates through $\mathsf{Pkg}$.
+\item The standard-boundary exclusion row saying that no analytic fundamental group, representation category, unbounded continuation solver, or regular-singular comparison theorem is exported by the seed packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Read the carrier fields. The loop, base endpoint, local-system or fibre, returned row, continuation ledger, componentwise transport rows, and package provenance supply the carrier and classifier obligations directly.
+
+Use \autoref{thm:monodromy-loop-continuation-obligation} for the stability row and \autoref{thm:monodromy-returned-row-provenance-exactness} for the returned-row provenance row. Their proofs record that transported packets remain inside the same finite row shape, so no extra continuation principle is needed.
+
+The provenance and boundary rows are projections from $\rho$ and from the absence of any host path, representation, or analytic solver coordinate in the carrier. These five rows exhaust the seed obligation surface for $\NameCert_{\MonodromyUp}$.
+\end{proof}
+
+\begin{theorem}[Monodromy standard boundary scope]
+\label{thm:monodromy-standard-boundary-scope}
+The standard mathematical boundary of $\MonodromyUp$ is limited in this chapter to Deligne-style regular-singular monodromy and Riemann-Hilbert motivation as a naming source. The BEDC packet itself exposes only the displayed loop row, base endpoint, local-system or fibre row, finite continuation ledger, returned-row transport, componentwise $\hsame$ comparisons, and $\mathsf{Pkg}$ provenance over $\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$.
+\end{theorem}
+\begin{proof}
+Project any consumer-visible monodromy readback from the carrier. The only available coordinates are the loop, base, local-system or fibre, returned row, finite ledger, transport comparisons, and dependency provenance rows.
+
+The external regular-singular and Riemann-Hilbert traditions justify the human-known name, but they are not fields of the packet. In particular, the carrier has no coordinate for a fundamental-group representation, analytic continuation theorem, regular-singular classification, or host category equivalence.
+
+Thus the boundary is a finite scope statement about what the certificate rows expose. Standard analytic or categorical monodromy results remain outside this seed chapter until they are represented by additional displayed BEDC rows.
+\end{proof}
+
+\closureat{MonodromyUp}{seedStr}
+\begin{closurestatus}{\MonodromyUp}
+  \constructivestory{A monodromy packet is a finite $\mathsf{BHist}$ transport ledger over a displayed loop, base endpoint, local-system or fibre row, returned row, finite continuation ledger, componentwise $\hsame$ transports, and package provenance. Classification is rowwise transport of those finite coordinates, with Deligne-style regular-singular monodromy and Riemann-Hilbert theory serving only as the human-known naming source.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope names only the displayed loop, base endpoint, local-system or fibre, continuation, returned-row transport, $\hsame$, and $\mathsf{Pkg}$ rows of the monodromy packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic continuation, a fundamental-group representation theorem, regular-singular classification, Riemann-Hilbert equivalence, or a standard bridge.}
+  \upgradepath{Scoped closure requires Lean-side finite carrier and classifier declarations plus checked loop-continuation stability for the packet rows.}
+\end{closurestatus}

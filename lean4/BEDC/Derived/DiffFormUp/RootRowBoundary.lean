@@ -119,6 +119,36 @@ theorem DiffFormRootBHistNameCert_semantic_name_certificate
   · intro _candidate source
     exact source
 
+theorem DiffFormRootBHistClassifier_stability_obligation
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {d p t s a l d' p' t' s' a' l' : BHist} :
+    DiffFormBHistClassifier ScalarClassifier probes d p t s a l d' p' t' s' a' l' ->
+      UnaryHistory d -> UnaryHistory p -> Cont d p t -> UnaryHistory a -> Cont t a s ->
+        hsame l (append d (append p (append t (append s a)))) -> ScalarCarrier s ->
+          hsame s s' ->
+            UnaryHistory d' ∧ UnaryHistory p' ∧ UnaryHistory t' ∧ UnaryHistory s ∧
+              hsame d d' ∧ hsame p p' ∧ hsame t t' ∧ hsame l l' := by
+  intro classified degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  intro scalarCarrier sameScalar
+  have _scalarCarrier' : ScalarCarrier s' :=
+    NameCert.carrier_respects_equiv scalarCert
+      classified.right.right.right.right.right.left scalarCarrier
+  have coordinateRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have transportedRows :=
+    DiffFormBHistCarrier_hsame_transport classified.right.right.left
+      classified.right.right.right.left classified.right.right.right.right.left sameScalar
+      classified.right.right.right.right.right.right.left
+      classified.right.right.right.right.right.right.right degreeUnary probeUnary tensorRoute
+      antisymUnary scalarRoute ledgerRoute
+  exact
+    ⟨transportedRows.left, transportedRows.right.left, transportedRows.right.right.left,
+      coordinateRows.right.right.right.left, classified.right.right.left,
+      classified.right.right.right.left, classified.right.right.right.right.left,
+      classified.right.right.right.right.right.right.right⟩
+
 theorem DiffFormRootRow_wedge_scope
     {left right : ProbeBundle BHist}
     {leftLedger rightLedger tensorLedger leftDegree rightDegree outDegree : BHist} :

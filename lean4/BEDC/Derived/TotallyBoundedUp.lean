@@ -217,4 +217,17 @@ theorem SingletonMetricTotallyBounded_laws :
       · intro x y sameX sameY
         exact hsame_trans sameX (hsame_symm sameY)
 
+def SingletonMetricTotallyBoundedInstance (point center : BHist) (net : ProbeBundle BHist) :
+    Prop :=
+  hsame point BHist.Empty ∧ hsame center BHist.Empty ∧ InBundle center net
+
+theorem SingletonMetricTotallyBoundedInstance_empty_center :
+    SingletonMetricTotallyBoundedInstance BHist.Empty BHist.Empty
+      (ProbeBundle.Bcons BHist.Empty ProbeBundle.Bnil) := by
+  constructor
+  · exact hsame_refl BHist.Empty
+  · constructor
+    · exact hsame_refl BHist.Empty
+    · exact inBundle_cons_self BHist.Empty ProbeBundle.Bnil
+
 end BEDC.Derived.TotallyBoundedUp

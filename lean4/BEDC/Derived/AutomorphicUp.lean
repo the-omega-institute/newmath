@@ -381,4 +381,39 @@ theorem AutomorphicAdeleGraph_semanticNameCert :
           exact source
       }
 
+theorem AutomorphicAdeleGraph_public_certificate_export {domain value graph : BHist} :
+    AdeleHistoryCarrier domain -> AdeleHistoryCarrier value -> Cont domain value graph ->
+      SemanticNameCert (fun row : BHist => hsame row graph)
+          (fun row : BHist => hsame row graph) (fun row : BHist => hsame row graph) hsame ∧
+        (hsame graph BHist.Empty -> False) := by
+  intro domainCarrier valueCarrier graphCont
+  have graphNonempty : hsame graph BHist.Empty -> False :=
+    AutomorphicAdeleGraph_cont_nonempty domainCarrier valueCarrier graphCont
+  have graphCert :
+      SemanticNameCert (fun row : BHist => hsame row graph)
+          (fun row : BHist => hsame row graph) (fun row : BHist => hsame row graph) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro graph (hsame_refl graph)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRow sourceRow
+        exact hsame_trans (hsame_symm sameRow) sourceRow
+    }
+    pattern_sound := by
+      intro row source
+      exact source
+    ledger_sound := by
+      intro row source
+      exact source
+  }
+  exact And.intro graphCert graphNonempty
+
 end BEDC.Derived.AutomorphicUp

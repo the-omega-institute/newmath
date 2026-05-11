@@ -6,5 +6,86 @@ The Stone-duality interface $\StoneDualityUp$ packages the contravariant equival
 \section{Carrier definition}
 \label{sec:stoneduality-carrier}
 
+\begin{theorem}[StoneDualityUp Boolean-algebra source]\label{thm:stoneduality-boolean-algebra-source}
+A $\StoneDualityUp$ source row is a finite $\mathsf{BHist}$ packet whose Boolean-algebra side consists only of $\LatticeUp$ observations: zero and one rows, meet and join rows, complement rows, and the distributive ledgers that classify those rows by $\hsame$. If two such packets are $\hsame$-equivalent as $\LatticeUp$ packets, then their induced $\Pkg$ rows for $\StoneDualityUp$ have the same Boolean source classifier. No point of a Stone space, ultrafilter, or external compact Hausdorff carrier is part of the source data.
+\end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityBooleanSource\_transport}
+
+\begin{proof}
+Read the carrier from the finite $\mathsf{BHist}$ ledger. The zero, one, meet, join, complement, and distributive rows are already $\LatticeUp$-typed observations, so the $\StoneDualityUp$ source packet is obtained by repacking those rows into a single $\Pkg$ coordinate.
+
+The classifier statement is just transport along $\hsame$. Since each Boolean operation row is classified by the same finite history relation before and after repacking, the $\StoneDualityUp$ source classifier has no additional semantic input.
+
+The last clause is a boundary condition on the carrier. The construction names only the finite observation packet and therefore never asks for an ultrafilter witness or a completed Stone-space object.
+\end{proof}
+
+\begin{theorem}[StoneDualityUp Stone-space classifier]\label{thm:stoneduality-stone-space-classifier}
+For every accepted $\StoneDualityUp$ Boolean source packet $B$, the topology-facing classifier is the finite $\mathsf{BHist}$ packet of clopen observation rows generated from the Boolean rows of $B$: a Boolean element $b$ is read as a clopen row $C_b$, meet is read as intersection, join as union, complement as topological complement, zero as the empty clopen row, and one as the full clopen row. If $b$ and $b'$ are $\hsame$ on the Boolean side, then $C_b$ and $C_{b'}$ are $\hsame$ as $\TopologyUp$ clopen rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityStoneSpaceClassifier\_source\_semanticNameCert}
+
+\begin{proof}
+Construct the clopen packet by structural traversal of the finite Boolean source ledger. Each generator contributes one topology row, and each Boolean operation contributes the matching $\TopologyUp$ operation row.
+
+Classifier stability follows by induction over the source ledger. A generator step is copied directly; meet, join, complement, zero, and one steps use the corresponding $\TopologyUp$ classifier rows and preserve the same $\hsame$ witness.
+
+No representation by points is used. The topology packet is the clopen ledger itself, so the theorem is a classifier statement about finite rows rather than an existence theorem for a separate space.
+\end{proof}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityStoneSpaceClassifier\_clopen\_transport}
+
 \section{The certificate}
 \label{sec:stoneduality-certificate}
+
+\begin{theorem}[StoneDualityUp clopen ledger]\label{thm:stoneduality-clopen-ledger}
+An accepted $\StoneDualityUp$ certificate carries a $\Cont$ ledger from Boolean source rows to clopen topology rows. For each finite Boolean observation row $r$ in the source $\Pkg$, the ledger records the clopen row $C_r$, its $\TopologyUp$ classifier, and the $\hsame$ transport showing that Boolean equality of rows implies topological equality of the corresponding clopen rows. The ledger is exhausted by the rows generated in Theorem~\ref{thm:stoneduality-stone-space-classifier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityClopenLedger\_transport\_closure}
+
+\begin{proof}
+Build the $\Cont$ ledger in parallel with the clopen classifier packet. Each source row contributes exactly one ledger entry, and each operation row contributes the corresponding continuity-preserving clopen operation entry.
+
+Exhaustion is by inspection of the finite source traversal. The traversal has no branch for arbitrary open sets or arbitrary points; every ledger row is generated from a Boolean observation row already present in the source packet.
+
+The transport clause is inherited from $\hsame$ stability of the Boolean rows and the $\TopologyUp$ clopen classifier. Thus the $\Cont$ ledger records the constructive bridge without adding a new carrier.
+\end{proof}
+
+\begin{theorem}[StoneDualityUp ultrafilter-free soundness]\label{thm:stoneduality-ultrafilter-free-soundness}
+The $\StoneDualityUp$ soundness obligation is satisfied at the certificate surface when every accepted Boolean source row is read through the finite clopen ledger and every $\hsame$ comparison is transported by the recorded $\Cont$ rows. This soundness statement does not assert that every Boolean homomorphism has an ultrafilter point, and it does not invoke an external Stone-space existence theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness\_surface}
+
+\begin{proof}
+Start with an accepted Boolean source packet and its clopen ledger. Soundness means that each Boolean operation row has the matching clopen operation row and that classifier equality is preserved by the ledger.
+
+The required checks are finite. Zero, one, meet, join, and complement are handled by their recorded clopen rows; distributive compatibility is handled by the copied $\LatticeUp$ classifier rows and the $\TopologyUp$ operation classifiers.
+
+There is no choice step. The proof never selects an ultrafilter extending a filter and never builds a point space; it only verifies that the displayed $\mathsf{BHist}$, $\Pkg$, $\NameCert$, and $\Cont$ rows commute under $\hsame$.
+\end{proof}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness}
+
+\begin{theorem}[StoneDualityUp continuous-map readback]\label{thm:stoneduality-continuous-map-readback}
+Let $F$ be a finite $\StoneDualityUp$ morphism row between accepted Boolean source packets. If $F$ preserves zero, one, meet, join, and complement in the Boolean $\mathsf{BHist}$ classifier, then the readback row sends each clopen generator $C_b$ in the target topology packet to the clopen generator $C_{F(b)}$ in the source topology packet, and the resulting $\Cont$ ledger is stable under $\hsame$. Hence finite Boolean-algebra observations determine the contravariant continuous-map observation surface recorded by $\NameCert$.
+\end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityContinuousMapReadback\_transport}
+
+\begin{proof}
+Read the morphism row contravariantly. A target clopen generator is named by a Boolean row $b$, and the Boolean morphism row supplies the source Boolean row $F(b)$.
+
+Operation preservation gives continuity on the clopen basis represented in the ledger. The preimage of zero, one, meet, join, and complement is again recorded by the corresponding Boolean operation row, so the $\TopologyUp$ clopen classifier remains inside the generated packet.
+
+Finally, $\hsame$ stability follows from the morphism classifier and the clopen ledger transport. The readback is therefore a finite $\Cont$ row in the $\StoneDualityUp$ certificate, not an appeal to a completed dual space.
+\end{proof}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityContinuousMapReadback\_contravariant\_endpoint}
+
+\closureat{StoneDualityUp}{scopedStr}[BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness]
+
+\begin{closurestatus}{\StoneDualityUp}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped certificate binds the $\LatticeUp$ Boolean rows, $\TopologyUp$ clopen rows, finite $\mathsf{BHist}$ packets, $\hsame$ transport, $\Cont$ ledgers, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows used by the ultrafilter-free Stone-duality certificate surface.}
+  \constructivestory{The construction starts from finite Boolean-operation rows, traverses them into clopen topology rows, records the contravariant readback as $\Cont$ ledger entries, and transports every comparison through the displayed $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ultrafilter existence, completed compact Hausdorff spaces, choice-based point construction, or standard bridge closure.}
+  \upgradepath{Public closure requires a consumer-facing export over the scoped $\LatticeUp$, $\TopologyUp$, finite $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
+\end{closurestatus}

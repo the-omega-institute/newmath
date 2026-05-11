@@ -1,0 +1,92 @@
+\section{Carrier definition}
+\label{sec:inducedrep-carrier}
+
+\begin{definition}[InducedRepUp BHist carrier packet]
+\label{def:inducedrep-bhist-carrier}
+An $\InducedRepUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda).
+$$
+The row $S$ is the consumed $\NameCert_{\SubgroupUp}$ packet naming the
+subgroup inclusion. The row $R$ is the consumed
+$\NameCert_{\RepresentationRingUp}$ packet naming the source and target
+representation-ring rows. The rows $i$ and $r$ are the displayed induction
+and restriction endpoints, each scoped by $S$ for the subgroup inclusion and
+by $R$ for the representation-ring source and target rows. The row $F$ is the
+finite Frobenius reciprocity ledger whose entries compare the displayed
+induction and restriction endpoints without exporting a host adjunction.
+
+The rows $\eta$ and $\epsilon$ are the Frobenius unit and counit rows in the
+same finite ledger. The row $\rho$ is the $\mathsf{Pkg}$ provenance packet
+recording exactly the consumed package rows from $S$ and $R$ together with
+the package rows attached to $i$, $r$, $F$, $\eta$, and $\epsilon$. The finite
+row $\lambda$ is the $\Cont$ ledger containing exactly the consumed SubgroupUp
+rows, consumed RepresentationRingUp rows, induction and restriction endpoint
+rows, Frobenius rows, provenance rows, and public continuation rows exposed
+by the packet.
+\end{definition}
+
+\begin{definition}[InducedRepUp induction--restriction packet]
+\label{def:inducedrep-induction-restriction-packet}
+An $\InducedRepUp$ induction--restriction packet is a finite
+$\mathsf{BHist}$ packet
+$$
+\mathcal{P}_{\InducedRepUp}=(S_{\leq},R_{\mathrm{rep}},I_{\uparrow},
+R_{\downarrow},\Phi,H_{\leq},H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow},
+C_{\mathrm{src}},C_{\mathrm{fr}},\Pi).
+$$
+The row $S_{\leq}$ is the consumed subgroup-inclusion row supplied by
+$\NameCert_{\SubgroupUp}$. The row $R_{\mathrm{rep}}$ is the consumed
+representation-ring row supplied by $\NameCert_{\RepresentationRingUp}$.
+The rows $I_{\uparrow}$ and $R_{\downarrow}$ are the displayed induction and
+restriction rows over that same subgroup source and representation-ring
+source.
+
+The row $\Phi$ is the finite Frobenius comparison row. It compares the
+displayed $I_{\uparrow}$ and $R_{\downarrow}$ rows as BEDC data and does not
+export a host adjunction. The classifier rows
+$H_{\leq},H_{\mathrm{rep}},H_{\uparrow},H_{\downarrow}$ are the corresponding
+$\hsame$ rows for subgroup inclusion, representation-ring transport,
+induction transport, and restriction transport. The ledgers
+$C_{\mathrm{src}}$ and $C_{\mathrm{fr}}$ are finite $\Cont$ ledgers for the
+source-certificate rows and the Frobenius comparison rows. The row $\Pi$ is
+the $\mathsf{Pkg}$ provenance row recording exactly the consumed
+$\NameCert_{\SubgroupUp}$ package, the consumed
+$\NameCert_{\RepresentationRingUp}$ package, and the displayed induction,
+restriction, classifier, Frobenius, and continuation rows.
+\end{definition}
+
+\begin{definition}[InducedRepUp restriction-induction classifier]
+\label{def:inducedrep-restriction-induction-classifier}
+For two carrier packets
+$$
+\mathcal{I}=(S,R,i,r,F,\eta,\epsilon,\rho,\lambda)
+\qquad\text{and}\qquad
+\mathcal{I}'=(S',R',i',r',F',\eta',\epsilon',\rho',\lambda'),
+$$
+the restriction-induction classifier
+$\mathcal{I}\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}'$ is the finite
+componentwise transport datum consisting of:
+\begin{enumerate}
+  \item an $\hsame$ transport row between the consumed
+  $\NameCert_{\SubgroupUp}$ packets $S$ and $S'$;
+  \item an $\hsame$ transport row between the consumed
+  $\NameCert_{\RepresentationRingUp}$ packets $R$ and $R'$;
+  \item entrywise $\hsame$ transport of the subgroup-inclusion rows read from
+  $S$ and the representation-ring rows read from $R$;
+  \item $\hsame$ transport rows between the induction endpoints $i$ and $i'$
+  and between the restriction endpoints $r$ and $r'$;
+  \item entrywise $\hsame$ transport of the Frobenius ledger rows
+  $F,\eta,\epsilon$ to $F',\eta',\epsilon'$;
+  \item an $\hsame$ transport row between the provenance packets $\rho$ and
+  $\rho'$;
+  \item a finite $\Cont$ ledger comparison between $\lambda$ and $\lambda'$,
+  entry by entry.
+\end{enumerate}
+This classifier transports only displayed BEDC rows: subgroup inclusion rows,
+representation-ring rows, induction and restriction endpoints, Frobenius
+unit and counit rows, provenance, and continuation entries. It explicitly
+does not require equality of host induction functors, host restriction
+functors, representation categories, or adjunction data outside the finite
+packet.
+\end{definition}

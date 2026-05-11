@@ -1,0 +1,199 @@
+\section{StreamName Synchronized Window Union}
+\label{sec:streamname-synchronized-window-union}
+
+\begin{theorem}[StreamName synchronized-window carrier union]
+\label{thm:streamname-synchronized-window-union-carrier}
+Let $\mathcal W_L$ and $\mathcal W_R$ be displayed finite
+$\StreamNameUp$ windows over certified source maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated
+$\mathsf{ProbeBundle}$ restricts to the selected bundles of both windows. If
+the selected rows of $\mathcal W_L$ and $\mathcal W_R$ agree through the
+displayed common-refinement $\hsame$ and $\Cont$ ledger, then the two windows
+repack into one synchronized $\StreamNameUp$ carrier row over $\mathcal R$.
+
+The synchronized row contains exactly the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row, the
+displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership
+rows, the certified $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, and the shared $\hsame/\Cont/\Pkg$
+provenance rows.
+\end{theorem}
+\begin{proof}
+Project both windows through
+\autoref{thm:streamname-common-refinement-source-determinacy}. The common
+refinement determines the same StreamName source tuple on the left and on the
+right, so the selected classifier, bundle membership, unary-history, pointwise
+rational-history, $\hsame$, $\Cont$, and $\Pkg$ rows are already one displayed
+tuple over $\mathcal R$.
+
+Use \autoref{thm:streamname-tail-window-cover-common-refinement} to read the
+generated common window as a finite tail-window packet. Its restriction
+clauses are precisely the restrictions back to $\mathcal W_L$ and
+$\mathcal W_R$.
+
+Repack the projected rows as the synchronized StreamName carrier row. The
+carrier has no coordinate for a quotient stream, host function, completion
+object, or external index equality, so the repacking uses only the displayed
+finite-window rows.
+\end{proof}
+
+\begin{theorem}[StreamName synchronized-window RegSeqRat seal handoff]
+\label{thm:streamname-synchronized-window-regseqrat-seal}
+Let $\mathcal S$ be the synchronized $\StreamNameUp$ carrier row obtained from
+\autoref{thm:streamname-synchronized-window-union-carrier}. Then every
+$\RegSeqRat$ handoff read from $\mathcal S$ preserves the endpoint, radius,
+regularity, readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows consumed
+by the finite $\RealUp$ seal.
+
+Equivalently, the downstream consumer reads one synchronized boundary: the
+StreamName finite-window source rows of $\mathcal S$, the accepted
+$\RegSeqRat$ endpoint and regularity rows selected from those sources, and the
+finite $\RealUp$ seal ledger rows. No route through the original left or right
+window contributes an additional consumer-visible row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-synchronized-window-union-carrier}. This
+places both displayed windows over one carrier row whose finite-window source
+tuple is independent of the left or right route.
+
+Next apply \autoref{thm:streamname-regseqrat-common-window-transport}. The
+synchronized carrier is a common-window surface, so the $\RegSeqRat$ handoff
+rows transported through the two original windows are the same
+consumer-facing rows.
+
+Apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy} to identify
+the DyadicRatCore endpoint and radius rows read from the accepted
+$\RegSeqRat$ spine. Then use
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} to list
+the rows consumed by the terminal finite $\RealUp$ seal.
+
+The listed families include endpoint, radius, regularity, readback,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Since each family is
+projected from the synchronized row or from the accepted $\RegSeqRat$ spine,
+there is no remaining route-dependent row to expose.
+\end{proof}
+
+\begin{theorem}[StreamName synchronized-window NameCert boundary]
+\label{thm:streamname-synchronized-window-namecert-boundary}
+The synchronized-window rows of
+\autoref{thm:streamname-synchronized-window-union-carrier} and
+\autoref{thm:streamname-synchronized-window-regseqrat-seal} form the local
+$\NameCert_{\StreamNameUp}$ obligation boundary needed by the
+$\RegSeqRat/\RealUp$ seal consumer. The boundary consists of finite carrier
+rows, common-refinement source determinacy, synchronized common-window
+transport, accepted $\RegSeqRat$ endpoint and regularity rows, and the finite
+seal ledger consumed by $\RealUp$.
+
+This boundary contains no quotient stream, host function, external real,
+completion theorem, or real-completeness principle.
+\end{theorem}
+\begin{proof}
+Read the carrier face from
+\autoref{thm:streamname-synchronized-window-union-carrier}. It supplies the
+finite synchronized StreamName row and identifies its left and right
+restrictions through common-refinement source determinacy.
+
+Read the consumer face from
+\autoref{thm:streamname-synchronized-window-regseqrat-seal}. It preserves the
+$\RegSeqRat$ endpoint, radius, regularity, readback, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows passed to the finite $\RealUp$ seal.
+
+Together these two faces exhaust the local obligation boundary: the producer
+side supplies finite synchronized StreamName rows, and the consumer side reads
+only the displayed $\RegSeqRat/\RealUp$ seal rows. The excluded quotient,
+host-function, external-real, completion, and real-completeness objects have
+no coordinate in either face.
+\end{proof}
+
+\begin{theorem}[StreamName synchronized-window classifier coverage]
+\label{thm:streamname-synchronized-window-union-classifier-coverage}
+Let $\mathcal W_L$ and $\mathcal W_R$ be displayed finite
+$\StreamNameUp$ windows over certified maps $s,t$, and let $\mathcal R$ be a
+certified common-refinement package whose generated carrier is the
+synchronized carrier of
+\autoref{thm:streamname-synchronized-window-union-carrier}. Then the
+classifier row on the synchronized carrier is covered exactly by the two
+restricted finite-window classifier reads together with the displayed overlap
+agreement rows of $\mathcal R$.
+
+Concretely, a synchronized classifier read is the same data as the left
+restricted $\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the right
+restricted $\mathsf{RatStreamNameFiniteWindowClassifier}$ row, and the common
+overlap agreement on $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, pointwise $\mathsf{RatHistoryClassifier}$,
+$\hsame$, $\Cont$, and $\Pkg$ rows. The following $\RegSeqRat/\RealUp$
+handoff reads exactly this synchronized classifier package and no row whose
+value depends on whether the left or right window was used to reach the
+common refinement.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-synchronized-window-union-carrier} to place the
+two displayed windows over the carrier generated by $\mathcal R$. This gives
+one carrier row whose visible coordinates are the restricted classifier rows,
+the bundle rows, the unary-history rows, the pointwise rational-history rows,
+and the $\hsame/\Cont/\Pkg$ provenance rows.
+
+For the left-to-right reading, project the synchronized carrier back to the
+two finite windows. The common-refinement source determinacy theorem,
+\autoref{thm:streamname-common-refinement-source-determinacy}, identifies the
+source tuple used by each restriction, and
+\autoref{thm:streamname-common-refinement-source-confluence} identifies the
+two routes through the overlap ledger. Hence every synchronized classifier
+coordinate is read as one of the two restricted classifier rows or as an
+overlap agreement row.
+
+For the converse reading, start with the two restricted finite-window
+classifier rows and the displayed overlap agreement rows. Determinacy fixes
+the common source tuple, confluence identifies the two overlap routes, and the
+carrier theorem repacks the rows as a single synchronized classifier package.
+
+Finally apply \autoref{thm:streamname-synchronized-window-regseqrat-seal}.
+The downstream $\RegSeqRat/\RealUp$ boundary reads the synchronized classifier
+package just constructed, so no additional route-dependent row remains for the
+handoff.
+\end{proof}
+
+\begin{theorem}[StreamName synchronized-window terminal source exhaustion]
+\label{thm:streamname-synchronized-window-terminal-source-exhaustion}
+Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose
+downstream $\RegSeqRat$ handoff and finite-window $\RealUp$ terminal seal are
+read through the carrier of
+\autoref{thm:streamname-synchronized-window-union-carrier} and the classifier
+coverage of
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. Then
+every source row visible to the terminal $\RegSeqRat/\RealUp$ consumer is one
+of the following displayed finite BEDC rows: the synchronized
+$\StreamNameUp$ classifier rows, the selected $\mathsf{ProbeBundle}$ rows,
+the $\mathsf{InBundle}$ membership rows, the $\mathsf{UnaryHistory}$ rows,
+the pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted
+$\RegSeqRat$ endpoint, radius, regularity, and readback rows, the
+$\DyadicRatCore$ endpoint rows, and the displayed $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ provenance rows.
+
+The terminal consumer has no coordinate from which to read quotient streams,
+host-index equality, hidden stream rows, independent regularity witnesses,
+completion objects, standard bridge rows, or real-completeness principles.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-synchronized-window-union-carrier}. It gives a
+single synchronized carrier whose visible source coordinates are the finite
+classifier, bundle, membership, unary-history, pointwise rational-history,
+and $\hsame/\Cont/\Pkg$ rows.
+
+Apply \autoref{thm:streamname-synchronized-window-union-classifier-coverage}.
+This identifies every synchronized classifier read with the two restricted
+finite-window classifier reads and the displayed overlap agreement rows, so
+the classifier contributes no hidden stream coordinate.
+
+Apply \autoref{thm:streamname-synchronized-window-regseqrat-seal}. The
+accepted $\RegSeqRat$ handoff supplies exactly the endpoint, radius,
+regularity, readback, DyadicRatCore endpoint, and finite $\RealUp$ seal rows
+consumed downstream.
+
+It remains to exclude extra sources at the terminal face. The no-extra
+coordinate clause of
+\autoref{thm:streamname-synchronized-window-namecert-boundary} removes
+quotient streams, host-index equality, hidden stream rows, independent
+regularity witnesses, completion objects, standard bridge rows, and
+real-completeness principles from the consumer boundary.
+\end{proof}

@@ -100,6 +100,37 @@ theorem SpectralSeqBHistPageCarrier_successor_page_closure [AskSetup] [PackageSe
                     (And.intro successorEndpoint pkgSig')))))))))
     (And.intro sameReadback sameTransition)
 
+theorem SpectralSeqBHistPageCarrier_filtration_transport [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint page'
+      differential' readback' transition' endpoint' filtrationExtension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      hsame page page' ->
+        hsame differential differential' ->
+          Cont page' differential' readback' ->
+            Cont readback' convergence transition' ->
+              Cont provenance transition' endpoint' ->
+                Cont transition' convergence filtrationExtension ->
+                  SpectralSeqBHistPageCarrier abelian homology page' differential' readback'
+                      convergence transition' provenance endpoint' bundle pkg ∧
+                    UnaryHistory filtrationExtension ∧
+                      hsame filtrationExtension (append transition' convergence) ∧
+                        hsame readback readback' ∧ hsame transition transition' := by
+  intro carrier samePage sameDifferential successorReadback successorTransition successorEndpoint
+    filtrationRow
+  have successor :=
+    SpectralSeqBHistPageCarrier_successor_page_closure carrier samePage sameDifferential
+      successorReadback successorTransition successorEndpoint
+  have obligation := SpectralSeqBHistPageCarrier_obligation_surface successor.left
+  have filtrationUnary : UnaryHistory filtrationExtension :=
+    unary_cont_closed obligation.right.right.right.left
+      successor.left.right.right.right.right.left filtrationRow
+  exact And.intro successor.left
+    (And.intro filtrationUnary
+      (And.intro filtrationRow
+        (And.intro successor.right.left successor.right.right)))
+
 theorem SpectralSeqBHistPageCarrier_zero_page_carrier [AskSetup] [PackageSetup]
     {source provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory source ->
@@ -138,5 +169,377 @@ theorem SpectralSeqBHistPageCarrier_derivedfunctor_consumer_surface [AskSetup] [
       (And.intro obligation.right.right.right.left
         (And.intro obligation.right.right.right.right.right.right.right.left
           obligation.right.right.right.right.right.right.right.right)))
+
+theorem SpectralSeqBHistPageCarrier_visible_target_filtration_coverage
+    [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint target :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      Cont transition endpoint target ->
+        UnaryHistory target ∧ hsame target (append transition endpoint) ∧
+          hsame transition (append readback convergence) ∧
+            hsame endpoint (append provenance transition) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier targetRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left transitionUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed transitionUnary endpointUnary targetRow
+  exact And.intro targetUnary
+    (And.intro targetRow
+      (And.intro carrier.right.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
+
+theorem SpectralSeqBHistPageCarrier_cont_page_ledger_closure [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      finalEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (carrier : SpectralSeqBHistPageCarrier abelian homology page differential readback
+      convergence transition provenance endpoint bundle pkg) (steps : List BHist)
+    (stepsUnary : forall row : BHist, List.Mem row steps -> UnaryHistory row)
+    (finalRow : Cont (List.foldl append transition steps) provenance finalEndpoint) :
+    UnaryHistory (List.foldl append transition steps) ∧ UnaryHistory finalEndpoint ∧
+      hsame finalEndpoint (append (List.foldl append transition steps) provenance) ∧
+        PkgSig bundle endpoint pkg := by
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have foldedUnaryFrom :
+      forall rows : List BHist, forall acc : BHist, UnaryHistory acc ->
+        (forall row : BHist, List.Mem row rows -> UnaryHistory row) ->
+          UnaryHistory (List.foldl append acc rows) := by
+    intro rows
+    induction rows with
+    | nil =>
+        intro acc accUnary _rowsUnary
+        exact accUnary
+    | cons row rows ih =>
+        intro acc accUnary rowsUnary
+        have rowUnary : UnaryHistory row :=
+          rowsUnary row (List.Mem.head rows)
+        have tailRowsUnary : forall tailRow : BHist, List.Mem tailRow rows -> UnaryHistory tailRow :=
+          by
+            intro tailRow tailMem
+            exact rowsUnary tailRow (List.Mem.tail row tailMem)
+        exact ih (append acc row) (unary_append_closed accUnary rowUnary) tailRowsUnary
+  have foldedUnary : UnaryHistory (List.foldl append transition steps) :=
+    foldedUnaryFrom steps transition transitionUnary stepsUnary
+  have finalUnary : UnaryHistory finalEndpoint :=
+    unary_cont_closed foldedUnary carrier.right.right.right.right.right.left finalRow
+  exact And.intro foldedUnary
+    (And.intro finalUnary
+      (And.intro finalRow carrier.right.right.right.right.right.right.right.right.right))
+
+theorem SpectralSeqBHistPageCarrier_identity_transition_ledger [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      identityTransition identityEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont transition page identityTransition ->
+        Cont provenance identityTransition identityEndpoint ->
+          PkgSig bundle identityEndpoint pkg ->
+            UnaryHistory identityTransition ∧ UnaryHistory identityEndpoint ∧
+              hsame identityTransition (append transition page) ∧
+                hsame identityEndpoint (append provenance identityTransition) ∧
+                  PkgSig bundle identityEndpoint pkg := by
+  intro carrier identityTransitionRow identityEndpointRow identityPkg
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have identityTransitionUnary : UnaryHistory identityTransition :=
+    unary_cont_closed transitionUnary carrier.right.right.left identityTransitionRow
+  have identityEndpointUnary : UnaryHistory identityEndpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left identityTransitionUnary
+      identityEndpointRow
+  exact And.intro identityTransitionUnary
+    (And.intro identityEndpointUnary
+      (And.intro identityTransitionRow (And.intro identityEndpointRow identityPkg)))
+
+theorem SpectralSeqBHistPageCarrier_convergence_boundary [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint target :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont convergence endpoint target ->
+        UnaryHistory convergence ∧ UnaryHistory transition ∧ UnaryHistory endpoint ∧
+          UnaryHistory target ∧ hsame transition (append readback convergence) ∧
+            hsame endpoint (append provenance transition) ∧
+              hsame target (append convergence endpoint) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier targetRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed carrier.right.right.right.right.right.left transitionUnary
+      carrier.right.right.right.right.right.right.right.right.left
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed carrier.right.right.right.right.left endpointUnary targetRow
+  exact And.intro carrier.right.right.right.right.left
+    (And.intro transitionUnary
+      (And.intro endpointUnary
+        (And.intro targetUnary
+          (And.intro carrier.right.right.right.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.right.right.right.left
+              (And.intro targetRow
+                carrier.right.right.right.right.right.right.right.right.right))))))
+
+theorem SpectralSeqBHistPageCarrier_convergence_filtration_bridge [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint target
+      surface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont convergence endpoint target ->
+        Cont target provenance surface ->
+          UnaryHistory target ∧ UnaryHistory surface ∧
+            hsame target (append convergence endpoint) ∧
+              hsame surface (append target provenance) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier targetRow surfaceRow
+  have boundary := SpectralSeqBHistPageCarrier_convergence_boundary carrier targetRow
+  have surfaceUnary : UnaryHistory surface :=
+    unary_cont_closed boundary.right.right.right.left
+      carrier.right.right.right.right.right.left surfaceRow
+  exact And.intro boundary.right.right.right.left
+    (And.intro surfaceUnary
+      (And.intro boundary.right.right.right.right.right.right.left
+        (And.intro surfaceRow
+          (And.intro boundary.right.right.right.right.left
+            boundary.right.right.right.right.right.right.right))))
+
+theorem SpectralSeqBHistPageCarrier_page_boundary_exhaustion [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont readback provenance boundary ->
+        UnaryHistory page ∧ UnaryHistory differential ∧ UnaryHistory readback ∧
+          UnaryHistory boundary ∧ Cont page differential readback ∧
+            hsame boundary (append readback provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier boundaryRow
+  have readbackRow : Cont page differential readback :=
+    carrier.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left readbackRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.right.left boundaryRow
+  exact And.intro carrier.right.right.left
+    (And.intro carrier.right.right.right.left
+      (And.intro readbackUnary
+        (And.intro boundaryUnary
+          (And.intro readbackRow
+            (And.intro boundaryRow
+              carrier.right.right.right.right.right.right.right.right.right)))))
+
+theorem SpectralSeqBHistPageCarrier_boundary_row_successor_cycle_readback [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      boundary successor : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont readback provenance boundary ->
+        Cont boundary transition successor ->
+          UnaryHistory boundary ∧ UnaryHistory successor ∧
+            hsame boundary (append readback provenance) ∧
+              hsame successor (append boundary transition) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier boundaryRow successorRow
+  have exhaustion := SpectralSeqBHistPageCarrier_page_boundary_exhaustion carrier boundaryRow
+  have transitionRow : Cont readback convergence transition :=
+    carrier.right.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed exhaustion.right.right.left carrier.right.right.right.right.left
+      transitionRow
+  have successorUnary : UnaryHistory successor :=
+    unary_cont_closed exhaustion.right.right.right.left transitionUnary successorRow
+  exact And.intro exhaustion.right.right.right.left
+    (And.intro successorUnary
+      (And.intro exhaustion.right.right.right.right.right.left
+        (And.intro successorRow
+          (And.intro transitionRow
+            exhaustion.right.right.right.right.right.right))))
+
+theorem SpectralSeqBHistPageCarrier_abutment_readback_boundary [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      abutment : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont convergence provenance abutment ->
+        UnaryHistory convergence ∧ UnaryHistory abutment ∧
+          hsame abutment (append convergence provenance) ∧
+            hsame transition (append readback convergence) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier abutmentRow
+  have abutmentUnary : UnaryHistory abutment :=
+    unary_cont_closed carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.left abutmentRow
+  exact And.intro carrier.right.right.right.right.left
+    (And.intro abutmentUnary
+      (And.intro abutmentRow
+        (And.intro carrier.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
+
+def SpectralSeqPageClassifier [AskSetup] [PackageSetup]
+    (abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+      transition provenance endpoint bundle pkg ∧
+    SpectralSeqBHistPageCarrier abelian' homology' page' differential' readback'
+      convergence' transition' provenance' endpoint' bundle pkg ∧
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint'
+
+theorem SpectralSeqPageClassifier_no_confusion [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      abelian' homology' page' differential' readback' convergence' transition' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqPageClassifier abelian homology page differential readback convergence transition
+        provenance endpoint abelian' homology' page' differential' readback' convergence'
+        transition' provenance' endpoint' bundle pkg ->
+      hsame abelian abelian' ∧ hsame homology homology' ∧ hsame page page' ∧
+        hsame differential differential' ∧ hsame readback readback' ∧
+          hsame convergence convergence' ∧ hsame transition transition' ∧
+            hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro classifier
+  exact classifier.right.right
+
+theorem SpectralSeqBHistPageCarrier_page_transition_bridge [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      successor bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont page readback successor ->
+        Cont successor transition bridge ->
+          UnaryHistory successor ∧ UnaryHistory bridge ∧
+            hsame successor (append page readback) ∧
+              hsame bridge (append successor transition) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier successorRow bridgeRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left
+      carrier.right.right.right.right.right.right.left
+  have transitionRow : Cont readback convergence transition :=
+    carrier.right.right.right.right.right.right.right.left
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed readbackUnary carrier.right.right.right.right.left transitionRow
+  have successorUnary : UnaryHistory successor :=
+    unary_cont_closed carrier.right.right.left readbackUnary successorRow
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed successorUnary transitionUnary bridgeRow
+  exact And.intro successorUnary
+    (And.intro bridgeUnary
+        (And.intro successorRow
+          (And.intro bridgeRow
+            (And.intro transitionRow
+              carrier.right.right.right.right.right.right.right.right.right))))
+
+theorem SpectralSeqBHistPageCarrier_differential_ledger [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      morphismLedger differentialLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont differential page morphismLedger ->
+        Cont readback morphismLedger differentialLedger ->
+          UnaryHistory morphismLedger ∧ UnaryHistory differentialLedger ∧
+            hsame morphismLedger (append differential page) ∧
+              hsame differentialLedger (append readback morphismLedger) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier morphismLedgerRow differentialLedgerRow
+  have readbackRow : Cont page differential readback :=
+    carrier.right.right.right.right.right.right.left
+  have transitionRow : Cont readback convergence transition :=
+    carrier.right.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left readbackRow
+  have morphismLedgerUnary : UnaryHistory morphismLedger :=
+    unary_cont_closed carrier.right.right.right.left carrier.right.right.left morphismLedgerRow
+  have differentialLedgerUnary : UnaryHistory differentialLedger :=
+    unary_cont_closed readbackUnary morphismLedgerUnary differentialLedgerRow
+  exact And.intro morphismLedgerUnary
+    (And.intro differentialLedgerUnary
+      (And.intro morphismLedgerRow
+        (And.intro differentialLedgerRow
+          (And.intro transitionRow
+            carrier.right.right.right.right.right.right.right.right.right))))
+
+theorem SpectralSeqBHistPageCarrier_cont_page_transition_closure [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint page'
+      differential' readback' transition' endpoint' morphismLedger transitionBridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      hsame page page' ->
+        hsame differential differential' ->
+          Cont page' differential' readback' ->
+            Cont readback' convergence transition' ->
+              Cont provenance transition' endpoint' ->
+                Cont differential' page' morphismLedger ->
+                  Cont transition' provenance transitionBridge ->
+                    PkgSig bundle transitionBridge pkg ->
+                      SpectralSeqBHistPageCarrier abelian homology page' differential' readback'
+                          convergence transition' provenance endpoint' bundle pkg ∧
+                        UnaryHistory morphismLedger ∧
+                          UnaryHistory transitionBridge ∧
+                            hsame readback readback' ∧
+                              hsame transition transition' ∧
+                                hsame morphismLedger (append differential' page') ∧
+                                  hsame transitionBridge (append transition' provenance) ∧
+                                    PkgSig bundle transitionBridge pkg := by
+  intro carrier samePage sameDifferential successorReadback successorTransition successorEndpoint
+    morphismLedgerRow transitionBridgeRow transitionBridgePkg
+  have successor :=
+    SpectralSeqBHistPageCarrier_successor_page_closure carrier samePage sameDifferential
+      successorReadback successorTransition successorEndpoint
+  have pageUnary' : UnaryHistory page' :=
+    unary_transport carrier.right.right.left samePage
+  have differentialUnary' : UnaryHistory differential' :=
+    unary_transport carrier.right.right.right.left sameDifferential
+  have morphismLedgerUnary : UnaryHistory morphismLedger :=
+    unary_cont_closed differentialUnary' pageUnary' morphismLedgerRow
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_cont_closed
+      (unary_cont_closed pageUnary' differentialUnary' successorReadback)
+      carrier.right.right.right.right.left successorTransition
+  have transitionBridgeUnary : UnaryHistory transitionBridge :=
+    unary_cont_closed transitionUnary' carrier.right.right.right.right.right.left transitionBridgeRow
+  exact And.intro successor.left
+    (And.intro morphismLedgerUnary
+      (And.intro transitionBridgeUnary
+        (And.intro successor.right.left
+          (And.intro successor.right.right
+            (And.intro morphismLedgerRow
+              (And.intro transitionBridgeRow transitionBridgePkg))))))
 
 end BEDC.Derived.SpectralSeqUp

@@ -82,6 +82,36 @@ theorem RecursiveFnBoundedMinimisationLedger_exactness
     ⟨testedTraceUnary, outputUnary, ledgerUnary, testedTraceRow, outputRow, ledgerRow,
       witnessNonempty⟩
 
+theorem RecursiveFnBoundedSearchScope_obligation
+    {constructor bound testedTrace witness output ledger searchScope : BHist}
+    {failureTail : BHist} :
+    UnaryHistory constructor -> UnaryHistory bound -> UnaryHistory witness ->
+      Cont constructor bound testedTrace -> Cont testedTrace witness output ->
+        Cont bound output ledger -> Cont ledger bound searchScope ->
+          hsame witness (BHist.e1 failureTail) ->
+            UnaryHistory testedTrace ∧ UnaryHistory output ∧ UnaryHistory ledger ∧
+              UnaryHistory searchScope ∧ hsame testedTrace (append constructor bound) ∧
+                hsame output (append testedTrace witness) ∧
+                  hsame ledger (append bound output) ∧
+                    hsame searchScope (append ledger bound) ∧
+                      (hsame witness BHist.Empty -> False) := by
+  intro constructorUnary boundUnary witnessUnary testedTraceRow outputRow ledgerRow searchScopeRow
+  intro witnessFailure
+  have testedTraceUnary : UnaryHistory testedTrace :=
+    unary_cont_closed constructorUnary boundUnary testedTraceRow
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed testedTraceUnary witnessUnary outputRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed boundUnary outputUnary ledgerRow
+  have searchScopeUnary : UnaryHistory searchScope :=
+    unary_cont_closed ledgerUnary boundUnary searchScopeRow
+  have witnessNonempty : hsame witness BHist.Empty -> False := by
+    intro witnessEmpty
+    exact not_hsame_e1_empty (witnessFailure.symm.trans witnessEmpty)
+  exact
+    ⟨testedTraceUnary, outputUnary, ledgerUnary, searchScopeUnary, testedTraceRow, outputRow,
+      ledgerRow, searchScopeRow, witnessNonempty⟩
+
 theorem RecursiveFnNatInputStability_obligation
     {constructor x y baseStep traceX traceY outputX outputY finalGraph : BHist} :
     UnaryHistory constructor -> UnaryHistory x -> UnaryHistory baseStep -> hsame x y ->

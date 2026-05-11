@@ -352,4 +352,22 @@ theorem DeterminantSingletonDet_visible_matrix_scalar_classifier_absurd {M r : B
   · intro classified
     exact not_hsame_e1_empty classified.left
 
+theorem DeterminantSingletonRowSwapEndpointCertificate_sign_collapse {M S : BHist} :
+    MatrixSingletonCarrier M -> MatrixSingletonClassifier S M ->
+      CommRingSingletonClassifier (DeterminantSingletonDet S) (DeterminantSingletonDet M) ∧
+        MatrixSingletonClassifier S BHist.Empty := by
+  intro carrierM classifiedSM
+  have carrierS : MatrixSingletonCarrier S := classifiedSM.left
+  have detS : hsame (DeterminantSingletonDet S) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierS (hsame_refl BHist.Empty))
+  have detM : hsame (DeterminantSingletonDet M) BHist.Empty :=
+    append_eq_empty_iff.mpr (And.intro carrierM (hsame_refl BHist.Empty))
+  have scalarClassified :
+      CommRingSingletonClassifier (DeterminantSingletonDet S) (DeterminantSingletonDet M) :=
+    And.intro detS (And.intro detM (hsame_trans detS (hsame_symm detM)))
+  have matrixEndpoint : MatrixSingletonClassifier S BHist.Empty :=
+    And.intro carrierS
+      (And.intro (hsame_refl BHist.Empty) carrierS)
+  exact And.intro scalarClassified matrixEndpoint
+
 end BEDC.Derived.DeterminantUp

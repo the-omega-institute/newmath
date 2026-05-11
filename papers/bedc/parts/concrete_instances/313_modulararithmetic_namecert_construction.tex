@@ -1,0 +1,125 @@
+\chapter{A Concrete Naming Certificate for $\ModularArithmeticUp$}
+\label{ch:concrete-instances-modulararithmetic}
+
+The $\ModularArithmeticUp$ interface names residue arithmetic over certified integer histories. In the standard sense of modular arithmetic developed in Ireland--Rosen and Hardy--Wright, a modulus determines residue classes and addition and multiplication are read by reducing integer operations modulo that modulus. The BEDC surface keeps the modulus and every residue representative as finite rows over $\IntUp$, $\AddUp$, $\MulUp$, $\OrderUp$, and $\RatUp$; it does not introduce a quotient primitive.
+
+\section{Residue source}
+\label{sec:modulararithmetic-residue-source}
+
+\begin{definition}[ModularArithmetic residue source]
+\label{def:modulararithmetic-residue-source}
+A $\ModularArithmeticUp$ residue source is a finite $\mathsf{BHist}$ packet
+$$
+(m,u,r,\rho,P)
+$$
+whose rows have the following shape:
+\begin{enumerate}
+\item $m$ is an accepted $\IntUp$ modulus row;
+\item $u$ is a positive $\UnaryHistory$ witness naming the nonzero modulus boundary;
+\item $r$ is an accepted $\IntUp$ representative row;
+\item $\rho$ is a finite residue ledger recording that $r$ is classified by the remainder window selected by $m$ and $u$;
+\item $P$ is the $\Pkg$ provenance row naming the $\IntUp$, $\AddUp$, $\MulUp$, $\OrderUp$, and $\RatUp$ dependency certificates used by the packet.
+\end{enumerate}
+The carrier is the predicate $\mathsf{ModResidue}(m,u,r,\rho,P)$. Its classifier compares two accepted residue packets exactly when their modulus rows and unary modulus witnesses transport by $\hsame$ and their representatives reduce to the same displayed remainder window through the carried $\rho$ ledgers.
+\end{definition}
+
+\begin{theorem}[ModularArithmetic residue carrier stability]
+\label{thm:modulararithmetic-residue-carrier-stability}
+Let $D=(m,u,r,\rho,P)$ be an accepted $\ModularArithmeticUp$ residue source and let $D'=(m',u',r',\rho',P')$ be obtained from $D$ by displayed $\hsame$ transport of the modulus, unary witness, representative, residue ledger, and provenance rows. Then $D'$ is again an accepted residue source, and its classifier reads the same remainder window through the transported $\IntUp$, $\OrderUp$, and $\Pkg$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_carrier\_stability}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueCarrier\_stability}
+\begin{proof}
+Project the residue source of \autoref{def:modulararithmetic-residue-source}. Each coordinate is a displayed row rather than a quotient class, so an $\hsame$ transport of the coordinate gives the corresponding coordinate in $D'$.
+
+The positivity and nonzero-modulus information is carried by the unary witness $u$. Transporting this witness gives $u'$, and the remainder window selected by the transported modulus is read by the same finite order ledger.
+
+Finally transport the residue ledger $\rho$ and the package row $P$. Repacking the transported modulus, unary witness, representative, ledger, and provenance gives $\mathsf{ModResidue}(m',u',r',\rho',P')$, and the classifier has exactly the transported remainder-window rows available.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic addition and multiplication ledger]
+\label{thm:modulararithmetic-add-mul-ledger}
+For accepted residue sources over the same transported modulus witness, the $\ModularArithmeticUp$ addition and multiplication reads consist of the following finite rows: the two $\IntUp$ representative rows, the shared modulus and unary witness, the $\AddUp$ sum row or $\MulUp$ product row on representatives, the $\OrderUp$ reduction window selecting the remainder, the resulting $\IntUp$ residue representative, and the $\Pkg$ provenance tying these rows to the same dependency certificates.
+
+The ledger exports no host quotient ring, no set of residue classes, and no equality outside the displayed $\hsame$ and classifier rows.
+\end{theorem}
+\begin{proof}
+Start with two accepted sources and project their common modulus data. The carrier gives the two representative rows and the same transported nonzero-modulus witness.
+
+For addition, read the displayed $\AddUp$ row on the two representatives. The order and modulus rows then select the finite remainder window, which is repacked as a new residue source by \autoref{def:modulararithmetic-residue-source}.
+
+For multiplication, use the same construction with the displayed $\MulUp$ product row. In both cases the resulting packet is exhausted by the representative operation row, the reduction ledger, and the shared provenance, so no quotient-ring object is introduced.
+\end{proof}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_add\_mul\_ledger}
+
+\begin{theorem}[ModularArithmetic residue operation congruence]
+\label{thm:modulararithmetic-residue-operation-congruence}
+Let $A,A',B,B'$ be accepted $\ModularArithmeticUp$ residue sources in the sense of \autoref{def:modulararithmetic-residue-source}, all over the same transported modulus witness. Suppose that $A$ classifies with $A'$ and $B$ classifies with $B'$ by the residue classifier, using only the displayed $\IntUp$ representative rows, $\OrderUp$ remainder windows, $\mathsf{BHist}$ packets, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ dependency rows. Then the $\AddUp$ ledgers for $A+B$ and $A'+B'$ classify the two reduced sum packets, and the $\MulUp$ ledgers for $A\cdot B$ and $A'\cdot B'$ classify the two reduced product packets. The resulting packets expose the same $\IntUp/\RatUp$ handoff boundary and no quotient-ring equality beyond the displayed residue classifier.
+\end{theorem}
+\begin{proof}
+Project the four residue sources through \autoref{def:modulararithmetic-residue-source}. The hypotheses identify the two $A$ representatives through one transported remainder window and the two $B$ representatives through another, while the modulus and unary modulus witness are shared by the same $\hsame$ and $\Cont$ routes.
+
+For addition, read the displayed $\AddUp$ rows on the two representative pairs. Because the input representatives classify through the transported remainder windows, the resulting sum representatives are reduced through the same $\OrderUp$ modulus window and give classified reduced sum packets.
+
+For multiplication, repeat the same construction with the displayed $\MulUp$ rows. The product representatives pass through the same modulus witness and the same finite reduction window, so the two reduced product packets are classifier-related as residue sources.
+
+Finally repack both operation outputs using the carrier of \autoref{def:modulararithmetic-residue-source}. The $\mathsf{BHist}$ rows, $\mathsf{Pkg}$ provenance, $\NameCert$ dependencies, and $\IntUp/\RatUp$ handoff rows are exactly the rows already carried by the projected packets and operation ledgers, so the congruence is a statement about the displayed classifier only.
+\end{proof}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_operation\_congruence}
+
+\begin{theorem}[ModularArithmetic Int/Rat handoff]
+\label{thm:modulararithmetic-int-rat-handoff}
+Every accepted $\ModularArithmeticUp$ residue packet exposes its representative and modulus through $\IntUp$ rows, and every rational normalization or denominator-side consumer may read the packet only through the corresponding $\RatUp$ handoff rows, the modulus unary witness, the residue ledger, $\hsame$ transport, $\Cont$ routes, and $\Pkg$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_int\_rat\_handoff}
+\begin{proof}
+The source definition stores the representative and modulus as $\IntUp$ rows. Projecting the packet therefore gives the integer data needed by the residue classifier without invoking any external arithmetic carrier.
+
+A $\RatUp$ consumer can only receive the integer-to-rational handoff rows named by the same provenance package. The modulus witness and residue ledger remain visible, so the consumer sees which finite reduction window produced the representative.
+
+Because the packet has no coordinate for a rational quotient of residue classes, the handoff is exactly the displayed $\IntUp/\RatUp$ boundary with its $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic NameCert obligation surface]
+\label{thm:modulararithmetic-namecert-obligation-surface}
+The local $\NameCert_{\ModularArithmeticUp}$ obligation surface consists of five rows: the residue source carrier of \autoref{def:modulararithmetic-residue-source}; the remainder-window classifier over transported modulus witnesses; the addition ledger of \autoref{thm:modulararithmetic-add-mul-ledger}; the multiplication ledger of the same theorem; and the $\IntUp/\RatUp$ handoff boundary of \autoref{thm:modulararithmetic-int-rat-handoff}. These rows are the full public surface for residue arithmetic over certified integer histories.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_namecert\_obligation\_surface}
+\begin{proof}
+The carrier and classifier are the two projections of \autoref{def:modulararithmetic-residue-source}. They provide the accepted residue packets and the visible equality test by common remainder windows.
+
+The operation rows are supplied by \autoref{thm:modulararithmetic-add-mul-ledger}. Addition and multiplication both use the same modulus witness, representative rows, finite reduction window, and package provenance.
+
+The handoff row is supplied by \autoref{thm:modulararithmetic-int-rat-handoff}. Together these projections list every coordinate readable from the packet, so the $\NameCert_{\ModularArithmeticUp}$ surface is exhausted by the five displayed rows and no quotient primitive is exported.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic scoped dependency boundary]
+\label{thm:modulararithmetic-scoped-dependency-boundary}
+The five local $\NameCert_{\ModularArithmeticUp}$ rows are scoped exactly by the displayed $\IntUp$ modulus and representative rows, the $\AddUp$ and $\MulUp$ operation rows, the $\OrderUp$ reduction-window row, the $\RatUp$ handoff row, the positive $\mathsf{UnaryHistory}$ modulus witness, the $\mathsf{BHist}$ residue packet, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the dependency certificates named by $\NameCert$. No quotient ring, host congruence class, finite-field structure, or external equality is exported from this scoped boundary.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:modulararithmetic-residue-source}. Its carrier and classifier coordinates give the representative row, modulus row, positive unary witness, residue packet, transported remainder window, continuation routes, package provenance, and dependency certificates.
+
+Use \autoref{thm:modulararithmetic-add-mul-ledger} for the operation surface. The addition and multiplication rows consume only the displayed $\AddUp$ and $\MulUp$ dependencies before repacking the reduced residue through the same modulus witness and $\OrderUp$ reduction window.
+
+Use \autoref{thm:modulararithmetic-int-rat-handoff} for the consumer boundary. The handoff exposes exactly the integer representative and modulus rows to $\RatUp$ consumers, together with the same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ ledgers.
+
+These three projections exhaust the concrete BEDC rows visible in the packet. Since none of the named rows contains a coordinate for quotient-ring equality, host congruence classes, finite-field structure, or external equality, the scoped surface exports no such object.
+\end{proof}
+\leanchecked{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_scoped\_dependency\_boundary}
+
+\closureat{ModularArithmeticUp}{seedStr}
+\closureat{ModularArithmeticUp}{obligationStr}
+\closureat{ModularArithmeticUp}{scopedStr}[BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_scoped\_dependency\_boundary]
+
+\begin{closurestatus}{\ModularArithmeticUp}
+  \constructivestory{Residue arithmetic is generated by choosing a certified integer modulus, a positive unary modulus witness, an integer representative, and a finite reduction ledger; addition and multiplication read the existing $\AddUp$ and $\MulUp$ rows before reducing through the displayed $\OrderUp$ window.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary binds the residue source carrier, transported remainder-window classifier, addition and multiplication ledgers, $\IntUp/\RatUp$ handoff rows, and dependency provenance over certified integer histories.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ModularArithmeticUp.ModularArithmeticResidueSource\_scoped\_dependency\_boundary}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient rings, Chinese-remainder structure, primality-specific arithmetic, finite-field laws, or a standard bridge.}
+  \upgradepath{Public closure requires a reusable residue arithmetic certificate surface with stable downstream consumer rows.}
+\end{closurestatus}

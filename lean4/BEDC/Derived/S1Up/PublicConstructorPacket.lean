@@ -55,4 +55,22 @@ theorem SOneUp_StdBridge {x y e p x' y' e' p' provenance publicLedger bridge : B
     scope.right.right.right.left, scope.right.right.right.right.left,
     scope.right.right.right.right.right.right.right.right, bridgeRow⟩
 
+theorem SOneStandardBridge_componentwise_transport_stability
+    {x y e p x' y' e' p' provenance publicLedger bridge bridge' : BHist} :
+    SOnePublicConstructorPacket x y e p x' y' e' p' provenance publicLedger ->
+      Cont publicLedger p' bridge ->
+        hsame bridge bridge' ->
+          SOneComponentClassifier x y e p x' y' e' p' ∧
+            SOneHistoryCarrier x' y' e' p' ∧
+              SOneLedgerPolicy x y e p x' y' e' p' ∧
+                hsame bridge' (append publicLedger p') := by
+  intro packet bridgeRow sameBridge
+  have scope := SOnePublicConstructorPacket_scope packet
+  have ledgerPolicy : SOneLedgerPolicy x y e p x' y' e' p' :=
+    SOneLedgerPolicy_component_readback scope.left
+  exact And.intro scope.left
+    (And.intro scope.left.right.left
+      (And.intro ledgerPolicy
+        (hsame_trans (hsame_symm sameBridge) bridgeRow)))
+
 end BEDC.Derived.S1Up

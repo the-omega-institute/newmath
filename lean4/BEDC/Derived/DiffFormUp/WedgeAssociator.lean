@@ -36,4 +36,20 @@ theorem DiffFormWedgeDegreeLedger_degree_additivity_transport
   exact And.intro transported.left
     (And.intro sameOut transported.left.right.right.right.left)
 
+theorem DiffFormWedgeDegreeLedger_visible_source_rows
+    {leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger : BHist} :
+    DiffFormWedgeDegreeLedger leftDegree rightDegree outDegree leftLedger rightLedger
+        tensorLedger ->
+      UnaryHistory leftDegree ∧ UnaryHistory rightDegree ∧ UnaryHistory outDegree ∧
+        UnaryHistory tensorLedger ∧ Cont leftDegree rightDegree outDegree ∧
+          hsame leftLedger rightLedger := by
+  intro ledger
+  exact
+    ⟨ledger.left,
+      ledger.right.left,
+      ledger.right.right.right.left,
+      ledger.right.right.right.right.left,
+      ledger.right.right.left,
+      ledger.right.right.right.right.right⟩
+
 end BEDC.Derived.DiffFormUp

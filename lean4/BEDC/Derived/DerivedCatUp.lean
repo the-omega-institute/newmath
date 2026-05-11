@@ -234,4 +234,27 @@ theorem DerivedCatVisibleLocalizationClassifier_roof_identity_units
       (And.intro leftCompositeUnary
         (And.intro rightCompositeUnary (And.intro leftWitnessUnary rightWitnessUnary))))
 
+theorem DerivedCatLocalizationBoundary_example_boundary
+    {object morph weak roof localized leftComposite rightComposite leftWitness rightWitness :
+      BHist} :
+    UnaryHistory object -> UnaryHistory morph -> UnaryHistory weak -> Cont object morph roof ->
+      Cont roof weak localized -> DerivedCatVisibleLocalizationCarrier roof ->
+        Cont BHist.Empty roof leftComposite -> Cont roof BHist.Empty rightComposite ->
+          Cont leftComposite roof leftWitness -> Cont rightComposite roof rightWitness ->
+            UnaryHistory roof ∧ UnaryHistory localized ∧
+              hsame localized (append (append object morph) weak) ∧
+                DerivedCatVisibleLocalizationClassifier leftComposite roof ∧
+                  DerivedCatVisibleLocalizationClassifier rightComposite roof := by
+  intro objectUnary morphUnary weakUnary roofRow localizedRow roofCarrier leftIdentity
+    rightIdentity leftWitnessCont rightWitnessCont
+  have roofRows :=
+    DerivedCatLocalizationRoof_carrier_obligation objectUnary morphUnary weakUnary roofRow
+      localizedRow
+  have unitRows :=
+    DerivedCatVisibleLocalizationClassifier_roof_identity_units roofCarrier leftIdentity
+      rightIdentity leftWitnessCont rightWitnessCont
+  exact And.intro roofRows.left
+    (And.intro roofRows.right.left
+      (And.intro roofRows.right.right (And.intro unitRows.left unitRows.right.left)))
+
 end BEDC.Derived.DerivedCatUp

@@ -651,3 +651,30 @@ The successor step is
 classify the one-headed exponent ledger by the displayed singleton
 multiplication endpoint, completing the concrete carrier/action schema.
 \end{proof}
+
+\begin{theorem}[Matrix singleton identity-power schema handoff]
+\label{thm:matrix-singleton-identity-power-schema-handoff}
+The data
+$\mathsf{MatrixSingletonCarrier}$, $\mathsf{MatrixSingletonClassifier}$,
+$\mathsf{UnaryHistory}$, and $\mathsf{MatrixSingletonPow}$ provide the concrete
+$\MatrixUp$ power schema handoff consumed by algebra and control chapters. The
+handoff exports the base carrier, exponent carrier, identity endpoint, unary
+power closure, successor endpoint, classifier, $\hsame$ transport, $\Cont$, and
+$\mathsf{Pkg}$ rows as finite $\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+The instance data are exactly the four fields named in
+\autoref{def:matrix-singleton-identity-power-concrete-instance}. The law in
+\autoref{thm:matrix-singleton-identity-power-law} identifies the empty exponent
+with the singleton identity endpoint, proves unary carrier closure, and records
+the successor action through the displayed multiplication row.
+
+The carrier component is closed by
+\autoref{thm:matrix-singleton-pow-carrier-closed}. The successor endpoint is
+exact by
+\autoref{thm:matrix-singleton-pow-successor-endpoint-exactness}. Therefore each
+exported row is a $\mathsf{BHist}$, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ row
+already present in the concrete singleton packet, so downstream algebra and
+control consumers receive a finite carrier/action handoff rather than abstract
+matrix-power parameters.
+\end{proof}

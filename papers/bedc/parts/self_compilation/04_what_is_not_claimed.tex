@@ -1,0 +1,51 @@
+\section{Bounds: What This Surface Does Not Claim}\label{sec:self-comp-not-claimed}
+
+The self-compilation surface is bounded by explicit negative claims. These
+bounds are part of the theory, because without them a reflection result can be
+misread as a stronger foundational theorem.
+
+First, BEDC does not claim L4a. Since the formalization sits inside the host
+Calculus of Inductive Constructions, an internal axiom-free theorem asserting
+the relevant complete truth, soundness, or consistency of that same host-scale
+calculus is blocked by the Godel-Tarski boundary. Tarski undefinability blocks
+an internal truth predicate with the required global behavior. Godel's second
+incompleteness theorem blocks a sufficiently strong, consistent system from
+proving its own consistency in the corresponding internal form.
+
+Second, BEDC rejects L4c. The paper's governance discipline keeps theory
+closure and verification status as independent axes. The policy is recorded in
+\autoref{ch:theory-amendment-policy}. A scoped paper theorem can be paired with
+a Lean target, a checked Lean theorem can sit inside a deliberately narrow
+paper scope, and a bridge can be absent even when both coordinates are clear.
+This is not a defect in the surface. It is the mechanism that prevents a proof
+marker from becoming a claim of public mathematical closure.
+
+Third, TM simulation does not subsume CIC reconstruction. A simulator can make
+behavioral statements about execution traces. Such statements have the shape of
+finite runs, accept states, and observed outputs. CIC reconstruction gives
+structural statements about syntax, contexts, typing, and reduction. These
+objects can occur under universal quantifiers and induction principles:
+
+$$
+\begin{aligned}
+\forall d,\ \mathrm{TypingDerivation}(d)
+  \longrightarrow \mathrm{Property}(d).
+\end{aligned}
+$$
+
+That judgmental form is not the same as predicting that a machine accepts a
+file. Both surfaces are useful, but they support different theorems.
+
+Fourth, the reflection bridge between MetaCIC and the host kernel is outside
+the present scope. A bridge would have to relate represented judgments to actual
+host elaboration or kernel checking with enough precision to transfer
+meaningful proof obligations. That is a V2-and-beyond metatheoretic program.
+The present surface records the construction and boundary of represented
+syntax, represented typing, finite checked manifest entries, and external
+paper-Lean audits.
+
+These bounds fix the intended reading. BEDC can internally carry finite checked
+theorem entries, represent parts of its own kernel vocabulary, and expose
+obligation packets for concrete name certificates. It cannot, from inside the
+same host logic and without additional axioms, certify the global truth or
+consistency of the host that checks it.

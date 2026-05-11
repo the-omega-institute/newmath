@@ -6,6 +6,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -92,5 +93,82 @@ theorem CurvatureChernWeilSourceEnvelope_source_envelope_row [AskSetup] [Package
       provenanceRow classifierRow pkgSig
   exact And.intro boundaryRows.left
     (And.intro boundaryRows.right.left (And.intro coverage.left coverage.right))
+
+theorem CurvatureChernWeilSourceEnvelope_status_record [AskSetup] [PackageSetup]
+    {base fibre sec tangentA tangentB derivativeA derivativeB provenance0 ledgerA ledgerB boundary
+      curvatureLedger derham provenance connectionLedger classifier : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CurvatureBracketCarrier base fibre sec tangentA tangentB derivativeA derivativeB provenance0
+        ledgerA ledgerB boundary curvatureLedger ->
+      CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance connectionLedger classifier
+          bundle pkg ->
+        SemanticNameCert
+            (fun row : BHist =>
+              CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                connectionLedger row bundle pkg)
+            (fun row : BHist =>
+              CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                connectionLedger row bundle pkg)
+            (fun row : BHist =>
+              CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                connectionLedger row bundle pkg)
+            (fun left right : BHist =>
+              CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                  connectionLedger left bundle pkg ∧
+                CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                  connectionLedger right bundle pkg ∧
+                  hsame left right) ∧
+          UnaryHistory curvatureLedger ∧ Cont curvatureLedger derham provenance ∧
+            Cont provenance connectionLedger classifier ∧ PkgSig bundle classifier pkg := by
+  intro carrier envelope
+  have carrierRows :=
+    CurvatureBracketCarrier_boundary_source_obligation carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+              connectionLedger row bundle pkg)
+          (fun row : BHist =>
+            CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+              connectionLedger row bundle pkg)
+          (fun row : BHist =>
+            CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+              connectionLedger row bundle pkg)
+          (fun left right : BHist =>
+            CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                connectionLedger left bundle pkg ∧
+              CurvatureChernWeilSourceEnvelope curvatureLedger derham provenance
+                connectionLedger right bundle pkg ∧
+                hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro classifier envelope
+      equiv_refl := by
+        intro row rowEnvelope
+        exact And.intro rowEnvelope (And.intro rowEnvelope (hsame_refl row))
+      equiv_symm := by
+        intro left right related
+        exact And.intro related.right.left
+          (And.intro related.left (hsame_symm related.right.right))
+      equiv_trans := by
+        intro left middle right relatedLM relatedMR
+        exact And.intro relatedLM.left
+          (And.intro relatedMR.right.left
+            (hsame_trans relatedLM.right.right relatedMR.right.right))
+      carrier_respects_equiv := by
+        intro _left _right related _leftEnvelope
+        exact related.right.left
+    }
+    pattern_sound := by
+      intro _row rowEnvelope
+      exact rowEnvelope
+    ledger_sound := by
+      intro _row rowEnvelope
+      exact rowEnvelope
+  }
+  exact And.intro cert
+    (And.intro carrierRows.right.left
+      (And.intro envelope.right.right.right.right.right.left
+        (And.intro envelope.right.right.right.right.right.right.left
+          envelope.right.right.right.right.right.right.right.right)))
 
 end BEDC.Derived.CurvatureUp

@@ -91,6 +91,13 @@ theorem GraphEdge_classifier_transport {h k g h' k' g' : BHist} :
 def GraphContEdge (h k g : BHist) : Prop :=
   UnaryHistory h ∧ UnaryHistory k ∧ Cont h k g
 
+theorem GraphContEdge_endpoint_coverage {h k g : BHist} :
+    GraphContEdge h k g ->
+      UnaryHistory h ∧ UnaryHistory k ∧ Cont h k g ∧ hsame g (append h k) := by
+  intro edge
+  exact And.intro edge.left
+    (And.intro edge.right.left (And.intro edge.right.right edge.right.right))
+
 theorem GraphContEdge_classifier_transport {h k g h' k' g' : BHist} :
     GraphContEdge h k g -> hsame h h' -> hsame k k' -> hsame g g' ->
       GraphContEdge h' k' g' ∧ Cont h' k' g' ∧

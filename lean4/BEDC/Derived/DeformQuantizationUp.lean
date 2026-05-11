@@ -72,4 +72,36 @@ theorem DeformQuantizationStarLedger_carrier_obligation
   exact
     ⟨productUnary, provenanceUnary, ledgerUnary, kappaRow, kappaPi⟩
 
+theorem DeformQuantizationStarLedger_first_order_ledger_exactness
+    {muH mu0 mu1 mu1op kappa pi product provenance bracketLedger endpoint : BHist} :
+    UnaryHistory muH ->
+      UnaryHistory mu0 ->
+        UnaryHistory mu1 ->
+          UnaryHistory mu1op ->
+            Cont mu1 mu1op kappa ->
+              hsame kappa pi ->
+                Cont muH mu0 product ->
+                  Cont product kappa provenance ->
+                    Cont kappa pi bracketLedger ->
+                      Cont provenance bracketLedger endpoint ->
+                        UnaryHistory bracketLedger ∧ UnaryHistory endpoint ∧
+                          hsame bracketLedger (append kappa pi) ∧
+                            hsame endpoint (append provenance bracketLedger) ∧ hsame kappa pi := by
+  intro muHUnary mu0Unary mu1Unary mu1opUnary kappaRow kappaPi productRow
+    provenanceRow bracketLedgerRow endpointRow
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed muHUnary mu0Unary productRow
+  have kappaUnary : UnaryHistory kappa :=
+    unary_cont_closed mu1Unary mu1opUnary kappaRow
+  have piUnary : UnaryHistory pi :=
+    unary_transport kappaUnary kappaPi
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed productUnary kappaUnary provenanceRow
+  have bracketLedgerUnary : UnaryHistory bracketLedger :=
+    unary_cont_closed kappaUnary piUnary bracketLedgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary bracketLedgerUnary endpointRow
+  exact
+    ⟨bracketLedgerUnary, endpointUnary, bracketLedgerRow, endpointRow, kappaPi⟩
+
 end BEDC.Derived.DeformQuantizationUp

@@ -51,4 +51,44 @@ theorem DiffFormRootConsumerFactorization_wedge_derivative {ScalarCarrier : BHis
   exact And.intro routed.right.left
     (And.intro routed.right.right (And.intro closure.left closure.right.right.right.right.left))
 
+theorem DiffFormRootConsumerFactorization_carrier_route_closure
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus target : BHist} :
+    InBundle probe probes -> ScalarCarrier scalar -> UnaryHistory degree -> UnaryHistory probe ->
+      Cont degree probe tensor -> UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          Cont degree (BHist.e1 BHist.Empty) dplus -> Cont ledger BHist.Empty target ->
+            UnaryHistory target ∧ hsame target ledger ∧
+              DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym
+                ledger degree probe tensor scalar antisym ledger ∧
+                DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor
+                  tensor scalar scalar antisym ledger := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute degreeSuccessor targetRoute
+  have carrierRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_transport
+      (unary_append_closed degreeUnary
+        (unary_append_closed probeUnary
+          (unary_append_closed carrierRows.right.right.left
+            (unary_append_closed carrierRows.right.right.right.left antisymUnary))))
+      (hsame_symm ledgerRoute)
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed ledgerUnary unary_empty targetRoute
+  have targetReadback : hsame target ledger := by
+    cases targetRoute
+    rfl
+  have routed :
+      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+          degree probe tensor scalar antisym ledger ∧
+        UnaryHistory dplus ∧
+          DiffFormExteriorDerivativeLedger scalar dplus degree dplus probe probe tensor tensor
+            scalar scalar antisym ledger :=
+    DiffFormRootConsumerFace_coverage scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
+  exact ⟨targetUnary, targetReadback, routed.left, routed.right.right⟩
+
 end BEDC.Derived.DiffFormUp

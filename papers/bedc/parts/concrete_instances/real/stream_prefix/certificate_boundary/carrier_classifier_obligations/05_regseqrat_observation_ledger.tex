@@ -80,6 +80,43 @@ the induction hypothesis. Hence the cons bundle extracts and transports the
 claimed finite family endpointwise.
 \end{proof}
 
+\begin{theorem}[RegSeqRat observation ledger dyadic endpoint coverage]
+\label{thm:regseqrat-observation-ledger-dyadic-endpoint-coverage}
+Let $s:\Hist\to\Hist$ carry a $\RegSeqRat$ stream certificate spine, and let
+$L$ be a finite BEDC ledger bundle of certified unary $\RegSeqRat$
+observations. Every dyadic endpoint row visible to a downstream $\RealUp$
+finite-window consumer is one of the rows extracted by
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction},
+transported endpointwise along the same pointwise classifier.
+
+Equivalently, the consumer-visible endpoint surface is exhausted by the finite
+family of $\mathsf{DyadicRatCoreObservationRow}(s(n))$ rows indexed by
+certified entries $n\in L$, together with their pointwise transported endpoint
+rows. No hidden selector, quotient representative, completion object, or host
+index can produce an additional dyadic endpoint row.
+\end{theorem}
+\begin{proof}
+Induct on the finite ledger bundle $L$. The empty bundle has no certified unary
+observation entry, so a downstream finite-window consumer has no dyadic endpoint
+row to read from that ledger.
+
+For a cons bundle, write the head request as $n$ and the tail as $L'$. Apply
+\autoref{thm:regseqrat-dyadic-observation-coverage} to the head. It gives the
+visible $\mathsf{DyadicRatCoreObservationRow}(s(n))$ and its pointwise
+transported endpoint row.
+
+Apply
+\autoref{thm:dyadic-rat-core-observation-row-finite-ledger-extraction} to the
+tail ledger $L'$. The induction hypothesis says every endpoint row visible from
+$L'$ is already in the extracted tail family and transported along the same
+pointwise classifier.
+
+Adjoin the head row to the extracted tail family. Carrier projection leaves no
+projection for a hidden selector, quotient representative, completion object, or
+host index, so the displayed finite family exhausts the downstream
+consumer-visible dyadic endpoint rows.
+\end{proof}
+
 \begin{theorem}[RegSeqRat constant and transport obligation]
 \label{thm:regseqrat-constant-and-transport-obligation}
 The constant and transport obligations for $\RegSeqRat$ are the inhabitation of

@@ -1,0 +1,76 @@
+\section{Internal Manifest}\label{sec:self-comp-manifest}
+
+The internal Manifest is the L4-mid surface in its most concrete form. It is a
+finite Lean object that records selected paper-anchored theorem claims as
+kernel-checked entries. Each entry carries a paper label, a fully qualified Lean
+name, the proposition being recorded, and a proof of that proposition.
+
+The core shape is the Lean structure `\verb|BEDC.Manifest.ClaimEntry|':
+
+$$
+\begin{aligned}
+\mathrm{ClaimEntry}
+  &= \{\,\mathrm{paper\_label} : \mathrm{String},\\
+  &\qquad \mathrm{lean\_name} : \mathrm{String},\\
+  &\qquad \mathrm{prop} : \mathrm{Prop},\\
+  &\qquad \mathrm{proof} : \mathrm{prop}\,\}.
+\end{aligned}
+$$
+
+The last field is the essential one. The manifest does not store an untyped
+string saying that a proof exists. It stores a proof term whose type is the
+entry's own proposition. When Lean elaborates the list of entries, the kernel
+checks that each proof term inhabits the proposition supplied by that same
+entry. A malformed pair cannot be silently accepted as a well-typed entry.
+
+This makes Manifest wellformedness kernel-decidable in the practical sense used
+by this paper: the Lean kernel either accepts the manifest term or rejects it
+during checking. The paper does not claim that BEDC internally decides arbitrary
+truth. It claims the finite manifest has a type-checking boundary. For each
+entry already present in the finite list, Lean checks the displayed proof
+against the displayed proposition.
+
+The Manifest therefore separates three surfaces that are easy to confuse. The
+paper label is a human-facing anchor into the LaTeX document. The Lean name is a
+string that records the declaration intended by the entry. The proposition and
+proof field are the kernel-facing content. The manifest theorem below speaks
+about the kernel-facing content; repository audits continue to police paper
+marker names and file-level correspondence.
+
+\leanchecked{BEDC.Manifest.manifest\_wellformed}
+
+The theorem `\verb|BEDC.Manifest.manifest_wellformed|' is an observable
+corollary of this dependent representation. It says that every entry in
+`\verb|BEDC.Manifest.manifest|' has a nonempty proposition:
+
+$$
+\begin{aligned}
+\forall e,\ e \in \mathrm{manifest}
+  \longrightarrow \mathrm{Nonempty}(e.\mathrm{prop}).
+\end{aligned}
+$$
+
+Its proof is direct: the entry already contains `\verb|e.proof|', so the
+witness is `\verb|\langle e.proof\rangle|'. The content is not hidden in that
+short proof term. The work is performed by the typing of `\verb|ClaimEntry|'
+and by the kernel's acceptance of each manifest entry.
+
+This is why the Manifest is L4-mid rather than L4a. It is internal, finite, and
+type checked. It does not define Lean truth for Lean inside Lean. It does not
+prove that every possible BEDC paper claim has a corresponding proof. It does
+not certify arbitrary external mathematics. It certifies that the listed
+paper-anchored theorem entries have proof terms accepted by the host kernel.
+
+The Manifest also clarifies the relation between paper governance and Lean
+verification. A Manifest entry can support a paper marker and can make the
+corresponding proof term visible as data. It does not erase the need for the
+paper-side closure fields: `\verb|\theoryclosure|', `\verb|\scopeclosed|',
+`\verb|\formalstatus|', `\verb|\bridgestatus|', `\verb|\notclaimed|', and
+`\verb|\upgradepath|'. Those fields state the theoretical scope around the
+claim. The Manifest states that selected Lean propositions have typed proof
+terms.
+
+Consequently, the self-compilation claim at this layer is precise. BEDC can
+carry a finite manifest of its own paper-anchored Lean theorems as Lean data,
+and the kernel can reject ill-typed entries. That is a real internal reflection
+surface, but it is deliberately not a global self-certification theorem.

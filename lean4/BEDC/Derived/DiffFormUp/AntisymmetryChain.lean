@@ -97,6 +97,22 @@ theorem DiffFormAntisymmetryChainLedger_coverage
             chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
             chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))))
 
+theorem DiffFormDerivedAntisymmetry_normal_form
+    {probes : ProbeBundle BHist}
+    {chain degree probe tensor scalar antisym ledger degreeR probeR tensorR scalarR antisymR ledgerR :
+      BHist} :
+    DiffFormAntisymmetryChainLedger probes chain degree probe tensor scalar antisym ledger degreeR
+        probeR tensorR scalarR antisymR ledgerR ->
+      UnaryHistory chain ∧ Cont degree probe tensor ∧ Cont tensor antisym scalar ∧
+        DiffFormBHistClassifier hsame probes degree probe tensor scalar antisym ledger degreeR
+          probeR tensorR scalarR antisymR ledgerR := by
+  intro chainLedger
+  exact And.intro chainLedger.left
+    (And.intro chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+      (And.intro
+        chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+        chainLedger.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))
+
 theorem DiffFormAdjacentSwapInvolutionLedger_reverse_closure {probes : ProbeBundle BHist}
     {chain degree probe tensor scalar antisym ledger degreeR probeR tensorR scalarR antisymR
       ledgerR doubleChain : BHist} :

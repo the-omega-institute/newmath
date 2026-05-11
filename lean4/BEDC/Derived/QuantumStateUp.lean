@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -267,5 +269,47 @@ theorem QuantumStateBHistCarrier_phase_ledger_exhaustion [AskSetup] [PackageSetu
             (And.intro consumerReadCont
               (And.intro projectiveClassifier.right.right.right.right.left
                 projectiveClassifier.right.right.right.right.right))))))
+
+theorem QuantumStateBHistCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {hilbert projective vector norm phase projectiveEndpoint hilbertLedger projectiveLedger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+        hilbertLedger projectiveLedger provenance endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+            hilbertLedger projectiveLedger provenance endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+            hilbertLedger projectiveLedger provenance endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          QuantumStateBHistCarrier hilbert projective vector norm phase projectiveEndpoint
+            hilbertLedger projectiveLedger provenance endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro _row _rowCarrier
+        exact hsame_refl _row
+      equiv_symm := by
+        intro _left _right sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _left _middle _right sameLeftMiddle sameMiddleRight
+        exact hsame_trans sameLeftMiddle sameMiddleRight
+      carrier_respects_equiv := by
+        intro left right sameRows leftCarrier
+        exact And.intro leftCarrier.left (hsame_trans (hsame_symm sameRows) leftCarrier.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.QuantumStateUp

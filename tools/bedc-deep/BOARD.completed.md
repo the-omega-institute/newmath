@@ -16088,3 +16088,972 @@ Rationale:
 BOARD 有 union-of-equations zero-locus = intersection (B-609) 和 singleton zero-locus exactness (B-585), 但通用 inclusion → 反向 inclusion 的 antitone 定理未列。它是零点集分类的核心 order bridge, 比 union 公式更结构化, 证明短且不重复 union 路径: 对 E 中任一方程经 inclusion 转到 F, 再用 F-zero witness。
 
 ---
+
+### B-635 - BusyBeaver per-machine halted-readback determinism on empty tape
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | BusyBeaver per-machine halted-readback determinism on empty tape |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted BusyBeaverUp witnesses share a finite enumeration E and both record a halted branch for the same entry M in E, then their halted output rows, step-count rows, and finite TuringMachineUp transition traces from the empty tape are hsame-equal in the carrier ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/264_busybeaver_namecert_construction.tex`
+
+Rationale:
+Genuine no-confusion gap. The chapter premises deterministic Turing-machine codes (264:9) and the existing thm:busybeaver-per-machine-readback-exactness only reads back one accepted packet. The deterministic-code hypothesis should force any two halted branches for the same M to agree on output, step count, and transition trace — but no current theorem makes that comparison. Fits the determinism/uniqueness keeper category cleanly: not a parameter echo of bound monotonicity (264:70-96) or of the non-halting exclusion row (264:99-125). Landing file is 197 lines, far below the cap, with a clear sibling slot adjacent to the existing readback-exactness theorem.
+
+---
+
+### B-636 - SpinGroup conjugation action classifier congruence row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | SpinGroup conjugation action classifier congruence row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If $S$ is an accepted SpinGroupUp packet and $s,s'$ are visible Clifford-unit endpoints of $S$ with $s\sim_{\CliffordUp}s'$, and $v,v'$ are Clifford-vector rows accepted by the same NameCert_CliffordUp source with $v\sim_{\CliffordUp}v'$, then $\mathsf{Act}_{s}(v)\sim_{\CliffordUp}\mathsf{Act}_{s'}(v')$ inside the same packet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/spingroup/boundary_consumer_exactness.tex`
+
+Rationale:
+File `concrete_instances/spingroup/boundary_consumer_exactness.tex` (327 lines) currently has a product law (line 78), an identity law (line 160), and an inverse-involution law (line 233) for the conjugation action `Act_s(v):=(s·v)·s^{-1}`. It has the *readback* theorem (line 27) but NO `congruence`/`stability` row showing the action is well-defined under classifier transport of either argument. A grep across `papers/bedc/parts/concrete_instances/spingroup/` for `(action.*congruence|spingroup-action-congru)` returned 0 hits. BOARD covers SpinGroup conjugation identity (B-612), inverse-involution (B-620), and multiplicative (B-600) laws — none of which is the bilinear/two-argument classifier-respect statement. The proof is short: the readback word `(s·v)·s^{-1}` is built from Clifford product rows and inverse rows; congruence follows from `\autoref{thm:clifford-product-stability-obligation}` applied twice plus inverse congruence from `def:group-stability-certificate`, no new ledger row needed.
+
+---
+
+### B-637 - TopGroupUp left-translation continuity row by a fixed group element
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | TopGroupUp left-translation continuity row by a fixed group element |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted TopGroupUp packet and a carried group element g of its source-fiber product, the left-translation row L_g(h)=g\cdot h is a sound continuity row through the displayed product graph, target neighbourhood, hsame transports, and finite Cont ledger of the carrier — without introducing a new operation source or external translation predicate.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/topgroup/continuity_obligations.tex`
+
+Rationale:
+The continuity_obligations.tex file (185 lines) closes product-of-pairs continuity (line 1, thm:topgroup-inverse-cont-ledger-soundness; line 53 thm:topgroup-operation-continuity-obligation) and inverse continuity, but never the unary left-translation specialization L_g — a basic and downstream-load-bearing row in any topological-group theory. Searching `translation`, `left.*mult`, `right.*mult` across topgroup/*.tex and 182_topgroup_namecert_construction.tex returns zero hits. No completed BOARD entry covers it: B-505/B-503 are NetworkFlow/ProbSpace, no completed target touches topgroup specifically (state grep shows only 1 topgroup hit, on 182_topgroup_namecert_construction.tex). File at 184/800 has plenty of room.
+
+---
+
+### B-639 - PermutationUp permutation on a singleton FinSet classifies with the identity row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PermutationUp permutation on a singleton FinSet classifies with the identity row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the underlying NameCert_{FinSetUp} of a PermutationUp packet has exactly one carried position (singleton FinSet endpoint row), then any accepted PermutationUp graph row classifies with the identity bijection row read through \autoref{thm:permutation-composition-inverse-action-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/94_permutation_namecert_construction.tex`
+
+Rationale:
+The file 94_permutation_namecert_construction.tex (128 lines) has 4 theorems — carrier obligation, classifier, composition/inverse/action, public surface — but no specific finite-cardinality witness. SymGroup (95) similarly has only 4 abstract theorems. The completed BOARD has B-507 EnumPerm composition associativity and B-94/symgroup-unit-uniqueness laws inherited via group-up, but no finitary-instance theorem like singleton uniqueness; grep for `singleton` in both files returns zero. Single-implication concrete claim grounded in the existing FinSetUp source carrier; file at 128/800.
+
+---
+
+### B-638 - HopfAlgUp antipode fixes the unit row of the bialgebra
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | HopfAlgUp antipode fixes the unit row of the bialgebra |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For an accepted HopfAlgUp bialgebra packet of \autoref{def:hopfalg-bhist-bialgebra-carrier} with displayed antipode row S, the antipode of the unit endpoint η(1) classifies (\sim_{HopfAlgUp}) with η(1) itself, read through the convolution-inverse obligation rows of \autoref{thm:hopfalg-antipode-convolution-inverse-obligation}.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/158_hopfalg_namecert_construction.tex`
+
+Rationale:
+File 158_hopfalg_namecert_construction.tex (336 lines) has 13 theorems but the canonical Hopf-algebra fact `S(1) = 1` is missing. grep for `S(1)|antipode unit|antipode of the unit|antipode applied to` finds only mentions of unit-counit endpoints in convolution context, never the elementary endpoint identity. The completed BOARD has B-529 HopfAlgUp antipode uniqueness from convolution-inverse witnesses but not antipode-on-unit, which is a strictly weaker, single-implication consequence of the convolution-inverse rows already exported in lines 63–82. Within scope, single implication, no host equality.
+
+---
+
+### B-640 - MatroidUp restriction to empty subset has only the empty independent family
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | MatroidUp restriction to empty subset has only the empty independent family |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+For a MatroidUp independent-set certificate over ground predicate E with naming certificate cert and a restriction subset K of \autoref{def:certified-matroid-restriction-rows} taken as the empty predicate λz.⊥, the restricted independent family Ind_{M|K} accepts only the empty independent set λz.⊥, exposed by the same finite-spine ledger that records empty_M.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/180_matroid_namecert_construction.tex`
+
+Rationale:
+180_matroid_namecert_construction.tex (381 lines) has only 3 theorems: intersection-preserves-independence, restriction certificate, and restrictions compose. The boundary case `restrict to ∅` — a degenerate, single-implication concrete instance — is missing. grep for `empty subset|emptyset|restriction.*to.*empty` shows only the global `empty_M` axiom row, never an empty-restriction theorem. Restriction is one of the few combinatorial operations BEDC has registered for matroids, but only the structure-preservation and composition theorems exist, not boundary-input concrete instances. File at 381/800.
+
+---
+
+### B-641 - FftUp length-one schedule classifies with the input row
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FftUp length-one schedule classifies with the input row |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+For a FftUp packet of \autoref{def:fft-namecert-construction} whose carrier butterfly schedule has length-one (singleton index family from the dependent NameCert_{FourierUp}/NameCert_{ComplexUp}), the FFT output row classifies (\sim_{ComplexUp}) with the input row, read through the butterfly obligation and ledger exactness rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/204_fft_namecert_construction.tex`
+
+Rationale:
+204_fft_namecert_construction.tex (175 lines) has 5 abstract theorems (butterfly obligation, factorization stability, ledger exactness, threshold unblock, public NameCert export) but no boundary-instance result. grep for `FFT.*length|FFT.*single|FFT.*size.*one|FFT.*identity` returns zero. The length-one DFT-equals-input row is the single most basic concrete FFT instance and is exactly the kind of boundary-cardinality theorem the loop has produced for sibling areas (cf. B-538 Quadrature empty-node sum is zero, B-575 Quadrature singleton-node sum, B-553 Zero-spine source shape exhaustion). FFT is missing this slot. File at 175/800.
+
+---
+
+### B-642 - BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | BilinFormUp pairing of the zero vector with any carried partner classifies with the zero scalar |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For an accepted BilinFormUp pairing of \autoref{def:bilinform-module-pairing-source-row} on a module-and-vector-space source, every carried right vector-source row y satisfies BilinPair_{B}(0_V, y, ν) classified with the scalar zero endpoint, read through the bilinearity transport row \autoref{thm:bilinform-bilinearity-transport-row} alone.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/124_bilinform_namecert_construction.tex`
+
+Rationale:
+124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
+
+---
+
+### B-643 - Modular-form empty-coefficient q-expansion carrier classifies under shared source rows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Modular-form empty-coefficient q-expansion carrier classifies under shared source rows |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Two ModularFormUp q-expansion carrier rows whose q-expansion coefficient observation rows are both the empty BHist row and that share the same HolomorphicUp source row and AutomorphicUp source row over the same weight and congruence-subgroup context are classified by the modular-form congruence classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/230_modularform_namecert_construction.tex`
+
+Rationale:
+230_modularform_namecert_construction.tex (74 lines, 3 theorems: holomorphic source scope, automorphic transport stability, namecert obligation surface) defines def:modularform-bhist-qexpansion-carrier with a 'finite q-expansion coefficient observation row' but never writes the empty-coefficient base case despite it being the natural inhabitation witness. ModularForm has zero BOARD targets. This is the same shape as B-538 (Quadrature empty-node sum is zero) and B-527 (Independence empty index family) — exposed empty-case classifier inhabitation in an obligation-only chapter.
+
+---
+
+### B-644 - RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For every carried root α of a RootSystemUp carrier, the simple reflection s_α applied to α equals the additive inverse: s_α(α) ~_V -_V α.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_rootsystem_namecert_construction.tex`
+
+Rationale:
+First lemma a textbook proves after defining a root reflection (Humphreys, Reflection Groups §1.2; Bourbaki Lie IV-VI §1.1). The chapter already proves the involution s_α∘s_α~id but skips the basic axis-negation identity. Grep 'rootsystem-(reflection-axis|self-reflection)' returns no matches. Proof: specialize the reflection definition route s_α(γ)~γ - c_{α,γ}·α at γ=α, use Cartan integer c_{α,α}=2 from thm:rootsystem-cartan-ledger-obligation and innerproduct-root-diagonal-zero-exactness, and arithmetic in the VecSpaceUp reduct. All infra already in the same file.
+
+---
+
+### B-646 - Internalized concrete gap separation strengthened from AskPol to BundleAskPolicy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Internalized concrete gap separation strengthened from AskPol to BundleAskPolicy |
+| Layer | concrete_hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If BundleAskPolicy(Π, D) holds (bundle-local fields only, not the global AskPol(Π, D)), and InGapSig(Π, D, p, h) and InGapSig(Π, D, q, h), then psame(p, q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+internalized_gap_globalize.tex:54 currently states gap separation under the strictly stronger AskPol(Π, D) hypothesis, while the proof body uses only signature determinacy whose bundle-local form is already established in 02_signature_generation.tex:365. Replacing AskPol with BundleAskPolicy yields a strict hypothesis weakening that the existing proof already supports — exactly the kind of stronger-statement-available target (Category 6) that the concrete-hardening layer needs to keep bundle-local hypotheses propagating outward. The host file is 200 lines so the new theorem block lands safely, and the statement is not a paraphrase of any current BOARD entry; the matching bundle-locality theme in adjacent BOARD activity is on different objects (independence, refinement towers, orthogonality), not on this gap-separation site. Concrete uniqueness target, not parameter-echo.
+
+---
+
+### B-645 - Closure-reflection obstruction completeness (converse to Theorem 3.10)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Closure-reflection obstruction completeness (converse to Theorem 3.10) |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+If ¬ClosureReflect(Π) for a generated probe bundle Π, then there exist signatures a, b, c, d and tokens p, q, r witnessing the four-edge TokIntro/hsame configuration of thm:equivalence-closure-reflection-obstruction, so that obstruction characterises every closure-reflection failure.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+Theorem 3.10 in psame_design.tex supplies only the sufficient direction (the four-edge configuration forces ¬ClosureReflect ∧ ¬TokUnique). The converse — that every closure-reflection failure factors through such a finite four-edge witness — is a genuine completeness statement and closes the boundary against the positive Conditional Schema (Proposition 3.6). It is a true obstruction-characterisation theorem (Category 3 in BOARD vocabulary), not a notation variant of any existing entry, and lands in proof_obligations where psame_design.tex (374 lines) has child-file room. Worth a target slot because pairing the necessity-from-sufficiency closes a load-bearing gap in the equivalence-closure obstruction theory rather than echoing an existing classifier transport.
+
+---
+
+### B-648 - InnerProduct norm-of-sum direct expansion (no orthogonality hypothesis)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InnerProduct norm-of-sum direct expansion (no orthogonality hypothesis) |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+For carried vector endpoints x,y of the InnerProduct parallelogram norm seed source, the retained scalar classifier classifies ‖x +V y‖²_I with ‖x‖²_I +K ⟨x,y⟩_I +K ⟨y,x⟩_I +K ‖y‖²_I.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/innerproduct/parallelogram_norm_seed.tex`
+
+Rationale:
+parallelogram_norm_seed.tex (416 lines) has 'Pythagorean row' at line 126 (= B-508, requires x⊥y), 'parallelogram identity row' at line 30 (= B-572 family), 'polarization difference row' at line 209 (= B-514), and 'ternary orthogonal Pythagorean row' at line 333 (= B-528). All three of these proofs internally invoke the four-term expansion ⟨x+y,x+y⟩ = ⟨x,x⟩+⟨x,y⟩+⟨y,x⟩+⟨y,y⟩ via 'thm:innerproduct-vecspace-linearity-row' (the proof prose at lines 153, 230, etc.), but the unconditional expansion is never exposed as a standalone reusable theorem. Grep 'norm.*sum|x\+y.*sim' returns no matching theorem statement. Landing file 416 lines. Concrete unconditional-classifier identity, not parameter-transport.
+
+---
+
+### B-649 - Sheaf base-change three-square associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Sheaf base-change three-square associativity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If T'''→T''→T'→T is a triple of composable displayed base-change squares, then the cover-pullback, gluing-pullback, and common-refinement composites obtained by bracketing as ((h∘g)∘f) and (h∘(g∘f)) classify with the same downstream pullback rows on every cover, compatible family, and presentation.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/sheaf/base_change_functoriality.tex`
+
+Rationale:
+sheaf/base_change_functoriality.tex (82 lines) currently has identity-square neutrality (line 22), two-square cover-pullback composition (line 37), gluing-pullback composition (line 53), and common-refinement composition (line 68). The associativity for three squares is the natural functoriality-completing companion to identity-square neutrality. Grep 'base-change.*associativ|three.*square' across sheaf/ returns 0 matches. The proof unfolds composability twice and chains the existing two-square composition theorem on each side; small theorem block fits well under 760-line cap. This is an associativity claim for the displayed composition operation, not a parameter echo of a single transport row.
+
+---
+
+### B-647 - AffineSpaceUp inverse-vector action cancels back to the carried point
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | AffineSpaceUp inverse-vector action cancels back to the carried point |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Let p be a carried point row and v be an accepted vector row whose translation reading is accepted by the GroupUp dependency; then act(act(p,v), -V v) and p admit AffineSpace repackings classified by AffCls over the same source certificates.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/184_affinespace_namecert_construction.tex`
+
+Rationale:
+184_affinespace_namecert_construction.tex (230 lines) has 'AffineSpaceUp action additivity' at line 189 (= B-510) and 'AffineSpaceUp zero action classifies the carried point' at line 212 (= B-571). Combining them gives act(act(p,v),-v) ~ act(p, v +V (-v)) ~ act(p, 0V) ~ p, but no theorem exposes this two-step cancellation. Grep 'inverse.*vector|negative.*vector|act.*inv' in the file returns only proof prose at line 119 mentioning 'inverse translation packet supplied by the GroupUp certificate' — used internally for free-action argumentation, never as a top-level row. This is a concrete inversion claim about the action pair (v,-v); not parameter-transport because the proof requires combining additivity, zero-action, and the GroupUp inverse law for the translation-packet readings. File at 230 lines.
+
+---
+
+### B-650 - PersistentHomUp empty filtration spine yields empty persistence ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PersistentHomUp empty filtration spine yields empty persistence ledger |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted PersistentHomUp carrier packet has its finite filtration-index spine row empty, then its stagewise SimplicialComplexUp readback rows, HomologyUp readback rows, persistence-map ledger entries, and barcode-summary rows are all empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/217_persistenthom_namecert_construction.tex`
+
+Rationale:
+PersistentHomUp (217_persistenthom_namecert_construction.tex, 138 lines) has 0 completed BOARD entries and the file's filtration carrier (thm:persistenthom-carrier-obligation-surface, lines 9-34) and ledger exactness (thm:persistenthom-filtration-ledger-exactness, lines 86-108) explicitly enumerate index spine, stage rows, persistence maps, and barcode summary as the only ledger contents — but no theorem witnesses the empty-spine boundary. The pattern matches B-640 (MatroidUp empty-subset), B-630/B-632 (Markov/Brownian finite-suffix restriction), B-638-style boundary lemmas, but the topological-data-analysis subarea is otherwise entirely untouched by the bedc-deep loop.
+
+---
+
+### B-651 - InterpolationUp empty node selection has empty evaluation ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InterpolationUp empty node selection has empty evaluation ledger |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the FinSetUp selected-node membership ledger of an accepted InterpolationUp carrier row has no entries, then the carrier's polynomial-evaluation ledger contains no sample rows and the sample-ledger surface is empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/202_interpolation_namecert_construction.tex`
+
+Rationale:
+InterpolationUp (202_interpolation_namecert_construction.tex, 188 lines) has 0 completed BOARD entries. Its carrier (def:interpolation-bhist-node-carrier, lines 13-32) is explicitly node-indexed, and thm:interpolation-sample-ledger-surface (lines 34-65) reads every accepted sample through one FinSet membership row. Numerical-analysis concept tier (interpolation, quadrature, fft) is partially covered (B-538/B-575/B-590/B-606 quadrature; B-641 fft) but interpolation is missing this baseline empty-index lemma.
+
+---
+
+### B-652 - KalmanFilterUp zero-gain update gives posterior estimate hsame predicted estimate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | KalmanFilterUp zero-gain update gives posterior estimate hsame predicted estimate |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If the gain row K of an accepted KalmanFilterUp carrier packet is hsame to the zero MatrixUp row, then the posterior-estimate row is hsame to the predicted-estimate row of the same packet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/272_kalmanfilter_namecert_construction.tex`
+
+Rationale:
+KalmanFilterUp (272_kalmanfilter_namecert_construction.tex, 114 lines) has 0 completed BOARD entries. The prediction-update obligation (thm:kalmanfilter-prediction-update-obligation, lines 25-34) exposes a gain row K and posterior-update row, and thm:kalmanfilter-estimate-transport-stability (lines 60-69) gives hsame transport across them — but no zero-gain absorbing-step lemma. Control/estimation subarea (Kalman, LQR, KKT, ControlObservability, ControlControllability) is uniformly at 0 hits in the loop, so this concrete cancellation lemma opens a new front in a well-defined dependency cluster.
+
+---
+
+### B-653 - ControlObservabilityUp zero state-dimension gives empty observation row sequence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ControlObservabilityUp zero state-dimension gives empty observation row sequence |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the finite-dimensional state-space row of an accepted ControlObservabilityUp carrier packet has dimension zero (n = 0), then the finite observation rows C, CA, \dots, CA^{n-1} form the empty sequence and the stacked observation-matrix row \mathcal O(A,C) has no entries.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/271_controlobservability_namecert_construction.tex`
+
+Rationale:
+ControlObservabilityUp (271_controlobservability_namecert_construction.tex, 92 lines) has 0 completed BOARD entries. The carrier (def:control-observability-carrier, lines 9-21) lists the n-indexed observation rows and stacked \mathcal O(A,C) explicitly, and thm:control-observability-kernel-separation (lines 53-65) reasons about non-degenerate kernels — but the degenerate dimension-zero boundary is not on the surface. Same control-theory cluster gap as #4.
+
+---
+
+### B-654 - LQRUp empty horizon row has empty backward-DP ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LQRUp empty horizon row has empty backward-DP ledger |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the finite horizon unary index row of an accepted LQRUp carrier packet is the empty index row, then the Riccati / backward-dynamic-programming ledger contains no update entries.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/272_lqr_namecert_construction.tex`
+
+Rationale:
+LQRUp (272_lqr_namecert_construction.tex, ~183 lines) has 0 completed BOARD entries. def:lqr-finite-control-carrier (lines 9-15) and thm:lqr-dynamic-programming-row (lines 47-58) tie every backward-update Cont row to a finite horizon index; the empty-horizon degenerate case is not on the surface. Together with #4 and #6 this opens three coordinated lemmas in the control cluster (DynSystem dependency neighbourhood), matching the under-covered pattern.
+
+---
+
+### B-655 - Gap hsame transport gives a psame representative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Gap hsame transport gives a psame representative |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under DomainPolicy(D), BundleAskPolicy(Π,D), PackageTokenPolicy(Π) and token totality, InGapsig(Π,D,p,h) and hsame(h,k) imply existence of q with InGapsig(Π,D,q,k) and psame(p,q).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/domain_policy.tex`
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+This is a concrete coverage-with-soundness transport bridge that the current proof_obligations surface does not state. Existing pieces handle either same-source gap separation (B-646 strengthens separation from AskPol to BundleAskPolicy) or DomainPolicy hsame transport in isolation; neither combines them into the statement that an hsame move on the source endpoint preserves gap membership up to a psame-compatible representative. The claim is in single-implication form, fits cleanly under proof_obligations alongside the existing internalized-gap and gap-policy material, and gives a usable lemma for downstream bundle/package proofs rather than echoing an abstract carrier equivalence.
+
+---
+
+### B-656 - Three points are minimal for noncommutative Add obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Three points are minimal for noncommutative Add obstruction |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under finite equality-classified total deterministic unital associative continuation setup, if swapped-source additive commutativity fails then the carrier has at least 3 elements, and the §29.13 three-point witness realizes the bound.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/unary_shift_and_commutativity.tex`
+- `papers/bedc/parts/concrete_instances/05_add_namecert_construction.tex`
+
+Rationale:
+Two complementary facts already exist in the paper: §71.16 forces swapped commutativity at carrier size 2, and §29.13 exhibits a three-element countermodel where core additive stability fails to imply swapped commutativity. The board does not yet contain the minimality / lower-bound statement that fuses these into a single obstruction theorem (failure of swapped-commutativity ⇒ |carrier| ≥ 3, with realization). This is a concrete obstruction/minimality target rather than a parameter echo, has a clear single-implication shape, and lands at the unary_shift_and_commutativity file which is not near the line cap.
+
+---
+
+### B-657 - Bundle-local internalized gap coverage (companion to bundle-local separation)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Bundle-local internalized gap coverage (companion to bundle-local separation) |
+| Layer | concrete_hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Assume BundleAskPolicy(Π,D) and the dependent token condition: whenever InDom(D,h) and Sig(Π,h,s,Δ) there exists p with TokIntro(Π,s,p); if InDom(D,h), then there exists p with InGapSig(Π,D,p,h).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+B-646 just landed the bundle-local separation strengthening in the same chapter (papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex) but the coverage twin thm:gap-coverage-concrete still requires the global AskPol(Π,D). The asymmetry is exactly the kind a referee flags. The chapter is 230 lines (well under the 800 cap), thm:bundle-local-signature-existence already provides the signature totality from BundleAskPolicy, and composing it with the dependent token condition mirrors the existing proof structure for thm:gap-coverage-concrete. Distinct from B-646 (separation, not coverage) and not currently a labeled theorem in the paper index.
+
+---
+
+### B-658 - PackageTokenPolicy reflection reflects to TokUnique (converse of policy-from-token-unique)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | PackageTokenPolicy reflection reflects to TokUnique (converse of policy-from-token-unique) |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For the concrete signature-token relation, PkgTokPol(Π) implies TokUnique(Π); equivalently, the existing theorem TokUnique ⟹ PkgTokPol upgrades to an iff.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+
+Rationale:
+Closes the converse of thm:package-token-policy-from-token-unique (papers/bedc/parts/proof_obligations/package_token_policy.tex:360). The candidate proof uses only PkgTokPol's two existing fields (soundness + reflection on common introductions) and does not introduce new hypotheses. Upgrading the one-sided implication to an iff is structurally important for the policy/uniqueness equivalence story and not duplicated by TokUnique_iff_tokenReplacement (a different equivalence at line 244). Distinct from any active BOARD title and lands inside the existing proof_obligations file without hub or line-cap risk.
+
+---
+
+### B-659 - Bundle-local same-source gap memberships share signatures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Bundle-local same-source gap memberships share signatures |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If BundleAskPolicy(Π,D) holds and InGapSig(Π,D,p,h) and InGapSig(Π,D,q,h), then there exist generated signatures s,t introducing p,q with hsame(s,t).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+internalized_gap_globalize.tex:86 states thm:gap-memberships-share-signature under AskPol(Π,D); the proof uses only signature determinacy on a shared admitted source, which has a bundle-local form at probe_bundles/02_signature_generation.tex:365 (thm:bundle-local-signature-determinacy). This is the witness-extraction sibling of B-646 — that target strengthened the closing psame step; this one strengthens the intermediate signature-witness extraction that feeds it. No theorem named `bundle-local-share-signature` or with BundleAskPolicy as premise for this witness-form claim exists (grep on parts/). The Lean side `inGapSig_same_source_package_witnesses` (line 96) is AskPol-only; no bundle-local variant. Distinct claim from gap-separation: it returns existential signature witnesses, not just psame(p,q).
+
+---
+
+### B-660 - Signature append residual exactness with known Θ-component
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Signature append residual exactness with known Θ-component |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), PkgPol(BAppend(Π,Θ)), PkgTokPol(BAppend(Π,Θ)), and PkgTokPol(Θ), if the appended interface and the known Θ-component each carry compatible psame on introduced tokens for histories h,k, then sameSig_Π(h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+package_token_policy.tex:470 states thm:signature-append-residual-known-token-component for the known Π-component direction only (cancels Π, returns sameSig_Θ). The mirror direction (cancel Θ, return sameSig_Π) is not stated. The underlying right-cancellation infrastructure exists: 02_signature_generation.tex:253 has thm:samesig-bundle-append-right-cancellation under BundleAskPolicy(Θ,D), and 02_signature_generation.tex:269 has thm:samesig-bundle-append-residual-iff item (2) covering the Θ-known iff at the sameSig level. The remaining task is to lift that residual iff through the token-introduction layer using psame_iff_hsame, exactly parallel to the existing Π-direction proof. Host file 513 lines, ~50 added still under 760. Genuine mirror gap, not parameter echo: requires invoking BundleAskPolicy(Θ,D) where the existing theorem invokes BundleAskPolicy(Π,D).
+
+---
+
+### B-661 - Token uniqueness from package-token policy on the concrete signature-token instance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Token uniqueness from package-token policy on the concrete signature-token instance |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If PkgTokPol(Π) holds for the concrete signature-token relation psame_Π^{sig}, then TokUnique(Π): TokIntro(Π,s,p) and TokIntro(Π,t,p) imply hsame(s,t).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+package_token_policy.tex:360 states thm:package-token-policy-from-token-unique (TokUnique → PkgTokPol) but the converse is not stated. Lean side: `grep 'TokUnique_from|tokUnique_from_packageTokenPolicy' lean4/BEDC/` returns 0 — only `packageTokenPolicy_from_tokUnique` exists. The converse holds: given TokIntro(Π,s,p), TokIntro(Π,t,p), apply soundness with hsame(s,s) to two copies of TokIntro(Π,s,p) yielding psame(p,p); then reflection on TokIntro(Π,s,p), TokIntro(Π,t,p), psame(p,p) gives hsame(s,t). Together with the existing forward direction this gives an equivalence (TokUnique ⇔ PkgTokPol) on the concrete instance — closes the policy-mode contract loop highlighted in def:policy-mode (line 375). Concrete uniqueness claim, host file 513 lines.
+
+---
+
+### B-664 - Strict unary prefix trichotomy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Strict unary prefix trichotomy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Unary(h) and Unary(k), exactly one of hsame(h,k), StrictUnaryPrefix(h,k), or StrictUnaryPrefix(k,h) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Nat↑ seeds totality, directed common upper, and strict-prefix asymmetry separately; this is the order-classifier trichotomy that assembles them into a rigid three-way exhaustive-and-exclusive partition. Concrete classification target, not a transport echo, not in paper labels under nat/unary. Single-file landing in the unary section of 04_nat_namecert_construction.tex; file is not near line cap.
+
+---
+
+### B-662 - Bundle append Levi residual decomposition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Bundle append Levi residual decomposition |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under BAppend setup, if BAppend(Π,Θ)=BAppend(Ω,Λ), there exists a residual R with either (Ω=BAppend(Π,R) and Θ=BAppend(R,Λ)) or (Π=BAppend(Ω,R) and Λ=BAppend(R,Θ)).
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+
+Rationale:
+Bundle append currently has fixed-length cancellations and fixed-length split uniqueness but no Levi/overlap classification that drops the length-equality hypothesis. This is the unrestricted structural classifier that the existing cancellation theorems specialize from, and is a natural prerequisite for the unrestricted signature append split (candidate 2). Not a parameter-echo, not a wording variant of any B-### entry.
+
+---
+
+### B-665 - Second-layer separation is necessary for composite gaps
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Second-layer separation is necessary for composite gaps |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 9/10 |
+
+Problem:
+There exists a finite CompGap setup with firstGap coverage+separation and secondGap coverage but not separation such that the same source falls into composite gaps of two distinct final tokens with finalSame failing.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+
+Rationale:
+Existing ledger composition theorems give the forward direction (first+second separation ⇒ composite separation). The paper currently does not record a witness/obstruction showing second-layer separation cannot be weakened. A concrete two-point witness on b0,b1 final tokens with finalSame=msame closes a genuine gap and converts a sufficient-condition theorem into a tight one. High-novelty obstruction target, fits the proof_obligations layer exactly.
+
+---
+
+### B-663 - Append sameSig exact split into both components
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Append sameSig exact split into both components |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), and h,k admitted by D, sameSig_{BAppend(Π,Θ)}(h,k) implies sameSig_Π(h,k) and sameSig_Θ(h,k).
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+
+Rationale:
+B-660 covers residual exactness with a known Θ-component; B-659 covers bundle-local same-source membership sharing signatures. Neither gives the unconditional component-split converse to append closure of sameSig. This is the appended-classifier → two-component-classifiers exact split, a genuine converse of the append closure theorem rather than a paraphrase. Lands cleanly in 02_signature_generation.tex.
+
+---
+
+### B-667 - Bundle-local concrete GapPol satisfaction theorem
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Bundle-local concrete GapPol satisfaction theorem |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Assume BundleAskPolicy(Pi,D), PkgTokPol(Pi), and package-wide token totality for the bundle (every answer history admits a token); then PkgSig together with InGapSig satisfies the coverage and separation fields of GapPol(Pi,D).
+
+Local inputs:
+- `papers/bedc/parts/core/16_concrete_gap_policy.tex`
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+papers/bedc/parts/core/16_concrete_gap_policy.tex:81 has thm:concrete-gap-policy under the global AskPol+PkgTokPol+token-totality hypotheses. The bundle-local analogue is absent: grep for 'bundle.local.*gap.*policy|bundle.local.*GapPol|bundleAskPolicy.*GapPol|bundleAskPolicy.*gap.*policy' returns 0 across papers/bedc/parts/ and lean4/BEDC/. Both required components are already proved as bundle-local theorems (bundle-local-internalized-gap-coverage and bundle-local-internalized-gap-separation in concrete_hardening/internalized_gap_globalize.tex:232,202). The theorem records that the bundle-local discipline suffices for the abstract GapPol interface — a meaningful paper statement, not just a renaming, because BundleAskPolicy is a finite-occurrence-restricted condition. Lands in 16_concrete_gap_policy.tex (99 lines, plenty of room). Not parameter transport: hypotheses are genuinely different (BundleAskPolicy is bundle-membership-restricted, AskPol is globally quantified).
+
+---
+
+### B-668 - Three-layer composite gap exactness from layered hypotheses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Three-layer composite gap exactness from layered hypotheses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If three layers C, D, E each have coverage of their lower carriers (with intermediate admissibility certificates), separation of witnesses up to interSame at each level, and each successor layer transports interSame across its layer's gap, then the threefold composite CompGap(CompGap(C,D),E) (equivalently CompGap(C,CompGap(D,E))) has both coverage and separation.
+
+Local inputs:
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
+
+Rationale:
+Theorem thm:composite-exactness-from-layers (papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex:121) gives the 2-layer composite exactness; no 3-layer version is stated. Grep for 'composite.*three.*layer|three.layer.*exact|threefold.*composite.*exact|3.layer.*composite|composite.*exact.*three' returns only a sheaf-side reference, confirming the abstract gap-level 3-layer exactness is open. Non-trivial because the InterOk admissibility certificate must compose across two intermediate levels, and the inter-same/final-same transport chain must thread through both gap relations. Lands in 07_gap_policies (237 lines, has room). Concrete closure claim about composite predicates under stacked layered hypotheses, not parameter transport.
+
+---
+
+### B-666 - Bundle-local concrete Globalize classifies-by-signatures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Bundle-local concrete Globalize classifies-by-signatures |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+Assume BundleAskPolicy(Pi,D), PkgTokPol(Pi), InGapSig(Pi,D,p,h), InGapSig(Pi,D,q,k); then psame(p,q) iff there exist s,t,Delta,Theta with Sig(Pi,h,s,Delta) and Sig(Pi,k,t,Theta) and hsame(s,t).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+
+Rationale:
+The chapter proves three bundle-local cousins of the AskPol-based theorems: bundle-local-internalized-gap-separation (line 202), bundle-local-internalized-gap-coverage (line 232), bundle-local-gap-memberships-share-signature (line 256). The corresponding AskPol-based classification corollary cor:concrete-globalize-classifies-by-signatures sits at line 155 (uses AskPol+PkgTokPol). Grep for 'bundle.local.*classif|bundleAskPolicy.*classif|bundle.local.*globalize|bundleAskPolicy.*Glob' across papers/bedc/parts/ and lean4/BEDC/ returns 0 — confirming no bundle-local classification corollary exists in either side. The reverse direction reduces to thm:bundle-local-signature-determinacy (papers/bedc/parts/core/probe_bundles/02_signature_generation.tex:365) plus PkgTokPol soundness, both already available. Lands cleanly in internalized_gap_globalize.tex (293 lines, room). Concrete classification claim, not parameter echo.
+
+---
+
+### B-669 - StoneDuality consumer-facing export
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | StoneDuality consumer-facing export |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a StoneDualityUp packet satisfies the Boolean-algebra source transport, Stone-space clopen classifier, clopen ledger, ultrafilter-free soundness, and continuous-map readback rows, then every downstream consumer reads exactly the LatticeUp, TopologyUp, finite BHist, hsame, Cont, Pkg, and NameCert rows and no ultrafilter, point-space, completed compact-Hausdorff, or choice-based Stone-space construction.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/239_stoneduality_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete implication over an existing concrete_instances chapter and lands directly on the chapter's stated public-closure boundary. It is not a marker-only or closurestatus task: it would be a theorem-level consumer export aggregating already displayed StoneDuality rows while preserving the explicit non-claims. Existing BOARD has a related StoneDuality bridge-surface target, but this candidate is narrower and different: it exports the ultrafilter-free finite-row consumer surface rather than adding a clopen-ultrafilter bridge. The input file is short and safe for a local theorem addition.
+
+---
+
+### B-670 - GoedelIncompleteness public consumer certificate
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | GoedelIncompleteness public consumer certificate |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a GoedelIncompletenessUp witness satisfies the proof-checker obligation, fixed-point obligation, and conditional undecidable-row obligation over the displayed FirstOrderUp, ModelTheoryUp, ComputableUp, NatUp, and hsame surfaces, then it exports a public NameCert_GoedelIncompletenessUp theorem consumable by those users and exports no second-incompleteness theorem, omega-consistency, semantic completeness, Lob conditions, or set-theoretic foundations bridge.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/268_goedelincompleteness_namecert_construction.tex`
+
+Rationale:
+The candidate is a bounded public certificate theorem for an existing concrete_instances chapter, expressed as a single implication from the three displayed obligation rows to the exported consumer surface. It is distinct from the existing proof-checker, fixed-point, and undecidable-row obligations already present in the paper because it asks for the aggregate NameCert-facing export and explicit consumer boundary. No existing BOARD title closely matches GoedelIncompleteness, and the landing file is short enough for a local theorem block without line-cap risk.
+
+---
+
+### B-672 - NestedDyadicInterval singleton chain vacuity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NestedDyadicInterval singleton chain vacuity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted \NestedDyadicIntervalUp carrier displays exactly one interval row, then under the finite-chain carrier its nested-refinement ledger has no successor-pair reads and its public handoff is exactly that interval, the schedule, provenance, and tail ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/527_nesteddyadicinterval_namecert_construction.tex`
+
+Rationale:
+The carrier defines K=(I_0,\ldots,I_n,S,R,P,L), with R storing a refinement row for every displayed successor pair and L hiding only the unobserved tail, at papers/bedc/parts/concrete_instances/527_nesteddyadicinterval_namecert_construction.tex:9-23. Existing theorems cover endpointwise window transport, RegSeqRat handoff, and the NameCert surface at lines 33-79, but none isolates the zero-successor-pair case. A focused grep for NestedDyadicInterval singleton/single/vacuous/one displayed and matching theorem labels returned 0 hits across papers/bedc/parts and lean4/BEDC. The exact local theorem inventory contains only thm:nesteddyadicinterval-window-transport, thm:nesteddyadicinterval-regseqrat-handoff, and thm:nesteddyadicinterval-namecert-obligation-surface at lines 33-62; marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching NestedDyadic returned 0 files.
+
+---
+
+### B-673 - BousfieldLocalization empty selected-map boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | BousfieldLocalization empty selected-map boundary |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted \BousfieldLocalizationUp carrier has an empty selected morphism-class row S, then under the finite localizing packet every inverted-map consumer read is absent and downstream handoff is limited to M, L, T, P, and N rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex`
+
+Rationale:
+The carrier defines B=(M,S,L,T,P,N), with S as the finite selected morphism-class row and L as fibrant-local-object rows, at papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex:11-27. Existing theorems state broad NameCert obligations and a local-object handoff where consumers read local-object rows in L and selected maps in S at lines 29-63, but they do not spell out the empty-S boundary or the absence of inverted-map reads. A focused grep for BousfieldLocalization empty selected/no selected/empty morphism/empty map and matching theorem labels returned 0 hits across papers/bedc/parts and lean4/BEDC. The exact local theorem inventory contains only thm:bousfieldlocalization-namecert-obligations and thm:bousfieldlocalization-local-object-handoff at lines 29-52; marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching Bousfield returned 0 files.
+
+---
+
+### B-671 - DyadicPrecision empty precision schedule exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DyadicPrecision empty precision schedule exactness |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a \DyadicPrecisionUp schedule is generated from the empty unary precision row, then under the schedule carrier its radius row is the base \DyadicRatCoreUp dyadic radius and its \StreamNameUp observation window is empty, with consumer reads exhausted by those two displayed rows and the provenance ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/484_dyadicprecision_namecert_construction.tex`
+
+Rationale:
+The carrier explicitly exposes a unary precision row n, a selected dyadic radius rho, a StreamName window W, and a ledger L at papers/bedc/parts/concrete_instances/484_dyadicprecision_namecert_construction.tex:9-26; the NameCert theorem only lists carrier inhabitation and ledger exactness as broad obligations at lines 42-50, while its proof contains the unpromoted boundary sentence that the empty unary row attaches the base dyadic radius and empty observation window at line 55. A focused grep for dyadic empty precision/base radius/empty observation window found only that proof sentence and no labeled theorem, and the file-level theorem inventory shows only thm:dyadic-precision-schedule-namecert-obligations, thm:dyadic-precision-schedule-regseqrat-handoff, and thm:dyadic-precision-schedule-realup-boundary at lines 42-75. Marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching DyadicPrecision returned 0 files, so this is not already a Lean-linked or hidden labeled theorem.
+
+---
+
+### B-674 - FiniteVector empty length has no component reads
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FiniteVector empty length has no component reads |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted \FiniteVectorUp carrier has displayed NatUp length zero, then under the finite-vector carrier its ProdUp index-component spine has no public index-component pair rows and classifier comparison reduces to length, empty spine, provenance, and outside-length ledger rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/531_finitevector_namecert_construction.tex`
+
+Rationale:
+The carrier states that n is the NatUp length row, L is the component spine with displayed length n, I has one ProdUp index-component row for each visible index below n, and H hides only positions outside the displayed length at papers/bedc/parts/concrete_instances/531_finitevector_namecert_construction.tex:9-25. Existing theorems cover length-index stability, componentwise ledger exactness, and the NameCert surface at lines 41-91, but not the zero-length boundary where the index set is empty. A focused grep for FiniteVector empty length/zero length/empty vector/no component and theorem labels found only the existing generic thm:finitevector-length-index-stability references at lines 42, 76, and 86, with no empty/zero theorem. Marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching FiniteVector returned 0 files; the file is only 104 lines, so it is a suitable child target rather than a hub or near-cap file.
+
+---
