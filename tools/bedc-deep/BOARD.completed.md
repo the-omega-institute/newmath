@@ -16864,3 +16864,27 @@ Rationale:
 papers/bedc/parts/core/16_concrete_gap_policy.tex:81 has thm:concrete-gap-policy under the global AskPol+PkgTokPol+token-totality hypotheses. The bundle-local analogue is absent: grep for 'bundle.local.*gap.*policy|bundle.local.*GapPol|bundleAskPolicy.*GapPol|bundleAskPolicy.*gap.*policy' returns 0 across papers/bedc/parts/ and lean4/BEDC/. Both required components are already proved as bundle-local theorems (bundle-local-internalized-gap-coverage and bundle-local-internalized-gap-separation in concrete_hardening/internalized_gap_globalize.tex:232,202). The theorem records that the bundle-local discipline suffices for the abstract GapPol interface — a meaningful paper statement, not just a renaming, because BundleAskPolicy is a finite-occurrence-restricted condition. Lands in 16_concrete_gap_policy.tex (99 lines, plenty of room). Not parameter transport: hypotheses are genuinely different (BundleAskPolicy is bundle-membership-restricted, AskPol is globally quantified).
 
 ---
+
+### B-668 - Three-layer composite gap exactness from layered hypotheses
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Three-layer composite gap exactness from layered hypotheses |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If three layers C, D, E each have coverage of their lower carriers (with intermediate admissibility certificates), separation of witnesses up to interSame at each level, and each successor layer transports interSame across its layer's gap, then the threefold composite CompGap(CompGap(C,D),E) (equivalently CompGap(C,CompGap(D,E))) has both coverage and separation.
+
+Local inputs:
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
+
+Rationale:
+Theorem thm:composite-exactness-from-layers (papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex:121) gives the 2-layer composite exactness; no 3-layer version is stated. Grep for 'composite.*three.*layer|three.layer.*exact|threefold.*composite.*exact|3.layer.*composite|composite.*exact.*three' returns only a sheaf-side reference, confirming the abstract gap-level 3-layer exactness is open. Non-trivial because the InterOk admissibility certificate must compose across two intermediate levels, and the inter-same/final-same transport chain must thread through both gap relations. Lands in 07_gap_policies (237 lines, has room). Concrete closure claim about composite predicates under stacked layered hypotheses, not parameter transport.
+
+---
