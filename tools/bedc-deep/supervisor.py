@@ -60,6 +60,7 @@ DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
+ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 COMPLETIONS_PER_CURATOR = 5
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -198,6 +199,10 @@ def queue_stuck_too_long(threshold_seconds: int) -> bool:
         return False
     queued = s.get("queued_tasks") or []
     return any((t.get("age_seconds") or 0) > threshold_seconds for t in queued)
+
+
+def zero_extraction_hang_agents(status: dict) -> list[str]:
+    return [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
 
 
 def stale_cleanup() -> int:
@@ -954,6 +959,7 @@ def main() -> int:
     last_loning_watch_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
+    last_zero_extract_alert_ts = 0.0
     inner: subprocess.Popen | None = None
 
     supervisor_state: dict = {
@@ -1037,6 +1043,20 @@ def main() -> int:
                         "ChatGPT tab stuck > 5 min — open https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start",
                     )
                     last_tab_alert_ts = _now()
+
+            oracle_health = server_status()
+            zero_extract_agents = zero_extraction_hang_agents(oracle_health)
+            if zero_extract_agents and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
+                agents_csv = ",".join(zero_extract_agents)
+                supervisor_log(
+                    "oracle health: zero-extraction hang "
+                    f"agents={agents_csv}; refresh affected tab(s) only"
+                )
+                macos_notify(
+                    "BEDC supervisor: oracle zero extraction",
+                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.",
+                )
+                last_zero_extract_alert_ts = _now()
 
             clusters = stage2_reject_clusters()
             if clusters:
