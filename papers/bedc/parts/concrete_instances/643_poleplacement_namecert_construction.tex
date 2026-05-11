@@ -1,0 +1,184 @@
+\chapter{A Concrete Naming Certificate for $\PolePlacementUp$}
+\label{ch:concrete-instances-poleplacement-namecert}
+
+The $\PolePlacementUp$ interface records the finite closed-loop ledger used by
+control certificates that choose a displayed feedback row and target a
+displayed characteristic-polynomial row. In the standard finite-dimensional
+control setting of Chen, \emph{Linear System Theory and Design} (1999), pole
+placement relates the state matrix, input matrix, feedback gain, and requested
+closed-loop characteristic polynomial. The BEDC surface below names only the
+finite rows of that relation. It exports no analytic spectrum, no host
+trajectory space, and no stabilizing feedback existence theorem.
+
+\begin{definition}[PolePlacement finite BHist carrier]
+\label{def:poleplacement-carrier}
+A $\PolePlacementUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+\Pi=(X,U,A,B,K,C,T,H,R,P,L)
+$$
+whose visible rows are:
+\begin{enumerate}
+\item a state row $X$ and an input row $U$ read through $\VecSpaceUp$ and the
+state/input face of $\StateSpaceModelUp$;
+\item a transition matrix row $A$ and input matrix row $B$ read through
+$\MatrixUp$ and $\LinMapUp$;
+\item a feedback gain row $K$ read as a finite matrix and linear-map row from
+$X$ to $U$;
+\item a closed-loop row $C$ whose displayed matrix ledger records
+$C=A+BK$ over the same state carrier;
+\item a target characteristic row $T$ and characteristic-comparison ledger $H$
+recording the requested finite polynomial row and its displayed comparison
+with the characteristic row of $C$;
+\item $\hsame$ comparisons for the state, input, $A$, $B$, $K$, $C$, target,
+characteristic, continuation, and provenance rows;
+\item $\Cont$ routes $R$ for reading multiplication $BK$, addition $A+BK$,
+closed-loop readback, and characteristic-row comparison;
+\item a $\mathsf{Pkg}$ provenance row $P$ naming $\StateSpaceModelUp$,
+$\ControlControllabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$;
+\item a ledger boundary row $L$ saying that no host trajectory space, analytic
+spectrum, eigenvalue multiplicity theorem, or stabilizing feedback theorem is
+part of the carrier.
+\end{enumerate}
+Two accepted packets classify together only when every displayed row in this
+inventory is transported componentwise by the recorded $\hsame$ comparisons
+and every matrix, linear-map, closed-loop, and target-polynomial read follows
+one of the recorded $\Cont$ routes.
+\end{definition}
+
+\begin{theorem}[PolePlacement closed-loop ledger]
+\label{thm:poleplacement-closed-loop-ledger}
+Every accepted $\PolePlacementUp$ packet exposes exactly the finite state row
+$X$, input row $U$, transition row $A$, input row $B$, gain row $K$,
+closed-loop row $C$, target characteristic row $T$, characteristic-comparison
+ledger $H$, $\hsame$ rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance rows
+listed in \autoref{def:poleplacement-carrier}. The closed-loop readback is the
+displayed ledger $C=A+BK$ and no additional host closed-loop system is
+exported.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:poleplacement-carrier}. The
+projection exposes the finite state, input, matrix, gain, closed-loop, target,
+comparison, transport, continuation, provenance, and boundary rows.
+
+The closed-loop row is read through the displayed matrix multiplication and
+addition routes. The multiplication route supplies the $BK$ ledger, the
+addition route supplies the $A+BK$ ledger, and the closed-loop row $C$ is the
+recorded endpoint of that finite calculation.
+
+Transporting the packet replaces each coordinate by its displayed $\hsame$
+match and follows the same $\Cont$ routes. Since the carrier has no coordinate
+for a host trajectory space or analytic closed-loop object, every
+consumer-visible closed-loop read is exhausted by the finite ledger.
+\end{proof}
+
+\begin{theorem}[PolePlacement NameCert obligations]
+\label{thm:poleplacement-namecert-obligations}
+The local $\NameCert_{\PolePlacementUp}$ obligation surface consists of five
+finite rows:
+\begin{enumerate}
+\item carrier habitation: an accepted packet is inhabited by choosing displayed
+$\StateSpaceModelUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ source rows
+and recording the gain, closed-loop, target, comparison, transport,
+continuation, and provenance rows of \autoref{def:poleplacement-carrier};
+\item classifier transport: accepted packets compare by componentwise $\hsame$
+transport of $X$, $U$, $A$, $B$, $K$, $C$, $T$, $H$, $R$, $P$, and $L$;
+\item closed-loop ledger exactness: the only closed-loop row exported by the
+packet is the displayed $C=A+BK$ ledger of
+\autoref{thm:poleplacement-closed-loop-ledger};
+\item target-polynomial ledger: every target read is the finite row $T$
+together with the comparison ledger $H$ against the characteristic row of $C$;
+\item downstream consumer boundary: $\RiccatiUp$, $\LQRUp$,
+$\KalmanFilterUp$, and $\StateSpaceModelUp$ consumers may read only the finite
+state, input, matrix, gain, closed-loop, target, comparison, transport,
+continuation, and provenance rows of the same packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The habitation row is a finite packet assembly. Each required coordinate is a
+displayed $\mathsf{BHist}$ row, and the provenance row names the consumed
+state-space, controllability, matrix, vector-space, and linear-map
+certificates.
+
+Classifier transport is componentwise. Transporting $X$, $U$, $A$, $B$, $K$,
+$C$, $T$, $H$, $R$, $P$, and $L$ along the displayed $\hsame$ rows preserves
+the same carrier inventory and the same matrix and characteristic-read routes.
+
+The closed-loop obligation is exactly
+\autoref{thm:poleplacement-closed-loop-ledger}. The target-polynomial
+obligation is the corresponding projection of $T$ and $H$, so it records a
+finite comparison row rather than an analytic spectral theorem.
+
+Finally, the downstream boundary is the package projection. Since the package
+row names only the displayed control and algebra certificates, the listed
+consumers cannot recover host trajectories, unlogged spectra, or feedback
+existence principles from the $\PolePlacementUp$ surface.
+\end{proof}
+
+\begin{theorem}[PolePlacement consumer boundary]
+\label{thm:poleplacement-consumer-boundary}
+Every downstream read from an accepted $\PolePlacementUp$ packet factors
+through the finite rows of \autoref{def:poleplacement-carrier}. Riccati, LQR,
+KalmanFilter, and StateSpaceModel consumers may use the displayed
+$\StateSpaceModelUp$, $\ControlControllabilityUp$, $\MatrixUp$, $\VecSpaceUp$,
+$\LinMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, but
+they cannot demand an analytic spectrum, a host trajectory space, a
+stabilizing controller theorem, a controllability-rank proof, or an external
+feedback solver from this certificate.
+\end{theorem}
+\begin{proof}
+Take a consumer-visible readback from an accepted packet. By
+\autoref{def:poleplacement-carrier}, the readback is a projection from the
+finite carrier rows or from the provenance row naming the consumed
+certificates.
+
+Apply \autoref{thm:poleplacement-closed-loop-ledger} to the closed-loop part.
+This identifies the only available feedback read as the displayed $A+BK$ row
+and its target characteristic comparison.
+
+The listed consumers therefore receive only finite BEDC rows and their
+transport and continuation data. Any analytic spectrum, host trajectory,
+stabilizing-controller theorem, rank proof, or external solver would require a
+coordinate absent from the packet.
+\end{proof}
+
+\begin{theorem}[PolePlacement standard finite bridge]
+\label{thm:poleplacement-standard-finite-bridge}
+The finite $\PolePlacementUp$ packet of
+\autoref{def:poleplacement-carrier}, together with the closed-loop ledger,
+NameCert obligation surface, and consumer boundary, interprets as the standard
+finite pole-placement schema: a state row, input row, transition matrix row
+$A$, input matrix row $B$, gain row $K$, closed-loop row $A+BK$, and requested
+target characteristic row are all displayed as finite $\mathsf{BHist}$ rows
+with explicit transport, continuation, and provenance. This bridge exports no
+analytic spectral assumption, pole-existence theorem, host trajectory
+semantics, or feedback optimality claim.
+\end{theorem}
+\begin{proof}
+Begin with the carrier. It gives the state and input rows, the matrix and
+linear-map rows for $A$, $B$, and $K$, the displayed closed-loop endpoint, and
+the target characteristic ledger.
+
+Use \autoref{thm:poleplacement-closed-loop-ledger} to identify the closed-loop
+schema field with the finite $A+BK$ calculation. Use
+\autoref{thm:poleplacement-namecert-obligations} to package the carrier,
+classifier transport, ledger exactness, target-polynomial ledger, and
+downstream boundary as the local name-certificate surface.
+
+Apply \autoref{thm:poleplacement-consumer-boundary} to restrict every public
+read to the same finite rows. The resulting interpretation is exactly the
+standard finite pole-placement data shape, while the excluded analytic and
+optimality claims remain outside the certificate.
+\end{proof}
+
+\closureat{PolePlacementUp}{seedStr}
+
+\begin{closurestatus}{\PolePlacementUp}
+  \constructivestory{A $\PolePlacementUp$ packet is seeded by finite $\mathsf{BHist}$ rows for state, input, transition matrix, input matrix, gain, closed-loop matrix $A+BK$, target characteristic row, characteristic-comparison ledger, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance over the state-space, controllability, matrix, vector-space, and linear-map certificates.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poleplacement-carrier}, \autoref{thm:poleplacement-closed-loop-ledger}, \autoref{thm:poleplacement-namecert-obligations}, \autoref{thm:poleplacement-consumer-boundary}, and \autoref{thm:poleplacement-standard-finite-bridge} seed the finite pole-placement carrier, closed-loop ledger, NameCert obligation rows, consumer boundary, and standard finite data shape.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic spectral theory, pole-existence theorems, stabilizing feedback existence, controllability-rank completeness, host trajectory semantics, feedback optimality, or a machine-checked standard bridge.}
+  \upgradepath{Scoped closure requires a checked finite carrier theorem and exact target-polynomial readback theorem for the displayed $\PolePlacementUp$ packet.}
+\end{closurestatus}
