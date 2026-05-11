@@ -292,6 +292,52 @@ metric-completeness datum, or separate terminal seal classifier, so there is no
 constructor or projection from which such data could be read.
 \end{proof}
 
+\begin{theorem}[RealUp DyadicRatCore StreamName RegSeqRat observation triangle]
+\label{thm:dyadicratcore-streamname-regseqrat-observation-triangle}
+For a terminal finite-window $\RealUp$ seal consumer, the
+$\DyadicRatCoreUp$ public readback envelope, the public $\StreamNameUp$
+finite-window classifier surface, and the $\RegSeqRat$ finite-window seal
+source surface determine the same finite source packet and are mutually
+recoverable.
+
+The common packet consists exactly of the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+$\mathsf{DyadicRatCore}$ observation rows, the endpoint transport rows, the
+visible $\Cont$ and $\Pkg$ provenance rows, and the
+$\mathsf{RealLedgerPolicy}$ rows. It contains no quotient row, completion
+object, host $\mathsf{Nat}$ index, $\mathsf{Classical}$ datum,
+metric-completeness row, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First read the dyadic side. Apply
+\autoref{thm:dyadicratcore-public-readback-envelope}. Its envelope exposes
+exactly the dyadic observation rows and endpoint transport rows available to
+the terminal packet, with no quotient or completion object attached.
+
+Next read the finite stream-name side. Apply
+\autoref{thm:streamname-public-finite-window-interface}. The public
+finite-window classifier surface supplies the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, and the pointwise
+$\mathsf{RatHistoryClassifier}$ rows on the same displayed finite window.
+
+Now read the seal source side. Apply
+\autoref{thm:regseqrat-seal-finite-window-source-coverage}. The
+$\RegSeqRat$ seal source reads the accepted spine together with the same
+finite-window classifier, unary-history, membership, pointwise rational,
+dyadic observation, endpoint transport, $\Cont$, $\Pkg$, and ledger rows.
+
+Finally apply \autoref{thm:realup-terminal-regseqrat-source-coverage} and
+\autoref{thm:realup-terminal-regseqrat-source-minimality}. Coverage repacks
+any packet carrying exactly those rows as the terminal source surface, while
+minimality prevents an additional row class from being part of that terminal
+source. Hence each of the three projections recovers the same finite source
+packet, and the excluded quotient, completion, host-index, Classical, metric,
+arithmetic, order, and bridge rows remain unread.
+\end{proof}
+
 \begin{theorem}[RealUp terminal common-refinement splice uniqueness]
 \label{thm:realup-terminal-common-refinement-splice-uniqueness}
 Let $C$ be a certified $\StreamNameUp$ common-refinement packet whose displayed
