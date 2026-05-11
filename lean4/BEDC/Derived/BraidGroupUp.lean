@@ -17,12 +17,57 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def BraidGroupArtinPacket [AskSetup] [PackageSetup]
-    (strand word moveLedger classifier dependency endpoint : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+    (strand word moveLedger classifier dependency endpoint : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
   PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory moveLedger ∧
     UnaryHistory dependency ∧ Cont strand word moveLedger ∧
       Cont moveLedger dependency classifier ∧ Cont classifier word endpoint ∧
         PkgSig bundle endpoint pkg
+
+theorem BraidGroupArtinPacket_ledger_stability [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint strand' word' moveLedger' classifier'
+      dependency' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      hsame strand strand' ->
+        hsame word word' ->
+          hsame dependency dependency' ->
+            Cont strand' word' moveLedger' ->
+              Cont moveLedger' dependency' classifier' ->
+                Cont classifier' word' endpoint' ->
+                  PkgSig bundle endpoint' pkg ->
+                    BraidGroupArtinPacket strand' word' moveLedger' classifier' dependency'
+                        endpoint' bundle pkg ∧
+                      hsame moveLedger moveLedger' ∧ hsame classifier classifier' ∧
+                        hsame endpoint endpoint' := by
+  intro packet sameStrand sameWord sameDependency moveLedgerCont' classifierCont' endpointCont'
+    endpointPkg'
+  have strandPositive' : PositiveUnaryDenominator strand' :=
+    PositiveUnaryDenominator_hsame_transport sameStrand packet.left
+  have wordUnary' : UnaryHistory word' :=
+    unary_transport packet.right.left sameWord
+  have sameMoveLedger : hsame moveLedger moveLedger' :=
+    cont_respects_hsame sameStrand sameWord packet.right.right.right.right.left
+      moveLedgerCont'
+  have moveLedgerUnary' : UnaryHistory moveLedger' :=
+    unary_transport packet.right.right.left sameMoveLedger
+  have dependencyUnary' : UnaryHistory dependency' :=
+    unary_transport packet.right.right.right.left sameDependency
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameMoveLedger sameDependency packet.right.right.right.right.right.left
+      classifierCont'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameClassifier sameWord packet.right.right.right.right.right.right.left
+      endpointCont'
+  exact
+    And.intro
+      (And.intro strandPositive'
+        (And.intro wordUnary'
+          (And.intro moveLedgerUnary'
+            (And.intro dependencyUnary'
+              (And.intro moveLedgerCont'
+                (And.intro classifierCont' (And.intro endpointCont' endpointPkg')))))))
+      (And.intro sameMoveLedger (And.intro sameClassifier sameEndpoint))
 
 theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSetup]
     {strand word moveLedger classifier dependency endpoint : BHist}
