@@ -66,6 +66,7 @@ Use \autoref{def:signeddigitstream-classifier} for the classifier row. Since the
 
 Finally read the downstream surfaces through \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. They expose only the scheduled finite prefix endpoints and their ledgers, and no extra tail, limit, host equality, completeness, or bridge coordinate is created by the restriction.
 \end{proof}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_prefix\_truncation\_stability}
 
 \begin{theorem}[SignedDigitStream adjacent-window endpoint coherence]
 \label{thm:signeddigitstream-adjacent-window-endpoint-coherence}
@@ -149,6 +150,7 @@ Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{S
 
 The conclusion is only a finite-window determinacy statement: it compares scheduled signed-digit prefixes, normalized endpoint rows, and carry ledgers, and it introduces no quotient stream, $\RealUp$ equality, or ambient host endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamWindowPacket\_common\_window\_determinacy}
 \begin{proof}
 Unfold the classifier of \autoref{def:signeddigitstream-classifier}. A common scheduled unary window is one of the shared finite observation rows named by the two $\StreamNameUp$ schedules, so the classifier exposes the two digit prefixes, their carry ledgers, and their normalized endpoint rows at that same window.
 
@@ -391,6 +393,46 @@ none of the excluded quotient, host-real, limit, completeness, or standard
 bridge data can enter the prefix read.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream prefix-window transport lock]
+\label{thm:signeddigitstream-prefix-window-transport-lock}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ packet, let
+$N_{\leq k}$ be a displayed prefix schedule inside its finite unary window, and
+let $T$ be the transported packet obtained from $S$ by
+\autoref{thm:signeddigitstream-window-transport}. Restricting $T$ to the
+transported prefix gives the same $\RegSeqRatUp$ and $\RealUp$ finite-window
+consumer rows as first restricting $S$ by
+\autoref{thm:signeddigitstream-prefix-truncation-stability} and then
+transporting those prefix rows.
+
+The locked rows are exactly the transported $\mathsf{BHist}$ packet rows,
+scheduled signed-digit prefix, normalized $\DyadicRatCoreUp$ endpoint, carry and
+normalization ledger, displayed $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$
+provenance, $\NameCert$ rows, $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff,
+and $\RealUp$ finite-window seal.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:signeddigitstream-window-transport}. It transports the
+accepted packet componentwise, so the $\mathsf{BHist}$ rows, scheduled
+$\StreamNameUp$ window, carry ledger, normalized $\DyadicRatCoreUp$ endpoint,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows remain on the same
+finite packet surface.
+
+Apply \autoref{thm:signeddigitstream-prefix-truncation-stability} before and
+after this transport. Prefix restriction only narrows the displayed schedule to
+$N_{\leq k}$ and keeps the same endpoint, carry, provenance, and certificate rows
+available to consumers.
+
+Next use \autoref{thm:signeddigitstream-common-window-determinacy}. The prefix
+window and the transported prefix window determine one normalized endpoint and
+one carry ledger through the displayed $\hsame$ and $\Cont$ routes, so there is
+no second consumer-facing row to choose.
+
+Finally invoke \autoref{thm:signeddigitstream-prefix-consumer-invariance}. The
+$\RegSeqRatUp$ handoff and the $\RealUp$ finite-window seal read exactly the
+prefix-restricted packet rows on both paths. Thus transport after prefixing and
+prefixing after transport expose the same finite consumer surface.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream standard finite-window bridge]
 \label{thm:signeddigitstream-standard-bridge-window}
 The public interface export of
@@ -477,6 +519,7 @@ that normal form. The factorization introduces no hidden tail coordinate,
 quotient equality, selected limit, completeness datum, trichotomy datum, or
 host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_consumer\_read\_chain\_unary\_closed}
 \begin{proof}
 First apply
 \autoref{thm:signeddigitstream-prefix-truncation-stability}. It replaces the

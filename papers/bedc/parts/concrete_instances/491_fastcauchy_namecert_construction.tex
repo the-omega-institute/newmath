@@ -476,6 +476,7 @@ seal has no coordinate for a selected limit, quotient stream, host real
 equality, completeness datum, hidden tail, or standard bridge datum beyond the
 finite rows named above.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFinitePacket\_explicit\_rate\_seal\_window\_exhaustion}
 \begin{proof}
 Project the carrier of $F$ from \autoref{def:fastcauchy-carrier}. The projected
 packet exposes the scheduled stream observations, explicit modulus thresholds,
@@ -583,6 +584,46 @@ two displayed precision selections inside $W$, and then apply
 seal rows as the same public observations. The excluded limit, quotient,
 equality, completeness, tail, and checked bridge data are outside this
 finite-window intersection.
+\end{proof}
+
+\begin{theorem}[FastCauchy finite precision window union lock]
+\label{thm:fastcauchy-tail-window-union-lock}
+Let $F$ be an accepted $\FastCauchyUp$ packet, and let $D$ and $D'$ be accepted
+$\DyadicPrecisionUp$ schedules whose selected finite $\StreamNameUp$ windows
+admit a displayed finite union window $U$. The $\RegSeqRatUp$ and $\RealUp$
+consumer package of $F$ restricted to $U$ is exactly the union of the consumer
+rows obtained from the $D$ and $D'$ restrictions, with the overlap identified by
+\autoref{thm:fastcauchy-shared-window-regseqrat-handoff}.
+
+The union package contains only the selected $\StreamNameUp$ observations,
+$\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ endpoint rows, late-pair
+radius ledger entries, displayed $\hsame$ rows, displayed $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows already visible on the two
+restricted windows. It introduces no hidden tail, selected limit, quotient
+stream, host real equality, completeness datum, or $\bridgeCheckedV$ row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to the two
+precision schedules. Each restriction exposes exactly its selected observations,
+thresholds, endpoints, radius rows, transport rows, package provenance, and local
+name-certificate rows.
+
+Use \autoref{thm:fastcauchy-uniform-streamname-window-extraction} to place both
+selected surfaces inside the displayed union window $U$. The extraction supplies
+one finite $\StreamNameUp$ schedule for the combined consumer read and keeps the
+two precision selections as subwindows of that schedule.
+
+On the overlap, apply
+\autoref{thm:fastcauchy-shared-window-regseqrat-handoff}. The common
+$\RegSeqRatUp$ handoff rows are therefore the same transported rows, including
+the synchronized endpoint, radius, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ coordinates.
+
+Finally use
+\autoref{thm:fastcauchy-modulus-synchronization-common-regseqrat-window}. It
+identifies the $\RegSeqRatUp$ and $\RealUp$ consumer package over the common
+modulus-normalized window, so the package over $U$ is precisely the finite union
+of the two restricted packages with their overlap already identified.
 \end{proof}
 
 \closureat{FastCauchyUp}{obligationStr}
