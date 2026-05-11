@@ -31,6 +31,7 @@ For an accepted carrier $T=(X,Y,\mu,\nu,C,\Gamma,M,S,L)$, every marginal claim r
 
 The ledger exports no sigma-additivity statement, no completion of $\mu$ or $\nu$, and no selection principle for couplings outside the displayed finite support.
 \end{theorem}
+\leanchecked{BEDC.Derived.OptimalTransportUp.OptimalTransportFiniteCouplingPacket\_marginal\_ledger}
 \begin{proof}
 Project the carrier of \autoref{def:optimaltransport-finite-coupling-carrier}. The only coordinates that mention marginals are the finite distribution rows $\mu,\nu$, the coupling table $\Gamma$, and the marginal ledger $M$.
 
@@ -79,6 +80,7 @@ The local $\NameCert_{\OptimalTransportUp}$ seed surface consists of the followi
 \end{enumerate}
 These rows are sufficient to name the finite-support optimal-transport certificate surface and deliberately exclude measure completion, arbitrary-measure optimizer selection, quotient spaces, and Kantorovich duality beyond the finite linear-programming boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.OptimalTransportUp.OptimalTransportPacket\_semantic\_name\_certificate}
 \begin{proof}
 The carrier row fixes the finite support entries, source and target distributions, cost rows, coupling table, marginal ledgers, objective ledger, and provenance. These are precisely the coordinates available to an $\OptimalTransportUp$ consumer.
 
@@ -236,6 +238,85 @@ Repack exactly those displayed finite rows as the bridge package. Since the
 carrier has no coordinate for completed measures, arbitrary-measure minimizer
 selection, quotient coupling spaces, infinite Kantorovich duality, optimizer
 existence, or representative selection, those objects cannot cross the bridge.
+\end{proof}
+
+\begin{theorem}[OptimalTransport mature finite-support coverage]
+\label{thm:optimaltransport-mature-finite-support-coverage}
+Every consumer read of an accepted finite-support $\OptimalTransportUp$ bridge
+packet factors through the displayed source and target supports, the
+$\DistributionUp$ mass rows, the cost table or $\MetricUp$ cost rows, the
+finite coupling table, the marginal ledgers, the finite objective ledger, the
+$\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, the $\LPDualityUp$ dual
+rows, and the displayed $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+The coverage surface excludes measure completion, arbitrary-measure minimizer
+selection, quotient coupling spaces, infinite-dimensional Kantorovich duality,
+analytic compactness, and representative selection.
+\end{theorem}
+\begin{proof}
+Start with the finite coupling carrier of
+\autoref{def:optimaltransport-finite-coupling-carrier}. It contains exactly
+the displayed supports, distribution mass rows, cost row, coupling table,
+finite feasible-region data, dual row, and provenance row.
+
+Apply \autoref{thm:optimaltransport-coupling-marginal-ledger} and
+\autoref{thm:optimaltransport-cost-summation-ledger}. These identify the
+only marginal and objective reads as finite ledger rows over the displayed
+support pairs.
+
+Next use \autoref{thm:optimaltransport-lpduality-feasible-surface}. The
+feasible and dual readers are precisely the displayed $\ConvexSetUp$,
+$\PolytopeUp$, and $\LPDualityUp$ rows over the same finite table.
+
+Finally apply \autoref{thm:optimaltransport-public-export-surface} and
+\autoref{thm:optimaltransport-finite-support-bridge-package}. The public
+export and bridge boundary repackage the carrier, marginal, objective,
+feasible, dual, classifier-transport, continuation, and provenance rows as the
+consumer surface.
+
+No remaining coordinate is present for completed measures, arbitrary-measure
+minimizer selection, quotient coupling spaces, infinite-dimensional
+Kantorovich duality, analytic compactness, or representative selection.
+Therefore every accepted finite-support consumer read factors through the
+displayed mature coverage inventory.
+\end{proof}
+
+\begin{theorem}[OptimalTransport mature finite-support consumer catalogue]
+\label{thm:optimaltransport-mature-finite-support-catalogue}
+For every accepted finite-support $\OptimalTransportUp$ packet, every mature
+finite-support consumer read is exhausted by the displayed finite source and
+target support rows, $\DistributionUp$ mass rows, displayed cost or
+$\MetricUp$ cost rows, coupling table rows, marginal ledgers, finite objective
+ledger, $\ConvexSetUp$ and $\PolytopeUp$ feasible rows, $\LPDualityUp$ dual
+rows, and $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+The catalogue exports no measure completion, arbitrary-measure minimizer
+selection, quotient coupling space, infinite Kantorovich duality,
+optimizer-existence theorem, or representative choice.
+\end{theorem}
+\begin{proof}
+Project the finite coupling carrier of
+\autoref{def:optimaltransport-finite-coupling-carrier}. Its coordinates list
+the displayed supports, mass rows, cost rows, coupling table, marginal
+ledgers, finite objective ledger, feasible rows, dual rows, and provenance.
+
+Apply \autoref{thm:optimaltransport-coupling-marginal-ledger} and
+\autoref{thm:optimaltransport-cost-summation-ledger}. These account for all
+marginal and objective reads as finite ledger projections over the displayed
+support pairs.
+
+Use \autoref{thm:optimaltransport-lpduality-feasible-surface} for the
+$\ConvexSetUp$, $\PolytopeUp$, and $\LPDualityUp$ consumer rows. The feasible
+and dual reads are indexed only by the same finite support and coupling
+table.
+
+Finally apply \autoref{thm:optimaltransport-public-export-surface} together
+with \autoref{thm:optimaltransport-finite-support-bridge-package}. They
+repackage the carrier, ledger, feasible, dual, classifier-transport,
+continuation, and provenance rows as the public bridge surface. Since no
+coordinate stores completed measures, arbitrary-measure minimizers, quotient
+coupling spaces, infinite Kantorovich duality, optimizer-existence data, or
+representative choices, the catalogue exports none of those objects.
 \end{proof}
 
 \closureat{OptimalTransportUp}{seedStr}
