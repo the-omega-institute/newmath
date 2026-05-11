@@ -400,6 +400,45 @@ completion, quotient, limit-selection, or host equality data, the selected
 positive denominator source is exactly the visible source available downstream.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat public overlap lock]
+\label{thm:streamname-regseqrat-public-overlap-lock}
+Let two public $\StreamNameUp$ finite-window handoffs feed downstream
+$\RegSeqRat$ consumers or finite-window $\RealUp$ consumers over the same
+observation map. If an observation row lies in the certified overlap of the two
+displayed $\mathsf{ProbeBundle}$ windows, then both consumers read the same
+public $\StreamNameUp$ observation row, the same pointwise $\RatUp$ classifier
+row, the same dyadic denominator ledger row, and the same displayed $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The overlap lock exposes no $\RegSeqRat$ regularity witness, completion row,
+quotient representative, hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+First restrict both handoff requests to the certified common window. Apply
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion}; each
+consumer read over the overlap is exhausted by the same public StreamName
+observation row, the same $\mathsf{InBundle}$ membership row, and the same
+pointwise classifier surface.
+
+Next compare the two finite-window ledgers inside the combined display. Apply
+\autoref{thm:streamname-regseqrat-window-union-exhaustion}. The union ledger
+has no extra consumer coordinate beyond the rows already exposed by the two
+windows, so an overlap row is read through one shared public bundle inventory.
+
+Now identify the denominator source. Use
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion} together with
+\autoref{thm:streamname-public-denominator-positive-source-fit}. The downstream
+denominator row is the displayed positive $\DyadicRatCoreUp$ source row, and
+the same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows carry it through both
+handoffs.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-observation-coverage}. Its exclusion
+clauses rule out regularity witnesses, completion rows, quotient
+representatives, hidden limit selectors, and host index equality. Hence the
+overlap determines only the visible public rows listed above.
+\end{proof}
+
 \begin{theorem}[StreamNameUp RegSeqRat cover-refinement exhaustion]
 \label{thm:streamname-regseqrat-cover-refinement-exhaustion}
 Let $\mathcal{U}=\{B_i\}_{i\in I}$ be a finite cover family of public
