@@ -42,3 +42,27 @@ This is a concrete bridge-prerequisite target that lands on the existing S1 carr
 
 ---
 
+### B-676 - S1 finite-rank host homologization obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | S1 finite-rank host homologization obstruction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the S1 carrier/readback bridge setup, if a finite-rank host homologization certificate is admitted for the visible S1 bridge ledger, then the induced bounded-rank certificate is incompatible with cofinal prime-support evidence, so the finite-rank host homologization is obstructed.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+
+Rationale:
+This is a concrete obstruction target over the existing S1 carrier/readback surface rather than a marker-only or verification-axis task. It is distinct from the active S1 completion-readback injectivity prerequisite: B-675 concerns preservation of source separation through displayed completion readbacks, while this candidate asks for an obstruction to a finite-rank host homologization certificate using bounded-rank versus cofinal-support evidence. The local input is not listed as a hub file or near the 800-line cap, and the claim can be staged as a BEDC-native bridge-obligation theorem without importing Automath runtime state.
+
+---
+

@@ -220,16 +220,18 @@ class BoardSpawnResult:
     rejected: list[dict] = field(default_factory=list)
     appended_ids: list[str] = field(default_factory=list)
     error: str = ""
+    judge_backend: str = ""
+    judge_note: str = ""
 
 
 def _judge_candidates(
     *,
     codex_candidates: list[dict],
     oracle_candidates: list[dict],
-) -> tuple[list[dict], list[dict], str]:
+) -> tuple[list[dict], list[dict], str, str, str]:
     """Run claude judge prompt; returns (accepted, rejected, error)."""
     if not codex_candidates and not oracle_candidates:
-        return ([], [], "")
+        return ([], [], "", "", "")
 
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
@@ -246,7 +248,10 @@ def _judge_candidates(
     )
     log_tag = "board_judge"
     ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_JUDGE_TIMEOUT, log_tag=log_tag)
+    judge_backend = "claude"
+    judge_note = ""
     if not ok:
+        judge_note = f"claude unavailable rc={rc}: {stdout[:300]}"
         fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
             prompt,
             timeout=DEFAULT_JUDGE_TIMEOUT,
@@ -258,10 +263,12 @@ def _judge_candidates(
             ),
         )
         if not fallback_ok:
-            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}")
+            return ([], [], f"claude judge rc={rc}: {stdout[:300]}; codex fallback: {fallback_error[:300]}", "codex_fallback_failed", fallback_error[:300])
+        judge_backend = "codex_fallback"
     else:
         parsed = _extract_json_object(stdout)
     if not parsed:
+        judge_note = "claude returned non-JSON; codex fallback used"
         fallback_ok, parsed, _fallback_stdout, fallback_error = _codex_json_fallback(
             prompt,
             timeout=DEFAULT_JUDGE_TIMEOUT,
@@ -273,12 +280,15 @@ def _judge_candidates(
             ),
         )
         if not fallback_ok:
-            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}")
+            return ([], [], f"claude judge output was not JSON; codex fallback: {fallback_error[:300]}", "codex_fallback_failed", fallback_error[:300])
+        judge_backend = "codex_fallback"
     accepted = parsed.get("accepted_candidates") or []
     rejected = parsed.get("rejected_candidates") or []
     return (accepted if isinstance(accepted, list) else [],
             rejected if isinstance(rejected, list) else [],
-            "")
+            "",
+            judge_backend,
+            judge_note)
 
 
 # ---------------------------------------------------------------------------
@@ -374,12 +384,12 @@ def spawn_from_candidates(
         f"[board_spawn] judging {len(codex_alive)} codex + {len(oracle_alive)} oracle candidates",
         flush=True,
     )
-    accepted, rejected, err = _judge_candidates(
+    accepted, rejected, err, judge_backend, judge_note = _judge_candidates(
         codex_candidates=codex_alive,
         oracle_candidates=oracle_alive,
     )
     if err:
-        return BoardSpawnResult(ok=False, error=err, rejected=cheap_drops + rejected)
+        return BoardSpawnResult(ok=False, error=err, rejected=cheap_drops + rejected, judge_backend=judge_backend, judge_note=judge_note)
 
     # Step 3: enforce thresholds (judge may have already, double-check defensively).
     final_accepted: list[dict] = []
@@ -421,6 +431,8 @@ def spawn_from_candidates(
         accepted=final_accepted,
         rejected=all_rejected,
         appended_ids=appended_ids,
+        judge_backend=judge_backend,
+        judge_note=judge_note,
     )
 
 
@@ -503,12 +515,14 @@ def main() -> int:
     oracle = json.loads(Path(args.oracle_json).read_text()) if args.oracle_json else []
 
     if args.dry_run:
-        accepted, rejected, err = _judge_candidates(
+        accepted, rejected, err, judge_backend, judge_note = _judge_candidates(
             codex_candidates=codex, oracle_candidates=oracle
         )
         print(json.dumps({
             "judge_ok": not err,
             "error": err,
+            "judge_backend": judge_backend,
+            "judge_note": judge_note,
             "accepted": accepted,
             "rejected": rejected,
         }, indent=2, ensure_ascii=False))
@@ -522,6 +536,8 @@ def main() -> int:
         "accepted_count": len(result.accepted),
         "rejected_count": len(result.rejected),
         "error": result.error,
+        "judge_backend": result.judge_backend,
+        "judge_note": result.judge_note,
     }, indent=2, ensure_ascii=False))
     return 0 if result.ok else 1
 

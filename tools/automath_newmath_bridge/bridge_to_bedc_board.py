@@ -23,6 +23,7 @@ REPO_ROOT = SCRIPT_DIR.parent.parent
 DEFAULT_GATE_RESULTS = SCRIPT_DIR / "out" / "bridge_gate_results.jsonl"
 DEFAULT_PACKET_DIR = SCRIPT_DIR / "review_packets"
 BEDC_DEEP_DIR = REPO_ROOT / "tools" / "bedc-deep"
+BEDC_INBOX = BEDC_DEEP_DIR / "state" / "candidate_inbox.jsonl"
 
 
 def _now_iso() -> str:
@@ -43,6 +44,59 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
                 raise ValueError(f"{path}:{line_no}: expected object record")
             records.append(data)
     return records
+
+
+def _bridge_candidate_history(limit: int = 5000) -> dict[str, dict[str, Any]]:
+    """Return latest BEDC inbox event by title.
+
+    BEDC board_spawn may rewrite the source field to `codex`, `both`, or
+    `paper_review` after judging. The bridge still needs those final outcomes
+    for its own candidate titles, so keep title history independent of source.
+    """
+    if not BEDC_INBOX.exists():
+        return {}
+    history: dict[str, dict[str, Any]] = {}
+    lines = BEDC_INBOX.read_text(encoding="utf-8", errors="replace").splitlines()
+    for line in lines[-limit:]:
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip().lower()
+        if title:
+            history[title] = item
+    return history
+
+
+def _history_skip_reason(title: str, history: dict[str, dict[str, Any]]) -> str:
+    item = history.get(title.strip().lower())
+    if not item:
+        return ""
+    event = str(item.get("event") or "")
+    reason = str(item.get("reason") or "")
+    if event == "promoted_to_board":
+        return f"already_promoted:{item.get('target_id')}"
+    if event == "rejected" and reason:
+        return f"history_rejected:{reason}"
+    if event == "pre_gate_reject":
+        if reason.startswith("duplicate_title"):
+            return f"history_rejected:{reason}"
+        if reason in {
+            "missing_title",
+            "missing_claim",
+            "claim_too_short",
+            "structural_title",
+            "forbidden_axis_or_marker_candidate",
+            "missing_local_inputs",
+            "hub_only_landing",
+            "no_indexed_safe_landing",
+        }:
+            return f"history_rejected:{reason}"
+        if reason.startswith(("non_paper_local_input:", "missing_local_input:", "predicted_line_cap_overflow:", "predicted_label_collision:")):
+            return f"history_rejected:{reason}"
+    return ""
 
 
 def _safe_slug(text: str, *, limit: int = 96) -> str:
@@ -224,6 +278,8 @@ def _eligible(record: dict[str, Any]) -> bool:
         "audit_failure",
     }:
         return False
+    if record.get("source_artifact_kind") == "paper_claim" and not _specific_board_claim(record):
+        return False
     return True
 
 
@@ -238,6 +294,7 @@ def build_candidates(
     packets: list[Path] = []
     skipped_duplicate_titles: list[str] = []
     existing_titles = _existing_board_titles()
+    history = _bridge_candidate_history()
     for record in records:
         if len(candidates) >= limit:
             break
@@ -246,6 +303,10 @@ def build_candidates(
         title = _target_title(record)
         if title.strip().lower() in existing_titles:
             skipped_duplicate_titles.append(title)
+            continue
+        history_reason = _history_skip_reason(title, history)
+        if history_reason:
+            skipped_duplicate_titles.append(f"{title} ({history_reason})")
             continue
         packet_path = _write_packet(record, packet_dir) if write_packets else _packet_path(record, packet_dir)
         packet_rel = str(packet_path.relative_to(REPO_ROOT))
@@ -346,6 +407,13 @@ def main(argv: list[str] | None = None) -> int:
                 "accepted_count": len(getattr(result, "accepted", []) or []),
                 "rejected_count": len(getattr(result, "rejected", []) or []),
                 "error": getattr(result, "error", ""),
+                "judge_backend": getattr(result, "judge_backend", ""),
+                "judge_note": getattr(result, "judge_note", ""),
+                "rejection_reasons": [
+                    str(item.get("reason") or item.get("verdict_reason") or "")
+                    for item in (getattr(result, "rejected", []) or [])
+                    if isinstance(item, dict)
+                ][:20],
             }
         )
         accepted_rels = _accepted_packet_rels(result)
