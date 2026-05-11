@@ -628,3 +628,38 @@ intermediate classifier.
 \end{proof}
 
 \leanchecked{BEDC.Derived.OptionUp.TaggedOptionPayloadDescentImageClassifier\_composite\_normalized\_unique\_intermediate\_factor\_coverage}
+
+\begin{theorem}[Option finite-data public exit package]
+\label{thm:option-finite-data-public-exit-package}
+The rows named by $\mathsf{OptionHistoryCarrier}$,
+$\mathsf{OptionHistoryClassifier}$, $\mathsf{OptionHistoryLedgerPolicy}$,
+carrier transport, classifier symmetry and transitivity, absent-source
+separation, exclusive readback, and ledger endpoint transport assemble the
+public finite-data exit package for $\OptionUp$. The public package exposes
+only the finite $\mathsf{BHist}$ carrier rows, $\hsame$ classifier rows,
+$\Cont$ transport rows, $\Pkg$ provenance rows, and the displayed
+$\NameCert_{\OptionUp}$ certificate rows; it exports no host option type,
+external quotient, or hidden payload selector.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are the unary-context and scoped-row surfaces
+of \autoref{thm:option-history-carrier-unary-two-sided-context},
+\autoref{thm:option-history-classifier-unary-two-sided-context}, and
+\autoref{thm:option-finite-data-scoped-row-exhaustion}. These blocks provide
+the finite $\mathsf{BHist}$ rows, the $\hsame$ comparison relation, and the
+displayed $\Cont$ routes used by every public endpoint.
+
+The readback and separation rows are
+\autoref{thm:tagged-option-history-classifier-exclusive-branch-readback},
+\autoref{thm:option-history-classifier-cross-absent-source-exclusion}, and the
+payload-descent image readback blocks. They split absent and present endpoints,
+rule out mixed source readback, and keep every transported endpoint inside the
+same finite ledger.
+
+Finally the semantic name certificate
+$\mathsf{option\_history\_semantic\_name\_certificate}$ packages these rows as
+the canonical $\NameCert_{\OptionUp}$ surface. Since each cited block factors
+through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and the displayed
+certificate rows, the public exit has no additional data channel.
+\end{proof}
+\leanvariant{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}

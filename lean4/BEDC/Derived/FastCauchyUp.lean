@@ -152,5 +152,39 @@ theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
         windowUnary', provenanceUnary', nameRowUnary', endpointRow', transportRow',
         provenanceRow', nameRowRoute', pkgRow'⟩,
       sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
+def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+        Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg
+
+def FastCauchyFinitePacket [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧ Cont stream modulus transportWindow ∧
+        Cont endpoint radius latePair ∧ Cont latePair transportWindow regWindow ∧
+          Cont regWindow sealBoundary certRow ∧ PkgSig bundle regWindow pkg
+
+theorem FastCauchyFinitePacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow regWindow
+        sealBoundary certRow bundle pkg ->
+      FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+          regWindow bundle pkg ∧
+        Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+          Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg := by
+  intro packet
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary,
+    transportUnary, regUnary, _sealUnary, _certUnary, streamModulusRoute,
+    endpointRadiusRoute, latePairTransportRoute, _certRoute, pkgRow⟩ := packet
+  exact
+    ⟨⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary, transportUnary,
+        regUnary, streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩,
+      streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩
 
 end BEDC.Derived.FastCauchyUp
