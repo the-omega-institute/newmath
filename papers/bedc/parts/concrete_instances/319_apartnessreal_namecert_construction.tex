@@ -57,6 +57,7 @@ If an accepted $\ApartnessRealUp$ packet witnesses positive separation from a di
 
 This symmetry is stability of the displayed apartness evidence. It is not a decision procedure for whether $x$ and $y$ are equal or apart.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealCarrier\_symmetry\_stability}
 \begin{proof}
 Start from the accepted carrier of \autoref{def:apartnessreal-carrier}. It contains the two real-name rows, the shared finite observation window, the positive radius, the two endpoint readbacks, and the separation ledger.
 
@@ -79,16 +80,59 @@ A metric or order consumer may use only those exposed rows. The classifier row t
 
 Because the exported surface is a finite separation witness, it gives no way to select a separation witness for arbitrary distinct names and no way to decide equality against apartness. The handoff is therefore constructive apartness data only.
 \end{proof}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealPositiveSeparationCarrier\_metric\_handoff}
+
+\begin{definition}[ApartnessReal finite-window separation row]
+\label{def:apartnessreal-finite-window-separation-row}
+An $\ApartnessRealUp$ finite-window separation row is the displayed $\mathsf{BHist}$ tuple consisting of:
+\begin{enumerate}
+\item a left endpoint row and a right endpoint row, each read either as a displayed $\RealUp$ name or as its $\RegSeqRatUp$ source row at the real-seal boundary;
+\item one positive $\DyadicRatCoreUp$ radius row $\rho$;
+\item one finite $\StreamNameUp$ observation window shared by the two endpoint presentations;
+\item two endpoint readbacks from that window, one for each endpoint row;
+\item one separation ledger witnessing that the two readbacks are separated by the radius $\rho$.
+\end{enumerate}
+The tuple is accepted only when these six rows are visible through the same $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance used by \autoref{def:apartnessreal-carrier} and \autoref{def:apartnessreal-classifier}. It is a finite certificate row, not a host-level inequality between real numbers and not a quotient class of real-name presentations.
+\end{definition}
+
+\begin{theorem}[ApartnessReal finite-window separation transport]
+\label{thm:apartnessreal-finite-window-separation-transport}
+Let $R$ and $S$ be accepted $\ApartnessRealUp$ finite-window separation rows in the sense of \autoref{def:apartnessreal-finite-window-separation-row}. If the two endpoint rows, the positive radius row, the finite observation window, the two endpoint readbacks, and the separation ledger of $R$ transport componentwise to the corresponding rows of $S$ through the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes, then $S$ repacks as an accepted finite-window separation row.
+
+This transport adds no trichotomy principle, quotient carrier, total order, or completeness datum for constructive reals.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier data from \autoref{def:apartnessreal-carrier}. The only coordinates present are the two endpoint presentations, the positive dyadic radius, the finite stream window, the two endpoint readbacks, and the separation ledger.
+
+Use \autoref{def:apartnessreal-classifier} to transport those coordinates one by one. The real-name endpoints transport either through their displayed $\RealUp$ classifiers or through their $\RegSeqRatUp$ source classifiers before the real-seal boundary; the radius and window rows transport through their own classifiers; the endpoint readbacks follow the same $\hsame$ and $\Cont$ routes.
+
+It remains to repack the ledger. Since the ledger is assumed to transport componentwise through the same visible $\mathsf{Pkg}$ and $\NameCert$ provenance, the target tuple has exactly the six rows required by \autoref{def:apartnessreal-finite-window-separation-row}. No additional coordinate can be read from this repacking, so no excluded-order, quotient, or completion principle is exported.
+\end{proof}
+
+\begin{theorem}[ApartnessReal metric consumer separation boundary]
+\label{thm:apartnessreal-metric-consumer-separation-boundary}
+A later $\MetricSpaceUp$ or real-order consumer may consume exactly the $\ApartnessRealUp$ finite-window separation row of \autoref{def:apartnessreal-finite-window-separation-row}, together with the existing handoff rows of \autoref{thm:apartnessreal-metric-handoff}: the two displayed endpoint rows, the positive $\DyadicRatCoreUp$ radius row, the finite $\StreamNameUp$ observation window, the two endpoint readbacks, and the visible separation ledger.
+
+Such a consumer cannot read a host real inequality, total order, trichotomy decision, quotient carrier, or completion datum from the $\ApartnessRealUp$ certificate surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:apartnessreal-namecert-obligation-surface}. Its carrier, classifier, exactness, and ledger-visibility rows expose precisely the finite endpoint, radius, window, readback, and separation-ledger data named in \autoref{def:apartnessreal-finite-window-separation-row}.
+
+Apply \autoref{thm:apartnessreal-symmetry-stability} to account for the reversible orientation required by apartness consumers. The symmetry operation swaps only the two endpoint rows and the two endpoint readbacks while preserving the same positive radius, finite window, and provenance rows.
+
+Finally apply \autoref{thm:apartnessreal-metric-handoff}. That handoff is already limited to finite positive-separation evidence for downstream metric or order constructions. Composing these three surfaces leaves the consumer with the finite-window row and no additional coordinate from which host inequality, total order, quotient, or completion data could be extracted.
+\end{proof}
 
 \closureat{ApartnessRealUp}{seedStr}
+\closureat{ApartnessRealUp}{obligationStr}
 
 \begin{closurestatus}{\ApartnessRealUp}
   \constructivestory{An apartness-real packet is generated from two displayed $\RealUp$ or $\RegSeqRatUp$ names, a positive $\DyadicRatCoreUp$ radius, a finite $\StreamNameUp$ observation window, two endpoint readbacks, and a visible separation ledger transported componentwise by $\hsame$ and $\Cont$.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed boundary names the finite positive-separation carrier, classifier transport, symmetry swap, finite-window exactness, and $\Cont$/$\Pkg$ ledger visibility rows for $\ApartnessRealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close trichotomy, total order, completeness, quotient construction, metric-completion data, or a standard bridge for constructive reals.}
-  \upgradepath{Scoped closure requires checked carrier, classifier, symmetry, exactness, and metric-handoff targets for the displayed $\ApartnessRealUp$ apartness surface.}
+  \upgradepath{Scoped closure requires explicit scope binding of the carrier, classifier, symmetry, exactness, and metric-handoff rows against $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
 \end{closurestatus}
