@@ -63,7 +63,6 @@ There is no constructor in the reduct for Cauchy--Hadamard exactness. Repacking
 the displayed source and geometric-bound rows therefore gives precisely the
 checked-row reduct claimed above.
 \end{proof}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
 
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
@@ -74,7 +73,8 @@ endpoint packages, and checked semantic certificate rows. Consumers may cite
 this public boundary without treating Cauchy--Hadamard exactness or standard
 complex-analysis bridge rows as checked consequences.
 \end{theorem}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_public\_export}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvergenceRadiusCheckedRowReduct\_public\_export}
+\leanvariant{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_public\_export}
 \begin{proof}
 Cite the semantic naming certificate of
 \autoref{thm:conv-rad-semantic-namecert}. It repacks the checked carrier,
@@ -127,6 +127,39 @@ checked rows do not force Cauchy--Hadamard exactness, the boundary also does
 not provide real-number supremum completeness or the standard
 complex-analysis bridge rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_boundary\_exactness}
+
+\begin{theorem}[ConvergenceRadius checked-row readback public factorization]
+\label{thm:convergence-radius-checked-row-readback-public-factorization}
+Every $\mathsf{ConvRadSourceSpec}$ consumer read factors first through
+\autoref{def:convrad-checked-row-reduct} and only then reaches the public
+export rows of \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. The factorization
+exports no Cauchy--Hadamard exactness row and no real supremum completeness
+principle.
+\end{theorem}
+\begin{proof}
+Unpack the $\mathsf{ConvRadSourceSpec}$ row. Its source, geometric-bound, and
+radius-witness data are the checked rows retained by
+\autoref{def:convrad-checked-row-reduct}.
+
+Apply the checked-row reduct readback of
+\autoref{thm:convergence-radius-checked-row-reduct-readback}. This gives the
+factor through which every source-specification consumer read is routed before
+any public export row is inspected.
+
+Now use \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. They expose the
+same public carrier, geometric-bound, convergence-radius witness,
+classifier-transport, endpoint-package, checked-reduct, and semantic
+certificate rows, and they expose no additional analytic coordinate.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the public readback
+factorization also cannot export real supremum completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
 
 \begin{theorem}[ConvergenceRadius bridged boundary]
 \label{thm:convergence-radius-bridged-boundary}
@@ -189,6 +222,38 @@ checked rows do not force Cauchy--Hadamard exactness, the coefficient-tail
 public boundary exports no real supremum, Cauchy--Hadamard, or standard
 complex-analysis bridge consequence.
 \end{proof}
+
+\begin{theorem}[ConvergenceRadius checked-row two-sided ledger boundary]
+\label{thm:convergence-radius-checked-row-two-sided-ledger-boundary}
+For any checked-row reduct of a $\ConvergenceRadiusUp$ source and any unary
+history $q$, the public checked rows determine a two-sided coefficient ledger:
+the families $n \mapsto \mathsf{append}(a_n,q)$ and
+$n \mapsto \mathsf{append}(q,a_n)$ carry $\mathsf{ConvRad}$ witnesses at the
+same radius. This ledger remains inside the carrier, geometric-bound,
+convergence-radius witness, endpoint, checked-reduct, and semantic certificate
+rows.
+
+The ledger adds no Cauchy--Hadamard exactness, real supremum row, or standard
+complex-analysis bridge row.
+\end{theorem}
+\begin{proof}
+Read the source through \autoref{def:convrad-checked-row-reduct}. The reduct
+exposes the checked convergence-radius row, so the same radius is available to
+both coefficient-family transports.
+
+Apply \autoref{thm:conv-rad-append-unary-coeff-closed} to the unary history
+$q$ for the family $n \mapsto \mathsf{append}(a_n,q)$. Apply
+\autoref{thm:conv-rad-prepend-unary-coeff-closed} to the same unary history
+for the family $n \mapsto \mathsf{append}(q,a_n)$. These two applications
+produce the two sides of the public ledger at the original radius.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked reduct does not force Cauchy--Hadamard exactness, the two-sided ledger
+does not introduce a real supremum row or a standard complex-analysis bridge
+row.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_append\_prepend\_ledger}
 
 \begin{theorem}[ConvergenceRadius mature package boundary]
 \label{thm:convergence-radius-mature-package-boundary}
