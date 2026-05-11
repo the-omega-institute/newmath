@@ -131,4 +131,33 @@ theorem DyadicRatCoreCarrier_regseqrat_radius_monotone_window_extraction
       radiusRow,
       handoffRow⟩
 
+theorem DyadicRatCoreCarrier_regseqrat_radius_window_composition
+    {mantissa exponent ledger provenance tail0 exponent1 ledger1 radiusWindow1
+      handoffWindow1 tail1 exponent2 ledger2 radiusWindow2 handoffWindow2 : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail0 ->
+        Cont exponent tail0 exponent1 ->
+          Cont exponent1 mantissa ledger1 ->
+            Cont ledger1 provenance radiusWindow1 ->
+              Cont radiusWindow1 ledger handoffWindow1 ->
+                UnaryHistory tail1 ->
+                  Cont exponent1 tail1 exponent2 ->
+                    Cont exponent2 mantissa ledger2 ->
+                      Cont ledger2 provenance radiusWindow2 ->
+                        Cont radiusWindow2 ledger1 handoffWindow2 ->
+                          DyadicRatCoreCarrier mantissa exponent2 ledger2 provenance ∧
+                            PositiveUnaryDenominator exponent2 ∧
+                              UnaryHistory radiusWindow2 ∧ UnaryHistory handoffWindow2 ∧
+                                hsame exponent2 (append exponent1 tail1) ∧
+                                  hsame radiusWindow2 (append ledger2 provenance) ∧
+                                    hsame handoffWindow2 (append radiusWindow2 ledger1) := by
+  intro carrier tailUnary0 exponentRow1 ledgerRow1 radiusRow1 handoffRow1
+  intro tailUnary1 exponentRow2 ledgerRow2 radiusRow2 handoffRow2
+  have firstWindow :=
+    DyadicRatCoreCarrier_regseqrat_radius_monotone_window_extraction carrier tailUnary0
+      exponentRow1 ledgerRow1 radiusRow1 handoffRow1
+  exact
+    DyadicRatCoreCarrier_regseqrat_radius_monotone_window_extraction firstWindow.left
+      tailUnary1 exponentRow2 ledgerRow2 radiusRow2 handoffRow2
+
 end BEDC.Derived.DyadicRatCoreUp
