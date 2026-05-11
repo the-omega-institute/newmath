@@ -194,6 +194,67 @@ theorem ApartnessRealMetricHandoffPacket_transport [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact ⟨transported, sameLeftReadback, sameRightReadback, sameSeparation, sameEndpoint⟩
 
+theorem ApartnessRealSeparationPacket_finite_window_transport [AskSetup] [PackageSetup]
+    {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow left'
+      right' radius' window' leftEndpoint' rightEndpoint' forwardLedger' reverseLedger' pkgrow' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealSeparationPacket left right radius window leftEndpoint rightEndpoint forwardLedger
+        reverseLedger pkgrow bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          PositiveUnaryDenominator radius' ->
+            hsame window window' ->
+              Cont left' window' leftEndpoint' ->
+                Cont right' window' rightEndpoint' ->
+                  Cont leftEndpoint' rightEndpoint' forwardLedger' ->
+                    Cont rightEndpoint' leftEndpoint' reverseLedger' ->
+                      Cont forwardLedger' reverseLedger' pkgrow' ->
+                        Cont reverseLedger' forwardLedger' pkgrow' ->
+                          PkgSig bundle pkgrow' pkg ->
+                            ApartnessRealSeparationPacket left' right' radius' window'
+                                leftEndpoint' rightEndpoint' forwardLedger' reverseLedger' pkgrow'
+                                bundle pkg ∧
+                              hsame leftEndpoint leftEndpoint' ∧
+                                hsame rightEndpoint rightEndpoint' ∧
+                                  hsame forwardLedger forwardLedger' ∧
+                                    hsame reverseLedger reverseLedger' := by
+  intro packet sameLeft sameRight positiveRadius' sameWindow leftEndpointRow'
+    rightEndpointRow' forwardLedgerRow' reverseLedgerRow' pkgForwardRow' pkgReverseRow' pkgSig'
+  obtain ⟨_positiveRadius, leftEndpointRow, rightEndpointRow, forwardLedgerRow,
+    reverseLedgerRow, _pkgForwardRow, _pkgReverseRow, _pkgSig⟩ := packet
+  have sameLeftEndpoint : hsame leftEndpoint leftEndpoint' :=
+    cont_respects_hsame sameLeft sameWindow leftEndpointRow leftEndpointRow'
+  have sameRightEndpoint : hsame rightEndpoint rightEndpoint' :=
+    cont_respects_hsame sameRight sameWindow rightEndpointRow rightEndpointRow'
+  have sameForwardLedger : hsame forwardLedger forwardLedger' :=
+    cont_respects_hsame sameLeftEndpoint sameRightEndpoint forwardLedgerRow forwardLedgerRow'
+  have sameReverseLedger : hsame reverseLedger reverseLedger' :=
+    cont_respects_hsame sameRightEndpoint sameLeftEndpoint reverseLedgerRow reverseLedgerRow'
+  constructor
+  · constructor
+    · exact positiveRadius'
+    · constructor
+      · exact leftEndpointRow'
+      · constructor
+        · exact rightEndpointRow'
+        · constructor
+          · exact forwardLedgerRow'
+          · constructor
+            · exact reverseLedgerRow'
+            · constructor
+              · exact pkgForwardRow'
+              · constructor
+                · exact pkgReverseRow'
+                · exact pkgSig'
+  · constructor
+    · exact sameLeftEndpoint
+    · constructor
+      · exact sameRightEndpoint
+      · constructor
+        · exact sameForwardLedger
+        · exact sameReverseLedger
+
 def ApartnessRealPositiveSeparationCarrier [AskSetup] [PackageSetup]
     (leftName rightName radius window leftReadback rightReadback separation provenance
       endpoint : BHist)
