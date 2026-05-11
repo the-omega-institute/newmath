@@ -239,4 +239,43 @@ theorem subject_reduction_V2_congPi
   | piRule Γ dom cod hdom hcod =>
       exact HasTypeV2.piRule Γ dom cod' hdom (ih hcod)
 
+def AppArgTypeStableV2 : Prop :=
+  ∀ {Γ : Ctx} {f a a' dom cod : Term},
+    HasTypeV2 Γ f (Term.pi dom cod) →
+    HasTypeV2 Γ a dom →
+    HasTypeV2 Γ a' dom →
+    substitute 0 a' cod = substitute 0 a cod
+
+theorem subject_reduction_V2
+    (hsubst : BetaSubstitutionPreservationV2)
+    (happArgStable : AppArgTypeStableV2)
+    {Γ : Ctx} {t t' A : Term}
+    (ht : HasTypeV2 Γ t A)
+    (hbeta : BetaStep t t') :
+    HasTypeV2 Γ t' A := by
+  induction hbeta generalizing Γ A with
+  | beta dom body arg =>
+      exact subject_reduction_V2_beta hsubst ht
+  | congApp1 f f' a hb ih =>
+      exact subject_reduction_V2_congApp1 ht hb
+        (fun {B} hf => ih hf)
+  | congApp2 f a a' hb ih =>
+      cases ht with
+      | appRule Γ f a dom cod hf ha =>
+          have ha' : HasTypeV2 Γ a' dom := ih ha
+          rw [← happArgStable hf ha ha']
+          exact HasTypeV2.appRule Γ f a' dom cod hf ha'
+  | congLam d b b' hb ih =>
+      exact subject_reduction_V2_congLam ht hb
+        (fun {B} hbody => ih hbody)
+
+theorem subject_reduction_V2_retype
+    (hsubst : BetaSubstitutionPreservationV2)
+    (happArgStable : AppArgTypeStableV2)
+    {Γ : Ctx} {t t' A : Term}
+    (ht : HasTypeV2 Γ t A)
+    (hbeta : BetaStep t t') :
+    ∃ A' : Term, HasTypeV2 Γ t' A' := by
+  exact ⟨A, subject_reduction_V2 hsubst happArgStable ht hbeta⟩
+
 end BEDC.MetaCIC.V2
