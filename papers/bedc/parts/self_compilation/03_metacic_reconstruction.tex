@@ -469,6 +469,46 @@ reduction. Further progress requires substrate-design choices
 (typing rule restructuring or context-aware shift propagation) that
 are outside the present chapter's scope.
 
+\subsection{V7 Metatheory Progress}\label{subsec:v7-metatheory-progress}
+
+The V7 substrate is represented by \texttt{BEDC.MetaCIC.TypingV2}. Its
+sanity layer covers the sort, Pi, identity, application, and dependent
+identity examples, and its atomic substitution layer is no longer a schematic
+placeholder: sort and variable atoms are checked directly.
+\leanchecked{BEDC.MetaCIC.V2.substitute\_preserves\_typing\_V2\_sort\_var}
+The captured-substitution demonstration also has a positive source typing
+derivation and a rejected captured target.
+\leanchecked{BEDC.MetaCIC.V2.r11\_substitute\_preserves\_typing\_V2}
+
+The remaining Pi case is a structural obstacle rather than a missing
+constructor case. Under V7, the binder premise for Pi is typed below
+$(\mathrm{shift}\ 0\ 1\ \mathrm{dom}) :: \Gamma$. Substitution through that
+premise reduces to a depth-1 typing-preservation induction: the recursive
+argument must preserve typing under the shifted binder domain while the
+substituting term is lifted across the same binder. The present substrate
+does not directly expose that depth-1 induction principle, so Pi-case
+substitute preservation is the missing bridge between the checked atomic
+cases and the full substitution theorem.
+
+The beta case of subject reduction is therefore isolated in
+\texttt{BEDC.MetaCIC.SubjectReductionV2}. It is provable from a clean
+substitution-preservation lemma:
+\leandef{BEDC.MetaCIC.V2.BetaSubstitutionPreservationV2}
+\leanchecked{BEDC.MetaCIC.V2.subject\_reduction\_V2\_beta}
+This puts the beta subject-reduction burden exactly on
+$\mathrm{BetaSubstitutionPreservationV2}$, without adding an extra
+operational premise to beta reduction itself.
+
+\texttt{BEDC.MetaCIC.V6V7Bridge} identifies the semantic footprint of the
+V7 redesign. If every lambda and Pi binder domain in a derivation satisfies
+$\mathrm{ClosedAt}\ 0$, then the V6 and V7 typing relations translate in both
+directions:
+\leanchecked{BEDC.MetaCIC.hasType\_V6\_to\_V2\_closedDomains}
+\leanchecked{BEDC.MetaCIC.hasType\_V2\_to\_V6\_closedDomains}
+Thus V7 is a genuinely different substrate only where binder domains remain
+open. For closed binder domains, the shift inserted by V7 is judgmentally
+absorbed by closedness, and the two derivation systems coincide.
+
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
 
 The V1 MetaCIC reconstruction is a layered stack of Lean modules. Each module
