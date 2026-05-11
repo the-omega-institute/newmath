@@ -202,16 +202,103 @@ The ledger boundary names the $\RegSeqRatUp$ and $\RealUp$ consumer-facing rows,
 The excluded principles are therefore outside the export. A quotient stream, Dedekind cut, host real, choice-selected limit, or completeness principle would require a coordinate not present in the finite packet.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion finite-window standard bridge]
+\label{thm:dyadiccompletion-finite-window-standard-bridge}
+The carrier of \autoref{def:dyadiccompletion-carrier}, the
+$\NameCert_{\DyadicCompletionUp}$ obligation surface of
+\autoref{thm:dyadiccompletion-namecert-obligation-surface}, the
+$\StreamNameUp$ handoff of
+\autoref{thm:dyadiccompletion-streamname-handoff}, regular-tail stability of
+\autoref{thm:dyadiccompletion-regular-tail-stability}, the ledger boundary of
+\autoref{thm:dyadiccompletion-ledger-boundary}, the scoped dependency packet of
+\autoref{thm:dyadiccompletion-scoped-dependency-packet}, and the public
+$\RegSeqRatUp/\RealUp$ export of
+\autoref{thm:dyadiccompletion-public-regseqrat-real-export} determine the
+standard constructive finite-window reading of $\DyadicCompletionUp$.
+
+Every consumer read factors through finite dyadic observation rows,
+stream-window rows, regular-tail rows, real-boundary rows, precision ledger
+rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and the listed
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source
+certificates. The bridge exports no quotient Cauchy stream, Dedekind cut, host
+real limit, choice-selected limit, or completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:dyadiccompletion-carrier}. The projected
+coordinates are the dyadic observation rows, stream-window rows, regular-tail
+rows, real-name boundary row, precision ledger, and package provenance. These
+are the only rows available to the $\NameCert_{\DyadicCompletionUp}$ obligation
+surface.
+
+Use \autoref{thm:dyadiccompletion-streamname-handoff} for window reads. The
+handoff sends each downstream stream access to a scheduled stream-window row,
+and \autoref{thm:dyadiccompletion-regular-tail-stability} transports the
+regular-tail rows along the displayed classifier rather than through an
+unstored tail representative.
+
+Apply \autoref{thm:dyadiccompletion-ledger-boundary}. The ledger lists every
+precision, real-boundary, continuation, history, package, and source-certificate
+row readable by a consumer, so no unstored modulus, quotient representative,
+Dedekind cut, host real limit, choice-selected limit, or completeness witness is
+available.
+
+Finally use \autoref{thm:dyadiccompletion-public-regseqrat-real-export} to route
+the same finite rows to $\RegSeqRatUp$ and $\RealUp$ consumers. Since the scoped
+dependency packet of \autoref{thm:dyadiccompletion-scoped-dependency-packet}
+binds those reads to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+the listed source certificates, the resulting consumer schema is exactly the
+standard constructive finite-window reading.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion mature RegSeqRat Real consumer coverage]
+\label{thm:dyadiccompletion-mature-consumer-coverage}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\DyadicCompletionUp$ packet
+receives precisely the $\NameCert_{\DyadicCompletionUp}$ obligation surface,
+constant dyadic embedding, regular-tail stability, $\StreamNameUp$ handoff,
+ledger boundary, scoped dependency packet, public $\RegSeqRatUp/\RealUp$
+export, and finite-window standard bridge of
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge}.
+
+The coverage contains no quotient completion, Dedekind cut, trichotomy, host
+equality, chosen limit, or extra completion principle.
+\end{theorem}
+\begin{proof}
+Project the packet through
+\autoref{thm:dyadiccompletion-namecert-obligation-surface} and
+\autoref{thm:dyadiccompletion-constant-embedding}. This exposes the carrier,
+classifier, and constant dyadic rows available to any consumer.
+
+Next apply \autoref{thm:dyadiccompletion-regular-tail-stability} and
+\autoref{thm:dyadiccompletion-streamname-handoff}. These rows keep the regular
+tail and stream-name reads inside the displayed finite schedules and
+real-boundary handoff rows.
+
+Use \autoref{thm:dyadiccompletion-ledger-boundary} together with
+\autoref{thm:dyadiccompletion-scoped-dependency-packet}. The ledger and scoped
+package list every $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, source
+certificate, precision, and real-boundary row readable by the consumer.
+
+Finally apply \autoref{thm:dyadiccompletion-public-regseqrat-real-export} and
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge}. The public export
+and standard bridge repack exactly the same finite rows for $\RegSeqRatUp$ and
+$\RealUp$ consumers. Since none of the cited rows contains quotient completion,
+Dedekind cuts, trichotomy, host equality, or a chosen limit, those data are not
+part of the mature consumer coverage.
+\end{proof}
+
 \closureat{DyadicCompletionUp}{obligationStr}
 \closureat{DyadicCompletionUp}{scopedStr}
+\closureat{DyadicCompletionUp}{publicStr}
+\closureat{DyadicCompletionUp}{bridgedStr}
+\closureat{DyadicCompletionUp}{matureStr}
 
 \begin{closurestatus}{\DyadicCompletionUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:dyadiccompletion-scoped-dependency-packet} binds the dyadic observation, stream-window, regular-tail, real-boundary, ledger, transport, continuation, and package rows to the listed BEDC source certificates.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:dyadiccompletion-mature-consumer-coverage} identifies the finite dyadic observation, stream-window, regular-tail, real-boundary, ledger, transport, continuation, package, public export, and standard bridge rows as the mature constructive $\RegSeqRatUp/\RealUp$ consumer boundary over the listed BEDC source certificates.}
   \constructivestory{A $\DyadicCompletionUp$ packet is generated by scheduled dyadic observations, certified stream windows, regular-tail comparison rows, a real-name handoff boundary, and a precision ledger that records every consumed schedule and tail bound.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close the Lean namespace, a complete real construction, quotient equality of Cauchy streams, Dedekind real equivalence, or a standard bridge.}
-  \upgradepath{Public closure requires a single exported $\DyadicCompletionUp$ NameCert statement consumed by $\RegSeqRatUp$ and $\RealUp$.}
+  \notclaimed{This chapter does not close the Lean namespace, a complete real construction, quotient equality of Cauchy streams, Dedekind real equivalence, host real limits, choice-selected limits, or completeness.}
+  \upgradepath{The paper-side mature consumer coverage is complete; remaining work is Lean-side formalization and bridge checking for the same $\DyadicCompletionUp$ packet.}
 \end{closurestatus}

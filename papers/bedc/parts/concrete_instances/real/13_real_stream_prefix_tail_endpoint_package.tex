@@ -146,3 +146,75 @@ and the same transport identifies the e-one tail witnesses. Since every row
 used in the argument is selected from either $\mathcal P$ or $\mathcal Q$, no
 external observation enters the comparison.
 \end{proof}
+
+\begin{theorem}[Real stream prefix probe-union endpoint readback]
+\label{thm:real-stream-prefix-probe-union-endpoint-readback}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$, let
+$\mathcal P$ and $\mathcal Q$ be finite certified $\mathsf{ProbeBundle}$
+windows, and let $\mathcal U$ be their synchronized union window certified by
+\autoref{thm:streamname-synchronized-window-union-carrier}. Suppose each source
+window supplies the $\mathsf{RealStreamPrefixClassifier}$ rows and finite
+$\mathsf{RatHistoryClassifier}$ tail rows required by
+\autoref{thm:real-stream-prefix-probe-endpoint-determinacy}. Then every unary
+endpoint $j$ selected by either source window has the same
+$\mathsf{RatHistoryClassifier}(x(j),y(j))$ readback through the union window
+$\mathcal U$, and the common e-one tail witnesses displayed by the source
+window and by $\mathcal U$ agree by $\hsame$ transport.
+
+Equivalently, if
+$\mathsf{InBundle}(j,\mathcal P)\lor\mathsf{InBundle}(j,\mathcal Q)$, then
+$\mathsf{InBundle}(j,\mathcal U)$ and the union read supplies histories
+$a_{\mathcal U},b_{\mathcal U}$ with
+$$
+\hsame(x(j),\Eone(a_{\mathcal U}))\land
+\hsame(y(j),\Eone(b_{\mathcal U}))\land
+\mathsf{UnaryHistory}(a_{\mathcal U})\land
+\mathsf{UnaryHistory}(b_{\mathcal U}).
+$$
+If $j$ lies in both $\mathcal P$ and $\mathcal Q$, these witnesses are
+$\hsame$-identified with the two source-window witnesses of
+\autoref{thm:real-stream-prefix-two-probe-endpoint-coherence}; if $j$ lies in
+only one source window, the union read is the unique displayed readback of that
+source window.
+
+Ten-field fit: traditional target finite RealUp union endpoint readback; BEDC
+source RealUp stream prefixes with RatUp point classifiers; carrier the
+certified $\mathsf{ProbeBundle}$ union membership rows for
+$\mathcal P,\mathcal Q,\mathcal U$; classifier
+$\mathsf{RealStreamPrefixClassifier}$ at the displayed unary prefix; stability
+by $\hsame$ transport of the e-one tails; ledger the finite endpoint ledger,
+source memberships, synchronized union membership, prefix classifiers, and
+tail rows; core theorem this probe-union readback statement; exactness the
+fixed finite endpoint row $j$; bridge data the StreamName synchronized-window
+union coverage and RegSeqRat finite observation readback; status
+$\mathsf{ProofTarget}$. No quotient-real equality, completeness theorem, or
+host real comparison is used.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-synchronized-window-union-carrier} to the two
+certified probe windows. It places every endpoint selected by $\mathcal P$ or
+by $\mathcal Q$ into the synchronized union window $\mathcal U$ and records the
+finite union membership row used by the later readback.
+
+When the selected endpoint lies only in $\mathcal P$, apply
+\autoref{thm:real-stream-prefix-probe-endpoint-determinacy} to
+$\mathcal P$. The union membership supplied by the synchronized carrier reads
+the same finite endpoint row, so the union readback is the displayed
+$\mathcal P$ readback transported along $\hsame$.
+
+The case where the endpoint lies only in $\mathcal Q$ is identical, with
+$\mathcal Q$ supplying the source readback and the union carrier supplying the
+same endpoint row in $\mathcal U$.
+
+If the endpoint lies in both source windows, first apply endpoint determinacy
+in each window, then apply
+\autoref{thm:real-stream-prefix-two-probe-endpoint-coherence}. The coherence
+row identifies the two rational endpoint readbacks and transports the common
+e-one tail witnesses through $\hsame$, so the union read has the same displayed
+tails.
+
+All rows consumed by the argument are finite rows of the two source probe
+windows or of their synchronized union. Hence the endpoint readback remains a
+RegSeqRat-style finite observation read and never appeals to a quotient real,
+completeness principle, or host equality.
+\end{proof}
