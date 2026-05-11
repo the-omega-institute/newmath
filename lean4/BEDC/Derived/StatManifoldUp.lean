@@ -26,6 +26,90 @@ def StatManifoldCarrier [AskSetup] [PackageSetup]
           Cont manifold fisher provenance ∧ Cont provenance dual ledger ∧
             PkgSig bundle ledger pkg
 
+def StatManifoldDependencyLedgerPacket
+    (manifold fisher metric connection dualConnection provenance ledger : BHist) : Prop :=
+  Cont manifold fisher metric ∧ Cont metric connection ledger ∧
+    Cont ledger dualConnection provenance
+
+theorem StatManifoldDependencyLedgerPacket_public_projection
+    {manifold fisher metric connection dualConnection provenance ledger : BHist} :
+    StatManifoldDependencyLedgerPacket manifold fisher metric connection dualConnection provenance
+      ledger ->
+      hsame metric (append manifold fisher) ∧ hsame ledger (append metric connection) ∧
+        hsame provenance (append ledger dualConnection) ∧
+          SemanticNameCert (fun row : BHist => row = ledger)
+            (fun row : BHist => row = ledger)
+            (fun row : BHist => row = ledger) hsame := by
+  intro packet
+  cases packet with
+  | intro metricRow packetRest =>
+      cases packetRest with
+      | intro ledgerRow provenanceRow =>
+          constructor
+          · exact metricRow
+          · constructor
+            · exact ledgerRow
+            · constructor
+              · exact provenanceRow
+              · exact {
+                  core := {
+                    carrier_inhabited := ⟨ledger, rfl⟩
+                    equiv_refl := by
+                      intro row _source
+                      exact hsame_refl row
+                    equiv_symm := by
+                      intro _row _row' same
+                      exact hsame_symm same
+                    equiv_trans := by
+                      intro _row _row' _row'' sameLeft sameRight
+                      exact hsame_trans sameLeft sameRight
+                    carrier_respects_equiv := by
+                      intro _row _row' same source
+                      exact (hsame_symm same).trans source
+                  }
+                  pattern_sound := by
+                    intro _row source
+                    exact source
+                  ledger_sound := by
+                    intro _row source
+                    exact source
+                }
+
+def StatManifoldBHistPacket [AskSetup] [PackageSetup]
+    (manifold fisher parameter distribution metric primalConnection dualConnection provenance
+      ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory manifold ∧ UnaryHistory fisher ∧ UnaryHistory parameter ∧
+    UnaryHistory distribution ∧ UnaryHistory primalConnection ∧ UnaryHistory provenance ∧
+      Cont fisher parameter metric ∧ Cont metric primalConnection dualConnection ∧
+        Cont provenance dualConnection ledger ∧ Cont ledger manifold endpoint ∧
+          PkgSig bundle endpoint pkg
+
+theorem StatManifoldBHistPacket_ledger_exactness [AskSetup] [PackageSetup]
+    {manifold fisher parameter distribution metric primalConnection dualConnection provenance
+      ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StatManifoldBHistPacket manifold fisher parameter distribution metric primalConnection
+        dualConnection provenance ledger endpoint bundle pkg ->
+      hsame metric (append fisher parameter) ∧
+        hsame dualConnection (append metric primalConnection) ∧
+          hsame ledger (append provenance dualConnection) ∧
+            hsame endpoint (append ledger manifold) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have metricRow : Cont fisher parameter metric :=
+    packet.right.right.right.right.right.right.left
+  have dualConnectionRow : Cont metric primalConnection dualConnection :=
+    packet.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont provenance dualConnection ledger :=
+    packet.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger manifold endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  exact And.intro metricRow
+    (And.intro dualConnectionRow
+      (And.intro ledgerRow
+        (And.intro endpointRow
+          packet.right.right.right.right.right.right.right.right.right.right)))
+
 def StatManifoldCarrierPacket [AskSetup] [PackageSetup]
     (manifold fisher theta distribution metric connection dualConnection provenance ledger
       endpoint : BHist)
