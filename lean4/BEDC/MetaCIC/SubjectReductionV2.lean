@@ -173,6 +173,62 @@ theorem betaSubstitutionPreservationV2_lam_body
           hbody
           harg
 
+theorem betaSubstitutionPreservationV2_app_body
+    {Γ : Ctx} {dom f a arg cod : Term}
+    (hclosed_dom : ClosedAt 0 dom)
+    (hclosed_arg : ClosedAt 0 arg)
+    (hshape_f : f = Term.sort ∨ ∃ i : Idx, f = Term.var i)
+    (hshape_a : a = Term.sort ∨ ∃ i : Idx, a = Term.var i)
+    (hshape_appCod :
+      ∀ {appCod : Term},
+        cod = substitute 0 a appCod →
+        appCod = Term.sort ∨ ∃ i : Idx, appCod = Term.var i)
+    (hbody :
+      HasTypeV2 ((shift 0 1 dom) :: Γ)
+        (Term.app f a) cod)
+    (harg : HasTypeV2 Γ arg dom) :
+    HasTypeV2 Γ
+      (substitute 0 arg (Term.app f a))
+      (substitute 0 arg cod) := by
+  cases hbody with
+  | appRule Δ f a appDom appCod hf ha =>
+      have hf_sub :
+          HasTypeV2 Γ
+            (substitute 0 arg f)
+            (Term.pi (substitute 0 arg appDom)
+              (substitute 1 (shift 0 1 arg) appCod)) := by
+        exact betaSubstitutionPreservationV2_sort_var hf harg hshape_f
+      have ha_sub :
+          HasTypeV2 Γ
+            (substitute 0 arg a)
+            (substitute 0 arg appDom) := by
+        exact betaSubstitutionPreservationV2_sort_var ha harg hshape_a
+      have hcod_sub :
+          substitute 0 (substitute 0 arg a)
+              (substitute 1 (shift 0 1 arg) appCod) =
+            substitute 0 arg (substitute 0 a appCod) := by
+        rw [shift_closed 0 arg hclosed_arg]
+        cases hshape_appCod rfl with
+        | inl hsort =>
+            cases hsort
+            exact Eq.symm
+              (substitute_substitute_zero_zero_closed_sort
+                arg a hclosed_arg)
+        | inr hvar =>
+            cases hvar with
+            | intro i hi =>
+                cases hi
+                exact Eq.symm
+                  (substitute_substitute_zero_zero_closed_var
+                    arg a i hclosed_arg)
+      exact substitute_preserves_typing_V2_app_if_subderivations
+        hclosed_dom
+        hclosed_arg
+        hf_sub
+        ha_sub
+        harg
+        hcod_sub
+
 theorem subject_reduction_V2_beta_sort_var
     {Γ : Ctx} {dom body arg A : Term}
     (ht : HasTypeV2 Γ (Term.app (Term.lam dom body) arg) A)
