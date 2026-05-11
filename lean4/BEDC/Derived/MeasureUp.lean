@@ -302,6 +302,25 @@ theorem MeasureFiniteDisjointUnion_additivity
     hsame_trans sameValueSumUnion (hsame_symm sameValueUnion)
   exact And.intro valueSumZero (And.intro valueUnionZero sameValueSumValueUnion)
 
+theorem MeasureIntegralPremeasure_consumption
+    {event diff union valueEvent valueDiff valueUnion valueSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          hsame valueEvent event ->
+            hsame valueDiff diff ->
+              hsame valueUnion union ->
+                Cont valueEvent valueDiff valueSum ->
+                  MeasureZeroBHistClassifier valueSum valueUnion ∧
+                    MeasureZeroBHistClassifier event BHist.Empty ∧
+                      MeasureZeroBHistClassifier diff BHist.Empty := by
+  intro eventClassified diffClassified unionRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow
+  have additiveRow : MeasureZeroBHistClassifier valueSum valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion valueRow
+  exact And.intro additiveRow (And.intro eventClassified diffClassified)
+
 theorem MeasureRelativeDifference_additivity
     {event diff union endpoint valueEvent valueDiff valueUnion valueSum : BHist} :
     MeasureZeroBHistClassifier event BHist.Empty ->

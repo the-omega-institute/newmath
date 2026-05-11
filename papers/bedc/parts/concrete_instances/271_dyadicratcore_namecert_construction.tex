@@ -1,0 +1,141 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRatCoreUp$}
+\label{ch:concrete-instances-dyadicratcore-namecert}
+
+The $\DyadicRatCoreUp$ surface names the dyadic rational source layer used by
+the Phase Real and Completion interface in \autoref{sec:roadmap-l10-construction-order}.
+Following the Bishop--Bridges constructive-analysis treatment of dyadic
+rational approximants, the chapter keeps each denominator exponent as visible
+unary history data and never identifies dyadics by a quotient carrier.
+
+\section{Carrier and classifier}
+\label{sec:dyadicratcore-carrier}
+
+\begin{definition}[DyadicRatCore signed mantissa carrier]
+\label{def:dyadicratcore-carrier}
+A $\DyadicRatCoreUp$ carrier row is a finite $\mathsf{BHist}$ packet
+$(m,e,\ell,P)$ where $m$ is a signed $\RatUp$ mantissa row, $e$ is a positive
+$\UnaryHistory$ exponent row, $\ell$ is the denominator ledger displaying the
+unary tower for $2^e$, and $P$ is the $\Pkg$ provenance row naming the
+$\IntUp$ and $\RatUp$ source certificates. The intended value of the packet is
+the dyadic rational $m\cdot 2^{-e}$, but the carrier stores only the visible
+mantissa row, positive unary exponent row, denominator ledger, and provenance.
+
+The carrier contains no quotient class of rational pairs, no hidden integer
+normal form, and no imported real-number endpoint. A consumer can read a
+dyadic value only by projecting the displayed $\RatUp$ mantissa and unary
+denominator rows through the visible $\Cont$ ledger.
+\end{definition}
+
+\begin{definition}[DyadicRatCore common-exponent classifier]
+\label{def:dyadicratcore-classifier}
+For two accepted dyadic packets
+$D=(m,e,\ell,P)$ and $D'=(m',e',\ell',P')$, the predicate
+$\mathsf{DyadicRatCoreClassifier}(D,D')$ is the common-exponent scaling
+classifier: it supplies a positive unary exponent row $E$ above both $e$ and
+$e'$, transported denominator ledgers from $\ell$ and $\ell'$ to $E$, and a
+$\RatUp$ classifier row between the two scaled mantissas
+$m\cdot 2^{E-e}$ and $m'\cdot 2^{E-e'}$.
+
+The classifier is a BEDC predicate over displayed scaling rows. It is not
+quotient equality of rational pairs, and it does not collapse the two packets
+to a host rational number.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore denominator ledger transport]
+\label{thm:dyadicratcore-denominator-ledger}
+Let $D=(m,e,\ell,P)$ be an accepted $\DyadicRatCoreUp$ packet, and let
+$D'=(m',e',\ell',P')$ be obtained from $D$ by displayed $\hsame$ transport of
+the mantissa, exponent, denominator ledger, and provenance rows. Then $e'$ is
+again a positive unary exponent row, $\ell'$ is the transported denominator
+ledger for $2^{e'}$, and every finite consumer window that read the denominator
+of $D$ can read the denominator of $D'$ through the transported $\Cont$ route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row of \autoref{def:dyadicratcore-carrier}. The
+positivity of $e$ is a displayed unary-history row, so transporting it along
+the supplied $\hsame$ comparison gives the corresponding positive row for
+$e'$.
+
+The denominator ledger is finite and is indexed by the same unary exponent
+tower. Transport each ledger entry along the displayed exponent comparison and
+repack the entries with the transported $\Pkg$ provenance.
+
+Finally transport the finite $\Cont$ route used by a consumer window. The
+window reads only the visible denominator ledger entries, so the transported
+route reads exactly the denominator rows of $D'$ and introduces no quotient or
+real endpoint.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore distance-window stability]
+\label{thm:dyadicratcore-distance-window-stability}
+Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets such that
+$D_i$ is transported to $D'_i$ by displayed $\hsame$, $\Cont$, and $\Pkg$ rows
+for $i=0,1$. Any finite observation window that computes the dyadic distance
+$|D_0-D_1|$ or the dyadic absolute value $|D_0|$ from common-exponent mantissa
+scaling is stable under this transport: the transported window computes
+$|D'_0-D'_1|$ or $|D'_0|$ from the transported mantissa, exponent, denominator,
+and provenance rows.
+\end{theorem}
+\begin{proof}
+Choose the common exponent displayed by the finite observation window. The
+classifier of \autoref{def:dyadicratcore-classifier} makes the scaling rows
+visible, so the mantissa difference and sign split are ordinary $\RatUp$ rows
+inside the same window.
+
+Transport the two input packets componentwise through the supplied $\hsame$
+rows and transport the scaling ledger through the corresponding $\Cont$ routes.
+The $\Pkg$ rows keep the same $\IntUp$ and $\RatUp$ source certificates attached
+to the transported packet.
+
+The distance and absolute-value observations therefore recompute the same
+finite rational expression at the transported exponent. Since the window has
+no access to a quotient carrier or real completion endpoint, stability is
+exactly the repacking of those displayed rows.
+\end{proof}
+
+\section{Certificate surface}
+\label{sec:dyadicratcore-certificate}
+
+\begin{theorem}[DyadicRatCore NameCert obligation surface]
+\label{thm:dyadicratcore-namecert-obligation-surface}
+The seed $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists of the
+signed mantissa carrier of \autoref{def:dyadicratcore-carrier}, the
+common-exponent scaling classifier of
+\autoref{def:dyadicratcore-classifier}, denominator ledger transport from
+\autoref{thm:dyadicratcore-denominator-ledger}, dyadic distance and
+absolute-value window stability from
+\autoref{thm:dyadicratcore-distance-window-stability}, and exactness of the
+visible mantissa, exponent, denominator, $\hsame$, $\Cont$, and $\Pkg$ rows.
+It supplies a named dyadic source surface for $\StreamNameUp$, $\RegSeqRat$,
+and $\RealUp$, but it supplies no standard bridge and no $\RealUp$
+completeness claim.
+\end{theorem}
+\begin{proof}
+The carrier and classifier clauses are exactly
+\autoref{def:dyadicratcore-carrier} and
+\autoref{def:dyadicratcore-classifier}. They determine which finite BEDC rows
+may be read as a dyadic packet and how two such packets are compared by
+common-exponent scaling.
+
+The ledger clause is
+\autoref{thm:dyadicratcore-denominator-ledger}; it keeps the positive unary
+denominator tower visible under $\hsame$ transport. The observation clause is
+\autoref{thm:dyadicratcore-distance-window-stability}; it keeps distance and
+absolute-value windows inside the displayed $\RatUp$ and unary ledger rows.
+
+Exactness follows by inspection of the listed rows: every readable component
+of the dyadic source is one of the mantissa, exponent, denominator,
+provenance, transport, or continuation entries. Thus the surface is a seed
+source for later real-construction chapters and not a bridge to host rationals
+or completed reals.
+\end{proof}
+
+\begin{closurestatus}{\DyadicRatCoreUp}
+  \constructivestory{A dyadic packet is generated by placing a signed $\RatUp$ mantissa beside a positive unary exponent row, displaying the finite denominator tower for $2^e$, and attaching $\Pkg$ provenance for the $\IntUp$ and $\RatUp$ sources. The classifier compares two packets by lifting them to a displayed common unary exponent and reading a $\RatUp$ classifier row between the scaled mantissas. Distance and absolute-value observations are finite common-exponent windows over the same displayed rows. The surface records the dyadic source needed by $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ without forming quotient equality, importing host rationals, or claiming real completeness.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seeded paper scope binds the signed $\RatUp$ mantissa row, positive unary exponent row, denominator ledger, common-exponent scaling classifier, finite dyadic distance windows, $\hsame$ transport, $\Cont$ readback, and $\Pkg$ provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a standard bridge, a host rational quotient, arithmetic completeness, or any $\RealUp$ completeness theorem.}
+  \upgradepath{Obligation closure requires Lean targets under BEDC.Derived.DyadicRatCoreUp for the carrier, classifier, ledger transport, observation-window stability, and NameCert surface.}
+\end{closurestatus}
