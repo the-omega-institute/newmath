@@ -229,29 +229,36 @@ the local obligation export, because the carrier has no hidden stream tail,
 quotient real, trichotomy, completeness datum, or bridge coordinate.
 \end{proof}
 
-\begin{theorem}[DyadicPrecision TasteGate carrier witness]
-\label{thm:dyadicprecision-tastegate-carrier-witness}
-Let
+\begin{theorem}[DyadicPrecision TasteGate source scope]
+\label{thm:dyadicprecision-tastegate-source-scope}
+For any future $\ChapterTasteGate$ instance over $\DyadicPrecisionUp$, the
+source scope is exactly the carrier of
+\autoref{def:dyadic-precision-schedule-carrier}, classifier of
+\autoref{def:dyadic-precision-schedule-classifier}, obligation rows of
+\autoref{thm:dyadic-precision-schedule-namecert-obligations}, handoff of
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff}, $\RealUp$ boundary
+of \autoref{thm:dyadic-precision-schedule-realup-boundary}, and
+constructor-boundary exactness from
+\autoref{thm:dyadic-precision-empty-schedule-exactness} and
+\autoref{thm:dyadic-precision-successor-schedule-exactness}.
+
+Equivalently, if
 $$
 S=(n,\rho,W,H,C,P,N,L)
 $$
-be an accepted $\DyadicPrecisionUp$ schedule carrier. The visible rows of $S$
-determine a $\mathsf{BHistCarrier}$ event-flow reading whose source tokens are
-exactly the finite precision row $n$, the dyadic radius row $\rho$, the
-observation-window row $W$, the componentwise $\hsame$ rows in $H$, the
-displayed $\Cont$ routes in $C$, the $\mathsf{Pkg}$ provenance row $P$, the
-local $\NameCert$ row $N$, and the exact ledger $L$.
-
-Under this reading, the TasteGate obligations for the schedule can inspect only
-those visible source tokens. They cannot read a hidden stream tail, quotient
-real, selected limit, trichotomy principle, completeness datum, or bridge row.
+is an accepted schedule carrier, then every candidate TasteGate event-flow read
+is sourced by the finite precision row $n$, dyadic radius row $\rho$,
+observation-window row $W$, displayed $\hsame$ rows $H$, displayed $\Cont$
+routes $C$, $\mathsf{Pkg}$ provenance $P$, local $\NameCert$ row $N$, and exact
+ledger $L$. It cannot read a hidden stream tail, quotient real equality,
+trichotomy, completeness, selected limit, or standard bridge row.
 \end{theorem}
 \begin{proof}
-Project the accepted schedule through
+Project the accepted schedule through the finite $\mathsf{BHist}$ packet of
 \autoref{def:dyadic-precision-schedule-carrier}. The projection lists the
 precision, radius, observation-window, transport, provenance, name, and ledger
-rows as the whole carrier tuple, so these rows give the event-flow source
-tokens of the $\mathsf{BHistCarrier}$ reading.
+rows as the whole carrier tuple, so these rows give the source tokens of the
+event-flow reading.
 
 Use the classifier of
 \autoref{def:dyadic-precision-schedule-classifier} to transport the event-flow
@@ -263,13 +270,15 @@ created by transport.
 Now apply \autoref{thm:dyadicprecision-schedule-obligation-export}. Its row
 exhaustion statement identifies the carrier, classifier, local
 $\NameCert$ obligations, consumer handoffs, empty branch, successor branch, and
-exact ledger as the full local schedule surface.
+exact ledger as the full local schedule surface. Thus every candidate
+$\ChapterTasteGate$ read factors through the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows.
 
 The ground-compiler reading of the same packet is therefore the no-hidden-input
 condition together with conservativity over those visible rows. Since no
-coordinate of the carrier contains an infinite tail, quotient real, selected
-limit, trichotomy, completeness witness, or bridge datum, the TasteGate
-obligations cannot obtain one from the schedule.
+coordinate of the carrier contains an infinite tail, quotient real equality,
+trichotomy, completeness witness, selected limit, or standard bridge datum, the
+TasteGate obligations cannot obtain one from the schedule.
 \end{proof}
 
 \closureat{DyadicPrecisionUp}{seedStr}

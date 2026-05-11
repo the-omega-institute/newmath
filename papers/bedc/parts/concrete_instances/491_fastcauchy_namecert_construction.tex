@@ -89,6 +89,7 @@ The local $\NameCert_{\FastCauchyUp}$ obligation surface has the following finit
 \end{enumerate}
 These rows are exactly the seed naming-certificate surface for $\FastCauchyUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyPacket\_semantic\_name\_certificate}
 \begin{proof}
 The carrier and classifier rows are the displayed objects of \autoref{def:fastcauchy-carrier} and \autoref{def:fastcauchy-classifier}. They enumerate all finite coordinates visible to the local certificate.
 
@@ -328,6 +329,43 @@ coordinate.
 Finally apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The seal
 identifies the two consumer surfaces as the public finite rows, so the standard
 bridge is exactly this RegSeqRat/Real factorization and nothing outside it.
+\end{proof}
+
+\begin{theorem}[FastCauchy mature finite-window consumer catalogue]
+\label{thm:fastcauchy-mature-finite-window-consumer-catalogue}
+For an accepted $\FastCauchyUp$ packet and any displayed finite precision
+window, the mature finite-window consumers read exactly the rows already exposed
+by the carrier and public interface: scheduled $\StreamNameUp$ observations,
+$\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoints, late-pair ledgers,
+$\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows. The $\RegSeqRatUp$ and $\RealUp$ sides of the standard bridge
+read the same catalogue after the precision-window restriction.
+
+No mature finite-window consumer receives a coordinate for a selected limit,
+quotient stream, host real equality, completeness datum, hidden tail, or bridge
+object beyond these finite public rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:fastcauchy-public-interface-export}. It lists the
+consumer-visible carrier rows: scheduled observations, threshold rows, endpoint
+rows, late-pair ledger entries, transport rows, package provenance, and local
+name-certificate rows.
+
+Restrict that surface by the finite precision window. By
+\autoref{thm:fastcauchy-precision-window-restriction}, the restriction keeps
+exactly the selected rows of the same kinds and introduces no new analytic
+coordinate.
+
+Next apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The seal
+identifies the $\RegSeqRatUp$ handoff and the finite $\RealUp$ boundary with the
+restricted public rows.
+
+Finally use \autoref{thm:fastcauchy-standard-regseqrat-real-bridge}. The bridge
+routes both standard consumers through that sealed finite surface, so every
+mature finite-window read is one of the enumerated rows. The omitted limit,
+quotient, equality, completeness, tail, and independent bridge data are not
+coordinates of the carrier, the restricted public surface, or either standard
+consumer boundary.
 \end{proof}
 
 \begin{theorem}[FastCauchy explicit-rate seal-window exhaustion]
