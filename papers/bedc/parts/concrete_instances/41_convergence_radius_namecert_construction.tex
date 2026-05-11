@@ -64,6 +64,41 @@ the displayed source and geometric-bound rows therefore gives precisely the
 checked-row reduct claimed above.
 \end{proof}
 
+\begin{theorem}[ConvergenceRadius finite-prefix window stability]
+\label{thm:convergence-radius-prefix-window-stability}
+Let $\mathsf{ConvRadSourceSpec}(a,z_0,R)$ be a displayed convergence-radius
+source packet. Restrict the packet to a certified finite unary prefix window
+of coefficient indices and consumer reads. Then the checked-row reduct visible
+to downstream consumers preserves the same radius witness, the
+geometric-bound rows on the displayed prefix, the endpoint packages,
+$\mathsf{BHist}$ histories, $\hsame$ transport rows, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance.
+
+The restricted reduct introduces no Cauchy--Hadamard exactness row, no
+real-supremum row, and no host complex-analysis boundary beyond the rows
+already visible in the finite prefix.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:conv-rad-source-spec} and
+\autoref{def:convrad-checked-row-reduct}. The source packet already displays
+the coefficient family, center, unary radius witness, geometric-bound rows,
+endpoint packages, transport rows, continuation routes, and provenance.
+
+Project the rows whose coefficient indices lie in the certified finite prefix.
+The radius witness and endpoint packages are shared coordinates of the source
+packet, while the geometric-bound rows are retained only where the prefix
+contains the corresponding unary index.
+
+Transport the retained entries componentwise by $\hsame$. Continuation
+determinacy for the displayed $\Cont$ routes keeps the read paths attached to
+the same packet, and the $\mathsf{Pkg}$ row records the unchanged provenance.
+
+Finally use \autoref{thm:convergence-radius-public-boundary-exactness} only
+to identify which retained rows are consumer-visible. That boundary has no
+constructor for Cauchy--Hadamard exactness or real supremum, so the finite
+prefix reduct exposes exactly the listed checked rows.
+\end{proof}
+
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
 \autoref{thm:conv-rad-semantic-namecert} exports the public
@@ -73,7 +108,8 @@ endpoint packages, and checked semantic certificate rows. Consumers may cite
 this public boundary without treating Cauchy--Hadamard exactness or standard
 complex-analysis bridge rows as checked consequences.
 \end{theorem}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvergenceRadiusCheckedRowReduct\_public\_export}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_export}
+\leanvariant{BEDC.Derived.ConvergenceRadiusUp.ConvergenceRadiusCheckedRowReduct\_public\_export}
 \leanvariant{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_public\_export}
 \begin{proof}
 Cite the semantic naming certificate of
@@ -258,6 +294,7 @@ checked rows do not force Cauchy--Hadamard exactness, the coefficient-tail
 public boundary exports no real supremum, Cauchy--Hadamard, or standard
 complex-analysis bridge consequence.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_tail\_shift\_public\_boundary}
 
 \begin{theorem}[ConvergenceRadius checked-row two-sided ledger boundary]
 \label{thm:convergence-radius-checked-row-two-sided-ledger-boundary}
