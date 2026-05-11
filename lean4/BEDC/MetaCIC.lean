@@ -4,3 +4,5 @@ import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Examples
+import BEDC.MetaCIC.PrettyPrint
+import BEDC.MetaCIC.Checker
