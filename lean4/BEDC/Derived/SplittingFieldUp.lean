@@ -325,19 +325,24 @@ theorem SplittingFieldRootCarrierPacket_standard_bridge_boundary [AskSetup] [Pac
           PkgSig bundle pkgrow pkg ->
             PkgSig bundle bridge pkg ->
               SemanticNameCert (fun row : BHist => hsame row endpoint)
-                    (fun row : BHist => hsame row endpoint)
-                    (fun row : BHist => hsame row endpoint)
-                    (fun row other : BHist =>
-                      hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) ∧
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row other : BHist =>
+                    hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) ∧
                 SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger
                     transport pkgrow bundle pkg ∧
-                  UnaryHistory bridge ∧ hsame bridge (append endpoint pkgrow) ∧
-                    PkgSig bundle bridge pkg := by
+                  Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
+                    Cont provenance factorLedger endpoint ∧
+                      hsame factorLedger (append roots factors) ∧
+                        hsame pkgrow (append factorLedger transport) ∧
+                          UnaryHistory bridge ∧ hsame bridge (append endpoint pkgrow) ∧
+                            PkgSig bundle endpoint pkg ∧ PkgSig bundle pkgrow pkg ∧
+                              PkgSig bundle bridge pkg := by
   intro packet factorLedgerTransport bridgeRow pkgrowSig bridgeSig
   have rootSurface := SplittingFieldRootCarrierPacket_root_namecert_surface packet
-  have downstream :=
-    SplittingFieldRootCarrierPacket_root_downstream_threshold packet factorLedgerTransport
-      pkgrowSig
+  have boundary :=
+    SplittingFieldRootCarrierPacket_cyclotomic_consumer_source_boundary packet
+      factorLedgerTransport pkgrowSig
   have factorLedgerUnary : UnaryHistory factorLedger :=
     unary_cont_closed packet.right.right.left packet.right.right.right.left
       packet.right.right.right.right.right.right.right.left
@@ -349,6 +354,16 @@ theorem SplittingFieldRootCarrierPacket_standard_bridge_boundary [AskSetup] [Pac
   have bridgeUnary : UnaryHistory bridge :=
     unary_cont_closed endpointUnary pkgrowUnary bridgeRow
   exact And.intro rootSurface.left
-    (And.intro downstream.left (And.intro bridgeUnary (And.intro bridgeRow bridgeSig)))
+    (And.intro boundary.left
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro boundary.right.right.right.left
+            (And.intro boundary.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.left
+                (And.intro bridgeUnary
+                    (And.intro bridgeRow
+                      (And.intro boundary.right.right.right.right.right.right.left
+                      (And.intro boundary.right.right.right.right.right.right.right
+                        bridgeSig))))))))))
 
 end BEDC.Derived.SplittingFieldUp
