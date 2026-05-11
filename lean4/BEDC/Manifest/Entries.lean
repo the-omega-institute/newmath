@@ -196,6 +196,17 @@ def manifest : List ClaimEntry := [
   ⟨"sec:self-comp-metacic",
     "BEDC.MetaCIC.sort_in_empty_ctx",
     _, @BEDC.MetaCIC.sort_in_empty_ctx⟩
+,
+  ⟨"sec:self-comp-metacic", "BEDC.MetaCIC.id_sort_well_typed",
+    _, @BEDC.MetaCIC.id_sort_well_typed⟩,
+  ⟨"sec:self-comp-metacic", "BEDC.MetaCIC.pi_sort_sort_well_typed",
+    _, @BEDC.MetaCIC.pi_sort_sort_well_typed⟩,
+  ⟨"sec:self-comp-metacic", "BEDC.MetaCIC.id_sort_applied",
+    _, @BEDC.MetaCIC.id_sort_applied⟩,
+  ⟨"sec:self-comp-metacic", "BEDC.MetaCIC.id_sort_beta",
+    _, @BEDC.MetaCIC.id_sort_beta⟩,
+  ⟨"sec:self-comp-metacic", "BEDC.MetaCIC.var_zero_in_sort_ctx",
+    _, @BEDC.MetaCIC.var_zero_in_sort_ctx⟩
 ]
 
 /-- Wellformedness 的可观察推论: manifest 里每条 claim 都至少有一个证明 witness。
