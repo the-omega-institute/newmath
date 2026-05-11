@@ -30,16 +30,19 @@ inductive DyadicPrecisionUp : Type where
   deriving DecidableEq
 
 private def encodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: encodeBHist h
   | BHist.e1 h => BMark.b1 :: encodeBHist h
 
 private def decodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (decodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (decodeBHist tail)
 
 private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
   | Empty =>
@@ -67,6 +70,7 @@ private def dyadicPrecisionToEventFlow : DyadicPrecisionUp → EventFlow
         encodeBHist ledger]
 
 private def dyadicPrecisionFromEventFlow : EventFlow → Option DyadicPrecisionUp
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
@@ -124,6 +128,7 @@ private def dyadicPrecisionFromEventFlow : EventFlow → Option DyadicPrecisionU
 private theorem dyadicPrecision_round_trip :
     ∀ x : DyadicPrecisionUp,
       dyadicPrecisionFromEventFlow (dyadicPrecisionToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk precision radius window transport provenance nameCert ledger =>
@@ -142,6 +147,7 @@ private theorem dyadicPrecision_round_trip :
 
 private theorem dyadicPrecisionToEventFlow_injective {x y : DyadicPrecisionUp} :
     dyadicPrecisionToEventFlow x = dyadicPrecisionToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
       dyadicPrecisionFromEventFlow (dyadicPrecisionToEventFlow x) =
@@ -152,10 +158,12 @@ private theorem dyadicPrecisionToEventFlow_injective {x y : DyadicPrecisionUp} :
       (Eq.trans hread (dyadicPrecision_round_trip y)))
 
 instance dyadicPrecisionBHistCarrier : BHistCarrier DyadicPrecisionUp where
+  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := dyadicPrecisionToEventFlow
   fromEventFlow := dyadicPrecisionFromEventFlow
 
 instance dyadicPrecisionChapterTasteGate : ChapterTasteGate DyadicPrecisionUp where
+  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change dyadicPrecisionFromEventFlow (dyadicPrecisionToEventFlow x) = some x
@@ -185,6 +193,21 @@ theorem DyadicPrecisionScheduleTasteGate_visible_rows :
 /-- Public gate object for the finite dyadic-precision schedule carrier. -/
 def taste_gate : ChapterTasteGate DyadicPrecisionUp :=
   dyadicPrecisionChapterTasteGate
+
+theorem DyadicPrecisionSchedule_empty_branch_readback
+    {rho window transport provenance nameCert ledger : BHist} :
+    BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow
+          (DyadicPrecisionUp.mk BHist.Empty rho window transport provenance nameCert ledger)) =
+      some (DyadicPrecisionUp.mk BHist.Empty rho window transport provenance nameCert ledger) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  change
+    dyadicPrecisionFromEventFlow
+        (dyadicPrecisionToEventFlow
+          (DyadicPrecisionUp.mk BHist.Empty rho window transport provenance nameCert ledger)) =
+      some (DyadicPrecisionUp.mk BHist.Empty rho window transport provenance nameCert ledger)
+  exact dyadicPrecision_round_trip
+    (DyadicPrecisionUp.mk BHist.Empty rho window transport provenance nameCert ledger)
 
 def DyadicPrecisionScheduleSurface [AskSetup] [PackageSetup]
     (precision radius window transport provenance nameCert ledger : BHist)
@@ -248,5 +271,15 @@ theorem DyadicPrecisionScheduleSurface_monotone_refinement_handoff [AskSetup] [P
         nameCertUnary', ledgerUnary', precisionRadiusTransport', transportWindowProvenance',
         provenanceNameCertLedger', packageLedger'⟩,
       sameTransport, sameProvenance, sameLedger⟩
+
+theorem DyadicPrecisionUp_tastegate_compiler_obligation_handoff (x : DyadicPrecisionUp) :
+    (∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
+      (∀ (w : RawEvent) (m : DisplayAlphabet), List.Mem w (BHistCarrier.toEventFlow x) →
+        List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ChapterTasteGate.no_hidden_input x
+  · intro w m hw hm
+    exact ChapterTasteGate.conservativity x w m hw hm
 
 end BEDC.Derived.DyadicPrecisionUp
