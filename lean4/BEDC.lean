@@ -106,6 +106,7 @@ import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
+import BEDC.Derived.KKTUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
@@ -114,6 +115,7 @@ import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
+import BEDC.Derived.HolonomyUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.ThetaFunctionUp
@@ -130,6 +132,7 @@ import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
+import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
