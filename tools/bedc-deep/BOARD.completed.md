@@ -16568,3 +16568,29 @@ Rationale:
 LQRUp (272_lqr_namecert_construction.tex, ~183 lines) has 0 completed BOARD entries. def:lqr-finite-control-carrier (lines 9-15) and thm:lqr-dynamic-programming-row (lines 47-58) tie every backward-update Cont row to a finite horizon index; the empty-horizon degenerate case is not on the surface. Together with #4 and #6 this opens three coordinated lemmas in the control cluster (DynSystem dependency neighbourhood), matching the under-covered pattern.
 
 ---
+
+### B-655 - Gap hsame transport gives a psame representative
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Gap hsame transport gives a psame representative |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under DomainPolicy(D), BundleAskPolicy(Π,D), PackageTokenPolicy(Π) and token totality, InGapsig(Π,D,p,h) and hsame(h,k) imply existence of q with InGapsig(Π,D,q,k) and psame(p,q).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/domain_policy.tex`
+- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+This is a concrete coverage-with-soundness transport bridge that the current proof_obligations surface does not state. Existing pieces handle either same-source gap separation (B-646 strengthens separation from AskPol to BundleAskPolicy) or DomainPolicy hsame transport in isolation; neither combines them into the statement that an hsame move on the source endpoint preserves gap membership up to a psame-compatible representative. The claim is in single-implication form, fits cleanly under proof_obligations alongside the existing internalized-gap and gap-policy material, and gives a usable lemma for downstream bundle/package proofs rather than echoing an abstract carrier equivalence.
+
+---
