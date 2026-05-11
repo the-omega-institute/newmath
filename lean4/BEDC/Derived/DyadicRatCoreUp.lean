@@ -251,4 +251,50 @@ theorem DyadicRatCoreArithmeticWindow_transport_stability
                                                         (And.intro diffRow' prodRow')))))))))
                                         (And.intro diffRow' prodRow')
 
+theorem DyadicRatCoreCarrier_common_exponent_window_exactness
+    {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common scale
+      scale' left right classifierWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      DyadicRatCoreCarrier mantissa' exponent' ledger' provenance' ->
+        PositiveUnaryDenominator common ->
+          Cont exponent common scale ->
+            Cont exponent' common scale' ->
+              Cont mantissa scale left ->
+                Cont mantissa' scale' right ->
+                  Cont left right classifierWindow ->
+                    UnaryHistory scale ∧ UnaryHistory scale' ∧ UnaryHistory left ∧
+                      UnaryHistory right ∧ UnaryHistory classifierWindow ∧
+                        hsame scale (append exponent common) ∧
+                          hsame scale' (append exponent' common) ∧
+                            hsame classifierWindow (append left right) := by
+  intro carrier carrier' commonPositive scaleRow scaleRow' leftRow rightRow classifierRow
+  have exponentUnary : UnaryHistory exponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty carrier.right.left).left
+  have exponentUnary' : UnaryHistory exponent' :=
+    (PositiveUnaryDenominator_unary_and_nonempty carrier'.right.left).left
+  have commonUnary : UnaryHistory common :=
+    (PositiveUnaryDenominator_unary_and_nonempty commonPositive).left
+  have scaleUnary : UnaryHistory scale :=
+    unary_cont_closed exponentUnary commonUnary scaleRow
+  have scaleUnary' : UnaryHistory scale' :=
+    unary_cont_closed exponentUnary' commonUnary scaleRow'
+  have mantissaUnary : UnaryHistory mantissa :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier.left)).left
+  have mantissaUnary' : UnaryHistory mantissa' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier'.left)).left
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed mantissaUnary scaleUnary leftRow
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed mantissaUnary' scaleUnary' rightRow
+  have classifierUnary : UnaryHistory classifierWindow :=
+    unary_cont_closed leftUnary rightUnary classifierRow
+  exact And.intro scaleUnary
+    (And.intro scaleUnary'
+      (And.intro leftUnary
+        (And.intro rightUnary
+          (And.intro classifierUnary
+            (And.intro scaleRow (And.intro scaleRow' classifierRow))))))
+
 end BEDC.Derived.DyadicRatCoreUp
