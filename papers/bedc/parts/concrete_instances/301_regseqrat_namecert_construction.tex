@@ -110,6 +110,20 @@ Transport the two endpoint families along the supplied componentwise $\hsame$ ro
 Transport the dyadic-radius and distance ledgers through the same provenance. Since the regularity rows are carried with the endpoints, the transported witness satisfies the dyadic-tolerance classifier for $x'$ and $y'$ on the selected windows. No quotient sequence or ambient real equality is introduced.
 \end{proof}
 
+\begin{theorem}[RegSeqRat classifier symmetric finite-window]
+\label{thm:regseqrat-classifier-symmetric-finite-window}
+Let $x$ and $y$ be accepted $\RegSeqRatUp$ stream carriers. Suppose a finite $\StreamNameUp$ scheduled window witnesses $\mathsf{RegSeqRatClassifier}(x,y)$ by displayed $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, finite dyadic distance ledgers, regularity ledgers, componentwise $\hsame$ comparisons, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows. Then the reversed scheduled window witnesses $\mathsf{RegSeqRatClassifier}(y,x)$ using the same finite rows with the endpoint-pair order swapped.
+\end{theorem}
+\begin{proof}
+Project the witness through the classifier definition of \autoref{def:regseqrat-classifier}. The only visible coordinates are the scheduled endpoint rows, radius rows, dyadic distance ledgers, regularity rows, comparison rows, continuation routes, package provenance, and naming rows.
+
+Reverse the scheduled window by swapping the two endpoint rows in every displayed pair. The dyadic distance ledger is read symmetrically by \autoref{thm:regseqrat-dyadic-radius-ledger-readback}, so the same tolerance rows certify the reversed endpoint comparison.
+
+Transport the swapped rows through the finite-window transport obligation of \autoref{thm:regseqrat-finite-window-transport-obligation}. The componentwise $\hsame$ comparisons and displayed $\Cont$ routes preserve the schedule, endpoint rows, radii, distance rows, and regularity ledgers.
+
+Apply classifier transport from \autoref{thm:regseqrat-classifier-transport} to the repacked reversed window. The resulting finite packet has exactly the rows required for $\mathsf{RegSeqRatClassifier}(y,x)$, and no quotient stream equality or host real equality is introduced.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common-refinement classifier determinacy]
 \label{thm:regseqrat-common-refinement-classifier-determinacy}
 Let $x$ and $y$ be accepted $\RegSeqRatUp$ stream carriers. Suppose two finite $\StreamNameUp$ schedules both refine to a common window and carry the same transported $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, and $\mathsf{Pkg}$ provenance. Then the two schedules determine the same $\mathsf{RegSeqRatClassifier}(x,y)$ read on that common window.
