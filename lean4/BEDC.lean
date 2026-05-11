@@ -67,6 +67,7 @@ import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BraidGroupUp
+import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
@@ -153,6 +154,7 @@ import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
+import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -225,6 +227,7 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.DyadicBallUp
+import BEDC.Derived.DyadicBallUp.RadiusWindowMonotonicity
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
