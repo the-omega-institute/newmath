@@ -226,6 +226,7 @@ import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -240,6 +241,7 @@ import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
+import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
 import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
