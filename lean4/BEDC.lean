@@ -143,6 +143,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.ZeroKnowledgeUp
