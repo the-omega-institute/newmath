@@ -95,13 +95,33 @@ The stability row is \autoref{thm:fastcauchy-modulus-transport}. It shows that t
 The regular-sequence handoff is \autoref{thm:fastcauchy-regseqrat-handoff}. The real-name boundary is the same finite handoff viewed as input data for $\RealUp$, with no additional completion or equality principle.
 \end{proof}
 
+\begin{theorem}[FastCauchy obligation closure packet]
+\label{thm:fastcauchy-obligation-closure-packet}
+The $\FastCauchyUp$ carrier, componentwise classifier, modulus transport, $\RegSeqRatUp$ handoff, $\RealUp$ finite-window boundary, provenance row, and ledger exclusions form the complete obligation surface for $\FastCauchyUp$.
+
+Every downstream read factors through the scheduled $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows named in the packet. The packet exports no quotient stream, selected limit, host real equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:fastcauchy-carrier}. It lists the scheduled stream, modulus threshold, dyadic endpoint, late-pair radius, transport, window, provenance, and local naming rows, and it excludes quotient streams, selected limits, host real equality, and bridge data.
+
+The classifier row is \autoref{def:fastcauchy-classifier}. It compares exactly the visible rows componentwise through the source classifiers, so every accepted comparison remains inside the finite modulus-normalized ledger.
+
+The transport obligation is \autoref{thm:fastcauchy-modulus-transport}. It preserves the scheduled observations, threshold rows, endpoint ledgers, and late-pair radius obligations through the displayed $\hsame$ and $\Cont$ coordinates.
+
+The outgoing consumer boundaries are \autoref{thm:fastcauchy-regseqrat-handoff} and \autoref{thm:fastcauchy-real-boundary-window}. They route downstream reads through the named $\RegSeqRatUp$ and $\RealUp$ source surfaces while retaining only the finite regularity window and provenance rows.
+
+Finally, \autoref{thm:fastcauchy-namecert-obligation-surface} gathers these rows as the local $\NameCert_{\FastCauchyUp}$ surface. Since the carrier has no further completion, quotient, host-equality, selected-limit, or standard-bridge coordinate, the listed rows exhaust the obligation packet.
+\end{proof}
+
+\closureat{FastCauchyUp}{obligationStr}
+
 \begin{closurestatus}{\FastCauchyUp}
   \constructivestory{A fast Cauchy name is a finite $\mathsf{BHist}$ packet consisting of scheduled $\StreamNameUp$ observation rows, explicit $\CauchyModulusUp$ threshold rows, dyadic endpoint rows from $\DyadicRatCoreUp$, late-pair radius ledgers, componentwise $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface binds the finite modulus-normalized Cauchy-name carrier, classifier, transport, and $\RegSeqRatUp$ handoff obligations displayed in this chapter.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:fastcauchy-obligation-closure-packet} records the carrier, classifier, transport, handoff, real-boundary, provenance, and ledger obligations for the finite modulus-normalized Cauchy-name surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, host real equality, selected limits, or a standard bridge.}
-  \upgradepath{Formal closure requires Lean targets under BEDC.Derived.FastCauchyUp for the carrier, classifier, modulus transport, RegSeqRat handoff, and NameCert obligation surface.}
+  \upgradepath{Scoped closure requires binding the FastCauchy carrier, classifier, modulus transport, RegSeqRat handoff, Real boundary, and NameCert rows to the BEDC primitives and source certificates named in the packet.}
 \end{closurestatus}
