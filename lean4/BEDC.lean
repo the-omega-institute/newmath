@@ -402,6 +402,7 @@ import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
+import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
@@ -642,6 +643,7 @@ import BEDC.Derived.DiffFormUp.ConsumerCoverage
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
 import BEDC.Derived.DiffFormUp.ManifoldTensorSource
+import BEDC.Derived.DiffFormUp.ObligationInventory
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
 import BEDC.Derived.DiffFormUp.RootRowCarrierScope
 import BEDC.Derived.DiffFormUp.ExteriorDerivativeBoundary
