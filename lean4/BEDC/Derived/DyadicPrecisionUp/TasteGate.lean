@@ -272,4 +272,14 @@ theorem DyadicPrecisionScheduleSurface_monotone_refinement_handoff [AskSetup] [P
         provenanceNameCertLedger', packageLedger'⟩,
       sameTransport, sameProvenance, sameLedger⟩
 
+theorem DyadicPrecisionUp_tastegate_compiler_obligation_handoff (x : DyadicPrecisionUp) :
+    (∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
+      (∀ (w : RawEvent) (m : DisplayAlphabet), List.Mem w (BHistCarrier.toEventFlow x) →
+        List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ChapterTasteGate.no_hidden_input x
+  · intro w m hw hm
+    exact ChapterTasteGate.conservativity x w m hw hm
+
 end BEDC.Derived.DyadicPrecisionUp
