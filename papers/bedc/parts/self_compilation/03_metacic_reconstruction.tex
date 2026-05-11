@@ -258,6 +258,57 @@ Closed-term substitution preservation is recorded as
 \autoref{thm:closed-term-substitute-preserves-typing}; it sidesteps the
 binder propagation gap at the cost of generality.
 
+\paragraph{Ninth stage: depth-parameterized form also refuted.} The
+textbook-standard depth-parameterized statement
+$$
+\begin{aligned}
+  & \mathrm{substitute\_preserves\_typing\_general} : \\
+  & \quad \forall \Gamma_1\ \Gamma_2,\
+    \mathrm{WellFormedCtx}\ (\Gamma_1 \mathbin{+\!+} B :: \Gamma_2) \to
+    \mathrm{HasType}\ (\Gamma_1 \mathbin{+\!+} B :: \Gamma_2)\ t\ A \to \\
+  & \qquad \mathrm{HasType}\ \Gamma_2\ s\ B \to
+    \mathrm{HasType}\ (\Gamma_1 \mathbin{+\!+} \Gamma_2)\
+      (\mathrm{substitute}\ |\Gamma_1|\ s\ t)\
+      (\mathrm{substitute}\ |\Gamma_1|\ s\ A)
+\end{aligned}
+$$
+admits a Lean-verified counterexample when $\Gamma_1 = []$: the statement
+degenerates to the existing minimal counterexample at depth 0.
+Depth-parameterization alone does not resolve the underlying
+$\mathrm{lookup}/\mathrm{shift}$ interaction. The substrate fix likely
+requires re-engineering one of: \texttt{Ctx.lookup}, \texttt{shift}, or the
+typing rule for \texttt{lam} (e.g., adding context-well-formedness premises to
+the \texttt{lamRule}).
+
+\begin{table}[t]
+\centering
+\begin{tabular}{r|p{0.34\linewidth}|p{0.34\linewidth}|l}
+\hline
+No. & Finding & Consequence & Status \\
+\hline
+1 & Shift in substitution required & Binder-aware substitution required & Closed \\
+\hline
+2 & Shift in context lookup required & Lookup must account for cons depth & Closed \\
+\hline
+3 & Context well-formedness required & Ill-typed contexts excluded & Closed \\
+\hline
+4 & Unrestricted statement shape refuted & Premises must expose context validity & Closed \\
+\hline
+5 & Naive generalized statement shape refuted & Statement shape constrained by lookup and substitution & Closed \\
+\hline
+6 & Prop-level substitute exposes $\mathrm{propext}$ & Bool-level substitute required for pure CIC & Closed \\
+\hline
+7 & Shift propagation through binders exposed & Closed-term route or substrate redesign required & Open \\
+\hline
+8 & Depth-zero generalized form refuted & Minimal counterexample remains active & Open \\
+\hline
+9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
+\hline
+\end{tabular}
+\caption{Substrate-gap findings for MetaCIC substitution preservation.}
+\label{tab:metacic-substrate-gap-findings}
+\end{table}
+
 \paragraph{Methodological note.} The seventh finding differs in character
 from findings one through six. The first three are substrate omissions; the
 fourth and fifth are statement-shape errors; the sixth is a tactic-discipline
