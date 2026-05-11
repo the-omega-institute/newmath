@@ -62,6 +62,29 @@ theorem DiffFormExteriorDerivativeInputRow_ledger_exactness
                     (And.intro row.right.right.right.right.right.right.right.right.right
                       boundary.right.right.right)))))))))
 
+theorem DiffFormExteriorDerivativeInputRow_derham_input_boundary
+    {omega eta d dplus probe tensor scalar antisym source wedge rightLedger tensorLedger :
+      BHist} :
+    DiffFormExteriorDerivativeInputRow omega eta d dplus probe tensor scalar antisym source ->
+      DiffFormWedgeDegreeLedger d dplus wedge source rightLedger tensorLedger ->
+        UnaryHistory omega ∧ UnaryHistory eta ∧ UnaryHistory d ∧ UnaryHistory dplus ∧
+          Cont d (BHist.e1 BHist.Empty) dplus ∧ UnaryHistory wedge ∧ UnaryHistory tensor ∧
+            UnaryHistory scalar ∧ UnaryHistory antisym ∧ UnaryHistory source ∧
+              (hsame dplus BHist.Empty -> False) := by
+  intro inputRow wedgeLedger
+  have inputRows := DiffFormExteriorDerivativeInputRow_ledger_exactness inputRow
+  exact And.intro inputRows.left
+    (And.intro inputRows.right.left
+      (And.intro inputRows.right.right.left
+        (And.intro inputRows.right.right.right.left
+          (And.intro inputRows.right.right.right.right.left
+            (And.intro wedgeLedger.right.right.right.left
+              (And.intro inputRows.right.right.right.right.right.right.left
+                (And.intro inputRows.right.right.right.right.right.right.right.left
+                  (And.intro inputRows.right.right.right.right.right.right.right.right.left
+                    (And.intro inputRows.right.right.right.right.right.right.right.right.right.left
+                      inputRows.right.right.right.right.right.right.right.right.right.right)))))))))
+
 theorem DiffFormExteriorDerivativeInputRow_classifier_transport
     {omega eta d dplus probe tensor scalar antisym source omega' eta' d' dplus' probe'
       tensor' scalar' antisym' source' : BHist} :
