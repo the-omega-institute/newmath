@@ -258,6 +258,45 @@ Thus the precision subwindow is only a finite public restriction of the
 displayed $\FastCauchyUp$ rows.
 \end{proof}
 
+\begin{theorem}[FastCauchy DyadicPrecision window cofinality]
+\label{thm:fastcauchy-dyadicprecision-window-cofinality}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be an accepted
+$\DyadicPrecisionUp$ schedule selecting a finite precision window for $F$.
+Every consumer-visible row of the packet restricted by $D$ is exactly one of
+the selected $\StreamNameUp$ observation rows, the selected
+$\CauchyModulusUp$ threshold row, the selected $\DyadicRatCoreUp$ endpoint
+rows, the selected late-pair radius ledger entries, the displayed $\hsame$ and
+$\Cont$ transport rows, the restricted $\mathsf{Pkg}$ provenance rows, and the
+local $\NameCert$ rows attached to the selected coordinates.
+
+Conversely, every selected $\CauchyModulusUp$ threshold row, every selected
+$\DyadicRatCoreUp$ endpoint row, and every late-pair radius ledger entry whose
+indices lie in the finite $\DyadicPrecisionUp$ window appears in the restricted
+$\RegSeqRatUp$ handoff and in the finite $\RealUp$ boundary. The coverage is a
+coverage of public finite rows only: it does not assert a selected limit,
+quotient stream, host real equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project $F$ through \autoref{def:fastcauchy-carrier}. This exposes the
+scheduled observation rows, modulus thresholds, dyadic endpoints, late-pair
+ledger entries, transport rows, provenance rows, and local name rows carried by
+the accepted packet.
+
+Project $D$ through \autoref{def:dyadic-precision-schedule-carrier}. The
+schedule chooses a finite window of those carried coordinates, so
+\autoref{thm:fastcauchy-precision-window-restriction} identifies the restricted
+packet with exactly the rows whose indices are selected by $D$.
+
+Apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. It identifies the
+public $\RegSeqRatUp$ handoff and finite $\RealUp$ boundary with the same
+selected threshold, endpoint, late-pair, transport, provenance, and naming rows.
+
+The forward coverage follows because no other consumer-visible row survives the
+restriction. The converse follows because each selected threshold, endpoint,
+and late-pair row named by $D$ is one of the rows sealed into both public
+consumer surfaces.
+\end{proof}
+
 \begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
 \label{thm:fastcauchy-standard-regseqrat-real-bridge}
 A standard bridge for the finite modulus-normalized $\FastCauchyUp$ packet
