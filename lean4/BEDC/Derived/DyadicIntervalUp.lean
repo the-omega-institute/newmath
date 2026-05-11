@@ -154,6 +154,57 @@ theorem DyadicIntervalPacket_real_seal_source_boundary [AskSetup] [PackageSetup]
               (And.intro sealUnary
                 (And.intro sealRow
                   (And.intro sealRow sealPkg)))))))
+
+theorem DyadicIntervalPacket_endpoint_classifier_transport [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint left' right' width' midpoint'
+      radius' order' provenance' endpoint' classifierRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame width width' ->
+            hsame provenance provenance' ->
+              Cont left' right' width' ->
+                Cont left' width' midpoint' ->
+                  Cont right' width' radius' ->
+                    Cont midpoint' radius' order' ->
+                      Cont order' provenance' endpoint' ->
+                        Cont endpoint' width' classifierRow ->
+                          PkgSig bundle endpoint' pkg ->
+                            UnaryHistory classifierRow ∧ hsame endpoint endpoint' ∧
+                              hsame classifierRow (append endpoint' width') := by
+  intro packet sameLeft sameRight sameWidth sameProvenance widthRow' midpointRow' radiusRow'
+    orderRow' endpointRow' classifierRowRow _classifierPkg
+  obtain ⟨leftUnary, rightUnary, _widthUnary, _midpointUnary, _radiusUnary, _orderUnary,
+    provenanceUnary, _endpointUnary, _widthRow, midpointRow, radiusRow, orderRow,
+    endpointRow, _pkgRow⟩ := packet
+  have leftUnary' : UnaryHistory left' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory right' :=
+    unary_transport rightUnary sameRight
+  have widthUnary' : UnaryHistory width' :=
+    unary_cont_closed leftUnary' rightUnary' widthRow'
+  have midpointUnary' : UnaryHistory midpoint' :=
+    unary_cont_closed leftUnary' widthUnary' midpointRow'
+  have radiusUnary' : UnaryHistory radius' :=
+    unary_cont_closed rightUnary' widthUnary' radiusRow'
+  have orderUnary' : UnaryHistory order' :=
+    unary_cont_closed midpointUnary' radiusUnary' orderRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed orderUnary' provenanceUnary' endpointRow'
+  have classifierUnary : UnaryHistory classifierRow :=
+    unary_cont_closed endpointUnary' widthUnary' classifierRowRow
+  have sameMidpoint : hsame midpoint midpoint' :=
+    cont_respects_hsame sameLeft sameWidth midpointRow midpointRow'
+  have sameRadius : hsame radius radius' :=
+    cont_respects_hsame sameRight sameWidth radiusRow radiusRow'
+  have sameOrder : hsame order order' :=
+    cont_respects_hsame sameMidpoint sameRadius orderRow orderRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameOrder sameProvenance endpointRow endpointRow'
+  exact And.intro classifierUnary (And.intro sameEndpoint classifierRowRow)
 def DyadicIntervalEndpointPacket [AskSetup] [PackageSetup]
     (left right width order midpoint radius hsameLedger contLedger pkgrow nameRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
