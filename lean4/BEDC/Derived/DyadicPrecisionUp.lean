@@ -1,10 +1,46 @@
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DyadicPrecisionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+def DyadicPrecisionSchedule
+    (precision radius window transport provenance nameCert ledger : BHist) : Prop :=
+  UnaryHistory precision ∧
+    UnaryHistory radius ∧
+      UnaryHistory window ∧
+        UnaryHistory nameCert ∧
+          Cont radius nameCert provenance ∧
+            Cont precision window transport ∧
+              Cont transport provenance ledger
+
+theorem DyadicPrecisionSchedule_common_window_readback
+    {precision radius window transport provenance nameCert ledger precision' radius' window'
+      transport' provenance' nameCert' ledger' : BHist} :
+    DyadicPrecisionSchedule precision radius window transport provenance nameCert ledger →
+      DyadicPrecisionSchedule precision' radius' window' transport' provenance' nameCert'
+        ledger' →
+        hsame precision precision' →
+          hsame window window' →
+            hsame provenance provenance' →
+              Cont precision' window' transport' →
+                Cont transport' provenance' ledger' →
+                  hsame transport transport' ∧ hsame ledger ledger' := by
+  intro left _right samePrecision sameWindow sameProvenance rightTransport rightLedger
+  have leftTransport : Cont precision window transport :=
+    left.right.right.right.right.right.left
+  have leftLedger : Cont transport provenance ledger :=
+    left.right.right.right.right.right.right
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame samePrecision sameWindow leftTransport rightTransport
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTransport sameProvenance leftLedger rightLedger
+  exact And.intro sameTransport sameLedger
 
 theorem DyadicPrecisionUp_semantic_name_certificate (x : DyadicPrecisionUp) :
     SemanticNameCert

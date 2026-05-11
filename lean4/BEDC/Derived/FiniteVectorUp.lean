@@ -74,4 +74,36 @@ theorem FiniteVectorPacket_length_index_transport [AskSetup] [PackageSetup]
                     (And.intro endpointCont' endpointPkg')))))))))
     sameEndpoint
 
+def FiniteVectorSame
+    (n spine pairs routes provenance ledger n' spine' pairs' routes' provenance'
+      ledger' : BHist) : Prop :=
+  hsame n n' ∧
+    hsame spine spine' ∧
+      hsame pairs pairs' ∧
+        hsame routes routes' ∧
+          hsame provenance provenance' ∧
+            Cont routes provenance ledger ∧
+              Cont routes' provenance' ledger'
+
+theorem FiniteVectorSame_componentwise_ledger_exactness
+    {n spine pairs routes provenance ledger n' spine' pairs' routes' provenance'
+      ledger' : BHist} :
+    FiniteVectorSame n spine pairs routes provenance ledger n' spine' pairs' routes'
+        provenance' ledger' →
+      hsame n n' ∧
+        hsame spine spine' ∧
+          hsame pairs pairs' ∧
+            hsame ledger ledger' ∧
+              Cont routes provenance ledger ∧ Cont routes' provenance' ledger' := by
+  intro same
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame same.right.right.right.left same.right.right.right.right.left
+      same.right.right.right.right.right.left same.right.right.right.right.right.right
+  exact And.intro same.left
+    (And.intro same.right.left
+      (And.intro same.right.right.left
+        (And.intro sameLedger
+          (And.intro same.right.right.right.right.right.left
+            same.right.right.right.right.right.right))))
+
 end BEDC.Derived.FiniteVectorUp
