@@ -62,7 +62,7 @@ These laws act only on the rows exposed by
 \autoref{def:dyadicball-carrier}. They introduce no quotient ball, host real
 equality, hidden metric point, or completed real.
 \end{theorem}
-\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_transport}
+\leanvariant{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_transport}
 \leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_laws}
 \begin{proof}
 Project the accepted packets through \autoref{def:dyadicball-carrier}. The
@@ -144,6 +144,39 @@ the same rows listed in the carrier. Since the carrier contains no stream
 quotient or completed limit, the handoff cannot export one.
 \end{proof}
 
+\begin{theorem}[DyadicBall finite-window packet RegSeqRat handoff]
+\label{thm:dyadicball-finite-window-packet-regseqrat-handoff}
+A finite-window $\DyadicBallUp$ packet with $\mathsf{BHist}$ rows
+$(center,radius,schedule,observation,containment,route,provenance,certRow,$
+$handoff,sealBoundary)$ exposes exactly the $\RegSeqRatUp$ handoff rows:
+unary center, radius, schedule, observation, containment, route, and handoff
+rows; the append-readback rows $\hsame$ containment $(append\ center\ radius)$,
+$\hsame$ route $(append\ schedule\ observation)$, and $\hsame$ handoff
+$(append\ containment\ route)$; and the package row
+$\mathsf{PkgSig}(bundle,handoff,pkg)$.
+
+The finite-window packet exports no quotient stream, completed real point,
+host real equality, or external ball object.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_regseqrat\_window\_handoff}
+\begin{proof}
+Project the finite-window packet rows. The unary rows for center, radius,
+schedule, and observation are stored directly, and the displayed $\Cont$
+routes build the containment, route, and handoff rows over those sources.
+
+The three displayed $\Cont$ routes are precisely the append readbacks:
+containment reads $\mathsf{append}(center,radius)$, route reads
+$\mathsf{append}(schedule,observation)$, and handoff reads
+$\mathsf{append}(containment,route)$. Keeping the package row
+$\mathsf{PkgSig}(bundle,handoff,pkg)$ gives the full regular-rational
+handoff surface.
+
+The remaining packet coordinates are provenance, certificate, and
+seal-boundary rows. They certify and delimit the finite packet, but they do
+not add a quotient stream, a completed real point, a host real equality, or
+an external ball object.
+\end{proof}
+
 \begin{theorem}[DyadicBall Real seal boundary]
 \label{thm:dyadicball-real-seal-boundary}
 A $\RealUp$ seal reading an accepted $\DyadicBallUp$ packet may inspect only
@@ -156,6 +189,7 @@ regular streams, a completeness witness, or a host real ball. It merely records
 that the displayed finite observation lies in the displayed dyadic
 center-radius enclosure.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_real\_seal\_boundary}
 \begin{proof}
 Start with the public coordinates of \autoref{def:dyadicball-carrier}. These
 coordinates already include the finite source read that a $\RealUp$ seal may
@@ -192,6 +226,7 @@ rows after replacing only the radius and containment coordinates. The handoff
 does not introduce quotient balls, host real equality, completed metric
 points, or selected limits.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_intersection\_refinement\_handoff}
 \begin{proof}
 Unpack the carrier of \autoref{def:dyadicball-carrier}. Its public rows are the
 finite $\mathsf{BHist}$ center, positive radius, schedule, scheduled
@@ -330,6 +365,7 @@ provenance rows, and the two $\NameCert$ rows.
 This common package exports no quotient ball, host real equality, metric
 completeness claim, or selected real point.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_common\_observation\_overlap}
 \begin{proof}
 Project both accepted packets through the carrier of
 \autoref{def:dyadicball-carrier}. The two projections expose only their
@@ -384,6 +420,7 @@ and the three $\NameCert$ rows.
 The package introduces no quotient ball, host real equality, completeness
 datum, or selected real point.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_refinement\_overlap\_transitivity}
 \begin{proof}
 Project the three accepted packets through \autoref{def:dyadicball-carrier}.
 This exposes only center rows, radius rows, the shared schedule, the shared
@@ -544,6 +581,41 @@ quotient ball, metric-topology row, host real equality, selected limit, or
 completeness datum is invoked.
 \end{proof}
 
+\begin{theorem}[DyadicBall radius-window monotonicity]
+\label{thm:dyadicball-radius-window-monotonicity}
+Let $B$ be an accepted $\DyadicBallUp$ finite enclosure. If its displayed
+positive dyadic radius is narrowed or its finite observation window is
+restricted along displayed refinement rows, then the resulting finite
+enclosure is again an accepted $\DyadicBallUp$ packet.
+
+The narrowed packet preserves the $\RegSeqRatUp$ handoff and every
+consumer-visible read factors through the original $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows. No quotient ball, metric-topology
+row, host real equality, selected limit, or completeness datum is introduced
+by the narrowing.
+\end{theorem}
+\begin{proof}
+Start from the accepted center-radius carrier of $B$ and apply
+\autoref{thm:dyadicball-radius-refinement-closure}. Narrowing the displayed
+radius or observation window keeps the finite center, positive-radius,
+containment, transport, provenance, and naming coordinates inside the
+$\DyadicBallUp$ carrier.
+
+Use \autoref{thm:dyadicball-common-observation-overlap} for the common visible
+schedule row. It identifies the narrowed observation as a shared finite
+overlap of the original packet and the restricted packet.
+
+Apply \autoref{thm:dyadicball-refinement-overlap-transitivity} to compose the
+radius and observation refinements. The composed refinement still reads
+through the same displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows.
+
+Finally invoke \autoref{thm:dyadicball-finite-intersection-basis-package}. The
+finite basis package repacks the narrowed enclosure as the same
+$\RegSeqRatUp/\RealUp$ consumer surface, so the handoff is preserved and no
+excluded host or quotient coordinate is available.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
@@ -555,7 +627,8 @@ completeness datum is invoked.
   \constructivestory{A $\DyadicBallUp$ packet is generated by a finite dyadic center row, a positive dyadic radius row, a scheduled observation row, a containment ledger, componentwise $\hsame$ and $\Cont$ transport, package provenance, and a local naming row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:dyadicball-mature-observation-envelope} and \autoref{thm:dyadicball-finite-intersection-basis-package} bridge the public center-radius packet to the shared $\RegSeqRatUp/\RealUp$ consumer surface and close the finite common-refinement basis package over center, radius, schedule, observation, containment, transport, provenance, and $\NameCert$ rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient stream equality, host real balls, metric topology, or a standard bridge.}
