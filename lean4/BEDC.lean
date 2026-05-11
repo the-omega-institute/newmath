@@ -96,6 +96,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FftUp
@@ -220,6 +221,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
