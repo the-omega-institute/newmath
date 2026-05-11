@@ -93,6 +93,23 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityStoneSpaceClassifier_clopen_transport [AskSetup] [PackageSetup]
+    {zero one meet join compl distributive source pkgRow clopen clopen' ledger ledger' endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoneDualityBooleanSource zero one meet join compl distributive source pkgRow bundle pkg ->
+      Cont source clopen ledger ->
+        Cont source clopen' ledger' ->
+          Cont ledger pkgRow endpoint ->
+            Cont ledger' pkgRow endpoint' ->
+              hsame clopen clopen' -> hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro _sourceData sourceClopen sourceClopen' ledgerEndpoint ledgerEndpoint' sameClopen
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl source) sameClopen sourceClopen sourceClopen'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl pkgRow) ledgerEndpoint ledgerEndpoint'
+  exact And.intro sameLedger sameEndpoint
+
 theorem StoneDualityContinuousMapReadback_transport [AskSetup] [PackageSetup]
     {targetBoolean targetBoolean' targetClopen targetClopen' sourceBoolean sourceBoolean'
       sourceClopen sourceClopen' morphism morphism' readback readback' ledger ledger'
@@ -232,5 +249,27 @@ theorem StoneDualityUltrafilterFreeSoundness [AskSetup] [PackageSetup]
       exact rowCarrier
   }
   exact And.intro cert (And.intro ledgerRow (And.intro endpointRow pkgRow))
+
+theorem StoneDualityContinuousMapReadback_contravariant_endpoint [AskSetup] [PackageSetup]
+    {targetBoolean targetBoolean' morphism morphism' preimage preimage' sourceClopen
+      sourceClopen' ledger ledger' provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hsame targetBoolean targetBoolean' ->
+      hsame morphism morphism' ->
+        hsame sourceClopen sourceClopen' ->
+          Cont targetBoolean morphism preimage ->
+            Cont targetBoolean' morphism' preimage' ->
+              Cont preimage sourceClopen ledger ->
+                Cont preimage' sourceClopen' ledger' ->
+                  Cont ledger provenance endpoint ->
+                    Cont ledger' provenance endpoint' ->
+                      PkgSig bundle endpoint pkg -> hsame endpoint endpoint' := by
+  intro sameBoolean sameMorphism sameClopen preimageRow preimageRow' ledgerRow ledgerRow'
+    endpointRow endpointRow' _pkgSig
+  have samePreimage : hsame preimage preimage' :=
+    cont_respects_hsame sameBoolean sameMorphism preimageRow preimageRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame samePreimage sameClopen ledgerRow ledgerRow'
+  exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
 end BEDC.Derived.StoneDualityUp
