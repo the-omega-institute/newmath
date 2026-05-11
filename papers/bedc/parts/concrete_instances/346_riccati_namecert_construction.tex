@@ -213,14 +213,16 @@ the stated public certificate.
 \closureat{RiccatiUp}{obligationStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \closureat{RiccatiUp}{scopedStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \closureat{RiccatiUp}{publicStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
+\closureat{RiccatiUp}{bridgedStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
+\closureat{RiccatiUp}{matureStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \begin{closurestatus}{\RiccatiUp}
   \constructivestory{A Riccati row is seeded by a finite $\mathsf{BHist}$ packet of matrix state and control rows, symmetric-cost rows, a finite horizon unary index, value-row ledger entries, backward $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance naming $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public Riccati finite-ledger export is scoped by the component-transport, finite-ledger-step, $\LQRUp$/$\KalmanFilterUp$ consumer-boundary, finite-horizon tail-restriction, and public certificate rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon algebraic Riccati limits, stabilizing solution theorems, convergence rates, or external solvers.}
-  \upgradepath{Bridged closure requires a schema bridge from the public finite-ledger certificate to the control-theory interface.}
+  \upgradepath{Only a separate standard bridge verification target can raise the independent formal bridge status.}
 \end{closurestatus}

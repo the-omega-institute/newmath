@@ -315,3 +315,38 @@ finite source surface. The cited boundaries leave no coordinate for quotient
 rows, completion rows, or host real equality, so no further source can
 distinguish the two routes.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal window union]
+\label{thm:streamname-regseqrat-terminal-window-union}
+Let $\mathcal W_L$ and $\mathcal W_R$ be two finite $\StreamNameUp$ windows
+feeding a common $\RegSeqRat$ source boundary. If their endpoint rows admit the
+common-window exhaustion packet and their seal routes compose functorially, then
+the union window presents the same terminal $\RegSeqRat$ source to any
+$\RealUp$ boundary consumer.
+
+The union exposes only finite observation rows, dyadic endpoint ledgers,
+$\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the
+$\RegSeqRat$ seal. It exposes no hidden infinite tail, quotient equality,
+completion object, host index equality, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} to
+$\mathcal W_L$ and $\mathcal W_R$. The endpoint rows on both sides are exhausted
+by the same finite observation families, dyadic endpoint ledgers, accepted
+$\RegSeqRat$ spine rows, and displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+
+Next apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. It sends
+each exhausted endpoint package to the same finite $\RealUp$ source boundary,
+using only the StreamName window rows, the RegSeqRat dyadic source rows, and the
+finite seal ledger rows.
+
+Finally use
+\autoref{thm:streamname-regseqrat-common-window-seal-functoriality}. The
+functorial seal route identifies the two-stage and union-window routes before
+the terminal boundary consumer reads them. Hence the union window presents the
+same terminal RegSeqRat source, and the listed finite rows are the full
+consumer surface.
+\end{proof}

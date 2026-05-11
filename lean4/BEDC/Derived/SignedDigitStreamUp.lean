@@ -169,6 +169,66 @@ theorem SignedDigitStreamPacket_window_transport [AskSetup] [PackageSetup]
   exact And.intro transported
     (And.intro sameCarry (And.intro sameEndpoint sameLedger))
 
+theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      UnaryHistory radius ->
+        Cont endpoint radius regWindow ->
+          PkgSig bundle regWindow pkg ->
+            UnaryHistory digits ∧ UnaryHistory schedule ∧ UnaryHistory carry ∧
+              UnaryHistory endpoint ∧ UnaryHistory radius ∧ UnaryHistory regWindow ∧
+                hsame carry (append digits schedule) ∧ hsame endpoint (append carry provenance) ∧
+                  hsame ledger (append endpoint hidden) ∧
+                    hsame regWindow (append endpoint radius) ∧ PkgSig bundle regWindow pkg := by
+  intro packet radiusUnary regWindowRow regWindowSig
+  obtain ⟨digitsUnary, scheduleUnary, _provenanceUnary, _hiddenUnary, carryUnary,
+    endpointUnary, _ledgerUnary, carryRow, endpointRow, ledgerRow, _packageRow⟩ := packet
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed endpointUnary radiusUnary regWindowRow
+  exact ⟨digitsUnary, scheduleUnary, carryUnary, endpointUnary, radiusUnary, regWindowUnary,
+    carryRow, endpointRow, ledgerRow, regWindowRow, regWindowSig⟩
+
+theorem SignedDigitStreamPacket_real_seal_semantic_name_certificate [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+            bundle pkg ∧ hsame row ledger)
+        (fun row : BHist =>
+          SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+            bundle pkg ∧ hsame row ledger)
+        (fun row : BHist =>
+          SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger
+            bundle pkg ∧ hsame row ledger)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledger (And.intro packet (hsame_refl ledger))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro left right sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro left middle right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro left right sameRows sourceLeft
+        exact And.intro sourceLeft.left (hsame_trans (hsame_symm sameRows) sourceLeft.right)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro row sourceRow
+      exact sourceRow
+  }
+
 def SignedDigitStreamWindowPacket [AskSetup] [PackageSetup]
     (digit schedule carry provenance endpoint ledger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
