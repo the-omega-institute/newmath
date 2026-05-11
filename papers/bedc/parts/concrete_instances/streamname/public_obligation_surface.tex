@@ -159,3 +159,40 @@ $\RealUp$ consumers must supply their own regularity, completion, quotient, and
 limit-selection data. Hence the finite-window request is exhausted by the
 listed public StreamNameUp obligations.
 \end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat denominator-source exhaustion]
+\label{thm:streamname-regseqrat-denominator-source-exhaustion}
+Let a downstream $\RegSeqRat$ finite-window consumer receive as input a public
+$\StreamNameUp$ finite-window request together with dyadic denominator rows.
+Then the consumer reads exactly the selected $\mathsf{RatHistoryClassifier}$
+rows, certified $\UnaryHistory$ observation rows, finite
+$\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ membership rows, displayed
+$\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the
+$\DyadicRatCoreUp$ denominator-ledger rows already exported by the dyadic
+real-phase source boundary. It reads no $\RegSeqRat$ regularity witness, seal
+classifier, completion datum, quotient representative, hidden limit selector,
+or host index equality.
+\end{theorem}
+\begin{proof}
+Start with the public real handoff of
+\autoref{thm:streamname-public-real-handoff-obligation}. It exposes the
+countable-name and finite-window StreamNameUp rows, the certified unary
+observation surface, and the public pointwise rational classifier rows.
+
+Next use \autoref{thm:streamname-finite-window-schedule-exhaustion}. The
+finite request is therefore exhausted by the displayed observation indices,
+probe bundle, bundle-membership rows, rational endpoint rows, $\hsame$
+comparisons, continuation routes, and package provenance.
+
+The RegSeqRat-facing handoff of
+\autoref{thm:streamname-real-regseq-finite-window-handoff} identifies the same
+finite rows as the rows consumed by the downstream regular-sequence interface.
+The denominator side is supplied separately by
+\autoref{thm:dyadicratcore-real-phase-source-coverage}, which contributes only
+the dyadic denominator ledger exported by the real-phase source boundary.
+
+Combining these two source boundaries gives the displayed row inventory. None
+of the cited boundaries exports a regularity witness, seal classifier,
+completion datum, quotient representative, hidden limit selector, or host
+index equality, so no such datum can be read by the finite-window consumer.
+\end{proof}
