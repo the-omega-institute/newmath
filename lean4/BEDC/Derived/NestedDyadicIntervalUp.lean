@@ -78,6 +78,46 @@ theorem NestedDyadicIntervalPacket_window_transport [AskSetup] [PackageSetup]
         ledgerUnary', endpointUnary', targetRefinement, targetEndpoint, targetPkg⟩,
       sameRefinement, sameEndpoint⟩
 
+theorem NestedDyadicIntervalPacket_successive_refinement_chain [AskSetup] [PackageSetup]
+    {first next tail schedule refinement provenance ledger endpoint nextTail chainedRefinement
+      chainedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      UnaryHistory tail ->
+        Cont next tail nextTail ->
+          Cont refinement tail chainedRefinement ->
+            Cont schedule chainedRefinement chainedEndpoint ->
+              PkgSig bundle chainedEndpoint pkg ->
+                NestedDyadicIntervalPacket first nextTail schedule chainedRefinement
+                    provenance ledger chainedEndpoint bundle pkg ∧
+                  hsame chainedRefinement (append first nextTail) ∧
+                    hsame chainedRefinement (append refinement tail) := by
+  intro packet tailUnary nextTailRow chainedRefinementRow chainedEndpointRow chainedEndpointSig
+  obtain ⟨firstUnary, nextUnary, scheduleUnary, refinementUnary, provenanceUnary,
+    ledgerUnary, _endpointUnary, firstNextRow, _scheduleRefinementRow, _packetSig⟩ := packet
+  have nextTailUnary : UnaryHistory nextTail :=
+    unary_cont_closed nextUnary tailUnary nextTailRow
+  have chainedRefinementUnary : UnaryHistory chainedRefinement :=
+    unary_cont_closed refinementUnary tailUnary chainedRefinementRow
+  have chainedEndpointUnary : UnaryHistory chainedEndpoint :=
+    unary_cont_closed scheduleUnary chainedRefinementUnary chainedEndpointRow
+  have firstNextTailRow : Cont first nextTail chainedRefinement := by
+    calc
+      chainedRefinement = append refinement tail := chainedRefinementRow
+      _ = append (append first next) tail := by
+        rw [firstNextRow]
+      _ = append first (append next tail) := append_assoc first next tail
+      _ = append first nextTail := by
+        rw [nextTailRow]
+  have chainedPacket :
+      NestedDyadicIntervalPacket first nextTail schedule chainedRefinement provenance ledger
+        chainedEndpoint bundle pkg :=
+    ⟨firstUnary, nextTailUnary, scheduleUnary, chainedRefinementUnary, provenanceUnary,
+      ledgerUnary, chainedEndpointUnary, firstNextTailRow, chainedEndpointRow,
+      chainedEndpointSig⟩
+  exact ⟨chainedPacket, firstNextTailRow, chainedRefinementRow⟩
+
 theorem NestedDyadicIntervalPacket_singleton_chain_vacuity [AskSetup] [PackageSetup]
     {first schedule refinement provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
