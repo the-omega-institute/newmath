@@ -3,8 +3,10 @@ import BEDC.Derived.DyadicRatCoreUp
 namespace BEDC.Derived.DyadicRatCoreUp
 
 open BEDC.Derived.RatUp
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem DyadicRatCoreCarrier_standard_source_bridge
@@ -88,5 +90,39 @@ theorem DyadicRatCoreCarrier_standard_bridge_denominator_refinement_stability
     (And.intro refinedRows.right.left
       (And.intro distanceWindowUnary
         (And.intro refinedRows.right.right.left distanceWindowRow)))
+
+theorem DyadicRatCoreStandardBridge_denominator_refinement_stability [AskSetup] [PackageSetup]
+    {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common scale scale'
+      classifierWindow tail refinedExponent refinedLedger : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      DyadicRatCoreCarrier mantissa' exponent' ledger' provenance' ->
+        PositiveUnaryDenominator common ->
+          hsame provenance provenance' ->
+            Cont exponent common scale ->
+              Cont exponent' common scale' ->
+                RatHistoryClassifier scale scale' ->
+                  Cont scale scale' classifierWindow ->
+                    UnaryHistory tail ->
+                      Cont exponent tail refinedExponent ->
+                        Cont refinedExponent mantissa refinedLedger ->
+                          DyadicRatCoreClassifier mantissa exponent ledger provenance mantissa'
+                              exponent' ledger' provenance' common scale scale' ∧
+                            DyadicRatCoreCarrier mantissa refinedExponent refinedLedger
+                              provenance ∧
+                              PositiveUnaryDenominator refinedExponent ∧
+                                UnaryHistory classifierWindow ∧
+                                  hsame classifierWindow (append scale scale') := by
+  intro carrier carrier' commonPositive sameProvenance scaleRow scaleRow' classified
+    classifierRow tailUnary refinedExponentRow refinedLedgerRow
+  have bridge :=
+    DyadicRatCoreCarrier_standard_source_bridge carrier carrier' commonPositive sameProvenance
+      scaleRow scaleRow' classified classifierRow
+  have refinement :=
+    DyadicRatCoreCarrier_monotone_radius_obligation carrier tailUnary refinedExponentRow
+      refinedLedgerRow
+  exact And.intro bridge.left
+    (And.intro refinement.left
+      (And.intro refinement.right.left
+        (And.intro bridge.right.right.right.left bridge.right.right.right.right)))
 
 end BEDC.Derived.DyadicRatCoreUp
