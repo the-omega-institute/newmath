@@ -55,3 +55,19 @@ Informational only — does not gate CI. Use
 `python3 lean4/scripts/bedc_ci.py metacic-purity --strict` to exit nonzero if a
 MetaCIC theorem or lemma depends on `Classical.choice`, `Quot.sound`, or
 `propext`; non-theorem declarations are still reported.
+
+## BEDC.MetaCIC.HostBridge — host Lean ↔ MetaCIC reflection
+
+`lean4/BEDC/MetaCIC/HostBridge.lean` provides:
+
+- `reflectExpr : Lean.Expr → MetaM (Option Term)` — best-effort
+  translation from host Lean `Expr` to `BEDC.MetaCIC.Term`. Covers
+  `sort`, `bvar`, `app`, `lam`, `forallE`, `const`, `fvar`, `mdata`.
+- `#reflect_metacic <term>` elab command — print MetaCIC encoding of
+  a host Lean term in the InfoView.
+
+This module is the entry point for downstream BEDC automation that
+wants to operate on the MetaCIC encoding of host theorems. The
+metaprogramming layer is outside the pure-CIC discipline by design
+(it consumes Lean elaboration data); the output `Term` values
+remain pure-CIC data.
