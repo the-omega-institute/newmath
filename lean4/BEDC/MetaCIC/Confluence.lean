@@ -201,6 +201,79 @@ theorem betaParallel_pi_diamond_of_components
                         (BetaParallel.pi hd1e hc1r)
                         (BetaParallel.pi hd2e hc2r))
 
+theorem betaParallel_app_independent_diamond
+    {f a f1 f2 a1 a2 : Term}
+    (hf1 : BetaParallel f f1)
+    (hf2 : BetaParallel f f2)
+    (ha1 : BetaParallel a a1)
+    (ha2 : BetaParallel a a2)
+    (hf :
+      ∀ {g1 g2 : Term},
+        BetaParallel f g1 →
+        BetaParallel f g2 →
+        Exists (fun g => BetaParallel g1 g ∧ BetaParallel g2 g))
+    (ha :
+      ∀ {b1 b2 : Term},
+        BetaParallel a b1 →
+        BetaParallel a b2 →
+        Exists (fun b => BetaParallel b1 b ∧ BetaParallel b2 b)) :
+    Exists
+      (fun v =>
+        BetaParallel (Term.app f1 a1) v ∧
+          BetaParallel (Term.app f2 a2) v) := by
+  exact
+    betaParallel_app_diamond_of_components
+      (hf hf1 hf2)
+      (ha ha1 ha2)
+
+theorem betaParallel_lam_shape_diamond
+    {d b u1 u2 : Term}
+    (h1 : BetaParallel (Term.lam d b) u1)
+    (h2 : BetaParallel (Term.lam d b) u2)
+    (hd :
+      ∀ {d1 d2 : Term},
+        BetaParallel d d1 →
+        BetaParallel d d2 →
+        Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hb :
+      ∀ {b1 b2 : Term},
+        BetaParallel b b1 →
+        BetaParallel b b2 →
+        Exists (fun c => BetaParallel b1 c ∧ BetaParallel b2 c)) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1 with
+  | lam hd1 hb1 =>
+      cases h2 with
+      | lam hd2 hb2 =>
+          exact
+            betaParallel_lam_diamond_of_components
+              (hd hd1 hd2)
+              (hb hb1 hb2)
+
+theorem betaParallel_pi_shape_diamond
+    {d c u1 u2 : Term}
+    (h1 : BetaParallel (Term.pi d c) u1)
+    (h2 : BetaParallel (Term.pi d c) u2)
+    (hd :
+      ∀ {d1 d2 : Term},
+        BetaParallel d d1 →
+        BetaParallel d d2 →
+        Exists (fun e => BetaParallel d1 e ∧ BetaParallel d2 e))
+    (hc :
+      ∀ {c1 c2 : Term},
+        BetaParallel c c1 →
+        BetaParallel c c2 →
+        Exists (fun r => BetaParallel c1 r ∧ BetaParallel c2 r)) :
+    Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
+  cases h1 with
+  | pi hd1 hc1 =>
+      cases h2 with
+      | pi hd2 hc2 =>
+          exact
+            betaParallel_pi_diamond_of_components
+              (hd hd1 hd2)
+              (hc hc1 hc2)
+
 theorem betaStep_var_absurd
     (i : Idx) {u : Term} :
     BetaStep (Term.var i) u → False := by
