@@ -50,4 +50,33 @@ theorem DyadicRatCoreCarrier_real_phase_source_coverage
         (And.intro windowUnary'
           (And.intro realRowCont sameWindowAppend))))
 
+theorem DyadicRatCoreCarrier_public_bridge_consumer_exactness
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger mantissa' realRow
+      window window' : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail ->
+        Cont exponent tail refinedExponent ->
+          Cont refinedExponent mantissa refinedLedger ->
+            hsame mantissa mantissa' ->
+              Cont (BHist.e1 mantissa') exponent realRow ->
+                Cont realRow ledger window ->
+                  hsame window window' ->
+                    DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+                      RealConstantHistoryCarrier (BHist.e1 mantissa') ∧
+                        PositiveUnaryDenominator refinedExponent ∧
+                          UnaryHistory window' ∧ hsame window' (append realRow ledger) := by
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow sameMantissa realRowCont windowCont
+    sameWindow
+  have refinementRows :=
+    DyadicRatCoreCarrier_monotone_radius_obligation carrier tailUnary refinedExponentRow
+      refinedLedgerRow
+  have sourceRows :=
+    DyadicRatCoreCarrier_real_phase_source_coverage carrier sameMantissa realRowCont windowCont
+      sameWindow
+  exact And.intro refinementRows.left
+    (And.intro sourceRows.left
+      (And.intro refinementRows.right.left
+        (And.intro sourceRows.right.right.right.left
+          sourceRows.right.right.right.right.right)))
+
 end BEDC.Derived.DyadicRatCoreUp
