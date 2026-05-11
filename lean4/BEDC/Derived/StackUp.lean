@@ -31,6 +31,20 @@ def StackCarrierPacket [AskSetup] [PackageSetup]
         UnaryHistory endpoint ∧ Cont objectRows arrowRows ledger ∧
           Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem StackCarrierPacket_ledger_projection_exactness [AskSetup] [PackageSetup]
+    {site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
+      provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrierPacket site objectRows arrowRows transportRows restrictionRows descentRows
+        representabilityRows provenance ledger endpoint bundle pkg ->
+      Cont objectRows arrowRows ledger ∧ Cont provenance ledger endpoint ∧
+        PkgSig bundle endpoint pkg ∧ UnaryHistory ledger ∧ UnaryHistory endpoint := by
+  intro packet
+  obtain ⟨_siteUnary, _objectUnary, _arrowUnary, _transportUnary, _restrictionUnary,
+    _descentUnary, _representabilityUnary, _provenanceUnary, ledgerUnary, endpointUnary,
+    ledgerCont, endpointCont, pkgSig⟩ := packet
+  exact ⟨ledgerCont, endpointCont, pkgSig, ledgerUnary, endpointUnary⟩
+
 theorem StackCarrierPacket_descent_transport [AskSetup] [PackageSetup]
     {site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
       provenance ledger endpoint objectRows' arrowRows' ledger' endpoint' : BHist}
