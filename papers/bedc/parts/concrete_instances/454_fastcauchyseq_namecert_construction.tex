@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchySeqUp$}
+\label{ch:concrete-instances-fastcauchyseq-namecert}
+
+The $\FastCauchySeqUp$ interface names explicit-rate Cauchy sequence packets over dyadic-rational observations. Bishop and Bridges treat a displayed Cauchy rate as constructive data; the BEDC packet records the finite ledger version of that data, connecting $\CauchyModulusUp$ to $\RegSeqRatUp$ and $\RealUp$ without quotient completion or a selected limit.
+
+\section{Explicit-rate carrier and classifier}
+\label{sec:fastcauchyseq-explicit-rate-carrier}
+
+\begin{definition}[FastCauchySeq carrier]
+\label{def:fastcauchyseq-carrier}
+A $\FastCauchySeqUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(s,\mu,E,R,L,T,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $s$ is a scheduled $\StreamNameUp$ dyadic-rational observation stream;
+\item $\mu$ is a $\CauchyModulusUp$ precision-threshold table, displaying for each requested precision row a finite index bound after which the stream is required to be close;
+\item $E$ lists the dyadic endpoint and dyadic radius rows read through $\DyadicRatCoreUp$ at the visible precisions;
+\item $R$ is the late-pair comparison ledger recording that any two displayed observations beyond the threshold named by $\mu$ fall inside the displayed dyadic radius row for that precision;
+\item $L$ records the componentwise $\hsame$ transports for the stream, threshold, endpoint, radius, and comparison rows;
+\item $T$ records the displayed $\Cont$ windows through which the finite reads of $s$, $\mu$, $E$, and $R$ are consumed;
+\item $P$ is the $\Pkg$ provenance over $\NatUp$, $\RatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$;
+\item $N$ is the local $\NameCert_{\FastCauchySeqUp}$ row for this packet.
+\end{enumerate}
+The carrier is the finite explicit-rate sequence surface only. It contains no completed real, no quotient equality of Cauchy names, and no selected limiting value.
+\end{definition}
+
+\begin{definition}[FastCauchySeq classifier]
+\label{def:fastcauchyseq-classifier}
+For accepted $\FastCauchySeqUp$ packets $F$ and $F'$, the classifier $\mathsf{FastCauchySeqClassifier}(F,F')$ holds when the scheduled stream rows, Cauchy-modulus threshold rows, dyadic endpoint and radius rows, late-pair comparison ledgers, $\hsame$ transports, $\Cont$ windows, $\Pkg$ provenance, and local $\NameCert$ rows transport componentwise through the displayed classifiers of their source chapters.
+
+The classifier identifies two packets only at the level of the visible explicit-rate ledger. It does not assert equality of quotient real numbers, does not choose a limit, and does not add a completeness principle to $\RealUp$.
+\end{definition}
+
+\begin{theorem}[FastCauchySeq NameCert obligation surface]
+\label{thm:fastcauchyseq-namecert-obligation-surface}
+The local $\NameCert_{\FastCauchySeqUp}$ obligation surface has five finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet of \autoref{def:fastcauchyseq-carrier};
+\item classifier: the componentwise classifier of \autoref{def:fastcauchyseq-classifier};
+\item stability: the $\hsame$ and $\Cont$ rows transporting the scheduled stream, threshold table, dyadic endpoint and radius rows, and late-pair comparison ledger;
+\item handoff: the $\RegSeqRatUp$ regularity window obtained by forgetting the local row $N$ and retaining the stream, modulus, dyadic, and comparison rows;
+\item seal boundary: the $\RealUp$ consumer boundary that can read only the displayed stream, modulus, dyadic, and provenance rows.
+\end{enumerate}
+These rows are exactly the explicit-rate naming certificate for $\FastCauchySeqUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:fastcauchyseq-carrier}. The first two rows expose the scheduled dyadic observation stream and the precision-threshold table, while the dyadic and late-pair rows expose the finite comparison data at the requested precisions.
+
+The stability row is obtained by transporting each projected coordinate through the displayed $\hsame$ and $\Cont$ routes recorded by $L$ and $T$. Because each route is componentwise, the transported packet has the same finite obligation shape.
+
+The final two rows are projections of the same packet through the named source boundaries. Forgetting $N$ gives the $\RegSeqRatUp$ regularity window, and restricting to the $\RealUp$ seal boundary removes every coordinate not listed in the carrier, classifier, stability, and provenance rows.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq forgetful handoff to RegSeqRat]
+\label{thm:fastcauchyseq-regseqrat-forgetful-handoff}
+Every accepted $\FastCauchySeqUp$ packet forgets to a $\RegSeqRatUp$ regularity window. The forgotten packet keeps the scheduled $\StreamNameUp$ dyadic-rational observation stream, the visible $\CauchyModulusUp$ threshold rows, the dyadic endpoint and radius rows from $\DyadicRatCoreUp$, the late-pair comparison ledger, and the provenance over $\NatUp$ and $\RatUp$.
+
+The handoff drops only the local $\FastCauchySeqUp$ certificate row. It does not drop the finite regularity evidence required by $\RegSeqRatUp$, and it does not produce a quotient real or a selected limit.
+\end{theorem}
+\begin{proof}
+Start from the carrier tuple of \autoref{def:fastcauchyseq-carrier}. Remove the local row $N$ and keep the stream, modulus, dyadic endpoint, dyadic radius, comparison, transport, window, and provenance coordinates.
+
+The $\CauchyModulusUp$ rows close the finite threshold requests: for each displayed precision, the row supplies the index bound used by the late-pair comparison ledger. The ledger then shows that the visible stream values beyond that bound lie inside the corresponding dyadic radius window.
+
+These are precisely the finite regularity rows consumed by $\RegSeqRatUp$. Repacking them yields the regular sequence window, while the absence of any completed-real coordinate prevents the handoff from selecting a limit or asserting quotient equality.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq Real seal consumer boundary]
+\label{thm:fastcauchyseq-real-seal-consumer-boundary}
+A $\RealUp$ consumer of an accepted $\FastCauchySeqUp$ packet may read only the scheduled observation stream, the $\CauchyModulusUp$ threshold rows, the dyadic endpoint and radius rows, the late-pair comparison ledger, and the provenance rows named by $\Pkg$.
+
+The consumer receives no quotient real, no equality of Cauchy names, no completed metric object, and no selected limit. Its surface is the finite explicit-rate name carried by the stream, modulus, dyadic, comparison, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:fastcauchyseq-carrier} and \autoref{def:fastcauchyseq-classifier}. The only rows available to a downstream consumer are the stream, modulus, dyadic, comparison, transport, window, provenance, and local certificate rows.
+
+Apply the $\RegSeqRatUp$ forgetful handoff of \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}. It presents the same finite regularity window to the real-name boundary and leaves behind the local certificate row.
+
+Finally restrict along the $\RealUp$ classifier transport boundary. That boundary consumes the displayed regular sequence data and provenance only. Since the carrier has no quotient-real coordinate, no completed metric coordinate, and no selected limit coordinate, none can be read by a $\RealUp$ consumer.
+\end{proof}
+
+\begin{closurestatus}{\FastCauchySeqUp}
+  \constructivestory{A fast-Cauchy-sequence packet is generated from a scheduled dyadic-rational observation stream, visible Cauchy-modulus threshold rows, dyadic endpoint and radius rows, late-pair comparison ledgers, componentwise $\hsame$ and $\Cont$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The finite explicit-rate carrier of \autoref{def:fastcauchyseq-carrier} binds the displayed stream, threshold, dyadic, comparison, transport, window, provenance, and local certificate rows for $\FastCauchySeqUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close completeness, quotient equality of Cauchy names, selected limits, or standard bridge data.}
+  \upgradepath{Formal closure requires Lean targets for the carrier, classifier, NameCert obligation surface, RegSeqRat handoff, and Real seal consumer boundary.}
+\end{closurestatus}
