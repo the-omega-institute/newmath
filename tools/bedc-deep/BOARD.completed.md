@@ -17105,3 +17105,27 @@ Rationale:
 This is a concrete bridge-prerequisite target that lands on the existing S1 carrier/readback surface rather than importing a host completion object. It is distinct from the current S1 transport, determinacy, public readback, and constructor-compatibility rows, and it is not present in the existing BOARD title index or paper labels. The landing file is not a hub and is below the line cap, so the target can be staged safely as a local theorem/proposition about visible representatives and separation.
 
 ---
+
+### B-678 - Cons signature visible-branch inversion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Cons signature visible-branch inversion |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under Sig(Bcons(π,Π),h,E0(r),Δ), there exist δ, Δt, and s such that Ask(π,h,b0,δ), Sig(Π,h,s,Δt), and hsame(r,s), with the analogous E1 branch forcing head mark b1.
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete branch-inversion target for the cons signature rule. Existing paper material records cons generation, nonempty result, tail recovery, and head-mark determinacy, but does not expose the E0/E1 visible-result cases as their own theorem block. It is not a BOARD duplicate, and it lands in the existing signature-generation file safely.
+
+---
