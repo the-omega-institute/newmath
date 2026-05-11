@@ -574,44 +574,21 @@ theorem ConvRadCheckedRowReduct_append_prepend_ledger
           (ConvRad_prepend_unary_coeff_closed radius qUnary')))
     (And.intro appendRadius prependRadius)
 
-theorem conv_rad_name_certificate :
-    NameCert (fun R : BHist => exists a : Nat -> BHist, ConvRad a R) hsame := by
-  let coefficient : BHist := append (BHist.e1 BHist.Empty) (BHist.e1 BHist.Empty)
-  let constantFamily : Nat -> BHist := fun _n : Nat => coefficient
-  have denominatorCarrier : RatUp.RatHistoryCarrier (BHist.e1 BHist.Empty) :=
-    Iff.mpr RatUp.RatHistoryCarrier_iff_positive_denominator
-      (Iff.mpr RatUp.PositiveUnaryDenominator_e1_iff_unary unary_empty)
-  have coefficientCarrier : ComplexHistoryCarrier coefficient :=
-    Exists.intro (BHist.e1 BHist.Empty)
-      (Exists.intro (BHist.e1 BHist.Empty)
-        (And.intro denominatorCarrier
-          (And.intro denominatorCarrier (cont_intro rfl))))
-  have radius : ConvRad constantFamily (BHist.e1 BHist.Empty) := by
-    exact And.intro (unary_e1_closed unary_empty)
-      (Exists.intro (fun _r : BHist => BHist.Empty)
-        (fun {r : BHist} rUnary _continuation =>
-          And.intro rUnary
-            (And.intro unary_empty
-              (fun _n : Nat => coefficientCarrier))))
-  exact {
-    carrier_inhabited :=
-      Exists.intro (BHist.e1 BHist.Empty)
-        (Exists.intro constantFamily radius)
-    equiv_refl := by
-      intro R _source
-      exact hsame_refl R
-    equiv_symm := by
-      intro R R' same
-      exact hsame_symm same
-    equiv_trans := by
-      intro R R' R'' sameLeft sameRight
-      exact hsame_trans sameLeft sameRight
-    carrier_respects_equiv := by
-      intro R R' same source
-      cases source with
-      | intro a radiusR =>
-          exact Exists.intro a
-            (ConvRad_radius_transport same radiusR (unary_transport radiusR.left same))
-  }
+theorem ConvRad_public_export {a : Nat -> BHist} {z0 R q : BHist} :
+    ConvRadSourceSpec a z0 R -> UnaryHistory q ->
+      SemanticNameCert (ConvRad a) (ConvRad a) (ConvRad a) hsame ∧
+        ConvRadCheckedRowReduct a z0 R ∧ ConvRadLedgerPolicy a z0 R ∧
+          ConvRad (fun n : Nat => append (a n) q) R ∧
+            ConvRad (fun n : Nat => append q (a n)) R := by
+  intro source qUnary
+  have checked : ConvRadCheckedRowReduct a z0 R :=
+    ConvRadSourceSpec_checkedRowReduct_readback source
+  have ledger :=
+    ConvRadCheckedRowReduct_append_prepend_ledger checked qUnary
+  exact And.intro
+    (ConvRad_semanticNameCert source.right)
+    (And.intro checked
+      (And.intro ledger.left
+        (And.intro ledger.right.left ledger.right.right)))
 
 end BEDC.Derived.ConvergenceRadiusUp

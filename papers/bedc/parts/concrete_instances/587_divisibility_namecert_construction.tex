@@ -37,6 +37,7 @@ only when all displayed rows transport componentwise by $\hsame$ and the
 multiplication and boundedness reads follow the $\Cont$ routes recorded in
 $l$ and $p$.
 \end{definition}
+\leandef{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier}
 
 \begin{theorem}[Divisibility multiplication-witness closure]
 \label{thm:divisibility-mul-witness-closure}
@@ -88,6 +89,7 @@ No coordinate in the source stores least witnesses, unbounded search, or
 classical existence. Thus the bounded read is exhausted by $o$ and the finite
 envelope recorded by $l$.
 \end{proof}
+\leanchecked{BEDC.Derived.DivisibilityUp.DivisibilityFiniteHistoryCarrier\_order\_bounded\_ledger}
 
 \begin{theorem}[Divisibility NameCert obligation surface]
 \label{thm:divisibility-namecert-obligation-surface}
@@ -158,6 +160,78 @@ external congruence relation.
 Thus both downstream reads factor through the finite source itself. Any
 primality decision, gcd computation, quotient residue class, finite-field
 law, or host congruence would require a coordinate absent from $D$.
+\end{proof}
+
+\begin{theorem}[Divisibility public certificate export]
+\label{thm:divisibility-public-certificate-export}
+For every accepted finite $\DivisibilityUp$ source
+$D=(a,b,q,w,o,l,p)$, the public $\DivisibilityUp$ certificate surface exported to $\PrimeUp$ and
+$\ModularArithmeticUp$ consists exactly of the carrier rows of
+\autoref{def:divisibility-bhist-carrier}, the multiplication witness of
+\autoref{thm:divisibility-mul-witness-closure}, the optional bounded-search
+ledger of \autoref{thm:divisibility-order-bounded-ledger}, the five
+$\NameCert$ rows of \autoref{thm:divisibility-namecert-obligation-surface},
+and the consumer boundary of
+\autoref{thm:divisibility-prime-modular-boundary}.
+
+It exports no gcd algorithm, Euclidean division, primality decision,
+quotient residue class, finite-field law, or host congruence.
+\end{theorem}
+\begin{proof}
+Project $D$ through \autoref{def:divisibility-bhist-carrier}. The projection
+exposes only the dividend row, divisor row, multiplier row, multiplication
+witness row, boundedness row, divisibility ledger, and provenance row.
+
+Apply \autoref{thm:divisibility-mul-witness-closure} to identify the only
+multiplicative read, and apply
+\autoref{thm:divisibility-order-bounded-ledger} to identify the only
+bounded-search read. These two steps leave no coordinate for an external
+divisibility predicate or quotient object.
+
+Apply \autoref{thm:divisibility-namecert-obligation-surface} to package the
+carrier, classifier transport, multiplication, boundedness, and downstream
+readback rows as the displayed $\NameCert_{\DivisibilityUp}$ surface.
+
+Finally, use \autoref{thm:divisibility-prime-modular-boundary} to export the
+same finite packet as the public $\DivisibilityUp$ certificate surface consumed
+by $\PrimeUp$ and $\ModularArithmeticUp$. Any gcd algorithm, Euclidean
+division, primality decision, quotient residue class, finite-field law, or host
+congruence would require a row absent from the certificate.
+\end{proof}
+
+\begin{theorem}[Divisibility bounded-witness public readback]
+\label{thm:divisibility-bounded-witness-public-readback}
+Every public consumer of an accepted $\DivisibilityUp$ packet that asks for a
+bounded witness reads exactly the multiplier row $q$, the multiplication
+witness $w$ for $b\cdot q=a$, the order envelope $o$, the ledger $l$, and the
+provenance row $p$ from \autoref{def:divisibility-bhist-carrier}. PrimeUp and
+ModularArithmeticUp consumers factor through those rows, together with the
+displayed dividend and divisor entries that index the same carrier packet.
+
+The public readback exports no gcd algorithm, least witness, quotient residue
+class, finite-field law, or host decidability predicate. Its complete bounded
+witness surface is the finite row family already displayed by the
+$\DivisibilityUp$ carrier, multiplication witness, order-bounded ledger, and
+prime/modular consumer boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:divisibility-bhist-carrier}.
+The only rows available to a bounded-witness consumer are the multiplier $q$,
+the multiplication witness $w$, the order envelope $o$, the ledger $l$, and the
+provenance row $p$, indexed by the displayed dividend and divisor entries.
+
+Apply \autoref{thm:divisibility-mul-witness-closure}. The product check is read
+solely as the displayed witness for $b\cdot q=a$, so the consumer receives no
+separate quotient object or external divisibility predicate.
+
+Next apply \autoref{thm:divisibility-order-bounded-ledger}. The bounded part of
+the readback is exactly the order envelope and ledger row already present in
+the carrier, not a least-witness search or a host decidability routine.
+
+Finally use \autoref{thm:divisibility-prime-modular-boundary}. PrimeUp and
+ModularArithmeticUp can consume the bounded witness only through the same
+finite rows, so no gcd algorithm, quotient residue class, finite-field law, or
+host decidability predicate is exported.
 \end{proof}
 
 \closureat{DivisibilityUp}{seedStr}
