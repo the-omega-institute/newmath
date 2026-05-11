@@ -139,6 +139,7 @@ provenance, and $\NameCert$ row. It exposes those rows as the common surface
 for $\RegSeqRatUp$ and $\RealUp$ consumers without adding quotient real
 equality, a completed metric object, or a selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchySeqUp.FastCauchySeqPacket\_public\_explicit\_rate\_export}
 \begin{proof}
 Project the packet through \autoref{def:fastcauchyseq-carrier}. This exposes
 the scheduled stream, explicit threshold table, dyadic endpoint and radius
@@ -304,6 +305,124 @@ Finally use
 handoff and seal-boundary rows cited by the factorization, so both consumers
 read the synchronized finite packet and no quotient equality, selected limit,
 completed metric object, or hidden threshold selector is introduced.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq tail-window overlap exhaustion]
+\label{thm:fastcauchyseq-tail-window-overlap-exhaustion}
+Let $F$ be an accepted $\FastCauchySeqUp$ packet, and let $D_0$ and $D_1$
+be displayed $\DyadicPrecisionUp$ rows selecting two finite precision windows
+inside $F$. Suppose the two windows have a shared finite tail subwindow whose
+transported rows agree: the common $\CauchyModulusUp$ threshold row, the
+$\DyadicRatCoreUp$ endpoint and radius rows, the late-pair ledger, the displayed
+$\hsame$ and $\Cont$ routes, the $\mathsf{Pkg}$ provenance row, and the local
+$\NameCert$ row all occur as visible rows of the same packet.
+
+Then every $\RegSeqRatUp$ handoff read and every $\RealUp$ consumer-boundary
+read on the overlap factors through exactly that common finite tail packet. The
+factorization uses only the displayed threshold row, endpoint and radius rows,
+late-pair ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows already
+visible in $F$; it asserts no quotient real equality, selects no limit, builds
+no completed metric object, and invokes no hidden threshold selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:fastcauchyseq-modulus-precision-window-factorization} to
+$F$ with the window $D_0$. This presents each $\RegSeqRatUp$ handoff and each
+$\RealUp$ boundary read over $D_0$ through the finite packet determined by its
+visible threshold, dyadic, late-pair, transport, provenance, and naming rows.
+
+Apply the same factorization theorem to $F$ with the window $D_1$. On the shared
+tail subwindow, the two factorized packets expose the same threshold row, the
+same endpoint and radius rows, the same late-pair ledger, the same $\hsame$ and
+$\Cont$ routes, and the same $\mathsf{Pkg}$ and $\NameCert$ rows.
+
+Use \autoref{thm:fastcauchyseq-synchronized-precision-window} only for these
+common transported rows. Since both windows lie inside the same accepted packet
+$F$, the synchronization does not add a second source packet; it identifies the
+overlap as the unique visible tail packet already carried by $F$.
+
+The consumer restrictions are exactly those of
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. They read the common
+finite rows and no quotient real equality, selected limit, completed metric
+object, or hidden threshold selector.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq tail-stationary precision-window determinacy]
+\label{thm:fastcauchyseq-tail-stationary-window-determinacy}
+Let $F$ and $F'$ be accepted $\FastCauchySeqUp$ packets, and let $D$ and $D'$
+be displayed precision rows for finite consumer windows. Suppose the selected
+$\CauchyModulusUp$ threshold rows agree by $\hsame$, the selected
+$\DyadicRatCoreUp$ endpoint and radius rows agree by $\hsame$, the late-pair
+ledgers are joined by the same displayed $\Cont$ routes, and the $\Pkg$ and
+$\NameCert$ rows carry the same visible provenance.
+
+Then every $\RegSeqRatUp$ handoff and every $\RealUp$ consumer-boundary read
+over those windows factors through one stationary finite packet carrying the
+common threshold, endpoint, radius, late-pair, $\Cont$, $\hsame$, $\Pkg$, and
+$\NameCert$ rows. This stationary packet introduces no quotient real equality,
+selected limit, completed metric object, or hidden threshold selector.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets through the explicit-rate carrier. The only
+rows visible at the selected windows are the modulus threshold, dyadic endpoint
+and radius, late-pair ledger, continuation route, provenance, and local naming
+rows.
+
+Apply
+\autoref{thm:fastcauchyseq-modulus-precision-window-factorization} to both
+windows. Each factorization presents the corresponding $\RegSeqRatUp$ handoff
+and $\RealUp$ consumer-boundary read through its selected finite packet.
+
+Use \autoref{thm:fastcauchyseq-synchronized-precision-window} to identify the
+transported threshold, endpoint, radius, late-pair, $\Cont$, $\hsame$, $\Pkg$,
+and $\NameCert$ rows. The hypotheses make these rows stationary across the two
+tail displays, so both finite packets are the same visible packet.
+
+Finally apply
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. These consumer faces
+forget only local certificate packaging and read only the displayed boundary
+rows, hence the shared stationary packet adds no quotient real equality,
+selected limit, completed metric object, or hidden threshold selector.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq prefix-window eventual lock]
+\label{thm:fastcauchyseq-prefix-window-eventual-lock}
+Let $F$ and $F'$ be accepted $\FastCauchySeqUp$ packets, and let $D$ and $D'$
+be displayed $\DyadicPrecisionUp$ rows. Suppose the classifier relates $F$ and
+$F'$, and suppose the selected precision rows transport the same
+$\CauchyModulusUp$ threshold, the same $\DyadicRatCoreUp$ endpoint-radius rows,
+the same late-pair ledger, the same displayed $\Cont$ route, the same $\Pkg$
+provenance row, and the same local $\NameCert$ row.
+
+Then every $\RegSeqRatUp$ handoff read and every $\RealUp$ seal-boundary read
+for $F$ over $D$ and for $F'$ over $D'$ factors through one shared finite
+prefix-window packet carrying exactly those transported rows. The shared packet
+introduces no quotient real equality, no selected limit, no completed metric
+object, and no hidden threshold selector.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:fastcauchyseq-carrier} and
+\autoref{def:fastcauchyseq-classifier}. The accepted packets expose only the
+scheduled stream row, modulus threshold row, dyadic endpoint-radius rows,
+late-pair ledger, transport route, continuation window, package provenance, and
+local naming row, and the classifier compares these displayed rows.
+
+Apply
+\autoref{thm:fastcauchyseq-modulus-precision-window-factorization} to each
+side. It factors the $\RegSeqRatUp$ handoff reads and the $\RealUp$
+seal-boundary reads through the precision windows selected by $D$ and $D'$.
+
+Use \autoref{thm:fastcauchyseq-synchronized-precision-window} to identify the
+transported finite rows. The common modulus threshold, endpoint-radius data,
+late-pair ledger, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row
+therefore assemble one shared prefix-window packet.
+
+Finally cite \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. These consumer
+restrictions are exactly the handoff and seal-boundary interfaces used above,
+so no quotient real equality, selected limit, completed metric object, or
+hidden threshold selector is added.
 \end{proof}
 
 \closureat{FastCauchySeqUp}{obligationStr}

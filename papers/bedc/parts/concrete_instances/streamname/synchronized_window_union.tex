@@ -197,3 +197,50 @@ quotient streams, host-index equality, hidden stream rows, independent
 regularity witnesses, completion objects, standard bridge rows, and
 real-completeness principles from the consumer boundary.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window terminal seal determinacy]
+\label{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
+Let $\mathcal S_0$ and $\mathcal S_1$ be synchronized finite
+$\StreamNameUp$ rows. Suppose that they have the same common-refinement
+source, the same accepted $\RegSeqRat$ spine, and the same displayed
+$\DyadicRatCore$ endpoint and radius rows. If a terminal finite-window
+$\RealUp$ seal is read from either synchronized route, then the two reads
+produce the same consumer-facing seal row.
+
+The determining surface is exactly the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, $\mathsf{ProbeBundle}$
+rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, the $\DyadicRatCore$ endpoint and radius rows, and the visible
+$\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
+$\mathsf{RealLedgerPolicy}$ rows. The terminal seal has no coordinate for
+quotient streams, host-index equality, completion objects, independent
+regularity witnesses, standard bridge rows, or real-completeness principles.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. It
+projects both synchronized routes to the same finite classifier inventory over
+the common-refinement source, with the same bundle, membership,
+unary-history, pointwise rational-history, and overlap rows.
+
+Next apply \autoref{thm:streamname-synchronized-window-regseqrat-seal}. The
+accepted $\RegSeqRat$ spine and the displayed $\DyadicRatCore$ endpoint and
+radius rows are therefore the only rational handoff rows available to the
+terminal finite-window $\RealUp$ seal.
+
+The source boundary is exhausted by
+\autoref{thm:streamname-synchronized-window-terminal-source-exhaustion} and by
+the seal boundary of
+\autoref{thm:streamname-synchronized-window-namecert-boundary}. These two
+boundaries leave only the displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$, $\mathsf{ProbeBundle}$,
+$\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\mathsf{RatHistoryClassifier}$, $\RegSeqRat$, $\DyadicRatCore$, $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+Both routes have the same rows in that inventory by hypothesis. Since the
+terminal $\RealUp$ seal has no further coordinate beyond this inventory, the
+consumer-facing seal read from $\mathcal S_0$ is the same row as the seal read
+from $\mathcal S_1$.
+\end{proof}
