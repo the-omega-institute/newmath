@@ -26,6 +26,37 @@ def InterpolationBHistNodeCarrier [AskSetup] [PackageSetup]
         Cont endpoint polynomial provenance ∧ SigRel bundle sampleLedger provenance ∧
           PkgSig bundle provenance pkg
 
+theorem InterpolationBHistNodeCarrier_empty_selection_empty_evaluation_ledger [AskSetup]
+    [PackageSetup]
+    {finsetMembership polynomialEval node target polynomial sampleLedger endpoint provenance :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    InterpolationBHistNodeCarrier finsetMembership polynomialEval node target polynomial
+        sampleLedger endpoint provenance bundle pkg ->
+      hsame finsetMembership BHist.Empty ->
+        hsame sampleLedger polynomialEval ∧ UnaryHistory sampleLedger ∧
+          hsame provenance (append endpoint polynomial) ∧ SigRel bundle sampleLedger provenance ∧
+            PkgSig bundle provenance pkg := by
+  intro carrier sameFinsetEmpty
+  have finsetUnary : UnaryHistory finsetMembership := carrier.left
+  have polynomialEvalUnary : UnaryHistory polynomialEval := carrier.right.left
+  have sampleLedgerRow : Cont finsetMembership polynomialEval sampleLedger :=
+    carrier.right.right.right.right.right.left
+  have provenanceRow : Cont endpoint polynomial provenance :=
+    carrier.right.right.right.right.right.right.right.left
+  have sigRel : SigRel bundle sampleLedger provenance :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  have sampleLedgerUnary : UnaryHistory sampleLedger :=
+    unary_cont_closed finsetUnary polynomialEvalUnary sampleLedgerRow
+  have emptySelectionReadback : hsame (append finsetMembership polynomialEval) polynomialEval := by
+    cases sameFinsetEmpty
+    exact append_empty_left polynomialEval
+  have sampleLedgerReadback : hsame sampleLedger polynomialEval :=
+    hsame_trans sampleLedgerRow emptySelectionReadback
+  exact ⟨sampleLedgerReadback, sampleLedgerUnary, provenanceRow, sigRel, pkgSig⟩
+
 theorem InterpolationSampleLedger_surface [AskSetup] [PackageSetup]
     {finsetMembership polynomialEval node target polynomial sampleLedger endpoint provenance :
       BHist}
