@@ -1,5 +1,6 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.Substitution
 
 namespace BEDC.MetaCIC.V2
 
@@ -48,5 +49,133 @@ theorem dependent_identity_tracks_outer_domain :
     rfl
   · apply HasTypeV2.varRule
     rfl
+
+theorem id_sort_well_typed_V2 :
+    HasTypeV2 [] (Term.lam Term.sort (Term.var 0))
+      (Term.pi Term.sort Term.sort) := by
+  apply HasTypeV2.lamRule
+  · exact HasTypeV2.sortRule []
+  · apply HasTypeV2.varRule
+    rfl
+
+theorem pi_sort_sort_well_typed_V2 :
+    HasTypeV2 [] (Term.pi Term.sort Term.sort) Term.sort := by
+  apply HasTypeV2.piRule
+  · exact HasTypeV2.sortRule []
+  · exact HasTypeV2.sortRule [Term.sort]
+
+theorem id_sort_applied_V2 :
+    HasTypeV2 []
+      (Term.app (Term.lam Term.sort (Term.var 0)) Term.sort)
+      Term.sort := by
+  exact HasTypeV2.appRule
+    []
+    (Term.lam Term.sort (Term.var 0))
+    Term.sort
+    Term.sort
+    Term.sort
+    id_sort_well_typed_V2
+    (HasTypeV2.sortRule [])
+
+theorem pi_dependent_identity_type_V2 :
+    HasTypeV2 [Term.sort] (Term.pi (Term.var 0) (Term.var 1)) Term.sort := by
+  apply HasTypeV2.piRule
+  · apply HasTypeV2.varRule
+    rfl
+  · apply HasTypeV2.varRule
+    rfl
+
+theorem dependent_id_V2_differs_from_V6 :
+    HasTypeV2 [Term.sort] (Term.lam (Term.var 0) (Term.var 0))
+      (Term.pi (Term.var 0) (Term.var 1)) := by
+  exact dependent_identity_tracks_outer_domain
+
+theorem substitute_sort_preserves_V2
+    {Γ : Ctx} {s : Term} :
+    HasTypeV2 Γ (substitute 0 s Term.sort) (substitute 0 s Term.sort) := by
+  exact HasTypeV2.sortRule Γ
+
+theorem substitute_var_zero_preserves_typing_closed_V2
+    {Γ : Ctx} {s B : Term}
+    (hclosed_B : ClosedAt 0 B)
+    (hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.var 0))
+      (substitute 0 s B) := by
+  rw [substitute_var_zero]
+  rw [substitute_closed_via_term_induction 0 s B hclosed_B]
+  exact hs
+
+theorem substitute_var_succ_preserves_typing_V2
+    {Γ : Ctx} {s A : Term} {i : Idx}
+    (hlook : Ctx.lookup Γ i = some A) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.var (i + 1)))
+      (substitute 0 s (shift 0 1 A)) := by
+  rw [substitute_var_succ_zero]
+  rw [substitute_shift_at_eq]
+  exact HasTypeV2.varRule Γ i A hlook
+
+theorem closed_term_substitute_preserves_typing_atom_V2
+    {Γ : Ctx} {t s A B : Term}
+    (hclosed_B : ClosedAt 0 B)
+    (ht : HasTypeV2 (B :: Γ) t A)
+    (hs : HasTypeV2 Γ s B)
+    (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
+    HasTypeV2 Γ (substitute 0 s t) (substitute 0 s A) := by
+  have aux :
+      ∀ {Δ : Ctx} {t A : Term},
+        HasTypeV2 Δ t A →
+        ∀ {Γ : Ctx} {B : Term},
+          Δ = B :: Γ →
+          ClosedAt 0 B →
+          HasTypeV2 Γ s B →
+          (t = Term.sort ∨ ∃ i : Idx, t = Term.var i) →
+          HasTypeV2 Γ (substitute 0 s t) (substitute 0 s A) := by
+    intro Δ t A ht
+    induction ht with
+    | sortRule Δ =>
+        intro Γ B _hΔ _hclosed_B _hs _hshape
+        exact substitute_sort_preserves_V2
+    | varRule Δ i A hi =>
+        intro Γ B hΔ hclosed_B hs _hshape
+        cases hΔ
+        cases i with
+        | zero =>
+            rw [lookup_cons_zero] at hi
+            cases hi
+            exact substitute_var_zero_preserves_typing_closed_V2 hclosed_B hs
+        | succ n =>
+            rw [lookup_cons_succ] at hi
+            cases hlook : Ctx.lookup Γ n with
+            | none =>
+                rw [hlook] at hi
+                cases hi
+            | some T =>
+                rw [hlook] at hi
+                cases hi
+                exact substitute_var_succ_preserves_typing_V2 hlook
+    | piRule Δ dom cod hdom hcod ihdom ihcod =>
+        intro Γ B _hΔ _hclosed_B _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | lamRule Δ dom body cod hdom hbody ihdom ihbody =>
+        intro Γ B _hΔ _hclosed_B _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | appRule Δ f a dom cod hf ha ihf iha =>
+        intro Γ B _hΔ _hclosed_B _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+  exact aux ht rfl hclosed_B hs hshape
 
 end BEDC.MetaCIC.V2
