@@ -162,6 +162,40 @@ theorem DiffFormRootWedgeOperation_obligation {left right : ProbeBundle BHist}
       degreeLedger.right.right.right.left,
       coverage.right.right.right⟩
 
+theorem DiffFormRootCarrierClassifier_obligation
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier)
+    {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            Cont degree probe tensor ->
+              UnaryHistory antisym ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                      (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    UnaryHistory tensor ∧ UnaryHistory scalar ∧
+                      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                        antisym ledger degree probe tensor scalar antisym ledger ∧
+                        Cont degree probe tensor ∧ Cont tensor antisym scalar := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+    ledgerRoute
+  have carrierRows :=
+    DiffFormBHistLedger_exactness_obligation degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have classifierRows :=
+    DiffFormBHistClassifier_reflexivity_obligation (d := degree) (p := probe)
+      (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn
+      scalarCarrier
+  exact
+    ⟨carrierRows.left,
+      carrierRows.right.left,
+      classifierRows,
+      carrierRows.right.right.right.left,
+      carrierRows.right.right.right.right⟩
+
 theorem DiffFormRootDownstreamConsumption_obligation
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
     (scalarCert : NameCert ScalarCarrier ScalarClassifier)
