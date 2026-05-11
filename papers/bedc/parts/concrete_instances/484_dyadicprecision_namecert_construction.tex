@@ -193,6 +193,58 @@ refined through the displayed routes, and no hidden Cauchy modulus, completed
 real object, or external stream tail is introduced.
 \end{proof}
 
+\begin{theorem}[DyadicPrecision common-window readback determinacy]
+\label{thm:dyadicprecision-common-window-readback}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+and
+$$
+S'=(n',\rho',W',H',C',P',N',L')
+$$
+be accepted $\DyadicPrecisionUp$ schedules. If
+$\mathsf{DyadicPrecisionClassifier}(S,S')$ holds, then every shared unary
+precision-window read consumed by $\RegSeqRatUp$ or by the $\RealUp$ seal
+factors through the same transported rows
+$n,\rho,W,H,C,P,N,L$ and $n',\rho',W',H',C',P',N',L'$.
+
+In particular, the consumer-visible precision, selected radius,
+observation-window, $\hsame$ transport, $\Cont$ route, $\mathsf{Pkg}$
+provenance, and $\NameCert$ provenance are determined by the displayed
+classifier rows. The readback exposes no hidden stream tail, completed real
+object, quotient precision request, external Cauchy modulus, trichotomy,
+completeness witness, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project both schedules through
+\autoref{def:dyadic-precision-schedule-carrier}. The only consumer-facing rows
+are the unary precision row, selected dyadic radius row, finite observation
+window, componentwise $\hsame$ witnesses, displayed $\Cont$ routes, package
+provenance, local naming row, and exact ledger.
+
+Use the classifier of
+\autoref{def:dyadic-precision-schedule-classifier}. It transports those
+coordinates componentwise, so a shared unary precision-window request has the
+same displayed source rows on both sides after applying the recorded
+$\hsame$ witnesses and $\Cont$ routes.
+
+Now apply the $\RegSeqRatUp$ handoff in
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff} and the $\RealUp$
+boundary in \autoref{thm:dyadic-precision-schedule-realup-boundary}. Both
+consumer surfaces read the transported precision, radius, window, transport,
+provenance, and naming rows already listed by the two schedule carriers.
+
+The empty branch is covered by
+\autoref{thm:dyadic-precision-empty-schedule-exactness}, and the successor
+branch by \autoref{thm:dyadic-precision-successor-schedule-exactness}. Finally
+use \autoref{thm:dyadic-precision-monotone-refinement-handoff} to identify a
+refined shared window with the same displayed rows. Since none of these rows
+contains an external stream tail, completed real object, quotient request, or
+hidden modulus, the shared-window readback is determined exactly by the two
+displayed classifier tuples.
+\end{proof}
+
 \begin{theorem}[DyadicPrecision schedule obligation export]
 \label{thm:dyadicprecision-schedule-obligation-export}
 The carrier of \autoref{def:dyadic-precision-schedule-carrier}, classifier of
