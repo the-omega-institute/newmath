@@ -358,3 +358,56 @@ cited boundaries are finite ledger statements and none exports regularity,
 completion, quotient, limit-selection, or host equality data, the selected
 positive denominator source is exactly the visible source available downstream.
 \end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat cover-refinement exhaustion]
+\label{thm:streamname-regseqrat-cover-refinement-exhaustion}
+Let $\mathcal{U}=\{B_i\}_{i\in I}$ be a finite cover family of public
+$\StreamNameUp$ windows over a common observation map. Suppose every $B_i$ is
+exhausted by
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}, and let
+$\mathcal{R}$ be a certified common refinement cover read by a downstream
+$\RegSeqRatUp$ consumer or finite-window $\RealUp$ consumer. Then the
+refinement read is exhausted by the public StreamName finite-window interface,
+the displayed $\mathsf{InBundle}$ membership rows for the cover members and
+for $\mathcal{R}$, pointwise $\RatUp$ classifier rows, the
+$\DyadicRatCoreUp$ denominator ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance. The refinement read exports no $\RegSeqRatUp$ regularity witness,
+$\RealUp$ completion row, quotient representative, hidden limit selector, or
+host index equality.
+\end{theorem}
+\begin{proof}
+Begin with the public finite-window interface. It fixes the common
+$\StreamNameUp$ observation map, the visible observation histories, the
+pointwise $\RatUp$ classifier rows, and the public transport and provenance
+rows before the downstream cover refinement is read.
+
+For each cover member $B_i$, apply
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. The member
+read contributes only its displayed $\mathsf{InBundle}(-,B_i)$ rows, public
+observation rows, pointwise rational classifier rows, dyadic denominator
+ledger rows, $\hsame$ comparisons, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance.
+
+Next pass through the finite cover by the union and intersection exhaustion
+theorems. Use
+\autoref{thm:streamname-regseqrat-window-union-exhaustion} to combine the
+member inventories, and use
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion} on overlap
+rows so that a refinement point covered by more than one $B_i$ has one common
+public row inventory.
+
+It remains to repack the certified common refinement. Case on the displayed
+$\mathsf{InBundle}$ membership row for a refinement element of
+$\mathcal{R}$. The certification names a cover member $B_i$ containing that
+element, so the row is read from the exhausted inventory of $B_i$; on overlaps,
+the intersection exhaustion identifies the alternative reads by the common
+public classifier and the displayed $\hsame$ rows.
+
+Thus every row consumed by the downstream $\RegSeqRatUp$ or finite-window
+$\RealUp$ refinement read is one of the displayed public StreamName window
+rows, refinement-membership rows, pointwise rational rows, denominator-ledger
+rows, continuation rows, or provenance rows. Since the member, union, and
+intersection exhaustions export none of the excluded regularity, completion,
+quotient, limit-selection, or host-equality data, the common refinement cover
+exports none of those rows.
+\end{proof}
