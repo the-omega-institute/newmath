@@ -539,3 +539,68 @@ The recovered $\Pi$ signatures together with $\hsame(s_h,s_k)$ are exactly a
 witness for $\sameSig_\Pi(h,k)$, and the recovered $\Theta$ signatures together
 with $\hsame(t_h,t_k)$ are exactly a witness for $\sameSig_\Theta(h,k)$.
 \end{proof}
+
+\begin{theorem}[Three-bundle signature cut inversion]
+\label{thm:three-bundle-signature-cut-inversion}
+For probe bundles $\Pi,\Theta,\Omega$, source history $h$, and a bundle $A$ with
+$$
+A=\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega)),
+$$
+if
+$$
+\Sig(A,h,u,\Lambda),
+$$
+then there exist histories $s,t,w,b,u'$ and evidence ledgers $\Delta,\Gamma,\Xi$ such that
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\Sig(\Omega,h,w,\Xi),
+$$
+$$
+\ContR(w,t,b),
+\qquad
+\ContR(b,s,u'),
+\qquad
+\hsame(u,u').
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:signature-generation-bundle-append-inversion} to the given signature for the outer append
+$A=\mathsf{BAppend}(\Pi,\mathsf{BAppend}(\Theta,\Omega))$. This gives histories $s$ and $b$, together with evidence ledgers $\Delta$ and $\Psi$, and a bundle $B$ with
+$$
+B=\mathsf{BAppend}(\Theta,\Omega),
+$$
+such that
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(B,h,b,\Psi),
+\qquad
+\ContR(b,s,u).
+$$
+Apply the same append-inversion theorem to the recovered signature for
+$B=\mathsf{BAppend}(\Theta,\Omega)$. This gives histories $t$ and $w$, together with evidence ledgers $\Gamma$ and $\Xi$, such that
+$$
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\Sig(\Omega,h,w,\Xi),
+\qquad
+\ContR(w,t,b).
+$$
+Take $u'=u$. The displayed outer continuation is then exactly $\ContR(b,s,u')$, and $\hsame(u,u')$ follows by reflexivity of history-sameness. These witnesses are the displayed three component signatures and the two continuation cuts.
+\end{proof}
+
+\begin{theorem}[Signature empty-result iff empty bundle]
+\label{thm:signature-empty-result-iff-empty-bundle}
+If $\Sig(\Pi,h,r,\Delta)$, then
+$$
+\hsame(r,\emp)\Longleftrightarrow \Pi=\Bnil.
+$$
+\end{theorem}
+\begin{proof}
+For the forward implication, assume $\hsame(r,\emp)$ and classify the bundle $\Pi$. The empty-bundle case is immediate. In the cons case, write $\Pi=\Bcons(\pi,\Pi_0)$. The given signature premise is then a cons-bundle signature for result $r$, so \autoref{thm:signature-cons-result-ne-empty} rules out $\hsame(r,\emp)$, a contradiction. Hence the cons case is impossible and $\Pi=\Bnil$.
+
+For the reverse implication, assume $\Pi=\Bnil$ and substitute this into the signature premise. Inverting the resulting empty-bundle signature leaves only the empty-signature rule, so the produced result history is internally the same as $\emp$, exactly as in \autoref{lem:empty-signature-inversion}.
+\end{proof}
