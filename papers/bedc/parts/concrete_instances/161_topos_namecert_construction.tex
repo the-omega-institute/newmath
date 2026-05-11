@@ -35,6 +35,7 @@ Transport is componentwise. The $\hsame$ rows move finite-limit, exponential, co
 
 Thus the finite-limit and exponential scope is exactly the displayed BEDC surface, not an ambient categorical universe.
 \end{proof}
+\leanchecked{BEDC.Derived.ToposUp.ToposFiniteCarrier\_finite\_limit\_exponential\_scope}
 
 \section{The certificate}
 \label{sec:topos-certificate}
@@ -50,6 +51,33 @@ Project the subobject-classifier coordinate. It is stored as a finite row in the
 The dependency route is visible: the category and sheaf certificates provide provenance, while the continuation ledger carries the classifier row to the public readback. Componentwise $\hsame$ transport preserves this route.
 
 No row in the carrier names a host truth-value object or external predicate semantics, so the subobject-classifier readback is exactly the displayed ledger entry.
+\end{proof}
+
+\begin{theorem}[Topos subobject-classifier pullback boundary]
+\label{thm:topos-subobject-classifier-pullback-boundary}
+Any pullback read of a displayed subobject-classifier row in a $\ToposUp$
+packet factors only through the $\CategoryUp$ site row, the $\SheafUp$
+cover/gluing row, finite-limit rows, exponential rows, the displayed
+subobject-classifier row, componentwise $\hsame$, finite $\Cont$, and
+$\mathsf{Pkg}$ provenance. It exposes no host truth values, ambient set
+semantics, or unlogged predicate extensions.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:topos-finite-limit-exponential-scope}. It confines the
+structural part of any pullback request to the displayed category and sheaf
+source rows, finite-limit rows, exponential rows, componentwise transport,
+continuation, and package provenance.
+
+Combine this with
+\autoref{thm:topos-subobject-classifier-ledger-exactness}. The classifier row
+itself is a displayed finite ledger entry in the same packet and carries no
+host truth-value object or external predicate semantics.
+
+Repack the pullback request as one of the finite-limit rows already present in
+the carrier, with the displayed subobject-classifier row as its classified
+input. The repacking uses only the visible $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ routes, so no ambient set semantics or unlogged predicate
+extension is introduced.
 \end{proof}
 
 \begin{theorem}[Topos site-sheaf classifier obligation]

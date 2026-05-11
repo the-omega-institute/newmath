@@ -159,6 +159,78 @@ theorem HolonomyBHistTransportCarrier_continuation_transport_stability [AskSetup
                           (And.intro dependencyRow'Cont pkg')))))))))))
       (And.intro sameLoop (And.intro sameLedger sameDependency))
 
+theorem HolonomyBHistTransportCarrier_certificate_boundary [AskSetup] [PackageSetup]
+    {bundleRow connectionRow loopRow endpointRow curvatureRow controlRow ledgerRow
+      dependencyRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow curvatureRow
+        controlRow ledgerRow dependencyRow bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          hsame ∧
+        Cont bundleRow connectionRow loopRow ∧ Cont loopRow endpointRow ledgerRow ∧
+          Cont curvatureRow controlRow dependencyRow ∧ PkgSig bundle dependencyRow pkg := by
+  intro carrier
+  have dependencySource :
+      (fun row : BHist =>
+        HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+          curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧ hsame row dependencyRow)
+        dependencyRow :=
+    And.intro carrier (hsame_refl dependencyRow)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          (fun row : BHist =>
+            HolonomyBHistTransportCarrier bundleRow connectionRow loopRow endpointRow
+              curvatureRow controlRow ledgerRow dependencyRow bundle pkg ∧
+              hsame row dependencyRow)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro dependencyRow dependencySource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro carrier.right.right.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right.right.right)))
+
 def HolonomyTransportPacket [AskSetup] [PackageSetup]
     (bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist)
     (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -485,6 +557,41 @@ theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [Packag
                     (And.intro ledgerRow'
                       (And.intro endpointRow' pkgSig')))))))))
       (And.intro sameLedger sameEndpoint)
+
+theorem HolonomyTransportCarrier_composition_ledger_obligation [AskSetup] [PackageSetup]
+    {bundle connection loopA endpointA curvature ledgerA provenance loopB endpointB ledgerB
+      composedLoop composedEndpoint : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loopA endpointA curvature ledgerA provenance
+        probeBundle pkg ->
+      HolonomyTransportCarrier bundle connection loopB endpointB curvature ledgerB provenance
+          probeBundle pkg ->
+        Cont loopA loopB composedLoop ->
+          Cont ledgerA ledgerB composedEndpoint ->
+            PkgSig probeBundle composedEndpoint pkg ->
+              UnaryHistory composedLoop ∧ UnaryHistory composedEndpoint ∧
+                hsame composedLoop (append loopA loopB) ∧
+                  hsame composedEndpoint (append ledgerA ledgerB) ∧
+                    Cont loopA loopB composedLoop ∧ Cont ledgerA ledgerB composedEndpoint ∧
+                      PkgSig probeBundle composedEndpoint pkg := by
+  intro carrierA carrierB loopComposition ledgerComposition composedPkg
+  have loopAUnary : UnaryHistory loopA :=
+    carrierA.right.right.left
+  have loopBUnary : UnaryHistory loopB :=
+    carrierB.right.right.left
+  have ledgerAUnary : UnaryHistory ledgerA :=
+    carrierA.right.right.right.right.right.left
+  have ledgerBUnary : UnaryHistory ledgerB :=
+    carrierB.right.right.right.right.right.left
+  have composedLoopUnary : UnaryHistory composedLoop :=
+    unary_cont_closed loopAUnary loopBUnary loopComposition
+  have composedEndpointUnary : UnaryHistory composedEndpoint :=
+    unary_cont_closed ledgerAUnary ledgerBUnary ledgerComposition
+  exact And.intro composedLoopUnary
+    (And.intro composedEndpointUnary
+      (And.intro loopComposition
+        (And.intro ledgerComposition
+          (And.intro loopComposition (And.intro ledgerComposition composedPkg)))))
 
 theorem HolonomyTransportPacket_loop_source_obligation [AskSetup] [PackageSetup]
     {bundle connection loop endpoint curvature ledger pkgRow : BHist}
