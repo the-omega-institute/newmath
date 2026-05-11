@@ -253,6 +253,47 @@ theorem BraidGroupArtinPacket_weyl_root_action_handoff [AskSetup] [PackageSetup]
                   (And.intro closureRowCont closurePkg)))))))
       (And.intro actionRow closureRowCont)
 
+theorem BraidGroupArtinPacket_scoped_artin_source_package [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint rootAction knotClosure : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont endpoint dependency rootAction ->
+        Cont endpoint strand knotClosure ->
+          PkgSig bundle knotClosure pkg ->
+            PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory moveLedger ∧
+              UnaryHistory dependency ∧ UnaryHistory rootAction ∧ UnaryHistory knotClosure ∧
+                Cont strand word moveLedger ∧ Cont moveLedger dependency classifier ∧
+                  Cont classifier word endpoint ∧ Cont endpoint dependency rootAction ∧
+                    Cont endpoint strand knotClosure ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle knotClosure pkg := by
+  intro packet rootActionRow knotClosureRow knotClosurePkg
+  have strandUnary : UnaryHistory strand :=
+    (PositiveUnaryDenominator_unary_and_nonempty packet.left).left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed classifierUnary packet.right.left
+      packet.right.right.right.right.right.right.left
+  have rootActionUnary : UnaryHistory rootAction :=
+    unary_cont_closed endpointUnary packet.right.right.right.left rootActionRow
+  have knotClosureUnary : UnaryHistory knotClosure :=
+    unary_cont_closed endpointUnary strandUnary knotClosureRow
+  exact
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro rootActionUnary
+              (And.intro knotClosureUnary
+                (And.intro packet.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.left
+                    (And.intro packet.right.right.right.right.right.right.left
+                      (And.intro rootActionRow
+                        (And.intro knotClosureRow
+                          (And.intro packet.right.right.right.right.right.right.right
+                            knotClosurePkg)))))))))))
+
 theorem BraidGroupPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {strand word ledger classifier provenance action closureRow artinStrand artinWord moveLedger
       dependency artinClassifier endpoint : BHist}
