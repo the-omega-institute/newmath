@@ -145,6 +145,20 @@ semigroups, stochastic data, and infinite-horizon limits from the exported
 interface.
 \end{proof}
 
+\begin{theorem}[StateSpaceModel public interface boundary]
+\label{thm:statespacemodel-public-interface-boundary}
+The public $\StateSpaceModelUp$ interface exports exactly the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows isolated by \autoref{def:statespacemodel-carrier}, \autoref{def:statespacemodel-classifier}, \autoref{thm:statespacemodel-control-handoff}, \autoref{thm:statespacemodel-ledger-boundary}, and \autoref{thm:statespacemodel-obligation-closure}. No further public coordinate is part of the certificate boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier definitions. They expose the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, continuation, sameness, package, and naming rows carried by a $\StateSpaceModelUp$ packet.
+
+Compose those projections with \autoref{thm:statespacemodel-control-handoff}. The handoff routes every control-facing read through the same displayed rows, so no consumer-facing state-space coordinate can be read outside the finite certificate surface.
+
+Apply \autoref{thm:statespacemodel-ledger-boundary} and \autoref{thm:statespacemodel-obligation-closure} to close the projection under the visible ledger and obligation rows. These two results repack the projected rows as the public interface boundary and show that the exported surface is exhausted by the listed data.
+
+The boundary therefore excludes host trajectory spaces, analytic semigroups, stochastic models, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, and standard bridge data.
+\end{proof}
+
 \closureat{StateSpaceModelUp}{seedStr}
 \closureat{StateSpaceModelUp}{obligationStr}
 \closureat{StateSpaceModelUp}{scopedStr}
