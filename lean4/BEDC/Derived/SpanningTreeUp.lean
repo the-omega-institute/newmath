@@ -279,6 +279,58 @@ theorem SpanningTreeCarrierPacket_classifier_obligation [AskSetup] [PackageSetup
       edgeIncidence, rootReachability, reachabilityLedger, provenanceEndpoint, endpointClassifier,
       endpointPkg⟩
 
+theorem SpanningTreeCarrierPacket_incidence_reachability_transport [AskSetup] [PackageSetup]
+    {vertex vertex' graphEdge graphEdge' treeEdge treeEdge' root root' incidence incidence'
+      reachability reachability' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory vertex ->
+      UnaryHistory graphEdge ->
+        UnaryHistory treeEdge ->
+          UnaryHistory root ->
+            hsame vertex vertex' ->
+              hsame graphEdge graphEdge' ->
+                hsame treeEdge treeEdge' ->
+                  hsame root root' ->
+                    Cont graphEdge treeEdge incidence ->
+                      Cont graphEdge' treeEdge' incidence' ->
+                        Cont root incidence reachability ->
+                          Cont root' incidence' reachability' ->
+                            Cont vertex reachability endpoint ->
+                              Cont vertex' reachability' endpoint' ->
+                                PkgSig bundle endpoint pkg ->
+                                  UnaryHistory incidence' ∧ UnaryHistory reachability' ∧
+                                    UnaryHistory endpoint' ∧ hsame incidence incidence' ∧
+                                      hsame reachability reachability' ∧
+                                        hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro vertexUnary graphEdgeUnary treeEdgeUnary rootUnary sameVertex sameGraphEdge
+  intro sameTreeEdge sameRoot leftIncidence rightIncidence leftReachability
+  intro rightReachability leftEndpoint rightEndpoint endpointPkg
+  have graphEdgeUnary' : UnaryHistory graphEdge' :=
+    unary_transport graphEdgeUnary sameGraphEdge
+  have treeEdgeUnary' : UnaryHistory treeEdge' :=
+    unary_transport treeEdgeUnary sameTreeEdge
+  have rootUnary' : UnaryHistory root' :=
+    unary_transport rootUnary sameRoot
+  have incidenceUnary' : UnaryHistory incidence' :=
+    unary_cont_closed graphEdgeUnary' treeEdgeUnary' rightIncidence
+  have reachabilityUnary' : UnaryHistory reachability' :=
+    unary_cont_closed rootUnary' incidenceUnary' rightReachability
+  have vertexUnary' : UnaryHistory vertex' :=
+    unary_transport vertexUnary sameVertex
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed vertexUnary' reachabilityUnary' rightEndpoint
+  have sameIncidence : hsame incidence incidence' :=
+    cont_respects_hsame sameGraphEdge sameTreeEdge leftIncidence rightIncidence
+  have sameReachability : hsame reachability reachability' :=
+    cont_respects_hsame sameRoot sameIncidence leftReachability rightReachability
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameVertex sameReachability leftEndpoint rightEndpoint
+  exact And.intro incidenceUnary'
+    (And.intro reachabilityUnary'
+      (And.intro endpointUnary'
+        (And.intro sameIncidence
+          (And.intro sameReachability (And.intro sameEndpoint endpointPkg)))))
+
 def SpanningTreeCarrier [AskSetup] [PackageSetup]
     (vertices graphEdges treeEdges root incidence reach acyclic endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

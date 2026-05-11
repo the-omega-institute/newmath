@@ -278,6 +278,37 @@ theorem StackCarrier_obligation_surface
       (And.intro schemePackage
         (And.intro restrictionRow packageReadback)))
 
+theorem StackCarrierPacket_representability_surface [AskSetup] [PackageSetup]
+    {schemeSite diagonal atlas overlap cover representability transport endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory schemeSite ->
+      UnaryHistory diagonal ->
+        UnaryHistory atlas ->
+          UnaryHistory overlap ->
+            UnaryHistory cover ->
+              Cont schemeSite diagonal transport ->
+                Cont atlas overlap representability ->
+                  Cont transport cover endpoint ->
+                    PkgSig bundle endpoint pkg ->
+                      UnaryHistory transport ∧ UnaryHistory representability ∧
+                        UnaryHistory endpoint ∧ hsame transport (append schemeSite diagonal) ∧
+                          hsame representability (append atlas overlap) ∧
+                            hsame endpoint (append transport cover) ∧ PkgSig bundle endpoint pkg := by
+  intro schemeUnary diagonalUnary atlasUnary overlapUnary coverUnary
+  intro siteDiagonalTransport atlasOverlapRepresentability transportCoverEndpoint endpointPkg
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed schemeUnary diagonalUnary siteDiagonalTransport
+  have representabilityUnary : UnaryHistory representability :=
+    unary_cont_closed atlasUnary overlapUnary atlasOverlapRepresentability
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary coverUnary transportCoverEndpoint
+  exact And.intro transportUnary
+    (And.intro representabilityUnary
+      (And.intro endpointUnary
+        (And.intro siteDiagonalTransport
+          (And.intro atlasOverlapRepresentability
+            (And.intro transportCoverEndpoint endpointPkg)))))
+
 def StackCarrier [AskSetup] [PackageSetup]
     (site presheaf localObj localArrow gluedObj gluedArrow cover restrict provenance
       endpoint : BHist)
