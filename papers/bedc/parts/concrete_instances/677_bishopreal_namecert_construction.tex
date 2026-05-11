@@ -120,35 +120,72 @@ ledger coordinate $N$ list precisely the seven dependency anchors named in the
 statement, so the ledger surface has no further exported row.
 \end{proof}
 
-\begin{theorem}[BishopReal seed obligations]
-\label{thm:bishopreal-namecert-seed-obligations}
-The $\BishopRealUp$ seed certificate has the following open obligation surface:
-\begin{enumerate}
-\item carrier construction for certified $\RegSeqRatUp$ names with
-$\LocatedRealUp$, $\ApartnessRealUp$, $\ModulusOfConvergenceUp$, and $\RealUp$
-rows;
-\item classifier stability under componentwise $\hsame$ and displayed $\Cont$
-routes;
-\item readback exactness from $\RealUp$ seals to finite regular-rational and
-dyadic endpoint observations;
-\item ledger exhaustion over $\DyadicRatCoreUp$, $\StreamNameUp$,
-$\RegSeqRatUp$, $\LocatedRealUp$, $\ApartnessRealUp$,
-$\ModulusOfConvergenceUp$, and $\RealUp$;
-\item boundary exclusion for Dedekind cuts, quotient reals, trichotomy, selected
-limits, and classical completeness.
-\end{enumerate}
+\begin{theorem}[BishopReal carrier construction obligation]
+\label{thm:bishopreal-carrier-construction-obligation}
+The carrier obligation for $\BishopRealUp$ is to construct the finite packet
+of \autoref{def:bishopreal-regular-located-carrier} from a certified
+$\RegSeqRatUp$ name, scheduled $\StreamNameUp$ windows, $\DyadicRatCoreUp$
+endpoint packets, a displayed $\ModulusOfConvergenceUp$ row, displayed
+$\LocatedRealUp$ and $\ApartnessRealUp$ evidence rows, the visible $\RealUp$
+seal, componentwise $\hsame$ transport, finite $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert_{\BishopRealUp}$ ledger.
 \end{theorem}
 \begin{proof}
-The five rows are the projections already isolated above. The carrier
-projection is \autoref{def:bishopreal-regular-located-carrier}, the transport
-projection is \autoref{thm:bishopreal-located-apartness-transport}, and the
-readback projection is \autoref{thm:bishopreal-regseqrat-readback}.
+Read the coordinates of \autoref{def:bishopreal-regular-located-carrier}.
+They list exactly the regular rational name, finite observation windows,
+dyadic endpoint packets, convergence modulus, locatedness and apartness rows,
+real seal, transport, continuation, provenance, and local ledger.
 
-The ledger projection is \autoref{thm:bishopreal-ledger-obligation-surface}.
-Combining those rows gives a seed certificate surface: it names the finite
-constructive real-neighbor packet and the obligations still needed for a checked
-NameCert, while keeping all non-constructive real-completion principles outside
-the exported carrier.
+The construction obligation is therefore finite: provide those displayed rows
+and repack them as the carrier predicate. No Dedekind cut, quotient real,
+trichotomy principle, selected limit, or classical completeness coordinate is
+available to the constructor.
+\end{proof}
+
+\begin{theorem}[BishopReal classifier stability obligation]
+\label{thm:bishopreal-classifier-stability-obligation}
+The classifier stability obligation for $\BishopRealUp$ is componentwise
+transport under $\hsame$ for the $\RegSeqRatUp$, $\LocatedRealUp$,
+$\ApartnessRealUp$, $\ModulusOfConvergenceUp$, and $\RealUp$ rows along the
+finite $\Cont$ routes displayed in the carrier. Accepted packets may classify
+together only through those finite routes and their shared BEDC dependency
+surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bishopreal-located-apartness-transport}. It transports the
+stream schedule, regular rational name, dyadic endpoint packet, modulus row,
+locatedness row, apartness row, and $\RealUp$ seal componentwise along the
+displayed $\hsame$ witnesses.
+
+The same theorem records that every transported read is reached through one of
+the finite $\Cont$ routes in the carrier. Thus the classifier is stable exactly
+on the displayed packet surface and does not acquire host real equality,
+trichotomy, or a quotient comparison.
+\end{proof}
+
+\begin{theorem}[BishopReal readback ledger exhaustion obligation]
+\label{thm:bishopreal-readback-ledger-exhaustion-obligation}
+The readback-ledger exhaustion obligation for $\BishopRealUp$ is that every
+exported $\RealUp$ seal read factors through the certified $\RegSeqRatUp$ name,
+the scheduled finite windows, the $\DyadicRatCoreUp$ endpoint packets, the
+displayed $\ModulusOfConvergenceUp$ row, and the dependency anchors
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$,
+$\ApartnessRealUp$, $\ModulusOfConvergenceUp$, and $\RealUp$. The exhausted
+ledger excludes Dedekind cuts, quotient reals, trichotomy, selected limits, and
+classical completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:bishopreal-regseqrat-readback}. It says each
+$\RealUp$ seal read passes through the regular rational name, scheduled
+windows, dyadic endpoint packets, and explicit convergence modulus.
+
+Then apply \autoref{thm:bishopreal-ledger-obligation-surface}. Its provenance
+and local ledger rows list exactly the seven dependency anchors in the
+statement, so the readback has no further exported row.
+
+The non-constructive real principles are absent twice: they are not carrier
+coordinates, and they are not ledger anchors. The readback surface is therefore
+exhausted by the finite BEDC rows already displayed.
 \end{proof}
 
 \closureat{BishopRealUp}{seedStr}
@@ -156,10 +193,10 @@ the exported carrier.
 \begin{closurestatus}{\BishopRealUp}
   \constructivestory{A $\BishopRealUp$ packet is generated from a certified $\RegSeqRatUp$ name, finite stream windows, dyadic endpoint packets, an explicit convergence modulus, locatedness evidence, apartness evidence, componentwise transport rows, continuation routes, package provenance, and the visible $\RealUp$ seal.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, and \autoref{thm:bishopreal-namecert-seed-obligations} name the finite constructive real-neighbor certificate surface over regular rational names, locatedness, apartness, explicit modulus rows, and the $\RealUp$ seal.}
+  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, \autoref{thm:bishopreal-carrier-construction-obligation}, \autoref{thm:bishopreal-classifier-stability-obligation}, and \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation} name the finite constructive real-neighbor certificate surface over regular rational names, locatedness, apartness, explicit modulus rows, and the $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind-cut reals, quotient reals, trichotomy, selected limits, classical completeness, or a standard bridge.}
-  \upgradepath{The next paper-side step is an obligation boundary that binds carrier construction, classifier stability, readback exactness, and ledger exhaustion to explicit BEDC dependencies.}
+  \upgradepath{The next paper-side step is a scoped boundary tying the carrier, classifier, readback, and exhausted ledger rows to a single local $\NameCert_{\BishopRealUp}$ package.}
 \end{closurestatus}
