@@ -52,6 +52,7 @@ The verifier-acceptance row is then packed into the ledger $\ell$ together with 
 \label{thm:zeroknowledge-soundness-ledger-obligation}
 The soundness ledger of a $\ZeroKnowledgeUp$ packet is a finite BEDC obligation over challenge rows, response rows, hash commitment rows, computable verifier rows, $\hsame$ comparisons, $\Cont$ transcript routes, and $\Pkg$ provenance for $\HashUp$ and $\ComputableUp$. It records only the visible rows needed to compare an accepting transcript with the commitment and verifier rows; it does not claim cryptographic hardness, extractor existence, or a negligible cheating bound.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeCarrier\_soundness\_ledger\_obligation}
 \begin{proof}
 First project the accepting transcript to its challenge, response, commitment, and computable-verifier rows. The hash dependency is read through the carried $\HashUp$ provenance, and the verifier computation is read through the carried $\ComputableUp$ provenance.
 
