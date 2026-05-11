@@ -502,4 +502,38 @@ theorem TuringMachinePublicCertificate_export
     unary_cont_closed publicSurfaceUnary haltedUnary certificateRow
   exact ⟨publicSurfaceUnary, certificateUnary, publicSurfaceRow, certificateRow⟩
 
+theorem TuringMachineFiniteTrace_standard_bridge
+    {state tape head bound configuration trace readback bounded endpoint halted ledger publicSurface
+      certificate bridge : BHist}
+    {haltRows : List BHist} :
+    UnaryHistory state ->
+      UnaryHistory tape ->
+        UnaryHistory head ->
+          UnaryHistory bound ->
+            UnaryHistory halted ->
+              Cont state tape configuration ->
+                Cont configuration head trace ->
+                  Cont tape head readback ->
+                    Cont trace readback bounded ->
+                      Cont bounded bound endpoint ->
+                        TuringMachineHaltedTrace halted haltRows endpoint ->
+                          Cont endpoint halted ledger ->
+                            Cont ledger bounded publicSurface ->
+                              Cont publicSurface halted certificate ->
+                                Cont certificate endpoint bridge ->
+                                  UnaryHistory bridge ∧ hsame bridge (append certificate endpoint) ∧
+                                    (forall row : BHist, List.Mem row haltRows ->
+                                      hsame row halted) := by
+  intro stateUnary tapeUnary headUnary boundUnary haltedUnary configurationRow traceRow readbackRow
+  intro boundedRow endpointRow haltedTrace ledgerRow publicSurfaceRow certificateRow bridgeRow
+  have publicCertificate :=
+    TuringMachinePublicCertificate_export stateUnary tapeUnary headUnary boundUnary haltedUnary
+      configurationRow traceRow readbackRow boundedRow endpointRow haltedTrace ledgerRow
+      publicSurfaceRow certificateRow
+  have haltedRows :=
+    TuringMachineHaltedTrace_repeat_obligation haltedTrace haltedUnary
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed publicCertificate.right.left haltedRows.right bridgeRow
+  exact ⟨bridgeUnary, bridgeRow, haltedRows.left⟩
+
 end BEDC.Derived.TuringMachineUp

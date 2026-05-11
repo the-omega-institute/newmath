@@ -18,51 +18,51 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-663 - Append sameSig exact split into both components
+### B-666 - Bundle-local concrete Globalize classifies-by-signatures
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Append sameSig exact split into both components |
-| Layer | core |
+| Source | bedc-deep topic discovery |
+| Object | Bundle-local concrete Globalize classifies-by-signatures |
+| Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
 | Fit | 9/10 |
 | Novelty | 7/10 |
 
 Problem:
-Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), and h,k admitted by D, sameSig_{BAppend(Π,Θ)}(h,k) implies sameSig_Π(h,k) and sameSig_Θ(h,k).
+Assume BundleAskPolicy(Pi,D), PkgTokPol(Pi), InGapSig(Pi,D,p,h), InGapSig(Pi,D,q,k); then psame(p,q) iff there exist s,t,Delta,Theta with Sig(Pi,h,s,Delta) and Sig(Pi,k,t,Theta) and hsame(s,t).
 
 Local inputs:
-- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
-- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
 
 Rationale:
-B-660 covers residual exactness with a known Θ-component; B-659 covers bundle-local same-source membership sharing signatures. Neither gives the unconditional component-split converse to append closure of sameSig. This is the appended-classifier → two-component-classifiers exact split, a genuine converse of the append closure theorem rather than a paraphrase. Lands cleanly in 02_signature_generation.tex.
+The chapter proves three bundle-local cousins of the AskPol-based theorems: bundle-local-internalized-gap-separation (line 202), bundle-local-internalized-gap-coverage (line 232), bundle-local-gap-memberships-share-signature (line 256). The corresponding AskPol-based classification corollary cor:concrete-globalize-classifies-by-signatures sits at line 155 (uses AskPol+PkgTokPol). Grep for 'bundle.local.*classif|bundleAskPolicy.*classif|bundle.local.*globalize|bundleAskPolicy.*Glob' across papers/bedc/parts/ and lean4/BEDC/ returns 0 — confirming no bundle-local classification corollary exists in either side. The reverse direction reduces to thm:bundle-local-signature-determinacy (papers/bedc/parts/core/probe_bundles/02_signature_generation.tex:365) plus PkgTokPol soundness, both already available. Lands cleanly in internalized_gap_globalize.tex (293 lines, room). Concrete classification claim, not parameter echo.
 
 ---
 
-### B-665 - Second-layer separation is necessary for composite gaps
+### B-668 - Three-layer composite gap exactness from layered hypotheses
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Second-layer separation is necessary for composite gaps |
-| Layer | proof_obligations |
+| Source | bedc-deep topic discovery |
+| Object | Three-layer composite gap exactness from layered hypotheses |
+| Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 9/10 |
+| Fit | 8/10 |
+| Novelty | 7/10 |
 
 Problem:
-There exists a finite CompGap setup with firstGap coverage+separation and secondGap coverage but not separation such that the same source falls into composite gaps of two distinct final tokens with finalSame failing.
+If three layers C, D, E each have coverage of their lower carriers (with intermediate admissibility certificates), separation of witnesses up to interSame at each level, and each successor layer transports interSame across its layer's gap, then the threefold composite CompGap(CompGap(C,D),E) (equivalently CompGap(C,CompGap(D,E))) has both coverage and separation.
 
 Local inputs:
-- `papers/bedc/parts/proof_obligations/gap_policy.tex`
+- `papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex`
 
 Rationale:
-Existing ledger composition theorems give the forward direction (first+second separation ⇒ composite separation). The paper currently does not record a witness/obstruction showing second-layer separation cannot be weakened. A concrete two-point witness on b0,b1 final tokens with finalSame=msame closes a genuine gap and converts a sufficient-condition theorem into a tight one. High-novelty obstruction target, fits the proof_obligations layer exactly.
+Theorem thm:composite-exactness-from-layers (papers/bedc/parts/core/07_gap_policies_coverage_separation_and_composition.tex:121) gives the 2-layer composite exactness; no 3-layer version is stated. Grep for 'composite.*three.*layer|three.layer.*exact|threefold.*composite.*exact|3.layer.*composite|composite.*exact.*three' returns only a sheaf-side reference, confirming the abstract gap-level 3-layer exactness is open. Non-trivial because the InterOk admissibility certificate must compose across two intermediate levels, and the inter-same/final-same transport chain must thread through both gap relations. Lands in 07_gap_policies (237 lines, has room). Concrete closure claim about composite predicates under stacked layered hypotheses, not parameter transport.
 
 ---
