@@ -460,3 +460,75 @@ $$
 $$
 Thus the displayed $q$ is both a gap representative over $k$ and package-same to the original token $p$.
 \end{proof}
+
+\begin{theorem}[Second-layer separation obstruction for composite gaps]
+\label{thm:second-layer-separation-necessary-composite-gap}
+The second-layer separation premise in \autoref{thm:composite-gap-separation} is not implied by first-layer coverage, first-layer separation, and second-layer coverage. More concretely, there is a finite composite-gap setup with a source $x$, an intermediate token $y$, and final tokens $\bzero,\bone$ such that:
+\begin{enumerate}
+  \item the first gap covers $x$ and separates all first-layer witnesses over $x$;
+  \item the second gap covers $y$;
+  \item $x$ lies in the composite gaps of both $\bzero$ and $\bone$;
+  \item the final comparison is $\mathsf{finalSame}=\msame$, and $\mathsf{finalSame}(\bzero,\bone)$ fails.
+\end{enumerate}
+Thus second-layer coverage alone cannot yield composite separation.
+\end{theorem}
+
+\begin{proof}
+Take the finite source carrier $\{x\}$, the finite intermediate carrier $\{y\}$, and the final carrier given by the two BEDC raw marks $\{\bzero,\bone\}$. Let the admitted-source and intermediate-admissibility predicates hold on their unique elements:
+$$
+  \mathsf{SourceOk}(x),
+  \qquad
+  \mathsf{InterOk}(y).
+$$
+Define the first-layer gap by the single membership
+$$
+  \mathsf{firstGap}(y,x),
+$$
+and no other first-layer memberships. Define the intermediate sameness relation on the one-point intermediate carrier by
+$$
+  \mathsf{interSame}(y,y).
+$$
+Then first-layer coverage holds because $y$ covers $x$. First-layer separation also holds: if $u$ and $v$ are first-layer witnesses over $x$, the displayed definition of $\mathsf{firstGap}$ forces $u=y$ and $v=y$, and hence $\mathsf{interSame}(u,v)$ is exactly $\mathsf{interSame}(y,y)$.
+
+Define the second-layer gap by
+$$
+  \mathsf{secondGap}(\bzero,y)
+  \qquad\text{and}\qquad
+  \mathsf{secondGap}(\bone,y),
+$$
+and no other second-layer memberships. Second-layer coverage holds for the only intermediate token $y$, for instance by the witness $\bzero$.
+
+Let the final comparison relation be raw mark-sameness:
+$$
+  \mathsf{finalSame}(z,w)
+  \Longleftrightarrow
+  \msame(z,w).
+$$
+By the composite ledger definition in \autoref{def:composite-gap-ledger}, the witness $y$ gives
+$$
+  \CompGap(\mathsf{firstGap},\mathsf{secondGap},\bzero,x)
+$$
+from $\mathsf{firstGap}(y,x)$ and $\mathsf{secondGap}(\bzero,y)$, and the same witness gives
+$$
+  \CompGap(\mathsf{firstGap},\mathsf{secondGap},\bone,x)
+$$
+from $\mathsf{firstGap}(y,x)$ and $\mathsf{secondGap}(\bone,y)$.
+
+However, raw mark no-confusion in \autoref{thm:mark-no-confusion} gives
+$$
+  \neg\,\msame(\bzero,\bone).
+$$
+Since $\mathsf{finalSame}$ is $\msame$, this is
+$$
+  \neg\,\mathsf{finalSame}(\bzero,\bone).
+$$
+Therefore the same source $x$ belongs to composite gaps of two final tokens that are not final-same. The only failed hypothesis from the layered separation theorem is the second-layer separation condition, because that condition would have to turn
+$$
+  \mathsf{interSame}(y,y),
+  \qquad
+  \mathsf{secondGap}(\bzero,y),
+  \qquad
+  \mathsf{secondGap}(\bone,y)
+$$
+into $\mathsf{finalSame}(\bzero,\bone)$, contradicting raw mark no-confusion. Hence first-layer coverage, first-layer separation, and second-layer coverage do not suffice for composite separation.
+\end{proof}
