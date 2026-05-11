@@ -231,6 +231,7 @@ The finite carrier of \autoref{def:signeddigitstream-carrier}, classifier of \au
 
 The interface exposes finite digit rows, schedule rows, carry ledger rows, normalized dyadic endpoint rows, hidden-window ledger rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. It exports no quotient tail, host real equality, completed real endpoint, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_public\_interface\_export}
 \begin{proof}
 Use the carrier and classifier definitions as the visible spine. The carrier provides the finite digit rows, schedule rows, carry ledger, provenance, endpoint rows, and hidden-tail boundary; the classifier reads a common scheduled window and compares only the normalized $\DyadicRatCoreUp$ endpoints.
 
@@ -363,6 +364,7 @@ $\NameCert$ row.
 The prefix read exposes no quotient tail, host real equality, selected limit,
 completeness datum, or standard bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_prefix\_consumer\_invariance}
 \begin{proof}
 Apply
 \autoref{thm:signeddigitstream-prefix-truncation-stability} to the accepted
@@ -541,6 +543,44 @@ Finally invoke
 $\RegSeqRatUp$ or $\RealUp$ read is one of the finite-window consumer rows
 already carried by the normal form, so no excluded tail, quotient, limit,
 completeness, trichotomy, or host-equality coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream scheduled-window exhaustion]
+\label{thm:signeddigitstream-scheduled-window-exhaustion}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ packet. Every
+$\RegSeqRatUp$ or $\RealUp$ consumer request admitted by the mature
+finite-window consumer boundary factors through one displayed unary schedule
+window of $N$. The endpoint row, carry ledger, $\hsame$ rows, $\Cont$ rows,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ row read by the consumer are
+exactly the rows carried by that scheduled window.
+
+Consequently the consumer surface exposes no unscheduled endpoint, hidden tail
+coordinate, quotient equality, selected limit, completeness datum, trichotomy
+datum, host real equality, or standard bridge row outside the displayed unary
+schedule.
+\end{theorem}
+\begin{proof}
+Start with an admitted finite-window request. Apply
+\autoref{thm:signeddigitstream-mature-consumer-coverage} to reduce the read to
+the prefix, determinacy, handoff, public boundary, correspondence, invariance,
+and standard finite-window rows already exposed by the accepted packet.
+
+Next apply \autoref{thm:signeddigitstream-prefix-truncation-stability}. The
+requested read is identified with a displayed prefix of the unary schedule
+$N$, so the consumer can only address rows attached to that scheduled window.
+
+Use \autoref{thm:signeddigitstream-common-window-determinacy} together with
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. These
+fix the normalized endpoint and carry ledger for both $\RegSeqRatUp$ and
+$\RealUp$ consumers through the same displayed $\hsame$ and $\Cont$ routes.
+
+Finally invoke \autoref{thm:signeddigitstream-standard-bridge-window} and
+\autoref{thm:signeddigitstream-canonical-tail-normal-form}. The remaining
+package provenance and local name-certificate rows are exactly those carried by
+the scheduled window, and the cited normal form contains no coordinate for an
+unscheduled endpoint, hidden tail, quotient equality, selected limit,
+completeness datum, trichotomy datum, host real equality, or extra standard
+bridge row.
 \end{proof}
 
 \begin{theorem}[SignedDigitStream adjacent carry confluence]
