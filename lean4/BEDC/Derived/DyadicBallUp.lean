@@ -256,6 +256,31 @@ theorem DyadicBallFiniteWindowPacket_regseqrat_window_handoff [AskSetup] [Packag
     ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
       handoffUnary, containmentRow, routeRow, handoffRow, pkgRow⟩
 
+theorem DyadicBallFiniteWindowPacket_real_seal_boundary [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff
+      sealBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route
+        provenance certRow handoff sealBoundary bundle pkg →
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+          UnaryHistory handoff ∧ UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧
+            Cont handoff sealBoundary certRow ∧ hsame certRow (append handoff sealBoundary) ∧
+              PkgSig bundle handoff pkg := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, _provenanceUnary,
+    certUnary, sealUnary, containmentRow, routeRow, handoffRow, _provenanceRow,
+    sealBoundaryRow, pkgRow⟩ := packet
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed centerUnary radiusUnary containmentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed scheduleUnary observationUnary routeRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary routeUnary handoffRow
+  exact
+    ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
+      handoffUnary, sealUnary, certUnary, sealBoundaryRow, sealBoundaryRow, pkgRow⟩
+
 theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint center' radius'
       schedule' observation' containment' route' provenance' endpoint' : BHist}
