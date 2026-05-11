@@ -165,6 +165,85 @@ theorem substitute_preserves_typing_V2_sort_var
           cases hvar with
           | intro i hi => cases hi
 
+theorem substitute_preserves_typing_V2_binder_head_shape
+    {s dom : Term}
+    (hclosed_s : ClosedAt 0 s) :
+    substitute 1 (shift 0 1 s) (shift 0 1 dom) =
+      shift 0 1 (substitute 0 s dom) := by
+  rw [← shift_substitute_zero_zero_closed s dom hclosed_s]
+
+theorem substitute_preserves_typing_V2_pi_if_subderivations
+    {Γ : Ctx} {s B dom cod : Term}
+    (_hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (hdom_sub : HasTypeV2 Γ (substitute 0 s dom) Term.sort)
+    (hcod_sub :
+      HasTypeV2 ((shift 0 1 (substitute 0 s dom)) :: Γ)
+        (substitute 1 (shift 0 1 s) cod)
+        Term.sort)
+    (_hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.pi dom cod))
+      (substitute 0 s Term.sort) := by
+  change HasTypeV2 Γ
+    (Term.pi (substitute 0 s dom)
+      (substitute 1 (shift 0 1 s) cod))
+    Term.sort
+  apply HasTypeV2.piRule
+  · exact hdom_sub
+  · exact hcod_sub
+
+theorem substitute_preserves_typing_V2_lam_if_subderivations
+    {Γ : Ctx} {s B dom body cod : Term}
+    (_hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (hdom_sub : HasTypeV2 Γ (substitute 0 s dom) Term.sort)
+    (hbody_sub :
+      HasTypeV2 ((shift 0 1 (substitute 0 s dom)) :: Γ)
+        (substitute 1 (shift 0 1 s) body)
+        (substitute 1 (shift 0 1 s) cod))
+    (_hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.lam dom body))
+      (substitute 0 s (Term.pi dom cod)) := by
+  change HasTypeV2 Γ
+    (Term.lam (substitute 0 s dom)
+      (substitute 1 (shift 0 1 s) body))
+    (Term.pi (substitute 0 s dom)
+      (substitute 1 (shift 0 1 s) cod))
+  apply HasTypeV2.lamRule
+  · exact hdom_sub
+  · exact hbody_sub
+
+theorem substitute_preserves_typing_V2_app_if_subderivations
+    {Γ : Ctx} {s B f a dom cod : Term}
+    (_hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (hf_sub :
+      HasTypeV2 Γ
+        (substitute 0 s f)
+        (Term.pi (substitute 0 s dom)
+          (substitute 1 (shift 0 1 s) cod)))
+    (ha_sub :
+      HasTypeV2 Γ
+        (substitute 0 s a)
+        (substitute 0 s dom))
+    (_hs : HasTypeV2 Γ s B)
+    (hcod_sub :
+      substitute 0 (substitute 0 s a)
+        (substitute 1 (shift 0 1 s) cod) =
+      substitute 0 s (substitute 0 a cod)) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.app f a))
+      (substitute 0 s (substitute 0 a cod)) := by
+  change HasTypeV2 Γ
+    (Term.app (substitute 0 s f) (substitute 0 s a))
+    (substitute 0 s (substitute 0 a cod))
+  rw [← hcod_sub]
+  apply HasTypeV2.appRule
+  · exact hf_sub
+  · exact ha_sub
+
 def r11SubstitutionTermV2 : Term :=
   Term.lam (Term.var 0) (Term.var 0)
 
