@@ -196,6 +196,49 @@ theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
         windowUnary', provenanceUnary', nameRowUnary', endpointRow', transportRow',
         provenanceRow', nameRowRoute', pkgRow'⟩,
       sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
+
+theorem FastCauchyFiniteCarrier_public_interface_export [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+        nameRow bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro nameRow (And.intro carrier (hsame_refl nameRow))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
     (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
