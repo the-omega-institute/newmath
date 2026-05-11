@@ -48,4 +48,45 @@ theorem DyadicRatCoreCarrier_standard_source_bridge
     (And.intro scaleUnary
       (And.intro scaleUnary' (And.intro classifierWindowUnary classifierRow)))
 
+theorem DyadicRatCoreCarrier_standard_bridge_denominator_refinement_stability
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger common scale left
+      distanceWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail ->
+        Cont exponent tail refinedExponent ->
+          Cont refinedExponent mantissa refinedLedger ->
+            PositiveUnaryDenominator common ->
+              Cont exponent common scale ->
+                Cont mantissa scale left ->
+                  Cont left refinedLedger distanceWindow ->
+                    DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+                      PositiveUnaryDenominator refinedExponent ∧
+                        UnaryHistory distanceWindow ∧
+                          hsame refinedExponent (append exponent tail) ∧
+                            Cont left refinedLedger distanceWindow := by
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow commonPositive scaleRow leftRow
+    distanceWindowRow
+  have refinedRows :=
+    DyadicRatCoreCarrier_monotone_radius_obligation carrier tailUnary refinedExponentRow
+      refinedLedgerRow
+  have exponentUnary : UnaryHistory exponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty carrier.right.left).left
+  have commonUnary : UnaryHistory common :=
+    (PositiveUnaryDenominator_unary_and_nonempty commonPositive).left
+  have scaleUnary : UnaryHistory scale :=
+    unary_cont_closed exponentUnary commonUnary scaleRow
+  have mantissaUnary : UnaryHistory mantissa :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier.left)).left
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed mantissaUnary scaleUnary leftRow
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    refinedRows.left.right.right.right.right
+  have distanceWindowUnary : UnaryHistory distanceWindow :=
+    unary_cont_closed leftUnary refinedLedgerUnary distanceWindowRow
+  exact And.intro refinedRows.left
+    (And.intro refinedRows.right.left
+      (And.intro distanceWindowUnary
+        (And.intro refinedRows.right.right.left distanceWindowRow)))
+
 end BEDC.Derived.DyadicRatCoreUp
