@@ -266,4 +266,24 @@ theorem SpectralMeasureFinitePacket_namecert_obligation_surface [AskSetup] [Pack
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+theorem SpectralMeasureFinitePacket_projection_ledger_finite_additivity [AskSetup]
+    [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance endpoint
+      union additivityUnion : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
+        transport provenance endpoint probe pkg ->
+      Cont projection transport union ->
+        Cont union orthogonality additivityUnion ->
+          PkgSig probe additivityUnion pkg ->
+            SpectralMeasureFiniteAdditivityLedger event projection transport union orthogonality
+              additivityUnion probe pkg := by
+  intro packet unionRow additivityRow pkgSig
+  exact
+    And.intro packet.right.right.left
+      (And.intro packet.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.left
+            (And.intro unionRow (And.intro additivityRow pkgSig)))))
+
 end BEDC.Derived.SpectralMeasureUp
