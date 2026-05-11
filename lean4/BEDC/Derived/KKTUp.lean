@@ -160,6 +160,63 @@ theorem KKTPrimalDualCarrier_namecert_obligation_surface [AskSetup] [PackageSetu
   intro carrier
   exact (KKTPrimalDualCarrier_primal_dual_row_obligations carrier).left
 
+theorem KKTPrimalDualCarrier_stationarity_feasibility_hsame_transport
+    [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasible slack ledger provenance
+      primal' dual' residual' stationarity' feasible' slack' ledger' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger provenance
+        bundle pkg ->
+      hsame primal primal' -> hsame dual dual' -> hsame residual residual' ->
+        hsame feasible feasible' -> hsame slack slack' ->
+          Cont primal' residual' stationarity' -> Cont dual' slack' ledger' ->
+            Cont stationarity' feasible' provenance' -> PkgSig bundle provenance' pkg ->
+              KKTPrimalDualCarrier primal' dual' residual' stationarity' feasible' slack'
+                  ledger' provenance' bundle pkg ∧
+                hsame stationarity stationarity' ∧ hsame ledger ledger' ∧
+                  hsame provenance provenance' := by
+  intro carrier samePrimal sameDual sameResidual sameFeasible sameSlack stationarityCont'
+    ledgerCont' provenanceCont' pkgSig'
+  have primalUnary' : UnaryHistory primal' :=
+    unary_transport carrier.left samePrimal
+  have dualUnary' : UnaryHistory dual' :=
+    unary_transport carrier.right.left sameDual
+  have residualUnary' : UnaryHistory residual' :=
+    unary_transport carrier.right.right.left sameResidual
+  have feasibleUnary' : UnaryHistory feasible' :=
+    unary_transport carrier.right.right.right.right.left sameFeasible
+  have slackUnary' : UnaryHistory slack' :=
+    unary_transport carrier.right.right.right.right.right.left sameSlack
+  have stationaritySame : hsame stationarity stationarity' :=
+    cont_respects_hsame samePrimal sameResidual carrier.right.right.right.right.right.right.right.right.left
+      stationarityCont'
+  have stationarityUnary' : UnaryHistory stationarity' :=
+    unary_cont_closed primalUnary' residualUnary' stationarityCont'
+  have ledgerSame : hsame ledger ledger' :=
+    cont_respects_hsame sameDual sameSlack
+      carrier.right.right.right.right.right.right.right.right.right.left ledgerCont'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed dualUnary' slackUnary' ledgerCont'
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame stationaritySame sameFeasible
+      carrier.right.right.right.right.right.right.right.right.right.right.left provenanceCont'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed stationarityUnary' feasibleUnary' provenanceCont'
+  exact
+    And.intro
+      (And.intro primalUnary'
+        (And.intro dualUnary'
+          (And.intro residualUnary'
+            (And.intro stationarityUnary'
+              (And.intro feasibleUnary'
+                (And.intro slackUnary'
+                  (And.intro ledgerUnary'
+                    (And.intro provenanceUnary'
+                      (And.intro stationarityCont'
+                        (And.intro ledgerCont'
+                          (And.intro provenanceCont' pkgSig')))))))))))
+      (And.intro stationaritySame (And.intro ledgerSame provenanceSame))
+
 def KKTComplementarityLedger [AskSetup] [PackageSetup]
     (residual multiplier slack ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -547,7 +604,7 @@ theorem KKTCarrierPacket_stationarity_feasibility_hsame_transport [AskSetup] [Pa
                                 slackness' comparison' ledger' provenance' endpoint' probe pkg ∧
                               hsame comparison comparison' ∧
                                 hsame slackness slackness' ∧ hsame ledger ledger' ∧
-                                  hsame endpoint endpoint' := by
+                                   hsame endpoint endpoint' := by
   exact KKTCarrierPacket_stationarity_feasibility_stability
 
 end BEDC.Derived.KKTUp
