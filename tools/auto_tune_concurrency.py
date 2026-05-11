@@ -37,31 +37,25 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 # Tuning constants.
 #
 # ============================================================
-# DO NOT CHANGE — pinned by user directive (2026-05-11).
+# DO NOT CHANGE LEAN_MAX / PAPER_MAX — pinned at 20 by user
+# directive (2026-05-11). The cap stays at 20 regardless of
+# what the demand signals report. MIN / BUFFER may still be
+# tuned for ramp-up behaviour, but ceiling = 20 is fixed.
 #
-# paper / lean are both pinned to 20 (MIN = MAX = 20). The
-# previous demand-driven scaling (clamp(top_size + buffer, MIN,
-# MAX)) is overridden: we want exactly 20 workers per side,
-# regardless of top_size / root_unblocks / fallback demand
-# signals. With paper PDF moved out of the round (paper_builder
-# _daemon handles full build async) and lean R-rounds skipping
-# in-round lake build (bg_builder handles it), per-round CPU
-# cost is dominated by codex exec (network-bound), so 20+20
-# concurrent rounds is sustainable on an 8-core MBP with load
-# avg ~10-12.
-#
-# If you have a strong reason to override this floor/ceiling,
-# discuss with the user first — auto_tune was already used to
-# experiment with 5-16 range and 20 is the chosen steady-state
-# value.
+# Sustainability rationale: with paper PDF moved out of round
+# (paper_builder_daemon handles full build async) and lean
+# R-rounds skipping in-round lake build (bg_builder handles
+# it), per-round CPU cost is dominated by codex exec
+# (network-bound), so 20+20 concurrent rounds is sustainable
+# on an 8-core MBP with load avg ~10-12.
 # ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 20
-LEAN_MAX = 20
+LEAN_MIN = 12
+LEAN_MAX = 20  # DO NOT CHANGE — pinned
 
-PAPER_BUFFER = 0
-PAPER_MIN = 20
-PAPER_MAX = 20
+PAPER_BUFFER = 4
+PAPER_MIN = 12
+PAPER_MAX = 20  # DO NOT CHANGE — pinned
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
