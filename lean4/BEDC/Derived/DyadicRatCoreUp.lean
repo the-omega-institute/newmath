@@ -144,6 +144,53 @@ theorem DyadicRatCoreCarrier_denominator_transport
     (And.intro ledgerSame
       (And.intro mantissaCarrier' (And.intro exponentPositive' ledgerUnary')))
 
+theorem DyadicRatCoreCarrier_arithmetic_window_stability
+    {m0 e0 l0 p0 m1 e1 l1 p1 m0' e0' l0' p0' m1' e1' l1' p1' left left' op op'
+      window window' : BHist} :
+    DyadicRatCoreCarrier m0 e0 l0 p0 ->
+      DyadicRatCoreCarrier m1 e1 l1 p1 ->
+        hsame m0 m0' ->
+          hsame e0 e0' ->
+            hsame p0 p0' ->
+              hsame m1 m1' ->
+                hsame e1 e1' ->
+                  hsame p1 p1' ->
+                    Cont e0' m0' l0' ->
+                      Cont e1' m1' l1' ->
+                        Cont l0 l1 left ->
+                          Cont l0' l1' left' ->
+                            Cont left p0 op ->
+                              Cont left' p0' op' ->
+                                Cont op p1 window ->
+                                  Cont op' p1' window' ->
+                                    DyadicRatCoreCarrier m0' e0' l0' p0' ∧
+                                      DyadicRatCoreCarrier m1' e1' l1' p1' ∧
+                                        hsame l0 l0' ∧
+                                          hsame l1 l1' ∧
+                                            hsame left left' ∧
+                                              hsame op op' ∧ hsame window window' := by
+  intro carrier0 carrier1 sameM0 sameE0 sameP0 sameM1 sameE1 sameP1 rowL0' rowL1'
+    rowLeft rowLeft' rowOp rowOp' rowWindow rowWindow'
+  have transported0 :=
+    DyadicRatCoreCarrier_denominator_transport carrier0 sameM0 sameE0 sameP0 rowL0'
+  have transported1 :=
+    DyadicRatCoreCarrier_denominator_transport carrier1 sameM1 sameE1 sameP1 rowL1'
+  have carrier0' : DyadicRatCoreCarrier m0' e0' l0' p0' := transported0.left
+  have carrier1' : DyadicRatCoreCarrier m1' e1' l1' p1' := transported1.left
+  have sameL0 : hsame l0 l0' := transported0.right.left
+  have sameL1 : hsame l1 l1' := transported1.right.left
+  have sameLeft : hsame left left' :=
+    cont_respects_hsame sameL0 sameL1 rowLeft rowLeft'
+  have sameOp : hsame op op' :=
+    cont_respects_hsame sameLeft sameP0 rowOp rowOp'
+  have sameWindow : hsame window window' :=
+    cont_respects_hsame sameOp sameP1 rowWindow rowWindow'
+  exact And.intro carrier0'
+    (And.intro carrier1'
+      (And.intro sameL0
+        (And.intro sameL1
+          (And.intro sameLeft (And.intro sameOp sameWindow)))))
+
 theorem DyadicRatCoreCarrier_monotone_radius_refinement
     {mantissa exponent ledger provenance tail refinedLedger : BHist} :
     DyadicRatCoreCarrier mantissa exponent ledger provenance ->
