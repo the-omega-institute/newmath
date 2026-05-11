@@ -343,6 +343,7 @@ $$
 $$
 when $\mathsf{curvature}$ is the carried curvature boundary row of \autoref{thm:curvature-chernweil-consumer-boundary}, $\mathsf{derham}$ is the de~Rham target row consumed by $\ChernWeilUp$, $\mathsf{provenance}$ is obtained by $\Cont(\mathsf{curvature},\mathsf{derham},\mathsf{provenance})$, and $\mathsf{classRow}$ is obtained by $\Cont(\mathsf{provenance},\mathsf{connectionLedger},\mathsf{classRow})$. The row $\mathsf{connectionLedger}$ records the chosen-connection face already carried by the curvature provenance packet, so the envelope contains only displayed $\mathsf{BHist}$ and $\Cont$ data.
 \end{definition}
+\leandef{BEDC.Derived.CurvatureUp.CurvatureChernWeilConsumerRow}
 
 \begin{theorem}[Curvature ChernWeil source-envelope projection]
 \label{thm:curvature-chernweil-source-envelope-projection}
@@ -520,6 +521,7 @@ Transport the commutator boundary along those projected comparisons. Since the b
 
 Repack the transported rows as a curvature classifier witness. The only additional comparison is $\hsame$ on the displayed boundary row, so classifier stability is obtained without introducing a host-level curvature tensor or quotienting the history ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.CurvatureUp.CurvatureBracketCarrier\_classifier\_obligation}
 
 \begin{theorem}[Curvature antisymmetric bracket obligation]
 \label{thm:curvature-antisymmetric-bracket-obligation}
@@ -688,9 +690,9 @@ Finally project the source envelope of \autoref{def:chernweil-source-envelope}. 
   \constructivestory{A curvature row starts from a carried $\ConnectionUp$ packet and selects two displayed tangent-direction derivative routes whose commutator boundary is recorded as a $\mathsf{BHist}$ bracket endpoint. Histories are accepted only when that bracket carrier can project back to its connection source, the two derivative rows, the antisymmetric bracket row, and the finite provenance rows; two accepted rows classify together when connection classifiers and $\hsame$ transport all bracket, boundary, and source projections. The source covers these connection-boundary packets and the Chern--Weil envelope rows derived from them, the pattern records antisymmetry, Bianchi ledger transport, tensorial section transport, and consumer coverage, and the ledger keeps connection provenance, bracket endpoints, finite continuation routes, and Chern--Weil handoff rows visible. The carrier is inhabited by the displayed boundary source, and the classifier obligations are the inherited reflexive, symmetric, and transitive transports of $\hsame$ together with connection-carrier stability, so carrier closure is just repackaging the same transported bracket row. A history $h$ lies in the signature gap of a $\CurvatureUp$ token $p$ when the source accepts a displayed curvature bracket for $h$, the signature relation pairs it with an answer bracket and evidence ledger, and token introduction names that answer as $p$; unfolded, the connection source, tangent-pair boundary, bracket endpoint, and Chern--Weil envelope projections match the rows encoded by $p$. The consumer rows let downstream Chern--Weil and ledger exactness arguments read the curvature packet, but no coordinate curvature tensor, de Rham representative, characteristic class, or standard bridge is part of this surface. The chapter registers this boundary-bracket construction under the name $\CurvatureUp$; curvature is a finite connection-ledger row here, not a host tensor field assumed from outside.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The BHist curvature bracket carrier, ConnectionUp boundary projection, Chern-Weil source-envelope certificate, and standard bridge boundary are closed over the finite NameCert basis rows displayed in this chapter.}
-  \formalstatus{\axiomCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.CurvatureUp.CurvatureChernWeilSourceEnvelope\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{No coordinate curvature tensor, de Rham representative, characteristic class, or bridge-checked status is closed here.}
-  \upgradepath{No further paper theory-axis upgrade is recorded for this chapter.}
+  \bridgestatus{bridgeChecked}
+  \notclaimed{No coordinate curvature tensor, de Rham representative, or characteristic class is closed here.}
+  \upgradepath{No further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

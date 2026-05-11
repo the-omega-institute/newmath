@@ -6,5 +6,202 @@ The statistical-manifold interface $\StatManifoldUp$ packages a parameter-space 
 \section{Carrier definition}
 \label{sec:statmanifold-carrier}
 
+\begin{theorem}[StatManifoldUp carrier classifier obligation]
+\label{thm:statmanifold-carrier-classifier-obligation}
+A carried $\StatManifoldUp$ packet is a $\mathsf{BHist}$ row tuple
+$$
+(\mathcal{M},\mathcal{I},\theta,p,g,\nabla,\nabla^\ast,\rho,\lambda).
+$$
+Here $\mathcal{M}$ is the displayed $\NameCert_{\ManifoldUp}$ parameter
+carrier, $\mathcal{I}$ is the displayed $\NameCert_{\FisherInfoUp}$ score and
+metric packet, $\theta$ and $p$ are parameter and distribution-endpoint rows,
+$g$ is the Fisher metric row consumed from $\mathcal{I}$, $\nabla$ and
+$\nabla^\ast$ are the dual affine connection ledger rows, $\rho$ is the shared
+$\mathsf{Pkg}$ provenance, and $\lambda$ is the finite $\Cont$ ledger joining
+these displayed rows. The classifier is the componentwise $\hsame$ transport
+that preserves the $\ManifoldUp$ carrier row, the $\FisherInfoUp$ metric row,
+both connection ledgers, and the shared provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldCarrier\_classifier\_transport}
+\begin{proof}
+Unpack the displayed tuple as a finite list of $\mathsf{BHist}$ rows. The
+parameter carrier is not an abstract transported manifold; it is the concrete
+$\NameCert_{\ManifoldUp}$ source row $\mathcal{M}$.
+
+Read the Fisher metric coordinate through $\mathcal{I}$. The dependency
+chapter \autoref{ch:concrete-instances-fisherinfo-namecert} supplies the
+score, expectation, metric-component, and provenance rows, so $g$ is accepted
+only as the FisherInfoUp metric endpoint.
+
+Finally inspect the classifier. Each coordinate moves by the visible
+$\hsame$ comparison and the finite $\Cont$ route already stored in
+$\lambda$. Repacking the transported coordinates gives another accepted tuple
+with the same dependency sources and the same public row inventory.
+\end{proof}
+
+\begin{theorem}[StatManifoldUp FisherInfo and Manifold source scope]
+\label{thm:statmanifold-fisher-manifold-source-scope}
+Every accepted $\StatManifoldUp$ packet projects exactly two dependency
+sources: the parameter carrier $\mathcal{M}$ from $\NameCert_{\ManifoldUp}$
+and the Fisher metric packet $\mathcal{I}$ from
+$\NameCert_{\FisherInfoUp}$. The parameter point row $\theta$, distribution
+endpoint row $p$, and Fisher metric row $g$ are read through these two
+dependency certificates, not through a host smooth manifold, ambient
+probability family, or external metric tensor.
+\end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldFisherManifoldSource\_scope\_transport}
+
+\begin{proof}
+Project the first two coordinates of the packet. The row $\mathcal{M}$ is the
+only carrier for parameter-space chart and tangent information, and
+\autoref{ch:concrete-instances-manifold-namecert} is the only source chapter
+used for that carrier.
+
+Project the Fisher-information coordinate $\mathcal{I}$. By
+\autoref{ch:concrete-instances-fisherinfo-namecert}, the metric component is a
+displayed expectation endpoint over the distribution family, so $g$ is
+inherited as a $\mathsf{BHist}$ metric row.
+
+The remaining parameter and distribution rows are ledger coordinates tied to
+these two sources by $\rho$ and $\lambda$. Since no coordinate of the tuple
+names a host manifold, probability family, or metric tensor, those objects are
+not exported by the source scope.
+\end{proof}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldSourceScope\_dependency\_boundary}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldCarrier\_dependency\_source\_scope\_transport}
+
+\begin{theorem}[StatManifoldUp ledger exactness]
+\label{thm:statmanifold-ledger-exactness}
+The public ledger of a $\StatManifoldUp$ packet consists exactly of the
+parameter carrier row $\mathcal{M}$, the Fisher packet $\mathcal{I}$, the
+parameter and distribution endpoint rows $\theta,p$, the Fisher metric row
+$g$, the dual affine connection rows $\nabla,\nabla^\ast$, the shared
+$\mathsf{Pkg}$ row $\rho$, and the finite $\Cont$ ledger $\lambda$. No
+coordinate-level Christoffel symbol, density formula, or ambient affine
+connection object is available outside this list.
+\end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldBHistPacket\_ledger\_exactness}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldCarrierPacket\_ledger\_exactness}
+\begin{proof}
+Inspect the coordinates displayed in
+\autoref{thm:statmanifold-carrier-classifier-obligation}. They already list
+the complete accepted packet, including both dependency certificates, the
+metric row, the two connection rows, and the shared provenance.
+
+The connection data are ledger rows rather than host formulas. They can be
+transported only along the carried $\Cont$ route and compared only by
+$\hsame$ against the same dependency sources.
+
+Conversely, every public readback from the packet must project one of the
+listed rows. Repacking these projections gives exactly the same finite ledger,
+so there is no hidden coordinate connection or analytic density primitive to
+read.
+\end{proof}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldDependencyLedgerPacket\_public\_projection}
+
+\begin{theorem}[StatManifoldUp NameCert obligation surface]
+\label{thm:statmanifold-namecert-obligation-surface}
+The $\NameCert_{\StatManifoldUp}$ obligation surface is generated by the
+carrier-classifier row of
+\autoref{thm:statmanifold-carrier-classifier-obligation}, the dependency
+source scope of
+\autoref{thm:statmanifold-fisher-manifold-source-scope}, and the ledger
+exactness row of \autoref{thm:statmanifold-ledger-exactness}. Its carrier
+witness is the displayed packet, its classifier obligations are reflexivity,
+symmetry, and transitivity of the componentwise $\hsame$ row, and its
+stability obligation is preservation of the same packet shape under the
+finite $\Cont$ transports recorded by $\lambda$.
+\end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Use the carrier theorem to obtain the displayed packet and its classifier.
+The carrier witness is the packet itself; the classifier relation is the
+componentwise $\hsame$ relation over the visible coordinates.
+
+Reflexivity, symmetry, and transitivity are inherited coordinate by
+coordinate from $\hsame$ while the dependency rows remain those of
+$\NameCert_{\ManifoldUp}$ and $\NameCert_{\FisherInfoUp}$. The shared
+$\mathsf{Pkg}$ row ensures that the transported coordinates still belong to
+the same certificate packet.
+
+Apply the ledger exactness theorem to close the public surface. It says that
+no extra carrier or classifier field can be read outside the tuple, so the
+displayed packet supplies the whole NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[StatManifoldUp downstream consumption boundary]
+\label{thm:statmanifold-downstream-consumption-boundary}
+Any downstream consumer of $\StatManifoldUp$ can read only the
+$\mathsf{BHist}$ parameter carrier, Fisher metric, dual affine connection,
+provenance, and finite continuation rows enumerated in
+\autoref{thm:statmanifold-ledger-exactness}. In particular, consumers such as
+information-geometric curvature, statistical geodesic, or divergence
+interfaces must factor their inputs through the displayed $\NameCert$ rows
+and cannot demand an external smooth model or analytic probability space.
+\end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldCarrier\_downstream\_consumption\_endpoint\_transport}
+\begin{proof}
+Start from an accepted consumer readback. By the NameCert obligation surface,
+the readback first factors through the carried packet and the componentwise
+classifier of
+\autoref{thm:statmanifold-carrier-classifier-obligation}.
+
+Apply the source-scope theorem. It restricts all manifold and metric inputs to
+the two dependency certificates $\NameCert_{\ManifoldUp}$ and
+$\NameCert_{\FisherInfoUp}$.
+
+Apply ledger exactness. The remaining consumable rows are precisely
+$\theta,p,g,\nabla,\nabla^\ast,\rho,\lambda$ together with the two dependency
+packets, so every downstream interface must consume those rows and no others.
+\end{proof}
+
 \section{The certificate}
 \label{sec:statmanifold-certificate}
+
+\begin{theorem}[StatManifoldUp public certificate export]
+\label{thm:statmanifold-public-certificate-export}
+The carrier-classifier obligation of
+\autoref{thm:statmanifold-carrier-classifier-obligation}, the
+FisherInfo/Manifold source scope of
+\autoref{thm:statmanifold-fisher-manifold-source-scope}, the ledger
+exactness row of \autoref{thm:statmanifold-ledger-exactness}, the
+$\NameCert_{\StatManifoldUp}$ obligation surface of
+\autoref{thm:statmanifold-namecert-obligation-surface}, and the downstream
+consumption boundary of
+\autoref{thm:statmanifold-downstream-consumption-boundary} together export
+the public $\NameCert_{\StatManifoldUp}$ surface. The exported rows are
+exactly the $\mathsf{BHist}$ parameter carrier, Fisher metric packet, dual
+affine connection ledgers, $\mathsf{Pkg}$ provenance, and finite $\Cont$
+ledger, with no host manifold or analytic probability primitive.
+\end{theorem}
+\begin{proof}
+First project the carrier-classifier obligation and the source-scope row. They
+identify the public packet as the displayed parameter carrier from
+$\NameCert_{\ManifoldUp}$ and the Fisher metric packet from
+$\NameCert_{\FisherInfoUp}$.
+
+Next apply ledger exactness. It says that the remaining public rows are the
+parameter endpoint, distribution endpoint, Fisher metric, dual affine
+connection ledgers, shared provenance, and finite continuation ledger, with no
+extra coordinate-level analytic data.
+
+Finally use the NameCert obligation surface and the downstream consumption
+boundary. These two rows repack the displayed carrier, classifier, stability,
+ledger, and consumer-facing rows as the public $\NameCert_{\StatManifoldUp}$
+surface, and they exclude any host manifold or analytic probability primitive
+outside the listed $\mathsf{BHist}$ packet.
+\end{proof}
+
+\closureat{StatManifoldUp}{scopedStr}[BEDC.Derived.StatManifoldUp.StatManifoldPacket\_namecert\_obligation\_surface]
+\closureat{StatManifoldUp}{publicStr}[BEDC.Derived.StatManifoldUp.StatManifoldPacket\_namecert\_obligation\_surface]
+
+\begin{closurestatus}{\StatManifoldUp}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The obligation surface names the carrier-classifier row, Fisher and manifold source scope, ledger exactness row, $\NameCert_{\StatManifoldUp}$ obligation row, downstream boundary, and public export row already displayed in this chapter.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.StatManifoldUp.StatManifoldPacket\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \constructivestory{The statistical-manifold packet is carried by a finite $\mathsf{BHist}$ ledger whose source rows come from $\ManifoldUp$ and $\FisherInfoUp$, whose visible rows expose parameter and distribution endpoints, Fisher metric data, dual affine connection data, package provenance, and continuation evidence, and whose classifier transports only those displayed rows through $\hsame$ and $\Cont$.}
+  \notclaimed{This chapter does not close host manifolds, analytic probability primitives, coordinate Christoffel symbols, or standard bridges.}
+  \upgradepath{Bridged closure requires a bridge theorem from the public $\StatManifoldUp$ packet to its standard schema.}
+\end{closurestatus}

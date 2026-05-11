@@ -16280,3 +16280,99 @@ Rationale:
 124_bilinform_namecert_construction.tex (343 lines) has 14 theorems including bilinearity transport, dual symmetry, nondegeneracy ledger, and root rows. The forward direction `B(0_V, y) = 0_K` (an immediate consequence of left-additivity at 0 + 0 = 0) is missing — the file only contains the *converse* nondegeneracy readback (lines 233, 319) saying `if pairing ends at zero for all partners, then x is the zero vector`. The forward zero-vector vanishing row is a strictly weaker single-implication and a standard preliminary used by Clifford/InnerProduct downstream. No completed BOARD entry on bilinform vanishing; closest is B-583 CliffordUp polarization. File at 343/800.
 
 ---
+
+### B-643 - Modular-form empty-coefficient q-expansion carrier classifies under shared source rows
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Modular-form empty-coefficient q-expansion carrier classifies under shared source rows |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+Two ModularFormUp q-expansion carrier rows whose q-expansion coefficient observation rows are both the empty BHist row and that share the same HolomorphicUp source row and AutomorphicUp source row over the same weight and congruence-subgroup context are classified by the modular-form congruence classifier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/230_modularform_namecert_construction.tex`
+
+Rationale:
+230_modularform_namecert_construction.tex (74 lines, 3 theorems: holomorphic source scope, automorphic transport stability, namecert obligation surface) defines def:modularform-bhist-qexpansion-carrier with a 'finite q-expansion coefficient observation row' but never writes the empty-coefficient base case despite it being the natural inhabitation witness. ModularForm has zero BOARD targets. This is the same shape as B-538 (Quadrature empty-node sum is zero) and B-527 (Independence empty index family) — exposed empty-case classifier inhabitation in an obligation-only chapter.
+
+---
+
+### B-644 - RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 10/10 |
+
+Problem:
+For every carried root α of a RootSystemUp carrier, the simple reflection s_α applied to α equals the additive inverse: s_α(α) ~_V -_V α.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/122_rootsystem_namecert_construction.tex`
+
+Rationale:
+First lemma a textbook proves after defining a root reflection (Humphreys, Reflection Groups §1.2; Bourbaki Lie IV-VI §1.1). The chapter already proves the involution s_α∘s_α~id but skips the basic axis-negation identity. Grep 'rootsystem-(reflection-axis|self-reflection)' returns no matches. Proof: specialize the reflection definition route s_α(γ)~γ - c_{α,γ}·α at γ=α, use Cartan integer c_{α,α}=2 from thm:rootsystem-cartan-ledger-obligation and innerproduct-root-diagonal-zero-exactness, and arithmetic in the VecSpaceUp reduct. All infra already in the same file.
+
+---
+
+### B-646 - Internalized concrete gap separation strengthened from AskPol to BundleAskPolicy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Internalized concrete gap separation strengthened from AskPol to BundleAskPolicy |
+| Layer | concrete_hardening |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If BundleAskPolicy(Π, D) holds (bundle-local fields only, not the global AskPol(Π, D)), and InGapSig(Π, D, p, h) and InGapSig(Π, D, q, h), then psame(p, q).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+internalized_gap_globalize.tex:54 currently states gap separation under the strictly stronger AskPol(Π, D) hypothesis, while the proof body uses only signature determinacy whose bundle-local form is already established in 02_signature_generation.tex:365. Replacing AskPol with BundleAskPolicy yields a strict hypothesis weakening that the existing proof already supports — exactly the kind of stronger-statement-available target (Category 6) that the concrete-hardening layer needs to keep bundle-local hypotheses propagating outward. The host file is 200 lines so the new theorem block lands safely, and the statement is not a paraphrase of any current BOARD entry; the matching bundle-locality theme in adjacent BOARD activity is on different objects (independence, refinement towers, orthogonality), not on this gap-separation site. Concrete uniqueness target, not parameter-echo.
+
+---
+
+### B-645 - Closure-reflection obstruction completeness (converse to Theorem 3.10)
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Closure-reflection obstruction completeness (converse to Theorem 3.10) |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 9/10 |
+
+Problem:
+If ¬ClosureReflect(Π) for a generated probe bundle Π, then there exist signatures a, b, c, d and tokens p, q, r witnessing the four-edge TokIntro/hsame configuration of thm:equivalence-closure-reflection-obstruction, so that obstruction characterises every closure-reflection failure.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+Theorem 3.10 in psame_design.tex supplies only the sufficient direction (the four-edge configuration forces ¬ClosureReflect ∧ ¬TokUnique). The converse — that every closure-reflection failure factors through such a finite four-edge witness — is a genuine completeness statement and closes the boundary against the positive Conditional Schema (Proposition 3.6). It is a true obstruction-characterisation theorem (Category 3 in BOARD vocabulary), not a notation variant of any existing entry, and lands in proof_obligations where psame_design.tex (374 lines) has child-file room. Worth a target slot because pairing the necessity-from-sufficiency closes a load-bearing gap in the equivalence-closure obstruction theory rather than echoing an existing classifier transport.
+
+---

@@ -19,6 +19,8 @@ unstated host ordering on vertices, or an external minimization oracle. Every
 comparison row is read from the finite graph packet, the $\RealUp$ weight
 certificates, the endpoint rows, and the displayed path ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_endpoint\_expanded\_boundary}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_source\_rows}
 
 \section{The certificate}
 \label{sec:shortestpath-certificate}
@@ -99,6 +101,7 @@ The carrier records only finite relaxation evidence. It does not contain a
 host minimizer, a hidden vertex order, an infinite relaxation stream, or a
 completed metric assumption.
 \end{definition}
+\leandef{BEDC.Derived.ShortestPathUp.ShortestPathRelaxationLedgerCarrier}
 
 \begin{theorem}[Shortest-path relaxation continuation closure]
 \label{thm:shortestpath-relaxation-cont-closure}
@@ -109,6 +112,7 @@ path-weight rows, predecessor rows, visible $\Cont$ relaxation rows, matching
 $\hsame$ comparisons, and the same $\Pkg$ provenance, then those rows repack
 as an accepted relaxation ledger carrier over the same weighted graph.
 \end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_relaxation\_cont\_closure}
 \begin{proof}
 Project the weighted-graph carrier rows. They give the finite vertex, edge,
 weight, endpoint, path-ledger, and provenance rows named in
@@ -141,6 +145,7 @@ $\hsame$ transport comparisons, and $\Pkg$ provenance.
 It does not expose a host minimization principle, a hidden vertex order, an
 infinite relaxation process, or a completed metric-space assumption.
 \end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_relaxation\_namecert\_surface}
 \begin{proof}
 Use \autoref{thm:shortestpath-visible-path-ledger} to obtain the endpoint,
 incidence, nonnegative weight, path-ledger, and provenance rows from the
@@ -170,6 +175,7 @@ accepted path is read from the finite $\mathsf{BHist}$ carrier of
 \autoref{def:shortestpath-bhist-weighted-graph-carrier}, not from a host graph
 outside the certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_finite\_edge\_exhaustion}
 \begin{proof}
 Inspect the carrier constructors in
 \autoref{def:shortestpath-bhist-weighted-graph-carrier}. The carrier exports
@@ -196,6 +202,7 @@ the finite path-ledger summation rows.
 No total path weight may be supplied by an ambient metric, an unlisted edge
 weight, a host real-number accumulator, or an implicit minimization oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_weight\_readback}
 \begin{proof}
 Start with the visible ledger theorem. By
 \autoref{thm:shortestpath-visible-path-ledger}, every adjacent pair in the
@@ -225,6 +232,7 @@ The relaxation certificate therefore cannot justify a candidate change by a
 hidden predecessor, a host-side vertex equality, an unrecorded edge weight, or
 an infinite relaxation process.
 \end{theorem}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_relaxation\_soundness}
 \begin{proof}
 Use \autoref{thm:shortestpath-relaxation-certificate-scope}. It identifies a
 relaxation claim as a finite row comparing displayed before-and-after
@@ -246,3 +254,16 @@ certificate has no host-side equality source, no hidden predecessor row, no
 unrecorded weight row, and no infinite relaxation process. The relaxation is
 therefore sound exactly over the visible finite rows.
 \end{proof}
+
+\closureat{ShortestPathUp}{obligationStr}[BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_path\_ledger]
+
+\begin{closurestatus}{\ShortestPathUp}
+  \constructivestory{A shortest-path row is generated from a finite weighted graph packet by keeping the vertex rows, edge rows, nonnegative $\RealUp$ weight rows, endpoint rows, path ledger, relaxation rows, $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance visible in the same $\mathsf{BHist}$ carrier. The obligation surface records only the finite ledger data available to Dijkstra or Bellman-Ford readback; it introduces no ambient minimizer, hidden vertex order, infinite relaxation stream, or completed metric-space object.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the weighted-graph carrier rows, endpoint rows, nonnegative $\RealUp$ weight rows, finite path-ledger rows, relaxation $\Cont$ rows, $\hsame$ transports, and $\mathsf{Pkg}$ provenance.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_path\_ledger}
+  \bridgestatus{none}
+  \notclaimed{The obligation surface does not close optimality over infinite graphs or negative-cycle completeness.}
+  \upgradepath{Scoped closure requires binding each obligation explicitly to its BEDC primitive dependencies.}
+\end{closurestatus}

@@ -59,6 +59,134 @@ read by the consumer is already named by the coverage packet, and every row
 excluded by the two cited theorems remains outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window classifier coverage]
+\label{thm:streamname-regseqrat-finite-window-classifier-coverage}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+rational stream endpoints, let $\mathcal P$ be a finite
+$\mathsf{ProbeBundle}$ window, and suppose a StreamName tail-window coverage
+packet displays the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$. For every
+certified observation $n$ with $\mathsf{UnaryHistory}(n)$ and
+$\mathsf{InBundle}(n,\mathcal P)$, the pointwise row
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ is exposed in the same packet. The
+accepted $\RegSeqRat$ spine consumes exactly these exposed pointwise
+rational-history classifier rows, together with their displayed unary-history
+and bundle-membership witnesses.
+
+No completion object, quotient representative, host-index equality,
+$\RealUp$ seal classifier, metric-completeness row, arithmetic or order row,
+or standard bridge row is supplied by this coverage claim.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. The packet
+contains the finite-window classifier row, the bundled
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, and the pointwise
+$\mathsf{RatHistoryClassifier}$ rows read from the selected StreamName
+observations.
+
+Project the component indexed by the certified observation $n$. The hypotheses
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal P)$ identify $n$
+as one of the selected observations of the displayed finite window, so the
+corresponding pointwise rational-history classifier is precisely
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$.
+
+The accepted $\RegSeqRat$ spine is then the spine named in the same packet from
+these pointwise rows and the finite-window handoff. Apply
+\autoref{thm:streamname-tail-window-coverage-exhaustion} to rule out any
+additional consumer row.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+$\RealUp$ readback can use only the finite windows selected from the accepted
+spine, while completion, quotient, host-index equality, seal classifier,
+metric-completeness, arithmetic or order, and standard bridge rows remain
+outside the packet boundary.
+\end{proof}
+
+\begin{theorem}[StreamName tail-window dyadic endpoint determinacy]
+\label{thm:streamname-tail-window-dyadic-endpoint-determinacy}
+Let $\mathcal P$ and $\mathcal Q$ be StreamName tail-window coverage packets
+over shared public endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same
+accepted $\RegSeqRat$ spine. Suppose their displayed finite-window classifier
+rows agree, and suppose the selected $\mathsf{UnaryHistory}$ and
+$\mathsf{InBundle}$ membership rows agree by the shown
+$\hsame/\Cont/\Pkg$ provenance. Then the two packets expose identical
+DyadicRatCore endpoint rows to any finite $\RealUp$ consumer.
+
+The determined finite interface is the shared
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the selected
+$\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$ rows, the
+pointwise $\mathsf{RatHistoryClassifier}$ rows consumed by the accepted
+$\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the common
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger. It contains no completion,
+quotient, metric-completeness, arithmetic or order, or standard-bridge row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. The only selected
+rows available for comparison are the finite-window classifier, the displayed
+bundle and unary-history rows, the pointwise rational-history classifiers, the
+accepted $\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the finite
+ledger provenance.
+
+Apply \autoref{thm:streamname-regseqrat-finite-window-classifier-coverage}. The
+shared finite-window classifier and the agreed selected membership rows force
+the same pointwise $\mathsf{RatHistoryClassifier}$ rows to feed the common
+accepted $\RegSeqRat$ spine in both packets.
+
+Next apply \autoref{thm:streamname-tail-window-coverage-exhaustion}. Since the
+accepted spine and its pointwise StreamName inputs are the same displayed rows,
+the DyadicRatCore endpoint rows selected from that spine are the same finite
+packet rows for both consumers.
+
+Finally use \autoref{thm:streamname-tail-window-realup-boundary}. The boundary
+has no slot for completion, quotient, metric-completeness, arithmetic or order,
+or standard bridge data, so no off-packet row can separate the two exposed
+DyadicRatCore endpoint surfaces.
+\end{proof}
+
+\begin{theorem}[StreamName tail-window hsame transport stability]
+\label{thm:streamname-tail-window-hsame-transport-stability}
+Let $\mathcal P$ be a StreamName tail-window coverage packet over public
+endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$. Suppose the displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows transport componentwise the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row, the
+selected $\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, each pointwise
+$\mathsf{RatHistoryClassifier}$ row, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the $\mathsf{RealLedgerPolicy}$ ledger to a
+second displayed finite window. Then the transported rows form another
+StreamName tail-window coverage packet.
+
+Moreover, every finite $\RealUp$ consumer row of the original packet
+transports through the same displayed packet surface: its source is still the
+finite-window classifier, selected unary and bundle rows, pointwise rational
+history rows, accepted $\RegSeqRat$ spine, DyadicRatCore endpoint rows, and
+shared $\Cont/\hsame/\mathsf{Pkg}/\mathsf{RealLedgerPolicy}$ ledger. The
+transport supplies no completion object, quotient row, host-index equality,
+metric-completeness row, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. Each row named in
+the packet definition has a displayed transported partner by hypothesis: the
+finite-window classifier, selected unary-history and bundle-membership rows,
+pointwise rational-history rows, accepted rational-sequence spine, endpoint
+readbacks, and ledger-policy rows.
+
+Repack those transported partners in the same order. The classifier and
+membership rows still select a finite StreamName window; the pointwise
+rational-history rows still feed the accepted $\RegSeqRat$ spine; and the
+DyadicRatCore endpoint rows and ledger rows still give the finite $\RealUp$
+readback surface.
+
+Apply \autoref{thm:streamname-tail-window-coverage-exhaustion} to the original
+and transported packets. Every consumer row is one of the rows just transported,
+so the consumer transport factors through exactly the same displayed packet
+surface.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. Completion,
+quotient, host-index equality, metric-completeness, arithmetic or order, and
+standard bridge rows have no constructor in either finite packet, so the
+transport cannot introduce any such row.
+\end{proof}
+
 \begin{theorem}[StreamName tail-window common refinement]
 \label{thm:streamname-tail-window-cover-common-refinement}
 Given two StreamName tail-window coverage packets for finite
@@ -217,4 +345,88 @@ observable row is already in the displayed packet, and any grouped finite
 read of the same packet restricts back to the same StreamName, $\RegSeqRat$,
 DyadicRatCore, continuation, history, package, and ledger-policy surface. The
 objects excluded by the boundary theorem have no row in the factorization.
+\end{proof}
+
+\begin{theorem}[StreamName tail-window terminal source uniqueness]
+\label{thm:streamname-tail-window-terminal-source-uniqueness}
+Let two finite $\RealUp$ consumers read StreamName tail-window coverage packets
+over the same public $\StreamNameUp$ endpoints
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same accepted $\RegSeqRat$
+spine. If a common-refinement packet restricts to both packets, then both
+consumers factor through the same displayed StreamName, $\RegSeqRat$,
+DyadicRatCore, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ source surface. No alternative $\RealUp$ source
+row, quotient representative, completion row, or host-index equality can be
+read from either finite consumer.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-tail-window-cover-common-refinement}.
+The two selected finite windows sit in one coverage packet over the shared
+public StreamName endpoints and the shared accepted $\RegSeqRat$ spine, and
+the restrictions to the selected subwindows recover the two original packets.
+
+Next apply \autoref{thm:streamname-tail-window-refinement-associativity}.
+Any regrouping of the common finite window has the same public restriction on
+each selected subwindow, so the two consumers see the same StreamName
+finite-window classifier rows, selected unary-history and bundle-membership
+rows, pointwise rational-history classifier rows, accepted $\RegSeqRat$
+spine, DyadicRatCore endpoint rows, and shared ledger rows.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. Every
+finite $\RealUp$ consumer row factors through exactly that displayed packet
+surface, and two consumers reading the same restricted packet have the same
+finite read surface.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+boundary removes completion, quotient, host-index equality,
+metric-completeness, arithmetic or order, standard bridge, and hidden
+selector data from the readable packet. Hence no other $\RealUp$ source row,
+quotient representative, completion row, or host-index equality can be read,
+and the displayed StreamName/$\RegSeqRat$/DyadicRatCore source surface is the
+unique finite source surface for both consumers.
+\end{proof}
+
+\begin{theorem}[StreamName tail-window global classifier boundary]
+\label{thm:streamname-tail-window-global-classifier-boundary}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+endpoints. Suppose that every certified unary observation singleton window
+over the endpoints carries the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\Bcons(n,\Bnil))$. If a
+finite $\RealUp$ consumer reads a StreamName tail-window coverage packet
+generated from finitely many selected observations over an accepted
+$\RegSeqRat$ spine, then the consumer factors through the global
+$\mathsf{RatStreamNameClassifier}(s,t)$ together with exactly the displayed
+StreamName, $\RegSeqRat$, DyadicRatCore, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ packet surface.
+
+The factorization exposes no completion object, quotient representative,
+host-index equality, metric-completeness row, arithmetic or order operation,
+or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rat-stream-name-finite-window-exhausts-classifier}. The
+singleton-window hypotheses exhaust the certified finite observations and
+therefore determine the global
+$\mathsf{RatStreamNameClassifier}(s,t)$ for the public StreamName endpoints.
+
+Next apply \autoref{thm:streamname-tail-window-coverage-exhaustion}. The
+finite packet read by the $\RealUp$ consumer has only the enumerated selected
+unary-history rows, bundle-membership rows, pointwise rational-history
+classifier rows, accepted $\RegSeqRat$ spine, DyadicRatCore endpoint rows,
+and shared $\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. Every
+finite consumer row factors through that displayed packet surface, so the
+global classifier supplied by the singleton-window exhaustion is the only
+StreamName classifier row available to the consumer.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+boundary excludes completion, quotient representatives, host-index equality,
+metric-completeness, arithmetic and order operations, and standard bridge
+data. Hence the finite $\RealUp$ consumer factors through the global
+StreamName classifier and the displayed packet rows, with no off-boundary row
+exposed.
 \end{proof}

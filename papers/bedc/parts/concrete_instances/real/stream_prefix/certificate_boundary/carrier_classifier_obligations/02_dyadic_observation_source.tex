@@ -207,5 +207,79 @@ transported source surface, and the excluded quotient, completion, metric,
 Classical, and bridge rows have no slot in the scoped source package.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-exponent transport determinacy]
+\label{thm:dyadic-observation-common-exponent-determinacy}
+Let $d,e,d',e',r,s:\Hist$. Suppose $d$ and $e$ carry
+$\mathsf{DyadicRatCoreObservationRow}$ packages for the same certified
+$\RegSeqRat$ observation request, with $r$ and $s$ naming the unary-radius
+histories of that request. Suppose
+$\mathsf{RatHistoryClassifier}(d,e)$ holds, and suppose $\hsame(d,d')$ and
+$\hsame(e,e')$ are displayed. If the packages at $d'$ and $e'$ are obtained by
+transporting the source rows along those displayed $\hsame$ rows without
+changing the certified request ledger, then the two transported packages
+expose the same $\RatUp$ carrier faces, the same positive-unary-denominator
+faces, the same unary radius/request token, and the same
+$\mathsf{RatHistoryClassifier}(d',e')$ surface. No quotient row, completion
+row, metric-completeness row, Classical datum, or standard bridge row
+contributes an additional common-exponent choice.
+\end{theorem}
+\begin{proof}
+First transport the classifier surface. Apply
+\autoref{thm:dyadic-rat-core-observation-row-classifier-transport} to the
+source comparison $\mathsf{RatHistoryClassifier}(d,e)$ and to the displayed
+rows $\hsame(d,d')$ and $\hsame(e,e')$. The transported endpoint comparison is
+therefore the single surface $\mathsf{RatHistoryClassifier}(d',e')$ attached
+to the same certified $\RegSeqRat$ request.
+
+Next transport the two endpoint source rows. Apply
+\autoref{thm:dyadic-rat-core-observation-row-hsame-transport} to the row at
+$d$ and to the row at $e$. Because the request ledger is unchanged, the
+transported rows inherit the same dyadic request token and the same
+positive-unary-denominator transport rows used by the source package.
+
+Finally compare the transported packages with
+\autoref{thm:dyadic-observation-source-transport-determinacy}. The theorem
+identifies the $\RatUp$ carrier face, the positive-denominator face, the
+dyadic-radius token, and the classifier face for transports through a fixed
+certified request. These identified faces are exactly the common-exponent
+surface of the two presentations, and the scoped source package has no field
+for quotient, completion, metric-completeness, Classical, or standard bridge
+data.
+\end{proof}
+
+\begin{theorem}[Dyadic observation transport RealUp feed determinacy]
+\label{thm:dyadic-observation-transport-realup-feed-determinacy}
+Let $d,e:\Hist$, and suppose $\hsame(d,e)$ is displayed. Fix one certified
+$\RegSeqRat$ unary observation request whose source surface at $d$ is a
+$\mathsf{DyadicRatCoreObservationRow}$. If two RealUp finite-window feed
+packages are obtained by first transporting that source to $e$ along the same
+$\hsame(d,e)$ row and then applying the DyadicRatCore public observation feed,
+then the two feed packages expose the same RatUp endpoint carrier, the same
+positive-denominator row, the same dyadic-radius ledger token, the same RealUp
+finite-window source face, and the same exclusion boundary. No quotient row,
+completion row, Classical datum, external metric primitive, RealUp completeness
+claim, or standard bridge row can distinguish the two feeds.
+\end{theorem}
+\begin{proof}
+Project the transported sources with
+\autoref{thm:dyadic-observation-source-transport-determinacy}. Both source
+packages at $e$ therefore expose the same RatUp endpoint carrier, the same
+positive-denominator row, the same dyadic-radius token, and the same
+$\mathsf{RatHistoryClassifier}$ face.
+
+Feed these common source rows through
+\autoref{thm:dyadicratcore-public-observation-realup-window-feed}. The public
+observation feed consumes exactly the transported DyadicRatCore source, the
+finite dyadic request ledger, and the RealUp finite-window source face recorded
+by that ledger.
+
+It remains only to compare the visible fields of the two feeds. Since the
+input source projections are common and the feed theorem has no slot for a
+second quotient, completion, Classical, metric, completeness, or bridge datum,
+field projection gives the same RatUp endpoint carrier, positive-denominator
+row, dyadic-radius token, RealUp finite-window source face, and exclusion
+boundary in both packages.
+\end{proof}
+
 The intended Lean target shape for this boundary is
 \texttt{BEDC.Derived.RealUp.DyadicRatCore\_scoped\_source\_package}.

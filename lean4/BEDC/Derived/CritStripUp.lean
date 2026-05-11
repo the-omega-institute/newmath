@@ -100,6 +100,17 @@ theorem CritStripSourceSpec_empty_boundary : CritStripSourceSpec BHist.Empty := 
   exact And.intro (hsame_refl BHist.Empty)
     (fun strip => (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty))
 
+def CritStripLedgerPolicy (sigma boundary : BHist) : Prop :=
+  CritStripSourceSpec boundary ∧ (InCritStrip sigma -> False) ∧ hsame boundary BHist.Empty
+
+theorem CritStripLedgerPolicy_empty_boundary : CritStripLedgerPolicy BHist.Empty BHist.Empty := by
+  constructor
+  · exact CritStripSourceSpec_empty_boundary
+  · constructor
+    · intro strip
+      exact (InCritStrip_boundary_excluded strip).left (hsame_refl BHist.Empty)
+    · exact hsame_refl BHist.Empty
+
 theorem InCritStrip_hsame_transport_boundary_exclusion {sigma sigma' : BHist} :
     InCritStrip sigma -> hsame sigma sigma' ->
       InCritStrip sigma' ∧ (hsame sigma' BHist.Empty -> False) ∧

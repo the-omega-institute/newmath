@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ControlObservabilityUp$}
+\label{ch:concrete-instances-controlobservability-namecert}
+
+The $\ControlObservabilityUp$ interface records the finite observation data of a finite-dimensional linear system. Its BEDC surface is the observation-row part of the standard control-theory observability test, read through $\NameCert_{\DynSystemUp}$, $\NameCert_{\MatrixUp}$, $\NameCert_{\VecSpaceUp}$, and $\NameCert_{\LinMapUp}$. The textbook reference is Kailath, \emph{Linear Systems} (1980).
+
+\section{Carrier definition}
+\label{sec:control-observability-carrier}
+
+\begin{definition}[Control-observability carrier]
+\label{def:control-observability-carrier}
+A $\ControlObservabilityUp$ carrier is a finite $\mathsf{BHist}$ observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. Its rows are a finite-dimensional state-space row, a state-transition row $A$ read as a $\LinMapUp$ endomorphism, an output row $C$ read as a $\MatrixUp$ or $\LinMapUp$ map to an output space, the finite observation rows
+$$
+\begin{aligned}
+C,\quad CA,\quad CA^2,\quad \ldots,\quad CA^{n-1},
+\end{aligned}
+$$
+the stacked observation-matrix row $\mathcal O(A,C)$, the finite output-trace ledger, the $\hsame$ comparisons between corresponding observation rows, the $\Cont$ provenance rows explaining how each trace is read from the displayed system rows, and the $\mathsf{Pkg}$ rows naming the four dependency certificates.
+
+The classifier identifies two accepted packets exactly when their finite observable output traces are matched by displayed $\hsame$ rows, with the same $\Cont$ and $\mathsf{Pkg}$ provenance. The carrier exports no hidden host state-space quotient, analytic trajectory space, unlogged infinite trace, or external control-system object.
+\end{definition}
+\leandef{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteObservationPacket}
+
+\section{The certificate}
+\label{sec:control-observability-certificate}
+
+\begin{theorem}[Control-observability NameCert obligation surface]
+\label{thm:control-observability-namecert-obligation-surface}
+The local $\NameCert_{\ControlObservabilityUp}$ obligation surface consists of the following five rows.
+
+\begin{enumerate}
+\item The carrier row of \autoref{def:control-observability-carrier}, including the displayed finite-dimensional $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ source rows.
+
+\item The classifier row saying that accepted packets are compared only by shared finite observable output traces under $\hsame$.
+
+\item The observation-matrix rank/kernel separation row for $\mathcal O(A,C)$.
+
+\item The finite trace ledger readback row, which reads every consumer-visible output trace from the displayed observation rows.
+
+\item The transport-stability row saying that $\hsame$ transport of the state, transition, output, observation, ledger, $\Cont$, and $\mathsf{Pkg}$ rows remains an accepted $\ControlObservabilityUp$ packet.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteObservationPacket\_classifier\_transport}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityCarrierPacket\_obligation\_surface}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservationPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Start from the carrier definition. It already lists the finite source rows, the observation-matrix rows, the trace ledger, and the provenance rows, so the carrier obligation is a projection from a displayed $\mathsf{BHist}$ packet.
+
+The classifier obligation is the declared comparison rule on observable traces. Because the carrier has no coordinate for hidden state quotients or infinite trace objects, equality of the visible output ledger is the only comparison surface available to consumers.
+
+The remaining obligations are the finite matrix test, the ledger readback, and transport stability. Each is stated over rows already present in the carrier, so the obligation surface is local to the displayed BEDC packet and its four dependency certificates.
+\end{proof}
+
+\begin{theorem}[Control-observability kernel separation]
+\label{thm:control-observability-kernel-separation}
+Let $P$ be an accepted $\ControlObservabilityUp$ packet with state-space dimension row $n$, transition row $A$, output row $C$, and observation matrix row $\mathcal O(A,C)$. If the visible kernel row of $\mathcal O(A,C)$ is the zero state row and the rank row of $\mathcal O(A,C)$ is the displayed dimension row $n$, then any two initial-state rows with the same finite output-trace ledger are classified by the state-space $\hsame$ row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityPacket\_kernel\_separation}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityKernelSeparation\_state\_rows\_hsame}
+\begin{proof}
+Read the finite output traces through the observation rows of \autoref{def:control-observability-carrier}. Agreement of the trace ledgers says that the displayed difference of the two initial-state rows is sent to the zero output row by every row $C,CA,\ldots,CA^{n-1}$.
+
+Stacking those rows gives a single $\mathcal O(A,C)$ ledger equation. The zero-kernel row says that a state row annihilated by the whole observation matrix is the displayed zero state row.
+
+The rank row names the same condition in finite-dimensional matrix form. Repacking the zero difference through the state-space classifier gives the required $\hsame$ comparison of the two initial-state rows.
+\end{proof}
+
+\begin{theorem}[Control-observability finite trace ledger readback]
+\label{thm:control-observability-ledger-readback}
+Every consumer-visible output trace of an accepted $\ControlObservabilityUp$ packet is read from the finite observation rows $C,CA,\ldots,CA^{n-1}$, the stacked observation-matrix row $\mathcal O(A,C)$, the displayed $\hsame$ comparisons, and the $\Cont/\mathsf{Pkg}$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. No unbounded trajectory object, hidden observer state, host controllability dual, or external realization is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityPacket\_trace\_ledger\_readback}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservability\_finite\_trace\_ledger\_readback}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityCarrier\_finite\_trace\_ledger\_readback}
+\begin{proof}
+Project an accepted packet to its finite trace ledger. Each ledger entry is attached to one of the displayed observation rows and is read through the $\Cont$ provenance of the carrier.
+
+Project the dependency rows next. The $\mathsf{Pkg}$ entries name exactly the dynamical-system, matrix, vector-space, and linear-map certificates that supply the displayed transition and output rows.
+
+Constructor inspection of the carrier excludes any additional trace source. Since no unbounded trajectory object, hidden observer state, host controllability dual, or external realization has a row in the packet, every visible trace must read back to the finite ledger just described.
+\end{proof}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteTraceLedger\_readback}
+
+\begin{closurestatus}{\ControlObservabilityUp}
+  \constructivestory{The chapter builds a finite observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$: it displays the observation-matrix row, separates rank and kernel obligations, records the finite output-trace ledger, and keeps host trajectory and full control-system data outside the carrier.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary is the finite $\mathsf{BHist}$ observation packet, the $\hsame$ trace classifier, the observation-matrix rank and kernel rows, the $\Cont$ trace ledger, and the $\mathsf{Pkg}$ dependencies on $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a host control-system category, analytic trajectory semantics, Kalman decomposition, controllability duality, or a public standard bridge.}
+  \upgradepath{The next step is Lean formalization of the displayed scoped rows.}
+\end{closurestatus}

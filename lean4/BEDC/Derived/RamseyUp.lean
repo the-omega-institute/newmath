@@ -373,4 +373,77 @@ theorem RamseyColouringCarrier_namecert_obligation_assembly [AskSetup] [PackageS
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right.right)))
 
+theorem RamseyColouringCarrier_public_projection_package [AskSetup] [PackageSetup]
+    {vertex subset colour witnessRows transportRows lookup provenance endpoint graphProjection
+      consumerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+        endpoint bundle pkg ->
+      UnaryHistory graphProjection ->
+        Cont endpoint graphProjection consumerEndpoint ->
+          RamseyColouringCarrier vertex subset colour witnessRows transportRows lookup provenance
+              endpoint bundle pkg ∧
+            UnaryHistory vertex ∧ UnaryHistory subset ∧ UnaryHistory colour ∧
+              UnaryHistory lookup ∧ UnaryHistory witnessRows ∧ UnaryHistory provenance ∧
+                UnaryHistory endpoint ∧ UnaryHistory consumerEndpoint ∧
+                  hsame lookup (append vertex subset) ∧
+                    hsame witnessRows (append lookup colour) ∧
+                      hsame provenance (append witnessRows transportRows) ∧
+                        hsame endpoint (append provenance transportRows) ∧
+                          hsame consumerEndpoint (append endpoint graphProjection) ∧
+                            PkgSig bundle endpoint pkg := by
+  intro carrier graphProjectionUnary consumerRoute
+  have finiteExact :=
+    RamseyColouringCarrier_finite_ledger_exactness carrier
+  have consumerUnary : UnaryHistory consumerEndpoint :=
+    unary_cont_closed finiteExact.right.right.right.right.right.right.right.left
+      graphProjectionUnary consumerRoute
+  exact
+    ⟨carrier,
+      finiteExact.left,
+      finiteExact.right.left,
+      finiteExact.right.right.left,
+      finiteExact.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.left,
+      consumerUnary,
+      finiteExact.right.right.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.right.right.right.left,
+      finiteExact.right.right.right.right.right.right.right.right.right.right.right.left,
+      consumerRoute,
+      finiteExact.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+def RamseyMonochromeWitnessCarrier [AskSetup] [PackageSetup]
+    (vertexSpine subsetSpine colourTable witnessRows transportRows lookupRoutes provenance
+      endpoint witness consumer : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  RamseyColouringCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+      lookupRoutes provenance endpoint bundle pkg ∧
+    UnaryHistory witness ∧ Cont endpoint witness consumer
+
+theorem RamseyMonochromeWitnessCarrier_packet_rows [AskSetup] [PackageSetup]
+    {vertexSpine subsetSpine colourTable witnessRows transportRows lookupRoutes provenance endpoint
+      witness consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RamseyMonochromeWitnessCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+        lookupRoutes provenance endpoint witness consumer bundle pkg ->
+      RamseyColouringCarrier vertexSpine subsetSpine colourTable witnessRows transportRows
+          lookupRoutes provenance endpoint bundle pkg ∧
+        UnaryHistory witness ∧ UnaryHistory consumer ∧ Cont endpoint witness consumer ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have colouringRows :=
+    RamseyColouringCarrier_finite_ledger_exactness carrier.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed colouringRows.right.right.right.right.right.right.right.left
+      carrier.right.left carrier.right.right
+  exact
+    ⟨carrier.left,
+      carrier.right.left,
+      consumerUnary,
+      carrier.right.right,
+      colouringRows.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RamseyUp

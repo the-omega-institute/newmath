@@ -319,6 +319,7 @@ The packet is accepted when the segment provenance $\rho$ is the shared $\mathsf
 \label{thm:dynsystem-orbit-iterate-carrier-closure}
 Let $\mathcal{I}$ be an accepted $\DynSystemUp$ orbit-iterate packet with terminal endpoint row $\beta_n$. Let $R_n$ be an accepted $\DynSystemUp$ flow row over the same $\NameCert_{\ManifoldUp}$ phase carrier and $\NameCert_{\OdeUp}$ source packet, whose initial point and time-state rows are classified with $\beta_n$ by the inherited $\hsame$ witnesses and whose provenance is the same $\rho$. Then appending $R_n$ and its displayed $\Cont$ ledger to $\mathcal{I}$ produces an accepted $\DynSystemUp$ orbit-iterate packet with endpoint row $\beta_{n+1}$ and the same carried phase, source, and segment provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.DynSystemUp.DynSystemOrbitIteratePacket\_carrier\_closure}
 \begin{proof}
 Unpack the accepted packet $\mathcal{I}$ into its unary index row, flow rows, endpoint rows, provenance row, and ordered $\Cont$ ledger list. The terminal endpoint row $\beta_n$ is already a public BHist row of the packet.
 
@@ -492,16 +493,17 @@ Add the source and projection rows. The ODE-source theorem fixes the generator r
 The consumer coverage theorem then states that these rows exhaust the public projections of an accepted packet. Together they form the advertised $\NameCert_{\DynSystemUp}$ export surface.
 \end{proof}
 
-\closureat{DynSystemUp}{publicStr}[BEDC.Derived.DynSystemUp.DynSystemFlowPacket\_endpoint\_coverage]
+\closureat{DynSystemUp}{bridgedStr}[BEDC.Derived.DynSystemUp.DynSystemFlowPacket\_endpoint\_coverage]
+\closureat{DynSystemUp}{matureStr}[BEDC.Derived.DynSystemUp.DynSystemFlowPacket\_endpoint\_coverage]
 \begin{closurestatus}{\DynSystemUp}
   \constructivestory{A dynamical-system row is built by taking an already certified $\ManifoldUp$ phase packet and an already certified $\OdeUp$ local-flow packet, then displaying the phase row, elapsed-time row, source and target state rows, endpoint row, ODE dependency witness, provenance, and finite $\Cont$ route in one $\mathsf{BHist}$ tuple. The carrier accepts exactly those tuples whose phase and point rows are admitted by the manifold certificate, whose local-flow source is admitted by the ODE certificate, and whose endpoint is reached by the displayed route; a tuple missing either dependency surface, the endpoint route, or the shared provenance stays outside the carrier. Two accepted flow packets name the same dynamical-system step when the phase, time, source, target, ODE witness, endpoint, and provenance rows are transported componentwise by the inherited $\hsame$ comparisons and by the same visible continuation ledger, rather than by equality of external maps or trajectories. The source specification is the displayed manifold-plus-ODE flow surface, the pattern specification records zero-time identity, segment composition, adjacency, endpoint exactness, and phase-generator separation, and the ledger keeps every public coordinate aligned with the raw route that produced it. The five name-certificate obligations are inherited through that finite packet: an admitted flow supplies inhabitation, componentwise $\hsame$ gives reflexivity, symmetry, and transitivity, and classifier transport repacks the transported phase and ODE rows as another admitted flow packet. A packet $h$ lies in the signature gap of a $\DynSystemUp$ token $p$ when the source-domain accepts the displayed phase/ODE tuple, the signature relation pairs it with an answer flow packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the phase carrier, elapsed time, endpoint, ODE source, and continuation route are exactly the rows encoded by $p$. The chapter registers this routed-flow construction under the name $\DynSystemUp$; flow laws are certified concatenations and unit rows over existing manifold and ODE certificates, with no global existence theorem, invariant-measure object, ergodic package, or independent trajectory carrier introduced.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public export surface of \autoref{thm:dynsystem-public-namecert-export} covers the displayed $\mathsf{BHist}$ flow packet, inherited $\Cont$ routes, $\hsame$ transports, $\Pkg$ provenance, and the dependency surfaces of $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public export surface of \autoref{thm:dynsystem-public-namecert-export} covers the displayed $\mathsf{BHist}$ flow packet, inherited $\Cont$ routes, $\hsame$ transports, $\Pkg$ provenance, the dependency surfaces of $\NameCert_{\ManifoldUp}$ and $\NameCert_{\OdeUp}$, and the finite $\hsame$-fixed orbit-iterate row of \autoref{thm:dynsystem-hsame-fixed-orbit-iterate-stability}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DynSystemUp.DynSystemFlowPacket\_endpoint\_coverage}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim global existence, uniqueness beyond the displayed OdeUp row, invariant-measure structure, or ergodic consequences.}
-  \upgradepath{A bridge theorem identifying the exported flow surface with the standard bridge schema is the next theory-axis obligation.}
+  \upgradepath{No further paper theory-axis grade is recorded for this routed finite-flow packet; bridgeChecked remains a separate formal-axis grade.}
 \end{closurestatus}
 
 \begin{definition}[DynSystemUp hsame-fixed one-step row]

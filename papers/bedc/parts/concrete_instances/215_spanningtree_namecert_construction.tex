@@ -6,5 +6,74 @@ The spanning-tree interface $\SpanningTreeUp$ packages a maximal acyclic subgrap
 \section{Carrier definition}
 \label{sec:spanningtree-carrier}
 
+\begin{theorem}[SpanningTreeUp carrier obligation surface]
+\label{thm:spanningtree-carrier-obligation}
+The carrier of $\SpanningTreeUp$ exposes only finite $\mathsf{BHist}$ rows over the two source certificates $\NameCert_{\GraphUp}$ and $\NameCert_{\TreeUp}$. An accepted packet carries displayed vertex rows, graph-edge rows, tree-edge rows, a root row or root-free witness inherited from $\TreeUp$, incidence rows tying each tree edge to graph endpoints, reachability rows from the root branch when present, acyclicity rows, and $\mathsf{Pkg}$ provenance for the two dependency certificates.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_dependency\_surface}
+\begin{proof}
+Read the carrier through the named $\GraphUp$ and $\TreeUp$ certificates. The graph certificate supplies the visible vertex and edge rows, while the tree certificate supplies the acyclicity, root-branch, and tree-edge rows.
+
+The spanning-tree carrier adds no ambient graph object. It records the incidence and reachability witnesses as finite $\mathsf{BHist}$ rows with their $\mathsf{Pkg}$ provenance, so every consumer-visible field is already present in the displayed carrier packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrier\_obligation\_surface}
+
+\begin{theorem}[SpanningTreeUp classifier obligation surface]
+\label{thm:spanningtree-classifier-obligation}
+The classifier for $\SpanningTreeUp$ is componentwise $\hsame$ on the visible vertex, graph-edge, tree-edge, root, incidence, reachability, acyclicity, and provenance rows named in \autoref{thm:spanningtree-carrier-obligation}. Transport along the classifier may use the $\GraphUp$ and $\TreeUp$ source classifiers, but it does not compare hidden host graphs, hidden edge sets, or unrecorded root choices.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeBHistCarrier\_classifier\_obligation}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_classifier\_obligation}
+\begin{proof}
+Project the two source classifiers from $\NameCert_{\GraphUp}$ and $\NameCert_{\TreeUp}$. These transport the graph-edge rows and tree rows by the same $\hsame$ witnesses carried in the spanning-tree packet.
+
+The remaining rows are finite ledger coordinates. Transporting incidence, reachability, acyclicity, root, and provenance rows componentwise preserves the carrier because each transported row still points to the same displayed dependency certificates.
+\end{proof}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeClassifier\_obligation\_surface}
+
+\begin{theorem}[SpanningTreeUp acyclic maximality obligation surface]
+\label{thm:spanningtree-acyclic-maximality-obligation}
+Maximal acyclic reachability for $\SpanningTreeUp$ is read only from the displayed tree-edge ledger, the finite incidence rows, the root or root-free branch inherited from $\TreeUp$, and finite $\Cont$ routes witnessing reachability. The obligation excludes any maximality proof that inspects a hidden graph equality, an unlisted edge, or an infinite search over ambient edges.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeAcyclicMaximality\_surface}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeAcyclicMaximality\_obligation\_surface}
+\begin{proof}
+Use the tree-edge ledger as the only candidate subgraph. Acyclicity is the visible row imported from the $\TreeUp$ certificate, and reachability is checked by finite $\Cont$ routes whose endpoints are the displayed vertex rows.
+
+Maximality is therefore a ledger-readback statement. If an edge participates in the claim, it must already occur as a graph-edge row with incidence data and as a candidate tree-edge comparison row; otherwise the carrier has no constructor through which the edge can be read.
+\end{proof}
+
+\begin{theorem}[SpanningTreeUp weight readback obligation surface]
+\label{thm:spanningtree-weight-readback-obligation}
+In the weighted case, $\SpanningTreeUp$ compares spanning-tree candidates only through displayed $\RealUp$ edge-weight rows attached to the graph-edge ledger and through finite summation ledgers attached to the chosen tree-edge rows. No comparison may use an external minimizer, a hidden weight function, or an infinite family of candidate trees.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_weight\_readback\_obligation}
+\begin{proof}
+Read each weight from the visible graph-edge row. The $\RealUp$ source supplies the carrier for the displayed edge-weight value, and the spanning-tree packet records which tree-edge row consumes that value.
+
+The total weight of a candidate is a finite summation ledger over those displayed rows. Comparing two candidates is therefore a comparison of two finite ledgers and their $\RealUp$ readbacks, with no extra optimization object outside the packet.
+\end{proof}
+
+\begin{theorem}[SpanningTreeUp NameCert obligation surface]
+\label{thm:spanningtree-namecert-obligation-surface}
+The local $\NameCert_{\SpanningTreeUp}$ surface is assembled from the carrier rows of \autoref{thm:spanningtree-carrier-obligation}, the classifier transport of \autoref{thm:spanningtree-classifier-obligation}, the acyclic-reachability ledger of \autoref{thm:spanningtree-acyclic-maximality-obligation}, and the weighted readback rows of \autoref{thm:spanningtree-weight-readback-obligation}. It explicitly excludes host graph equality, hidden edges, external minimization, and infinite graph data.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrier\_semantic\_name\_certificate}
+\begin{proof}
+Collect the four preceding obligation surfaces into one certificate packet. The carrier and classifier determine which histories are admissible and how they transport under $\hsame$.
+
+The maximality and weight clauses determine which ledger rows can be read by downstream algorithms such as Kruskal and Prim. Since each clause names only visible $\mathsf{BHist}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert_{\GraphUp}$, $\NameCert_{\TreeUp}$, and $\RealUp$ rows, the assembled certificate has no entry point for the excluded host-level data.
+\end{proof}
+
 \section{The certificate}
 \label{sec:spanningtree-certificate}
+
+\begin{closurestatus}{\SpanningTreeUp}
+  \constructivestory{A spanning-tree packet is read from the displayed graph and tree certificates by projecting vertex rows, graph-edge rows, tree-edge rows, incidence witnesses, root or root-free data, finite reachability routes, acyclicity evidence, and provenance. The classifier transports only those visible rows through $\hsame$ and the source certificate classifiers. In the weighted case, edge weights are read through displayed $\RealUp$ rows and finite summation ledgers over the chosen tree edges. The certificate therefore seeds the spanning-tree surface as a finite ledger package over $\GraphUp$, $\TreeUp$, and $\RealUp$, with no hidden host graph, unlisted edge family, external minimizer, or infinite graph object.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The displayed $\GraphUp$, $\TreeUp$, and $\RealUp$ rows, finite $\mathsf{BHist}$ edge and vertex ledgers, $\Cont$ reachability routes, $\hsame$ classifier transport, and $\mathsf{Pkg}$ provenance form the seeded paper scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{Hidden graph equality, hidden edge sets, external minimizers, and infinite graph data are not claimed.}
+  \upgradepath{Scoped closure must bind the carrier, classifier, maximality, weight, graph, finite-tree, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows to their precise BEDC sources.}
+\end{closurestatus}

@@ -6,5 +6,85 @@ The algebraic-stack interface $\StackUp$ packages a sheaf of groupoids on the é
 \section{Carrier definition}
 \label{sec:stack-carrier}
 
+\begin{theorem}[Stack BHist carrier obligation]\label{thm:stack-carrier-obligation}
+A $\StackUp$ carrier is a finite $\mathsf{BHist}$ packet containing a displayed $\SchemeUp$ site row, a displayed $\SheafUp$ groupoid-valued presheaf row over that site, $\hsame$ transport rows for object and arrow comparisons, $\Cont$ restriction routes for cover refinement, and $\mathsf{Pkg}$ provenance for the consumed dependency certificates. It contains no host stack object, no host quotient stack, and no external algebraic-space equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.StackUp.StackBHistCarrier\_obligation\_surface}
+\begin{proof}
+Read the site coordinate through the $\SchemeUp$ certificate of \autoref{ch:concrete-instances-scheme-namecert}. The site row is a visible BEDC ledger row built from scheme carrier and cover data, so it is already a $\mathsf{BHist}$-scoped input rather than a host site primitive.
+
+Read the groupoid-valued presheaf coordinate through the locality and gluing surface of \autoref{ch:concrete-instances-sheaf-namecert}. Its object rows, arrow rows, restriction rows, and classifier comparisons are the rows transported by $\hsame$ and routed by $\Cont$ over the displayed scheme site.
+
+The remaining coordinates are provenance and transport rows: $\mathsf{Pkg}$ records which dependency packets are consumed, while $\hsame$ and $\Cont$ record replacement and restriction behavior. Since every coordinate has been listed in this finite packet, there is no carrier slot for a host stack object, a quotient stack, or external algebraic-space equality.
+\end{proof}
+
+\begin{theorem}[Stack descent obligation]\label{thm:stack-descent-obligation}
+For a $\StackUp$ carrier packet, accepted cover-compatible local object rows and arrow rows glue through the $\SheafUp$ locality and gluing ledger over the displayed $\SchemeUp$ site row, and the glued object and arrow rows remain inside the same $\mathsf{BHist}$ carrier packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.StackUp.StackCarrierPacket\_descent\_rows}
+\leanchecked{BEDC.Derived.StackUp.StackCarrier\_descent\_obligation}
+\leanchecked{BEDC.Derived.StackUp.StackCarrierPacket\_descent\_transport}
+\leanchecked{BEDC.Derived.StackUp.StackBHistCarrier\_descent\_obligation}
+\leanchecked{BEDC.Derived.StackUp.StackCarrierPacket\_descent\_obligation}
+\begin{proof}
+Use the cover rows supplied by the $\SchemeUp$ site surface of \autoref{ch:concrete-instances-scheme-namecert}. They determine the visible cover indices and refinement routes on which the stack packet is allowed to restrict object and arrow rows.
+
+Use the $\SheafUp$ locality and gluing ledger of \autoref{ch:concrete-instances-sheaf-namecert} on the groupoid-valued presheaf coordinate. Cover-compatible local object rows glue to a global object row, and compatible local arrow rows glue to a global arrow row, with the readback comparisons expressed by the displayed section classifiers.
+
+The resulting rows are repacked with the original site, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance. Thus descent closes inside the same $\mathsf{BHist}$ carrier and does not appeal to host quotient stacks or external algebraic-space equality.
+\end{proof}
+\leanchecked{BEDC.Derived.StackUp.StackDescent\_obligation\_surface}
+
+\begin{theorem}[Stack representability obligation]\label{thm:stack-representability-obligation}
+Every visible diagonal row or atlas row of a $\StackUp$ carrier packet is readable only through displayed $\SchemeUp$ carrier rows and $\hsame$ transport over the site. Representability is recorded as a ledger predicate on those rows, not as an external algebraic-space primitive and not as host equality of quotient stacks.
+\end{theorem}
+\leanchecked{BEDC.Derived.StackUp.StackCarrierPacket\_representability\_surface}
+\leanchecked{BEDC.Derived.StackUp.StackRepresentability\_boundary}
+\leanchecked{BEDC.Derived.StackUp.StackRepresentability\_scheme\_site\_transport}
+\begin{proof}
+Project the diagonal or atlas read through the site coordinate supplied by \autoref{ch:concrete-instances-scheme-namecert}. Each visible source, target, overlap, and cover entry is a scheme-carrier or scheme-cover row, so the read has no independent host algebraic-space endpoint.
+
+Project the presheaf and descent comparisons through the $\SheafUp$ rows of \autoref{ch:concrete-instances-sheaf-namecert}. The relevant object and arrow comparisons are transported by $\hsame$ and restricted along the $\Cont$ routes already displayed in the stack carrier.
+
+The representability witness is therefore a ledger predicate saying that the listed diagonal or atlas row is covered by the displayed scheme rows after the named transports. It is not an imported algebraic-space object and it does not identify quotient-stack presentations by external equality.
+\end{proof}
+
+\begin{theorem}[Stack ledger obligation]\label{thm:stack-ledger-obligation}
+The public ledger of a $\StackUp$ carrier packet exports exactly the site rows, cover rows, groupoid-object rows, arrow rows, descent witnesses, representability witnesses, $\Cont$ routes, and dependency $\mathsf{Pkg}$ rows displayed in the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.StackUp.StackLedger\_obligation\_surface}
+\begin{proof}
+The site and cover exports are the rows inherited from the $\SchemeUp$ surface of \autoref{ch:concrete-instances-scheme-namecert}. They are the only rows that expose scheme carriers, affine or site cover entries, refinements, and the restriction routes consumed by the stack packet.
+
+The groupoid-object, arrow, and descent exports are the rows inherited from the $\SheafUp$ surface of \autoref{ch:concrete-instances-sheaf-namecert}. They account for the groupoid-valued presheaf coordinate and for the locality, gluing, and readback rows used by descent.
+
+Representability rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance are the remaining coordinates of the carrier packet. Since the ledger is the ordered projection of these displayed coordinates, it exports no host stack object, no quotient-stack equality, and no external algebraic-space equality.
+\end{proof}
+
+\begin{theorem}[Stack NameCert obligation surface]\label{thm:stack-namecert-obligation}
+The preceding four obligations supply the $\StackUp$ $\NameCert$ surface. Carrier inhabitance is witnessed by the displayed trivial-cover packet, classifier equivalence is componentwise $\hsame$, carrier transport is governed by the descent and representability rows, and ledger exactness is the exact projection asserted by \autoref{thm:stack-ledger-obligation}.
+\end{theorem}
+\leanchecked{BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.StackUp.StackNameCert\_obligation\_surface}
+\begin{proof}
+Carrier inhabitance uses the trivial cover available in the $\SchemeUp$ surface of \autoref{ch:concrete-instances-scheme-namecert} together with the identity local object and arrow rows read through the $\SheafUp$ surface of \autoref{ch:concrete-instances-sheaf-namecert}. These rows form the finite packet required by \autoref{thm:stack-carrier-obligation}.
+
+Classifier equivalence is componentwise $\hsame$ on the site, object, arrow, transport, restriction, and provenance rows. Reflexive, symmetric, and transitive behavior is inherited row by row from the consumed scheme and sheaf classifiers, with $\Cont$ only recording the displayed restriction route.
+
+Carrier transport follows by applying the descent obligation to glued object and arrow rows and the representability obligation to diagonal and atlas rows. Ledger exactness then follows from \autoref{thm:stack-ledger-obligation}, which lists every exported row and excludes host quotient stacks and external algebraic-space equality from the public surface.
+\end{proof}
+
 \section{The certificate}
 \label{sec:stack-certificate}
+\closureat{StackUp}{obligationStr}[BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface]
+
+\begin{closurestatus}{\StackUp}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the displayed $\SchemeUp$ site rows, $\SheafUp$ groupoid rows, descent rows, representability rows, ledger rows, $\hsame$ transports, $\Cont$ restriction routes, and $\mathsf{Pkg}$ provenance for the consumed dependency certificates.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \constructivestory{A $\StackUp$ packet is assembled from displayed scheme-site rows, groupoid-valued sheaf rows, descent and restriction routes, and dependency provenance; every public read is a projection from this finite carrier packet.}
+  \notclaimed{This chapter does not close host quotient stacks or external algebraic-space equality.}
+  \upgradepath{Scoped closure requires binding the checked obligation rows as the public consumer scope for the finite SchemeUp/SheafUp carrier.}
+\end{closurestatus}

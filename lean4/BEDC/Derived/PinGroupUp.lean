@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
@@ -93,6 +94,23 @@ def PinGroupReflectionParityLedgerSurface
     (spin reflection product endpoint ledger carried : BHist) : Prop :=
   PinGroupReflectionParityCarrier spin reflection product endpoint ∧ Cont endpoint ledger carried
 
+theorem PinGroupReflectionParityCarrier_source_exhaustion
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl (And.intro spinBranch.left spinBranch.right)
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left reflectionBranch.right.right))
+  · exact surface.right
+
 theorem PinGroupReflectionParityLedgerSurface_exhaustion
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
@@ -104,6 +122,50 @@ theorem PinGroupReflectionParityLedgerSurface_exhaustion
   have branchExhaustion :=
     PinGroupReflectionParityCarrier_exactness surface.left surface.right
   exact And.intro branchExhaustion surface.right
+
+theorem PinGroupReflectionParityLedgerSurface_source_ledger_coverage
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧
+            hsame carried (append product ledger) ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl
+          (And.intro spinBranch.left
+            (And.intro
+              (cont_respects_hsame spinBranch.left (hsame_refl ledger) surface.right
+                (cont_intro rfl))
+              spinBranch.right))
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left
+              (And.intro
+                (cont_respects_hsame reflectionBranch.right.left (hsame_refl ledger)
+                  surface.right (cont_intro rfl))
+                reflectionBranch.right.right)))
+  · exact surface.right
+
+theorem PinGroupReflectionParityCarrier_spin_clifford_source_scope
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+          (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+        hsame carried (append endpoint ledger) := by
+  intro surface
+  constructor
+  · cases surface.left with
+    | inl spinBranch =>
+        exact Or.inl (And.intro spinBranch.left spinBranch.right)
+    | inr reflectionBranch =>
+        exact Or.inr
+          (And.intro reflectionBranch.left
+            (And.intro reflectionBranch.right.left reflectionBranch.right.right))
+  · exact surface.right
 
 theorem PinGroupReflectionParityLedgerSurface_spin_boundary_exhaustion
     {spin reflection product endpoint ledger carried : BHist} :
@@ -344,6 +406,16 @@ theorem PinGroupReflectionParityCarrier_namecert_obligation_surface
   have ledgerRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
   exact And.intro certRows.left (And.intro ledgerRows certRows.right)
 
+theorem PinGroupReflectionParityLedgerSurface_reflection_generator_transport_closure
+    {spin reflection product endpoint ledger carried reflected : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried reflected ->
+        ((hsame endpoint spin ∧ UnaryHistory spin) ∨
+            (Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection)) ∧
+          hsame carried (append endpoint ledger) ∧ hsame reflected (append reflection carried) := by
+  intro surface reflectedRow
+  exact And.intro surface.left (And.intro surface.right reflectedRow)
+
 theorem PinGroupReflectionParityLedgerSurface_reflection_parity_determinacy
     {spin reflection product endpoint ledger carried : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
@@ -388,5 +460,151 @@ theorem PinGroupReflectionParityCarrier_reflection_generator_obligation
     (And.intro reflectionBranch.right.left
       (And.intro reflectionBranch.right.right
         (And.intro carriedProduct surfaceRows.right)))
+
+theorem PinGroupReflectionParityCarrier_root_reflection_threshold_exactness
+    {spin reflection product endpoint ledger carried : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      (hsame endpoint spin -> False) ->
+        PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ∧
+          Cont spin reflection product ∧ hsame endpoint product ∧ UnaryHistory reflection ∧
+            hsame carried (append product ledger) ∧ hsame carried (append endpoint ledger) := by
+  intro surface notSpinEndpoint
+  have reflectionRows :=
+    PinGroupReflectionParityCarrier_reflection_generator_obligation surface notSpinEndpoint
+  exact And.intro surface
+      (And.intro reflectionRows.left
+        (And.intro reflectionRows.right.left
+          (And.intro reflectionRows.right.right.left
+            (And.intro reflectionRows.right.right.right.left
+              reflectionRows.right.right.right.right))))
+
+theorem PinGroupReflectionParityCarrier_parity_classifier_obligation
+    {spin reflection product endpoint endpoint' ledger carried carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      PinGroupReflectionParityCarrier spin reflection product endpoint' ->
+        hsame endpoint endpoint' ->
+          Cont endpoint' ledger carried' ->
+            PinGroupReflectionParityCarrier spin reflection product endpoint' ∧
+              hsame carried carried' ∧ hsame carried' (append endpoint' ledger) := by
+  intro surface classifier sameEndpoint endpointLedger'
+  have sameCarried : hsame carried carried' :=
+    cont_respects_hsame sameEndpoint (hsame_refl ledger) surface.right endpointLedger'
+  exact And.intro classifier (And.intro sameCarried endpointLedger')
+
+theorem PinGroupReflectionGenerator_transport_closure
+    {spin reflection product endpoint ledger carried spin' reflection' product' endpoint' ledger'
+      carried' : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      (hsame endpoint spin -> False) ->
+        hsame spin spin' ->
+          hsame reflection reflection' ->
+            hsame product product' ->
+              hsame endpoint endpoint' ->
+                hsame ledger ledger' ->
+                  Cont spin' reflection' product' ->
+                    Cont endpoint' ledger' carried' ->
+                      PinGroupReflectionParityLedgerSurface spin' reflection' product' endpoint'
+                          ledger' carried' ∧
+                        Cont spin' reflection' product' ∧
+                          hsame endpoint' product' ∧
+                            UnaryHistory reflection' ∧
+                              hsame carried' (append product' ledger') ∧
+                                hsame carried' (append endpoint' ledger') := by
+  intro surface notSpinEndpoint sameSpin sameReflection sameProduct sameEndpoint sameLedger
+    productRow' endpointLedgerRow'
+  have transported :=
+    PinGroupReflectionParityLedgerSurface_parity_scope_transport surface sameSpin sameReflection
+      sameProduct sameEndpoint sameLedger productRow' endpointLedgerRow'
+  have notSpinEndpoint' : hsame endpoint' spin' -> False := by
+    intro endpointSpin'
+    exact notSpinEndpoint
+      (hsame_trans sameEndpoint
+        (hsame_trans endpointSpin' (hsame_symm sameSpin)))
+  have reflected :=
+    PinGroupReflectionParityCarrier_reflection_generator_obligation transported.left
+      notSpinEndpoint'
+  exact And.intro transported.left
+    (And.intro reflected.left
+      (And.intro reflected.right.left
+        (And.intro reflected.right.right.left
+          (And.intro reflected.right.right.right.left reflected.right.right.right.right))))
+
+theorem PinGroupReflectionParityCarrier_spin_extension_obligation
+    {spin ledger carried : BHist} :
+    UnaryHistory spin ->
+      Cont spin ledger carried ->
+        PinGroupReflectionParityLedgerSurface spin BHist.Empty BHist.Empty spin ledger carried ∧
+          hsame carried (append spin ledger) := by
+  intro spinUnary spinLedger
+  exact And.intro
+    (And.intro (Or.inl (And.intro (hsame_refl spin) spinUnary)) spinLedger)
+    spinLedger
+
+theorem PinGroupSpinSubrowClassifier_readback {spin ledger carried reflected : BHist} :
+    UnaryHistory spin ->
+      Cont spin ledger carried ->
+        Cont BHist.Empty carried reflected ->
+          PinGroupReflectionParityLedgerSurface spin BHist.Empty BHist.Empty spin ledger carried ∧
+            hsame carried (append spin ledger) ∧ hsame reflected carried := by
+  intro spinUnary spinLedger reflectedRow
+  have spinSurface :=
+    PinGroupReflectionParityCarrier_spin_extension_obligation spinUnary spinLedger
+  exact And.intro spinSurface.left
+    (And.intro spinSurface.right (cont_left_unit_result reflectedRow))
+
+theorem PinGroupUp_StdBridge
+    {spin reflection product endpoint ledger carried action actionOut provenance : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried action ->
+        Cont action provenance actionOut ->
+          hsame provenance BHist.Empty ->
+            PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ∧
+              hsame carried (append endpoint ledger) ∧
+                hsame actionOut action ∧ (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro surface _actionRow actionProvenance provenanceEmpty
+  have surfaceRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
+  have endpointRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
+  have actionReadback : hsame actionOut action := by
+    cases provenanceEmpty
+    exact cont_right_unit_result actionProvenance
+  exact And.intro surface
+    (And.intro surfaceRows.right
+      (And.intro actionReadback endpointRows.right))
+
+theorem PinGroupReflectionParityLedgerSurface_clifford_action_ledger_obligation
+    {spin reflection product endpoint ledger carried action actionOut provenance : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried action -> Cont action provenance actionOut ->
+        hsame provenance BHist.Empty ->
+          ((hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+              (hsame carried (append product ledger) ∧ Cont spin reflection product ∧
+                UnaryHistory reflection)) ∧ hsame carried (append endpoint ledger) ∧
+            hsame actionOut (append reflection carried) ∧
+              (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro surface actionRow actionProvenance provenanceEmpty
+  have surfaceRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
+  have endpointRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
+  cases provenanceEmpty
+  exact And.intro surfaceRows.left
+    (And.intro surfaceRows.right
+      (And.intro (hsame_trans (cont_right_unit_result actionProvenance) actionRow)
+        endpointRows.right))
+
+theorem PinGroupReflectionGeneratorCarrier_admission
+    {spin reflection product endpoint ledger carried : BHist} :
+    UnaryHistory spin ->
+      UnaryHistory reflection ->
+        Cont spin reflection product ->
+          hsame endpoint product ->
+            Cont endpoint ledger carried ->
+              UnaryHistory product ∧ hsame carried (append product ledger) ∧
+                Cont spin reflection product ∧ UnaryHistory reflection := by
+  intro spinUnary reflectionUnary productRow endpointProduct endpointLedger
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed spinUnary reflectionUnary productRow
+  have carriedProduct : hsame carried (append product ledger) :=
+    cont_respects_hsame endpointProduct (hsame_refl ledger) endpointLedger (cont_intro rfl)
+  exact And.intro productUnary
+    (And.intro carriedProduct (And.intro productRow reflectionUnary))
 
 end BEDC.Derived.PinGroupUp

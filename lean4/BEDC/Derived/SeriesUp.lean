@@ -72,6 +72,20 @@ theorem SeriesPartialSum_result_unary {zero : BHist} {summand : BHist -> BHist}
       have summandNUnary : UnaryHistory _ := summandUnary unaryN
       exact unary_cont_closed partialUnary summandNUnary stepCont
 
+theorem SeriesPartialSum_schema_bridge_endpoint_unary {zero : BHist}
+    {summand modulus : BHist -> BHist} {n partialSum endpoint : BHist} :
+    UnaryHistory zero ->
+      (forall {k : BHist}, UnaryHistory k -> UnaryHistory (summand k)) ->
+        (forall {k : BHist}, UnaryHistory k -> UnaryHistory (modulus k)) ->
+          UnaryHistory n -> SeriesPartialSum zero summand n partialSum ->
+            Cont partialSum (modulus n) endpoint ->
+              UnaryHistory endpoint ∧ hsame endpoint (append partialSum (modulus n)) := by
+  intro zeroUnary summandUnary modulusUnary unaryN partialSumRow endpointCont
+  have partialSumUnary : UnaryHistory partialSum :=
+    SeriesPartialSum_result_unary zeroUnary summandUnary partialSumRow unaryN
+  have modulusNUnary : UnaryHistory (modulus n) := modulusUnary unaryN
+  exact And.intro (unary_cont_closed partialSumUnary modulusNUnary endpointCont) endpointCont
+
 theorem SeriesPartialSumLedger_step_transport {PointCarrier : BHist -> Prop}
     {PointClassifier : BHist -> BHist -> Prop}
     (cert : NameCert PointCarrier PointClassifier)
@@ -129,5 +143,62 @@ theorem SeriesSourceCarrierBoundary_obligation {PointCarrier : BHist -> Prop}
   exact And.intro summandCarrier
     (And.intro partialCarrier
       (And.intro modulusCarrier (NameCert.equiv_refl cert summandCarrier)))
+
+theorem SeriesPartialSum_public_name_certificate {zero : BHist}
+    {summand modulus : BHist -> BHist} {n partialSum endpoint : BHist} :
+    UnaryHistory zero ->
+      (forall {k : BHist}, UnaryHistory k -> UnaryHistory (summand k)) ->
+        (forall {k : BHist}, UnaryHistory k -> UnaryHistory (modulus k)) ->
+          UnaryHistory n ->
+            SeriesPartialSum zero summand n partialSum ->
+              Cont partialSum (modulus n) endpoint ->
+                SemanticNameCert
+                    (fun row : BHist =>
+                      SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+                    (fun row : BHist =>
+                      SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+                    (fun row : BHist =>
+                      SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+                    hsame ∧
+                  UnaryHistory partialSum ∧ UnaryHistory endpoint ∧
+                    hsame endpoint (append partialSum (modulus n)) := by
+  intro zeroUnary summandUnary modulusUnary unaryN partialSumRow endpointCont
+  have partialSumUnary : UnaryHistory partialSum :=
+    SeriesPartialSum_result_unary zeroUnary summandUnary partialSumRow unaryN
+  have endpointRows :=
+    SeriesPartialSum_schema_bridge_endpoint_unary zeroUnary summandUnary modulusUnary unaryN
+      partialSumRow endpointCont
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+          (fun row : BHist =>
+            SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+          (fun row : BHist =>
+            SeriesPartialSum zero summand n partialSum ∧ hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro partialSumRow (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert (And.intro partialSumUnary endpointRows)
 
 end BEDC.Derived.SeriesUp

@@ -21,6 +21,41 @@ def CompactMetricCertificate (X : BHist -> Prop) (eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
   TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
 
+def CompactMetricPublicExportRowSurface (X : BHist -> Prop) (eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit row : BHist) : Prop :=
+  X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+    hsame row limit
+
+def CompactMetricCertificateCarrier (X : BHist -> Prop) (x y dist eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
+  X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
+    TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
+
+def CompactMetricPublicExportSource (X : BHist -> Prop) (eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
+  (exists x : BHist, X x) ∧ TotallyBoundedProbeBundleNet X eps bundle ∧
+    CompleteMetricLimitWitness X s M limit
+
+theorem CompactMetricPublicExportSource_components {X : BHist -> Prop} {eps : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricPublicExportSource X eps bundle s M limit ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧
+        CompleteMetricLimitWitness X s M limit := by
+  intro source
+  exact source.right
+
+theorem CompactMetricCertificateCarrier_source_scope {X : BHist -> Prop}
+    {x y dist eps : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificateCarrier X x y dist eps bundle s M limit ->
+      X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
+        CompactMetricCertificate X eps bundle s M limit := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left carrier.right.right.right.right)))
+
 theorem CompactMetricCertificate_hsame_transport {X : BHist -> Prop} {eps eps' : BHist}
     {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
     (forall {h k : BHist}, hsame h k -> X h -> X k) ->
@@ -169,6 +204,20 @@ theorem CompactMetricCertificate_metric_source_obligation {X : BHist -> Prop}
       leftDistance rightDistance
   exact And.intro certificate.left
     (And.intro certificate.right (And.intro leftDistance sameDistance))
+
+theorem CompactMetricCertificate_metric_field_projection {X : BHist -> Prop}
+    {eps x y d : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x -> X y ->
+      MetricDistanceWitness x y d ->
+        X x ∧ X y ∧ MetricDistanceWitness x y d ∧
+          TotallyBoundedProbeBundleNet X eps bundle ∧
+            CompleteMetricLimitWitness X s M limit := by
+  intro certificate source target distance
+  exact
+    And.intro source
+      (And.intro target
+        (And.intro distance (And.intro certificate.left certificate.right)))
 
 theorem CompactMetricTotallyBoundedNet_obligation {X : BHist -> Prop} {eps eps' x : BHist}
     {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
@@ -327,6 +376,15 @@ theorem CompactMetricCertificate_public_export_surface {X : BHist -> Prop} {eps 
         exact rowPublic
     }
     (And.intro certificate.left certificate.right)
+
+theorem CompactMetricPublicExportSource_component_rows {X : BHist -> Prop} {eps x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x ->
+      CompactMetricPublicExportRowSurface X eps bundle s M limit x ∧
+        TotallyBoundedProbeBundleNet X eps bundle ∧
+          CompleteMetricLimitWitness X s M limit := by
+  intro certificate source
+  exact And.intro (Or.inl source) (And.intro certificate.left certificate.right)
 
 theorem CompactMetricPublicInterface_stability {X : BHist -> Prop} {eps epsPrime x : BHist}
     {bundle : ProbeBundle BHist} {s sPrime M MPrime : BHist -> BHist}
