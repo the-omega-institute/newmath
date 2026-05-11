@@ -148,6 +148,22 @@ completeness, so the scoped package is exactly the finite dependency surface
 stated above.
 \end{proof}
 
+\begin{theorem}[NestedInterval public finite-window boundary]
+\label{thm:nestedinterval-public-window-boundary}
+The finite carrier of \autoref{def:nestedinterval-finite-carrier}, endpoint transport of \autoref{thm:nestedinterval-endpoint-transport}, window refinement of \autoref{thm:nestedinterval-window-refinement}, $\RegSeqRatUp$ handoff of \autoref{thm:nestedinterval-regseqrat-handoff}, $\NameCert_{\NestedIntervalUp}$ obligation surface of \autoref{thm:nestedinterval-namecert-obligation-surface}, $\RealUp$ seal boundary of \autoref{thm:nestedinterval-real-seal-boundary}, and scoped dependency package of \autoref{thm:nestedinterval-obligation-scope-packet} assemble a single public finite-window boundary for $\NestedIntervalUp$.
+
+Every consumer-visible row of that boundary is one of the displayed dyadic endpoint rows, endpoint-order rows, width rows, inclusion rows, schedule rows, regular-rational handoff rows, seal-facing rows, $\hsame$ transport rows, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance rows, or $\NameCert$ rows. The boundary exports no infinite intersection point, compactness theorem, host real equality, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:nestedinterval-finite-carrier}. The carrier supplies the dyadic endpoint packets, endpoint-order ledgers, width ledgers, adjacent inclusion rows, schedules, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, and visible provenance rows.
+
+Use endpoint transport of \autoref{thm:nestedinterval-endpoint-transport} and window refinement of \autoref{thm:nestedinterval-window-refinement} to account for movement of the carrier rows across $\hsame$ and $\Cont$ routes. These two blocks leave the boundary inside finite endpoint, width, inclusion, and schedule data.
+
+Next use the $\RegSeqRatUp$ handoff and the local $\NameCert_{\NestedIntervalUp}$ obligation surface to bind the regular-rational windows and package provenance to the same finite rows. Apply the $\RealUp$ seal boundary to restrict seal-facing reads to displayed endpoint, inclusion, schedule, and handoff data.
+
+Finally, the scoped dependency package fixes the permitted primitives for downstream consumers. An infinite intersection point, compactness theorem, host real equality, or choice principle would require an additional coordinate outside those seven displayed blocks, so none is exported by the public boundary.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 

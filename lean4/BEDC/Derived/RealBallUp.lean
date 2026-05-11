@@ -107,4 +107,75 @@ theorem RealBallWindowPacket_radius_transport [AskSetup] [PackageSetup]
                 (And.intro windowRow' (And.intro ledgerRow' ledgerPkg')))))))
       (And.intro sameLedger (And.intro windowRow' ledgerRow'))
 
+theorem RealBallWindowPacket_standard_obligation_boundary [AskSetup] [PackageSetup]
+    {center radius window provenance ledger boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealBallWindowPacket center radius window provenance ledger bundle pkg ->
+      Cont ledger provenance boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory center ∧ PositiveUnaryDenominator radius ∧ UnaryHistory window ∧
+            UnaryHistory boundary ∧ hsame window (append center radius) ∧
+              hsame ledger (append window provenance) ∧
+                hsame boundary (append ledger provenance) ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRoute boundaryPkg
+  obtain ⟨centerUnary, radiusPositive, windowUnary, provenanceUnary, _ledgerUnary,
+    windowRoute, ledgerRoute, _ledgerPkg⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed windowUnary provenanceUnary ledgerRoute
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary provenanceUnary boundaryRoute
+  have sameWindow : hsame window (append center radius) :=
+    windowRoute
+  have sameLedger : hsame ledger (append window provenance) :=
+    ledgerRoute
+  have sameBoundary : hsame boundary (append ledger provenance) :=
+    boundaryRoute
+  exact
+    ⟨centerUnary, radiusPositive, windowUnary, boundaryUnary, sameWindow, sameLedger,
+      sameBoundary, boundaryPkg⟩
+
+theorem RealBallWindowPacket_finite_window_namecert [AskSetup] [PackageSetup]
+    {center radius window provenance ledger metricRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealBallWindowCarrier center radius window provenance ledger bundle pkg ->
+      PositiveUnaryDenominator radius ->
+        Cont ledger radius metricRow ->
+          PkgSig bundle metricRow pkg ->
+            RealBallWindowPacket center radius window provenance ledger bundle pkg ∧
+              UnaryHistory metricRow ∧ hsame window (append center radius) ∧
+                hsame ledger (append window provenance) ∧
+                  hsame metricRow (append ledger radius) ∧ PkgSig bundle metricRow pkg := by
+  intro carrier radiusPositive metricRoute metricPkg
+  have centerUnary : UnaryHistory center :=
+    carrier.left
+  have radiusUnary : UnaryHistory radius :=
+    (PositiveUnaryDenominator_unary_and_nonempty radiusPositive).left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.left
+  have windowRoute : Cont center radius window :=
+    carrier.right.right.right.left
+  have ledgerRoute : Cont window provenance ledger :=
+    carrier.right.right.right.right.left
+  have ledgerPkg : PkgSig bundle ledger pkg :=
+    carrier.right.right.right.right.right
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed centerUnary radiusUnary windowRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed windowUnary provenanceUnary ledgerRoute
+  have metricUnary : UnaryHistory metricRow :=
+    unary_cont_closed ledgerUnary radiusUnary metricRoute
+  have packet : RealBallWindowPacket center radius window provenance ledger bundle pkg :=
+    And.intro centerUnary
+      (And.intro radiusPositive
+        (And.intro windowUnary
+          (And.intro provenanceUnary
+            (And.intro ledgerUnary
+              (And.intro windowRoute (And.intro ledgerRoute ledgerPkg))))))
+  exact
+    And.intro packet
+      (And.intro metricUnary
+        (And.intro windowRoute
+          (And.intro ledgerRoute
+            (And.intro metricRoute metricPkg))))
+
 end BEDC.Derived.RealBallUp
