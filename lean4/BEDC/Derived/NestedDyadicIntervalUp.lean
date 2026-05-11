@@ -237,4 +237,48 @@ theorem NestedDyadicIntervalPacket_shared_prefix_handoff [AskSetup] [PackageSetu
       sharedEndpointRoute
   exact ⟨sameEndpoint, sameEndpointRight, sharedEndpointPkg⟩
 
+theorem NestedDyadicIntervalPacket_prefix_truncation_stability [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint cut firstCut nextCut scheduleCut
+      refinementCut ledgerCut endpointCut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      UnaryHistory cut ->
+        Cont first cut firstCut ->
+          Cont next cut nextCut ->
+            Cont schedule cut scheduleCut ->
+              Cont ledger cut ledgerCut ->
+                Cont firstCut nextCut refinementCut ->
+                  Cont scheduleCut refinementCut endpointCut ->
+                    PkgSig bundle endpointCut pkg ->
+                      NestedDyadicIntervalPacket firstCut nextCut scheduleCut refinementCut
+                        provenance ledgerCut endpointCut bundle pkg := by
+  intro packet cutUnary firstCutRow nextCutRow scheduleCutRow ledgerCutRow refinementCutRow
+    endpointCutRow endpointCutPkg
+  have firstUnary : UnaryHistory first :=
+    packet.left
+  have nextUnary : UnaryHistory next :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    packet.right.right.right.right.right.left
+  have firstCutUnary : UnaryHistory firstCut :=
+    unary_cont_closed firstUnary cutUnary firstCutRow
+  have nextCutUnary : UnaryHistory nextCut :=
+    unary_cont_closed nextUnary cutUnary nextCutRow
+  have scheduleCutUnary : UnaryHistory scheduleCut :=
+    unary_cont_closed scheduleUnary cutUnary scheduleCutRow
+  have ledgerCutUnary : UnaryHistory ledgerCut :=
+    unary_cont_closed ledgerUnary cutUnary ledgerCutRow
+  have refinementCutUnary : UnaryHistory refinementCut :=
+    unary_cont_closed firstCutUnary nextCutUnary refinementCutRow
+  have endpointCutUnary : UnaryHistory endpointCut :=
+    unary_cont_closed scheduleCutUnary refinementCutUnary endpointCutRow
+  exact
+    ⟨firstCutUnary, nextCutUnary, scheduleCutUnary, refinementCutUnary, provenanceUnary,
+      ledgerCutUnary, endpointCutUnary, refinementCutRow, endpointCutRow, endpointCutPkg⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp
