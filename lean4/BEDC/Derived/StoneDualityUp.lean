@@ -304,4 +304,77 @@ theorem StoneDualityContinuousMapReadback_contravariant_endpoint [AskSetup] [Pac
     cont_respects_hsame samePreimage sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityStoneSpaceClassifier_source_semanticNameCert [AskSetup] [PackageSetup]
+    {zero one meet join compl distributive source pkgRow clopenMeet clopenCompl clopenZero
+      clopenOne clopenPacket : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoneDualityBooleanSource zero one meet join compl distributive source pkgRow bundle pkg ->
+      Cont meet join clopenMeet ->
+        Cont clopenMeet compl clopenCompl ->
+          Cont zero one clopenZero ->
+            Cont clopenZero clopenCompl clopenOne ->
+              Cont source clopenOne clopenPacket ->
+                SemanticNameCert
+                    (fun row : BHist => row = source ∨ row = pkgRow)
+                    (fun row : BHist => row = source ∨ row = pkgRow ∨ row = clopenPacket)
+                    (fun row : BHist => row = source ∨ row = pkgRow ∨ row = clopenPacket)
+                    hsame ∧
+                  UnaryHistory clopenPacket ∧ hsame clopenPacket (append source clopenOne) ∧
+                    PkgSig bundle pkgRow pkg := by
+  intro sourceData clopenMeetRow clopenComplRow clopenZeroRow clopenOneRow clopenPacketRow
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed sourceData.left sourceData.right.left
+      sourceData.right.right.right.right.right.right.right.left
+  have clopenMeetUnary : UnaryHistory clopenMeet :=
+    unary_cont_closed sourceData.right.right.left sourceData.right.right.right.left clopenMeetRow
+  have clopenComplUnary : UnaryHistory clopenCompl :=
+    unary_cont_closed clopenMeetUnary sourceData.right.right.right.right.left clopenComplRow
+  have clopenZeroUnary : UnaryHistory clopenZero :=
+    unary_cont_closed sourceData.left sourceData.right.left clopenZeroRow
+  have clopenOneUnary : UnaryHistory clopenOne :=
+    unary_cont_closed clopenZeroUnary clopenComplUnary clopenOneRow
+  have clopenPacketUnary : UnaryHistory clopenPacket :=
+    unary_cont_closed sourceUnary clopenOneUnary clopenPacketRow
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => row = source ∨ row = pkgRow)
+          (fun row : BHist => row = source ∨ row = pkgRow ∨ row = clopenPacket)
+          (fun row : BHist => row = source ∨ row = pkgRow ∨ row = clopenPacket)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro source (Or.inl rfl)
+      equiv_refl := by
+        intro row _rowSource
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other rowOther
+        exact hsame_symm rowOther
+      equiv_trans := by
+        intro _row _middle _other rowMiddle middleOther
+        exact hsame_trans rowMiddle middleOther
+      carrier_respects_equiv := by
+        intro row other rowOther rowSource
+        cases rowOther
+        exact rowSource
+    }
+    pattern_sound := by
+      intro _row rowSource
+      cases rowSource with
+      | inl sourceEq =>
+          exact Or.inl sourceEq
+      | inr pkgEq =>
+          exact Or.inr (Or.inl pkgEq)
+    ledger_sound := by
+      intro _row rowSource
+      cases rowSource with
+      | inl sourceEq =>
+          exact Or.inl sourceEq
+      | inr pkgEq =>
+          exact Or.inr (Or.inl pkgEq)
+  }
+  exact And.intro cert
+    (And.intro clopenPacketUnary
+      (And.intro clopenPacketRow
+        sourceData.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.StoneDualityUp
