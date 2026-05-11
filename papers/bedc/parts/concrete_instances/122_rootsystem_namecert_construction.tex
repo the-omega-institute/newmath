@@ -285,3 +285,71 @@ $$
 Composing these vector-classifier witnesses by the public root classifier gives
 $s_\alpha(s_\alpha(\beta))\sim_V\beta$. The proof has used the two displayed reflection $\Cont$ routes, the Cartan endpoint ledger, the inner-product form laws, and the inherited vector-space classifier congruence; no ambient Weyl group, host-level equality of vectors, or quotient of reflection words is introduced.
 \end{proof}
+
+\begin{theorem}[RootSystem simple reflection negates its axis]
+\label{thm:rootsystem-simple-reflection-axis-negation}
+For a $\RootSystemUp$ BHist certificate surface, let $\alpha$ be a carried root row. Let the displayed reflection row along $\alpha$ be read through its Cartan-normalized $\Cont$ route
+$$
+s_\alpha(\gamma)
+\sim_V
+\gamma-c_{\alpha,\gamma}\cdot_V\alpha
+$$
+for every carried input $\gamma$, where $c_{\alpha,\gamma}$ is the integer Cartan endpoint supplied by the same surface. Then the reflection of $\alpha$ through its own displayed root axis is classified with the vector-space additive inverse of $\alpha$:
+$$
+s_\alpha(\alpha)\sim_V -_V\alpha.
+$$
+The witness is internal to the $\RootSystemUp$ surface: it uses the inherited $\InnerProductUp$ vector classifier, the displayed vector-space additive rows, the reflection $\Cont$ route, and the Cartan endpoint ledger.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:rootsystem-nonzero-finiteness-obligation}, the carried root row $\alpha$ is a carried vector endpoint in the inherited $\InnerProductUp$ vector carrier and carries a witness that $\alpha$ is not classified with the vector zero $0_V$. Therefore the vector-space reduct carries $-_V\alpha$ and all displayed endpoints formed from $\alpha$ by addition and scalar action.
+
+Read the reflection row from the seventh field of \autoref{def:rootsystem-bhist-certificate-surface} and specialize its displayed route to the carried input $\gamma=\alpha$. This gives
+$$
+s_\alpha(\alpha)
+\sim_V
+\alpha-c_{\alpha,\alpha}\cdot_V\alpha.
+$$
+It remains to identify the diagonal Cartan endpoint $c_{\alpha,\alpha}$ with the carried integer $2$ and then simplify inside the vector-space reduct.
+
+The eighth field of \autoref{def:rootsystem-bhist-certificate-surface}, read through \autoref{thm:rootsystem-cartan-ledger-obligation}, says that $c_{\alpha,\alpha}$ is the $\IntUp$ endpoint for
+$$
+2\langle\alpha,\alpha\rangle/\langle\alpha,\alpha\rangle.
+$$
+The root form-law surface of \autoref{thm:innerproduct-root-unblock-form-laws} places the diagonal endpoint $\langle\alpha,\alpha\rangle$ in the retained scalar source. Since $\alpha$ is not vector-zero, the exact diagonal zero test of \autoref{thm:innerproduct-root-diagonal-zero-exactness} prevents $\langle\alpha,\alpha\rangle$ from being scalar-zero. Hence the scalar field cancellation row applies to the displayed nonzero diagonal denominator and classifies
+$$
+2\langle\alpha,\alpha\rangle/\langle\alpha,\alpha\rangle
+\sim_{\mathsf{scal}}
+2.
+$$
+Transporting this scalar comparison through the integer endpoint ledger, by the Cartan endpoint transport component of \autoref{thm:rootsystem-cartan-ledger-obligation}, gives the Cartan-classifier comparison
+$$
+c_{\alpha,\alpha}\sim_{\IntUp}2.
+$$
+This is a comparison of displayed Cartan endpoint histories, not a host-level scalar equality.
+
+Use the inherited $\VecSpaceUp$ rows exposed by \autoref{thm:innerproduct-root-vecspace-scalar-exposure}. The scalar-action congruence field listed in \autoref{def:module-stability-certificate}, inherited by \autoref{def:vecspace-stability-certificate}, transports the Cartan comparison to
+$$
+c_{\alpha,\alpha}\cdot_V\alpha
+\sim_V
+2\cdot_V\alpha.
+$$
+The scalar-addition distributivity and unit-action rows listed in \autoref{def:module-stability-certificate}, inherited by \autoref{def:vecspace-stability-certificate}, give the vector-space doubling comparison between $2\cdot_V\alpha$ and $\alpha+_V\alpha$, and subtraction is addition by the additive inverse. Thus
+$$
+\begin{aligned}
+\alpha-c_{\alpha,\alpha}\cdot_V\alpha
+&\sim_V \alpha-2\cdot_V\alpha \\
+&\sim_V \alpha+_V(-_V(\alpha+_V\alpha)) \\
+&\sim_V \alpha+_V((-_V\alpha)+_V(-_V\alpha)) \\
+&\sim_V (\alpha+_V(-_V\alpha))+_V(-_V\alpha) \\
+&\sim_V 0_V+_V(-_V\alpha) \\
+&\sim_V -_V\alpha.
+\end{aligned}
+$$
+The displayed steps use only additive inverse congruence, associativity, commutativity where needed to expose the inverse pair, the additive inverse law, and the additive unit law in the inherited vector-space reduct.
+
+Composing the specialized reflection route with this vector-space simplification by transitivity of the public vector classifier gives
+$$
+s_\alpha(\alpha)\sim_V -_V\alpha.
+$$
+By \autoref{thm:rootsystem-reflection-closure-obligation}, the left endpoint is also a carried root row, while the comparison itself remains the inherited vector classifier comparison required by the statement.
+\end{proof}
