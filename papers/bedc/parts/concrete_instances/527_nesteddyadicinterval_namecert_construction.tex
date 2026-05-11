@@ -314,6 +314,79 @@ selected limit, quotient interval, or host completeness principle, none is
 exported.
 \end{proof}
 
+\begin{theorem}[NestedDyadicInterval refinement composition exhaustion]
+\label{thm:nesteddyadicinterval-refinement-composition-exhaustion}
+Let $I_0,\ldots,I_n$ be a finite displayed list of adjacent refinement rows
+composing a $\NestedDyadicIntervalUp$ window. Every $\RegSeqRatUp$ consumer read
+and every $\RealUp$ consumer read of the composed window is exhausted by the
+displayed endpoint packets, the finite $\StreamNameUp$ schedule, the adjacent
+$\Cont$ and $\hsame$ rows, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows.
+
+Thus the composed refinement chain has no remaining consumer coordinate beyond
+the finite BEDC rows already displayed. It does not select a limit, form a
+quotient interval, invoke host completeness, read a hidden infinite tail, or use
+open-cover compactness.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage}. Each adjacent
+row contributes exactly its displayed endpoint packets, refinement ledger,
+$\Cont$ routes, $\hsame$ rows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows.
+
+Compose the adjacent rows with
+\autoref{thm:nesteddyadicinterval-successive-refinement-chain}. The finite list
+therefore becomes one accepted nested-dyadic-interval window over the same
+finite prefix and the same provenance rows.
+
+Next apply
+\autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. This exhausts
+the $\RegSeqRatUp$ and $\RealUp$ consumer boundary by the finite endpoint
+packets, finite schedule, adjacent refinement rows, and source provenance
+visible in the composed window.
+
+Finally use \autoref{thm:nesteddyadicinterval-shared-prefix-handoff}. The
+handoff identifies the consumer read with the shared finite prefix, so no
+selected limit, quotient interval, host-completeness witness, hidden infinite
+tail, or open-cover compactness datum is available to the composed chain.
+\end{proof}
+
+\begin{theorem}[NestedDyadicInterval mature finite-window coverage]
+\label{thm:nesteddyadicinterval-mature-window-coverage}
+Every accepted $\NestedDyadicIntervalUp$ finite-chain consumer read is exhausted
+by the carrier, classifier, window transport, adjacent-refinement coverage,
+shared-prefix handoff, $\RegSeqRatUp$ window exhaustion, public $\NameCert$
+export, and standard finite-window bridge rows already present in this chapter.
+
+The coverage contains no completeness principle, Dedekind cut, quotient
+interval, open-cover compactness datum, host real interval, hidden infinite tail,
+or selected limit.
+\end{theorem}
+\begin{proof}
+Project the read through \autoref{def:nesteddyadicinterval-carrier} and
+\autoref{def:nesteddyadicinterval-classifier}. The consumer sees only the finite
+endpoint packets, displayed schedule, adjacent-refinement ledger, $\hsame$ rows,
+$\Cont$ rows, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows admitted by
+the carrier and classifier.
+
+Apply \autoref{thm:nesteddyadicinterval-window-transport}. The requested read is
+transported inside the same finite packet surface, so no host interval, quotient
+interval, or hidden tail coordinate is added by changing representatives.
+
+Next use \autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} together
+with the shared-prefix handoff already used by the chapter. The adjacent rows and
+the prefix rows cover every finite-chain consumer request, including the
+singleton case and each displayed refinement step.
+
+Finally apply
+\autoref{thm:nesteddyadicinterval-public-namecert-export} and
+\autoref{thm:nesteddyadicinterval-standard-bridge-window}. The public certificate
+and the standard finite-window bridge repack exactly those finite rows for
+$\RegSeqRatUp$ and $\RealUp$ consumers, leaving no coordinate for completeness,
+Dedekind cuts, quotient intervals, open-cover compactness, host real intervals,
+hidden infinite tails, or selected limits.
+\end{proof}
+
 \closureat{NestedDyadicIntervalUp}{seedStr}
 \closureat{NestedDyadicIntervalUp}{obligationStr}
 \closureat{NestedDyadicIntervalUp}{scopedStr}
