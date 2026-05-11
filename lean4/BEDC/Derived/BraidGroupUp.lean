@@ -165,4 +165,28 @@ theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSet
     append_eq_empty_iff.mp appendedEmpty
   exact And.intro parts.left parts.right
 
+theorem BraidGroupArtinPacket_weyl_root_action_handoff [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint action closureRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont classifier word action ->
+        Cont action strand closureRow ->
+          PkgSig bundle closureRow pkg ->
+            BraidGroupPacket strand moveLedger dependency classifier word action closureRow
+                bundle pkg ∧
+              hsame action (append classifier word) ∧ hsame closureRow (append action strand) := by
+  intro packet actionRow closureRowCont closurePkg
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, moveLedgerRow,
+    classifierRow, _endpointRow, _endpointPkg⟩ := packet
+  exact
+    And.intro
+      (And.intro strandPositive
+        (And.intro moveLedgerUnary
+          (And.intro dependencyUnary
+            (And.intro wordUnary
+              (And.intro classifierRow
+                (And.intro actionRow
+                  (And.intro closureRowCont closurePkg)))))))
+      (And.intro actionRow closureRowCont)
+
 end BEDC.Derived.BraidGroupUp
