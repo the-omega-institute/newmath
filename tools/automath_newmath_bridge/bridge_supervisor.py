@@ -163,7 +163,7 @@ def _status_paths(repo: Path) -> list[str]:
     for line in output.splitlines():
         if not line.strip():
             continue
-        raw = line[3:] if len(line) > 3 else line
+        raw = line[3:] if len(line) > 3 and line[2] == " " else line[2:]
         if " -> " in raw:
             raw = raw.split(" -> ", 1)[1]
         path = raw.strip().strip('"')

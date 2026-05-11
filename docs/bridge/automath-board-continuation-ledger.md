@@ -3,11 +3,9 @@
 This durable ledger records Automath-to-NewMath bridge candidates that were shaped as evidence-backed BEDC continuation targets.
 Runtime inbox, state, logs, and raw gate output remain untracked.
 
-Last run: `2026-05-11T18:59:42+00:00`
-
 | Metric | Value |
 | --- | --- |
-| Apply | `False` |
+| Apply | `True` |
 | Eligible candidates | `0` |
 | Accepted into BOARD | `0` |
 | Rejected | `0` |
