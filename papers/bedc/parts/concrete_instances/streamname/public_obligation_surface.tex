@@ -245,6 +245,126 @@ or host index equality data, the bundle-union request exports none of those
 rows.
 \end{proof}
 
+\begin{theorem}[StreamNameUp pointwise hsame reindexing stability]
+\label{thm:streamname-pointwise-hsame-reindexing-stability}
+Let a public $\StreamNameUp$ observation map be read through certified
+$\UnaryHistory$ reindexers, and let a finite $\mathsf{ProbeBundle}$ window
+$B$ display the source request. Suppose the source and target observation
+rows are related pointwise by the displayed $\hsame$ relation, and suppose the
+reindexing routes are carried by the same $\Cont$ and $\Pkg$ provenance rows.
+Then the public finite-window classifier packet transports to the reindexed
+window.
+
+The transported packet exposes only certified unary observation rows,
+pointwise $\RatUp$ classifier rows, $\mathsf{InBundle}$ membership,
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. It supplies no
+$\RegSeqRat$ regularity, $\RealUp$ completion, quotient representative,
+hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+Start from the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation}. It identifies the
+source and target observation rows through certified $\UnaryHistory$
+reindexers and keeps the route inside the displayed $\Cont$ and $\Pkg$
+provenance.
+
+Apply \autoref{thm:streamname-public-transport-obligation} to the pointwise
+$\hsame$ comparisons. The rational classifier row attached to each source
+observation is carried to the corresponding target observation without
+creating a host index equality or a quotient representative.
+
+Project the finite rows by
+\autoref{thm:streamname-finite-window-schedule-exhaustion}. The reindexed
+window therefore has exactly the certified observation rows,
+$\mathsf{InBundle}$ membership rows, pointwise rational rows, continuation
+routes, and package provenance listed by the public window schedule.
+
+Finally use \autoref{thm:streamname-public-ledger-obligation} and the union
+exhaustion of \autoref{thm:streamname-regseqrat-window-union-exhaustion} to
+rule out extra consumer rows. Since those ledgers contain no regularity,
+completion, quotient, limit-selection, or host-equality coordinate, the
+transported finite-window packet exposes none of that data.
+\end{proof}
+
+\begin{theorem}[StreamNameUp public reindexing composition]
+\label{thm:streamname-public-reindexing-composition}
+Let $r$ and $s$ be certified $\UnaryHistory$ reindexers displayed over finite
+$\mathsf{ProbeBundle}$ windows for a public $\StreamNameUp$ observation map.
+Suppose the $r$ leg transports every displayed public observation row by
+pointwise $\hsame$ through its recorded $\Cont$ route and $\Pkg$ provenance,
+and suppose the $s$ leg does the same for the reindexed window. Then the
+composite reindexer transports the same finite-window classifier packet.
+
+The composite packet consists only of $\UnaryHistory$ observation rows,
+$\mathsf{InBundle}$ membership, pointwise $\RatUp$ classifier rows, $\hsame$
+comparisons, composed $\Cont$ provenance, and the displayed $\Pkg$ rows. It
+does not export $\RegSeqRat$ regularity, $\RealUp$ completion, quotient
+representatives, selected limits, or host index equality.
+\end{theorem}
+\begin{proof}
+Apply the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation} to the $r$ leg and then
+to the $s$ leg. Each application reads only certified $\UnaryHistory$
+observation rows, displayed membership, pointwise rational classifier rows,
+and the recorded $\Cont$ and $\Pkg$ provenance for that leg.
+
+Use \autoref{thm:streamname-public-transport-obligation} on the pointwise
+$\hsame$ rows supplied by both legs. The first application transports the
+source classifier row to the intermediate window, and the second transports
+the intermediate row to the target window. Composing the two displayed
+$\Cont$ routes gives the route used by the composite packet, while the
+$\Pkg$ rows remain exactly the provenance rows displayed by the two legs.
+
+Project the finite target window by
+\autoref{thm:streamname-finite-window-schedule-exhaustion}. The projection
+lists precisely the $\UnaryHistory$ observation rows, $\mathsf{InBundle}$
+membership, pointwise $\RatUp$ classifier rows, $\hsame$ comparisons,
+continuation routes, and package provenance exposed by the composite
+finite-window schedule.
+
+Finally combine \autoref{thm:streamname-public-ledger-obligation} with the
+window-union exhaustion of
+\autoref{thm:streamname-regseqrat-window-union-exhaustion}. Any row seen by a
+consumer of the composite window must already appear in one of the two
+displayed leg ledgers or in their finite union. Since those ledgers carry no
+regularity, completion, quotient, selected-limit, or host-index coordinate,
+the composite public packet exports none of those objects.
+\end{proof}
+
+\begin{theorem}[StreamNameUp public RegSeqRat reindexing cover lock]
+\label{thm:streamname-public-regseqrat-reindexing-cover-lock}
+Let a finite cover of public $\StreamNameUp$ windows feed downstream
+$\RegSeqRatUp$ or finite $\RealUp$ consumers. Suppose each cover member is
+carried by certified unary reindexing and by displayed $\hsame$, $\Cont$, and
+$\Pkg$ transport. Then the reindexed cover preserves the same union and overlap
+inventories: unary observation rows, $\mathsf{InBundle}$ membership, pointwise
+$\RatUp$ classifier rows, $\DyadicRatCoreUp$ denominator rows, and provenance.
+
+The cover lock exports no $\RegSeqRatUp$ regularity witness, $\RealUp$
+completion row, quotient representative, hidden limit selector, or host index
+equality.
+\end{theorem}
+\begin{proof}
+Begin with the reindexing composition theorem
+\autoref{thm:streamname-public-reindexing-composition}. It shows that certified
+unary reindexing carries exactly the displayed public observation rows,
+membership rows, pointwise rational classifier rows, $\hsame$ comparisons,
+continuation routes, and package provenance.
+
+Use \autoref{thm:streamname-regseqrat-window-union-exhaustion} to read the
+finite cover as one public union inventory. On intersections of cover members,
+apply \autoref{thm:streamname-regseqrat-window-intersection-exhaustion}; the
+overlap rows are the common displayed StreamName observations, membership
+rows, pointwise rational rows, denominator rows, and provenance.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion} to each
+downstream read. It accounts for the dyadic denominator rows consumed by
+regular-rational and finite real-facing windows, while the preceding union and
+intersection steps show that reindexing has added no regularity, completion,
+quotient, hidden selector, or host-equality coordinate.
+\end{proof}
+
 \begin{theorem}[StreamNameUp RegSeqRat window intersection exhaustion]
 \label{thm:streamname-regseqrat-window-intersection-exhaustion}
 Let two downstream finite-window requests over a common public
@@ -357,4 +477,96 @@ Repack the handoff with that denominator row as the consumed source. Since all
 cited boundaries are finite ledger statements and none exports regularity,
 completion, quotient, limit-selection, or host equality data, the selected
 positive denominator source is exactly the visible source available downstream.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat public overlap lock]
+\label{thm:streamname-regseqrat-public-overlap-lock}
+Let two public $\StreamNameUp$ finite-window handoffs feed downstream
+$\RegSeqRat$ consumers or finite-window $\RealUp$ consumers over the same
+observation map. If an observation row lies in the certified overlap of the two
+displayed $\mathsf{ProbeBundle}$ windows, then both consumers read the same
+public $\StreamNameUp$ observation row, the same pointwise $\RatUp$ classifier
+row, the same dyadic denominator ledger row, and the same displayed $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The overlap lock exposes no $\RegSeqRat$ regularity witness, completion row,
+quotient representative, hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+First restrict both handoff requests to the certified common window. Apply
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion}; each
+consumer read over the overlap is exhausted by the same public StreamName
+observation row, the same $\mathsf{InBundle}$ membership row, and the same
+pointwise classifier surface.
+
+Next compare the two finite-window ledgers inside the combined display. Apply
+\autoref{thm:streamname-regseqrat-window-union-exhaustion}. The union ledger
+has no extra consumer coordinate beyond the rows already exposed by the two
+windows, so an overlap row is read through one shared public bundle inventory.
+
+Now identify the denominator source. Use
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion} together with
+\autoref{thm:streamname-public-denominator-positive-source-fit}. The downstream
+denominator row is the displayed positive $\DyadicRatCoreUp$ source row, and
+the same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows carry it through both
+handoffs.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-observation-coverage}. Its exclusion
+clauses rule out regularity witnesses, completion rows, quotient
+representatives, hidden limit selectors, and host index equality. Hence the
+overlap determines only the visible public rows listed above.
+\end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat cover-refinement exhaustion]
+\label{thm:streamname-regseqrat-cover-refinement-exhaustion}
+Let $\mathcal{U}=\{B_i\}_{i\in I}$ be a finite cover family of public
+$\StreamNameUp$ windows over a common observation map. Suppose every $B_i$ is
+exhausted by
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}, and let
+$\mathcal{R}$ be a certified common refinement cover read by a downstream
+$\RegSeqRatUp$ consumer or finite-window $\RealUp$ consumer. Then the
+refinement read is exhausted by the public StreamName finite-window interface,
+the displayed $\mathsf{InBundle}$ membership rows for the cover members and
+for $\mathcal{R}$, pointwise $\RatUp$ classifier rows, the
+$\DyadicRatCoreUp$ denominator ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance. The refinement read exports no $\RegSeqRatUp$ regularity witness,
+$\RealUp$ completion row, quotient representative, hidden limit selector, or
+host index equality.
+\end{theorem}
+\begin{proof}
+Begin with the public finite-window interface. It fixes the common
+$\StreamNameUp$ observation map, the visible observation histories, the
+pointwise $\RatUp$ classifier rows, and the public transport and provenance
+rows before the downstream cover refinement is read.
+
+For each cover member $B_i$, apply
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. The member
+read contributes only its displayed $\mathsf{InBundle}(-,B_i)$ rows, public
+observation rows, pointwise rational classifier rows, dyadic denominator
+ledger rows, $\hsame$ comparisons, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance.
+
+Next pass through the finite cover by the union and intersection exhaustion
+theorems. Use
+\autoref{thm:streamname-regseqrat-window-union-exhaustion} to combine the
+member inventories, and use
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion} on overlap
+rows so that a refinement point covered by more than one $B_i$ has one common
+public row inventory.
+
+It remains to repack the certified common refinement. Case on the displayed
+$\mathsf{InBundle}$ membership row for a refinement element of
+$\mathcal{R}$. The certification names a cover member $B_i$ containing that
+element, so the row is read from the exhausted inventory of $B_i$; on overlaps,
+the intersection exhaustion identifies the alternative reads by the common
+public classifier and the displayed $\hsame$ rows.
+
+Thus every row consumed by the downstream $\RegSeqRatUp$ or finite-window
+$\RealUp$ refinement read is one of the displayed public StreamName window
+rows, refinement-membership rows, pointwise rational rows, denominator-ledger
+rows, continuation rows, or provenance rows. Since the member, union, and
+intersection exhaustions export none of the excluded regularity, completion,
+quotient, limit-selection, or host-equality data, the common refinement cover
+exports none of those rows.
 \end{proof}

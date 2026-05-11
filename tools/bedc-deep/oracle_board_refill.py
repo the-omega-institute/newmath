@@ -116,6 +116,10 @@ def _has_refill_in_server(status: dict) -> bool:
     return False
 
 
+def _zero_extraction_hang_agents(status: dict) -> list[str]:
+    return [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+
+
 def _board_content() -> str:
     return board_context.build_board_prompt_context()
 
@@ -243,6 +247,8 @@ def poll_result(
 ) -> Optional[str]:
     start = time.time()
     last_log = start
+    first_zero_extract_ts = 0.0
+    last_zero_extract_log = 0.0
     while time.time() - start < timeout:
         try:
             data = _http_get(f"{server_url}/result/{task_id}", timeout=10)
@@ -255,6 +261,26 @@ def poll_result(
                     flush=True,
                 )
                 return None
+        except Exception:
+            pass
+        try:
+            health = _http_get(f"{server_url}/status", timeout=5)
+            agents = _zero_extraction_hang_agents(health)
+            if agents:
+                now = time.time()
+                if not first_zero_extract_ts:
+                    first_zero_extract_ts = now
+                if now - last_zero_extract_log > 300:
+                    elapsed = int(now - first_zero_extract_ts)
+                    print(
+                        "[board_refill] WARN: zero-extraction hang "
+                        f"agents={','.join(agents)} for {elapsed}s; "
+                        "refresh affected tab(s) only.",
+                        flush=True,
+                    )
+                    last_zero_extract_log = now
+            else:
+                first_zero_extract_ts = 0.0
         except Exception:
             pass
         if time.time() - last_log > 60:
