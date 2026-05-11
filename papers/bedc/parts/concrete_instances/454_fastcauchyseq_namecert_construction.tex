@@ -306,6 +306,45 @@ read the synchronized finite packet and no quotient equality, selected limit,
 completed metric object, or hidden threshold selector is introduced.
 \end{proof}
 
+\begin{theorem}[FastCauchySeq prefix-window eventual lock]
+\label{thm:fastcauchyseq-prefix-window-eventual-lock}
+Let $F$ and $F'$ be accepted $\FastCauchySeqUp$ packets, and let $D$ and $D'$
+be displayed $\DyadicPrecisionUp$ rows. Suppose the classifier relates $F$ and
+$F'$, and suppose the selected precision rows transport the same
+$\CauchyModulusUp$ threshold, the same $\DyadicRatCoreUp$ endpoint-radius rows,
+the same late-pair ledger, the same displayed $\Cont$ route, the same $\Pkg$
+provenance row, and the same local $\NameCert$ row.
+
+Then every $\RegSeqRatUp$ handoff read and every $\RealUp$ seal-boundary read
+for $F$ over $D$ and for $F'$ over $D'$ factors through one shared finite
+prefix-window packet carrying exactly those transported rows. The shared packet
+introduces no quotient real equality, no selected limit, no completed metric
+object, and no hidden threshold selector.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:fastcauchyseq-carrier} and
+\autoref{def:fastcauchyseq-classifier}. The accepted packets expose only the
+scheduled stream row, modulus threshold row, dyadic endpoint-radius rows,
+late-pair ledger, transport route, continuation window, package provenance, and
+local naming row, and the classifier compares these displayed rows.
+
+Apply
+\autoref{thm:fastcauchyseq-modulus-precision-window-factorization} to each
+side. It factors the $\RegSeqRatUp$ handoff reads and the $\RealUp$
+seal-boundary reads through the precision windows selected by $D$ and $D'$.
+
+Use \autoref{thm:fastcauchyseq-synchronized-precision-window} to identify the
+transported finite rows. The common modulus threshold, endpoint-radius data,
+late-pair ledger, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row
+therefore assemble one shared prefix-window packet.
+
+Finally cite \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. These consumer
+restrictions are exactly the handoff and seal-boundary interfaces used above,
+so no quotient real equality, selected limit, completed metric object, or
+hidden threshold selector is added.
+\end{proof}
+
 \closureat{FastCauchySeqUp}{obligationStr}
 \closureat{FastCauchySeqUp}{scopedStr}
 \closureat{FastCauchySeqUp}{publicStr}
