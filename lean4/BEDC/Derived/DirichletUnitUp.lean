@@ -1,5 +1,6 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.DirichletUnitUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def DirichletUnitHistoryCarrier
@@ -55,6 +57,64 @@ theorem DirichletUnitHistoryCarrier_visible_unit_rows
             (And.intro readback.right.right.right.left
               (And.intro readback.right.right.right.right.left
                 readback.right.right.right.right.right))))))
+
+theorem DirichletUnitHistoryCarrier_namecert_obligation_surface
+    {source unit inverse law unitLedger lawLedger provenance : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      SemanticNameCert
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h k : BHist =>
+            hsame h k ∧
+              DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h ∧
+                DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger k) ∧
+        Cont source unit unitLedger ∧ Cont inverse law lawLedger ∧
+          Cont unitLedger lawLedger provenance := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h : BHist =>
+            DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h)
+          (fun h k : BHist =>
+            hsame h k ∧
+              DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger h ∧
+                DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger k) := {
+    core := {
+      carrier_inhabited := Exists.intro provenance carrier
+      equiv_refl := by
+        intro h source
+        exact And.intro (hsame_refl h) (And.intro source source)
+      equiv_symm := by
+        intro h k related
+        exact And.intro (hsame_symm related.left)
+          (And.intro related.right.right related.right.left)
+      equiv_trans := by
+        intro h k r relatedHK relatedKR
+        exact And.intro (hsame_trans relatedHK.left relatedKR.left)
+          (And.intro relatedHK.right.left relatedKR.right.right)
+      carrier_respects_equiv := by
+        intro h k related _source
+        exact related.right.right
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro carrier.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right))
 
 theorem DirichletUnitHistoryCarrier_free_rank_witness_ledger
     {source unit inverse law unitLedger lawLedger provenance rankWitness rankLedger : BHist} :
