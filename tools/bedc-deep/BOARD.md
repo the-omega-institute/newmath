@@ -42,30 +42,6 @@ The carrier explicitly exposes a unary precision row n, a selected dyadic radius
 
 ---
 
-### B-673 - BousfieldLocalization empty selected-map boundary
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | BousfieldLocalization empty selected-map boundary |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-If an accepted \BousfieldLocalizationUp carrier has an empty selected morphism-class row S, then under the finite localizing packet every inverted-map consumer read is absent and downstream handoff is limited to M, L, T, P, and N rows.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex`
-
-Rationale:
-The carrier defines B=(M,S,L,T,P,N), with S as the finite selected morphism-class row and L as fibrant-local-object rows, at papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex:11-27. Existing theorems state broad NameCert obligations and a local-object handoff where consumers read local-object rows in L and selected maps in S at lines 29-63, but they do not spell out the empty-S boundary or the absence of inverted-map reads. A focused grep for BousfieldLocalization empty selected/no selected/empty morphism/empty map and matching theorem labels returned 0 hits across papers/bedc/parts and lean4/BEDC. The exact local theorem inventory contains only thm:bousfieldlocalization-namecert-obligations and thm:bousfieldlocalization-local-object-handoff at lines 29-52; marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching Bousfield returned 0 files.
-
----
-
 ### B-674 - FiniteVector empty length has no component reads
 
 | field | value |

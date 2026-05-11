@@ -102,3 +102,28 @@ Finally the downstream boundary is exactly the $\Pkg$, $\Cont$, and outside-leng
   \notclaimed{This chapter does not close infinite sequences, quotient vectors, basis choice, a dimension theorem, linear independence, or a standard bridge.}
   \upgradepath{Formal closure requires Lean targets for the carrier, classifier, length-index stability, componentwise ledger exactness, and NameCert obligation surface.}
 \end{closurestatus}
+
+\begin{theorem}[FiniteVector zero length has empty component-read surface]
+\label{thm:finitevector-zero-length-empty-component-read-surface}
+Let $V=(n,L,I,C,R,P,H)$ be an accepted $\FiniteVectorUp$ carrier. If the displayed $\NatUp$ length row $n$ is the zero row $\emp$ of \autoref{def:unary-history-judgment}, then the public component-read surface of $V$ is empty:
+\begin{enumerate}
+\item the $\ListUp$ component spine $L$ is displayed as the empty spine;
+\item the $\ProdUp$ index-component spine $I$ has no public index-component pair row;
+\item the componentwise ledger $R$ has no public component-comparison row;
+\item the ledger $H$ records only outside-length hiding data and no public component read.
+\end{enumerate}
+Moreover, if $V'=(n',L',I',C',R',P',H')$ is another accepted $\FiniteVectorUp$ carrier whose displayed $\NatUp$ length row is also $\emp$, then a classifier row
+$$
+\mathsf{FiniteVectorSame}(V,V')
+$$
+contains no indexed $\ProdUp$ comparison and no componentwise read comparison. Its public comparison data are exactly the zero length comparison, the empty-spine $\ListUp$ comparison, the displayed provenance rows, the shared $\Cont$ routes, and the outside-length ledgers.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:finitevector-carrier}. The first coordinate says that $n$ is the displayed $\NatUp$ length row, and the hypothesis identifies that row with the zero unary history $\emp$. The same carrier clause says that $L$ is a $\ListUp$ component spine whose displayed length is $n$. Therefore $L$ has displayed length zero. By the zero endpoint exactness of \autoref{thm:list-public-zero-length-and-nonempty-readback}, a zero displayed list length is exactly the empty-spine readback. Thus the component spine contributes no component slot.
+
+The third coordinate of \autoref{def:finitevector-carrier} defines $I$ as a finite $\ProdUp$ spine with one index-component pairing row for each visible index below $n$. There is no visible index below the zero $\NatUp$ row: a visible index below $\emp$ would be a strict predecessor of the zero unary history, while \autoref{def:unary-history-judgment} generates zero as the empty base and generates larger unary rows only by one-extension. Hence the indexing set for $I$ is empty, so the finite $\ProdUp$ spine has no public pair row.
+
+The componentwise ledger $R$ compares displayed components at matching indices. Since the preceding paragraph leaves no displayed index and the first paragraph leaves no component slot, there is no indexed component comparison for $R$ to expose. The last carrier coordinate says that $H$ hides only unused positions outside the displayed length and records every public component read through displayed $\Cont$ routes. A public component read requires a visible index below $n$ together with its index-component row in $I$; both are absent at length zero. Therefore $H$ records only the outside-length hiding data.
+
+For the classifier statement, unfold \autoref{def:finitevector-classifier} for the two accepted zero-length carriers. The length row remains present and compares $n$ with $n'$. The $\ListUp$ row compares the two empty component spines obtained above. The indexed $\ProdUp$ clause ranges over displayed indices below the transported length, but that transported length is again zero, so the clause has no row to display. The optional component provenance coordinate can only contribute its displayed provenance declaration; it does not create an indexed component read because no component slot exists. Finally the $\Cont$, $\Pkg$, and outside-length ledger rows are exactly the remaining public rows named by the classifier. The exactness statement of \autoref{thm:finitevector-componentwise-ledger-exactness} confirms that no hidden position, quotient of spines, or host vector equality is added beyond this displayed ledger.
+\end{proof}
