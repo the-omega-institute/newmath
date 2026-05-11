@@ -127,6 +127,21 @@ theorem OptimalTransportFiniteCouplingPacket_marginal_ledger [AskSetup] [Package
     _objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
   exact ⟨sourceMarginalUnary, targetMarginalUnary, sourceMarginalRow, targetMarginalRow, pkgRow⟩
 
+theorem OptimalTransportFiniteCouplingPacket_cost_summation_ledger [AskSetup] [PackageSetup]
+    {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
+      targetMarginal objective feasible dual provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      UnaryHistory cost ∧ UnaryHistory coupling ∧ UnaryHistory objective ∧
+        hsame objective (append cost coupling) ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  obtain ⟨_sourceSupportUnary, _targetSupportUnary, _sourceMassUnary, _targetMassUnary,
+    costUnary, couplingUnary, _sourceMarginalUnary, _targetMarginalUnary, objectiveUnary,
+    _feasibleUnary, _dualUnary, _provenanceUnary, _sourceMarginalRow, _targetMarginalRow,
+    objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
+  exact ⟨costUnary, couplingUnary, objectiveUnary, objectiveRow, pkgRow⟩
+
 theorem OptimalTransportFiniteCouplingPacket_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
