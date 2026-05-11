@@ -17057,3 +17057,27 @@ Rationale:
 The carrier states that n is the NatUp length row, L is the component spine with displayed length n, I has one ProdUp index-component row for each visible index below n, and H hides only positions outside the displayed length at papers/bedc/parts/concrete_instances/531_finitevector_namecert_construction.tex:9-25. Existing theorems cover length-index stability, componentwise ledger exactness, and the NameCert surface at lines 41-91, but not the zero-length boundary where the index set is empty. A focused grep for FiniteVector empty length/zero length/empty vector/no component and theorem labels found only the existing generic thm:finitevector-length-index-stability references at lines 42, 76, and 86, with no empty/zero theorem. Marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching FiniteVector returned 0 files; the file is only 104 lines, so it is a suitable child target rather than a hub or near-cap file.
 
 ---
+
+### B-676 - S1 finite-rank host homologization obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | S1 finite-rank host homologization obstruction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the S1 carrier/readback bridge setup, if a finite-rank host homologization certificate is admitted for the visible S1 bridge ledger, then the induced bounded-rank certificate is incompatible with cofinal prime-support evidence, so the finite-rank host homologization is obstructed.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+
+Rationale:
+This is a concrete obstruction target over the existing S1 carrier/readback surface rather than a marker-only or verification-axis task. It is distinct from the active S1 completion-readback injectivity prerequisite: B-675 concerns preservation of source separation through displayed completion readbacks, while this candidate asks for an obstruction to a finite-rank host homologization certificate using bounded-rank versus cofinal-support evidence. The local input is not listed as a hub file or near the 800-line cap, and the claim can be staged as a BEDC-native bridge-obligation theorem without importing Automath runtime state.
+
+---
