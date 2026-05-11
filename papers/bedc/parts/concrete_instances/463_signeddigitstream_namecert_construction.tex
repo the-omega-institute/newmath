@@ -47,6 +47,26 @@ Move each coordinate along the displayed $\hsame$ and $\Cont$ routes. The hypoth
 Apply the classifier of \autoref{def:signeddigitstream-classifier} on a shared finite window. The endpoint classifiers come from the transported $\DyadicRatCoreUp$ rows, and the carry ledgers match by the componentwise ledger transport. Since no extra coordinate is created, the transported packet exports exactly the same finite observation surface.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream prefix truncation stability]
+\label{thm:signeddigitstream-prefix-truncation-stability}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ carrier, and let $N_{\leq k}$ be a displayed finite prefix of its unary $\StreamNameUp$ schedule. The restricted tuple
+$$
+S_{\leq k}=(D_{\leq k},N_{\leq k},C_{\leq k},P_{\leq k},E_{\leq k},L_{\leq k})
+$$
+repacks as an accepted $\SignedDigitStreamUp$ carrier whenever each restricted digit, schedule, carry, endpoint, provenance, and ledger row is the displayed prefix row inherited from $S$.
+
+The classifier on the restricted packet is exactly the restriction of $\mathsf{SignedDigitStreamClassifier}$ to windows contained in $N_{\leq k}$. Its $\RegSeqRatUp$ handoff and $\RealUp$ seal boundary are the corresponding finite prefix reads named by \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. The restriction introduces no quotient tail, selected limit, host real equality, completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+Project the six carrier rows of \autoref{def:signeddigitstream-carrier}. The displayed prefix $N_{\leq k}$ selects exactly the digit rows $D_{\leq k}$, carry ledger $C_{\leq k}$, provenance row $P_{\leq k}$, endpoint rows $E_{\leq k}$, and hidden-tail ledger $L_{\leq k}$ already present in $S$.
+
+Apply \autoref{thm:signeddigitstream-window-transport} with identity transport on the retained rows. Prefix normalization is inherited from the accepted packet $S$, so the restricted tuple satisfies the same carrier acceptance condition on every retained unary window.
+
+Use \autoref{def:signeddigitstream-classifier} for the classifier row. Since the restricted schedules contain only windows already shared with $S$, the classifier relation is the original shared-window classifier read on the smaller schedule.
+
+Finally read the downstream surfaces through \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. They expose only the scheduled finite prefix endpoints and their ledgers, and no extra tail, limit, host equality, completeness, or bridge coordinate is created by the restriction.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream common-window determinacy]
 \label{thm:signeddigitstream-common-window-determinacy}
 Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds. For every unary window requested by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint row read from $S$ and the normalized endpoint row read from $T$ are classifier-equal, and the carry ledgers repack to the same endpoint read.
@@ -74,6 +94,22 @@ The target $\RegSeqRatUp$ consumer needs endpoint observations and radius ledger
 
 Regularity is a separate $\RegSeqRatUp$ obligation: it compares pairs of endpoint rows by dyadic bounds. The signed-digit handoff supplies the finite endpoint source for those comparisons and no additional real-seal, quotient, or host-equality data.
 \end{proof}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_regseqrat\_handoff}
+
+\begin{theorem}[SignedDigitStream RealUp finite-window seal boundary]
+\label{thm:signeddigitstream-real-seal-finite-window-boundary}
+For any accepted $\SignedDigitStreamUp$ packet, a $\RealUp$ seal may inspect only the scheduled $\StreamNameUp$ window, signed digit prefix, carry and normalization ledger, normalized $\DyadicRatCoreUp$ endpoint row, visible $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$ provenance, and hidden-tail ledger already exposed by \autoref{def:signeddigitstream-carrier} and \autoref{thm:signeddigitstream-regseqrat-handoff}.
+
+It may not read a quotient stream, host real equality, hidden tail value, selected limit, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier tuple of \autoref{def:signeddigitstream-carrier}. Its coordinates are the finite digit rows, the $\StreamNameUp$ schedule, the carry and normalization ledger, provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and the hidden-tail ledger.
+
+Use the $\RegSeqRatUp$ handoff of \autoref{thm:signeddigitstream-regseqrat-handoff} to identify the regular-rational observations seen by a downstream seal. Every such observation is obtained from a scheduled finite window and its normalized endpoint row, together with the visible ledger data attached to that window.
+
+The excluded data would require an additional coordinate: a quotient stream, host real equality witness, hidden tail value, selected limit, completeness datum, or standard bridge row. No such coordinate appears in the carrier or in the handoff row, so the $\RealUp$ seal boundary is exactly the listed finite-window surface.
+\end{proof}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_real\_seal\_semantic\_name\_certificate}
 
 \begin{theorem}[SignedDigitStream NameCert obligation surface]
 \label{thm:signeddigitstream-namecert-obligation-surface}
@@ -83,7 +119,7 @@ The local $\NameCert_{\SignedDigitStreamUp}$ obligation surface consists of five
 \item classifier: the shared-window normalized endpoint comparison of \autoref{def:signeddigitstream-classifier};
 \item transport: the componentwise window transport of \autoref{thm:signeddigitstream-window-transport};
 \item $\RegSeqRatUp$ handoff: the scheduled endpoint row exported by \autoref{thm:signeddigitstream-regseqrat-handoff};
-\item ledger boundary: the assertion that hidden data lies only outside the requested finite window and is never read as a quotient tail or host real value.
+\item $\RealUp$ seal boundary: the finite-window exclusion of quotient streams, host real equality, hidden tail values, selected limits, completeness data, and standard bridge rows from \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}.
 \end{enumerate}
 These rows form the seed certificate surface for finite-window signed-digit stream names over dyadic rows.
 \end{theorem}
@@ -93,7 +129,7 @@ The carrier row supplies the signed digits, schedule, carry ledger, provenance, 
 
 The classifier and transport rows identify the only stable motion of that data: shared windows are compared after normalization to $\DyadicRatCoreUp$ endpoints, and componentwise transport repacks the same finite rows.
 
-The handoff row records exactly what a $\RegSeqRatUp$ consumer may read, namely scheduled normalized dyadic endpoints and their visible ledgers. The remaining ledger boundary excludes quotient tails, host real equality, and completed real endpoints, so the five listed rows exhaust the local $\NameCert_{\SignedDigitStreamUp}$ surface.
+The handoff row records exactly what a $\RegSeqRatUp$ consumer may read, namely scheduled normalized dyadic endpoints and their visible ledgers. The $\RealUp$ seal boundary excludes quotient streams, host real equality, hidden tail values, selected limits, completeness data, and standard bridge rows, so the five listed rows exhaust the local $\NameCert_{\SignedDigitStreamUp}$ surface.
 \end{proof}
 
 \begin{theorem}[SignedDigitStream scoped finite-window package]
@@ -110,17 +146,216 @@ The classifier is the shared-window endpoint comparison of \autoref{def:signeddi
 The consumer face is exactly the $\RegSeqRatUp$ handoff of \autoref{thm:signeddigitstream-regseqrat-handoff}. Finally, \autoref{thm:signeddigitstream-namecert-obligation-surface} identifies the five rows as the local $\NameCert_{\SignedDigitStreamUp}$ surface, so the scoped package has no additional quotient tail, host-real, or completed-real coordinate.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream public interface export]
+\label{thm:signeddigitstream-public-interface-export}
+The finite carrier of \autoref{def:signeddigitstream-carrier}, classifier of \autoref{def:signeddigitstream-classifier}, checked window transport of \autoref{thm:signeddigitstream-window-transport}, $\RegSeqRatUp$ handoff of \autoref{thm:signeddigitstream-regseqrat-handoff}, $\RealUp$ finite-window seal boundary of \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}, $\NameCert_{\SignedDigitStreamUp}$ obligation surface of \autoref{thm:signeddigitstream-namecert-obligation-surface}, and scoped window package of \autoref{thm:signeddigitstream-scoped-window-package} assemble the reusable public $\SignedDigitStreamUp$ interface.
+
+The interface exposes finite digit rows, schedule rows, carry ledger rows, normalized dyadic endpoint rows, hidden-window ledger rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. It exports no quotient tail, host real equality, completed real endpoint, or standard bridge.
+\end{theorem}
+\begin{proof}
+Use the carrier and classifier definitions as the visible spine. The carrier provides the finite digit rows, schedule rows, carry ledger, provenance, endpoint rows, and hidden-tail boundary; the classifier reads a common scheduled window and compares only the normalized $\DyadicRatCoreUp$ endpoints.
+
+The checked window transport theorem gives stable movement of this finite surface across $\hsame$ and $\Cont$ routes. The $\RegSeqRatUp$ handoff then identifies the only downstream reads: scheduled normalized endpoints and the visible ledgers attached to the requested precision.
+
+Finally combine the local $\NameCert_{\SignedDigitStreamUp}$ surface with the scoped package. These results bind the carrier, classifier, transport, consumer row, $\RealUp$ seal boundary, and hidden-window ledger to finite $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ rows, excluding quotient tails, host real equality, hidden tail values, selected limits, completeness data, completed real endpoints, and standard bridges from the exported interface.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream public Real boundary export]
+\label{thm:signeddigitstream-public-real-boundary-export}
+The public interface export, finite-window transport, common-window determinacy,
+$\RegSeqRatUp$ handoff, $\RealUp$ finite-window seal boundary,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows
+assemble a $\RealUp$-consumable finite signed-digit stream boundary.
+
+The exported surface has no quotient tail, host real equality, selected limit,
+completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:signeddigitstream-carrier} and the
+classifier of \autoref{def:signeddigitstream-classifier}. They provide the
+finite signed-digit rows, schedule rows, carry ledger, provenance, normalized
+dyadic endpoint rows, and hidden-window ledger as the only public coordinates.
+
+The transport and determinacy steps are
+\autoref{thm:signeddigitstream-window-transport} and
+\autoref{thm:signeddigitstream-common-window-determinacy}. These keep the common
+window and normalized endpoints stable through displayed $\hsame$ and $\Cont$
+routes.
+
+The consumer faces are \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. They identify
+the regular-rational handoff and the $\RealUp$ seal boundary as reads of the
+same finite rows.
+
+Finally apply \autoref{thm:signeddigitstream-public-interface-export}. The
+interface already packages the carrier, classifier, checked transport, consumer
+handoff, seal boundary, $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ rows,
+so reading it as a public $\RealUp$ boundary adds no quotient tail, host real
+equality, selected limit, completeness datum, or standard bridge.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream public transport bridge]
+\label{thm:signeddigitstream-public-transport-bridge}
+The transported signed-digit windows of
+\autoref{thm:signeddigitstream-window-transport}, the common-window
+determinacy of \autoref{thm:signeddigitstream-common-window-determinacy}, the
+$\RegSeqRatUp$ handoff of \autoref{thm:signeddigitstream-regseqrat-handoff},
+and the public $\RealUp$ boundary of
+\autoref{thm:signeddigitstream-public-real-boundary-export} assemble a finite
+transport bridge for $\SignedDigitStreamUp$.
+
+Across that bridge, $\RegSeqRatUp$ and $\RealUp$ consumers read the same
+normalized $\DyadicRatCoreUp$ endpoint rows, scheduled digit rows, carry
+ledgers, visible $\hsame$ and $\Cont$ transports, $\mathsf{Pkg}$ provenance,
+and $\NameCert$ rows. The bridge exposes no quotient stream, selected limit,
+host real equality, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:signeddigitstream-window-transport}. It transports the
+finite signed-digit window componentwise, keeping the scheduled digit rows,
+carry ledger, normalized endpoint rows, and visible provenance inside the same
+finite carrier surface.
+
+Apply \autoref{thm:signeddigitstream-common-window-determinacy}. The common
+scheduled window therefore has a single normalized $\DyadicRatCoreUp$ endpoint
+row for both downstream readings, with the carry ledger attached to that same
+row.
+
+Now use \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-public-real-boundary-export}. The first exposes
+the transported endpoint row to $\RegSeqRatUp$; the second exposes the same
+finite endpoint, transport, package, and name-certificate rows to $\RealUp$.
+
+Thus the bridge is exactly the shared finite transport route between those two
+consumer faces. A quotient stream, selected limit, host real equality,
+completeness datum, or standard bridge row would require a coordinate outside
+the carrier, transport, determinacy, handoff, and public boundary rows.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream Real--RegSeqRat window correspondence]
+\label{thm:signeddigitstream-real-regseqrat-window-correspondence}
+On every scheduled unary window of an accepted $\SignedDigitStreamUp$ packet,
+the normalized $\DyadicRatCoreUp$ endpoint rows and carry ledgers exported to
+$\RegSeqRatUp$ are the same finite rows read by the $\RealUp$ seal boundary,
+up to the displayed $\hsame$ and $\Cont$ transports and the packet's
+$\mathsf{Pkg}$ and $\NameCert$ provenance.
+
+This correspondence contains no quotient tail, host real equality, selected
+limit, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:signeddigitstream-carrier}. A scheduled unary window exposes the
+finite signed digit prefix, carry and normalization ledger, provenance,
+normalized $\DyadicRatCoreUp$ endpoint row, and hidden-window ledger attached to
+that schedule.
+
+Use common-window determinacy from
+\autoref{thm:signeddigitstream-common-window-determinacy}. It identifies the
+endpoint read at the shared schedule as the same normalized dyadic row in the
+only public sense available to the packet, and it keeps the carry ledger tied
+to that endpoint row.
+
+Now apply \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. The first
+exports the scheduled normalized endpoint and its visible ledger to
+$\RegSeqRatUp$; the second permits the $\RealUp$ seal to inspect exactly the
+same scheduled endpoint, carry, transport, package, and name-certificate rows.
+
+Thus both consumers read the same normalized endpoint and carry data through
+the displayed $\hsame$ and $\Cont$ routes. Any quotient tail, host real equality
+row, selected limit, completeness datum, or standard bridge row would require a
+coordinate absent from \autoref{def:signeddigitstream-carrier} and from both
+consumer boundaries.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream standard finite-window bridge]
+\label{thm:signeddigitstream-standard-bridge-window}
+The public interface export of
+\autoref{thm:signeddigitstream-public-interface-export}, public $\RealUp$
+boundary of \autoref{thm:signeddigitstream-public-real-boundary-export}, and
+$\RealUp$--$\RegSeqRatUp$ window correspondence of
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence} identify
+the standard finite-window bridge rows for $\SignedDigitStreamUp$ as exactly
+the normalized dyadic endpoint rows, carry ledger, scheduled unary window,
+displayed $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and $\NameCert$ provenance already carried by the packet.
+
+The bridge exposes no quotient tail, host real equality, selected limit,
+completeness datum, or bridgeChecked claim.
+\end{theorem}
+\begin{proof}
+Project the public packet through
+\autoref{thm:signeddigitstream-public-interface-export}. The public surface is
+the scheduled signed-digit window together with the normalized dyadic endpoint,
+carry ledger, transport rows, package provenance, and name-certificate rows.
+
+Apply \autoref{thm:signeddigitstream-public-real-boundary-export}. The
+$\RealUp$ boundary reads the same finite rows and does not add a quotient tail,
+host real equality row, selected limit, or completeness witness.
+
+Finally apply
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. The
+regular-rational and real consumers therefore meet on the same normalized
+endpoint and carry rows through the displayed $\hsame$ and $\Cont$ routes, so
+the standard finite-window bridge has no further source coordinate and carries
+no bridgeChecked assertion.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream mature finite-window consumer coverage]
+\label{thm:signeddigitstream-mature-consumer-coverage}
+An accepted $\SignedDigitStreamUp$ finite-window packet exposes to every
+$\RegSeqRatUp$ or $\RealUp$ consumer exactly the following rows: the
+prefix-truncation surface, common-window determinacy surface,
+$\RegSeqRatUp$ handoff, public $\RealUp$ boundary, transport bridge,
+$\RealUp$--$\RegSeqRatUp$ window correspondence, and standard finite-window
+bridge rows of \autoref{thm:signeddigitstream-standard-bridge-window}.
+
+The coverage contains no hidden tail, quotient equality, selected limit,
+completeness datum, trichotomy datum, or extra consumer coordinate beyond the
+displayed endpoint, carry, transport, package, and name-certificate rows.
+\end{theorem}
+\begin{proof}
+Start with the requested finite window. Apply
+\autoref{thm:signeddigitstream-prefix-truncation-stability} to replace the
+consumer read by the displayed prefix-truncated packet, so the read contains
+only the finite signed-digit prefix, scheduled unary window, endpoint row, and
+carry ledger.
+
+Next apply
+\autoref{thm:signeddigitstream-common-window-determinacy}. The shared schedule
+fixes the normalized endpoint and carry rows seen by all consumers through the
+same displayed $\hsame$ and $\Cont$ transports.
+
+Use \autoref{thm:signeddigitstream-regseqrat-handoff} for the
+$\RegSeqRatUp$ consumer side and
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence} for the
+common real and regular-rational readback. These two rows identify the same
+finite endpoint, carry, package, and name-certificate coordinates on both
+consumer boundaries.
+
+Finally apply \autoref{thm:signeddigitstream-standard-bridge-window}. The
+standard finite-window bridge repacks exactly the rows already exposed by the
+prefix, determinacy, handoff, and correspondence theorems. Since none of those
+sources contains a hidden tail, quotient equality, selected limit, completeness
+witness, or trichotomy row, no such datum is available to a downstream
+consumer.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
+\closureat{SignedDigitStreamUp}{publicStr}
+\closureat{SignedDigitStreamUp}{bridgedStr}
+\closureat{SignedDigitStreamUp}{matureStr}
 
 \begin{closurestatus}{\SignedDigitStreamUp}
   \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:signeddigitstream-scoped-window-package} binds the carrier, classifier, transport, $\RegSeqRatUp$ consumer, and hidden-window ledger rows to the finite BEDC primitives and L10 source certificates of the signed-digit stream surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:signeddigitstream-mature-consumer-coverage} gives the mature finite-window consumer boundary for $\RegSeqRatUp$ and $\RealUp$ by packaging the prefix, determinacy, handoff, public boundary, correspondence, and standard bridge rows through the displayed endpoint, carry, transport, package, and name-certificate data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or a standard bridge.}
-  \upgradepath{Public closure requires a named export theorem packaging the carrier, classifier, checked window transport, $\RegSeqRatUp$ handoff, and ledger boundary as a reusable signed-digit stream interface.}
+  \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or bridgeChecked status.}
+  \upgradepath{Only Lean-side formal targets and bridge checking remain for this mature finite-window consumer boundary.}
 \end{closurestatus}

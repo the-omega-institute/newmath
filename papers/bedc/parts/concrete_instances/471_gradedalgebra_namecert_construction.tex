@@ -70,6 +70,18 @@ The provenance row $P$ records each route used by the product read. Since the ca
 \end{proof}
 \leanchecked{BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_product\_ledger}
 
+\begin{theorem}[GradedAlgebra homogeneous product scope exactness]
+\label{thm:gradedalgebra-homogeneous-product-scope-exactness}
+For an accepted $\GradedAlgebraUp$ carrier $G=(R,D,C,M,A,P)$, any consumer-visible homogeneous product row for witnesses in degrees $d$ and $e$ is exactly the $\mathsf{BHist}$ row supplied by $M$ over the $\RingUp$ multiplication row, the $\MonoidUp$ degree product row $d\cdot e$, the $\TensorProductUp$ input-pair row, the $\ModuleUp$ action row when the product is consumed as a slice, the $\Cont$ routes, and the $\Pkg$ provenance of $G$. The packet exports no host product equality, quotient degree, or unindexed multiplication.
+\end{theorem}
+\begin{proof}
+Project the carrier $G$ and its product ledger $M$. The base multiplication is read through $R$, while the target degree is the displayed product $d\cdot e$ in the degree monoid row $D$.
+
+Read the pair of homogeneous inputs through the $\TensorProductUp$ row and the component witnesses through $C$. When a consumer views the product as a slice, the same displayed product row is read through the module-action coordinate $A$ rather than through an additional multiplication operation.
+
+The remaining data are the $\Cont$ routes and the $\Pkg$ provenance stored in $P$. Since \autoref{def:gradedalgebra-bhist-carrier} contains no coordinate for host product equality, quotient degrees, or unindexed multiplication, the listed rows exhaust every consumer-visible homogeneous product read.
+\end{proof}
+
 \begin{theorem}[GradedAlgebra NameCert obligation surface]
 \label{thm:gradedalgebra-namecert-obligation-surface}
 The local $\NameCert_{\GradedAlgebraUp}$ obligation surface consists of five finite rows:
@@ -77,7 +89,7 @@ The local $\NameCert_{\GradedAlgebraUp}$ obligation surface consists of five fin
 \item carrier: the $\mathsf{BHist}$ packet $(R,D,C,M,A,P)$ of \autoref{def:gradedalgebra-bhist-carrier};
 \item degree classifier: the same-degree comparison relation of \autoref{def:gradedalgebra-degree-classifier};
 \item component stability: the transported-component statement of \autoref{thm:gradedalgebra-component-stability};
-\item product ledger: the homogeneous product row of \autoref{thm:gradedalgebra-product-ledger};
+\item product ledger: the homogeneous product row of \autoref{thm:gradedalgebra-product-ledger} and the scope exactness row of \autoref{thm:gradedalgebra-homogeneous-product-scope-exactness};
 \item provenance: the $\Pkg$ row tying the packet to $\RingUp$, $\MonoidUp$, $\ModuleUp$, $\TensorProductUp$, and $\KoszulDualityUp$ consumers.
 \end{enumerate}
 These rows are the full public seed surface for the graded-algebra name, and every downstream read must pass through $\mathsf{BHist}$ rows, $\hsame$ classifiers, $\Cont$ routes, and $\Pkg$ provenance.
@@ -88,20 +100,53 @@ The carrier row fixes the displayed ring, degree, component, multiplication, act
 
 The degree classifier supplies the only comparison of homogeneous witnesses. It compares same-degree component witnesses by displayed $\hsame$ rows and by the component routes named in the package, so it does not invoke host equality or quotient representatives.
 
-The component-stability theorem supplies transport of the carrier and classifier, while the product-ledger theorem supplies the only multiplication read available to $\TensorProductUp$, $\ModuleUp$, and $\KoszulDualityUp$ consumers.
+The component-stability theorem supplies transport of the carrier and classifier, while the product-ledger and product-scope theorems supply the only multiplication read available to $\TensorProductUp$, $\ModuleUp$, and $\KoszulDualityUp$ consumers.
 
 No remaining coordinate of the packet contains a host algebra, a quotient degree monoid, a decomposition choice, or an unrecorded product operation. The five listed rows therefore exhaust the $\NameCert_{\GradedAlgebraUp}$ obligation surface.
 \end{proof}
 
+\begin{theorem}[GradedAlgebra obligation scope certificate]
+\label{thm:gradedalgebra-obligation-scope-certificate}
+The carrier, degree classifier, component stability, product ledger,
+homogeneous product scope exactness, and provenance rows bind the
+$\GradedAlgebraUp$ obligation surface to $\RingUp$, $\MonoidUp$, $\ModuleUp$,
+$\TensorProductUp$, $\KoszulDualityUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+and $\mathsf{Pkg}$ without host algebra equality, quotient degree, or
+unrecorded decomposition.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gradedalgebra-bhist-carrier}. Its visible
+rows are the base ring, degree monoid, homogeneous component predicates,
+multiplication ledger, module-action row, and package provenance.
+
+The classifier and stability data are
+\autoref{def:gradedalgebra-degree-classifier} and
+\autoref{thm:gradedalgebra-component-stability}. They keep same-degree
+component witnesses inside displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows.
+
+The product data are \autoref{thm:gradedalgebra-product-ledger} and
+\autoref{thm:gradedalgebra-homogeneous-product-scope-exactness}. These bind
+homogeneous multiplication to the displayed $\RingUp$, $\MonoidUp$,
+$\ModuleUp$, $\TensorProductUp$, and $\KoszulDualityUp$ source surfaces.
+
+Finally apply \autoref{thm:gradedalgebra-namecert-obligation-surface}. Since
+the packet contains no host algebra equality, quotient degree, or unrecorded
+decomposition coordinate, the named rows close the obligation scope.
+\end{proof}
+
 \closureat{GradedAlgebraUp}{seedStr}
+\closureat{GradedAlgebraUp}{obligationStr}[BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_namecert\_obligation\_surface]
+\closureat{GradedAlgebraUp}{scopedStr}[BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\GradedAlgebraUp}
   \constructivestory{A graded-algebra packet is generated by a base $\RingUp$ row, a $\MonoidUp$ degree row, homogeneous component predicates over displayed $\mathsf{BHist}$ rows, a multiplication ledger whose $\Cont$ and $\Pkg$ records follow degree multiplication, and same-degree component classifiers built from $\hsame$.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The finite carrier of \autoref{def:gradedalgebra-bhist-carrier} binds the displayed ring, degree, component, multiplication, action, and provenance rows for $\GradedAlgebraUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The finite carrier, degree classifier, component stability, product ledger, and NameCert obligation surface bind the displayed ring, degree, component, multiplication, action, and consumer surfaces for $\GradedAlgebraUp$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient degrees, canonical homogeneous decomposition, host algebra equality, Koszul dual equivalence, or a standard bridge.}
-  \upgradepath{Formal closure requires Lean targets for the carrier, degree classifier, component stability, product ledger, and NameCert obligation surface.}
+  \upgradepath{Public closure requires a public export theorem for the scoped graded-algebra dependency surface.}
 \end{closurestatus}
