@@ -93,6 +93,33 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityContinuousMapReadback_transport [AskSetup] [PackageSetup]
+    {targetBoolean targetBoolean' targetClopen targetClopen' sourceBoolean sourceBoolean'
+      sourceClopen sourceClopen' morphism morphism' readback readback' ledger ledger'
+      endpoint endpoint' : BHist} :
+    hsame targetBoolean targetBoolean' ->
+      hsame targetClopen targetClopen' ->
+        hsame sourceBoolean sourceBoolean' ->
+          hsame sourceClopen sourceClopen' ->
+            hsame morphism morphism' ->
+              Cont morphism targetBoolean sourceBoolean ->
+                Cont morphism' targetBoolean' sourceBoolean' ->
+                  Cont sourceBoolean sourceClopen readback ->
+                    Cont sourceBoolean' sourceClopen' readback' ->
+                      Cont targetClopen readback ledger ->
+                        Cont targetClopen' readback' ledger' ->
+                          Cont ledger morphism endpoint ->
+                            Cont ledger' morphism' endpoint' ->
+                              hsame endpoint endpoint' := by
+  intro sameTargetBoolean sameTargetClopen sameSourceBoolean sameSourceClopen sameMorphism
+    morphismRow morphismRow' readbackRow readbackRow' ledgerRow ledgerRow' endpointRow
+    endpointRow'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameSourceBoolean sameSourceClopen readbackRow readbackRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTargetClopen sameReadback ledgerRow ledgerRow'
+  exact cont_respects_hsame sameLedger sameMorphism endpointRow endpointRow'
+
 theorem StoneDualityUltrafilterFreeSoundness_surface [AskSetup] [PackageSetup]
     {zero one meet join compl distributive source pkgRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
