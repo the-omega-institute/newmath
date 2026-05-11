@@ -248,18 +248,52 @@ coordinate absent from \autoref{def:signeddigitstream-carrier} and from both
 consumer boundaries.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream standard finite-window bridge]
+\label{thm:signeddigitstream-standard-bridge-window}
+The public interface export of
+\autoref{thm:signeddigitstream-public-interface-export}, public $\RealUp$
+boundary of \autoref{thm:signeddigitstream-public-real-boundary-export}, and
+$\RealUp$--$\RegSeqRatUp$ window correspondence of
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence} identify
+the standard finite-window bridge rows for $\SignedDigitStreamUp$ as exactly
+the normalized dyadic endpoint rows, carry ledger, scheduled unary window,
+displayed $\hsame$ rows, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and $\NameCert$ provenance already carried by the packet.
+
+The bridge exposes no quotient tail, host real equality, selected limit,
+completeness datum, or bridgeChecked claim.
+\end{theorem}
+\begin{proof}
+Project the public packet through
+\autoref{thm:signeddigitstream-public-interface-export}. The public surface is
+the scheduled signed-digit window together with the normalized dyadic endpoint,
+carry ledger, transport rows, package provenance, and name-certificate rows.
+
+Apply \autoref{thm:signeddigitstream-public-real-boundary-export}. The
+$\RealUp$ boundary reads the same finite rows and does not add a quotient tail,
+host real equality row, selected limit, or completeness witness.
+
+Finally apply
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. The
+regular-rational and real consumers therefore meet on the same normalized
+endpoint and carry rows through the displayed $\hsame$ and $\Cont$ routes, so
+the standard finite-window bridge has no further source coordinate and carries
+no bridgeChecked assertion.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
 \closureat{SignedDigitStreamUp}{publicStr}
+\closureat{SignedDigitStreamUp}{bridgedStr}
 
 \begin{closurestatus}{\SignedDigitStreamUp}
   \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:signeddigitstream-public-interface-export} gives the reusable public interface over the carrier, classifier, checked window transport, $\RegSeqRatUp$ handoff, $\RealUp$ finite-window seal boundary, $\NameCert$ surface, and scoped window package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:signeddigitstream-standard-bridge-window} bridges the public signed-digit interface of \autoref{thm:signeddigitstream-public-interface-export} with the $\RegSeqRatUp/\RealUp$ finite-window consumer rows through the displayed endpoint, carry, transport, package, and name-certificate data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or a standard bridge.}
-  \upgradepath{The next theory-axis step is a standard bridge identifying this public signed-digit stream interface with the accepted regular-rational and real finite-window consumer schemas.}
+  \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or bridgeChecked status.}
+  \upgradepath{No further theory-axis bridge obligation remains; bridgeChecked remains a formal-axis standard-bridge task.}
 \end{closurestatus}
