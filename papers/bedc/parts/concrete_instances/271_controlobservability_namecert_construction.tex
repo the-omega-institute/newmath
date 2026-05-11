@@ -54,6 +54,8 @@ The remaining obligations are the finite matrix test, the ledger readback, and t
 \label{thm:control-observability-kernel-separation}
 Let $P$ be an accepted $\ControlObservabilityUp$ packet with state-space dimension row $n$, transition row $A$, output row $C$, and observation matrix row $\mathcal O(A,C)$. If the visible kernel row of $\mathcal O(A,C)$ is the zero state row and the rank row of $\mathcal O(A,C)$ is the displayed dimension row $n$, then any two initial-state rows with the same finite output-trace ledger are classified by the state-space $\hsame$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityPacket\_kernel\_separation}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityKernelSeparation\_state\_rows\_hsame}
 \begin{proof}
 Read the finite output traces through the observation rows of \autoref{def:control-observability-carrier}. Agreement of the trace ledgers says that the displayed difference of the two initial-state rows is sent to the zero output row by every row $C,CA,\ldots,CA^{n-1}$.
 
@@ -66,6 +68,7 @@ The rank row names the same condition in finite-dimensional matrix form. Repacki
 \label{thm:control-observability-ledger-readback}
 Every consumer-visible output trace of an accepted $\ControlObservabilityUp$ packet is read from the finite observation rows $C,CA,\ldots,CA^{n-1}$, the stacked observation-matrix row $\mathcal O(A,C)$, the displayed $\hsame$ comparisons, and the $\Cont/\mathsf{Pkg}$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. No unbounded trajectory object, hidden observer state, host controllability dual, or external realization is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityPacket\_trace\_ledger\_readback}
 \leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservability\_finite\_trace\_ledger\_readback}
 \leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityCarrier\_finite\_trace\_ledger\_readback}
 \begin{proof}
@@ -79,11 +82,11 @@ Constructor inspection of the carrier excludes any additional trace source. Sinc
 
 \begin{closurestatus}{\ControlObservabilityUp}
   \constructivestory{The chapter builds a finite observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$: it displays the observation-matrix row, separates rank and kernel obligations, records the finite output-trace ledger, and keeps host trajectory and full control-system data outside the carrier.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is the carrier of \autoref{def:control-observability-carrier}, the NameCert surface of \autoref{thm:control-observability-namecert-obligation-surface}, the kernel separation of \autoref{thm:control-observability-kernel-separation}, and the ledger readback of \autoref{thm:control-observability-ledger-readback}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary is the finite $\mathsf{BHist}$ observation packet, the $\hsame$ trace classifier, the observation-matrix rank and kernel rows, the $\Cont$ trace ledger, and the $\mathsf{Pkg}$ dependencies on $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a host control-system category, analytic trajectory semantics, Kalman decomposition, controllability duality, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding those obligations to checked Lean targets and adding an explicit transport-stability row.}
+  \upgradepath{The next step is Lean formalization of the displayed scoped rows.}
 \end{closurestatus}
