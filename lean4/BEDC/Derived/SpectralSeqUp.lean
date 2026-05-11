@@ -440,4 +440,52 @@ theorem SpectralSeqBHistPageCarrier_differential_ledger [AskSetup] [PackageSetup
           (And.intro transitionRow
             carrier.right.right.right.right.right.right.right.right.right))))
 
+theorem SpectralSeqBHistPageCarrier_cont_page_transition_closure [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint page'
+      differential' readback' transition' endpoint' morphismLedger transitionBridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence transition
+        provenance endpoint bundle pkg ->
+      hsame page page' ->
+        hsame differential differential' ->
+          Cont page' differential' readback' ->
+            Cont readback' convergence transition' ->
+              Cont provenance transition' endpoint' ->
+                Cont differential' page' morphismLedger ->
+                  Cont transition' provenance transitionBridge ->
+                    PkgSig bundle transitionBridge pkg ->
+                      SpectralSeqBHistPageCarrier abelian homology page' differential' readback'
+                          convergence transition' provenance endpoint' bundle pkg ∧
+                        UnaryHistory morphismLedger ∧
+                          UnaryHistory transitionBridge ∧
+                            hsame readback readback' ∧
+                              hsame transition transition' ∧
+                                hsame morphismLedger (append differential' page') ∧
+                                  hsame transitionBridge (append transition' provenance) ∧
+                                    PkgSig bundle transitionBridge pkg := by
+  intro carrier samePage sameDifferential successorReadback successorTransition successorEndpoint
+    morphismLedgerRow transitionBridgeRow transitionBridgePkg
+  have successor :=
+    SpectralSeqBHistPageCarrier_successor_page_closure carrier samePage sameDifferential
+      successorReadback successorTransition successorEndpoint
+  have pageUnary' : UnaryHistory page' :=
+    unary_transport carrier.right.right.left samePage
+  have differentialUnary' : UnaryHistory differential' :=
+    unary_transport carrier.right.right.right.left sameDifferential
+  have morphismLedgerUnary : UnaryHistory morphismLedger :=
+    unary_cont_closed differentialUnary' pageUnary' morphismLedgerRow
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_cont_closed
+      (unary_cont_closed pageUnary' differentialUnary' successorReadback)
+      carrier.right.right.right.right.left successorTransition
+  have transitionBridgeUnary : UnaryHistory transitionBridge :=
+    unary_cont_closed transitionUnary' carrier.right.right.right.right.right.left transitionBridgeRow
+  exact And.intro successor.left
+    (And.intro morphismLedgerUnary
+      (And.intro transitionBridgeUnary
+        (And.intro successor.right.left
+          (And.intro successor.right.right
+            (And.intro morphismLedgerRow
+              (And.intro transitionBridgeRow transitionBridgePkg))))))
+
 end BEDC.Derived.SpectralSeqUp
