@@ -570,3 +570,17 @@ Applying \autoref{thm:psame-iff-hsame} for $\Theta$ to the component token-intro
 
 The second residual equivalence in \autoref{thm:samesig-bundle-append-residual-iff} applies with the bundle-local policy on $\Theta$, the two domain witnesses, and the known $\Theta$ signature-sameness. Its forward direction sends $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ to $\sameSig_{\Pi}(h,k)$.
 \end{proof}
+
+\begin{corollary}[Concrete PackageTokenPolicy and token uniqueness are equivalent]
+\label{cor:concrete-package-token-policy-iff-token-unique}
+For the concrete signature-token relation $\psame_{\Pi}^{\mathrm{sig}}$,
+$$
+  \PkgTokPol(\Pi)
+  \quad\Longleftrightarrow\quad
+  \TokUnique(\Pi).
+$$
+\end{corollary}
+
+\begin{proof}
+The forward implication is \autoref{thm:package-token-policy-reflects-token-unique}. The reverse implication is \autoref{thm:package-token-policy-from-token-unique}: token-introduction uniqueness supplies the reflection field, and the single constructor of the concrete signature-token relation supplies the soundness field.
+\end{proof}
