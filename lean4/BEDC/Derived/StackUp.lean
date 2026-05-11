@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
@@ -15,6 +16,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
@@ -67,6 +69,86 @@ theorem StackCarrierPacket_descent_transport [AskSetup] [PackageSetup]
         endpointCont', pkgSig'⟩,
       sameLedger,
       sameEndpoint⟩
+
+theorem StackCarrierPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {site objectRows arrowRows transportRows restrictionRows descentRows representabilityRows
+      provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrierPacket site objectRows arrowRows transportRows restrictionRows descentRows
+        representabilityRows provenance ledger endpoint bundle pkg ->
+      SemanticNameCert
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h k : BHist =>
+            hsame h k ∧
+              (exists leftLedger : BHist,
+                StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+                  descentRows representabilityRows provenance leftLedger h bundle pkg) ∧
+                (exists rightLedger : BHist,
+                  StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+                    descentRows representabilityRows provenance rightLedger k bundle pkg)) ∧
+        Cont objectRows arrowRows ledger ∧ Cont provenance ledger endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet
+  have endpointCarrier :
+      (fun h : BHist => exists carriedLedger : BHist,
+        StackCarrierPacket site objectRows arrowRows transportRows restrictionRows descentRows
+          representabilityRows provenance carriedLedger h bundle pkg) endpoint :=
+    Exists.intro ledger packet
+  have cert :
+      SemanticNameCert
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h : BHist => exists carriedLedger : BHist,
+            StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+              descentRows representabilityRows provenance carriedLedger h bundle pkg)
+          (fun h k : BHist =>
+            hsame h k ∧
+              (exists leftLedger : BHist,
+                StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+                  descentRows representabilityRows provenance leftLedger h bundle pkg) ∧
+                (exists rightLedger : BHist,
+                  StackCarrierPacket site objectRows arrowRows transportRows restrictionRows
+                    descentRows representabilityRows provenance rightLedger k bundle pkg)) := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointCarrier
+      equiv_refl := by
+        intro h source
+        exact And.intro (hsame_refl h) (And.intro source source)
+      equiv_symm := by
+        intro h k related
+        exact And.intro (hsame_symm related.left)
+          (And.intro related.right.right related.right.left)
+      equiv_trans := by
+        intro h k r relatedHK relatedKR
+        exact And.intro (hsame_trans relatedHK.left relatedKR.left)
+          (And.intro relatedHK.right.left relatedKR.right.right)
+      carrier_respects_equiv := by
+        intro h k related _source
+        exact related.right.right
+    }
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
+      (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
+        packet.right.right.right.right.right.right.right.right.right.right.right.right))
 
 def StackBHistCarrier [AskSetup] [PackageSetup]
     (site object arrow restriction descent provenance endpoint : BHist)
