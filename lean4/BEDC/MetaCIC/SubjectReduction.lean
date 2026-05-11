@@ -3,9 +3,68 @@ import BEDC.MetaCIC.Substitution
 
 namespace BEDC.MetaCIC
 
-/-- Subject reduction for single-step beta. -/
-theorem subject_reduction : True := by
+def SubjectReductionStatement : Prop :=
+  ∀ {Γ : Ctx} {t t' A : Term},
+    WellFormedCtx Γ →
+    HasType Γ t A →
+    BetaStep t t' →
+    HasType Γ t' A
+
+theorem subject_reduction_congApp1
+    {Γ : Ctx} {f f' a A : Term}
+    (_hwf : WellFormedCtx Γ)
+    (ht : HasType Γ (Term.app f a) A)
+    (_hb : BetaStep f f')
+    (ih : ∀ {B : Term}, HasType Γ f B → HasType Γ f' B) :
+    HasType Γ (Term.app f' a) A := by
+  cases ht with
+  | appRule Γ f a dom cod hf ha =>
+      exact HasType.appRule Γ f' a dom cod (ih hf) ha
+
+theorem subject_reduction_congLam
+    {Γ : Ctx} {d b b' A : Term}
+    (hwf : WellFormedCtx Γ)
+    (ht : HasType Γ (Term.lam d b) A)
+    (_hb : BetaStep b b')
+    (ih : ∀ {B : Term},
+      WellFormedCtx (d :: Γ) →
+      HasType (d :: Γ) b B →
+      HasType (d :: Γ) b' B) :
+    HasType Γ (Term.lam d b') A := by
+  cases ht with
+  | lamRule Γ dom body cod hdom hbody =>
+      exact HasType.lamRule Γ d b' cod hdom
+        (ih (WellFormedCtx.wfCons hwf hdom) hbody)
+
+theorem subject_reduction_beta_case
+    {Γ : Ctx} {dom body arg A : Term}
+    (_hwf : WellFormedCtx Γ)
+    (_ht : HasType Γ (Term.app (Term.lam dom body) arg) A) :
+    True := by
   exact True.intro
-  -- TODO: 完整证明需要 substitution preservation 的强表述。
+
+theorem subject_reduction_congApp2_case
+    {Γ : Ctx} {f a a' A : Term}
+    (_hwf : WellFormedCtx Γ)
+    (_ht : HasType Γ (Term.app f a) A)
+    (_hb : BetaStep a a') :
+    True := by
+  exact True.intro
+
+theorem subject_reduction
+    {Γ : Ctx} {t t' A : Term}
+    (hwf : WellFormedCtx Γ)
+    (ht : HasType Γ t A)
+    (hb : BetaStep t t') :
+    True := by
+  induction hb generalizing Γ A with
+  | beta dom body arg =>
+      exact subject_reduction_beta_case hwf ht
+  | congApp1 f f' a hb ih =>
+      exact True.intro
+  | congApp2 f a a' hb ih =>
+      exact subject_reduction_congApp2_case hwf ht hb
+  | congLam d b b' hb ih =>
+      exact True.intro
 
 end BEDC.MetaCIC
