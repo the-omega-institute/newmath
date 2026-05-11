@@ -656,6 +656,7 @@ import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.ConsumerCoverage
 import BEDC.Derived.DiffFormUp.DegreeProbeAlignment
 import BEDC.Derived.DiffFormUp.DegreeProbeSupport
+import BEDC.Derived.DiffFormUp.DerhamInputBoundary
 import BEDC.Derived.DiffFormUp.ManifoldTensorSource
 import BEDC.Derived.DiffFormUp.ObligationInventory
 import BEDC.Derived.DiffFormUp.RootDegreeClassifierDownstreamConsumption
