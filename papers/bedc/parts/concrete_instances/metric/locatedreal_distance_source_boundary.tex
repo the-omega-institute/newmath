@@ -1,0 +1,50 @@
+\begin{theorem}[MetricSpace LocatedReal distance source boundary]
+\label{thm:metricspace-locatedreal-distance-source-boundary}
+Let $L_x$ and $L_y$ be accepted $\LocatedRealUp$ packets whose
+$\StreamNameUp$ schedules admit a common finite observation window. Suppose
+their $\DyadicRatCore$ endpoint ledgers and radius ledgers are transported to
+that window by the displayed $\hsame$ and $\Cont$ rows, and suppose a
+contextual metric row
+$\mathsf{MetricDistanceWitness}(p\cdot x,y\cdot q,(p\cdot d)\cdot q)$
+is displayed for the two projected endpoints.
+
+Then any $\MetricSpaceUp$ consumer reads the distance-source boundary exactly
+through the finite rows named by
+\autoref{thm:locatedreal-metric-consumer-handoff} together with the metric
+visible-context rows: the $\RegSeqRatUp$ source windows, the $\DyadicRatCore$
+endpoint and radius rows, the $\StreamNameUp$ schedule rows, the
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance, and the $\hsame$ classifier on the central distance row $d$.
+
+Conversely, any packet carrying precisely those rows repacks as the metric
+distance-source row for the two located packets. No quotient real, host real
+equality, trichotomy principle, open-cover compactness datum, or metric
+completion object is part of this boundary.
+\end{theorem}
+\begin{proof}
+Project $L_x$ and $L_y$ with
+\autoref{thm:locatedreal-metric-consumer-handoff}. This leaves only the
+displayed $\RegSeqRatUp$ source windows, the common $\StreamNameUp$ schedule,
+the transported $\DyadicRatCore$ endpoint and radius ledgers, the enclosure
+classifier rows, and the visible $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Next apply \autoref{thm:metric-distance-witness-visible-context-iff} to the
+contextual metric row. The visible prefix and suffix rows are peeled away,
+leaving the central witness $\mathsf{MetricDistanceWitness}(x,y,d)$ over the
+two projected located endpoints.
+
+For uniqueness of the central distance read, apply
+\autoref{thm:metric-distance-witness-visible-context-determinacy}. Any second
+packet with the same displayed source windows, endpoint ledgers, schedule
+rows, provenance rows, and contextual metric witness has a central distance
+classifier $\hsame(d,e)$, so the metric consumer cannot distinguish a hidden
+distance coordinate.
+
+The converse direction repacks exactly the displayed rows: the located packets
+come from the handoff surface, the contextual distance row supplies the metric
+visible context, and the central $\hsame$ classifier is the only distance
+classifier retained. Since each coordinate in this construction is one of the
+listed finite rows, no excluded real-number, compactness, or completion
+principle is introduced.
+\end{proof}
