@@ -88,4 +88,37 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+theorem DyadicBallPacket_radius_refinement_closure [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint radius'
+      containment' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg →
+      UnaryHistory radius' →
+        Cont center radius' schedule →
+          Cont schedule observation containment' →
+            Cont containment' route endpoint' →
+              PkgSig bundle endpoint' pkg →
+                DyadicBallPacket center radius' schedule observation containment' route
+                  provenance endpoint' bundle pkg := by
+  intro packet radiusUnary' refinedSchedule refinedContainment refinedEndpoint refinedPkg
+  have centerUnary : UnaryHistory center :=
+    packet.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have observationUnary : UnaryHistory observation :=
+    packet.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    packet.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.left
+  have containmentUnary' : UnaryHistory containment' :=
+    unary_cont_closed scheduleUnary observationUnary refinedContainment
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed containmentUnary' routeUnary refinedEndpoint
+  exact
+    ⟨centerUnary, radiusUnary', scheduleUnary, observationUnary, containmentUnary', routeUnary,
+      provenanceUnary, endpointUnary', refinedSchedule, refinedContainment, refinedEndpoint,
+      refinedPkg⟩
+
 end BEDC.Derived.DyadicBallUp
