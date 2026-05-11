@@ -202,6 +202,7 @@ import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
+import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
 import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
 import BEDC.Derived.DyadicRatCoreUp.RealPhaseSourceCoverage
@@ -606,6 +607,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
+import BEDC.Derived.ToposUp
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
