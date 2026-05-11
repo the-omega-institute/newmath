@@ -294,4 +294,249 @@ theorem r11_captured_target_rejected_V2 :
       | varRule Γ i A hlookup =>
           cases hlookup
 
+theorem substitute_var_depth_one_zero (v : Term) :
+    substitute 1 v (Term.var 0) = Term.var 0 := by
+  unfold substitute
+  rfl
+
+theorem substitute_var_depth_one_succ_succ (v : Term) (i : Idx) :
+    substitute 1 v (Term.var (i + 2)) = Term.var (i + 1) := by
+  cases i
+  · unfold substitute
+    rfl
+  · unfold substitute
+    rfl
+
+theorem nat_ble_right_succ_true_of_true (n i : Nat) :
+    Nat.ble n i = true → Nat.ble n (i + 1) = true := by
+  induction n generalizing i with
+  | zero =>
+      intro _
+      rfl
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero =>
+          cases h
+      | succ i =>
+          rw [nat_ble_add_one_add_one] at h
+          rw [nat_ble_add_one_add_one]
+          exact ih i h
+
+theorem nat_ble_succ_left_false_of_false (n i : Nat) :
+    Nat.ble n i = false → Nat.ble (n + 1) i = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · cases h
+      · cases h
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero =>
+          rfl
+      | succ i =>
+          rw [nat_ble_add_one_add_one] at h
+          rw [nat_ble_add_one_add_one]
+          exact ih i h
+
+theorem shift_same_cutoff_twice
+    (cutoff : Idx) (t : Term) :
+    shift cutoff 1 (shift cutoff 1 t) =
+      shift (cutoff + 1) 1 (shift cutoff 1 t) := by
+  induction t generalizing cutoff with
+  | var i =>
+      induction cutoff generalizing i with
+      | zero =>
+          cases i
+          · unfold shift
+            rfl
+          · unfold shift
+            rfl
+      | succ cutoff ih =>
+          cases i with
+          | zero =>
+              unfold shift
+              rfl
+          | succ i =>
+              change shift (cutoff + 1) 1
+                  (shift (cutoff + 1) 1 (Term.var (i + 1))) =
+                shift (cutoff + 1 + 1) 1
+                  (shift (cutoff + 1) 1 (Term.var (i + 1)))
+              rw [show
+                shift (cutoff + 1) 1 (Term.var (i + 1)) =
+                  match Nat.ble cutoff i with
+                  | true => Term.var (i + 2)
+                  | false => Term.var (i + 1)
+                by
+                  unfold shift
+                  rw [nat_ble_add_one_add_one]
+                  cases Nat.ble cutoff i
+                  · rfl
+                  · rfl]
+              cases h : Nat.ble cutoff i
+              · unfold shift
+                have hprev : Nat.ble (cutoff + 1) (i + 1) = false := by
+                  rw [nat_ble_add_one_add_one]
+                  exact h
+                have hnext : Nat.ble (cutoff + 1 + 1) (i + 1) = false := by
+                  rw [nat_ble_add_one_add_one]
+                  exact nat_ble_succ_left_false_of_false cutoff i h
+                rw [hprev]
+                rw [hnext]
+              · unfold shift
+                have hprev : Nat.ble (cutoff + 1) (i + 2) = true := by
+                  rw [nat_ble_add_one_add_one]
+                  exact nat_ble_right_succ_true_of_true cutoff i h
+                have hnext : Nat.ble (cutoff + 1 + 1) (i + 2) = true := by
+                  rw [nat_ble_add_one_add_one]
+                  rw [nat_ble_add_one_add_one]
+                  exact h
+                rw [hprev]
+                rw [hnext]
+  | app f a ihf iha =>
+      change Term.app
+          (shift cutoff 1 (shift cutoff 1 f))
+          (shift cutoff 1 (shift cutoff 1 a)) =
+        Term.app
+          (shift (cutoff + 1) 1 (shift cutoff 1 f))
+          (shift (cutoff + 1) 1 (shift cutoff 1 a))
+      rw [ihf cutoff]
+      rw [iha cutoff]
+  | lam dom body ihdom ihbody =>
+      change Term.lam
+          (shift cutoff 1 (shift cutoff 1 dom))
+          (shift (cutoff + 1) 1 (shift (cutoff + 1) 1 body)) =
+        Term.lam
+          (shift (cutoff + 1) 1 (shift cutoff 1 dom))
+          (shift (cutoff + 1 + 1) 1 (shift (cutoff + 1) 1 body))
+      rw [ihdom cutoff]
+      rw [ihbody (cutoff + 1)]
+  | pi dom cod ihdom ihcod =>
+      change Term.pi
+          (shift cutoff 1 (shift cutoff 1 dom))
+          (shift (cutoff + 1) 1 (shift (cutoff + 1) 1 cod)) =
+        Term.pi
+          (shift (cutoff + 1) 1 (shift cutoff 1 dom))
+          (shift (cutoff + 1 + 1) 1 (shift (cutoff + 1) 1 cod))
+      rw [ihdom cutoff]
+      rw [ihcod (cutoff + 1)]
+  | sort =>
+      rfl
+
+theorem shift_zero_twice_eq_shift_one_after_shift_zero (t : Term) :
+    shift 0 1 (shift 0 1 t) = shift 1 1 (shift 0 1 t) := by
+  exact shift_same_cutoff_twice 0 t
+
+theorem substitute_depth_one_shift_zero_twice
+    (v t : Term) :
+    substitute 1 v (shift 0 1 (shift 0 1 t)) = shift 0 1 t := by
+  rw [shift_zero_twice_eq_shift_one_after_shift_zero t]
+  rw [substitute_shift_at_eq]
+
+theorem hasTypeV2_shift_weaken_sort_var
+    {Γ : Ctx} {C s B : Term}
+    (hs : HasTypeV2 Γ s B)
+    (hshape : s = Term.sort ∨ ∃ i : Idx, s = Term.var i) :
+    HasTypeV2 (C :: Γ) (shift 0 1 s) (shift 0 1 B) := by
+  cases hs with
+  | sortRule Δ =>
+      exact HasTypeV2.sortRule (C :: Γ)
+  | varRule Δ i _ hlookup =>
+      change HasTypeV2 (C :: Γ) (Term.var (i + 1)) (shift 0 1 B)
+      apply HasTypeV2.varRule
+      rw [lookup_cons_succ]
+      rw [hlookup]
+  | piRule Δ dom cod hdom hcod =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | lamRule Δ dom body cod hdom hbody =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | appRule Δ f a dom cod hf ha =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+
+theorem substitute_preserves_typing_V2_depth1_sort_var_with_weaken
+    {Γ : Ctx} {dom s B t A : Term}
+    (hclosed_B : ClosedAt 0 B)
+    (_hclosed_s : ClosedAt 0 s)
+    (hclosed_dom_after : ClosedAt 0 (shift 0 1 dom))
+    (ht : HasTypeV2 ((shift 0 1 dom) :: B :: Γ) t A)
+    (hs_weaken :
+      HasTypeV2 ((shift 0 1 dom) :: Γ)
+        (shift 0 1 s)
+        (shift 0 1 B))
+    (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
+    HasTypeV2 ((shift 0 1 dom) :: Γ)
+      (substitute 1 (shift 0 1 s) t)
+      (substitute 1 (shift 0 1 s) A) := by
+  cases ht with
+  | sortRule Δ =>
+      exact HasTypeV2.sortRule ((shift 0 1 dom) :: Γ)
+  | varRule Δ i A hlookup =>
+      cases i with
+      | zero =>
+          change some (shift 0 1 dom) = some A at hlookup
+          cases hlookup
+          rw [substitute_var_depth_one_zero]
+          rw [substitute_closed 1 (shift 0 1 s) (shift 0 1 dom)
+            (closedAt_zero_at 1 (shift 0 1 dom) hclosed_dom_after)]
+          apply HasTypeV2.varRule
+          rfl
+      | succ i =>
+          cases i with
+          | zero =>
+              rw [lookup_cons_succ] at hlookup
+              change some (shift 0 1 B) = some A at hlookup
+              cases hlookup
+              rw [substitute_var_one]
+              rw [substitute_closed 1 (shift 0 1 s) (shift 0 1 B)]
+              · exact hs_weaken
+              · rw [shift_closed 0 B hclosed_B]
+                exact closedAt_zero_at 1 B hclosed_B
+          | succ n =>
+              rw [lookup_cons_succ] at hlookup
+              rw [lookup_cons_succ] at hlookup
+              cases hlook : Ctx.lookup Γ n with
+              | none =>
+                  rw [hlook] at hlookup
+                  cases hlookup
+              | some T =>
+                  rw [hlook] at hlookup
+                  cases hlookup
+                  rw [substitute_var_depth_one_succ_succ]
+                  rw [substitute_depth_one_shift_zero_twice]
+                  apply HasTypeV2.varRule
+                  rw [lookup_cons_succ]
+                  rw [hlook]
+  | piRule Δ dom cod hdom hcod =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | lamRule Δ dom body cod hdom hbody =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | appRule Δ f a dom cod hf ha =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+
 end BEDC.MetaCIC.V2
