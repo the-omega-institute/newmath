@@ -6,5 +6,149 @@ The vector-bundle interface $\VectorBundleUp$ packages a fibre bundle whose fibr
 \section{Carrier definition}
 \label{sec:vectorbundle-carrier}
 
+\begin{definition}[VectorBundle finite carrier]
+\label{def:vectorbundle-carrier}
+A $\VectorBundleUp$ carrier is the finite $\mathsf{BHist}$ packet
+$\mathsf{VectorBundlePkt}(V)$ with the following displayed rows.
+\begin{enumerate}
+  \item A retained $\BundleUp$ row for the base, total space, projection,
+  fibre model, local-trivialization, transition, and source-ledger histories.
+  \item A retained $\VecSpaceUp$ row for the vector-space structure carried by
+  each displayed fibre history.
+  \item A local-trivialization row listing a finite $\mathsf{ProbeBundle}$ of
+  trivializing neighborhoods and their trivialization histories.
+  \item A fibre carrier row assigning to each displayed local fibre a
+  $\mathsf{BHist}$ carrier accepted by the retained $\VecSpaceUp$ certificate.
+  \item A linear transition row recording, for each displayed overlap, the
+  transition history and the vector-space linearity witnesses for addition,
+  zero, negation, and scalar action.
+  \item Componentwise $\hsame$ rows for the base, total, projection, fibre,
+  trivialization, transition, and vector-space operation histories.
+  \item $\Cont$ rows for restriction to overlaps, transition composition, and
+  transport of linearity witnesses along classified fibre histories.
+  \item A $\mathsf{Pkg}$ provenance row tying the retained $\BundleUp$ and
+  $\VecSpaceUp$ certificates to the displayed finite vector-bundle packet.
+\end{enumerate}
+The carrier exposes only these finite $\mathsf{BHist}$ rows and their
+displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ witnesses; it does not import a
+host vector-bundle object or an unrecorded transition function.
+\end{definition}
+
+\begin{definition}[VectorBundle classifier]
+\label{def:vectorbundle-classifier}
+Two $\mathsf{VectorBundlePkt}$ carriers classify together when the retained
+$\BundleUp$ base, total-space, projection, local-trivialization, and transition
+rows classify by the bundle certificate, the retained $\VecSpaceUp$ fibre
+rows classify by the vector-space certificate, and every fibre carrier,
+linearity, overlap, $\Cont$, and $\mathsf{Pkg}$ row is related by the displayed
+componentwise $\hsame$ comparison. The classifier is finite row sameness over
+base, fibre, trivialization, and transition data, not equality of host
+vector-bundle structures.
+\end{definition}
+
 \section{The certificate}
 \label{sec:vectorbundle-certificate}
+
+\begin{theorem}[VectorBundle carrier obligation]
+\label{thm:vectorbundle-carrier-obligation}
+Every accepted $\mathsf{VectorBundlePkt}(V)$ row projects to one of the
+displayed $\BundleUp$, $\VecSpaceUp$, local-trivialization, fibre-carrier,
+linear-transition, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ rows of
+\autoref{def:vectorbundle-carrier}. There is no additional carrier case for a
+host vector bundle.
+\end{theorem}
+\begin{proof}
+Unpack the carrier definition. The first two coordinates are retained
+dependency rows from $\BundleUp$ and $\VecSpaceUp$. The remaining coordinates
+are the local-trivialization probe bundle, fibre carrier rows, linear
+transition rows, componentwise $\hsame$ comparisons, $\Cont$ ledgers, and
+$\mathsf{Pkg}$ provenance.
+
+Projection from an accepted packet can therefore read only one of those
+coordinates. The bundle dependency supplies base, total, projection,
+trivialization, and transition histories; the vector-space dependency supplies
+the fibre operation histories and their classifier.
+
+Conversely, any displayed coordinate is repacked by the same finite packet
+constructor. Constructor inversion provides no branch for an ambient
+vector-bundle object, an implicit local trivialization, or an unlogged
+transition map.
+\end{proof}
+
+\begin{theorem}[VectorBundle transition ledger exactness]
+\label{thm:vectorbundle-transition-ledger-exactness}
+The transition surface of $\VectorBundleUp$ is exactly the finite overlap
+ledger in \autoref{def:vectorbundle-carrier}: every transition comparison is
+recorded by displayed overlap rows, linearity rows, $\Cont$ composition rows,
+and $\mathsf{Pkg}$ provenance, and every such ledger row repacks as a public
+transition witness.
+\end{theorem}
+\begin{proof}
+Project the transition coordinate of a carried vector-bundle packet. It lists
+the overlap row, the source and target trivialization histories, the displayed
+transition history, and the vector-space linearity witnesses for the four
+operation families.
+
+Exactness in the forward direction is projection. A public transition witness
+must cite the overlap row and the corresponding linearity rows, so the witness
+is represented inside the finite ledger.
+
+For the reverse direction, start with a displayed overlap ledger. Repack its
+transition history, linearity witnesses, overlap restriction $\Cont$ rows, and
+source provenance into the transition coordinate of
+$\mathsf{VectorBundlePkt}(V)$. This produces the public transition witness and
+uses no host transition function.
+\end{proof}
+
+\begin{theorem}[VectorBundle classifier stability obligation]
+\label{thm:vectorbundle-classifier-stability-obligation}
+The classifier of \autoref{def:vectorbundle-classifier} transports accepted
+vector-bundle packets: classified base, fibre, trivialization, and transition
+rows repack as a carried $\VectorBundleUp$ packet with the same finite
+transition ledger shape.
+\end{theorem}
+\begin{proof}
+Begin with a classifier witness between two displayed packets. Its retained
+$\BundleUp$ component transports the base, total, projection,
+local-trivialization, and bundle transition rows by the existing bundle
+certificate.
+
+Its retained $\VecSpaceUp$ component transports the fibre carrier and the
+vector-space operation histories. Componentwise $\hsame$ then transports the
+linearity rows for addition, zero, negation, and scalar action.
+
+The overlap-restriction and transition-composition $\Cont$ rows transport
+because their endpoint histories are among the same base, fibre,
+trivialization, and transition comparisons. The $\mathsf{Pkg}$ row transports
+the source provenance. Repacking these transported rows gives another accepted
+finite vector-bundle packet.
+\end{proof}
+
+\begin{theorem}[VectorBundle NameCert obligation surface]
+\label{thm:vectorbundle-namecert-obligation-surface}
+The public $\NameCert_{\VectorBundleUp}$ fields determined by
+\autoref{def:vectorbundle-carrier} and
+\autoref{def:vectorbundle-classifier} are exactly the finite carrier rows, the
+componentwise classifier, carrier transport, the transition ledger exactness
+row, and the $\mathsf{Pkg}$ provenance row. The surface contains no host
+vector-bundle semantics beyond the displayed $\BundleUp$ and $\VecSpaceUp$
+dependency certificates.
+\end{theorem}
+\begin{proof}
+First project the carrier by
+\autoref{thm:vectorbundle-carrier-obligation}. This accounts for the retained
+bundle and vector-space rows, the local-trivialization probe rows, the fibre
+carrier rows, the linear transition rows, the $\hsame$ comparisons, the
+$\Cont$ ledgers, and the provenance row.
+
+Next apply
+\autoref{thm:vectorbundle-transition-ledger-exactness}. The public transition
+surface is exhausted by the finite overlap ledger and the displayed linearity
+witnesses, and every such ledger repacks as a transition witness.
+
+Finally apply
+\autoref{thm:vectorbundle-classifier-stability-obligation}. It gives carrier
+transport and classifier stability over the same finite rows. Since all public
+fields have been projected from those rows or repacked into them, the
+certificate exposes no additional host vector-bundle semantics.
+\end{proof}
