@@ -618,3 +618,55 @@ only endpoint and ledger rows read by either consumer are the common
 DyadicRatCore endpoint rows and the common ledger rows carried by the shared
 $\RegSeqRat$ spine.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window prefix-suffix recomposition]
+\label{thm:streamname-tail-window-prefix-suffix-recomposition}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+endpoints, and let $\mathcal P$ be a StreamName tail-window coverage packet
+over a finite $\mathsf{ProbeBundle}$. Suppose the selected observations of
+$\mathcal P$ split into displayed prefix and suffix subbundles with a shared
+boundary row. Then the restrictions of $\mathcal P$ to the prefix and suffix
+subbundles are StreamName tail-window coverage packets over the same public
+endpoints and the same accepted $\RegSeqRat$ spine.
+
+The common-refinement recomposition of these two restricted packets recovers
+$\mathcal P$ on every selected observation. Every finite $\RealUp$ consumer
+row of $\mathcal P$ factors through either the prefix packet, the suffix
+packet, or the boundary-overlap rows. No completion object, quotient
+representative, host-index equality, metric-completeness row, arithmetic or
+order operation, or standard bridge row is read by the recomposed packet.
+\end{theorem}
+\begin{proof}
+Unfold the StreamName tail-window coverage packet of
+\autoref{def:streamname-tail-window-coverage-packet}. Restricting to the
+displayed prefix subbundle keeps the public StreamName endpoints, the selected
+$\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows in the prefix window, the
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, the DyadicRatCore endpoint rows read there, and the inherited
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance. The same restriction
+argument gives the suffix packet.
+
+Apply \autoref{thm:streamname-tail-window-cover-common-refinement} to the
+prefix and suffix packets. The generated packet is finite, its restrictions
+recover the two displayed subbundles, and the shared boundary row is carried as
+one row in the common packet rather than as two independent sources.
+
+Next apply \autoref{thm:streamname-tail-window-refinement-associativity}. It
+identifies the regrouping of the prefix packet, the boundary overlap, and the
+suffix packet with the original finite window, so every selected observation
+of $\mathcal P$ is recovered by the recomposed packet.
+
+Now apply \autoref{thm:streamname-tail-window-terminal-source-uniqueness} and
+\autoref{thm:streamname-tail-window-regseqrat-coverage-lock}. The finite
+consumer source surface is therefore the displayed
+StreamName/$\RegSeqRat$/DyadicRatCore source surface of either restricted
+packet, together with the shared boundary rows when the consumer reads across
+the split. The RegSeqRat and DyadicRatCore rows read by the prefix, suffix,
+and recomposed packet are the same rows of the original finite ledger.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+finite $\RealUp$ consumer has no row for completion, quotient, host-index
+equality, metric-completeness, arithmetic or order, standard bridge, or hidden
+selector data, so the prefix/suffix recomposition cannot introduce any such
+object.
+\end{proof}
