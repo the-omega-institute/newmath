@@ -5,9 +5,11 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicBallUp
 
+open BEDC.FKernel.Mark
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
@@ -15,6 +17,237 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive DyadicBallUp : Type where
+  | mk :
+      (center radius schedule observation containment route provenance endpoint : BHist) →
+        DyadicBallUp
+  deriving DecidableEq
+
+def dyadicBallEncodeBHist : BHist → RawEvent
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: dyadicBallEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: dyadicBallEncodeBHist h
+
+def dyadicBallDecodeBHist : RawEvent → BHist
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (dyadicBallDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (dyadicBallDecodeBHist tail)
+
+def dyadicBallToEventFlow : DyadicBallUp → EventFlow
+  | DyadicBallUp.mk center radius schedule observation containment route provenance endpoint =>
+      [[BMark.b0], dyadicBallEncodeBHist center,
+        [BMark.b1, BMark.b0], dyadicBallEncodeBHist radius,
+        [BMark.b1, BMark.b1, BMark.b0], dyadicBallEncodeBHist schedule,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0], dyadicBallEncodeBHist observation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist containment,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist route,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+          dyadicBallEncodeBHist endpoint]
+
+def dyadicBallFromEventFlow : EventFlow → Option DyadicBallUp
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | center :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | radius :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | schedule :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | observation :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | containment :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | route :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | provenance :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | endpoint :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (DyadicBallUp.mk
+                                                                          (dyadicBallDecodeBHist
+                                                                            center)
+                                                                          (dyadicBallDecodeBHist
+                                                                            radius)
+                                                                          (dyadicBallDecodeBHist
+                                                                            schedule)
+                                                                          (dyadicBallDecodeBHist
+                                                                            observation)
+                                                                          (dyadicBallDecodeBHist
+                                                                            containment)
+                                                                          (dyadicBallDecodeBHist
+                                                                            route)
+                                                                          (dyadicBallDecodeBHist
+                                                                            provenance)
+                                                                          (dyadicBallDecodeBHist
+                                                                            endpoint))
+                                                                  | _ :: _ => none
+
+instance dyadicBallBHistCarrier : BHistCarrier DyadicBallUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := dyadicBallToEventFlow
+  fromEventFlow := dyadicBallFromEventFlow
+
+instance dyadicBallChapterTasteGate : ChapterTasteGate DyadicBallUp where
+  round_trip := by
+    intro x
+    have decodeEncode :
+        ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    cases x with
+    | mk center radius schedule observation containment route provenance endpoint =>
+        change
+          some (DyadicBallUp.mk
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+            some
+              (DyadicBallUp.mk center radius schedule observation containment route provenance
+                endpoint)
+        rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+          decodeEncode observation, decodeEncode containment, decodeEncode route,
+          decodeEncode provenance, decodeEncode endpoint]
+  layer_separation := by
+    intro x y hxy heq
+    apply hxy
+    have decodeEncode :
+        ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    have roundTrip :
+        ∀ x : DyadicBallUp, dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x := by
+      intro x
+      cases x with
+      | mk center radius schedule observation containment route provenance endpoint =>
+          change
+            some (DyadicBallUp.mk
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+              some
+                (DyadicBallUp.mk center radius schedule observation containment route provenance
+                  endpoint)
+          rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+            decodeEncode observation, decodeEncode containment, decodeEncode route,
+            decodeEncode provenance, decodeEncode endpoint]
+    have hread :
+        dyadicBallFromEventFlow (dyadicBallToEventFlow x) =
+          dyadicBallFromEventFlow (dyadicBallToEventFlow y) :=
+      congrArg dyadicBallFromEventFlow heq
+    exact Option.some.inj (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
+
+theorem DyadicBallTasteGate_single_carrier_alignment :
+    (forall h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h) /\
+      (forall x : DyadicBallUp,
+        dyadicBallFromEventFlow (BHistCarrier.toEventFlow x) = some x) /\
+      (forall x y : DyadicBallUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) /\
+      dyadicBallEncodeBHist BHist.Empty = ([] : List BMark) := by
+  have decodeEncode :
+      ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  have roundTrip :
+      ∀ x : DyadicBallUp, dyadicBallFromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+    intro x
+    change dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x
+    cases x with
+    | mk center radius schedule observation containment route provenance endpoint =>
+        change
+          some (DyadicBallUp.mk
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+            some
+              (DyadicBallUp.mk center radius schedule observation containment route provenance
+                endpoint)
+        rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+          decodeEncode observation, decodeEncode containment, decodeEncode route,
+          decodeEncode provenance, decodeEncode endpoint]
+  have injective :
+      ∀ x y : DyadicBallUp, BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y := by
+    intro x y heq
+    change dyadicBallToEventFlow x = dyadicBallToEventFlow y at heq
+    have hread :
+        dyadicBallFromEventFlow (dyadicBallToEventFlow x) =
+          dyadicBallFromEventFlow (dyadicBallToEventFlow y) :=
+      congrArg dyadicBallFromEventFlow heq
+    have leftRead : dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x := by
+      exact roundTrip x
+    have rightRead : dyadicBallFromEventFlow (dyadicBallToEventFlow y) = some y := by
+      exact roundTrip y
+    exact Option.some.inj (Eq.trans leftRead.symm (Eq.trans hread rightRead))
+  exact ⟨decodeEncode, roundTrip, injective, rfl⟩
 
 def DyadicBallPacket [AskSetup] [PackageSetup]
     (center radius schedule observation containment route provenance endpoint : BHist)
