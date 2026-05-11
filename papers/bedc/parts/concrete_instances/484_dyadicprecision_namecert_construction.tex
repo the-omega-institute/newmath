@@ -129,3 +129,21 @@ is present.
   \notclaimed{This chapter does not close $\RegSeqRatUp$ regularity, $\RealUp$ completeness, quotient real equality, trichotomy, hidden stream tails, or a standard bridge.}
   \upgradepath{Promotion beyond seed closure requires future TasteGate-backed formal targets for the carrier, classifier laws, transport, ledger exactness, RegSeqRat handoff, and RealUp boundary.}
 \end{closurestatus}
+
+\begin{theorem}[Dyadic precision empty schedule exactness]
+\label{thm:dyadic-precision-empty-schedule-exactness}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be a $\DyadicPrecisionUp$ schedule carrier in the sense of \autoref{def:dyadic-precision-schedule-carrier}. Suppose $S$ is obtained from the empty unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. Then $n$ is the empty unary precision row, $\rho$ is the base $\DyadicRatCoreUp$ dyadic radius row selected by that empty row, and $W$ is the empty $\StreamNameUp$ observation-window row.
+
+Consequently, every consumer-visible precision, radius, or observation-window read from $S$ is exhausted by those three displayed rows, together with the provenance ledger $L$ and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already carried by $S$.
+\end{theorem}
+\begin{proof}
+Project the schedule carrier through \autoref{def:dyadic-precision-schedule-carrier}. The visible coordinates of $S$ include exactly one unary precision index row $n$, one selected $\DyadicRatCoreUp$ radius row $\rho$, one finite $\StreamNameUp$ observation-window row $W$, the componentwise $\hsame$ witnesses $H$, the displayed $\Cont$ routes $C$, the provenance package $P$, the local naming row $N$, and the ledger $L$.
+
+Now restrict to the empty unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. In that branch there is no successor precision request. The carrier therefore has no later unary row from which to select a refined tolerance and no requested stream position from which to open a nonempty observation window. The selected radius coordinate is exactly the base dyadic radius row supplied by $\DyadicRatCoreUp$ for the empty precision row, and the selected window coordinate is exactly the empty $\StreamNameUp$ observation window.
+
+It remains only to check consumer coverage. By the ledger clause of \autoref{def:dyadic-precision-schedule-carrier}, every consumer-visible precision, radius, and window read is one of the displayed schedule rows recorded by $L$. In the empty branch those displayed rows are precisely the empty unary row $n$, the base dyadic radius row $\rho$, and the empty observation window $W$, with the already-carried $H$, $C$, $P$, and $N$ rows providing transport and provenance. Since the carrier has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external stream tail, there is no further coordinate from which an additional consumer read could be obtained.
+\end{proof}
