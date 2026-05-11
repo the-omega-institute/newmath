@@ -9,6 +9,7 @@ The Stone-duality interface $\StoneDualityUp$ packages the contravariant equival
 \begin{theorem}[StoneDualityUp Boolean-algebra source]\label{thm:stoneduality-boolean-algebra-source}
 A $\StoneDualityUp$ source row is a finite $\mathsf{BHist}$ packet whose Boolean-algebra side consists only of $\LatticeUp$ observations: zero and one rows, meet and join rows, complement rows, and the distributive ledgers that classify those rows by $\hsame$. If two such packets are $\hsame$-equivalent as $\LatticeUp$ packets, then their induced $\Pkg$ rows for $\StoneDualityUp$ have the same Boolean source classifier. No point of a Stone space, ultrafilter, or external compact Hausdorff carrier is part of the source data.
 \end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityBooleanSource\_transport}
 
 \begin{proof}
 Read the carrier from the finite $\mathsf{BHist}$ ledger. The zero, one, meet, join, complement, and distributive rows are already $\LatticeUp$-typed observations, so the $\StoneDualityUp$ source packet is obtained by repacking those rows into a single $\Pkg$ coordinate.
@@ -36,6 +37,7 @@ No representation by points is used. The topology packet is the clopen ledger it
 \begin{theorem}[StoneDualityUp clopen ledger]\label{thm:stoneduality-clopen-ledger}
 An accepted $\StoneDualityUp$ certificate carries a $\Cont$ ledger from Boolean source rows to clopen topology rows. For each finite Boolean observation row $r$ in the source $\Pkg$, the ledger records the clopen row $C_r$, its $\TopologyUp$ classifier, and the $\hsame$ transport showing that Boolean equality of rows implies topological equality of the corresponding clopen rows. The ledger is exhausted by the rows generated in Theorem~\ref{thm:stoneduality-stone-space-classifier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityClopenLedger\_transport\_closure}
 
 \begin{proof}
 Build the $\Cont$ ledger in parallel with the clopen classifier packet. Each source row contributes exactly one ledger entry, and each operation row contributes the corresponding continuity-preserving clopen operation entry.
@@ -69,12 +71,14 @@ Operation preservation gives continuity on the clopen basis represented in the l
 Finally, $\hsame$ stability follows from the morphism classifier and the clopen ledger transport. The readback is therefore a finite $\Cont$ row in the $\StoneDualityUp$ certificate, not an appeal to a completed dual space.
 \end{proof}
 
+\closureat{StoneDualityUp}{obligationStr}
+
 \begin{closurestatus}{\StoneDualityUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope binds the $\LatticeUp$ Boolean rows, $\TopologyUp$ clopen rows, finite $\mathsf{BHist}$ packets, $\hsame$ transport, $\Cont$ ledgers, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows used by the ultrafilter-free Stone-duality certificate surface.}
   \constructivestory{The construction starts from finite Boolean-operation rows, traverses them into clopen topology rows, records the contravariant readback as $\Cont$ ledger entries, and transports every comparison through the displayed $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ultrafilter existence, completed compact Hausdorff spaces, choice-based point construction, or standard bridge closure.}
-  \upgradepath{Obligation closure requires carrier, classifier, clopen-ledger, soundness, and contravariant continuous-map readback rows for the finite certificate.}
+  \upgradepath{Scoped closure requires binding the Boolean, clopen, ultrafilter-free soundness, and contravariant continuous-map rows to the $\LatticeUp$, $\TopologyUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
 \end{closurestatus}

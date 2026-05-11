@@ -37,6 +37,7 @@ The matrix rows supply the covariance and gain ledgers, the vector rows supply t
 \label{thm:kalmanfilter-observation-innovation-ledger}
 For an accepted $\KalmanFilterUp$ packet, the observation residual and innovation covariance are read from the displayed observation row of $\ControlObservabilityUp$, the predicted estimate row of $\VecSpaceUp$, and the covariance and observation-matrix rows of $\MatrixUp$. The innovation ledger is exact: no unrecorded measurement stream, hidden residual object, or host probabilistic equality contributes to the consumer-visible innovation row.
 \end{theorem}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_observation\_innovation\_ledger}
 \begin{proof}
 Read the observation row first. By \autoref{def:kalmanfilter-bhist-carrier}, it is a finite $\ControlObservabilityUp$ row paired with vector, matrix, and linear-map rows.
 
@@ -54,11 +55,13 @@ Split the update face into observation, innovation, gain, posterior-estimate, an
 
 Estimate transport stability is supplied by \autoref{thm:kalmanfilter-estimate-transport-stability}. Thus any representative change remains inside the same finite ledger, and the excluded stochastic and probability-space objects cannot be recovered from the certificate surface.
 \end{proof}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_prediction\_update\_endpoint\_transport}
 
 \begin{theorem}[KalmanFilterUp estimate transport stability]
 \label{thm:kalmanfilter-estimate-transport-stability}
 If two accepted $\KalmanFilterUp$ packets have $\hsame$-matched state-estimate, covariance, transition, observation, linear-map, $\Cont$, and $\mathsf{Pkg}$ rows, then prediction, innovation, gain, posterior-estimate, and posterior-covariance reads transport to accepted $\KalmanFilterUp$ rows. The classifier is therefore stable under componentwise $\hsame$ transport of the displayed carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_estimate\_transport\_stability}
 \begin{proof}
 Transport each dependency row componentwise along the displayed $\hsame$ witnesses. The transition and observation rows remain accepted by their consumed certificates, while the vector, matrix, and linear-map rows remain inside their carrier surfaces.
 
