@@ -282,10 +282,36 @@ theorem KnotDiagramPacket_ambient_isotopy_ledger_exactness [AskSetup] [PackageSe
         (And.intro packet.right.right.right.right.right.right.left
           (And.intro sourceRows.left
             (And.intro sourceRows.right.left
-              (And.intro sourceRows.right.right.left
-                (And.intro sourceRows.right.right.right.left
-                  (And.intro sourceRows.right.right.right.right.left
-                    (And.intro sourceRows.right.right.right.right.right.left
-                      sourceRows.right.right.right.right.right.right)))))))))
+                (And.intro sourceRows.right.right.left
+                  (And.intro sourceRows.right.right.right.left
+                    (And.intro sourceRows.right.right.right.right.left
+                      (And.intro sourceRows.right.right.right.right.right.left
+                        sourceRows.right.right.right.right.right.right)))))))))
+
+theorem KnotReidemeisterLedgerClassifier_reversal_symmetry [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint
+      reverseLedger reverseEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      Cont endpoint1 endpoint0 reverseLedger ->
+        Cont provenance reverseLedger reverseEndpoint ->
+          PkgSig bundle reverseEndpoint pkg ->
+            UnaryHistory reverseLedger ∧ UnaryHistory reverseEndpoint ∧
+              hsame reverseLedger (append endpoint1 endpoint0) ∧
+                hsame reverseEndpoint (append provenance reverseLedger) ∧
+                  PkgSig bundle reverseEndpoint pkg := by
+  intro packet reverseLedgerRow reverseEndpointRow reversePkg
+  have sourceRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  have reverseLedgerUnary : UnaryHistory reverseLedger :=
+    unary_cont_closed packet.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.left reverseLedgerRow
+  have reverseEndpointUnary : UnaryHistory reverseEndpoint :=
+    unary_cont_closed sourceRows.left reverseLedgerUnary reverseEndpointRow
+  exact And.intro reverseLedgerUnary
+    (And.intro reverseEndpointUnary
+      (And.intro reverseLedgerRow
+        (And.intro reverseEndpointRow reversePkg)))
 
 end BEDC.Derived.KnotUp
