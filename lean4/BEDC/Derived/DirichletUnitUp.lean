@@ -226,4 +226,30 @@ theorem DirichletUnitHistoryCarrier_regulator_unit_row_source_exhaustion
                   (And.intro carrier.right.right.right.right.left
                     readback.right.right.right.right.right))))))))
 
+theorem DirichletUnitHistoryCarrier_regulator_rank_ledger_source
+    {source unit inverse law unitLedger lawLedger provenance rankWitness rankLedger
+      regulatorSurface : BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      UnaryHistory rankWitness ->
+        Cont provenance rankWitness rankLedger ->
+          Cont rankLedger provenance regulatorSurface ->
+            UnaryHistory rankWitness ∧ UnaryHistory rankLedger ∧
+              UnaryHistory regulatorSurface ∧ hsame rankLedger (append provenance rankWitness) ∧
+                hsame regulatorSurface (append rankLedger provenance) ∧
+                  Cont unitLedger lawLedger provenance := by
+  intro carrier rankWitnessUnary rankLedgerRow regulatorSurfaceRow
+  have rankLedgerSource :=
+    DirichletUnitHistoryCarrier_free_rank_witness_ledger
+      (source := source) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (provenance := provenance)
+      (rankWitness := rankWitness) (rankLedger := rankLedger)
+      carrier rankWitnessUnary rankLedgerRow
+  have regulatorSurfaceUnary : UnaryHistory regulatorSurface :=
+    unary_cont_closed rankLedgerSource.right.left rankLedgerSource.left regulatorSurfaceRow
+  exact And.intro rankWitnessUnary
+    (And.intro rankLedgerSource.right.left
+      (And.intro regulatorSurfaceUnary
+        (And.intro rankLedgerSource.right.right.left
+          (And.intro regulatorSurfaceRow rankLedgerSource.right.right.right))))
+
 end BEDC.Derived.DirichletUnitUp
