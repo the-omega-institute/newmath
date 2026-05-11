@@ -162,4 +162,15 @@ theorem QuadratureExactUpTo_degree_equivalence_stability {qExact : BHist -> Prop
     exact QuadratureExactUpTo_weakening de exactE
   exact And.intro (Iff.intro forward backward) (And.intro ed.right.left ed.left)
 
+theorem QuadratureFiniteAdditiveFold_append_decomposition (xs ys : List BHist) :
+    hsame (List.foldr append BHist.Empty (xs ++ ys))
+      (append (List.foldr append BHist.Empty xs) (List.foldr append BHist.Empty ys)) := by
+  induction xs with
+  | nil =>
+      exact (append_empty_left (List.foldr append BHist.Empty ys)).symm
+  | cons x xs ih =>
+      exact (congrArg (append x) ih).trans
+        (append_assoc x (List.foldr append BHist.Empty xs)
+          (List.foldr append BHist.Empty ys)).symm
+
 end BEDC.Derived.QuadratureUp
