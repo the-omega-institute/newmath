@@ -1,0 +1,170 @@
+\chapter{A Concrete Naming Certificate for $\RegularityModulusUp$}
+\label{ch:concrete-instances-regularitymodulus-namecert}
+
+The $\RegularityModulusUp$ interface names the finite rate witness used by
+regular dyadic and rational Cauchy data before the $\RegSeqRatUp$ and
+$\RealUp$ carriers consume it. In the Bishop-style constructive reading of
+regular Cauchy moduli, a precision request is not answered by an invisible
+choice of a tail. It is answered by a displayed rate row together with the
+finite observations and transport rows that certify the requested dyadic
+window.
+
+\begin{definition}[RegularityModulus dyadic-window carrier]
+\label{def:regularitymodulus-dyadic-window-carrier}
+A $\RegularityModulusUp$ carrier packet is a finite $\mathsf{BHist}$ packet
+$$
+R=(k,m,w,h,c,p,n)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $k$ is a unary precision row naming the requested dyadic scale;
+\item $m$ is a unary modulus row naming the threshold or window size supplied
+  for that precision;
+\item $w$ is a dyadic window witness over $\DyadicRatCoreUp$ observations,
+  including the displayed endpoint, radius, and comparison rows read by the
+  regularity test;
+\item $h$ records the componentwise $\hsame$ transport rows for the precision,
+  modulus, dyadic-window, and consumer-facing coordinates;
+\item $c$ records the displayed $\Cont$ routes by which a precision request,
+  a modulus row, and a dyadic observation window are read in the same finite
+  packet;
+\item $p$ records the $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$,
+  $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$;
+\item $n$ is the local $\NameCert$ row exposing the accepted carrier and its
+  classifier surface.
+\end{enumerate}
+The carrier accepts only packets in which these seven rows are displayed in
+one finite history and the consumer reads follow the recorded $\Cont$ routes.
+It contains no quotient of streams, no selected real endpoint, and no
+unrecorded tail choice.
+\end{definition}
+
+\begin{theorem}[RegularityModulus NameCert seed obligation surface]
+\label{thm:regularitymodulus-namecert-seed-obligation-surface}
+The local $\NameCert_{\RegularityModulusUp}$ seed obligation surface consists
+of five finite rows:
+\begin{enumerate}
+\item carrier habitation: the zero precision request is carried by the zero
+  dyadic window, with unary rows $k$ and $m$ and a displayed
+  $\DyadicRatCoreUp$ zero endpoint ledger;
+\item classifier laws: two packets classify together by componentwise
+  $\hsame$ on $k$, $m$, $w$, $h$, $c$, $p$, and $n$;
+\item monotone precision transport: increasing the requested precision
+  transports the modulus row and refines the dyadic window through the
+  displayed $\Cont$ routes;
+\item ledger exactness: every visible dyadic window read by a consumer is
+  exactly the finite $\DyadicRatCoreUp$ ledger named by $w$ and routed by $c$;
+\item downstream consumption: $\RegSeqRatUp$ and $\RealUp$ read the regularity
+  rate through the same finite packet, without quotienting streams or choosing
+  a tail outside the carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:regularitymodulus-dyadic-window-carrier}.
+For the zero precision request, take the displayed unary zero rows and the
+zero dyadic endpoint ledger supplied by $\DyadicRatCoreUp$; these rows inhabit
+the packet without using a nonconstructive selector.
+
+Classifier laws are componentwise. Transport each row of the seven-coordinate
+packet by the corresponding $\hsame$ witness and then replay the same
+$\Cont$ routes. The accepted carrier shape is unchanged because every row
+read by the classifier is already visible.
+
+For monotone precision, a refined request replaces $k$ by a transported unary
+row and uses the modulus row $m$ to expose the refined window. Ledger exactness
+then says that the only dyadic observations available to consumers are the
+endpoint, radius, and comparison rows in $w$.
+
+Finally, the provenance row $p$ names exactly the downstream consumers:
+$\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$ over the
+$\StreamNameUp/\DyadicRatCoreUp$ observation surface. Those consumers can
+therefore read only the finite window and rate rows carried by $R$.
+\end{proof}
+
+\begin{theorem}[RegularityModulus window monotonicity]
+\label{thm:regularitymodulus-window-monotonicity}
+Let $R=(k,m,w,h,c,p,n)$ be an accepted $\RegularityModulusUp$ carrier packet.
+If a precision row $k'$ refines $k$ through the displayed unary comparison
+and the carrier records the corresponding transport in $h$ and $c$, then the
+dyadic window read at $k'$ is a refinement of $w$ using the same modulus
+provenance $m$ and the same $\DyadicRatCoreUp$ endpoint family.
+
+The refined read remains a finite $\mathsf{BHist}$ packet with transported
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, and it introduces no
+additional stream quotient or hidden modulus selector.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The precision row, the
+modulus row, the dyadic window, and the transport ledger are all coordinates
+of the same finite history.
+
+Follow the displayed comparison from $k$ to $k'$. The row $h$ transports the
+precision and observation coordinates, while $c$ gives the continuation route
+from the refined precision request to the refined dyadic window.
+
+Repack the transported endpoint, radius, and comparison rows with the same
+$m$, $p$, and $n$ rows. The construction has no coordinate from which a
+quotient stream or hidden selector could be read.
+\end{proof}
+
+\begin{theorem}[RegularityModulus RegSeqRat consumption boundary]
+\label{thm:regularitymodulus-regseqrat-consumption-boundary}
+Every $\RegSeqRatUp$ consumer of an accepted $\RegularityModulusUp$ packet can
+read only the unary precision row $k$, the modulus row $m$, the dyadic window
+$w$, the transported $\hsame$ rows $h$, the displayed $\Cont$ routes $c$, the
+provenance row $p$, and the local name row $n$. The regular rational sequence
+carrier receives these rows as a finite regularity-rate witness over
+$\StreamNameUp$ and $\DyadicRatCoreUp$ observations.
+\end{theorem}
+\begin{proof}
+Read the consumer boundary from the provenance coordinate $p$ of
+\autoref{def:regularitymodulus-dyadic-window-carrier}. Its
+$\RegSeqRatUp$ entry names the stream schedule and dyadic observation surface
+that the regular rational sequence carrier is allowed to consume.
+
+The dyadic comparison itself is stored in $w$, and its transport through
+refined precision requests is stored in $h$ and $c$. Hence a
+$\RegSeqRatUp$ read can recover the rate row and the observation ledger only
+by projecting those displayed coordinates.
+
+Since the carrier has no quotient stream coordinate and no host real endpoint,
+the handoff is exactly the finite rate witness over the
+$\StreamNameUp/\DyadicRatCoreUp$ rows already present in the packet.
+\end{proof}
+
+\begin{theorem}[RegularityModulus RealUp seal handoff]
+\label{thm:regularitymodulus-realup-seal-handoff}
+When a $\RealUp$ seal is built from a $\RegSeqRatUp$ source carrying an
+accepted $\RegularityModulusUp$ packet, the real-name boundary consumes only
+the finite regularity-rate rows of that packet. The seal handoff preserves the
+displayed dyadic window, the modulus row, the $\hsame$ transport, the
+$\Cont$ routes, and the $\mathsf{Pkg}$ provenance, and it does not add a
+quotient representative, a selected limit, or a choice-based Cauchy tail.
+\end{theorem}
+\begin{proof}
+Start with the $\RegSeqRatUp$ consumption boundary of
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary}. It exposes the
+regular rational source as a finite schedule of dyadic observations together
+with the rate row and its transport ledger.
+
+The $\RealUp$ seal reads this source through the same finite schedule. Its
+only regularity information is the dyadic window and modulus data already
+present in the $\RegularityModulusUp$ packet.
+
+Transport the seal boundary along the displayed $\hsame$ rows and follow the
+recorded $\Cont$ routes. Repacking these rows preserves the finite handoff
+surface and leaves no coordinate for a quotient representative, selected
+limit, or choice-based tail.
+\end{proof}
+
+\begin{closurestatus}{\RegularityModulusUp}
+  \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regularitymodulus-dyadic-window-carrier}, \autoref{thm:regularitymodulus-namecert-seed-obligation-surface}, \autoref{thm:regularitymodulus-window-monotonicity}, \autoref{thm:regularitymodulus-regseqrat-consumption-boundary}, and \autoref{thm:regularitymodulus-realup-seal-handoff} seed the dyadic regularity-rate carrier, NameCert obligation surface, monotone precision transport, RegSeqRat consumption boundary, and RealUp seal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a checked Lean carrier, real completeness, uniqueness of real representatives, analytic moduli, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier habitation, classifier transport, monotone precision refinement, dyadic-window ledger exactness, and downstream RegSeqRat and RealUp handoff targets.}
+\end{closurestatus}
