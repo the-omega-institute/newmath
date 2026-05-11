@@ -6,15 +6,20 @@ Used by parallel oracle_client workers to serialize:
 - papers/bedc make (Stage 2 paper compile)
 - target picking (avoid two workers grabbing the same B-XX)
 
-stdlib-only (fcntl). Not portable to Windows; bedc-deep is macOS/Linux only.
+stdlib-only. Uses `fcntl` on POSIX and `msvcrt` on Windows.
 """
 
 from __future__ import annotations
 
-import fcntl
 import os
+import sys
 from contextlib import contextmanager
 from pathlib import Path
+
+if sys.platform == "win32":
+    import msvcrt
+else:
+    import fcntl
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LOCKS_DIR = SCRIPT_DIR / "state" / "locks"
@@ -27,10 +32,17 @@ def file_lock(name: str):
     lock_path = LOCKS_DIR / f"{name}.lock"
     fd = os.open(str(lock_path), os.O_CREAT | os.O_RDWR, 0o644)
     try:
-        fcntl.flock(fd, fcntl.LOCK_EX)
+        if sys.platform == "win32":
+            msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_EX)
         yield
     finally:
         try:
-            fcntl.flock(fd, fcntl.LOCK_UN)
+            if sys.platform == "win32":
+                os.lseek(fd, 0, os.SEEK_SET)
+                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(fd, fcntl.LOCK_UN)
         finally:
             os.close(fd)
