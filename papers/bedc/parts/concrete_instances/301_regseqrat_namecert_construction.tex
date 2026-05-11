@@ -505,6 +505,48 @@ a quotient stream, host real equality, metric-completion object, completion
 point, or extra seal datum.
 \end{proof}
 
+\begin{theorem}[RegSeqRat StreamName cover-refinement seal handoff]
+\label{thm:regseqrat-streamname-cover-refinement-seal-handoff}
+Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
+over one observation map, and let $P$ be an accepted $\RegSeqRatUp$ packet
+whose scheduled reads consume every member of $\mathcal W$. If a finite-window
+$\RealUp$ seal handoff is read from the same packet, then that seal-facing
+read factors through exactly the public $\StreamNameUp$ finite-window
+interface together with the displayed $\mathsf{InBundle}$ rows, pointwise
+$\RatUp$ classifier rows, the $\DyadicRatCoreUp$ denominator ledger, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance exposed by $P$.
+
+Thus the cover-refinement handoff supplies no quotient stream, host real
+equality, hidden limit selector, metric-completeness datum, or $\RealUp$
+completeness row beyond the finite public window interface and its displayed
+regular-rational ledgers.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-cover-refinement-exhaustion}. The finite
+cover family over the common observation map is exhausted by public
+$\StreamNameUp$ finite-window rows, so every covered read is already visible
+through the public window interface and its $\mathsf{InBundle}$ membership
+rows.
+
+Next use \autoref{thm:regseqrat-streamname-dyadic-seal-refinement-lock}. For
+each covered window consumed by $P$, the public schedule rows lock to the
+same pointwise $\RatUp$ classifier rows and to the
+$\DyadicRatCoreUp$ denominator ledger carried by the accepted regular-rational
+packet.
+
+Now apply \autoref{thm:regseqrat-tail-seal-diagonal-window-coherence}. The
+finite cover refinements and the shifted diagonal reads present one coherent
+finite $\mathsf{BHist}$ surface, with the same $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows wherever the cover windows overlap.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal
+consumes only that finite regular-rational source surface, so the handoff
+factors through the public $\StreamNameUp$ finite-window interface and cannot
+read a quotient stream, host real equality, hidden limit selector, metric
+completion, or $\RealUp$ completeness coordinate.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
