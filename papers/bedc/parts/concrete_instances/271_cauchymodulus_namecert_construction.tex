@@ -96,6 +96,38 @@ constructor for rate data, every convergence-rate read factors through the
 finite window just described.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus finite-window composition handoff]
+\label{thm:cauchymodulus-window-composition-handoff}
+Suppose two accepted $\CauchyModulusUp$ precision windows are composable
+through the displayed $\Cont$ routes of their carrier packets. Then their
+composition exposes a single finite handoff packet whose rows are exactly the
+$\NatUp$ precision and threshold rows, the $\RatUp$ tolerance rows, the
+$\StreamNameUp$ scheduled observation rows, the $\RegSeqRat$ late-pair evidence
+rows, the $\RealUp$ classifier transport rows, the displayed $\hsame$
+comparisons, and the $\mathsf{Pkg}$ provenance rows already present in the two
+windows. The handoff packet introduces no selected limit, quotient stream, or
+hidden threshold selector outside those rows.
+\end{theorem}
+\begin{proof}
+Project the two accepted windows by
+\autoref{thm:cauchymodulus-cont-window-closure}. Each projection is finite and
+contains its displayed precision request, threshold row, tolerance row,
+scheduled observations, and consumption ledger.
+
+Compose the two $\Cont$ ledgers along their shared carrier rows. The resulting
+ledger has only the rows named by the projections: the natural-number
+precision and threshold rows, rational tolerance rows, scheduled observation
+rows, regular-sequence late-pair evidence, real-classifier transport rows,
+$\hsame$ comparisons, and $\mathsf{Pkg}$ provenance.
+
+Finally apply \autoref{thm:cauchymodulus-hsame-stability} to transport the
+shared classifier comparisons across the composed packet. Since
+\autoref{thm:cauchymodulus-cont-window-closure} already exhausts every
+consumer-visible rate read, the composed packet has no constructor for a
+selected limit, quotient stream, or threshold selector beyond the displayed
+finite ledger.
+\end{proof}
+
 \begin{theorem}[Monotone tail obligation]
 \label{thm:cauchymodulus-monotone-tail-obligation}
 Let $M$ be an accepted $\CauchyModulusUp$ carrier packet. If a tolerance row is
