@@ -1,6 +1,7 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.Beta
+import BEDC.MetaCIC.Confluence
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.SubjectReduction
