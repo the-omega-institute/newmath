@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -106,5 +107,30 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
       And.intro packet.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
+
+def ControlObservabilityZeroKernelTrace
+    (packet stateA stateB diff zero kernel rank trace ledger : BHist) : Prop :=
+  Cont stateA diff stateB ∧
+    hsame kernel zero ∧
+      hsame rank packet ∧ Cont diff kernel zero ∧ Cont stateA trace ledger ∧ Cont stateB trace ledger
+
+theorem ControlObservabilityKernelSeparation_state_rows_hsame
+    {packet stateA stateB diff zero kernel rank trace ledger : BHist} :
+    ControlObservabilityZeroKernelTrace packet stateA stateB diff zero kernel rank trace ledger ->
+      hsame diff zero -> hsame zero BHist.Empty -> Cont stateA trace ledger ->
+        Cont stateB trace ledger ->
+          hsame stateA stateB /\ Cont stateA trace ledger /\ Cont stateB trace ledger := by
+  intro surface sameDiffZero sameZeroEmpty stateATrace stateBTrace
+  have diffEmpty : hsame diff BHist.Empty := hsame_trans sameDiffZero sameZeroEmpty
+  have stateAStep : Cont stateA BHist.Empty stateB :=
+    cont_hsame_transport (hsame_refl stateA) diffEmpty (hsame_refl stateB) surface.left
+  have sameStatesFromKernel : hsame stateA stateB :=
+    hsame_symm (cont_right_unit_iff.mp stateAStep)
+  have sameStatesFromTrace : hsame stateA stateB :=
+    cont_right_cancel stateATrace stateBTrace
+  exact And.intro
+    (hsame_trans (hsame_trans sameStatesFromKernel (hsame_symm sameStatesFromTrace))
+      sameStatesFromTrace)
+    (And.intro stateATrace stateBTrace)
 
 end BEDC.Derived.ControlObservabilityUp
