@@ -213,6 +213,60 @@ theorem SimplicialSetBHistSimplexRowCarrier_face_endpoint_scope_binding
     }
   · exact endpointRow
 
+theorem SimplicialSetBHistSimplexRowCarrier_identity_ledger_scope_binding
+    [AskSetup] [PackageSetup]
+    {functor simplex face degeneracy package provenance ledger endpoint identityLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SimplicialSetBHistSimplexRowCarrier functor simplex face degeneracy package provenance
+        ledger bundle pkg ->
+      UnaryHistory ledger ->
+        UnaryHistory endpoint ->
+          Cont face degeneracy endpoint ->
+            Cont ledger endpoint identityLedger ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row identityLedger ∧ Cont functor simplex face ∧
+                      Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                        Cont package provenance ledger ∧
+                          Cont ledger endpoint identityLedger ∧ PkgSig bundle provenance pkg)
+                  (fun row : BHist =>
+                    hsame row identityLedger ∧ Cont functor simplex face ∧
+                      Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                        Cont package provenance ledger ∧
+                          Cont ledger endpoint identityLedger ∧ PkgSig bundle provenance pkg)
+                  (fun row : BHist =>
+                    hsame row identityLedger ∧ Cont functor simplex face ∧
+                      Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                        Cont package provenance ledger ∧
+                          Cont ledger endpoint identityLedger ∧ PkgSig bundle provenance pkg)
+                  hsame ∧ UnaryHistory identityLedger ∧
+                hsame identityLedger (append ledger endpoint) := by
+  intro carrier ledgerUnary endpointUnary endpointRow identityLedgerRow
+  have identityLedgerUnary : UnaryHistory identityLedger :=
+    unary_cont_closed ledgerUnary endpointUnary identityLedgerRow
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          exact Exists.intro identityLedger
+            (And.intro (hsame_refl identityLedger)
+              (And.intro carrier.left
+                (And.intro carrier.right.left
+                  (And.intro endpointRow
+                    (And.intro carrier.right.right.right
+                      (And.intro identityLedgerRow carrier.right.right.left))))))
+        equiv_refl := by intro row _rowCarrier; exact hsame_refl row
+        equiv_symm := by intro _left _right same; exact hsame_symm same
+        equiv_trans := by intro _left _middle _right sameLM sameMR; exact hsame_trans sameLM sameMR
+        carrier_respects_equiv := by
+          intro left right same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left) source.right
+      }
+      pattern_sound := by intro _row source; exact source
+      ledger_sound := by intro _row source; exact source
+    }
+  · exact And.intro identityLedgerUnary identityLedgerRow
+
 def SimplicialSetSimplexRowCarrier
     (functor finite endpoint package route : BHist) : Prop :=
   UnaryHistory functor ∧ UnaryHistory finite ∧ UnaryHistory package ∧
