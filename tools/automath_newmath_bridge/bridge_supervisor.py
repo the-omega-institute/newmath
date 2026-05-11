@@ -258,6 +258,33 @@ def _resolve_repo_path(raw: str, config_path: Path) -> Path:
     return candidates[-1].resolve()
 
 
+def ensure_worktree(target: Path, branch: str) -> dict[str, Any]:
+    if (target / ".git").exists():
+        return {"status": "exists", "target_worktree": str(target), "branch": current_branch(target)}
+    target.parent.mkdir(parents=True, exist_ok=True)
+    result = _git(REPO_ROOT, ["worktree", "add", str(target), branch], timeout=1200)
+    if result.returncode != 0:
+        return {
+            "status": "failed",
+            "target_worktree": str(target),
+            "branch": branch,
+            "reason": (result.stderr or result.stdout).strip()[:1000],
+        }
+    return {"status": "created", "target_worktree": str(target), "branch": branch}
+
+
+def _scoped_merge_paths(cfg: dict[str, Any]) -> list[str]:
+    configured = cfg.get("scoped_paths")
+    if not isinstance(configured, list):
+        configured = []
+    paths: list[str] = []
+    for item in configured:
+        path = str(item).strip().replace("\\", "/")
+        if path and not path.startswith(("/", "../")) and path not in paths:
+            paths.append(path)
+    return paths
+
+
 def fetch_repo(repo_key: str, repo_cfg: dict[str, Any], config_path: Path) -> dict[str, Any]:
     repo_path = _resolve_repo_path(str(repo_cfg.get("local_path", "")), config_path)
     with repo_fetch_lock(repo_path):
@@ -473,12 +500,12 @@ def merge_back_to_bedc(
     *,
     push: bool,
 ) -> dict[str, Any]:
-    """Merge the gated bridge branch back to the configured BEDC branch.
+    """Merge or propagate gated bridge outputs back to the configured BEDC branch.
 
-    This is conservative. It only runs after all bridge gates
-    pass, the target worktree is on the expected branch, and the target worktree
-    has no tracked or untracked changes. Runtime artifacts remain ignored. Push
-    is opt-in and only targets the configured BEDC branch.
+    The default production mode is scoped path propagation: only durable BOARD
+    and bridge evidence paths are copied from the bridge ref into a dedicated
+    BEDC worktree. This keeps the loop closed without merging unrelated Lean or
+    paper conflicts from the bridge branch.
     """
     cfg = config.get("merge_back_after_gates")
     if not isinstance(cfg, dict) or not cfg.get("enabled", False):
@@ -492,6 +519,11 @@ def merge_back_to_bedc(
     target = _resolve_repo_path(target_raw, config_path)
     target_branch = str(cfg.get("target_branch") or "bedc-claim-packet-pipeline")
     source_ref = str(cfg.get("source_ref") or current_branch(REPO_ROOT))
+    mode = str(cfg.get("mode") or "scoped_paths")
+
+    worktree_result = ensure_worktree(target, target_branch)
+    if worktree_result.get("status") == "failed":
+        return {"status": "worktree_failed", **worktree_result}
 
     actual_branch = current_branch(target)
     if actual_branch != target_branch:
@@ -512,16 +544,83 @@ def merge_back_to_bedc(
 
     before = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
     source_commit = _git_stdout(REPO_ROOT, ["rev-parse", source_ref], timeout=30)
-    result = _git(target, ["merge", "--no-edit", source_commit], timeout=1200)
-    if result.returncode != 0:
-        _git_quiet(target, ["merge", "--abort"], timeout=120)
+    fetch = _git(target, ["fetch", "origin", target_branch], timeout=180)
+    if fetch.returncode != 0:
         return {
-            "status": "merge_failed",
+            "status": "fetch_target_failed",
             "target_worktree": str(target),
-            "source_ref": source_ref,
-            "source_commit": source_commit,
-            "reason": (result.stderr or result.stdout).strip()[:1000],
+            "target_branch": target_branch,
+            "reason": (fetch.stderr or fetch.stdout).strip()[:1000],
         }
+    pull = _git(target, ["merge", "--ff-only", f"origin/{target_branch}"], timeout=300)
+    if pull.returncode != 0:
+        return {
+            "status": "target_not_ff",
+            "target_worktree": str(target),
+            "target_branch": target_branch,
+            "reason": (pull.stderr or pull.stdout).strip()[:1000],
+        }
+
+    paths: list[str]
+    if mode == "scoped_paths":
+        paths = _scoped_merge_paths(cfg)
+        if not paths:
+            return {"status": "skipped_no_scoped_paths", "target_worktree": str(target)}
+        checkout = _git(target, ["checkout", source_commit, "--", *paths], timeout=300)
+        if checkout.returncode != 0:
+            return {
+                "status": "scoped_checkout_failed",
+                "target_worktree": str(target),
+                "source_ref": source_ref,
+                "source_commit": source_commit,
+                "paths": paths,
+                "reason": (checkout.stderr or checkout.stdout).strip()[:1000],
+            }
+        add = _git(target, ["add", *paths], timeout=120)
+        if add.returncode != 0:
+            return {
+                "status": "scoped_add_failed",
+                "target_worktree": str(target),
+                "paths": paths,
+                "reason": (add.stderr or add.stdout).strip()[:1000],
+            }
+        diff = _git(target, ["diff", "--cached", "--quiet"], timeout=120)
+        if diff.returncode == 0:
+            after = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
+            return {
+                "status": "up_to_date",
+                "target_worktree": str(target),
+                "target_branch": target_branch,
+                "source_ref": source_ref,
+                "source_commit": source_commit,
+                "paths": paths,
+                "before": before,
+                "after": after,
+                "pushed": False,
+                "remote_after": "",
+                "remote_contains_after": False,
+            }
+        commit = _git(target, ["commit", "-m", f"bridge(bedc): consume Automath continuation targets {_now_iso()}"], timeout=180)
+        if commit.returncode != 0:
+            return {
+                "status": "scoped_commit_failed",
+                "target_worktree": str(target),
+                "paths": paths,
+                "reason": (commit.stderr or commit.stdout).strip()[:1000],
+            }
+    else:
+        result = _git(target, ["merge", "--no-edit", source_commit], timeout=1200)
+        if result.returncode != 0:
+            _git_quiet(target, ["merge", "--abort"], timeout=120)
+            return {
+                "status": "merge_failed",
+                "target_worktree": str(target),
+                "source_ref": source_ref,
+                "source_commit": source_commit,
+                "reason": (result.stderr or result.stdout).strip()[:1000],
+            }
+        paths = []
+
     after = _git_stdout(target, ["rev-parse", "HEAD"], timeout=30)
     pushed: str | bool = False
     remote_after = ""
@@ -537,6 +636,8 @@ def merge_back_to_bedc(
         "target_branch": target_branch,
         "source_ref": source_ref,
         "source_commit": source_commit,
+        "mode": mode,
+        "paths": paths,
         "before": before,
         "after": after,
         "pushed": pushed,
