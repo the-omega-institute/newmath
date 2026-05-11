@@ -737,6 +737,7 @@ import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
 import BEDC.Derived.ConvergenceRadiusUp.NameCertificate
+import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.DistributionUp
