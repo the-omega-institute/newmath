@@ -182,6 +182,22 @@ The overlap classifier is stable by \autoref{thm:regseqrat-classifier-transport}
 Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the joint schedule, transported overlap rows, and retained non-overlap rows as one finite $\RegSeqRatUp$ carrier and classifier surface. Restricting the repacked window back along either source schedule discards only the other side's rows, so it recovers the original classifier witness for that input window. Since every row used in the construction came from the two projected finite packets and their displayed refinement routes, no quotient sequence, host real equality, completion object, or $\RealUp$ seal row is created.
 \end{proof}
 
+\begin{theorem}[RegSeqRat shifted-tail regularity closure]
+\label{thm:regseqrat-shifted-tail-regularity-closure}
+Let $P$ be an accepted $\RegSeqRatUp$ packet whose stream carrier, dyadic-tolerance classifier, regularity ledger, scheduled windows, and dyadic-radius rows are those of \autoref{def:regseqrat-stream-carrier} and \autoref{def:regseqrat-classifier}. For every certified unary tail index $k$, shifting the schedule of $P$ by $k$ and then reading any finite $\StreamNameUp$ window produces another accepted regular-rational packet over the same dyadic-tolerance classifier.
+
+The shifted packet exposes only the transported $\mathsf{BHist}$ rows, componentwise $\hsame$ comparisons, visible $\Cont$ routes, the retained $\mathsf{Pkg}$ row, and the local $\NameCert$ provenance. It exports no quotient sequence, host real equality, ambient metric-completion object, or $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regseqrat-scheduled-window-projection} on the shifted finite tail window. The projection exposes exactly the unary tail indices, dyadic endpoint rows, regularity ledgers, radius rows, classifier ledgers, and the visible provenance already carried by $P$.
+
+Read the transported radius and distance comparisons through \autoref{thm:regseqrat-dyadic-radius-ledger-readback}. Since the tail shift only selects later scheduled rows, each tolerance comparison is still a displayed $\DyadicRatCoreUp$ ledger row in the same source packet.
+
+Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the selected tail rows as a finite $\RegSeqRatUp$ window over the original dyadic-tolerance classifier. When two shifted finite windows overlap, use \autoref{thm:regseqrat-refined-window-gluing} to identify the common tail rows and retain the same classifier witness on the common refinement.
+
+All consumed coordinates are therefore finite BEDC rows of the original accepted packet. The tail construction has no coordinate from which to read quotient sequences, host real equality, metric completion, or a $\RealUp$ completeness row.
+\end{proof}
+
 \begin{theorem}[RegSeqRat RealUp seal handoff]
 \label{thm:regseqrat-real-seal-handoff}
 An accepted $\RegSeqRatUp$ packet is exactly the finite source surface consumed by the existing $\RealUp$ seal rows. The handoff surface consists of the scheduled stream carrier, the dyadic-tolerance classifier, the regularity ledger, the dyadic-radius observation rows, the finite-window transport rows, and their $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
@@ -228,15 +244,16 @@ Composing these rows gives the finite boundary read by the regular rational stre
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
-\closureat{RegSeqRatUp}{bridgedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
+\closureat{RegSeqRatUp}{bridgedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
+\closureat{RegSeqRatUp}{matureStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
 
 \begin{closurestatus}{\RegSeqRatUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The obligation boundary consists of the stream carrier, dyadic classifier, regularity rows, finite-window transport rows, and $\RealUp$ seal-handoff rows over $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
   \constructivestory{Construct the packet by finite scheduled reads: $\StreamNameUp$ supplies the visible windows, $\DyadicRatCoreUp$ supplies endpoint and radius ledgers, and the regularity and classifier rows are projections of those finite observations.}
   \formalstatus{\auditCleanV}
-  \leantarget{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface}
+  \leantarget{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient carriers, metric completeness, or standard bridge data.}
-  \upgradepath{Mature closure requires consumer examples or completeness-style cross-chapter consumption beyond the displayed bridge boundary.}
+  \upgradepath{No further paper theory-axis step is claimed for this chapter; bridge verification remains a separate status.}
 \end{closurestatus}
