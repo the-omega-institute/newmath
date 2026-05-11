@@ -2,7 +2,7 @@ import BEDC.FKernel.Mark
 
 namespace BEDC.MetaCIC
 
-/-- de Bruijn indices. BHist-based encoding 是理想形态；V1 先用 Lean 内置 Nat。 -/
+/-- de Bruijn indices。BHist-based encoding 是理想形态；当前以 Lean 内置 Nat 编码。 -/
 abbrev Idx := Nat
 
 /-- 极简 MetaCIC term: 变量、应用、lambda、Pi、单一宇宙。 -/
@@ -35,5 +35,17 @@ def substitute (depth : Idx) (v : Term) : Term → Term
   | Term.lam d b => Term.lam (substitute depth v d) (substitute (depth + 1) (shift 0 1 v) b)
   | Term.pi d c => Term.pi (substitute depth v d) (substitute (depth + 1) (shift 0 1 v) c)
   | Term.sort => Term.sort
+
+/-- Typing context = 类型栈。 -/
+abbrev Ctx := List Term
+
+/-- 在 ctx 里 lookup 第 i 个变量的类型；穿过 binder 时同步提升类型。 -/
+def Ctx.lookup : Ctx → Idx → Option Term
+  | [], _ => none
+  | (t :: _), 0 => some t
+  | (_ :: rest), n + 1 =>
+      match Ctx.lookup rest n with
+      | some T => some (shift 0 1 T)
+      | none => none
 
 end BEDC.MetaCIC
