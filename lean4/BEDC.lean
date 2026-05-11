@@ -612,6 +612,7 @@ import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.ToposUp
+import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
