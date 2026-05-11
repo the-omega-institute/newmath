@@ -24,6 +24,48 @@ def ThreeManifoldFiniteCarrier [AskSetup] [PackageSetup]
       Cont manifold topology decomposition ∧ Cont decomposition classifier contRows ∧
         PkgSig probe provenance pkg
 
+private def ThreeManifoldFiniteCarrier_obligation_surface_cert [AskSetup] [PackageSetup]
+    {manifold topology decomposition classifier contRows provenance : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg}
+    (carrier :
+      ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
+        provenance probe pkg) :
+      SemanticNameCert
+        (fun row : BHist =>
+          ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
+            provenance probe pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
+            provenance probe pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
+            provenance probe pkg ∧ hsame row provenance)
+        hsame := {
+  core := {
+    carrier_inhabited := Exists.intro provenance
+      (And.intro carrier (hsame_refl provenance))
+    equiv_refl := by
+      intro row _source
+      exact hsame_refl row
+    equiv_symm := by
+      intro row row' sameRows
+      exact hsame_symm sameRows
+    equiv_trans := by
+      intro row row' row'' sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    carrier_respects_equiv := by
+      intro row row' sameRows sourceRow
+      exact And.intro sourceRow.left
+        (hsame_trans (hsame_symm sameRows) sourceRow.right)
+  }
+  pattern_sound := by
+    intro _row sourceRow
+    exact sourceRow
+  ledger_sound := by
+    intro _row sourceRow
+    exact sourceRow
+}
+
 theorem ThreeManifoldFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
     {manifold topology decomposition classifier contRows provenance : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -43,46 +85,7 @@ theorem ThreeManifoldFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
         Cont manifold topology decomposition ∧ Cont decomposition classifier contRows ∧
           PkgSig probe provenance pkg := by
   intro carrier
-  have sourceProvenance :
-      ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
-          provenance probe pkg ∧ hsame provenance provenance :=
-    And.intro carrier (hsame_refl provenance)
-  have cert :
-      SemanticNameCert
-          (fun row : BHist =>
-            ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
-              provenance probe pkg ∧ hsame row provenance)
-          (fun row : BHist =>
-            ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
-              provenance probe pkg ∧ hsame row provenance)
-          (fun row : BHist =>
-            ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows
-              provenance probe pkg ∧ hsame row provenance)
-          hsame := {
-    core := {
-      carrier_inhabited := Exists.intro provenance sourceProvenance
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro row row' sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro row row' row'' sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro row row' sameRows sourceRow
-        exact And.intro sourceRow.left
-          (hsame_trans (hsame_symm sameRows) sourceRow.right)
-    }
-    pattern_sound := by
-      intro _row sourceRow
-      exact sourceRow
-    ledger_sound := by
-      intro _row sourceRow
-      exact sourceRow
-  }
-  exact And.intro cert
+  exact And.intro (ThreeManifoldFiniteCarrier_obligation_surface_cert carrier)
     (And.intro carrier.right.right.right.right.right.right.left
       (And.intro carrier.right.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right))
