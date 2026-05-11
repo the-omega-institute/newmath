@@ -81,6 +81,7 @@ Apply the $\RegSeqRatUp$ forgetful handoff of \autoref{thm:fastcauchyseq-regseqr
 
 Finally restrict along the $\RealUp$ classifier transport boundary. That boundary consumes the displayed regular sequence data and provenance only. Since the carrier has no quotient-real coordinate, no completed metric coordinate, and no selected limit coordinate, none can be read by a $\RealUp$ consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.FastCauchySeqUp.FastCauchySeqPacket\_real\_seal\_consumer\_boundary}
 
 \begin{theorem}[FastCauchySeq tail-modulus Real boundary]
 \label{thm:fastcauchyseq-tail-modulus-real-boundary}
@@ -116,6 +117,49 @@ and naming rows already visible in the carrier.
 Because the carrier contains no quotient-real coordinate, no selected limit,
 and no completed metric object, the resulting Real-facing read cannot acquire
 any such row after the handoff.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq public explicit-rate export]
+\label{thm:fastcauchyseq-public-explicit-rate-export}
+The carrier and classifier of \autoref{def:fastcauchyseq-carrier} and
+\autoref{def:fastcauchyseq-classifier}, the $\NameCert_{\FastCauchySeqUp}$
+obligation surface of
+\autoref{thm:fastcauchyseq-namecert-obligation-surface}, the $\RegSeqRatUp$
+forgetful handoff of
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}, and the $\RealUp$
+seal boundary of \autoref{thm:fastcauchyseq-real-seal-consumer-boundary}
+jointly export the reusable public $\FastCauchySeqUp$ explicit-rate
+interface.
+
+The exported interface consists exactly of the scheduled finite stream,
+$\CauchyModulusUp$ threshold rows, dyadic endpoint and radius rows, late-pair
+ledger, componentwise $\hsame$ transports, visible $\Cont$ windows, $\Pkg$
+provenance, and $\NameCert$ row. It exposes those rows as the common surface
+for $\RegSeqRatUp$ and $\RealUp$ consumers without adding quotient real
+equality, a completed metric object, or a selected limit.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:fastcauchyseq-carrier}. This exposes
+the scheduled stream, explicit threshold table, dyadic endpoint and radius
+rows, late-pair ledger, transport table, continuation windows, package
+provenance, and local name-certificate row.
+
+Use the classifier of \autoref{def:fastcauchyseq-classifier} to make the same
+projected rows invariant under the displayed componentwise transports. The
+obligation surface of \autoref{thm:fastcauchyseq-namecert-obligation-surface}
+then repacks those projections as the finite $\NameCert_{\FastCauchySeqUp}$
+surface.
+
+The $\RegSeqRatUp$ side is exactly the forgetful handoff of
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}. It retains the
+stream, threshold, dyadic, comparison, transport, window, and provenance rows
+and forgets only the local certificate row as a local certificate.
+
+The $\RealUp$ side is exactly the consumer boundary of
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. Since that boundary
+can read only the same finite explicit-rate rows, the assembled public
+interface exports no coordinate for quotient equality, completed metrics, or
+limit selection.
 \end{proof}
 
 \closureat{FastCauchySeqUp}{obligationStr}
