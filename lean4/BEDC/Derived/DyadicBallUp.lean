@@ -88,4 +88,35 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+theorem DyadicBall_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment provenance endpoint regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory center ->
+      UnaryHistory radius ->
+        UnaryHistory schedule ->
+          UnaryHistory observation ->
+            UnaryHistory provenance ->
+              Cont observation radius containment ->
+                Cont containment provenance endpoint ->
+                  Cont endpoint radius regWindow ->
+                    PkgSig bundle regWindow pkg ->
+                      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+                        UnaryHistory observation ∧ UnaryHistory containment ∧
+                          UnaryHistory endpoint ∧ UnaryHistory regWindow ∧
+                            hsame containment (append observation radius) ∧
+                              hsame endpoint (append containment provenance) ∧
+                                hsame regWindow (append endpoint radius) ∧
+                                  PkgSig bundle regWindow pkg := by
+  intro centerUnary radiusUnary scheduleUnary observationUnary provenanceUnary
+  intro containmentRow endpointRow regWindowRow pkgRow
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed observationUnary radiusUnary containmentRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed containmentUnary provenanceUnary endpointRow
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed endpointUnary radiusUnary regWindowRow
+  exact
+    ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary,
+      endpointUnary, regWindowUnary, containmentRow, endpointRow, regWindowRow, pkgRow⟩
+
 end BEDC.Derived.DyadicBallUp

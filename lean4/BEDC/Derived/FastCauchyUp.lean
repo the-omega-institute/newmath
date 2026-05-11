@@ -88,4 +88,39 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
+theorem FastCauchy_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius comparison transportWindow regWindow realWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory stream ->
+      UnaryHistory modulus ->
+        UnaryHistory endpoint ->
+          UnaryHistory radius ->
+            Cont stream modulus transportWindow ->
+              Cont endpoint radius comparison ->
+                Cont comparison transportWindow regWindow ->
+                  Cont regWindow radius realWindow ->
+                    PkgSig bundle realWindow pkg ->
+                      UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                        UnaryHistory radius ∧ UnaryHistory comparison ∧
+                          UnaryHistory regWindow ∧ UnaryHistory realWindow ∧
+                            hsame transportWindow (append stream modulus) ∧
+                              hsame comparison (append endpoint radius) ∧
+                                hsame regWindow (append comparison transportWindow) ∧
+                                  hsame realWindow (append regWindow radius) ∧
+                                    PkgSig bundle realWindow pkg := by
+  intro streamUnary modulusUnary endpointUnary radiusUnary
+  intro transportWindowRow comparisonRow regWindowRow realWindowRow pkgRow
+  have transportWindowUnary : UnaryHistory transportWindow :=
+    unary_cont_closed streamUnary modulusUnary transportWindowRow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed endpointUnary radiusUnary comparisonRow
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed comparisonUnary transportWindowUnary regWindowRow
+  have realWindowUnary : UnaryHistory realWindow :=
+    unary_cont_closed regWindowUnary radiusUnary realWindowRow
+  exact
+    ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary,
+      regWindowUnary, realWindowUnary, transportWindowRow, comparisonRow, regWindowRow,
+        realWindowRow, pkgRow⟩
+
 end BEDC.Derived.FastCauchyUp
