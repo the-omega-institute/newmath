@@ -501,6 +501,47 @@ already carried by the normal form, so no excluded tail, quotient, limit,
 completeness, trichotomy, or host-equality coordinate is introduced.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream adjacent carry confluence]
+\label{thm:signeddigitstream-adjacent-carry-confluence}
+Let $S$ and $S'$ be accepted $\SignedDigitStreamUp$ packets with the same
+displayed unary schedule and the same signed digit prefix. Suppose their
+displayed adjacent carry ledgers may differ, but both normalize to endpoint
+rows accepted by the packet classifier. Then every $\RegSeqRatUp$ consumer
+window and every $\RealUp$ consumer window reads classifier-equal normalized
+$\DyadicRatCoreUp$ endpoint rows through the same $\mathsf{BHist}$ ledger,
+$\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$
+provenance.
+
+The confluence statement is finite-window only. It introduces no quotient
+stream, hidden tail, selected limit, completeness principle, trichotomy datum,
+or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the shared displayed schedule and signed digit prefix. Apply
+\autoref{thm:signeddigitstream-common-window-determinacy} to both packets. The
+common window fixes the normalized endpoint row up to the packet classifier and
+keeps the comparison inside the displayed carry ledger, $\hsame$, and $\Cont$
+routes.
+
+Next use
+\autoref{thm:signeddigitstream-canonical-tail-normal-form}. Each adjacent carry
+ledger normalizes to the canonical finite-tail normal form over the same prefix
+window, so the two endpoint rows are classifier-equal finite
+$\DyadicRatCoreUp$ rows rather than distinct tail presentations.
+
+For a $\RegSeqRatUp$ request, project the canonical endpoint rows through
+\autoref{thm:signeddigitstream-regseqrat-handoff}. For a $\RealUp$ request,
+project them through
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. Both
+consumer readings therefore pass through the same $\mathsf{BHist}$,
+$\mathsf{Pkg}$, and $\NameCert$ provenance already present in the packets.
+
+The cited rows contain no coordinate for quotient streams, hidden tails,
+selected limits, completeness, trichotomy, or host real equality. Hence adjacent
+carry choices can only change the displayed normalization ledger, and any
+accepted normalization reaches the same finite consumer row.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
