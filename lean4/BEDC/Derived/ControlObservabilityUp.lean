@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -106,5 +107,25 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
       And.intro packet.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
+
+def ControlObservabilityPacket_kernel_separation_carrier
+    (state observationMatrix trace provenance : BHist) : Prop :=
+  Cont state observationMatrix trace ∧ UnaryHistory provenance
+
+theorem ControlObservabilityPacket_kernel_separation
+    {stateA stateB observationMatrix traceA traceB provenanceA provenanceB : BHist}
+    (left :
+      ControlObservabilityPacket_kernel_separation_carrier stateA observationMatrix traceA
+        provenanceA)
+    (right :
+      ControlObservabilityPacket_kernel_separation_carrier stateB observationMatrix traceB
+        provenanceB)
+    (sameTrace : hsame traceA traceB) :
+    hsame stateA stateB ∧
+      Cont stateA observationMatrix traceA ∧
+        Cont stateB observationMatrix traceB := by
+  have sameState : hsame stateA stateB :=
+    cont_right_cancel_hsame_result left.left right.left sameTrace
+  exact And.intro sameState (And.intro left.left right.left)
 
 end BEDC.Derived.ControlObservabilityUp
