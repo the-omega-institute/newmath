@@ -98,6 +98,18 @@ def LQRFiniteControlPacket [AskSetup] [PackageSetup]
                                   Cont backwardUpdate control predecessorValue ∧
                                     Cont successorValue horizon endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem LQRFiniteControlCarrier_quadratic_cost_exactness [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+      backwardUpdate predecessorValue endpoint bundle pkg ->
+      UnaryHistory cost ∧ Cont predecessorValue cost endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  rcases packet with
+    ⟨_, _, _, costUnary, _, _, _, _, _, _, _, _, _, _, predecessorCostEndpoint, _, _, _, pkgSig⟩
+  exact And.intro costUnary (And.intro predecessorCostEndpoint pkgSig)
+
 theorem LQRFiniteControlPacket_namecert_seed_obligation_surface [AskSetup] [PackageSetup]
     {state control transition cost horizon successorValue estimatorInput backwardUpdate
       predecessorValue endpoint : BHist}
@@ -237,6 +249,30 @@ theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
       (And.intro predecessorEndpoint
         (And.intro estimatorEndpoint (And.intro horizonUnary endpointPkg))))
 
+theorem LQRFiniteControlPacket_cost_endpoint_determinacy [AskSetup] [PackageSetup]
+    {state control transition cost cost' horizon successorValue estimatorInput backwardUpdate
+      backwardUpdate' predecessorValue predecessorValue' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame cost cost' ->
+        hsame backwardUpdate backwardUpdate' ->
+          Cont transition cost' successorValue ->
+            Cont backwardUpdate' horizon predecessorValue' ->
+              Cont predecessorValue' cost' endpoint' ->
+                hsame predecessorValue predecessorValue' ∧ hsame endpoint endpoint' := by
+  intro packet sameCost sameBackward transitionCost' backwardHorizon' predecessorCost'
+  rcases packet with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, transitionCost, _, backwardHorizon, predecessorCost,
+      _, _, _, _⟩
+  have _sameSuccessor : hsame successorValue successorValue :=
+    cont_respects_hsame (hsame_refl transition) sameCost transitionCost transitionCost'
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward (hsame_refl horizon) backwardHorizon backwardHorizon'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost predecessorCost predecessorCost'
+  exact And.intro samePredecessor sameEndpoint
+
 theorem LQRFiniteControlCarrier_transition_transport
     {state control transition cost horizon estimator backward provenance endpoint state' control'
       transition' cost' horizon' estimator' backward' provenance' endpoint' : BHist} :
@@ -293,6 +329,34 @@ theorem LQRFiniteControlCarrier_transition_transport
   exact And.intro carrier'
     (And.intro sameTransition
       (And.intro sameBackward (And.intro sameProvenance sameEndpoint)))
+
+theorem LQRFiniteControlPacket_finite_horizon_riccati_closure [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint terminal terminal' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      Cont endpoint horizon terminal ->
+        hsame terminal terminal' ->
+          UnaryHistory terminal' ∧ hsame terminal' (append endpoint horizon) ∧
+            Cont successorValue estimatorInput backwardUpdate ∧
+              Cont backwardUpdate horizon predecessorValue ∧
+                Cont predecessorValue cost endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet terminalRow sameTerminal
+  rcases packet with
+    ⟨_stateUnary, _controlUnary, _transitionUnary, _costUnary, horizonUnary,
+      _successorUnary, _estimatorUnary, _backwardUnary, _predecessorUnary, endpointUnary,
+      _transitionRow, _successorRow, backwardRow, predecessorRow, endpointRow,
+      _estimatorRow, _controlRow, _terminalEndpointRow, pkgSig⟩
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed endpointUnary horizonUnary terminalRow
+  have terminalUnary' : UnaryHistory terminal' :=
+    unary_transport terminalUnary sameTerminal
+  have sameTerminalAppend : hsame terminal' (append endpoint horizon) :=
+    hsame_trans (hsame_symm sameTerminal) terminalRow
+  exact And.intro terminalUnary'
+    (And.intro sameTerminalAppend
+      (And.intro backwardRow (And.intro predecessorRow (And.intro endpointRow pkgSig))))
 
 theorem LQRFiniteControlPacket_finite_horizon_riccati_transport [AskSetup] [PackageSetup]
     {state control transition cost horizon successorValue estimatorInput backwardUpdate
