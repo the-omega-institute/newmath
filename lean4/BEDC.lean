@@ -119,7 +119,6 @@ import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
-import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.HodgeBridgeUp
@@ -669,6 +668,7 @@ import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.SourceScope
+import BEDC.Derived.DiffFormUp.SupportObligation
 import BEDC.Derived.DiffFormUp.ScalarEndpointTransport
 import BEDC.Derived.DiffFormUp.StdBridge
 import BEDC.Derived.DiffFormUp.VisibleInputPackage
