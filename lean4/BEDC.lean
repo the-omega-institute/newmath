@@ -58,6 +58,7 @@ import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
@@ -140,8 +141,8 @@ import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
-import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RiccatiUp
+import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SpectralMeasureUp
