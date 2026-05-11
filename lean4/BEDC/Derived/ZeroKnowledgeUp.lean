@@ -14,6 +14,88 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem ZeroKnowledgeCarrier_obligation [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment computable simulator evidence dependency endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory prover -> UnaryHistory verifier -> UnaryHistory commitment ->
+      UnaryHistory computable -> UnaryHistory simulator ->
+        Cont prover verifier challenge -> Cont challenge prover response ->
+          Cont response commitment evidence -> Cont simulator verifier dependency ->
+            Cont evidence dependency endpoint -> PkgSig bundle endpoint pkg ->
+              UnaryHistory challenge ∧ UnaryHistory response ∧ UnaryHistory evidence ∧
+                UnaryHistory dependency ∧ UnaryHistory endpoint ∧
+                  hsame challenge (append prover verifier) ∧
+                    hsame response (append challenge prover) ∧
+                      hsame evidence (append response commitment) ∧
+                        hsame dependency (append simulator verifier) ∧
+                          hsame endpoint (append evidence dependency) ∧
+                            PkgSig bundle endpoint pkg := by
+  intro proverUnary verifierUnary commitmentUnary computableUnary simulatorUnary
+  intro challengeCont responseCont evidenceCont dependencyCont endpointCont packageSig
+  have challengeUnary : UnaryHistory challenge :=
+    unary_cont_closed proverUnary verifierUnary challengeCont
+  have responseUnary : UnaryHistory response :=
+    unary_cont_closed challengeUnary proverUnary responseCont
+  have evidenceUnary : UnaryHistory evidence :=
+    unary_cont_closed responseUnary commitmentUnary evidenceCont
+  have dependencyUnary : UnaryHistory dependency :=
+    unary_cont_closed simulatorUnary verifierUnary dependencyCont
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed evidenceUnary dependencyUnary endpointCont
+  exact ⟨challengeUnary, responseUnary, evidenceUnary, dependencyUnary, endpointUnary,
+    challengeCont, responseCont, evidenceCont, dependencyCont, endpointCont, packageSig⟩
+
+def ZeroKnowledgeFinitePacket [AskSetup] [PackageSetup]
+    (prover verifier challenge response commitment verifierRow simulator ledger endpoint : BHist)
+    (hashBundle computableBundle : ProbeBundle ProbeName)
+    (hashPkg computablePkg : Pkg) : Prop :=
+  UnaryHistory prover ∧ UnaryHistory verifier ∧ UnaryHistory commitment ∧
+    UnaryHistory verifierRow ∧ UnaryHistory simulator ∧
+      Cont prover verifier challenge ∧ Cont challenge prover response ∧
+        Cont response commitment verifierRow ∧ Cont simulator verifier ledger ∧
+          Cont ledger verifierRow endpoint ∧ PkgSig hashBundle commitment hashPkg ∧
+            PkgSig computableBundle verifierRow computablePkg
+
+theorem ZeroKnowledgeFinitePacket_carrier_obligation [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment verifierRow simulator ledger endpoint : BHist}
+    {hashBundle computableBundle : ProbeBundle ProbeName} {hashPkg computablePkg : Pkg} :
+    ZeroKnowledgeFinitePacket prover verifier challenge response commitment verifierRow simulator
+        ledger endpoint hashBundle computableBundle hashPkg computablePkg ->
+      UnaryHistory prover ∧ UnaryHistory verifier ∧ UnaryHistory challenge ∧
+        UnaryHistory response ∧ UnaryHistory commitment ∧ UnaryHistory verifierRow ∧
+          UnaryHistory simulator ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            Cont prover verifier challenge ∧ Cont challenge prover response ∧
+              Cont response commitment verifierRow ∧ Cont simulator verifier ledger ∧
+                Cont ledger verifierRow endpoint ∧ PkgSig hashBundle commitment hashPkg ∧
+                  PkgSig computableBundle verifierRow computablePkg := by
+  intro packet
+  obtain ⟨proverUnary, verifierUnary, commitmentUnary, verifierRowUnary, simulatorUnary,
+    proverVerifierRow, challengeProverRow, responseCommitmentRow, simulatorVerifierRow,
+    ledgerVerifierRow, hashSig, computableSig⟩ := packet
+  have challengeUnary : UnaryHistory challenge :=
+    unary_cont_closed proverUnary verifierUnary proverVerifierRow
+  have responseUnary : UnaryHistory response :=
+    unary_cont_closed challengeUnary proverUnary challengeProverRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed simulatorUnary verifierUnary simulatorVerifierRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary verifierRowUnary ledgerVerifierRow
+  exact And.intro proverUnary
+    (And.intro verifierUnary
+      (And.intro challengeUnary
+        (And.intro responseUnary
+          (And.intro commitmentUnary
+            (And.intro verifierRowUnary
+              (And.intro simulatorUnary
+                (And.intro ledgerUnary
+                  (And.intro endpointUnary
+                    (And.intro proverVerifierRow
+                      (And.intro challengeProverRow
+                        (And.intro responseCommitmentRow
+                          (And.intro simulatorVerifierRow
+                            (And.intro ledgerVerifierRow
+                              (And.intro hashSig computableSig))))))))))))))
+
 def ZeroKnowledgePacket [AskSetup] [PackageSetup]
     (prover verifier challenge response commitment computation simulator ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -165,5 +247,40 @@ theorem ZeroKnowledgeCarrier_classifier_obligation [AskSetup] [PackageSetup]
       targetSimulatorLedger,
       targetPkg⟩
   exact ⟨carrier', sameChallenge, sameResponse, sameLedger⟩
+
+def ZeroKnowledgeFiniteCarrier [AskSetup] [PackageSetup]
+    (prover verifier challenge response commitment computable verifierAccept simulator ledger
+      provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory prover ∧ UnaryHistory verifier ∧ UnaryHistory challenge ∧
+    UnaryHistory response ∧ UnaryHistory commitment ∧ UnaryHistory computable ∧
+      UnaryHistory verifierAccept ∧ UnaryHistory simulator ∧ UnaryHistory provenance ∧
+        Cont prover verifier challenge ∧ Cont challenge prover response ∧
+          Cont challenge computable verifierAccept ∧ Cont response verifierAccept ledger ∧
+            Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ZeroKnowledgeFiniteCarrier_completeness_ledger_obligation [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment computable verifierAccept simulator ledger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeroKnowledgeFiniteCarrier prover verifier challenge response commitment computable
+        verifierAccept simulator ledger provenance endpoint bundle pkg ->
+      UnaryHistory verifierAccept ∧ Cont challenge computable verifierAccept ∧
+        Cont response verifierAccept ledger ∧ Cont provenance ledger endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have verifierAcceptUnary : UnaryHistory verifierAccept :=
+    carrier.right.right.right.right.right.right.left
+  have verifierAcceptRow : Cont challenge computable verifierAccept :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont response verifierAccept ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance ledger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have packageRow : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro verifierAcceptUnary
+    (And.intro verifierAcceptRow
+      (And.intro ledgerRow (And.intro endpointRow packageRow)))
 
 end BEDC.Derived.ZeroKnowledgeUp
