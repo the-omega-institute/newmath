@@ -410,6 +410,35 @@ adding a Langlands bridge, spectral decomposition, or analytic continuation
 claim.
 \end{proof}
 
+\begin{theorem}[Automorphic standard adelic graph bridge boundary]
+\label{thm:automorphic-standard-adelic-graph-bridge-boundary}
+Any standard adelic-graph bridge for $\AutomorphicUp$ may read only the
+$\AdeleUp$ domain endpoint, $\AdeleUp$ value endpoint, displayed graph history,
+$\Cont$ witness, visible-context readbacks, $\hsame$ transports, semantic
+certificate rows, and $\mathsf{Pkg}$ provenance from
+\autoref{thm:automorphic-public-certificate-export}. It does not supply
+Langlands correspondence, automorphic representation theory, spectral
+decomposition, analytic continuation, or an $L$-function bridge.
+\end{theorem}
+\begin{proof}
+Project the public certificate export through
+\autoref{thm:automorphic-public-certificate-export}. Its visible rows are the
+two $\AdeleUp$ endpoints, the displayed graph history, the continuation witness,
+classifier transports, semantic certificate rows, and package provenance.
+
+Use the visible-context core readback of
+\autoref{thm:automorphic-adele-graph-visible-context-core-readback} together
+with the endpoint transport rows of
+\autoref{thm:automorphic-adele-graph-visible-context-endpoint-hsame-transport}.
+These rows keep the domain, value, and graph endpoint determined only through
+the declared $\hsame$ classifier.
+
+Finally repack the same rows as the standard adelic graph boundary. Since the
+public export contains no row for Langlands correspondence, representation
+theory, spectral decomposition, analytic continuation, or $L$-function data,
+none of those claims is supplied by the bridge boundary.
+\end{proof}
+
 \begin{enumerate}
   \item Traditional target: automorphic graph names.
   \item BEDC source: $\AdeleUp$ together with $\Cont$ over histories.
