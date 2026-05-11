@@ -273,64 +273,56 @@ theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageS
       (And.intro packet.right.right.right.right.right.right.right.right.left
         packet.right.right.right.right.right.right.right.right.right))
 
-def HolonomyTransportCarrier [AskSetup] [PackageSetup]
-    (bundleRow connection loop endpoint curvatureControl composition provenance packet : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory bundleRow ∧ UnaryHistory connection ∧ UnaryHistory endpoint ∧
-    UnaryHistory curvatureControl ∧ Cont bundleRow connection loop ∧
-      Cont loop endpoint composition ∧ Cont curvatureControl composition provenance ∧
-        Cont provenance endpoint packet ∧ PkgSig bundle packet pkg
-
 theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [PackageSetup]
-    {bundleRow connection loop endpoint curvatureControl composition provenance packet bundleRow'
-      connection' loop' endpoint' curvatureControl' composition' provenance' packet' : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    HolonomyTransportCarrier bundleRow connection loop endpoint curvatureControl composition
-        provenance packet bundle pkg ->
-      hsame bundleRow bundleRow' ->
+    {bundle bundle' connection connection' loop loop' endpoint endpoint' curvature curvature'
+      ledger ledger' provenance provenance' : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loop endpoint curvature ledger provenance
+        probeBundle pkg ->
+      hsame bundle bundle' ->
         hsame connection connection' ->
           hsame loop loop' ->
-            hsame endpoint endpoint' ->
-              hsame curvatureControl curvatureControl' ->
-                Cont bundleRow' connection' loop' ->
-                  Cont loop' endpoint' composition' ->
-                    Cont curvatureControl' composition' provenance' ->
-                      Cont provenance' endpoint' packet' ->
-                        PkgSig bundle packet' pkg ->
-                          HolonomyTransportCarrier bundleRow' connection' loop' endpoint'
-                              curvatureControl' composition' provenance' packet' bundle pkg ∧
-                            hsame composition composition' ∧ hsame provenance provenance' ∧
-                              hsame packet packet' := by
-  intro carrier sameBundleRow sameConnection sameLoop sameEndpoint sameCurvatureControl loopRow'
-  intro compositionRow' provenanceRow' packetRow' pkgSig'
-  obtain ⟨bundleUnary, connectionUnary, endpointUnary, curvatureUnary, loopRow,
-    compositionRow, provenanceRow, packetRow, _pkgSig⟩ := carrier
-  have bundleUnary' : UnaryHistory bundleRow' :=
-    unary_transport bundleUnary sameBundleRow
+            hsame curvature curvature' ->
+              hsame provenance provenance' ->
+                Cont loop' connection' ledger' ->
+                  Cont ledger' curvature' endpoint' ->
+                    PkgSig probeBundle endpoint' pkg ->
+                      HolonomyTransportCarrier bundle' connection' loop' endpoint' curvature'
+                          ledger' provenance' probeBundle pkg ∧
+                        hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro carrier sameBundle sameConnection sameLoop sameCurvature sameProvenance
+  intro ledgerRow' endpointRow' pkgSig'
+  have bundleUnary' : UnaryHistory bundle' :=
+    unary_transport carrier.left sameBundle
   have connectionUnary' : UnaryHistory connection' :=
-    unary_transport connectionUnary sameConnection
+    unary_transport carrier.right.left sameConnection
+  have loopUnary' : UnaryHistory loop' :=
+    unary_transport carrier.right.right.left sameLoop
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport carrier.right.right.right.right.left sameCurvature
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameLoop sameConnection
+      carrier.right.right.right.right.right.right.right.left ledgerRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed loopUnary' connectionUnary' ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameCurvature
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
   have endpointUnary' : UnaryHistory endpoint' :=
-    unary_transport endpointUnary sameEndpoint
-  have curvatureUnary' : UnaryHistory curvatureControl' :=
-    unary_transport curvatureUnary sameCurvatureControl
-  have _sameLoopFromRows : hsame loop loop' :=
-    cont_respects_hsame sameBundleRow sameConnection loopRow loopRow'
-  have sameComposition : hsame composition composition' :=
-    cont_respects_hsame sameLoop sameEndpoint compositionRow compositionRow'
-  have compositionUnary' : UnaryHistory composition' :=
-    unary_cont_closed (unary_cont_closed bundleUnary' connectionUnary' loopRow')
-      endpointUnary' compositionRow'
-  have sameProvenance : hsame provenance provenance' :=
-    cont_respects_hsame sameCurvatureControl sameComposition provenanceRow provenanceRow'
+    unary_cont_closed ledgerUnary' curvatureUnary' endpointRow'
   have provenanceUnary' : UnaryHistory provenance' :=
-    unary_cont_closed curvatureUnary' compositionUnary' provenanceRow'
-  have samePacket : hsame packet packet' :=
-    cont_respects_hsame sameProvenance sameEndpoint packetRow packetRow'
+    unary_transport carrier.right.right.right.right.right.right.left sameProvenance
   exact
-    ⟨⟨bundleUnary', connectionUnary', endpointUnary', curvatureUnary', loopRow',
-        compositionRow', provenanceRow', packetRow', pkgSig'⟩,
-      sameComposition,
-      sameProvenance,
-      samePacket⟩
+    And.intro
+      (And.intro bundleUnary'
+        (And.intro connectionUnary'
+          (And.intro loopUnary'
+            (And.intro endpointUnary'
+              (And.intro curvatureUnary'
+                (And.intro ledgerUnary'
+                  (And.intro provenanceUnary'
+                    (And.intro ledgerRow'
+                      (And.intro endpointRow' pkgSig')))))))))
+      (And.intro sameLedger sameEndpoint)
 
 end BEDC.Derived.HolonomyUp
