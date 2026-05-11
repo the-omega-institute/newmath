@@ -62,6 +62,19 @@ theorem TopVecSpaceBHistCarrier_vecspace_source_obligation [AskSetup] [PackageSe
       (And.intro carrier.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right.right))
 
+theorem TopVecSpaceBHistCarrier_endpoint_route_readback [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      UnaryHistory endpoint ∧ hsame endpoint (append route topology) ∧
+        Cont route topology endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have endpointRoute : Cont route topology endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  exact And.intro carrier.right.right.right.right.right.left
+    (And.intro endpointRoute
+      (And.intro endpointRoute carrier.right.right.right.right.right.right.right.right.right))
+
 theorem TopVecSpaceBHistCarrier_continuous_addition_obligation [AskSetup] [PackageSetup]
     {vec topology addLedger scalarLedger route endpoint vec' topology' addLedger'
       scalarLedger' route' endpoint' : BHist}
