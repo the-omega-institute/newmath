@@ -251,6 +251,33 @@ or a completed real endpoint, the real-phase consumer can only use the listed
 BEDC source rows.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore RegSeqRat window radius handoff]
+\label{thm:dyadicratcore-regseqrat-window-radius-handoff}
+Every downstream $\RegSeqRat$ finite-window handoff that consumes a
+$\DyadicRatCoreUp$ observation reads its radius premise through the displayed
+positive unary exponent, denominator ledger, monotone-radius refinement,
+distance-window stability, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the
+$\DyadicRatCoreUp$ public envelope. Consequently the handoff cannot introduce
+a quotient rational, host epsilon equality, or $\RealUp$ completion endpoint.
+\end{theorem}
+\begin{proof}
+Start with the downstream handoff and apply
+\autoref{thm:dyadicratcore-real-phase-source-coverage}. The observation can
+only read the dyadic packet through the listed source rows and has no access to
+a quotient rational or completed real endpoint.
+
+Use \autoref{thm:dyadicratcore-monotone-radius-obligation} to identify the
+radius premise as a displayed positive-unary refinement over the denominator
+ledger. Use \autoref{thm:dyadicratcore-distance-window-stability} to keep the
+finite distance window stable under the same $\hsame$ transport.
+
+Finally apply \autoref{thm:dyadicratcore-public-readback-envelope}. Its public
+tuple supplies exactly the exponent, denominator, radius, distance, $\Cont$,
+and $\mathsf{Pkg}$ coordinates consumed by $\RegSeqRat$, so there is no
+remaining coordinate through which host epsilon equality or a $\RealUp$
+completion endpoint could enter the handoff.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore NameCert obligation surface]
 \label{thm:dyadicratcore-namecert-obligation-surface}
 The seed $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists of the
