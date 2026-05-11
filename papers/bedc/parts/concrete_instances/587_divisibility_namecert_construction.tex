@@ -160,6 +160,43 @@ primality decision, gcd computation, quotient residue class, finite-field
 law, or host congruence would require a coordinate absent from $D$.
 \end{proof}
 
+\begin{theorem}[Divisibility public consumer certificate]
+\label{thm:divisibility-public-consumer-certificate}
+For every accepted finite $\DivisibilityUp$ source
+$D=(a,b,q,w,o,l,p)$, the public certificate exported to $\PrimeUp$ and
+$\ModularArithmeticUp$ consists exactly of the carrier rows of
+\autoref{def:divisibility-bhist-carrier}, the multiplication witness of
+\autoref{thm:divisibility-mul-witness-closure}, the optional bounded-search
+ledger of \autoref{thm:divisibility-order-bounded-ledger}, the five
+$\NameCert$ rows of \autoref{thm:divisibility-namecert-obligation-surface},
+and the consumer boundary of
+\autoref{thm:divisibility-prime-modular-boundary}.
+
+It exports no gcd algorithm, Euclidean division, primality decision,
+quotient residue class, finite-field law, or host congruence.
+\end{theorem}
+\begin{proof}
+Project $D$ through \autoref{def:divisibility-bhist-carrier}. The projection
+exposes only the dividend row, divisor row, multiplier row, multiplication
+witness row, boundedness row, divisibility ledger, and provenance row.
+
+Apply \autoref{thm:divisibility-mul-witness-closure} to identify the only
+multiplicative read, and apply
+\autoref{thm:divisibility-order-bounded-ledger} to identify the only
+bounded-search read. These two steps leave no coordinate for an external
+divisibility predicate or quotient object.
+
+Apply \autoref{thm:divisibility-namecert-obligation-surface} to package the
+carrier, classifier transport, multiplication, boundedness, and downstream
+readback rows as the displayed $\NameCert_{\DivisibilityUp}$ surface.
+
+Finally, use \autoref{thm:divisibility-prime-modular-boundary} to show that
+the $\PrimeUp$ and $\ModularArithmeticUp$ consumers factor through this same
+finite packet. Any gcd algorithm, Euclidean division, primality decision,
+quotient residue class, finite-field law, or host congruence would require a
+row absent from the certificate.
+\end{proof}
+
 \closureat{DivisibilityUp}{seedStr}
 \closureat{DivisibilityUp}{obligationStr}
 \closureat{DivisibilityUp}{scopedStr}
