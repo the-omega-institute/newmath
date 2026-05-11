@@ -1,3 +1,7 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -30,7 +34,10 @@ def LQRFiniteControlPacket [AskSetup] [PackageSetup]
                         Cont transition cost successorValue ∧
                           Cont successorValue estimatorInput backwardUpdate ∧
                             Cont backwardUpdate horizon predecessorValue ∧
-                              Cont predecessorValue cost endpoint ∧ PkgSig bundle endpoint pkg
+                              Cont predecessorValue cost endpoint ∧
+                                Cont estimatorInput transition backwardUpdate ∧
+                                  Cont backwardUpdate control predecessorValue ∧
+                                    Cont successorValue horizon endpoint ∧ PkgSig bundle endpoint pkg
 
 theorem LQRFiniteControlPacket_namecert_seed_obligation_surface [AskSetup] [PackageSetup]
     {state control transition cost horizon successorValue estimatorInput backwardUpdate
@@ -88,12 +95,25 @@ theorem LQRFiniteControlPacket_namecert_seed_obligation_surface [AskSetup] [Pack
       intro _row rowCarrier
       exact rowCarrier
   }
-  have backwardCont : Cont successorValue estimatorInput backwardUpdate :=
-    packet.right.right.right.right.right.right.right.right.right.right.right.right.left
-  have predecessorCont : Cont backwardUpdate horizon predecessorValue :=
-    packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left
-  have pkgRow : PkgSig bundle endpoint pkg :=
-    packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  rcases packet with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, _, backwardCont, predecessorCont, _, _, _, _, pkgRow⟩
   exact And.intro cert (And.intro backwardCont (And.intro predecessorCont pkgRow))
+
+theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
+    {state control transition cost horizon estimator successor update predecessor endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon estimator successor update
+      predecessor endpoint bundle pkg ->
+        Cont successor transition update ∧ Cont update control predecessor ∧
+          Cont predecessor cost endpoint ∧ Cont estimator horizon endpoint ∧
+            UnaryHistory horizon ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  rcases packet with
+    ⟨_, _, _, _, horizonUnary, _, _, _, _, _, _, _, _, _, predecessorEndpoint,
+      successorUpdate, updatePredecessor, estimatorEndpoint, endpointPkg⟩
+  exact And.intro successorUpdate
+    (And.intro updatePredecessor
+      (And.intro predecessorEndpoint
+        (And.intro estimatorEndpoint (And.intro horizonUnary endpointPkg))))
 
 end BEDC.Derived.LQRUp
