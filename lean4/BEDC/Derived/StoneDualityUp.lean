@@ -93,6 +93,38 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityClopenPacket_boolean_source_readback [AskSetup] [PackageSetup]
+    {zero one meet join compl distributive source pkgRow clopenZero clopenOps
+      clopenEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoneDualityBooleanSource zero one meet join compl distributive source pkgRow bundle pkg ->
+      Cont zero one clopenZero ->
+        Cont meet join clopenOps ->
+          Cont clopenZero clopenOps clopenEndpoint ->
+            UnaryHistory clopenZero ∧ UnaryHistory clopenOps ∧
+              UnaryHistory clopenEndpoint ∧ hsame clopenZero (append zero one) ∧
+                hsame clopenOps (append meet join) ∧
+                  hsame clopenEndpoint (append clopenZero clopenOps) ∧
+                    PkgSig bundle pkgRow pkg := by
+  intro sourceData clopenZeroRow clopenOpsRow clopenEndpointRow
+  have zeroUnary : UnaryHistory zero := sourceData.left
+  have oneUnary : UnaryHistory one := sourceData.right.left
+  have meetUnary : UnaryHistory meet := sourceData.right.right.left
+  have joinUnary : UnaryHistory join := sourceData.right.right.right.left
+  have pkgSig : PkgSig bundle pkgRow pkg :=
+    sourceData.right.right.right.right.right.right.right.right.right
+  have clopenZeroUnary : UnaryHistory clopenZero :=
+    unary_cont_closed zeroUnary oneUnary clopenZeroRow
+  have clopenOpsUnary : UnaryHistory clopenOps :=
+    unary_cont_closed meetUnary joinUnary clopenOpsRow
+  have clopenEndpointUnary : UnaryHistory clopenEndpoint :=
+    unary_cont_closed clopenZeroUnary clopenOpsUnary clopenEndpointRow
+  exact And.intro clopenZeroUnary
+    (And.intro clopenOpsUnary
+      (And.intro clopenEndpointUnary
+        (And.intro clopenZeroRow
+          (And.intro clopenOpsRow (And.intro clopenEndpointRow pkgSig)))))
+
 theorem StoneDualityStoneSpaceClassifier_clopen_transport [AskSetup] [PackageSetup]
     {zero one meet join compl distributive source pkgRow clopen clopen' ledger ledger' endpoint
       endpoint' : BHist}
