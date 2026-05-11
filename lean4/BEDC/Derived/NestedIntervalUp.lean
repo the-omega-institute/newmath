@@ -88,6 +88,13 @@ def NestedIntervalFiniteCarrier [AskSetup] [PackageSetup]
       UnaryHistory sealFace ∧ UnaryHistory endpoint ∧ UnaryHistory pkgLedger ∧
         Cont lower upper endpoint ∧ Cont endpoint order pkgLedger ∧ PkgSig bundle pkgLedger pkg
 
+def NestedIntervalRegSeqRatWindow [AskSetup] [PackageSetup]
+    (lower upper width schedule regRead endpoint pkgLedger handoff : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory width ∧ UnaryHistory schedule ∧
+    UnaryHistory regRead ∧ UnaryHistory endpoint ∧ UnaryHistory pkgLedger ∧
+      UnaryHistory handoff ∧ Cont endpoint regRead handoff ∧ PkgSig bundle pkgLedger pkg
+
 theorem NestedIntervalFiniteCarrier_endpoint_transport [AskSetup] [PackageSetup]
     {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger lower' upper'
       order' width' inclusion' schedule' regRead' sealFace' endpoint' pkgLedger' : BHist}
@@ -169,5 +176,26 @@ theorem NestedIntervalFiniteCarrier_endpoint_transport [AskSetup] [PackageSetup]
                                                       sealFaceUnary', endpointUnary',
                                                       pkgLedgerUnary', endpointRow', ledgerRow',
                                                       pkgRow'⟩, sameEndpoint, sameLedger⟩
+
+theorem NestedIntervalFiniteCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace endpoint
+        pkgLedger bundle pkg ->
+      Cont endpoint regRead handoff ->
+        NestedIntervalRegSeqRatWindow lower upper width schedule regRead endpoint pkgLedger handoff
+            bundle pkg ∧
+          UnaryHistory handoff ∧ hsame handoff (append endpoint regRead) := by
+  intro carrier handoffRow
+  obtain ⟨lowerUnary, upperUnary, _orderUnary, widthUnary, _inclusionUnary, scheduleUnary,
+    regReadUnary, _sealFaceUnary, endpointUnary, pkgLedgerUnary, _endpointRow, _ledgerRow,
+    pkgRow⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary regReadUnary handoffRow
+  exact
+    ⟨⟨lowerUnary, upperUnary, widthUnary, scheduleUnary, regReadUnary, endpointUnary,
+        pkgLedgerUnary, handoffUnary, handoffRow, pkgRow⟩,
+      handoffUnary,
+      handoffRow⟩
 
 end BEDC.Derived.NestedIntervalUp

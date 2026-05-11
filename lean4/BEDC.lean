@@ -69,6 +69,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
@@ -95,8 +96,8 @@ import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
-import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.GaloisExtUp
