@@ -47,6 +47,26 @@ Move each coordinate along the displayed $\hsame$ and $\Cont$ routes. The hypoth
 Apply the classifier of \autoref{def:signeddigitstream-classifier} on a shared finite window. The endpoint classifiers come from the transported $\DyadicRatCoreUp$ rows, and the carry ledgers match by the componentwise ledger transport. Since no extra coordinate is created, the transported packet exports exactly the same finite observation surface.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream prefix truncation stability]
+\label{thm:signeddigitstream-prefix-truncation-stability}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ carrier, and let $N_{\leq k}$ be a displayed finite prefix of its unary $\StreamNameUp$ schedule. The restricted tuple
+$$
+S_{\leq k}=(D_{\leq k},N_{\leq k},C_{\leq k},P_{\leq k},E_{\leq k},L_{\leq k})
+$$
+repacks as an accepted $\SignedDigitStreamUp$ carrier whenever each restricted digit, schedule, carry, endpoint, provenance, and ledger row is the displayed prefix row inherited from $S$.
+
+The classifier on the restricted packet is exactly the restriction of $\mathsf{SignedDigitStreamClassifier}$ to windows contained in $N_{\leq k}$. Its $\RegSeqRatUp$ handoff and $\RealUp$ seal boundary are the corresponding finite prefix reads named by \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. The restriction introduces no quotient tail, selected limit, host real equality, completeness datum, or bridge row.
+\end{theorem}
+\begin{proof}
+Project the six carrier rows of \autoref{def:signeddigitstream-carrier}. The displayed prefix $N_{\leq k}$ selects exactly the digit rows $D_{\leq k}$, carry ledger $C_{\leq k}$, provenance row $P_{\leq k}$, endpoint rows $E_{\leq k}$, and hidden-tail ledger $L_{\leq k}$ already present in $S$.
+
+Apply \autoref{thm:signeddigitstream-window-transport} with identity transport on the retained rows. Prefix normalization is inherited from the accepted packet $S$, so the restricted tuple satisfies the same carrier acceptance condition on every retained unary window.
+
+Use \autoref{def:signeddigitstream-classifier} for the classifier row. Since the restricted schedules contain only windows already shared with $S$, the classifier relation is the original shared-window classifier read on the smaller schedule.
+
+Finally read the downstream surfaces through \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. They expose only the scheduled finite prefix endpoints and their ledgers, and no extra tail, limit, host equality, completeness, or bridge coordinate is created by the restriction.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream common-window determinacy]
 \label{thm:signeddigitstream-common-window-determinacy}
 Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds. For every unary window requested by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint row read from $S$ and the normalized endpoint row read from $T$ are classifier-equal, and the carry ledgers repack to the same endpoint read.
