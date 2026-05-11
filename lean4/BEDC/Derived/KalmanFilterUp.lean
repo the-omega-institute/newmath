@@ -151,6 +151,40 @@ theorem KalmanFilterCarrier_prediction_update_obligation [AskSetup] [PackageSetu
       (And.intro innovationRow
         (And.intro updateRow (And.intro covariancePosteriorRow pkgSig))))
 
+theorem KalmanFilterCarrier_observation_innovation_ledger [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint innovationEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      Cont innovation residual innovationEndpoint ->
+        UnaryHistory residual ∧
+          UnaryHistory innovation ∧
+            UnaryHistory innovationEndpoint ∧
+              Cont prediction observation residual ∧
+                Cont covariance observation innovation ∧
+                  hsame residual (append prediction observation) ∧
+                    hsame innovation (append covariance observation) ∧
+                      hsame innovationEndpoint (append innovation residual) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro carrier innovationCont
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, residualUnary,
+      _covarianceUnary, _gainUnary, _posteriorUnary, innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, _endpointUnary, _predictionCont,
+      residualCont, innovationLedgerCont, _updateCont, _posteriorCont,
+      _covariancePosteriorCont, _endpointCont, pkgSig⟩
+  have innovationEndpointUnary : UnaryHistory innovationEndpoint :=
+    unary_cont_closed innovationUnary residualUnary innovationCont
+  exact And.intro residualUnary
+    (And.intro innovationUnary
+      (And.intro innovationEndpointUnary
+        (And.intro residualCont
+          (And.intro innovationLedgerCont
+            (And.intro residualCont
+              (And.intro innovationLedgerCont
+                (And.intro innovationCont pkgSig)))))))
+
 theorem KalmanFilterCarrier_estimate_transport_stability [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
       covariancePosterior provenance endpoint prior' transition' prediction' observation' residual'
