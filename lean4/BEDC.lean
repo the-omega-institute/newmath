@@ -66,8 +66,8 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
-import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BousfieldLocalizationUp
+import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
