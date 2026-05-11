@@ -334,4 +334,45 @@ theorem FisherInfoBHistScoreCarrier_ledger_exactness_boundary [AskSetup] [Packag
                   (And.intro exactness.left
                     (And.intro exactness.right.left exactness.right.right.left)))))))))
 
+theorem FisherInfoBHistScoreCarrier_public_certificate_surface [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      SemanticNameCert
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun endpoint : BHist =>
+            exists score' expectation' component' ledger' : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter score' expectation'
+                component' provenance ledger' bundle pkg ∧ hsame endpoint component')
+          (fun left right : BHist =>
+            (exists ls le lc ll : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter ls le lc provenance ll
+                bundle pkg ∧ hsame left lc) ∧
+            (exists rs re rc rl : BHist,
+              FisherInfoBHistScoreCarrier distribution metric parameter rs re rc provenance rl
+                bundle pkg ∧ hsame right rc) ∧
+              hsame left right) ∧
+        DistributionPushforwardSourceSpec distribution ∧
+          RiemannianMetricSingletonFibreSurface parameter score metric ∧
+            UnaryHistory parameter ∧ UnaryHistory score ∧
+              Cont distribution score expectation ∧ Cont expectation metric component ∧
+                PkgSig bundle provenance pkg ∧ Cont component provenance ledger ∧
+                  hsame expectation (append distribution score) ∧
+                    hsame component (append expectation metric) ∧
+                      hsame ledger (append component provenance) := by
+  intro carrier
+  have certificate :=
+    FisherInfoBHistScoreCarrier_semantic_name_certificate carrier
+  have boundary :=
+    FisherInfoBHistScoreCarrier_ledger_exactness_boundary carrier
+  exact And.intro certificate.left boundary
+
 end BEDC.Derived.FisherInfoUp
