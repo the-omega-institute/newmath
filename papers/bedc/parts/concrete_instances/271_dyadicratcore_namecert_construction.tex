@@ -481,6 +481,95 @@ there is no row for a quotient rational, host rational equality, completed
 real, or real completeness theorem.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore standard bridge denominator-refinement stability]
+\label{thm:dyadicratcore-standard-bridge-denominator-refinement-stability}
+Let $P$ and $P'$ be public $\DyadicRatCoreUp$ bridge packets. Suppose that
+$P'$ is obtained from $P$ by a displayed positive-unary denominator refinement:
+the exponent row is extended inside $\UnaryHistory$, the denominator ledger is
+the corresponding tower for the refined power of $2$, and the public
+$\hsame$ and $\Cont$ rows exhibit the same dyadic source after the displayed
+rescaling. Then the standard dyadic source bridge of
+\autoref{thm:dyadicratcore-standard-source-bridge} transports exactly the
+signed $\RatUp$ mantissa row, common-exponent classifier, distance window,
+monotone-radius row, $\mathsf{BHist}$ carrier data, $\hsame$ transport,
+$\Cont$ readback, and $\mathsf{Pkg}$ provenance from $P$ to $P'$. The
+transported bridge packet exports no quotient rational, host equality,
+completed $\RealUp$ endpoint, or real-completeness row.
+\end{theorem}
+\begin{proof}
+Start with the public envelope of
+\autoref{thm:dyadicratcore-public-readback-envelope}. It exposes precisely the
+mantissa, positive unary exponent, denominator ledger, classifier, finite
+window, carrier, transport, readback, and provenance rows available to a
+public $\DyadicRatCoreUp$ packet.
+
+Apply \autoref{thm:dyadicratcore-common-exponent-exactness} to compare $P$ and
+$P'$ after lifting their mantissas to the displayed common positive unary
+exponent. The hypothesis that the refinement is shown inside
+$\UnaryHistory$ supplies the same common-exponent classifier row for the
+refined packet.
+
+Next use \autoref{thm:dyadicratcore-monotone-radius-obligation}. The
+positive-unary denominator refinement can only pass through the displayed
+monotone-radius row, so the finite distance window and radius observation are
+read at the refined denominator without introducing a new ambient rational
+object.
+
+The public bridge consumer exactness theorem,
+\autoref{thm:dyadicratcore-public-bridge-consumer-exactness}, transports the
+remaining classifier windows through the named $\hsame$ and $\Cont$ rows. Thus
+the carrier data, readback, and dependency provenance seen by the consumer of
+$P'$ are the same public rows repackaged at the refined exponent.
+
+Finally repackage those rows by
+\autoref{thm:dyadicratcore-standard-source-bridge}. Its exclusion clause is
+unchanged under the refinement: none of the cited public rows contains a
+quotient-rational representative, a host equality witness, a completed
+$\RealUp$ endpoint, or a real-completeness field.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore RegSeqRat bridge handoff exactness]
+\label{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}
+Every $\RegSeqRat$ finite-window handoff that consumes a
+$\DyadicRatCoreUp$ public envelope through the standard source bridge reads
+exactly the signed $\RatUp$ mantissa row, positive $\UnaryHistory$ exponent
+row, denominator ledger, common-exponent classifier, arithmetic window,
+distance window, radius window, $\mathsf{BHist}$ carrier data, $\hsame$
+transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance listed by
+\autoref{thm:dyadicratcore-public-readback-envelope}. Conversely, every public
+envelope row with those visible coordinates supplies the dyadic observation
+interface admitted by the $\RegSeqRat$ handoff. The handoff exports no quotient
+rational, host equality row, completed $\RealUp$ endpoint, or $\RealUp$
+completeness theorem.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:dyadicratcore-regseqrat-window-radius-handoff}. It identifies the
+downstream handoff boundary as a finite read of the displayed dyadic source
+rows and excludes quotient rationals, host epsilon equality, and completed
+$\RealUp$ endpoints from that boundary.
+
+Next apply \autoref{thm:dyadicratcore-public-readback-envelope} and
+\autoref{thm:dyadicratcore-public-bridge-consumer-exactness}. These results
+give the exact public inventory: the signed mantissa, positive unary exponent,
+denominator ledger, classifier, arithmetic, distance, and radius windows,
+$\mathsf{BHist}$ data, $\hsame$ transport, $\Cont$ readback, and
+$\mathsf{Pkg}$ provenance. Use
+\autoref{thm:dyadicratcore-standard-source-bridge} to read the same inventory as
+the standard dyadic source packet consumed at the bridge boundary.
+
+For the converse direction, start with a public envelope row carrying precisely
+those coordinates. Repack the signed mantissa, positive unary exponent,
+denominator ledger, common-exponent classifier, finite windows, carrier data,
+transport, readback, and provenance as the dyadic observation interface already
+admitted by the standard source bridge and by the $\RegSeqRat$ handoff boundary.
+
+The exclusion clauses are the same carrier-inventory inspection. None of the
+referenced rows is a quotient-rational representative, a host equality proof, a
+completed $\RealUp$ endpoint, or a real-completeness field, so neither direction
+can export one.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 
 \begin{closurestatus}{\DyadicRatCoreUp}
