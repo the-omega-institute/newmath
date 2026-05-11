@@ -93,9 +93,12 @@ import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
+import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchySeqUp
+import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.GaloisExtUp
@@ -125,18 +128,17 @@ import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
+import BEDC.Derived.LyapunovUp.TasteGate
 import BEDC.Derived.LocatedRealUp
-import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpanningTreeUp
-import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MonodromyUp
+import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
-import BEDC.Derived.MonodromyUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
@@ -148,6 +150,7 @@ import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -218,6 +221,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
@@ -243,7 +247,6 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
-import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
@@ -1110,6 +1113,7 @@ import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 import BEDC.MetaCIC
+import BEDC.MetaCIC.Substitution.Core
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest

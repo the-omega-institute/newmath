@@ -14,6 +14,72 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def NestedIntervalFinitePacket [AskSetup] [PackageSetup]
+    (interval endpoint width schedule regular sealRow transportRow provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory interval ∧ UnaryHistory endpoint ∧ UnaryHistory width ∧
+    UnaryHistory schedule ∧ UnaryHistory regular ∧ UnaryHistory sealRow ∧
+      UnaryHistory transportRow ∧ UnaryHistory provenance ∧ UnaryHistory cert ∧
+        Cont interval endpoint width ∧ Cont width schedule regular ∧
+          Cont regular sealRow transportRow ∧ Cont transportRow provenance cert ∧
+            PkgSig bundle cert pkg
+
+theorem NestedIntervalFinitePacket_endpoint_transport [AskSetup] [PackageSetup]
+    {interval endpoint width schedule regular sealRow transportRow provenance cert interval'
+      endpoint' width' schedule' regular' sealRow' transportRow' provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFinitePacket interval endpoint width schedule regular sealRow transportRow
+        provenance cert bundle pkg ->
+      hsame interval interval' ->
+        hsame endpoint endpoint' ->
+          hsame schedule schedule' ->
+            hsame sealRow sealRow' ->
+              hsame provenance provenance' ->
+                Cont interval' endpoint' width' ->
+                  Cont width' schedule' regular' ->
+                    Cont regular' sealRow' transportRow' ->
+                      Cont transportRow' provenance' cert' ->
+                        PkgSig bundle cert' pkg ->
+                          NestedIntervalFinitePacket interval' endpoint' width' schedule' regular'
+                              sealRow' transportRow' provenance' cert' bundle pkg ∧
+                            hsame width width' ∧ hsame regular regular' ∧ hsame cert cert' := by
+  intro packet sameInterval sameEndpoint sameSchedule sameSealRow sameProvenance
+  intro widthRow' regularRow' transportRowRow' certRow' pkgRow'
+  obtain ⟨intervalUnary, endpointUnary, _widthUnary, scheduleUnary, _regularUnary,
+    sealRowUnary, _transportRowUnary, provenanceUnary, _certUnary, widthRow, regularRow,
+    transportRowRow, certRow, _pkgRow⟩ := packet
+  have intervalUnary' : UnaryHistory interval' :=
+    unary_transport intervalUnary sameInterval
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have sealRowUnary' : UnaryHistory sealRow' :=
+    unary_transport sealRowUnary sameSealRow
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have widthUnary' : UnaryHistory width' :=
+    unary_cont_closed intervalUnary' endpointUnary' widthRow'
+  have regularUnary' : UnaryHistory regular' :=
+    unary_cont_closed widthUnary' scheduleUnary' regularRow'
+  have transportRowUnary' : UnaryHistory transportRow' :=
+    unary_cont_closed regularUnary' sealRowUnary' transportRowRow'
+  have certUnary' : UnaryHistory cert' :=
+    unary_cont_closed transportRowUnary' provenanceUnary' certRow'
+  have sameWidth : hsame width width' :=
+    cont_respects_hsame sameInterval sameEndpoint widthRow widthRow'
+  have sameRegular : hsame regular regular' :=
+    cont_respects_hsame sameWidth sameSchedule regularRow regularRow'
+  have sameTransportRow : hsame transportRow transportRow' :=
+    cont_respects_hsame sameRegular sameSealRow transportRowRow transportRowRow'
+  have sameCert : hsame cert cert' :=
+    cont_respects_hsame sameTransportRow sameProvenance certRow certRow'
+  constructor
+  · exact ⟨intervalUnary', endpointUnary', widthUnary', scheduleUnary', regularUnary',
+      sealRowUnary', transportRowUnary', provenanceUnary', certUnary', widthRow', regularRow',
+      transportRowRow', certRow', pkgRow'⟩
+  · exact ⟨sameWidth, sameRegular, sameCert⟩
+
 def NestedIntervalFiniteCarrier [AskSetup] [PackageSetup]
     (lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -167,5 +233,40 @@ theorem NestedIntervalPacket_window_refinement [AskSetup] [PackageSetup]
                                       inclusionUnary', scheduleUnary', regReadUnary',
                                       sealFaceUnary', endpointUnary', pkgLedgerUnary',
                                       endpointRow, ledgerRow, pkgRow⟩
+
+def NestedIntervalRegSeqRatWindow [AskSetup] [PackageSetup]
+    (unaryPrefix lower upper width inclusion schedule regRead provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory unaryPrefix ∧ UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory width ∧
+    UnaryHistory inclusion ∧ UnaryHistory schedule ∧ UnaryHistory regRead ∧
+      UnaryHistory provenance ∧ UnaryHistory cert ∧ Cont lower upper width ∧
+        Cont width inclusion regRead ∧ PkgSig bundle regRead pkg
+
+theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
+    {unaryPrefix lower upper width inclusion schedule regRead provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalRegSeqRatWindow unaryPrefix lower upper width inclusion schedule regRead
+        provenance cert bundle pkg ->
+      UnaryHistory unaryPrefix ∧ UnaryHistory lower ∧ UnaryHistory upper ∧
+        UnaryHistory width ∧ UnaryHistory inclusion ∧ UnaryHistory schedule ∧
+          UnaryHistory regRead ∧ Cont lower upper width ∧ Cont width inclusion regRead ∧
+            PkgSig bundle regRead pkg := by
+  intro window
+  obtain ⟨prefixUnary, lowerUnary, upperUnary, widthUnary, inclusionUnary, scheduleUnary,
+    regReadUnary, _provenanceUnary, _certUnary, lowerUpperRow, widthInclusionRow,
+    pkgRow⟩ := window
+  have prefixHistory : UnaryHistory unaryPrefix := prefixUnary
+  have lowerHistory : UnaryHistory lower := lowerUnary
+  have upperHistory : UnaryHistory upper := upperUnary
+  have widthHistory : UnaryHistory width := widthUnary
+  have inclusionHistory : UnaryHistory inclusion := inclusionUnary
+  have scheduleHistory : UnaryHistory schedule := scheduleUnary
+  have regReadHistory : UnaryHistory regRead := regReadUnary
+  have lowerUpper : Cont lower upper width := lowerUpperRow
+  have widthInclusion : Cont width inclusion regRead := widthInclusionRow
+  have regReadPkg : PkgSig bundle regRead pkg := pkgRow
+  exact
+    ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
+      regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
 
 end BEDC.Derived.NestedIntervalUp

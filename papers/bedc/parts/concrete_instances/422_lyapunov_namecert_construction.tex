@@ -45,6 +45,7 @@ $\mathsf{LyapunovLedger}(X,T,Q,P,D,H,C,G,N)$. Two accepted packets classify
 together only when all nine rows transport by the displayed $\hsame$ data and
 follow the same $\Cont$ routes named in $G$.
 \end{definition}
+\leanchecked{BEDC.Derived.LyapunovUp.taste\_gate}
 
 \begin{theorem}[Lyapunov decrease ledger]
 \label{thm:lyapunov-decrease-ledger}
@@ -91,6 +92,7 @@ $\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$.
 \end{enumerate}
 These rows form the full public seed surface for the Lyapunov certificate name.
 \end{theorem}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row fixes every coordinate that can be named by the certificate.
 The classifier is the finite membership test on those coordinates, and the
@@ -133,6 +135,7 @@ All other objects named in the statement are absent from the carrier and from
 the package provenance. They therefore cannot be read through
 $\NameCert_{\LyapunovUp}$.
 \end{proof}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovPacket\_consumer\_boundary}
 
 \begin{theorem}[Lyapunov stability transport]
 \label{thm:lyapunov-stability-transport}
@@ -163,14 +166,16 @@ since the carrier has no additional stability coordinate.
 \leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_stability\_transport}
 
 \closureat{LyapunovUp}{seedStr}
+\closureat{LyapunovUp}{obligationStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\LyapunovUp}
   \constructivestory{A Lyapunov stability row is seeded by a finite $\mathsf{BHist}$ packet of state rows, transition rows, a quadratic certificate row, a positive-definite witness row, a one-step decrease ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed surface binds only the finite state, transition, quadratic, positivity, one-step decrease, transport, continuation, provenance, and name rows listed in \autoref{def:lyapunov-bhist-carrier}.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close differentiable Lyapunov theory, asymptotic convergence, basin computation, controller synthesis, external solver semantics, or a standard bridge.}
-  \upgradepath{Formal closure requires a Lean carrier predicate for the finite ledger and checked transport, obligation-surface, consumer-boundary, and stability-transport theorems.}
+  \upgradepath{Scoped closure requires binding the finite state, transition, quadratic, positivity, decrease, transport, continuation, provenance, and name rows to explicit BEDC primitives.}
 \end{closurestatus}
