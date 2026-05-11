@@ -653,6 +653,7 @@ import BEDC.Derived.FieldExtUp.ScalarActionContReadback
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.SingletonLedger
 import BEDC.Derived.FieldExtUp.SingletonInverse
+import BEDC.Derived.FieldExtUp.SingletonSurface
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.StabilityExactness
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
