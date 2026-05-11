@@ -153,6 +153,38 @@ theorem CofibrantReplacementBHistSource_factorization_readback [AskSetup] [Packa
         (And.intro endpointUnary
           (And.intro endpointRow packageBoundary))))
 
+theorem CofibrantReplacementBHistSource_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {object cofibrant arrow factorization lifting dependency ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementBHistSource object cofibrant arrow factorization lifting dependency
+        ledger endpoint bundle pkg ->
+      UnaryHistory object ∧ UnaryHistory cofibrant ∧ UnaryHistory arrow ∧
+        UnaryHistory factorization ∧ UnaryHistory lifting ∧ UnaryHistory dependency ∧
+          UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont object cofibrant arrow ∧
+            Cont arrow factorization ledger ∧ Cont ledger dependency endpoint ∧
+              PkgSig bundle endpoint pkg := by
+  intro source
+  obtain ⟨objectUnary, cofibrantUnary, factorizationUnary, liftingUnary, dependencyUnary,
+    arrowRow, ledgerRow, endpointRow, endpointPkg⟩ := source
+  have arrowUnary : UnaryHistory arrow :=
+    unary_cont_closed objectUnary cofibrantUnary arrowRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed arrowUnary factorizationUnary ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary dependencyUnary endpointRow
+  exact
+    And.intro objectUnary
+      (And.intro cofibrantUnary
+        (And.intro arrowUnary
+          (And.intro factorizationUnary
+            (And.intro liftingUnary
+              (And.intro dependencyUnary
+                (And.intro ledgerUnary
+                  (And.intro endpointUnary
+                    (And.intro arrowRow
+                      (And.intro ledgerRow
+                        (And.intro endpointRow endpointPkg))))))))))
+
 def CofibrantReplacementPacket [AskSetup] [PackageSetup]
     (X Q arrow factorization lifting package ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
