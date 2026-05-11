@@ -228,3 +228,66 @@ $$
 $$
 The shared admitted-source judgment and the two generated signatures are exactly the hypotheses of \autoref{thm:bundle-local-signature-determinacy} under $\mathsf{BundleAskPolicy}(\Pi,D)$, so $\hsame(s,t)$. The concrete package-sameness introduction rule, equivalently \autoref{thm:internalized-globalize-soundness-intro} applied to the two generated signatures, the two token-introduction witnesses, and $\hsame(s,t)$, yields $\psame(p,q)$.
 \end{proof}
+
+\begin{theorem}[Bundle-local internalized gap coverage]
+\label{thm:bundle-local-internalized-gap-coverage}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$ and the dependent generated-signature token condition: whenever $\InDom(D,u)$ and $\Sig(\Pi,u,s,\Delta)$, there exists a token $p$ with $\TokIntro(\Pi,s,p)$. If $\InDom(D,h)$, then there exists a token $p$ such that
+$$
+  \InGapSig(\Pi,D,p,h).
+$$
+\end{theorem}
+
+\begin{proof}
+By bundle-local signature existence, \autoref{thm:bundle-local-signature-existence}, the bundle-local asking policy and the admitted-source premise give an answer history $s$ and an evidence ledger $\Delta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta).
+$$
+Apply the dependent token condition to $\InDom(D,h)$ and this generated signature. It supplies a token $p$ with
+$$
+  \TokIntro(\Pi,s,p).
+$$
+The admitted-source premise, the generated signature, and this token-introduction judgment are exactly the witnesses required by \autoref{def:internalized-signature-gap}. Therefore
+$$
+  \InGapSig(\Pi,D,p,h),
+$$
+and the displayed token $p$ gives the required coverage.
+\end{proof}
+
+\begin{theorem}[Bundle-local same-source gap memberships share signatures]
+\label{thm:bundle-local-gap-memberships-share-signature}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If
+$$
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+$$
+then there exist answer histories $s,t$ and evidence ledgers $\Delta,\Theta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p),
+$$
+$$
+  \Sig(\Pi,h,t,\Theta),
+  \qquad
+  \TokIntro(\Pi,t,q),
+  \qquad
+  \hsame(s,t).
+$$
+\end{theorem}
+
+\begin{proof}
+Unpack the first gap membership by \autoref{def:internalized-signature-gap}. It supplies the admitted-source judgment $\InDom(D,h)$, an answer history $s$, and an evidence ledger $\Delta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+$$
+Unpack the second gap membership in the same way. It supplies an answer history $t$ and an evidence ledger $\Theta$ such that
+$$
+  \Sig(\Pi,h,t,\Theta),
+  \qquad
+  \TokIntro(\Pi,t,q).
+$$
+The two generated signatures have the same bundle and the same admitted source history. Applying \autoref{thm:bundle-local-signature-determinacy} under $\mathsf{BundleAskPolicy}(\Pi,D)$ gives $\hsame(s,t)$. The displayed signatures, token-introduction witnesses, and this history-sameness witness are the required data.
+\end{proof}
