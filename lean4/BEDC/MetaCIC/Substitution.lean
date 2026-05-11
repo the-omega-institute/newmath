@@ -245,5 +245,4 @@ theorem substitute_preserves_typing_general_statement_absurd :
       closed_substitute_counter_source
       (HasType.sortRule []))
 
-
 end BEDC.MetaCIC
