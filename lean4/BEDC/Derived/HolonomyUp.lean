@@ -148,4 +148,64 @@ theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageS
       (And.intro packet.right.right.right.right.right.right.right.right.left
         packet.right.right.right.right.right.right.right.right.right))
 
+def HolonomyTransportCarrier [AskSetup] [PackageSetup]
+    (bundleRow connection loop endpoint curvatureControl composition provenance packet : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory bundleRow ∧ UnaryHistory connection ∧ UnaryHistory endpoint ∧
+    UnaryHistory curvatureControl ∧ Cont bundleRow connection loop ∧
+      Cont loop endpoint composition ∧ Cont curvatureControl composition provenance ∧
+        Cont provenance endpoint packet ∧ PkgSig bundle packet pkg
+
+theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [PackageSetup]
+    {bundleRow connection loop endpoint curvatureControl composition provenance packet bundleRow'
+      connection' loop' endpoint' curvatureControl' composition' provenance' packet' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundleRow connection loop endpoint curvatureControl composition
+        provenance packet bundle pkg ->
+      hsame bundleRow bundleRow' ->
+        hsame connection connection' ->
+          hsame loop loop' ->
+            hsame endpoint endpoint' ->
+              hsame curvatureControl curvatureControl' ->
+                Cont bundleRow' connection' loop' ->
+                  Cont loop' endpoint' composition' ->
+                    Cont curvatureControl' composition' provenance' ->
+                      Cont provenance' endpoint' packet' ->
+                        PkgSig bundle packet' pkg ->
+                          HolonomyTransportCarrier bundleRow' connection' loop' endpoint'
+                              curvatureControl' composition' provenance' packet' bundle pkg ∧
+                            hsame composition composition' ∧ hsame provenance provenance' ∧
+                              hsame packet packet' := by
+  intro carrier sameBundleRow sameConnection sameLoop sameEndpoint sameCurvatureControl loopRow'
+  intro compositionRow' provenanceRow' packetRow' pkgSig'
+  obtain ⟨bundleUnary, connectionUnary, endpointUnary, curvatureUnary, loopRow,
+    compositionRow, provenanceRow, packetRow, _pkgSig⟩ := carrier
+  have bundleUnary' : UnaryHistory bundleRow' :=
+    unary_transport bundleUnary sameBundleRow
+  have connectionUnary' : UnaryHistory connection' :=
+    unary_transport connectionUnary sameConnection
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have curvatureUnary' : UnaryHistory curvatureControl' :=
+    unary_transport curvatureUnary sameCurvatureControl
+  have _sameLoopFromRows : hsame loop loop' :=
+    cont_respects_hsame sameBundleRow sameConnection loopRow loopRow'
+  have sameComposition : hsame composition composition' :=
+    cont_respects_hsame sameLoop sameEndpoint compositionRow compositionRow'
+  have compositionUnary' : UnaryHistory composition' :=
+    unary_cont_closed (unary_cont_closed bundleUnary' connectionUnary' loopRow')
+      endpointUnary' compositionRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameCurvatureControl sameComposition provenanceRow provenanceRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed curvatureUnary' compositionUnary' provenanceRow'
+  have samePacket : hsame packet packet' :=
+    cont_respects_hsame sameProvenance sameEndpoint packetRow packetRow'
+  exact
+    ⟨⟨bundleUnary', connectionUnary', endpointUnary', curvatureUnary', loopRow',
+        compositionRow', provenanceRow', packetRow', pkgSig'⟩,
+      sameComposition,
+      sameProvenance,
+      samePacket⟩
+
 end BEDC.Derived.HolonomyUp
