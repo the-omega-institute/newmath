@@ -173,13 +173,50 @@ an infinite-horizon algebraic Riccati limit, a stabilizing solution theorem, or
 an external solver, none of those objects is exposed by the restricted packet.
 \end{proof}
 
+\begin{theorem}[RiccatiUp public finite-ledger certificate]
+\label{thm:riccati-public-finite-ledger-certificate}
+The carrier of \autoref{def:riccati-control-packet-carrier}, the obligation
+surface of \autoref{thm:riccati-namecert-obligation-surface}, the finite ledger
+step closure of \autoref{thm:riccati-finite-ledger-step-closure}, the LQR and
+Kalman consumer boundary of \autoref{thm:riccati-lqr-kalman-consumer-boundary},
+the seed NameCert surface of \autoref{thm:riccati-seed-namecert-surface}, and
+the finite horizon tail restriction of
+\autoref{thm:riccati-finite-horizon-tail-restriction} assemble the public
+$\NameCert_{\RiccatiUp}$ certificate over $\MatrixUp$, $\VecSpaceUp$, $\RealUp$,
+$\DynSystemUp$, $\LQRUp$, $\KalmanFilterUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, and $\Pkg$.
+
+The certificate exposes only the finite control ledger. It exports no
+infinite-horizon algebraic Riccati limit, stabilizing solution theorem,
+convergence rate, or external solver.
+\end{theorem}
+\begin{proof}
+Start with the seed surface of
+\autoref{thm:riccati-seed-namecert-surface}. It packages the carrier,
+classifier, finite value ledger, component transport, and consumer boundary as
+the visible finite $\NameCert_{\RiccatiUp}$ packet.
+
+Apply the tail restriction of
+\autoref{thm:riccati-finite-horizon-tail-restriction}. The same displayed
+matrix, vector-space, real-scalar, dynamic-system, continuation, transport, and
+provenance rows remain stable under the finite horizon views that downstream
+consumers may request.
+
+Finally use the LQR and Kalman consumer boundary of
+\autoref{thm:riccati-lqr-kalman-consumer-boundary}. It identifies the public
+consumers and excludes infinite-horizon limits, stabilizing solution theorems,
+convergence data, and external solvers. Repacking these displayed rows gives
+the stated public certificate.
+\end{proof}
+
 \closureat{RiccatiUp}{seedStr}
 \closureat{RiccatiUp}{obligationStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \closureat{RiccatiUp}{scopedStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
+\closureat{RiccatiUp}{publicStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \begin{closurestatus}{\RiccatiUp}
   \constructivestory{A Riccati row is seeded by a finite $\mathsf{BHist}$ packet of matrix state and control rows, symmetric-cost rows, a finite horizon unary index, value-row ledger entries, backward $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance naming $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The public Riccati finite-ledger export is scoped by the component-transport, finite-ledger-step, $\LQRUp$/$\KalmanFilterUp$ consumer-boundary, and finite-horizon tail-restriction rows.}
+  \scopeclosed{The public Riccati finite-ledger export is scoped by the component-transport, finite-ledger-step, $\LQRUp$/$\KalmanFilterUp$ consumer-boundary, finite-horizon tail-restriction, and public certificate rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport}
   \bridgestatus{none}
