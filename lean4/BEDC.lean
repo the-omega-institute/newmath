@@ -118,7 +118,6 @@ import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
-import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
