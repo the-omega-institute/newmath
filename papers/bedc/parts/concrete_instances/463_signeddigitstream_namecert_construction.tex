@@ -269,6 +269,50 @@ coordinate absent from \autoref{def:signeddigitstream-carrier} and from both
 consumer boundaries.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream prefix consumer invariance]
+\label{thm:signeddigitstream-prefix-consumer-invariance}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ packet, and let
+$N_{\leq k}$ be a displayed prefix schedule in its finite unary window. Every
+$\RegSeqRatUp$ or $\RealUp$ consumer request that factors through
+$N_{\leq k}$ reads from the prefix packet $S_{\leq k}$ exactly the restriction
+of the consumer-visible rows read from $S$: the scheduled signed-digit prefix,
+carry and normalization ledger, normalized $\DyadicRatCoreUp$ endpoint row,
+visible $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ row.
+
+The prefix read exposes no quotient tail, host real equality, selected limit,
+completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:signeddigitstream-prefix-truncation-stability} to the accepted
+packet and the displayed schedule $N_{\leq k}$. This repacks the prefix carrier
+as $S_{\leq k}$ while retaining only the scheduled signed-digit prefix, carry
+ledger, normalized endpoint row, transport rows, package provenance, and local
+name-certificate row.
+
+Use
+\autoref{thm:signeddigitstream-common-window-determinacy} on the retained
+window. The theorem identifies the normalized $\DyadicRatCoreUp$ endpoint and
+the attached carry ledger as the same visible rows before and after prefix
+restriction, with the displayed $\hsame$ and $\Cont$ routes providing the only
+allowed comparison.
+
+For a $\RegSeqRatUp$ request, project the retained rows through
+\autoref{thm:signeddigitstream-regseqrat-handoff}. For a $\RealUp$ request,
+project them through
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. In both
+cases the consumer factors through the same prefix carrier rows and cannot read
+outside the scheduled packet surface.
+
+Finally apply
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. It
+identifies the two consumer readings on the common finite window, so the rows
+visible from $S_{\leq k}$ are exactly the restricted rows visible from $S$ and
+none of the excluded quotient, host-real, limit, completeness, or standard
+bridge data can enter the prefix read.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream standard finite-window bridge]
 \label{thm:signeddigitstream-standard-bridge-window}
 The public interface export of
@@ -308,8 +352,9 @@ An accepted $\SignedDigitStreamUp$ finite-window packet exposes to every
 $\RegSeqRatUp$ or $\RealUp$ consumer exactly the following rows: the
 prefix-truncation surface, common-window determinacy surface,
 $\RegSeqRatUp$ handoff, public $\RealUp$ boundary, transport bridge,
-$\RealUp$--$\RegSeqRatUp$ window correspondence, and standard finite-window
-bridge rows of \autoref{thm:signeddigitstream-standard-bridge-window}.
+$\RealUp$--$\RegSeqRatUp$ window correspondence, prefix consumer invariance,
+and standard finite-window bridge rows of
+\autoref{thm:signeddigitstream-standard-bridge-window}.
 
 The coverage contains no hidden tail, quotient equality, selected limit,
 completeness datum, trichotomy datum, or extra consumer coordinate beyond the
@@ -340,6 +385,41 @@ prefix, determinacy, handoff, and correspondence theorems. Since none of those
 sources contains a hidden tail, quotient equality, selected limit, completeness
 witness, or trichotomy row, no such datum is available to a downstream
 consumer.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream canonical finite-tail normal form]
+\label{thm:signeddigitstream-canonical-tail-normal-form}
+Every accepted $\SignedDigitStreamUp$ packet has a canonical finite-tail normal
+form determined by its displayed prefix window, signed digit rows, carry
+ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows.
+
+Any $\RegSeqRatUp$ or $\RealUp$ consumer read of the packet factors through
+that normal form. The factorization introduces no hidden tail coordinate,
+quotient equality, selected limit, completeness datum, trichotomy datum, or
+host real equality.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:signeddigitstream-prefix-truncation-stability}. It replaces the
+packet by the displayed finite prefix without changing the endpoint and carry
+rows visible to consumers.
+
+Use \autoref{thm:signeddigitstream-common-window-determinacy} to identify the
+normal endpoint and carry ledger determined by the shared prefix window. This
+gives the canonical finite-tail representative over the displayed signed
+digit rows.
+
+Next apply \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-public-real-boundary-export}. The
+regular-rational and real consumer boundaries both read the same finite
+endpoint, carry, transport, provenance, and naming rows.
+
+Finally invoke
+\autoref{thm:signeddigitstream-mature-consumer-coverage}. Every downstream
+$\RegSeqRatUp$ or $\RealUp$ read is one of the finite-window consumer rows
+already carried by the normal form, so no excluded tail, quotient, limit,
+completeness, trichotomy, or host-equality coordinate is introduced.
 \end{proof}
 
 \closureat{SignedDigitStreamUp}{seedStr}

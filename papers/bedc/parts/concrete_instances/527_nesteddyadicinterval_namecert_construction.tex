@@ -275,6 +275,44 @@ quotient intervals, hidden infinite tails, or selected limits, the bridge
 cannot claim them.
 \end{proof}
 
+\begin{theorem}[NestedDyadicInterval successive refinement chain]
+\label{thm:nesteddyadicinterval-successive-refinement-chain}
+Let $I_0,\ldots,I_n$ be a finite displayed chain of
+$\NestedDyadicIntervalUp$ entries whose adjacent pairs satisfy the displayed
+refinement rows. Then the adjacent rows compose into one accepted
+nested-dyadic-interval window over the same finite prefix, $\mathsf{BHist}$
+ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ rows.
+
+The $\RegSeqRatUp$ handoff of the composed chain is exactly the shared-prefix
+handoff of that finite window. The composition does not select a limit, form a
+quotient interval object, or invoke a host completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:nesteddyadicinterval-prefix-truncation-stability}. It restricts
+the displayed chain to the finite prefix inspected by the consumer and hides
+the unobserved tail.
+
+Apply
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} to each
+adjacent pair. Each step contributes only the displayed endpoint packets,
+refinement ledger, transport rows, package provenance, and local naming rows.
+
+Use \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion} to exhaust
+the consumer boundary by the finite prefix and adjacent-refinement rows. This
+turns the list of adjacent steps into one accepted nested-dyadic-interval
+window.
+
+Finally apply
+\autoref{thm:nesteddyadicinterval-shared-prefix-handoff} and
+\autoref{thm:nesteddyadicinterval-public-namecert-export}. The handoff is the
+shared-prefix handoff of the composed chain, and the public certificate reads
+only the same finite rows. Since the composed window has no coordinate for a
+selected limit, quotient interval, or host completeness principle, none is
+exported.
+\end{proof}
+
 \closureat{NestedDyadicIntervalUp}{seedStr}
 \closureat{NestedDyadicIntervalUp}{obligationStr}
 \closureat{NestedDyadicIntervalUp}{scopedStr}
