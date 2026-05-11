@@ -115,4 +115,80 @@ theorem ControlControllabilityReachabilityPacket_reachability_ledger [AskSetup]
               (And.intro reachabilityUnary
                 (And.intro firstColumnRow (And.intro reachabilityRow pkgSig))))))))
 
+theorem ControlControllabilityReachabilityPacket_consumer_boundary [AskSetup]
+    [PackageSetup] {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {state input transition control horizon firstColumn reachability provenance endpoint : BHist} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory transition ∧
+          UnaryHistory control ∧ UnaryHistory horizon ∧ UnaryHistory firstColumn ∧
+            UnaryHistory reachability ∧ Cont control horizon firstColumn ∧
+              Cont firstColumn transition reachability ∧
+                Cont reachability provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            ControlControllabilityReachabilityPacket state input transition control horizon
+              firstColumn reachability provenance endpoint bundle pkg ∧ hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  have firstColumnUnary : UnaryHistory firstColumn :=
+    unary_cont_closed packet.right.right.right.left packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have reachabilityUnary : UnaryHistory reachability :=
+    unary_cont_closed firstColumnUnary packet.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro cert
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro firstColumnUnary
+                (And.intro reachabilityUnary
+                  (And.intro packet.right.right.right.right.right.right.left
+                    (And.intro packet.right.right.right.right.right.right.right.left
+                      (And.intro packet.right.right.right.right.right.right.right.right.left
+                        packet.right.right.right.right.right.right.right.right.right))))))))))
+
 end BEDC.Derived.ControlControllabilityUp
