@@ -71,6 +71,31 @@ structural metatheorems about the represented calculus, and their checked
 fragments must be stated over the explicit syntax, reduction, and typing
 relations carried by the reconstruction.
 
+The encoded confluence surface separates ordinary multi-step beta reduction
+from parallel reduction. $\mathrm{BetaStarStep}$ is the reflexive-transitive
+closure of one-step $\beta$; $\mathrm{BetaParallel}$ is a one-round parallel
+relation with identity clauses for variables and sort, componentwise clauses
+for application, lambda, and Pi, and a beta clause that contracts a lambda
+redex after reducing the domain, body, and argument in parallel.
+The checked diamond material is therefore shape-local. The sort and variable
+sources have genuine joins because their parallel reductions can only return
+the same atom, while application, lambda, and Pi constructors have join
+assemblers when their component joins are supplied. At the ordinary multi-step
+level, the atom cases are closed by showing that a beta-star path out of a
+sort or variable has the same endpoint.
+\leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
+\leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
+
+The normalization facts are deliberately atomic. $\mathrm{sort\_no\_beta}$
+and $\mathrm{closed\_var\_no\_beta}$ say that the sort constructor and a
+variable constructor are not beta-redex heads; there is no one-step reduction
+whose source has either shape. The typed closed-atom theorem packages this as
+a normal-form statement: if a closed represented term typed at sort is either
+the sort atom or a variable atom, then no beta successor exists. In this
+bounded sense, closed atoms are already normal forms in the represented
+calculus.
+\leanchecked{BEDC.MetaCIC.closed\_atom\_normal\_form}
+
 Strong normalization has a different status. A global strong-normalization
 theorem strong enough to recover consistency of the represented host calculus
 meets the Godel-II boundary when the represented calculus is comparable in
