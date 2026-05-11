@@ -253,4 +253,32 @@ theorem DyadicIntervalEndpointPacket_nested_refinement_ledger [AskSetup] [Packag
         (And.intro sameMidpoint
           (And.intro sameRadius sameNameRow)))
 
+theorem DyadicIntervalPacket_regular_window_seal_handoff [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint windowSource sealRowOut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      Cont endpoint radius windowSource ->
+        Cont windowSource width sealRowOut ->
+          PkgSig bundle sealRowOut pkg ->
+            UnaryHistory windowSource ∧ UnaryHistory sealRowOut ∧
+              hsame windowSource (append endpoint radius) ∧
+                hsame sealRowOut (append windowSource width) ∧
+                  Cont endpoint radius windowSource ∧ Cont windowSource width sealRowOut ∧
+                    PkgSig bundle sealRowOut pkg := by
+  intro packet windowRow sealRow sealPkg
+  obtain ⟨_leftUnary, _rightUnary, widthUnary, _midpointUnary, radiusUnary, _orderUnary,
+    _provenanceUnary, endpointUnary, _widthRow, _midpointRow, _radiusRow, _orderRow,
+    _endpointRow, _pkgRow⟩ := packet
+  have windowUnary : UnaryHistory windowSource :=
+    unary_cont_closed endpointUnary radiusUnary windowRow
+  have sealUnary : UnaryHistory sealRowOut :=
+    unary_cont_closed windowUnary widthUnary sealRow
+  exact
+    And.intro windowUnary
+      (And.intro sealUnary
+        (And.intro windowRow
+          (And.intro sealRow
+            (And.intro windowRow
+              (And.intro sealRow sealPkg)))))
+
 end BEDC.Derived.DyadicIntervalUp
