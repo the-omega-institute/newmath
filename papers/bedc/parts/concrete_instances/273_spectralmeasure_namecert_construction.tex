@@ -63,37 +63,8 @@ For the binary step, apply \autoref{thm:spectralmeasure-orthogonal-additivity} t
 
 The packet has no coordinate for countable families, completed measurable spaces, eigenvectors, or external projection-valued functions. Thus the finite-union endpoint is exhausted by the projection ledger recorded in the accepted $\SpectralMeasureUp$ packet.
 \end{proof}
+\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFiniteAdditivityLedger\_projection\_chain}
 \leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_projection\_ledger\_additivity}
-
-\begin{theorem}[SpectralMeasureUp projection-ledger binary composition]
-\label{thm:spectralmeasure-projection-ledger-binary-composition}
-Let $S$ be an accepted $\SpectralMeasureUp$ packet with displayed disjoint
-event rows $E$, $F$, and $G$. Suppose the packet also displays the finite-union
-rows $E\cup F$ and $(E\cup F)\cup G$. Then the projection endpoint for the
-three-term displayed union is obtained by composing two applications of the
-packet's orthogonality and finite-additivity ledger over the same
-$\HilbertUp$, $\ObservableUp$, $\MeasureUp$, $\hsame$, $\Cont$, and
-$\mathsf{Pkg}$ rows. The read introduces no countable additivity row and no
-host projection-valued function.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:spectralmeasure-orthogonal-additivity} to the displayed
-event rows $E$ and $F$. This reads the orthogonality row for the pair and
-names the projection endpoint for the displayed union row $E\cup F$ over the
-same Hilbert, observable, and measure provenance.
-
-Apply \autoref{thm:spectralmeasure-orthogonal-additivity} again to the
-displayed union row $E\cup F$ and the event row $G$. The second read uses the
-same packet ledger and therefore keeps the same $\hsame$, $\Cont$, and
-$\mathsf{Pkg}$ rows.
-
-Finally use
-\autoref{thm:spectralmeasure-projection-ledger-finite-additivity}. Its row
-inventory identifies this two-step binary composition as the three-term
-finite-union endpoint already displayed in the accepted packet. Since the
-inventory has no countable-additivity coordinate or host projection-valued
-function, neither can be read by the composition.
-\end{proof}
 
 \begin{theorem}[SpectralMeasureUp NameCert obligation surface]
 \label{thm:spectralmeasure-namecert-obligation-surface}
@@ -110,14 +81,16 @@ Finally repack the displayed rows as the local naming-certificate surface. Becau
 
 \closureat{SpectralMeasureUp}{seedStr}
 \closureat{SpectralMeasureUp}{obligationStr}
+\closureat{SpectralMeasureUp}{scopedStr}[BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\SpectralMeasureUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope names the finite $\mathsf{BHist}$ carrier, classifier, $\hsame$ stability, orthogonal finite-additivity ledger, $\Cont$ transport, $\mathsf{Pkg}$ provenance, and $\NameCert_{\SpectralMeasureUp}$ obligation surface over $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped packet names the finite $\mathsf{BHist}$ carrier, classifier, $\hsame$ stability, orthogonal finite-additivity ledger, $\Cont$ transport, $\mathsf{Pkg}$ provenance, and $\NameCert_{\SpectralMeasureUp}$ obligation surface over $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$.}
   \constructivestory{A spectral-measure packet starts from a displayed Hilbert carrier, observable row, and measurable-event carrier, then records finite event-to-projection endpoints, orthogonality and finite-additivity ledgers, componentwise $\hsame$ transport, and continuation provenance as the visible certificate surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the spectral theorem, countable additivity over completed sigma-algebras, host projection-valued measures, eigenbasis selection, or standard bridges.}
-  \upgradepath{Scoped closure requires checked finite BEDC rows for the carrier, classifier, $\hsame$ stability, finite-additivity ledger, and local $\NameCert_{\SpectralMeasureUp}$ obligation surface.}
+  \upgradepath{Public closure requires a consumer-facing spectral-measure boundary for downstream observable and spectral-theorem readers.}
 \end{closurestatus}
