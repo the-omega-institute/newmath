@@ -17,6 +17,7 @@ The classifier compares two accepted packets only through displayed $\hsame$ row
 \label{thm:zeroknowledge-carrier-obligation}
 For a $\ZeroKnowledgeUp$ packet with displayed rows $P$, $V$, $c$, $r$, $k$, $q$, $s$, and $\ell$, the carrier obligation is exactly the finite $\mathsf{BHist}$ surface consisting of the prover row, verifier row, challenge transcript row, response transcript row, hash commitment row, computable verifier row, simulator transcript row, the $\Cont$ transcript routes among those rows, and the $\Pkg$ provenance rows naming the consumed $\HashUp$ and $\ComputableUp$ certificates. No cryptographic hardness predicate, negligible bound, host randomness source, or external protocol machine is part of this carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeCarrier\_obligation}
 \leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeFinitePacket\_carrier\_obligation}
 \begin{proof}
 Project the packet to its displayed histories. The prover, verifier, challenge, response, commitment, computable-verifier, simulator, and evidence rows are the only carrier coordinates.
@@ -40,6 +41,7 @@ For reflexivity, symmetry, and transitivity, apply the corresponding $\hsame$ op
 \label{thm:zeroknowledge-completeness-ledger-obligation}
 The completeness ledger of a $\ZeroKnowledgeUp$ packet is a BEDC obligation over the displayed prover row $P$, verifier row $V$, challenge row $c$, response row $r$, computable verifier row $q$, transcript continuation rows, and provenance rows for $\HashUp$ and $\ComputableUp$. It states only that the accepted transcript route records a verifier-acceptance row in the packet ledger; it does not assert a probability of acceptance or a completeness error bound.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeFiniteCarrier\_completeness\_ledger\_obligation}
 \begin{proof}
 Project the completeness evidence to the transcript route from prover and verifier into challenge, then from challenge and prover into response. The computable verifier row reads that response through the displayed $\Cont$ evidence.
 
