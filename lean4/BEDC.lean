@@ -139,11 +139,10 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RegSeqRatUp
-import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
-import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RiccatiUp
+import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SpectralMeasureUp

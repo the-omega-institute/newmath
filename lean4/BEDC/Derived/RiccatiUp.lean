@@ -83,4 +83,96 @@ theorem RiccatiControlPacket_finite_ledger_step_closure [AskSetup] [PackageSetup
                         (And.intro endpointRow' endpointPkg')))))))))))
     (And.intro samePredecessor sameEndpoint)
 
+def RiccatiControlPacketCarrier [AskSetup] [PackageSetup]
+    (state control cost horizon successor transition predecessor provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory state ∧ UnaryHistory control ∧ UnaryHistory cost ∧ UnaryHistory horizon ∧
+    UnaryHistory successor ∧ UnaryHistory transition ∧ UnaryHistory predecessor ∧
+      UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont state control successor ∧
+        Cont cost horizon transition ∧ Cont successor transition predecessor ∧
+          Cont predecessor provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem RiccatiControlPacketCarrier_component_transport [AskSetup] [PackageSetup]
+    {state control cost horizon successor transition predecessor provenance endpoint state' control'
+      cost' horizon' successor' transition' predecessor' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiccatiControlPacketCarrier state control cost horizon successor transition predecessor
+        provenance endpoint bundle pkg ->
+      hsame state state' -> hsame control control' -> hsame cost cost' -> hsame horizon horizon' ->
+        hsame successor successor' -> hsame transition transition' -> hsame provenance provenance' ->
+          Cont successor' transition' predecessor' -> Cont predecessor' provenance' endpoint' ->
+            PkgSig bundle endpoint' pkg ->
+              RiccatiControlPacketCarrier state' control' cost' horizon' successor' transition'
+                  predecessor' provenance' endpoint' bundle pkg ∧
+                hsame predecessor predecessor' ∧ hsame endpoint endpoint' := by
+  intro carrier sameState sameControl sameCost sameHorizon sameSuccessor sameTransition
+    sameProvenance predecessorRow endpointRow pkgRow
+  have stateUnary : UnaryHistory state' :=
+    unary_transport carrier.left sameState
+  have controlUnary : UnaryHistory control' :=
+    unary_transport carrier.right.left sameControl
+  have costUnary : UnaryHistory cost' :=
+    unary_transport carrier.right.right.left sameCost
+  have horizonUnary : UnaryHistory horizon' :=
+    unary_transport carrier.right.right.right.left sameHorizon
+  have successorUnary : UnaryHistory successor' :=
+    unary_transport carrier.right.right.right.right.left sameSuccessor
+  have transitionUnary : UnaryHistory transition' :=
+    unary_transport carrier.right.right.right.right.right.left sameTransition
+  have provenanceUnary : UnaryHistory provenance' :=
+    unary_transport carrier.right.right.right.right.right.right.right.left sameProvenance
+  have predecessorUnary : UnaryHistory predecessor' :=
+    unary_cont_closed successorUnary transitionUnary predecessorRow
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_cont_closed predecessorUnary provenanceUnary endpointRow
+  have successorRow : Cont state' control' successor' := by
+    cases sameState
+    cases sameControl
+    cases sameSuccessor
+    exact carrier.right.right.right.right.right.right.right.right.right.left
+  have transitionRow : Cont cost' horizon' transition' := by
+    cases sameCost
+    cases sameHorizon
+    cases sameTransition
+    exact carrier.right.right.right.right.right.right.right.right.right.right.left
+  have samePredecessor : hsame predecessor predecessor' :=
+    cont_respects_hsame sameSuccessor sameTransition
+      carrier.right.right.right.right.right.right.right.right.right.right.right.left
+      predecessorRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameProvenance
+      carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+      endpointRow
+  constructor
+  · constructor
+    · exact stateUnary
+    · constructor
+      · exact controlUnary
+      · constructor
+        · exact costUnary
+        · constructor
+          · exact horizonUnary
+          · constructor
+            · exact successorUnary
+            · constructor
+              · exact transitionUnary
+              · constructor
+                · exact predecessorUnary
+                · constructor
+                  · exact provenanceUnary
+                  · constructor
+                    · exact endpointUnary
+                    · constructor
+                      · exact successorRow
+                      · constructor
+                        · exact transitionRow
+                        · constructor
+                          · exact predecessorRow
+                          · constructor
+                            · exact endpointRow
+                            · exact pkgRow
+  · constructor
+    · exact samePredecessor
+    · exact sameEndpoint
+
 end BEDC.Derived.RiccatiUp
