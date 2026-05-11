@@ -6,6 +6,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.HolonomyUp
 
@@ -324,5 +325,28 @@ theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [Packag
                     (And.intro ledgerRow'
                       (And.intro endpointRow' pkgSig')))))))))
       (And.intro sameLedger sameEndpoint)
+
+theorem HolonomyTransportPacket_loop_source_obligation [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvature ledger pkgRow : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvature ledger pkgRow probe pkg ->
+      UnaryHistory bundle ∧ UnaryHistory connection ∧ UnaryHistory loop ∧
+        UnaryHistory endpoint ∧ UnaryHistory ledger ∧
+          hsame endpoint (append loop connection) ∧
+            hsame ledger (append endpoint curvature) ∧ PkgSig probe pkgRow pkg := by
+  intro packet
+  have endpointFromConnection : hsame endpoint (append connection loop) :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointFromLoop : hsame endpoint (append loop connection) :=
+    hsame_trans endpointFromConnection
+      (unary_append_comm_hsame packet.right.left packet.right.right.left)
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.right.left
+             (And.intro endpointFromLoop
+               (And.intro packet.right.right.right.right.right.right.right.right.left
+                 packet.right.right.right.right.right.right.right.right.right))))))
 
 end BEDC.Derived.HolonomyUp
