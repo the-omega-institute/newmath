@@ -197,16 +197,31 @@ Conversely, any source read used by the seal is one of those finite rows, becaus
 \end{proof}
 \leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}
 
+\begin{theorem}[RegSeqRat public source export]
+\label{thm:regseqrat-public-source-export}
+Any consumer of $\NameCert_{\RegSeqRatUp}$ may read exactly the scheduled stream carrier, the dyadic-tolerance classifier, the regularity ledger, dyadic-radius observations, finite-window transport and gluing rows, the $\RealUp$ seal handoff row, and their displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+The exported surface contains no quotient sequences, host real equality, ambient metric completion, or extra seal data beyond those finite BEDC rows.
+\end{theorem}
+\begin{proof}
+The regularity obligation surface of \autoref{thm:regseqrat-regularity-obligation-surface} exposes the scheduled carrier, classifier, regularity ledger, dyadic-radius rows, and their displayed provenance. The finite-window transport theorem \autoref{thm:regseqrat-finite-window-transport-closure} keeps reads inside the same finite source rows under restriction and refinement.
+
+The refined-window gluing theorem \autoref{thm:regseqrat-refined-window-gluing} adds only common-refinement rows and transported overlap witnesses, again using the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance already present in the two windows.
+
+Finally, \autoref{thm:regseqrat-real-seal-handoff} identifies the $\RealUp$ seal boundary with that same regular-rational source surface. Since each cited theorem exposes only finite BEDC rows, their composition exhausts the public export surface and leaves no coordinate through which a consumer could read quotient sequences, host real equality, ambient metric completion, or additional seal data.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
+\closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
 
 \begin{closurestatus}{\RegSeqRatUp}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The obligation boundary consists of the stream carrier, dyadic classifier, regularity rows, finite-window transport rows, and $\RealUp$ seal-handoff rows over $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
   \constructivestory{Construct the packet by finite scheduled reads: $\StreamNameUp$ supplies the visible windows, $\DyadicRatCoreUp$ supplies endpoint and radius ledgers, and the regularity and classifier rows are projections of those finite observations.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient carriers, metric completeness, or standard bridge data.}
-  \upgradepath{Public closure requires a consumer-facing export theorem for the displayed $\RegSeqRatUp$ source surface.}
+  \upgradepath{Bridged closure requires a standard bridge from the displayed $\RegSeqRatUp$ source surface to the external regular-Cauchy real-name interface.}
 \end{closurestatus}

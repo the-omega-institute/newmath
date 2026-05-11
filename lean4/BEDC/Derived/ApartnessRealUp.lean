@@ -5,6 +5,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.ApartnessRealUp
 
@@ -15,6 +16,64 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+def ApartnessRealCarrier [AskSetup] [PackageSetup]
+    (left right radius window leftReadback rightReadback ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+    UnaryHistory leftReadback ∧ UnaryHistory rightReadback ∧ UnaryHistory ledger ∧
+      UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont left window leftReadback ∧
+        Cont right window rightReadback ∧ Cont left right endpoint ∧
+          Cont leftReadback rightReadback ledger ∧ PkgSig bundle endpoint pkg
+
+theorem ApartnessRealCarrier_symmetry_stability [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback ledger swappedLedger provenance endpoint
+      swappedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealCarrier left right radius window leftReadback rightReadback ledger provenance
+        endpoint bundle pkg ->
+      Cont right left swappedEndpoint -> Cont rightReadback leftReadback swappedLedger ->
+        PkgSig bundle swappedEndpoint pkg ->
+          ApartnessRealCarrier right left radius window rightReadback leftReadback swappedLedger
+              provenance swappedEndpoint bundle pkg ∧
+            hsame radius radius ∧ Cont rightReadback leftReadback swappedLedger := by
+  intro carrier swappedEndpointRow swappedLedgerRow swappedPkg
+  have swappedEndpointUnary : UnaryHistory swappedEndpoint :=
+    unary_cont_closed carrier.right.left carrier.left swappedEndpointRow
+  have swappedLedgerUnary : UnaryHistory swappedLedger :=
+    unary_cont_closed carrier.right.right.right.right.right.left
+      carrier.right.right.right.right.left swappedLedgerRow
+  constructor
+  · constructor
+    · exact carrier.right.left
+    · constructor
+      · exact carrier.left
+      · constructor
+        · exact carrier.right.right.left
+        · constructor
+          · exact carrier.right.right.right.left
+          · constructor
+            · exact carrier.right.right.right.right.right.left
+            · constructor
+              · exact carrier.right.right.right.right.left
+              · constructor
+                · exact swappedLedgerUnary
+                · constructor
+                  · exact carrier.right.right.right.right.right.right.right.left
+                  · constructor
+                    · exact swappedEndpointUnary
+                    · constructor
+                      · exact carrier.right.right.right.right.right.right.right.right.right.right.left
+                      · constructor
+                        · exact carrier.right.right.right.right.right.right.right.right.right.left
+                        · constructor
+                          · exact swappedEndpointRow
+                          · constructor
+                            · exact swappedLedgerRow
+                            · exact swappedPkg
+  · constructor
+    · exact hsame_refl radius
+    · exact swappedLedgerRow
 
 def ApartnessRealSeparationPacket [AskSetup] [PackageSetup]
     (left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
@@ -43,9 +102,9 @@ theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetu
           (And.intro packet.right.left
             (And.intro packet.right.right.right.right.left
               (And.intro packet.right.right.right.left
-                (And.intro packet.right.right.right.right.right.right.left
-                  (And.intro packet.right.right.right.right.right.left
-                    packet.right.right.right.right.right.right.right)))))))
+                  (And.intro packet.right.right.right.right.right.right.left
+                    (And.intro packet.right.right.right.right.right.left
+                      packet.right.right.right.right.right.right.right)))))))
       (And.intro (hsame_refl radius) (hsame_refl window))
 
 theorem ApartnessRealSeparationPacket_metric_handoff [AskSetup] [PackageSetup]
@@ -81,5 +140,112 @@ theorem ApartnessRealSeparationPacket_metric_handoff [AskSetup] [PackageSetup]
         (And.intro endpointUnary
           (And.intro separationRow
             (And.intro endpointRow pkgSig)))))
+
+def ApartnessRealMetricHandoffPacket [AskSetup] [PackageSetup]
+    (left right radius window leftReadback rightReadback separation provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+    UnaryHistory provenance ∧ Cont left window leftReadback ∧
+      Cont right window rightReadback ∧ Cont leftReadback rightReadback separation ∧
+        Cont separation provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ApartnessRealMetricHandoffPacket_transport [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback separation provenance endpoint left'
+      right' radius' window' leftReadback' rightReadback' separation' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealMetricHandoffPacket left right radius window leftReadback rightReadback
+        separation provenance endpoint bundle pkg ->
+      hsame left left' -> hsame right right' -> hsame radius radius' ->
+        hsame window window' -> hsame provenance provenance' ->
+          Cont left' window' leftReadback' -> Cont right' window' rightReadback' ->
+            Cont leftReadback' rightReadback' separation' ->
+              Cont separation' provenance' endpoint' -> PkgSig bundle endpoint' pkg ->
+                ApartnessRealMetricHandoffPacket left' right' radius' window' leftReadback'
+                    rightReadback' separation' provenance' endpoint' bundle pkg ∧
+                  hsame leftReadback leftReadback' ∧ hsame rightReadback rightReadback' ∧
+                    hsame separation separation' ∧ hsame endpoint endpoint' := by
+  intro packet sameLeft sameRight sameRadius sameWindow sameProvenance
+  intro leftRow' rightRow' separationRow' endpointRow' pkgSig'
+  have sameLeftReadback : hsame leftReadback leftReadback' :=
+    cont_respects_hsame sameLeft sameWindow
+      packet.right.right.right.right.right.left leftRow'
+  have sameRightReadback : hsame rightReadback rightReadback' :=
+    cont_respects_hsame sameRight sameWindow
+      packet.right.right.right.right.right.right.left rightRow'
+  have sameSeparation : hsame separation separation' :=
+    cont_respects_hsame sameLeftReadback sameRightReadback
+      packet.right.right.right.right.right.right.right.left separationRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameSeparation sameProvenance
+      packet.right.right.right.right.right.right.right.right.left endpointRow'
+  have transported :
+      ApartnessRealMetricHandoffPacket left' right' radius' window' leftReadback'
+          rightReadback' separation' provenance' endpoint' bundle pkg :=
+    ⟨unary_transport packet.left sameLeft,
+      unary_transport packet.right.left sameRight,
+      unary_transport packet.right.right.left sameRadius,
+      unary_transport packet.right.right.right.left sameWindow,
+      unary_transport packet.right.right.right.right.left sameProvenance,
+      leftRow',
+      rightRow',
+      separationRow',
+      endpointRow',
+      pkgSig'⟩
+  exact ⟨transported, sameLeftReadback, sameRightReadback, sameSeparation, sameEndpoint⟩
+
+def ApartnessRealPositiveSeparationCarrier [AskSetup] [PackageSetup]
+    (leftName rightName radius window leftReadback rightReadback separation provenance
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory radius ∧
+    UnaryHistory window ∧ UnaryHistory provenance ∧ Cont leftName radius leftReadback ∧
+      Cont rightName window rightReadback ∧ Cont leftReadback rightReadback separation ∧
+        Cont separation provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ApartnessRealPositiveSeparationCarrier_metric_handoff [AskSetup] [PackageSetup]
+    {leftName rightName radius window leftReadback rightReadback separation provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealPositiveSeparationCarrier leftName rightName radius window leftReadback
+        rightReadback separation provenance endpoint bundle pkg ->
+      UnaryHistory leftReadback ∧ UnaryHistory rightReadback ∧ UnaryHistory separation ∧
+        hsame separation (append leftReadback rightReadback) ∧ UnaryHistory endpoint ∧
+          hsame endpoint (append separation provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have leftNameUnary : UnaryHistory leftName :=
+    carrier.left
+  have rightNameUnary : UnaryHistory rightName :=
+    carrier.right.left
+  have radiusUnary : UnaryHistory radius :=
+    carrier.right.right.left
+  have windowUnary : UnaryHistory window :=
+    carrier.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.left
+  have leftReadbackRow : Cont leftName radius leftReadback :=
+    carrier.right.right.right.right.right.left
+  have rightReadbackRow : Cont rightName window rightReadback :=
+    carrier.right.right.right.right.right.right.left
+  have separationRow : Cont leftReadback rightReadback separation :=
+    carrier.right.right.right.right.right.right.right.left
+  have endpointRow : Cont separation provenance endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have packageBoundary : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  have leftReadbackUnary : UnaryHistory leftReadback :=
+    unary_cont_closed leftNameUnary radiusUnary leftReadbackRow
+  have rightReadbackUnary : UnaryHistory rightReadback :=
+    unary_cont_closed rightNameUnary windowUnary rightReadbackRow
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed leftReadbackUnary rightReadbackUnary separationRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed separationUnary provenanceUnary endpointRow
+  exact And.intro leftReadbackUnary
+    (And.intro rightReadbackUnary
+      (And.intro separationUnary
+        (And.intro separationRow
+          (And.intro endpointUnary
+            (And.intro endpointRow packageBoundary)))))
 
 end BEDC.Derived.ApartnessRealUp
