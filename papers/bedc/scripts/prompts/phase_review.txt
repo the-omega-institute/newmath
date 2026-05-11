@@ -189,6 +189,15 @@ reviewer) MUST:
    `\input{...}` line to add to `main.tex` after the highest
    existing `\input{parts/concrete_instances/...}` line, and the
    `\newcommand{\<X>Up}{...}` macro to add to `preamble.tex`.
+   **Before adding the macro, grep `preamble.tex` for the chapter
+   name to ensure no concurrent worker has already added the same
+   `\newcommand{\<X>Up}` line** (this happens when multiple workers
+   proposed the same canonical chapter slug). If the macro is already
+   present, skip the preamble edit but still proceed with the chapter
+   file creation; the existing macro covers it. Two
+   `\newcommand{\<X>Up}` lines on different chapters cause LaTeX
+   `Command \<X>Up already defined` errors that break the full PDF
+   build in CI.
 
 The orchestrator review_gate matches `targets[0].candidate_id`
 against the candidate_pool selection_rank=1 entry; mismatch skips

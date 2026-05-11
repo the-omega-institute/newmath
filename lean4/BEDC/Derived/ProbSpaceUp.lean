@@ -226,4 +226,41 @@ theorem ProbSpaceBinaryCoverDifferenceLedger_inclusion_exclusion_balance
       (congrArg (fun h => append muA h) (unary_append_comm_hsame muDUnary muIUnary))
   exact hsame_trans leftAsADI (hsame_trans adIToAID (hsame_symm rightAsAID))
 
+def ProbSpaceTernaryInclusionExclusionLedger
+    (a b c u v iab iac ibc k t : BHist) : Prop :=
+  Cont b c v ∧ Cont a v u ∧ Cont iab iac k ∧ Cont k ibc t
+
+theorem ProbSpaceTernaryInclusionExclusionLedger_identity
+    {a b c u v iab iac ibc k t lhs rhs : BHist} :
+    ProbSpaceTernaryInclusionExclusionLedger a b c u v iab iac ibc k t ->
+      Cont (append (append (append u iab) iac) ibc) BHist.Empty lhs ->
+        Cont (append (append (append a b) c) t) BHist.Empty rhs ->
+          hsame lhs rhs := by
+  intro ledger lhsCont rhsCont
+  cases ledger with
+  | intro bcV ledgerRest =>
+      cases ledgerRest with
+      | intro avU ledgerRest =>
+          cases ledgerRest with
+          | intro iabIacK kIbcT =>
+              cases lhsCont
+              cases rhsCont
+              cases bcV
+              cases avU
+              cases iabIacK
+              cases kIbcT
+              have inner :
+                  append (append (append (append a (append b c)) iab) iac) ibc =
+                    append (append (append a b) c) (append (append iab iac) ibc) := by
+                exact Eq.trans
+                  (congrArg (fun row => append (append (append row iab) iac) ibc)
+                    (append_assoc a b c).symm)
+                  (Eq.trans
+                      (append_assoc (append (append (append a b) c) iab) iac ibc)
+                    (Eq.trans
+                      (append_assoc (append (append a b) c) iab (append iac ibc))
+                      (congrArg (fun row => append (append (append a b) c) row)
+                        (append_assoc iab iac ibc).symm)))
+              exact congrArg (fun row => append row BHist.Empty) inner
+
 end BEDC.Derived.ProbSpaceUp

@@ -1,0 +1,48 @@
+\section{Concrete singleton continuation group instance}
+\label{sec:group-singleton-continuation-group-instance}
+
+\begin{definition}[Group singleton continuation group instance]
+\label{def:group-singleton-continuation-group-instance}
+The singleton continuation group instance over $\mathsf{BHist}$ uses the carrier
+$$
+A_{\Cont,\emp}(h) := \hsame(h,\emp).
+$$
+The product is read by $\Cont$ on the singleton endpoint: for carried $h$ and $k$, the product row is the unique endpoint $p$ whose continuation ledger $\Cont(h,k,p)$ is classified with $\emp$. The identity is $\emp$, and the inverse operation is the same singleton endpoint,
+$$
+e_{\Cont,\emp}:=\emp,
+\qquad
+\mathsf{inv}_{\Cont,\emp}(h):=\emp.
+$$
+The classifier is the restricted singleton classifier
+$$
+R_{\Cont,\emp}(h,k) := A_{\Cont,\emp}(h)\land A_{\Cont,\emp}(k)\land \hsame(h,k).
+$$
+\end{definition}
+
+\begin{theorem}[Group singleton continuation laws]
+\label{thm:group-singleton-continuation-laws}
+The data of \autoref{def:group-singleton-continuation-group-instance} satisfy the concrete $\GroupUp$ laws over $\mathsf{BHist}$. Multiplication closure, the left and right identity laws, associativity, multiplication congruence, inverse closure, and the left and right inverse laws are all witnessed by the continuation unit and associativity rows already used by the singleton $\GroupUp$ chapter.
+\end{theorem}
+\begin{proof}
+Carrier inhabitance is $\hsame(\emp,\emp)$. Hence the displayed identity endpoint is carried, and the constant inverse endpoint is carried for every admitted input.
+
+For multiplication closure, suppose $A_{\Cont,\emp}(h)$ and $A_{\Cont,\emp}(k)$. The continuation product row is read at the singleton endpoint; composing the two carrier witnesses with the continuation unit rows classifies the product endpoint with $\emp$.
+
+The left and right unit laws are the continuation unit rows specialized to the empty endpoint. Since every admitted endpoint is already classified with $\emp$, both products are classified with the original input through $R_{\Cont,\emp}$.
+
+Associativity and multiplication congruence follow from the same continuation associativity and transport rows used by the surrounding singleton product-unit theorems. All intermediate endpoints collapse to the singleton carrier, so the two parenthesized products repack into the same restricted classifier.
+
+For inverses, $\mathsf{inv}_{\Cont,\emp}(h)$ is $\emp$. The two inverse products therefore reduce to the left and right unit rows, and the resulting endpoint is classified with $e_{\Cont,\emp}$.
+\end{proof}
+
+\begin{theorem}[Group singleton inverse boundary]
+\label{thm:group-singleton-inverse-boundary}
+In the concrete singleton continuation group instance, the inverse field is visible at the public boundary: every admitted endpoint $h$ satisfies $\hsame(h,\emp)$, and the inverse row is the displayed endpoint $\emp$ with the same singleton classifier and continuation provenance.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:group-singleton-continuation-group-instance}. Admission of $h$ is exactly the row $\hsame(h,\emp)$, so the public packet already contains the comparison that identifies $h$ with the singleton endpoint.
+
+The inverse field is not computed by an external operation table. It is the displayed endpoint $\emp$, accompanied by the same carrier proof $\hsame(\emp,\emp)$ and the same continuation provenance used for the identity rows.
+
+Thus every inverse read is visible as a projection of the singleton carrier and continuation ledger. There is no hidden inverse selector or ambient group object outside the $\mathsf{BHist}$ boundary.
+\end{proof}
