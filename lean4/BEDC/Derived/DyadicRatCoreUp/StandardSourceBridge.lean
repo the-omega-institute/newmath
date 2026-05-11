@@ -3,8 +3,10 @@ import BEDC.Derived.DyadicRatCoreUp
 namespace BEDC.Derived.DyadicRatCoreUp
 
 open BEDC.Derived.RatUp
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem DyadicRatCoreCarrier_standard_source_bridge
