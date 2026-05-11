@@ -277,6 +277,28 @@ theorem NestedDyadicIntervalPacket_shared_prefix_handoff [AskSetup] [PackageSetu
       sharedEndpointRoute
   exact ⟨sameEndpoint, sameEndpointRight, sharedEndpointPkg⟩
 
+theorem NestedDyadicIntervalPacket_adjacent_refinement_coverage [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint refinementRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      Cont refinement ledger refinementRead ->
+        PkgSig bundle refinementRead pkg ->
+          UnaryHistory refinementRead ∧ Cont first next refinement ∧
+            Cont refinement ledger refinementRead ∧ hsame refinement (append first next) ∧
+              PkgSig bundle refinementRead pkg := by
+  intro packet refinementReadRow refinementReadPkg
+  have refinementUnary : UnaryHistory refinement :=
+    packet.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    packet.right.right.right.right.right.left
+  have refinementReadUnary : UnaryHistory refinementRead :=
+    unary_cont_closed refinementUnary ledgerUnary refinementReadRow
+  have refinementRow : Cont first next refinement :=
+    packet.right.right.right.right.right.right.right.left
+  exact
+    ⟨refinementReadUnary, refinementRow, refinementReadRow, refinementRow, refinementReadPkg⟩
+
 theorem NestedDyadicIntervalPacket_prefix_truncation_stability [AskSetup] [PackageSetup]
     {first next schedule refinement provenance ledger endpoint cut firstCut nextCut scheduleCut
       refinementCut ledgerCut endpointCut : BHist}
