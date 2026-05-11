@@ -392,4 +392,42 @@ theorem CauchyModulusLedgerPacket_regseqrat_regularity_rows
   exact And.intro toleranceCarrier
     (And.intro windowUnary (And.intro consumptionRow sameProvenance))
 
+theorem CauchyModulusLedgerPacket_real_classifier_transport
+    {precision threshold tolerance observation consumption provenance window tolerance'
+      observation' consumption' provenance' : BHist} :
+    CauchyModulusLedgerPacket precision threshold tolerance observation consumption provenance
+        window ->
+      hsame tolerance tolerance' ->
+        hsame observation observation' ->
+          Cont window tolerance' consumption' ->
+            Cont consumption' observation' provenance' ->
+              CauchyModulusLedgerPacket precision threshold tolerance' observation' consumption'
+                  provenance' window ∧
+                RatHistoryClassifier tolerance tolerance' ∧
+                  UnaryHistory window ∧ hsame consumption consumption' ∧
+                    hsame provenance provenance' := by
+  intro packet sameTolerance sameObservation consumptionRow' provenanceRow'
+  have toleranceCarrier : RatHistoryCarrier tolerance := packet.right.right.left
+  have toleranceCarrier' : RatHistoryCarrier tolerance' :=
+    RatHistoryCarrier_hsame_transport sameTolerance toleranceCarrier
+  have windowRow : Cont precision threshold window := packet.right.right.right.left
+  have consumptionRow : Cont window tolerance consumption := packet.right.right.right.right.left
+  have provenanceRow : Cont consumption observation provenance :=
+    packet.right.right.right.right.right
+  have sameConsumption : hsame consumption consumption' :=
+    cont_respects_hsame (hsame_refl window) sameTolerance consumptionRow consumptionRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameConsumption sameObservation provenanceRow provenanceRow'
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed packet.left packet.right.left windowRow
+  have toleranceClassifier : RatHistoryClassifier tolerance tolerance' :=
+    And.intro toleranceCarrier (And.intro toleranceCarrier' sameTolerance)
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro toleranceCarrier'
+          (And.intro windowRow (And.intro consumptionRow' provenanceRow')))))
+    (And.intro toleranceClassifier
+      (And.intro windowUnary (And.intro sameConsumption sameProvenance)))
+
 end BEDC.Derived.CauchyModulusUp
