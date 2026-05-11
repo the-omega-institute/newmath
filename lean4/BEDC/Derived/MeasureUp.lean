@@ -19,6 +19,11 @@ def MeasureZeroBHistCarrier (h : BHist) : Prop :=
 def MeasureZeroBHistClassifier (h k : BHist) : Prop :=
   MeasureZeroBHistCarrier h ∧ MeasureZeroBHistCarrier k ∧ hsame h k
 
+def MeasureEventRowCoverage (event union value sum endpoint : BHist) : Prop :=
+  MeasureZeroBHistClassifier event BHist.Empty ∧
+    MeasureZeroBHistClassifier union BHist.Empty ∧
+      MeasureZeroBHistClassifier value sum ∧ MeasureZeroBHistCarrier endpoint
+
 def MeasureZeroBHistPrefix (events : Nat -> BHist) : Nat -> BHist
   | Nat.zero => BHist.Empty
   | Nat.succ n => append (MeasureZeroBHistPrefix events n) (events n)
@@ -72,6 +77,14 @@ theorem MeasureRootBHist_real_endpoint_threshold {event union value sum endpoint
     cont_respects_hsame valueZero sumZero endpointRow (cont_left_unit BHist.Empty)
   exact And.intro coverageRows.left
     (And.intro coverageRows.right.left (And.intro coverageRows.right.right endpointZero))
+
+theorem MeasureEventRowCoverage_zero_rows {event union value sum endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> hsame value BHist.Empty ->
+      hsame sum BHist.Empty -> hsame union BHist.Empty -> Cont value sum endpoint ->
+        MeasureEventRowCoverage event union value sum endpoint := by
+  intro eventClassified valueZero sumZero unionZero endpointRow
+  exact MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+    endpointRow
 
 theorem MeasureZeroBHist_continuation_endpoint_stability
     {h k event event' endpoint endpoint' : BHist} :
@@ -152,6 +165,40 @@ theorem MeasureRelativeDifference_disjoint_decomposition {event diff union endpo
   exact And.intro diffZero.left
     (And.intro unionClassified (And.intro endpointClassified endpointUnion))
 
+theorem MeasureComplementRow_transport
+    {h k event event' diff diff' union union' endpoint endpoint' : BHist} :
+    MeasureZeroBHistCarrier h ->
+      MeasureZeroBHistClassifier h k ->
+        MeasureZeroBHistClassifier event BHist.Empty ->
+          MeasureZeroBHistClassifier diff BHist.Empty ->
+            hsame event event' ->
+              hsame diff diff' ->
+                Cont event diff union ->
+                  Cont event' diff' union' ->
+                    hsame endpoint diff ->
+                      hsame endpoint' diff' ->
+                        MeasureZeroBHistCarrier k ∧ MeasureZeroBHistCarrier diff' ∧
+                          MeasureZeroBHistClassifier union union' ∧
+                            hsame endpoint endpoint' := by
+  intro hCarrier classified eventZero diffZero sameEvent sameDiff unionRow unionRow'
+    endpointDiff endpoint'Diff'
+  have kCarrier : MeasureZeroBHistCarrier k :=
+    hsame_trans (hsame_symm classified.right.right) hCarrier
+  have diff'Carrier : MeasureZeroBHistCarrier diff' :=
+    hsame_trans (hsame_symm sameDiff) diffZero.left
+  have unionSame : hsame union union' :=
+    cont_respects_hsame sameEvent sameDiff unionRow unionRow'
+  have unionCarrier : MeasureZeroBHistCarrier union :=
+    cont_respects_hsame eventZero.left diffZero.left unionRow (cont_left_unit BHist.Empty)
+  have union'Carrier : MeasureZeroBHistCarrier union' :=
+    hsame_trans (hsame_symm unionSame) unionCarrier
+  have unionClassified : MeasureZeroBHistClassifier union union' :=
+    And.intro unionCarrier (And.intro union'Carrier unionSame)
+  have endpointSame : hsame endpoint endpoint' :=
+    hsame_trans endpointDiff (hsame_trans sameDiff (hsame_symm endpoint'Diff'))
+  exact And.intro kCarrier
+    (And.intro diff'Carrier (And.intro unionClassified endpointSame))
+
 theorem MeasureZeroBHist_semantic_name_certificate :
     SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
       MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
@@ -181,6 +228,21 @@ theorem MeasureZeroBHist_semantic_name_certificate :
       intro _h source
       exact source
   }
+
+theorem MeasureUp_StdBridge {event union value sum endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> hsame value BHist.Empty ->
+      hsame sum BHist.Empty -> hsame union BHist.Empty -> Cont value sum endpoint ->
+        MeasureZeroBHistClassifier event BHist.Empty ∧
+          MeasureZeroBHistClassifier union BHist.Empty ∧ MeasureZeroBHistCarrier endpoint ∧
+            SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+              MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
+  intro eventClassified valueZero sumZero unionZero endpointRow
+  have rootRows :=
+    MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+      endpointRow
+  exact And.intro rootRows.left
+    (And.intro rootRows.right.left
+      (And.intro rootRows.right.right.right MeasureZeroBHist_semantic_name_certificate))
 
 theorem MeasureSelfDifference_zero_law {event diff union value sum : BHist} :
     Cont event diff union -> hsame union event -> Cont value diff sum -> hsame sum value ->
@@ -253,6 +315,52 @@ theorem MeasureFiniteDisjointUnion_additivity
     hsame_trans sameValueSumUnion (hsame_symm sameValueUnion)
   exact And.intro valueSumZero (And.intro valueUnionZero sameValueSumValueUnion)
 
+theorem MeasureIntegralPremeasure_consumption
+    {event diff union valueEvent valueDiff valueUnion valueSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          hsame valueEvent event ->
+            hsame valueDiff diff ->
+              hsame valueUnion union ->
+                Cont valueEvent valueDiff valueSum ->
+                  MeasureZeroBHistClassifier valueSum valueUnion ∧
+                    MeasureZeroBHistClassifier event BHist.Empty ∧
+                      MeasureZeroBHistClassifier diff BHist.Empty := by
+  intro eventClassified diffClassified unionRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow
+  have additiveRow : MeasureZeroBHistClassifier valueSum valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion valueRow
+  exact And.intro additiveRow (And.intro eventClassified diffClassified)
+
+theorem MeasureRelativeDifference_additivity
+    {event diff union endpoint valueEvent valueDiff valueUnion valueSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+      MeasureZeroBHistClassifier diff BHist.Empty ->
+        Cont event diff union ->
+          Cont union BHist.Empty endpoint ->
+            hsame valueEvent event ->
+              hsame valueDiff diff ->
+                hsame valueUnion endpoint ->
+                  Cont valueEvent valueDiff valueSum ->
+                    MeasureZeroBHistClassifier valueSum valueUnion ∧
+                      MeasureZeroBHistClassifier endpoint BHist.Empty ∧ hsame endpoint union := by
+  intro eventZero diffZero unionRow endpointRow sameValueEvent sameValueDiff sameValueUnion
+    valueRow
+  have decomposition :=
+    MeasureRelativeDifference_disjoint_decomposition eventZero diffZero unionRow endpointRow
+  have finiteRow : MeasureZeroBHistClassifier valueSum endpoint :=
+    MeasureFiniteDisjointUnion_additivity eventZero diffZero unionRow sameValueEvent
+      sameValueDiff decomposition.right.right.right valueRow
+  have valueUnionZero : MeasureZeroBHistCarrier valueUnion :=
+    hsame_trans sameValueUnion decomposition.right.right.left.left
+  have valueRowTransport : MeasureZeroBHistClassifier valueSum valueUnion :=
+    And.intro finiteRow.left
+      (And.intro valueUnionZero (hsame_trans finiteRow.right.right (hsame_symm sameValueUnion)))
+  exact And.intro valueRowTransport
+    (And.intro decomposition.right.right.left decomposition.right.right.right)
+
 theorem MeasureProbabilityConsumer_rows
     {event diff union valueEvent valueDiff valueUnion valueSum total unit : BHist} :
     MeasureZeroBHistClassifier event BHist.Empty ->
@@ -308,6 +416,29 @@ theorem MeasureMeasurableInclusion_monotone
   have valueRowAtTotal : Cont valueBase valueGap valueTotal :=
     cont_result_hsame_transport valueRow sameSumTotal
   exact Exists.intro valueGap (And.intro valueGapUnary valueRowAtTotal)
+
+theorem MeasureFunctionalAnalysisConsumer_rows
+    {base gap total valueBase valueGap valueTotal valueSum event diff union valueEvent valueDiff
+      valueUnion valueEventDiff : BHist} :
+    UnaryHistory valueGap -> Cont base gap total -> hsame valueBase base ->
+      hsame valueGap gap -> hsame valueTotal total -> Cont valueBase valueGap valueSum ->
+        hsame valueSum valueTotal -> MeasureZeroBHistClassifier event BHist.Empty ->
+          MeasureZeroBHistClassifier diff BHist.Empty -> Cont event diff union ->
+            hsame valueEvent event -> hsame valueDiff diff -> hsame valueUnion union ->
+              Cont valueEvent valueDiff valueEventDiff ->
+                PreorderPrefixLE valueBase valueTotal ∧
+                  MeasureZeroBHistClassifier valueEventDiff valueUnion ∧
+                    MeasureZeroBHistClassifier event BHist.Empty := by
+  intro valueGapUnary baseGapTotal sameValueBase sameValueGap sameValueTotal valueRow
+    sameSumTotal eventClassified diffClassified unionRow sameValueEvent sameValueDiff
+    sameValueUnion eventDiffRow
+  have monotoneRow : PreorderPrefixLE valueBase valueTotal :=
+    MeasureMeasurableInclusion_monotone valueGapUnary baseGapTotal sameValueBase sameValueGap
+      sameValueTotal valueRow sameSumTotal
+  have additiveRow : MeasureZeroBHistClassifier valueEventDiff valueUnion :=
+    MeasureFiniteDisjointUnion_additivity eventClassified diffClassified unionRow sameValueEvent
+      sameValueDiff sameValueUnion eventDiffRow
+  exact And.intro monotoneRow (And.intro additiveRow eventClassified)
 
 theorem MeasureZeroBHist_sigma_additivity (events : Nat -> BHist) :
     (forall n : Nat, MeasureZeroBHistCarrier (events n)) -> forall n : Nat,
@@ -383,5 +514,30 @@ theorem MeasureZeroBHistPrefix_classifier_stability (events values : Nat -> BHis
             (MeasureZeroBHistPrefix values (Nat.succ n)) :=
         hsame_trans leftZero (hsame_symm rightZero)
       exact And.intro leftZero (And.intro rightZero samePrefixes)
+
+theorem MeasureZeroBHist_terminal_standard_bridge {h event union value sum endpoint : BHist} :
+    MeasureZeroBHistCarrier h ->
+      MeasureZeroBHistClassifier event BHist.Empty ->
+        hsame union BHist.Empty ->
+          hsame value BHist.Empty ->
+            hsame sum BHist.Empty ->
+              Cont value sum endpoint ->
+                MeasureZeroBHistCarrier endpoint ∧
+                  MeasureZeroBHistClassifier event BHist.Empty ∧
+                    MeasureZeroBHistClassifier union BHist.Empty ∧
+                      MeasureZeroBHistClassifier value sum ∧
+                        SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+                          MeasureZeroBHistCarrier MeasureZeroBHistClassifier := by
+  intro _carrier eventClassified unionZero valueZero sumZero endpointCont
+  have root :=
+    MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+      endpointCont
+  have cert : SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+      MeasureZeroBHistCarrier MeasureZeroBHistClassifier :=
+    MeasureZeroBHist_semantic_name_certificate
+  exact
+    And.intro root.right.right.right
+      (And.intro root.left
+        (And.intro root.right.left (And.intro root.right.right.left cert)))
 
 end BEDC.Derived.MeasureUp

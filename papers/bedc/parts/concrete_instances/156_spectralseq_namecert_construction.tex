@@ -53,6 +53,7 @@ Thus the public classifier compares the finite spectral-sequence packet by
 transporting the displayed rows themselves, not by importing a host exact
 couple or an ambient equality of abelian categories.
 \end{definition}
+\leandef{BEDC.Derived.SpectralSeqUp.SpectralSeqPageClassifier}
 
 \begin{theorem}[SpectralSeqUp zero-page carrier]
 \label{thm:spectralseq-zero-page-carrier}
@@ -89,6 +90,7 @@ is again a $\SpectralSeqUp$ page carrier, and the page-classifier rows between
 $\mathcal S$ and $\mathcal S^{\mathrm{id}}$ are the original component rows
 together with the identity transition row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_identity\_transition\_ledger}
 \begin{proof}
 Project the carrier components of $\mathcal S$. The source surface, page
 objects, differentials, homology readbacks, and convergence rows are unchanged,
@@ -117,6 +119,7 @@ readback transports, convergence transport, finite $\Cont$ ledger transport,
 and $\Pkg$ provenance transport. It contains no host exact-couple row and no
 ambient quotient row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqPageClassifier\_no\_confusion}
 \begin{proof}
 Unfold the page classifier. A witness is a finite tuple whose coordinates are
 the seven displayed component transports, so projection gives the
@@ -172,6 +175,7 @@ the corresponding successor-page homology readback remains classified by the
 $\HomologyUp$ source surface. Finite $\Cont$ extension of the page-transition
 ledger preserves the same property for the extended carried ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_differential\_ledger}
 \begin{proof}
 Start with one differential row
 $d_r^{p,q}:E_r^{p,q}\to E_r^{p+r,q-r+1}$ from the carrier. The page
@@ -199,6 +203,7 @@ couple, a quotient object outside the displayed $\HomologyUp$ boundary rows,
 or an ambient equality of abelian categories beyond the transported
 $\NameCert_{\AbelianCatUp}$ source surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_convergence\_boundary}
 \begin{proof}
 Unpack the carrier and inspect the convergence component $c$. Its public
 content is the finite filtration and convergence ledger selected in the
@@ -247,6 +252,7 @@ row. Because every coordinate is projected from the original packet or from
 the classifier transport, the resulting bridge is stable as a
 $\mathsf{BHist}$ row and exports no extra exact-couple data.
 \end{proof}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_page\_transition\_bridge}
 
 \begin{theorem}[SpectralSeqUp convergence-filtration bridge]
 \label{thm:spectralseq-convergence-filtration-bridge}
@@ -374,6 +380,7 @@ provenance row carried by $\mathcal S$. No additional host exact couple,
 ambient quotient category, or uncarried page object contributes a boundary row
 to the successor representative.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_page\_boundary\_exhaustion}
 \begin{proof}
 Project the page row, differential row, homology readback row, continuation
 entry, and provenance entry from the carrier of
@@ -545,6 +552,7 @@ $\HomologyUp$ cycle-boundary rows and the $\Pkg$ provenance row of the carrier.
 No representative is exported through a quotient object, exact-couple object,
 or abutment carrier not named in \autoref{def:spectralseq-bhist-page-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_abutment\_readback\_boundary}
 \begin{proof}
 Unpack the filtration ledger using
 \autoref{def:spectralseq-filtration-ledger}. Each exported representative is
@@ -686,11 +694,11 @@ read is exactly one of the listed $\Cont$, $\hsame$, or $\Pkg$ dependencies.
 \closureat{SpectralSeqUp}{bridgedStr}[BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_obligation\_surface]
 \begin{closurestatus}{\SpectralSeqUp}
   \constructivestory{A spectral sequence is carried as a finite page packet whose histories name the abelian-category source, the homology source, the page-object ledger, the differential ledger, the homology readback, the convergence row, the page-transition row, and the package provenance. The carrier accepts only packets in which the displayed page and differential rows are unary histories connected by finite $\Cont$ steps and sealed by a $\Pkg$ signature, while exact couples, infinite transition ledgers, and ambient quotient objects are excluded. Two page packets are classified together by transporting each component row: the abelian source, page objects, differentials, homology readbacks, convergence data, transition ledger, and provenance must match by $\hsame$ or the listed continuation comparison, not by an outside equality of spectral sequences. The source is the paired $\AbelianCatUp$ and $\HomologyUp$ certificate surface, the pattern records successive page differentials and the rule that each next page is the displayed homology of the previous differential, and the ledger keeps every finite transition, filtration, readback, and provenance entry visible. Since the empty one-page packet gives an admitted carrier and the component classifiers transport by the already checked history and package rows, the name-certificate obligations reduce to carrier habitation, reflexive/symmetric/transitive rowwise comparison, and closure under successor-page transport. A packet $h$ lies in the signature gap of a $\SpectralSeqUp$ token $p$ when the source-domain accepts the abelian, homology, page, differential, and convergence rows, the signature relation pairs the resulting finite packet with an answer packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $p$ records that same finite page ledger and its homology-to-successor readbacks. The chapter registers this finite page-ledger construction under the name $\SpectralSeqUp$; it supplies a scoped certificate surface, not full convergence theory or a standard spectral-sequence bridge.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridged scope is exactly the displayed $\AbelianCatUp$, $\DerivedFunctorUp$, $\HomologyUp$, $\Cont$, $\hsame$, and $\Pkg$ dependencies of the page carrier, classifier, transition, readback, filtration, and convergence rows, with the page-transition bridge of \autoref{thm:spectralseq-page-transition-bridge} and the convergence-filtration bridge of \autoref{thm:spectralseq-convergence-filtration-bridge}.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is the finite page-ledger construction, the displayed $\AbelianCatUp$, $\DerivedFunctorUp$, and $\HomologyUp$ dependencies, the page-transition bridge of \autoref{thm:spectralseq-page-transition-bridge}, the convergence-filtration bridge of \autoref{thm:spectralseq-convergence-filtration-bridge}, and the explicit exclusion of full convergence theory.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SpectralSeqUp.SpectralSeqBHistPageCarrier\_obligation\_surface}
   \bridgestatus{paperBridge}
   \notclaimed{Full spectral-sequence convergence theory and machine-checked standard bridge data are not closed by this chapter.}
-  \upgradepath{Mature treatment would require the remaining standard full convergence theory; the present bridge is the paper-side page-transition and convergence-filtration bridge.}
+  \upgradepath{The remaining elevation is machine-checked standard bridge data, not additional paper theory closure.}
 \end{closurestatus}

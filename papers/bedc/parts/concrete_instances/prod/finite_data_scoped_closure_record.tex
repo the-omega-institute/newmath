@@ -1,0 +1,69 @@
+\begin{theorem}[Prod finite-data scoped closure record]
+\label{thm:prod-finite-data-scoped-closure-record}
+The componentwise public certificate, displayed-pair ledger endpoints,
+descent-to-envelope row, $\hsame$ and $\Cont$ transports, and $\mathsf{Pkg}$
+provenance of \autoref{thm:prod-public-finite-data-exit-package} bind the
+$\ProdUp$ finite-data scope entirely inside BEDC histories. More precisely,
+for source-history carriers $L,R:\mathsf{BHist}\to\mathsf{Prop}$, source
+classifiers $\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$,
+source certificates $\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$, and a
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ witness, the public
+finite-data package exposes only the componentwise
+$\mathsf{SemanticNameCert}$ row, the two displayed-pair ledger endpoints, the
+descent row into $\mathsf{ProdHistoryClassifier}(L,R)$, the $\hsame$ and
+$\Cont$ endpoint-transport rows, and the $\mathsf{Pkg}$ provenance rows named
+by the $\ProdUp$ obligation surface. No host tuple equality is part of the
+record.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-public-finite-data-exit-package}. Its first row gives
+the componentwise public certificate for
+$\mathsf{ProdHistoryCarrier}(L,R)$ under
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$, using exactly
+the two source $\NameCert$ rows and the displayed-pair coherence witness.
+
+The second and third rows of that package project the displayed-pair ledger
+endpoints and the descent-to-envelope comparison for any componentwise
+classifier witness between histories $h,k:\mathsf{BHist}$. The target of the
+descent is the checked envelope classifier
+$\mathsf{ProdHistoryClassifier}(L,R,h,k)$.
+
+The fourth row identifies the remaining public data with the source
+certificate rows, the componentwise classifier row, the displayed-pair ledger
+row, the descent row, the $\hsame$ and $\Cont$ transport rows, and the
+$\mathsf{Pkg}$ provenance rows of
+\autoref{thm:produp-obligation-surface-package}. The checked envelope
+certificate \autoref{thm:concrete-prod-namecert} supplies the BEDC history
+envelope in which those rows land.
+
+Thus the finite-data scope is closed by projections of the public package and
+the checked envelope certificate. Every named row is a row over
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\NameCert$, and $\mathsf{Pkg}$, so the
+record contains no host tuple equality.
+\end{proof}
+
+\begin{theorem}[Prod finite-data consumer row exhaustion]
+\label{thm:prod-finite-data-consumer-row-exhaustion}
+Any consumer of the public $\ProdUp$ finite-data package can read only the
+componentwise $\mathsf{SemanticNameCert}$ row, the displayed-pair ledger
+endpoints, descent into $\mathsf{ProdHistoryClassifier}$, the $\hsame/\Cont$
+endpoint transports, the source $\NameCert$ rows, and the $\mathsf{Pkg}$
+provenance. No host tuple equality, component projection outside the displayed
+ledger, or quotient of pair representatives is exported.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-public-finite-data-exit-package}. This gives the
+consumer-facing package rows: componentwise public certificate, displayed-pair
+ledger endpoints, descent to the product-history classifier, endpoint
+transports, source certificate rows, and provenance rows.
+
+Next apply \autoref{thm:prod-finite-data-scoped-closure-record} to identify the
+closed finite-data scope. That theorem says that the public rows are exactly
+the rows bound inside BEDC histories by the product finite-data record.
+
+The absence claim follows by row exhaustion. Since those two packages list the
+entire consumer surface and neither package contains host tuple equality,
+outside-ledger component projection, or a quotient of pair representatives, no
+consumer can project such data from the public $\ProdUp$ finite-data package.
+\end{proof}

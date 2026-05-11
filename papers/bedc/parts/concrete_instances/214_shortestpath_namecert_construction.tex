@@ -19,6 +19,8 @@ unstated host ordering on vertices, or an external minimization oracle. Every
 comparison row is read from the finite graph packet, the $\RealUp$ weight
 certificates, the endpoint rows, and the displayed path ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_endpoint\_expanded\_boundary}
+\leanchecked{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_source\_rows}
 
 \section{The certificate}
 \label{sec:shortestpath-certificate}
@@ -252,3 +254,16 @@ certificate has no host-side equality source, no hidden predecessor row, no
 unrecorded weight row, and no infinite relaxation process. The relaxation is
 therefore sound exactly over the visible finite rows.
 \end{proof}
+
+\closureat{ShortestPathUp}{obligationStr}[BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_path\_ledger]
+
+\begin{closurestatus}{\ShortestPathUp}
+  \constructivestory{A shortest-path row is generated from a finite weighted graph packet by keeping the vertex rows, edge rows, nonnegative $\RealUp$ weight rows, endpoint rows, path ledger, relaxation rows, $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance visible in the same $\mathsf{BHist}$ carrier. The obligation surface records only the finite ledger data available to Dijkstra or Bellman-Ford readback; it introduces no ambient minimizer, hidden vertex order, infinite relaxation stream, or completed metric-space object.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the weighted-graph carrier rows, endpoint rows, nonnegative $\RealUp$ weight rows, finite path-ledger rows, relaxation $\Cont$ rows, $\hsame$ transports, and $\mathsf{Pkg}$ provenance.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ShortestPathUp.ShortestPathWeightedGraphCarrier\_visible\_path\_ledger}
+  \bridgestatus{none}
+  \notclaimed{The obligation surface does not close optimality over infinite graphs or negative-cycle completeness.}
+  \upgradepath{Scoped closure requires binding each obligation explicitly to its BEDC primitive dependencies.}
+\end{closurestatus}

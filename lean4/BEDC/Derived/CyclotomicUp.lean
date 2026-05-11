@@ -170,6 +170,29 @@ theorem CyclotomicRootCarrier_consumer_boundary [AskSetup] [PackageSetup]
           (And.intro sourceRows.right.right.right.right.right.right.right.right.left
             sourceRows.right.right.right.right.right.right.right.right.right))))
 
+theorem CyclotomicRootCarrier_iwasawa_source_boundary [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      Cont ledger comparison consumer ->
+        UnaryHistory numField ∧ UnaryHistory exponent ∧ UnaryHistory primitiveRoot ∧
+          UnaryHistory consumer ∧ hsame acceptance (append exponent polynomial) ∧
+            hsame ledger (append acceptance primitiveRoot) ∧ PkgSig bundle ledger pkg := by
+  intro carrier consumerRow
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have consumerBoundary :=
+    CyclotomicRootCarrier_consumer_boundary (bundle := bundle) (pkg := pkg) carrier consumerRow
+  exact And.intro sourceRows.left
+    (And.intro carrier.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro consumerBoundary.left
+          (And.intro sourceRows.right.right.right.right.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.right.right.right.right.left
+              sourceRows.right.right.right.right.right.right.right.right.right)))))
+
 theorem CyclotomicRootCarrier_positive_exponent_row_coverage [AskSetup] [PackageSetup]
     {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
       ledger exponentRead : BHist}
@@ -371,5 +394,68 @@ theorem CyclotomicRootClassifier_downstream_consumer_transport [AskSetup] [Packa
       (And.intro sameAction
         (And.intro sourceRows0.right.right.right.right.right.right.right.right.right
           sourceRows1.right.right.right.right.right.right.right.right.right)))
+
+theorem CyclotomicRootClassifier_readback_threshold [AskSetup] [PackageSetup]
+    {numField0 exponent0 polynomial0 splittingField0 primitiveRoot0 acceptance0 comparison0
+      provenance0 ledger0 numField1 exponent1 polynomial1 splittingField1 primitiveRoot1
+      acceptance1 comparison1 provenance1 ledger1 read0 read1 : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    CyclotomicRootClassifier numField0 exponent0 polynomial0 splittingField0 primitiveRoot0
+        acceptance0 comparison0 provenance0 ledger0 numField1 exponent1 polynomial1
+        splittingField1 primitiveRoot1 acceptance1 comparison1 provenance1 ledger1 bundle0 bundle1
+        pkg0 pkg1 ->
+      Cont ledger0 comparison0 read0 ->
+        Cont ledger1 comparison1 read1 ->
+          UnaryHistory read0 ∧ UnaryHistory read1 ∧ hsame read0 read1 ∧
+            hsame read0 (append ledger0 comparison0) ∧
+              hsame read1 (append ledger1 comparison1) ∧
+                PkgSig bundle0 ledger0 pkg0 ∧ PkgSig bundle1 ledger1 pkg1 := by
+  intro classified readCont0 readCont1
+  have sourceRows0 :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle0) (pkg := pkg0)
+      classified.left
+  have sourceRows1 :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle1) (pkg := pkg1)
+      classified.right.left
+  have sameProvenance : hsame provenance0 provenance1 :=
+    cont_respects_hsame classified.right.right.left classified.right.right.right.right.right.left
+      classified.left.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.left
+  have sameAcceptance : hsame acceptance0 acceptance1 :=
+    cont_respects_hsame classified.right.right.right.left classified.right.right.right.right.left
+      classified.left.right.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.right.left
+  have sameLedger : hsame ledger0 ledger1 :=
+    cont_respects_hsame sameAcceptance classified.right.right.right.right.right.right
+      classified.left.right.right.right.right.right.right.right.left
+      classified.right.left.right.right.right.right.right.right.right.left
+  have sameComparison : hsame comparison0 comparison1 := by
+    cases sameProvenance
+    cases sameAcceptance
+    exact hsame_trans classified.left.right.right.right.right.right.right.right.right.left
+      (hsame_symm classified.right.left.right.right.right.right.right.right.right.right.left)
+  have comparisonAppendUnary0 : UnaryHistory (append provenance0 acceptance0) :=
+    unary_append_closed sourceRows0.right.right.right.left sourceRows0.right.right.right.right.left
+  have comparisonUnary0 : UnaryHistory comparison0 :=
+    unary_transport_symm comparisonAppendUnary0
+      classified.left.right.right.right.right.right.right.right.right.left
+  have comparisonAppendUnary1 : UnaryHistory (append provenance1 acceptance1) :=
+    unary_append_closed sourceRows1.right.right.right.left sourceRows1.right.right.right.right.left
+  have comparisonUnary1 : UnaryHistory comparison1 :=
+    unary_transport_symm comparisonAppendUnary1
+      classified.right.left.right.right.right.right.right.right.right.right.left
+  have readUnary0 : UnaryHistory read0 :=
+    unary_cont_closed sourceRows0.right.right.right.right.right.left comparisonUnary0 readCont0
+  have readUnary1 : UnaryHistory read1 :=
+    unary_cont_closed sourceRows1.right.right.right.right.right.left comparisonUnary1 readCont1
+  have sameRead : hsame read0 read1 :=
+    cont_respects_hsame sameLedger sameComparison readCont0 readCont1
+  exact And.intro readUnary0
+    (And.intro readUnary1
+      (And.intro sameRead
+        (And.intro readCont0
+          (And.intro readCont1
+            (And.intro sourceRows0.right.right.right.right.right.right.right.right.right
+              sourceRows1.right.right.right.right.right.right.right.right.right)))))
 
 end BEDC.Derived.CyclotomicUp

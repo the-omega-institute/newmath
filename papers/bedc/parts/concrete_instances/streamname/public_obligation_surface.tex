@@ -1,0 +1,198 @@
+\section{Public obligation surface}
+\label{sec:streamname-public-obligation-surface}
+
+\begin{definition}[StreamNameUp public reindexing obligation]
+\label{def:streamname-public-reindexing-obligation}
+The public reindexing obligation for $\StreamNameUp$ is the finite BEDC row
+package that, for every certified unary observation reindexer and every
+$\mathsf{ProbeBundle}$ window, transports the pointwise $\RatUp$ rows of the
+public countable-name interface through the finite-window interface and
+records the resulting observation rows in the same $\mathsf{BHist}$ ledger.
+The obligation cites
+\autoref{thm:streamname-public-countable-name-interface},
+\autoref{thm:streamname-public-finite-window-interface},
+\autoref{thm:streamname-finite-window-reindexing-stability}, and
+\autoref{thm:streamname-finite-window-reindexing-composition}; it introduces
+no completion, metric, or quotient row.
+\end{definition}
+
+\begin{theorem}[StreamNameUp public constant obligation]
+\label{thm:streamname-public-constant-obligation}
+Every public constant $\StreamNameUp$ packet is accepted by the countable-name
+interface and by every finite-window interface obtained from certified unary
+observations. Its visible rows are exactly the constant $\RatUp$ seed row, the
+pointwise carrier/classifier rows, the empty-window boundary, and the finite
+ledger entries selected by the observation bundle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-countable-name-interface}. It exports the
+constant stream witness together with the pointwise $\RatUp$ carrier and
+classifier rows over certified unary observations.
+
+Next apply \autoref{thm:streamname-public-finite-window-interface}. A finite
+window only restricts those pointwise rows to the observations named by the
+bundle, while the empty-window boundary contributes the vacuous case.
+
+Thus the public constant obligation is the same constant seed read through
+each selected observation row. No regularity witness, metric datum, completion
+endpoint, or quotient representative is present in the public packet.
+\end{proof}
+
+\begin{theorem}[StreamNameUp public transport obligation]
+\label{thm:streamname-public-transport-obligation}
+Let two certified $\StreamNameUp$ observation maps be related by displayed
+$\hsame$ rows, and let the finite-window $\Cont$ routes and $\Pkg$ provenance
+rows be transported componentwise. Then every public finite-window classifier
+row for the first map transports to a public finite-window classifier row for
+the second map over the same certified unary observations.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:streamname-public-countable-name-interface} to read the
+public carrier and classifier rows as pointwise $\RatUp$ rows over certified
+unary observations. The supplied $\hsame$ rows transport those pointwise rows.
+
+Then use \autoref{thm:streamname-public-finite-window-interface} to restrict
+the transported pointwise rows to the selected $\mathsf{ProbeBundle}$ window.
+The transported $\Cont$ and $\Pkg$ rows preserve the same finite provenance
+route through the public interface.
+
+The resulting packet is therefore a public finite-window classifier row for
+the second map. The construction does not add a completion or regularity row;
+it only repacks the transported public rows.
+\end{proof}
+
+\begin{theorem}[StreamNameUp public finite-ledger obligation]
+\label{thm:streamname-public-ledger-obligation}
+For every public $\StreamNameUp$ finite-window packet, the exported ledger is
+exactly the finite family of certified unary observation rows selected by its
+$\mathsf{ProbeBundle}$ together with the corresponding pointwise $\RatUp$
+classifier rows. Reindexing, restriction, and composition do not expose any
+row outside that finite ledger.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-public-finite-window-interface}. It
+identifies the finite-window surface as the restriction of the public
+countable-name interface to the observations carried by the bundle.
+
+For reindexing, apply
+\autoref{thm:streamname-finite-window-reindexing-stability}. The reindexed
+window reads pointwise rows only at observations whose images are members of
+the original bundle.
+
+For composition, apply
+\autoref{thm:streamname-finite-window-reindexing-composition}. The two-step
+and one-step reindexing routes repack the same endpoint, classifier, $\hsame$,
+and finite ledger rows over the target bundle. Hence no hidden observation
+source is exported.
+\end{proof}
+\leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameFiniteWindowClassifier\_public\_ledger\_obligation}
+
+\begin{theorem}[StreamNameUp public RealUp handoff obligation]
+\label{thm:streamname-public-real-handoff-obligation}
+The public $\StreamNameUp$ handoff to downstream $\RegSeqRat$ and $\RealUp$
+consumers is the package consisting of the countable-name interface, the
+finite-window interface, the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation}, the constant-stream
+obligation of \autoref{thm:streamname-public-constant-obligation}, the
+transport obligation of \autoref{thm:streamname-public-transport-obligation},
+and the finite-ledger obligation of
+\autoref{thm:streamname-public-ledger-obligation}. The handoff supplies
+certified unary observation rows and pointwise rational classifier rows only;
+it does not supply $\RegSeqRat$ regularity, $\RealUp$ completeness, or a
+standard bridge.
+\end{theorem}
+\begin{proof}
+The countable-name and finite-window interfaces provide the public carrier,
+classifier, pointwise rational rows, and bundle restriction rows. The
+reindexing obligation records how these rows move through certified unary
+observation maps.
+
+The constant, transport, and finite-ledger obligations give the three public
+consumer cases: constant names, $\hsame/\Cont$ transport, and finite-window
+ledger readback. Each case cites only the public StreamNameUp rows already
+listed above.
+
+Downstream $\RegSeqRat$ and $\RealUp$ chapters may therefore consume a stable
+stream-name observation surface, but any regular Cauchy condition, completion
+witness, or standard bridge must be supplied in the downstream chapter rather
+than by this handoff.
+\end{proof}
+
+\begin{theorem}[StreamNameUp finite-window schedule exhaustion]
+\label{thm:streamname-finite-window-schedule-exhaustion}
+Any downstream finite-window request whose rows consist of a public
+$\StreamNameUp$ observation map, certified $\UnaryHistory$ indices, a
+$\mathsf{ProbeBundle}$ schedule, pointwise $\RatUp$ endpoint rows, and
+$\RegSeqRat$ or $\RealUp$ consumer provenance is exhausted by the public
+finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}, the public reindexing
+obligation of \autoref{def:streamname-public-reindexing-obligation}, the
+transport obligation of \autoref{thm:streamname-public-transport-obligation},
+the finite ledger of \autoref{thm:streamname-public-ledger-obligation}, and the
+handoff boundary of \autoref{thm:streamname-public-real-handoff-obligation}.
+The request introduces no additional $\RegSeqRat$ regularity row, $\RealUp$
+completion row, quotient representative, hidden limit selector, or observation
+source beyond that union.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier through
+\autoref{thm:streamname-public-finite-window-interface}. The public observation
+map and certified $\UnaryHistory$ indices determine the displayed pointwise
+$\RatUp$ rows, while the $\mathsf{ProbeBundle}$ schedule restricts those rows
+to the requested finite window.
+
+Next apply \autoref{def:streamname-public-reindexing-obligation}. It repacks
+the same scheduled rows after any certified unary reindexing, so the displayed
+bundle is a restriction and reindexing of the public countable-name surface
+rather than a separate request for stream data.
+
+Use \autoref{thm:streamname-public-transport-obligation} for the pointwise
+rational endpoint rows. The supplied $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows
+transport the endpoint classifiers componentwise and preserve the same
+finite-window provenance.
+
+Finally combine \autoref{thm:streamname-public-ledger-obligation} with
+\autoref{thm:streamname-public-real-handoff-obligation}. The ledger identifies
+all exposed rows as scheduled public observation rows and pointwise rational
+classifiers, and the handoff theorem states that downstream $\RegSeqRat$ and
+$\RealUp$ consumers must supply their own regularity, completion, quotient, and
+limit-selection data. Hence the finite-window request is exhausted by the
+listed public StreamNameUp obligations.
+\end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat denominator-source exhaustion]
+\label{thm:streamname-regseqrat-denominator-source-exhaustion}
+Let a downstream $\RegSeqRat$ finite-window consumer receive as input a public
+$\StreamNameUp$ finite-window request together with dyadic denominator rows.
+Then the consumer reads exactly the selected $\mathsf{RatHistoryClassifier}$
+rows, certified $\UnaryHistory$ observation rows, finite
+$\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ membership rows, displayed
+$\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the
+$\DyadicRatCoreUp$ denominator-ledger rows already exported by the dyadic
+real-phase source boundary. It reads no $\RegSeqRat$ regularity witness, seal
+classifier, completion datum, quotient representative, hidden limit selector,
+or host index equality.
+\end{theorem}
+\begin{proof}
+Start with the public real handoff of
+\autoref{thm:streamname-public-real-handoff-obligation}. It exposes the
+countable-name and finite-window StreamNameUp rows, the certified unary
+observation surface, and the public pointwise rational classifier rows.
+
+Next use \autoref{thm:streamname-finite-window-schedule-exhaustion}. The
+finite request is therefore exhausted by the displayed observation indices,
+probe bundle, bundle-membership rows, rational endpoint rows, $\hsame$
+comparisons, continuation routes, and package provenance.
+
+The RegSeqRat-facing handoff of
+\autoref{thm:streamname-real-regseq-finite-window-handoff} identifies the same
+finite rows as the rows consumed by the downstream regular-sequence interface.
+The denominator side is supplied separately by
+\autoref{thm:dyadicratcore-real-phase-source-coverage}, which contributes only
+the dyadic denominator ledger exported by the real-phase source boundary.
+
+Combining these two source boundaries gives the displayed row inventory. None
+of the cited boundaries exports a regularity witness, seal classifier,
+completion datum, quotient representative, hidden limit selector, or host
+index equality, so no such datum can be read by the finite-window consumer.
+\end{proof}
