@@ -46,3 +46,44 @@ common-refinement determinacy identifies the source tuple read through the
 shared bundle. Therefore the downstream finite-window $\RealUp$
 ledger-boundary rows are the same consumer-facing rows as well.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat dyadic source determinacy]
+\label{thm:streamname-regseqrat-dyadic-source-determinacy}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
+packages over the same $\mathsf{ProbeBundle}$ $\mathcal P$ and the same
+accepted $\RegSeqRat$ spine. Suppose that for every selected observation $n$,
+the displayed $\mathsf{UnaryHistory}(n)$, $\mathsf{InBundle}(n,\mathcal P)$,
+and pointwise $\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows agree between the
+two packages by the shown $\hsame/\Cont/\Pkg$ provenance. Then the DyadicRatCore
+endpoint rows handed to the $\RealUp$ finite-window ledger are the same
+consumer-facing rows.
+
+The determined handoff surface is exactly the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row, the
+$\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership rows, the
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance. It exposes no
+completion object, quotient representative, host-index equality, or hidden
+selector row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-common-window-transport}. The
+shared bundle and the displayed pointwise $\hsame$ comparisons identify the
+StreamName finite-window classifier, selected bundle membership rows, certified
+unary-history rows, and accepted $\RegSeqRat$ handoff rows read from
+$\mathcal W_L$ and $\mathcal W_R$.
+
+Next use \autoref{thm:streamname-tail-window-coverage-exhaustion}. Once the
+common-window handoff is placed in a tail-window coverage packet, every readable
+consumer row is one of the displayed classifier, bundle, unary-history,
+pointwise rational-history, $\RegSeqRat$, DyadicRatCore, and finite ledger rows.
+
+Finally apply \autoref{thm:realup-finite-window-exhaustion-obligation}. The
+finite $\RealUp$ observation can consume the DyadicRatCore endpoint rows only
+through the endpoint denominator and dyadic source package supplied by the same
+accepted spine. Since the cited boundaries contain no completion, quotient,
+host-index equality, or hidden selector row, the two packages hand the same
+DyadicRatCore source rows to the $\RealUp$ finite-window ledger.
+\end{proof}
