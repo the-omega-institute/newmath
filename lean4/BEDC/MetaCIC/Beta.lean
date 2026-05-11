@@ -15,5 +15,14 @@ inductive BetaStep : Term → Term → Prop
   | congLam (d b b' : Term) :
       BetaStep b b' →
       BetaStep (Term.lam d b) (Term.lam d b')
+  | congPiCod (d c c' : Term) :
+      BetaStep c c' →
+      BetaStep (Term.pi d c) (Term.pi d c')
+  | congPiDom (d d' c : Term) :
+      BetaStep d d' →
+      BetaStep (Term.pi d c) (Term.pi d' c)
+  | congLamDom (d d' b : Term) :
+      BetaStep d d' →
+      BetaStep (Term.lam d b) (Term.lam d' b)
 
 end BEDC.MetaCIC
