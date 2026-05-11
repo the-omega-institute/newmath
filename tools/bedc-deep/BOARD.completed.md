@@ -16913,3 +16913,27 @@ Rationale:
 The chapter proves three bundle-local cousins of the AskPol-based theorems: bundle-local-internalized-gap-separation (line 202), bundle-local-internalized-gap-coverage (line 232), bundle-local-gap-memberships-share-signature (line 256). The corresponding AskPol-based classification corollary cor:concrete-globalize-classifies-by-signatures sits at line 155 (uses AskPol+PkgTokPol). Grep for 'bundle.local.*classif|bundleAskPolicy.*classif|bundle.local.*globalize|bundleAskPolicy.*Glob' across papers/bedc/parts/ and lean4/BEDC/ returns 0 — confirming no bundle-local classification corollary exists in either side. The reverse direction reduces to thm:bundle-local-signature-determinacy (papers/bedc/parts/core/probe_bundles/02_signature_generation.tex:365) plus PkgTokPol soundness, both already available. Lands cleanly in internalized_gap_globalize.tex (293 lines, room). Concrete classification claim, not parameter echo.
 
 ---
+
+### B-669 - StoneDuality consumer-facing export
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | StoneDuality consumer-facing export |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a StoneDualityUp packet satisfies the Boolean-algebra source transport, Stone-space clopen classifier, clopen ledger, ultrafilter-free soundness, and continuous-map readback rows, then every downstream consumer reads exactly the LatticeUp, TopologyUp, finite BHist, hsame, Cont, Pkg, and NameCert rows and no ultrafilter, point-space, completed compact-Hausdorff, or choice-based Stone-space construction.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/239_stoneduality_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete implication over an existing concrete_instances chapter and lands directly on the chapter's stated public-closure boundary. It is not a marker-only or closurestatus task: it would be a theorem-level consumer export aggregating already displayed StoneDuality rows while preserving the explicit non-claims. Existing BOARD has a related StoneDuality bridge-surface target, but this candidate is narrower and different: it exports the ultrafilter-free finite-row consumer surface rather than adding a clopen-ultrafilter bridge. The input file is short and safe for a local theorem addition.
+
+---
