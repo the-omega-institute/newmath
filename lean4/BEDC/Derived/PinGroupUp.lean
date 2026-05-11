@@ -559,6 +559,25 @@ theorem PinGroupUp_StdBridge
     (And.intro surfaceRows.right
       (And.intro actionReadback endpointRows.right))
 
+theorem PinGroupReflectionParityLedgerSurface_clifford_action_ledger_obligation
+    {spin reflection product endpoint ledger carried action actionOut provenance : BHist} :
+    PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
+      Cont reflection carried action -> Cont action provenance actionOut ->
+        hsame provenance BHist.Empty ->
+          ((hsame carried (append spin ledger) ∧ UnaryHistory spin) ∨
+              (hsame carried (append product ledger) ∧ Cont spin reflection product ∧
+                UnaryHistory reflection)) ∧ hsame carried (append endpoint ledger) ∧
+            hsame actionOut (append reflection carried) ∧
+              (hsame endpoint spin ∨ hsame endpoint product) := by
+  intro surface actionRow actionProvenance provenanceEmpty
+  have surfaceRows := PinGroupReflectionParityLedgerSurface_exhaustion surface
+  have endpointRows := PinGroupReflectionParityCarrier_semantic_name_certificate surface.left
+  cases provenanceEmpty
+  exact And.intro surfaceRows.left
+    (And.intro surfaceRows.right
+      (And.intro (hsame_trans (cont_right_unit_result actionProvenance) actionRow)
+        endpointRows.right))
+
 theorem PinGroupReflectionGeneratorCarrier_admission
     {spin reflection product endpoint ledger carried : BHist} :
     UnaryHistory spin ->
