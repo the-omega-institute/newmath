@@ -224,6 +224,53 @@ theorem CauchyModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup
             (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+theorem CauchyModulusContWindow_closure [AskSetup] [PackageSetup]
+    {precision threshold tolerance schedule observationLedger consumptionLedger window
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusPacket precision threshold tolerance schedule observationLedger
+        consumptionLedger window endpoint bundle pkg ->
+      exists thresholdWindow toleranceWindow readWindow : BHist,
+        Cont precision threshold schedule ∧ Cont schedule tolerance observationLedger ∧
+          Cont observationLedger consumptionLedger window ∧ Cont window threshold endpoint ∧
+            Cont precision threshold thresholdWindow ∧
+              Cont thresholdWindow tolerance toleranceWindow ∧
+                Cont toleranceWindow consumptionLedger readWindow ∧
+                  UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory tolerance ∧
+                    hsame readWindow
+                      (append (append (append precision threshold) tolerance) consumptionLedger) := by
+  intro packet
+  have scheduleRow : Cont precision threshold schedule :=
+    packet.right.right.right.right.right.right.right.right.left
+  have observationRow : Cont schedule tolerance observationLedger :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have windowRow : Cont observationLedger consumptionLedger window :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont window threshold endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  let thresholdWindow := append precision threshold
+  let toleranceWindow := append thresholdWindow tolerance
+  let readWindow := append toleranceWindow consumptionLedger
+  have thresholdWindowRow : Cont precision threshold thresholdWindow := by
+    rfl
+  have toleranceWindowRow : Cont thresholdWindow tolerance toleranceWindow := by
+    rfl
+  have readWindowRow : Cont toleranceWindow consumptionLedger readWindow := by
+    rfl
+  exact Exists.intro thresholdWindow
+    (Exists.intro toleranceWindow
+      (Exists.intro readWindow
+        (And.intro scheduleRow
+          (And.intro observationRow
+            (And.intro windowRow
+              (And.intro endpointRow
+                (And.intro thresholdWindowRow
+                  (And.intro toleranceWindowRow
+                    (And.intro readWindowRow
+                      (And.intro packet.left
+                        (And.intro packet.right.left
+                          (And.intro packet.right.right.left (hsame_refl readWindow)))))))))))))
+
 def CauchyModulusCarrierPacket
     (precision threshold tolerance observationA observationB ledger provenance : BHist) : Prop :=
   UnaryHistory precision ∧

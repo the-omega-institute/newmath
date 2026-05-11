@@ -159,4 +159,38 @@ theorem DyadicRatCoreCarrier_monotone_radius_refinement
   exact And.intro exponentTailPositive
     (And.intro refinedLedgerUnary (And.intro refinementRow refinementRow))
 
+theorem DyadicRatCoreCommonExponentWindow_exactness
+    {mantissa exponent ledger provenance leftScale rightScale leftScaled rightScaled
+      commonWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      Cont exponent ledger leftScale ->
+        Cont leftScale mantissa leftScaled ->
+          Cont exponent ledger rightScale ->
+            Cont rightScale provenance rightScaled ->
+              Cont leftScaled rightScaled commonWindow ->
+                exists packedLeft packedRight : BHist,
+                  Cont exponent (append ledger mantissa) packedLeft ∧
+                    Cont exponent (append ledger provenance) packedRight ∧
+                      hsame packedLeft leftScaled ∧ hsame packedRight rightScaled ∧
+                        Cont packedLeft packedRight commonWindow ∧ RatHistoryCarrier mantissa ∧
+                          PositiveUnaryDenominator exponent ∧ UnaryHistory ledger := by
+  intro carrier leftScaleRow leftScaledRow rightScaleRow rightScaledRow commonRow
+  have leftPacked : Cont exponent (append ledger mantissa) leftScaled := by
+    cases leftScaleRow
+    cases leftScaledRow
+    exact append_assoc exponent ledger mantissa
+  have rightPacked : Cont exponent (append ledger provenance) rightScaled := by
+    cases rightScaleRow
+    cases rightScaledRow
+    exact append_assoc exponent ledger provenance
+  exact Exists.intro leftScaled
+    (Exists.intro rightScaled
+      (And.intro leftPacked
+        (And.intro rightPacked
+          (And.intro (hsame_refl leftScaled)
+            (And.intro (hsame_refl rightScaled)
+              (And.intro commonRow
+                (And.intro carrier.left
+                  (And.intro carrier.right.left carrier.right.right.right.right))))))))
+
 end BEDC.Derived.DyadicRatCoreUp
