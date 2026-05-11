@@ -80,14 +80,15 @@ The handoff row records exactly what a $\RegSeqRatUp$ consumer may read, namely 
 \end{proof}
 
 \closureat{SignedDigitStreamUp}{seedStr}
+\closureat{SignedDigitStreamUp}{obligationStr}
 
 \begin{closurestatus}{\SignedDigitStreamUp}
   \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The finite-window carrier of \autoref{def:signeddigitstream-carrier} binds the visible signed digits, schedule, carry ledger, provenance, endpoint rows, and hidden-tail ledger for $\SignedDigitStreamUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or a standard bridge.}
-  \upgradepath{Formal closure requires Lean targets for the carrier, classifier, finite-window transport, $\RegSeqRatUp$ handoff, and NameCert obligation surface.}
+  \upgradepath{Scoped closure requires binding the signed-digit carrier, classifier, transport, handoff, and ledger rows to the BEDC primitives and source certificates that witness the finite-window stream surface.}
 \end{closurestatus}
