@@ -298,11 +298,19 @@ The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / 
 All of the following must exit 0 before commit:
 ```bash
 cd lean4 && python3 scripts/lake_gate.py build
-cd papers/bedc && make
+cd papers/bedc && make check
 python3 tools/check-axioms.py
 ```
 
-While iterating on a paper edit, `cd papers/bedc && make check` (single `pdflatex -draftmode` pass, ~40 s vs ~75 s) is enough to confirm syntax / undefined macros / unresolved `\input`. **The pre-commit verification above must use the full `make`**: only the second pass resolves `\autoref` and TOC, and the drift audit / `\leanchecked` resolution that follows depend on a clean two-pass build.
+`make check` is single-pass `pdflatex -draftmode`. It catches every
+real syntax-class error (Undefined control sequence, Missing $, Extra },
+unresolved `\input`, package errors, multiply-defined labels). It does
+NOT produce `main.pdf` and does NOT resolve `\autoref` page numbers;
+those are handled asynchronously by `papers/bedc/scripts/paper_builder_daemon.py`
+running on the main checkout, which performs the full `make` double-pass
+in a dedicated `_paper_builder` worktree. Do NOT run the full `make`
+(double-pass) inside the round worktree; the round verification only
+needs syntax + audit, the daemon does the typeset.
 
 ## Step 5: Pre-commit sync with origin BASE (proactive label-collision resolution)
 
@@ -474,7 +482,7 @@ The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `
 ## Completion Contract
 - No `sorry`, no `admit`, no `axiom`, no `constant`, no `opaque` placeholders in committed Lean code
 - `cd lean4 && python3 scripts/lake_gate.py build` passes
-- `cd papers/bedc && make` passes
+- `cd papers/bedc && make check` passes (full main.pdf double-pass is async via paper_builder_daemon)
 - `python3 tools/check-axioms.py` passes
 - Registration updates stay aligned with `\leanchecked` / `\leanstmt` / `\leandef` conventions
 - Do NOT weaken existing theorem signatures

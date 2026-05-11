@@ -171,6 +171,22 @@ theorem DerivedFunctorCarrier_namecert_obligation_surface
   }
   exact And.intro cert (DerivedFunctorCarrier_resolution_append_readback carrier)
 
+theorem DerivedFunctorCarrier_resolution_source_scope
+    {functor resolution homology degree resolved endpoint : BHist} :
+    DerivedFunctorCarrier functor resolution homology degree resolved endpoint ->
+      exists F R H i c : BHist,
+        UnaryHistory i ∧ Cont F R c ∧ Cont c H endpoint ∧
+          hsame endpoint (append c H) := by
+  intro carrier
+  exact Exists.intro functor
+    (Exists.intro resolution
+      (Exists.intro homology
+        (Exists.intro degree
+          (Exists.intro resolved
+            (And.intro carrier.left
+              (And.intro carrier.right.left
+                (And.intro carrier.right.right carrier.right.right)))))))
+
 def DerivedFunctorExactTriangleBoundaryCarrier
     (functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC
       endpointA endpointB endpointC boundary : BHist) : Prop :=
