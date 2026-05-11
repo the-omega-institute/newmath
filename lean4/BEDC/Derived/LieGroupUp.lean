@@ -298,6 +298,18 @@ theorem LieGroupSingleton_chart_operation_readback {h k product mulChart invChar
     (And.intro productManifold
       (And.intro mulEmpty (And.intro invEmpty (And.intro mulUnary invUnary))))
 
+theorem LieGroupSingleton_standard_bridge {h k product chart invChart : BHist} :
+    LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
+      Cont BHist.Empty product chart -> Cont BHist.Empty (LieGroupSingletonInv h) invChart ->
+        SemanticNameCert LieGroupSingletonCarrier LieGroupSingletonCarrier
+            LieGroupSingletonCarrier LieGroupSingletonClassifier ∧
+          LieGroupSingletonClassifier product BHist.Empty ∧ ManifoldSingletonCarrier product ∧
+            hsame chart BHist.Empty ∧ hsame invChart BHist.Empty ∧ UnaryHistory chart ∧
+              UnaryHistory invChart := by
+  intro carrierH carrierK productRow chartRow invChartRow
+  exact And.intro LieGroupSingleton_carrier_obligation.left
+    (LieGroupSingleton_chart_operation_readback carrierH carrierK productRow chartRow invChartRow)
+
 theorem LieGroupSingleton_smooth_operation_readback
     {h k product mulChart invChart transition : BHist} :
     LieGroupSingletonCarrier h -> LieGroupSingletonCarrier k -> Cont h k product ->
