@@ -512,27 +512,6 @@ Applying \autoref{thm:psame-iff-hsame} again for $\Pi$ to the component token-in
 The first residual equivalence in \autoref{thm:samesig-bundle-append-residual-iff} applies with the bundle-local policy on $\Pi$, the two domain witnesses, and the known $\Pi$ signature-sameness. Its forward direction sends $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ to $\sameSig_{\Theta}(h,k)$.
 \end{proof}
 
-\begin{theorem}[PackageTokenPolicy reflects token uniqueness]
-\label{thm:package-token-policy-reflects-token-unique}
-Assume $\PkgTokPol(\Pi)$. For the concrete signature-token relation $\psame_{\Pi}^{\mathrm{sig}}$, token-introduction uniqueness holds:
-$$
-  \TokIntro(\Pi,s,p),\quad
-  \TokIntro(\Pi,t,p)
-  \quad\Longrightarrow\quad
-  \hsame(s,t).
-$$
-\end{theorem}
-
-\begin{proof}
-Let $\TokIntro(\Pi,s,p)$ and $\TokIntro(\Pi,t,p)$ be given. By reflexivity of $\hsame$, the first token-introduction premise may be compared with itself. The soundness field of $\PkgTokPol(\Pi)$ therefore gives $\psame_{\Pi}^{\mathrm{sig}}(p,p)$ from
-$$
-  \TokIntro(\Pi,s,p),\quad
-  \TokIntro(\Pi,s,p),\quad
-  \hsame(s,s).
-$$
-Apply the reflection field of $\PkgTokPol(\Pi)$ to the two displayed token-introduction premises for $s$ and $t$, together with this package-sameness fact $\psame_{\Pi}^{\mathrm{sig}}(p,p)$. The result is $\hsame(s,t)$, which is exactly $\TokUnique(\Pi)$.
-\end{proof}
-
 \begin{corollary}[PackageTokenPolicy is equivalent to token uniqueness]
 \label{cor:package-token-policy-iff-token-unique}
 For the concrete signature-token relation $\psame_{\Pi}^{\mathrm{sig}}$,
@@ -545,4 +524,49 @@ $$
 
 \begin{proof}
 The forward implication is \autoref{thm:package-token-policy-reflects-token-unique}. The reverse implication is \autoref{thm:package-token-policy-from-token-unique}.
+\end{proof}
+
+\begin{theorem}[Signature append residual exactness under known right token component]
+\label{thm:signature-append-residual-known-right-token-component}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$, $\mathsf{BundleAskPolicy}(\Theta,D)$,
+$\PkgPol(\mathsf{BAppend}(\Pi,\Theta))$,
+$\PkgTokPol(\mathsf{BAppend}(\Pi,\Theta))$, and $\PkgTokPol(\Theta)$.
+Let $h$ and $k$ be source histories with
+$$
+\InDom(D,h),\qquad \InDom(D,k).
+$$
+Suppose the appended interface has generated signatures and introduced package tokens
+$$
+\Sig(\mathsf{BAppend}(\Pi,\Theta),h,a,\Lambda_h),\qquad
+\Sig(\mathsf{BAppend}(\Pi,\Theta),k,b,\Lambda_k),
+$$
+$$
+\TokIntro(\mathsf{BAppend}(\Pi,\Theta),a,P_h),\qquad
+\TokIntro(\mathsf{BAppend}(\Pi,\Theta),b,P_k),\qquad
+\psame_{\mathsf{BAppend}(\Pi,\Theta)}(P_h,P_k).
+$$
+Suppose also that the known $\Theta$ component has generated signatures and introduced package tokens
+$$
+\Sig(\Theta,h,u,\Gamma_h),\qquad
+\Sig(\Theta,k,v,\Gamma_k),
+$$
+$$
+\TokIntro(\Theta,u,q_h),\qquad
+\TokIntro(\Theta,v,q_k),\qquad
+\psame_{\Theta}(q_h,q_k).
+$$
+Then
+$$
+\sameSig_{\Pi}(h,k).
+$$
+\end{theorem}
+
+\begin{proof}
+The displayed token-introduction judgments place the appended tokens in the package-token interface for $\mathsf{BAppend}(\Pi,\Theta)$ and the component tokens in the package-token interface for $\Theta$. The comparison step uses the introduced-token reflection direction of $\PkgTokPol$ from \autoref{def:package-token-policy}.
+
+By \autoref{thm:psame-iff-hsame} for $\mathsf{BAppend}(\Pi,\Theta)$, the appended token-introduction premises and the appended package-sameness premise give $\hsame(a,b)$. Together with the two appended signature judgments, this is exactly a witness for $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ by \autoref{def:signature-sameness}.
+
+Applying \autoref{thm:psame-iff-hsame} for $\Theta$ to the component token-introduction premises and the $\Theta$ package-sameness premise gives $\hsame(u,v)$. The two $\Theta$ signature judgments therefore witness $\sameSig_{\Theta}(h,k)$.
+
+The second residual equivalence in \autoref{thm:samesig-bundle-append-residual-iff} applies with the bundle-local policy on $\Theta$, the two domain witnesses, and the known $\Theta$ signature-sameness. Its forward direction sends $\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k)$ to $\sameSig_{\Pi}(h,k)$.
 \end{proof}
