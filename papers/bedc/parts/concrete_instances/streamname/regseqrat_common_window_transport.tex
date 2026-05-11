@@ -542,6 +542,54 @@ completion, host-index, host-function, $\mathsf{Classical}$, or host-real
 coordinate.
 \end{proof}
 
+\begin{theorem}[StreamName RegSeqRat cover-glued ledger uniqueness]
+\label{thm:streamname-regseqrat-cover-glued-ledger-uniqueness}
+Let $\mathcal W$ be a finite $\StreamNameUp$ union, let $I$ be its certified
+overlap sub-bundle, let $S$ be an accepted $\RegSeqRat$ dyadic-tolerance
+spine, and let $P$ be a finite $\RealUp$ seal policy. Suppose two terminal
+source surfaces are built from the same $\mathcal W$, $I$, $S$, and $P$ by the
+cover-gluing route of
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}.
+
+Then every terminal ledger row read by a finite-window $\RealUp$ consumer is
+identical as a consumer-facing row in the two presentations. The visible rows
+are exactly the $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership
+rows, certified $\mathsf{UnaryHistory}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, $\mathsf{DyadicRatCore}$ endpoint and
+radius rows, accepted $\RegSeqRat$ spine rows, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows. No quotient, completion object, host-index
+equality, host function, $\mathsf{Classical}$ datum, or host real equality is
+exported.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing} to the first
+presentation and again to the second presentation. Both cover-glued terminal
+surfaces are therefore assembled from the same finite union rows and the same
+certified intersection rows, with the same accepted $\RegSeqRat$ spine and the
+same finite $\RealUp$ seal policy.
+
+Next apply
+\autoref{thm:streamname-regseqrat-finite-window-ledger-confluence}. It
+identifies the staged StreamName-to-RegSeqRat route with the composed
+StreamName-to-RegSeqRat-to-RealUp route, so a terminal consumer cannot
+distinguish a row by the route used to present it.
+
+Use \autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} for
+the dyadic endpoint and radius coordinates. Use
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} for the
+finite seal boundary. Together they show that every readable coordinate is one
+of the displayed finite families.
+
+The two presentations agree on all union rows by hypothesis and agree on all
+intersection rows by the certified overlap. Since the exhaustion theorems leave
+no other consumer-readable coordinate, each terminal ledger read returns the
+same consumer-facing row in both presentations. This is only a uniqueness
+statement for the concrete finite ledger; it does not transport a source
+equivalence and it exports no host-level equality or completion object.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat common-window selection determinacy]
 \label{thm:streamname-regseqrat-common-window-selection-determinacy}
 Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
