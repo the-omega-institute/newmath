@@ -294,6 +294,46 @@ theorem BraidGroupArtinPacket_scoped_artin_source_package [AskSetup] [PackageSet
                           (And.intro packet.right.right.right.right.right.right.right
                             knotClosurePkg)))))))))))
 
+theorem BraidGroupArtinPacket_public_artin_interface [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint action closureRow rootAction
+      knotClosure : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont classifier word action ->
+        Cont action strand closureRow ->
+          PkgSig bundle closureRow pkg ->
+            Cont endpoint dependency rootAction ->
+              Cont endpoint strand knotClosure ->
+                PkgSig bundle knotClosure pkg ->
+                  BraidGroupPacket strand moveLedger dependency classifier word action closureRow
+                      bundle pkg ∧
+                    PositiveUnaryDenominator strand ∧ UnaryHistory word ∧
+                      UnaryHistory moveLedger ∧ UnaryHistory dependency ∧
+                        UnaryHistory rootAction ∧ UnaryHistory knotClosure ∧
+                          Cont strand word moveLedger ∧
+                            Cont moveLedger dependency classifier ∧
+                              Cont classifier word endpoint ∧
+                                Cont endpoint dependency rootAction ∧
+                                  Cont endpoint strand knotClosure ∧
+                                    PkgSig bundle endpoint pkg ∧
+                                      PkgSig bundle knotClosure pkg ∧
+                                        hsame action (append classifier word) ∧
+                                          hsame closureRow (append action strand) := by
+  intro packet actionRow closureRowCont closurePkg rootActionRow knotClosureRow knotClosurePkg
+  have handoff :=
+    BraidGroupArtinPacket_weyl_root_action_handoff packet actionRow closureRowCont closurePkg
+  have scopedRows :=
+    BraidGroupArtinPacket_scoped_artin_source_package packet rootActionRow knotClosureRow
+      knotClosurePkg
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, rootActionUnary,
+    knotClosureUnary, moveLedgerRow, classifierRow, endpointRow, rootActionCont,
+    knotClosureCont, endpointPkg, knotClosurePkg'⟩ := scopedRows
+  exact
+    ⟨handoff.left, strandPositive, wordUnary, moveLedgerUnary, dependencyUnary,
+      rootActionUnary, knotClosureUnary, moveLedgerRow, classifierRow, endpointRow,
+      rootActionCont, knotClosureCont, endpointPkg, knotClosurePkg', handoff.right.left,
+      handoff.right.right⟩
+
 theorem BraidGroupPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {strand word ledger classifier provenance action closureRow artinStrand artinWord moveLedger
       dependency artinClassifier endpoint : BHist}
