@@ -744,6 +744,34 @@ continuation determinacy, Theorem~\ref{thm:continuation-determinacy}, yields
 $\hsame(d,e)$.
 \end{proof}
 \leanchecked{BEDC.Derived.MetricUp.MetricDistanceWitness\_visible\_context\_determinacy}
+\begin{theorem}[MetricSpace visible-context triangle boundary]
+\label{thm:metricspace-visible-context-triangle-boundary}
+For unary visible contexts $p,q$ and central witnesses
+$\mathsf{MetricDistanceWitness}(x,y,d_{xy})$ and
+$\mathsf{MetricDistanceWitness}(y,z,d_{yz})$, a displayed append or
+continuation row for the composite distance $d_{xyz}$ yields
+$\mathsf{MetricDistanceWitness}(p\cdot x,z\cdot q,(p\cdot d_{xyz})\cdot q)$.
+Every source and result read is confined to $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\Cont$, and $\hsame$.
+
+The boundary introduces no host metric, real inequality, completion, or
+quotient distance.
+\end{theorem}
+\begin{proof}
+Apply the central triangle append closure to the two middle witnesses and the
+displayed composite row. This produces the central witness
+$\mathsf{MetricDistanceWitness}(x,z,d_{xyz})$ over the same $\mathsf{BHist}$ and
+continuation coordinates.
+
+Transport that central witness through the visible prefix and suffix contexts
+using the existing visible-context exactness lemmas. Determinacy then identifies
+the distance row seen after peeling the contexts with the central row
+$d_{xyz}$.
+
+The construction mentions only the unary histories, continuation ledgers, and
+$\hsame$ transports used by those lemmas. Hence no ambient metric, inequality,
+completion, or quotient coordinate is added.
+\end{proof}
 \input{parts/concrete_instances/metric/locatedreal_distance_source_boundary}
 \input{parts/concrete_instances/metric/triangle_append_closed}
 \input{parts/concrete_instances/metric/triangle_empty_distance_collapses}

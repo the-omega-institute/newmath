@@ -49,6 +49,7 @@ The local $\NameCert_{\StateSpaceModelUp}$ obligation surface consists of five f
 \item hidden-data ledger: the packet records that host trajectories, analytic realizations, stochastic data, and infinite-horizon objects are outside the exported carrier.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_semantic\_name\_certificate}
 \begin{proof}
 Start with the carrier rows. They enumerate exactly the finite state, input, output, matrix, linear-map, transition, observation, continuation, transport, provenance, and hidden-ledger coordinates.
 
@@ -56,11 +57,13 @@ The classifier row is the componentwise comparison of those coordinates. Transpo
 
 The trace ledger rows are projections from the displayed transition and observation entries. Since the hidden-data ledger is also a coordinate of the packet, every consumer can see the boundary saying that the excluded host and limiting objects are not part of the exported surface.
 \end{proof}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[StateSpaceModel control handoff]
 \label{thm:statespacemodel-control-handoff}
 The control-facing certificates $\KalmanFilterUp$, $\LQRUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, and $\RiccatiUp$ may consume a $\StateSpaceModelUp$ packet only through the displayed finite state, input, output, transition, input-map, observation-map, trace-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:statespacemodel-carrier}. A downstream control certificate cannot demand an unlogged trajectory space, analytic flow, stochastic model, or limiting algebraic object from this handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_control\_handoff\_transport}
 \begin{proof}
 Read a downstream control request as a projection from the accepted carrier. The Kalman and Riccati consumers can project matrix, vector, covariance-facing, transition, and observation rows; the LQR consumer can project state, input, cost-adjacent transition, and horizon-facing rows; and the observability and controllability consumers can project the displayed $C$ and $B$ faces together with the transition row $A$.
 
@@ -111,16 +114,66 @@ control certificate can read outside the listed rows, the finite obligation
 surface is exhausted.
 \end{proof}
 
+\begin{theorem}[StateSpaceModel public finite-transition export]
+\label{thm:statespacemodel-public-finite-transition-export}
+\autoref{def:statespacemodel-carrier},
+\autoref{def:statespacemodel-classifier},
+\autoref{thm:statespacemodel-namecert-obligation-surface},
+\autoref{thm:statespacemodel-control-handoff},
+\autoref{thm:statespacemodel-ledger-boundary}, and
+\autoref{thm:statespacemodel-obligation-closure} jointly export the public
+finite $\StateSpaceModelUp$ interface over $\DynSystemUp$, $\MatrixUp$,
+$\VecSpaceUp$, $\LinMapUp$, $\Cont$, $\hsame$, and $\Pkg$ rows.
+
+Kalman, LQR, controllability, observability, and Riccati consumers read only
+the displayed finite state, input, output, transition, input-map,
+observation-map, trace-ledger, transport, continuation, provenance, and local
+name rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. They display the state, input, output, matrix,
+linear-map, transition, observation, trace, continuation, transport, package,
+hidden-data ledger, and local naming coordinates used by the public
+$\StateSpaceModelUp$ packet.
+
+Invoke the classifier and the $\NameCert$ obligation surface. Together they
+make the componentwise comparison and the local certificate boundary depend
+only on the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$,
+$\Cont$, $\hsame$, and $\Pkg$ rows.
+
+Use the control handoff, ledger boundary, and obligation closure to restrict
+downstream Kalman, LQR, controllability, observability, and Riccati reads to
+those finite rows. The same boundary excludes host trajectories, analytic
+semigroups, stochastic data, and infinite-horizon limits from the exported
+interface.
+\end{proof}
+
+\begin{theorem}[StateSpaceModel public interface boundary]
+\label{thm:statespacemodel-public-interface-boundary}
+The public $\StateSpaceModelUp$ interface exports exactly the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows isolated by \autoref{def:statespacemodel-carrier}, \autoref{def:statespacemodel-classifier}, \autoref{thm:statespacemodel-control-handoff}, \autoref{thm:statespacemodel-ledger-boundary}, and \autoref{thm:statespacemodel-obligation-closure}. No further public coordinate is part of the certificate boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier definitions. They expose the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, continuation, sameness, package, and naming rows carried by a $\StateSpaceModelUp$ packet.
+
+Compose those projections with \autoref{thm:statespacemodel-control-handoff}. The handoff routes every control-facing read through the same displayed rows, so no consumer-facing state-space coordinate can be read outside the finite certificate surface.
+
+Apply \autoref{thm:statespacemodel-ledger-boundary} and \autoref{thm:statespacemodel-obligation-closure} to close the projection under the visible ledger and obligation rows. These two results repack the projected rows as the public interface boundary and show that the exported surface is exhausted by the listed data.
+
+The boundary therefore excludes host trajectory spaces, analytic semigroups, stochastic models, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, and standard bridge data.
+\end{proof}
+
 \closureat{StateSpaceModelUp}{seedStr}
 \closureat{StateSpaceModelUp}{obligationStr}
+\closureat{StateSpaceModelUp}{scopedStr}
+\closureat{StateSpaceModelUp}{publicStr}
 
 \begin{closurestatus}{\StateSpaceModelUp}
   \constructivestory{A state-space-model packet is seeded by finite $\mathsf{BHist}$ rows for state, input, output, transition, input-map, observation-map, transition and observation traces, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and a hidden-data ledger.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed boundary names the finite state-transition carrier shared by $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface of \autoref{thm:statespacemodel-public-finite-transition-export} and \autoref{thm:statespacemodel-public-interface-boundary} binds the finite state, input, output, matrix, linear-map, transition, observation, trace-ledger, transport, continuation, provenance, and name rows to $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\Cont$, $\hsame$, and $\Pkg$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host trajectory spaces, analytic semigroups, probability measures, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, or a standard bridge.}
-  \upgradepath{Formalization begins with the finite carrier and NameCert obligation surface in the future BEDC.Derived.StateSpaceModelUp namespace.}
+  \upgradepath{Public closure requires a standard finite-transition bridge and a consumer-facing $\StateSpaceModelUp$ export theorem over the scoped finite state-transition packet and its control handoff boundary.}
 \end{closurestatus}

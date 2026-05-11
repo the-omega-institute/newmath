@@ -273,21 +273,55 @@ for by the listed rows, no host MDP, optimizer, utility, external policy
 object, hidden state space, or unlogged action source is exposed.
 \end{proof}
 
+\begin{theorem}[Policy public export surface]
+\label{thm:policy-public-export-surface}
+The public $\PolicyUp$ surface consists exactly of the finite action-ledger
+carrier of \autoref{def:policy-action-ledger-carrier}, the four dependency
+certificate rows $\NameCert_{\BeliefUp}$, $\NameCert_{\MarkovChainUp}$,
+$\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$, selected-action
+determinacy, dependency source exactness, the TasteGate scoped package
+\autoref{thm:policy-tastegate-scoped-package}, and the kernel-scope boundary
+\autoref{thm:policy-kernel-scope-boundary}. It exports no host Markov decision
+process, optimizer, utility function, or external policy row.
+\end{theorem}
+\begin{proof}
+The TasteGate evidence is the chapter's displayed
+$\texttt{BEDC.Derived.PolicyUp.taste\_gate}$ row together with the checked
+scoped package recorded at \autoref{thm:policy-tastegate-scoped-package}. That
+package admits the action-ledger carrier without adding a consumer-visible row
+beyond the listed finite carrier, dependency certificates, $\hsame$, $\Cont$,
+and $\mathsf{Pkg}$ provenance.
+
+Apply \autoref{thm:policy-dependency-source-exactness} to the dependency side.
+The only readable sources are the four displayed certificate rows for
+$\BeliefUp$, $\MarkovChainUp$, $\RandomVarUp$, and $\EstimatorUp$. Apply
+\autoref{thm:policy-selected-action-determinacy} to the action side. Once those
+source rows and visible continuation provenance are fixed, the selected action
+row is fixed.
+
+Finally apply \autoref{thm:policy-kernel-scope-boundary}. The kernel boundary
+has no constructor or projection for a host MDP, optimizer, utility function,
+or external policy object. Therefore the public export is precisely the
+action-ledger surface listed in the statement.
+\end{proof}
+
+\closureat{PolicyUp}{publicStr}[BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_tastegate\_scoped\_package]
+
 \begin{closurestatus}{\PolicyUp}
   \constructivestory{}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The local paper obligations are the action-ledger carrier,
-  TasteGate source scope, action classifier stability, visible continuation
-  provenance coverage, and local action transport over the four displayed
-  dependency certificates.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface is the action-ledger carrier with the public
+  TasteGate scoped package, TasteGate source scope, action classifier
+  stability, visible continuation provenance coverage, and local action
+  transport over the four displayed dependency certificates.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.PolicyUp.PolicyActionLedgerCarrier\_kernel\_scope\_boundary}
   \bridgestatus{none}
   \origin{ai}
+  \leanchecked{BEDC.Derived.PolicyUp.taste\_gate}
   \notclaimed{The chapter does not claim a host Markov decision process,
   optimizer, utility function, external policy object, or public standard
   bridge.}
-  \upgradepath{Public closure requires an exported public $\PolicyUp$
-  interface over the already scoped
-  \texttt{BEDC.Derived.PolicyUp.taste\_gate} and action-ledger package.}
+  \upgradepath{Bridged closure requires a bridge from the public action-ledger
+  package to the standard policy interface.}
 \end{closurestatus}
