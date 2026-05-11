@@ -110,6 +110,22 @@ Transport the two endpoint families along the supplied componentwise $\hsame$ ro
 Transport the dyadic-radius and distance ledgers through the same provenance. Since the regularity rows are carried with the endpoints, the transported witness satisfies the dyadic-tolerance classifier for $x'$ and $y'$ on the selected windows. No quotient sequence or ambient real equality is introduced.
 \end{proof}
 
+\begin{theorem}[RegSeqRat common-refinement classifier determinacy]
+\label{thm:regseqrat-common-refinement-classifier-determinacy}
+Let $x$ and $y$ be accepted $\RegSeqRatUp$ stream carriers. Suppose two finite $\StreamNameUp$ schedules both refine to a common window and carry the same transported $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, and $\mathsf{Pkg}$ provenance. Then the two schedules determine the same $\mathsf{RegSeqRatClassifier}(x,y)$ read on that common window.
+
+The common read is the one exposed by the $\RealUp$ seal handoff through the refined finite rows. It contains no quotient stream equality, host real equality, or metric-completion comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regseqrat-stream-carrier} and the classifier of \autoref{def:regseqrat-classifier}. Each schedule reads only unary index rows, dyadic endpoints, radius rows, regularity ledgers, dyadic distance ledgers, and the displayed provenance attached to those rows.
+
+Move both schedules to the stated common window. The finite-window transport obligation of \autoref{thm:regseqrat-finite-window-transport-obligation} carries the endpoints, radii, regularity rows, and provenance to the same refined rows on that window.
+
+Apply classifier transport from \autoref{thm:regseqrat-classifier-transport} to both transported reads. Since the hypotheses identify the transported endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, the two classifier witnesses have the same finite ledger on the common window.
+
+Finally read the $\RealUp$ seal boundary through \autoref{thm:regseqrat-real-seal-handoff}. That handoff consumes only the refined finite rows just identified, so it cannot distinguish the two source schedules and yields the same $\mathsf{RegSeqRatClassifier}$ read.
+\end{proof}
+
 \begin{theorem}[RegSeqRat scheduled-window projection]
 \label{thm:regseqrat-scheduled-window-projection}
 For every accepted finite scheduled window of a $\RegSeqRatUp$ stream carrier, projection exposes only the unary index row, the $\DyadicRatCoreUp$ endpoint row, the dyadic-radius row, the regularity ledger rows, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. No projected window contains a quotient sequence coordinate, a host real coordinate, or a completion object.
