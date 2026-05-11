@@ -1,0 +1,147 @@
+\chapter{A Concrete Naming Certificate for $\RiccatiUp$}
+\label{ch:concrete-instances-riccati-namecert}
+
+The $\RiccatiUp$ interface records the finite control-theory ledger used by
+finite-horizon regulator and filtering certificates. Its textbook object is
+the Riccati recursion for linear-quadratic control and covariance propagation,
+as in Lancaster and Rodman, \emph{The Algebraic Riccati Equation} (1995), or
+Anderson and Moore, \emph{Optimal Control: Linear Quadratic Methods} (1990).
+The BEDC certificate is only the named finite packet consumed by $\LQRUp$ and
+$\KalmanFilterUp$.
+
+\begin{definition}[RiccatiUp control packet carrier]
+\label{def:riccati-control-packet-carrier}
+A $\RiccatiUp$ carrier is a finite $\mathsf{BHist}$ packet whose displayed rows
+are matrix state rows, matrix control rows, symmetric quadratic-cost rows, a
+finite horizon unary index, Riccati value-row ledger entries, backward $\Cont$
+routes from each successor value row to the preceding value row, $\hsame$
+transports for the state, control, cost, horizon, and value rows, and $\Pkg$
+provenance naming $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$,
+$\LQRUp$, and $\KalmanFilterUp$.
+
+The classifier accepts exactly the packets whose finite value-row ledger is read
+through these displayed matrix, vector-space, real-scalar, dynamic-system,
+continuation, transport, and provenance rows. It exports no host analytic
+operator equation, infinite-horizon limit, stabilizing solution, or external
+solver state.
+\end{definition}
+
+\begin{theorem}[RiccatiUp NameCert obligation surface]
+\label{thm:riccati-namecert-obligation-surface}
+The local $\NameCert_{\RiccatiUp}$ obligation surface has five rows:
+\begin{enumerate}
+\item the carrier row of \autoref{def:riccati-control-packet-carrier};
+\item the classifier row accepting exactly the finite Riccati value-ledger
+packets with displayed $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, and $\DynSystemUp$
+sources;
+\item the stability row saying componentwise $\hsame$ transport of state,
+control, symmetric-cost, horizon, value, $\Cont$, and $\Pkg$ rows remains inside
+the same carrier surface;
+\item the finite ledger-closure row saying each backward value step consumes
+only the displayed successor value, transition, control, symmetric-cost,
+horizon, continuation, and provenance rows;
+\item the consumer-boundary row saying $\LQRUp$ and $\KalmanFilterUp$ may read
+only the displayed finite Riccati rows and cannot demand an algebraic
+infinite-horizon equation or external solver from the certificate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Construct the surface by enumerating the finite carrier coordinates. The carrier
+row supplies the visible state, control, symmetric-cost, horizon, value,
+continuation, transport, and provenance fields.
+
+The classifier is the same finite membership test restricted to those rows.
+Transport stability follows by replacing each visible row by its $\hsame$ match
+and reassembling the packet with the same horizon index and provenance names.
+
+For ledger closure, inspect one backward horizon position. Its predecessor value
+row is generated from the displayed successor value, transition, control,
+symmetric-cost, continuation, and package rows, so no host Riccati equation or
+solver coordinate is available.
+
+The consumer boundary is then a projection statement. $\LQRUp$ reads the finite
+value recursion as its dynamic-programming ledger, while $\KalmanFilterUp$ reads
+the covariance-style matrix ledger; both reads are confined to the displayed
+$\mathsf{BHist}$ coordinates.
+\end{proof}
+
+\begin{theorem}[RiccatiUp finite ledger step closure]
+\label{thm:riccati-finite-ledger-step-closure}
+In an accepted $\RiccatiUp$ packet, every finite backward ledger step is a
+$\Cont$ row from the displayed successor value row, state-transition row,
+control row, symmetric-cost row, finite horizon row, and $\Pkg$ provenance to
+the displayed predecessor value row. No accepted step reads an unlogged
+analytic value function, limiting algebraic Riccati solution, or external
+solver state.
+\end{theorem}
+\begin{proof}
+Fix a backward position in the finite horizon unary index. By
+\autoref{def:riccati-control-packet-carrier}, the only rows available at that
+position are the successor value row, transition and control rows,
+symmetric-cost row, continuation row, transport rows, and provenance rows.
+
+The classifier in \autoref{thm:riccati-namecert-obligation-surface} accepts the
+predecessor row only when it is assembled from those displayed coordinates.
+Since the carrier has no coordinate for a limiting solution or solver state,
+such data cannot contribute to the accepted step.
+\end{proof}
+
+\begin{theorem}[RiccatiUp LQR and Kalman consumer boundary]
+\label{thm:riccati-lqr-kalman-consumer-boundary}
+Every $\LQRUp$ or $\KalmanFilterUp$ consumer of $\NameCert_{\RiccatiUp}$ may read
+only the finite value-row ledger, covariance-style matrix rows, horizon rows,
+$\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance of
+\autoref{def:riccati-control-packet-carrier}. It cannot infer an
+infinite-horizon algebraic Riccati limit, a stabilizing solution theorem, or an
+external numerical solver from the $\RiccatiUp$ certificate alone.
+\end{theorem}
+\begin{proof}
+Read the consumer as a projection from the accepted carrier. The $\LQRUp$ side
+projects the state, control, symmetric-cost, horizon, and value-ledger rows
+needed for finite dynamic programming.
+
+The $\KalmanFilterUp$ side projects the covariance-style matrix value ledger,
+transport rows, continuation rows, and provenance rows. These are the same
+finite $\mathsf{BHist}$ coordinates, interpreted by the filtering packet as
+prediction-update covariance data.
+
+All remaining objects named in the theorem are absent from the carrier. Hence
+they are not readable through the $\RiccatiUp$ certificate.
+\end{proof}
+
+\begin{theorem}[RiccatiUp seed NameCert surface]
+\label{thm:riccati-seed-namecert-surface}
+The carrier of \autoref{def:riccati-control-packet-carrier}, together with the
+obligation surface of \autoref{thm:riccati-namecert-obligation-surface}, the
+finite ledger step closure of
+\autoref{thm:riccati-finite-ledger-step-closure}, and the consumer boundary of
+\autoref{thm:riccati-lqr-kalman-consumer-boundary}, forms the seed
+$\NameCert_{\RiccatiUp}$ surface over $\MatrixUp$, $\VecSpaceUp$, $\RealUp$,
+$\DynSystemUp$, $\LQRUp$, $\KalmanFilterUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, and $\Pkg$.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and obligation rows first. The carrier names every row that
+can be exported, and the obligation surface supplies the classifier, transport,
+ledger, and consumer-boundary fields.
+
+Apply the finite ledger step closure to each horizon position in the unary
+index. Each backward row is therefore a displayed continuation between finite
+value rows with visible matrix, cost, horizon, and provenance inputs.
+
+Finally, apply the LQR and Kalman consumer boundary. The resulting
+$\NameCert_{\RiccatiUp}$ surface is exactly the displayed packet and has no field
+for an infinite-horizon algebraic Riccati limit or an external solver.
+\end{proof}
+
+\closureat{RiccatiUp}{seedStr}
+\begin{closurestatus}{\RiccatiUp}
+  \constructivestory{A Riccati row is seeded by a finite $\mathsf{BHist}$ packet of matrix state and control rows, symmetric-cost rows, a finite horizon unary index, value-row ledger entries, backward $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance naming $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface binds the finite Riccati value ledger to the displayed control, filtering, matrix, vector-space, real-scalar, dynamic-system, continuation, transport, and package rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close infinite-horizon algebraic Riccati limits, stabilizing solution theorems, convergence rates, or external solvers.}
+  \upgradepath{The next step is a checked finite-carrier theorem in the future Lean namespace $BEDC.Derived.RiccatiUp$.}
+\end{closurestatus}
