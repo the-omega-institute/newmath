@@ -286,6 +286,19 @@ theorem DyadicRatCoreClassifier_common_exponent_transport
       (And.intro sameScaleRight
         (And.intro sameScaledLeft (And.intro sameScaledRight sameClassifierWindow))))
 
+theorem DyadicRatCoreClassifier_common_exponent_e0_exclusion
+    {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common leftScale
+      rightScale tail : BHist} :
+    DyadicRatCoreClassifier mantissa exponent ledger provenance mantissa' exponent' ledger'
+      provenance' common leftScale rightScale ->
+      hsame common (BHist.e0 tail) -> False := by
+  intro classifier commonE0
+  have commonPositive : PositiveUnaryDenominator common :=
+    classifier.right.right.left
+  have transportedPositive : PositiveUnaryDenominator (BHist.e0 tail) :=
+    PositiveUnaryDenominator_hsame_transport commonE0 commonPositive
+  exact PositiveUnaryDenominator_e0_absurd transportedPositive
+
 def DyadicRatCoreArithmeticWindow
     (mantissa0 mantissa1 exponent0 exponent1 ledger0 ledger1 provenance0 provenance1 sum neg
       diff prod window : BHist) : Prop :=
