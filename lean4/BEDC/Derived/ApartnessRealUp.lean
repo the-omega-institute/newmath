@@ -269,6 +269,55 @@ theorem ApartnessRealMetricHandoffPacket_transport [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact ⟨transported, sameLeftReadback, sameRightReadback, sameSeparation, sameEndpoint⟩
 
+theorem ApartnessRealMetricHandoffPacket_metric_consumer_separation_boundary
+    [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback separation provenance endpoint
+      consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealMetricHandoffPacket left right radius window leftReadback rightReadback
+        separation provenance endpoint bundle pkg ->
+      Cont endpoint window consumerRow ->
+        PkgSig bundle consumerRow pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+            UnaryHistory leftReadback ∧ UnaryHistory rightReadback ∧
+              UnaryHistory separation ∧ UnaryHistory endpoint ∧ UnaryHistory consumerRow ∧
+                Cont left window leftReadback ∧ Cont right window rightReadback ∧
+                  Cont leftReadback rightReadback separation ∧
+                    Cont separation provenance endpoint ∧
+                      hsame consumerRow (append endpoint window) ∧
+                        PkgSig bundle consumerRow pkg := by
+  intro packet consumerRowRow consumerPkg
+  have leftReadbackUnary : UnaryHistory leftReadback :=
+    unary_cont_closed packet.left packet.right.right.right.left
+      packet.right.right.right.right.right.left
+  have rightReadbackUnary : UnaryHistory rightReadback :=
+    unary_cont_closed packet.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have separationUnary : UnaryHistory separation :=
+    unary_cont_closed leftReadbackUnary rightReadbackUnary
+      packet.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed separationUnary packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumerRow :=
+    unary_cont_closed endpointUnary packet.right.right.right.left consumerRowRow
+  exact
+    ⟨packet.left,
+      packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      leftReadbackUnary,
+      rightReadbackUnary,
+      separationUnary,
+      endpointUnary,
+      consumerUnary,
+      packet.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      consumerRowRow,
+      consumerPkg⟩
+
 theorem ApartnessRealSeparationPacket_finite_window_transport [AskSetup] [PackageSetup]
     {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow left'
       right' radius' window' leftEndpoint' rightEndpoint' forwardLedger' reverseLedger' pkgrow' :
