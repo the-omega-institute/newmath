@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ControlControllabilityUp$}
+\label{ch:concrete-instances-controlcontrollability-namecert}
+
+The $\ControlControllabilityUp$ interface records the finite reachability surface of a linear control system. Its textbook source is the Kalman controllability rank-style data of Kalman, \emph{On the General Theory of Control Systems} (1960), but the BEDC chapter states only the finite reachability ledger and $\NameCert$ surface. The dependency anchors are $\NameCert_{\DynSystemUp}$, $\NameCert_{\MatrixUp}$, $\NameCert_{\VecSpaceUp}$, $\NameCert_{\LinMapUp}$, $\NameCert_{\ControlObservabilityUp}$, $\NameCert_{\KalmanFilterUp}$, and $\NameCert_{\LQRUp}$.
+
+\section{Carrier definition}
+\label{sec:controlcontrollability-carrier}
+
+\begin{definition}[ControlControllability finite reachability carrier]
+\label{def:controlcontrollability-carrier}
+A $\ControlControllabilityUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state-carrier row, an input-carrier row, a transition-matrix row $A$, a control-matrix row $B$, a finite horizon unary row $n$, the displayed reachability columns $B,AB,\ldots,A^{n-1}B$, a reachability-matrix row collecting those columns, $\hsame$ comparisons between corresponding finite rows, $\Cont$ provenance for each displayed multiplication and column append, and $\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$.
+\end{definition}
+
+\begin{definition}[ControlControllability classifier]
+\label{def:controlcontrollability-classifier}
+Two $\ControlControllabilityUp$ carriers are classified as the same finite reachability certificate exactly when their state rows, input rows, $A$ rows, $B$ rows, horizon rows, reachability-column rows, reachability-matrix rows, $\Cont$ routes, and $\mathsf{Pkg}$ rows agree under displayed $\hsame$ transports and the $\MatrixUp$ column-transport ledger. The classifier does not quotient by a host reachable subspace and does not identify packets by an ambient controllability predicate.
+\end{definition}
+
+\section{The certificate}
+\label{sec:controlcontrollability-certificate}
+
+\begin{theorem}[ControlControllability reachability ledger]
+\label{thm:controlcontrollability-reachability-ledger}
+Every accepted $\ControlControllabilityUp$ packet exposes exactly the state-carrier row, input-carrier row, transition row $A$, control row $B$, finite horizon row $n$, displayed reachability columns $B,AB,\ldots,A^{n-1}B$, reachability-matrix row, $\hsame$ transports, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows of \autoref{def:controlcontrollability-carrier}. It exports no host reachable subspace, rank theorem, Kalman decomposition, analytic trajectory semantics, or infinite-horizon object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the rows listed in \autoref{def:controlcontrollability-carrier}. The state, input, transition, control, horizon, column, reachability-matrix, transport, continuation, and provenance rows are visible as finite $\mathsf{BHist}$ coordinates.
+
+Conversely, every consumer-visible reachability read enters through one of those coordinates. Matrix multiplication and column append are recorded as $\MatrixUp$ and $\LinMapUp$ ledger rows, while the state and input endpoints are recorded through $\VecSpaceUp$ and $\DynSystemUp$ rows.
+
+The carrier has no coordinate for a host reachable subspace, rank theorem, Kalman decomposition, analytic trajectory, or infinite horizon. Therefore those objects cannot be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[ControlControllability NameCert obligation surface]
+\label{thm:controlcontrollability-namecert-obligation-surface}
+The local $\NameCert_{\ControlControllabilityUp}$ seed surface consists of the carrier and classifier rows of \autoref{def:controlcontrollability-carrier} and \autoref{def:controlcontrollability-classifier}, the finite reachability-ledger row of \autoref{thm:controlcontrollability-reachability-ledger}, the $\MatrixUp$ column-transport row for $B,AB,\ldots,A^{n-1}B$, the $\hsame$ stability row for state, input, matrix, horizon, $\Cont$, and $\mathsf{Pkg}$ coordinates, and the dependency rows naming $\DynSystemUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$ as finite control-theory anchors.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier and classifier. They determine the visible packet shape and the rowwise comparison relation for all state, input, transition, control, horizon, column, reachability-matrix, continuation, and provenance coordinates.
+
+The reachability-ledger theorem identifies the exact exported rows. The matrix column-transport row is then a finite componentwise transport of the displayed $B,AB,\ldots,A^{n-1}B$ columns, not an appeal to a host reachable-space quotient.
+
+The remaining dependency rows are package provenance. They allow consumers to compare the controllability packet with observability, Kalman-filter, and regulator packets only through named finite rows, so the resulting surface is a seed $\NameCert$ obligation rather than a standard control-theory bridge.
+\end{proof}
+
+\begin{theorem}[ControlControllability consumer boundary]
+\label{thm:controlcontrollability-consumer-boundary}
+Every downstream consumer of $\ControlControllabilityUp$ can read controllability data only through the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:controlcontrollability-carrier}. No consumer can require analytic trajectory semantics, a host reachable subspace, Kalman decomposition, stochastic optimality, or a standard bridge from this chapter.
+\end{theorem}
+\begin{proof}
+Take a consumer-visible readback from an accepted packet. By the classifier, the readback is invariant only under the displayed $\hsame$ transports and the $\MatrixUp$ column-transport ledger.
+
+Apply the reachability-ledger theorem to exhaust the visible rows. The readback is therefore a finite route through state, input, transition, control, horizon, reachability-column, reachability-matrix, continuation, and package coordinates.
+
+Since none of the excluded host objects appears as a carrier coordinate, a consumer cannot project one from the packet. The boundary is exactly the finite BEDC reachability surface.
+\end{proof}
+
+\closureat{ControlControllabilityUp}{seedStr}
+\begin{closurestatus}{\ControlControllabilityUp}
+  \constructivestory{}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface records the finite reachability carrier, classifier, reachability ledger, NameCert obligation surface, and consumer boundary for $\ControlControllabilityUp$ over displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic trajectory semantics, Kalman decomposition, stochastic optimality, host reachable subspace quotients, rank-completeness, or a standard bridge.}
+  \upgradepath{The scoped paper-axis step is a checked finite reachability $\NameCert_{\ControlControllabilityUp}$ theorem over the displayed carrier and classifier rows.}
+\end{closurestatus}

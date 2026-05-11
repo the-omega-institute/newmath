@@ -1,0 +1,152 @@
+\chapter{A Concrete Naming Certificate for $\HolonomyUp$}
+\label{ch:concrete-instances-holonomy-namecert}
+
+The $\HolonomyUp$ interface records the finite certificate surface of parallel transport around displayed loops in a certified bundle with a certified connection. The traditional geometric target is the holonomy construction of Kobayashi and Nomizu, \emph{Foundations of Differential Geometry}, read here only through $\NameCert_{\ConnectionUp}$, $\NameCert_{\CurvatureUp}$, $\NameCert_{\BundleUp}$, $\NameCert_{\ManifoldUp}$, and $\NameCert_{\LieGroupUp}$ rows.
+
+\section{Carrier definition}
+\label{sec:holonomy-carrier}
+
+\begin{definition}[Holonomy BHist transport carrier]
+\label{def:holonomy-bhist-transport-carrier}
+A $\HolonomyUp$ carrier is a finite $\mathsf{BHist}$ transport packet
+$$
+(\mathcal B,\mathcal C,\ell,e,\kappa,\lambda,\rho)
+$$
+whose rows are as follows.
+\begin{enumerate}
+\item $\mathcal B$ is a certified bundle row supplied by $\NameCert_{\BundleUp}$ over a base row supplied by $\NameCert_{\ManifoldUp}$.
+\item $\mathcal C$ is a certified connection row supplied by $\NameCert_{\ConnectionUp}$ on the same displayed bundle rows.
+\item $\ell$ is a loop row whose source and target base endpoint are the same displayed $\ManifoldUp$ row after the carried $\hsame$ comparison.
+\item $e$ is the transported fibre endpoint row obtained by reading the connection transport ledger along $\ell$.
+\item $\kappa$ records the curvature and control provenance rows supplied through $\NameCert_{\CurvatureUp}$ and the finite control ledger governing the displayed transport route.
+\item $\lambda$ is the finite $\Cont$ ledger for loop subdivision, transport composition, endpoint readback, and provenance projection.
+\item $\rho$ is the $\mathsf{Pkg}$ provenance row naming the bundle, connection, curvature, manifold, and Lie-group dependency certificates.
+\end{enumerate}
+Two such carriers classify together when their base loop, connection row, transported fibre endpoint, curvature-control provenance, continuation ledger, and package rows are related componentwise by the available $\hsame$ transports. The carrier exports no host parallel-transport functor, analytic path space, smooth loop manifold, or ambient holonomy group outside these rows.
+\end{definition}
+
+\begin{definition}[Holonomy finite transport classifier]
+\label{def:holonomy-finite-transport-classifier}
+The $\HolonomyUp$ classifier relates two accepted packets exactly when their base loop, connection, transported fibre endpoint, curvature-control provenance, bundle provenance, manifold provenance, $\Cont$, and $\mathsf{Pkg}$ coordinates are related componentwise by displayed $\hsame$ rows. The classifier exports only this finite componentwise comparison.
+\end{definition}
+
+\section{The certificate}
+\label{sec:holonomy-certificate}
+
+\begin{theorem}[Holonomy loop source obligation]
+\label{thm:holonomy-loop-source-obligation}
+Every accepted $\HolonomyUp$ packet reads its loop source from the displayed $\ManifoldUp$ and $\BundleUp$ rows of \autoref{def:holonomy-bhist-transport-carrier}. The loop row $\ell$ names its base endpoint, its return endpoint, the carried $\hsame$ comparison between those endpoints, and the bundle fibre row over that base; no ambient loop space or unlogged base path is part of the source obligation.
+\end{theorem}
+\begin{proof}
+Project the carrier packet to the rows $\mathcal B$ and $\ell$. The bundle row $\mathcal B$ already exposes the base row through $\NameCert_{\BundleUp}$, and that base row is read through $\NameCert_{\ManifoldUp}$.
+
+The loop row $\ell$ then names the source endpoint, return endpoint, and endpoint $\hsame$ comparison over the same base row. These projections are finite $\mathsf{BHist}$ data, so the source obligation is exhausted by the displayed manifold and bundle certificate rows.
+
+Since the carrier contains no coordinate for an analytic path space or a host loop object, a consumer cannot read anything beyond those projected loop and bundle rows.
+\end{proof}
+
+\begin{theorem}[Holonomy continuation transport stability]
+\label{thm:holonomy-continuation-transport-stability}
+If two $\HolonomyUp$ packets have componentwise $\hsame$ transports of their base loop rows, certified connection rows, transported fibre endpoints, curvature-control provenance rows, and finite continuation ledgers, then the transported packet remains accepted by the carrier of \autoref{def:holonomy-bhist-transport-carrier}. The fibre endpoint readback is stable under that transport and remains tied to the same $\ConnectionUp$ source row.
+\end{theorem}
+\begin{proof}
+Unpack the two packets and read the supplied componentwise comparisons. The loop comparison transports the displayed base endpoints, while the connection comparison transports the row that supplies the parallel-transport ledger.
+
+Next transport the fibre endpoint and curvature-control provenance rows. These fields are already listed in the carrier, so the transported endpoint and provenance remain inside the same finite packet shape.
+
+Finally compare the $\Cont$ ledgers. The continuation rows identify the same subdivision and readback routes after transport, and the package provenance rows match the dependency certificates. Repacking the transported fields gives an accepted $\HolonomyUp$ packet with the stated stable endpoint readback.
+\end{proof}
+
+\begin{theorem}[Holonomy parallel-transport stability]
+\label{thm:holonomy-parallel-transport-stability}
+Let $H$ and $H'$ be accepted $\HolonomyUp$ packets. If the base loop, connection, transported fibre endpoint, curvature-control provenance, $\Cont$, and $\mathsf{Pkg}$ rows of $H$ are transported to the corresponding rows of $H'$ by displayed $\hsame$ comparisons, then the transported packet remains inside the same finite $\HolonomyUp$ carrier surface. The endpoint readback of $H'$ is exactly the transported finite parallel-transport loop row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:holonomy-bhist-transport-carrier}. The parallel-transport component is a finite spine read from $\ConnectionUp$ together with the base, fibre, loop, continuation, and package rows.
+
+Transport those coordinates componentwise along the displayed $\hsame$ comparisons. The classifier of \autoref{def:holonomy-finite-transport-classifier} accepts precisely that componentwise transport, so the resulting tuple has the same carrier shape.
+
+Finally read back the endpoint row. Since the carrier has no coordinate for an ambient path space or external connection object, the endpoint readback is exhausted by the transported finite loop spine.
+\end{proof}
+
+\begin{theorem}[Holonomy curvature-loop boundary]
+\label{thm:holonomy-curvature-loop-boundary}
+Every curvature contribution visible in an accepted $\HolonomyUp$ packet is read through the displayed certified loop row, the $\CurvatureUp$ boundary row, the $\ConnectionUp$ parallel-transport spine, the $\BundleUp$ provenance row, the $\ManifoldUp$ provenance row, $\hsame$ transport, and the finite $\Cont$ ledger. No downstream consumer can insert an unlogged curvature tensor, ambient surface integral, or host smooth-loop family.
+\end{theorem}
+\begin{proof}
+Read the curvature coordinate from the packet. It is attached to a certified loop row and to the parallel-transport spine already named by the connection source.
+
+Use the displayed $\CurvatureUp$ boundary row to account for the curvature data along that loop. The bundle and manifold provenance rows identify the source of the fibre and base coordinates, while the $\Cont$ ledger records the finite route to the endpoint readback.
+
+Because the packet contains no host tensor, surface integral, or smooth-loop family coordinate, the curvature contribution is exactly the displayed boundary row together with its loop and transport provenance.
+\end{proof}
+
+\begin{theorem}[Holonomy composition ledger obligation]
+\label{thm:holonomy-composition-ledger-obligation}
+Composition of displayed holonomy transports is recorded only by finite $\Cont$ rows. For two accepted loop rows whose endpoint ledgers concatenate inside the same bundle and connection packet, the composed fibre endpoint is the endpoint reached by the concatenated continuation ledger, with dependency provenance retained in $\rho$.
+\end{theorem}
+\begin{proof}
+Start with the two accepted loop rows and their transport ledgers. Each ledger entry names a finite source endpoint, target endpoint, connection row, and fibre endpoint readback.
+
+Concatenate the displayed continuation routes using the $\Cont$ ledger carried by the packet. The intermediate endpoint is matched by the endpoint $\hsame$ row, so the second transport can read the fibre endpoint produced by the first.
+
+The composed endpoint is therefore just the endpoint of the concatenated finite ledger. The package row $\rho$ records that the bundle, connection, manifold, curvature, and Lie-group dependencies are the same named certificate rows throughout the composition.
+\end{proof}
+
+\begin{theorem}[Holonomy NameCert obligation surface]
+\label{thm:holonomy-namecert-obligation-surface}
+The $\NameCert_{\HolonomyUp}$ seed obligation surface consists of five rows over $\ConnectionUp$, $\CurvatureUp$, $\BundleUp$, $\ManifoldUp$, and $\LieGroupUp$.
+
+\begin{enumerate}
+\item The loop-source row supplied by \autoref{thm:holonomy-loop-source-obligation}.
+\item The connection-transport row supplied by $\NameCert_{\ConnectionUp}$ and stabilized by \autoref{thm:holonomy-continuation-transport-stability}.
+\item The composition-ledger row supplied by \autoref{thm:holonomy-composition-ledger-obligation}.
+\item The curvature-compatibility row saying that curvature and control provenance are read through $\NameCert_{\CurvatureUp}$ and never through an external curvature operator.
+\item The finite naming ledger row saying that $\NameCert_{\BundleUp}$, $\NameCert_{\ManifoldUp}$, and $\NameCert_{\LieGroupUp}$ are consumed only through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Read the carrier packet of \autoref{def:holonomy-bhist-transport-carrier}. Its fields list the bundle, connection, loop, transported endpoint, curvature-control provenance, continuation, and package rows.
+
+Apply \autoref{thm:holonomy-loop-source-obligation} to bind the loop source to the displayed manifold and bundle rows. Apply \autoref{thm:holonomy-continuation-transport-stability} to bind transport and endpoint readback to the connection row.
+
+Apply \autoref{thm:holonomy-composition-ledger-obligation} to record composition as a finite continuation route. The curvature-compatibility and naming rows are then projections from $\kappa$, $\lambda$, and $\rho$: every curvature, control, Lie-group, bundle, and manifold dependency appears as a named row in the packet.
+
+These five rows exhaust the public seed surface. No host parallel-transport functor, analytic path space, ambient holonomy group, or unrecorded curvature operator has a projection from the carrier.
+\end{proof}
+
+\begin{theorem}[Holonomy certificate boundary]
+\label{thm:holonomy-certificate-boundary}
+The seed $\NameCert_{\HolonomyUp}$ obligation surface consists of five finite rows: carrier inhabitation for \autoref{def:holonomy-bhist-transport-carrier}, reflexivity, symmetry, and transitivity for the classifier of \autoref{def:holonomy-finite-transport-classifier}, transport stability of finite parallel-transport loops, exactness of the curvature-boundary ledger, and a downstream readback boundary restricting consumers to the displayed loop, transport, curvature, bundle, manifold, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+\end{theorem}
+\begin{proof}
+Carrier inhabitation is the constructor that assembles the base, fibre, loop, transport, curvature, provenance, and continuation rows into one finite $\mathsf{BHist}$ packet.
+
+The classifier laws are componentwise. Reflexivity uses the displayed row identities, symmetry reverses each $\hsame$ comparison, and transitivity composes the corresponding comparisons while preserving the same finite continuation ledger.
+
+The transport and curvature obligations are supplied by the preceding transport and curvature-boundary theorems. The final readback boundary follows by projecting the carrier coordinates: no accepted packet exposes an ambient holonomy group, host smooth-loop space, external transport solver, or extra curvature source.
+\end{proof}
+
+\begin{theorem}[Holonomy standard boundary scope]
+\label{thm:holonomy-standard-boundary-scope}
+The standard geometric boundary of $\HolonomyUp$ is limited in this chapter to the displayed loop, connection-transport, fibre endpoint, curvature-control, composition, and dependency-provenance rows of the carrier. A classical holonomy group may motivate the target name, but the BEDC packet exposes only a finite NameCert ledger and does not claim a host Lie subgroup, smooth parallel-transport action, or analytic path-space quotient.
+\end{theorem}
+\begin{proof}
+Project a consumer-visible holonomy readback from the carrier. The available fields are exactly the loop row, connection row, transported endpoint, curvature-control provenance, continuation ledger, and package provenance.
+
+The Lie-group dependency is present only through the named $\NameCert_{\LieGroupUp}$ row in $\rho$. It can classify displayed endpoint-composition data, but it does not create an ambient group of all loops or a smooth action on a host fibre.
+
+Thus the standard boundary remains a scope statement about which classical rows can be consumed from the finite packet. Anything requiring a host path space, host parallel transport, or Lie-subgroup theorem lies outside this seed chapter.
+\end{proof}
+
+\closureat{HolonomyUp}{seedStr}
+\begin{closurestatus}{\HolonomyUp}
+  \constructivestory{The holonomy packet is a finite $\mathsf{BHist}$ transport ledger over certified bundle, connection, loop, transported fibre endpoint, curvature-control, continuation, and package rows. Classification transports the loop, connection, endpoint, curvature-control provenance, and ledger rows componentwise by $\hsame$, while composition is a finite $\Cont$ route rather than a host path operation.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope names only the displayed $\ConnectionUp$, $\CurvatureUp$, $\BundleUp$, $\ManifoldUp$, $\LieGroupUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the transport packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host parallel transport, analytic path spaces, a holonomy Lie subgroup theorem, or a standard bridge.}
+  \upgradepath{The next step is Lean formalization of the finite transport carrier and its NameCert obligation surface.}
+\end{closurestatus}
