@@ -201,6 +201,56 @@ source tuple and exclude quotient rows, completion objects, host-index
 equalities, metric-completeness data, and any extra $\RealUp$ seal classifier.
 \end{proof}
 
+\begin{theorem}[StreamName public window prefix determinacy]
+\label{thm:streamname-public-window-prefix-determinacy}
+Let $s,t : \mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let $B'$
+and $B$ be probe windows. Suppose every certified $\UnaryHistory$ observation
+in $B'$ is carried by $B$. Then every $\RegSeqRat$ terminal consumer, and every
+finite-window $\RealUp$ terminal seal consumer, that reads
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)$ through the public
+$\StreamNameUp$ interface has the same terminal BEDC readback after restriction
+to $B'$ as the consumer obtained by reading the certified prefix window
+$B'$ directly.
+
+The common restricted readback consists exactly of the pointwise $\RatUp$
+observation rows, the $\mathsf{InBundle}$ witnesses, the $\hsame$ transports,
+the $\Cont$ routes, and the $\mathsf{Pkg}$ provenance rows exposed by the
+public StreamName interface on $B'$. If two restricted terminal routes have the
+same endpoint package, then their finite BEDC readbacks are identical.
+
+This determinacy statement exports no $\RegSeqRat$ regularity row, no
+$\RealUp$ seal classifier beyond the restricted terminal source surface, no
+quotient row, no host-index equality, and no completion data.
+\end{theorem}
+\begin{proof}
+First read the larger public finite-window package. Apply
+\autoref{thm:streamname-public-finite-window-interface}. It exposes only the
+finite classifier rows, certified unary-history observations, membership
+witnesses, pointwise rational observation rows, and visible transport and
+provenance rows over $B$.
+
+Next restrict that public packet to the certified prefix window. By
+\autoref{thm:streamname-finite-window-restriction-export}, every
+$\UnaryHistory$ observation carried by $B'$ has the same restricted classifier,
+membership witness, $\hsame$ transport, $\Cont$ route, and $\mathsf{Pkg}$
+provenance as its row inside $B$.
+
+Now pass the restricted packet through the consumer-facing handoff. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. The $\RegSeqRat$ read and
+the terminal finite-window $\RealUp$ read both see the same pointwise $\RatUp$
+observation rows and the same restricted provenance rows from $B'$.
+
+Finally use the terminal source comparison theorems. The source uniqueness
+statement
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness} identifies any
+two terminal source projections with the same restricted row inventory, and
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} removes
+the choice of terminal route. Thus two restricted terminal routes with the same
+endpoint package have the same finite BEDC readback, while all regularity,
+seal-classifier, quotient, host-index, and completion data remain outside the
+public prefix surface.
+\end{proof}
+
 \begin{theorem}[RealUp terminal RegSeqRat source coverage]
 \label{thm:realup-terminal-regseqrat-source-coverage}
 Every terminal finite-window $\RealUp$ seal consumer factors through exactly
