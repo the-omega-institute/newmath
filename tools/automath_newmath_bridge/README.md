@@ -32,9 +32,10 @@ content.
   gates, and can write local ignored review packets.
 - `bridge_heavy_loop.py` runs slow synthesis and receiving-adapter dry-runs on
   an isolated cadence so the main scanner can keep polling.
-- `bridge_production_loop.py` turns eligible Automath-to-NewMath synthesis
-  output into lightweight durable NewMath receiving indexes without promoting
-  BEDC paper or Lean content.
+- `bridge_production_loop.py` turns eligible Automath-to-NewMath output into
+  lightweight durable NewMath receiving indexes without promoting BEDC paper or
+  Lean content. Synthesis-only rows are review leads, not deterministic gate
+  passes.
 - `bridge_watchdog.py` supervises persistent supervisor/heavy/production-loop
   health without joining any work queue.
 - `bridge_to_bedc_board.py` converts gate-passed Automath-to-NewMath records
@@ -116,6 +117,11 @@ python3 tools/automath_newmath_bridge/bridge_watchdog.py \
 
 The watchdog does not create PRs, merge BEDC branches, push production bridge
 branches, or commit runtime artifacts.
+
+`tools/bedc-deep/BOARD.completed.md` is not a bridge intake surface. Bridge
+candidates must enter NewMath through `bridge_to_bedc_board.py`, which calls
+BEDC `board_spawn`; completed archive entries require BEDC completion semantics
+and must not be used for auto-spawned candidate handoff.
 
 ## Artifact kinds
 

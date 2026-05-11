@@ -95,6 +95,13 @@ not be uploaded.
     before packet writes, especially for emergent NewMath constant material.
 13. NewMath constant/RealConstant records are `blocked_automath_not_ready`
     until an operator chooses the receiving Automath queue and destination gate.
+14. Synthesis-only rows are review leads, not deterministic gate passes. Future
+    watchdog or Codex agents must not convert `Input source: synthesis` into
+    BOARD, paper, Lean, or accepted manifest writes without a later
+    `gate_status=gate_passed` record.
+15. `tools/bedc-deep/BOARD.completed.md` is a completed archive, not a bridge
+    intake surface. Automath-to-NewMath candidates must go through
+    `bridge_to_bedc_board.py` and BEDC `board_spawn`.
 
 ## Operator approval boundary
 

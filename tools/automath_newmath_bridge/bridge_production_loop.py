@@ -63,8 +63,6 @@ def _normalized(record: dict[str, Any], *, input_kind: str) -> dict[str, Any]:
     if isinstance(synthesis, dict):
         normalized.setdefault("readiness", synthesis.get("readiness"))
         normalized.setdefault("synthesis_next_action", synthesis.get("synthesis_next_action"))
-    if input_kind == "synthesis":
-        normalized.setdefault("gate_status", "synthesis_ready")
     normalized["_bridge_input_kind"] = input_kind
     return normalized
 
@@ -80,14 +78,23 @@ def _load_records(args: argparse.Namespace) -> tuple[list[dict[str, Any]], str]:
 def _eligible(record: dict[str, Any]) -> bool:
     return (
         record.get("bridge_direction") == "automath_to_newmath"
-        and record.get("gate_status") in {"gate_passed", "synthesis_ready"}
+        and record.get("gate_status") == "gate_passed"
+        and record.get("destination_repo") == "the-omega-institute/newmath"
+        and record.get("readiness") in {"ready_for_local_packet", "needs_operator_review"}
+    )
+
+
+def _review_only(record: dict[str, Any]) -> bool:
+    return (
+        record.get("bridge_direction") == "automath_to_newmath"
+        and record.get("_bridge_input_kind") == "synthesis"
         and record.get("destination_repo") == "the-omega-institute/newmath"
         and record.get("readiness") in {"ready_for_local_packet", "needs_operator_review"}
     )
 
 
 def _selected(records: list[dict[str, Any]], *, limit: int) -> list[dict[str, Any]]:
-    selected = [record for record in records if _eligible(record)]
+    selected = [record for record in records if _eligible(record) or _review_only(record)]
     selected.sort(key=lambda item: (-int(item.get("priority_score") or 0), str(item.get("source_path") or "")))
     return selected[:limit]
 
@@ -98,13 +105,13 @@ def _render(records: list[dict[str, Any]], *, limit: int, input_kind: str) -> st
         "# Automath Consumption Index",
         "",
         "This index is a lightweight NewMath receiving surface for Automath evidence.",
-        "It records gate-passed bridge evidence without creating BEDC paper or Lean",
+        "It records gate-passed bridge evidence and synthesis-only review leads without creating BEDC paper or Lean",
         "content directly. BEDC-native writing remains owned by the BEDC board and",
         "supervisor pipelines.",
         "",
         f"Input source: `{input_kind}`.",
         "",
-        "## Current Gate-Passed Inputs",
+        "## Current Review Inputs",
         "",
         "| Source | Kind | Readiness | Score | Input | NewMath action |",
         "| --- | --- | --- | ---: | --- | --- |",
@@ -118,7 +125,7 @@ def _render(records: list[dict[str, Any]], *, limit: int, input_kind: str) -> st
                 record.get("readiness", ""),
                 int(record.get("priority_score") or 0),
                 record.get("_bridge_input_kind", ""),
-                "review as a NewMath research-object input; do not auto-promote",
+                "review as a NewMath research-object input; do not auto-promote synthesis-only rows",
             )
         )
     if not selected:
@@ -128,10 +135,13 @@ def _render(records: list[dict[str, Any]], *, limit: int, input_kind: str) -> st
             "",
             "## Policy",
             "",
+            "- Only records with `gate_status=gate_passed` may be consumed by BEDC board adapters.",
+            "- `Input source: synthesis` means review-only evidence, not a deterministic gate pass.",
             "- `ready_for_local_packet` means the source may be summarized for review.",
             "- This index does not mark a bridge record accepted or consumed.",
             "- Automath paper content must pass the Automath Killo/golden writeback lane before it becomes durable Automath text.",
             "- NewMath paper and Lean writes remain behind BEDC board, TasteGate, and audit gates.",
+            "- Bridge candidates must not be appended to `tools/bedc-deep/BOARD.completed.md`; completed archive entries require BEDC completion semantics.",
         ]
     )
     return "\n".join(lines) + "\n"
