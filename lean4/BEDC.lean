@@ -359,6 +359,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
@@ -637,6 +638,7 @@ import BEDC.Derived.DistributionUp
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
+import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -664,6 +666,7 @@ import BEDC.Derived.FieldExtUp.RatReflexiveLedger
 import BEDC.Derived.FieldExtUp.StdBridge
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.StackUp
+import BEDC.Derived.StackUp.SchemeSiteTransport
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
@@ -723,6 +726,7 @@ import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.SumUp.LedgerBranchExactness
+import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
@@ -870,6 +874,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.RealUp.Index
+import BEDC.Derived.RealUp.MalformedEndpoint
 import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
