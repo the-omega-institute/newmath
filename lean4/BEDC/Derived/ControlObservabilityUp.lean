@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -250,6 +251,76 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
       And.intro packet.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
+
+def ControlObservabilityPacket
+    (state transition output observation matrix trace packet : BHist) : Prop :=
+  Cont state transition observation ∧ Cont observation output matrix ∧ Cont matrix trace packet
+
+theorem ControlObservabilityPacket_trace_ledger_readback
+    {state transition output observation matrix trace packet : BHist}
+    (hP : ControlObservabilityPacket state transition output observation matrix trace packet) :
+    Cont state (append transition (append output trace)) packet ∧ Cont observation output matrix ∧
+      Cont matrix trace packet := by
+  have stateTransition : Cont state transition observation :=
+    hP.left
+  have observationOutput : Cont observation output matrix :=
+    hP.right.left
+  have matrixTrace : Cont matrix trace packet :=
+    hP.right.right
+  cases stateTransition
+  cases observationOutput
+  cases matrixTrace
+  constructor
+  · exact
+      (append_assoc (append state transition) output trace).trans
+        (append_assoc state transition (append output trace))
+  · constructor
+    · rfl
+    · rfl
+def ControlObservabilityPacket_kernel_separation_carrier
+    (state observationMatrix trace provenance : BHist) : Prop :=
+  Cont state observationMatrix trace ∧ UnaryHistory provenance
+
+theorem ControlObservabilityPacket_kernel_separation
+    {stateA stateB observationMatrix traceA traceB provenanceA provenanceB : BHist}
+    (left :
+      ControlObservabilityPacket_kernel_separation_carrier stateA observationMatrix traceA
+        provenanceA)
+    (right :
+      ControlObservabilityPacket_kernel_separation_carrier stateB observationMatrix traceB
+        provenanceB)
+    (sameTrace : hsame traceA traceB) :
+    hsame stateA stateB ∧
+      Cont stateA observationMatrix traceA ∧
+        Cont stateB observationMatrix traceB := by
+  have sameState : hsame stateA stateB :=
+    cont_right_cancel_hsame_result left.left right.left sameTrace
+  exact And.intro sameState (And.intro left.left right.left)
+
+def ControlObservabilityZeroKernelTrace
+    (packet stateA stateB diff zero kernel rank trace ledger : BHist) : Prop :=
+  Cont stateA diff stateB ∧
+    hsame kernel zero ∧
+      hsame rank packet ∧ Cont diff kernel zero ∧ Cont stateA trace ledger ∧ Cont stateB trace ledger
+
+theorem ControlObservabilityKernelSeparation_state_rows_hsame
+    {packet stateA stateB diff zero kernel rank trace ledger : BHist} :
+    ControlObservabilityZeroKernelTrace packet stateA stateB diff zero kernel rank trace ledger ->
+      hsame diff zero -> hsame zero BHist.Empty -> Cont stateA trace ledger ->
+        Cont stateB trace ledger ->
+          hsame stateA stateB /\ Cont stateA trace ledger /\ Cont stateB trace ledger := by
+  intro surface sameDiffZero sameZeroEmpty stateATrace stateBTrace
+  have diffEmpty : hsame diff BHist.Empty := hsame_trans sameDiffZero sameZeroEmpty
+  have stateAStep : Cont stateA BHist.Empty stateB :=
+    cont_hsame_transport (hsame_refl stateA) diffEmpty (hsame_refl stateB) surface.left
+  have sameStatesFromKernel : hsame stateA stateB :=
+    hsame_symm (cont_right_unit_iff.mp stateAStep)
+  have sameStatesFromTrace : hsame stateA stateB :=
+    cont_right_cancel stateATrace stateBTrace
+  exact And.intro
+    (hsame_trans (hsame_trans sameStatesFromKernel (hsame_symm sameStatesFromTrace))
+      sameStatesFromTrace)
+    (And.intro stateATrace stateBTrace)
 
 theorem ControlObservability_finite_trace_ledger_readback [AskSetup] [PackageSetup]
     {phase ode time source target flowWitness endpoint route output observation : BHist}
