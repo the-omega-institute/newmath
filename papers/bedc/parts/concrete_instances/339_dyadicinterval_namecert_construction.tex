@@ -362,6 +362,38 @@ compactness, quotient intervals, completeness data, or standard bridge data,
 no consumer-facing interval certificate can export such a row.
 \end{proof}
 
+\begin{theorem}[DyadicInterval standard interval bridge boundary]
+\label{thm:dyadicinterval-standard-interval-bridge-boundary}
+The standard interval-analysis reading of a public $\DyadicIntervalUp$
+refined-width enclosure may consume exactly the finite endpoint, radius, width,
+order, nested-refinement, endpoint-transport, width-radius exactness,
+$\RealUp/\RegSeqRatUp$ seal, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows isolated by
+\autoref{thm:dyadicinterval-refined-width-enclosure-package}. It may not read
+Dedekind cuts, quotient intervals, host real endpoints, open-cover compactness,
+real completeness, or external interval libraries.
+\end{theorem}
+\begin{proof}
+Project the enclosure through \autoref{def:dyadicinterval-carrier}. This gives
+the finite endpoint, radius, width, order, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ coordinates, with no coordinate for a host real endpoint,
+Dedekind cut, or quotient interval.
+
+Use \autoref{thm:dyadicinterval-nested-refinement-ledger} for the finite
+refinement rows, \autoref{thm:dyadicinterval-endpoint-classifier-transport}
+for endpoint transport, and
+\autoref{thm:dyadicinterval-width-radius-ledger-exactness} for the exact
+width-radius readback. These rows keep the interval-analysis data inside the
+same dyadic packet.
+
+Finally apply \autoref{thm:dyadicinterval-real-seal-source-boundary},
+\autoref{thm:dyadicinterval-regular-window-seal-handoff}, and
+\autoref{thm:dyadicinterval-refined-width-enclosure-package}. The public
+refined-width theorem already exhausts the rows readable by $\RealUp$ and
+$\RegSeqRatUp$ consumers, so a standard interval-analysis bridge has only the
+finite rows listed above.
+\end{proof}
+
 \closureat{DyadicIntervalUp}{seedStr}
 \closureat{DyadicIntervalUp}{obligationStr}
 \closureat{DyadicIntervalUp}{scopedStr}
