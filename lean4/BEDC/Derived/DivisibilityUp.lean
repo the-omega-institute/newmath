@@ -113,4 +113,18 @@ theorem DivisibilityFiniteHistoryCarrier_order_bounded_ledger
     ledgerUnary, _provenanceUnary, _productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
   exact ⟨boundUnary, ledgerUnary, ledgerRow, provenanceRow, pkgRow⟩
 
+theorem DivisibilityMulWitness_closure [AskSetup] [PackageSetup]
+    {dividend divisor multiplier productWitness provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory dividend -> UnaryHistory divisor -> UnaryHistory multiplier ->
+      Cont divisor multiplier productWitness -> PkgSig bundle provenance pkg ->
+        UnaryHistory dividend ∧ UnaryHistory divisor ∧ UnaryHistory multiplier ∧
+          UnaryHistory productWitness ∧ hsame productWitness (append divisor multiplier) ∧
+            PkgSig bundle provenance pkg := by
+  intro dividendUnary divisorUnary multiplierUnary productRow pkgRow
+  have productUnary : UnaryHistory productWitness :=
+    unary_cont_closed divisorUnary multiplierUnary productRow
+  exact
+    ⟨dividendUnary, divisorUnary, multiplierUnary, productUnary, productRow, pkgRow⟩
+
 end BEDC.Derived.DivisibilityUp
