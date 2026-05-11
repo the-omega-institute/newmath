@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RiccatiUp$}
+\label{ch:concrete-instances-riccati-namecert}
+
+The $\RiccatiUp$ interface names the finite residual ledger shared by the linear-quadratic regulator and Kalman-filter neighborhoods. It records displayed matrix rows, finite horizon rows, value or covariance rows, gain rows, and residual rows inside one $\mathsf{BHist}$ carrier. Standard sources include Lancaster and Rodman, \emph{Algebraic Riccati Equations} (1995), and Anderson and Moore, \emph{Optimal Control: Linear Quadratic Methods} (2007).
+
+\section{Finite carrier}
+\label{sec:riccatiup-finite-carrier}
+
+\begin{definition}[RiccatiUp finite BHist carrier]
+\label{def:riccatiup-finite-bhist-carrier}
+A $\RiccatiUp$ finite carrier is a finite $\mathsf{BHist}$ packet whose visible rows are:
+\begin{enumerate}
+\item displayed matrix rows $A$, $B$, $Q$, and $R$ read through $\NameCert_{\MatrixUp}$ and the ambient vector rows read through $\NameCert_{\VecSpaceUp}$;
+\item a unary horizon row $n$ and value or covariance rows $P_0,\ldots,P_n$ indexed by the displayed horizon;
+\item gain rows $K_i$ and residual rows $E_i$ for each finite step $i<n$;
+\item componentwise $\hsame$ comparisons for the matrix, vector, horizon, value or covariance, gain, and residual rows;
+\item backward-step $\Cont$ provenance showing that each predecessor row is obtained from the successor value or covariance row, the displayed matrix rows, the gain row, and the residual row;
+\item $\Pkg$ links naming $\MatrixUp$, $\VecSpaceUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$ as the only dependency certificates available to the packet.
+\end{enumerate}
+The classifier accepts exactly those packets whose displayed rows, comparisons, backward-step provenance, and dependency packages are present in this finite carrier. It exports no host matrix equation, stabilizing solution, analytic convergence theorem, or external solver.
+\end{definition}
+
+\begin{theorem}[RiccatiUp residual classifier stability]
+\label{thm:riccatiup-residual-classifier-stability}
+Let $P$ and $P'$ be accepted $\RiccatiUp$ finite carriers. If the rows $A$, $B$, $Q$, $R$, $n$, the value or covariance ledger, the gain ledger, the residual ledger, every displayed $\Cont$ route, and every $\Pkg$ dependency row of $P$ are transported componentwise to the corresponding rows of $P'$ by $\hsame$, then $P'$ is accepted by the same $\RiccatiUp$ classifier. Under the same transport, each residual row of $P$ reads as the corresponding residual row of $P'$.
+\end{theorem}
+\begin{proof}
+Project the two packets to the finite carrier of \autoref{def:riccatiup-finite-bhist-carrier}. The classifier has no coordinate beyond the displayed matrix, vector, horizon, value or covariance, gain, residual, continuation, and package rows.
+
+Apply the supplied $\hsame$ comparison row by row. Each source field of $P$ is replaced by the corresponding field of $P'$ while the role labels of the finite ledger are unchanged.
+
+Repack the transported rows as the same finite carrier. Since no host Riccati equation or external solver row is part of the classifier, the transported residual ledger is accepted exactly through the displayed packet.
+\end{proof}
+
+\begin{theorem}[RiccatiUp backward Cont ledger]
+\label{thm:riccatiup-backward-cont-ledger}
+For every accepted $\RiccatiUp$ finite carrier and every displayed step $i<n$, the predecessor value or covariance row at $i$ is consumed through a backward $\Cont$ row whose source rows are the successor row at $i+1$, the displayed matrix rows $A$, $B$, $Q$, and $R$, the gain row $K_i$, the residual row $E_i$, and the visible dependency packages. No finite step may read an unlogged matrix inverse, an ambient optimality principle, or a hidden covariance stream.
+\end{theorem}
+\begin{proof}
+Fix a displayed horizon position $i<n$ and project the accepted packet to its backward-step ledger. By the carrier definition, the entry at $i$ records exactly one predecessor endpoint together with its successor, matrix, gain, residual, continuation, and provenance rows.
+
+The $\Cont$ row is the only route from the successor endpoint to the predecessor endpoint. Its input list contains the displayed rows named in the statement and no further analytic object.
+
+Thus the step is exhausted by the finite ledger entry. If a consumer asks for a matrix inverse, optimality principle, or hidden covariance stream, there is no carrier field from which such a row can be projected.
+\end{proof}
+
+\begin{theorem}[RiccatiUp LQR and Kalman anchor surface]
+\label{thm:riccatiup-lqr-kalman-anchor-surface}
+The Riccati-style backward rows already exposed by $\LQRUp$ and the covariance-update rows already exposed by $\KalmanFilterUp$ factor through the $\RiccatiUp$ finite carrier whenever their displayed matrix rows, horizon row, gain ledger, residual ledger, and value or covariance rows are named by a common $\Pkg$ provenance row. The factorization reads only the $\MatrixUp$, $\VecSpaceUp$, $\DynSystemUp$, $\LQRUp$, $\KalmanFilterUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ coordinates of \autoref{def:riccatiup-finite-bhist-carrier}.
+\end{theorem}
+\begin{proof}
+Start with an $\LQRUp$ backward row or a $\KalmanFilterUp$ covariance-update row whose visible data are named by the stated common provenance. In either case, the row already displays a finite successor endpoint, a predecessor endpoint, matrix data, gain data, and a residual or update discrepancy row.
+
+Map those displayed rows into the carrier fields of \autoref{def:riccatiup-finite-bhist-carrier}. The dependency rows record whether the source read came through $\LQRUp$ or $\KalmanFilterUp$, while $\MatrixUp$, $\VecSpaceUp$, and $\DynSystemUp$ provide the shared matrix, vector, and transition surfaces.
+
+The resulting packet is a $\RiccatiUp$ carrier because each finite step has the required backward $\Cont$ row and residual entry. The construction introduces no external solver; it only repackages rows already present in the two neighboring certificates.
+\end{proof}
+
+\begin{theorem}[RiccatiUp NameCert obligation surface]
+\label{thm:riccatiup-namecert-obligation-surface}
+The local $\NameCert_{\RiccatiUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the finite $\mathsf{BHist}$ packet of \autoref{def:riccatiup-finite-bhist-carrier};
+\item classifier: componentwise acceptance of displayed matrix, vector, horizon, value or covariance, gain, residual, $\hsame$, $\Cont$, and $\Pkg$ rows;
+\item stability: classifier transport under the displayed $\hsame$ comparisons of \autoref{thm:riccatiup-residual-classifier-stability};
+\item ledger: backward consumption of each finite step by the $\Cont$ row of \autoref{thm:riccatiup-backward-cont-ledger};
+\item boundary: the $\LQRUp$ and $\KalmanFilterUp$ anchor surface of \autoref{thm:riccatiup-lqr-kalman-anchor-surface}, with no analytic convergence, stabilizing solution, algebraic Riccati theorem, or standard bridge claimed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is the definition itself, and the classifier row is obtained by reading all of its displayed fields. No additional source is available because the packet lists the whole public surface.
+
+Apply \autoref{thm:riccatiup-residual-classifier-stability} to obtain transport under componentwise $\hsame$. Apply \autoref{thm:riccatiup-backward-cont-ledger} to identify the finite step ledger consumed by each backward row.
+
+Finally apply \autoref{thm:riccatiup-lqr-kalman-anchor-surface}. It identifies the two control-theory neighborhoods that may read this carrier, and it also records the non-claims by exhausting the exported coordinates.
+\end{proof}
+
+\closureat{RiccatiUp}{seedStr}
+
+\begin{closurestatus}{\RiccatiUp}
+  \constructivestory{A Riccati packet is generated from displayed matrix rows, a unary horizon, value or covariance rows, gain rows, residual rows, componentwise $\hsame$ comparisons, backward $\Cont$ provenance for each finite step, and $\Pkg$ links to the neighboring matrix, vector-space, dynamical-system, LQR, and Kalman-filter certificates. The classifier reads only this finite residual ledger, so LQR and Kalman rows factor through the same carrier without adding an analytic solver or host Riccati theorem.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary names the finite $\mathsf{BHist}$ carrier, residual classifier, backward $\Cont$ ledger, $\hsame$ transport rows, and $\Pkg$ links to $\MatrixUp$, $\VecSpaceUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic Riccati solvability, stabilizing algebraic solutions, convergence, detectability, controllability, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier, classifier-stability, backward-ledger, anchor-surface, and NameCert-obligation targets for the displayed $\RiccatiUp$ packet.}
+\end{closurestatus}
