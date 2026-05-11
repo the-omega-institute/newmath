@@ -137,14 +137,51 @@ $\NameCert_{\RiccatiUp}$ surface is exactly the displayed packet and has no fiel
 for an infinite-horizon algebraic Riccati limit or an external solver.
 \end{proof}
 
+\begin{theorem}[RiccatiUp finite horizon tail restriction]
+\label{thm:riccati-finite-horizon-tail-restriction}
+Let $P$ be an accepted $\RiccatiUp$ packet and let $T$ be a displayed tail of
+its finite unary horizon. Restricting $P$ to $T$ repacks the same matrix state
+rows, matrix control rows, symmetric-cost rows, value ledger, backward $\Cont$
+routes, $\hsame$ transports, and $\Pkg$ provenance over the tail horizon.
+Every $\LQRUp$ or $\KalmanFilterUp$ consumer of the restricted packet factors
+through these displayed rows. The restricted packet exports no
+infinite-horizon algebraic Riccati limit, stabilizing solution theorem, or
+external solver.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:riccati-namecert-obligation-surface} to the accepted packet.
+The carrier, classifier, stability, ledger, and consumer-boundary rows are
+already listed as finite $\mathsf{BHist}$ coordinates with a unary horizon
+index.
+
+Restrict to the displayed tail by projecting the horizon positions and keeping
+the same state, control, symmetric-cost, value, continuation, transport, and
+provenance coordinates on those positions. The classifier row from the
+obligation surface accepts the restricted packet because it is assembled from
+the same displayed finite coordinates.
+
+Use \autoref{thm:riccati-finite-ledger-step-closure} for each retained backward
+position. Each predecessor value row is still generated only from the displayed
+successor value, transition, control, symmetric-cost, continuation, horizon, and
+package rows, so tail restriction does not introduce a new ledger source.
+
+Finally apply \autoref{thm:riccati-lqr-kalman-consumer-boundary}. The
+$\LQRUp$ and $\KalmanFilterUp$ consumers of the restricted packet can read only
+the displayed tail rows just described. Since the carrier has no coordinate for
+an infinite-horizon algebraic Riccati limit, a stabilizing solution theorem, or
+an external solver, none of those objects is exposed by the restricted packet.
+\end{proof}
+
 \closureat{RiccatiUp}{seedStr}
+\closureat{RiccatiUp}{obligationStr}[BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport]
 \begin{closurestatus}{\RiccatiUp}
   \constructivestory{A Riccati row is seeded by a finite $\mathsf{BHist}$ packet of matrix state and control rows, symmetric-cost rows, a finite horizon unary index, value-row ledger entries, backward $\Cont$ routes, $\hsame$ transports, and $\Pkg$ provenance naming $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$, $\LQRUp$, and $\KalmanFilterUp$.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed surface binds the finite Riccati value ledger to the displayed control, filtering, matrix, vector-space, real-scalar, dynamic-system, continuation, transport, and package rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RiccatiUp.RiccatiControlPacketCarrier\_component\_transport}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon algebraic Riccati limits, stabilizing solution theorems, convergence rates, or external solvers.}
-  \upgradepath{The next step is a checked finite-carrier theorem in the future Lean namespace $BEDC.Derived.RiccatiUp$.}
+  \upgradepath{Scoped closure must bind the finite value ledger to $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\DynSystemUp$, $\LQRUp$, $\KalmanFilterUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$.}
 \end{closurestatus}
