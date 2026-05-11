@@ -46,6 +46,20 @@ Move each coordinate along the displayed $\hsame$ and $\Cont$ routes. The hypoth
 Apply the classifier of \autoref{def:signeddigitstream-classifier} on a shared finite window. The endpoint classifiers come from the transported $\DyadicRatCoreUp$ rows, and the carry ledgers match by the componentwise ledger transport. Since no extra coordinate is created, the transported packet exports exactly the same finite observation surface.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream common-window determinacy]
+\label{thm:signeddigitstream-common-window-determinacy}
+Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds. For every unary window requested by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint row read from $S$ and the normalized endpoint row read from $T$ are classifier-equal, and the carry ledgers repack to the same endpoint read.
+
+The conclusion is only a finite-window determinacy statement: it compares scheduled signed-digit prefixes, normalized endpoint rows, and carry ledgers, and it introduces no quotient stream, $\RealUp$ equality, or ambient host endpoint.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:signeddigitstream-classifier}. A common scheduled unary window is one of the shared finite observation rows named by the two $\StreamNameUp$ schedules, so the classifier exposes the two digit prefixes, their carry ledgers, and their normalized endpoint rows at that same window.
+
+Project the endpoint component of the classifier row. The row states that the two normalized $\DyadicRatCoreUp$ endpoints are compared by the $\DyadicRatCoreUp$ classifier, hence the endpoint reads are equal in the only public sense available to the packet.
+
+It remains to identify the carry data used by the read. The componentwise carry-ledger transport in the classifier repacks the two prefix normalizations into the same endpoint row. Since the carrier has no quotient-stream or $\RealUp$ coordinate, this exhausts the common-window conclusion.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream RegSeqRat handoff]
 \label{thm:signeddigitstream-regseqrat-handoff}
 An accepted $\SignedDigitStreamUp$ carrier hands a $\RegSeqRatUp$ consumer only the scheduled normalized dyadic endpoint rows and their radius ledgers. For every unary precision window requested by the $\RegSeqRatUp$ consumer, the handoff reads a finite $\StreamNameUp$ schedule row, the signed digit prefix selected by that schedule, the carry ledger that normalizes the prefix, and the resulting $\DyadicRatCoreUp$ endpoint row. The consumer may use these rows as the endpoint observations of a regular rational stream.

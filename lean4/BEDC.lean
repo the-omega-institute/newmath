@@ -107,6 +107,7 @@ import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GaloisExtUp.StdBridge
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
@@ -124,6 +125,7 @@ import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
+import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
