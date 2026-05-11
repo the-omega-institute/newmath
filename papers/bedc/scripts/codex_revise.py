@@ -1726,46 +1726,24 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
-    """Run `make check` (single-pass draftmode pdflatex) in the worktree's
-    papers/bedc and return (ok, tail).
+    """Skip round-local PDF build entirely; defer to paper_builder_daemon.
 
-    Round-level verify only needs to confirm LaTeX syntax + macro resolution.
-    A single draftmode pass catches every real error class (Undefined control
-    sequence, Missing $, Extra }, unresolved \\input, package errors, missing
-    macro definitions, undefined references that should resolve). The full
-    main.pdf double-pass that produces the typeset PDF + resolves \\autoref
-    page numbers is moved to an asynchronous main-checkout background builder
-    so it never blocks round throughput. This mirrors the lean side, where
-    R-rounds only run single-file `lake env lean` and the full lake build is
-    handled by bg_builder.
+    Round verification used to run `make check` (single-pass) inside the
+    round worktree as a fast LaTeX sanity check. With paper_builder_daemon
+    polling the merged codex-auto-dev tip every 60s in a dedicated
+    `_paper_builder` worktree, round-local PDF build is redundant — the
+    daemon always builds the latest tip (newer commits supersede older
+    ones in the build queue, so the daemon naturally builds only the
+    head). Round-local build also bottlenecks paper round throughput
+    (rounds queue on with_pdf_slot's 5 permits even though the build
+    itself produces nothing the round consumes).
 
-    Wall time: ~127s single-pass draftmode vs ~400s double-pass full build on
-    the BEDC corpus. The change drops PDF timeout to near zero (~60-70 % of
-    historical FAILEDs were 600s PDF timeouts).
+    Other verify-phase gates remain (drift audit, axiom audit, Phase D
+    lints) — PDF build is the only one moved to daemon. If a syntax error
+    sneaks into a commit, the daemon's next full build fails and
+    logs to paper_builder_daemon.log; recovery is manual.
     """
-    paper_dir = wt.path / "papers" / "bedc"
-    if not paper_dir.exists():
-        return False, "papers/bedc/ missing in worktree"
-    log_path = LOG_DIR / f"pdf_build_P{wt.round_number}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-    try:
-        with open(log_path, "w", encoding="utf-8") as lf:
-            lf.write(f"# make check at {datetime.now().isoformat()} cwd={paper_dir}\n\n")
-            lf.flush()
-            r = subprocess.run(
-                ["make", "check"], cwd=str(paper_dir),
-                stdout=lf, stderr=subprocess.STDOUT,
-                timeout=timeout, stdin=subprocess.DEVNULL,
-            )
-            ok = r.returncode == 0
-    except subprocess.TimeoutExpired:
-        return False, f"make check timed out after {timeout}s (log={log_path.name})"
-    except Exception as exc:
-        return False, f"make check raised {exc!r}"
-    try:
-        tail = "\n".join(log_path.read_text(encoding="utf-8").splitlines()[-30:])
-    except Exception:
-        tail = ""
-    return ok, tail
+    return True, "PDF build skipped — deferred to paper_builder_daemon"
 
 
 def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
