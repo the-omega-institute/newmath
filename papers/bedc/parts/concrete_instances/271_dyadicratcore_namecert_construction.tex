@@ -66,6 +66,39 @@ route reads exactly the denominator rows of $D'$ and introduces no quotient or
 real endpoint.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-exponent window exactness]
+\label{thm:dyadicratcore-common-exponent-window-exactness}
+Let $D=(m,e,\ell,P)$ and $D'=(m',e',\ell',P')$ be accepted
+$\DyadicRatCoreUp$ packets. Any displayed common-exponent witness for
+$\mathsf{DyadicRatCoreClassifier}(D,D')$ determines a finite
+$\mathsf{BHist}$ window whose rows are exactly the common unary exponent row,
+the two transported denominator ledgers, the two scaled mantissa rows, the
+$\RatUp$ classifier row comparing $m\cdot 2^{E-e}$ with
+$m'\cdot 2^{E-e'}$, and the attached $\Cont$ and $\mathsf{Pkg}$ provenance.
+Conversely, every consumer-visible classifier read of the two packets factors
+through such a window. It has no row from which to read a quotient rational, a
+host integer normal form, or a $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:dyadicratcore-classifier}. A classifier witness displays
+the common unary exponent $E$, the two scaling rows from $e$ and $e'$ to $E$,
+and the two denominator ledgers transported along those scaling rows.
+
+The same witness also displays the scaled mantissas and the single $\RatUp$
+classifier row comparing them. Repack these rows with the displayed $\Cont$
+routes and the $\mathsf{Pkg}$ provenance inherited from the two accepted
+packets.
+
+For the reverse direction, inspect the carrier inventory in
+\autoref{def:dyadicratcore-carrier}. A consumer-visible classifier read can
+project only the packet rows named there and the classifier rows named in
+\autoref{def:dyadicratcore-classifier}. Those rows are precisely the common
+exponent, denominator-ledger, scaled-mantissa, $\RatUp$, $\Cont$, and
+$\mathsf{Pkg}$ rows above, so the read factors through the same finite window
+and cannot access any quotient rational, host integer normal form, or
+$\RealUp$ endpoint.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore distance-window stability]
 \label{thm:dyadicratcore-distance-window-stability}
 Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets such that
