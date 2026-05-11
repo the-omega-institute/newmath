@@ -35,4 +35,31 @@ theorem RatStreamNameFiniteWindowClassifier_public_interface
       (And.intro stability.right.right.left
         (And.intro stability.right.right.right positiveRows)))
 
+theorem RatStreamNameFiniteWindowClassifier_public_ledger_obligation
+    {s t : BHist -> BHist} {bundle selected : ProbeBundle BHist} :
+    (forall {n : BHist}, InBundle n selected -> InBundle n bundle) ->
+      RatStreamNameFiniteWindowClassifier s t bundle ->
+        (forall {n : BHist}, InBundle n selected -> UnaryHistory n -> RatHistoryCarrier (s n)) ->
+          RatStreamNameFiniteWindowClassifier s t selected ∧
+            (forall {n : BHist}, InBundle n selected -> UnaryHistory n ->
+              RatHistoryClassifier (s n) (t n) ∧ PositiveUnaryDenominator (s n) ∧
+                PositiveUnaryDenominator (t n)) := by
+  intro selectedInBundle classified carrierSelected
+  have selectedClassifier : RatStreamNameFiniteWindowClassifier s t selected := by
+    intro n selectedMember nUnary
+    exact classified n (selectedInBundle selectedMember) nUnary
+  have ledgerRows :
+      forall {n : BHist}, InBundle n selected -> UnaryHistory n ->
+        RatHistoryClassifier (s n) (t n) ∧ PositiveUnaryDenominator (s n) ∧
+          PositiveUnaryDenominator (t n) := by
+    intro n selectedMember nUnary
+    have classifiedPoint : RatHistoryClassifier (s n) (t n) :=
+      classified n (selectedInBundle selectedMember) nUnary
+    have denominatorS : PositiveUnaryDenominator (s n) :=
+      RatHistoryCarrier_iff_positive_denominator.mp (carrierSelected selectedMember nUnary)
+    have denominatorT : PositiveUnaryDenominator (t n) :=
+      (RatHistoryClassifier_positive_denominators classifiedPoint).right
+    exact ⟨classifiedPoint, denominatorS, denominatorT⟩
+  exact And.intro selectedClassifier ledgerRows
+
 end BEDC.Derived.StreamNameUp
