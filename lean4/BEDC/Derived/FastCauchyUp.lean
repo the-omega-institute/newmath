@@ -197,6 +197,35 @@ theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
         provenanceRow', nameRowRoute', pkgRow'⟩,
       sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
 
+theorem FastCauchyFiniteCarrier_precision_window_restriction [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow stream' modulus'
+      endpoint' latePair' transport' window' provenance' nameRow' precisionWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+        nameRow bundle pkg ->
+      hsame stream stream' ->
+        hsame modulus modulus' ->
+          hsame latePair latePair' ->
+            hsame window window' ->
+              hsame transport' precisionWindow ->
+                Cont stream' modulus' endpoint' ->
+                  Cont endpoint' latePair' transport' ->
+                    Cont transport' window' provenance' ->
+                      Cont provenance' latePair' nameRow' ->
+                        PkgSig bundle nameRow' pkg ->
+                          FastCauchyFiniteCarrier stream' modulus' endpoint' latePair'
+                              transport' window' provenance' nameRow' bundle pkg ∧
+                            hsame transport precisionWindow ∧ hsame endpoint endpoint' ∧
+                              hsame provenance provenance' := by
+  intro carrier sameStream sameModulus sameLatePair sameWindow samePrecision endpointRow'
+    transportRow' provenanceRow' nameRowRoute' pkgRow'
+  have transported :=
+    FastCauchyFiniteCarrier_modulus_transport carrier sameStream sameModulus sameLatePair
+      sameWindow endpointRow' transportRow' provenanceRow' nameRowRoute' pkgRow'
+  exact
+    ⟨transported.left, hsame_trans transported.right.right.left samePrecision,
+      transported.right.left, transported.right.right.right.left⟩
+
 theorem FastCauchyFiniteCarrier_public_interface_export [AskSetup] [PackageSetup]
     {stream modulus endpoint latePair transport window provenance nameRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
