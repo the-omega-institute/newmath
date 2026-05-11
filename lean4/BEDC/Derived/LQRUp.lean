@@ -175,6 +175,30 @@ theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
       (And.intro predecessorEndpoint
         (And.intro estimatorEndpoint (And.intro horizonUnary endpointPkg))))
 
+theorem LQRFiniteControlPacket_cost_endpoint_determinacy [AskSetup] [PackageSetup]
+    {state control transition cost cost' horizon successorValue estimatorInput backwardUpdate
+      backwardUpdate' predecessorValue predecessorValue' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame cost cost' ->
+        hsame backwardUpdate backwardUpdate' ->
+          Cont transition cost' successorValue ->
+            Cont backwardUpdate' horizon predecessorValue' ->
+              Cont predecessorValue' cost' endpoint' ->
+                hsame predecessorValue predecessorValue' ∧ hsame endpoint endpoint' := by
+  intro packet sameCost sameBackward transitionCost' backwardHorizon' predecessorCost'
+  rcases packet with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, transitionCost, _, backwardHorizon, predecessorCost,
+      _, _, _, _⟩
+  have _sameSuccessor : hsame successorValue successorValue :=
+    cont_respects_hsame (hsame_refl transition) sameCost transitionCost transitionCost'
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward (hsame_refl horizon) backwardHorizon backwardHorizon'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost predecessorCost predecessorCost'
+  exact And.intro samePredecessor sameEndpoint
+
 theorem LQRFiniteControlCarrier_transition_transport
     {state control transition cost horizon estimator backward provenance endpoint state' control'
       transition' cost' horizon' estimator' backward' provenance' endpoint' : BHist} :

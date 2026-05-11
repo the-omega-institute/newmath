@@ -91,4 +91,21 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityStoneSpaceClassifier_clopen_transport [AskSetup] [PackageSetup]
+    {zero one meet join compl distributive source pkgRow clopen clopen' ledger ledger' endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoneDualityBooleanSource zero one meet join compl distributive source pkgRow bundle pkg ->
+      Cont source clopen ledger ->
+        Cont source clopen' ledger' ->
+          Cont ledger pkgRow endpoint ->
+            Cont ledger' pkgRow endpoint' ->
+              hsame clopen clopen' -> hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro _sourceData sourceClopen sourceClopen' ledgerEndpoint ledgerEndpoint' sameClopen
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl source) sameClopen sourceClopen sourceClopen'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger (hsame_refl pkgRow) ledgerEndpoint ledgerEndpoint'
+  exact And.intro sameLedger sameEndpoint
+
 end BEDC.Derived.StoneDualityUp
