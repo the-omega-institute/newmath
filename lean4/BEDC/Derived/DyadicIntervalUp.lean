@@ -301,8 +301,66 @@ theorem DyadicIntervalEndpointPacket_nested_refinement_ledger [AskSetup] [Packag
                 (And.intro contLedgerCont'
                   (And.intro nameRowCont' pkgSig')))))))
       (And.intro sameOrder
-        (And.intro sameMidpoint
-          (And.intro sameRadius sameNameRow)))
+      (And.intro sameMidpoint
+        (And.intro sameRadius sameNameRow)))
+
+theorem DyadicIntervalPacket_nested_window_composition [AskSetup] [PackageSetup]
+    {left0 right0 width0 midpoint0 radius0 order0 provenance0 endpoint0 left1 right1 width1
+      midpoint1 radius1 order1 provenance1 endpoint1 left2 right2 width2 midpoint2 radius2
+      order2 provenance2 endpoint2 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left0 right0 width0 midpoint0 radius0 order0 provenance0 endpoint0
+        bundle pkg ->
+      hsame left0 left1 ->
+        hsame right0 right1 ->
+          hsame provenance0 provenance1 ->
+            Cont left1 right1 width1 ->
+              Cont left1 width1 midpoint1 ->
+                Cont right1 width1 radius1 ->
+                  Cont midpoint1 radius1 order1 ->
+                    Cont order1 provenance1 endpoint1 ->
+                      PkgSig bundle endpoint1 pkg ->
+                        hsame left1 left2 ->
+                          hsame right1 right2 ->
+                            hsame provenance1 provenance2 ->
+                              Cont left2 right2 width2 ->
+                                Cont left2 width2 midpoint2 ->
+                                  Cont right2 width2 radius2 ->
+                                    Cont midpoint2 radius2 order2 ->
+                                      Cont order2 provenance2 endpoint2 ->
+                                        PkgSig bundle endpoint2 pkg ->
+                                          DyadicIntervalPacket left2 right2 width2 midpoint2
+                                              radius2 order2 provenance2 endpoint2 bundle pkg ∧
+                                            hsame width0 width2 ∧ hsame midpoint0 midpoint2 ∧
+                                              hsame radius0 radius2 ∧ hsame order0 order2 ∧
+                                                hsame endpoint0 endpoint2 := by
+  intro packet01 sameLeft01 sameRight01 sameProvenance01 widthRow1 midpointRow1 radiusRow1
+    orderRow1 endpointRow1 pkgRow1 sameLeft12 sameRight12 sameProvenance12 widthRow2
+    midpointRow2 radiusRow2 orderRow2 endpointRow2 pkgRow2
+  have refined01 :
+      DyadicIntervalPacket left1 right1 width1 midpoint1 radius1 order1 provenance1 endpoint1
+          bundle pkg ∧
+        hsame width0 width1 ∧ hsame midpoint0 midpoint1 ∧ hsame radius0 radius1 ∧
+          hsame order0 order1 ∧ hsame endpoint0 endpoint1 :=
+    DyadicIntervalPacket_nested_refinement_ledger packet01 sameLeft01 sameRight01
+      sameProvenance01 widthRow1 midpointRow1 radiusRow1 orderRow1 endpointRow1 pkgRow1
+  have refined12 :
+      DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 endpoint2
+          bundle pkg ∧
+        hsame width1 width2 ∧ hsame midpoint1 midpoint2 ∧ hsame radius1 radius2 ∧
+          hsame order1 order2 ∧ hsame endpoint1 endpoint2 :=
+    DyadicIntervalPacket_nested_refinement_ledger refined01.left sameLeft12 sameRight12
+      sameProvenance12 widthRow2 midpointRow2 radiusRow2 orderRow2 endpointRow2 pkgRow2
+  exact And.intro refined12.left
+    (And.intro (hsame_trans refined01.right.left refined12.right.left)
+      (And.intro (hsame_trans refined01.right.right.left refined12.right.right.left)
+        (And.intro
+          (hsame_trans refined01.right.right.right.left refined12.right.right.right.left)
+          (And.intro
+            (hsame_trans refined01.right.right.right.right.left
+              refined12.right.right.right.right.left)
+            (hsame_trans refined01.right.right.right.right.right
+              refined12.right.right.right.right.right)))))
 
 theorem DyadicIntervalPacket_regular_window_seal_handoff [AskSetup] [PackageSetup]
     {left right width midpoint radius order provenance endpoint windowSource sealRowOut : BHist}
