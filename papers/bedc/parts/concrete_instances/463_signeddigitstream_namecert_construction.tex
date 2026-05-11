@@ -173,6 +173,43 @@ so reading it as a public $\RealUp$ boundary adds no quotient tail, host real
 equality, selected limit, completeness datum, or standard bridge.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream Real--RegSeqRat window correspondence]
+\label{thm:signeddigitstream-real-regseqrat-window-correspondence}
+On every scheduled unary window of an accepted $\SignedDigitStreamUp$ packet,
+the normalized $\DyadicRatCoreUp$ endpoint rows and carry ledgers exported to
+$\RegSeqRatUp$ are the same finite rows read by the $\RealUp$ seal boundary,
+up to the displayed $\hsame$ and $\Cont$ transports and the packet's
+$\mathsf{Pkg}$ and $\NameCert$ provenance.
+
+This correspondence contains no quotient tail, host real equality, selected
+limit, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:signeddigitstream-carrier}. A scheduled unary window exposes the
+finite signed digit prefix, carry and normalization ledger, provenance,
+normalized $\DyadicRatCoreUp$ endpoint row, and hidden-window ledger attached to
+that schedule.
+
+Use common-window determinacy from
+\autoref{thm:signeddigitstream-common-window-determinacy}. It identifies the
+endpoint read at the shared schedule as the same normalized dyadic row in the
+only public sense available to the packet, and it keeps the carry ledger tied
+to that endpoint row.
+
+Now apply \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. The first
+exports the scheduled normalized endpoint and its visible ledger to
+$\RegSeqRatUp$; the second permits the $\RealUp$ seal to inspect exactly the
+same scheduled endpoint, carry, transport, package, and name-certificate rows.
+
+Thus both consumers read the same normalized endpoint and carry data through
+the displayed $\hsame$ and $\Cont$ routes. Any quotient tail, host real equality
+row, selected limit, completeness datum, or standard bridge row would require a
+coordinate absent from \autoref{def:signeddigitstream-carrier} and from both
+consumer boundaries.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
