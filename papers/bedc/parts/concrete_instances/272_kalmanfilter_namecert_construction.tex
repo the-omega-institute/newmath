@@ -20,11 +20,13 @@ A $\KalmanFilterUp$ carrier is a finite $\mathsf{BHist}$ packet whose visible ro
 \end{enumerate}
 No host stochastic process, probability measure, analytic convergence theorem, infinite trajectory, or external estimator object is part of the carrier.
 \end{definition}
+\leandef{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier}
 
 \begin{theorem}[KalmanFilterUp prediction and update obligation]
 \label{thm:kalmanfilter-prediction-update-obligation}
 Every accepted $\KalmanFilterUp$ packet exposes a finite prediction row, innovation row, gain row, and posterior-update row. The prediction row reads the transition and prior estimate through $\DynSystemUp$, $\VecSpaceUp$, and $\LinMapUp$; the update row reads the observation, innovation, gain, and posterior estimate through $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. Each row remains a $\mathsf{BHist}$ row with its displayed $\Cont/\mathsf{Pkg}$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_prediction\_update\_obligation}
 \begin{proof}
 Inspect the carrier of \autoref{def:kalmanfilter-bhist-carrier}. The prediction rows are exactly the transition, state-estimate, and linear-map rows, while the update rows are exactly the observation, innovation, gain, and posterior-estimate rows.
 

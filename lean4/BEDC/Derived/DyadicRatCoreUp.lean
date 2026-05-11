@@ -100,6 +100,15 @@ def DyadicRatCoreCarrier (mantissa exponent ledger provenance : BHist) : Prop :=
   RatHistoryCarrier mantissa ∧ PositiveUnaryDenominator exponent ∧ UnaryHistory provenance ∧
     Cont exponent mantissa ledger ∧ UnaryHistory ledger
 
+def DyadicRatCoreClassifier
+    (mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common
+      leftScale rightScale : BHist) : Prop :=
+  DyadicRatCoreCarrier mantissa exponent ledger provenance ∧
+    DyadicRatCoreCarrier mantissa' exponent' ledger' provenance' ∧
+      PositiveUnaryDenominator common ∧ Cont exponent common leftScale ∧
+        Cont exponent' common rightScale ∧ RatHistoryClassifier leftScale rightScale ∧
+          hsame provenance provenance'
+
 theorem DyadicRatCoreCarrier_denominator_transport
     {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' : BHist} :
     DyadicRatCoreCarrier mantissa exponent ledger provenance ->
