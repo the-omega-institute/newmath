@@ -52,6 +52,8 @@ No countable family is introduced. The proof sketch uses only the finite event p
 \label{thm:spectralmeasure-projection-ledger-finite-additivity}
 Let $S$ be an accepted $\SpectralMeasureUp$ packet and let $E_1,\ldots,E_n$ be a finite displayed family of pairwise-disjoint event rows in its $\MeasureUp$ event carrier. If the packet also displays the finite-union event row $E_1\cup\cdots\cup E_n$, then every projection endpoint row assigned to that union is obtained by iterating the packet's orthogonality and finite-additivity ledger over the same $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$ provenance rows. The read uses no countable additivity, completed sigma-algebra data, eigenbasis choice, or host projection-valued function.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasurePacket\_projection\_ledger\_finite\_additivity}
+\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_projection\_ledger\_transport}
 \begin{proof}
 Inspect the carrier and classifier of \autoref{def:spectralmeasure-carrier} and \autoref{def:spectralmeasure-classifier}. The only available event-to-projection data are the displayed event rows, projection endpoint rows, orthogonality ledger, finite-additivity ledger, continuation routes, and source packages for $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$.
 
@@ -60,6 +62,37 @@ Proceed by induction over the finite ledger for the displayed union. The empty o
 For the binary step, apply \autoref{thm:spectralmeasure-orthogonal-additivity} to the next disjoint event row and the accumulated displayed union row. The orthogonality row supplies compatibility over the same Hilbert carrier, and the finite-additivity row names the next projection endpoint without changing the observable or measure provenance.
 
 The packet has no coordinate for countable families, completed measurable spaces, eigenvectors, or external projection-valued functions. Thus the finite-union endpoint is exhausted by the projection ledger recorded in the accepted $\SpectralMeasureUp$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_projection\_ledger\_additivity}
+
+\begin{theorem}[SpectralMeasureUp projection-ledger binary composition]
+\label{thm:spectralmeasure-projection-ledger-binary-composition}
+Let $S$ be an accepted $\SpectralMeasureUp$ packet with displayed disjoint
+event rows $E$, $F$, and $G$. Suppose the packet also displays the finite-union
+rows $E\cup F$ and $(E\cup F)\cup G$. Then the projection endpoint for the
+three-term displayed union is obtained by composing two applications of the
+packet's orthogonality and finite-additivity ledger over the same
+$\HilbertUp$, $\ObservableUp$, $\MeasureUp$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows. The read introduces no countable additivity row and no
+host projection-valued function.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:spectralmeasure-orthogonal-additivity} to the displayed
+event rows $E$ and $F$. This reads the orthogonality row for the pair and
+names the projection endpoint for the displayed union row $E\cup F$ over the
+same Hilbert, observable, and measure provenance.
+
+Apply \autoref{thm:spectralmeasure-orthogonal-additivity} again to the
+displayed union row $E\cup F$ and the event row $G$. The second read uses the
+same packet ledger and therefore keeps the same $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows.
+
+Finally use
+\autoref{thm:spectralmeasure-projection-ledger-finite-additivity}. Its row
+inventory identifies this two-step binary composition as the three-term
+finite-union endpoint already displayed in the accepted packet. Since the
+inventory has no countable-additivity coordinate or host projection-valued
+function, neither can be read by the composition.
 \end{proof}
 
 \begin{theorem}[SpectralMeasureUp NameCert obligation surface]
