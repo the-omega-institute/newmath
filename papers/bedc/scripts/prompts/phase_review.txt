@@ -169,15 +169,35 @@ are distinct kinds and can coexist in a multi-target round.
 
 When `closed_horizons / open_horizons > 2.0` AND
 `len(critical_path.top) <= 2`, the frontier is saturated. You (the
-reviewer) MUST emit a `human_chapter_extension` target **as Target 1**
-of the round (the candidate_pool rank-1 slot), with closure_mark /
-theory_extension on existing chapters as Target 2-N. The
-in-flight review_gate selects only Target 1 for the revise phase, so
-emitting a saturation chapter at Target 5 wastes the round (the gate
-will pick the rank-1 closure_mark instead and drop the new-chapter
-proposal). Emitting only closure_mark in a saturated state is INVALID
-— Target 1 must be the human_chapter_extension and at least one
-closure_mark / theory_extension must follow.
+reviewer) MUST:
+
+1. Add the `human_chapter_extension` (new-chapter) candidate to your
+   `candidate_pool` with `selection_rank = 1`, `feasible = true`, and
+   a unique `candidate_id` (e.g. `C1`).
+2. Demote every closure_mark / drift / bridge candidate to
+   `selection_rank >= 2`, regardless of how "obvious" they look —
+   under saturation the new chapter dominates.
+3. Emit `targets[0]` matching that rank-1 candidate (`candidate_id =
+   C1`). closure_mark / drift / bridge as Target 2-N.
+4. Set `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`
+   (NOT the not-yet-created chapter file). The review_gate rejects
+   any `paper_files` entry that does not already exist on disk, so
+   writing `papers/bedc/parts/concrete_instances/271_<slug>_namecert_construction.tex`
+   in paper_files will drop the target — even though that file is
+   exactly what you intend to create. Put the new-file path in
+   `proposed_change` instead, listing the exact filename, the
+   `\input{...}` line to add to `main.tex` after the highest
+   existing `\input{parts/concrete_instances/...}` line, and the
+   `\newcommand{\<X>Up}{...}` macro to add to `preamble.tex`.
+
+The orchestrator review_gate matches `targets[0].candidate_id`
+against the candidate_pool selection_rank=1 entry; mismatch skips
+the round. So both the candidate_pool ordering AND the targets[0]
+ordering must place the new chapter first. Putting closure_mark at
+candidate_pool rank=1 and the new chapter at rank=2 wastes the
+round.
+
+Emitting only closure_mark in a saturated state is INVALID.
 
 The Target 1 chapter MUST be a slug that does NOT yet exist in
 `papers/bedc/parts/concrete_instances/` (case-insensitive). Run
