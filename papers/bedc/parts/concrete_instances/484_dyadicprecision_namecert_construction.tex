@@ -25,6 +25,8 @@ with the following visible rows:
 \end{enumerate}
 The carrier predicate is $\mathsf{DyadicPrecisionSchedule}(n,\rho,W,H,C,P,N,L)$. The packet has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external choice of an infinite stream tail.
 \end{definition}
+\leandef{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionUp}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.taste\_gate}
 
 \begin{definition}[Dyadic precision schedule classifier]
 \label{def:dyadic-precision-schedule-classifier}
@@ -231,27 +233,34 @@ quotient real, trichotomy, completeness datum, or bridge coordinate.
 
 \begin{theorem}[DyadicPrecision TasteGate carrier witness]
 \label{thm:dyadicprecision-tastegate-carrier-witness}
-Let
+For any future $\ChapterTasteGate$ instance over $\DyadicPrecisionUp$, the
+source scope is exactly the carrier of
+\autoref{def:dyadic-precision-schedule-carrier}, classifier of
+\autoref{def:dyadic-precision-schedule-classifier}, obligation rows of
+\autoref{thm:dyadic-precision-schedule-namecert-obligations}, handoff of
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff}, $\RealUp$ boundary
+of \autoref{thm:dyadic-precision-schedule-realup-boundary}, and
+constructor-boundary exactness from
+\autoref{thm:dyadic-precision-empty-schedule-exactness} and
+\autoref{thm:dyadic-precision-successor-schedule-exactness}.
+
+Equivalently, if
 $$
 S=(n,\rho,W,H,C,P,N,L)
 $$
-be an accepted $\DyadicPrecisionUp$ schedule carrier. The visible rows of $S$
-determine a $\mathsf{BHistCarrier}$ event-flow reading whose source tokens are
-exactly the finite precision row $n$, the dyadic radius row $\rho$, the
-observation-window row $W$, the componentwise $\hsame$ rows in $H$, the
-displayed $\Cont$ routes in $C$, the $\mathsf{Pkg}$ provenance row $P$, the
-local $\NameCert$ row $N$, and the exact ledger $L$.
-
-Under this reading, the TasteGate obligations for the schedule can inspect only
-those visible source tokens. They cannot read a hidden stream tail, quotient
-real, selected limit, trichotomy principle, completeness datum, or bridge row.
+is an accepted schedule carrier, then every candidate TasteGate event-flow read
+is sourced by the finite precision row $n$, dyadic radius row $\rho$,
+observation-window row $W$, displayed $\hsame$ rows $H$, displayed $\Cont$
+routes $C$, $\mathsf{Pkg}$ provenance $P$, local $\NameCert$ row $N$, and exact
+ledger $L$. It cannot read a hidden stream tail, quotient real equality,
+trichotomy, completeness, selected limit, or standard bridge row.
 \end{theorem}
 \begin{proof}
-Project the accepted schedule through
+Project the accepted schedule through the finite $\mathsf{BHist}$ packet of
 \autoref{def:dyadic-precision-schedule-carrier}. The projection lists the
 precision, radius, observation-window, transport, provenance, name, and ledger
-rows as the whole carrier tuple, so these rows give the event-flow source
-tokens of the $\mathsf{BHistCarrier}$ reading.
+rows as the whole carrier tuple, so these rows give the source tokens of the
+event-flow reading.
 
 Use the classifier of
 \autoref{def:dyadic-precision-schedule-classifier} to transport the event-flow
@@ -263,13 +272,61 @@ created by transport.
 Now apply \autoref{thm:dyadicprecision-schedule-obligation-export}. Its row
 exhaustion statement identifies the carrier, classifier, local
 $\NameCert$ obligations, consumer handoffs, empty branch, successor branch, and
-exact ledger as the full local schedule surface.
+exact ledger as the full local schedule surface. Thus every candidate
+$\ChapterTasteGate$ read factors through the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows.
 
 The ground-compiler reading of the same packet is therefore the no-hidden-input
 condition together with conservativity over those visible rows. Since no
-coordinate of the carrier contains an infinite tail, quotient real, selected
-limit, trichotomy, completeness witness, or bridge datum, the TasteGate
-obligations cannot obtain one from the schedule.
+coordinate of the carrier contains an infinite tail, quotient real equality,
+trichotomy, completeness witness, selected limit, or standard bridge datum, the
+TasteGate obligations cannot obtain one from the schedule.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision TasteGate compiler-obligation handoff]
+\label{thm:dyadicprecision-tastegate-compiler-obligation-handoff}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be an accepted $\DyadicPrecisionUp$ schedule packet. Any future
+$\ChapterTasteGate$ proof for this AI-origin chapter must discharge the
+no-hidden-input, event-flow conservativity, flow-level round-trip, channel
+bijection, and source-channel separation obligations by applying the
+$\GroundCompiler$ theorem rows
+$\mathsf{no\_hidden\_input}$, $\mathsf{event\_flow\_conservativity}$,
+$\mathsf{flow\_level\_round\_trip}$, $\mathsf{channel\_bijection}$, and
+$\mathsf{source\_channel\_separation}$ to the visible carrier event-flow tokens
+listed in \autoref{thm:dyadicprecision-tastegate-carrier-witness}.
+
+Consequently the handoff exposes only the finite precision row $n$, dyadic
+radius row $\rho$, finite window row $W$, displayed $\hsame$ rows $H$,
+displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, $\NameCert$ row $N$, and
+ledger $L$. It exposes no hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:dyadic-precision-schedule-carrier}. The projection gives exactly
+the eight visible schedule coordinates, and
+\autoref{thm:dyadicprecision-tastegate-carrier-witness} reads those coordinates
+as the carrier event-flow tokens for a future $\ChapterTasteGate$ proof.
+
+The compiler obligations are then not handwritten carrier facts. The future
+Lean route must apply $\mathsf{no\_hidden\_input}$ for hidden-source exclusion,
+$\mathsf{event\_flow\_conservativity}$ for event-flow preservation,
+$\mathsf{flow\_level\_round\_trip}$ for encoding round trip,
+$\mathsf{channel\_bijection}$ for channel identity, and
+$\mathsf{source\_channel\_separation}$ for separating source rows from channel
+rows.
+
+Finally use \autoref{thm:dyadicprecision-schedule-obligation-export}. Its
+absence clauses and the carrier clauses above exhaust the schedule surface by
+the finite precision row, dyadic radius row, finite window row, $\hsame$ rows,
+$\Cont$ routes, $\Pkg$ provenance, $\NameCert$ row, and ledger. Since no
+coordinate contains a hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum, the handoff cannot expose
+one.
 \end{proof}
 
 \closureat{DyadicPrecisionUp}{seedStr}
