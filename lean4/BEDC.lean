@@ -193,7 +193,10 @@ import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
+import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
+import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
 import BEDC.Derived.DyadicRatCoreUp.RealPhaseSourceCoverage
+import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
@@ -688,6 +691,7 @@ import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
 import BEDC.Derived.LambdaCalcUp.NameCertCarrierObligation
+import BEDC.Derived.LambdaCalcUp.PublicBoundary
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
