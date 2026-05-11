@@ -88,4 +88,42 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
+def FastCauchyFiniteCarrier [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius comparison transportWindow regWindow sealBoundary certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory comparison ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧ Cont stream modulus transportWindow ∧
+        Cont endpoint radius comparison ∧ Cont comparison transportWindow regWindow ∧
+          Cont regWindow sealBoundary certRow ∧ PkgSig bundle regWindow pkg
+
+def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius comparison transportWindow regWindow handoff : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory comparison ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      UnaryHistory handoff ∧ Cont regWindow endpoint handoff ∧ PkgSig bundle regWindow pkg
+
+theorem FastCauchyFiniteCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius comparison transportWindow regWindow sealBoundary certRow
+      handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteCarrier stream modulus endpoint radius comparison transportWindow regWindow
+        sealBoundary certRow bundle pkg ->
+      Cont regWindow endpoint handoff ->
+        FastCauchyRegSeqRatWindow stream modulus endpoint radius comparison transportWindow regWindow
+            handoff bundle pkg ∧
+          UnaryHistory handoff ∧ hsame handoff (append regWindow endpoint) := by
+  intro carrier handoffRow
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary,
+    transportWindowUnary, regWindowUnary, _sealBoundaryUnary, _certRowUnary, _transportRow,
+    _comparisonRow, _regWindowRow, _certRow, pkgRow⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed regWindowUnary endpointUnary handoffRow
+  exact
+    ⟨⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary,
+        transportWindowUnary, regWindowUnary, handoffUnary, handoffRow, pkgRow⟩,
+      handoffUnary,
+      handoffRow⟩
+
 end BEDC.Derived.FastCauchyUp
