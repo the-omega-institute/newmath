@@ -77,6 +77,7 @@ Finally read back the endpoint row. Since the carrier has no coordinate for an a
 Every curvature contribution visible in an accepted $\HolonomyUp$ packet is read through the displayed certified loop row, the $\CurvatureUp$ boundary row, the $\ConnectionUp$ parallel-transport spine, the $\BundleUp$ provenance row, the $\ManifoldUp$ provenance row, $\hsame$ transport, and the finite $\Cont$ ledger. No downstream consumer can insert an unlogged curvature tensor, ambient surface integral, or host smooth-loop family.
 \end{theorem}
 \leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_curvature\_loop\_boundary}
+\leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportCarrier\_curvature\_loop\_boundary}
 \begin{proof}
 Read the curvature coordinate from the packet. It is attached to a certified loop row and to the parallel-transport spine already named by the connection source.
 
@@ -89,6 +90,7 @@ Because the packet contains no host tensor, surface integral, or smooth-loop fam
 \label{thm:holonomy-composition-ledger-obligation}
 Composition of displayed holonomy transports is recorded only by finite $\Cont$ rows. For two accepted loop rows whose endpoint ledgers concatenate inside the same bundle and connection packet, the composed fibre endpoint is the endpoint reached by the concatenated continuation ledger, with dependency provenance retained in $\rho$.
 \end{theorem}
+\leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_composition\_ledger\_obligation}
 \begin{proof}
 Start with the two accepted loop rows and their transport ledgers. Each ledger entry names a finite source endpoint, target endpoint, connection row, and fibre endpoint readback.
 
@@ -146,14 +148,15 @@ Thus the standard boundary remains a scope statement about which classical rows 
 \end{proof}
 
 \closureat{HolonomyUp}{obligationStr}
+\closureat{HolonomyUp}{scopedStr}[BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_namecert\_obligation\_surface]
 \begin{closurestatus}{\HolonomyUp}
   \constructivestory{The holonomy packet is a finite $\mathsf{BHist}$ transport ledger over certified bundle, connection, loop, transported fibre endpoint, curvature-control, continuation, and package rows. Classification transports the loop, connection, endpoint, curvature-control provenance, and ledger rows componentwise by $\hsame$, while composition is a finite $\Cont$ route rather than a host path operation.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope names only the displayed $\ConnectionUp$, $\CurvatureUp$, $\BundleUp$, $\ManifoldUp$, $\LieGroupUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the transport packet.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host parallel transport, analytic path spaces, a holonomy Lie subgroup theorem, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the loop, connection, curvature, bundle, manifold, Lie-group, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows into one checked certificate boundary.}
+  \upgradepath{The next paper-axis step is the public-facing $\NameCert_{\HolonomyUp}$ export obligation.}
 \end{closurestatus}
