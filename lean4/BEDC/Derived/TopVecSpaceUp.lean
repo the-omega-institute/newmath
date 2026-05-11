@@ -161,4 +161,66 @@ theorem TopVecSpaceBHistCarrier_topology_source_scope [AskSetup] [PackageSetup]
       (And.intro carrier.right.right.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right.right))
 
+theorem TopVecSpaceBHistCarrier_namecert_boundary [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          hsame ∧ Cont vec topology addLedger ∧ Cont addLedger scalarLedger route ∧
+            Cont route topology endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route e bundle pkg ∧
+              hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (Exists.intro endpoint (And.intro carrier (hsame_refl endpoint)))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same source
+        cases source with
+        | intro e data =>
+            cases data with
+            | intro carrierE sameRowE =>
+                exact Exists.intro e
+                  (And.intro carrierE (hsame_trans (hsame_symm same) sameRowE))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, carrier.right.right.right.right.right.right.left,
+    carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+        carrier.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.TopVecSpaceUp
