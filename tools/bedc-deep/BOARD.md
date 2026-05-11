@@ -67,3 +67,80 @@ Closes the converse of thm:package-token-policy-from-token-unique (papers/bedc/p
 
 ---
 
+### B-659 - Bundle-local same-source gap memberships share signatures
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Bundle-local same-source gap memberships share signatures |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If BundleAskPolicy(Π,D) holds and InGapSig(Π,D,p,h) and InGapSig(Π,D,q,h), then there exist generated signatures s,t introducing p,q with hsame(s,t).
+
+Local inputs:
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+internalized_gap_globalize.tex:86 states thm:gap-memberships-share-signature under AskPol(Π,D); the proof uses only signature determinacy on a shared admitted source, which has a bundle-local form at probe_bundles/02_signature_generation.tex:365 (thm:bundle-local-signature-determinacy). This is the witness-extraction sibling of B-646 — that target strengthened the closing psame step; this one strengthens the intermediate signature-witness extraction that feeds it. No theorem named `bundle-local-share-signature` or with BundleAskPolicy as premise for this witness-form claim exists (grep on parts/). The Lean side `inGapSig_same_source_package_witnesses` (line 96) is AskPol-only; no bundle-local variant. Distinct claim from gap-separation: it returns existential signature witnesses, not just psame(p,q).
+
+---
+
+
+### B-660 - Signature append residual exactness with known Θ-component
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Signature append residual exactness with known Θ-component |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), PkgPol(BAppend(Π,Θ)), PkgTokPol(BAppend(Π,Θ)), and PkgTokPol(Θ), if the appended interface and the known Θ-component each carry compatible psame on introduced tokens for histories h,k, then sameSig_Π(h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+package_token_policy.tex:470 states thm:signature-append-residual-known-token-component for the known Π-component direction only (cancels Π, returns sameSig_Θ). The mirror direction (cancel Θ, return sameSig_Π) is not stated. The underlying right-cancellation infrastructure exists: 02_signature_generation.tex:253 has thm:samesig-bundle-append-right-cancellation under BundleAskPolicy(Θ,D), and 02_signature_generation.tex:269 has thm:samesig-bundle-append-residual-iff item (2) covering the Θ-known iff at the sameSig level. The remaining task is to lift that residual iff through the token-introduction layer using psame_iff_hsame, exactly parallel to the existing Π-direction proof. Host file 513 lines, ~50 added still under 760. Genuine mirror gap, not parameter echo: requires invoking BundleAskPolicy(Θ,D) where the existing theorem invokes BundleAskPolicy(Π,D).
+
+---
+
+
+### B-661 - Token uniqueness from package-token policy on the concrete signature-token instance
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Token uniqueness from package-token policy on the concrete signature-token instance |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If PkgTokPol(Π) holds for the concrete signature-token relation psame_Π^{sig}, then TokUnique(Π): TokIntro(Π,s,p) and TokIntro(Π,t,p) imply hsame(s,t).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+- `papers/bedc/parts/proof_obligations/psame_design.tex`
+
+Rationale:
+package_token_policy.tex:360 states thm:package-token-policy-from-token-unique (TokUnique → PkgTokPol) but the converse is not stated. Lean side: `grep 'TokUnique_from|tokUnique_from_packageTokenPolicy' lean4/BEDC/` returns 0 — only `packageTokenPolicy_from_tokUnique` exists. The converse holds: given TokIntro(Π,s,p), TokIntro(Π,t,p), apply soundness with hsame(s,s) to two copies of TokIntro(Π,s,p) yielding psame(p,p); then reflection on TokIntro(Π,s,p), TokIntro(Π,t,p), psame(p,p) gives hsame(s,t). Together with the existing forward direction this gives an equivalence (TokUnique ⇔ PkgTokPol) on the concrete instance — closes the policy-mode contract loop highlighted in def:policy-mode (line 375). Concrete uniqueness claim, host file 513 lines.
+
+---
+
