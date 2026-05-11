@@ -155,6 +155,22 @@ Read the two dyadic tolerance ledgers through \autoref{thm:regseqrat-dyadic-radi
 Finally use classifier transport from \autoref{thm:regseqrat-classifier-transport} to repack the composed finite surface as a witness for $\mathsf{RegSeqRatClassifier}(x,z)$. The construction introduces no quotient stream equality, host real equality, metric-completion object, or $\RealUp$ completeness datum.
 \end{proof}
 
+\begin{theorem}[RegSeqRat diagonal window extraction]
+\label{thm:regseqrat-diagonal-window-extraction}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $S$ be a finite $\StreamNameUp$ schedule whose two classifier witnesses for displayed reads of $P$ admit a common refinement. At the shared unary index of that refinement, the diagonal observation is a displayed finite window consisting only of $\mathsf{BHist}$ rows, the $\UnaryHistory$ witness for the index, the $\DyadicRatCoreUp$ endpoint and radius rows, regularity ledgers, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ provenance.
+
+The same diagonal row is exactly the finite source row consumed by the $\RealUp$ seal handoff. Thus the extraction exports no quotient stream, host real equality, metric-completion point, $\RealUp$ completeness datum, or additional bridge coordinate.
+\end{theorem}
+\begin{proof}
+Project the two scheduled reads through \autoref{thm:regseqrat-scheduled-window-projection}. This exposes the common-refinement schedule together with the displayed unary index, endpoint rows, radius rows, regularity ledgers, comparison rows, continuation routes, package provenance, and naming provenance.
+
+Read the radius and distance components by \autoref{thm:regseqrat-dyadic-radius-ledger-readback}. The diagonal row at the shared unary index is therefore a finite $\DyadicRatCoreUp$ endpoint-and-radius observation inside the same displayed $\mathsf{BHist}$ packet.
+
+Use \autoref{thm:regseqrat-common-refinement-classifier-determinacy} to identify the two transported classifier reads on the common refinement. Since the classifier can inspect only the displayed rows already projected, both witnesses present the same diagonal finite-window row.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal consumes exactly the finite regular-rational source surface exposed by that diagonal row, so the handoff reads the extracted finite window itself and not any quotient, host-real, completion, or bridge datum.
+\end{proof}
+
 \begin{theorem}[RegSeqRat scheduled-window projection]
 \label{thm:regseqrat-scheduled-window-projection}
 For every accepted finite scheduled window of a $\RegSeqRatUp$ stream carrier, projection exposes only the unary index row, the $\DyadicRatCoreUp$ endpoint row, the dyadic-radius row, the regularity ledger rows, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. No projected window contains a quotient sequence coordinate, a host real coordinate, or a completion object.
