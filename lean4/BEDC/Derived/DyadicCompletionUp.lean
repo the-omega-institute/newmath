@@ -201,6 +201,27 @@ theorem DyadicCompletionPacket_regular_tail_stability [AskSetup] [PackageSetup]
       (And.intro tailUnary'
         (And.intro ledgerUnary' (And.intro sameTail sameLedger)))
 
+theorem DyadicCompletionPacket_ledger_boundary [AskSetup] [PackageSetup]
+    {dyadic window tail real ledger provenance boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionPacket dyadic window tail real ledger provenance bundle pkg ->
+      Cont ledger provenance boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory ledger ∧ UnaryHistory boundary ∧
+            hsame tail (append dyadic window) ∧ hsame ledger (append tail real) ∧
+              hsame boundary (append ledger provenance) ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRow boundaryPkg
+  obtain ⟨dyadicUnary, windowUnary, realUnary, provenanceUnary, tailRow, ledgerRow,
+    _provenancePkg⟩ := packet
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed dyadicUnary windowUnary tailRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed tailUnary realUnary ledgerRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary provenanceUnary boundaryRow
+  exact
+    ⟨ledgerUnary, boundaryUnary, tailRow, ledgerRow, boundaryRow, boundaryPkg⟩
+
 def DyadicCompletionFiniteWindowSource (row : BHist) : Prop :=
   exists left right midpoint refinement endpoint : BHist,
     Cont left right midpoint ∧
