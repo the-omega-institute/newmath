@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\SignedDigitStreamUp$}
+\label{ch:concrete-instances-signeddigitstream-namecert}
+
+The $\SignedDigitStreamUp$ interface names finite-window signed-digit stream presentations over dyadic endpoint rows. Following Bishop--Bridges constructive analysis, the packet records only observed signed digits, normalization carries, endpoint rows, and stream provenance; it does not form a quotient of infinite streams or appeal to host real equality.
+
+\section{Finite signed-digit windows}
+\label{sec:signeddigitstream-finite-windows}
+
+\begin{definition}[SignedDigitStream carrier]
+\label{def:signeddigitstream-carrier}
+A $\SignedDigitStreamUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(D,N,C,P,E,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is a finite list of signed dyadic digit rows, each digit drawn from the displayed signed finite alphabet and indexed by a unary position row;
+\item $N$ is the unary observation schedule supplied by $\StreamNameUp$;
+\item $C$ is the carry and normalization ledger for every adjacent digit pair visible in the window;
+\item $P$ is the $\StreamNameUp$ provenance row naming the scheduled stream requests and the $\mathsf{Pkg}$ routes used to read them;
+\item $E$ lists the $\DyadicRatCoreUp$ endpoint rows obtained by normalizing each displayed finite prefix;
+\item $L$ records that all hidden data lies outside the requested finite window.
+\end{enumerate}
+The carrier accepts only packets whose visible prefixes normalize to the displayed $\DyadicRatCoreUp$ endpoint rows through the carry ledger $C$. It contains no infinite stream object outside the named schedule, no quotient of presentations, and no completed $\RealUp$ endpoint.
+\end{definition}
+
+\begin{definition}[SignedDigitStream classifier]
+\label{def:signeddigitstream-classifier}
+For accepted $\SignedDigitStreamUp$ carriers $S$ and $T$, the classifier $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds when every shared finite observation window normalizes to classifier-equal dyadic endpoints and the matching carry ledgers transport componentwise. Concretely, for each unary position read by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint rows agree by the $\DyadicRatCoreUp$ classifier, the digit rows are related by the displayed $\hsame$ routes before normalization, and the carry ledger repacks to the same endpoint read.
+
+The classifier compares finite normalized observations, not infinite tails. A classified pair therefore exposes agreement of all windows actually requested by the schedules and supplies no host real equality, choice of a global stream representative, or quotient equality of digit streams.
+\end{definition}
+
+\begin{theorem}[SignedDigitStream finite-window transport]
+\label{thm:signeddigitstream-window-transport}
+Let $S$ be an accepted $\SignedDigitStreamUp$ carrier. Suppose $T$ is obtained by transporting the signed digit rows, unary schedule rows, carry ledger, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and hidden-tail ledger of $S$ through displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes. If every transported prefix normalizes to the transported endpoint row with the transported carry ledger, then $T$ is an accepted $\SignedDigitStreamUp$ carrier and $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds on each shared finite window.
+
+The transport preserves only the finite signed-digit observation surface and introduces no quotient stream, ambient real equality, or completed real endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:signeddigitstream-carrier}. The digit rows, unary schedule, carry ledger, provenance, endpoint rows, and hidden-tail ledger are the only coordinates available for transport.
+
+Move each coordinate along the displayed $\hsame$ and $\Cont$ routes. The hypothesis says that prefix normalization is preserved after the move, so every visible prefix of $T$ still has the corresponding $\DyadicRatCoreUp$ endpoint row.
+
+Apply the classifier of \autoref{def:signeddigitstream-classifier} on a shared finite window. The endpoint classifiers come from the transported $\DyadicRatCoreUp$ rows, and the carry ledgers match by the componentwise ledger transport. Since no extra coordinate is created, the transported packet exports exactly the same finite observation surface.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream RegSeqRat handoff]
+\label{thm:signeddigitstream-regseqrat-handoff}
+An accepted $\SignedDigitStreamUp$ carrier hands a $\RegSeqRatUp$ consumer only the scheduled normalized dyadic endpoint rows and their radius ledgers. For every unary precision window requested by the $\RegSeqRatUp$ consumer, the handoff reads a finite $\StreamNameUp$ schedule row, the signed digit prefix selected by that schedule, the carry ledger that normalizes the prefix, and the resulting $\DyadicRatCoreUp$ endpoint row. The consumer may use these rows as the endpoint observations of a regular rational stream.
+
+The handoff does not assert regularity by itself, does not seal a $\RealUp$ name, and does not identify signed-digit presentations by host real equality.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through \autoref{def:signeddigitstream-carrier}. A precision request first selects a finite schedule row and then exposes exactly the digit prefix, carry ledger, provenance, and normalized endpoint row attached to that schedule.
+
+The target $\RegSeqRatUp$ consumer needs endpoint observations and radius ledgers. The endpoint row is already a $\DyadicRatCoreUp$ row, and the radius budget is read from the same unary precision window that selected the prefix.
+
+Regularity is a separate $\RegSeqRatUp$ obligation: it compares pairs of endpoint rows by dyadic bounds. The signed-digit handoff supplies the finite endpoint source for those comparisons and no additional real-seal, quotient, or host-equality data.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream NameCert obligation surface]
+\label{thm:signeddigitstream-namecert-obligation-surface}
+The local $\NameCert_{\SignedDigitStreamUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet $(D,N,C,P,E,L)$ of \autoref{def:signeddigitstream-carrier};
+\item classifier: the shared-window normalized endpoint comparison of \autoref{def:signeddigitstream-classifier};
+\item transport: the componentwise window transport of \autoref{thm:signeddigitstream-window-transport};
+\item $\RegSeqRatUp$ handoff: the scheduled endpoint row exported by \autoref{thm:signeddigitstream-regseqrat-handoff};
+\item ledger boundary: the assertion that hidden data lies only outside the requested finite window and is never read as a quotient tail or host real value.
+\end{enumerate}
+These rows form the seed certificate surface for finite-window signed-digit stream names over dyadic rows.
+\end{theorem}
+\begin{proof}
+The carrier row supplies the signed digits, schedule, carry ledger, provenance, normalized endpoints, and hidden-tail boundary. This fixes the source data of the name.
+
+The classifier and transport rows identify the only stable motion of that data: shared windows are compared after normalization to $\DyadicRatCoreUp$ endpoints, and componentwise transport repacks the same finite rows.
+
+The handoff row records exactly what a $\RegSeqRatUp$ consumer may read, namely scheduled normalized dyadic endpoints and their visible ledgers. The remaining ledger boundary excludes quotient tails, host real equality, and completed real endpoints, so the five listed rows exhaust the local $\NameCert_{\SignedDigitStreamUp}$ surface.
+\end{proof}
+
+\closureat{SignedDigitStreamUp}{seedStr}
+
+\begin{closurestatus}{\SignedDigitStreamUp}
+  \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The finite-window carrier of \autoref{def:signeddigitstream-carrier} binds the visible signed digits, schedule, carry ledger, provenance, endpoint rows, and hidden-tail ledger for $\SignedDigitStreamUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close full stream regularity, $\RealUp$ sealing, host real equality, quotient presentations, completeness, or a standard bridge.}
+  \upgradepath{Formal closure requires Lean targets for the carrier, classifier, finite-window transport, $\RegSeqRatUp$ handoff, and NameCert obligation surface.}
+\end{closurestatus}
