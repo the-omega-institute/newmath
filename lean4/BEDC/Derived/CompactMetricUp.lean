@@ -21,6 +21,11 @@ def CompactMetricCertificate (X : BHist -> Prop) (eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
   TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
 
+def CompactMetricPublicExportRowSurface (X : BHist -> Prop) (eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit row : BHist) : Prop :=
+  X row ∨ (exists center : BHist, InBundle center bundle ∧ hsame row center) ∨
+    hsame row limit
+
 def CompactMetricCertificateCarrier (X : BHist -> Prop) (x y dist eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
   X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
@@ -371,6 +376,15 @@ theorem CompactMetricCertificate_public_export_surface {X : BHist -> Prop} {eps 
         exact rowPublic
     }
     (And.intro certificate.left certificate.right)
+
+theorem CompactMetricPublicExportSource_component_rows {X : BHist -> Prop} {eps x : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricCertificate X eps bundle s M limit -> X x ->
+      CompactMetricPublicExportRowSurface X eps bundle s M limit x ∧
+        TotallyBoundedProbeBundleNet X eps bundle ∧
+          CompleteMetricLimitWitness X s M limit := by
+  intro certificate source
+  exact And.intro (Or.inl source) (And.intro certificate.left certificate.right)
 
 theorem CompactMetricPublicInterface_stability {X : BHist -> Prop} {eps epsPrime x : BHist}
     {bundle : ProbeBundle BHist} {s sPrime M MPrime : BHist -> BHist}

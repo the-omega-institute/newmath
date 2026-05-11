@@ -104,6 +104,7 @@ symmetry, and transitivity of the componentwise $\hsame$ row, and its
 stability obligation is preservation of the same packet shape under the
 finite $\Cont$ transports recorded by $\lambda$.
 \end{theorem}
+\leanchecked{BEDC.Derived.StatManifoldUp.StatManifoldPacket\_namecert\_obligation\_surface}
 \begin{proof}
 Use the carrier theorem to obtain the displayed packet and its classifier.
 The carrier witness is the packet itself; the classifier relation is the
@@ -147,3 +148,37 @@ packets, so every downstream interface must consume those rows and no others.
 
 \section{The certificate}
 \label{sec:statmanifold-certificate}
+
+\begin{theorem}[StatManifoldUp public certificate export]
+\label{thm:statmanifold-public-certificate-export}
+The carrier-classifier obligation of
+\autoref{thm:statmanifold-carrier-classifier-obligation}, the
+FisherInfo/Manifold source scope of
+\autoref{thm:statmanifold-fisher-manifold-source-scope}, the ledger
+exactness row of \autoref{thm:statmanifold-ledger-exactness}, the
+$\NameCert_{\StatManifoldUp}$ obligation surface of
+\autoref{thm:statmanifold-namecert-obligation-surface}, and the downstream
+consumption boundary of
+\autoref{thm:statmanifold-downstream-consumption-boundary} together export
+the public $\NameCert_{\StatManifoldUp}$ surface. The exported rows are
+exactly the $\mathsf{BHist}$ parameter carrier, Fisher metric packet, dual
+affine connection ledgers, $\mathsf{Pkg}$ provenance, and finite $\Cont$
+ledger, with no host manifold or analytic probability primitive.
+\end{theorem}
+\begin{proof}
+First project the carrier-classifier obligation and the source-scope row. They
+identify the public packet as the displayed parameter carrier from
+$\NameCert_{\ManifoldUp}$ and the Fisher metric packet from
+$\NameCert_{\FisherInfoUp}$.
+
+Next apply ledger exactness. It says that the remaining public rows are the
+parameter endpoint, distribution endpoint, Fisher metric, dual affine
+connection ledgers, shared provenance, and finite continuation ledger, with no
+extra coordinate-level analytic data.
+
+Finally use the NameCert obligation surface and the downstream consumption
+boundary. These two rows repack the displayed carrier, classifier, stability,
+ledger, and consumer-facing rows as the public $\NameCert_{\StatManifoldUp}$
+surface, and they exclude any host manifold or analytic probability primitive
+outside the listed $\mathsf{BHist}$ packet.
+\end{proof}
