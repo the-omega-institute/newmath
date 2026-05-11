@@ -101,6 +101,35 @@ with the carrier constructor gives a classified target packet and no extra
 semantic equality is used.
 \end{proof}
 
+\begin{theorem}[TriangulatedCat translation-triangle obligation scope]
+\label{thm:triangulatedcat-translation-triangle-obligation-scope}
+Every translated distinguished-triangle readback in an accepted
+$\TriangulatedCatUp$ packet is read only through the displayed
+translation-autoequivalence row, inverse shift row, unit and counit comparison
+histories, distinguished-triangle ledger, componentwise $\hsame$, $\Cont$ rows
+for shift transport and triangle rotation, $\mathsf{Pkg}$ provenance, and the
+retained $\CategoryUp$ and $\DerivedCatUp$ dependency rows. It does not read
+host Verdier quotient semantics, unlogged exact-triangle objects, or ambient
+triangulated-category equality.
+\end{theorem}
+\begin{proof}
+Unpack rows 20--31 of \autoref{def:triangulatedcat-carrier}. A translated
+distinguished triangle is represented by the displayed shift histories, inverse
+shift row, unit and counit comparisons, the distinguished-triangle ledger, and
+the associated continuation rows.
+
+Apply \autoref{thm:triangulatedcat-classifier-stability-obligation}. The
+classifier transports each listed component by its $\hsame$ comparison, while
+the retained $\CategoryUp$ and $\DerivedCatUp$ rows supply the dependency
+certificates and the $\mathsf{Pkg}$ row records provenance.
+
+Repack the visible shift and triangle rows through the carrier constructor.
+Constructor inversion has no coordinate for a host Verdier quotient, an
+unlogged exact-triangle object, or an ambient equality of triangulated
+categories, so every accepted readback stays inside the displayed packet
+surface.
+\end{proof}
+
 \begin{theorem}[TriangulatedCat shift autoequivalence obligation]
 \label{thm:triangulatedcat-shift-autoequivalence-obligation}
 The shift row of a $\mathsf{TriangulatedCatPkt}$ exports only the displayed
@@ -125,6 +154,7 @@ on the packet has cases only for the displayed shift histories, their
 comparison rows, the relevant $\Cont$ witnesses, and the provenance row, so no
 separate equality coordinate can be projected.
 \end{proof}
+\leanchecked{BEDC.Derived.TriangulatedCatUp.TriangulatedCatPacketCarrier\_shift\_autoequivalence\_obligation}
 
 \begin{theorem}[TriangulatedCat distinguished-triangle rotation obligation]
 \label{thm:triangulatedcat-distinguished-triangle-rotation-obligation}
