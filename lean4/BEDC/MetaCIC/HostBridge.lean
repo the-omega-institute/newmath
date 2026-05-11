@@ -18,10 +18,40 @@ def reprTerm : Term → Format
 instance : Repr Term where
   reprPrec t _ := reprTerm t
 
+def reflectNatLit? (e : Expr) : Option Nat :=
+  match e.nat? with
+  | some n => some n
+  | none => e.rawNatLit?
+
 /-- 把一个 host Lean `Expr` 尝试翻译成 `BEDC.MetaCIC.Term`。
     简化: 覆盖 sort、变量、应用、lambda、Pi。 -/
 partial def reflectExpr (e : Expr) : MetaM (Option Term) := do
-  match e with
+  match e.getAppFn.constName?, e.getAppArgs.toList with
+  | some ``Term.sort, [] =>
+      return some Term.sort
+  | some ``Term.var, [idxExpr] =>
+      match reflectNatLit? idxExpr with
+      | some i => return some (Term.var i)
+      | none => return none
+  | some ``Term.app, [f, a] =>
+      let fR? ← reflectExpr f
+      let aR? ← reflectExpr a
+      match fR?, aR? with
+      | some fR, some aR => return some (Term.app fR aR)
+      | _, _ => return none
+  | some ``Term.lam, [dom, body] =>
+      let domR? ← reflectExpr dom
+      let bodyR? ← reflectExpr body
+      match domR?, bodyR? with
+      | some dom', some body' => return some (Term.lam dom' body')
+      | _, _ => return none
+  | some ``Term.pi, [dom, cod] =>
+      let domR? ← reflectExpr dom
+      let codR? ← reflectExpr cod
+      match domR?, codR? with
+      | some dom', some cod' => return some (Term.pi dom' cod')
+      | _, _ => return none
+  | _, _ => match e with
   | Expr.sort _ =>
       return some Term.sort
   | Expr.bvar i =>
@@ -44,14 +74,16 @@ partial def reflectExpr (e : Expr) : MetaM (Option Term) := do
       match domR?, codR? with
       | some dom', some cod' => return some (Term.pi dom' cod')
       | _, _ => return none
+  | Expr.mdata _ body =>
+      reflectExpr body
   | _ =>
-      -- 未覆盖类型: const, mvar, mdata, proj, fvar, letE, lit
+      -- 未覆盖类型: const, mvar, proj, fvar, letE, lit
       return none
 
 /-- Command 入口: `#reflect_metacic e` 打印 e 的 MetaCIC encoding (如能 encode). -/
 elab "#reflect_metacic " e:term : command => do
   liftTermElabM do
-    let expr ← Term.elabTerm e none
+    let expr ← instantiateMVars (← Term.elabTerm e none)
     let metaTerm? ← reflectExpr expr
     match metaTerm? with
     | some metaTerm => Lean.logInfo m!"MetaCIC encoding: {repr metaTerm}"
@@ -60,7 +92,7 @@ elab "#reflect_metacic " e:term : command => do
 /-- Command 入口: `#metacic_decide e` 反射 host term 并调用 MetaCIC checker 推断类型。 -/
 elab "#metacic_decide " e:term : command => do
   liftTermElabM do
-    let expr ← Term.elabTerm e none
+    let expr ← instantiateMVars (← Term.elabTerm e none)
     let metaTerm? ← reflectExpr expr
     match metaTerm? with
     | none =>
