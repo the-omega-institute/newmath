@@ -156,4 +156,32 @@ theorem ThetaFunctionCarrierSource_period_lattice_scope [AskSetup] [PackageSetup
       pkgSig'⟩
   exact ⟨carrier', sameEndpoint, coeffUnary', endpointUnary', pkgSig'⟩
 
+theorem ThetaFunctionCarrierSource_modular_shift_ledger [AskSetup] [PackageSetup]
+    {period chart coeff provenance readback endpoint shiftedCoeff shiftedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThetaFunctionCarrierSource period chart coeff provenance readback endpoint bundle pkg ->
+      hsame coeff shiftedCoeff -> UnaryHistory shiftedEndpoint ->
+        Cont period chart shiftedCoeff -> Cont provenance readback shiftedEndpoint ->
+          PkgSig bundle shiftedEndpoint pkg ->
+            ThetaFunctionCarrierSource period chart shiftedCoeff provenance readback shiftedEndpoint
+                bundle pkg ∧
+              hsame coeff shiftedCoeff ∧ Cont period chart shiftedCoeff ∧
+                Cont provenance readback shiftedEndpoint ∧ PkgSig bundle shiftedEndpoint pkg := by
+  intro source sameCoeff shiftedEndpointUnary shiftedCoeffRow shiftedEndpointRow shiftedPkg
+  have shiftedCoeffUnary : UnaryHistory shiftedCoeff :=
+    unary_transport source.right.right.left sameCoeff
+  have shiftedSource :
+      ThetaFunctionCarrierSource period chart shiftedCoeff provenance readback shiftedEndpoint
+        bundle pkg :=
+    And.intro source.left
+      (And.intro source.right.left
+        (And.intro shiftedCoeffUnary
+          (And.intro source.right.right.right.left
+            (And.intro source.right.right.right.right.left
+              (And.intro shiftedEndpointUnary
+                (And.intro shiftedCoeffRow (And.intro shiftedEndpointRow shiftedPkg)))))))
+  exact And.intro shiftedSource
+    (And.intro sameCoeff
+      (And.intro shiftedCoeffRow (And.intro shiftedEndpointRow shiftedPkg)))
+
 end BEDC.Derived.ThetaFunctionUp
