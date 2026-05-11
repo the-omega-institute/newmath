@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.IwasawaUp
@@ -131,5 +132,26 @@ theorem IwasawaTransitionLedger_source_obligation_surface
                   (And.intro rowData.left
                     (And.intro rowData.right.left rowData.right.right))))
               (And.intro boundaryUnary boundaryCont)
+
+theorem IwasawaFiniteLevel_exactness
+    {transitions : List BHist} {provenance row boundary consumer : BHist} :
+    IwasawaTransitionLedger transitions provenance ->
+      List.Mem row transitions ->
+        UnaryHistory provenance ->
+          Cont row provenance boundary ->
+            Cont boundary BHist.Empty consumer ->
+              (exists level next : BHist, UnaryHistory level ∧ UnaryHistory next ∧
+                  Cont level next row) ∧
+                UnaryHistory consumer ∧
+                  hsame consumer boundary ∧ hsame boundary (append row provenance) := by
+  intro ledger rowMem provenanceUnary boundaryCont consumerCont
+  have surface :=
+    IwasawaTransitionLedger_source_obligation_surface ledger rowMem provenanceUnary boundaryCont
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed surface.right.left unary_empty consumerCont
+  have consumerReadback : hsame consumer boundary :=
+    cont_right_unit_result consumerCont
+  exact And.intro surface.left
+    (And.intro consumerUnary (And.intro consumerReadback surface.right.right))
 
 end BEDC.Derived.IwasawaUp
