@@ -106,6 +106,7 @@ import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
@@ -120,7 +121,6 @@ import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
-import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.HodgeBridgeUp
@@ -142,7 +142,9 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.RiccatiUp
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
@@ -671,6 +673,7 @@ import BEDC.Derived.DiffFormUp.RootObligationSurface
 import BEDC.Derived.DiffFormUp.RootRowBoundary
 import BEDC.Derived.DiffFormUp.RootUnblockObligations
 import BEDC.Derived.DiffFormUp.SourceScope
+import BEDC.Derived.DiffFormUp.SupportObligation
 import BEDC.Derived.DiffFormUp.ScalarEndpointTransport
 import BEDC.Derived.DiffFormUp.StdBridge
 import BEDC.Derived.DiffFormUp.VisibleInputPackage
