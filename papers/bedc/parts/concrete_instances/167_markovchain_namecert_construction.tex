@@ -249,6 +249,46 @@ The time ledger is finite and unary because $T_1$ and $T_2$ are unary and the di
 \end{proof}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_splice\_transport\_closure}
 
+\begin{theorem}[MarkovChain filtered transition consumer catalogue]
+\label{thm:markovchain-filtered-transition-consumer-catalogue}
+Every downstream finite stochastic-process consumer of an accepted
+$\MarkovChainUp$ transition packet reads only the displayed $\ProbSpaceUp$
+source, unary time ledger, adjacent $\RandomVarUp$ rows, $\DistributionUp$ law
+rows, transition rows, finite-prefix restrictions, concatenation and splice
+rows, $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+The catalogue excludes host stochastic processes, filtrations, conditional
+expectation, stationary laws, martingale structure, and standard kernel
+bridges. A consumer may restrict to a finite window, concatenate compatible
+windows, or read across a transported splice, but every such read remains inside
+the displayed finite transition packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:markovchain-bhist-transition-carrier}. The projection exposes only
+the $\ProbSpaceUp$ source, the unary time ledger, adjacent $\RandomVarUp$
+endpoints, $\DistributionUp$ law rows, transition rows, and the displayed
+$\hsame/\Cont/\Pkg$ provenance.
+
+For local finite windows, apply
+\autoref{thm:markovchain-finite-prefix-restriction-carrier}. The restriction
+keeps the same source row and copies only the visible endpoint, law,
+transition, and provenance rows whose indices lie in the chosen finite prefix.
+
+For consumers that splice or extend windows, apply
+\autoref{thm:markovchain-transition-packet-concatenation-closure} together with
+the adjacent transport row recorded after that theorem. These results rebuild
+the concatenated packet from the two displayed finite ledgers and the single
+transported splice row.
+
+The semantic certificate row for
+$\MarkovChainUp$ is then the public boundary: it certifies that the visible
+carrier, classifier, stability, exactness, and provenance fields are the rows
+available to downstream consumers. No host stochastic process, filtration,
+conditional expectation, stationary law, martingale datum, or standard kernel
+bridge is a field of that packet.
+\end{proof}
+
 \begin{definition}[MarkovChain finite-suffix restriction]
 \label{def:markovchain-finite-suffix-restriction}
 Let $P$ be a displayed $\MarkovChainUp$ transition packet over a unary time ledger with transition-time rows $0,\ldots,n+k-1$ and endpoint rows $0,\ldots,n+k$. The finite-suffix restriction $P_{\ge n}^{k}$ is the packet obtained by keeping the same $\ProbSpaceUp$ source, replacing the initial endpoint by the boundary row $X_n$, retaining the endpoint rows
