@@ -88,6 +88,41 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+def DyadicBallRegSeqRatWindow [AskSetup] [PackageSetup]
+    (center radius schedule observation containment transportWindow regWindow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory transportWindow ∧
+      UnaryHistory regWindow ∧ Cont center radius transportWindow ∧
+        Cont observation containment regWindow ∧ PkgSig bundle regWindow pkg
+
+def DyadicBallFiniteEnclosure [AskSetup] [PackageSetup]
+    (center radius schedule observation containment transportWindow regWindow certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory transportWindow ∧
+      UnaryHistory regWindow ∧ UnaryHistory certRow ∧
+        Cont center radius transportWindow ∧ Cont observation containment regWindow ∧
+          Cont transportWindow regWindow certRow ∧ PkgSig bundle regWindow pkg
+
+theorem DyadicBallFiniteEnclosure_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment transportWindow regWindow certRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteEnclosure center radius schedule observation containment transportWindow
+        regWindow certRow bundle pkg ->
+      DyadicBallRegSeqRatWindow center radius schedule observation containment transportWindow
+          regWindow bundle pkg ∧
+        Cont center radius transportWindow ∧ Cont observation containment regWindow ∧
+          PkgSig bundle regWindow pkg := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary,
+    transportUnary, regUnary, _certUnary, centerRadiusRoute, observationContainmentRoute,
+    _certRoute, pkgRow⟩ := packet
+  exact
+    ⟨⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary,
+        transportUnary, regUnary, centerRadiusRoute, observationContainmentRoute, pkgRow⟩,
+      centerRadiusRoute, observationContainmentRoute, pkgRow⟩
+
 theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint center' radius'
       schedule' observation' containment' route' provenance' endpoint' : BHist}
