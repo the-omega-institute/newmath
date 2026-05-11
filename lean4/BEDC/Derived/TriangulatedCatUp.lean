@@ -274,4 +274,27 @@ theorem TriangulatedCatPacketCarrier_shift_autoequivalence_obligation [AskSetup]
       shiftedPkg⟩
   exact ⟨shiftedCarrier, sameRoute, sameEndpoint⟩
 
+theorem TriangulatedCatPacketCarrier_distinguished_triangle_rotation_obligation [AskSetup]
+    [PackageSetup] {category derived additive shift triangle octahedral route endpoint
+      rotationEndpoint : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+        endpoint bundle pkg ->
+      Cont triangle shift rotationEndpoint ->
+        UnaryHistory triangle ∧ UnaryHistory shift ∧ UnaryHistory rotationEndpoint ∧
+          Cont shift triangle route ∧ Cont triangle shift rotationEndpoint ∧
+            hsame route (append shift triangle) ∧
+              hsame rotationEndpoint (append triangle shift) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier rotationRow
+  have shiftUnary : UnaryHistory shift :=
+    carrier.right.right.right.left
+  have triangleUnary : UnaryHistory triangle :=
+    carrier.right.right.right.right.left
+  have routeRow : Cont shift triangle route :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have rotationEndpointUnary : UnaryHistory rotationEndpoint :=
+    unary_cont_closed triangleUnary shiftUnary rotationRow
+  exact
+    ⟨triangleUnary, shiftUnary, rotationEndpointUnary, routeRow, rotationRow, routeRow, rotationRow,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.TriangulatedCatUp
