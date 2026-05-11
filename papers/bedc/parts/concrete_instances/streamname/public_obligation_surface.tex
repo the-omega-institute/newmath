@@ -245,6 +245,47 @@ or host index equality data, the bundle-union request exports none of those
 rows.
 \end{proof}
 
+\begin{theorem}[StreamNameUp pointwise hsame reindexing stability]
+\label{thm:streamname-pointwise-hsame-reindexing-stability}
+Let a public $\StreamNameUp$ observation map be read through certified
+$\UnaryHistory$ reindexers, and let a finite $\mathsf{ProbeBundle}$ window
+$B$ display the source request. Suppose the source and target observation
+rows are related pointwise by the displayed $\hsame$ relation, and suppose the
+reindexing routes are carried by the same $\Cont$ and $\Pkg$ provenance rows.
+Then the public finite-window classifier packet transports to the reindexed
+window.
+
+The transported packet exposes only certified unary observation rows,
+pointwise $\RatUp$ classifier rows, $\mathsf{InBundle}$ membership,
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. It supplies no
+$\RegSeqRat$ regularity, $\RealUp$ completion, quotient representative,
+hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+Start from the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation}. It identifies the
+source and target observation rows through certified $\UnaryHistory$
+reindexers and keeps the route inside the displayed $\Cont$ and $\Pkg$
+provenance.
+
+Apply \autoref{thm:streamname-public-transport-obligation} to the pointwise
+$\hsame$ comparisons. The rational classifier row attached to each source
+observation is carried to the corresponding target observation without
+creating a host index equality or a quotient representative.
+
+Project the finite rows by
+\autoref{thm:streamname-finite-window-schedule-exhaustion}. The reindexed
+window therefore has exactly the certified observation rows,
+$\mathsf{InBundle}$ membership rows, pointwise rational rows, continuation
+routes, and package provenance listed by the public window schedule.
+
+Finally use \autoref{thm:streamname-public-ledger-obligation} and the union
+exhaustion of \autoref{thm:streamname-regseqrat-window-union-exhaustion} to
+rule out extra consumer rows. Since those ledgers contain no regularity,
+completion, quotient, limit-selection, or host-equality coordinate, the
+transported finite-window packet exposes none of that data.
+\end{proof}
+
 \begin{theorem}[StreamNameUp RegSeqRat window intersection exhaustion]
 \label{thm:streamname-regseqrat-window-intersection-exhaustion}
 Let two downstream finite-window requests over a common public
