@@ -29,7 +29,7 @@ inductive HasType : Ctx → Term → Term → Prop
   | appRule (Γ : Ctx) (f a dom cod : Term) :
       HasType Γ f (Term.pi dom cod) →
       HasType Γ a dom →
-      HasType Γ (Term.app f a) cod
+      HasType Γ (Term.app f a) (substitute 0 a cod)
 
 theorem sort_in_empty_ctx : HasType [] Term.sort Term.sort :=
   HasType.sortRule []
