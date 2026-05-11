@@ -55,6 +55,8 @@ RESULTS_DIR = ORACLE_DIR / "results"
 MAX_AGENTS = 3
 TASK_TIMEOUT = 14400  # 4 hours; ChatGPT Pro thinking can be 60+ min/turn
 AGENT_RECENT_SECONDS = 120
+ZERO_EXTRACTION_HANG_SECONDS = 900
+ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 SESSION_IDLE_RETENTION = 14 * 24 * 3600  # keep sessions on disk for 14 days
 MIN_SCRIPT_VERSION = "bedc-1.20"
 BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc"
@@ -209,6 +211,32 @@ def _busy_agent_is_current(aid: str, rec: dict | None, task: dict) -> bool:
     if event in {"ack", "heartbeat"} and _task_url_mismatch(task, seen_url):
         return False
     return True
+
+
+def _safe_int(value, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _zero_extraction_hang(aid: str, rec: dict | None, task: dict) -> bool:
+    """Detect ChatGPT generation that is alive but yielding no extractable text."""
+    if not _busy_agent_is_current(aid, rec, task):
+        return False
+    if rec.get("event") != "heartbeat":
+        return False
+    metrics = rec.get("metrics") or {}
+    if metrics.get("generating") is not True:
+        return False
+    elapsed = _safe_int(metrics.get("elapsed_seconds"))
+    extracted = _safe_int(metrics.get("extracted_chars"))
+    page_chars = _safe_int(metrics.get("page_chars"))
+    return (
+        elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+        and extracted == 0
+        and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
+    )
 
 
 def _script_version_tuple(version: str) -> tuple[int, ...]:
@@ -440,6 +468,10 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     if recent.get(aid, {}).get("recent", False)
                     and not _busy_agent_is_current(aid, recent.get(aid), task)
                 ]
+                zero_extraction_hang = [
+                    aid for aid, task in pending_tasks.items()
+                    if _zero_extraction_hang(aid, recent.get(aid), task)
+                ]
                 if task_queue and not pending_tasks and not active_poll:
                     diagnosis = "queue_waiting_for_browser_agent"
                 elif task_queue and not pending_tasks and not compatible_active_poll:
@@ -447,7 +479,12 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                 elif task_queue and not pending_tasks and not project_active_poll:
                     diagnosis = "queue_waiting_for_project_agent"
                 elif pending_tasks:
-                    diagnosis = "agent_busy_with_stale" if stale_busy else "agent_busy"
+                    if stale_busy:
+                        diagnosis = "agent_busy_with_stale"
+                    elif zero_extraction_hang:
+                        diagnosis = "agent_busy_zero_extraction_hang"
+                    else:
+                        diagnosis = "agent_busy"
                 elif task_queue:
                     diagnosis = "queue_waiting_for_free_agent"
                 else:
@@ -465,6 +502,9 @@ class BEDCOracleHandler(BaseHTTPRequestHandler):
                     "project_active_poll_agents": project_active_poll,
                     "stale_busy_agents": stale_busy,
                     "mismatched_busy_agents": mismatched_busy,
+                    "zero_extraction_hang_agents": zero_extraction_hang,
+                    "zero_extraction_hang_seconds": ZERO_EXTRACTION_HANG_SECONDS,
+                    "zero_extraction_min_page_chars": ZERO_EXTRACTION_MIN_PAGE_CHARS,
                     "agent_recent_seconds": AGENT_RECENT_SECONDS,
                     "completed": len(results),
                     "active_sessions": len(sessions),
