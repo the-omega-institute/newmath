@@ -132,15 +132,28 @@ continuation, or provenance row, the downstream consumer interface is exactly
 the stated union.
 \end{proof}
 
+\begin{theorem}[InducedRepUp standard bridge scope]
+\label{thm:inducedrep-standard-bridge-scope}
+The public $\InducedRepUp$ packet gives a conservative bridge to the standard induction-restriction reading only through the displayed SubgroupUp row, RepresentationRingUp row, induction endpoint, restriction endpoint, Frobenius ledger, componentwise $\hsame$ rows, finite $\Cont$ rows, and $\Pkg$ provenance. The bridge reads no host representation category, functor equality, adjunction object, character formula, or source row outside that packet.
+\end{theorem}
+\begin{proof}
+Start from the public consumer interface of \autoref{thm:inducedrep-consumer-obligation-exhaustion}. It exhausts downstream reads by the SubgroupUp source rows, RepresentationRingUp action rows, Frobenius rows, continuation rows, and package provenance already present in the displayed carrier.
+
+Interpret the standard induction-restriction reading by projecting only those rows: the subgroup source supplies the source boundary, the representation-ring row supplies the action boundary, and the induction and restriction endpoints supply the two displayed transport directions. The Frobenius ledger is then the sole comparison row available to the bridge.
+
+Finally use \autoref{thm:inducedrep-obligation-closure-package} to repack the projected rows into the same public obligation surface. Since the repacking has no coordinates beyond $\hsame$, $\Cont$, and $\Pkg$ on the displayed packet, the bridge is conservative over the public certificate.
+\end{proof}
+
 \closureat{InducedRepUp}{publicStr}[BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface]
+\closureat{InducedRepUp}{bridgedStr}[BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\InducedRepUp}
   \constructivestory{An induced-representation packet starts with two consumed certificates: a $\SubgroupUp$ row naming the inclusion and a $\RepresentationRingUp$ row naming the representation-ring source and target, then displays induction, restriction, Frobenius comparison, unit, counit, continuation, and provenance rows in one finite $\mathsf{BHist}$ package. The carrier admits exactly those displayed rows and excludes any host representation category, coset carrier, functor equality, adjunction object, character formula, or bridge row that is not present in the packet. Two accepted packets classify together by componentwise $\hsame$ transport on the subgroup source, representation-ring source, induction endpoint, restriction endpoint, Frobenius ledger, provenance packet, and finite $\Cont$ ledger, so the source specification covers the two dependency certificates and the pattern specification is the displayed induction--restriction/Frobenius shape. The ledger keeps the raw and visible sides aligned by retaining the subgroup row, representation-ring row, induction and restriction endpoints, Frobenius row, unit and counit rows, source and Frobenius continuation ledgers, and $\Pkg$ provenance as inspectable histories. With one such packet in hand, the five name-certificate obligations are componentwise: the displayed ledger inhabits the carrier, inherited and endpoint $\hsame$ rows provide reflexivity, symmetry, and transitivity, and transported dependency and Frobenius rows repack into the same accepted carrier surface. A history $h$ lies in the signature gap of an $\InducedRepUp$ token $p$ when the source-domain accepts $h$ as this packet, the signature relation pairs it with an answer packet and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ must present exactly the subgroup, representation-ring, induction, restriction, Frobenius, continuation, and provenance rows that $p$ encodes. The chapter registers this finite induction--restriction construction under the name $\InducedRepUp$; Frobenius reciprocity is a displayed ledger comparison inside BEDC, with no imported functor category, host adjunction, standard bridge, or extra source.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:inducedrep-consumer-obligation-exhaustion} binds downstream reads to the carried $\mathsf{BHist}$ packet, SubgroupUp source rows, RepresentationRingUp action rows, Frobenius rows, $\hsame$, $\Cont$, and $\Pkg$ provenance.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:inducedrep-standard-bridge-scope} binds the standard induction-restriction reading to the carried $\mathsf{BHist}$ packet, SubgroupUp source rows, RepresentationRingUp action rows, Frobenius rows, $\hsame$, $\Cont$, and $\Pkg$ provenance.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.InducedRepUp.InducedRepCarrierPacket\_namecert\_obligation\_surface}
-  \bridgestatus{none}
-  \notclaimed{This does not close external representation categories, functor equality, adjunction objects, character formulas, or standard bridge rows.}
-  \upgradepath{Bridged closure requires a bridge from the public InducedRepUp certificate surface to the standard induction-restriction reading.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This does not close external representation categories, functor equality, adjunction objects, character formulas, or rows outside the displayed induction-restriction packet.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumption of the bridged InducedRepUp packet.}
 \end{closurestatus}
