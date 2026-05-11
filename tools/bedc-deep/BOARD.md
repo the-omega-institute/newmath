@@ -18,33 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-655 - Gap hsame transport gives a psame representative
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Gap hsame transport gives a psame representative |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under DomainPolicy(D), BundleAskPolicy(Π,D), PackageTokenPolicy(Π) and token totality, InGapsig(Π,D,p,h) and hsame(h,k) imply existence of q with InGapsig(Π,D,q,k) and psame(p,q).
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/domain_policy.tex`
-- `papers/bedc/parts/proof_obligations/gap_policy.tex`
-- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
-
-Rationale:
-This is a concrete coverage-with-soundness transport bridge that the current proof_obligations surface does not state. Existing pieces handle either same-source gap separation (B-646 strengthens separation from AskPol to BundleAskPolicy) or DomainPolicy hsame transport in isolation; neither combines them into the statement that an hsame move on the source endpoint preserves gap membership up to a psame-compatible representative. The claim is in single-implication form, fits cleanly under proof_obligations alongside the existing internalized-gap and gap-policy material, and gives a usable lemma for downstream bundle/package proofs rather than echoing an abstract carrier equivalence.
-
----
-
-
 ### B-656 - Three points are minimal for noncommutative Add obstruction
 
 | field | value |
@@ -69,4 +42,3 @@ Rationale:
 Two complementary facts already exist in the paper: §71.16 forces swapped commutativity at carrier size 2, and §29.13 exhibits a three-element countermodel where core additive stability fails to imply swapped commutativity. The board does not yet contain the minimality / lower-bound statement that fuses these into a single obstruction theorem (failure of swapped-commutativity ⇒ |carrier| ≥ 3, with realization). This is a concrete obstruction/minimality target rather than a parameter echo, has a clear single-implication shape, and lands at the unary_shift_and_commutativity file which is not near the line cap.
 
 ---
-
