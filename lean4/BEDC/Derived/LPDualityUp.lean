@@ -1,11 +1,15 @@
 import BEDC.FKernel.Cont.Units
+import BEDC.FKernel.Package
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.LPDualityUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.ConvexSetUp
 open BEDC.Derived.PreorderUp
@@ -139,5 +143,51 @@ theorem LPDualityDualObjective_binary_affine_readback
       cases rightRow
       cases affineRow
       rfl)
+
+def LPDualityFiniteOrderedFieldFeasibilityRow [AskSetup] [PackageSetup]
+    (feasible field order objective classifier route provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory feasible ∧ UnaryHistory field ∧ UnaryHistory order ∧ UnaryHistory objective ∧
+    UnaryHistory provenance ∧ Cont feasible field classifier ∧ Cont classifier order route ∧
+      Cont route objective endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem LPDualityFiniteOrderedFieldFeasibilityRow_root_obligation_surface
+    [AskSetup] [PackageSetup]
+    {feasible field order objective classifier route provenance endpoint feasible' field' order'
+      objective' classifier' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LPDualityFiniteOrderedFieldFeasibilityRow feasible field order objective classifier route
+        provenance endpoint bundle pkg ->
+      hsame feasible feasible' -> hsame field field' -> hsame order order' ->
+        hsame objective objective' -> hsame provenance provenance' ->
+          Cont feasible' field' classifier' -> Cont classifier' order' route' ->
+            Cont route' objective' endpoint' -> PkgSig bundle endpoint' pkg ->
+              LPDualityFiniteOrderedFieldFeasibilityRow feasible' field' order' objective'
+                  classifier' route' provenance' endpoint' bundle pkg ∧
+                hsame classifier classifier' ∧ hsame route route' ∧ hsame endpoint endpoint' := by
+  intro row sameFeasible sameField sameOrder sameObjective sameProvenance classifierRow'
+    routeRow' endpointRow' pkgSig'
+  obtain ⟨feasibleUnary, fieldUnary, orderUnary, objectiveUnary, provenanceUnary,
+    classifierRow, routeRow, endpointRow, _pkgSig⟩ := row
+  have feasibleUnary' : UnaryHistory feasible' :=
+    unary_transport feasibleUnary sameFeasible
+  have fieldUnary' : UnaryHistory field' :=
+    unary_transport fieldUnary sameField
+  have orderUnary' : UnaryHistory order' :=
+    unary_transport orderUnary sameOrder
+  have objectiveUnary' : UnaryHistory objective' :=
+    unary_transport objectiveUnary sameObjective
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have sameClassifier : hsame classifier classifier' :=
+    cont_respects_hsame sameFeasible sameField classifierRow classifierRow'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameClassifier sameOrder routeRow routeRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRoute sameObjective endpointRow endpointRow'
+  exact
+    ⟨⟨feasibleUnary', fieldUnary', orderUnary', objectiveUnary', provenanceUnary',
+        classifierRow', routeRow', endpointRow', pkgSig'⟩,
+      sameClassifier, sameRoute, sameEndpoint⟩
 
 end BEDC.Derived.LPDualityUp
