@@ -31,6 +31,19 @@ def CompactMetricCertificateCarrier (X : BHist -> Prop) (x y dist eps : BHist)
   X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
     TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
 
+def CompactMetricPublicExportSource (X : BHist -> Prop) (eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
+  (exists x : BHist, X x) ∧ TotallyBoundedProbeBundleNet X eps bundle ∧
+    CompleteMetricLimitWitness X s M limit
+
+theorem CompactMetricPublicExportSource_components {X : BHist -> Prop} {eps : BHist}
+    {bundle : ProbeBundle BHist} {s M : BHist -> BHist} {limit : BHist} :
+    CompactMetricPublicExportSource X eps bundle s M limit ->
+      TotallyBoundedProbeBundleNet X eps bundle ∧
+        CompleteMetricLimitWitness X s M limit := by
+  intro source
+  exact source.right
+
 theorem CompactMetricCertificateCarrier_source_scope {X : BHist -> Prop}
     {x y dist eps : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
     {limit : BHist} :
