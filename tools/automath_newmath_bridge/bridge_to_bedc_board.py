@@ -117,10 +117,28 @@ def _claim(record: dict[str, Any], packet_rel: str) -> str:
         evidence = [record.get("next_action") or "Automath source evidence is ready for NewMath-side review."]
     evidence_text = "; ".join(str(item) for item in evidence if str(item).strip())
     source = f"{record.get('source_repo')}@{record.get('source_branch_or_ref')}:{record.get('source_path')}"
+    destination = (
+        f"{record.get('destination_repo')}@"
+        f"{record.get('destination_branch_or_ref')}:tools/bedc-deep/BOARD.md"
+    )
+    provenance = (
+        "Bridge provenance: "
+        f"source_repo={record.get('source_repo')}; "
+        f"source_ref={record.get('source_branch_or_ref')}; "
+        f"source_commit={record.get('source_commit')}; "
+        f"source_path={record.get('source_path')}; "
+        f"source_artifact_kind={record.get('source_artifact_kind')}; "
+        f"destination={destination}; "
+        f"bridge_direction=automath_to_newmath; "
+        f"bridge_gate_status={record.get('gate_status')}; "
+        f"bridge_readiness={record.get('readiness')}; "
+        "operator_review_required=true; audit_required=true. "
+    )
     return (
         "Evaluate whether this Automath artifact should become a BEDC research "
-        f"target. Source: {source}. Bridge packet: {packet_rel}. Evidence: "
-        f"{evidence_text}. The task is to extract a NewMath-native theorem, "
+        f"target. Source: {source}. {provenance}"
+        f"Local ignored review packet: {packet_rel}. Evidence: {evidence_text}. "
+        "The task is to extract a NewMath-native theorem, "
         "obstruction, or planning target without copying Automath runtime state."
     )
 
@@ -138,7 +156,10 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
         "local_inputs": [packet_rel],
         "rationale": (
             "Automath-to-NewMath bridge gate passed. BEDC board_spawn must still "
-            "judge fit, novelty, dedup, and paper coverage before BOARD append."
+            "judge fit, novelty, dedup, and paper coverage before BOARD append. "
+            f"Durable provenance is embedded in this BOARD entry: "
+            f"{record.get('source_repo')}@{record.get('source_branch_or_ref')}"
+            f":{record.get('source_path')} at {record.get('source_commit')}."
         ),
         "fit_score": fit,
         "novelty": novelty,
