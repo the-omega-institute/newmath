@@ -41,6 +41,16 @@ simulation gives Sigma-one execution traces; direct V1 reconstruction gives
 typed judgment objects. The base sort judgment is inhabited in the empty
 context. \leanchecked{BEDC.MetaCIC.sort\_in\_empty\_ctx}
 
+The same fragment carries concrete checked examples. A polymorphic identity
+term over `Sort' is well typed, and its Pi type is itself a represented typing
+judgment. \leanchecked{BEDC.MetaCIC.id\_sort\_well\_typed}
+\leanchecked{BEDC.MetaCIC.pi\_sort\_sort\_well\_typed} Applying that identity
+to `Sort' has the expected represented application typing, and the corresponding
+beta step contracts to the argument. \leanchecked{BEDC.MetaCIC.id\_sort\_applied}
+\leanchecked{BEDC.MetaCIC.id\_sort\_beta} A singleton sort context also exposes
+the ordinary variable-lookup case for de Bruijn index zero.
+\leanchecked{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx}
+
 V1 therefore provides the self-compilation construction surface for syntax and
 judgments. It supports statements of the form ``for every represented derivation
 with this constructor shape, the following structural property holds.'' It also
