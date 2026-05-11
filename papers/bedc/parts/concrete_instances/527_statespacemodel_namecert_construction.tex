@@ -61,6 +61,7 @@ The trace ledger rows are projections from the displayed transition and observat
 \label{thm:statespacemodel-control-handoff}
 The control-facing certificates $\KalmanFilterUp$, $\LQRUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, and $\RiccatiUp$ may consume a $\StateSpaceModelUp$ packet only through the displayed finite state, input, output, transition, input-map, observation-map, trace-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:statespacemodel-carrier}. A downstream control certificate cannot demand an unlogged trajectory space, analytic flow, stochastic model, or limiting algebraic object from this handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_control\_handoff\_transport}
 \begin{proof}
 Read a downstream control request as a projection from the accepted carrier. The Kalman and Riccati consumers can project matrix, vector, covariance-facing, transition, and observation rows; the LQR consumer can project state, input, cost-adjacent transition, and horizon-facing rows; and the observability and controllability consumers can project the displayed $C$ and $B$ faces together with the transition row $A$.
 
