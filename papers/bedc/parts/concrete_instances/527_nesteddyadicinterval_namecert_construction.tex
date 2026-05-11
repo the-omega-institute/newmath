@@ -90,3 +90,17 @@ Window stability is \autoref{thm:nesteddyadicinterval-window-transport}. The han
   \notclaimed{This chapter does not claim completeness, Dedekind cuts, quotient intervals, open-cover compactness, host real intervals, or standard bridge data.}
   \upgradepath{Formal closure requires Lean targets for the finite carrier, finite-window classifier, window transport, $\RegSeqRatUp$ handoff, and NameCert obligation surface.}
 \end{closurestatus}
+
+\begin{theorem}[NestedDyadicInterval singleton chain vacuity]
+\label{thm:nesteddyadicinterval-singleton-chain-vacuity}
+Let $K$ be an accepted $\NestedDyadicIntervalUp$ carrier as in \autoref{def:nesteddyadicinterval-carrier}. If the displayed interval chain of $K$ has exactly one row, so that
+$$
+K=(I_0,S,R,P,L)
+$$
+with no displayed interval $I_i$ for $i>0$, then the nested-refinement ledger $R$ has no successor-pair read. Consequently the public finite-window handoff of $K$ is exactly the single $\DyadicIntervalUp$ endpoint packet $I_0$, the unary $\StreamNameUp$ schedule $S$, the provenance row $P$, and the tail ledger $L$; there is no public adjacent-refinement datum to expose.
+\end{theorem}
+\begin{proof}
+By \autoref{def:nesteddyadicinterval-carrier}, the only entries recorded in the nested-refinement ledger $R$ are the rows attached to displayed successor pairs $I_{i+1}$ inside $I_i$. A carrier whose displayed chain consists only of $I_0$ has no displayed source index $i$ for which both $I_i$ and $I_{i+1}$ occur in the chain. Hence the indexing set of successor-pair reads is empty, and every requested read of $R$ over a displayed adjacent pair is vacuous.
+
+The remaining public coordinates are read directly from the same carrier definition. The visible interval coordinate is the single endpoint packet $I_0$; the schedule coordinate is $S$; the provenance coordinate is $P$; and the ledger coordinate is $L$, which hides only the unobserved tail beyond the displayed finite chain and records that public reads factor through the shown data. Since $R$ contributes no displayed successor-pair row in the singleton case, the handoff surface described in \autoref{thm:nesteddyadicinterval-regseqrat-handoff} reduces exactly to $I_0$, $S$, $P$, and $L$ together with the assertion that the adjacent-refinement component is empty.
+\end{proof}
