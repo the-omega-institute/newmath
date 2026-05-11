@@ -173,6 +173,7 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CStarAlgUp
+import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
@@ -318,6 +319,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp.SourceObligationSurface
 import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
+import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.CarrierObligation
 import BEDC.Derived.SpinGroupUp.StdBridge
@@ -466,6 +468,7 @@ import BEDC.Derived.SheafUp.CoverCompatibilityLocality
 import BEDC.Derived.SheafUp.RootNameCertFieldInventory
 import BEDC.Derived.SetUp
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.TreeUp
 import BEDC.Derived.TreeUp.CarrierClassifierObligation
@@ -669,6 +672,8 @@ import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
+import BEDC.Derived.ControlObservabilityUp
+import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
@@ -805,6 +810,7 @@ import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.ManifoldUp.StdBridge
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.RawMulDistributivity
