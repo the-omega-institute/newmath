@@ -520,3 +520,57 @@ $\mathsf{Pkg}$, and $\NameCert$ rows. There is no constructor in this route that
 exports quotient streams, host-index equalities, metric-completion data,
 $\RealUp$ completeness rows, or a further seal classifier.
 \end{proof}
+
+\begin{theorem}[RegSeqRat terminal tail-refinement seal]
+\label{thm:regseqrat-terminal-tail-refinement-seal}
+Let $S$ be a terminal $\StreamNameUp$ finite-window source and let $T$ be a
+$\RegSeqRat$ stream whose finite-window reads factor through the terminal
+$\RealUp$ source surface determined by $S$. For every certified tail
+refinement $C$ of $T$ over the same public $\mathsf{BHist}$ window, there is a
+unique terminal finite-window seal for $C$.
+
+This seal is determined exactly by the terminal $\StreamNameUp$ source name,
+the restricted $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+$\DyadicRatCoreUp$ observation rows, and the visible $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. It is invariant
+under $\hsame$ transport of the displayed history rows and under
+$\Cont$-splicing along the certified common-refinement route. Its ledger is the
+one inherited from the terminal $\StreamNameUp$ source packet, not an
+independent $\RegSeqRat$ or $\RealUp$ ledger.
+
+The terminal seal exposes no quotient stream, host-index equality, host
+function, $\mathsf{Classical}$ datum, metric-completion object, arithmetic or
+order row, standard bridge row, or separate tail-refinement classifier.
+\end{theorem}
+\begin{proof}
+First identify the source from which the tail refinement can be read. Apply
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness} and
+\autoref{thm:realup-terminal-regseqrat-source-coverage}. The factoring
+hypothesis places every finite window of $T$ on the terminal source packet
+selected by $S$, and the coverage theorem repacks exactly those displayed rows
+as the terminal $\RealUp$ source surface.
+
+Next compare the certified refinement route with the terminal source route.
+Apply \autoref{thm:streamname-common-refinement-terminal-route-determinacy}.
+The common-refinement certificate fixes the same terminal StreamName source
+name, the same restricted classifier rows, the same unary-history and
+membership rows, the same pointwise rational-history rows, and the same
+accepted $\RegSeqRat$ spine before the terminal seal is read.
+
+Now splice the route into the terminal $\RealUp$ consumer. Apply
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Agreement
+on the StreamName restriction and on the $\RegSeqRat$ handoff fixes the
+$\DyadicRatCoreUp$ observation rows together with the visible $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. Therefore
+transporting the displayed history data by $\hsame$ or changing only the
+$\Cont$-splice representative cannot produce a second terminal seal.
+
+Finally apply \autoref{thm:realup-finite-window-seal-cofinality}. Cofinality
+collapses every certified tail-window refinement of $T$ to the same terminal
+finite-window source surface. Since the only ledger rows in that surface are
+the rows already read from the terminal $\StreamNameUp$ source packet, the seal
+inherits that ledger and has no constructor that could export quotient,
+completion, host, arithmetic, order, bridge, or separate classifier data.
+\end{proof}
