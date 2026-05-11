@@ -17178,3 +17178,28 @@ Rationale:
 This is a genuine reverse factorization theorem for triple append at the signature-generation layer. The paper already has binary append inversion and forward three-bundle coherence, but not the reverse cut decomposition from one right-associated signature into three component signatures and two continuation cuts. It is distinct from existing gap-composition BOARD entries and has safe local landing files.
 
 ---
+
+### B-680 - GeneratedSameSig inhabitation iff sameSig
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | GeneratedSameSig inhabitation iff sameSig |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any Π, h, and k, Nonempty(GeneratedSameSig(Π,h,k)) holds if and only if sameSig_Π(h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete bridge between the core signature-sameness predicate and the checker-friendly GeneratedSameSig witness object used by exact Globalize. Existing text defines both sides and gives witness projections, but the paper does not appear to contain a theorem label aligning the two interfaces directly. It is a useful low-risk bridge target rather than a marker-only or closurestatus item.
+
+---
