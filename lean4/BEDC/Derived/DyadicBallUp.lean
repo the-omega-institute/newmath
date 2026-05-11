@@ -5,9 +5,11 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicBallUp
 
+open BEDC.FKernel.Mark
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
@@ -15,6 +17,237 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive DyadicBallUp : Type where
+  | mk :
+      (center radius schedule observation containment route provenance endpoint : BHist) →
+        DyadicBallUp
+  deriving DecidableEq
+
+def dyadicBallEncodeBHist : BHist → RawEvent
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: dyadicBallEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: dyadicBallEncodeBHist h
+
+def dyadicBallDecodeBHist : RawEvent → BHist
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (dyadicBallDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (dyadicBallDecodeBHist tail)
+
+def dyadicBallToEventFlow : DyadicBallUp → EventFlow
+  | DyadicBallUp.mk center radius schedule observation containment route provenance endpoint =>
+      [[BMark.b0], dyadicBallEncodeBHist center,
+        [BMark.b1, BMark.b0], dyadicBallEncodeBHist radius,
+        [BMark.b1, BMark.b1, BMark.b0], dyadicBallEncodeBHist schedule,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0], dyadicBallEncodeBHist observation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist containment,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist route,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          dyadicBallEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+          dyadicBallEncodeBHist endpoint]
+
+def dyadicBallFromEventFlow : EventFlow → Option DyadicBallUp
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | center :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | radius :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | schedule :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | observation :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | containment :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | route :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | provenance :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | endpoint :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (DyadicBallUp.mk
+                                                                          (dyadicBallDecodeBHist
+                                                                            center)
+                                                                          (dyadicBallDecodeBHist
+                                                                            radius)
+                                                                          (dyadicBallDecodeBHist
+                                                                            schedule)
+                                                                          (dyadicBallDecodeBHist
+                                                                            observation)
+                                                                          (dyadicBallDecodeBHist
+                                                                            containment)
+                                                                          (dyadicBallDecodeBHist
+                                                                            route)
+                                                                          (dyadicBallDecodeBHist
+                                                                            provenance)
+                                                                          (dyadicBallDecodeBHist
+                                                                            endpoint))
+                                                                  | _ :: _ => none
+
+instance dyadicBallBHistCarrier : BHistCarrier DyadicBallUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := dyadicBallToEventFlow
+  fromEventFlow := dyadicBallFromEventFlow
+
+instance dyadicBallChapterTasteGate : ChapterTasteGate DyadicBallUp where
+  round_trip := by
+    intro x
+    have decodeEncode :
+        ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    cases x with
+    | mk center radius schedule observation containment route provenance endpoint =>
+        change
+          some (DyadicBallUp.mk
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+            some
+              (DyadicBallUp.mk center radius schedule observation containment route provenance
+                endpoint)
+        rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+          decodeEncode observation, decodeEncode containment, decodeEncode route,
+          decodeEncode provenance, decodeEncode endpoint]
+  layer_separation := by
+    intro x y hxy heq
+    apply hxy
+    have decodeEncode :
+        ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+      intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih =>
+          exact congrArg BHist.e0 ih
+      | e1 h ih =>
+          exact congrArg BHist.e1 ih
+    have roundTrip :
+        ∀ x : DyadicBallUp, dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x := by
+      intro x
+      cases x with
+      | mk center radius schedule observation containment route provenance endpoint =>
+          change
+            some (DyadicBallUp.mk
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+              (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+              some
+                (DyadicBallUp.mk center radius schedule observation containment route provenance
+                  endpoint)
+          rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+            decodeEncode observation, decodeEncode containment, decodeEncode route,
+            decodeEncode provenance, decodeEncode endpoint]
+    have hread :
+        dyadicBallFromEventFlow (dyadicBallToEventFlow x) =
+          dyadicBallFromEventFlow (dyadicBallToEventFlow y) :=
+      congrArg dyadicBallFromEventFlow heq
+    exact Option.some.inj (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
+
+theorem DyadicBallTasteGate_single_carrier_alignment :
+    (forall h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h) /\
+      (forall x : DyadicBallUp,
+        dyadicBallFromEventFlow (BHistCarrier.toEventFlow x) = some x) /\
+      (forall x y : DyadicBallUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) /\
+      dyadicBallEncodeBHist BHist.Empty = ([] : List BMark) := by
+  have decodeEncode :
+      ∀ h : BHist, dyadicBallDecodeBHist (dyadicBallEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  have roundTrip :
+      ∀ x : DyadicBallUp, dyadicBallFromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+    intro x
+    change dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x
+    cases x with
+    | mk center radius schedule observation containment route provenance endpoint =>
+        change
+          some (DyadicBallUp.mk
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist center))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist radius))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist schedule))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist observation))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist containment))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist route))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist provenance))
+            (dyadicBallDecodeBHist (dyadicBallEncodeBHist endpoint))) =
+            some
+              (DyadicBallUp.mk center radius schedule observation containment route provenance
+                endpoint)
+        rw [decodeEncode center, decodeEncode radius, decodeEncode schedule,
+          decodeEncode observation, decodeEncode containment, decodeEncode route,
+          decodeEncode provenance, decodeEncode endpoint]
+  have injective :
+      ∀ x y : DyadicBallUp, BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y := by
+    intro x y heq
+    change dyadicBallToEventFlow x = dyadicBallToEventFlow y at heq
+    have hread :
+        dyadicBallFromEventFlow (dyadicBallToEventFlow x) =
+          dyadicBallFromEventFlow (dyadicBallToEventFlow y) :=
+      congrArg dyadicBallFromEventFlow heq
+    have leftRead : dyadicBallFromEventFlow (dyadicBallToEventFlow x) = some x := by
+      exact roundTrip x
+    have rightRead : dyadicBallFromEventFlow (dyadicBallToEventFlow y) = some y := by
+      exact roundTrip y
+    exact Option.some.inj (Eq.trans leftRead.symm (Eq.trans hread rightRead))
+  exact ⟨decodeEncode, roundTrip, injective, rfl⟩
 
 def DyadicBallPacket [AskSetup] [PackageSetup]
     (center radius schedule observation containment route provenance endpoint : BHist)
@@ -281,6 +514,62 @@ theorem DyadicBallFiniteWindowPacket_real_seal_boundary [AskSetup] [PackageSetup
     ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
       handoffUnary, sealUnary, certUnary, sealBoundaryRow, sealBoundaryRow, pkgRow⟩
 
+theorem DyadicBallFiniteWindowPacket_real_seal_row_boundary [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff
+      sealBoundary row : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route
+        provenance certRow handoff sealBoundary bundle pkg ->
+      (hsame row center ∨ hsame row radius ∨ hsame row schedule ∨ hsame row observation ∨
+          hsame row containment ∨ hsame row route ∨ hsame row handoff ∨
+            hsame row sealBoundary ∨ hsame row certRow) ->
+        UnaryHistory row ∧ PkgSig bundle handoff pkg := by
+  intro packet rowVisible
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, _provenanceUnary,
+    certUnary, sealUnary, containmentRow, routeRow, handoffRow, _certProvenanceRow,
+    _certSealRow, pkgRow⟩ := packet
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed centerUnary radiusUnary containmentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed scheduleUnary observationUnary routeRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary routeUnary handoffRow
+  have rowUnary : UnaryHistory row := by
+    cases rowVisible with
+    | inl sameCenter =>
+        exact unary_transport centerUnary (hsame_symm sameCenter)
+    | inr rowVisible =>
+        cases rowVisible with
+        | inl sameRadius =>
+            exact unary_transport radiusUnary (hsame_symm sameRadius)
+        | inr rowVisible =>
+            cases rowVisible with
+            | inl sameSchedule =>
+                exact unary_transport scheduleUnary (hsame_symm sameSchedule)
+            | inr rowVisible =>
+                cases rowVisible with
+                | inl sameObservation =>
+                    exact unary_transport observationUnary (hsame_symm sameObservation)
+                | inr rowVisible =>
+                    cases rowVisible with
+                    | inl sameContainment =>
+                        exact unary_transport containmentUnary (hsame_symm sameContainment)
+                    | inr rowVisible =>
+                        cases rowVisible with
+                        | inl sameRoute =>
+                            exact unary_transport routeUnary (hsame_symm sameRoute)
+                        | inr rowVisible =>
+                            cases rowVisible with
+                            | inl sameHandoff =>
+                                exact unary_transport handoffUnary (hsame_symm sameHandoff)
+                            | inr rowVisible =>
+                                cases rowVisible with
+                                | inl sameSeal =>
+                                    exact unary_transport sealUnary (hsame_symm sameSeal)
+                                | inr sameCert =>
+                                    exact unary_transport certUnary (hsame_symm sameCert)
+  exact ⟨rowUnary, pkgRow⟩
+
 theorem DyadicBallFiniteWindowPacket_common_observation_overlap [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance certRow handoff sealBoundary
       center' radius' containment' route' provenance' certRow' handoff' sealBoundary' commonRadius
@@ -358,6 +647,60 @@ theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
                           hsame schedule schedule' ∧ hsame containment containment' ∧
                             hsame endpoint endpoint' := by
   exact DyadicBallPacket_classifier_laws
+
+theorem DyadicBallPacket_real_seal_boundary [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont center radius schedule ∧
+            Cont schedule observation containment ∧ Cont containment route endpoint ∧
+              hsame schedule (append center radius) ∧
+                hsame containment (append schedule observation) ∧
+                  hsame endpoint (append containment route) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have centerUnary : UnaryHistory center :=
+    packet.left
+  have radiusUnary : UnaryHistory radius :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have observationUnary : UnaryHistory observation :=
+    packet.right.right.right.left
+  have containmentUnary : UnaryHistory containment :=
+    packet.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    packet.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have scheduleRow : Cont center radius schedule :=
+    packet.right.right.right.right.right.right.right.right.left
+  have containmentRow : Cont schedule observation containment :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont containment route endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨centerUnary,
+      radiusUnary,
+      scheduleUnary,
+      observationUnary,
+      containmentUnary,
+      routeUnary,
+      provenanceUnary,
+      endpointUnary,
+      scheduleRow,
+      containmentRow,
+      endpointRow,
+      scheduleRow,
+      containmentRow,
+      endpointRow,
+      pkgSig⟩
 
 theorem DyadicBallPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint : BHist}

@@ -1,0 +1,108 @@
+\section*{Shift-Aware Metatheory: Case-Level Closure}\label{sec:self-comp-shift-aware-metatheory}
+
+The shift-aware MetaCIC layer isolates subject reduction into local closure contracts for
+substitution, beta contraction, and congruence. The scope is deliberately
+case-level: each theorem states a structurally checkable condition on the
+represented syntax and typing derivation, and the final assembly records the
+remaining interface hypotheses.
+
+\paragraph{Atom-shaped binder substitution.}
+Substitution preserves typing for the Pi and lambda constructors under
+closedness and atom-shape hypotheses. For Pi terms, the domain and codomain
+premises reduce to the sort-or-variable fragment after binder-head transport.
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_pi}
+For lambda terms, the same pattern applies to the body under the shifted binder
+context, yielding a typed substituted lambda against the substituted Pi type.
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_lam}
+
+The shared binder transport step is represented explicitly as the equality
+which turns substitution under a shifted closed head into the shifted
+substituted head.
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_binder\_head\_shape}
+The lower-level constructor assemblers expose the same decomposition without
+the atom-shape discharge:
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_pi\_if\_subderivations}
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_lam\_if\_subderivations}
+
+The closed binder-domain surface removes the atom-shape restriction when every
+binder domain in the source derivation is closed at its local depth. In that
+surface, removing the substituted hypothesis preserves the represented
+derivation, and closedness makes substitution definitionally inert on both the
+term and its type. This gives a direct closed-domain substitution-preservation
+theorem for the represented typing judgment.
+\leandef{BEDC.MetaCIC.ClosedBinderDomainTyping}
+\leandef{BEDC.MetaCIC.ClosedBinderDomainsSubstitutionSurface}
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_closed\_binder\_domains}
+
+\paragraph{Beta-substitution cases.}
+The clean beta-substitution contract is
+$\mathrm{BetaSubstitutionPreservation}$: a typed body under the shifted
+domain context remains typed after substituting a typed argument into both body
+and codomain. The sort and variable cases are fully closed by direct inversion
+on the body derivation.
+\leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_sort\_var}
+The depth-one form supplies the same atom-shaped argument inside an additional
+binder frame, which is the common recursive premise used by binder bodies.
+\leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_depth\_one\_sort\_var}
+
+Pi bodies, lambda bodies, and application bodies are then separated into
+constructor-specific clean lemmas. The Pi case reconstructs a typed Pi after
+cleaning the substituted domain and proving the codomain in the shifted
+context.
+\leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_pi\_body}
+The lambda case follows the same domain-cleaning pattern and reconstructs the
+lambda rule with the body under the shifted substituted domain.
+\leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_lam\_body}
+The application case factors through typed substituted function and argument
+premises, then closes the result type by a shape-bounded substitute composition
+equation for the application codomain.
+\leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_app\_body}
+
+\paragraph{Parallel-reduction confluence frame.}
+The confluence layer separates ordinary beta steps from a parallel reduction
+relation. One-step beta embeds into the parallel relation, while reflexivity is
+available for every represented term. The diamond goal is recorded as the
+closed proposition $\mathrm{BetaParallelDiamond}$, and the constructor-level
+join assemblers close the variable, sort, application, lambda, and Pi
+component cases.
+\leandef{BEDC.MetaCIC.BetaStarStep}
+\leandef{BEDC.MetaCIC.BetaStarConfluent}
+\leandef{BEDC.MetaCIC.BetaParallel}
+\leandef{BEDC.MetaCIC.BetaParallelDiamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_refl}
+\leanchecked{BEDC.MetaCIC.betaStep\_to\_parallel}
+\leanchecked{BEDC.MetaCIC.betaParallel\_var\_diamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_sort\_diamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+\leanchecked{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}
+\leanchecked{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}
+
+\paragraph{Subject-reduction assembly.}
+Subject reduction is split across beta contraction and congruence rules. The
+beta contraction step is the abstract interface from
+$\mathrm{BetaSubstitutionPreservation}$ to the application redex typing
+judgment. The congruence steps preserve typing when reduction happens in the
+function, argument, lambda body, or Pi codomain position:
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_congApp1}
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_congApp2}
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_congLam}
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_congPi}
+
+The main theorem assembles these cases by induction on the represented beta
+step. It takes beta-substitution preservation and application-argument type
+stability as explicit hypotheses, then returns preservation of the same
+represented type across a single beta step.
+\leanchecked{BEDC.MetaCIC.subject\_reduction}
+
+The closed-term boundary is also represented explicitly. A closed lambda can
+contain a beta redex whose local argument is the bound variable of the enclosing
+lambda; the whole term is closed, the inner beta contraction steps under the
+binder, but the contracted argument is not closed at depth zero. This records
+the precise local obstruction that a closed-term subject-reduction theorem must
+discharge: closedness of the outer term alone does not provide zero-depth
+closedness for every local redex argument.
+\leandef{BEDC.MetaCIC.closedBinderRedexTerm}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_closed}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_steps}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_argument\_not\_closed}
+\leanchecked{BEDC.MetaCIC.closed\_term\_step\_has\_unclosed\_local\_argument}

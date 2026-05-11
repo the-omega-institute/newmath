@@ -107,6 +107,40 @@ theorem DyadicCompletionWindowPacket_streamname_handoff [AskSetup] [PackageSetup
     ⟨dyadicUnary, windowUnary, regularTailUnary, handoffUnary, sameRegularTail,
       sameLedger, sameHandoff, handoffPkg⟩
 
+theorem DyadicCompletionWindowPacket_public_regseqrat_real_export [AskSetup] [PackageSetup]
+    {dyadic window regularTail realBoundary ledger provenance handoff publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionWindowPacket dyadic window regularTail realBoundary ledger provenance
+        bundle pkg ->
+      Cont window ledger handoff ->
+        Cont handoff realBoundary publicRow ->
+          PkgSig bundle handoff pkg ->
+            PkgSig bundle publicRow pkg ->
+              UnaryHistory handoff ∧ UnaryHistory publicRow ∧
+                hsame regularTail (append dyadic window) ∧
+                  hsame ledger (append regularTail realBoundary) ∧
+                    hsame handoff (append window ledger) ∧
+                      hsame publicRow (append handoff realBoundary) ∧
+                        PkgSig bundle publicRow pkg := by
+  intro packet handoffRoute publicRoute _handoffPkg publicPkg
+  obtain ⟨_dyadicUnary, windowUnary, _regularTailUnary, realBoundaryUnary, ledgerUnary,
+    _provenanceUnary, regularTailRoute, ledgerRoute, _ledgerPkg⟩ := packet
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed windowUnary ledgerUnary handoffRoute
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed handoffUnary realBoundaryUnary publicRoute
+  have sameRegularTail : hsame regularTail (append dyadic window) :=
+    regularTailRoute
+  have sameLedger : hsame ledger (append regularTail realBoundary) :=
+    ledgerRoute
+  have sameHandoff : hsame handoff (append window ledger) :=
+    handoffRoute
+  have samePublic : hsame publicRow (append handoff realBoundary) :=
+    publicRoute
+  exact
+    ⟨handoffUnary, publicUnary, sameRegularTail, sameLedger, sameHandoff, samePublic,
+      publicPkg⟩
+
 theorem DyadicCompletionWindowPacket_regular_tail_stability [AskSetup] [PackageSetup]
     {dyadic window tail realBoundary ledger provenance dyadic' window' tail' realBoundary'
       ledger' provenance' : BHist}
@@ -201,6 +235,49 @@ theorem DyadicCompletionPacket_regular_tail_stability [AskSetup] [PackageSetup]
       (And.intro tailUnary'
         (And.intro ledgerUnary' (And.intro sameTail sameLedger)))
 
+theorem DyadicCompletionPacket_constant_embedding [AskSetup] [PackageSetup]
+    {q window tail real ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory q ->
+      UnaryHistory window ->
+        UnaryHistory real ->
+          UnaryHistory provenance ->
+            Cont q window tail ->
+              Cont tail real ledger ->
+                PkgSig bundle provenance pkg ->
+                  DyadicCompletionPacket q window tail real ledger provenance bundle pkg ∧
+                    UnaryHistory tail ∧ UnaryHistory ledger ∧
+                      hsame tail (append q window) ∧ hsame ledger (append tail real) := by
+  intro qUnary windowUnary realUnary provenanceUnary tailRow ledgerRow provenancePkg
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed qUnary windowUnary tailRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed tailUnary realUnary ledgerRow
+  exact
+    ⟨⟨qUnary, windowUnary, realUnary, provenanceUnary, tailRow, ledgerRow, provenancePkg⟩,
+      tailUnary, ledgerUnary, tailRow, ledgerRow⟩
+
+theorem DyadicCompletionPacket_ledger_boundary [AskSetup] [PackageSetup]
+    {dyadic window tail real ledger provenance boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionPacket dyadic window tail real ledger provenance bundle pkg ->
+      Cont ledger provenance boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory ledger ∧ UnaryHistory boundary ∧
+            hsame tail (append dyadic window) ∧ hsame ledger (append tail real) ∧
+              hsame boundary (append ledger provenance) ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRow boundaryPkg
+  obtain ⟨dyadicUnary, windowUnary, realUnary, provenanceUnary, tailRow, ledgerRow,
+    _provenancePkg⟩ := packet
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed dyadicUnary windowUnary tailRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed tailUnary realUnary ledgerRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed ledgerUnary provenanceUnary boundaryRow
+  exact
+    ⟨ledgerUnary, boundaryUnary, tailRow, ledgerRow, boundaryRow, boundaryPkg⟩
+
 def DyadicCompletionFiniteWindowSource (row : BHist) : Prop :=
   exists left right midpoint refinement endpoint : BHist,
     Cont left right midpoint ∧
@@ -213,6 +290,36 @@ def DyadicCompletionFiniteWindowPattern (row : BHist) : Prop :=
 def DyadicCompletionFiniteWindowLedger (row : BHist) : Prop :=
   exists midpoint refinement endpoint : BHist,
     Cont midpoint refinement endpoint ∧ hsame row endpoint
+
+theorem DyadicCompletionWindowPacket_finite_window_standard_bridge [AskSetup] [PackageSetup]
+    {dyadic window regularTail realBoundary ledger provenance handoff publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionWindowPacket dyadic window regularTail realBoundary ledger provenance bundle pkg ->
+      Cont window ledger handoff ->
+        Cont handoff realBoundary publicRow ->
+          PkgSig bundle publicRow pkg ->
+            DyadicCompletionFiniteWindowSource publicRow ∧
+              DyadicCompletionFiniteWindowPattern handoff ∧
+                DyadicCompletionFiniteWindowLedger publicRow ∧
+                  hsame publicRow (append handoff realBoundary) ∧ PkgSig bundle publicRow pkg := by
+  intro _packet handoffRoute publicRoute publicPkg
+  have source : DyadicCompletionFiniteWindowSource publicRow :=
+    Exists.intro window
+      (Exists.intro ledger
+        (Exists.intro handoff
+          (Exists.intro realBoundary
+            (Exists.intro publicRow
+              (And.intro handoffRoute (And.intro publicRoute (hsame_refl publicRow)))))))
+  have pattern : DyadicCompletionFiniteWindowPattern handoff :=
+    Exists.intro window
+      (Exists.intro ledger
+        (Exists.intro handoff
+          (Exists.intro handoff (And.intro handoffRoute (hsame_refl handoff)))))
+  have ledgerRow : DyadicCompletionFiniteWindowLedger publicRow :=
+    Exists.intro handoff
+      (Exists.intro realBoundary
+        (Exists.intro publicRow (And.intro publicRoute (hsame_refl publicRow))))
+  exact ⟨source, pattern, ledgerRow, publicRoute, publicPkg⟩
 
 theorem DyadicCompletionPacket_namecert_obligation_surface :
     SemanticNameCert DyadicCompletionFiniteWindowSource DyadicCompletionFiniteWindowPattern

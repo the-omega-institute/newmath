@@ -66,11 +66,16 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
+import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
+import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
+import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.BesselUp
+import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CstaralgebraUp
@@ -98,6 +103,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.WindowSynchronization
 import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
@@ -153,6 +159,7 @@ import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
+import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -167,6 +174,7 @@ import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
+import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
@@ -225,6 +233,8 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.DyadicBallUp
+import BEDC.Derived.DyadicBallUp.RadiusWindowMonotonicity
+import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate

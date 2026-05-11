@@ -63,6 +63,7 @@ classifier rows are reflexive dyadic comparisons, whose $\RealUp$ boundary row
 is the constant real-name handoff, and whose precision ledger records only the
 requested windows and their constant readback routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionPacket\_constant\_embedding}
 \begin{proof}
 Use the constant $\StreamNameUp$ schedule with value row $q$ at each requested
 finite window. Each endpoint read is already accepted by $\DyadicRatCoreUp$.
@@ -131,6 +132,7 @@ used by the carrier is named in the ledger, and no consumer can project an
 unstored modulus, quotient representative, Dedekind cut, or ambient completed
 real from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionPacket\_ledger\_boundary}
 \begin{proof}
 Inspect the ledger coordinate in \autoref{def:dyadiccompletion-carrier}. It
 lists the finite schedules, tail bounds, window restrictions, and continuation
@@ -191,6 +193,7 @@ The carrier of \autoref{def:dyadiccompletion-carrier}, the $\NameCert_{\DyadicCo
 
 The export exposes only finite dyadic observations, certified stream windows, regular-tail rows, real-boundary rows, precision ledger rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and source certificates. It exports no quotient stream, Dedekind cut, host real, choice-selected limit, or completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionWindowPacket\_public\_regseqrat\_real\_export}
 \begin{proof}
 Project the finite packet from \autoref{def:dyadiccompletion-carrier}. Its coordinates are scheduled dyadic observations, certified stream windows, regular-tail rows, real-name handoff rows, ledger entries, and package provenance.
 
@@ -222,6 +225,7 @@ $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source
 certificates. The bridge exports no quotient Cauchy stream, Dedekind cut, host
 real limit, choice-selected limit, or completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionWindowPacket\_finite\_window\_standard\_bridge}
 \begin{proof}
 Project the carrier from \autoref{def:dyadiccompletion-carrier}. The projected
 coordinates are the dyadic observation rows, stream-window rows, regular-tail
@@ -285,6 +289,123 @@ Dedekind cuts, trichotomy, host equality, or a chosen limit, those data are not
 part of the mature consumer coverage.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion finite-window ledger source exhaustion]
+\label{thm:dyadiccompletion-window-ledger-source-exhaustion}
+Every finite-window read of an accepted $\DyadicCompletionUp$ packet by a
+$\RegSeqRatUp$ or $\RealUp$ consumer factors through exactly the ledger-named
+source rows of \autoref{def:dyadiccompletion-carrier}: dyadic observation
+rows, $\StreamNameUp$ window rows, regular-tail comparison rows,
+real-boundary rows, $\mathsf{BHist}$ history, $\hsame$ transport,
+$\Cont$ continuation, and $\mathsf{Pkg}$ provenance.
+
+Conversely, every ledger-named source row in that carrier is readable by the
+corresponding $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer after the
+displayed transport through the public finite-window handoff.
+
+The exhaustion statement contains no quotient completion, Dedekind cut,
+trichotomy, host equality, chosen limit, or hidden precision schedule.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:dyadiccompletion-streamname-handoff}. A downstream
+window read is sent to one of the displayed $\StreamNameUp$ window rows, and
+the handoff provides no alternate stream carrier.
+
+Next combine \autoref{thm:dyadiccompletion-ledger-boundary} with
+\autoref{thm:dyadiccompletion-public-regseqrat-real-export}. The ledger
+boundary lists the dyadic observation, regular-tail, real-boundary, history,
+transport, continuation, package, and provenance rows, while the public export
+reuses those same rows for $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+For the reverse direction, apply
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge}. Each
+ledger-named row is repacked as a standard finite-window read along the
+displayed transport, so the corresponding $\StreamNameUp$, $\RegSeqRatUp$, or
+$\RealUp$ consumer can read it without adding data.
+
+Finally invoke \autoref{thm:dyadiccompletion-mature-consumer-coverage}. The
+mature coverage theorem identifies the complete consumer boundary, so the two
+directions exhaust the same finite ledger rows and exclude quotient completion,
+Dedekind cuts, trichotomy, host equality, chosen limits, and hidden precision
+schedules.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion RegSeqRat window exhaustion]
+\label{thm:dyadiccompletion-regseqrat-window-exhaustion}
+For any accepted $\DyadicCompletionUp$ finite-window packet, every
+$\RegSeqRatUp$ consumer read exposed by the public finite-window export factors
+through one of the ledger-named rows already listed by the packet: dyadic
+observation rows, scheduled $\StreamNameUp$ window rows, regular-tail classifier
+rows, real-boundary rows, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance rows.
+
+Conversely, every ledger-named regular-tail or window row supplies the same
+$\RegSeqRatUp$ consumer read after the displayed finite-window standard bridge.
+This exhaustion exports no quotient Cauchy stream, Dedekind cut, host real
+limit, hidden precision schedule, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadiccompletion-streamname-handoff}. It sends the
+scheduled finite read to the displayed $\StreamNameUp$ window row, so the
+consumer has no alternate stream schedule outside the packet.
+
+Next use \autoref{thm:dyadiccompletion-regular-tail-stability}. The regular-tail
+classifier is transported along the packet's $\hsame$ and $\Cont$ rows, and the
+transport preserves exactly the ledger-named tail comparison row read by the
+$\RegSeqRatUp$ consumer.
+
+Combine \autoref{thm:dyadiccompletion-ledger-boundary} with
+\autoref{thm:dyadiccompletion-public-regseqrat-real-export}. These theorems
+identify the visible dyadic observation, real-boundary, history, transport,
+continuation, and package provenance rows exported to public $\RegSeqRatUp$ and
+$\RealUp$ consumers.
+
+For the converse, apply
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge} and
+\autoref{thm:dyadiccompletion-window-ledger-source-exhaustion}. A ledger-named
+regular-tail or scheduled-window row is repacked through the same finite-window
+standard bridge, and the source exhaustion theorem says that no further source
+row is available to the consumer.
+
+Thus the two readings have the same public $\RegSeqRatUp$ row boundary. The
+excluded quotient streams, cuts, host limits, hidden schedules, and selected
+limits are absent because none of the cited ledger, handoff, stability, export,
+or bridge rows carries them.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion terminal finite-window seal determinacy]\label{thm:dyadiccompletion-terminal-window-seal-determinacy}
+Consider two $\DyadicCompletionUp$ finite-window packets whose dyadic
+observation row, $\StreamNameUp$ window row, regular-tail row, $\RealUp$
+boundary row, ledger row, provenance row, and downstream handoff route agree by
+the displayed $\hsame$, $\Cont$, and $\Pkg$ witnesses. Then every terminal
+$\RegSeqRatUp$ or $\RealUp$ seal consumer factors through the same public
+finite-window row. No second terminal seal, hidden precision schedule, quotient
+completion, host equality, or choice-selected limit is exported by the
+DyadicCompletion boundary.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadiccompletion-streamname-handoff}. The common
+$\StreamNameUp$ window row fixes the visible stream handoff for both packets,
+and the displayed $\hsame$ witness gives the same finite observation boundary.
+
+Next combine \autoref{thm:dyadiccompletion-public-regseqrat-real-export} with
+\autoref{thm:dyadiccompletion-ledger-boundary}. The regular-tail row,
+$\RealUp$ boundary row, ledger row, provenance row, and $\Pkg$ source row are
+therefore read from a single public packet surface, while the listed $\Cont$
+routes give the same downstream handoff for $\RegSeqRatUp$ and $\RealUp$
+consumers.
+
+Now use \autoref{thm:dyadiccompletion-finite-window-standard-bridge}. The
+shared ledger and transport rows repack the two finite-window packets as the
+same standard public row, so transitivity of the displayed $\hsame$ comparisons
+identifies the row consumed by either terminal seal.
+
+Finally invoke \autoref{thm:dyadiccompletion-mature-consumer-coverage}. Mature
+coverage says that the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers
+listed above exhaust the terminal boundary; hence no further seal, precision
+schedule, quotient completion, host equality, or choice-selected limit can be
+exported outside the identified finite-window row.
+\end{proof}
+
 \closureat{DyadicCompletionUp}{obligationStr}
 \closureat{DyadicCompletionUp}{scopedStr}
 \closureat{DyadicCompletionUp}{publicStr}
@@ -295,7 +416,8 @@ part of the mature consumer coverage.
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:dyadiccompletion-mature-consumer-coverage} identifies the finite dyadic observation, stream-window, regular-tail, real-boundary, ledger, transport, continuation, package, public export, and standard bridge rows as the mature constructive $\RegSeqRatUp/\RealUp$ consumer boundary over the listed BEDC source certificates.}
   \constructivestory{A $\DyadicCompletionUp$ packet is generated by scheduled dyadic observations, certified stream windows, regular-tail comparison rows, a real-name handoff boundary, and a precision ledger that records every consumed schedule and tail bound.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DyadicCompletionUp.DyadicCompletionPacket\_namecert\_obligation\_surface}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close the Lean namespace, a complete real construction, quotient equality of Cauchy streams, Dedekind real equivalence, host real limits, choice-selected limits, or completeness.}
