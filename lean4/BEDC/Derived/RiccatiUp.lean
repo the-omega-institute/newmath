@@ -209,4 +209,26 @@ theorem RiccatiControlPacket_lqr_kalman_consumer_boundary [AskSetup] [PackageSet
                 · exact consumerRow
                 · exact consumerPkg
 
+theorem RiccatiControlPacketCarrier_finite_horizon_tail_restriction [AskSetup] [PackageSetup]
+    {state control cost horizon successor transition predecessor provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} {P : BHist -> Prop} :
+    RiccatiControlPacketCarrier state control cost horizon successor transition predecessor
+        provenance endpoint bundle pkg ->
+      P BHist.Empty ->
+        (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) ->
+          P horizon ∧ UnaryHistory predecessor ∧ UnaryHistory endpoint ∧
+            Cont successor transition predecessor ∧ Cont predecessor provenance endpoint := by
+  intro carrier base step
+  have horizonTail : P horizon :=
+    unary_history_induction base step horizon carrier.right.right.right.left
+  constructor
+  · exact horizonTail
+  · constructor
+    · exact carrier.right.right.right.right.right.right.left
+    · constructor
+      · exact carrier.right.right.right.right.right.right.right.right.left
+      · constructor
+        · exact carrier.right.right.right.right.right.right.right.right.right.right.right.left
+        · exact carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+
 end BEDC.Derived.RiccatiUp
