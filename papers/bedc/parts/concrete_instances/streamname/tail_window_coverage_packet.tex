@@ -143,6 +143,50 @@ or standard bridge data, so no off-packet row can separate the two exposed
 DyadicRatCore endpoint surfaces.
 \end{proof}
 
+\begin{theorem}[StreamName tail-window hsame transport stability]
+\label{thm:streamname-tail-window-hsame-transport-stability}
+Let $\mathcal P$ be a StreamName tail-window coverage packet over public
+endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$. Suppose the displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows transport componentwise the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ row, the
+selected $\mathsf{UnaryHistory}/\mathsf{InBundle}$ rows, each pointwise
+$\mathsf{RatHistoryClassifier}$ row, the accepted $\RegSeqRat$ spine, the
+DyadicRatCore endpoint rows, and the $\mathsf{RealLedgerPolicy}$ ledger to a
+second displayed finite window. Then the transported rows form another
+StreamName tail-window coverage packet.
+
+Moreover, every finite $\RealUp$ consumer row of the original packet
+transports through the same displayed packet surface: its source is still the
+finite-window classifier, selected unary and bundle rows, pointwise rational
+history rows, accepted $\RegSeqRat$ spine, DyadicRatCore endpoint rows, and
+shared $\Cont/\hsame/\mathsf{Pkg}/\mathsf{RealLedgerPolicy}$ ledger. The
+transport supplies no completion object, quotient row, host-index equality,
+metric-completeness row, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. Each row named in
+the packet definition has a displayed transported partner by hypothesis: the
+finite-window classifier, selected unary-history and bundle-membership rows,
+pointwise rational-history rows, accepted rational-sequence spine, endpoint
+readbacks, and ledger-policy rows.
+
+Repack those transported partners in the same order. The classifier and
+membership rows still select a finite StreamName window; the pointwise
+rational-history rows still feed the accepted $\RegSeqRat$ spine; and the
+DyadicRatCore endpoint rows and ledger rows still give the finite $\RealUp$
+readback surface.
+
+Apply \autoref{thm:streamname-tail-window-coverage-exhaustion} to the original
+and transported packets. Every consumer row is one of the rows just transported,
+so the consumer transport factors through exactly the same displayed packet
+surface.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. Completion,
+quotient, host-index equality, metric-completeness, arithmetic or order, and
+standard bridge rows have no constructor in either finite packet, so the
+transport cannot introduce any such row.
+\end{proof}
+
 \begin{theorem}[StreamName tail-window common refinement]
 \label{thm:streamname-tail-window-cover-common-refinement}
 Given two StreamName tail-window coverage packets for finite
