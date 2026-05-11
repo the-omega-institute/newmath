@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -13,6 +14,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -164,5 +166,101 @@ theorem ModularArithmeticResidueSource_int_rat_handoff [AskSetup] [PackageSetup]
               (And.intro source.right.right.right.left
                 (And.intro source.right.right.right.right.left
                   source.right.right.right.right.right)))))))
+
+theorem ModularArithmeticResidueSource_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {modulus witness representative residueLedger pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModularArithmeticResidueSource modulus witness representative residueLedger pkgrow bundle pkg ->
+      (let Source := fun h : BHist => hsame h pkgrow;
+        SemanticNameCert Source Source Source hsame) ∧
+        UnaryHistory modulus ∧ PositiveUnaryDenominator witness ∧
+          UnaryHistory representative ∧ UnaryHistory residueLedger ∧ UnaryHistory pkgrow ∧
+            Cont modulus witness residueLedger ∧ Cont residueLedger representative pkgrow ∧
+              PkgSig bundle pkgrow pkg := by
+  intro source
+  have modulusUnary : UnaryHistory modulus :=
+    source.left
+  have witnessPositive : PositiveUnaryDenominator witness :=
+    source.right.left
+  have representativeUnary : UnaryHistory representative :=
+    source.right.right.left
+  have residueLedgerRow : Cont modulus witness residueLedger :=
+    source.right.right.right.left
+  have pkgrowRow : Cont residueLedger representative pkgrow :=
+    source.right.right.right.right.left
+  have pkgrowSig : PkgSig bundle pkgrow pkg :=
+    source.right.right.right.right.right
+  have witnessUnary : UnaryHistory witness :=
+    (PositiveUnaryDenominator_unary_and_nonempty witnessPositive).left
+  have residueLedgerUnary : UnaryHistory residueLedger :=
+    unary_cont_closed modulusUnary witnessUnary residueLedgerRow
+  have pkgrowUnary : UnaryHistory pkgrow :=
+    unary_cont_closed residueLedgerUnary representativeUnary pkgrowRow
+  have cert :
+      (let Source := fun h : BHist => hsame h pkgrow;
+        SemanticNameCert Source Source Source hsame) := {
+    core := {
+      carrier_inhabited := Exists.intro pkgrow (hsame_refl pkgrow)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro _row _row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
+  exact And.intro cert
+    (And.intro modulusUnary
+      (And.intro witnessPositive
+        (And.intro representativeUnary
+          (And.intro residueLedgerUnary
+            (And.intro pkgrowUnary
+              (And.intro residueLedgerRow
+                (And.intro pkgrowRow pkgrowSig)))))))
+
+theorem ModularArithmeticResidueSource_scoped_dependency_boundary [AskSetup] [PackageSetup]
+    {modulus witness representative residueLedger pkgrow modulus' witness' representative'
+      residueLedger' pkgrow' endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModularArithmeticResidueSource modulus witness representative residueLedger pkgrow bundle
+        pkg ->
+      hsame modulus modulus' ->
+        hsame witness witness' ->
+          hsame representative representative' ->
+            Cont modulus' witness' residueLedger' ->
+              Cont residueLedger' representative' pkgrow' ->
+                PkgSig bundle pkgrow' pkg ->
+                  Cont pkgrow' witness' endpoint ->
+                    ModularArithmeticResidueSource modulus' witness' representative'
+                        residueLedger' pkgrow' bundle pkg ∧
+                      PositiveUnaryDenominator witness' ∧ UnaryHistory witness' ∧
+                        hsame residueLedger residueLedger' ∧ hsame pkgrow pkgrow' ∧
+                          hsame endpoint (append pkgrow' witness') := by
+  intro source sameModulus sameWitness sameRepresentative residueLedgerRow' pkgrowRow'
+    pkgrowSig' endpointRow
+  have stable :=
+    ModularArithmeticResidueSource_carrier_stability source sameModulus sameWitness
+      sameRepresentative residueLedgerRow' pkgrowRow' pkgrowSig'
+  have witnessPositive : PositiveUnaryDenominator witness' :=
+    stable.left.right.left
+  have witnessUnary : UnaryHistory witness' :=
+    (PositiveUnaryDenominator_unary_and_nonempty witnessPositive).left
+  exact
+    And.intro stable.left
+      (And.intro witnessPositive
+        (And.intro witnessUnary
+          (And.intro stable.right.left (And.intro stable.right.right endpointRow))))
 
 end BEDC.Derived.ModularArithmeticUp

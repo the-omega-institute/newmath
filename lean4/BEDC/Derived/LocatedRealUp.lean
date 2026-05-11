@@ -152,4 +152,28 @@ theorem LocatedRealCarrier_transport [AskSetup] [PackageSetup]
         endpointPkg'⟩,
       sameProvenance, sameEndpoint⟩
 
+theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint realRow consumerRow ->
+        PkgSig bundle consumerRow pkg ->
+          UnaryHistory stream ∧ UnaryHistory schedule ∧ UnaryHistory interval ∧
+            UnaryHistory realRow ∧ UnaryHistory endpoint ∧ UnaryHistory consumerRow ∧
+              Cont stream schedule interval ∧ Cont interval location realRow ∧
+                Cont realRow transport provenance ∧ Cont provenance schedule endpoint ∧
+                  Cont endpoint realRow consumerRow ∧ PkgSig bundle consumerRow pkg := by
+  intro carrier consumerRowCont consumerRowSig
+  obtain ⟨streamUnary, scheduleUnary, intervalUnary, _locationUnary, realRowUnary,
+    _transportUnary, _provenanceUnary, endpointUnary, streamScheduleInterval,
+    intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+    _endpointSig⟩ := carrier
+  have consumerRowUnary : UnaryHistory consumerRow :=
+    unary_cont_closed endpointUnary realRowUnary consumerRowCont
+  exact
+    ⟨streamUnary, scheduleUnary, intervalUnary, realRowUnary, endpointUnary, consumerRowUnary,
+      streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
+      provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
+
 end BEDC.Derived.LocatedRealUp
