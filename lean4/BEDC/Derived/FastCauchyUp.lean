@@ -88,39 +88,103 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
-theorem FastCauchy_regseqrat_handoff [AskSetup] [PackageSetup]
-    {stream modulus endpoint radius comparison transportWindow regWindow realWindow : BHist}
+def FastCauchyFiniteCarrier [AskSetup] [PackageSetup]
+    (stream modulus endpoint latePair transport window provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+    UnaryHistory latePair ∧ UnaryHistory transport ∧ UnaryHistory window ∧
+      UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont stream modulus endpoint ∧
+        Cont endpoint latePair transport ∧ Cont transport window provenance ∧
+          Cont provenance latePair nameRow ∧ PkgSig bundle nameRow pkg
+
+theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow stream' modulus'
+      endpoint' latePair' transport' window' provenance' nameRow' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    UnaryHistory stream ->
-      UnaryHistory modulus ->
-        UnaryHistory endpoint ->
-          UnaryHistory radius ->
-            Cont stream modulus transportWindow ->
-              Cont endpoint radius comparison ->
-                Cont comparison transportWindow regWindow ->
-                  Cont regWindow radius realWindow ->
-                    PkgSig bundle realWindow pkg ->
-                      UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
-                        UnaryHistory radius ∧ UnaryHistory comparison ∧
-                          UnaryHistory regWindow ∧ UnaryHistory realWindow ∧
-                            hsame transportWindow (append stream modulus) ∧
-                              hsame comparison (append endpoint radius) ∧
-                                hsame regWindow (append comparison transportWindow) ∧
-                                  hsame realWindow (append regWindow radius) ∧
-                                    PkgSig bundle realWindow pkg := by
-  intro streamUnary modulusUnary endpointUnary radiusUnary
-  intro transportWindowRow comparisonRow regWindowRow realWindowRow pkgRow
-  have transportWindowUnary : UnaryHistory transportWindow :=
-    unary_cont_closed streamUnary modulusUnary transportWindowRow
-  have comparisonUnary : UnaryHistory comparison :=
-    unary_cont_closed endpointUnary radiusUnary comparisonRow
-  have regWindowUnary : UnaryHistory regWindow :=
-    unary_cont_closed comparisonUnary transportWindowUnary regWindowRow
-  have realWindowUnary : UnaryHistory realWindow :=
-    unary_cont_closed regWindowUnary radiusUnary realWindowRow
+    FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+        nameRow bundle pkg ->
+      hsame stream stream' ->
+        hsame modulus modulus' ->
+          hsame latePair latePair' ->
+            hsame window window' ->
+              Cont stream' modulus' endpoint' ->
+                Cont endpoint' latePair' transport' ->
+                  Cont transport' window' provenance' ->
+                    Cont provenance' latePair' nameRow' ->
+                      PkgSig bundle nameRow' pkg ->
+                        FastCauchyFiniteCarrier stream' modulus' endpoint' latePair'
+                            transport' window' provenance' nameRow' bundle pkg ∧
+                          hsame endpoint endpoint' ∧ hsame transport transport' ∧
+                            hsame provenance provenance' ∧ hsame nameRow nameRow' := by
+  intro carrier sameStream sameModulus sameLatePair sameWindow endpointRow' transportRow'
+    provenanceRow' nameRowRoute' pkgRow'
+  have streamUnary' : UnaryHistory stream' :=
+    unary_transport carrier.left sameStream
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport carrier.right.left sameModulus
+  have latePairUnary' : UnaryHistory latePair' :=
+    unary_transport carrier.right.right.right.left sameLatePair
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport carrier.right.right.right.right.right.left sameWindow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed streamUnary' modulusUnary' endpointRow'
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed endpointUnary' latePairUnary' transportRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed transportUnary' windowUnary' provenanceRow'
+  have nameRowUnary' : UnaryHistory nameRow' :=
+    unary_cont_closed provenanceUnary' latePairUnary' nameRowRoute'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameStream sameModulus
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameEndpoint sameLatePair
+      carrier.right.right.right.right.right.right.right.right.right.left transportRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameWindow
+      carrier.right.right.right.right.right.right.right.right.right.right.left provenanceRow'
+  have sameNameRow : hsame nameRow nameRow' :=
+    cont_respects_hsame sameProvenance sameLatePair
+      carrier.right.right.right.right.right.right.right.right.right.right.right.left
+      nameRowRoute'
   exact
-    ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary,
-      regWindowUnary, realWindowUnary, transportWindowRow, comparisonRow, regWindowRow,
-        realWindowRow, pkgRow⟩
+    ⟨⟨streamUnary', modulusUnary', endpointUnary', latePairUnary', transportUnary',
+        windowUnary', provenanceUnary', nameRowUnary', endpointRow', transportRow',
+        provenanceRow', nameRowRoute', pkgRow'⟩,
+      sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
+def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+        Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg
+
+def FastCauchyFinitePacket [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧ Cont stream modulus transportWindow ∧
+        Cont endpoint radius latePair ∧ Cont latePair transportWindow regWindow ∧
+          Cont regWindow sealBoundary certRow ∧ PkgSig bundle regWindow pkg
+
+theorem FastCauchyFinitePacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow regWindow
+        sealBoundary certRow bundle pkg ->
+      FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+          regWindow bundle pkg ∧
+        Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+          Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg := by
+  intro packet
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary,
+    transportUnary, regUnary, _sealUnary, _certUnary, streamModulusRoute,
+    endpointRadiusRoute, latePairTransportRoute, _certRoute, pkgRow⟩ := packet
+  exact
+    ⟨⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary, transportUnary,
+        regUnary, streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩,
+      streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩
 
 end BEDC.Derived.FastCauchyUp

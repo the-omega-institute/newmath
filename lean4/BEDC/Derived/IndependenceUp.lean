@@ -154,6 +154,29 @@ theorem IndependenceFiniteFactorizationRow_reindexing_closure
     (And.intro reindexedProduct
       (hsame_trans reindexedJointEmpty (hsame_symm reindexedProductEmpty)))
 
+theorem IndependenceFiniteFactorizationRow_stability_transport
+    {joint product jointPrime productPrime : BHist} {marginals : ProbeBundle BHist} :
+    IndependenceFiniteFactorizationRow joint product marginals ->
+      hsame joint jointPrime ->
+        Cont (IndependenceProductFold marginals) BHist.Empty productPrime ->
+          IndependenceFiniteFactorizationRow jointPrime productPrime marginals ∧
+            hsame product productPrime := by
+  intro row sameJoint productPrimeCont
+  have productEmpty : hsame product BHist.Empty :=
+    hsame_trans (cont_right_unit_result row.right.left) row.left
+  have productPrimeEmpty : hsame productPrime BHist.Empty :=
+    hsame_trans (cont_right_unit_result productPrimeCont) row.left
+  have jointPrimeEmpty : hsame jointPrime BHist.Empty :=
+    hsame_trans (hsame_symm sameJoint) (hsame_trans row.right.right productEmpty)
+  have transported :
+      IndependenceFiniteFactorizationRow jointPrime productPrime marginals :=
+    And.intro row.left
+      (And.intro productPrimeCont
+        (hsame_trans jointPrimeEmpty (hsame_symm productPrimeEmpty)))
+  have sameProducts : hsame product productPrime :=
+    hsame_trans productEmpty (hsame_symm productPrimeEmpty)
+  exact And.intro transported sameProducts
+
 theorem IndependenceFiniteFactorizationRow_ledger_exactness
     {joint product : BHist} {marginals : ProbeBundle BHist} :
     IndependenceFiniteFactorizationRow joint product marginals ->
