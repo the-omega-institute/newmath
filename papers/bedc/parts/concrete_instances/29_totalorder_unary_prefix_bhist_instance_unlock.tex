@@ -1,0 +1,66 @@
+\section{Unary Prefix History Instance}
+\label{sec:totalorder-unary-prefix-history-instance}
+
+\begin{definition}[TotalOrder unary-prefix BHist instance]
+\label{def:totalorder-unary-prefix-bhist-instance}
+Let $\mathsf{UnaryHistory}(h)$ mean that $h:\mathsf{BHist}$ lies on a single
+visible unary continuation spine from $\emp$. The carrier for the concrete
+$\TotalOrderUp$ instance is
+$$
+\mathsf{UnaryHistoryCarrier}(h):=\mathsf{UnaryHistory}(h).
+$$
+The classifier is endpoint agreement inside the unary carrier:
+$$
+h\sim_{\mathsf{unary}}k:=
+\mathsf{UnaryHistory}(h)\land\mathsf{UnaryHistory}(k)\land\hsame(h,k).
+$$
+The order relation is visible prefix reachability in $\mathsf{BHist}$:
+$$
+h\preceq_{\mathsf{unary}}k:=
+\mathsf{UnaryHistory}(h)\land\mathsf{UnaryHistory}(k)\land
+\exists t:\mathsf{BHist},\,\Cont(h,t,k).
+$$
+Thus the order data are built from $\mathsf{BHist}$, $\mathsf{UnaryHistory}$,
+$\hsame$, and $\Cont$ rather than from abstract comparison parameters.
+\end{definition}
+
+\begin{theorem}[TotalOrder unary-prefix BHist laws]
+\label{thm:totalorder-unary-prefix-bhist-laws}
+The carrier, classifier, and order relation of
+\autoref{def:totalorder-unary-prefix-bhist-instance} satisfy the concrete
+$\TotalOrderUp$ laws over unary histories:
+\begin{enumerate}
+\item reflexivity is witnessed by the empty tail at each unary history;
+\item transitivity is witnessed by associating the two visible continuation
+tails;
+\item antisymmetry sends mutual prefix witnesses on unary histories to endpoint
+equality, hence to the classifier $h\sim_{\mathsf{unary}}k$;
+\item totality is the unary-prefix comparison: for any two unary histories,
+one displayed continuation spine is a prefix of the other.
+\end{enumerate}
+Consequently the total-order schema has a concrete $\mathsf{BHist}$ instance
+and is not only an abstract operator interface.
+\end{theorem}
+\begin{proof}
+For reflexivity, take the empty tail in $\mathsf{BHist}$. The continuation
+route $\Cont(h,\emp,h)$ is the visible endpoint read for a unary history, and
+the two carrier witnesses are the same $\mathsf{UnaryHistory}(h)$ row.
+
+For transitivity, suppose $h\preceq_{\mathsf{unary}}k$ through tail $t_1$ and
+$k\preceq_{\mathsf{unary}}\ell$ through tail $t_2$. Continuation associativity
+inside $\mathsf{BHist}$ gives a visible composite tail from $h$ to $\ell$, while
+the unary carrier rows are already part of the two prefix witnesses.
+
+For antisymmetry, mutual prefix witnesses place $h$ and $k$ on the same unary
+spine with the same endpoint. Unary histories have no branching coordinate, so
+opposing visible tails collapse to $\hsame(h,k)$; repacking this witness with
+the two carrier rows gives $h\sim_{\mathsf{unary}}k$.
+
+For totality, compare the two unary continuation spines from $\emp$. Since each
+history is unary, the first point at which the displayed finite paths stop
+determines which endpoint is reached by a visible tail from the other. This
+gives either $h\preceq_{\mathsf{unary}}k$ or
+$k\preceq_{\mathsf{unary}}h$ using only $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and the existing total-order carrier
+rows.
+\end{proof}
