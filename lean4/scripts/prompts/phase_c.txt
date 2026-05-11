@@ -260,10 +260,10 @@ D `no-touchpoint` gate uses regex `\bBHist\b` etc., and `BHistCarrier`
 does NOT match `\bBHist\b` (no word boundary between `BHist` and
 `Carrier`). Therefore EVERY new declaration in `TasteGate.lean`
 (including the `BHistCarrier <X>Up` instance, the `ChapterTasteGate
-<X>Up` instance, and every `*FromEventFlow` / `*ToEventFlow_injective`
-/ `*_round_trip` / `taste_gate` helper) MUST contain a bare kernel
-token. Do this by adding ONE comment line as the first line of every
-new declaration body:
+<X>Up` instance, and every helper `*FromEventFlow` /
+`*ToEventFlow_injective` / `*_round_trip` / `taste_gate`) MUST contain
+a bare kernel token. Do this by adding ONE comment line as the first
+line of every new declaration body:
 
 ```lean
 instance dyadicPrecisionBHistCarrier : BHistCarrier DyadicPrecisionUp where
@@ -277,8 +277,8 @@ instance dyadicPrecisionChapterTasteGate :
   round_trip := ...
   layer_separation := ...
 
-theorem dyadicPrecision_round_trip (x : DyadicPrecisionUp) :
-    BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+private theorem dyadicPrecision_round_trip (x : DyadicPrecisionUp) :
+    dyadicPrecisionFromEventFlow (dyadicPrecisionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   ...
 ```
@@ -290,6 +290,23 @@ references typeclass names that contain `BHist` but are not the bare
 `BHist` token. Skipping this comment is the #1 cause of R-round
 failure observed 2026-05-11 (R4670/R4668/R4673/R4671/R4667/R4674/
 R4675/R4686/R4694). Do not skip it.
+
+**PROPEXT TRAP (HARD REQUIREMENT — read carefully)**: do NOT write a
+standalone (non-`private`, non-instance-field) theorem whose statement
+is `BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x`
+or similar typeclass-projection equality. The typeclass projection
+forces Lean to unfold the `BHistCarrier <X>Up` instance via
+propositional equality, which transitively depends on `propext` and
+fails `axiom-purity --strict`. The `ChapterTasteGate <X>Up` instance
+already carries the equivalent `round_trip` field; any *public* form
+of the round trip should reference the concrete underlying defs
+(`dyadicPrecisionFromEventFlow` / `dyadicPrecisionToEventFlow`, not
+`BHistCarrier.fromEventFlow` / `BHistCarrier.toEventFlow`). If you
+need a helper theorem at all, declare it `private` and phrase it in
+terms of the concrete defs, as in the example above. Observed 6+ R
+rounds (R4696/R4700/R4704/R4705/R4706/R4708, 2026-05-12) all failed
+axiom-purity from helper theorems of this exact shape. Do not repeat
+this.
 
 If the round adds a new theorem to an `\origin=ai` chapter and the
 chapter currently has the two-carrier defect, the round MUST include
