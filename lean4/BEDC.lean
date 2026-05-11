@@ -127,6 +127,7 @@ import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.StackUp
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -172,7 +173,9 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CStarAlgUp
+import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
