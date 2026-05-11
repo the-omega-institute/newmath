@@ -595,4 +595,24 @@ theorem RegSeqRatClassifier_dyadic_radius_observation [AskSetup] [PackageSetup]
   exact ⟨endpointUnary, radiusUnary, endpointUnary', radiusUnary', sameRadius,
     sameRegularity, sameReadback⟩
 
+theorem RegSeqRatClassifier_window_pairing [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback endpoint' radius'
+      regularity' readback' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+        bundle pkg ->
+      RegSeqRatClassifier endpoint radius regularity readback endpoint' radius' regularity'
+          readback' ->
+        UnaryHistory schedule ∧ UnaryHistory index ∧ UnaryHistory endpoint' ∧
+          UnaryHistory radius' ∧ hsame endpoint endpoint' ∧ hsame radius radius' ∧
+            Cont endpoint radius regularity ∧ PkgSig bundle readback pkg := by
+  intro carrier classifier
+  obtain ⟨scheduleUnary, indexUnary, _endpointUnary, _radiusUnary, _regularityUnary,
+    _provenanceUnary, _readbackUnary, _scheduleIndexEndpoint, endpointRadiusRegularity,
+    _regularityProvenanceReadback, packageRow⟩ := carrier
+  obtain ⟨_endpointUnaryC, _radiusUnaryC, _regularityUnaryC, _readbackUnaryC,
+    endpointUnary', radiusUnary', _regularityUnary', _readbackUnary', sameEndpoint,
+    sameRadius, _sameRegularity, _sameReadback⟩ := classifier
+  exact ⟨scheduleUnary, indexUnary, endpointUnary', radiusUnary', sameEndpoint, sameRadius,
+    endpointRadiusRegularity, packageRow⟩
+
 end BEDC.Derived.RegSeqRatUp
