@@ -510,6 +510,45 @@ theorem FramedListPublicLength_classifier_transport {A : BHist -> Prop}
     (FramedListPublicLength_well_defined compat).right bridgeSymm
   exact And.intro forward backward
 
+theorem FramedListBridgeClassifier_singleton_classified_shape_synchrony
+    {A : BHist -> Prop} {Rel : BHist -> BHist -> Prop} {h k : BHist}
+    (cert : SemanticNameCert A A A Rel)
+    (compat : forall {x y : BHist}, A x -> A y -> Rel x y -> hsame x y) :
+    FramedListBridgeClassifier A Rel h k ->
+      (hsame h (FramedListEndpoint []) ∧ hsame k (FramedListEndpoint [])) ∨
+        (exists a b xs ys, FramedListSpineRep A h (a :: xs) ∧
+          FramedListSpineRep A k (b :: ys) ∧ Rel a b ∧
+            FramedListBridgeClassifier A Rel (FramedListEndpoint xs)
+              (FramedListEndpoint ys)) := by
+  intro bridge
+  cases bridge with
+  | intro xs data =>
+      cases data with
+      | intro ys data =>
+          cases data with
+          | intro repH data =>
+              cases data with
+              | intro repK classified =>
+                  cases xs <;> cases ys
+                  · exact Or.inl (And.intro repH.right repK.right)
+                  · cases classified
+                  · cases classified
+                  · rename_i a xs b ys
+                    cases classified with
+                    | intro headClassified tailClassified =>
+                        have _semanticHead : Rel a a ∧ hsame a b := And.intro
+                          (cert.core.equiv_refl (repH.left a (List.Mem.head xs)))
+                          (compat (repH.left a (List.Mem.head xs))
+                            (repK.left b (List.Mem.head ys)) headClassified)
+                        exact Or.inr
+                          ⟨a, b, xs, ys, repH, repK, headClassified,
+                            ⟨xs, ys,
+                              ⟨fun z memZ => repH.left z (List.Mem.tail a memZ),
+                                hsame_refl (FramedListEndpoint xs)⟩,
+                              ⟨fun z memZ => repK.left z (List.Mem.tail b memZ),
+                                hsame_refl (FramedListEndpoint ys)⟩,
+                              tailClassified⟩⟩
+
 def ListPublicLength (A : BHist -> Prop) (h : BHist) (n : Nat) : Prop :=
   exists xs : ListCarrier BHist, ListSpineRep A h xs ∧ xs.length = n
 
