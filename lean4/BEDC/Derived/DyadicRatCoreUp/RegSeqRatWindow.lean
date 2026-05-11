@@ -72,4 +72,63 @@ theorem DyadicRatCoreRegSeqRatWindow_radius_handoff
       windowClosure.left,
       radiusObligation.right.right.left⟩
 
+theorem DyadicRatCoreCarrier_regseqrat_bridge_handoff_exactness
+    {mantissa exponent ledger provenance radiusWindow handoffWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      Cont ledger exponent radiusWindow ->
+        Cont radiusWindow provenance handoffWindow ->
+          UnaryHistory radiusWindow ∧ UnaryHistory handoffWindow ∧
+            hsame radiusWindow (append ledger exponent) ∧
+              hsame handoffWindow (append radiusWindow provenance) ∧
+                RatHistoryCarrier mantissa ∧ PositiveUnaryDenominator exponent ∧
+                  UnaryHistory ledger := by
+  intro carrier radiusRow handoffRow
+  have exponentUnary : UnaryHistory exponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty carrier.right.left).left
+  have radiusUnary : UnaryHistory radiusWindow :=
+    unary_cont_closed carrier.right.right.right.right exponentUnary radiusRow
+  have handoffUnary : UnaryHistory handoffWindow :=
+    unary_cont_closed radiusUnary carrier.right.right.left handoffRow
+  exact
+    ⟨radiusUnary,
+      handoffUnary,
+      radiusRow,
+      handoffRow,
+      carrier.left,
+      carrier.right.left,
+      carrier.right.right.right.right⟩
+
+theorem DyadicRatCoreCarrier_regseqrat_radius_monotone_window_extraction
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger radiusWindow
+      handoffWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail ->
+        Cont exponent tail refinedExponent ->
+          Cont refinedExponent mantissa refinedLedger ->
+            Cont refinedLedger provenance radiusWindow ->
+              Cont radiusWindow ledger handoffWindow ->
+                DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+                  PositiveUnaryDenominator refinedExponent ∧
+                    UnaryHistory radiusWindow ∧ UnaryHistory handoffWindow ∧
+                      hsame refinedExponent (append exponent tail) ∧
+                        hsame radiusWindow (append refinedLedger provenance) ∧
+                          hsame handoffWindow (append radiusWindow ledger) := by
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow radiusRow handoffRow
+  have refined :=
+    DyadicRatCoreCarrier_monotone_radius_obligation carrier tailUnary refinedExponentRow
+      refinedLedgerRow
+  have radiusUnary : UnaryHistory radiusWindow :=
+    unary_cont_closed refined.left.right.right.right.right refined.left.right.right.left
+      radiusRow
+  have handoffUnary : UnaryHistory handoffWindow :=
+    unary_cont_closed radiusUnary carrier.right.right.right.right handoffRow
+  exact
+    ⟨refined.left,
+      refined.right.left,
+      radiusUnary,
+      handoffUnary,
+      refined.right.right.left,
+      radiusRow,
+      handoffRow⟩
+
 end BEDC.Derived.DyadicRatCoreUp
