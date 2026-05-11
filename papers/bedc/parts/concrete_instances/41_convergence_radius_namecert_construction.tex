@@ -63,7 +63,6 @@ There is no constructor in the reduct for Cauchy--Hadamard exactness. Repacking
 the displayed source and geometric-bound rows therefore gives precisely the
 checked-row reduct claimed above.
 \end{proof}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
 
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
@@ -127,6 +126,39 @@ checked rows do not force Cauchy--Hadamard exactness, the boundary also does
 not provide real-number supremum completeness or the standard
 complex-analysis bridge rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_boundary\_exactness}
+
+\begin{theorem}[ConvergenceRadius checked-row readback public factorization]
+\label{thm:convergence-radius-checked-row-readback-public-factorization}
+Every $\mathsf{ConvRadSourceSpec}$ consumer read factors first through
+\autoref{def:convrad-checked-row-reduct} and only then reaches the public
+export rows of \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. The factorization
+exports no Cauchy--Hadamard exactness row and no real supremum completeness
+principle.
+\end{theorem}
+\begin{proof}
+Unpack the $\mathsf{ConvRadSourceSpec}$ row. Its source, geometric-bound, and
+radius-witness data are the checked rows retained by
+\autoref{def:convrad-checked-row-reduct}.
+
+Apply the checked-row reduct readback of
+\autoref{thm:convergence-radius-checked-row-reduct-readback}. This gives the
+factor through which every source-specification consumer read is routed before
+any public export row is inspected.
+
+Now use \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. They expose the
+same public carrier, geometric-bound, convergence-radius witness,
+classifier-transport, endpoint-package, checked-reduct, and semantic
+certificate rows, and they expose no additional analytic coordinate.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the public readback
+factorization also cannot export real supremum completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
 
 \begin{theorem}[ConvergenceRadius bridged boundary]
 \label{thm:convergence-radius-bridged-boundary}
