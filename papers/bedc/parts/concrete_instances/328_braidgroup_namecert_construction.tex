@@ -107,6 +107,43 @@ completeness, and standard bridge data, leaving exactly the scoped Artin source
 package stated above.
 \end{proof}
 
+\begin{theorem}[BraidGroup public Artin interface]
+\label{thm:braidgroup-public-artin-interface}
+The finite signed Artin-word carrier, Artin ledger stability, NameCert
+obligation surface, Weyl root-action handoff, knot-closure ledger boundary, and
+scoped Artin source package assemble the public
+$\NameCert_{\BraidGroupUp}$ interface. It is readable by $\GroupUp$,
+$\SymGroupUp$, $\WeylGroupUp$, and $\KnotUp$ consumers as strand-count rows,
+signed adjacent-strand word rows, braid/inverse/far-commutation ledgers,
+symmetric-group shadow rows, Weyl action rows, knot-closure ledger rows,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The interface exports no Markov theorem, braid-group faithfulness, knot isotopy
+completeness, presentation quotient, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier of \autoref{def:braidgroup-word-carrier}. It
+provides the strand count, signed Artin word, classifier ledger, dependency
+provenance, and packet rows that all four consumer directions read.
+
+Apply \autoref{thm:braidgroup-artin-ledger-stability} to keep braid,
+inverse-cancellation, and far-commutation transport inside the displayed Artin
+ledger. Then use \autoref{thm:braidgroup-namecert-obligation-surface} to expose
+the NameCert rows shared by the group, symmetric-group, Weyl-group, and knot
+readers.
+
+The two non-group faces are exactly the finite handoffs isolated by
+\autoref{thm:braidgroup-weyl-root-action-handoff} and
+\autoref{thm:braidgroup-knot-closure-ledger-boundary}. Finally
+\autoref{thm:braidgroup-scoped-artin-source-package} gathers these rows into a
+single scoped Artin source package.
+
+Since the cited package has no coordinate for Markov moves, representation
+faithfulness, isotopy completeness, presentation quotients, or standard bridge
+rows, repacking it as a public $\NameCert_{\BraidGroupUp}$ interface cannot
+export any of that data.
+\end{proof}
+
 \begin{theorem}[BraidGroup public NameCert export]
 \label{thm:braidgroup-public-namecert-export}
 The finite Artin-word carrier, Artin ledger stability, NameCert obligation
