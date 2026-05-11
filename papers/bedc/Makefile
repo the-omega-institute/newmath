@@ -12,12 +12,14 @@ precheck:
 # so parallel paper rounds don't dogpile the CPU and start timing out.
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	python3 scripts/with_pdf_slot.py -- bash -c 'pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex'
-# Fast syntax / compile sanity check: single pdflatex pass in draftmode.
-# Catches every real error (Undefined control sequence, Missing $, Extra },
-# unresolved \input{...}, package errors). Skips the second pass and PDF
-# output, so \autoref / TOC page numbers print as "?? on page ??" — fine
-# for development sanity. Roughly half the wall time of `make`.
+# Round-local sanity: pure-text static checks only, no pdflatex invocation.
+# The precheck dependency runs four python/bash gates: file size,
+# forbidden math env, marker uniqueness, NAMING.md compliance. The
+# canonical PDF build (`make` / main.pdf) is the daemon's job —
+# paper_builder_daemon.py polls the merged codex-auto-dev tip and runs
+# the full double-pass in `_paper_builder`. Removing pdflatex from
+# `make check` keeps round wall time low (~1s precheck vs ~127s
+# pdflatex draftmode) and frees the pdf-build slot gate for the daemon.
 check: precheck
-	python3 scripts/with_pdf_slot.py -- pdflatex -draftmode -interaction=nonstopmode main.tex
 clean:
 	rm -f main.pdf main.log main.aux main.toc main.out *.bbl *.blg
