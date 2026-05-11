@@ -81,11 +81,42 @@ The hidden-data ledger states the exclusion boundary. A host trajectory space, a
 Thus every consumer-visible read is a finite $\mathsf{BHist}$ projection from the displayed state-space rows.
 \end{proof}
 
+\begin{theorem}[StateSpaceModel obligation closure]
+\label{thm:statespacemodel-obligation-closure}
+\autoref{def:statespacemodel-carrier},
+\autoref{def:statespacemodel-classifier},
+\autoref{thm:statespacemodel-namecert-obligation-surface},
+\autoref{thm:statespacemodel-control-handoff}, and
+\autoref{thm:statespacemodel-ledger-boundary} exhaust the finite
+$\NameCert_{\StateSpaceModelUp}$ obligation surface over $\DynSystemUp$,
+$\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\Cont$, $\hsame$, and $\Pkg$ rows.
+
+Every downstream control certificate reads only these finite rows and their
+displayed handoff boundaries.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The visible tuple contains the state, input,
+output, matrix, linear-map, transition, observation, continuation, transport,
+package, and hidden-data ledger rows, and the classifier compares exactly those
+coordinates componentwise.
+
+The NameCert obligation theorem records the same rows as the local certificate
+surface. The control handoff theorem then restricts Kalman, LQR,
+controllability, observability, and Riccati consumers to the displayed finite
+coordinates and trace ledgers.
+
+The ledger-boundary theorem accounts for the excluded host trajectory,
+analytic-flow, stochastic, and infinite-horizon objects. Since no downstream
+control certificate can read outside the listed rows, the finite obligation
+surface is exhausted.
+\end{proof}
+
 \closureat{StateSpaceModelUp}{seedStr}
+\closureat{StateSpaceModelUp}{obligationStr}
 
 \begin{closurestatus}{\StateSpaceModelUp}
   \constructivestory{A state-space-model packet is seeded by finite $\mathsf{BHist}$ rows for state, input, output, transition, input-map, observation-map, transition and observation traces, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and a hidden-data ledger.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed boundary names the finite state-transition carrier shared by $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
