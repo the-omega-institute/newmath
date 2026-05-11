@@ -167,6 +167,48 @@ host ball. Therefore the seal boundary is exactly the listed finite row
 surface.
 \end{proof}
 
+\begin{theorem}[DyadicBall intersection refinement handoff]
+\label{thm:dyadicball-intersection-refinement-handoff}
+Let an accepted $\DyadicBallUp$ packet be read through the finite
+center-radius carrier of \autoref{def:dyadicball-carrier}. If the packet is
+refined to a smaller positive dyadic radius by
+\autoref{thm:dyadicball-radius-refinement-closure}, then the refined packet
+exports the same scheduled $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$
+finite-boundary rows as the original packet, except for the transported radius
+row and the containment ledger supplied for that smaller radius.
+
+Concretely, the $\mathsf{BHist}$ center, schedule, scheduled observation,
+componentwise $\hsame$ transports, displayed $\Cont$ windows, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows remain the same rows of the carrier.
+The $\RegSeqRatUp$ endpoint-radius window of
+\autoref{thm:dyadicball-regseqrat-window-handoff} and the $\RealUp$ seal
+surface of \autoref{thm:dyadicball-real-seal-boundary} are read from those
+rows after replacing only the radius and containment coordinates. The handoff
+does not introduce quotient balls, host real equality, completed metric
+points, or selected limits.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:dyadicball-carrier}. Its public rows are the
+finite $\mathsf{BHist}$ center, positive radius, schedule, scheduled
+observation, containment ledger, $\hsame$ transports, $\Cont$ windows,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ certificate.
+
+Apply \autoref{thm:dyadicball-radius-refinement-closure}. The theorem repacks
+the accepted packet at the smaller displayed dyadic radius, using the supplied
+containment ledger for that radius and leaving the center, schedule,
+observation, transport, window, provenance, and certificate rows in place.
+
+Project the repacked packet through
+\autoref{thm:dyadicball-regseqrat-window-handoff} and
+\autoref{thm:dyadicball-real-seal-boundary}. Both projections inspect only the
+carrier rows just listed, so their finite consumer surfaces agree with the
+original packet except at the transported radius and containment entries.
+
+Since no quotient-ball coordinate, host real equality, completed metric point,
+or selected limit occurs in the carrier, none is created by the repacking or by
+either outgoing handoff.
+\end{proof}
+
 \begin{theorem}[DyadicBall NameCert obligation surface]
 \label{thm:dyadicball-namecert-obligation-surface}
 The local $\NameCert_{\DyadicBallUp}$ obligation surface consists of five
@@ -230,27 +272,21 @@ obligation row beyond the five rows enumerated in
 \autoref{thm:dyadicball-namecert-obligation-surface}.
 \end{proof}
 
-\begin{theorem}[DyadicBall public NameCert export]
-\label{thm:dyadicball-public-namecert-export}
-For histories $c,r,w:\mathsf{BHist}$, the scoped center-radius packet of
-\autoref{thm:dyadicball-obligation-closure} determines a public
-$\DyadicBallUp$ $\NameCert$ export. Its carrier field is the finite
-$\mathsf{BHist}$ center-radius predicate of \autoref{def:dyadicball-carrier};
-its classifier field is the $\hsame$-stable ball classifier of
-\autoref{thm:dyadicball-classifier-laws}; its refinement ledger is supplied by
-\autoref{thm:dyadicball-radius-refinement-closure}; its $\RegSeqRatUp$
-consumer row is \autoref{thm:dyadicball-regseqrat-window-handoff}; and its
-$\RealUp$ seal boundary is \autoref{thm:dyadicball-real-seal-boundary}.
-
-Thus downstream $\RegSeqRatUp$ and $\RealUp$ consumers may cite this single
-public export instead of reopening the scoped center-radius packet.
+\begin{theorem}[DyadicBall center-radius public interface]
+\label{thm:dyadicball-center-radius-public-interface}
+The carrier, classifier laws, radius-refinement closure, $\RegSeqRatUp$ window
+handoff, $\RealUp$ seal boundary, and obligation-closure theorem assemble the
+public $\NameCert_{\DyadicBallUp}$ interface over the displayed center,
+positive radius, schedule, observation, containment, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows. Downstream $\RegSeqRatUp$ and $\RealUp$
+consumers may cite this single public interface instead of reopening the scoped
+center-radius packet.
 \end{theorem}
 \begin{proof}
-Assemble the public certificate by projecting the scoped packet into its five
-displayed rows. The carrier row is exactly the tuple predicate of
-\autoref{def:dyadicball-carrier}, so the exported object has only the center,
-radius, schedule, observation, containment, transport, provenance, and naming
-coordinates already present in the scoped packet.
+Assemble the public certificate by projecting the scoped packet into the rows
+listed by \autoref{def:dyadicball-carrier}. The exported object has only the
+center, positive radius, schedule, observation, containment, transport,
+provenance, and naming coordinates already present in that packet.
 
 The classifier row is supplied by
 \autoref{thm:dyadicball-classifier-laws}. Its $\hsame$ stability transports
@@ -263,23 +299,24 @@ radius ledger transport, \autoref{thm:dyadicball-regseqrat-window-handoff} for
 the $\RegSeqRatUp$ consumer row, and
 \autoref{thm:dyadicball-real-seal-boundary} for the $\RealUp$ seal boundary.
 
-Repacking these five rows yields the public $\NameCert_{\DyadicBallUp}$ export.
-Since each field is read from the scoped packet and its cited source rows, the
-export introduces no quotient ball, host real equality, metric topology, or
-extra completeness coordinate.
+Finally use \autoref{thm:dyadicball-obligation-closure} to see that these rows
+exhaust the local obligation surface. Repacking them yields the public
+$\NameCert_{\DyadicBallUp}$ interface, with no quotient ball, host real
+equality, metric topology, or extra completeness coordinate.
 \end{proof}
 
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
+\closureat{DyadicBallUp}{publicStr}
 
 \begin{closurestatus}{\DyadicBallUp}
   \constructivestory{A $\DyadicBallUp$ packet is generated by a finite dyadic center row, a positive dyadic radius row, a scheduled observation row, a containment ledger, componentwise $\hsame$ and $\Cont$ transport, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The finite center, positive radius, schedule, observation, containment, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are bound to the $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ source certificates.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The finite center, positive radius, schedule, observation, containment, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are bound to the $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ source certificates and exported as the public center-radius interface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient stream equality, host real balls, metric topology, or a standard bridge.}
-  \upgradepath{Public closure requires a public-facing $\DyadicBallUp$ export theorem over the scoped center-radius packet.}
+  \upgradepath{Bridged closure requires a standard finite-window schema bridge for the public center-radius interface.}
 \end{closurestatus}
