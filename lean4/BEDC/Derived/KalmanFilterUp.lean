@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.KalmanFilterUp
 
@@ -11,35 +12,53 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
-theorem KalmanFilterPredictionUpdatePacket_obligation [AskSetup] [PackageSetup]
-    {prior transition prediction covariance predicted observation innovation gain update posterior
-      endpoint : BHist}
+def KalmanFilterCarrier [AskSetup] [PackageSetup]
+    (prior transition prediction observation residual covariance gain posterior innovation update
+      provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory prior ∧
+    UnaryHistory transition ∧
+      UnaryHistory prediction ∧
+        UnaryHistory observation ∧
+          UnaryHistory residual ∧
+            UnaryHistory covariance ∧
+              UnaryHistory gain ∧
+                UnaryHistory posterior ∧
+                  UnaryHistory innovation ∧
+                    UnaryHistory update ∧
+                      UnaryHistory provenance ∧
+                        UnaryHistory endpoint ∧
+                          Cont prior transition prediction ∧
+                            Cont prediction observation residual ∧
+                              Cont covariance observation innovation ∧
+                                Cont innovation gain update ∧
+                                  Cont update posterior endpoint ∧
+                                    Cont endpoint provenance endpoint ∧
+                                      PkgSig bundle endpoint pkg
+
+theorem KalmanFilterCarrier_prediction_update_obligation [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    Cont transition prior prediction ->
-      Cont prediction covariance predicted ->
-        Cont observation predicted innovation ->
-          Cont gain innovation update ->
-            Cont update posterior endpoint ->
-              PkgSig bundle endpoint pkg ->
-                hsame prediction (append transition prior) ∧
-                  hsame predicted (append prediction covariance) ∧
-                    hsame innovation (append observation predicted) ∧
-                      hsame update (append gain innovation) ∧
-                        Cont update posterior endpoint ∧ PkgSig bundle endpoint pkg := by
-  intro transitionRow covarianceRow innovationRow gainRow posteriorRow packageRow
-  have predictionExact : hsame prediction (append transition prior) := by
-    exact transitionRow
-  have predictedExact : hsame predicted (append prediction covariance) := by
-    exact covarianceRow
-  have innovationExact : hsame innovation (append observation predicted) := by
-    exact innovationRow
-  have updateExact : hsame update (append gain innovation) := by
-    exact gainRow
-  exact
-    And.intro predictionExact
-      (And.intro predictedExact
-        (And.intro innovationExact
-          (And.intro updateExact (And.intro posteriorRow packageRow))))
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update provenance endpoint bundle pkg ->
+      Cont prior transition prediction ∧
+        Cont prediction observation residual ∧
+          Cont covariance observation innovation ∧
+            Cont innovation gain update ∧
+              Cont update posterior endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact And.intro carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+    (And.intro
+      carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+      (And.intro
+        carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+        (And.intro
+          carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+          (And.intro
+            carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+            carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right))))
 
 end BEDC.Derived.KalmanFilterUp

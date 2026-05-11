@@ -325,6 +325,33 @@ theorem CauchyModulusPacket_hsame_stability
   exact And.intro targetPacket
     (And.intro classified (And.intro thresholdRoute (And.intro ledgerRoute observationRoute)))
 
+theorem CauchyModulusPacket_regseqrat_regularity_handoff
+    {precision threshold tolerance observationA observationB ledger provenance : BHist}
+    (packet :
+      CauchyModulusCarrierPacket precision threshold tolerance observationA observationB ledger
+        provenance) :
+    exists representative regularity : BHist,
+      Cont observationA observationB representative ∧
+        Cont representative ledger regularity ∧
+          UnaryHistory representative ∧
+            UnaryHistory regularity ∧
+              PositiveUnaryDenominator tolerance ∧
+                hsame regularity (append representative ledger) := by
+  let representative := append observationA observationB
+  let regularity := append representative ledger
+  have representativeRow : Cont observationA observationB representative := by
+    rfl
+  have regularityRow : Cont representative ledger regularity := by
+    rfl
+  have representativeUnary : UnaryHistory representative :=
+    unary_cont_closed packet.right.right.right.left packet.right.right.right.right.left
+      representativeRow
+  have regularityUnary : UnaryHistory regularity :=
+    unary_cont_closed representativeUnary packet.right.right.right.right.right.left
+      regularityRow
+  exact ⟨representative, regularity, representativeRow, regularityRow, representativeUnary,
+    regularityUnary, packet.right.right.left, regularityRow⟩
+
 def CauchyModulusTailWindow
     (packet precision threshold tolerance schedule ledger pkg : BHist) : Prop :=
   UnaryHistory precision ∧
