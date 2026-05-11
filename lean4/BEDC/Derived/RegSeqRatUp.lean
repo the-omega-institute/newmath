@@ -415,4 +415,19 @@ theorem RegSeqRatStreamCarrier_finite_window_transport_obligation [AskSetup] [Pa
       regularityProvenanceReadback', pkgSig'⟩
   exact ⟨carrier', sameRegularity, sameReadback⟩
 
+theorem RegSeqRatClassifier_dyadic_radius_observation [AskSetup] [PackageSetup]
+    {endpoint radius regularity readback endpoint' radius' regularity' readback' : BHist} :
+    RegSeqRatClassifier endpoint radius regularity readback endpoint' radius' regularity'
+        readback' ->
+      UnaryHistory endpoint ∧ UnaryHistory radius ∧ UnaryHistory endpoint' ∧
+        UnaryHistory radius' ∧ hsame radius radius' ∧ hsame regularity regularity' ∧
+          hsame readback readback' := by
+  intro classifier
+  rcases classifier with
+    ⟨endpointUnary, radiusUnary, _regularityUnary, _readbackUnary, endpointUnary',
+      radiusUnary', _regularityUnary', _readbackUnary', _sameEndpoint, sameRadius,
+      sameRegularity, sameReadback⟩
+  exact ⟨endpointUnary, radiusUnary, endpointUnary', radiusUnary', sameRadius,
+    sameRegularity, sameReadback⟩
+
 end BEDC.Derived.RegSeqRatUp
