@@ -87,4 +87,36 @@ theorem DiffFormRootWedgeProbe_obligation
       degreeLedger.right.right.left,
       degreeLedger.right.right.right.left⟩
 
+theorem DiffFormRootDownstreamConsumption_obligation
+    {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier)
+    {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger omega
+      domega probePrime tensorPrime scalarPrime : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+      UnaryHistory degree ->
+      UnaryHistory probe ->
+      UnaryHistory antisym ->
+      Cont degree probe tensor ->
+      Cont tensor antisym scalar ->
+      hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+      Cont degree (BHist.e1 BHist.Empty) dplus ->
+      DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ->
+      DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime tensor
+        tensorPrime scalar scalarPrime antisym ledger ->
+        DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar antisym ledger
+            degree probe tensor scalar antisym ledger ∧
+          DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime tensor
+            tensorPrime scalar scalarPrime antisym ledger ∧
+            DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger tensorLedger ∧
+              (hsame dplus BHist.Empty -> False) := by
+  intro probeIn scalarCarrier degreeUnary _probeUnary _antisymUnary _tensorRoute _scalarRoute
+    _ledgerRoute _degreeStep wedgeLedger derivativeLedger
+  have classifierRows :=
+    DiffFormBHistClassifier_reflexivity_obligation (d := degree) (p := probe)
+      (t := tensor) (s := scalar) (a := antisym) (l := ledger) scalarCert probeIn scalarCarrier
+  have boundaryRows := DiffFormExteriorDerivativeLedger_degree_successor_nonempty derivativeLedger
+  exact ⟨classifierRows, derivativeLedger, wedgeLedger, boundaryRows.right.right.right⟩
+
 end BEDC.Derived.DiffFormUp
