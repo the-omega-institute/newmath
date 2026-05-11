@@ -5,6 +5,43 @@ This chapter gives a concrete naming-certificate construction for the convergenc
 
 \input{parts/concrete_instances/convergence_radius/certificate_body}
 
+\begin{theorem}[Convergence radius coefficient-ring inclusion geometric-bound transport]
+\label{thm:convrad-coefficient-ring-inclusion-geom-bound-transport}
+Let
+$$
+\iota:R\hookrightarrow R'
+$$
+be a convergence-radius compatible coefficient-ring inclusion in the sense of
+\autoref{def:conv-rad-coefficient-ring-inclusion}. For a source coefficient
+family $a$ and its transported family $a'$ defined pointwise by the complex
+realization rows of $\iota$, if
+$$
+\mathsf{GeomBound}(a,r,K),
+$$
+then
+$$
+\mathsf{GeomBound}(a',r,K).
+$$
+The radius history $r$ and constant history $K$ are unchanged.
+\end{theorem}
+\begin{proof}
+Unfold the geometric-bound rows of \autoref{def:geom-bound}. The source bound
+supplies the coefficient carrier rows, the radius carrier row, the constant
+carrier row, and the pointwise comparison ledger for every unary index.
+
+Use \autoref{def:conv-rad-coefficient-ring-inclusion} on each coefficient
+row. Its complex-realization clause identifies $a_n$ with $a'_n$ through the
+transported complex-history classifier, and its pointwise classifier transport
+keeps the displayed coefficient read in the target source.
+
+Therefore the comparison row for $a_n$ at radius $r$ and constant $K$ reads
+as the corresponding comparison row for $a'_n$. The radius and constant
+histories are not transported, so their carrier rows and ledger entries are
+copied unchanged. Repacking these rows by \autoref{def:geom-bound} gives
+$\mathsf{GeomBound}(a',r,K)$.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCoefficientRingInclusion\_geomBound\_transport}
+
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
 \autoref{thm:conv-rad-semantic-namecert} exports the public
