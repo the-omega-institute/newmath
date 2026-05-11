@@ -8,10 +8,13 @@ can be discussed as first-class BEDC objects.
 
 V1 is the achievable structural layer. At this layer BEDC constructs syntax,
 contexts, terms, universe annotations as needed, beta-reduction, and typing
-judgments as inductive objects or inductive predicates over BEDC histories. The
-result is not a claim that BEDC has reimplemented Lean. It is a claim that the
-grammar and judgment forms of a CIC fragment can be represented directly enough
-to support quantification and induction over them.
+judgments as inductive objects or inductive predicates over BEDC histories.
+\leandef{BEDC.MetaCIC.Term}
+\leandef{BEDC.MetaCIC.BetaStep}
+\leandef{BEDC.MetaCIC.HasType}
+The result is not a claim that BEDC has reimplemented Lean. It is a claim that
+the grammar and judgment forms of a CIC fragment can be represented directly
+enough to support quantification and induction over them.
 
 The difference between behavior and structure is central. A Turing-machine
 simulation of Lean execution can describe observed runs:
@@ -35,7 +38,8 @@ $$
 This is a first-class judgment. BEDC can quantify over contexts, terms, and
 derivations, and can prove results by induction on the derivation. TM
 simulation gives Sigma-one execution traces; direct V1 reconstruction gives
-typed judgment objects.
+typed judgment objects. The base sort judgment is inhabited in the empty
+context. \leanchecked{BEDC.MetaCIC.sort\_in\_empty\_ctx}
 
 V1 therefore provides the self-compilation construction surface for syntax and
 judgments. It supports statements of the form ``for every represented derivation
