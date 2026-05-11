@@ -18,13 +18,18 @@ instance : Repr Term where
   reprPrec t _ := reprTerm t
 
 /-- 把一个 host Lean `Expr` 尝试翻译成 `BEDC.MetaCIC.Term`。
-    简化: 覆盖 sort、变量、应用、lambda、Pi。 -/
+    简化: 覆盖 sort、变量、应用、lambda、Pi。`mdata` 透传;
+    `const` 与 `fvar` 当前不编码。TODO: 为 host 常量建立显式 inventory。 -/
 partial def reflectExpr (e : Expr) : MetaM (Option Term) := do
   match e with
   | Expr.sort _ =>
       return some Term.sort
   | Expr.bvar i =>
       return some (Term.var i)
+  | Expr.const _ _ =>
+      return none
+  | Expr.fvar _ =>
+      return none
   | Expr.app f a =>
       let fR? ← reflectExpr f
       let aR? ← reflectExpr a
@@ -43,8 +48,10 @@ partial def reflectExpr (e : Expr) : MetaM (Option Term) := do
       match domR?, codR? with
       | some dom', some cod' => return some (Term.pi dom' cod')
       | _, _ => return none
+  | Expr.mdata _ body =>
+      reflectExpr body
   | _ =>
-      -- 未覆盖类型: const, mvar, mdata, proj, fvar, letE, lit
+      -- 未覆盖类型: mvar, proj, letE, lit
       return none
 
 /-- Command 入口: `#reflect_metacic e` 打印 e 的 MetaCIC encoding (如能 encode). -/
@@ -65,4 +72,10 @@ section
   -- Should encode as Term.sort
   -- #reflect_metacic Sort 0
   -- Above may or may not work depending on universe handling
+
+  -- Should encode as Term.pi Term.sort (Term.var 0)
+  #reflect_metacic (∀ (T : Sort 0), T)
+
+  -- Should encode as Term.lam Term.sort (Term.var 0)
+  #reflect_metacic (fun (T : Sort 0) => T)
 end
