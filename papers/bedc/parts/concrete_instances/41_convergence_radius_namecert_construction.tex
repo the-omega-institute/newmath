@@ -1,9 +1,10 @@
 \chapter{A Concrete Naming Certificate for \(\ConvergenceRadiusUp\)}
 \label{ch:concrete-instances-convergence-radius-namecert}
 
-This chapter gives a concrete naming-certificate construction for the convergence radius of a complex power series \(\sum a_n z^n\) at the paper-proof level. The certificate sits above \(\ComplexLimitUp\) (\autoref{ch:concrete-instances-complex-limit-namecert}) and the formal power series chapter (\autoref{ch:concrete-instances-fps-namecert}), and gives an explicit unary-history witness for the radius rather than a real-number supremum. Absolute convergence inside the disk is proved by geometric majorant; the Cauchy-Hadamard characterization is given in constructive form using only explicit unary suprema. The construction is fully constructive and uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the certificate's Lean targets fall under the project's axiom-purity gate.
+This chapter gives a concrete naming-certificate construction for the convergence radius of a complex power series $\sum a_n z^n$ at the paper-proof level. The certificate sits above $\ComplexLimitUp$ (\autoref{ch:concrete-instances-complex-limit-namecert}) and the formal power series chapter (\autoref{ch:concrete-instances-fps-namecert}), and gives an explicit unary-history witness for the radius rather than a real-number supremum. Absolute convergence inside displayed strict subradii is proved by geometric majorant; Cauchy--Hadamard limsup exactness is recorded only as a separate analytic ledger row outside the checked-row reduct. The construction is fully constructive and uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$, so the certificate's Lean targets fall under the project's axiom-purity gate.
 
 \input{parts/concrete_instances/convergence_radius/certificate_body}
+\input{parts/concrete_instances/convergence_radius/cauchy_hadamard_boundary}
 
 \begin{theorem}[Convergence radius coefficient-ring inclusion geometric-bound transport]
 \label{thm:convrad-coefficient-ring-inclusion-geom-bound-transport}
@@ -63,7 +64,41 @@ There is no constructor in the reduct for Cauchy--Hadamard exactness. Repacking
 the displayed source and geometric-bound rows therefore gives precisely the
 checked-row reduct claimed above.
 \end{proof}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
+
+\begin{theorem}[ConvergenceRadius finite-prefix window stability]
+\label{thm:convergence-radius-prefix-window-stability}
+Let $\mathsf{ConvRadSourceSpec}(a,z_0,R)$ be a displayed convergence-radius
+source packet. Restrict the packet to a certified finite unary prefix window
+of coefficient indices and consumer reads. Then the checked-row reduct visible
+to downstream consumers preserves the same radius witness, the
+geometric-bound rows on the displayed prefix, the endpoint packages,
+$\mathsf{BHist}$ histories, $\hsame$ transport rows, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance.
+
+The restricted reduct introduces no Cauchy--Hadamard exactness row, no
+real-supremum row, and no host complex-analysis boundary beyond the rows
+already visible in the finite prefix.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:conv-rad-source-spec} and
+\autoref{def:convrad-checked-row-reduct}. The source packet already displays
+the coefficient family, center, unary radius witness, geometric-bound rows,
+endpoint packages, transport rows, continuation routes, and provenance.
+
+Project the rows whose coefficient indices lie in the certified finite prefix.
+The radius witness and endpoint packages are shared coordinates of the source
+packet, while the geometric-bound rows are retained only where the prefix
+contains the corresponding unary index.
+
+Transport the retained entries componentwise by $\hsame$. Continuation
+determinacy for the displayed $\Cont$ routes keeps the read paths attached to
+the same packet, and the $\mathsf{Pkg}$ row records the unchanged provenance.
+
+Finally use \autoref{thm:convergence-radius-public-boundary-exactness} only
+to identify which retained rows are consumer-visible. That boundary has no
+constructor for Cauchy--Hadamard exactness or real supremum, so the finite
+prefix reduct exposes exactly the listed checked rows.
+\end{proof}
 
 \begin{theorem}[ConvergenceRadius public export]
 \label{thm:convergence-radius-public-export}
@@ -74,7 +109,8 @@ endpoint packages, and checked semantic certificate rows. Consumers may cite
 this public boundary without treating Cauchy--Hadamard exactness or standard
 complex-analysis bridge rows as checked consequences.
 \end{theorem}
-\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvergenceRadiusCheckedRowReduct\_public\_export}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_export}
+\leanvariant{BEDC.Derived.ConvergenceRadiusUp.ConvergenceRadiusCheckedRowReduct\_public\_export}
 \leanvariant{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_public\_export}
 \begin{proof}
 Cite the semantic naming certificate of
@@ -107,6 +143,7 @@ Conversely, each listed row is visible through
 real-number supremum completeness, Cauchy--Hadamard exactness, or standard
 complex-analysis bridge rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_public\_boundary\_exactness}
 \begin{proof}
 Start from \autoref{thm:convergence-radius-public-export}. Its public export
 names the available carrier, geometric-bound, witness, classifier-transport,
@@ -127,6 +164,75 @@ checked rows do not force Cauchy--Hadamard exactness, the boundary also does
 not provide real-number supremum completeness or the standard
 complex-analysis bridge rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_boundary\_exactness}
+
+\begin{theorem}[ConvergenceRadius geometric-bound common tail window]
+\label{thm:convergence-radius-geometric-bound-common-tail-window}
+For two accepted $\ConvergenceRadiusUp$ public packets over the same
+power-series carrier, suppose their geometric-bound rows classify to the same
+radius witness and their endpoint packages agree under the displayed radius
+classifier. Then there is a single finite tail window through which both
+public consumer reads factor. The common window exposes only the power-series
+carrier, geometric-bound rows, convergence-radius witness, endpoint package,
+checked-row reduct, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The common window still exports no real supremum, Cauchy--Hadamard exactness,
+or standard complex-analysis bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:convergence-radius-public-export} to the two accepted
+packets. Each public consumer read is therefore presented through the
+power-series carrier, geometric-bound data, convergence-radius witness,
+radius-classifier transport, endpoint package, checked-row reduct, and
+semantic certificate rows.
+
+Next use \autoref{thm:convergence-radius-public-boundary-exactness} for both
+packets. The boundary exactness theorem forces each read to factor through
+the displayed rows and does not leave a separate analytic coordinate outside
+that finite surface.
+
+The hypotheses identify the shared radius-classifier row and the endpoint
+package rows. Refine the two directed tail ledgers to the finite common tail
+where those rows are both displayed, and transport the two reads through the
+same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the shared tail window
+cannot export a real supremum row or a standard complex-analysis bridge row.
+\end{proof}
+
+\begin{theorem}[ConvergenceRadius checked-row readback public factorization]
+\label{thm:convergence-radius-checked-row-readback-public-factorization}
+Every $\mathsf{ConvRadSourceSpec}$ consumer read factors first through
+\autoref{def:convrad-checked-row-reduct} and only then reaches the public
+export rows of \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. The factorization
+exports no Cauchy--Hadamard exactness row and no real supremum completeness
+principle.
+\end{theorem}
+\begin{proof}
+Unpack the $\mathsf{ConvRadSourceSpec}$ row. Its source, geometric-bound, and
+radius-witness data are the checked rows retained by
+\autoref{def:convrad-checked-row-reduct}.
+
+Apply the checked-row reduct readback of
+\autoref{thm:convergence-radius-checked-row-reduct-readback}. This gives the
+factor through which every source-specification consumer read is routed before
+any public export row is inspected.
+
+Now use \autoref{thm:convergence-radius-public-export} and
+\autoref{thm:convergence-radius-public-boundary-exactness}. They expose the
+same public carrier, geometric-bound, convergence-radius witness,
+classifier-transport, endpoint-package, checked-reduct, and semantic
+certificate rows, and they expose no additional analytic coordinate.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the public readback
+factorization also cannot export real supremum completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadSourceSpec\_checkedRowReduct\_readback}
 
 \begin{theorem}[ConvergenceRadius bridged boundary]
 \label{thm:convergence-radius-bridged-boundary}
@@ -171,6 +277,7 @@ semantic-certificate rows.
 The tail-shift boundary adds no real-number supremum completeness,
 Cauchy--Hadamard exactness, or standard complex-analysis bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_tail\_shift\_checked\_row\_reduct\_semantic\_boundary}
 \begin{proof}
 First apply \autoref{thm:conv-rad-coefficient-tail-closed}. The checked
 tail-closure theorem preserves the convergence-radius witness after replacing
@@ -190,6 +297,7 @@ public boundary exports no real supremum, Cauchy--Hadamard, or standard
 complex-analysis bridge consequence.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_coefficient\_tail\_public\_boundary}
+\leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_tail\_shift\_public\_boundary}
 
 \begin{theorem}[ConvergenceRadius checked-row two-sided ledger boundary]
 \label{thm:convergence-radius-checked-row-two-sided-ledger-boundary}
