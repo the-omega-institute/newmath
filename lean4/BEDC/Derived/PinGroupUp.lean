@@ -559,4 +559,21 @@ theorem PinGroupUp_StdBridge
     (And.intro surfaceRows.right
       (And.intro actionReadback endpointRows.right))
 
+theorem PinGroupReflectionGeneratorCarrier_admission
+    {spin reflection product endpoint ledger carried : BHist} :
+    UnaryHistory spin ->
+      UnaryHistory reflection ->
+        Cont spin reflection product ->
+          hsame endpoint product ->
+            Cont endpoint ledger carried ->
+              UnaryHistory product ∧ hsame carried (append product ledger) ∧
+                Cont spin reflection product ∧ UnaryHistory reflection := by
+  intro spinUnary reflectionUnary productRow endpointProduct endpointLedger
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed spinUnary reflectionUnary productRow
+  have carriedProduct : hsame carried (append product ledger) :=
+    cont_respects_hsame endpointProduct (hsame_refl ledger) endpointLedger (cont_intro rfl)
+  exact And.intro productUnary
+    (And.intro carriedProduct (And.intro productRow reflectionUnary))
+
 end BEDC.Derived.PinGroupUp
