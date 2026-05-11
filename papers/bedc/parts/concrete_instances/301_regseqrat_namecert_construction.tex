@@ -505,6 +505,48 @@ a quotient stream, host real equality, metric-completion object, completion
 point, or extra seal datum.
 \end{proof}
 
+\begin{theorem}[RegSeqRat common-window RealUp seal transitivity]
+\label{thm:regseqrat-common-window-real-seal-transitivity}
+Let $W_0$, $W_1$, and $W_2$ be accepted finite $\RegSeqRatUp$ windows. Suppose
+the $W_0/W_1$ and $W_1/W_2$ refined-window gluing surfaces identify the middle
+unary index rows, $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows,
+regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ provenance on a shared common
+refinement. Then the composed $W_0/W_2$ handoff factors through the same
+finite $\mathsf{BHist}$ source surface consumed by the $\RealUp$ seal.
+
+Equivalently, the two common-window legs determine one seal-facing finite
+packet: its source rows are exactly the shared unary observations,
+DyadicRatCore endpoints, radius rows, regularity and classifier ledgers,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance read on the
+common refinement. The composed handoff exports no quotient stream, host real
+equality, metric completeness, completion point, or seal datum beyond that
+finite source surface.
+\end{theorem}
+\begin{proof}
+Project both legs with \autoref{thm:regseqrat-refined-window-gluing}. The
+$W_0/W_1$ leg gives one accepted refined packet whose restrictions recover
+$W_0$ and $W_1$, and the $W_1/W_2$ leg gives one accepted refined packet whose
+restrictions recover $W_1$ and $W_2$.
+
+Use \autoref{thm:regseqrat-common-refinement-classifier-determinacy} on the
+middle window. The middle unary observations, endpoint rows, radius rows,
+regularity ledgers, classifier ledgers, and provenance rows are the same
+finite read, so the two legs share one common packet rather than two
+seal-facing sources.
+
+Apply \autoref{thm:regseqrat-tail-seal-diagonal-window-coherence} and
+\autoref{thm:regseqrat-real-seal-handoff}. The diagonal finite read is the
+$\mathsf{BHist}$ source surface consumed by the $\RealUp$ seal, and the seal
+handoff reads only that finite regular-rational packet.
+
+Finally invoke
+\autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization} on the
+composed common packet. The $W_0/W_2$ handoff therefore factors through the
+same finite source surface, with no coordinate for quotient streams, host real
+equality, metric completeness, completion points, or additional seal data.
+\end{proof}
+
 \begin{theorem}[RegSeqRat StreamName cover-refinement seal handoff]
 \label{thm:regseqrat-streamname-cover-refinement-seal-handoff}
 Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
