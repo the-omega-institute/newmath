@@ -155,6 +155,7 @@ Let $W_0$ and $W_1$ be accepted finite scheduled windows of the same $\RegSeqRat
 
 The restrictions of this refined window back to $W_0$ and $W_1$ recover the original classifier witnesses on the two input windows. The gluing operation introduces no quotient sequence, host real equality, metric-completion row, or additional $\RealUp$ seal datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_refined\_window\_gluing}
 \begin{proof}
 Project the two accepted windows by \autoref{thm:regseqrat-scheduled-window-projection}. This exposes the two finite lists of unary indices, dyadic endpoints, radius rows, regularity ledgers, classifier ledgers, and their displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance rows.
 
@@ -180,13 +181,14 @@ Conversely, any source read used by the seal is one of those finite rows, becaus
 \end{proof}
 \leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}
 
-\closureat{RegSeqRatUp}{seedStr}
+\closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 
 \begin{closurestatus}{\RegSeqRatUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed boundary names the scheduled $\mathsf{BHist}$ stream carrier, dyadic-tolerance classifier, regularity ledger, dyadic-radius observation rows, and finite-window transport rows over $\StreamNameUp$ and $\DyadicRatCoreUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation boundary consists of the stream carrier, dyadic classifier, regularity rows, finite-window transport rows, and $\RealUp$ seal-handoff rows over $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
   \constructivestory{Construct the packet by finite scheduled reads: $\StreamNameUp$ supplies the visible windows, $\DyadicRatCoreUp$ supplies endpoint and radius ledgers, and the regularity and classifier rows are projections of those finite observations.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface}
   \bridgestatus{none}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient carriers, metric completeness, or standard bridge data.}
   \upgradepath{Scoped closure requires checked carrier, classifier, regularity, finite-window transport, and $\RealUp$ seal-handoff targets for the displayed $\RegSeqRatUp$ source surface.}
