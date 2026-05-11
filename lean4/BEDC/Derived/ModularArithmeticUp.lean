@@ -146,6 +146,31 @@ theorem ModularArithmeticResidueSource_add_mul_ledger [AskSetup] [PackageSetup]
         (And.intro mulSame
           (And.intro addPkgSig mulPkgSig))))
 
+theorem ModularArithmeticResidueSource_operation_congruence [AskSetup] [PackageSetup]
+    {modulus witness left left' right right' addRow addRow' mulRow mulRow' addLedger
+      mulLedger addPkg mulPkg : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModularArithmeticResidueSource modulus witness left addLedger addPkg bundle pkg ->
+      ModularArithmeticResidueSource modulus witness right mulLedger mulPkg bundle pkg ->
+        hsame left left' ->
+          hsame right right' ->
+            Cont left right addRow ->
+              Cont left' right' addRow' ->
+                Cont left right mulRow ->
+                  Cont left' right' mulRow' ->
+                    hsame addRow addRow' ∧ hsame mulRow mulRow' ∧
+                      PkgSig bundle addPkg pkg ∧ PkgSig bundle mulPkg pkg := by
+  intro leftSource rightSource sameLeft sameRight addCont addCont' mulCont mulCont'
+  have sameAddRow : hsame addRow addRow' :=
+    cont_respects_hsame sameLeft sameRight addCont addCont'
+  have sameMulRow : hsame mulRow mulRow' :=
+    cont_respects_hsame sameLeft sameRight mulCont mulCont'
+  have addPkgSig : PkgSig bundle addPkg pkg :=
+    leftSource.right.right.right.right.right
+  have mulPkgSig : PkgSig bundle mulPkg pkg :=
+    rightSource.right.right.right.right.right
+  exact And.intro sameAddRow (And.intro sameMulRow (And.intro addPkgSig mulPkgSig))
+
 theorem ModularArithmeticResidueSource_int_rat_handoff [AskSetup] [PackageSetup]
     {modulus witness representative residueLedger pkgrow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
