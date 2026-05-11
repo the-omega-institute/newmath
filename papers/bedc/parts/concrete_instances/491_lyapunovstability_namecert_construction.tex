@@ -32,6 +32,7 @@ No other descent source appears in the carrier. Therefore every visible descent 
 \label{thm:lyapunovstability-level-set-containment}
 Let $P$ be an accepted $\LyapunovStabilityUp$ carrier with finite level row $\alpha$. If a displayed state row $x$ satisfies the finite comparison row $V(x)\leq \alpha$ and the transition face from $x$ is recorded in the descent ledger of $P$, then the successor state row $\Phi(x)$ has a displayed comparison row $V(\Phi(x))\leq \alpha$ assembled from the same $\RealUp$ nonnegative comparison rows, energy ledger, $\hsame$ transports, and $\Cont$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.LyapunovStabilityUp.LyapunovStabilityCarrier\_level\_set\_containment}
 \leanchecked{BEDC.Derived.LyapunovStabilityUp.LyapunovStabilityPacket\_level\_set\_containment}
 \begin{proof}
 Read the finite descent row for the transition face from $x$ to $\Phi(x)$. It supplies the comparison from the successor energy to the source energy.
@@ -41,14 +42,26 @@ Compose that comparison with the displayed level comparison for $x$. The composi
 Repack the composed comparison as the level row for the successor state. The construction uses only rows already present in the accepted packet, so it does not introduce an analytic invariant set or an external flow object.
 \end{proof}
 
+\begin{theorem}[LyapunovStability finite descent ledger exactness]
+\label{thm:lyapunovstability-finite-descent-ledger-exactness}
+For an accepted $\LyapunovStabilityUp$ carrier $P$ as in \autoref{def:lyapunovstability-bhist-carrier}, every consumer-visible descent row, level row, or successor-energy comparison row factors through exactly one displayed finite descent-ledger entry. The factorization carries the recorded $\DynSystemUp$ transition row, the $\RealUp$ or $\MatrixUp$ energy readback, the required $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the $\NameCert_{\LyapunovStabilityUp}$ row of $P$. No analytic flow, invariant set, asymptotic theorem, or ambient completion supplies a further descent row for the packet.
+\end{theorem}
+\begin{proof}
+Project $P$ to the coordinates listed in \autoref{def:lyapunovstability-bhist-carrier}. A consumer-visible descent or successor-energy comparison must first read a displayed transition face, then read the source and successor energy rows, and finally read a finite comparison row.
+
+The descent entry is the same ledger row used by \autoref{thm:lyapunovstability-energy-descent-obligation}. Composing that entry with the finite level comparison follows the construction of \autoref{thm:lyapunovstability-level-set-containment}, so the resulting level row has the same transition, energy, transport, continuation, package, and naming provenance.
+
+There is no remaining carrier coordinate from which another descent row could be projected. The listed finite ledger entry therefore exhausts each accepted consumer-visible descent, level, or successor-energy comparison row.
+\end{proof}
+
 \begin{theorem}[LyapunovStability NameCert obligation surface]
 \label{thm:lyapunovstability-namecert-obligation-surface}
-The local $\NameCert_{\LyapunovStabilityUp}$ obligation surface consists of five rows: the finite carrier of \autoref{def:lyapunovstability-bhist-carrier}; the classifier that transports state, transition, energy, level, comparison, descent, $\Cont$, and $\Pkg$ rows componentwise; the energy descent obligation of \autoref{thm:lyapunovstability-energy-descent-obligation}; the level-set containment row of \autoref{thm:lyapunovstability-level-set-containment}; and the exact consumer boundary over the displayed $\DynSystemUp$, $\VecSpaceUp$, $\MatrixUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The local $\NameCert_{\LyapunovStabilityUp}$ obligation surface consists of five rows: the finite carrier of \autoref{def:lyapunovstability-bhist-carrier}; the classifier that transports state, transition, energy, level, comparison, descent, $\Cont$, and $\Pkg$ rows componentwise; the energy descent obligation of \autoref{thm:lyapunovstability-energy-descent-obligation}; the level-set containment row of \autoref{thm:lyapunovstability-level-set-containment}; and the exact consumer boundary of \autoref{thm:lyapunovstability-finite-descent-ledger-exactness} over the displayed $\DynSystemUp$, $\VecSpaceUp$, $\MatrixUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
 \begin{proof}
 Start with the carrier and classifier. They enumerate the finite packet coordinates and the componentwise transport relation.
 
-Add the descent row and the level-set containment row. Both are projections from the same finite ledger and both use only the displayed transition, energy, comparison, continuation, and provenance rows.
+Add the descent row, the level-set containment row, and the finite ledger exactness row. These are projections from the same finite ledger and use only the displayed transition, energy, comparison, continuation, and provenance rows.
 
 The consumer boundary is then a closure of the displayed surface under projection. Since the packet has no row for an analytic flow, invariant measure, asymptotic convergence theorem, or ambient completion, those objects cannot be exported by the $\NameCert_{\LyapunovStabilityUp}$ surface.
 \end{proof}
