@@ -276,4 +276,49 @@ theorem DerivedFunctorDeltaSpliceSurface_short_exact_source_scope [AskSetup] [Pa
         (And.intro connectingRow
           (And.intro spliceReadback surface.right.right.right))))
 
+theorem DerivedFunctorDeltaSpliceSurface_connecting_row_ledger [AskSetup] [PackageSetup]
+    {functor resolutionA resolutionB resolutionC homology degree resolvedA resolvedB resolvedC endpointA
+      endpointB endpointC endpointC' boundary boundary' connecting connecting' splice splice' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DerivedFunctorDeltaSpliceSurface functor resolutionA resolutionB resolutionC homology degree
+        resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary connecting splice
+        bundle pkg ->
+      hsame endpointC endpointC' ->
+        Cont resolvedC homology endpointC' ->
+          hsame boundary boundary' ->
+            Cont endpointC' boundary' connecting' ->
+              Cont connecting' endpointA splice' ->
+                PkgSig bundle splice' pkg ->
+                  DerivedFunctorDeltaSpliceSurface functor resolutionA resolutionB resolutionC
+                      homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC'
+                      boundary' connecting' splice' bundle pkg ∧
+                    hsame connecting connecting' ∧ hsame splice splice' := by
+  intro surface sameEndpointC endpointCRow sameBoundary connectingRow spliceRow splicePkg
+  have boundaryCarrier :
+      DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC boundary :=
+    surface.left
+  have thirdCarrier' :
+      DerivedFunctorCarrier functor resolutionC homology degree resolvedC endpointC' :=
+    ⟨boundaryCarrier.right.right.left.left,
+      boundaryCarrier.right.right.left.right.left,
+      endpointCRow⟩
+  have boundaryCarrier' :
+      DerivedFunctorExactTriangleBoundaryCarrier functor resolutionA resolutionB resolutionC
+        homology degree resolvedA resolvedB resolvedC endpointA endpointB endpointC' boundary' :=
+    ⟨boundaryCarrier.left,
+      boundaryCarrier.right.left,
+      thirdCarrier',
+      unary_transport boundaryCarrier.right.right.right sameBoundary⟩
+  have sameConnecting : hsame connecting connecting' :=
+    cont_respects_hsame sameEndpointC sameBoundary surface.right.left connectingRow
+  have sameSplice : hsame splice splice' :=
+    cont_respects_hsame sameConnecting (hsame_refl endpointA) surface.right.right.left spliceRow
+  have transportedSurface :
+      DerivedFunctorDeltaSpliceSurface functor resolutionA resolutionB resolutionC homology degree
+        resolvedA resolvedB resolvedC endpointA endpointB endpointC' boundary' connecting' splice'
+        bundle pkg :=
+    ⟨boundaryCarrier', connectingRow, spliceRow, splicePkg⟩
+  exact ⟨transportedSurface, sameConnecting, sameSplice⟩
+
 end BEDC.Derived.DerivedFunctorUp
