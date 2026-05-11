@@ -314,6 +314,42 @@ each block rules out any public slot for a host Gelfand transform,
 compact-Hausdorff import, or external spectrum construction.
 \end{proof}
 
+\begin{theorem}[GelfandDuality standard spectrum bridge boundary]
+\label{thm:gelfandduality-standard-spectrum-bridge-boundary}
+The standard bridge boundary for the public $\GelfandDualityUp$ spectrum packet
+is exactly the displayed pairing between the $\CStarAlgUp$ source row $A$, the
+compact-spectrum $\TopologyUp$ row $X$, the character rows $\chi$, the
+evaluation rows $\varepsilon$, the transport rows $\rho_{A}$ and $\rho_{X}$,
+the $\Pkg$ provenance $P$, and the finite $\Cont$ route $\lambda$.
+
+This bridge boundary is only a conservative readback surface. It does not
+provide a host Gelfand transform, a compact-Hausdorff theorem, a second spectrum
+carrier, or any host-level spectrum equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:gelfandduality-spectrum-source-obligation}. It fixes
+the source boundary of the packet as the displayed $A$, $X$, $\chi$,
+$\varepsilon$, $\rho_{A}$, $\rho_{X}$, $P$, and $\lambda$ rows.
+
+The algebraic and topological consumer faces are
+\autoref{thm:gelfandduality-cstaralgebra-consumer-boundary} and
+\autoref{thm:gelfandduality-topology-consumer-boundary}. These two faces show
+that the $\CStarAlgUp$ and $\TopologyUp$ consumers read the same finite pairing
+surface, each through its own source row and the shared character, evaluation,
+transport, provenance, and continuation rows.
+
+Apply \autoref{thm:gelfandduality-spectrum-transport-exactness} and
+\autoref{thm:gelfandduality-spectrum-ledger-exactness}. Transport repacks only
+the displayed rows, and ledger exactness says that no extra spectrum component
+is present in the public packet.
+
+Finally use \autoref{thm:gelfandduality-obligation-closure-inventory}. The
+inventory lists precisely the obligations that the bridge boundary may expose,
+so the readback surface remains conservative and contains no host Gelfand
+transform, compact-Hausdorff theorem, second spectrum carrier, or host-level
+spectrum equality.
+\end{proof}
+
 \closureat{GelfandDualityUp}{scopedStr}[BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation]
 \closureat{GelfandDualityUp}{publicStr}[BEDC.Derived.GelfandDualityUp.GelfandDualitySpectrum\_source\_obligation]
 
