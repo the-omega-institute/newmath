@@ -474,5 +474,121 @@ theorem CauchyModulusCarrierPacket_real_classifier_transport
     targetPacket.right.right.right.right.left
   exact And.intro targetPacket
     (And.intro sameWindow (And.intro toleranceCarrier observationBUnary))
+theorem CauchyModulusLedgerPacket_real_classifier_transport
+    {precision threshold tolerance observation consumption provenance window tolerance'
+      observation' consumption' provenance' : BHist} :
+    CauchyModulusLedgerPacket precision threshold tolerance observation consumption provenance
+        window ->
+      hsame tolerance tolerance' ->
+        hsame observation observation' ->
+          Cont window tolerance' consumption' ->
+            Cont consumption' observation' provenance' ->
+              CauchyModulusLedgerPacket precision threshold tolerance' observation' consumption'
+                  provenance' window ∧
+                RatHistoryClassifier tolerance tolerance' ∧
+                  UnaryHistory window ∧ hsame consumption consumption' ∧
+                    hsame provenance provenance' := by
+  intro packet sameTolerance sameObservation consumptionRow' provenanceRow'
+  have toleranceCarrier : RatHistoryCarrier tolerance := packet.right.right.left
+  have toleranceCarrier' : RatHistoryCarrier tolerance' :=
+    RatHistoryCarrier_hsame_transport sameTolerance toleranceCarrier
+  have windowRow : Cont precision threshold window := packet.right.right.right.left
+  have consumptionRow : Cont window tolerance consumption := packet.right.right.right.right.left
+  have provenanceRow : Cont consumption observation provenance :=
+    packet.right.right.right.right.right
+  have sameConsumption : hsame consumption consumption' :=
+    cont_respects_hsame (hsame_refl window) sameTolerance consumptionRow consumptionRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameConsumption sameObservation provenanceRow provenanceRow'
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed packet.left packet.right.left windowRow
+  have toleranceClassifier : RatHistoryClassifier tolerance tolerance' :=
+    And.intro toleranceCarrier (And.intro toleranceCarrier' sameTolerance)
+  exact And.intro
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro toleranceCarrier'
+          (And.intro windowRow (And.intro consumptionRow' provenanceRow')))))
+    (And.intro toleranceClassifier
+      (And.intro windowUnary (And.intro sameConsumption sameProvenance)))
+
+def CauchyModulusRegularityWindow
+    (threshold tolerance m n obsM obsN bound ledger endpoint : BHist) : Prop :=
+  UnaryHistory threshold ∧
+    PositiveUnaryDenominator tolerance ∧
+      UnaryHistory m ∧
+        UnaryHistory n ∧
+          UnaryHistory obsM ∧
+            UnaryHistory obsN ∧
+              Cont obsM obsN bound ∧
+                Cont bound tolerance ledger ∧ Cont ledger threshold endpoint
+
+theorem CauchyModulusRegularityWindow_hsame_transport
+    {threshold tolerance m n obsM obsN bound ledger endpoint threshold' tolerance' m' n'
+      obsM' obsN' bound' ledger' endpoint' : BHist} :
+    CauchyModulusRegularityWindow threshold tolerance m n obsM obsN bound ledger endpoint ->
+      hsame threshold threshold' ->
+        hsame tolerance tolerance' ->
+          hsame m m' ->
+            hsame n n' ->
+              hsame obsM obsM' ->
+                hsame obsN obsN' ->
+                  hsame bound bound' ->
+                    hsame ledger ledger' ->
+                      hsame endpoint endpoint' ->
+                        CauchyModulusRegularityWindow threshold' tolerance' m' n' obsM'
+                            obsN' bound' ledger' endpoint' ∧
+                          Cont obsM' obsN' bound' ∧ Cont bound' tolerance' ledger' := by
+  intro window sameThreshold sameTolerance sameM sameN sameObsM sameObsN sameBound
+    sameLedger sameEndpoint
+  cases window with
+  | intro thresholdUnary windowRest =>
+      cases windowRest with
+      | intro tolerancePositive windowRest =>
+          cases windowRest with
+          | intro mUnary windowRest =>
+              cases windowRest with
+              | intro nUnary windowRest =>
+                  cases windowRest with
+                  | intro obsMUnary windowRest =>
+                      cases windowRest with
+                      | intro obsNUnary windowRest =>
+                          cases windowRest with
+                          | intro boundRow windowRest =>
+                              cases windowRest with
+                              | intro ledgerRow endpointRow =>
+                                  have thresholdUnary' : UnaryHistory threshold' :=
+                                    unary_transport thresholdUnary sameThreshold
+                                  have tolerancePositive' :
+                                      PositiveUnaryDenominator tolerance' :=
+                                    PositiveUnaryDenominator_hsame_transport sameTolerance
+                                      tolerancePositive
+                                  have mUnary' : UnaryHistory m' :=
+                                    unary_transport mUnary sameM
+                                  have nUnary' : UnaryHistory n' :=
+                                    unary_transport nUnary sameN
+                                  have obsMUnary' : UnaryHistory obsM' :=
+                                    unary_transport obsMUnary sameObsM
+                                  have obsNUnary' : UnaryHistory obsN' :=
+                                    unary_transport obsNUnary sameObsN
+                                  have boundRow' : Cont obsM' obsN' bound' :=
+                                    cont_hsame_transport sameObsM sameObsN sameBound boundRow
+                                  have ledgerRow' : Cont bound' tolerance' ledger' :=
+                                    cont_hsame_transport sameBound sameTolerance sameLedger
+                                      ledgerRow
+                                  have endpointRow' : Cont ledger' threshold' endpoint' :=
+                                    cont_hsame_transport sameLedger sameThreshold sameEndpoint
+                                      endpointRow
+                                  exact And.intro
+                                    (And.intro thresholdUnary'
+                                      (And.intro tolerancePositive'
+                                        (And.intro mUnary'
+                                          (And.intro nUnary'
+                                            (And.intro obsMUnary'
+                                              (And.intro obsNUnary'
+                                                (And.intro boundRow'
+                                                  (And.intro ledgerRow'
+                                                    endpointRow'))))))))
+                                    (And.intro boundRow' ledgerRow')
 
 end BEDC.Derived.CauchyModulusUp
