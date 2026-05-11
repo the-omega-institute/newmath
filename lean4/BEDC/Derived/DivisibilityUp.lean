@@ -36,4 +36,27 @@ theorem DivisibilityFiniteHistoryCarrier_order_bounded_ledger
     ledgerUnary, _provenanceUnary, _productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
   exact ⟨boundUnary, ledgerUnary, ledgerRow, provenanceRow, pkgRow⟩
 
+def DivisibilityLedger [AskSetup] [PackageSetup]
+    (a b q witness order ledger provenance product : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ UnaryHistory witness ∧
+    UnaryHistory order ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+      Cont b q product ∧ hsame product a ∧ Cont witness ledger product ∧
+        PkgSig bundle provenance pkg
+
+theorem DivisibilityLedger_multiplication_witness_closure [AskSetup] [PackageSetup]
+    {a b q witness order ledger provenance product : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityLedger a b q witness order ledger provenance product bundle pkg ->
+      UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ Cont b q product ∧
+        hsame product a ∧ Cont witness ledger product ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right.right.right.right)))))
+
 end BEDC.Derived.DivisibilityUp
