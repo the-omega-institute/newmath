@@ -134,6 +134,78 @@ theorem EntanglementBHistSourceSurface_factor_boundary [AskSetup] [PackageSetup]
               (And.intro obstructionBoundary
                 (And.intro packageBoundary pkgSig)))))))
 
+theorem EntanglementBHistSourceSurface_obstruction_transport_stability [AskSetup] [PackageSetup]
+    {quantum factorLeft factorRight endpoint obstruction stateTransport factorTransport provenance
+      ledger packageEndpoint quantum' factorLeft' factorRight' endpoint' obstruction'
+      provenance' ledger' packageEndpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EntanglementBHistSourceSurface quantum factorLeft factorRight endpoint obstruction
+        stateTransport factorTransport provenance ledger packageEndpoint bundle pkg ->
+      hsame quantum quantum' ->
+      hsame factorLeft factorLeft' ->
+      hsame factorRight factorRight' ->
+      hsame obstruction obstruction' ->
+      hsame provenance provenance' ->
+      Cont factorLeft' factorRight' endpoint' ->
+      Cont endpoint' obstruction' ledger' ->
+      Cont ledger' provenance' packageEndpoint' ->
+      PkgSig bundle packageEndpoint' pkg ->
+      EntanglementBHistSourceSurface quantum' factorLeft' factorRight' endpoint'
+          obstruction' quantum' (append factorLeft' factorRight') provenance' ledger'
+          packageEndpoint' bundle pkg ∧ hsame endpoint endpoint' ∧ hsame ledger ledger' ∧
+        hsame packageEndpoint packageEndpoint' := by
+  intro surface sameQuantum sameLeft sameRight sameObstruction sameProvenance
+    contEndpoint' contLedger' contPackage' pkgSig'
+  have quantumUnary : UnaryHistory quantum :=
+    surface.left
+  have leftUnary : UnaryHistory factorLeft :=
+    surface.right.left
+  have rightUnary : UnaryHistory factorRight :=
+    surface.right.right.left
+  have obstructionUnary : UnaryHistory obstruction :=
+    surface.right.right.right.left
+  have contEndpoint : Cont factorLeft factorRight endpoint :=
+    surface.right.right.right.right.right.right.left
+  have contLedger : Cont endpoint obstruction ledger :=
+    surface.right.right.right.right.right.right.right.left
+  have contPackage : Cont ledger provenance packageEndpoint :=
+    surface.right.right.right.right.right.right.right.right.left
+  have quantumUnary' : UnaryHistory quantum' :=
+    unary_transport quantumUnary sameQuantum
+  have leftUnary' : UnaryHistory factorLeft' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory factorRight' :=
+    unary_transport rightUnary sameRight
+  have obstructionUnary' : UnaryHistory obstruction' :=
+    unary_transport obstructionUnary sameObstruction
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLeft sameRight contEndpoint contEndpoint'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameObstruction contLedger contLedger'
+  have samePackageEndpoint : hsame packageEndpoint packageEndpoint' :=
+    cont_respects_hsame sameLedger sameProvenance contPackage contPackage'
+  have sameStateTransport' : hsame quantum' quantum' :=
+    hsame_refl quantum'
+  have sameFactorTransport' : hsame (append factorLeft' factorRight')
+      (append factorLeft' factorRight') :=
+    hsame_refl (append factorLeft' factorRight')
+  have transported :
+      EntanglementBHistSourceSurface quantum' factorLeft' factorRight' endpoint'
+          obstruction' quantum' (append factorLeft' factorRight') provenance' ledger'
+          packageEndpoint' bundle pkg :=
+    And.intro quantumUnary'
+      (And.intro leftUnary'
+        (And.intro rightUnary'
+          (And.intro obstructionUnary'
+            (And.intro sameStateTransport'
+              (And.intro sameFactorTransport'
+                (And.intro contEndpoint'
+                  (And.intro contLedger'
+                    (And.intro contPackage' pkgSig'))))))))
+  exact And.intro transported
+    (And.intro sameEndpoint
+      (And.intro sameLedger samePackageEndpoint))
+
 def EntanglementSourceSurface [AskSetup] [PackageSetup]
     (quantumState leftFactor rightFactor endpoint obstruction stateTransport leftTransport
       rightTransport provenance factorLedger endpointLedger : BHist)
