@@ -47,6 +47,50 @@ shared bundle. Therefore the downstream finite-window $\RealUp$
 ledger-boundary rows are the same consumer-facing rows as well.
 \end{proof}
 
+\begin{theorem}[StreamName public RegSeqRat finite-window composition]
+\label{thm:streamname-public-regseqrat-window-composition}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window $\StreamNameUp$
+packages over the same $\mathsf{ProbeBundle}$ $\mathcal P$ and displayed maps
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$. Suppose that the public rows exposed by
+the two packages agree on the finite-window classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$, the
+$\mathsf{InBundle}(-,\mathcal P)$ membership rows, the certified
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ provenance rows.
+
+Then the $\RegSeqRat$ handoff rows read from $\mathcal W_L$ and
+$\mathcal W_R$ agree, and the finite-window $\RealUp$ ledger-boundary rows
+obtained from those handoffs agree, as the same consumer-facing common-window
+surface. The composed surface exports only the listed public StreamName rows,
+the RegSeqRat handoff rows determined by them, and the finite RealUp
+ledger-boundary rows. It exports no $\RegSeqRat$ regularity row, $\RealUp$
+seal classifier, completion object, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface} to both public
+packages. The interface restricts each finite window to the displayed bundle,
+unary-history, pointwise rational-history classifier, $\hsame$, $\Cont$, and
+$\Pkg$ rows, so both packages present the same public finite-window source
+surface over $\mathcal P$.
+
+Next apply \autoref{thm:streamname-regseqrat-common-window-transport}. Since
+the two public projections expose the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ and the same
+pointwise provenance rows, the RegSeqRat handoff read from either package is
+the same consumer-facing handoff surface, and the finite RealUp
+ledger-boundary rows obtained from that handoff are the same rows.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation} and
+\autoref{thm:streamname-common-refinement-source-determinacy}. The separation
+theorem keeps regularity, sealing, completion, quotient, and host-index data
+outside the exported finite-window rows, while source determinacy identifies
+the common bundle source read by downstream consumers. Repacking therefore
+keeps exactly the public classifier, membership, unary-history, pointwise
+classifier, $\hsame$, $\Cont$, $\Pkg$, RegSeqRat handoff, and finite RealUp
+ledger-boundary rows.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat dyadic source determinacy]
 \label{thm:streamname-regseqrat-dyadic-source-determinacy}
 Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
