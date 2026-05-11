@@ -574,4 +574,40 @@ theorem substitute_preserves_typing_V2_pi
             (C := shift 0 1 dom) hs hshape_s)
           hshape_cod
 
+theorem substitute_preserves_typing_V2_lam
+    {Γ : Ctx} {s B dom body cod : Term}
+    (hclosed_B : ClosedAt 0 B)
+    (hclosed_s : ClosedAt 0 s)
+    (hclosed_dom : ClosedAt 0 dom)
+    (hshape_s : s = Term.sort ∨ ∃ i : Idx, s = Term.var i)
+    (hshape_dom : dom = Term.sort ∨ ∃ i : Idx, dom = Term.var i)
+    (hshape_body : body = Term.sort ∨ ∃ i : Idx, body = Term.var i)
+    (ht : HasTypeV2 (B :: Γ) (Term.lam dom body) (Term.pi dom cod))
+    (hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.lam dom body))
+      (substitute 0 s (Term.pi dom cod)) := by
+  cases ht with
+  | lamRule Δ dom body cod hdom hbody =>
+      change HasTypeV2 Γ
+        (Term.lam (substitute 0 s dom)
+          (substitute 1 (shift 0 1 s) body))
+        (Term.pi (substitute 0 s dom)
+          (substitute 1 (shift 0 1 s) cod))
+      apply HasTypeV2.lamRule
+      · exact substitute_preserves_typing_V2_sort_var
+          hclosed_B hdom hs hshape_dom
+      · rw [substitute_closed 0 s dom hclosed_dom]
+        have hclosed_dom_after : ClosedAt 0 (shift 0 1 dom) := by
+          rw [shift_closed 0 dom hclosed_dom]
+          exact hclosed_dom
+        exact substitute_preserves_typing_V2_depth1_sort_var_with_weaken
+          hclosed_B
+          hclosed_s
+          hclosed_dom_after
+          hbody
+          (hasTypeV2_shift_weaken_sort_var
+            (C := shift 0 1 dom) hs hshape_s)
+          hshape_body
+
 end BEDC.MetaCIC.V2
