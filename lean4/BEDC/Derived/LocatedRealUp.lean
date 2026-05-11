@@ -248,6 +248,22 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
 
+theorem LocatedRealCarrier_metric_consumer_empty_boundary [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint realRow consumerRow ->
+        hsame consumerRow BHist.Empty ->
+          hsame endpoint BHist.Empty ∧ hsame realRow BHist.Empty := by
+  intro _carrier consumerRowCont consumerRowEmpty
+  have appendedEmpty : append endpoint realRow = BHist.Empty := by
+    cases consumerRowCont
+    exact consumerRowEmpty
+  have parts : endpoint = BHist.Empty ∧ realRow = BHist.Empty :=
+    append_eq_empty_iff.mp appendedEmpty
+  exact And.intro parts.left parts.right
+
 theorem LocatedRealCarrier_metric_consumer_handoff [AskSetup] [PackageSetup]
     {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
