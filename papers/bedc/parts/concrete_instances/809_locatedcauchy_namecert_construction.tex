@@ -1,0 +1,160 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyUp$}
+\label{ch:concrete-instances-locatedcauchy-namecert}
+
+The $\LocatedCauchyUp$ interface records the finite located-Cauchy packet that
+sits between explicit Cauchy-rate names and the $\RealUp$ seal. Following
+Bishop and Bridges, Constructive Analysis, the packet treats located rational
+ball data as constructive evidence attached to a Cauchy name. It does not form
+Dedekind cuts, quotient streams, selected real limits, trichotomy witnesses,
+choice data, or open-cover compactness objects.
+
+\begin{definition}[LocatedCauchy finite carrier]
+\label{def:locatedcauchy-bhist-carrier}
+A $\LocatedCauchyUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(S,D,M,W,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule naming the requested precision windows;
+\item $D$ is the displayed family of $\DyadicRatCoreUp$ endpoint rows read on
+those windows;
+\item $M$ is the $\CauchyModulusUp$ precision row that assigns each requested
+precision to a finite observation threshold;
+\item $W$ is the family of located dyadic-ball witnesses for each displayed
+precision request, with center and radius read from the dyadic endpoint rows;
+\item $H$ records componentwise $\hsame$ transport for schedules, endpoint rows,
+modulus rows, and located-ball witnesses;
+\item $C$ records the $\Cont$ readback routes through which a consumer reaches
+finite precision windows, dyadic endpoint rows, modulus rows, and located-ball
+witnesses;
+\item $P$ is the $\Pkg$ provenance row naming $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ as the
+dependency anchors;
+\item $N$ is the local $\NameCert_{\LocatedCauchyUp}$ provenance row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{LocatedCauchyPacket}(S,D,M,W,H,C,P,N)$. A constant dyadic stream
+inhabits the carrier by taking $S$ to repeat one scheduled dyadic endpoint, $M$
+to return the same threshold for every requested precision, and $W$ to display
+the corresponding degenerate located dyadic ball at each requested window.
+\end{definition}
+
+\begin{definition}[LocatedCauchy classifier]
+\label{def:locatedcauchy-classifier}
+Two accepted $\LocatedCauchyUp$ packets
+$L=(S,D,M,W,H,C,P,N)$ and $L'=(S',D',M',W',H',C',P',N')$ are classified alike
+when the displayed schedules agree componentwise, the dyadic endpoint rows
+agree componentwise, the modulus rows agree on every requested precision
+window, the located-ball witnesses agree through their displayed endpoint and
+radius rows, the $\hsame$ rows transport those components, the $\Cont$ routes
+expose the same finite readback surface, and the $\Pkg$ provenance rows name the
+same dependency anchors.
+
+The classifier has no coordinate for host real equality, completed quotient
+streams, Dedekind-cut membership, trichotomy, choice-selected representatives,
+or open-cover compactness. It compares only the finite located windows and the
+provenance rows displayed in
+\autoref{def:locatedcauchy-bhist-carrier}.
+\end{definition}
+
+\begin{theorem}[LocatedCauchy window stability]
+\label{thm:locatedcauchy-window-stability}
+Let $L$ be an accepted $\LocatedCauchyUp$ packet. If a requested precision
+window is refined through the displayed $\CauchyModulusUp$ row, then the refined
+readback still factors through the same $\StreamNameUp$ schedule, the same
+family of $\DyadicRatCoreUp$ endpoint rows, and the transported located
+dyadic-ball witness family. Thus precision refinement changes only which finite
+window is read; it does not expose a completed real value or an unbounded stream
+object.
+\end{theorem}
+\begin{proof}
+Project $L$ through \autoref{def:locatedcauchy-bhist-carrier}. The modulus
+coordinate $M$ is the only row that answers a precision request, and it answers
+by naming a finite observation threshold inside the schedule $S$.
+
+At the refined threshold, the endpoint data are read from $D$ and the located
+ball data are read from $W$. The transport coordinate $H$ supplies the
+componentwise $\hsame$ rows needed to move these visible rows along an accepted
+classifier comparison.
+
+The continuation coordinate $C$ exhausts the readback routes. Since no carrier
+coordinate stores a quotient stream, host real, or selected limit, refinement
+cannot reveal data outside the displayed finite located window.
+\end{proof}
+
+\begin{theorem}[LocatedCauchy NameCert obligation surface]
+\label{thm:locatedcauchy-namecert-obligation-surface}
+The local $\NameCert_{\LocatedCauchyUp}$ seed surface consists of the following
+five rows:
+\begin{enumerate}
+\item carrier inhabitation by the constant dyadic stream described in
+\autoref{def:locatedcauchy-bhist-carrier};
+\item classifier reflexivity, symmetry, and transitivity obtained from
+componentwise $\hsame$ over schedules, endpoints, modulus rows, located balls,
+continuation routes, and package provenance;
+\item carrier transport along the classifier rows of
+\autoref{def:locatedcauchy-classifier};
+\item precision-window stability under modulus refinement as in
+\autoref{thm:locatedcauchy-window-stability};
+\item $\RealUp$ seal boundary, where consumers see only finite located windows
+and the dependency provenance needed to pass toward $\RegSeqRatUp$ and
+$\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is the finite packet displayed in
+\autoref{def:locatedcauchy-bhist-carrier}. The constant dyadic stream gives an
+inhabited packet because each requested precision reads the same dyadic endpoint
+and the same degenerate located ball.
+
+The classifier laws are inherited component by component from the displayed
+$\hsame$ rows. Reflexivity uses the identity rows, symmetry reverses each
+componentwise comparison, and transitivity composes the visible comparisons on
+schedules, endpoints, modulus data, located-ball witnesses, continuation
+routes, and provenance.
+
+Transport repacks the carrier coordinates after those classifier comparisons.
+Window stability is exactly
+\autoref{thm:locatedcauchy-window-stability}, and the final row is the seal
+boundary isolated in
+\autoref{thm:locatedcauchy-real-seal-boundary}.
+\end{proof}
+
+\begin{theorem}[LocatedCauchy real seal boundary]
+\label{thm:locatedcauchy-real-seal-boundary}
+Every $\RealUp$-facing read exported by an accepted $\LocatedCauchyUp$ packet
+factors through a finite requested precision window, its $\CauchyModulusUp$
+threshold, the scheduled $\DyadicRatCoreUp$ endpoint rows, and the displayed
+located dyadic-ball witness. The packet supplies a constructive real-name
+neighbor for $\RegSeqRatUp$ and $\RealUp$ consumers, but it claims no Dedekind
+cut, quotient stream, trichotomy principle, choice-selected representative, or
+open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Take any consumer route from the packet toward the real seal. By the carrier
+definition, every such route is one of the displayed $\Cont$ rows in $C$, and
+each route names the precision window it reads.
+
+The precision window is resolved by the modulus row $M$, then by the scheduled
+endpoint rows in $D$ and the located-ball witnesses in $W$. These are precisely
+the finite rows exposed to $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+The exclusions follow from absence of coordinates. The packet stores no cut
+predicate, no quotient-stream equality, no trichotomy witness, no selected
+representative, and no open-cover compactness datum, so none of those objects
+can be exported through the real-facing readback.
+\end{proof}
+
+\closureat{LocatedCauchyUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyUp}
+  \constructivestory{A $\LocatedCauchyUp$ packet is generated from a finite StreamName schedule, DyadicRatCore endpoint rows, a CauchyModulus precision row, located dyadic-ball witnesses, componentwise transport rows, continuation readback routes, package provenance for DyadicRatCoreUp, StreamNameUp, CauchyModulusUp, RegSeqRatUp, and RealUp, and a local NameCert provenance row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locatedcauchy-bhist-carrier}, \autoref{def:locatedcauchy-classifier}, \autoref{thm:locatedcauchy-window-stability}, \autoref{thm:locatedcauchy-namecert-obligation-surface}, and \autoref{thm:locatedcauchy-real-seal-boundary} bind the finite located-Cauchy carrier, classifier, window-stability row, NameCert obligation surface, and real-seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient streams, host real equality, trichotomy, choice, open-cover compactness, or a standard bridge.}
+  \upgradepath{A stronger closure grade requires formal carrier, classifier, transport, precision-window stability, and RealUp seal-boundary targets for the same finite located-Cauchy packet.}
+\end{closurestatus}
