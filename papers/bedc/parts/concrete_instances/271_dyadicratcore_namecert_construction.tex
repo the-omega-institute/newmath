@@ -630,6 +630,39 @@ Use the monotonicity clause to refine the requested unary radius window. Appendi
 Finally apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. Its exclusion clause rules out quotient rationals, host equality, completed real endpoints, and any standard bridge data not present in the finite window, so the extracted radius window is exactly the displayed dyadic-to-$\RegSeqRat$ window.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore RegSeqRat radius-window composition]
+\label{thm:dyadicratcore-regseqrat-radius-window-composition}
+Two successive $\RegSeqRat$ finite-window handoffs that consume
+$\DyadicRatCoreUp$ public envelopes through the standard source bridge compose
+to a single monotone radius-window extraction. The visible rows of the composed
+handoff are exactly the denominator ledger, common-exponent classifier, distance
+window, $\mathsf{BHist}$ carrier row, $\hsame$ transport, $\Cont$ readback, and
+$\mathsf{Pkg}$ provenance from the first and second windows, read through the
+same standard dyadic source bridge. The composed extraction exports no quotient
+rational, host equality row, completed $\RealUp$ endpoint, or $\RealUp$
+completeness theorem.
+\end{theorem}
+\begin{proof}
+First compose the two dyadic bridge packets by
+\autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-composition}.
+This identifies the denominator refinement produced by the first handoff with
+the source denominator row consumed by the second, and it keeps the
+common-exponent classifier and distance window inside the displayed dyadic
+bridge inventory.
+
+Next apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} to
+each handoff. The only rows visible to the downstream $\RegSeqRat$ consumer are
+the denominator ledger, classifier, finite distance and radius windows,
+carrier data, transport rows, readback rows, and package provenance.
+
+Finally apply
+\autoref{thm:dyadicratcore-regseqrat-radius-monotone-window-extraction} to the
+composed packet. Monotonicity turns the two finite radius reads into one
+radius-window extraction, and the inherited exclusion clauses remove quotient
+rationals, host equality, completed real endpoints, and real-completeness data
+from the composed boundary.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 \closureat{DyadicRatCoreUp}{bridgedStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
 \closureat{DyadicRatCoreUp}{matureStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
