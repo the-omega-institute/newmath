@@ -21,9 +21,10 @@ def OptimalTransportFiniteCouplingCarrier [AskSetup] [PackageSetup]
       feasible dual provenance : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory sourceMass ∧
     UnaryHistory targetMass ∧ UnaryHistory cost ∧ UnaryHistory coupling ∧
-      Cont source coupling sourceMarginal ∧ Cont target coupling targetMarginal ∧
-        Cont cost coupling objective ∧ Cont objective feasible dual ∧
-          Cont dual sourceMarginal provenance ∧ PkgSig bundle provenance pkg
+      UnaryHistory feasible ∧ UnaryHistory dual ∧ UnaryHistory provenance ∧
+        Cont source coupling sourceMarginal ∧ Cont target coupling targetMarginal ∧
+          Cont cost coupling objective ∧ Cont objective feasible dual ∧
+            Cont dual sourceMarginal provenance ∧ PkgSig bundle provenance pkg
 
 theorem OptimalTransportFiniteCouplingCarrier_marginal_ledger [AskSetup] [PackageSetup]
     {source target sourceMass targetMass cost coupling sourceMarginal targetMarginal objective
@@ -35,8 +36,8 @@ theorem OptimalTransportFiniteCouplingCarrier_marginal_ledger [AskSetup] [Packag
           hsame targetMarginal (append target coupling) ∧ PkgSig bundle provenance pkg := by
   intro carrier
   obtain ⟨sourceUnary, targetUnary, _sourceMassUnary, _targetMassUnary, _costUnary,
-    couplingUnary, sourceMarginalRow, targetMarginalRow, _objectiveRow, _dualRow,
-    _provenanceRow, pkgRow⟩ := carrier
+    couplingUnary, _feasibleUnary, _dualUnary, _provenanceUnary, sourceMarginalRow,
+    targetMarginalRow, _objectiveRow, _dualRow, _provenanceRow, pkgRow⟩ := carrier
   have sourceMarginalUnary : UnaryHistory sourceMarginal :=
     unary_cont_closed sourceUnary couplingUnary sourceMarginalRow
   have targetMarginalUnary : UnaryHistory targetMarginal :=
@@ -54,11 +55,81 @@ theorem OptimalTransportFiniteCouplingCarrier_cost_summation_ledger
         hsame objective (append cost coupling) ∧ PkgSig bundle provenance pkg := by
   intro carrier
   obtain ⟨_sourceUnary, _targetUnary, _sourceMassUnary, _targetMassUnary, costUnary,
-    couplingUnary, _sourceMarginalRow, _targetMarginalRow, objectiveRow, _dualRow,
-    _provenanceRow, pkgRow⟩ := carrier
+    couplingUnary, _feasibleUnary, _dualUnary, _provenanceUnary, _sourceMarginalRow,
+    _targetMarginalRow, objectiveRow, _dualRow, _provenanceRow, pkgRow⟩ := carrier
   have objectiveUnary : UnaryHistory objective :=
     unary_cont_closed costUnary couplingUnary objectiveRow
   exact ⟨costUnary, couplingUnary, objectiveUnary, objectiveRow, pkgRow⟩
+
+theorem OptimalTransportFiniteCouplingCarrier_public_finite_lp_semantic_certificate
+    [AskSetup] [PackageSetup]
+    {source target sourceMass targetMass cost coupling sourceMarginal targetMarginal objective
+      feasible dual provenance consumer : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost coupling
+        sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      Cont dual provenance consumer ->
+        SemanticNameCert
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+                coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row consumer)
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+                coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row consumer)
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+                coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row consumer)
+            hsame ∧
+          UnaryHistory consumer ∧ hsame consumer (append dual provenance) ∧
+            PkgSig bundle provenance pkg := by
+  intro carrier consumerRow
+  have carrierProof := carrier
+  obtain ⟨_sourceUnary, _targetUnary, _sourceMassUnary, _targetMassUnary, _costUnary,
+    _couplingUnary, _feasibleUnary, dualUnary, provenanceUnary, _sourceMarginalRow,
+    _targetMarginalRow, _objectiveRow, _dualRow, _provenanceRow, pkgRow⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed dualUnary provenanceUnary consumerRow
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+              coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row consumer)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+              coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row consumer)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingCarrier source target sourceMass targetMass cost
+              coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row consumer)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer (And.intro carrierProof (hsame_refl consumer))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+  exact ⟨cert, consumerUnary, consumerRow, pkgRow⟩
 
 theorem OptimalTransportFiniteCouplingCarrier_lpduality_feasible_surface
     [AskSetup] [PackageSetup]
@@ -73,8 +144,8 @@ theorem OptimalTransportFiniteCouplingCarrier_lpduality_feasible_surface
               PkgSig bundle provenance pkg := by
   intro carrier
   obtain ⟨_sourceUnary, _targetUnary, _sourceMassUnary, _targetMassUnary, costUnary,
-    couplingUnary, sourceMarginalRow, targetMarginalRow, objectiveRow, dualRow,
-    provenanceRow, pkgRow⟩ := carrier
+    couplingUnary, _feasibleUnary, _dualUnary, _provenanceUnary, sourceMarginalRow,
+    targetMarginalRow, objectiveRow, dualRow, provenanceRow, pkgRow⟩ := carrier
   have objectiveUnary : UnaryHistory objective :=
     unary_cont_closed costUnary couplingUnary objectiveRow
   exact

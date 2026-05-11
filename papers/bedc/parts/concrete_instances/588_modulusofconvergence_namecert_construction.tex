@@ -138,15 +138,18 @@ convergence-rate ledger and no extra completion object, quotient equality,
 global modulus choice, or selected real limit.
 \end{proof}
 
-\begin{theorem}[ModulusOfConvergence scoped dependency binding]\label{thm:modulusofconvergence-scoped-dependency-binding}
-The carrier, $\NameCert$ obligation surface, composition stability, tail
-restriction stability, and ledger exactness of a $\ModulusOfConvergenceUp$
-packet are scoped exactly over the visible precision request, unary threshold
-selector, modulus row, $\StreamNameUp$ observation schedule,
-$\RegSeqRatUp$ late-observation witness, $\mathsf{BHist}$ rows, $\hsame$
-transports, $\Cont$ windows, $\mathsf{Pkg}$ provenance, and $\NameCert$
-registration displayed by this chapter. No completion coordinate, quotient
-coordinate, selected limit, or global choice coordinate is part of that scope.
+\begin{theorem}[ModulusOfConvergence scoped dependency packet]\label{thm:modulusofconvergence-scoped-dependency-packet}
+For an accepted $\ModulusOfConvergenceUp$ packet, the carrier, classifier,
+composition, tail-restriction, and ledger exactness rows form one scoped BEDC
+dependency packet over $\mathsf{BHist}$. Precision and threshold transport are
+read only through $\hsame$, finite observation windows are read only through
+$\Cont$, provenance is read only through $\mathsf{Pkg}$, and the public
+certificate row is read only through
+$\NameCert_{\ModulusOfConvergenceUp}$.
+
+The packet preserves the displayed $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors. It excludes quotient completion,
+selected real limits, and global threshold choice.
 \end{theorem}
 \begin{proof}
 Project the seven carrier coordinates of
@@ -156,16 +159,20 @@ late-observation witness, dependency ledger, and package/name provenance
 surface.
 
 Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} to bind
-the accepted packet to the displayed $\NameCert$ registration and carrier
-obligations. Apply \autoref{thm:modulusofconvergence-composition-stability}
-and \autoref{thm:modulusofconvergence-tail-restriction-stability} to keep the
+the accepted packet to the displayed classifier, transport rows, carrier
+obligations, and $\NameCert$ registration.
+
+Apply \autoref{thm:modulusofconvergence-composition-stability} and
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. They keep the
 same $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows stable under
 composition and tail restriction.
 
 Finally apply \autoref{thm:modulusofconvergence-ledger-exactness}. It says
 that every $\RegSeqRatUp$ or $\RealUp$ consumer read factors through the
-listed BEDC rows, so no completion object, quotient equality, selected limit,
-or global choice is exposed by the scoped packet.
+listed BEDC rows and keeps the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors visible. Hence no completion object,
+quotient equality, selected limit, or global threshold choice is exposed by the
+scoped packet.
 \end{proof}
 
 \closureat{ModulusOfConvergenceUp}{obligationStr}
