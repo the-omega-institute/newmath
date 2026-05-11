@@ -291,11 +291,20 @@ $$
 $$
 admits a Lean-verified counterexample without closure constraints on
 $s$. The substrate fix is to require $\mathrm{ClosedAt}\ 0\ s$ as an
-additional hypothesis; under that hypothesis, three of five
-inductive cases of $\mathrm{cod}$ (sort, var, app) admit real
-proofs. The lam and pi cases require a further shift-substitute
-commutation lemma whose unconditional form is itself a research-stage
-question.
+additional hypothesis; under that hypothesis, all five inductive cases
+of $\mathrm{cod}$ are covered. The sort case is unconditional, the var
+case assumes $\mathrm{ClosedAt}\ 0\ s$, the app case uses two recursive
+premises, and the lam and pi cases are conditional on the
+shift-substitute commutation equation
+$$
+\begin{aligned}
+  \mathrm{shift}\ 0\ 1\ (\mathrm{substitute}\ 0\ s\ a) =
+  \mathrm{substitute}\ 1\ (\mathrm{shift}\ 0\ 1\ s)\
+    (\mathrm{shift}\ 0\ 1\ a).
+\end{aligned}
+$$
+The commutation lemma is the remaining piece for full unconditional
+composition closure.
 
 The pattern repeats: each composition lemma's unconditional form
 fails, and the closed-term restriction makes a sub-cases tractable
@@ -326,7 +335,7 @@ No. & Finding & Consequence & Status \\
 \hline
 9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
 \hline
-10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 3/5 cases real \\
+10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 5/5 cases, two conditional \\
 \hline
 \end{tabular}
 \caption{Substrate-gap findings for MetaCIC substitution preservation.}
@@ -381,7 +390,7 @@ artifacts of impure proof automation.
 \hline
 9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
 \hline
-10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 3/5 cases real \\
+10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 5/5 cases, two conditional \\
 \hline
 \end{tabular}
 \caption{Ten substrate-gap findings, each Lean-verified.}
@@ -459,6 +468,18 @@ $$
 \mathrm{elaborate} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{ElabResult}.
 \end{aligned}
 $$
+
+\paragraph{Reflection bridge implementation status.}
+$\texttt{BEDC.MetaCIC.HostBridge}.\mathrm{reflectExpr}$ covers eight
+host Lean $\mathrm{Expr}$ constructors: $\mathrm{sort}$,
+$\mathrm{bvar}$, $\mathrm{app}$, $\mathrm{lam}$,
+$\mathrm{forallE}$, $\mathrm{const}$, $\mathrm{fvar}$ returning
+$\mathrm{none}$, and $\mathrm{mdata}$ as a passthrough. Two elaboration
+commands surface the encoding to BEDC automation:
+$\#\mathrm{reflect\_metacic}\ e$ prints the $\mathrm{Term}$ form, and
+$\#\mathrm{metacic\_decide}\ e$ runs $\mathrm{infer}$ on the reflected
+$\mathrm{Term}$ and prints the inferred MetaCIC type. The latter is the
+end-to-end demonstration of the host-MetaCIC pipeline.
 
 \paragraph{Audit gating.} Every module in the stack is gated by
 \texttt{check-axioms.py}, which rejects raw \texttt{axiom} declarations;
@@ -565,6 +586,41 @@ The closed-term restriction sidesteps the seventh substrate gap
 (\autoref{subsec:substrate-gap-discovery}) by ensuring the substitution
 targets and source terms have no free variables that would expose the
 binder-shift propagation issue.
+
+\paragraph{Substitute composition.} The closure-restricted form of
+the substitute composition equation
+$$
+\begin{aligned}
+  \mathrm{substitute}\ 0\ s\ (\mathrm{substitute}\ 0\ a\ \mathrm{cod}) =
+  \mathrm{substitute}\ 0\ (\mathrm{substitute}\ 0\ s\ a)\
+    (\mathrm{substitute}\ 1\ s\ \mathrm{cod})
+\end{aligned}
+$$
+is established for five of five inductive cases of $\texttt{cod}$:
+sort, var, app, lam, and pi. The sort case is unconditional, the var
+case assumes $\mathrm{ClosedAt}\ 0\ s$, the app case uses two recursive
+premises, and the lam and pi cases are conditional on a
+shift-substitute commutation lemma
+$$
+\begin{aligned}
+  \mathrm{shift}\ 0\ 1\ (\mathrm{substitute}\ 0\ s\ a) =
+  \mathrm{substitute}\ 1\ (\mathrm{shift}\ 0\ 1\ s)\
+    (\mathrm{shift}\ 0\ 1\ a).
+\end{aligned}
+$$
+The commutation lemma itself is the remaining piece for full
+unconditional composition closure.
+
+\paragraph{Host reflection bridge.}
+$\texttt{BEDC.MetaCIC.HostBridge}.\mathrm{reflectExpr}$ covers eight
+host Lean $\mathrm{Expr}$ constructors: $\mathrm{sort}$,
+$\mathrm{bvar}$, $\mathrm{app}$, $\mathrm{lam}$,
+$\mathrm{forallE}$, $\mathrm{const}$, $\mathrm{fvar}$ returning
+$\mathrm{none}$, and $\mathrm{mdata}$ as a passthrough. The elaboration
+commands $\#\mathrm{reflect\_metacic}\ e$ and
+$\#\mathrm{metacic\_decide}\ e$ expose the bridge: the former prints
+the reflected $\mathrm{Term}$, and the latter runs $\mathrm{infer}$ on
+that reflected term and prints the inferred MetaCIC type.
 
 \paragraph{Out of scope.} The reconstruction does not currently implement
 strong normalization, confluence, full universe hierarchy, inductive
