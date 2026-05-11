@@ -88,6 +88,31 @@ theorem DiffFormRootWedgeProbe_obligation
       degreeLedger.right.right.left,
       degreeLedger.right.right.right.left⟩
 
+theorem DiffFormRootWedgeOperation_obligation {left right : ProbeBundle BHist}
+    {leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger assocLeft assocRight :
+      BHist} :
+    DiffFormWedgeProbeConcatenationLedger left right leftLedger rightLedger tensorLedger ->
+      DiffFormWedgeDegreeLedger leftDegree rightDegree outDegree leftLedger rightLedger
+          tensorLedger ->
+        DiffFormWedgeDegreeLedger leftDegree outDegree assocLeft leftLedger tensorLedger
+            tensorLedger ->
+          DiffFormWedgeDegreeLedger outDegree rightDegree assocRight tensorLedger rightLedger
+              tensorLedger ->
+            bundleLength (bundleAppend left right) = bundleLength left + bundleLength right ∧
+              (forall probe : BHist,
+                InBundle probe (bundleAppend left right) <-> InBundle probe left ∨
+                  InBundle probe right) ∧
+                Cont leftDegree rightDegree outDegree ∧ UnaryHistory outDegree ∧
+                  hsame tensorLedger (append leftLedger rightLedger) := by
+  intro probeLedger degreeLedger _assocLeftLedger _assocRightLedger
+  have coverage := DiffFormWedgeProbeConcatenationLedger_coverage probeLedger
+  exact
+    ⟨coverage.left,
+      coverage.right.left,
+      degreeLedger.right.right.left,
+      degreeLedger.right.right.right.left,
+      coverage.right.right.right⟩
+
 theorem DiffFormRootDownstreamConsumption_obligation
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
     (scalarCert : NameCert ScalarCarrier ScalarClassifier)
