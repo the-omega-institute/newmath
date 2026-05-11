@@ -31,6 +31,22 @@ The classifier is a finite ledger predicate. It compares two located packets onl
 \section{Certificate obligations}
 \label{sec:locatedreal-certificate-obligations}
 
+\begin{theorem}[LocatedReal classifier common-refinement stability]
+\label{thm:locatedreal-classifier-common-refinement-stability}
+Let $x$ and $y$ be accepted $\LocatedRealUp$ carriers. Suppose $\mathsf{LocatedRealClassifier}(x,y)$ is witnessed by a finite $\StreamNameUp$ schedule. Let $s'$ be a common finite refinement of that schedule whose displayed routes transport, for both packets, the $\RegSeqRatUp$ source rows, the $\DyadicRatCoreUp$ interval rows, the location ledgers, the inherited $\RealUp$ classifier rows, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. Then the transported packets still satisfy $\mathsf{LocatedRealClassifier}$ on $s'$.
+
+The conclusion is a classifier statement for the two transported packets on the shared refinement. It does not assert a new carrier coordinate, a quotient-real equality, a Dedekind-cut comparison, or a completion point.
+\end{theorem}
+\begin{proof}
+Project the classifier of \autoref{def:locatedreal-classifier}. Its witness is a finite stream-name schedule together with the two regular-stream source surfaces, the dyadic interval rows at the requested precisions, the location ledgers, and the inherited $\RealUp$ classifier rows.
+
+Refine the displayed schedule to $s'$. The stated $\hsame$ comparisons and $\Cont$ routes transport the $\RegSeqRatUp$ endpoint rows and regularity ledgers for both packets, so every source observation used by the original classifier has a corresponding row on the common window.
+
+Transport the $\DyadicRatCoreUp$ interval rows and location ledgers along the same routes. The transported membership and radius rows still relate the transported endpoints to the transported dyadic intervals at the requested precisions.
+
+Finally reuse the inherited $\RealUp$ classifier row on the transported regular-stream source surfaces and repack the finite ledger predicate. Every row in the repacked classifier is one of the transported rows on $s'$, so the common refinement preserves the $\mathsf{LocatedRealClassifier}$ witness without adding any external real-equality structure.
+\end{proof}
+
 \begin{theorem}[LocatedReal carrier transport]
 \label{thm:locatedreal-carrier-transport}
 Let $x$ and $x'$ be accepted $\LocatedRealUp$ carriers. Suppose the displayed $\hsame$ rows and $\Cont$ routes transport the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ source stream rows, the $\DyadicRatCoreUp$ interval rows, the finite location ledgers, and the inherited $\RealUp$ classifier rows from $x$ to $x'$. Then $x'$ carries the same $\LocatedRealUp$ carrier surface as $x$ on every transported finite window.
