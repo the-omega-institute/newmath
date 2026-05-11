@@ -103,6 +103,7 @@ K=(I_0,S,R,P,L)
 $$
 with no displayed interval $I_i$ for $i>0$, then the nested-refinement ledger $R$ has no successor-pair read. Consequently the public finite-window handoff of $K$ is exactly the single $\DyadicIntervalUp$ endpoint packet $I_0$, the unary $\StreamNameUp$ schedule $S$, the provenance row $P$, and the tail ledger $L$; there is no public adjacent-refinement datum to expose.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedDyadicIntervalUp.NestedDyadicIntervalPacket\_singleton\_chain\_vacuity}
 \begin{proof}
 By \autoref{def:nesteddyadicinterval-carrier}, the only entries recorded in the nested-refinement ledger $R$ are the rows attached to displayed successor pairs $I_{i+1}$ inside $I_i$. A carrier whose displayed chain consists only of $I_0$ has no displayed source index $i$ for which both $I_i$ and $I_{i+1}$ occur in the chain. Hence the indexing set of successor-pair reads is empty, and every requested read of $R$ over a displayed adjacent pair is vacuous.
 
