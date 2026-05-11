@@ -365,4 +365,31 @@ theorem HolonomyTransportPacket_loop_source_obligation [AskSetup] [PackageSetup]
                (And.intro packet.right.right.right.right.right.right.right.right.left
                  packet.right.right.right.right.right.right.right.right.right))))))
 
+theorem HolonomyTransportPacket_composition_ledger_obligation [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvatureLedger compositionLedger
+        provenance probe pkg ->
+      exists loopCurvature : BHist,
+        UnaryHistory loopCurvature ∧ Cont loop curvatureLedger loopCurvature ∧
+          Cont connection loopCurvature compositionLedger ∧
+            hsame compositionLedger (append connection loopCurvature) ∧
+              PkgSig probe provenance pkg := by
+  intro packet
+  have connectionLoop : Cont connection loop endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointCurvature : Cont endpoint curvatureLedger compositionLedger :=
+    packet.right.right.right.right.right.right.right.right.left
+  cases cont_assoc_middle_exists connectionLoop endpointCurvature with
+  | intro loopCurvature loopCurvatureRows =>
+      have loopCurvatureUnary : UnaryHistory loopCurvature :=
+        unary_cont_closed packet.right.right.left packet.right.right.right.right.left
+          loopCurvatureRows.left
+      exact Exists.intro loopCurvature
+        (And.intro loopCurvatureUnary
+          (And.intro loopCurvatureRows.left
+            (And.intro loopCurvatureRows.right
+              (And.intro loopCurvatureRows.right
+                packet.right.right.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.HolonomyUp
