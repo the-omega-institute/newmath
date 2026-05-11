@@ -359,6 +359,7 @@ import BEDC.Derived.ComplexLimitUp.StabilityFields
 import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
@@ -653,6 +654,7 @@ import BEDC.Derived.FieldExtUp.ScalarActionContReadback
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.SingletonLedger
 import BEDC.Derived.FieldExtUp.SingletonInverse
+import BEDC.Derived.FieldExtUp.SingletonSurface
 import BEDC.Derived.FieldExtUp.RatReflexiveOperationTable
 import BEDC.Derived.FieldExtUp.StabilityExactness
 import BEDC.Derived.FieldExtUp.RatReflexiveSemanticCertificate
@@ -722,6 +724,7 @@ import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.SumUp.LedgerBranchExactness
+import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
