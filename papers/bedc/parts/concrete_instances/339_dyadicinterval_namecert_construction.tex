@@ -159,6 +159,7 @@ the transported rows supplied by
 readback may use an external host-real radius, quotient-interval width, or
 completion-side midpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_width\_radius\_ledger\_exactness}
 \begin{proof}
 The carrier projection exposes exactly the width row $W$, midpoint row $M$,
 and radius row $\rho$. These are the only rows named in
@@ -187,6 +188,7 @@ $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows displayed in
 Dedekind cut, quotient interval, open-cover compactness witness, host real
 equality, or completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_real\_seal\_source\_boundary}
 \begin{proof}
 Start with the carrier projection. Its finite rows provide the endpoint,
 radius, width, order, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
@@ -232,16 +234,56 @@ refinement rows just identified. Hence every regular-window read is exhausted
 by the finite seal-source rows transported from $I$.
 \end{proof}
 
+\begin{theorem}[DyadicInterval scoped source package]
+\label{thm:dyadicinterval-scoped-source-package}
+The scoped source package for $\DyadicIntervalUp$ is exactly the carrier of
+\autoref{def:dyadicinterval-carrier}, the endpointwise classifier and order
+rows from \autoref{thm:dyadicinterval-namecert-obligation}, the refinement
+transport from \autoref{thm:dyadicinterval-nested-refinement-ledger}, the
+endpoint transport from
+\autoref{thm:dyadicinterval-endpoint-classifier-transport}, the width-radius
+exactness row from
+\autoref{thm:dyadicinterval-width-radius-ledger-exactness}, and the
+$\RealUp/\RegSeqRatUp$ seal boundary from
+\autoref{thm:dyadicinterval-real-seal-source-boundary}. It exports no
+Dedekind cut, quotient interval, host real equality, open-cover compactness,
+completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:dyadicinterval-carrier}. This gives
+the finite endpoint, width, midpoint, radius, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows and no completion-side object.
+
+Next apply \autoref{thm:dyadicinterval-namecert-obligation} for the
+endpointwise classifier and order rows. Apply
+\autoref{thm:dyadicinterval-nested-refinement-ledger} for nested-refinement
+transport, and apply
+\autoref{thm:dyadicinterval-endpoint-classifier-transport} for endpoint
+transport.
+
+The remaining numerical row is the width-radius exactness row of
+\autoref{thm:dyadicinterval-width-radius-ledger-exactness}. The consumer
+seal is bounded by \autoref{thm:dyadicinterval-real-seal-source-boundary},
+so $\RealUp$ and $\RegSeqRatUp$ receive only the displayed finite source
+rows.
+
+Since every exported coordinate is one of these cited rows, there is no
+source for a Dedekind cut, quotient interval, host real equality, open-cover
+compactness witness, completeness datum, or standard bridge row inside the
+scoped package.
+\end{proof}
+
 \closureat{DyadicIntervalUp}{seedStr}
 \closureat{DyadicIntervalUp}{obligationStr}
+\closureat{DyadicIntervalUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicIntervalUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed boundary names the finite $\mathsf{BHist}$ interval carrier, endpointwise dyadic-tolerance classifier, endpoint-order ledger, nested-refinement transport, and $\RealUp$ seal handoff boundary over $\DyadicRatCoreUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped package is exactly the finite $\mathsf{BHist}$ interval carrier, endpointwise classifier, endpoint-order ledger, nested-refinement transport, endpoint transport, width-radius exactness row, and $\RealUp/\RegSeqRatUp$ seal boundary over $\DyadicRatCoreUp$.}
   \constructivestory{Construct the interval packet by finite dyadic endpoint reads: $\DyadicRatCoreUp$ supplies endpoints and arithmetic ledgers, the order and width rows record finite bounds, and refinement repacks the same visible rows for $\RegSeqRatUp$ and $\RealUp$ consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind cuts, open-cover compactness, real completeness, quotient intervals, or standard bridge data.}
-  \upgradepath{Scoped closure requires explicit scope binding of the carrier, endpoint classifier, endpoint-order stability, nested-refinement transport, width-radius exactness, and $\RealUp$ seal handoff against $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \upgradepath{Public closure next requires a reusable consumer-facing interval certificate surface over this scoped package.}
 \end{closurestatus}
