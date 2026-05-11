@@ -245,6 +245,46 @@ or host index equality data, the bundle-union request exports none of those
 rows.
 \end{proof}
 
+\begin{theorem}[StreamNameUp RegSeqRat window intersection exhaustion]
+\label{thm:streamname-regseqrat-window-intersection-exhaustion}
+Let two downstream finite-window requests over a common public
+$\StreamNameUp$ observation map be exhausted by
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. Suppose the
+two requests both restrict to a certified common sub-bundle $K$. Then the
+common restricted request over $K$ is exhausted by the public StreamName
+finite-window interface, the displayed $\mathsf{InBundle}(-,K)$ membership
+rows, the pointwise $\RatUp$ classifier rows, the dyadic denominator ledger
+rows, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. The common restricted
+request exports no $\RegSeqRat$ regularity witness, $\RealUp$ completion row,
+quotient representative, hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+Start with the two displayed downstream finite-window requests and restrict
+each one to the certified common sub-bundle $K$. By
+\autoref{thm:streamname-finite-window-schedule-exhaustion}, each restriction
+has only the public observation rows, $\mathsf{InBundle}(-,K)$ membership
+rows, pointwise rational classifier rows, $\hsame$ comparisons, $\Cont$
+routes, and $\mathsf{Pkg}$ provenance inherited from the common
+$\StreamNameUp$ observation surface.
+
+Apply \autoref{thm:streamname-regseqrat-denominator-source-exhaustion} to
+each restricted side. The two reads may add the displayed dyadic denominator
+ledger rows, but they add no regularity witness, completion row, quotient
+representative, hidden limit selector, or host index equality.
+
+It remains to identify the common row inventory. For an observation in $K$,
+membership is witnessed on both restricted requests by the displayed
+$\mathsf{InBundle}(-,K)$ row. Reading the row from either side gives the same
+public StreamName observation, because the observation map is common and the
+displayed $\hsame$ rows compare the same pointwise $\RatUp$ classifier data.
+
+Thus the common restricted request contains only the public finite-window
+rows, common membership rows, pointwise rational rows, denominator-ledger
+rows, continuation rows, and provenance rows listed in the statement. Since
+the cited component exhaustions export none of the excluded downstream data,
+the common subwindow exports none of it.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp observation coverage]
 \label{thm:streamname-regseqrat-realup-observation-coverage}
 Every finite-window handoff from public $\StreamNameUp$ to a downstream
