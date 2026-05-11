@@ -564,3 +564,57 @@ the boundary theorem rules out completion objects, quotient representatives,
 host-index equality, metric-completeness rows, arithmetic or order operations,
 and standard bridge rows.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window RegSeqRat coverage lock]
+\label{thm:streamname-tail-window-regseqrat-coverage-lock}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+endpoints, and let $\mathcal P$ and $\mathcal Q$ be StreamName tail-window
+coverage packets over finite windows. Suppose their displayed
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, selected
+$\mathsf{UnaryHistory}$ rows, selected $\mathsf{InBundle}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, accepted $\RegSeqRat$ spine,
+DyadicRatCore endpoint rows, and $\Cont/\hsame/\mathsf{Pkg}/
+\mathsf{RealLedgerPolicy}$ provenance rows agree through the transported
+packet surface.
+
+Then every finite $\RealUp$ consumer of $\mathcal P$ and every finite
+$\RealUp$ consumer of $\mathcal Q$ read the same DyadicRatCore endpoint rows
+and the same finite ledger rows from that shared $\RegSeqRat$ spine. This
+lock exposes no completion data, quotient representative, host-index
+equality, metric-completeness row, arithmetic or order operation, or standard
+bridge row.
+\end{theorem}
+\begin{proof}
+Unfold the StreamName tail-window coverage packet of
+\autoref{def:streamname-tail-window-coverage-packet} for both
+$\mathcal P$ and $\mathcal Q$. Apply
+\autoref{thm:streamname-tail-window-coverage-exhaustion} to each packet. The
+only finite source rows available on either side are the displayed
+finite-window classifier rows, selected unary-history and bundle-membership
+rows, pointwise rational-history classifier rows, accepted $\RegSeqRat$
+spine, DyadicRatCore endpoints, and ledger provenance.
+
+Next apply
+\autoref{thm:streamname-tail-window-global-classifier-transport-stability}
+and \autoref{thm:streamname-tail-window-selected-transport-coverage}. The
+hypothesized transported packet surface identifies the selected rows of
+$\mathcal P$ with the selected rows of $\mathcal Q$ and carries their
+accepted rational-sequence spine and DyadicRatCore endpoint rows through the
+same $\Cont$, $\hsame$, $\mathsf{Pkg}$, and
+$\mathsf{RealLedgerPolicy}$ routes.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-source-uniqueness}. Since the
+two finite packets restrict to the same transported selected source surface,
+their finite $\RealUp$ consumers have the same displayed
+StreamName/$\RegSeqRat$/DyadicRatCore source surface and the same finite
+continuation ledger.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. The
+boundary theorem removes completion data, quotient representatives,
+host-index equality, metric-completeness rows, arithmetic or order
+operations, and standard bridge rows from every finite consumer. Thus the
+only endpoint and ledger rows read by either consumer are the common
+DyadicRatCore endpoint rows and the common ledger rows carried by the shared
+$\RegSeqRat$ spine.
+\end{proof}
