@@ -12,12 +12,37 @@ A $\SpectralMeasureUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows ar
 
 The carrier exports no ambient Hilbert-space equality, host sigma-algebra completion, countable family selector, eigenbasis, or external spectral-theorem object.
 \end{definition}
-\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_public\_consumer\_boundary}
 
 \begin{definition}[SpectralMeasureUp classifier]
 \label{def:spectralmeasure-classifier}
 For accepted $\SpectralMeasureUp$ packets $S$ and $S'$, the classifier $S\sim_{\SpectralMeasureUp}S'$ holds exactly when the displayed $\HilbertUp$ carrier rows, $\ObservableUp$ rows, $\MeasureUp$ event rows, projection endpoints, orthogonality and finite-additivity ledgers, $\Cont$ routes, and $\mathsf{Pkg}$ provenance compare componentwise by their recorded $\hsame$ rows. The classifier does not compare completed measurable spaces or host projection-valued functions; it compares only the finite rows visible in the certificate.
 \end{definition}
+
+\begin{theorem}[SpectralMeasureUp public consumer boundary]
+\label{thm:spectralmeasure-public-consumer-boundary}
+Every downstream $\SpectralTheoremUp$ or $\ObservableUp$ consumer of an
+accepted $\SpectralMeasureUp$ packet may read only the finite $\HilbertUp$
+carrier, the observable row, the $\MeasureUp$ event row, the projection
+endpoints, the orthogonality and finite-additivity ledger, the displayed
+$\hsame$ and $\Cont$ rows, and the $\mathsf{Pkg}$ provenance. Such a consumer
+cannot read countable additivity, completed sigma-algebras, host
+projection-valued functions, eigenbasis choices, or a spectral theorem proof.
+\end{theorem}
+\leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_public\_consumer\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:spectralmeasure-carrier}. Its exported
+coordinates are exactly the Hilbert carrier, observable row, MeasureUp event
+row, projection endpoints, finite ledger, transport rows, and provenance rows.
+
+Then project the classifier of \autoref{def:spectralmeasure-classifier}. It
+compares only those displayed rows by their recorded $\hsame$ witnesses and
+does not introduce a completed sigma-algebra, host projection-valued function,
+eigenbasis selector, or spectral theorem object.
+
+The public consumer boundary is therefore the finite list of exported rows.
+Every downstream $\SpectralTheoremUp$ or $\ObservableUp$ read factors through
+that list and has no coordinate for the excluded host-level data.
+\end{proof}
 
 \section{The certificate}
 \label{sec:spectralmeasure-certificate}

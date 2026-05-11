@@ -98,6 +98,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
