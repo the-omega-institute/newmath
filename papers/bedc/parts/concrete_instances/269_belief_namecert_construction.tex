@@ -149,22 +149,60 @@ ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.BeliefUp.BeliefObservationUpdateCarrier\_finite\_evidence\_ledger\_coverage}
 
-\closureat{BeliefUp}{scopedStr}[BEDC.Derived.BeliefUp.taste\_gate]
+\begin{theorem}[Belief public NameCert surface]
+\label{thm:belief-public-namecert-surface}
+The observation-update carrier, classifier transport, ledger exactness,
+TasteGate carrier recognition, posterior trace transport, and finite evidence
+ledger coverage assemble the public $\NameCert_{\BeliefUp}$ surface. Its
+consumer-readable rows are exactly the prior, observation, update trace,
+probability, posterior endpoint, evidence ledger, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows.
+
+This surface exports no hidden prior source, external observation stream,
+host update primitive, likelihood object outside the probability certificate,
+or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the packet through
+\autoref{def:belief-observation-update-carrier}. The carrier supplies the
+prior, observation, update trace, probability, evidence ledger, and posterior
+endpoint rows inside one finite $\mathsf{BHist}$ packet.
+
+Apply \autoref{thm:belief-classifier-transport-obligation} and
+\autoref{thm:belief-ledger-exactness-obligation}. These obligations give the
+displayed classifier movement and ledger readback, so a consumer reads only the
+carrier rows transported through $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
+
+Next use \autoref{thm:belief-tastegate-carrier-recognition}. The TasteGate
+marker \texttt{BEDC.Derived.BeliefUp.taste\_gate} fixes the accepted carrier
+boundary and contributes no additional evidence row.
+
+Finally apply \autoref{thm:belief-posterior-trace-transport-obligation} and
+\autoref{thm:belief-finite-evidence-ledger-coverage}. The posterior endpoint is
+read from the update trace, and the finite ledger covers exactly the listed
+evidence rows.
+
+The cited clauses exhaust the public $\NameCert_{\BeliefUp}$ surface. Since no
+clause exports a hidden prior source, external observation stream, host update
+primitive, likelihood object outside the probability certificate, or bridge
+datum, no consumer can read one from the public surface.
+\end{proof}
+
+\closureat{BeliefUp}{publicStr}[BEDC.Derived.BeliefUp.taste\_gate]
 
 \begin{closurestatus}{\BeliefUp}
   \constructivestory{}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation scope binds the observation-update carrier
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public $\NameCert_{\BeliefUp}$ surface binds the observation-update carrier
   definition together with the classifier-transport and ledger-exactness
-  obligations for the displayed prior, observation, update trace, probability,
-  posterior endpoint, evidence ledger, $\hsame$, $\Cont$, and $\Pkg$ rows.}
+  obligations, TasteGate carrier recognition, posterior trace transport, and
+  finite evidence coverage for the displayed prior, observation, update trace,
+  probability, posterior endpoint, evidence ledger, $\hsame$, $\Cont$, and
+  $\Pkg$ rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.BeliefUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{The full $\NameCert_{\BeliefUp}$ surface and bridge claims remain
-  outside this chapter scope.}
-  \upgradepath{Public closure requires a single exported
-  $\NameCert_{\BeliefUp}$ surface over the displayed carrier, classifier,
-  stability, ledger, TasteGate, $\hsame$, $\Cont$, and $\Pkg$ rows.}
+  \notclaimed{Bridge claims remain outside this chapter scope.}
+  \upgradepath{Bridged closure requires a paper bridge over the public observation-update surface.}
 \end{closurestatus}
