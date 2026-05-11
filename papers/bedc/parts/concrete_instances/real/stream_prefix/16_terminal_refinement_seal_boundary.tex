@@ -575,6 +575,56 @@ inherits that ledger and has no constructor that could export quotient,
 completion, host, arithmetic, order, bridge, or separate classifier data.
 \end{proof}
 
+\begin{theorem}[RealUp terminal tail-refinement family factorization]
+\label{thm:realup-terminal-tail-refinement-family-factorization}
+Let $S$ be a terminal $\StreamNameUp$ finite-window source, let $T$ be an
+accepted $\RegSeqRat$ packet over $S$, and let
+$C_1,\ldots,C_n$ be a finite family of certified tail refinements of $T$ over
+the same public $\mathsf{BHist}$ window. Suppose the family admits a cofinal
+certified common refinement $C_\ast$ and that all displayed $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
+$\mathsf{RealLedgerPolicy}$ rows agree after reading along $C_\ast$.
+
+Then every terminal finite-window $\RealUp$ seal for a member $C_i$ factors
+through the single cofinal source surface determined by $C_\ast$. This source
+surface consists exactly of the finite $\StreamNameUp$ restriction, the
+accepted $\RegSeqRat$ spine, the $\DyadicRatCore$ observation rows, and the
+displayed provenance rows $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
+$\mathsf{RealLedgerPolicy}$.
+
+The factorization exports no quotient stream, host-index equality, host
+function, $\mathsf{Classical}$ datum, metric-completion object, arithmetic or
+order row, standard bridge row, or separate tail-refinement classifier.
+\end{theorem}
+\begin{proof}
+For each family member $C_i$, apply
+\autoref{thm:regseqrat-terminal-tail-refinement-seal}. The seal theorem says
+that the terminal finite-window seal for $C_i$ is read from the terminal
+$\StreamNameUp$ source restriction, the accepted $\RegSeqRat$ spine, the
+$\DyadicRatCoreUp$ observation rows, and the visible transport, package,
+certificate, and ledger rows.
+
+Now use the cofinal certificate $C_\ast$. Apply
+\autoref{thm:realup-finite-window-seal-cofinality} to the finite family
+$C_1,\ldots,C_n$. Cofinality replaces the separate member reads by the single
+terminal read through $C_\ast$, so every member seal has the same finite
+source surface once the displayed rows have been transported to the cofinal
+refinement.
+
+It remains to identify the splice rows on that common read. Apply
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. The assumed
+agreement of the $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows fixes the terminal
+splice over $C_\ast$, hence fixes the factor through the common source
+surface.
+
+The boundary clause follows from the same three cited results: their
+constructors expose only the finite StreamName restriction, the accepted
+RegSeqRat spine, the dyadic observation rows, and the displayed provenance
+rows. None of them constructs quotient, host, classical, completion,
+arithmetic, order, bridge, or separate classifier data.
+\end{proof}
+
 \begin{theorem}[RealUp common-refinement seal pullback]
 \label{thm:streamname-realup-common-refinement-seal-pullback}
 Let $C$ be a certified $\StreamNameUp$ common-refinement package, and let
