@@ -245,6 +245,49 @@ or host index equality data, the bundle-union request exports none of those
 rows.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window terminal schedule idempotence]
+\label{thm:streamname-finite-window-terminal-schedule-idempotence}
+Let a public $\StreamNameUp$ observation map be read over certified
+$\UnaryHistory$ indices, and let a finite $\mathsf{ProbeBundle}$ schedule
+$B$ display the downstream source request. Suppose a terminal downstream
+$\RegSeqRat$ or $\RealUp$ consumer has source rows exactly the scheduled
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the displayed
+$\mathsf{InBundle}$ membership rows for $B$, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the dyadic denominator rows, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance. Then applying the same schedule
+boundary a second time exposes the same finite source projection.
+
+The second pass supplies no additional regularity witness, completion datum,
+quotient representative, hidden limit selector, or host index row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-schedule-exhaustion} to the
+first pass through $B$. This identifies the public observation packet as the
+displayed finite schedule: certified $\UnaryHistory$ indices, the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, membership in $B$,
+pointwise rational classifier rows, $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+
+Attach the denominator side by
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. The
+terminal consumer may therefore read the dyadic denominator boundary only as
+part of the displayed finite source ledger, not as an independent
+$\RegSeqRat$ regularity or $\RealUp$ completion row.
+
+Now use \autoref{thm:streamname-regseqrat-window-union-exhaustion} with
+$B_1=B_2=B$. The displayed bundle union is again $B$, so the second boundary
+request reads the same membership family, the same rational classifier rows,
+the same denominator rows, and the same continuation and provenance rows as
+the first request.
+
+Finally apply \autoref{thm:streamname-public-ledger-obligation} and
+\autoref{thm:streamname-public-real-handoff-obligation}. These obligations
+exclude non-displayed rows from the public StreamName handoff, so a repeated
+boundary cannot create a fresh regularity witness, completion datum, quotient
+representative, hidden limit selector, or host index row. The terminal source
+projection is therefore idempotent under the repeated finite schedule.
+\end{proof}
+
 \begin{theorem}[StreamNameUp pointwise hsame reindexing stability]
 \label{thm:streamname-pointwise-hsame-reindexing-stability}
 Let a public $\StreamNameUp$ observation map be read through certified
