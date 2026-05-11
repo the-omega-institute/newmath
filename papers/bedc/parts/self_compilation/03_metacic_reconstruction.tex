@@ -1,0 +1,94 @@
+\section{MetaCIC Reconstruction (V1-V3 Analysis)}\label{sec:self-comp-metacic}
+
+The MetaCIC reconstruction surface asks how much of the host calculus can be
+represented as BEDC data and predicates. It is a reconstruction analysis, not a
+replacement of the host. The relevant namespace is `\verb|BEDC.MetaCIC|', whose
+role is to name the current surface on which CIC syntax, typing, and reduction
+can be discussed as first-class BEDC objects.
+
+V1 is the achievable structural layer. At this layer BEDC constructs syntax,
+contexts, terms, universe annotations as needed, beta-reduction, and typing
+judgments as inductive objects or inductive predicates over BEDC histories. The
+result is not a claim that BEDC has reimplemented Lean. It is a claim that the
+grammar and judgment forms of a CIC fragment can be represented directly enough
+to support quantification and induction over them.
+
+The difference between behavior and structure is central. A Turing-machine
+simulation of Lean execution can describe observed runs:
+
+$$
+\begin{aligned}
+\exists t,\ \mathrm{MachineTrace}(\mathrm{Lean},x,t)
+  \wedge \mathrm{Accepts}(t).
+\end{aligned}
+$$
+
+Such a statement is behavioral and trace-based. It predicts or records a
+finite execution. A V1 inductive predicate has a different form:
+
+$$
+\begin{aligned}
+\Gamma \vdash_{\mathrm{MetaCIC}} t : T.
+\end{aligned}
+$$
+
+This is a first-class judgment. BEDC can quantify over contexts, terms, and
+derivations, and can prove results by induction on the derivation. TM
+simulation gives Sigma-one execution traces; direct V1 reconstruction gives
+typed judgment objects.
+
+V1 therefore provides the self-compilation construction surface for syntax and
+judgments. It supports statements of the form ``for every represented derivation
+with this constructor shape, the following structural property holds.'' It also
+supports explicit boundary claims: which syntax is represented, which
+conversion relation is present, which typing rules are included, and which
+host-kernel features remain outside the fragment.
+
+V2 is the metatheory layer. Subject reduction and confluence are the natural
+targets here. Subject reduction says that typing survives reduction:
+
+$$
+\begin{aligned}
+\Gamma \vdash t : T \wedge t \to_{\beta} u
+  \longrightarrow \Gamma \vdash u : T.
+\end{aligned}
+$$
+
+Confluence says that divergent reductions can be joined. These theorems are
+structural metatheorems about the represented calculus, and substantial parts of
+them are appropriate targets for BEDC once V1 is fixed with sufficient
+precision.
+
+Strong normalization has a different status. A global strong-normalization
+theorem strong enough to recover consistency of the represented host calculus
+meets the Godel-II boundary when the represented calculus is comparable in
+strength to the host in which the proof is carried out. BEDC can study bounded
+or fragment-specific termination claims, and it can state which hypotheses make
+those claims available. It does not obtain an axiom-free global consistency
+certificate for its own host by internal reconstruction.
+
+V3 is the replacement reading: BEDC becomes the foundation instead of CIC. This
+is not a claim of the paper. BEDC is formalized inside the host CIC. All Lean
+theorems in the project are checked by that host. The MetaCIC surface may
+represent syntax and prove fragment metatheory, but it does not move BEDC
+outside the host or give BEDC a stronger foundational status than the kernel
+that checks it.
+
+This yields the governing inclusion:
+
+$$
+\begin{aligned}
+\mathrm{BEDC\ formalization} \subseteq \mathrm{host\ CIC}.
+\end{aligned}
+$$
+
+The inclusion is methodological, not merely notational. A theorem about a
+represented calculus is a theorem inside the host. It can be useful, precise,
+and internally quantified, but it cannot serve as a host-independent foundation
+for the host without crossing the Godel-Tarski boundary.
+
+The MetaCIC reconstruction surface thus complements the Manifest. The Manifest
+registers finite paper-anchored theorem entries as checked Lean data. MetaCIC
+reconstruction studies the syntax and judgment structure of the calculus in
+which such checking is meaningful. Together they explain why ``BEDC compiles
+itself'' has a legitimate L4-mid reading and no legitimate L4a or V3 reading.
