@@ -454,6 +454,68 @@ theorem substitute_substitute_zero_zero_closed_app
   rw [hf]
   rw [hb]
 
+theorem substitute_substitute_zero_zero_lam_closed_anchor
+    (s a dom body : Term)
+    (_hclosed_s : ClosedAt 0 s)
+    (hshift :
+      shift 0 1 (substitute 0 s a) =
+        substitute 1 (shift 0 1 s) (shift 0 1 a))
+    (hdom :
+      substitute 0 s (substitute 0 a dom) =
+        substitute 0 (substitute 0 s a) (substitute 1 s dom))
+    (hbody :
+      substitute 1 (shift 0 1 s)
+          (substitute 1 (shift 0 1 a) body) =
+        substitute 1
+          (substitute 1 (shift 0 1 s) (shift 0 1 a))
+          (substitute 2 (shift 0 1 s) body)) :
+    substitute 0 s (substitute 0 a (Term.lam dom body)) =
+      substitute 0 (substitute 0 s a)
+        (substitute 1 s (Term.lam dom body)) := by
+  change
+    Term.lam
+        (substitute 0 s (substitute 0 a dom))
+        (substitute 1 (shift 0 1 s)
+          (substitute 1 (shift 0 1 a) body)) =
+      Term.lam
+        (substitute 0 (substitute 0 s a) (substitute 1 s dom))
+        (substitute 1 (shift 0 1 (substitute 0 s a))
+          (substitute 2 (shift 0 1 s) body))
+  rw [hdom]
+  rw [hshift]
+  rw [hbody]
+
+theorem substitute_substitute_zero_zero_pi_closed_anchor
+    (s a dom cod : Term)
+    (_hclosed_s : ClosedAt 0 s)
+    (hshift :
+      shift 0 1 (substitute 0 s a) =
+        substitute 1 (shift 0 1 s) (shift 0 1 a))
+    (hdom :
+      substitute 0 s (substitute 0 a dom) =
+        substitute 0 (substitute 0 s a) (substitute 1 s dom))
+    (hcod :
+      substitute 1 (shift 0 1 s)
+          (substitute 1 (shift 0 1 a) cod) =
+        substitute 1
+          (substitute 1 (shift 0 1 s) (shift 0 1 a))
+          (substitute 2 (shift 0 1 s) cod)) :
+    substitute 0 s (substitute 0 a (Term.pi dom cod)) =
+      substitute 0 (substitute 0 s a)
+        (substitute 1 s (Term.pi dom cod)) := by
+  change
+    Term.pi
+        (substitute 0 s (substitute 0 a dom))
+        (substitute 1 (shift 0 1 s)
+          (substitute 1 (shift 0 1 a) cod)) =
+      Term.pi
+        (substitute 0 (substitute 0 s a) (substitute 1 s dom))
+        (substitute 1 (shift 0 1 (substitute 0 s a))
+          (substitute 2 (shift 0 1 s) cod))
+  rw [hdom]
+  rw [hshift]
+  rw [hcod]
+
 theorem substitute_var_zero_preserves_typing_closed_anchor
     {Γ : Ctx} {s B : Term}
     (hclosed_s : ClosedAt 0 s)
