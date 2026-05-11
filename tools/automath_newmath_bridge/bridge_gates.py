@@ -154,6 +154,10 @@ def gate_record(record: dict[str, Any], *, allow_publication_risk: bool = False)
         "required_gates": synthesis.get("required_gates", []),
         "why_not_writeback_yet": synthesis.get("why_not_writeback_yet", ""),
         "evidence_summary": synthesis.get("evidence_summary", []),
+        "bridge_consumption_mode": synthesis.get("bridge_consumption_mode") or record.get("bridge_consumption_mode", ""),
+        "reuse_instruction": synthesis.get("reuse_instruction") or record.get("reuse_instruction", ""),
+        "expected_newmath_delta": synthesis.get("expected_newmath_delta") or record.get("expected_newmath_delta", ""),
+        "reject_if": synthesis.get("reject_if") or record.get("reject_if", ""),
         "next_action": (
             "write local review packet for operator decision"
             if packet_write_allowed

@@ -371,6 +371,10 @@ def discover_records(
                 "audit_boundary": audit_boundary,
                 "notes": str(rule.get("notes") or ""),
                 "next_action": str(rule.get("next_action") or "operator review"),
+                "bridge_consumption_mode": str(rule.get("bridge_consumption_mode") or ""),
+                "reuse_instruction": str(rule.get("reuse_instruction") or ""),
+                "expected_newmath_delta": str(rule.get("expected_newmath_delta") or ""),
+                "reject_if": str(rule.get("reject_if") or ""),
                 "scan": {
                     "source_local_path": str(source_repo["local_path_resolved"]),
                     "source_path_status": "exists",

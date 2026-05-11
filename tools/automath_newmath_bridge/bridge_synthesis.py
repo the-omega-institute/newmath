@@ -285,6 +285,19 @@ def _readiness_for(record: dict[str, Any], snapshot: dict[str, Any]) -> dict[str
     required_gates = ["operator_review", "bridge_manifest_update"]
     reasons: list[str] = []
     next_action = "keep observing until an operator promotes a manifest record"
+    consumption_mode = str(record.get("bridge_consumption_mode") or "evidence_only")
+    reuse_instruction = str(
+        record.get("reuse_instruction")
+        or "Inspect existing source evidence first; do not rediscover the source result from scratch."
+    )
+    expected_newmath_delta = str(
+        record.get("expected_newmath_delta")
+        or "Record a NewMath-native wrapper, proposal, audit task, or explicit rejection."
+    )
+    reject_if = str(
+        record.get("reject_if")
+        or "Reject if no BEDC-native carrier, classifier, proof-obligation, or planning fit exists."
+    )
 
     if rule == "newmath.bedc_supervisor_pipeline":
         readiness = "ready_for_local_packet"
@@ -312,7 +325,21 @@ def _readiness_for(record: dict[str, Any], snapshot: dict[str, Any]) -> dict[str
         readiness = "ready_for_local_packet"
         required_gates.extend(["automath_omega_ci_or_distillation_gate", "newmath_destination_review"])
         reasons.append("Automath source has existing gate surfaces and can be summarized for NewMath review.")
-        next_action = "create NewMath-side review packet only; do not create a NewMath proposal automatically"
+        if not consumption_mode or consumption_mode == "evidence_only":
+            consumption_mode = "board_continuation"
+        reuse_instruction = (
+            record.get("reuse_instruction")
+            or "Inspect the Automath source theorem, paper claim, or writeback ledger first; do not rediscover the Automath result from scratch."
+        )
+        expected_newmath_delta = (
+            record.get("expected_newmath_delta")
+            or "Create only the minimal BEDC-native wrapper, candidate mechanism, obstruction, proposal seed, or audit task needed to consume the Automath evidence."
+        )
+        reject_if = (
+            record.get("reject_if")
+            or "Reject or leave evidence-only if the Automath source has no BEDC carrier/classifier/proof-obligation fit."
+        )
+        next_action = "create an evidence-backed NewMath BOARD continuation target; do not create a NewMath proposal automatically"
     elif rule == "automath.pipeline_gate_surfaces":
         readiness = "ready_for_local_packet"
         required_gates.extend(["operator_maps_gate_to_newmath_lane"])
@@ -350,6 +377,10 @@ def _readiness_for(record: dict[str, Any], snapshot: dict[str, Any]) -> dict[str
             "gate_surfaces": automath_surfaces["gate_surfaces"],
             "has_killo_golden_trace_re": automath_surfaces["has_killo_golden_trace_re"],
         },
+        "bridge_consumption_mode": consumption_mode,
+        "reuse_instruction": reuse_instruction,
+        "expected_newmath_delta": expected_newmath_delta,
+        "reject_if": reject_if,
         "synthesis_next_action": next_action,
     }
 
