@@ -109,6 +109,22 @@ through $M$, $L$, $T$, $P$, and $N$, so no quotient, global localization
 functor, derived mapping object, or representative-choice row is exported.
 \end{proof}
 
+\begin{theorem}[BousfieldLocalization scoped kernel boundary]
+\label{thm:bousfieldlocalization-scoped-kernel-boundary}
+For any accepted $\BousfieldLocalizationUp$ packet in the sense of \autoref{def:bousfieldlocalization-carrier}, every selected morphism-class row, fibrant-local-object row, classifier transport row, exact readback row, ledger-boundary row, and local-object handoff row factors through the displayed $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows listed in \autoref{thm:bousfieldlocalization-namecert-obligations}.
+
+The scoped boundary exports no localized model structure, no global functorial localization, no homotopy-category quotient, no derived mapping object, and no representative choice.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B=(M,S,L,T,P,N)$ through \autoref{def:bousfieldlocalization-carrier}. The selected morphism-class rows are exactly the entries of $S$, the fibrant-local-object rows are exactly the entries of $L$, and their model-category typing passes through the displayed row $M$.
+
+Apply the five clauses of \autoref{thm:bousfieldlocalization-namecert-obligations}. The carrier clause identifies the $\mathsf{BHist}$ packet; the classifier clause restricts comparison to componentwise $\hsame$; the stability clause keeps transported packets inside the same displayed coordinates; the exactness clause confines consumer reads to $M,S,L,T,P,N$ and their finite provenance; and the ledger clause records the certificate boundary without adding an external localization object.
+
+Use \autoref{thm:bousfieldlocalization-local-object-handoff} and \autoref{thm:bousfieldlocalization-two-stage-local-object-readback} for the consumer-facing rows. They route selected maps, fibrant-local-object tests, and two-stage readbacks through $M$, $S$, $L$, $T$, $P$, and $N$, so each displayed handoff row factors through the same $\ModelCatUp$, $\CategoryUp$, $\FunctorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ boundary.
+
+The excluded objects would require coordinates not present in the carrier or ledger. There is no localized model-structure coordinate, no global localization-functor coordinate, no homotopy-category quotient coordinate, no derived mapping-object coordinate, and no representative-choice coordinate, so the scoped boundary exports none of them.
+\end{proof}
+
 \closureat{BousfieldLocalizationUp}{seedStr}
 \closureat{BousfieldLocalizationUp}{obligationStr}
 
