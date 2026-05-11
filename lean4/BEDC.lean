@@ -146,6 +146,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
+import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
@@ -337,6 +338,7 @@ import BEDC.Derived.SpinGroupUp.EvenWordClassifierInversion
 import BEDC.Derived.SpinGroupUp.CliffordGroupConsumerBoundary
 import BEDC.Derived.SpinGroupUp.LedgerExclusion
 import BEDC.Derived.SpinGroupUp.SpinBoundaryInclusionTransport
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
