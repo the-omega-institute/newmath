@@ -370,6 +370,40 @@ rational, host equality row, standard bridge, or completed real endpoint, none
 of those objects can be exported by the public consumer certificate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore standard source bridge]
+\label{thm:dyadicratcore-standard-source-bridge}
+The public envelope of \autoref{thm:dyadicratcore-public-readback-envelope}
+determines a bridge packet whose BEDC side is exactly the signed $\RatUp$
+mantissa row, positive $\UnaryHistory$ exponent row, denominator ledger,
+common-exponent classifier, arithmetic and distance windows, monotone-radius
+refinement, $\mathsf{BHist}$ data, $\hsame$ transport, $\Cont$ readback, and
+$\mathsf{Pkg}$ provenance carried by the envelope. Its standard side is the
+usual dyadic source interface $(m,e)$ with positive unary exponent and
+common-exponent comparison. The bridge exports no quotient rational, host
+rational equality, completed real, or real completeness claim.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-public-readback-envelope} to obtain the
+public tuple. Its visible coordinates give the signed mantissa, positive unary
+exponent, denominator ledger, finite arithmetic and distance windows,
+$\mathsf{BHist}$ data, $\hsame$ transport, $\Cont$ readback, and dependency
+provenance required on the BEDC side.
+
+Use \autoref{thm:dyadicratcore-common-exponent-exactness} to read the standard
+comparison row. It identifies comparison of two displayed dyadic packets with
+comparison after lifting their mantissas to a common positive unary exponent,
+which is exactly the common-exponent comparison expected by the usual source
+schema.
+
+Use \autoref{thm:dyadicratcore-monotone-radius-obligation} to keep radius and
+distance observations stable under denominator refinement. Then apply
+\autoref{thm:dyadicratcore-scoped-source-boundary} to check that the downstream
+$\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ boundary consumes only this
+dyadic source surface. Constructor inspection of the same envelope shows that
+there is no row for a quotient rational, host rational equality, completed
+real, or real completeness theorem.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 
 \begin{closurestatus}{\DyadicRatCoreUp}
