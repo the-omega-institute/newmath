@@ -22,7 +22,6 @@ The last clause is a boundary condition on the carrier. The construction names o
 \begin{theorem}[StoneDualityUp Stone-space classifier]\label{thm:stoneduality-stone-space-classifier}
 For every accepted $\StoneDualityUp$ Boolean source packet $B$, the topology-facing classifier is the finite $\mathsf{BHist}$ packet of clopen observation rows generated from the Boolean rows of $B$: a Boolean element $b$ is read as a clopen row $C_b$, meet is read as intersection, join as union, complement as topological complement, zero as the empty clopen row, and one as the full clopen row. If $b$ and $b'$ are $\hsame$ on the Boolean side, then $C_b$ and $C_{b'}$ are $\hsame$ as $\TopologyUp$ clopen rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityStoneSpaceClassifier\_transport}
 
 \begin{proof}
 Construct the clopen packet by structural traversal of the finite Boolean source ledger. Each generator contributes one topology row, and each Boolean operation contributes the matching $\TopologyUp$ operation row.
@@ -31,6 +30,7 @@ Classifier stability follows by induction over the source ledger. A generator st
 
 No representation by points is used. The topology packet is the clopen ledger itself, so the theorem is a classifier statement about finite rows rather than an existence theorem for a separate space.
 \end{proof}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityStoneSpaceClassifier\_clopen\_transport}
 
 \section{The certificate}
 \label{sec:stoneduality-certificate}
@@ -51,6 +51,7 @@ The transport clause is inherited from $\hsame$ stability of the Boolean rows an
 \begin{theorem}[StoneDualityUp ultrafilter-free soundness]\label{thm:stoneduality-ultrafilter-free-soundness}
 The $\StoneDualityUp$ soundness obligation is satisfied at the certificate surface when every accepted Boolean source row is read through the finite clopen ledger and every $\hsame$ comparison is transported by the recorded $\Cont$ rows. This soundness statement does not assert that every Boolean homomorphism has an ultrafilter point, and it does not invoke an external Stone-space existence theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness\_surface}
 
 \begin{proof}
 Start with an accepted Boolean source packet and its clopen ledger. Soundness means that each Boolean operation row has the matching clopen operation row and that classifier equality is preserved by the ledger.
@@ -59,11 +60,12 @@ The required checks are finite. Zero, one, meet, join, and complement are handle
 
 There is no choice step. The proof never selects an ultrafilter extending a filter and never builds a point space; it only verifies that the displayed $\mathsf{BHist}$, $\Pkg$, $\NameCert$, and $\Cont$ rows commute under $\hsame$.
 \end{proof}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityUltrafilterFreeSoundness}
 
 \begin{theorem}[StoneDualityUp continuous-map readback]\label{thm:stoneduality-continuous-map-readback}
 Let $F$ be a finite $\StoneDualityUp$ morphism row between accepted Boolean source packets. If $F$ preserves zero, one, meet, join, and complement in the Boolean $\mathsf{BHist}$ classifier, then the readback row sends each clopen generator $C_b$ in the target topology packet to the clopen generator $C_{F(b)}$ in the source topology packet, and the resulting $\Cont$ ledger is stable under $\hsame$. Hence finite Boolean-algebra observations determine the contravariant continuous-map observation surface recorded by $\NameCert$.
 \end{theorem}
-\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityContinuousMapReadback\_cont\_transport}
+\leanchecked{BEDC.Derived.StoneDualityUp.StoneDualityContinuousMapReadback\_transport}
 
 \begin{proof}
 Read the morphism row contravariantly. A target clopen generator is named by a Boolean row $b$, and the Boolean morphism row supplies the source Boolean row $F(b)$.
@@ -82,5 +84,5 @@ Finally, $\hsame$ stability follows from the morphism classifier and the clopen 
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ultrafilter existence, completed compact Hausdorff spaces, choice-based point construction, or standard bridge closure.}
-  \upgradepath{Scoped closure requires binding the Boolean, clopen, ultrafilter-free soundness, and contravariant continuous-map rows to the $\LatticeUp$, $\TopologyUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
+  \upgradepath{Scoped closure requires binding the finite Boolean rows, clopen topology rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies explicitly in one scope statement.}
 \end{closurestatus}
