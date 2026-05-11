@@ -15,67 +15,131 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def VectorBundleFiniteCarrier [AskSetup] [PackageSetup]
-    (bundle vecspace trivialization fiber transition classifier contRows provenance : BHist)
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint : BHist)
     (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory bundle ∧ UnaryHistory vecspace ∧ UnaryHistory trivialization ∧
-    UnaryHistory fiber ∧ UnaryHistory transition ∧ UnaryHistory classifier ∧
-      UnaryHistory contRows ∧ Cont bundle vecspace trivialization ∧
-        Cont fiber transition classifier ∧ Cont trivialization classifier contRows ∧
-          PkgSig probe provenance pkg
+  UnaryHistory bundleRow ∧ UnaryHistory vecspace ∧ UnaryHistory trivialization ∧
+    UnaryHistory fibre ∧ UnaryHistory transition ∧ UnaryHistory overlap ∧
+      UnaryHistory linearity ∧ UnaryHistory contRows ∧ UnaryHistory provenance ∧
+        UnaryHistory endpoint ∧ Cont bundleRow vecspace trivialization ∧
+          Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
+            Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
 
 theorem VectorBundleFiniteCarrier_classifier_stability_obligation [AskSetup] [PackageSetup]
-    {bundle vecspace trivialization fiber transition classifier contRows provenance bundle'
-      vecspace' trivialization' fiber' transition' classifier' contRows' provenance' : BHist}
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' endpoint' : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :
-    VectorBundleFiniteCarrier bundle vecspace trivialization fiber transition classifier contRows
-        provenance probe pkg ->
-      hsame bundle bundle' ->
-      hsame vecspace vecspace' ->
-      hsame trivialization trivialization' ->
-      hsame fiber fiber' ->
-      hsame transition transition' ->
-      Cont bundle' vecspace' trivialization' ->
-      Cont fiber' transition' classifier' ->
-      Cont trivialization' classifier' contRows' ->
-      PkgSig probe provenance' pkg ->
-      VectorBundleFiniteCarrier bundle' vecspace' trivialization' fiber' transition'
-          classifier' contRows' provenance' probe pkg ∧
-        hsame classifier classifier' ∧ hsame contRows contRows' := by
-  intro carrier sameBundle sameVecspace sameTrivialization sameFiber sameTransition
-    bundleVecspaceRow fiberTransitionRow trivializationClassifierRow pkgRow
-  obtain ⟨bundleUnary, vecspaceUnary, trivializationUnary, fiberUnary, transitionUnary,
-    classifierUnary, contRowsUnary, oldBundleVecspaceRow, oldFiberTransitionRow,
-    oldTrivializationClassifierRow, _oldPkgRow⟩ := carrier
-  have bundleUnary' : UnaryHistory bundle' :=
-    unary_transport bundleUnary sameBundle
+    VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+        contRows provenance endpoint probe pkg ->
+      hsame bundleRow bundleRow' -> hsame vecspace vecspace' ->
+        hsame fibre fibre' -> hsame overlap overlap' -> hsame linearity linearity' ->
+          Cont bundleRow' vecspace' trivialization' ->
+            Cont trivialization' overlap' transition' ->
+              Cont transition' linearity' contRows' ->
+                Cont provenance contRows' endpoint' -> PkgSig probe endpoint' pkg ->
+                  VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre'
+                      transition' overlap' linearity' contRows' provenance endpoint' probe pkg ∧
+                    hsame trivialization trivialization' ∧ hsame transition transition' ∧
+                      hsame contRows contRows' ∧ hsame endpoint endpoint' := by
+  intro carrier sameBundleRow sameVecspace sameFibre sameOverlap sameLinearity
+    bundleVecspaceRow trivializationOverlapRow transitionLinearityRow provenanceContRowsRow pkgSig'
+  obtain ⟨bundleUnary, vecspaceUnary, trivializationUnary, fibreUnary, transitionUnary,
+    overlapUnary, linearityUnary, contRowsUnary, provenanceUnary, endpointUnary,
+    bundleVecspaceSource, trivializationOverlapSource, transitionLinearitySource,
+    provenanceContRowsSource, _pkgSig⟩ := carrier
+  have bundleUnary' : UnaryHistory bundleRow' :=
+    unary_transport bundleUnary sameBundleRow
   have vecspaceUnary' : UnaryHistory vecspace' :=
     unary_transport vecspaceUnary sameVecspace
+  have trivializationSame : hsame trivialization trivialization' :=
+    cont_respects_hsame sameBundleRow sameVecspace bundleVecspaceSource bundleVecspaceRow
   have trivializationUnary' : UnaryHistory trivialization' :=
-    unary_cont_closed bundleUnary' vecspaceUnary' bundleVecspaceRow
-  have fiberUnary' : UnaryHistory fiber' :=
-    unary_transport fiberUnary sameFiber
+    unary_transport trivializationUnary trivializationSame
+  have fibreUnary' : UnaryHistory fibre' :=
+    unary_transport fibreUnary sameFibre
+  have overlapUnary' : UnaryHistory overlap' :=
+    unary_transport overlapUnary sameOverlap
+  have transitionSame : hsame transition transition' :=
+    cont_respects_hsame trivializationSame sameOverlap trivializationOverlapSource
+      trivializationOverlapRow
   have transitionUnary' : UnaryHistory transition' :=
-    unary_transport transitionUnary sameTransition
-  have classifierUnary' : UnaryHistory classifier' :=
-    unary_cont_closed fiberUnary' transitionUnary' fiberTransitionRow
+    unary_transport transitionUnary transitionSame
+  have linearityUnary' : UnaryHistory linearity' :=
+    unary_transport linearityUnary sameLinearity
+  have contRowsSame : hsame contRows contRows' :=
+    cont_respects_hsame transitionSame sameLinearity transitionLinearitySource
+      transitionLinearityRow
   have contRowsUnary' : UnaryHistory contRows' :=
-    unary_cont_closed trivializationUnary' classifierUnary' trivializationClassifierRow
-  have sameClassifier : hsame classifier classifier' :=
-    cont_respects_hsame sameFiber sameTransition oldFiberTransitionRow fiberTransitionRow
-  have sameContRows : hsame contRows contRows' :=
-    cont_respects_hsame sameTrivialization sameClassifier oldTrivializationClassifierRow
-      trivializationClassifierRow
+    unary_transport contRowsUnary contRowsSame
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) contRowsSame provenanceContRowsSource
+      provenanceContRowsRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary endpointSame
   exact And.intro
     (And.intro bundleUnary'
       (And.intro vecspaceUnary'
         (And.intro trivializationUnary'
-          (And.intro fiberUnary'
+          (And.intro fibreUnary'
             (And.intro transitionUnary'
-              (And.intro classifierUnary'
-                (And.intro contRowsUnary'
-                  (And.intro bundleVecspaceRow
-                    (And.intro fiberTransitionRow
-                      (And.intro trivializationClassifierRow pkgRow))))))))))
-    (And.intro sameClassifier sameContRows)
+              (And.intro overlapUnary'
+                (And.intro linearityUnary'
+                  (And.intro contRowsUnary'
+                    (And.intro provenanceUnary
+                      (And.intro endpointUnary'
+                        (And.intro bundleVecspaceRow
+                          (And.intro trivializationOverlapRow
+                            (And.intro transitionLinearityRow
+                              (And.intro provenanceContRowsRow pkgSig'))))))))))))))
+    (And.intro trivializationSame
+      (And.intro transitionSame (And.intro contRowsSame endpointSame)))
+
+theorem VectorBundleFiniteCarrier_transition_ledger_exactness [AskSetup] [PackageSetup]
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint transition' contRows' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+        contRows provenance endpoint probe pkg ->
+      hsame transition transition' -> Cont trivialization overlap transition' ->
+        Cont transition' linearity contRows' -> Cont provenance contRows' endpoint' ->
+          PkgSig probe endpoint' pkg ->
+            VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition' overlap
+                linearity contRows' provenance endpoint' probe pkg ∧
+              hsame contRows contRows' ∧ hsame endpoint endpoint' := by
+  intro carrier sameTransition trivializationOverlapRow transitionLinearityRow
+    provenanceContRowsRow pkgSig'
+  obtain ⟨bundleUnary, vecspaceUnary, trivializationUnary, fibreUnary, transitionUnary,
+    overlapUnary, linearityUnary, contRowsUnary, provenanceUnary, endpointUnary,
+    bundleVecspaceRow, trivializationOverlapSource, transitionLinearitySource,
+    provenanceContRowsSource, _pkgSig⟩ := carrier
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have contRowsSame : hsame contRows contRows' :=
+    cont_respects_hsame sameTransition (hsame_refl linearity) transitionLinearitySource
+      transitionLinearityRow
+  have contRowsUnary' : UnaryHistory contRows' :=
+    unary_transport contRowsUnary contRowsSame
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl provenance) contRowsSame provenanceContRowsSource
+      provenanceContRowsRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary endpointSame
+  exact And.intro
+    (And.intro bundleUnary
+      (And.intro vecspaceUnary
+        (And.intro trivializationUnary
+          (And.intro fibreUnary
+            (And.intro transitionUnary'
+              (And.intro overlapUnary
+                (And.intro linearityUnary
+                  (And.intro contRowsUnary'
+                    (And.intro provenanceUnary
+                      (And.intro endpointUnary'
+                        (And.intro bundleVecspaceRow
+                          (And.intro trivializationOverlapRow
+                            (And.intro transitionLinearityRow
+                              (And.intro provenanceContRowsRow pkgSig'))))))))))))))
+    (And.intro contRowsSame endpointSame)
 
 end BEDC.Derived.VectorBundleUp
