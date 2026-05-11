@@ -131,4 +131,39 @@ theorem DirichletUnitHistoryCarrier_abgroup_dependency_obligation
         (And.intro carrier.right.right.right.right.right.left
           carrier.right.right.right.right.right.right)))
 
+theorem DirichletUnitHistoryCarrier_regulator_unit_row_source_exhaustion
+    {source unit inverse law unitLedger lawLedger provenance regulatorRead unitRead inverseRead :
+      BHist} :
+    DirichletUnitHistoryCarrier source unit inverse law unitLedger lawLedger provenance ->
+      Cont unit provenance unitRead ->
+        Cont inverse provenance inverseRead ->
+          Cont unitRead inverseRead regulatorRead ->
+            UnaryHistory unit ∧ UnaryHistory inverse ∧ UnaryHistory unitRead ∧
+              UnaryHistory inverseRead ∧ UnaryHistory regulatorRead ∧
+                hsame unitRead (append unit provenance) ∧
+                  hsame inverseRead (append inverse provenance) ∧
+                    hsame regulatorRead (append unitRead inverseRead) ∧
+                      Cont source unit unitLedger ∧ Cont unitLedger lawLedger provenance := by
+  intro carrier unitRow inverseRow regulatorRow
+  have readback :=
+    DirichletUnitHistoryCarrier_readback_obligation
+      (source := source) (unit := unit) (inverse := inverse) (law := law)
+      (unitLedger := unitLedger) (lawLedger := lawLedger) (provenance := provenance) carrier
+  have unitReadUnary : UnaryHistory unitRead :=
+    unary_cont_closed carrier.right.left readback.right.right.left unitRow
+  have inverseReadUnary : UnaryHistory inverseRead :=
+    unary_cont_closed carrier.right.right.left readback.right.right.left inverseRow
+  have regulatorReadUnary : UnaryHistory regulatorRead :=
+    unary_cont_closed unitReadUnary inverseReadUnary regulatorRow
+  exact And.intro carrier.right.left
+    (And.intro carrier.right.right.left
+      (And.intro unitReadUnary
+        (And.intro inverseReadUnary
+          (And.intro regulatorReadUnary
+            (And.intro unitRow
+              (And.intro inverseRow
+                (And.intro regulatorRow
+                  (And.intro carrier.right.right.right.right.left
+                    readback.right.right.right.right.right))))))))
+
 end BEDC.Derived.DirichletUnitUp
