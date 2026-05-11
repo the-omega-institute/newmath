@@ -87,6 +87,44 @@ The classifier is componentwise because each coordinate already lives in a displ
 The two ledger theorems account for the only marginal and objective reads. The feasible-surface theorem accounts for the only convex, polytope, and dual rows. Since no remaining coordinate contains a completed measure, a quotient coupling, an infinite support, or a global optimizer, the five rows exhaust the local seed certificate.
 \end{proof}
 
+\begin{theorem}[OptimalTransport public finite LP certificate]
+\label{thm:optimaltransport-public-finite-lp-certificate}
+An accepted finite-support $\OptimalTransportUp$ packet exports a public
+$\NameCert_{\OptimalTransportUp}$ finite linear-programming certificate
+consisting exactly of the displayed source and target support rows, the
+$\DistributionUp$ mass rows, the cost table or $\MetricUp$ cost rows, the
+finite coupling table, the two marginal ledgers, the finite objective ledger,
+the $\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, the
+$\LPDualityUp$ dual rows, and componentwise $\hsame$, $\Cont$, and $\Pkg$
+provenance.
+
+The certificate contains no measure completion, arbitrary-measure minimizer
+selection, quotient space, or infinite Kantorovich-duality datum.
+\end{theorem}
+\begin{proof}
+Read the accepted finite-support carrier of
+\autoref{def:optimaltransport-finite-coupling-carrier}. Its coordinates supply
+the source and target support rows, distribution masses, cost entries, coupling
+table, and package provenance.
+
+Apply \autoref{thm:optimaltransport-coupling-marginal-ledger} and
+\autoref{thm:optimaltransport-cost-summation-ledger}. These two ledgers account
+for the only marginal reads and the only finite objective read over the
+displayed coupling table.
+
+Next apply \autoref{thm:optimaltransport-lpduality-feasible-surface}. It
+packages the same finite support-pair coordinates as a $\ConvexSetUp$ and
+$\PolytopeUp$ feasible region together with the $\LPDualityUp$ dual rows.
+
+Finally apply \autoref{thm:optimaltransport-namecert-obligation-surface}. The
+obligation theorem repacks the carrier, ledgers, feasible surface, classifier
+transport, continuation rows, and package provenance as the public
+$\NameCert_{\OptimalTransportUp}$ certificate. Since no projected coordinate
+names a completed measure, arbitrary-measure optimizer, quotient space, or
+infinite duality principle, those objects are absent from the exported finite
+linear-programming certificate.
+\end{proof}
+
 \begin{theorem}[OptimalTransport obligation closure]
 \label{thm:optimaltransport-obligation-closure}
 The rows of \autoref{def:optimaltransport-finite-coupling-carrier},
@@ -119,8 +157,8 @@ principle, quotient coupling space, or optimizer-selection coordinate, there is
 no remaining row from which a further obligation could be read.
 \end{proof}
 
-\begin{theorem}[OptimalTransport public export]
-\label{thm:optimaltransport-public-export}
+\begin{theorem}[OptimalTransport public export surface]
+\label{thm:optimaltransport-public-export-surface}
 The public $\OptimalTransportUp$ export consists exactly of the finite support
 rows, finite distribution rows, displayed cost row, coupling table, marginal
 ledgers, cost ledger, finite feasible polytope surface, $\LPDualityUp$ dual row,
@@ -129,7 +167,8 @@ $\hsame$ classifier transport, $\Cont$ routes, and $\Pkg$ provenance named by
 \autoref{thm:optimaltransport-coupling-marginal-ledger},
 \autoref{thm:optimaltransport-cost-summation-ledger},
 \autoref{thm:optimaltransport-lpduality-feasible-surface},
-\autoref{thm:optimaltransport-namecert-obligation-surface}, and
+\autoref{thm:optimaltransport-namecert-obligation-surface},
+\autoref{thm:optimaltransport-public-finite-lp-certificate}, and
 \autoref{thm:optimaltransport-obligation-closure}.
 
 The public export contains no measure completion, arbitrary-measure minimizer
@@ -166,7 +205,7 @@ part of the public export.
 \begin{closurestatus}{\OptimalTransportUp}
   \constructivestory{An optimal-transport packet is generated from displayed finite source and target support rows, $\DistributionUp$ mass rows, a cost table or $\MetricUp$ cost row, a finite coupling table, marginal summation ledgers, a finite objective ledger, $\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, an $\LPDualityUp$ dual-feasibility row, and $\Pkg$ provenance.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface binds the finite-support carrier of \autoref{def:optimaltransport-finite-coupling-carrier}, the marginal ledger of \autoref{thm:optimaltransport-coupling-marginal-ledger}, the cost ledger of \autoref{thm:optimaltransport-cost-summation-ledger}, the finite dual-feasible surface of \autoref{thm:optimaltransport-lpduality-feasible-surface}, the NameCert obligation surface of \autoref{thm:optimaltransport-namecert-obligation-surface}, the obligation closure of \autoref{thm:optimaltransport-obligation-closure}, and the public export of \autoref{thm:optimaltransport-public-export} through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\DistributionUp$, $\MetricUp$, $\ConvexSetUp$, $\PolytopeUp$, and $\LPDualityUp$.}
+  \scopeclosed{The public surface binds the finite-support carrier of \autoref{def:optimaltransport-finite-coupling-carrier}, the marginal ledger of \autoref{thm:optimaltransport-coupling-marginal-ledger}, the cost ledger of \autoref{thm:optimaltransport-cost-summation-ledger}, the finite dual-feasible surface of \autoref{thm:optimaltransport-lpduality-feasible-surface}, the NameCert obligation surface of \autoref{thm:optimaltransport-namecert-obligation-surface}, the public finite linear-programming certificate of \autoref{thm:optimaltransport-public-finite-lp-certificate}, the obligation closure of \autoref{thm:optimaltransport-obligation-closure}, and the public export surface of \autoref{thm:optimaltransport-public-export-surface} through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\DistributionUp$, $\MetricUp$, $\ConvexSetUp$, $\PolytopeUp$, and $\LPDualityUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
