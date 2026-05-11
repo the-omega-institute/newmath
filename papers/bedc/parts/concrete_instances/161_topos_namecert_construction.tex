@@ -51,6 +51,30 @@ The dependency route is visible: the category and sheaf certificates provide pro
 No row in the carrier names a host truth-value object or external predicate semantics, so the subobject-classifier readback is exactly the displayed ledger entry.
 \end{proof}
 
+\begin{theorem}[Topos site-sheaf classifier obligation]
+\label{thm:topos-site-sheaf-classifier-obligation}
+Any subobject-classifier readback in a $\ToposUp$ packet factors through the
+displayed $\CategoryUp$ site row, the $\SheafUp$ cover/gluing row, finite-limit
+and exponential rows, componentwise $\hsame$, finite $\Cont$, and
+$\mathsf{Pkg}$ provenance. It exports no host truth-value object or ambient set
+semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier. The packet stores the subobject-classifier row together
+with the displayed category and sheaf source rows, so every classifier readback
+starts from those finite $\mathsf{BHist}$ coordinates.
+
+Use \autoref{thm:topos-finite-limit-exponential-scope} for the structural
+categorical rows. The finite-limit and exponential data are already routed
+through the $\CategoryUp$ and $\SheafUp$ dependencies, componentwise $\hsame$,
+finite $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Use \autoref{thm:topos-subobject-classifier-ledger-exactness} for the
+predicate-like classifier row. Repacking these dependency routes gives a finite
+BEDC obligation surface, and no remaining coordinate can supply a host
+truth-value object or ambient set semantics.
+\end{proof}
+
 \begin{theorem}[Topos certificate boundary]
 \label{thm:topos-certificate-boundary}
 Every downstream internal-logic consumer of $\ToposUp$ reads only the displayed finite-limit, exponential, subobject-classifier, $\NameCert_{\CategoryUp}$, $\NameCert_{\SheafUp}$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and provenance rows of \autoref{def:topos-carrier}. The certificate boundary excludes host set semantics, unlogged predicates, and any internal-language object not displayed in the packet.
