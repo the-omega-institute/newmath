@@ -152,6 +152,27 @@ theorem ToposSubobjectClassifierLedger_exactness [AskSetup] [PackageSetup]
               (And.intro categorySheafRow
                 (And.intro finiteExponentialRow (And.intro subobjectEndpointRow pkgSig))))))))
 
+theorem ToposSubobjectClassifier_pullback_boundary [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobject contRows provenance endpoint pullback :
+      BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+        provenance endpoint probe pkg ->
+      Cont endpoint subobject pullback ->
+        UnaryHistory pullback ∧ Cont category sheaf finiteLimit ∧
+          Cont finiteLimit exponential subobject ∧ Cont subobject contRows endpoint ∧
+            Cont endpoint subobject pullback ∧ PkgSig probe provenance pkg := by
+  intro ledgerRows pullbackRow
+  obtain ⟨_categoryUnary, _sheafUnary, _finiteLimitUnary, _exponentialUnary,
+    subobjectUnary, endpointUnary, categorySheafRow, finiteExponentialRow,
+    subobjectEndpointRow, packageRow⟩ := ToposSubobjectClassifierLedger_exactness ledgerRows
+  have pullbackUnary : UnaryHistory pullback :=
+    unary_cont_closed endpointUnary subobjectUnary pullbackRow
+  exact And.intro pullbackUnary
+    (And.intro categorySheafRow
+      (And.intro finiteExponentialRow
+        (And.intro subobjectEndpointRow (And.intro pullbackRow packageRow))))
+
 theorem ToposFiniteCarrier_site_sheaf_classifier_obligation [AskSetup] [PackageSetup]
     {category sheaf finiteLimit exponential subobject comparison ledger provenance endpoint
       classifierEndpoint : BHist}
@@ -196,6 +217,29 @@ theorem ToposFiniteCarrier_site_sheaf_classifier_obligation [AskSetup] [PackageS
                     (And.intro transportedEndpointRow packageEndpointRow))))))))
   exact And.intro transportedCarrier
     (And.intro categorySheafRow (And.intro finiteExponentialRow subobjectLedgerRow))
+
+theorem ToposFiniteCarrier_subobject_classifier_pullback_boundary [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobject comparison ledger provenance endpoint
+      classifierEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposFiniteCarrier category sheaf finiteLimit exponential subobject comparison ledger
+        provenance endpoint bundle pkg ->
+      ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject ledger
+        provenance classifierEndpoint bundle pkg ->
+      hsame provenance classifierEndpoint ->
+        ToposFiniteCarrier category sheaf finiteLimit exponential subobject comparison ledger
+            classifierEndpoint endpoint bundle pkg ∧
+          Cont comparison classifierEndpoint endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier ledgerRows sameProvenanceClassifier
+  obtain ⟨transportedCarrier, _categorySheafRow, _finiteExponentialRow,
+    _subobjectLedgerRow⟩ :=
+    ToposFiniteCarrier_site_sheaf_classifier_obligation carrier ledgerRows
+      sameProvenanceClassifier
+  have classifierEndpointRow : Cont comparison classifierEndpoint endpoint :=
+    transportedCarrier.right.right.right.right.right.right.right.right.left
+  have packageEndpointRow : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  exact And.intro transportedCarrier (And.intro classifierEndpointRow packageEndpointRow)
 
 theorem ToposFiniteCarrier_finite_limit_exponential_scope [AskSetup] [PackageSetup]
     {category sheaf finiteLimit exponential subobjectClassifier comparison ledger provenance
@@ -333,5 +377,76 @@ theorem ToposSubobjectClassifierLedger_site_sheaf_classifier_obligation [AskSetu
                   (And.intro finiteExponentialRow
                     (And.intro subobjectEndpointRow pkgSig')))))))))
     (And.intro finiteLimitSame (And.intro subobjectSame endpointSame))
+
+theorem ToposSubobjectClassifierLedger_pullback_boundary_certificate [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobject contRows provenance classifierEndpoint
+      pullbackEndpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+        provenance classifierEndpoint probe pkg ->
+      Cont classifierEndpoint finiteLimit pullbackEndpoint ->
+        SemanticNameCert
+            (fun row : BHist =>
+              ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject
+                  contRows provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+            (fun row : BHist =>
+              ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject
+                  contRows provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+            (fun row : BHist =>
+              ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject
+                  contRows provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+            hsame ∧
+          Cont category sheaf finiteLimit ∧ Cont finiteLimit exponential subobject ∧
+            Cont subobject contRows classifierEndpoint ∧
+              Cont classifierEndpoint finiteLimit pullbackEndpoint := by
+  intro ledger pullbackRow
+  obtain ⟨_categoryUnary, _sheafUnary, _finiteLimitUnary, _exponentialUnary,
+    _subobjectUnary, _endpointUnary, categorySheafRow, finiteExponentialRow,
+    subobjectClassifierRow, _pkgSig⟩ :=
+      ToposSubobjectClassifierLedger_exactness ledger
+  have pullbackSource :
+      (fun row : BHist =>
+        ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+            provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+          pullbackEndpoint :=
+    And.intro ledger (hsame_refl pullbackEndpoint)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+                provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+          (fun row : BHist =>
+            ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+                provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+          (fun row : BHist =>
+            ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+                provenance classifierEndpoint probe pkg ∧ hsame row pullbackEndpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro pullbackEndpoint pullbackSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact And.intro sourceRow.left
+          (hsame_trans (hsame_symm sameRows) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro categorySheafRow
+      (And.intro finiteExponentialRow (And.intro subobjectClassifierRow pullbackRow)))
 
 end BEDC.Derived.ToposUp
