@@ -325,6 +325,48 @@ theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
     ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
       regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
 
+theorem NestedIntervalFiniteCarrier_consumer_bridge_boundary [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger provenance
+      cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace endpoint
+        pkgLedger bundle pkg ->
+      NestedIntervalRegSeqRatWindow schedule lower upper width inclusion schedule regRead provenance
+        cert bundle pkg ->
+        hsame order inclusion ->
+          hsame endpoint width ∧ hsame pkgLedger regRead ∧ PkgSig bundle regRead pkg := by
+  intro carrier window sameOrderInclusion
+  obtain ⟨_lowerUnary, _upperUnary, _orderUnary, _widthUnary, _inclusionUnary, _scheduleUnary,
+    _regReadUnary, _sealFaceUnary, _endpointUnary, _pkgLedgerUnary, endpointRow, ledgerRow,
+    _carrierPkg⟩ := carrier
+  obtain ⟨_scheduleUnaryWindow, _lowerUnaryWindow, _upperUnaryWindow, _widthUnaryWindow,
+    _inclusionUnaryWindow, _scheduleUnaryWindow', _regReadUnaryWindow, _provenanceUnary,
+    _certUnary, lowerUpperWidthRow, widthInclusionRow, regReadPkg⟩ := window
+  have sameEndpointWidth : hsame endpoint width :=
+    cont_respects_hsame (hsame_refl lower) (hsame_refl upper) endpointRow lowerUpperWidthRow
+  have sameLedgerRegRead : hsame pkgLedger regRead :=
+    cont_respects_hsame sameEndpointWidth sameOrderInclusion ledgerRow widthInclusionRow
+  exact ⟨sameEndpointWidth, sameLedgerRegRead, regReadPkg⟩
+
+theorem NestedIntervalPacket_consumer_bridge_finite_route_exactness [AskSetup] [PackageSetup]
+    {unaryPrefix lower upper width inclusion schedule regRead provenance cert bridgeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalRegSeqRatWindow unaryPrefix lower upper width inclusion schedule regRead
+        provenance cert bundle pkg ->
+      Cont regRead cert bridgeRoute ->
+        PkgSig bundle bridgeRoute pkg ->
+          UnaryHistory bridgeRoute ∧ hsame width (append lower upper) ∧
+            hsame regRead (append width inclusion) ∧ Cont regRead cert bridgeRoute ∧
+              PkgSig bundle bridgeRoute pkg := by
+  intro window bridgeRouteRow bridgePkg
+  obtain ⟨_prefixUnary, _lowerUnary, _upperUnary, _widthUnary, _inclusionUnary, _scheduleUnary,
+    regReadUnary, _provenanceUnary, certUnary, lowerUpperRow, widthInclusionRow,
+    _regReadPkg⟩ := window
+  have bridgeUnary : UnaryHistory bridgeRoute :=
+    unary_cont_closed regReadUnary certUnary bridgeRouteRow
+  exact
+    ⟨bridgeUnary, lowerUpperRow, widthInclusionRow, bridgeRouteRow, bridgePkg⟩
+
 theorem NestedIntervalFiniteCarrier_real_seal_boundary [AskSetup] [PackageSetup]
     {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
