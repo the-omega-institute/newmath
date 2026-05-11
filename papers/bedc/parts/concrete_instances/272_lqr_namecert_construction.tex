@@ -200,15 +200,50 @@ Repack the displayed rows as the public $\NameCert_{\LQRUp}$ surface. Every expo
 \end{proof}
 \leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_public\_namecert\_export}
 
+\begin{theorem}[LQR public schema bridge]
+\label{thm:lqr-public-schema-bridge}
+The public $\NameCert_{\LQRUp}$ surface of
+\autoref{thm:lqr-public-namecert-export} interprets exactly as the standard
+finite-horizon LQR schema. The displayed state and control rows, transition
+row, quadratic-cost row, estimator-input rows, finite horizon row, and
+backward dynamic-programming ledger are precisely the public schema fields of
+the exported certificate. The surface exports no infinite-horizon policy, host
+Riccati solver, stochastic process, or ambient optimizer.
+\end{theorem}
+\begin{proof}
+Begin with the scoped dependency certificate of
+\autoref{thm:lqr-scoped-dependency-certificate}. It binds the state, control,
+transition, quadratic cost, estimator, horizon, continuation, provenance, and
+dependency rows to the displayed finite-control carrier.
+
+The finite-horizon part is the Riccati closure of
+\autoref{thm:lqr-finite-horizon-riccati-closure}. It identifies each backward
+dynamic-programming ledger entry as a finite $\Cont$ row from the displayed
+successor value, transition, control, quadratic-cost, estimator-input, horizon,
+and package rows to the predecessor value row.
+
+The estimator side is separated by
+\autoref{thm:lqr-estimator-control-consumption-boundary}. Thus estimator input
+is a public certificate row consumed by the finite ledger, not a hidden
+stochastic process or ambient controller.
+
+Finally apply \autoref{thm:lqr-public-namecert-export}. Repacking those rows as
+the public $\NameCert_{\LQRUp}$ surface gives exactly the standard
+finite-horizon LQR schema fields, while the excluded infinite-horizon policy,
+host Riccati solver, stochastic process, and ambient optimizer remain outside
+the export.
+\end{proof}
+
 \closureat{LQRUp}{scopedStr}
 \closureat{LQRUp}{publicStr}
+\closureat{LQRUp}{bridgedStr}
 \begin{closurestatus}{\LQRUp}
   \constructivestory{}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public certificate binds the finite linear-quadratic control carrier, seed obligation surface, dynamic-programming row, estimator-control boundary, transition stability, quadratic-cost exactness, finite-horizon Riccati closure, and empty-horizon ledger to the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency-certificate rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public certificate binds the finite linear-quadratic control carrier, seed obligation surface, dynamic-programming row, estimator-control boundary, transition stability, quadratic-cost exactness, finite-horizon Riccati closure, empty-horizon ledger, and public finite-horizon LQR schema bridge to the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency-certificate rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close an analytic stochastic-control model, infinite-horizon regulator, host Riccati solver, projective limit, or public standard bridge.}
-  \upgradepath{A standard bridge for the public $\NameCert_{\LQRUp}$ surface remains outside this closure block.}
+  \notclaimed{This chapter does not close an analytic stochastic-control model, infinite-horizon regulator, host Riccati solver, projective limit, or stochastic-process semantics.}
+  \upgradepath{Mature closure requires worked finite-horizon examples or a completeness theorem for the public schema surface.}
 \end{closurestatus}
