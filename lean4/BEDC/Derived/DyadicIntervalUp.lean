@@ -205,6 +205,40 @@ theorem DyadicIntervalPacket_endpoint_classifier_transport [AskSetup] [PackageSe
   have sameEndpoint : hsame endpoint endpoint' :=
     cont_respects_hsame sameOrder sameProvenance endpointRow endpointRow'
   exact And.intro classifierUnary (And.intro sameEndpoint classifierRowRow)
+
+theorem DyadicIntervalPacket_scoped_dependency_package [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint sealRowOut windowRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      Cont endpoint width sealRowOut ->
+        Cont sealRowOut radius windowRow ->
+          PkgSig bundle windowRow pkg ->
+            UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory width ∧
+              UnaryHistory radius ∧ UnaryHistory sealRowOut ∧ UnaryHistory windowRow ∧
+                Cont endpoint width sealRowOut ∧ Cont sealRowOut radius windowRow ∧
+                  hsame sealRowOut (append endpoint width) ∧
+                    hsame windowRow (append sealRowOut radius) ∧
+                      PkgSig bundle windowRow pkg := by
+  intro packet sealRow windowCont windowPkg
+  obtain ⟨leftUnary, rightUnary, widthUnary, _midpointUnary, radiusUnary, _orderUnary,
+    _provenanceUnary, endpointUnary, _widthRow, _midpointRow, _radiusRow, _orderRow,
+    _endpointRow, _pkgRow⟩ := packet
+  have sealUnary : UnaryHistory sealRowOut :=
+    unary_cont_closed endpointUnary widthUnary sealRow
+  have windowUnary : UnaryHistory windowRow :=
+    unary_cont_closed sealUnary radiusUnary windowCont
+  exact
+    And.intro leftUnary
+      (And.intro rightUnary
+        (And.intro widthUnary
+          (And.intro radiusUnary
+            (And.intro sealUnary
+              (And.intro windowUnary
+                (And.intro sealRow
+                  (And.intro windowCont
+                    (And.intro sealRow
+                      (And.intro windowCont windowPkg)))))))))
+
 def DyadicIntervalEndpointPacket [AskSetup] [PackageSetup]
     (left right width order midpoint radius hsameLedger contLedger pkgrow nameRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
