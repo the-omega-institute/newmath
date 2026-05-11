@@ -145,4 +145,53 @@ theorem KKTPrimalDualPacket_namecert_obligation_surface [AskSetup] [PackageSetup
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right)))
 
+def KKTCarrierPacket [AskSetup] [PackageSetup]
+    (primal dual residual stationarity feasibility slackness comparison ledger provenance
+      endpoint : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory primal ∧ UnaryHistory dual ∧ UnaryHistory residual ∧
+    UnaryHistory feasibility ∧ Cont primal dual comparison ∧
+      Cont residual stationarity slackness ∧ Cont feasibility slackness ledger ∧
+        Cont ledger provenance endpoint ∧ PkgSig probe endpoint pkg
+
+theorem KKTCarrierPacket_endpoint_obligation [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasibility slackness comparison ledger provenance
+      endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTCarrierPacket primal dual residual stationarity feasibility slackness comparison ledger
+        provenance endpoint probe pkg ->
+      UnaryHistory comparison ∧ Cont residual stationarity slackness ∧
+        Cont feasibility slackness ledger ∧ Cont ledger provenance endpoint ∧
+          hsame comparison (append primal dual) ∧
+            hsame slackness (append residual stationarity) ∧
+              hsame ledger (append feasibility slackness) ∧
+                hsame endpoint (append ledger provenance) ∧ PkgSig probe endpoint pkg := by
+  intro packet
+  cases packet with
+  | intro primalUnary rest =>
+      cases rest with
+      | intro dualUnary rest =>
+          cases rest with
+          | intro _residualUnary rest =>
+              cases rest with
+              | intro _feasibilityUnary rest =>
+                  cases rest with
+                  | intro comparisonCont rest =>
+                      cases rest with
+                      | intro slacknessCont rest =>
+                          cases rest with
+                          | intro ledgerCont rest =>
+                              cases rest with
+                              | intro endpointCont endpointPkg =>
+                                  have comparisonUnary : UnaryHistory comparison :=
+                                    unary_cont_closed primalUnary dualUnary comparisonCont
+                                  exact And.intro comparisonUnary
+                                    (And.intro slacknessCont
+                                      (And.intro ledgerCont
+                                        (And.intro endpointCont
+                                          (And.intro comparisonCont
+                                            (And.intro slacknessCont
+                                              (And.intro ledgerCont
+                                                (And.intro endpointCont endpointPkg)))))))
+
 end BEDC.Derived.KKTUp

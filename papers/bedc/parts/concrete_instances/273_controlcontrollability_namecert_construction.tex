@@ -10,6 +10,7 @@ The $\ControlControllabilityUp$ interface records the finite reachability surfac
 \label{def:controlcontrollability-carrier}
 A $\ControlControllabilityUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state-carrier row, an input-carrier row, a transition-matrix row $A$, a control-matrix row $B$, a finite horizon unary row $n$, the displayed reachability columns $B,AB,\ldots,A^{n-1}B$, a reachability-matrix row collecting those columns, $\hsame$ comparisons between corresponding finite rows, $\Cont$ provenance for each displayed multiplication and column append, and $\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$.
 \end{definition}
+\leandef{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket}
 
 \begin{definition}[ControlControllability classifier]
 \label{def:controlcontrollability-classifier}
@@ -60,7 +61,8 @@ Since none of the excluded host objects appears as a carrier coordinate, a consu
   \constructivestory{}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed surface records the finite reachability carrier, classifier, reachability ledger, NameCert obligation surface, and consumer boundary for $\ControlControllabilityUp$ over displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close analytic trajectory semantics, Kalman decomposition, stochastic optimality, host reachable subspace quotients, rank-completeness, or a standard bridge.}
