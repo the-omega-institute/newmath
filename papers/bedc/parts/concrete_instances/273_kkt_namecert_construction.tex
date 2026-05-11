@@ -29,6 +29,45 @@ Read each row through its named dependency certificate. The feasible-region row 
 No other row is present in the packet. The accepted primal-dual surface is therefore exhausted by the finite $\mathsf{BHist}$ rows and their visible provenance.
 \end{proof}
 
+\begin{theorem}[KKTUp stationarity and feasibility hsame transport]
+\label{thm:kkt-stationarity-feasibility-hsame-transport}
+Let $K$ and $K'$ be finite $\KKTUp$ packets whose primal variable, dual
+multiplier, residual, stationarity, feasibility, and slackness rows are related
+componentwise by the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows of the $\KKTUp$ classifier. Suppose the same transport also
+respects the dependency rows over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$,
+$\VecSpaceUp$, and $\RealUp$. If $K$ is accepted, then $K'$ is accepted on the
+same stationarity and feasibility surface, and the complementary-slackness
+ledger remains confined to the finite boundary of
+\autoref{thm:kkt-complementarity-ledger-exactness}.
+
+The transported packet introduces no analytic differentiability row, Slater
+data, host minimization predicate, or solver semantics beyond the displayed
+BEDC rows.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:kkt-bhist-carrier}. The carrier names exactly the primal,
+dual multiplier, residual, stationarity, feasibility, slackness, comparison,
+continuation, package, and naming rows that can participate in the classifier.
+
+Apply \autoref{thm:kkt-primal-dual-row-obligations}. The primal and feasibility
+rows are read through $\ConvexSetUp$ and $\VecSpaceUp$, while the multiplier,
+residual, stationarity, slackness, and scalar rows are read through
+$\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$.
+
+Transport each displayed row through the given componentwise $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ data, then repack the resulting finite
+rows in the same carrier positions. Since the dependency rows are transported
+with the visible packet, the stationarity and feasibility surface of $K'$ is
+accepted by the same classifier shape.
+
+Finally apply \autoref{thm:kkt-complementarity-ledger-exactness}. The slackness
+ledger remains only the displayed residual, multiplier, scalar slack,
+comparison, continuation, and package rows, so the transport cannot add
+analytic differentiability, Slater data, host minimization semantics, or solver
+evidence.
+\end{proof}
+
 \begin{theorem}[KKTUp stationarity and feasibility stability]
 \label{thm:kkt-stationarity-feasibility-stability}
 Let $K$ and $K'$ be accepted $\KKTUp$ packets whose displayed primal variable, dual multiplier, residual, matrix and vector stationarity rows, real scalar rows, finite $\Cont$ routes, and $\mathsf{Pkg}$ provenance compare componentwise by the $\hsame$ rows of the $\KKTUp$ classifier. Transporting along those rows preserves the accepted stationarity and feasibility rows of the packet. The transport introduces no analytic differentiability oracle, Slater witness, nonlinear optimizer, or host minimization semantics.
