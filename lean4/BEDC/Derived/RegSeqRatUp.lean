@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -139,5 +141,77 @@ theorem RegSeqRatClassifier_transport [AskSetup] [PackageSetup]
                                                               sameEndpoint, sameRadius,
                                                               sameRegularity, sameReadback⟩
                                                           exact ⟨carrier', classifier', sameReadback⟩
+
+theorem RegSeqRatStreamCarrier_regularity_obligation_surface [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          hsame ∧ Cont schedule index endpoint ∧ Cont endpoint radius regularity ∧
+            Cont regularity provenance readback ∧ PkgSig bundle readback pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨scheduleUnary, indexUnary, endpointUnary, radiusUnary, regularityUnary, provenanceUnary,
+      readbackUnary, scheduleIndexEndpoint, endpointRadiusRegularity,
+      regularityProvenanceReadback, pkgSig⟩
+  have carrierPacket :
+      RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+          bundle pkg :=
+    ⟨scheduleUnary, indexUnary, endpointUnary, radiusUnary, regularityUnary, provenanceUnary,
+      readbackUnary, scheduleIndexEndpoint, endpointRadiusRegularity,
+      regularityProvenanceReadback, pkgSig⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance e
+                bundle pkg ∧ hsame row e)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro readback
+            (Exists.intro readback (And.intro carrierPacket (hsame_refl readback)))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          cases source with
+          | intro e data =>
+              cases data with
+              | intro packetE sameRowE =>
+                  exact Exists.intro e
+                    (And.intro packetE (hsame_trans (hsame_symm same) sameRowE))
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  exact ⟨cert, scheduleIndexEndpoint, endpointRadiusRegularity, regularityProvenanceReadback, pkgSig⟩
 
 end BEDC.Derived.RegSeqRatUp
