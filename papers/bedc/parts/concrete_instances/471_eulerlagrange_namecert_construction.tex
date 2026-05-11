@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\EulerLagrangeUp$}
+\label{ch:concrete-instances-eulerlagrange-namecert}
+
+The $\EulerLagrangeUp$ interface names the finite variational-equation surface consumed by $\PdeUp$ and $\NoetherSymmetryUp$. In the classical calculus of variations, as presented for example by Gelfand--Fomin and by Giaquinta--Hildebrandt, the Euler--Lagrange equation is read from an action functional, admissible variations, a first-variation computation, and boundary conditions. The BEDC packet below records only the finite rows needed to cite that surface.
+
+\section{Finite variational packet}
+\label{sec:eulerlagrange-finite-variational-packet}
+
+\begin{definition}[EulerLagrangeUp BHist carrier]
+\label{def:eulerlagrange-bhist-carrier}
+An $\EulerLagrangeUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+E=(A,V,F,B,Q,R,C,H,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is an action-functional row naming the displayed Lagrangian or energy expression through $\IntegralUp$, $\DerivativeUp$, and $\RealUp$ source certificates;
+\item $V$ is an admissible-variation row naming the finite variation family and the source-domain restrictions it must respect;
+\item $F$ is a first-variation ledger that records the displayed derivative read, the finite cancellation rows, and the residual equation row;
+\item $B$ is a boundary-condition row saying which boundary terms are fixed, vanish, or remain visible to a downstream consumer;
+\item $Q$ is the $\PdeUp$ source row that receives the residual equation as an equation surface;
+\item $R$ is the $\RealUp$ scalar row used for action values, first-variation values, and displayed coefficient comparisons;
+\item $C$ records the $\Cont$ provenance routes by which the action, variation, boundary, PDE, and scalar rows are read;
+\item $H$ records the $\hsame$ transport rows for the displayed action, variation, first-variation ledger, boundary row, PDE row, and scalar row;
+\item $P$ is the $\Pkg$ provenance row naming $\DerivativeUp$, $\IntegralUp$, $\PdeUp$, $\RealUp$, and $\NoetherSymmetryUp$ as the finite consumers and suppliers of the packet;
+\item $N$ is the $\NameCert$ provenance row that registers the packet under $\EulerLagrangeUp$.
+\end{enumerate}
+The carrier predicate is $\mathsf{EulerLagrangePacket}(A,V,F,B,Q,R,C,H,P,N)$. Two accepted packets classify together only when the ten displayed rows transport componentwise by the $\hsame$ witnesses and the same $\Cont$ routes named in $C$ and $P$.
+\end{definition}
+
+\begin{theorem}[EulerLagrange local action row]
+\label{thm:eulerlagrange-local-action-row}
+Every accepted $\EulerLagrangeUp$ carrier exposes a local action-functional row $A$ together with its $\DerivativeUp$, $\IntegralUp$, and $\RealUp$ provenance. A consumer may read from $A$ only the displayed integrand or energy expression, the displayed derivative route used for the first variation, the displayed integral route used for the action value, and the scalar rows named by the $\RealUp$ boundary.
+
+The row does not assert existence of minimizers, smooth compactness, a host manifold of fields, or any unrecorded analytic regularity.
+\end{theorem}
+\begin{proof}
+Project the $A$, $R$, $C$, and $P$ coordinates from \autoref{def:eulerlagrange-bhist-carrier}. These coordinates explicitly name the action expression, the derivative and integral provenance, the real scalar reads, and the finite continuation routes.
+
+The classifier clause permits only componentwise $\hsame$ transport of those rows. Hence every local action read available to a downstream consumer is one of the displayed rows of the packet, and no host variational object can be inferred from the carrier.
+\end{proof}
+
+\begin{theorem}[EulerLagrange variation ledger and boundary row]
+\label{thm:eulerlagrange-variation-ledger-boundary}
+For an accepted carrier $E=(A,V,F,B,Q,R,C,H,P,N)$, the admissible-variation row $V$, the first-variation ledger $F$, and the boundary-condition row $B$ jointly determine the public variational ledger. The ledger records which displayed variations are admitted, which first-variation terms are retained or cancelled, and which boundary terms are fixed or exposed.
+
+No consumer may read an integration-by-parts theorem, a density argument for arbitrary test variations, or a hidden boundary regularity fact unless that datum appears as one of the finite rows in $V$, $F$, or $B$.
+\end{theorem}
+\begin{proof}
+Read the three coordinates $V$, $F$, and $B$ from the carrier. The admissible variations are exactly the entries of $V$, the computed first-variation terms are exactly the ledger entries of $F$, and the boundary policy is exactly the row $B$.
+
+The transport rows in $H$ keep these three coordinates synchronized under $\hsame$. The $\Cont$ routes in $C$ say where the rows may be read, but they do not add a new analytic rule.
+
+Therefore the public variational ledger is exhausted by the three displayed coordinates. Any stronger calculus principle would require an additional row, which is not present in the carrier.
+\end{proof}
+
+\begin{theorem}[EulerLagrange PDE source handoff]
+\label{thm:eulerlagrange-pde-source-handoff}
+The $\PdeUp$ row $Q$ of an accepted $\EulerLagrangeUp$ carrier is the only PDE-facing handoff of the residual first-variation equation. It names the displayed equation row produced from $F$ after applying the boundary policy $B$, together with the $\Cont$, $\hsame$, and $\Pkg$ provenance that connect it to $\PdeUp$.
+
+The handoff does not claim well-posedness, ellipticity, hyperbolicity, weak-solution existence, or equivalence with a standard analytic PDE model.
+\end{theorem}
+\begin{proof}
+Start with the first-variation ledger $F$ and boundary row $B$. Their displayed residual equation is the equation surface recorded in the $\PdeUp$ coordinate $Q$.
+
+The provenance rows $C$, $H$, and $P$ then identify how this equation surface is transported and packaged for a $\PdeUp$ consumer. Since $Q$ is a finite source row, it carries only the residual equation and its named dependencies.
+
+No coordinate of the packet stores a solution theory, type classification of the PDE, regularity estimate, or bridge to an ambient analytic model. The stated handoff is therefore the whole PDE-facing surface.
+\end{proof}
+
+\begin{theorem}[EulerLagrange NameCert obligation surface]
+\label{thm:eulerlagrange-namecert-obligation-surface}
+The local $\NameCert_{\EulerLagrangeUp}$ seed surface consists exactly of the carrier of \autoref{def:eulerlagrange-bhist-carrier}, the local action row of \autoref{thm:eulerlagrange-local-action-row}, the variation ledger and boundary row of \autoref{thm:eulerlagrange-variation-ledger-boundary}, and the PDE source handoff of \autoref{thm:eulerlagrange-pde-source-handoff}. Its dependency list is the finite $\Pkg$ row naming $\DerivativeUp$, $\IntegralUp$, $\PdeUp$, $\RealUp$, and $\NoetherSymmetryUp$, together with the displayed $\Cont$, $\hsame$, and $\NameCert$ provenance rows.
+
+The surface does not claim the full calculus of variations, a variational existence theorem, natural boundary-condition completeness, Noether correspondence, analytic PDE regularity, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Assemble the obligation surface from the carrier. The definition supplies the action, variation, first-variation ledger, boundary, PDE, scalar, transport, package, and name-certificate rows.
+
+The first three theorems identify the only public projections needed by consumers: local action reads, variational ledger reads, and the PDE handoff. These projections cover every coordinate used by $\EulerLagrangeUp$.
+
+The exclusions follow by inspection of the finite packet. None of its rows contains an existence theorem, a host variational model, a Noether bijection, analytic regularity, or a standard bridge, so those claims remain outside the seed surface.
+\end{proof}
+
+\closureat{EulerLagrangeUp}{seedStr}
+
+\begin{closurestatus}{\EulerLagrangeUp}
+  \constructivestory{An Euler--Lagrange packet is generated by a displayed action row, an admissible-variation row, a first-variation ledger, a boundary-condition row, a $\PdeUp$ residual-equation row, a $\RealUp$ scalar row, $\Cont$ provenance, $\hsame$ transport, $\Pkg$ rows naming $\DerivativeUp$, $\IntegralUp$, $\PdeUp$, $\RealUp$, and $\NoetherSymmetryUp$, and a $\NameCert$ provenance row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface binds the finite action-functional row, admissible-variation row, first-variation ledger, boundary-condition row, PDE handoff, scalar row, transport rows, package provenance, and name-certificate provenance of \autoref{def:eulerlagrange-bhist-carrier}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the full calculus of variations, variational existence, natural boundary-condition completeness, Noether correspondence, analytic PDE regularity, or a standard bridge.}
+  \upgradepath{Formal closure requires Lean targets for the carrier row, local action row, variation ledger and boundary row, PDE source handoff, and NameCert obligation surface.}
+\end{closurestatus}
