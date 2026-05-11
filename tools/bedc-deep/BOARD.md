@@ -18,27 +18,3 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-644 - RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | RootSystem simple reflection negates its own axis: s_α(α) ~_V -_V α |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 10/10 |
-
-Problem:
-For every carried root α of a RootSystemUp carrier, the simple reflection s_α applied to α equals the additive inverse: s_α(α) ~_V -_V α.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/122_rootsystem_namecert_construction.tex`
-
-Rationale:
-First lemma a textbook proves after defining a root reflection (Humphreys, Reflection Groups §1.2; Bourbaki Lie IV-VI §1.1). The chapter already proves the involution s_α∘s_α~id but skips the basic axis-negation identity. Grep 'rootsystem-(reflection-axis|self-reflection)' returns no matches. Proof: specialize the reflection definition route s_α(γ)~γ - c_{α,γ}·α at γ=α, use Cartan integer c_{α,α}=2 from thm:rootsystem-cartan-ledger-obligation and innerproduct-root-diagonal-zero-exactness, and arithmetic in the VecSpaceUp reduct. All infra already in the same file.
-
----
-

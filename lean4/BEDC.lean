@@ -669,6 +669,8 @@ import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
+import BEDC.Derived.ControlObservabilityUp
+import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
@@ -805,6 +807,7 @@ import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.ScopedBoundary
 import BEDC.Derived.ManifoldUp.StdBridge
+import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.RawMulDistributivity
@@ -813,6 +816,7 @@ import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
 import BEDC.Derived.HilbertUp.ProjectionBridge
+import BEDC.Derived.HilbertUp.StdBridge
 import BEDC.Derived.FpsUp.CauchyProductSemigroup
 import BEDC.Derived.FpsUp.CoefficientwiseInverse
 import BEDC.Derived.FpsUp.LedgerPolicy
