@@ -750,6 +750,7 @@ import BEDC.Derived.ConvergenceRadiusUp.PublicExport
 import BEDC.Derived.ConvergenceRadiusUp.PublicBoundaryExactness
 import BEDC.Derived.ConvergenceRadiusUp.PublicBoundary
 import BEDC.Derived.ConvergenceRadiusUp.NameCertificate
+import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
