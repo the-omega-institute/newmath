@@ -314,4 +314,56 @@ theorem SplittingFieldRootCarrierPacket_root_namecert_surface [AskSetup] [Packag
     (And.intro ledger.right.right.left
       (And.intro ledger.right.right.right.left ledger.right.right.right.right.right))
 
+theorem SplittingFieldRootCarrierPacket_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {fieldExt polynomial roots factors transport provenance classifier factorLedger endpoint pkgrow
+      bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SplittingFieldRootCarrierPacket fieldExt polynomial roots factors transport provenance
+        classifier factorLedger endpoint bundle pkg ->
+      Cont factorLedger transport pkgrow ->
+        Cont endpoint pkgrow bridge ->
+          PkgSig bundle pkgrow pkg ->
+            PkgSig bundle bridge pkg ->
+              SemanticNameCert (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row other : BHist =>
+                    hsame row other ∧ hsame row endpoint ∧ hsame other endpoint) ∧
+                SplittingFieldRootTransportPacket fieldExt polynomial roots factors factorLedger
+                    transport pkgrow bundle pkg ∧
+                  Cont fieldExt polynomial classifier ∧ Cont roots factors factorLedger ∧
+                    Cont provenance factorLedger endpoint ∧
+                      hsame factorLedger (append roots factors) ∧
+                        hsame pkgrow (append factorLedger transport) ∧
+                          UnaryHistory bridge ∧ hsame bridge (append endpoint pkgrow) ∧
+                            PkgSig bundle endpoint pkg ∧ PkgSig bundle pkgrow pkg ∧
+                              PkgSig bundle bridge pkg := by
+  intro packet factorLedgerTransport bridgeRow pkgrowSig bridgeSig
+  have rootSurface := SplittingFieldRootCarrierPacket_root_namecert_surface packet
+  have boundary :=
+    SplittingFieldRootCarrierPacket_cyclotomic_consumer_source_boundary packet
+      factorLedgerTransport pkgrowSig
+  have factorLedgerUnary : UnaryHistory factorLedger :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  have pkgrowUnary : UnaryHistory pkgrow :=
+    unary_cont_closed factorLedgerUnary packet.right.right.right.right.left factorLedgerTransport
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed packet.right.right.right.right.right.left factorLedgerUnary
+      packet.right.right.right.right.right.right.right.right.left
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed endpointUnary pkgrowUnary bridgeRow
+  exact And.intro rootSurface.left
+    (And.intro boundary.left
+      (And.intro boundary.right.left
+        (And.intro boundary.right.right.left
+          (And.intro boundary.right.right.right.left
+            (And.intro boundary.right.right.right.right.left
+              (And.intro boundary.right.right.right.right.right.left
+                (And.intro bridgeUnary
+                    (And.intro bridgeRow
+                      (And.intro boundary.right.right.right.right.right.right.left
+                      (And.intro boundary.right.right.right.right.right.right.right
+                        bridgeSig))))))))))
+
 end BEDC.Derived.SplittingFieldUp

@@ -110,7 +110,7 @@ itself'' has a legitimate L4-mid reading and no legitimate L4a or V3 reading.
 \subsection{Substrate Gap Discovery}\label{subsec:substrate-gap-discovery}
 
 The substitution preservation lemma for the represented type theory exposes
-the substrate's hidden requirements in three stages, each identified by a
+the substrate's hidden requirements in successive stages, each identified by a
 Lean-checked counterexample.
 
 \paragraph{First stage: shift in substitution.} A direct
@@ -170,17 +170,158 @@ $$
 The preservation lemma carries an explicit
 $\mathrm{WellFormedCtx}\ (B :: \Gamma)$ premise.
 
+\paragraph{Sixth stage: Bool-level substitute.} With context well-formedness
+in place, the generalized substitute preservation proof identifies a further
+substrate constraint. The V3 $\mathrm{substitute}$ implementation uses
+Prop-level conditional branching on de Bruijn index decidability:
+
+$$
+\begin{aligned}
+  \mathrm{substitute}\ d\ v\ (\mathrm{var}\ i) =
+  \mathrm{if}\ i = d\ \mathrm{then}\ v\
+  \mathrm{else}\ \mathrm{if}\ i > d\ \mathrm{then}\ \mathrm{var}\ (i{-}1)
+  \mathrm{else}\ \mathrm{var}\ i.
+\end{aligned}
+$$
+
+Generalized substitution-shift lemmas require structural induction through
+these conditional positions. The structural induction inherits Lean's stdlib
+decidable-equality machinery, which has $\mathrm{propext}$ in its transitive
+provenance. Under the tactic discipline of \autoref{sec:pure-cic-tactics},
+this disqualifies the proof.
+
+The substrate fix is to re-implement $\mathrm{substitute}$ using Boolean
+branching:
+
+$$
+\begin{aligned}
+  \mathrm{substitute}\ d\ v\ (\mathrm{var}\ i) =
+  \mathrm{match}\ \mathrm{Nat.beq}\ i\ d,\ \mathrm{Nat.blt}\ d\ i\
+  \mathrm{with}
+  \\
+  \mid \mathtt{true},\, \_ \Rightarrow v
+  \\
+  \mid \mathtt{false},\, \mathtt{true}
+  \Rightarrow \mathrm{var}\ (i{-}1)
+  \\
+  \mid \mathtt{false},\, \mathtt{false}
+  \Rightarrow \mathrm{var}\ i.
+\end{aligned}
+$$
+
+The match dispatches structurally on $\mathrm{Bool}$ values without invoking
+decidable-equality Prop machinery, so structural induction through these
+positions stays in pure CIC.
+
+This is a discipline-driven substrate decision rather than a mathematical
+necessity. A Lean formalization that admits $\mathrm{propext}$ may use the
+Prop-level form without difficulty. BEDC's pure-CIC invariant places the
+constraint as a load-bearing condition, surfacing the decidable-if cost only
+when the substitute preservation proof is attempted in earnest. The
+substrate-gap discovery sequence therefore has methodological as well as
+type-theoretic content.
+
 \paragraph{Position.} The progression illustrates a methodological point:
 when the represented system's metatheorem is not provable, the substrate is
 incomplete. Each Lean-checked rejection identifies the next gap rigorously, not
-by suspicion. The substrate built up through the three stages is what the
-represented type theory actually requires to support its metatheorems,
+by suspicion. The substrate built up through the discovery sequence is what
+the represented type theory actually requires to support its metatheorems,
 distilled bottom-up rather than imported from an external reference.
 
 \paragraph{Note on tactic discipline.} Each Lean check above is constrained to
 the pure-CIC tactic subset codified in \autoref{sec:pure-cic-tactics},
 ensuring that the counterexamples are genuine refutations rather than
 artifacts of impure proof automation.
+
+\subsection{Substrate Stack}\label{subsec:substrate-stack}
+
+The V1 MetaCIC reconstruction is a layered stack of Lean modules. Each module
+contributes a specific fragment of the represented type theory's substrate.
+The stack is finite, ordered by formal dependency, and audited at PR merge
+time.
+
+\paragraph{Syntax layer.} \texttt{BEDC.MetaCIC.Syntax} provides
+$\mathrm{Term}$ (an inductive with five constructors: $\mathrm{var}$,
+$\mathrm{app}$, $\mathrm{lam}$, $\mathrm{pi}$, $\mathrm{sort}$),
+$\mathrm{shift}$ (de Bruijn lifting at cutoff with explicit amount,
+dispatching on Boolean $\mathrm{Nat.ble}$), and $\mathrm{substitute}$
+(capture-aware substitution at arbitrary depth, dispatching on Boolean
+$\mathrm{Nat.beq}$ and $\mathrm{Nat.blt}$; the Bool-level branching avoids the
+$\mathrm{propext}$ exposure that Prop-level decidable-if would introduce for
+generalized substitute lemmas).
+
+\paragraph{Typing layer.} \texttt{BEDC.MetaCIC.Typing} provides
+$\mathrm{Ctx}$ as a list of represented types, $\mathrm{Ctx.lookup}$ with
+depth-aware $\mathrm{shift}$ on tail-looked-up types, and the inductive
+predicate
+$$
+\begin{aligned}
+\mathrm{HasType} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{Term}
+  \to \mathrm{Prop}.
+\end{aligned}
+$$
+Its formation rules are $\mathrm{sortRule}$, $\mathrm{varRule}$,
+$\mathrm{piRule}$, $\mathrm{lamRule}$, and $\mathrm{appRule}$.
+
+\paragraph{Reduction layer.} \texttt{BEDC.MetaCIC.Beta} provides
+$\mathrm{BetaStep}$ with one base beta rule and three congruence rules:
+app-left, app-right, and lam-body.
+
+\paragraph{Well-formedness layer.} \texttt{BEDC.MetaCIC.ContextWF} provides
+$\mathrm{WellFormedCtx}$ with empty and cons formation rules. The cons rule
+requires the head type to be derivable at $\mathrm{Sort}$ in the predecessor
+context. This premise is required for substitution preservation: without it,
+ill-typed contexts admit refutations of preservation.
+
+\paragraph{Substitution-preservation layer.}
+\texttt{BEDC.MetaCIC.Substitution} hosts the substitution-preservation target
+with the $\mathrm{WellFormedCtx}$ premise. Its proof body is the active
+research target.
+
+\paragraph{Subject-reduction layer.}
+\texttt{BEDC.MetaCIC.SubjectReduction} depends on substitution preservation
+and is the next downstream target.
+
+\paragraph{Operational layer.} \texttt{BEDC.MetaCIC.Examples} carries
+concrete $\mathrm{HasType}$ witnesses for representative terms: the base sort
+judgment, the polymorphic identity, and variable lookup.
+\texttt{BEDC.MetaCIC.LeanBridge} carries one worked encoding of a host CIC
+term into MetaCIC with its $\mathrm{HasType}$ derivation.
+
+\paragraph{Decidable layer.} \texttt{BEDC.MetaCIC.Checker} provides
+$\mathrm{Term.beq}$, structural equality on terms, with soundness
+$\mathrm{Term.beq\_eq}$; $\mathrm{infer}$, type inference returning
+$\mathrm{Option}\ \mathrm{Term}$, with soundness $\mathrm{infer\_sound}$; and
+$\mathrm{check}$, decidable typing check, with soundness
+$\mathrm{check\_sound}$.
+
+\paragraph{Display and elaboration layer.}
+\texttt{BEDC.MetaCIC.PrettyPrint} provides a display function
+$\mathrm{Term} \to \mathrm{String}$. \texttt{BEDC.MetaCIC.Elaborator}
+provides $\mathrm{ElabFailure}$, $\mathrm{ElabResult}$,
+$\mathrm{normalizeOneStep}$ for single-step beta reduction, and
+$$
+\begin{aligned}
+\mathrm{elaborate} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{ElabResult}.
+\end{aligned}
+$$
+
+\paragraph{Audit gating.} Every module in the stack is gated by
+\texttt{check-axioms.py}, which rejects raw \texttt{axiom} declarations;
+\texttt{bedc\_ci.py axiom-purity --strict}, which rejects transitive
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}
+dependencies; \texttt{bedc\_ci.py audit}, which rejects paper-Lean marker
+drift; and \texttt{bedc\_ci.py marker-existence-audit}, which rejects paper
+references to non-existent Lean names. A module that fails any of these
+audits is rejected at PR merge time.
+
+\paragraph{Stack closure.} The substrate stack is open at the
+substitution-preservation layer and closed elsewhere: the remaining layers
+carry definitions and theorems that are axiom-free under
+\texttt{\#print axioms}. Subject reduction depends on substitution
+preservation; closing the substitution layer is the prerequisite for opening
+the subject-reduction layer. No layer is closed by importing unverified
+content from outside the stack.
 
 \subsection{Current State of the Reconstruction}\label{subsec:current-state}
 
