@@ -59,6 +59,33 @@ theorem betaStar_trans {t u v : Term} :
   | step htw hwu ih =>
       exact BetaStarStep.step htw (ih huv)
 
+theorem betaStarStep_lam_cong {d b b' : Term} :
+    BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.lam d t)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congLam d _ _ htw) ih
+
+theorem betaStarStep_app_left {f f' a : Term} :
+    BetaStarStep f f' → BetaStarStep (Term.app f a) (Term.app f' a) := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.app t a)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congApp1 _ _ a htw) ih
+
+theorem betaStarStep_app_right {f a a' : Term} :
+    BetaStarStep a a' → BetaStarStep (Term.app f a) (Term.app f a') := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.app f t)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congApp2 f _ _ htw) ih
+
 theorem betaParallel_refl (t : Term) :
     BetaParallel t t := by
   induction t with
