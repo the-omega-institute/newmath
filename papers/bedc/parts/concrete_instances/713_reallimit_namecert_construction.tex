@@ -1,0 +1,128 @@
+\chapter{A Concrete Naming Certificate for $\RealLimitUp$}
+\label{ch:concrete-instances-reallimit-namecert}
+
+The $\RealLimitUp$ interface names the finite saturated frontier where a
+scheduled regular rational stream can be read as a real-facing seal source.
+Following Bishop--Bridges constructive analysis, convergence is carried by
+explicit Cauchy and modulus data, not by a choice-selected limiting point. The
+packet below therefore records only certified stream windows, dyadic tolerance
+rows, regular-sequence reads, and the visible $\RealUp$ endpoint row available
+to downstream consumers.
+
+\begin{definition}[RealLimit BHist carrier]
+\label{def:reallimit-bhist-carrier}
+A $\RealLimitUp$ packet is a finite $\mathsf{BHist}$ source row
+$$
+R=(S,Q,E,D,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is a $\StreamNameUp$ schedule selecting the finite windows through
+which the approximation stream is inspected;
+\item $Q$ is the $\RegSeqRatUp$ source stream read on those scheduled windows;
+\item $E$ is the proposed $\RealUp$ seal endpoint consumed by real-facing
+interfaces;
+\item $D$ is the displayed family of $\DyadicRatCoreUp$ tolerance windows used
+for finite error reads;
+\item $H$ records the componentwise $\hsame$ rows for stream schedule,
+regular-sequence source, seal endpoint, and dyadic tolerance rows;
+\item $C$ records the visible $\Cont$ routes through which a consumer reaches
+the selected windows and their common refinements;
+\item $P$ is the $\Pkg$ provenance row naming the $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and L0--L5 kernel dependencies;
+\item $N$ is the local $\NameCert_{\RealLimitUp}$ ledger row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{RealLimitPacket}(S,Q,E,D,H,C,P,N)$. Its classifier compares two
+accepted packets by passing to common finite refinements of the stream schedules
+and reading the same $\RegSeqRatUp$ tolerance row there. All agreement is then
+transported componentwise through the displayed $\hsame$ rows and the same
+$\Cont$ routes; no completed real equality or quotient of streams is used.
+\end{definition}
+
+\begin{theorem}[RealLimit NameCert obligation surface]
+\label{thm:reallimit-namecert-obligation-surface}
+The local $\NameCert_{\RealLimitUp}$ surface consists exactly of five rows:
+\begin{enumerate}
+\item carrier: the finite packet of
+\autoref{def:reallimit-bhist-carrier} with its schedule, source stream,
+seal endpoint, dyadic tolerance windows, transport, continuation, provenance,
+and local ledger;
+\item classifier: common finite schedule refinements followed by the same
+$\RegSeqRatUp$ tolerance read;
+\item stability: componentwise $\hsame$ transport and visible $\Cont$
+refinement preserve the selected stream window and tolerance comparison;
+\item exactness/readback: every $\RealUp$ read factors through the displayed
+$\RegSeqRatUp$ source stream and the $\DyadicRatCoreUp$ tolerance window used by
+the schedule;
+\item ledger: the $\Pkg$ and $\NameCert$ rows expose only the
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and L0--L5
+kernel dependencies.
+\end{enumerate}
+This is an obligation surface for finite constructive limit names; it is not a
+claim of real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reallimit-bhist-carrier}. The displayed
+coordinates already list the schedule, source stream, proposed seal endpoint,
+dyadic tolerance rows, transport witnesses, continuation routes, provenance,
+and local ledger.
+
+For the classifier row, compare two packets only after selecting a common finite
+refinement of their visible schedules. The $\RegSeqRatUp$ source stream is read
+at that refined window, and the dyadic tolerance row is the one named by the
+same packet coordinate.
+
+Stability follows by transporting each visible coordinate through its stored
+$\hsame$ row and reading refinements only through the displayed $\Cont$ routes.
+The readback row is exact because the sole $\RealUp$ coordinate is the seal
+endpoint $E$, and $E$ is reached from the regular-sequence and dyadic tolerance
+rows already present in the packet.
+
+The ledger row is exhausted by $P$ and $N$. Since the carrier has no coordinate
+for a completed real, no quotient stream, and no choice-selected limit, those
+objects cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[RealLimit RegSeqRat stream-name handoff]
+\label{thm:reallimit-regseqrat-streamname-handoff}
+Every accepted $\RealLimitUp$ packet hands a $\StreamNameUp$ schedule to a
+$\RegSeqRatUp$ source stream before any $\RealUp$ seal read is available. More
+precisely, a real-facing consumer may read the seal endpoint only through the
+scheduled regular-sequence tolerance window, its $\DyadicRatCoreUp$ error row,
+and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The handoff exports no $\RealUp$ completeness theorem, no equality of quotient
+streams, and no choice-selected limiting object.
+\end{theorem}
+\begin{proof}
+Read the accepted packet
+$R=(S,Q,E,D,H,C,P,N)$ through
+\autoref{def:reallimit-bhist-carrier}. The coordinate $S$ selects the finite
+observation windows, while $Q$ supplies the regular rational stream read on
+those windows.
+
+The dyadic tolerance coordinate $D$ records the finite error window used for the
+same read. A consumer reaches it only through the continuation routes in $C$,
+and endpoint replacement is constrained by the componentwise transport rows in
+$H$.
+
+The proposed real-facing endpoint is the single coordinate $E$. Because $E$ is
+packaged together with $S$, $Q$, $D$, $H$, $C$, $P$, and $N$, any read of $E$
+has the scheduled regular-sequence handoff as its visible source. There is no
+remaining coordinate from which a completeness principle, stream quotient, or
+selected limiting value could be obtained.
+\end{proof}
+
+\closureat{RealLimitUp}{seedStr}
+
+\begin{closurestatus}{\RealLimitUp}
+  \constructivestory{A finite limit-name packet records a stream schedule, regular rational source stream, proposed real seal endpoint, dyadic tolerance windows, transport rows, continuation routes, package provenance, and local naming ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reallimit-bhist-carrier}, \autoref{thm:reallimit-namecert-obligation-surface}, and \autoref{thm:reallimit-regseqrat-streamname-handoff} name the finite constructive limit surface between $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, a selected limit object, or a standard bridge.}
+  \upgradepath{The next paper-side step is an obligation boundary that binds the classifier, stability, readback, and ledger rows to explicit BEDC dependencies.}
+\end{closurestatus}
