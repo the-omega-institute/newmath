@@ -7,6 +7,7 @@ Subcommands:
   - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
   - marker-existence-audit: report paper markers that do not resolve in Lean
   - manifest-check: check selected Lean theorem type shapes against a manifest
+  - metacic-purity: report axiom dependencies for BEDC.MetaCIC declarations
   - verify-files: run ``lake env lean`` on one or more Lean files
 
 Newmath adaptation note:
@@ -99,6 +100,13 @@ class LeanMarkerRecord:
     line: int
     macro: str
     target: str
+
+
+@dataclass(frozen=True)
+class AxiomReportRecord:
+    name: str
+    kind: str
+    axioms: tuple[str, ...]
 
 
 def read_text(path: Path) -> str:
@@ -1063,6 +1071,118 @@ STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext"
 PRINT_AXIOMS_RE = re.compile(
     r"'([\w.·’]+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])"
 )
+METACIC_SCOPE = "BEDC.MetaCIC"
+METACIC_IMPORT = "BEDC.MetaCIC"
+
+
+def scan_metacic_declarations() -> list[DeclarationRecord]:
+    decls: list[DeclarationRecord] = []
+    metacic_root = BEDC_ROOT / "MetaCIC"
+    if not metacic_root.exists():
+        return []
+    for path in sorted(metacic_root.rglob("*.lean")):
+        file_decls, _fields = collect_declarations(path)
+        for decl in file_decls:
+            if decl.qualified_name.startswith(METACIC_SCOPE + "."):
+                decls.append(decl)
+    return sorted(decls, key=lambda d: (d.qualified_name, d.kind, d.file, d.line))
+
+
+def parse_axioms_output(output: str, declarations: dict[str, str]) -> list[AxiomReportRecord]:
+    reports: list[AxiomReportRecord] = []
+    for match in PRINT_AXIOMS_RE.finditer(output):
+        name = match.group(1)
+        if name not in declarations:
+            continue
+        raw_axioms = match.group(2)
+        axioms = tuple(a.strip() for a in (raw_axioms or "").split(",") if a.strip())
+        reports.append(AxiomReportRecord(name=name, kind=declarations[name], axioms=axioms))
+    return reports
+
+
+def metacic_axiom_summary(report: AxiomReportRecord) -> str:
+    if not report.axioms:
+        if report.kind in {"inductive", "structure", "class"}:
+            return "inhabited"
+        return "no axioms"
+    return ", ".join(report.axioms)
+
+
+def format_axiom_set(axioms: Iterable[str]) -> str:
+    return "{" + ", ".join(sorted(axioms)) + "}"
+
+
+def cmd_metacic_purity(args: argparse.Namespace) -> int:
+    decls = scan_metacic_declarations()
+    if not decls:
+        print("metacic-purity report (scope: BEDC.MetaCIC)")
+        print("total: 0 declarations")
+        print(f"forbidden: {format_axiom_set(STRICT_FORBIDDEN_AXIOMS)}")
+        print("violations: 0")
+        return 0
+
+    declaration_kinds = {decl.qualified_name: decl.kind for decl in decls}
+    lean_source = (
+        f"import {METACIC_IMPORT}\n\n"
+        + "\n".join(f"#print axioms {decl.qualified_name}" for decl in decls)
+        + "\n"
+    )
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=lean_source,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    output = (result.stdout or "") + "\n" + (result.stderr or "")
+    reports = parse_axioms_output(output, declaration_kinds)
+    by_name = {report.name: report for report in reports}
+    ordered_reports = [by_name[decl.qualified_name] for decl in decls if decl.qualified_name in by_name]
+    missing = [decl.qualified_name for decl in decls if decl.qualified_name not in by_name]
+
+    forbidden = set(STRICT_FORBIDDEN_AXIOMS)
+    violation_kinds = {"theorem", "lemma"}
+    violations = [
+        report for report in ordered_reports
+        if report.kind in violation_kinds and forbidden.intersection(report.axioms)
+    ]
+
+    print("metacic-purity report (scope: BEDC.MetaCIC)")
+    for report in ordered_reports:
+        print(
+            f"  {report.name:<56}"
+            f" ({report.kind:<9}) -- {metacic_axiom_summary(report)}"
+        )
+    print(f"total: {len(ordered_reports)} declarations")
+    print(f"forbidden: {format_axiom_set(STRICT_FORBIDDEN_AXIOMS)}")
+    print(f"violations: {len(violations)}")
+
+    if result.returncode != 0:
+        print(f"[bedc-ci] metacic-purity FAIL: lean returned {result.returncode}", file=sys.stderr)
+        tail = "\n".join(output.strip().splitlines()[-20:])
+        if tail:
+            print(tail, file=sys.stderr)
+        return result.returncode
+    if missing:
+        print(
+            f"[bedc-ci] metacic-purity FAIL: {len(missing)} declaration(s) had no parsed #print axioms result",
+            file=sys.stderr,
+        )
+        for name in missing[:50]:
+            print(f"  {name}", file=sys.stderr)
+        if len(missing) > 50:
+            print(f"  ... and {len(missing) - 50} more", file=sys.stderr)
+        return 1
+    if args.strict and violations:
+        print(f"[bedc-ci] metacic-purity FAIL: {len(violations)} forbidden dependency declaration(s)")
+        for report in violations[:50]:
+            bad = sorted(forbidden.intersection(report.axioms))
+            print(f"  {report.name} -> {', '.join(bad)}")
+        if len(violations) > 50:
+            print(f"  ... and {len(violations) - 50} more")
+        return 1
+    return 0
 
 
 def normalize_type_text(text: str) -> str:
@@ -1522,6 +1642,17 @@ def parser() -> argparse.ArgumentParser:
     purity_p.add_argument("--tmp-dir", type=str, default=str(LEAN_ROOT),
                           help="Directory for the temporary Lean axiom-audit file")
     purity_p.set_defaults(func=cmd_axiom_purity)
+
+    metacic_purity_p = sub.add_parser(
+        "metacic-purity",
+        help="Report axiom dependencies for BEDC.MetaCIC declarations",
+    )
+    metacic_purity_p.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit 1 if a BEDC.MetaCIC theorem or lemma depends on Classical.choice, Quot.sound, or propext",
+    )
+    metacic_purity_p.set_defaults(func=cmd_metacic_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")
