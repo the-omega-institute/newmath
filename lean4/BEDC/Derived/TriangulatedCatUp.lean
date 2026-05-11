@@ -231,4 +231,70 @@ theorem TriangulatedCatPacketCarrier_classifier_stability [AskSetup] [PackageSet
       targetPkg⟩
   exact ⟨carrier', sameAdditive, sameRoute, sameEndpoint⟩
 
+theorem TriangulatedCatPacketCarrier_shift_autoequivalence_obligation [AskSetup] [PackageSetup]
+    {category derived additive shift triangle octahedral route endpoint shift' route'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+        endpoint bundle pkg ->
+      hsame shift shift' ->
+        Cont shift' triangle route' ->
+          Cont octahedral route' endpoint' ->
+            PkgSig bundle endpoint' pkg ->
+              TriangulatedCatPacketCarrier category derived additive shift' triangle
+                  octahedral route' endpoint' bundle pkg ∧
+                hsame route route' ∧ hsame endpoint endpoint' := by
+  intro carrier sameShift shiftedRoute shiftedEndpoint shiftedPkg
+  have shiftUnary' : UnaryHistory shift' :=
+    unary_transport carrier.right.right.right.left sameShift
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameShift (hsame_refl triangle)
+      carrier.right.right.right.right.right.right.right.right.right.left shiftedRoute
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed shiftUnary' carrier.right.right.right.right.left shiftedRoute
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl octahedral) sameRoute
+      carrier.right.right.right.right.right.right.right.right.right.right.left shiftedEndpoint
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed carrier.right.right.right.right.right.left routeUnary' shiftedEndpoint
+  have shiftedCarrier :
+      TriangulatedCatPacketCarrier category derived additive shift' triangle octahedral route'
+        endpoint' bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      shiftUnary',
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      routeUnary',
+      endpointUnary',
+      carrier.right.right.right.right.right.right.right.right.left,
+      shiftedRoute,
+      shiftedEndpoint,
+      shiftedPkg⟩
+  exact ⟨shiftedCarrier, sameRoute, sameEndpoint⟩
+
+theorem TriangulatedCatPacketCarrier_distinguished_triangle_rotation_obligation [AskSetup]
+    [PackageSetup] {category derived additive shift triangle octahedral route endpoint
+      rotationEndpoint : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+        endpoint bundle pkg ->
+      Cont triangle shift rotationEndpoint ->
+        UnaryHistory triangle ∧ UnaryHistory shift ∧ UnaryHistory rotationEndpoint ∧
+          Cont shift triangle route ∧ Cont triangle shift rotationEndpoint ∧
+            hsame route (append shift triangle) ∧
+              hsame rotationEndpoint (append triangle shift) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier rotationRow
+  have shiftUnary : UnaryHistory shift :=
+    carrier.right.right.right.left
+  have triangleUnary : UnaryHistory triangle :=
+    carrier.right.right.right.right.left
+  have routeRow : Cont shift triangle route :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have rotationEndpointUnary : UnaryHistory rotationEndpoint :=
+    unary_cont_closed triangleUnary shiftUnary rotationRow
+  exact
+    ⟨triangleUnary, shiftUnary, rotationEndpointUnary, routeRow, rotationRow, routeRow, rotationRow,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.TriangulatedCatUp
