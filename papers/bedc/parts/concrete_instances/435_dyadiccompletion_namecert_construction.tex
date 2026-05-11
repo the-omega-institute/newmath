@@ -84,6 +84,8 @@ stream windows, regular-tail comparisons, real-name boundary row, ledger, and
 provenance, then $C'$ is accepted and has the same regular-tail classifier
 surface over $\RegSeqRatUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionWindowPacket\_regular\_tail\_stability}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionPacket\_regular\_tail\_stability}
 \begin{proof}
 Transport the dyadic observation rows and certified stream windows along the
 displayed $\hsame$ comparisons. The $\StreamNameUp$ schedule is finite, so each
@@ -105,6 +107,7 @@ dyadic observation row, its window certificate, the regular-tail comparison rows
 visible at that precision, and the ledger entries proving that the same rows
 are available to $\RegSeqRatUp$ and $\RealUp$ consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionWindowPacket\_streamname\_handoff}
 \begin{proof}
 Unpack the carrier. A precision request first selects a finite stream window,
 and the carrier stores the dyadic observation row and certificate attached to
@@ -138,8 +141,8 @@ modulus, quotient representative, Dedekind cut, or completed host real, such
 data cannot be projected from the packet.
 \end{proof}
 
-\begin{theorem}[DyadicCompletion scoped dependency package]
-\label{thm:dyadiccompletion-scoped-dependency-package}
+\begin{theorem}[DyadicCompletion scoped dependency packet]
+\label{thm:dyadiccompletion-scoped-dependency-packet}
 The carrier of \autoref{def:dyadiccompletion-carrier}, the componentwise
 classifier of
 \autoref{thm:dyadiccompletion-namecert-obligation-surface}, the constant dyadic
@@ -181,11 +184,28 @@ available to a consumer, and the carrier has no coordinate for a quotient
 stream, Dedekind cut, host real, or chosen limit.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion public RegSeqRat Real export]
+\label{thm:dyadiccompletion-public-regseqrat-real-export}
+The carrier of \autoref{def:dyadiccompletion-carrier}, the $\NameCert_{\DyadicCompletionUp}$ obligation surface of \autoref{thm:dyadiccompletion-namecert-obligation-surface}, the constant dyadic embedding of \autoref{thm:dyadiccompletion-constant-embedding}, regular-tail stability of \autoref{thm:dyadiccompletion-regular-tail-stability}, $\StreamNameUp$ handoff of \autoref{thm:dyadiccompletion-streamname-handoff}, ledger boundary of \autoref{thm:dyadiccompletion-ledger-boundary}, and scoped dependency packet of \autoref{thm:dyadiccompletion-scoped-dependency-packet} assemble the public $\DyadicCompletionUp$ export consumed by $\RegSeqRatUp$ and $\RealUp$.
+
+The export exposes only finite dyadic observations, certified stream windows, regular-tail rows, real-boundary rows, precision ledger rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and source certificates. It exports no quotient stream, Dedekind cut, host real, choice-selected limit, or completeness principle.
+\end{theorem}
+\begin{proof}
+Project the finite packet from \autoref{def:dyadiccompletion-carrier}. Its coordinates are scheduled dyadic observations, certified stream windows, regular-tail rows, real-name handoff rows, ledger entries, and package provenance.
+
+Compose the public export from the cited blocks. The obligation surface supplies the carrier and classifier rows, the constant embedding supplies dyadic constants, regular-tail stability transports tail rows, and the $\StreamNameUp$ handoff fixes the downstream stream-window reads.
+
+The ledger boundary names the $\RegSeqRatUp$ and $\RealUp$ consumer-facing rows, while the scoped dependency package binds all reads to finite $\mathsf{BHist}$ rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, and the listed source certificates.
+
+The excluded principles are therefore outside the export. A quotient stream, Dedekind cut, host real, choice-selected limit, or completeness principle would require a coordinate not present in the finite packet.
+\end{proof}
+
 \closureat{DyadicCompletionUp}{obligationStr}
+\closureat{DyadicCompletionUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicCompletionUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The carrier of \autoref{def:dyadiccompletion-carrier}, NameCert obligation surface of \autoref{thm:dyadiccompletion-namecert-obligation-surface}, constant dyadic embedding of \autoref{thm:dyadiccompletion-constant-embedding}, regular-tail stability of \autoref{thm:dyadiccompletion-regular-tail-stability}, StreamName handoff of \autoref{thm:dyadiccompletion-streamname-handoff}, ledger boundary of \autoref{thm:dyadiccompletion-ledger-boundary}, and scoped dependency package of \autoref{thm:dyadiccompletion-scoped-dependency-package} form the complete scoped finite source surface.}
+  \scopeclosed{\autoref{thm:dyadiccompletion-scoped-dependency-packet} binds the dyadic observation, stream-window, regular-tail, real-boundary, ledger, transport, continuation, and package rows to the listed BEDC source certificates.}
   \constructivestory{A $\DyadicCompletionUp$ packet is generated by scheduled dyadic observations, certified stream windows, regular-tail comparison rows, a real-name handoff boundary, and a precision ledger that records every consumed schedule and tail bound.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

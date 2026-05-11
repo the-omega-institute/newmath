@@ -176,4 +176,36 @@ theorem GradedAlgebraPacket_component_stability [AskSetup] [PackageSetup]
                             (And.intro endpointCont' pkgSig')))))))))))))
     (And.intro sameProduct (And.intro sameModuleRead sameEndpoint))
 
+theorem GradedAlgebraPacket_product_ledger [AskSetup] [PackageSetup]
+    {ring degree component multiplication action provenance product moduleRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GradedAlgebraPacket ring degree component multiplication action provenance product
+        moduleRead endpoint bundle pkg ->
+      Cont component multiplication product ->
+        Cont product action moduleRead ->
+          Cont moduleRead provenance endpoint ->
+            PkgSig bundle endpoint pkg ->
+              UnaryHistory component ∧ UnaryHistory multiplication ∧ UnaryHistory action ∧
+                UnaryHistory product ∧ UnaryHistory moduleRead ∧ UnaryHistory endpoint ∧
+                  Cont component multiplication product ∧ Cont product action moduleRead ∧
+                    Cont moduleRead provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet productRow moduleRow endpointRow pkgRow
+  have componentUnary : UnaryHistory component :=
+    packet.right.right.left
+  have multiplicationUnary : UnaryHistory multiplication :=
+    packet.right.right.right.left
+  have actionUnary : UnaryHistory action :=
+    packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed componentUnary multiplicationUnary productRow
+  have moduleReadUnary : UnaryHistory moduleRead :=
+    unary_cont_closed productUnary actionUnary moduleRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed moduleReadUnary provenanceUnary endpointRow
+  exact
+    ⟨componentUnary, multiplicationUnary, actionUnary, productUnary, moduleReadUnary,
+      endpointUnary, productRow, moduleRow, endpointRow, pkgRow⟩
+
 end BEDC.Derived.GradedAlgebraUp
