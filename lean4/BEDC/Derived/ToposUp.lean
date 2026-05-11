@@ -284,4 +284,54 @@ theorem ToposFiniteCarrier_classified_boundary_transport [AskSetup] [PackageSetu
     (And.intro sameComparison
       (And.intro sameLedger (And.intro sameProvenance sameEndpoint)))
 
+theorem ToposSubobjectClassifierLedger_site_sheaf_classifier_obligation [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobject contRows provenance endpoint category' sheaf'
+      finiteLimit' exponential' subobject' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject contRows
+        provenance endpoint probe pkg ->
+      hsame category category' -> hsame sheaf sheaf' -> hsame exponential exponential' ->
+        Cont category' sheaf' finiteLimit' -> Cont finiteLimit' exponential' subobject' ->
+          Cont subobject' contRows endpoint' -> PkgSig probe provenance pkg ->
+            ToposSubobjectClassifierLedger category' sheaf' finiteLimit' exponential' subobject'
+                contRows provenance endpoint' probe pkg ∧
+              hsame finiteLimit finiteLimit' ∧ hsame subobject subobject' ∧
+                hsame endpoint endpoint' := by
+  intro ledger sameCategory sameSheaf sameExponential categorySheafRow finiteExponentialRow
+    subobjectEndpointRow pkgSig'
+  obtain ⟨categoryUnary, sheafUnary, finiteLimitUnary, exponentialUnary, subobjectUnary,
+    endpointUnary, categorySheafSource, finiteExponentialSource, subobjectEndpointSource,
+    pkgSig⟩ := ledger
+  have categoryUnary' : UnaryHistory category' :=
+    unary_transport categoryUnary sameCategory
+  have sheafUnary' : UnaryHistory sheaf' :=
+    unary_transport sheafUnary sameSheaf
+  have finiteLimitSame : hsame finiteLimit finiteLimit' :=
+    cont_respects_hsame sameCategory sameSheaf categorySheafSource categorySheafRow
+  have finiteLimitUnary' : UnaryHistory finiteLimit' :=
+    unary_transport finiteLimitUnary finiteLimitSame
+  have exponentialUnary' : UnaryHistory exponential' :=
+    unary_transport exponentialUnary sameExponential
+  have subobjectSame : hsame subobject subobject' :=
+    cont_respects_hsame finiteLimitSame sameExponential finiteExponentialSource
+      finiteExponentialRow
+  have subobjectUnary' : UnaryHistory subobject' :=
+    unary_transport subobjectUnary subobjectSame
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame subobjectSame (hsame_refl contRows) subobjectEndpointSource
+      subobjectEndpointRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary endpointSame
+  exact And.intro
+    (And.intro categoryUnary'
+      (And.intro sheafUnary'
+        (And.intro finiteLimitUnary'
+          (And.intro exponentialUnary'
+            (And.intro subobjectUnary'
+              (And.intro endpointUnary'
+                (And.intro categorySheafRow
+                  (And.intro finiteExponentialRow
+                    (And.intro subobjectEndpointRow pkgSig')))))))))
+    (And.intro finiteLimitSame (And.intro subobjectSame endpointSame))
+
 end BEDC.Derived.ToposUp
