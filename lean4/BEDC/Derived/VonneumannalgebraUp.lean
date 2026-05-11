@@ -158,6 +158,89 @@ theorem VonneumannalgebraBHistCarrier_weak_operator_ledger_exactness [AskSetup]
           (And.intro operatorAdjointRow
             (And.intro weakTransportRow (And.intro weakRow packageRow)))))
 
+theorem VonneumannalgebraBHistCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {cstar hilbert operator adjoint multiplication weakProbe transport provenance endpoint
+      weakEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication weakProbe
+        transport provenance endpoint bundle pkg ->
+      Cont weakProbe hilbert weakEndpoint ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          hsame ∧
+        UnaryHistory weakEndpoint ∧ Cont cstar hilbert operator ∧
+          Cont operator adjoint multiplication ∧ Cont weakProbe transport endpoint ∧
+            Cont weakProbe hilbert weakEndpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrierData weakEndpointRow
+  have endpointSource :
+      (fun row : BHist =>
+        exists e : BHist,
+          VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+            weakProbe transport provenance e bundle pkg ∧ hsame row e) endpoint :=
+    Exists.intro endpoint (And.intro carrierData (hsame_refl endpoint))
+  obtain ⟨_cstarUnary, hilbertUnary, _operatorUnary, _adjointUnary,
+    _multiplicationUnary, weakProbeUnary, _transportUnary, _provenanceUnary,
+    cstarHilbertRow, operatorAdjointRow, weakTransportRow, packageRow⟩ := carrierData
+  have weakEndpointUnary : UnaryHistory weakEndpoint :=
+    unary_cont_closed weakProbeUnary hilbertUnary weakEndpointRow
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication
+                weakProbe transport provenance e bundle pkg ∧ hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sourceRow with
+        | intro e endpointData =>
+            exact Exists.intro e
+              (And.intro endpointData.left
+                (hsame_trans (hsame_symm sameRows) endpointData.right))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro weakEndpointUnary
+      (And.intro cstarHilbertRow
+        (And.intro operatorAdjointRow
+          (And.intro weakTransportRow (And.intro weakEndpointRow packageRow)))))
+
 theorem VonneumannalgebraBHistCarrier_star_operation_stability [AskSetup] [PackageSetup]
     {cstar hilbert operator adjoint multiplication weakProbe transport provenance endpoint cstar'
       hilbert' adjoint' weakProbe' transport' provenance' operator' multiplication' endpoint' :
