@@ -166,14 +166,16 @@ since the carrier has no additional stability coordinate.
 \leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_stability\_transport}
 
 \closureat{LyapunovUp}{seedStr}
+\closureat{LyapunovUp}{obligationStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\LyapunovUp}
   \constructivestory{A Lyapunov stability row is seeded by a finite $\mathsf{BHist}$ packet of state rows, transition rows, a quadratic certificate row, a positive-definite witness row, a one-step decrease ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed surface binds only the finite state, transition, quadratic, positivity, one-step decrease, transport, continuation, provenance, and name rows listed in \autoref{def:lyapunov-bhist-carrier}.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close differentiable Lyapunov theory, asymptotic convergence, basin computation, controller synthesis, external solver semantics, or a standard bridge.}
-  \upgradepath{Formal closure requires a Lean carrier predicate for the finite ledger and checked transport, obligation-surface, consumer-boundary, and stability-transport theorems.}
+  \upgradepath{Scoped closure requires binding the finite state, transition, quadratic, positivity, decrease, transport, continuation, provenance, and name rows to explicit BEDC primitives.}
 \end{closurestatus}
