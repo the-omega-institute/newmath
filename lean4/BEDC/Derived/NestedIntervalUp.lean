@@ -170,4 +170,39 @@ theorem NestedIntervalFiniteCarrier_endpoint_transport [AskSetup] [PackageSetup]
                                                       pkgLedgerUnary', endpointRow', ledgerRow',
                                                       pkgRow'⟩, sameEndpoint, sameLedger⟩
 
+def NestedIntervalRegSeqRatWindow [AskSetup] [PackageSetup]
+    (unaryPrefix lower upper width inclusion schedule regRead provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory unaryPrefix ∧ UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory width ∧
+    UnaryHistory inclusion ∧ UnaryHistory schedule ∧ UnaryHistory regRead ∧
+      UnaryHistory provenance ∧ UnaryHistory cert ∧ Cont lower upper width ∧
+        Cont width inclusion regRead ∧ PkgSig bundle regRead pkg
+
+theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
+    {unaryPrefix lower upper width inclusion schedule regRead provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalRegSeqRatWindow unaryPrefix lower upper width inclusion schedule regRead
+        provenance cert bundle pkg ->
+      UnaryHistory unaryPrefix ∧ UnaryHistory lower ∧ UnaryHistory upper ∧
+        UnaryHistory width ∧ UnaryHistory inclusion ∧ UnaryHistory schedule ∧
+          UnaryHistory regRead ∧ Cont lower upper width ∧ Cont width inclusion regRead ∧
+            PkgSig bundle regRead pkg := by
+  intro window
+  obtain ⟨prefixUnary, lowerUnary, upperUnary, widthUnary, inclusionUnary, scheduleUnary,
+    regReadUnary, _provenanceUnary, _certUnary, lowerUpperRow, widthInclusionRow,
+    pkgRow⟩ := window
+  have prefixHistory : UnaryHistory unaryPrefix := prefixUnary
+  have lowerHistory : UnaryHistory lower := lowerUnary
+  have upperHistory : UnaryHistory upper := upperUnary
+  have widthHistory : UnaryHistory width := widthUnary
+  have inclusionHistory : UnaryHistory inclusion := inclusionUnary
+  have scheduleHistory : UnaryHistory schedule := scheduleUnary
+  have regReadHistory : UnaryHistory regRead := regReadUnary
+  have lowerUpper : Cont lower upper width := lowerUpperRow
+  have widthInclusion : Cont width inclusion regRead := widthInclusionRow
+  have regReadPkg : PkgSig bundle regRead pkg := pkgRow
+  exact
+    ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
+      regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
+
 end BEDC.Derived.NestedIntervalUp
