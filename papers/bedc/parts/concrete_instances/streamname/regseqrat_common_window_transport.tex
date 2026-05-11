@@ -541,3 +541,54 @@ the listed finite union modulo the intersection agreement, with no quotient,
 completion, host-index, host-function, $\mathsf{Classical}$, or host-real
 coordinate.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window selection determinacy]
+\label{thm:streamname-regseqrat-common-window-selection-determinacy}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
+packages over the same $\mathsf{ProbeBundle}$ and the same accepted
+$\RegSeqRat$ dyadic-tolerance spine. Suppose each selected observation row on
+both windows carries matching $\mathsf{InBundle}$ membership, pointwise
+$\mathsf{RatHistoryClassifier}$ transport, $\mathsf{DyadicRatCore}$ endpoint
+and radius rows, and displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+
+Then every terminal $\RegSeqRat$ source read through $\mathcal W_L$, through
+$\mathcal W_R$, through their finite union, through their certified
+intersection, or through the cover-gluing route is the same consumer-readable
+source. The statement introduces no host-index equality, quotient row, hidden
+selector, completion object, or $\RealUp$ arithmetic or order row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport} to each
+selected row. The shared $\mathsf{ProbeBundle}$ membership, pointwise
+rational-history classifier transport, dyadic endpoint data, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance put both windows over the same accepted
+finite source boundary.
+
+Next use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. Since
+the accepted dyadic-tolerance spine is common, the transported endpoint and
+radius rows determine one $\RegSeqRat$ source family for every selected
+terminal read.
+
+The union route is handled by
+\autoref{thm:streamname-regseqrat-terminal-window-union}. It reads the same
+displayed source rows after adjoining the finite windows, and
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} shows that
+no additional endpoint coordinate is available beyond the displayed finite
+rows.
+
+The intersection route is handled by
+\autoref{thm:streamname-regseqrat-terminal-window-intersection}. The certified
+overlap exposes the same membership, classifier, endpoint, radius, transport,
+continuation, and provenance rows on both restrictions, so the source read on
+the overlap is the source already determined by the common spine.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}. The cover
+gluing route is assembled from the terminal union and terminal intersection
+routes along their agreement, so it has no remaining coordinate by which a
+different selected window could yield a different consumer-readable source.
+The excluded host-index, quotient, hidden-selector, completion, and
+$\RealUp$ arithmetic or order rows therefore stay absent throughout the
+comparison.
+\end{proof}
