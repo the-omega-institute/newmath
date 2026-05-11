@@ -198,6 +198,34 @@ Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the sele
 All consumed coordinates are therefore finite BEDC rows of the original accepted packet. The tail construction has no coordinate from which to read quotient sequences, host real equality, metric completion, or a $\RealUp$ completeness row.
 \end{proof}
 
+\begin{theorem}[RegSeqRat shifted-tail seal determinacy]
+\label{thm:regseqrat-shifted-tail-seal-determinacy}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $k$ be a certified unary tail index for its $\StreamNameUp$ schedule. For any finite $\StreamNameUp$ window read after shifting $P$ by $k$, the $\RealUp$ seal source read from that window is determined by the shifted scheduled window, the $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier ledgers, componentwise $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows already present in $P$.
+
+If two selected shifted windows admit a common finite refinement and agree there on those displayed rows, then the shifted $\RealUp$ seal source read is invariant under restriction to that refinement. The invariant source surface exports no quotient sequence, host real equality, metric-completion object, $\RealUp$ completeness row, or seal datum beyond those finite rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-shifted-tail-regularity-closure} to the certified tail shift and selected finite window. This repacks the shifted read as an accepted finite $\RegSeqRatUp$ window whose visible coordinates are precisely the scheduled tail rows, dyadic endpoints, dyadic-radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows inherited from $P$.
+
+For two selected windows with a common finite refinement, use \autoref{thm:regseqrat-refined-window-gluing} to repack the refinement as one accepted finite window. The classifier witnesses on the overlap are fixed by \autoref{thm:regseqrat-common-refinement-classifier-determinacy}, so restriction back to either shifted window reads the same displayed classifier and regularity surface.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal boundary consumes exactly the finite regular-rational source rows exposed above, so common refinement cannot create a new seal coordinate. The result is a determinacy statement for finite BEDC rows only, with no quotient sequence, host real equality, metric-completion object, completeness row, or further seal datum in the export surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-cofinal RealUp seal invariance]
+\label{thm:regseqrat-tail-cofinal-real-seal-invariance}
+Let $P$ be an accepted $\RegSeqRatUp$ packet. Suppose $T_0$ and $T_1$ are two certified unary tail shifts of $P$ whose finite $\StreamNameUp$ windows admit a common cofinal refinement. Assume that, on the displayed refinement, the two shifted windows agree on the $\DyadicRatCoreUp$ endpoint rows, dyadic radius rows, regularity ledgers, classifier witnesses, $\hsame$ comparisons, $\Cont$ routes, and $\mathsf{Pkg}$ provenance rows.
+
+Then the two tail reads determine the same $\RealUp$ seal source surface: every row consumed by the $\RealUp$ seal from $T_0$ is the corresponding displayed row consumed from $T_1$, after restriction to the common cofinal refinement. This invariance is only a statement about finite BEDC source rows. It does not identify quotient streams, host real values, metric-completion points, or any $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-shifted-tail-regularity-closure} separately to the two certified tail shifts. Each shifted finite window is repacked as an accepted $\RegSeqRatUp$ window over the original dyadic-tolerance classifier, and each exposes only transported $\mathsf{BHist}$ rows, displayed $\hsame$ comparisons, visible $\Cont$ routes, the retained $\mathsf{Pkg}$ row, and local $\NameCert$ provenance.
+
+Use the common cofinal refinement as the joint schedule. The hypotheses identify the endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows on the overlap, so \autoref{thm:regseqrat-refined-window-gluing} repacks the two tail windows into one accepted finite refinement whose restrictions recover the two original tail classifier witnesses.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. A $\RealUp$ seal read of a regular rational stream consumes exactly the scheduled stream-carrier rows, dyadic-tolerance classifier rows, regularity ledger rows, dyadic-radius rows, finite-window transport rows, and their displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. Since both tail reads restrict to the same refined finite packet, their seal source surfaces are the same displayed BEDC surface, with no quotient stream, host real equality, completion object, or completeness row available.
+\end{proof}
+
 \begin{theorem}[RegSeqRat RealUp seal handoff]
 \label{thm:regseqrat-real-seal-handoff}
 An accepted $\RegSeqRatUp$ packet is exactly the finite source surface consumed by the existing $\RealUp$ seal rows. The handoff surface consists of the scheduled stream carrier, the dyadic-tolerance classifier, the regularity ledger, the dyadic-radius observation rows, the finite-window transport rows, and their $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
