@@ -1,5 +1,6 @@
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Substitution
+import BEDC.MetaCIC.Substitution.Typing
 
 namespace BEDC.MetaCIC
 
