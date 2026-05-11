@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\StateSpaceModelUp$}
+\label{ch:concrete-instances-statespacemodel-namecert}
+
+The $\StateSpaceModelUp$ interface records the finite state-transition packet shared by the control-facing certificates. Its BEDC surface consumes $\NameCert_{\DynSystemUp}$ for transition rows, $\NameCert_{\MatrixUp}$ for displayed matrices, $\NameCert_{\VecSpaceUp}$ for state, input, and output rows, and $\NameCert_{\LinMapUp}$ for the linear maps. The textbook reference point is Kailath, \emph{Linear Systems} (1980).
+
+The dependency anchors are $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$. The chapter names only the finite carrier consumed by those certificates, not a host trajectory space or an analytic realization theorem.
+
+\section{Finite state-transition carrier}
+\label{sec:statespacemodel-carrier}
+
+\begin{definition}[StateSpaceModel finite BHist carrier]
+\label{def:statespacemodel-carrier}
+A $\StateSpaceModelUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+(X,U,Y,A,B,C,P,L)
+$$
+whose displayed rows are:
+\begin{enumerate}
+\item a state row $X$, an input row $U$, and an output row $Y$ read through $\VecSpaceUp$;
+\item a transition matrix row $A$, an input-map matrix row $B$, and an observation-map matrix row $C$ read through $\MatrixUp$;
+\item linear-map rows for $A:X\to X$, $B:U\to X$, and $C:X\to Y$ read through $\LinMapUp$;
+\item a displayed finite transition ledger $x,u\mapsto Ax+Bu$ and observation ledger $x\mapsto Cx$ read through $\DynSystemUp$;
+\item $\Cont$ routes for the transition, input, observation, and readback rows;
+\item $\hsame$ transports for the state, input, output, matrix, linear-map, transition, observation, $\Cont$, and provenance rows;
+\item $\mathsf{Pkg}$ provenance row $P$ naming the consumed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ certificates;
+\item a hidden-data ledger $L$ recording that only the displayed rows are exported.
+\end{enumerate}
+No host trajectory space, analytic semigroup, probability measure, infinite-horizon limit, external realization object, or unlogged state stream is a coordinate of the carrier.
+\end{definition}
+
+\begin{definition}[StateSpaceModel component classifier]
+\label{def:statespacemodel-classifier}
+The $\StateSpaceModelUp$ classifier compares two accepted packets componentwise. It compares the displayed state, input, and output traces through $\VecSpaceUp$; the transition, input-map, and observation-map rows through $\MatrixUp$ and $\LinMapUp$; the finite transition and observation ledgers through $\DynSystemUp$; and the provenance through the named $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows.
+
+Two packets are classified together exactly when all displayed trace rows and all displayed provenance rows are $\hsame$-matched in this componentwise sense. The classifier has no coordinate for comparing hidden trajectories, host probability spaces, analytic flow objects, or limiting behavior.
+\end{definition}
+
+\section{Control handoff surface}
+\label{sec:statespacemodel-control-handoff}
+
+\begin{theorem}[StateSpaceModel NameCert obligation surface]
+\label{thm:statespacemodel-namecert-obligation-surface}
+The local $\NameCert_{\StateSpaceModelUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the finite packet of \autoref{def:statespacemodel-carrier};
+\item classifier: the componentwise comparison of \autoref{def:statespacemodel-classifier};
+\item transport: $\hsame$ transport of state, input, output, matrix, linear-map, transition, observation, $\Cont$, and $\mathsf{Pkg}$ rows preserves accepted packets;
+\item finite trace ledger: every visible transition or observation read is one of the displayed $Ax+Bu$ or $Cx$ ledger rows;
+\item hidden-data ledger: the packet records that host trajectories, analytic realizations, stochastic data, and infinite-horizon objects are outside the exported carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Start with the carrier rows. They enumerate exactly the finite state, input, output, matrix, linear-map, transition, observation, continuation, transport, provenance, and hidden-ledger coordinates.
+
+The classifier row is the componentwise comparison of those coordinates. Transport replaces each displayed coordinate by its $\hsame$ match and then repacks the same finite tuple, so accepted packets remain accepted.
+
+The trace ledger rows are projections from the displayed transition and observation entries. Since the hidden-data ledger is also a coordinate of the packet, every consumer can see the boundary saying that the excluded host and limiting objects are not part of the exported surface.
+\end{proof}
+
+\begin{theorem}[StateSpaceModel control handoff]
+\label{thm:statespacemodel-control-handoff}
+The control-facing certificates $\KalmanFilterUp$, $\LQRUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, and $\RiccatiUp$ may consume a $\StateSpaceModelUp$ packet only through the displayed finite state, input, output, transition, input-map, observation-map, trace-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:statespacemodel-carrier}. A downstream control certificate cannot demand an unlogged trajectory space, analytic flow, stochastic model, or limiting algebraic object from this handoff.
+\end{theorem}
+\begin{proof}
+Read a downstream control request as a projection from the accepted carrier. The Kalman and Riccati consumers can project matrix, vector, covariance-facing, transition, and observation rows; the LQR consumer can project state, input, cost-adjacent transition, and horizon-facing rows; and the observability and controllability consumers can project the displayed $C$ and $B$ faces together with the transition row $A$.
+
+All of these projections are among the finite rows named in \autoref{def:statespacemodel-carrier}. The classifier of \autoref{def:statespacemodel-classifier} transports the same rows componentwise, so the handoff remains stable under representative change.
+
+The excluded objects are not packet coordinates. Therefore no listed control-facing certificate can recover them from the $\StateSpaceModelUp$ handoff alone.
+\end{proof}
+
+\begin{theorem}[StateSpaceModel ledger boundary]
+\label{thm:statespacemodel-ledger-boundary}
+The $\StateSpaceModelUp$ ledger excludes host trajectory spaces, analytic semigroup objects, probability measures, and infinite-horizon limits. Every consumer-visible read factors through the displayed finite $\mathsf{BHist}$ rows for $X$, $U$, $Y$, $A$, $B$, $C$, finite transition and observation traces, $\hsame$ transport, $\Cont$ routing, and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its visible rows. The carrier lists state, input, output, matrix, linear-map, transition, observation, transport, continuation, provenance, and hidden-ledger entries, and no additional coordinate is available.
+
+The hidden-data ledger states the exclusion boundary. A host trajectory space, analytic semigroup, probability measure, or infinite-horizon limit would require an additional coordinate or a separate certificate, so it cannot be read from this packet.
+
+Thus every consumer-visible read is a finite $\mathsf{BHist}$ projection from the displayed state-space rows.
+\end{proof}
+
+\closureat{StateSpaceModelUp}{seedStr}
+
+\begin{closurestatus}{\StateSpaceModelUp}
+  \constructivestory{A state-space-model packet is seeded by finite $\mathsf{BHist}$ rows for state, input, output, transition, input-map, observation-map, transition and observation traces, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and a hidden-data ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary names the finite state-transition carrier shared by $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host trajectory spaces, analytic semigroups, probability measures, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, or a standard bridge.}
+  \upgradepath{Formalization begins with the finite carrier and NameCert obligation surface in the future BEDC.Derived.StateSpaceModelUp namespace.}
+\end{closurestatus}
