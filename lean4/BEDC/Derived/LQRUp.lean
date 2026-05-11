@@ -146,4 +146,117 @@ theorem LQR_dynamic_programming_cont_determinacy
     cont_respects_hsame sameStcc sameEstimator rowStcce rowStcce'
   exact cont_respects_hsame sameStcce sameProvenance rowPredecessor rowPredecessor'
 
+theorem LQRFiniteControlPacket_transition_stability [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint state' control' transition' cost' horizon' successorValue'
+      estimatorInput' backwardUpdate' predecessorValue' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame state state' ->
+        hsame control control' ->
+          hsame cost cost' ->
+            hsame horizon horizon' ->
+              hsame estimatorInput estimatorInput' ->
+                Cont state' control' transition' ->
+                  Cont transition' cost' successorValue' ->
+                    Cont successorValue' estimatorInput' backwardUpdate' ->
+                      Cont backwardUpdate' horizon' predecessorValue' ->
+                        Cont predecessorValue' cost' endpoint' ->
+                          Cont estimatorInput' transition' backwardUpdate' ->
+                            Cont backwardUpdate' control' predecessorValue' ->
+                              Cont successorValue' horizon' endpoint' ->
+                                PkgSig bundle endpoint' pkg ->
+                                  LQRFiniteControlPacket state' control' transition' cost' horizon'
+                                      successorValue' estimatorInput' backwardUpdate'
+                                      predecessorValue' endpoint' bundle pkg ∧
+                                    hsame transition transition' ∧
+                                      hsame successorValue successorValue' ∧
+                                        hsame backwardUpdate backwardUpdate' ∧
+                                          hsame predecessorValue predecessorValue' ∧
+                                            hsame endpoint endpoint' := by
+  intro packet sameState sameControl sameCost sameHorizon sameEstimator rowTransition'
+    rowSuccessor' rowBackward' rowPredecessor' rowEndpoint' rowEstimatorBackward'
+    rowControlPredecessor' rowHorizonEndpoint' pkgSig'
+  rcases packet with
+    ⟨stateUnary, controlUnary, transitionUnary, costUnary, horizonUnary, successorUnary,
+      estimatorUnary, backwardUnary, predecessorUnary, endpointUnary, rowTransition,
+      rowSuccessor, rowBackward, rowPredecessor, rowEndpoint, rowEstimatorBackward,
+      rowControlPredecessor, rowHorizonEndpoint, _pkgSig⟩
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport controlUnary sameControl
+  have costUnary' : UnaryHistory cost' :=
+    unary_transport costUnary sameCost
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport horizonUnary sameHorizon
+  have estimatorUnary' : UnaryHistory estimatorInput' :=
+    unary_transport estimatorUnary sameEstimator
+  have sameTransition : hsame transition transition' :=
+    cont_respects_hsame sameState sameControl rowTransition rowTransition'
+  have sameSuccessor : hsame successorValue successorValue' :=
+    cont_respects_hsame sameTransition sameCost rowSuccessor rowSuccessor'
+  have sameBackward : hsame backwardUpdate backwardUpdate' :=
+    cont_respects_hsame sameSuccessor sameEstimator rowBackward rowBackward'
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward sameHorizon rowPredecessor rowPredecessor'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost rowEndpoint rowEndpoint'
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have successorUnary' : UnaryHistory successorValue' :=
+    unary_transport successorUnary sameSuccessor
+  have backwardUnary' : UnaryHistory backwardUpdate' :=
+    unary_transport backwardUnary sameBackward
+  have predecessorUnary' : UnaryHistory predecessorValue' :=
+    unary_transport predecessorUnary samePredecessor
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have packet' :
+      LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+        estimatorInput' backwardUpdate' predecessorValue' endpoint' bundle pkg :=
+    by
+      constructor
+      · exact stateUnary'
+      constructor
+      · exact controlUnary'
+      constructor
+      · exact transitionUnary'
+      constructor
+      · exact costUnary'
+      constructor
+      · exact horizonUnary'
+      constructor
+      · exact successorUnary'
+      constructor
+      · exact estimatorUnary'
+      constructor
+      · exact backwardUnary'
+      constructor
+      · exact predecessorUnary'
+      constructor
+      · exact endpointUnary'
+      constructor
+      · exact rowTransition'
+      constructor
+      · exact rowSuccessor'
+      constructor
+      · exact rowBackward'
+      constructor
+      · exact rowPredecessor'
+      constructor
+      · exact rowEndpoint'
+      constructor
+      · exact rowEstimatorBackward'
+      constructor
+      · exact rowControlPredecessor'
+      constructor
+      · exact rowHorizonEndpoint'
+      exact pkgSig'
+  exact And.intro packet'
+    (And.intro sameTransition
+      (And.intro sameSuccessor
+        (And.intro sameBackward (And.intro samePredecessor sameEndpoint))))
+
 end BEDC.Derived.LQRUp
