@@ -84,7 +84,7 @@ theorem pi_dependent_identity_type :
   · apply HasType.varRule
     rfl
 
-theorem dependent_id_differs_from_V6 :
+theorem dependent_id_outer_tracking :
     HasType [Term.sort] (Term.lam (Term.var 0) (Term.var 0))
       (Term.pi (Term.var 0) (Term.var 1)) := by
   exact dependent_identity_tracks_outer_domain
