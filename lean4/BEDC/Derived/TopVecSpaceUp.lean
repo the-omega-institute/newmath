@@ -149,4 +149,16 @@ theorem TopVecSpaceBHistCarrier_continuous_scalar_obligation [AskSetup] [Package
                     (And.intro routeRow' (And.intro endpointRow' pkgSig')))))))))
       (And.intro sameRoute sameEndpoint)
 
+theorem TopVecSpaceBHistCarrier_topology_source_scope [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      UnaryHistory topology ∧ Cont route topology endpoint ∧
+        hsame endpoint (append route topology) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact And.intro carrier.right.left
+    (And.intro carrier.right.right.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.TopVecSpaceUp
