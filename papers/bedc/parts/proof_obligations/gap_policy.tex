@@ -404,3 +404,59 @@ For coverage, apply the pointwise equivalence inside the existential over $p$: a
 
 For separation, assume the left-associated implication. Given $R_{\tau_1,\tau_2,\tau_3}(p,h''')$ and $R_{\tau_1,\tau_2,\tau_3}(q,h''')$, convert both hypotheses to the corresponding left-associated memberships by the pointwise equivalence and obtain $\psame(p,q)$. The converse implication is identical with left and right interchanged. Therefore the two composite predicates determine the same separation obligation over $D'''$.
 \end{proof}
+
+\begin{theorem}[Gap transport has a package-same representative]
+\label{thm:gap-hsame-transport-psame-representative}
+Assume $\DomainPolicy(D)$, $\mathsf{BundleAskPolicy}(\Pi,D)$, $\PkgTokPol(\Pi)$, and token totality for the bundle:
+$$
+  \forall u,\;\exists r,\;\TokIntro(\Pi,u,r).
+$$
+If
+$$
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \hsame(h,k),
+$$
+then there exists a package token $q$ such that
+$$
+  \InGapSig(\Pi,D,q,k)
+  \quad\text{and}\quad
+  \psame(p,q).
+$$
+\end{theorem}
+
+\begin{proof}
+Unpack the gap membership by \autoref{def:policy-supported-signature-gap}. It supplies an admitted-source judgment, an answer history $s$, and an evidence ledger $\Delta$ such that
+$$
+  \InDom(D,h),
+  \qquad
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+$$
+By \autoref{thm:domain-transport}, the premises $\DomainPolicy(D)$, $\InDom(D,h)$, and $\hsame(h,k)$ give
+$$
+  \InDom(D,k).
+$$
+Apply bundle-local signature existence from \autoref{thm:bundle-local-signature-existence} to $\mathsf{BundleAskPolicy}(\Pi,D)$ and this admitted source. This gives an answer history $t$ and an evidence ledger $\Theta$ with
+$$
+  \Sig(\Pi,k,t,\Theta).
+$$
+Token totality supplies a package token $q$ such that
+$$
+  \TokIntro(\Pi,t,q).
+$$
+The three judgments $\InDom(D,k)$, $\Sig(\Pi,k,t,\Theta)$, and $\TokIntro(\Pi,t,q)$ witness
+$$
+  \InGapSig(\Pi,D,q,k).
+$$
+It remains to compare $p$ and $q$. Bundle-local source respect, \autoref{thm:bundle-local-signature-source-respect}, applied to $\mathsf{BundleAskPolicy}(\Pi,D)$, the premise $\hsame(h,k)$, and the two generated signatures gives
+$$
+  \hsame(s,t).
+$$
+The package-token soundness direction in \autoref{thm:package-tokens-signature-facing}, applied to $\PkgTokPol(\Pi)$, the two token-introduction judgments, and $\hsame(s,t)$, yields
+$$
+  \psame(p,q).
+$$
+Thus the displayed $q$ is both a gap representative over $k$ and package-same to the original token $p$.
+\end{proof}
