@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\FenchelDualityUp$}
+\label{ch:concrete-instances-fenchelduality-namecert}
+
+The $\FenchelDualityUp$ interface names the finite convex-analysis certificate surface for a displayed primal functional, a displayed dual functional, and their pairing ledger. In Rockafellar's convex-analysis presentation and in Boyd--Vandenberghe 2004, Fenchel duality is read through convex functions, epigraphs, conjugate pairings, and extended-real comparisons; the BEDC packet below keeps only the finite rows needed to name that surface. It depends on $\NameCert_{\ConvexSetUp}$ (\autoref{ch:concrete-instances-convexset-namecert}), $\NameCert_{\LPDualityUp}$ (\autoref{ch:concrete-instances-lpduality-namecert}), $\NameCert_{\TopVecSpaceUp}$ (\autoref{ch:concrete-instances-topvecspace-namecert}), $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}), and $\NameCert_{\SemidefiniteConeUp}$ (\autoref{ch:concrete-instances-semidefinitecone-namecert}).
+
+\section{Finite primal-dual packet}
+\label{sec:fenchelduality-finite-primal-dual-packet}
+
+\begin{definition}[FenchelDualityUp carrier]
+\label{def:fenchelduality-carrier}
+A $\FenchelDualityUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(P,D,E,Q,C,R,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $P$ is a convex primal functional row over a displayed $\TopVecSpaceUp$ or $\VecSpaceUp$ domain;
+\item $D$ is a convex dual functional row over the displayed dual-facing space;
+\item $E$ is a pairing row that records the bilinear evaluation used to compare primal and dual witnesses;
+\item $Q$ records order and extended-value comparison rows through $\RealUp$;
+\item $C$ records convex epigraph rows through $\ConvexSetUp$ for the primal and dual functionals;
+\item $R$ records optional cone-facing compatibility rows through $\SemidefiniteConeUp$ when the functional packet is consumed by semidefinite or conic optimization;
+\item $L$ is the $\Pkg$ provenance and readback ledger tying $P$, $D$, $E$, $Q$, $C$, and $R$ to the displayed source certificates and to the finite $\hsame$ and $\Cont$ routes by which those rows may be transported.
+\end{enumerate}
+The carrier predicate is $\mathsf{FenchelPacket}(P,D,E,Q,C,R,L)$. Two accepted packets classify together only when the displayed primal row, dual row, pairing row, comparison row, epigraph rows, optional cone-facing rows, and provenance ledger transport by $\hsame$ along the same $\Cont$ routes named in $L$.
+\end{definition}
+
+\begin{theorem}[FenchelDualityUp NameCert obligation surface]
+\label{thm:fenchelduality-namecert-obligation-surface}
+The local $\NameCert_{\FenchelDualityUp}$ seed surface consists of the following five finite obligations:
+\begin{enumerate}
+\item carrier row: the $\mathsf{BHist}$ packet of \autoref{def:fenchelduality-carrier}, including the displayed primal functional, dual functional, pairing, comparison, epigraph, cone-facing, and provenance coordinates;
+\item classifier row: componentwise $\hsame$ on exactly those displayed coordinates, with no comparison of hidden topological vector spaces, host quotient spaces, or unrecorded conjugate functions;
+\item stability row: whenever each displayed coordinate is transported along the $\hsame$ witnesses and $\Cont$ routes named by the ledger, the transported packet is again an accepted $\FenchelDualityUp$ carrier;
+\item exact ledger readback: every primal-dual pairing, extended-value comparison, and epigraph membership claim read by a consumer must be one of the rows recorded in the packet or a finite readback through its $\Pkg$ provenance;
+\item consumer boundary: the surface does not claim separation theorems, Hahn--Banach, strong duality existence, host quotient spaces, analytic closedness of epigraphs, or an external conjugacy theorem.
+\end{enumerate}
+These obligations define only the BEDC-kernel naming surface for Fenchel-style primal-dual data; they do not assert the analytic hypotheses under which a classical duality theorem has equality of optimal values.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:fenchelduality-carrier}. Its coordinates list exactly the rows a Fenchel-style consumer can inspect: primal and dual functional rows, a pairing row, real-valued or extended-valued comparison rows, convex epigraph rows, optional cone-facing compatibility rows, and package provenance.
+
+The classifier and stability obligations are componentwise. Transporting an accepted packet along the displayed $\hsame$ witnesses replaces representatives of the same visible rows, and the $\Cont$ routes named in the ledger keep the reads inside the cited $\TopVecSpaceUp$, $\VecSpaceUp$, $\RealUp$, $\ConvexSetUp$, $\LPDualityUp$, and $\SemidefiniteConeUp$ certificate boundaries.
+
+The readback clause is therefore exact: a consumer obtains a pairing value, an order comparison, or an epigraph membership only by projecting the corresponding finite ledger row. Since no coordinate stores a separating hyperplane principle, a Hahn--Banach extension, a strong-duality existence witness, a host quotient, or an analytic closure theorem, the excluded classical principles remain outside the seed surface.
+\end{proof}
+
+\closureat{FenchelDualityUp}{seedStr}
+
+\begin{closurestatus}{\FenchelDualityUp}
+  \constructivestory{A Fenchel-duality packet is generated by displayed primal and dual convex functional rows, a pairing row over the visible vector-space boundary, $\RealUp$ extended-value comparison rows, $\ConvexSetUp$ epigraph rows, optional $\SemidefiniteConeUp$ compatibility rows, and $\Pkg$ provenance with finite $\hsame$ and $\Cont$ transport.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface binds the finite primal row, dual row, pairing row, extended-value comparison rows, convex epigraph rows, optional cone-facing rows, and exact ledger readback named in \autoref{def:fenchelduality-carrier}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close separation theorems, Hahn--Banach, strong duality existence, host quotient spaces, analytic closedness, or an external conjugacy theorem.}
+  \upgradepath{Formal closure requires Lean targets for the carrier row, classifier row, displayed $\hsame$ stability, exact primal-dual ledger readback, and consumer boundary.}
+\end{closurestatus}
