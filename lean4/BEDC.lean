@@ -197,6 +197,7 @@ import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.JonesPolynomialUp
+import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
