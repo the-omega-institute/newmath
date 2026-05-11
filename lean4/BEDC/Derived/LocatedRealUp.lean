@@ -245,6 +245,56 @@ theorem LocatedRealCarrier_transport [AskSetup] [PackageSetup]
         endpointPkg'⟩,
       sameProvenance, sameEndpoint⟩
 
+theorem LocatedRealCarrierSurface_realup_seal_compatibility [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      Cont pkgrow schedule sealRow ->
+        PkgSig bundle sealRow pkg ->
+          UnaryHistory regseq ∧ UnaryHistory schedule ∧ UnaryHistory sealRow ∧
+            Cont regseq schedule classifier ∧ Cont interval classifier pkgrow ∧
+              Cont pkgrow schedule sealRow ∧ PkgSig bundle sealRow pkg := by
+  intro surface sealCont sealSig
+  obtain ⟨regseqUnary, _intervalUnary, scheduleUnary, _classifierUnary, pkgrowUnary,
+    classifierCont, pkgrowCont, _surfaceSig⟩ := surface
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed pkgrowUnary scheduleUnary sealCont
+  exact
+    ⟨regseqUnary, scheduleUnary, sealUnary, classifierCont, pkgrowCont, sealCont, sealSig⟩
+
+theorem LocatedRealCarrierSurface_scope_carrier_transport [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow regseq' interval' schedule' classifier'
+      pkgrow' consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      hsame regseq regseq' ->
+        hsame interval interval' ->
+          hsame schedule schedule' ->
+            Cont regseq' schedule' classifier' ->
+              Cont interval' classifier' pkgrow' ->
+                PkgSig bundle pkgrow' pkg ->
+                  Cont pkgrow' classifier' consumer ->
+                    PkgSig bundle consumer pkg ->
+                      LocatedRealCarrierSurface regseq' interval' schedule' classifier'
+                          pkgrow' bundle pkg ∧
+                        UnaryHistory consumer ∧ hsame classifier classifier' ∧
+                          hsame pkgrow pkgrow' ∧ Cont pkgrow' classifier' consumer ∧
+                            PkgSig bundle consumer pkg := by
+  intro surface sameRegseq sameInterval sameSchedule classifierCont' pkgrowCont' pkgrowSig'
+    consumerCont consumerSig
+  have transportedData :=
+    LocatedRealCarrierSurface_regseqrat_classifier_stability surface sameRegseq sameInterval
+      sameSchedule classifierCont' pkgrowCont' pkgrowSig'
+  have surface' :
+      LocatedRealCarrierSurface regseq' interval' schedule' classifier' pkgrow' bundle pkg :=
+    transportedData.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed surface'.right.right.right.right.left surface'.right.right.right.left
+      consumerCont
+  exact
+    ⟨surface', consumerUnary, transportedData.right.left, transportedData.right.right,
+      consumerCont, consumerSig⟩
+
 theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
     {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
