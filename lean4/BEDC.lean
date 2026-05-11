@@ -114,6 +114,7 @@ import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
+import BEDC.Derived.HolonomyUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.ThetaFunctionUp
@@ -209,6 +210,7 @@ import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KalmanFilterUp
+import BEDC.Derived.KKTUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
@@ -381,6 +383,7 @@ import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
+import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
