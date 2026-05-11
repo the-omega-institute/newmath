@@ -67,6 +67,82 @@ Use \autoref{def:signeddigitstream-classifier} for the classifier row. Since the
 Finally read the downstream surfaces through \autoref{thm:signeddigitstream-regseqrat-handoff} and \autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. They expose only the scheduled finite prefix endpoints and their ledgers, and no extra tail, limit, host equality, completeness, or bridge coordinate is created by the restriction.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream adjacent-window endpoint coherence]
+\label{thm:signeddigitstream-adjacent-window-endpoint-coherence}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ carrier, and let
+$N_{\leq k}$ and $N_{\leq k+1}$ be adjacent displayed unary prefix windows of
+its $\StreamNameUp$ schedule. The normalized $\DyadicRatCoreUp$ endpoint row
+and carry ledger read on $N_{\leq k}$ are exactly the restriction of the
+endpoint row and carry ledger read on $N_{\leq k+1}$, with the restriction
+taken through the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows.
+
+Consequently every $\RegSeqRatUp$ consumer and every $\RealUp$ finite-window
+boundary consumer reads the same restricted endpoint on the overlap
+$N_{\leq k}$. The coherence statement is internal to the finite
+$\SignedDigitStreamUp$ packet and adds no quotient tail, selected limit, host
+real equality, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project the six carrier rows of \autoref{def:signeddigitstream-carrier}. The
+two adjacent prefix windows select the displayed rows
+$D_{\leq k},C_{\leq k},P_{\leq k},E_{\leq k},L_{\leq k}$ and
+$D_{\leq k+1},C_{\leq k+1},P_{\leq k+1},E_{\leq k+1},L_{\leq k+1}$ already
+present in the accepted packet $S$.
+
+Apply \autoref{thm:signeddigitstream-prefix-truncation-stability} to both
+prefixes. This repacks $S_{\leq k}$ and $S_{\leq k+1}$ as accepted packets
+whose visible rows are inherited from $S$ through the displayed $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes.
+
+The smaller prefix is a common unary window for these two accepted packets.
+Apply \autoref{thm:signeddigitstream-common-window-determinacy} on that shared
+window. It identifies the normalized endpoint row and carry ledger read from
+$S_{\leq k}$ with the restriction of the corresponding rows read from
+$S_{\leq k+1}$.
+
+Finally route the consumer reads through
+\autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. Both
+consumers read only the finite scheduled endpoint and ledger rows, so their
+overlap read is the same restricted endpoint and no tail, selected limit, host
+real equality, completeness datum, or standard bridge coordinate is available
+to export.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream prefix handoff idempotence]
+\label{thm:signeddigitstream-prefix-handoff-idempotence}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ carrier, and let
+$S_{\leq k}$ be the restriction of $S$ to the displayed unary schedule prefix
+$N_{\leq k}$. Applying the $\RegSeqRatUp$ handoff or the $\RealUp$
+finite-window seal boundary to $S_{\leq k}$ gives exactly the same visible rows
+as first applying the handoff or boundary to $S$ and then restricting the
+resulting consumer surface to $N_{\leq k}$.
+
+The common surface consists only of the retained digit rows, schedule rows,
+carry and normalization ledgers, provenance rows, endpoint rows, hidden-tail
+ledger rows, visible $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$ rows, and
+$\NameCert$ rows. It contains no quotient tail, selected limit, host real
+equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $S$ and of the restricted packet
+$S_{\leq k}$. By \autoref{thm:signeddigitstream-prefix-truncation-stability},
+the retained digit, schedule, carry, provenance, endpoint, and ledger rows are
+the corresponding prefix rows inherited from $S$.
+
+Apply \autoref{thm:signeddigitstream-regseqrat-handoff} to both packets. A
+RegSeqRat consumer reads only scheduled finite endpoint observations and their
+radius ledgers, so restricting the already exported handoff to $N_{\leq k}$
+selects the same rows as exporting from $S_{\leq k}$.
+
+Apply \autoref{thm:signeddigitstream-real-seal-finite-window-boundary} in the
+same way. The seal boundary reads the finite window rows already listed above,
+so prefixing before or after the boundary yields the same visible surface and
+creates none of the excluded tail, limit, host-equality, completeness, or
+bridge coordinates.
+\end{proof}
+
 \begin{theorem}[SignedDigitStream common-window determinacy]
 \label{thm:signeddigitstream-common-window-determinacy}
 Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds. For every unary window requested by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint row read from $S$ and the normalized endpoint row read from $T$ are classifier-equal, and the carry ledgers repack to the same endpoint read.
@@ -80,6 +156,7 @@ Project the endpoint component of the classifier row. The row states that the tw
 
 It remains to identify the carry data used by the read. The componentwise carry-ledger transport in the classifier repacks the two prefix normalizations into the same endpoint row. Since the carrier has no quotient-stream or $\RealUp$ coordinate, this exhausts the common-window conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamClassifier\_common\_window\_determinacy}
 
 \begin{theorem}[SignedDigitStream RegSeqRat handoff]
 \label{thm:signeddigitstream-regseqrat-handoff}
@@ -243,6 +320,7 @@ $\mathsf{Pkg}$ and $\NameCert$ provenance.
 This correspondence contains no quotient tail, host real equality, selected
 limit, completeness datum, or standard bridge row.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_real\_regseqrat\_window\_correspondence}
 \begin{proof}
 Project the accepted packet through the carrier of
 \autoref{def:signeddigitstream-carrier}. A scheduled unary window exposes the
@@ -267,6 +345,50 @@ the displayed $\hsame$ and $\Cont$ routes. Any quotient tail, host real equality
 row, selected limit, completeness datum, or standard bridge row would require a
 coordinate absent from \autoref{def:signeddigitstream-carrier} and from both
 consumer boundaries.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream prefix consumer invariance]
+\label{thm:signeddigitstream-prefix-consumer-invariance}
+Let $S=(D,N,C,P,E,L)$ be an accepted $\SignedDigitStreamUp$ packet, and let
+$N_{\leq k}$ be a displayed prefix schedule in its finite unary window. Every
+$\RegSeqRatUp$ or $\RealUp$ consumer request that factors through
+$N_{\leq k}$ reads from the prefix packet $S_{\leq k}$ exactly the restriction
+of the consumer-visible rows read from $S$: the scheduled signed-digit prefix,
+carry and normalization ledger, normalized $\DyadicRatCoreUp$ endpoint row,
+visible $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ row.
+
+The prefix read exposes no quotient tail, host real equality, selected limit,
+completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:signeddigitstream-prefix-truncation-stability} to the accepted
+packet and the displayed schedule $N_{\leq k}$. This repacks the prefix carrier
+as $S_{\leq k}$ while retaining only the scheduled signed-digit prefix, carry
+ledger, normalized endpoint row, transport rows, package provenance, and local
+name-certificate row.
+
+Use
+\autoref{thm:signeddigitstream-common-window-determinacy} on the retained
+window. The theorem identifies the normalized $\DyadicRatCoreUp$ endpoint and
+the attached carry ledger as the same visible rows before and after prefix
+restriction, with the displayed $\hsame$ and $\Cont$ routes providing the only
+allowed comparison.
+
+For a $\RegSeqRatUp$ request, project the retained rows through
+\autoref{thm:signeddigitstream-regseqrat-handoff}. For a $\RealUp$ request,
+project them through
+\autoref{thm:signeddigitstream-real-seal-finite-window-boundary}. In both
+cases the consumer factors through the same prefix carrier rows and cannot read
+outside the scheduled packet surface.
+
+Finally apply
+\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence}. It
+identifies the two consumer readings on the common finite window, so the rows
+visible from $S_{\leq k}$ are exactly the restricted rows visible from $S$ and
+none of the excluded quotient, host-real, limit, completeness, or standard
+bridge data can enter the prefix read.
 \end{proof}
 
 \begin{theorem}[SignedDigitStream standard finite-window bridge]
@@ -308,8 +430,9 @@ An accepted $\SignedDigitStreamUp$ finite-window packet exposes to every
 $\RegSeqRatUp$ or $\RealUp$ consumer exactly the following rows: the
 prefix-truncation surface, common-window determinacy surface,
 $\RegSeqRatUp$ handoff, public $\RealUp$ boundary, transport bridge,
-$\RealUp$--$\RegSeqRatUp$ window correspondence, and standard finite-window
-bridge rows of \autoref{thm:signeddigitstream-standard-bridge-window}.
+$\RealUp$--$\RegSeqRatUp$ window correspondence, prefix consumer invariance,
+and standard finite-window bridge rows of
+\autoref{thm:signeddigitstream-standard-bridge-window}.
 
 The coverage contains no hidden tail, quotient equality, selected limit,
 completeness datum, trichotomy datum, or extra consumer coordinate beyond the
