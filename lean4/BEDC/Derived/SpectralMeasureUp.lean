@@ -63,6 +63,34 @@ theorem SpectralMeasurePacket_hsame_stability [AskSetup] [PackageSetup]
         finiteAddUnary', routeCont', endpointCont', provenanceCont', pkgSig'⟩,
       sameRoute, sameEndpoint⟩
 
+theorem SpectralMeasurePacket_projection_ledger_finite_additivity [AskSetup]
+    [PackageSetup]
+    {hilbert observable event projection orthogonality finiteAdd route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasurePacket hilbert observable event projection orthogonality finiteAdd route
+        provenance endpoint bundle pkg ->
+      UnaryHistory route ∧ UnaryHistory endpoint ∧ Cont event projection route ∧
+        Cont orthogonality finiteAdd endpoint ∧ Cont provenance route endpoint ∧
+          hsame route (append event projection) ∧ hsame endpoint (append orthogonality finiteAdd) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  exact
+    And.intro routeUnary
+      (And.intro endpointUnary
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right.right.right))))))
+
 def SpectralMeasureCarrier [AskSetup] [PackageSetup]
     (hilbert observable event projection orthogonality additivity route provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
