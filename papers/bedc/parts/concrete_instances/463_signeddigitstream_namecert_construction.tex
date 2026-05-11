@@ -252,11 +252,12 @@ consumer boundaries.
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
 \closureat{SignedDigitStreamUp}{publicStr}
+\closureat{SignedDigitStreamUp}{bridgedStr}
 
 \begin{closurestatus}{\SignedDigitStreamUp}
   \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:signeddigitstream-public-interface-export} gives the reusable public interface over the carrier, classifier, checked window transport, $\RegSeqRatUp$ handoff, $\RealUp$ finite-window seal boundary, $\NameCert$ surface, and scoped window package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:signeddigitstream-real-regseqrat-window-correspondence} bridges the public signed-digit interface of \autoref{thm:signeddigitstream-public-interface-export} with the $\RegSeqRatUp/\RealUp$ finite-window consumer rows through the displayed endpoint, carry, transport, package, and name-certificate data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
