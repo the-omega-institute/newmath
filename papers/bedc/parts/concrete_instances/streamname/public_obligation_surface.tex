@@ -281,3 +281,40 @@ BEDC source inventory. The exclusion clauses follow because none of the four
 cited boundaries exports regularity witnesses, completion rows, quotient
 representatives, hidden limit selectors, or host index equality.
 \end{proof}
+
+\begin{theorem}[StreamName public denominator positive source fit]
+\label{thm:streamname-public-denominator-positive-source-fit}
+Every finite-window public $\StreamNameUp$ handoff accepted by
+\autoref{thm:streamname-regseqrat-realup-observation-coverage} has its selected
+denominator source read from the displayed $\DyadicRatCoreUp$ denominator
+ledger. The selected denominator rows are positive unary denominator rows in
+the $\RatUp$ classifier sense, are stable under the displayed $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ transport, and are exactly the source consumed by
+the downstream $\RegSeqRat$ or finite-window $\RealUp$ read. The handoff
+introduces no regularity witness, completion datum, quotient representative,
+hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:streamname-regseqrat-realup-observation-coverage}. It confines the
+finite-window handoff to certified $\UnaryHistory$ observation rows, the
+finite $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, pointwise $\RatUp$
+classifier rows, displayed transport rows, provenance rows, and the
+$\DyadicRatCoreUp$ denominator ledger.
+
+Next apply
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. The
+downstream regular-sequence read can therefore choose its denominator source
+only from the same displayed denominator ledger named by the public handoff.
+
+Use \autoref{thm:dyadicratcore-real-phase-source-coverage} for the dyadic
+source row. Its denominator boundary supplies positive unary denominator rows
+in the $\RatUp$ classifier sense, and the displayed $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows transport those rows without changing the finite source
+inventory.
+
+Repack the handoff with that denominator row as the consumed source. Since all
+cited boundaries are finite ledger statements and none exports regularity,
+completion, quotient, limit-selection, or host equality data, the selected
+positive denominator source is exactly the visible source available downstream.
+\end{proof}
