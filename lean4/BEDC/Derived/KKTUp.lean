@@ -16,6 +16,119 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def KKTPrimalDualCarrier [AskSetup] [PackageSetup]
+    (primal dual residual stationarity feasible slack ledger provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory primal ∧ UnaryHistory dual ∧ UnaryHistory residual ∧
+    UnaryHistory stationarity ∧ UnaryHistory feasible ∧ UnaryHistory slack ∧
+      UnaryHistory ledger ∧ UnaryHistory provenance ∧ Cont primal residual stationarity ∧
+        Cont dual slack ledger ∧ Cont stationarity feasible provenance ∧
+          PkgSig bundle provenance pkg
+
+theorem KKTPrimalDualCarrier_primal_dual_row_obligations [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasible slack ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger provenance
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+              provenance bundle pkg ∧ hsame row provenance)
+          hsame ∧
+        UnaryHistory primal ∧ UnaryHistory dual ∧ UnaryHistory residual ∧
+          UnaryHistory stationarity ∧ UnaryHistory feasible ∧ UnaryHistory slack ∧
+            UnaryHistory ledger ∧ UnaryHistory provenance ∧
+              Cont primal residual stationarity ∧ Cont dual slack ledger ∧
+                Cont stationarity feasible provenance ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+            provenance bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+            provenance bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          KKTPrimalDualCarrier primal dual residual stationarity feasible slack ledger
+            provenance bundle pkg ∧ hsame row provenance)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance (And.intro carrier (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert carrier
+
+def KKTComplementarityLedger [AskSetup] [PackageSetup]
+    (residual multiplier slack ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory residual ∧ UnaryHistory multiplier ∧ UnaryHistory slack ∧
+    UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont residual multiplier ledger ∧
+      Cont ledger slack endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem KKTComplementarityLedger_exactness [AskSetup] [PackageSetup]
+    {residual multiplier slack ledger endpoint residual' multiplier' slack' ledger'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTComplementarityLedger residual multiplier slack ledger endpoint bundle pkg ->
+      hsame residual residual' -> hsame multiplier multiplier' -> hsame slack slack' ->
+        Cont residual' multiplier' ledger' -> Cont ledger' slack' endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            KKTComplementarityLedger residual' multiplier' slack' ledger' endpoint' bundle pkg ∧
+              hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro packet sameResidual sameMultiplier sameSlack residualLedger' endpointLedger' pkgSig'
+  have residualUnary' : UnaryHistory residual' :=
+    unary_transport packet.left sameResidual
+  have multiplierUnary' : UnaryHistory multiplier' :=
+    unary_transport packet.right.left sameMultiplier
+  have slackUnary' : UnaryHistory slack' :=
+    unary_transport packet.right.right.left sameSlack
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameResidual sameMultiplier packet.right.right.right.right.right.left
+      residualLedger'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed residualUnary' multiplierUnary' residualLedger'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameSlack packet.right.right.right.right.right.right.left
+      endpointLedger'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' slackUnary' endpointLedger'
+  exact
+    And.intro
+      (And.intro residualUnary'
+        (And.intro multiplierUnary'
+          (And.intro slackUnary'
+            (And.intro ledgerUnary'
+              (And.intro endpointUnary'
+                (And.intro residualLedger'
+                  (And.intro endpointLedger' pkgSig')))))))
+      (And.intro sameLedger sameEndpoint)
+
 def KKTPrimalDualPacket [AskSetup] [PackageSetup]
     (primal dual residual stationarity feasibility slackness provenance endpoint : BHist)
     (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

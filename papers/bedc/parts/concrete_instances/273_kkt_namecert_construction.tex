@@ -20,12 +20,52 @@ The classifier accepts exactly those packets whose primal, dual, residual, stati
 \label{thm:kkt-primal-dual-row-obligations}
 Every accepted $\KKTUp$ packet exposes a finite primal row, dual multiplier row, constraint residual row, stationarity row, and feasibility row. The primal and feasibility rows are read through $\ConvexSetUp$ and $\VecSpaceUp$; the dual and residual rows are read through $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$; and every row carries its displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.KKTUp.KKTPrimalDualCarrier\_primal\_dual\_row\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:kkt-bhist-carrier}. Its accepted packet lists exactly the primal, multiplier, residual, stationarity, feasibility, comparison, continuation, package, and naming rows.
 
 Read each row through its named dependency certificate. The feasible-region row supplies the convex-set face, the linear and vector rows supply the displayed stationarity and residual endpoints, the real rows supply scalar slack and objective endpoints, and the duality row supplies the primal-dual comparison.
 
 No other row is present in the packet. The accepted primal-dual surface is therefore exhausted by the finite $\mathsf{BHist}$ rows and their visible provenance.
+\end{proof}
+
+\begin{theorem}[KKTUp stationarity and feasibility hsame transport]
+\label{thm:kkt-stationarity-feasibility-hsame-transport}
+Let $K$ and $K'$ be finite $\KKTUp$ packets whose primal variable, dual
+multiplier, residual, stationarity, feasibility, and slackness rows are related
+componentwise by the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows of the $\KKTUp$ classifier. Suppose the same transport also
+respects the dependency rows over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$,
+$\VecSpaceUp$, and $\RealUp$. If $K$ is accepted, then $K'$ is accepted on the
+same stationarity and feasibility surface, and the complementary-slackness
+ledger remains confined to the finite boundary of
+\autoref{thm:kkt-complementarity-ledger-exactness}.
+
+The transported packet introduces no analytic differentiability row, Slater
+data, host minimization predicate, or solver semantics beyond the displayed
+BEDC rows.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:kkt-bhist-carrier}. The carrier names exactly the primal,
+dual multiplier, residual, stationarity, feasibility, slackness, comparison,
+continuation, package, and naming rows that can participate in the classifier.
+
+Apply \autoref{thm:kkt-primal-dual-row-obligations}. The primal and feasibility
+rows are read through $\ConvexSetUp$ and $\VecSpaceUp$, while the multiplier,
+residual, stationarity, slackness, and scalar rows are read through
+$\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$.
+
+Transport each displayed row through the given componentwise $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ data, then repack the resulting finite
+rows in the same carrier positions. Since the dependency rows are transported
+with the visible packet, the stationarity and feasibility surface of $K'$ is
+accepted by the same classifier shape.
+
+Finally apply \autoref{thm:kkt-complementarity-ledger-exactness}. The slackness
+ledger remains only the displayed residual, multiplier, scalar slack,
+comparison, continuation, and package rows, so the transport cannot add
+analytic differentiability, Slater data, host minimization semantics, or solver
+evidence.
 \end{proof}
 
 \begin{theorem}[KKTUp stationarity and feasibility stability]
@@ -53,6 +93,7 @@ The ledger readback is obtained by following those entries and no ambient arithm
 
 Since the carrier has no coordinate for an external inequality family, analytic limit, or host optimality predicate, complementarity is exact at the displayed ledger boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.KKTUp.KKTComplementarityLedger\_exactness}
 
 \begin{theorem}[KKTUp NameCert obligation surface]
 \label{thm:kkt-namecert-obligation-surface}
