@@ -266,4 +266,35 @@ theorem SpectralMeasureFinitePacket_namecert_obligation_surface [AskSetup] [Pack
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+theorem SpectralMeasureFinitePacket_projection_ledger_additivity [AskSetup] [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance
+      endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
+        transport provenance endpoint probe pkg ->
+      ∃ orthTransport : BHist,
+        UnaryHistory orthTransport ∧ Cont orthogonality transport orthTransport ∧
+          Cont projection orthTransport endpoint ∧ hsame endpoint (append projection orthTransport) ∧
+            PkgSig probe provenance pkg := by
+  intro packet
+  have orthogonalityUnary : UnaryHistory orthogonality :=
+    packet.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.right.left
+  have projectionOrthogonality : Cont projection orthogonality additivity :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have additivityTransport : Cont additivity transport endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig probe provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right
+  cases cont_assoc_middle_exists projectionOrthogonality additivityTransport with
+  | intro orthTransport transportRows =>
+      have orthTransportUnary : UnaryHistory orthTransport :=
+        unary_cont_closed orthogonalityUnary transportUnary transportRows.left
+      exact Exists.intro orthTransport
+        (And.intro orthTransportUnary
+          (And.intro transportRows.left
+            (And.intro transportRows.right
+              (And.intro transportRows.right pkgSig))))
+
 end BEDC.Derived.SpectralMeasureUp
