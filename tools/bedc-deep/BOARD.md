@@ -42,7 +42,6 @@ Bundle append currently has fixed-length cancellations and fixed-length split un
 
 ---
 
-
 ### B-663 - Append sameSig exact split into both components
 
 | field | value |
@@ -68,32 +67,6 @@ B-660 covers residual exactness with a known Θ-component; B-659 covers bundle-l
 
 ---
 
-
-### B-664 - Strict unary prefix trichotomy
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Strict unary prefix trichotomy |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under Unary(h) and Unary(k), exactly one of hsame(h,k), StrictUnaryPrefix(h,k), or StrictUnaryPrefix(k,h) holds.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
-
-Rationale:
-Nat↑ seeds totality, directed common upper, and strict-prefix asymmetry separately; this is the order-classifier trichotomy that assembles them into a rigid three-way exhaustive-and-exclusive partition. Concrete classification target, not a transport echo, not in paper labels under nat/unary. Single-file landing in the unary section of 04_nat_namecert_construction.tex; file is not near line cap.
-
----
-
-
 ### B-665 - Second-layer separation is necessary for composite gaps
 
 | field | value |
@@ -117,4 +90,3 @@ Rationale:
 Existing ledger composition theorems give the forward direction (first+second separation ⇒ composite separation). The paper currently does not record a witness/obstruction showing second-layer separation cannot be weakened. A concrete two-point witness on b0,b1 final tokens with finalSame=msame closes a genuine gap and converts a sufficient-condition theorem into a tight one. High-novelty obstruction target, fits the proof_obligations layer exactly.
 
 ---
-
