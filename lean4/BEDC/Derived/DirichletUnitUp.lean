@@ -252,4 +252,34 @@ theorem DirichletUnitHistoryCarrier_regulator_rank_ledger_source
         (And.intro rankLedgerSource.right.right.left
           (And.intro regulatorSurfaceRow rankLedgerSource.right.right.right))))
 
+theorem DirichletUnitHistoryCarrier_inherited_unit_product_closure
+    {source unit0 unit1 inverse0 inverse1 law unitProduct inverseProduct unitLedgerProduct
+      lawLedgerProduct provenanceProduct : BHist} :
+    UnaryHistory source -> UnaryHistory unit0 -> UnaryHistory unit1 ->
+      UnaryHistory inverse0 -> UnaryHistory inverse1 -> UnaryHistory law ->
+        Cont unit0 unit1 unitProduct -> Cont inverse0 inverse1 inverseProduct ->
+          Cont source unitProduct unitLedgerProduct ->
+            Cont inverseProduct law lawLedgerProduct ->
+              Cont unitLedgerProduct lawLedgerProduct provenanceProduct ->
+                DirichletUnitHistoryCarrier source unitProduct inverseProduct law
+                    unitLedgerProduct lawLedgerProduct provenanceProduct ∧
+                  UnaryHistory unitProduct ∧ UnaryHistory inverseProduct ∧
+                    hsame unitLedgerProduct (append source unitProduct) := by
+  intro sourceUnary unit0Unary unit1Unary inverse0Unary inverse1Unary lawUnary unitProductRow
+    inverseProductRow unitLedgerRow lawLedgerRow provenanceRow
+  have unitProductUnary : UnaryHistory unitProduct :=
+    unary_cont_closed unit0Unary unit1Unary unitProductRow
+  have inverseProductUnary : UnaryHistory inverseProduct :=
+    unary_cont_closed inverse0Unary inverse1Unary inverseProductRow
+  have carrier :
+      DirichletUnitHistoryCarrier source unitProduct inverseProduct law unitLedgerProduct
+        lawLedgerProduct provenanceProduct :=
+    And.intro sourceUnary
+      (And.intro unitProductUnary
+        (And.intro inverseProductUnary
+          (And.intro lawUnary
+            (And.intro unitLedgerRow (And.intro lawLedgerRow provenanceRow)))))
+  exact And.intro carrier
+    (And.intro unitProductUnary (And.intro inverseProductUnary unitLedgerRow))
+
 end BEDC.Derived.DirichletUnitUp

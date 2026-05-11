@@ -19,6 +19,11 @@ def MeasureZeroBHistCarrier (h : BHist) : Prop :=
 def MeasureZeroBHistClassifier (h k : BHist) : Prop :=
   MeasureZeroBHistCarrier h ∧ MeasureZeroBHistCarrier k ∧ hsame h k
 
+def MeasureEventRowCoverage (event union value sum endpoint : BHist) : Prop :=
+  MeasureZeroBHistClassifier event BHist.Empty ∧
+    MeasureZeroBHistClassifier union BHist.Empty ∧
+      MeasureZeroBHistClassifier value sum ∧ MeasureZeroBHistCarrier endpoint
+
 def MeasureZeroBHistPrefix (events : Nat -> BHist) : Nat -> BHist
   | Nat.zero => BHist.Empty
   | Nat.succ n => append (MeasureZeroBHistPrefix events n) (events n)
@@ -72,6 +77,14 @@ theorem MeasureRootBHist_real_endpoint_threshold {event union value sum endpoint
     cont_respects_hsame valueZero sumZero endpointRow (cont_left_unit BHist.Empty)
   exact And.intro coverageRows.left
     (And.intro coverageRows.right.left (And.intro coverageRows.right.right endpointZero))
+
+theorem MeasureEventRowCoverage_zero_rows {event union value sum endpoint : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty -> hsame value BHist.Empty ->
+      hsame sum BHist.Empty -> hsame union BHist.Empty -> Cont value sum endpoint ->
+        MeasureEventRowCoverage event union value sum endpoint := by
+  intro eventClassified valueZero sumZero unionZero endpointRow
+  exact MeasureRootBHist_real_endpoint_threshold eventClassified valueZero sumZero unionZero
+    endpointRow
 
 theorem MeasureZeroBHist_continuation_endpoint_stability
     {h k event event' endpoint endpoint' : BHist} :
