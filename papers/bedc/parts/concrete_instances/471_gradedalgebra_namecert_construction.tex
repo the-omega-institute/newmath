@@ -68,6 +68,19 @@ The $\TensorProductUp$ dependency is used only to expose the pair of homogeneous
 
 The provenance row $P$ records each route used by the product read. Since the carrier has no coordinate for host equality, quotient degrees, ungraded multiplication, or an external algebra object, the listed rows exhaust the product ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_product\_ledger}
+
+\begin{theorem}[GradedAlgebra homogeneous product scope exactness]
+\label{thm:gradedalgebra-homogeneous-product-scope-exactness}
+For an accepted $\GradedAlgebraUp$ carrier $G=(R,D,C,M,A,P)$, any consumer-visible homogeneous product row for witnesses in degrees $d$ and $e$ is exactly the $\mathsf{BHist}$ row supplied by $M$ over the $\RingUp$ multiplication row, the $\MonoidUp$ degree product row $d\cdot e$, the $\TensorProductUp$ input-pair row, the $\ModuleUp$ action row when the product is consumed as a slice, the $\Cont$ routes, and the $\Pkg$ provenance of $G$. The packet exports no host product equality, quotient degree, or unindexed multiplication.
+\end{theorem}
+\begin{proof}
+Project the carrier $G$ and its product ledger $M$. The base multiplication is read through $R$, while the target degree is the displayed product $d\cdot e$ in the degree monoid row $D$.
+
+Read the pair of homogeneous inputs through the $\TensorProductUp$ row and the component witnesses through $C$. When a consumer views the product as a slice, the same displayed product row is read through the module-action coordinate $A$ rather than through an additional multiplication operation.
+
+The remaining data are the $\Cont$ routes and the $\Pkg$ provenance stored in $P$. Since \autoref{def:gradedalgebra-bhist-carrier} contains no coordinate for host product equality, quotient degrees, or unindexed multiplication, the listed rows exhaust every consumer-visible homogeneous product read.
+\end{proof}
 
 \begin{theorem}[GradedAlgebra NameCert obligation surface]
 \label{thm:gradedalgebra-namecert-obligation-surface}
@@ -76,17 +89,18 @@ The local $\NameCert_{\GradedAlgebraUp}$ obligation surface consists of five fin
 \item carrier: the $\mathsf{BHist}$ packet $(R,D,C,M,A,P)$ of \autoref{def:gradedalgebra-bhist-carrier};
 \item degree classifier: the same-degree comparison relation of \autoref{def:gradedalgebra-degree-classifier};
 \item component stability: the transported-component statement of \autoref{thm:gradedalgebra-component-stability};
-\item product ledger: the homogeneous product row of \autoref{thm:gradedalgebra-product-ledger};
+\item product ledger: the homogeneous product row of \autoref{thm:gradedalgebra-product-ledger} and the scope exactness row of \autoref{thm:gradedalgebra-homogeneous-product-scope-exactness};
 \item provenance: the $\Pkg$ row tying the packet to $\RingUp$, $\MonoidUp$, $\ModuleUp$, $\TensorProductUp$, and $\KoszulDualityUp$ consumers.
 \end{enumerate}
 These rows are the full public seed surface for the graded-algebra name, and every downstream read must pass through $\mathsf{BHist}$ rows, $\hsame$ classifiers, $\Cont$ routes, and $\Pkg$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.GradedAlgebraUp.GradedAlgebraPacket\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row fixes the displayed ring, degree, component, multiplication, action, and provenance coordinates. This is the source domain of the name.
 
 The degree classifier supplies the only comparison of homogeneous witnesses. It compares same-degree component witnesses by displayed $\hsame$ rows and by the component routes named in the package, so it does not invoke host equality or quotient representatives.
 
-The component-stability theorem supplies transport of the carrier and classifier, while the product-ledger theorem supplies the only multiplication read available to $\TensorProductUp$, $\ModuleUp$, and $\KoszulDualityUp$ consumers.
+The component-stability theorem supplies transport of the carrier and classifier, while the product-ledger and product-scope theorems supply the only multiplication read available to $\TensorProductUp$, $\ModuleUp$, and $\KoszulDualityUp$ consumers.
 
 No remaining coordinate of the packet contains a host algebra, a quotient degree monoid, a decomposition choice, or an unrecorded product operation. The five listed rows therefore exhaust the $\NameCert_{\GradedAlgebraUp}$ obligation surface.
 \end{proof}
