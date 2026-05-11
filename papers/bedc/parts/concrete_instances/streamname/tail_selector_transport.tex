@@ -552,6 +552,53 @@ read by both bracketings. This gives the stated selector from $W_0$ to $W_3$
 and the stated exclusions.
 \end{proof}
 
+\begin{theorem}[StreamName tail-selector composite transport determinacy]
+\label{thm:streamname-tail-selector-composite-transport-determinacy}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public StreamName endpoints, let
+$\Sigma$ be an accepted $\RegSeqRat$ spine over them, and let
+$W_0,W_1,W_2,W_3$ be selected finite $\RealUp$ observation-window packages for
+that spine. Suppose two compatible composite StreamName RegSeqRat RealUp
+tail-selector transport packets connect the same visible endpoint windows and
+display the same finite $\mathsf{ProbeBundle}$ window, $\mathsf{UnaryHistory}$
+rows, $\mathsf{InBundle}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, DyadicRatCore endpoint rows, and
+$\mathsf{Cont}$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ ledger rows.
+Suppose also that the two composites carry the same public denominator-window
+selector readback at the endpoints. Then the two composites expose the same
+finite consumer interface to $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$.
+
+The determined interface consists exactly of the displayed
+$\mathsf{ProbeBundle}$ rows, $\mathsf{UnaryHistory}$ rows, $\mathsf{InBundle}$
+rows, pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted
+$\RegSeqRat$ spine row, the DyadicRatCore endpoint row, the visible
+$\Cont/\hsame/\Pkg$ ledger, and the $\mathsf{RealLedgerPolicy}$ row. It contains
+no quotient row, host stream equality row, independent regularity witness,
+$\RealUp$ completeness row, metric-completeness datum, arithmetic or order row,
+standard bridge row, or hidden selector row.
+\end{theorem}
+\begin{proof}
+First normalize the two composites to visible finite packets. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-transport-composition}
+to the component legs used by each composite. The hypotheses say that the
+resulting packets have the same endpoint windows, the same displayed
+$\mathsf{ProbeBundle}$ window, and the same accepted $\RegSeqRat$ spine.
+
+Next compare the visible ledgers. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-ledger-associativity}
+to the two bracketings of the compatible transport legs. This identifies the
+$\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows carried by the
+two finite packets.
+
+Finally read back the endpoint selector. Apply
+\autoref{thm:streamname-regseqrat-realup-tail-selector-associative-readback}
+to identify the denominator-window selector exposed by the two composites.
+Tuple exhaustion over the listed finite rows then gives the same consumer
+interface for $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$. Since every step
+uses only the displayed rows, the excluded quotient, host equality,
+regularity, completeness, arithmetic, order, bridge, and hidden-selector data
+are not introduced.
+\end{proof}
+
 \begin{theorem}[StreamName RealUp tail-selector public interface]
 \label{thm:streamname-realup-tail-selector-public-interface}
 Let $W$ be a public $\StreamNameUp$ package with an accepted $\RegSeqRat$
