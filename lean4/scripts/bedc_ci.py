@@ -47,6 +47,8 @@ FIELD_RE = re.compile(r"^\s{2,}(?P<name>[A-Za-z0-9_']+)\s*:")
 CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
+LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
+CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -347,6 +349,26 @@ def collect_lean_markers() -> list[LeanMarkerRecord]:
                     target=target,
                 ))
     return markers
+
+
+def collect_paper_leanchecked_targets() -> set[str]:
+    targets: set[str] = set()
+    for path in part_tex_files():
+        text = read_text(path)
+        for raw_line in text.splitlines():
+            if raw_line.lstrip().startswith("%"):
+                continue
+            for match in LEAN_CHECKED_RE.finditer(raw_line):
+                targets.add(match.group(1).replace(r"\_", "_").strip())
+    return targets
+
+
+def collect_manifest_entry_targets() -> set[str]:
+    entries_path = BEDC_ROOT / "Manifest" / "Entries.lean"
+    if not entries_path.exists():
+        return set()
+    text = read_text(entries_path)
+    return {match.group(1).strip() for match in CLAIM_ENTRY_RE.finditer(text)}
 
 
 def inventory_payload(
@@ -924,6 +946,25 @@ def cmd_manifest(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_manifest_coverage(args: argparse.Namespace) -> int:
+    paper_markers = collect_paper_leanchecked_targets()
+    manifest_entries = collect_manifest_entry_targets()
+    marker_count = len(paper_markers)
+    entry_count = len(manifest_entries)
+    ratio = (entry_count / marker_count * 100.0) if marker_count else 100.0
+    missing = sorted(paper_markers - manifest_entries)
+
+    print("manifest-coverage report")
+    print(f"  paper_markers (\\leanchecked): {marker_count}")
+    print(f"  manifest_entries (Lean-side):  {entry_count}")
+    print(f"  coverage_ratio: {entry_count}/{marker_count} = {ratio:.2f}%")
+    print()
+    print("  Not yet in manifest (sample of 20):")
+    for target in missing[:20]:
+        print(f"    {target}")
+    return 0
+
+
 DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
     "Classical.choice",
     "Quot.sound",
@@ -1344,6 +1385,12 @@ def parser() -> argparse.ArgumentParser:
     manifest_p.add_argument("--output", type=str, default=None, help="Output file path (defaults to stdout)")
     manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
     manifest_p.set_defaults(func=cmd_manifest)
+
+    manifest_coverage_p = sub.add_parser(
+        "manifest-coverage",
+        help="Report informational coverage of paper \\leanchecked markers in BEDC.Manifest.Entries",
+    )
+    manifest_coverage_p.set_defaults(func=cmd_manifest_coverage)
 
     manifest_check_p = sub.add_parser(
         "manifest-check",
