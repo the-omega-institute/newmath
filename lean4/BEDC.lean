@@ -176,6 +176,7 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CauchyModulusUp
+import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -574,6 +575,7 @@ import BEDC.Derived.TopGroupUp.ObligationSurfacePublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.PublicThresholdFinalPacket
 import BEDC.Derived.TopGroupUp.ObligationPublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
+import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
