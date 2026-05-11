@@ -106,4 +106,50 @@ theorem FiniteVectorSame_componentwise_ledger_exactness
           (And.intro same.right.right.right.right.right.left
             same.right.right.right.right.right.right))))
 
+def FiniteVectorComponentLedger [AskSetup] [PackageSetup]
+    (n spine pairs component ledger routes provenance hidden : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory n ∧ UnaryHistory spine ∧ UnaryHistory pairs ∧ UnaryHistory component ∧
+    UnaryHistory ledger ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+      UnaryHistory hidden ∧ Cont n spine pairs ∧ Cont pairs component ledger ∧
+        Cont ledger routes provenance ∧ PkgSig bundle provenance pkg
+
+theorem FiniteVectorComponentLedger_transport [AskSetup] [PackageSetup]
+    {n spine pairs component ledger routes provenance hidden n' spine' pairs' component'
+      ledger' routes' provenance' hidden' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteVectorComponentLedger n spine pairs component ledger routes provenance hidden
+        bundle pkg ->
+      hsame n n' -> hsame spine spine' -> hsame pairs pairs' ->
+        hsame component component' -> hsame routes routes' -> hsame hidden hidden' ->
+          Cont n' spine' pairs' -> Cont pairs' component' ledger' ->
+            Cont ledger' routes' provenance' -> PkgSig bundle provenance' pkg ->
+              FiniteVectorComponentLedger n' spine' pairs' component' ledger' routes'
+                  provenance' hidden' bundle pkg ∧
+                hsame ledger ledger' ∧ hsame provenance provenance' := by
+  intro source sameN sameSpine samePairs sameComponent sameRoutes sameHidden targetPairs
+    targetLedger targetProvenance targetPkg
+  obtain ⟨nUnary, spineUnary, pairsUnary, componentUnary, _ledgerUnary, routesUnary,
+    _provenanceUnary, hiddenUnary, _sourcePairs, sourceLedger, sourceProvenance,
+    _sourcePkg⟩ := source
+  have nUnary' : UnaryHistory n' := unary_transport nUnary sameN
+  have spineUnary' : UnaryHistory spine' := unary_transport spineUnary sameSpine
+  have pairsUnary' : UnaryHistory pairs' := unary_transport pairsUnary samePairs
+  have componentUnary' : UnaryHistory component' :=
+    unary_transport componentUnary sameComponent
+  have routesUnary' : UnaryHistory routes' := unary_transport routesUnary sameRoutes
+  have hiddenUnary' : UnaryHistory hidden' := unary_transport hiddenUnary sameHidden
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed pairsUnary' componentUnary' targetLedger
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed ledgerUnary' routesUnary' targetProvenance
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame samePairs sameComponent sourceLedger targetLedger
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameRoutes sourceProvenance targetProvenance
+  exact
+    ⟨⟨nUnary', spineUnary', pairsUnary', componentUnary', ledgerUnary', routesUnary',
+      provenanceUnary', hiddenUnary', targetPairs, targetLedger, targetProvenance,
+      targetPkg⟩, sameLedger, sameProvenance⟩
+
 end BEDC.Derived.FiniteVectorUp
