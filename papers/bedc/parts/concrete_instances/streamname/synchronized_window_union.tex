@@ -152,3 +152,48 @@ The downstream $\RegSeqRat/\RealUp$ boundary reads the synchronized classifier
 package just constructed, so no additional route-dependent row remains for the
 handoff.
 \end{proof}
+
+\begin{theorem}[StreamName synchronized-window terminal source exhaustion]
+\label{thm:streamname-synchronized-window-terminal-source-exhaustion}
+Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose
+downstream $\RegSeqRat$ handoff and finite-window $\RealUp$ terminal seal are
+read through the carrier of
+\autoref{thm:streamname-synchronized-window-union-carrier} and the classifier
+coverage of
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. Then
+every source row visible to the terminal $\RegSeqRat/\RealUp$ consumer is one
+of the following displayed finite BEDC rows: the synchronized
+$\StreamNameUp$ classifier rows, the selected $\mathsf{ProbeBundle}$ rows,
+the $\mathsf{InBundle}$ membership rows, the $\mathsf{UnaryHistory}$ rows,
+the pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted
+$\RegSeqRat$ endpoint, radius, regularity, and readback rows, the
+$\DyadicRatCore$ endpoint rows, and the displayed $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ provenance rows.
+
+The terminal consumer has no coordinate from which to read quotient streams,
+host-index equality, hidden stream rows, independent regularity witnesses,
+completion objects, standard bridge rows, or real-completeness principles.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-synchronized-window-union-carrier}. It gives a
+single synchronized carrier whose visible source coordinates are the finite
+classifier, bundle, membership, unary-history, pointwise rational-history,
+and $\hsame/\Cont/\Pkg$ rows.
+
+Apply \autoref{thm:streamname-synchronized-window-union-classifier-coverage}.
+This identifies every synchronized classifier read with the two restricted
+finite-window classifier reads and the displayed overlap agreement rows, so
+the classifier contributes no hidden stream coordinate.
+
+Apply \autoref{thm:streamname-synchronized-window-regseqrat-seal}. The
+accepted $\RegSeqRat$ handoff supplies exactly the endpoint, radius,
+regularity, readback, DyadicRatCore endpoint, and finite $\RealUp$ seal rows
+consumed downstream.
+
+It remains to exclude extra sources at the terminal face. The no-extra
+coordinate clause of
+\autoref{thm:streamname-synchronized-window-namecert-boundary} removes
+quotient streams, host-index equality, hidden stream rows, independent
+regularity witnesses, completion objects, standard bridge rows, and
+real-completeness principles from the consumer boundary.
+\end{proof}
