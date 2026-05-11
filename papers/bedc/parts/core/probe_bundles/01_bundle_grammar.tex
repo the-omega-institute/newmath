@@ -656,3 +656,78 @@ $p\in\Pi$. In the first case, \autoref{thm:bundle-append-membership}
 applied to $\mathsf{BAppend}(\Pi,\Theta)$ gives membership from the right
 disjunct; in the second case, it gives membership from the left disjunct.
 \end{proof}
+
+\begin{theorem}[Bundle append Levi residual decomposition]
+\label{thm:bundle-append-levi-residual-decomposition}
+For probe bundles $\Pi,\Theta,\Omega,\Lambda$, if
+$$
+\mathsf{BAppend}(\Pi,\Theta)=\mathsf{BAppend}(\Omega,\Lambda),
+$$
+then there exists a probe bundle $R$ such that either
+$$
+\Omega=\mathsf{BAppend}(\Pi,R)
+\quad\text{and}\quad
+\Theta=\mathsf{BAppend}(R,\Lambda),
+$$
+or
+$$
+\Pi=\mathsf{BAppend}(\Omega,R)
+\quad\text{and}\quad
+\Lambda=\mathsf{BAppend}(R,\Theta).
+$$
+\end{theorem}
+\begin{proof}
+Induct on $\Pi$, keeping $\Theta$, $\Omega$, and $\Lambda$ arbitrary. If $\Pi=\Bnil$, the displayed equality reduces to
+$$
+\Theta=\mathsf{BAppend}(\Omega,\Lambda).
+$$
+Take $R=\Omega$. The append definition gives $\Omega=\mathsf{BAppend}(\Bnil,R)$, and the reduced equality gives $\Theta=\mathsf{BAppend}(R,\Lambda)$, so the first alternative holds.
+
+Now let $\Pi=\Bcons(\pi,\Pi_0)$, and split on $\Omega$. If $\Omega=\Bnil$, the displayed equality reduces to
+$$
+\mathsf{BAppend}(\Bcons(\pi,\Pi_0),\Theta)=\Lambda.
+$$
+Take $R=\Bcons(\pi,\Pi_0)$. The append definition gives $\Pi=\mathsf{BAppend}(\Bnil,R)$, and the reduced equality gives $\Lambda=\mathsf{BAppend}(R,\Theta)$, so the second alternative holds.
+
+It remains to consider $\Omega=\Bcons(\omega,\Omega_0)$. The displayed equality is then an equality of two cons bundles:
+$$
+\Bcons(\pi,\mathsf{BAppend}(\Pi_0,\Theta))
+=
+\Bcons(\omega,\mathsf{BAppend}(\Omega_0,\Lambda)).
+$$
+Constructor injectivity gives $\pi=\omega$ and
+$$
+\mathsf{BAppend}(\Pi_0,\Theta)=\mathsf{BAppend}(\Omega_0,\Lambda).
+$$
+Apply the induction hypothesis to this tail equality. In the first case, there is a probe bundle $R$ with
+$$
+\Omega_0=\mathsf{BAppend}(\Pi_0,R)
+\quad\text{and}\quad
+\Theta=\mathsf{BAppend}(R,\Lambda).
+$$
+Using $\pi=\omega$ and the append recursion,
+$$
+\Omega
+=\Bcons(\omega,\Omega_0)
+=\Bcons(\pi,\mathsf{BAppend}(\Pi_0,R))
+=\mathsf{BAppend}(\Bcons(\pi,\Pi_0),R)
+=\mathsf{BAppend}(\Pi,R),
+$$
+so the first alternative holds for the original equality.
+
+In the second case, there is a probe bundle $R$ with
+$$
+\Pi_0=\mathsf{BAppend}(\Omega_0,R)
+\quad\text{and}\quad
+\Lambda=\mathsf{BAppend}(R,\Theta).
+$$
+Using $\pi=\omega$ and the append recursion,
+$$
+\Pi
+=\Bcons(\pi,\Pi_0)
+=\Bcons(\omega,\mathsf{BAppend}(\Omega_0,R))
+=\mathsf{BAppend}(\Bcons(\omega,\Omega_0),R)
+=\mathsf{BAppend}(\Omega,R),
+$$
+so the second alternative holds for the original equality.
+\end{proof}
