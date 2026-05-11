@@ -1,0 +1,165 @@
+\chapter{A Concrete Naming Certificate for $\StoppingTimeUp$}
+\label{ch:concrete-instances-stoppingtime-namecert}
+
+Classically, a stopping time is a random time whose event $\{\tau\leq n\}$ is
+visible from the information available by time $n$, as in Williams,
+\emph{Probability with Martingales} (1991), or Durrett, \emph{Probability:
+Theory and Examples} (2019). The $\StoppingTimeUp$ surface below keeps only
+the finite-prefix version of that object: a BEDC ledger over probability and
+process rows, with no host filtration, no optional sampling theorem, and no
+choice of an infinite stopping rule.
+
+\begin{definition}[StoppingTime source packet]
+\label{def:stoppingtime-source-packet}
+A $\StoppingTimeUp$ source packet is a finite $\mathsf{BHist}$ record
+$$
+S=(\Omega,X,F,n,w,h,c,p)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $\Omega$ is the consumed $\ProbSpaceUp$ probability-source row;
+\item $X$ is a finite family of $\RandomVarUp$ process-observation rows, read
+either directly or through a consumed $\MartingaleUp$ or $\MarkovChainUp$
+dependency row;
+\item $F$ is a finite filtration-prefix ledger whose $k$th row lists the
+observable event names available up to the displayed unary time $k\leq n$;
+\item $n$ is the unary time row naming the finite prefix horizon;
+\item $w$ is the stopping-rule witness row: for each displayed $k\leq n$, the
+event row saying that the rule has stopped by $k$ is read from the $F_k$
+ledger and the process rows $X_0,\ldots,X_k$;
+\item $h$ records componentwise $\hsame$ transport for the probability source,
+process rows, unary time row, filtration-prefix rows, and stopping witness;
+\item $c$ records the $\Cont$ read routes from prefix observations to the
+event row $\{w\leq k\}$ and from dependency certificates to the visible
+process rows;
+\item $p$ is the $\Pkg$ provenance row naming the consumed $\ProbSpaceUp$,
+$\RandomVarUp$, $\MartingaleUp$, or $\MarkovChainUp$ dependency certificates.
+\end{enumerate}
+The carrier predicate
+$\mathsf{StoppingTimeSource}(\Omega,X,F,n,w,h,c,p)$ accepts exactly such
+finite packets. Its classifier transports the displayed rows componentwise
+and compares the stopping witness only through the same finite filtration
+prefix; it does not compare host stochastic processes or infinite
+sigma-algebra towers.
+\end{definition}
+
+\begin{theorem}[StoppingTime NameCert obligation surface]
+\label{thm:stoppingtime-namecert-obligation-surface}
+The local $\NameCert_{\StoppingTimeUp}$ obligation surface consists of the
+source packet of \autoref{def:stoppingtime-source-packet}, carrier habitation
+by the rule that stops at the displayed horizon $n$, classifier transport by
+componentwise $\hsame$, filtration-prefix stability under certified prefix
+restriction, ledger coverage for all stopping-event reads, and the standard
+finite stopping-time boundary. These rows consume only $\ProbSpaceUp$,
+$\RandomVarUp$, $\MartingaleUp$ or $\MarkovChainUp$ dependency packets,
+$\mathsf{BHist}$ histories, $\hsame$ rows, $\Cont$ routes, and $\Pkg$
+provenance.
+\end{theorem}
+\begin{proof}
+For habitation, take the displayed rule that stops at the horizon row $n$.
+Every event $\{w\leq k\}$ is then either absent before the horizon or the
+terminal event at the horizon, both read through the finite probability
+ledger of $\Omega$ and the displayed prefix rows.
+
+Classifier transport is obtained by projecting the tuple
+$S=(\Omega,X,F,n,w,h,c,p)$. Each coordinate has a corresponding $\hsame$
+comparison, and the $\Cont$ routes transport the read of each event
+$\{w\leq k\}$ along the matched process and filtration-prefix rows.
+
+The remaining obligations are exactness statements about the same finite
+ledger. Prefix restriction keeps only rows whose time coordinate lies in the
+certified prefix, and ledger coverage says that no stopping-event read has a
+source outside $\Omega$, $X$, $F$, $n$, $w$, $h$, $c$, and $p$.
+\end{proof}
+
+\begin{theorem}[StoppingTime filtration-prefix stability]
+\label{thm:stoppingtime-filtration-prefix-stability}
+Let $S=(\Omega,X,F,n,w,h,c,p)$ be an accepted $\StoppingTimeUp$ source packet.
+Restrict the unary time horizon to a certified prefix $m\leq n$ and retain
+only the rows $X_0,\ldots,X_m$, $F_0,\ldots,F_m$, the witness events
+$\{w\leq k\}$ for $k\leq m$, and the corresponding $\hsame$, $\Cont$, and
+$\Pkg$ rows. The resulting finite packet is again an accepted
+$\StoppingTimeUp$ source packet over the prefix horizon $m$.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:stoppingtime-source-packet}. Acceptance is stated row by
+row over the displayed unary prefix, so each retained time $k\leq m$ was
+already one of the accepted time rows of the original packet.
+
+Project the retained process rows, filtration-prefix rows, and stopping
+witness events. The read route for $\{w\leq k\}$ still factors through
+$F_k$ and $X_0,\ldots,X_k$, because those rows all lie inside the retained
+prefix.
+
+The inherited $\hsame$ comparisons and $\Cont$ routes have the same endpoints
+after prefix restriction, and the $\Pkg$ provenance row still names the same
+dependency certificates. Repacking these rows gives the accepted prefix
+packet.
+\end{proof}
+
+\begin{theorem}[StoppingTime ledger coverage]
+\label{thm:stoppingtime-ledger-coverage}
+Every consumer-visible read from an accepted $\StoppingTimeUp$ packet factors
+through one of the displayed rows of
+\autoref{def:stoppingtime-source-packet}: the $\ProbSpaceUp$ source, the
+$\RandomVarUp$ process rows, the optional $\MartingaleUp$ or $\MarkovChainUp$
+dependency row, the unary time row, the finite filtration-prefix ledger, the
+stopping witness events, the $\hsame$ comparisons, the $\Cont$ read routes,
+and the $\Pkg$ provenance. No host filtration, infinite stopping time, optional
+sampling statement, or selected limit is exported.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple. It has exactly the eight coordinates
+$(\Omega,X,F,n,w,h,c,p)$, and each coordinate is a finite BEDC row or a finite
+family indexed by the displayed unary prefix.
+
+A probability read factors through $\Omega$. A process read factors through
+$X$ and its dependency certificate. A stopping-event read factors through the
+finite filtration-prefix row $F_k$, the process prefix ending at $k$, and the
+continuation route recorded in $c$.
+
+There is no carrier coordinate for a host filtration tower, an infinite
+random time, a theorem about stopped processes, or a limiting construction.
+Thus the listed finite rows cover all readable packet content.
+\end{proof}
+
+\begin{theorem}[StoppingTime standard boundary]
+\label{thm:stoppingtime-standard-boundary}
+The standard mathematical boundary represented by $\StoppingTimeUp$ is the
+finite-prefix stopping rule: for every displayed time $k\leq n$, the event
+that the rule has stopped by $k$ is read from the finite information ledger
+$F_k$ and the process observations through time $k$. The BEDC packet agrees
+with the classical stopping-time intuition from finite probability-process
+prefixes, but it does not assert a host filtration, completed sigma-algebra
+sequence, optional stopping theorem, stopped martingale construction, or
+standard stochastic-process bridge.
+\end{theorem}
+\begin{proof}
+Read the stopping witness row $w$ through the source packet. For each
+displayed $k\leq n$, the witness event $\{w\leq k\}$ is attached by a $\Cont$
+route to the finite ledger $F_k$ and the process prefix
+$X_0,\ldots,X_k$.
+
+The $\ProbSpaceUp$ row supplies the probability-source boundary, while the
+$\RandomVarUp$, $\MartingaleUp$, or $\MarkovChainUp$ dependency row supplies
+the process rows consumed by the packet. The provenance row $p$ records that
+these are the only dependency certificates read by the stopping rule.
+
+Therefore the standard interpretation is exactly the finite-prefix
+adaptedness condition for stopping rules. Any theorem requiring an infinite
+filtration, stopped process, optional sampling, or a host stochastic-process
+object lies outside this seed certificate.
+\end{proof}
+
+\closureat{StoppingTimeUp}{seedStr}
+
+\begin{closurestatus}{\StoppingTimeUp}
+  \constructivestory{A stopping-time packet is generated from a displayed $\ProbSpaceUp$ source, finite $\RandomVarUp$ process rows optionally supplied through $\MartingaleUp$ or $\MarkovChainUp$, a unary time horizon, a finite filtration-prefix ledger, stopping-event witness rows, componentwise $\hsame$ transport, finite $\Cont$ read routes, and $\Pkg$ provenance.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stoppingtime-source-packet}, \autoref{thm:stoppingtime-namecert-obligation-surface}, \autoref{thm:stoppingtime-filtration-prefix-stability}, \autoref{thm:stoppingtime-ledger-coverage}, and \autoref{thm:stoppingtime-standard-boundary} bind the finite-prefix carrier, obligation surface, prefix stability, ledger coverage, and standard boundary for stopping rules.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host filtrations, infinite stopping times, optional stopping, stopped martingales, selected limits, or a standard stochastic-process bridge.}
+  \upgradepath{Scoped closure requires formal dependency binding for the finite prefix carrier, classifier transport, ledger exactness, and standard boundary rows.}
+\end{closurestatus}
