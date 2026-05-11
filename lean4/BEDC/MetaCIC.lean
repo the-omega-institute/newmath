@@ -4,6 +4,7 @@ import BEDC.MetaCIC.ContextWF
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Substitution
+import BEDC.MetaCIC.SubstitutionStatements
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Examples
 import BEDC.MetaCIC.PrettyPrint
