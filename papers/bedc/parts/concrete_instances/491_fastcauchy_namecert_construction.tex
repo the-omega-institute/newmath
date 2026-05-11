@@ -39,7 +39,7 @@ Let $C$ be an accepted $\FastCauchyUp$ packet. If the scheduled observation rows
 
 Concretely, every precision row in $\mu$ keeps its finite threshold, every scheduled pair beyond that threshold keeps its dyadic endpoint rows from $\DyadicRatCoreUp$, and the late-pair radius ledger remains readable by the same $\CauchyModulusUp$ classifier.
 \end{theorem}
-\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyPacket\_modulus\_transport}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFiniteCarrier\_modulus\_transport}
 \begin{proof}
 Project the carrier tuple of \autoref{def:fastcauchy-carrier}. The scheduled stream, threshold table, dyadic endpoint ledger, and late-pair ledger are separate finite rows, so each row can be transported through its displayed $\hsame$ coordinate.
 
@@ -258,6 +258,45 @@ Thus the precision subwindow is only a finite public restriction of the
 displayed $\FastCauchyUp$ rows.
 \end{proof}
 
+\begin{theorem}[FastCauchy DyadicPrecision window cofinality]
+\label{thm:fastcauchy-dyadicprecision-window-cofinality}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be an accepted
+$\DyadicPrecisionUp$ schedule selecting a finite precision window for $F$.
+Every consumer-visible row of the packet restricted by $D$ is exactly one of
+the selected $\StreamNameUp$ observation rows, the selected
+$\CauchyModulusUp$ threshold row, the selected $\DyadicRatCoreUp$ endpoint
+rows, the selected late-pair radius ledger entries, the displayed $\hsame$ and
+$\Cont$ transport rows, the restricted $\mathsf{Pkg}$ provenance rows, and the
+local $\NameCert$ rows attached to the selected coordinates.
+
+Conversely, every selected $\CauchyModulusUp$ threshold row, every selected
+$\DyadicRatCoreUp$ endpoint row, and every late-pair radius ledger entry whose
+indices lie in the finite $\DyadicPrecisionUp$ window appears in the restricted
+$\RegSeqRatUp$ handoff and in the finite $\RealUp$ boundary. The coverage is a
+coverage of public finite rows only: it does not assert a selected limit,
+quotient stream, host real equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project $F$ through \autoref{def:fastcauchy-carrier}. This exposes the
+scheduled observation rows, modulus thresholds, dyadic endpoints, late-pair
+ledger entries, transport rows, provenance rows, and local name rows carried by
+the accepted packet.
+
+Project $D$ through \autoref{def:dyadic-precision-schedule-carrier}. The
+schedule chooses a finite window of those carried coordinates, so
+\autoref{thm:fastcauchy-precision-window-restriction} identifies the restricted
+packet with exactly the rows whose indices are selected by $D$.
+
+Apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. It identifies the
+public $\RegSeqRatUp$ handoff and finite $\RealUp$ boundary with the same
+selected threshold, endpoint, late-pair, transport, provenance, and naming rows.
+
+The forward coverage follows because no other consumer-visible row survives the
+restriction. The converse follows because each selected threshold, endpoint,
+and late-pair row named by $D$ is one of the rows sealed into both public
+consumer surfaces.
+\end{proof}
+
 \begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
 \label{thm:fastcauchy-standard-regseqrat-real-bridge}
 A standard bridge for the finite modulus-normalized $\FastCauchyUp$ packet
@@ -289,6 +328,52 @@ coordinate.
 Finally apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The seal
 identifies the two consumer surfaces as the public finite rows, so the standard
 bridge is exactly this RegSeqRat/Real factorization and nothing outside it.
+\end{proof}
+
+\begin{theorem}[FastCauchy explicit-rate seal-window exhaustion]
+\label{thm:fastcauchy-explicit-rate-seal-window-exhaustion}
+Let $F$ be an accepted $\FastCauchyUp$ packet carrying its displayed
+explicit-rate $\CauchyModulusUp$ schedule, and let $D$ be a displayed
+$\DyadicPrecisionUp$ subwindow of that schedule. Every public $\RealUp$ seal
+read over the restricted packet factors through the displayed explicit-rate
+packet and the subwindow $D$: it is exactly one of the scheduled
+$\StreamNameUp$ observation rows, $\CauchyModulusUp$ threshold rows,
+$\DyadicRatCoreUp$ endpoint rows, late-pair radius rows, $\hsame$ rows,
+$\Cont$ rows, $\mathsf{Pkg}$ provenance rows, or $\NameCert$ rows already
+isolated by \autoref{thm:fastcauchy-precision-window-restriction},
+\autoref{thm:fastcauchy-public-regseqrat-real-seal}, and
+\autoref{thm:fastcauchy-standard-regseqrat-real-bridge}.
+
+Conversely, each row of those displayed kinds whose index lies in the
+$\DyadicPrecisionUp$ subwindow is a public $\RealUp$ seal read of the
+restricted packet through the same explicit-rate factorization. The factorized
+seal has no coordinate for a selected limit, quotient stream, host real
+equality, completeness datum, hidden tail, or standard bridge datum beyond the
+finite rows named above.
+\end{theorem}
+\begin{proof}
+Project the carrier of $F$ from \autoref{def:fastcauchy-carrier}. The projected
+packet exposes the scheduled stream observations, explicit modulus thresholds,
+dyadic endpoints, late-pair radius ledger, transport rows, package rows, and
+name-certificate rows; these are the only displayed coordinates available
+before any consumer reads the packet.
+
+Restrict this carrier along the displayed $\DyadicPrecisionUp$ row $D$. By
+\autoref{thm:fastcauchy-precision-window-restriction}, the restriction keeps
+exactly the rows whose indices lie in the finite precision subwindow, including
+the explicit-rate thresholds and the dyadic endpoint rows used by the late-pair
+radius ledger.
+
+Apply the $\RegSeqRatUp$ handoff and the finite $\RealUp$ boundary. The handoff
+identifies the regular-rational consumer rows with the same selected schedule,
+and \autoref{thm:fastcauchy-public-regseqrat-real-seal} identifies the
+$\RealUp$ seal reads with that finite public surface.
+
+Finally use \autoref{thm:fastcauchy-standard-regseqrat-real-bridge}. The bridge
+does not create an additional public coordinate; it only routes the displayed
+RegSeqRat and Real consumers through the same explicit-rate window. Therefore
+every public seal read is exhausted by the listed rows, and the omitted limit,
+quotient, equality, completeness, tail, and bridge data remain unavailable.
 \end{proof}
 
 \closureat{FastCauchyUp}{obligationStr}
