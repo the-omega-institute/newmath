@@ -76,3 +76,39 @@ Read the neighbourhood coordinates from $\mathcal T$. Their stability under repl
 The provenance row $\rho$ records that the algebraic and topological reads come from the two named dependency certificates. Therefore the scalar-continuity obligation is internal to the displayed packet and does not invoke host topological-vector-space equality.
 \end{proof}
 \leanchecked{BEDC.Derived.TopVecSpaceUp.TopVecSpaceBHistCarrier\_continuous\_scalar\_obligation}
+
+\begin{theorem}[TopVecSpace classifier transport]
+\label{thm:topvecspace-classifier-transport}
+Let $P=(V,\mathcal T,A,S,\lambda,\rho)$ and $P'=(V',\mathcal T',A',S',\lambda',\rho')$ be displayed $\TopVecSpaceUp$ packets. If the $\VecSpaceUp$ row, $\TopologyUp$ row, addition-continuity ledger, scalar-continuity ledger, finite $\Cont$ ledger, and $\Pkg$ provenance are transported componentwise by the carried $\hsame$ rows from $P$ to $P'$, then accepted carrier status transports from $P$ to $P'$. Under the same componentwise transport, every accepted addition-continuity ledger row of $P$ transports to an accepted row of $A'$, and every accepted scalar-continuity ledger row of $P$ transports to an accepted row of $S'$.
+\end{theorem}
+\begin{proof}
+Project the two packets to their displayed rows. The carrier definition makes the vector-space row, topology row, the two continuity ledgers, the continuation ledger, and the package provenance the complete classifier surface.
+
+Use the supplied $\hsame$ comparisons on each row. They replace $V$ by $V'$, $\mathcal T$ by $\mathcal T'$, $A$ by $A'$, $S$ by $S'$, $\lambda$ by $\lambda'$, and $\rho$ by $\rho'$ without introducing any coordinate outside the displayed packet.
+
+The accepted carrier predicate is therefore rebuilt by the same finite tuple with primed rows. The addition and scalar obligations follow by applying \autoref{thm:topvecspace-continuous-addition-obligation} and \autoref{thm:topvecspace-continuous-scalar-obligation} to the transported ledgers.
+\end{proof}
+
+\begin{theorem}[TopVecSpace NameCert boundary]
+\label{thm:topvecspace-namecert-boundary}
+The carrier definition of \autoref{def:topvecspace-bhist-carrier}, the vector-space and topology source obligations of \autoref{thm:topvecspace-vecspace-source-obligation} and \autoref{thm:topvecspace-topology-source-obligation}, the continuous addition and scalar obligations of \autoref{thm:topvecspace-continuous-addition-obligation} and \autoref{thm:topvecspace-continuous-scalar-obligation}, and the classifier transport of \autoref{thm:topvecspace-classifier-transport} assemble the $\NameCert_{\TopVecSpaceUp}$ boundary over $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.
+\end{theorem}
+\begin{proof}
+Start with a displayed packet $(V,\mathcal T,A,S,\lambda,\rho)$ of \autoref{def:topvecspace-bhist-carrier}. The first two source obligations identify exactly the dependency-certificate rows consumed from $\VecSpaceUp$ and $\TopologyUp$.
+
+The two continuity obligations identify the only analytic rows exposed by the packet: addition is read from $A$, scalar multiplication is read from $S$, and both ledgers route through $\lambda$ with provenance in $\rho$.
+
+Finally apply \autoref{thm:topvecspace-classifier-transport}. It supplies the closure of the accepted packet surface under componentwise $\hsame$ replacement, so the carrier, source, continuity, continuation, and package rows repack as the displayed $\NameCert_{\TopVecSpaceUp}$ boundary.
+\end{proof}
+
+\begin{theorem}[TopVecSpace consumer scope]
+\label{thm:topvecspace-consumer-scope}
+Every downstream consumer of a $\TopVecSpaceUp$ certificate reads only the displayed $\VecSpaceUp$ row $V$, the displayed $\TopologyUp$ row $\mathcal T$, the addition and scalar continuity ledgers $A$ and $S$, the continuation ledger $\lambda$, and the provenance row $\rho$. Such a consumer cannot infer ambient topological-vector-space equality, host continuity of addition or scalar multiplication, or any topology or vector-space structure not present in the displayed packet.
+\end{theorem}
+\begin{proof}
+Inspect the NameCert boundary of \autoref{thm:topvecspace-namecert-boundary}. Its exported rows are precisely the carrier tuple, the two source projections, the two continuity ledgers, the componentwise transport route, and the provenance row.
+
+A consumer read is therefore a projection from those rows. If it asks for algebraic data, it lands in $V$; if it asks for topological data, it lands in $\mathcal T$; if it asks for continuity, it lands in $A$ or $S$ and follows $\lambda$ and $\rho$.
+
+No constructor in the boundary provides host equality of topological vector spaces, an ambient continuity predicate, or an external topology. Those conclusions are therefore outside the consumer scope of the certificate.
+\end{proof}
