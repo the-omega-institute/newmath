@@ -1,3 +1,4 @@
+import BEDC.Derived.DiffFormUp.ConsumerBoundary
 import BEDC.Derived.DiffFormUp.RootConsumerFace
 
 namespace BEDC.Derived.DiffFormUp
@@ -139,5 +140,42 @@ theorem DiffFormRootExport_namecert_threshold {ScalarCarrier : BHist -> Prop}
       scalarCert probeIn scalarCarrier
   exact ⟨thresholdRows.left, thresholdRows.right.left, thresholdRows.right.right.left,
     thresholdRows.right.right.right, classifierRows⟩
+
+theorem DiffFormRootExport_downstream_law_separation {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop}
+    (scalarCert : NameCert ScalarCarrier ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus outDegree rightLedger tensorLedger omega domega
+      probePrime tensorPrime scalarPrime : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            UnaryHistory antisym ->
+              Cont degree probe tensor ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    DiffFormWedgeDegreeLedger degree dplus outDegree ledger rightLedger
+                      tensorLedger ->
+                      DiffFormExteriorDerivativeLedger omega domega degree dplus probe probePrime
+                        tensor tensorPrime scalar scalarPrime antisym ledger ->
+                        UnaryHistory omega ∧ UnaryHistory domega ∧ UnaryHistory degree ∧
+                          UnaryHistory dplus ∧ Cont degree (BHist.e1 BHist.Empty) dplus ∧
+                            Cont degree dplus outDegree ∧ hsame ledger rightLedger ∧
+                              (hsame dplus BHist.Empty -> False) := by
+  intro probeIn scalarCarrier degreeUnary probeUnary antisymUnary tensorRoute scalarRoute
+  intro ledgerRoute wedgeLedger derivativeLedger
+  have boundaryRows :=
+    DiffFormDownstreamConsumer_boundary scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      antisymUnary tensorRoute scalarRoute ledgerRoute wedgeLedger derivativeLedger
+  exact
+    ⟨boundaryRows.left,
+      boundaryRows.right.left,
+      boundaryRows.right.right.left,
+      boundaryRows.right.right.right.left,
+      boundaryRows.right.right.right.right.right.left,
+      boundaryRows.right.right.right.right.left,
+      boundaryRows.right.right.right.right.right.right.left,
+      boundaryRows.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.DiffFormUp
