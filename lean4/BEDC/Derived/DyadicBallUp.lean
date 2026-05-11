@@ -109,4 +109,20 @@ theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
                             hsame endpoint endpoint' := by
   exact DyadicBallPacket_classifier_laws
 
+theorem DyadicBallPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      UnaryHistory schedule ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ Cont center radius schedule ∧
+          Cont schedule observation containment ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact
+    ⟨packet.right.right.left, packet.left, packet.right.left,
+      packet.right.right.right.left, packet.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.DyadicBallUp
