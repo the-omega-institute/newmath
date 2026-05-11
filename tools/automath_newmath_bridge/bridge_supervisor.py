@@ -472,6 +472,8 @@ def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, An
     ]
     if cfg.get("ledger_path"):
         cmd.extend(["--ledger", str(REPO_ROOT / str(cfg.get("ledger_path")))])
+    if cfg.get("ack_ledger_path"):
+        cmd.extend(["--ack-ledger", str(REPO_ROOT / str(cfg.get("ack_ledger_path")))])
     if apply:
         cmd.append("--apply")
     result = run_command(cmd, timeout=900 if apply else 120)
@@ -491,6 +493,28 @@ def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, An
         "apply": apply,
         **data,
     }
+
+
+def summarize_bedc_failures(config: dict[str, Any]) -> dict[str, Any]:
+    cfg = config.get("bedc_failure_feedback")
+    if not isinstance(cfg, dict) or not cfg.get("enabled", True):
+        return {"status": "disabled"}
+    cmd = [
+        sys.executable,
+        str(SCRIPT_DIR / "summarize_bedc_bridge_failures.py"),
+        "--output",
+        str(REPO_ROOT / str(cfg.get("output_path") or "docs/bridge/automath-newmath-failures.jsonl")),
+    ]
+    if cfg.get("state_dir"):
+        cmd.extend(["--state-dir", str(REPO_ROOT / str(cfg.get("state_dir")))])
+    result = run_command(cmd, timeout=120)
+    if result.returncode != 0:
+        return {"status": "failed", "reason": (result.stderr or result.stdout).strip()[:1000]}
+    try:
+        data = json.loads(result.stdout.strip()) if result.stdout.strip() else {}
+    except json.JSONDecodeError:
+        data = {"raw": result.stdout.strip()[:1000]}
+    return {"status": "ok", **data}
 
 
 def merge_back_to_bedc(
@@ -722,6 +746,9 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
         _log(f"bedc_board_ingest: {board_result}")
     else:
         _log("bedc_board_ingest: disabled by --no-bedc-board-ingest")
+
+    failure_result = summarize_bedc_failures(config)
+    _log(f"bedc_failure_feedback: {failure_result}")
 
     if args.commit_durable:
         commit_result = commit_and_push_durable(

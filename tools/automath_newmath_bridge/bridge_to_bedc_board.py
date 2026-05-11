@@ -27,6 +27,7 @@ DEFAULT_PACKET_DIR = SCRIPT_DIR / "review_packets"
 BEDC_DEEP_DIR = REPO_ROOT / "tools" / "bedc-deep"
 BEDC_INBOX = BEDC_DEEP_DIR / "state" / "candidate_inbox.jsonl"
 DEFAULT_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-board-continuation-ledger.md"
+DEFAULT_ACK_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-newmath-ack.jsonl"
 LEAN_DECL_RE = re.compile(r"^\s*(?:noncomputable\s+)?(?:def|theorem|lemma|abbrev)\s+([A-Za-z0-9_'.]+)", re.M)
 LATEX_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 
@@ -220,7 +221,7 @@ def _bridge_consumption_mode(record: dict[str, Any]) -> str:
     if kind in {"lean_theorem", "paper_claim"} and _specific_board_claim(record):
         return "board_continuation"
     if kind in {"writeback_packet", "candidate_mechanism"}:
-        return "direct_proposal_seed"
+        return "proposal_seed_candidate"
     return "evidence_only"
 
 
@@ -230,7 +231,7 @@ def _reuse_instruction(mode: str) -> str:
             "Inspect and consume existing Automath evidence first; do not rediscover "
             "or re-prove the Automath theorem unless BEDC needs a native restatement."
         )
-    if mode == "direct_proposal_seed":
+    if mode == "proposal_seed_candidate":
         return (
             "Use the Automath source as a proposal seed only after BEDC-native intake "
             "confirms a concrete carrier, classifier, proof-obligation, or paper-planning fit."
@@ -241,7 +242,7 @@ def _reuse_instruction(mode: str) -> str:
 def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
     if mode == "board_continuation":
         return "minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet"
-    if mode == "direct_proposal_seed":
+    if mode == "proposal_seed_candidate":
         return "proposal seed or BOARD candidate after native review; no direct paper or Lean write"
     return "notes or manifest-consumed status only"
 
@@ -249,7 +250,7 @@ def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
 def _reject_if(record: dict[str, Any], mode: str) -> str:
     if mode == "board_continuation":
         return "no BEDC-native carrier, classifier, proof-obligation shortcut, name-certificate, obstruction, or public-invariant fit"
-    if mode == "direct_proposal_seed":
+    if mode == "proposal_seed_candidate":
         return "source lacks a concrete BEDC landing object or duplicates existing BOARD/paper coverage"
     return "evidence is contextual only or cannot be cited by a BEDC-native receiving task"
 
@@ -354,6 +355,9 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
         "relation": mode,
         "source": "automath_newmath_bridge",
         "local_inputs": _landing_inputs(record),
+        "source_repo": record.get("source_repo"),
+        "source_branch_or_ref": record.get("source_branch_or_ref"),
+        "bridge_direction": record.get("bridge_direction"),
         "bridge_consumption_mode": mode,
         "bridge_evidence_packet": packet_rel,
         "source_theorem_names": refs["theorem_names"],
@@ -368,6 +372,10 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
             "candidate. BEDC board_spawn must still judge fit, novelty, dedup, and "
             "paper coverage before BOARD append. Use Automath source as prior evidence; "
             "do not re-prove it unless BEDC needs a native restatement. "
+            f"source_repo={record.get('source_repo')}; "
+            f"source_commit={record.get('source_commit')}; "
+            f"bridge_direction={record.get('bridge_direction')}; "
+            f"bridge_consumption_mode={mode}. "
             f"The bridge evidence packet is {packet_rel}. "
             f"Expected NewMath delta: {_expected_newmath_delta(record, mode)}. "
             f"Reject if: {_reject_if(record, mode)}."
@@ -423,10 +431,12 @@ def build_candidates(
     packet_dir: Path,
     limit: int,
     write_packets: bool,
-) -> tuple[list[dict[str, Any]], list[Path], list[str]]:
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[Path], list[str], list[dict[str, Any]]]:
     candidates: list[dict[str, Any]] = []
+    candidate_source_records: list[dict[str, Any]] = []
     packets: list[Path] = []
     skipped_duplicate_titles: list[str] = []
+    skipped_ack_records: list[dict[str, Any]] = []
     existing_titles = _existing_board_titles()
     history = _bridge_candidate_history()
     for record in records:
@@ -437,17 +447,22 @@ def build_candidates(
         title = _target_title(record)
         if title.strip().lower() in existing_titles:
             skipped_duplicate_titles.append(title)
+            skipped_ack_records.append(_ack_record(record, None, status="consumed", reason="duplicate_board_title", target_id=""))
             continue
         history_reason = _history_skip_reason(title, history)
         if history_reason:
             skipped_duplicate_titles.append(f"{title} ({history_reason})")
+            status = "consumed" if history_reason.startswith("already_promoted:") else "blocked"
+            target_id = history_reason.split(":", 1)[1] if history_reason.startswith("already_promoted:") else ""
+            skipped_ack_records.append(_ack_record(record, None, status=status, reason=history_reason, target_id=target_id))
             continue
         packet_path = _write_packet(record, packet_dir) if write_packets else _packet_path(record, packet_dir)
         packet_rel = str(packet_path.relative_to(REPO_ROOT))
         packets.append(packet_path)
         candidates.append(_candidate(record, packet_rel))
+        candidate_source_records.append(record)
         existing_titles.add(title.strip().lower())
-    return candidates, packets, skipped_duplicate_titles
+    return candidates, candidate_source_records, packets, skipped_duplicate_titles, skipped_ack_records
 
 
 def run_board_spawn(candidates: list[dict[str, Any]], *, fit_threshold: int, novelty_threshold: int) -> Any:
@@ -525,8 +540,9 @@ def _render_ledger(summary: dict[str, Any], candidates: list[dict[str, Any]]) ->
             "",
             "- `evidence_only` records are reference material; they should not create BEDC theorem work automatically.",
             "- `board_continuation` records enter BOARD only as continuation targets with Automath evidence packets.",
-            "- `direct_proposal_seed` records may seed a BEDC-native proposal, but still go through native intake gates.",
+            "- `proposal_seed_candidate` records may seed a BEDC-native proposal, but still go through native intake gates.",
             "- BEDC workers should inspect the Automath evidence first and write only the minimal BEDC-native wrapper, proposal, audit task, or rejection reason.",
+            f"- Machine-readable ACK/NACK status is appended to `{summary.get('ack_ledger', '')}`.",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -535,6 +551,94 @@ def _render_ledger(summary: dict[str, Any], candidates: list[dict[str, Any]]) ->
 def _write_ledger(path: Path, summary: dict[str, Any], candidates: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(_render_ledger(summary, candidates), encoding="utf-8")
+
+
+def _ack_record(
+    record: dict[str, Any],
+    candidate: dict[str, Any] | None,
+    *,
+    status: str,
+    reason: str,
+    target_id: str,
+) -> dict[str, Any]:
+    candidate_paths = (candidate or {}).get("source_paths")
+    candidate_path = candidate_paths[0] if isinstance(candidate_paths, list) and candidate_paths else ""
+    source_path = str(record.get("source_path") or candidate_path)
+    source_commit = str(record.get("source_commit") or (candidate or {}).get("source_commit") or "")
+    source_repo = str(record.get("source_repo") or (candidate or {}).get("source_repo") or "the-omega-institute/automath")
+    source_ref = str(record.get("source_branch_or_ref") or (candidate or {}).get("source_branch_or_ref") or "")
+    bridge_id = hashlib.sha1(f"{source_repo}|{source_ref}|{source_commit}|{source_path}".encode("utf-8")).hexdigest()[:16]
+    return {
+        "schema_version": "automath-newmath-bridge-ack-v1",
+        "created_at": _now_iso(),
+        "bridge_id": bridge_id,
+        "bridge_direction": "automath_to_newmath",
+        "source_repo": source_repo,
+        "source_branch_or_ref": source_ref,
+        "source_commit": source_commit,
+        "source_path": source_path,
+        "source_artifact_kind": record.get("source_artifact_kind"),
+        "destination_repo": "the-omega-institute/newmath",
+        "destination_branch_or_ref": "bedc-claim-packet-pipeline",
+        "destination_path": "tools/bedc-deep/BOARD.md",
+        "destination_artifact_kind": "open_problem_target",
+        "bridge_consumption_mode": (candidate or {}).get("bridge_consumption_mode") or _bridge_consumption_mode(record),
+        "status": status,
+        "target_id": target_id,
+        "evidence_packet": (candidate or {}).get("bridge_evidence_packet", ""),
+        "operator_review_required": True,
+        "taste_gate_required": False,
+        "audit_required": True,
+        "reason": reason,
+        "notes": "Durable bridge acknowledgement; runtime packets/logs are intentionally not embedded.",
+        "next_action": "Automath may mark the source consumed, blocked, or still review-only according to this acknowledgement.",
+    }
+
+
+def _append_ack_ledger(path: Path, records: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not records:
+        path.touch(exist_ok=True)
+        return
+    existing: set[tuple[str, str, str]] = set()
+    if path.exists():
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(item, dict):
+                existing.add((str(item.get("bridge_id", "")), str(item.get("status", "")), str(item.get("target_id", ""))))
+    with path.open("a", encoding="utf-8") as handle:
+        for record in records:
+            key = (str(record.get("bridge_id", "")), str(record.get("status", "")), str(record.get("target_id", "")))
+            if key in existing:
+                continue
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+            existing.add(key)
+
+
+def _ack_records_from_result(result: Any, candidates: list[dict[str, Any]], source_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_title = {str(candidate.get("title") or "").strip().lower(): (candidate, source_records[idx]) for idx, candidate in enumerate(candidates)}
+    ack_records: list[dict[str, Any]] = []
+    for item in getattr(result, "accepted", []) or []:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip().lower()
+        candidate, source_record = by_title.get(title, ({}, {}))
+        target_ids = item.get("target_id") or item.get("id") or ""
+        if not target_ids:
+            ids = getattr(result, "appended_ids", []) or []
+            target_ids = ",".join(str(value) for value in ids)
+        ack_records.append(_ack_record(source_record, candidate, status="consumed", reason="accepted_into_bedc_board", target_id=str(target_ids)))
+    for item in getattr(result, "rejected", []) or []:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip().lower()
+        candidate, source_record = by_title.get(title, ({}, {}))
+        reason = str(item.get("reason") or item.get("verdict_reason") or "bedc_board_rejected")
+        ack_records.append(_ack_record(source_record, candidate, status="blocked", reason=reason, target_id=""))
+    return ack_records
 
 
 def _cleanup_unaccepted_packets(packet_paths: list[Path], accepted_rels: set[str]) -> list[str]:
@@ -569,11 +673,13 @@ def main(argv: list[str] | None = None) -> int:
         help="Write durable review packet JSON files without applying BOARD ingest",
     )
     parser.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="Durable continuation ledger path")
+    parser.add_argument("--ack-ledger", default=str(DEFAULT_ACK_LEDGER), help="Durable ACK/NACK JSONL ledger path")
     parser.add_argument("--no-ledger", action="store_true", help="Do not write durable continuation ledger")
+    parser.add_argument("--no-ack-ledger", action="store_true", help="Do not write durable ACK/NACK JSONL")
     args = parser.parse_args(argv)
 
     records = _read_jsonl(Path(args.gate_results))
-    candidates, packets, skipped_duplicate_titles = build_candidates(
+    candidates, candidate_source_records, packets, skipped_duplicate_titles, skipped_ack_records = build_candidates(
         records,
         packet_dir=Path(args.packet_dir),
         limit=max(0, args.limit),
@@ -585,10 +691,13 @@ def main(argv: list[str] | None = None) -> int:
         "skipped_duplicate_title_count": len(skipped_duplicate_titles),
         "packet_paths": [str(path.relative_to(REPO_ROOT)) for path in packets],
         "apply": bool(args.apply),
+        "ack_ledger": str(Path(args.ack_ledger).relative_to(REPO_ROOT)) if Path(args.ack_ledger).is_relative_to(REPO_ROOT) else str(args.ack_ledger),
     }
     if not candidates:
         if not args.no_ledger:
             _write_ledger(Path(args.ledger), summary, candidates)
+        if not args.no_ack_ledger:
+            _append_ack_ledger(Path(args.ack_ledger), skipped_ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     if args.apply:
@@ -615,8 +724,12 @@ def main(argv: list[str] | None = None) -> int:
         )
         accepted_rels = _accepted_packet_rels(result)
         summary["removed_unaccepted_packets"] = _cleanup_unaccepted_packets(packets, accepted_rels)
+        ack_records = skipped_ack_records + _ack_records_from_result(result, candidates, candidate_source_records)
+        summary["ack_count"] = len(ack_records)
         if not args.no_ledger:
             _write_ledger(Path(args.ledger), summary, candidates)
+        if not args.no_ack_ledger:
+            _append_ack_ledger(Path(args.ack_ledger), ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0 if getattr(result, "ok", False) else 1
     summary["dry_run_candidates"] = candidates
