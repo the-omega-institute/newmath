@@ -17252,3 +17252,27 @@ Rationale:
 This lifts the existing core append closure for sameSig to the checker-facing GeneratedSameSig witness layer consumed by exact Globalize. It is a concrete closure target with downstream proof utility, not a duplicate of the core sameSig append theorem because the conclusion is at the witness-object interface. The proposed files are not hubs and are below the 800-line cap.
 
 ---
+
+### B-684 - Ergodic invariant subledger restriction stays carried
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ergodic invariant subledger restriction stays carried |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted $\ErgodicUp$ measure-preserving carrier is restricted to a displayed finite subledger of its invariant-subspace rows while retaining the same $\DynSystemUp$ transformation row, $\MeasureUp$ measure row, $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance, then the restricted packet remains an accepted $\ErgodicUp$ measure-preserving carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/174_ergodic_namecert_construction.tex`
+
+Rationale:
+ErgodicUp is unusually sparse compared with nearby probability chapters: it has only two definitions and three theorem blocks, all focused on classifier/decomposition surface rather than closure under finite subledgers. The source surface is a finite package of DynSystem rows, Measure rows, invariant-subspace classifier rows, $\hsame$ transport, finite $\Cont$ routes, and $\Pkg$ provenance at papers/bedc/parts/concrete_instances/174_ergodic_namecert_construction.tex:9-17; the measure-preserving carrier is an accepted instance of that finite source at lines 19-27. The decomposition ledger theorem says every witness is exhausted by those invariant rows and imports no host sigma-algebra quotient at lines 58-80. A subledger restriction theorem would give the chapter a concrete finite-structure closure result rather than another boundary projection.
+
+---
