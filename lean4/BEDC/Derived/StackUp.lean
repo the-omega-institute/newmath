@@ -197,6 +197,53 @@ theorem StackCarrierPacket_descent_obligation [AskSetup] [PackageSetup]
     ⟨carrierUnary, endpointUnary, descentUnary, siteSheafCarrier, objectArrowTransport,
       carrierRestrictionEndpoint, transportRestrictionDescent, endpointPkg⟩
 
+theorem StackCarrierPacket_descent_rows [AskSetup] [PackageSetup]
+    {site cover objectSection arrowSection objectRow arrowRow transportRows restrictionRows
+      descentRows representabilityRows provenance ledger endpoint refinedCover gluedObject
+      gluedArrow gluedLedger gluedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrierPacket site objectRow arrowRow transportRows restrictionRows descentRows
+        representabilityRows provenance ledger endpoint bundle pkg ->
+      SheafBHistPointGermLedger site cover objectSection objectRow ->
+        SheafBHistPointGermLedger site cover arrowSection arrowRow ->
+          hsame cover refinedCover ->
+            Cont refinedCover objectSection gluedObject ->
+              Cont refinedCover arrowSection gluedArrow ->
+                Cont gluedObject gluedArrow gluedLedger ->
+                  Cont provenance gluedLedger gluedEndpoint ->
+                    PkgSig bundle gluedEndpoint pkg ->
+                      StackCarrierPacket site gluedObject gluedArrow transportRows
+                          restrictionRows descentRows representabilityRows provenance
+                          gluedLedger gluedEndpoint bundle pkg ∧
+                        hsame arrowRow gluedArrow := by
+  intro packet objectLedger arrowLedger sameCover objectGlue arrowGlue gluedLedgerRow
+  intro gluedEndpointRow gluedPkg
+  obtain ⟨siteUnary, objectUnary, arrowUnary, transportUnary, restrictionUnary,
+    descentUnary, representabilityUnary, provenanceUnary, _ledgerUnary, _endpointUnary,
+    _ledgerCont, _endpointCont, _pkgSig⟩ := packet
+  have objectReadback :
+      SheafBHistPointGermLedger site refinedCover objectSection gluedObject ∧
+        hsame objectRow gluedObject :=
+    SheafBHistPointGermLedger_restriction_readback objectLedger sameCover objectGlue
+  have arrowReadback :
+      SheafBHistPointGermLedger site refinedCover arrowSection gluedArrow ∧
+        hsame arrowRow gluedArrow :=
+    SheafBHistPointGermLedger_restriction_readback arrowLedger sameCover arrowGlue
+  have gluedObjectUnary : UnaryHistory gluedObject :=
+    unary_transport objectUnary objectReadback.right
+  have gluedArrowUnary : UnaryHistory gluedArrow :=
+    unary_transport arrowUnary arrowReadback.right
+  have gluedLedgerUnary : UnaryHistory gluedLedger :=
+    unary_cont_closed gluedObjectUnary gluedArrowUnary gluedLedgerRow
+  have gluedEndpointUnary : UnaryHistory gluedEndpoint :=
+    unary_cont_closed provenanceUnary gluedLedgerUnary gluedEndpointRow
+  exact
+    And.intro
+      ⟨siteUnary, gluedObjectUnary, gluedArrowUnary, transportUnary, restrictionUnary,
+        descentUnary, representabilityUnary, provenanceUnary, gluedLedgerUnary,
+        gluedEndpointUnary, gluedLedgerRow, gluedEndpointRow, gluedPkg⟩
+      arrowReadback.right
+
 theorem StackCarrier_obligation_surface
     {point openHist «section» germ site object arrow restriction package : BHist} :
     SchemeSingletonPackage point openHist «section» germ site object arrow restriction ->
