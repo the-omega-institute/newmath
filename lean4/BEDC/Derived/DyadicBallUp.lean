@@ -220,6 +220,42 @@ theorem DyadicBallFiniteEnclosure_regseqrat_window_handoff [AskSetup] [PackageSe
         transportUnary, regUnary, centerRadiusRoute, observationContainmentRoute, pkgRow⟩,
       centerRadiusRoute, observationContainmentRoute, pkgRow⟩
 
+def DyadicBallFiniteWindowPacket [AskSetup] [PackageSetup]
+    (center radius schedule observation containment route provenance certRow handoff
+      sealBoundary : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory provenance ∧ UnaryHistory certRow ∧
+      UnaryHistory sealBoundary ∧ Cont center radius containment ∧
+        Cont schedule observation route ∧ Cont containment route handoff ∧
+          Cont handoff provenance certRow ∧ Cont handoff sealBoundary certRow ∧
+            PkgSig bundle handoff pkg
+
+theorem DyadicBallFiniteWindowPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff
+      sealBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route
+        provenance certRow handoff sealBoundary bundle pkg ->
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+          UnaryHistory handoff ∧ hsame containment (append center radius) ∧
+            hsame route (append schedule observation) ∧
+              hsame handoff (append containment route) ∧ PkgSig bundle handoff pkg := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, _provenanceUnary,
+    _certUnary, _sealUnary, containmentRow, routeRow, handoffRow, _provenanceRow,
+    _sealRow, pkgRow⟩ := packet
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed centerUnary radiusUnary containmentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed scheduleUnary observationUnary routeRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed containmentUnary routeUnary handoffRow
+  exact
+    ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
+      handoffUnary, containmentRow, routeRow, handoffRow, pkgRow⟩
+
 theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint center' radius'
       schedule' observation' containment' route' provenance' endpoint' : BHist}
@@ -240,5 +276,21 @@ theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
                           hsame schedule schedule' ∧ hsame containment containment' ∧
                             hsame endpoint endpoint' := by
   exact DyadicBallPacket_classifier_laws
+
+theorem DyadicBallPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      UnaryHistory schedule ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ Cont center radius schedule ∧
+          Cont schedule observation containment ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact
+    ⟨packet.right.right.left, packet.left, packet.right.left,
+      packet.right.right.right.left, packet.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right⟩
 
 end BEDC.Derived.DyadicBallUp

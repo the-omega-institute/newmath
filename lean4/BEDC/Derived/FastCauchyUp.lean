@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -87,6 +89,48 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         windowUnary', provenanceUnary', nameRowUnary', targetEndpoint, targetWindow,
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
+
+theorem FastCauchyPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyPacket stream modulus endpoint latePair transport window provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FastCauchyPacket stream modulus endpoint latePair transport window provenance nameRow
+            bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          FastCauchyPacket stream modulus endpoint latePair transport window provenance nameRow
+            bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          FastCauchyPacket stream modulus endpoint latePair transport window provenance nameRow
+            bundle pkg ∧ hsame row provenance)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance (And.intro packet (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 def FastCauchyFiniteCarrier [AskSetup] [PackageSetup]
     (stream modulus endpoint latePair transport window provenance nameRow : BHist)
