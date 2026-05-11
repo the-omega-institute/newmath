@@ -178,6 +178,7 @@ appending the finite denominator ledger entries from $e$ to $E$, transporting
 the mantissa observation through the same $\Cont$ route, and retaining the
 same $\Pkg$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_scoped\_source\_boundary}
 \begin{proof}
 Project the positive unary exponent row from the carrier. A displayed
 extension $e \preceq E$ is a finite unary-history continuation, so the
@@ -248,6 +249,33 @@ These projections exhaust the finite rows named by the downstream readback.
 Since no row in the packet carries a quotient class, a host rational equality,
 or a completed real endpoint, the real-phase consumer can only use the listed
 BEDC source rows.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore RegSeqRat window radius handoff]
+\label{thm:dyadicratcore-regseqrat-window-radius-handoff}
+Every downstream $\RegSeqRat$ finite-window handoff that consumes a
+$\DyadicRatCoreUp$ observation reads its radius premise through the displayed
+positive unary exponent, denominator ledger, monotone-radius refinement,
+distance-window stability, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the
+$\DyadicRatCoreUp$ public envelope. Consequently the handoff cannot introduce
+a quotient rational, host epsilon equality, or $\RealUp$ completion endpoint.
+\end{theorem}
+\begin{proof}
+Start with the downstream handoff and apply
+\autoref{thm:dyadicratcore-real-phase-source-coverage}. The observation can
+only read the dyadic packet through the listed source rows and has no access to
+a quotient rational or completed real endpoint.
+
+Use \autoref{thm:dyadicratcore-monotone-radius-obligation} to identify the
+radius premise as a displayed positive-unary refinement over the denominator
+ledger. Use \autoref{thm:dyadicratcore-distance-window-stability} to keep the
+finite distance window stable under the same $\hsame$ transport.
+
+Finally apply \autoref{thm:dyadicratcore-public-readback-envelope}. Its public
+tuple supplies exactly the exponent, denominator, radius, distance, $\Cont$,
+and $\mathsf{Pkg}$ coordinates consumed by $\RegSeqRat$, so there is no
+remaining coordinate through which host epsilon equality or a $\RealUp$
+completion endpoint could enter the handoff.
 \end{proof}
 
 \begin{theorem}[DyadicRatCore NameCert obligation surface]
@@ -374,6 +402,7 @@ this dyadic source surface. Since the carrier inventory contains no quotient
 rational, host equality row, standard bridge, or completed real endpoint, none
 of those objects can be exported by the public consumer certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_public\_readback\_envelope}
 
 \begin{theorem}[DyadicRatCore public bridge consumer exactness]
 \label{thm:dyadicratcore-public-bridge-consumer-exactness}
@@ -388,6 +417,7 @@ observation interface consumed by $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$.
 The bridge exports no quotient rational, host equality row, completion object,
 or $\RealUp$ completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_public\_bridge\_consumer\_exactness}
 \begin{proof}
 For the consumer-to-envelope direction, apply
 \autoref{thm:dyadicratcore-public-readback-envelope}. It lists exactly the
@@ -428,6 +458,7 @@ usual dyadic source interface $(m,e)$ with positive unary exponent and
 common-exponent comparison. The bridge exports no quotient rational, host
 rational equality, completed real, or real completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge}
 \begin{proof}
 Apply \autoref{thm:dyadicratcore-public-readback-envelope} to obtain the
 public tuple. Its visible coordinates give the signed mantissa, positive unary

@@ -88,6 +88,31 @@ theorem DiffFormRootWedgeProbe_obligation
       degreeLedger.right.right.left,
       degreeLedger.right.right.right.left⟩
 
+theorem DiffFormRootWedgeOperation_obligation {left right : ProbeBundle BHist}
+    {leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger assocLeft assocRight :
+      BHist} :
+    DiffFormWedgeProbeConcatenationLedger left right leftLedger rightLedger tensorLedger ->
+      DiffFormWedgeDegreeLedger leftDegree rightDegree outDegree leftLedger rightLedger
+          tensorLedger ->
+        DiffFormWedgeDegreeLedger leftDegree outDegree assocLeft leftLedger tensorLedger
+            tensorLedger ->
+          DiffFormWedgeDegreeLedger outDegree rightDegree assocRight tensorLedger rightLedger
+              tensorLedger ->
+            bundleLength (bundleAppend left right) = bundleLength left + bundleLength right ∧
+              (forall probe : BHist,
+                InBundle probe (bundleAppend left right) <-> InBundle probe left ∨
+                  InBundle probe right) ∧
+                Cont leftDegree rightDegree outDegree ∧ UnaryHistory outDegree ∧
+                  hsame tensorLedger (append leftLedger rightLedger) := by
+  intro probeLedger degreeLedger _assocLeftLedger _assocRightLedger
+  have coverage := DiffFormWedgeProbeConcatenationLedger_coverage probeLedger
+  exact
+    ⟨coverage.left,
+      coverage.right.left,
+      degreeLedger.right.right.left,
+      degreeLedger.right.right.right.left,
+      coverage.right.right.right⟩
+
 theorem DiffFormRootDownstreamConsumption_obligation
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
     (scalarCert : NameCert ScalarCarrier ScalarClassifier)
@@ -147,5 +172,50 @@ theorem DiffFormRootWedgeLedger_obligation {ScalarCarrier : BHist -> Prop}
       face.right.right,
       carrierRows.right.right.left,
       carrierRows.right.right.right.left⟩
+
+theorem DiffFormRootObligationPackage_visible_source_surface {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop} (scalarCert : NameCert ScalarCarrier
+      ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger dplus : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            UnaryHistory antisym ->
+              Cont degree probe tensor ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                      (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    Cont degree (BHist.e1 BHist.Empty) dplus ->
+                      DiffFormBHistClassifier ScalarClassifier probes degree probe tensor scalar
+                          antisym ledger degree probe tensor scalar antisym ledger ∧
+                        UnaryHistory tensor ∧
+                          UnaryHistory scalar ∧
+                            hsame ledger
+                              (append degree
+                                (append probe (append tensor (append scalar antisym)))) ∧
+                              Cont degree probe tensor ∧
+                                Cont tensor antisym scalar ∧
+                                  (hsame dplus BHist.Empty -> False) := by
+  intro probeIn scalarCarrier degreeUnary probeUnary antisymUnary tensorRoute scalarRoute
+    ledgerRoute degreeSuccessor
+  have face :=
+    DiffFormRootConsumerFace_coverage scalarCert probeIn scalarCarrier degreeUnary probeUnary
+      tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor
+  have carrierRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have dplusNonempty : hsame dplus BHist.Empty -> False := by
+    intro raisedEmpty
+    cases degreeSuccessor
+    exact not_hsame_e1_empty (append_eq_empty_iff.mp raisedEmpty).right
+  exact
+    ⟨face.left,
+      carrierRows.right.right.left,
+      carrierRows.right.right.right.left,
+      carrierRows.right.right.right.right,
+      tensorRoute,
+      scalarRoute,
+      dplusNonempty⟩
 
 end BEDC.Derived.DiffFormUp
