@@ -150,66 +150,63 @@ theorem LyapunovLedger_stability_transport [AskSetup] [PackageSetup]
                             (And.intro nameCont' pkgSig')))))))))))))
     (And.intro sameTransport sameName)
 
-theorem LyapunovLedger_semantic_name_certificate [AskSetup] [PackageSetup]
+def LyapunovLedgerNameSurface [AskSetup] [PackageSetup]
+    (state transition quadratic positive decrease transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) (row : BHist) : Prop :=
+  row = name ∧
+    LyapunovLedger state transition quadratic positive decrease transport route provenance name
+      bundle pkg
+
+theorem LyapunovLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
     {state transition quadratic positive decrease transport route provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     LyapunovLedger state transition quadratic positive decrease transport route provenance name
         bundle pkg ->
       SemanticNameCert
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
           hsame ∧
-        Cont state transition positive ∧ Cont quadratic positive decrease ∧
-          Cont decrease route transport ∧ Cont transport provenance name ∧
-            PkgSig bundle name pkg := by
+        UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory quadratic ∧
+          UnaryHistory positive ∧ UnaryHistory decrease ∧ UnaryHistory transport ∧
+            UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+              Cont state transition positive ∧ Cont quadratic positive decrease ∧
+                Cont decrease route transport ∧ Cont transport provenance name ∧
+                  PkgSig bundle name pkg := by
   intro ledger
-  have cert :
-      SemanticNameCert
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
-          (fun row : BHist =>
-            LyapunovLedger state transition quadratic positive decrease transport route provenance
-              name bundle pkg ∧ hsame row name)
-          hsame := {
-    core := {
-      carrier_inhabited := Exists.intro name (And.intro ledger (hsame_refl name))
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro _left _right sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro _left _middle _right sameLeftMiddle sameMiddleRight
-        exact hsame_trans sameLeftMiddle sameMiddleRight
-      carrier_respects_equiv := by
-        intro left right sameRows source
-        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
-    }
+  let Surface : BHist -> Prop :=
+    LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+      provenance name bundle pkg
+  have sourceName : Surface name := by
+    exact And.intro rfl ledger
+  have core : NameCert Surface hsame := {
+    carrier_inhabited := Exists.intro name sourceName
+    equiv_refl := by
+      intro h _source
+      exact hsame_refl h
+    equiv_symm := by
+      intro h k same
+      exact hsame_symm same
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    carrier_respects_equiv := by
+      intro h k same sourceH
+      cases same
+      exact sourceH
+  }
+  have semantic : SemanticNameCert Surface Surface Surface hsame := {
+    core := core
     pattern_sound := by
-      intro _row source
+      intro h source
       exact source
     ledger_sound := by
-      intro _row source
+      intro h source
       exact source
   }
-  exact And.intro cert
-    (And.intro ledger.right.right.right.right.right.right.right.right.right.left
-      (And.intro ledger.right.right.right.right.right.right.right.right.right.right.left
-        (And.intro ledger.right.right.right.right.right.right.right.right.right.right.right.left
-          (And.intro
-            ledger.right.right.right.right.right.right.right.right.right.right.right.right.left
-            ledger.right.right.right.right.right.right.right.right.right.right.right.right.right))))
+  exact And.intro semantic ledger
 
 end BEDC.Derived.LyapunovUp
