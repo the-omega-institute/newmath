@@ -222,6 +222,65 @@ theorem SignedDigitStreamClassifier_common_window_determinacy [AskSetup] [Packag
     cont_respects_hsame sameEndpoint sameHidden leftLedgerRoute rightLedgerRoute
   exact ⟨sameCarry, sameEndpoint, sameLedger⟩
 
+theorem SignedDigitStreamPacket_prefix_truncation_stability [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger prefixDigits prefixSchedule
+      prefixProvenance prefixHidden prefixCarry prefixEndpoint prefixLedger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      hsame digits prefixDigits ->
+        hsame schedule prefixSchedule ->
+          hsame provenance prefixProvenance ->
+            hsame hidden prefixHidden ->
+              Cont prefixDigits prefixSchedule prefixCarry ->
+                Cont prefixCarry prefixProvenance prefixEndpoint ->
+                  Cont prefixEndpoint prefixHidden prefixLedger ->
+                    UnaryHistory radius ->
+                      Cont prefixEndpoint radius regWindow ->
+                        PkgSig bundle prefixLedger pkg ->
+                          PkgSig bundle regWindow pkg ->
+                            SignedDigitStreamPacket prefixDigits prefixSchedule prefixCarry
+                                prefixProvenance prefixEndpoint prefixHidden prefixLedger bundle pkg ∧
+                              hsame carry prefixCarry ∧ hsame endpoint prefixEndpoint ∧
+                                hsame ledger prefixLedger ∧ UnaryHistory regWindow ∧
+                                  hsame regWindow (append prefixEndpoint radius) := by
+  intro packet sameDigits sameSchedule sameProvenance sameHidden prefixCarryRow
+  intro prefixEndpointRow prefixLedgerRow radiusUnary regWindowRow prefixLedgerSig _regWindowSig
+  have prefixDigitsUnary : UnaryHistory prefixDigits :=
+    unary_transport packet.left sameDigits
+  have prefixScheduleUnary : UnaryHistory prefixSchedule :=
+    unary_transport packet.right.left sameSchedule
+  have prefixProvenanceUnary : UnaryHistory prefixProvenance :=
+    unary_transport packet.right.right.left sameProvenance
+  have prefixHiddenUnary : UnaryHistory prefixHidden :=
+    unary_transport packet.right.right.right.left sameHidden
+  have originalCarryRow : Cont digits schedule carry :=
+    packet.right.right.right.right.right.right.right.left
+  have originalEndpointRow : Cont carry provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have originalLedgerRow : Cont endpoint hidden ledger :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have sameCarry : hsame carry prefixCarry :=
+    cont_respects_hsame sameDigits sameSchedule originalCarryRow prefixCarryRow
+  have sameEndpoint : hsame endpoint prefixEndpoint :=
+    cont_respects_hsame sameCarry sameProvenance originalEndpointRow prefixEndpointRow
+  have sameLedger : hsame ledger prefixLedger :=
+    cont_respects_hsame sameEndpoint sameHidden originalLedgerRow prefixLedgerRow
+  have prefixCarryUnary : UnaryHistory prefixCarry :=
+    unary_cont_closed prefixDigitsUnary prefixScheduleUnary prefixCarryRow
+  have prefixEndpointUnary : UnaryHistory prefixEndpoint :=
+    unary_cont_closed prefixCarryUnary prefixProvenanceUnary prefixEndpointRow
+  have prefixLedgerUnary : UnaryHistory prefixLedger :=
+    unary_cont_closed prefixEndpointUnary prefixHiddenUnary prefixLedgerRow
+  have prefixPacket :
+      SignedDigitStreamPacket prefixDigits prefixSchedule prefixCarry prefixProvenance
+        prefixEndpoint prefixHidden prefixLedger bundle pkg :=
+    ⟨prefixDigitsUnary, prefixScheduleUnary, prefixProvenanceUnary, prefixHiddenUnary,
+      prefixCarryUnary, prefixEndpointUnary, prefixLedgerUnary, prefixCarryRow,
+      prefixEndpointRow, prefixLedgerRow, prefixLedgerSig⟩
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed prefixEndpointUnary radiusUnary regWindowRow
+  exact ⟨prefixPacket, sameCarry, sameEndpoint, sameLedger, regWindowUnary, regWindowRow⟩
+
 theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -407,5 +466,20 @@ theorem SignedDigitStreamPacket_real_regseqrat_window_correspondence [AskSetup]
       intro _row source
       exact source
   }
+
+theorem SignedDigitStreamWindowPacket_common_window_determinacy [AskSetup] [PackageSetup]
+    {digit schedule carry provenance endpoint ledger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamWindowPacket digit schedule carry provenance endpoint ledger bundle pkg ->
+      UnaryHistory radius ->
+        Cont endpoint radius regWindow ->
+          PkgSig bundle regWindow pkg ->
+            hsame carry (append digit schedule) ∧ hsame endpoint (append carry provenance) ∧
+              hsame ledger (append endpoint schedule) ∧
+                hsame regWindow (append endpoint radius) := by
+  intro packet _radiusUnary regWindowRow _pkgRow
+  obtain ⟨_digitUnary, _scheduleUnary, _carryUnary, _provenanceUnary, _endpointUnary,
+    _ledgerUnary, carryRow, endpointRow, ledgerRow, _ledgerSig⟩ := packet
+  exact ⟨carryRow, endpointRow, ledgerRow, regWindowRow⟩
 
 end BEDC.Derived.SignedDigitStreamUp
