@@ -110,6 +110,7 @@ import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
+import BEDC.Derived.LQRUp.EmptyHorizon
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
