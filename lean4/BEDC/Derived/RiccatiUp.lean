@@ -175,4 +175,38 @@ theorem RiccatiControlPacketCarrier_component_transport [AskSetup] [PackageSetup
     · exact samePredecessor
     · exact sameEndpoint
 
+theorem RiccatiControlPacket_lqr_kalman_consumer_boundary [AskSetup] [PackageSetup]
+    {state control cost horizon successor transition predecessor provenance endpoint consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiccatiControlPacketCarrier state control cost horizon successor transition predecessor
+        provenance endpoint bundle pkg ->
+      Cont endpoint successor consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory successor ∧ UnaryHistory predecessor ∧ UnaryHistory endpoint ∧
+            UnaryHistory consumer ∧ Cont state control successor ∧
+              Cont successor transition predecessor ∧ Cont predecessor provenance endpoint ∧
+                Cont endpoint successor consumer ∧ PkgSig bundle consumer pkg := by
+  intro carrier consumerRow consumerPkg
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed carrier.right.right.right.right.right.right.right.right.left
+      carrier.right.right.right.right.left consumerRow
+  constructor
+  · exact carrier.right.right.right.right.left
+  · constructor
+    · exact carrier.right.right.right.right.right.right.left
+    · constructor
+      · exact carrier.right.right.right.right.right.right.right.right.left
+      · constructor
+        · exact consumerUnary
+        · constructor
+          · exact carrier.right.right.right.right.right.right.right.right.right.left
+          · constructor
+            · exact carrier.right.right.right.right.right.right.right.right.right.right.right.left
+            · constructor
+              · exact carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+              · constructor
+                · exact consumerRow
+                · exact consumerPkg
+
 end BEDC.Derived.RiccatiUp
