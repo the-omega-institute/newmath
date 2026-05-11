@@ -130,6 +130,42 @@ complex-analysis bridge rows.
 \end{proof}
 \leanchecked{BEDC.Derived.ConvergenceRadiusUp.ConvRadCheckedRowReduct\_public\_boundary\_exactness}
 
+\begin{theorem}[ConvergenceRadius geometric-bound common tail window]
+\label{thm:convergence-radius-geometric-bound-common-tail-window}
+For two accepted $\ConvergenceRadiusUp$ public packets over the same
+power-series carrier, suppose their geometric-bound rows classify to the same
+radius witness and their endpoint packages agree under the displayed radius
+classifier. Then there is a single finite tail window through which both
+public consumer reads factor. The common window exposes only the power-series
+carrier, geometric-bound rows, convergence-radius witness, endpoint package,
+checked-row reduct, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The common window still exports no real supremum, Cauchy--Hadamard exactness,
+or standard complex-analysis bridge row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:convergence-radius-public-export} to the two accepted
+packets. Each public consumer read is therefore presented through the
+power-series carrier, geometric-bound data, convergence-radius witness,
+radius-classifier transport, endpoint package, checked-row reduct, and
+semantic certificate rows.
+
+Next use \autoref{thm:convergence-radius-public-boundary-exactness} for both
+packets. The boundary exactness theorem forces each read to factor through
+the displayed rows and does not leave a separate analytic coordinate outside
+that finite surface.
+
+The hypotheses identify the shared radius-classifier row and the endpoint
+package rows. Refine the two directed tail ledgers to the finite common tail
+where those rows are both displayed, and transport the two reads through the
+same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the shared tail window
+cannot export a real supremum row or a standard complex-analysis bridge row.
+\end{proof}
+
 \begin{theorem}[ConvergenceRadius checked-row readback public factorization]
 \label{thm:convergence-radius-checked-row-readback-public-factorization}
 Every $\mathsf{ConvRadSourceSpec}$ consumer read factors first through
