@@ -324,10 +324,16 @@ def sync_bridge_from_auto_dev(config: dict[str, Any]) -> dict[str, Any]:
     merge_args = [str(item) for item in cfg.get("merge_args", ["--no-edit"]) if isinstance(item, str)]
     result = _git(REPO_ROOT, ["merge", *merge_args, source_ref], timeout=1200)
     if result.returncode != 0:
-        raise RuntimeError(
-            "sync_from_auto_dev merge failed; resolve conflicts manually before rerunning. "
-            + (result.stderr or result.stdout).strip()
-        )
+        conflict_sample = worktree_dirty_lines(REPO_ROOT)[:40]
+        _git_quiet(REPO_ROOT, ["merge", "--abort"], timeout=120)
+        return {
+            "status": "merge_conflict_aborted",
+            "source_ref": source_ref,
+            "before": before,
+            "source_commit": source_commit,
+            "reason": (result.stderr or result.stdout).strip()[:2000],
+            "conflict_sample": conflict_sample,
+        }
     after = _git_stdout(REPO_ROOT, ["rev-parse", "HEAD"], timeout=30)
     return {
         "status": "merged",
