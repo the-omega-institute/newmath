@@ -326,4 +326,29 @@ theorem VonneumannalgebraBHistCarrier_downstream_boundary [AskSetup] [PackageSet
       (And.intro operatorAdjointRow
         (And.intro weakTransportRow (And.intro downstreamRow packageRow))))
 
+theorem VonneumannalgebraBHistCarrier_finite_packet_rows [AskSetup] [PackageSetup]
+    {cstar hilbert operator adjoint multiplication weakProbe transport provenance endpoint
+      weakEndpoint downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication weakProbe
+        transport provenance endpoint bundle pkg ->
+      Cont weakProbe hilbert weakEndpoint ->
+        Cont endpoint weakProbe downstream ->
+          UnaryHistory cstar ∧ UnaryHistory hilbert ∧ UnaryHistory weakEndpoint ∧
+            UnaryHistory downstream ∧ hsame weakEndpoint (append weakProbe hilbert) ∧
+              Cont cstar hilbert operator ∧ Cont operator adjoint multiplication ∧
+                Cont weakProbe transport endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier weakEndpointRow downstreamRow
+  obtain ⟨cstarUnary, hilbertUnary, _operatorUnary, _adjointUnary, _multiplicationUnary,
+    weakProbeUnary, transportUnary, _provenanceUnary, cstarHilbertRow, operatorAdjointRow,
+    weakTransportRow, packageRow⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weakProbeUnary transportUnary weakTransportRow
+  have weakEndpointUnary : UnaryHistory weakEndpoint :=
+    unary_cont_closed weakProbeUnary hilbertUnary weakEndpointRow
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed endpointUnary weakProbeUnary downstreamRow
+  exact ⟨cstarUnary, hilbertUnary, weakEndpointUnary, downstreamUnary, weakEndpointRow,
+    cstarHilbertRow, operatorAdjointRow, weakTransportRow, packageRow⟩
+
 end BEDC.Derived.VonneumannalgebraUp
