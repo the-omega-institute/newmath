@@ -248,6 +248,50 @@ theorem ZeroKnowledgeCarrier_classifier_obligation [AskSetup] [PackageSetup]
       targetPkg⟩
   exact ⟨carrier', sameChallenge, sameResponse, sameLedger⟩
 
+theorem ZeroKnowledgeCarrier_soundness_ledger_obligation [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment computableVerifier simulator ledger response'
+      commitment' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeroKnowledgeCarrier prover verifier challenge response commitment computableVerifier simulator
+        ledger bundle pkg ->
+      hsame response response' ->
+        hsame commitment commitment' ->
+          Cont response' commitment' ledger' ->
+            PkgSig bundle ledger' pkg ->
+              ZeroKnowledgeCarrier prover verifier challenge response' commitment'
+                    computableVerifier simulator ledger' bundle pkg ∧
+                hsame ledger ledger' ∧ PkgSig bundle ledger' pkg := by
+  intro carrier sameResponse sameCommitment targetLedger targetPkg
+  have challengeRow : Cont prover verifier challenge :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have responseRow : Cont challenge prover response :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont response commitment ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have simulatorLedgerRow : Cont simulator verifier ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameResponse sameCommitment ledgerRow targetLedger
+  have _oldLedgerTransport : Cont response commitment ledger' :=
+    cont_result_hsame_transport ledgerRow sameLedger
+  have carrier' :
+      ZeroKnowledgeCarrier prover verifier challenge response' commitment'
+        computableVerifier simulator ledger' bundle pkg :=
+    ⟨carrier.left,
+      carrier.right.left,
+      carrier.right.right.left,
+      unary_transport carrier.right.right.right.left sameResponse,
+      unary_transport carrier.right.right.right.right.left sameCommitment,
+      carrier.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.left,
+      unary_transport carrier.right.right.right.right.right.right.right.left sameLedger,
+      challengeRow,
+      cont_result_hsame_transport responseRow sameResponse,
+      targetLedger,
+      cont_result_hsame_transport simulatorLedgerRow sameLedger,
+      targetPkg⟩
+  exact And.intro carrier' (And.intro sameLedger targetPkg)
+
 def ZeroKnowledgeFiniteCarrier [AskSetup] [PackageSetup]
     (prover verifier challenge response commitment computable verifierAccept simulator ledger
       provenance endpoint : BHist)
