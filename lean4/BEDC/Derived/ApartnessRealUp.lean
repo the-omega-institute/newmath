@@ -177,6 +177,29 @@ def ApartnessRealSeparationPacket [AskSetup] [PackageSetup]
         Cont forwardLedger reverseLedger pkgrow ∧
           Cont reverseLedger forwardLedger pkgrow ∧ PkgSig bundle pkgrow pkg
 
+theorem ApartnessRealSeparationPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealSeparationPacket left right radius window leftEndpoint rightEndpoint
+        forwardLedger reverseLedger pkgrow bundle pkg ->
+      PositiveUnaryDenominator radius ∧ Cont left window leftEndpoint ∧
+        Cont right window rightEndpoint ∧ Cont leftEndpoint rightEndpoint forwardLedger ∧
+          Cont rightEndpoint leftEndpoint reverseLedger ∧
+            Cont forwardLedger reverseLedger pkgrow ∧
+              Cont reverseLedger forwardLedger pkgrow ∧ PkgSig bundle pkgrow pkg := by
+  intro packet
+  obtain ⟨positiveRadius, leftEndpointRow, rightEndpointRow, forwardLedgerRow,
+    reverseLedgerRow, forwardPkgRow, reversePkgRow, pkgSig⟩ := packet
+  exact
+    And.intro positiveRadius
+      (And.intro leftEndpointRow
+        (And.intro rightEndpointRow
+          (And.intro forwardLedgerRow
+            (And.intro reverseLedgerRow
+              (And.intro forwardPkgRow
+                (And.intro reversePkgRow pkgSig))))))
+
 theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetup]
     {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
       BHist}
