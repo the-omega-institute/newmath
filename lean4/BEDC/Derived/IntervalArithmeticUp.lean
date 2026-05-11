@@ -257,6 +257,37 @@ theorem IntervalArithmeticEndpointPacket_public_certificate_surface [AskSetup] [
           (And.intro endpointUnary
             (And.intro endpointRow packageBoundary)))))
 
+theorem IntervalArithmeticEndpointPacket_width_bound_stability [AskSetup] [PackageSetup]
+    {lower upper lowerObs upperObs enclosure provenance endpoint lower' upper' width width' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalArithmeticEndpointPacket lower upper lowerObs upperObs enclosure provenance endpoint
+        bundle pkg ->
+      hsame lower lower' ->
+        hsame upper upper' ->
+          Cont lower upper width ->
+            Cont lower' upper' width' ->
+              UnaryHistory width ∧ UnaryHistory width' ∧ hsame width width' ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet sameLower sameUpper widthRow widthRow'
+  have lowerUnary : UnaryHistory lower :=
+    packet.left
+  have upperUnary : UnaryHistory upper :=
+    packet.right.left
+  have lowerUnary' : UnaryHistory lower' :=
+    unary_transport lowerUnary sameLower
+  have upperUnary' : UnaryHistory upper' :=
+    unary_transport upperUnary sameUpper
+  have widthUnary : UnaryHistory width :=
+    unary_cont_closed lowerUnary upperUnary widthRow
+  have widthUnary' : UnaryHistory width' :=
+    unary_cont_closed lowerUnary' upperUnary' widthRow'
+  have sameWidth : hsame width width' :=
+    cont_respects_hsame sameLower sameUpper widthRow widthRow'
+  exact And.intro widthUnary
+    (And.intro widthUnary'
+      (And.intro sameWidth packet.right.right.right.right.right.right.right))
+
 def IntervalArithmeticPacket [AskSetup] [PackageSetup]
     (lower upper lowerObs upperObs enclosure package : BHist) : Prop :=
   UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory lowerObs ∧ UnaryHistory upperObs ∧
