@@ -153,4 +153,34 @@ theorem MonodromyTransportPacket_loop_continuation_obligation [AskSetup] [Packag
       ledgerRow', returnedRow', endpointRow', scopeRow', scopeSig'⟩
   exact ⟨transported, sameLedger, sameReturned, sameEndpoint, sameScope⟩
 
+theorem MonodromyTransportPacket_returned_row_provenance_exactness [AskSetup] [PackageSetup]
+    {loop base localSystem returned ledger transports provenance endpoint scope boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonodromyTransportPacket loop base localSystem returned ledger transports provenance endpoint
+        scope bundle pkg ->
+      Cont scope returned boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory loop ∧ UnaryHistory base ∧ UnaryHistory localSystem ∧
+            UnaryHistory returned ∧ UnaryHistory endpoint ∧ UnaryHistory boundary ∧
+              hsame ledger (append loop base) ∧ hsame returned (append ledger localSystem) ∧
+                hsame endpoint (append returned transports) ∧
+                  hsame scope (append endpoint provenance) ∧
+                    hsame boundary (append scope returned) ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRow boundarySig
+  obtain ⟨loopUnary, baseUnary, localSystemUnary, transportsUnary, provenanceUnary, ledgerRow,
+    returnedRow, endpointRow, scopeRow, _scopeSig⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed loopUnary baseUnary ledgerRow
+  have returnedUnary : UnaryHistory returned :=
+    unary_cont_closed ledgerUnary localSystemUnary returnedRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed returnedUnary transportsUnary endpointRow
+  have scopeUnary : UnaryHistory scope :=
+    unary_cont_closed endpointUnary provenanceUnary scopeRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed scopeUnary returnedUnary boundaryRow
+  exact
+    ⟨loopUnary, baseUnary, localSystemUnary, returnedUnary, endpointUnary, boundaryUnary,
+      ledgerRow, returnedRow, endpointRow, scopeRow, boundaryRow, boundarySig⟩
+
 end BEDC.Derived.MonodromyUp
