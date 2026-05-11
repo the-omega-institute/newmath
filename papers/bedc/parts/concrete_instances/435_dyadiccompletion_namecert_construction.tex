@@ -329,6 +329,49 @@ Dedekind cuts, trichotomy, host equality, chosen limits, and hidden precision
 schedules.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion RegSeqRat window exhaustion]
+\label{thm:dyadiccompletion-regseqrat-window-exhaustion}
+For any accepted $\DyadicCompletionUp$ finite-window packet, every
+$\RegSeqRatUp$ consumer read exposed by the public finite-window export factors
+through one of the ledger-named rows already listed by the packet: dyadic
+observation rows, scheduled $\StreamNameUp$ window rows, regular-tail classifier
+rows, real-boundary rows, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance rows.
+
+Conversely, every ledger-named regular-tail or window row supplies the same
+$\RegSeqRatUp$ consumer read after the displayed finite-window standard bridge.
+This exhaustion exports no quotient Cauchy stream, Dedekind cut, host real
+limit, hidden precision schedule, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadiccompletion-streamname-handoff}. It sends the
+scheduled finite read to the displayed $\StreamNameUp$ window row, so the
+consumer has no alternate stream schedule outside the packet.
+
+Next use \autoref{thm:dyadiccompletion-regular-tail-stability}. The regular-tail
+classifier is transported along the packet's $\hsame$ and $\Cont$ rows, and the
+transport preserves exactly the ledger-named tail comparison row read by the
+$\RegSeqRatUp$ consumer.
+
+Combine \autoref{thm:dyadiccompletion-ledger-boundary} with
+\autoref{thm:dyadiccompletion-public-regseqrat-real-export}. These theorems
+identify the visible dyadic observation, real-boundary, history, transport,
+continuation, and package provenance rows exported to public $\RegSeqRatUp$ and
+$\RealUp$ consumers.
+
+For the converse, apply
+\autoref{thm:dyadiccompletion-finite-window-standard-bridge} and
+\autoref{thm:dyadiccompletion-window-ledger-source-exhaustion}. A ledger-named
+regular-tail or scheduled-window row is repacked through the same finite-window
+standard bridge, and the source exhaustion theorem says that no further source
+row is available to the consumer.
+
+Thus the two readings have the same public $\RegSeqRatUp$ row boundary. The
+excluded quotient streams, cuts, host limits, hidden schedules, and selected
+limits are absent because none of the cited ledger, handoff, stability, export,
+or bridge rows carries them.
+\end{proof}
+
 \begin{theorem}[DyadicCompletion terminal finite-window seal determinacy]\label{thm:dyadiccompletion-terminal-window-seal-determinacy}
 Consider two $\DyadicCompletionUp$ finite-window packets whose dyadic
 observation row, $\StreamNameUp$ window row, regular-tail row, $\RealUp$
