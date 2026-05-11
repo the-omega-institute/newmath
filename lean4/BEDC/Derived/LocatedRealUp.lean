@@ -490,4 +490,70 @@ theorem LocatedRealCarrier_common_refinement_gluing [AskSetup] [PackageSetup]
     ⟨commonWindowUnary, commonEndpointUnary, provenanceWindow, provenanceWindow',
       commonPkgrowUnary, endpointPair, commonPkgrowSig⟩
 
+theorem LocatedRealCarrierSurface_scoped_source_boundary [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun left right : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier left bundle pkg ∧
+              LocatedRealCarrierSurface regseq interval schedule classifier right bundle pkg ∧
+                hsame left right) ∧
+        UnaryHistory regseq ∧ UnaryHistory interval ∧ UnaryHistory schedule ∧
+          UnaryHistory classifier ∧ UnaryHistory pkgrow ∧ Cont regseq schedule classifier ∧
+            Cont interval classifier pkgrow ∧ PkgSig bundle pkgrow pkg := by
+  intro surface
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun row : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier row bundle pkg)
+          (fun left right : BHist =>
+            LocatedRealCarrierSurface regseq interval schedule classifier left bundle pkg ∧
+              LocatedRealCarrierSurface regseq interval schedule classifier right bundle pkg ∧
+                hsame left right) := {
+    core := {
+      carrier_inhabited := Exists.intro pkgrow surface
+      equiv_refl := by
+        intro row source
+        exact And.intro source (And.intro source (hsame_refl row))
+      equiv_symm := by
+        intro row row' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro row row' row'' classifiedLeft classifiedRight
+        exact And.intro classifiedLeft.left
+          (And.intro classifiedRight.right.left
+            (hsame_trans classifiedLeft.right.right classifiedRight.right.right))
+      carrier_respects_equiv := by
+        intro row row' classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro surface.left
+      (And.intro surface.right.left
+        (And.intro surface.right.right.left
+          (And.intro surface.right.right.right.left
+            (And.intro surface.right.right.right.right.left
+              (And.intro surface.right.right.right.right.right.left
+                (And.intro surface.right.right.right.right.right.right.left
+                  surface.right.right.right.right.right.right.right)))))))
+
 end BEDC.Derived.LocatedRealUp
