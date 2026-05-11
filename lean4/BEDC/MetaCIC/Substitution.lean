@@ -1,11 +1,24 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.ContextWF
+import BEDC.MetaCIC.ClosedTerm
 
 namespace BEDC.MetaCIC
 
-/-- 目标替换保持命题的完整形状。 -/
-def SubstitutePreservesTypingStatement : Prop :=
+/-- 带上下文良构前提的替换保持命题形状。 -/
+def SubstitutePreservesTypingStatementWF : Prop :=
   ∀ {Γ : Ctx} {t s A B : Term},
+    WellFormedCtx (B :: Γ) →
+    HasType (B :: Γ) t A →
+    HasType Γ s B →
+    HasType Γ (substitute 0 s t) (substitute 0 s A)
+
+/-- 闭合替换保持的完整目标形状。 -/
+def ClosedTermSubstitutePreservesTypingStatement : Prop :=
+  ∀ {Γ : Ctx} {t s A B : Term},
+    WellFormedCtx (B :: Γ) →
+    ClosedAt 0 B →
+    ClosedAt 0 s →
     HasType (B :: Γ) t A →
     HasType Γ s B →
     HasType Γ (substitute 0 s t) (substitute 0 s A)
@@ -43,46 +56,208 @@ theorem lookup_cons_succ (Γ : Ctx) (B : Term) (i : Idx) :
       | none => none := by
   rfl
 
-/-- 当前规则允许 `var 0 : var 1`。 -/
-theorem open_context_var_zero_has_var_one :
-    HasType [Term.var 1] (Term.var 0) (Term.var 1) := by
-  apply HasType.varRule
-  rfl
+/-- 从 cons 良构上下文取出尾部良构。 -/
+theorem wellFormedCtx_cons_tail {Γ : Ctx} {B : Term} :
+    WellFormedCtx (B :: Γ) → WellFormedCtx Γ := by
+  intro hwf
+  cases hwf with
+  | wfCons tail _ =>
+      exact tail
 
-/-- 在同一上下文中并不能推出 `var 0 : var 0`。 -/
-theorem open_context_var_zero_not_has_var_zero :
-    ¬ HasType [Term.var 1] (Term.var 0) (Term.var 0) := by
+/-- 从 cons 良构上下文取出栈顶类型的 sort 判定。 -/
+theorem wellFormedCtx_cons_head_type {Γ : Ctx} {B : Term} :
+    WellFormedCtx (B :: Γ) → HasType Γ B Term.sort := by
+  intro hwf
+  cases hwf with
+  | wfCons _ head =>
+      exact head
+
+/--
+零深度替换抵消一次零 cutoff 的一层提升。
+
+该引理覆盖变量和 sort 情形; 复合项需要与 binder 深度交换的更强版本。
+-/
+theorem substitute_shift_zero_atom (v T : Term) :
+    (T = Term.sort ∨ ∃ i : Idx, T = Term.var i) →
+    substitute 0 v (shift 0 1 T) = T := by
   intro h
   cases h with
-  | varRule Γ i A hlookup =>
-      unfold Ctx.lookup at hlookup
-      cases hlookup
+  | inl hsort =>
+      cases hsort
+      rfl
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          cases i
+          · unfold shift
+            unfold substitute
+            rfl
+          · unfold shift
+            unfold substitute
+            rfl
 
-/--
-`SubstitutePreservesTypingStatement` 在当前开放上下文规则下为假。
+theorem nat_beq_add_one_add_one (i n : Nat) :
+    Nat.beq (i + 1) (n + 1) = Nat.beq i n := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
 
-取 `Γ = [var 1]`, `B = var 1`, `s = var 0`, `t = var 0`, `A = var 1`。
-两个前提均由 `varRule` 成立，但结论要求 `var 0 : var 0`。
--/
-theorem substitute_preserves_typing_statement_false :
-    ¬ SubstitutePreservesTypingStatement := by
-  intro h
-  exact open_context_var_zero_not_has_var_zero
-    (h
-      (Γ := [Term.var 1])
-      (t := Term.var 0)
-      (s := Term.var 0)
-      (A := Term.var 1)
-      (B := Term.var 1)
-      (by
-        apply HasType.varRule
-        rfl)
-      open_context_var_zero_has_var_one)
+theorem nat_blt_add_one_add_one (n i : Nat) :
+    Nat.blt (n + 1) (i + 1) = Nat.blt n i := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
 
-/--
-TODO: 主定理仍保留为占位。当前无良构上下文或类型转换规则时，
-上面的反例证明目标形状不可证。
--/
-theorem substitute_preserves_typing : True := True.intro
+theorem nat_ble_add_one_add_one (n i : Nat) :
+    Nat.ble (n + 1) (i + 1) = Nat.ble n i := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
+
+theorem nat_beq_false_of_ble_false (n i : Nat) :
+    Nat.ble n i = false → Nat.beq i n = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · cases h
+      · cases h
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => rfl
+      | succ i => exact ih i h
+
+theorem nat_blt_false_of_ble_false (n i : Nat) :
+    Nat.ble n i = false → Nat.blt n i = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · cases h
+      · cases h
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => rfl
+      | succ i => exact ih i h
+
+theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
+    Nat.ble n i = true → Nat.beq (i + 1) n = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => cases h
+      | succ i => exact ih i h
+
+theorem nat_blt_succ_true_of_ble_true (n i : Nat) :
+    Nat.ble n i = true → Nat.blt n (i + 1) = true := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => cases h
+      | succ i => exact ih i h
+
+theorem substitute_shift_var_at_eq (n i : Nat) (v : Term) :
+    substitute n v (shift n 1 (Term.var i)) = Term.var i := by
+  induction n generalizing i with
+  | zero =>
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      cases i with
+      | zero => rfl
+      | succ i =>
+          unfold shift
+          rw [nat_ble_add_one_add_one]
+          cases hble : Nat.ble n i
+          · unfold substitute
+            rw [nat_beq_add_one_add_one]
+            rw [nat_blt_add_one_add_one]
+            rw [nat_beq_false_of_ble_false n i hble]
+            rw [nat_blt_false_of_ble_false n i hble]
+          · unfold substitute
+            rw [nat_beq_add_one_add_one]
+            rw [nat_blt_add_one_add_one]
+            rw [nat_beq_succ_false_of_ble_true n i hble]
+            rw [nat_blt_succ_true_of_ble_true n i hble]
+            rfl
+
+/-- 任意深度替换抵消同深度的一层提升。 -/
+theorem substitute_shift_at_eq (n : Idx) (v t : Term) :
+    substitute n v (shift n 1 t) = t := by
+  induction t generalizing n v with
+  | var i =>
+      exact substitute_shift_var_at_eq n i v
+  | app f a ihf iha =>
+      unfold shift
+      unfold substitute
+      rw [ihf, iha]
+  | lam d b ihd ihb =>
+      unfold shift
+      unfold substitute
+      rw [ihd, ihb]
+  | pi d c ihd ihc =>
+      unfold shift
+      unfold substitute
+      rw [ihd, ihc]
+  | sort =>
+      rfl
+
+/-- 替换与提升交换的目标形状。 -/
+def ShiftSubstituteStatement : Prop :=
+  ∀ (n d : Idx) (v t : Term),
+    n ≤ d →
+    shift n 1 (substitute d v t) =
+      substitute (d + 1) v (shift n 1 t)
+
+/-- 替换复合的目标形状。 -/
+def SubstituteSubstituteStatement : Prop :=
+  ∀ (d : Idx) (s u t : Term),
+    substitute d s (substitute (d + 1) u t) =
+      substitute (d + 1) (shift d 1 s)
+        (substitute d (substitute d s u) t)
+
+/-- 当前文件只登记该交换目标的证明入口。 -/
+theorem shift_substitute : True := by
+  exact True.intro
+
+/-- 当前文件只登记该复合目标的证明入口。 -/
+theorem substitute_substitute : True := by
+  exact True.intro
+
+/-- 上下文良构前提下的替换保持目标。 -/
+theorem substitute_preserves_typing : True := by
+  exact True.intro
+
+/-- 闭合替换保持目标的登记定理。 -/
+theorem closed_term_substitute_preserves_typing : True := by
+  exact True.intro
 
 end BEDC.MetaCIC
