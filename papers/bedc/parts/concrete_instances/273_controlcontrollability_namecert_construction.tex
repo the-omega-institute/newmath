@@ -91,6 +91,32 @@ Apply the reachability-ledger theorem to exhaust the visible rows. The readback 
 Since none of the excluded host objects appears as a carrier coordinate, a consumer cannot project one from the packet. The boundary is exactly the finite BEDC reachability surface.
 \end{proof}
 
+\begin{theorem}[ControlControllability Kalman reachability source]
+\label{thm:controlcontrollability-kalman-reachability-source}
+The prediction-update and observation-innovation rows imported from $\KalmanFilterUp$ can be consumed by a $\ControlControllabilityUp$ packet only through the displayed state row, transition-matrix row $A$, control row $B$, finite horizon row $n$, reachability columns $B,AB,\ldots,A^{n-1}B$, $\MatrixUp$ and $\LinMapUp$ column ledger, $\hsame$ transports, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows of \autoref{def:controlcontrollability-carrier}. The packet exports no rank theorem, host reachable subspace, stochastic filter semantics, or analytic trajectory.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:controlcontrollability-carrier}. Its Kalman dependency is a finite package row, so any read from the $\KalmanFilterUp$ side must pass through the displayed $\mathsf{Pkg}$ coordinate and the finite carrier rows named by that coordinate.
+
+Route the prediction-update and observation-innovation rows through the same finite name-certificate surface. The only shared rows available to $\ControlControllabilityUp$ are the state, transition, control, horizon, reachability-column, matrix-ledger, linear-map-ledger, transport, and continuation coordinates.
+
+Apply \autoref{thm:controlcontrollability-reachability-ledger} to identify those coordinates as the complete reachability ledger. Apply \autoref{thm:controlcontrollability-consumer-boundary} to exclude any readback that would require a rank theorem, a host reachable subspace, stochastic filter semantics, or an analytic trajectory.
+\end{proof}
+
+\begin{theorem}[ControlControllability finite continuation closure]
+\label{thm:controlcontrollability-continuation-closure}
+Let two accepted finite reachability-column ledgers for $\ControlControllabilityUp$ be displayed over the same $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$ $\mathsf{Pkg}$ rows. If the terminal endpoint row of the first ledger and the initial endpoint row of the second ledger are matched by a displayed $\hsame$ comparison, then their concatenation repacks as an accepted $\ControlControllabilityUp$ reachability packet over those same package rows. The repacked packet asserts no infinite-horizon reachability theorem and no host reachable-subspace quotient.
+\end{theorem}
+\begin{proof}
+Unpack the two accepted ledgers into their finite reachability-column rows, reachability-matrix rows, $\Cont$ routes, and package provenance. Because both ledgers use the same displayed dependency rows, the state, transition, control, horizon, matrix, linear-map, observability, Kalman-filter, and regulator endpoints are read through the same package surface.
+
+Transport the meeting endpoint along the displayed $\hsame$ comparison. The first continuation route then lands at the source row expected by the second route, and the two finite $\Cont$ records compose as a single displayed continuation ledger.
+
+Reuse the $\MatrixUp$ and $\LinMapUp$ column-transport ledger to append the transported columns in order. Repacking those columns, the composed continuation route, the endpoint transports, and the unchanged package rows gives the accepted carrier shape of \autoref{def:controlcontrollability-carrier}.
+
+The construction is finite at every step. It records only the concatenated displayed reachability packet, so it does not introduce an infinite-horizon object or quotient the packet by a host reachable subspace.
+\end{proof}
+
 \closureat{ControlControllabilityUp}{seedStr}
 \begin{closurestatus}{\ControlControllabilityUp}
   \constructivestory{}
