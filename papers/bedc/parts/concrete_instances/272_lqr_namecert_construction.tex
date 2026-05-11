@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\LQRUp$}
+\label{ch:concrete-instances-lqr-namecert}
+
+The $\LQRUp$ interface records the finite certificate surface of a linear-quadratic regulator: state and control rows, a displayed linear transition row, a quadratic cost ledger, a finite horizon index, and a backward dynamic-programming ledger. The control-theory source is the standard finite-horizon linear-quadratic regulator construction as presented in Bertsekas, \emph{Dynamic Programming and Optimal Control} (2017), or Anderson and Moore, \emph{Optimal Control: Linear Quadratic Methods} (2007). The BEDC dependencies are $\NameCert_{\DynSystemUp}$, $\NameCert_{\MatrixUp}$, $\NameCert_{\VecSpaceUp}$, $\NameCert_{\RealUp}$, $\NameCert_{\ProbSpaceUp}$, $\NameCert_{\RandomVarUp}$, and $\NameCert_{\EstimatorUp}$.
+
+\section{Carrier definition}
+\label{sec:lqr-carrier}
+
+\begin{definition}[LQR finite control carrier]
+\label{def:lqr-finite-control-carrier}
+An $\LQRUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state row, a control row, a linear transition row, a quadratic cost row, a finite horizon unary index, a Riccati or backward dynamic-programming ledger, displayed estimator-input rows, $\hsame$ comparisons between corresponding rows, $\Cont$ provenance rows for every backward step, and $\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$.
+
+The classifier accepts exactly those packets whose transition, cost, horizon, estimator, and backward-update rows are read through the displayed dependency certificates and finite provenance ledger. It exports no host stochastic process, analytic optimal-control problem, unbounded horizon, external Riccati solver, or hidden policy object.
+\end{definition}
+
+\section{The certificate}
+\label{sec:lqr-certificate}
+
+\begin{theorem}[LQR NameCert seed obligation surface]
+\label{thm:lqr-namecert-seed-obligation-surface}
+The local $\NameCert_{\LQRUp}$ seed surface consists of the following five obligation rows.
+
+\begin{enumerate}
+\item The carrier and classifier row of \autoref{def:lqr-finite-control-carrier}, including the displayed state, control, transition, cost, horizon, estimator, and provenance rows.
+
+\item The transition-stability row saying that $\hsame$ transport of state, control, linear transition, horizon, $\Cont$, and $\mathsf{Pkg}$ rows remains inside the same finite $\LQRUp$ packet.
+
+\item The quadratic-cost ledger exactness row saying that every visible cost contribution is read from the displayed $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$ rows and from no ambient cost functional.
+
+\item The backward-update row stating that each finite horizon step in the Riccati or dynamic-programming ledger consumes only the previous displayed value row, the transition row, the control row, the quadratic cost row, and the visible provenance rows.
+
+\item The estimator/control consumption boundary saying that $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$ inputs may be consumed only through the displayed estimator rows and cannot introduce a host stochastic control model.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:lqr-finite-control-carrier}. It lists the finite $\mathsf{BHist}$ rows that make the state, control, transition, cost, horizon, estimator, update, and provenance data visible.
+
+Transport stability is a componentwise statement over those rows. Since the classifier reads only displayed $\hsame$ comparisons and the same finite $\Cont$ ledger, transporting the rows preserves the accepted packet shape.
+
+For the cost and backward-update rows, inspect the finite ledger one horizon index at a time. Each step consumes matrix, vector-space, real-valued cost, transition, control, and previous value rows that already appear in the packet, so no analytic optimizer or unbounded horizon can be projected.
+
+Finally project the estimator boundary. The probability, random-variable, and estimator certificates appear only as named source rows and finite estimator-input ledgers; therefore any control consumer must read them through the displayed packet rather than through an external stochastic model.
+\end{proof}
+
+\begin{theorem}[LQR dynamic-programming row]
+\label{thm:lqr-dynamic-programming-row}
+In an accepted $\LQRUp$ packet, every finite backward-update row is a $\Cont$ step from the displayed successor value row, linear transition row, control row, quadratic cost row, estimator-input row, and $\mathsf{Pkg}$ provenance to the displayed predecessor value row. The update ledger has no coordinate for an external Riccati solver or analytic value function.
+\end{theorem}
+\begin{proof}
+Project the backward ledger from the carrier. Its entries are indexed by the finite horizon unary row and each entry names its predecessor and successor value rows.
+
+Read one entry. The input coordinates are precisely the transition, control, quadratic cost, estimator, and provenance rows displayed in the packet, and the output coordinate is the next predecessor value row in the same finite ledger.
+
+Because the carrier contains no row for an external solver or analytic value function, the only accepted dynamic-programming update is the displayed $\Cont$ step.
+\end{proof}
+
+\begin{theorem}[LQR estimator-control consumption boundary]
+\label{thm:lqr-estimator-control-consumption-boundary}
+Every downstream consumer of $\LQRUp$ can read estimator-dependent control data only through the displayed $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, state, control, transition, quadratic cost, horizon, backward-update, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:lqr-finite-control-carrier}. No consumer can demand an unlogged stochastic process, hidden controller state, infinite-horizon policy, or ambient optimization problem from the certificate.
+\end{theorem}
+\begin{proof}
+Begin with an accepted downstream readback. The carrier theorem restricts the readback to the finite packet rows and their visible classifier.
+
+The estimator-dependent rows are source rows named by the probability, random-variable, and estimator certificates. Their consumption route is the displayed $\Cont$ ledger that also supplies the state, control, transition, cost, and backward-update rows.
+
+Apply the dynamic-programming row theorem to the control readback. Since each backward step is internal to the displayed finite ledger, no downstream consumer can project an unlogged stochastic process, hidden controller state, infinite-horizon policy, or ambient optimization problem.
+\end{proof}
+
+\begin{closurestatus}{\LQRUp}
+  \constructivestory{}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes a finite linear-quadratic control packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$, with classifier comparison by displayed $\hsame$ rows and finite backward-update provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close an analytic stochastic-control model, infinite-horizon regulator, host Riccati solver, projective limit, or public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier and classifier rows, transition stability under $\hsame$, quadratic-cost ledger exactness, a backward-update row, and the estimator/control consumption boundary.}
+\end{closurestatus}

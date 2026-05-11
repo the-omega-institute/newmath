@@ -507,4 +507,45 @@ theorem BrownianStepContinuityClassifier_finite_prefix_carrier_restriction
         (And.intro stable.right.right.left
           (And.intro stable.right.right.right prefixBoundaryRow))))
 
+theorem BrownianStepContinuityClassifier_step_path_namecert_closure_boundary
+    {martingale continuous time path step normal provenance ledger pathLedger pathEndpoint
+      publicRow : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
+      Cont continuous path pathLedger ->
+        Cont pathLedger ledger pathEndpoint ->
+          Cont ledger path publicRow ->
+            SemanticNameCert
+                (fun row : BHist => exists carriedProvenance : BHist,
+                  BrownianStepContinuityClassifier martingale continuous time path step normal
+                    carriedProvenance row)
+                (fun row : BHist => exists carriedProvenance : BHist,
+                  BrownianStepContinuityClassifier martingale continuous time path step normal
+                    carriedProvenance row)
+                (fun row : BHist => exists carriedProvenance : BHist,
+                  BrownianStepContinuityClassifier martingale continuous time path step normal
+                    carriedProvenance row)
+                (fun left right : BHist =>
+                  (exists lp : BHist,
+                    BrownianStepContinuityClassifier martingale continuous time path step normal
+                      lp left) ∧
+                    (exists rp : BHist,
+                      BrownianStepContinuityClassifier martingale continuous time path step normal
+                        rp right) ∧
+                      hsame left right) ∧
+              UnaryHistory pathEndpoint ∧ UnaryHistory publicRow ∧
+                hsame pathEndpoint (append pathLedger ledger) ∧
+                  hsame publicRow (append ledger path) := by
+  intro classified pathLedgerRow pathEndpointRow publicRowCont
+  have cert := BrownianStepContinuityClassifier_semantic_name_certificate classified
+  have pathExact :=
+    BrownianStepContinuityClassifier_path_continuity_ledger_exactness classified pathLedgerRow
+      pathEndpointRow
+  have ledgerExact :=
+    BrownianStepContinuityClassifier_ledger_exactness classified publicRowCont
+  exact And.intro cert.left
+    (And.intro pathExact.right.right.right.left
+      (And.intro ledgerExact.right.right.right.left
+        (And.intro pathExact.right.right.right.right.right
+          ledgerExact.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.BrownianUp
