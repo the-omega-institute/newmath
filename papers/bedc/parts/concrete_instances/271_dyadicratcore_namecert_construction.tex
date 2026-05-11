@@ -332,17 +332,17 @@ standard bridge, or a completed real endpoint. Hence the listed primitives are
 precisely the scoped boundary exported by this chapter.
 \end{proof}
 
-\begin{theorem}[DyadicRatCore public consumer certificate]
-\label{thm:dyadicratcore-public-consumer-certificate}
-Every public consumer of $\DyadicRatCoreUp$ factors through the scoped rows of
-\autoref{thm:dyadicratcore-scoped-source-boundary}: the signed $\RatUp$
-mantissa row, positive $\UnaryHistory$ exponent row, denominator ledger,
-common-exponent classifier, arithmetic and distance windows, monotone-radius
-refinement, common-exponent exactness, real-phase source coverage,
-$\mathsf{BHist}$ carrier data, $\hsame$ transport, $\Cont$ readback, and
-$\mathsf{Pkg}$ provenance. The public certificate exports no quotient
-rational, host rational equality, standard bridge, or completed $\RealUp$
-endpoint.
+\begin{theorem}[DyadicRatCore public readback envelope]
+\label{thm:dyadicratcore-public-readback-envelope}
+The public $\DyadicRatCoreUp$ consumer interface is exactly the tuple
+consisting of the signed mantissa carrier, common-exponent classifier,
+denominator ledger transport, arithmetic-window stability, distance-window
+stability, monotone-radius refinement, common-exponent exactness, real-phase
+source coverage, $\mathsf{BHist}$ carrier rows, $\hsame$ transport, $\Cont$
+readback, and $\mathsf{Pkg}$ provenance. Every downstream $\StreamNameUp$,
+$\RegSeqRat$, or $\RealUp$ dyadic read factors through this envelope and cannot
+read a quotient rational, host rational equality, standard bridge, or completed
+real endpoint.
 \end{theorem}
 \begin{proof}
 Start with an arbitrary public consumer read of a $\DyadicRatCoreUp$ packet.
@@ -378,5 +378,5 @@ of those objects can be exported by the public consumer certificate.
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a standard bridge, a host rational quotient, arithmetic completeness, or any $\RealUp$ completeness theorem.}
-  \upgradepath{The next paper-axis step is a bridge from the public dyadic source surface to the standard dyadic-rational reading.}
+  \upgradepath{The next paper-axis step is a bridge theorem from this public envelope to the standard dyadic source schema.}
 \end{closurestatus}
