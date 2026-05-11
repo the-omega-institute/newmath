@@ -232,6 +232,7 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
+import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger
