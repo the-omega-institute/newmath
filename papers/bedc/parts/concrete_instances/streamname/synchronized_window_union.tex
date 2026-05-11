@@ -153,6 +153,50 @@ package just constructed, so no additional route-dependent row remains for the
 handoff.
 \end{proof}
 
+\begin{theorem}[StreamName synchronized-window selected-tail exhaustion]
+\label{thm:streamname-synchronized-window-selected-tail-exhaustion}
+Let $\mathcal W_L$ and $\mathcal W_R$ be synchronized finite
+$\StreamNameUp$ windows over maps $s,t$, and let the common carrier and
+classifier rows satisfy
+\autoref{thm:streamname-synchronized-window-union-carrier} and
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. For
+any accepted $\RegSeqRat$ spine read from this synchronized surface, the
+selected tail surface consumed by the finite $\RealUp$ seal is exhausted by
+the displayed $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership
+rows, $\mathsf{UnaryHistory}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, $\DyadicRatCore$ endpoint and radius
+rows, $\hsame$, $\Cont$, $\Pkg$, and the finite $\mathsf{RealLedgerPolicy}$
+rows.
+
+No host index equality, quotient stream, completion object, host function,
+Classical datum, or host real equality is introduced by this selected-tail
+read.
+\end{theorem}
+\begin{proof}
+Begin with the synchronized carrier theorem. It identifies the left and right
+finite StreamName windows over one displayed common-refinement carrier and
+lists the bundle, membership, unary-history, pointwise rational-history,
+$\hsame$, $\Cont$, and $\Pkg$ rows visible on that carrier.
+
+Next apply the classifier coverage theorem. The classifier read used by the
+accepted $\RegSeqRat$ spine is therefore the synchronized classifier package,
+not a route-dependent copy from either original window.
+
+Now use the RegSeqRat seal handoff from
+\autoref{thm:streamname-synchronized-window-regseqrat-seal} together with the
+terminal cover gluing in
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. These
+two results identify the accepted spine's endpoint, radius, regularity, and
+readback rows with the finite $\DyadicRatCore$ and $\mathsf{RealLedgerPolicy}$
+rows consumed by the $\RealUp$ seal.
+
+The listed rows are exactly the selected-tail coordinates available to the
+seal consumer. Since neither the synchronized carrier nor the RegSeqRat
+handoff has coordinates for host index equality, quotient streams, completion
+objects, host functions, Classical data, or host real equality, no such row can
+be read at the terminal boundary.
+\end{proof}
+
 \begin{theorem}[StreamName synchronized-window terminal source exhaustion]
 \label{thm:streamname-synchronized-window-terminal-source-exhaustion}
 Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose
