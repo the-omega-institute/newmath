@@ -161,6 +161,7 @@ import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.BilinFormUp.ZeroLeftPairing
 import BEDC.Derived.ChernWeilUp
+import BEDC.Derived.ChernWeilUp.EnvelopeClassifier
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
@@ -197,6 +198,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
