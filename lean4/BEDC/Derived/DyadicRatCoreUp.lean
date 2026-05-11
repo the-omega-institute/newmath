@@ -159,4 +159,41 @@ theorem DyadicRatCoreCarrier_monotone_radius_refinement
   exact And.intro exponentTailPositive
     (And.intro refinedLedgerUnary (And.intro refinementRow refinementRow))
 
+theorem DyadicRatCoreCarrier_common_exponent_window
+    {m e l p m' e' l' p' leftScale rightScale common leftLedger rightLedger
+      leftScaled rightScaled window : BHist} :
+    DyadicRatCoreCarrier m e l p -> DyadicRatCoreCarrier m' e' l' p' ->
+      UnaryHistory leftScale -> UnaryHistory rightScale -> Cont e leftScale common ->
+        Cont e' rightScale common -> Cont l leftScale leftLedger ->
+          Cont l' rightScale rightLedger -> Cont m leftScale leftScaled ->
+            Cont m' rightScale rightScaled -> Cont leftLedger rightLedger window ->
+              PositiveUnaryDenominator common ∧ RatHistoryCarrier leftScaled ∧
+                RatHistoryCarrier rightScaled ∧ UnaryHistory leftLedger ∧
+                  UnaryHistory rightLedger ∧ UnaryHistory window ∧
+                    hsame window (append leftLedger rightLedger) := by
+  intro leftCarrier rightCarrier leftScaleUnary rightScaleUnary leftCommon _rightCommon
+    leftLedgerRow rightLedgerRow leftScaledRow rightScaledRow windowRow
+  have leftExponentPositive : PositiveUnaryDenominator e := leftCarrier.right.left
+  have commonPositive : PositiveUnaryDenominator common := by
+    cases leftCommon
+    exact PositiveUnaryDenominator_append_unary_tail leftExponentPositive leftScaleUnary
+  have leftScaledCarrier : RatHistoryCarrier leftScaled := by
+    cases leftScaledRow
+    exact RatHistoryCarrier_append_unary_denominator_closed leftCarrier.left leftScaleUnary
+  have rightScaledCarrier : RatHistoryCarrier rightScaled := by
+    cases rightScaledRow
+    exact RatHistoryCarrier_append_unary_denominator_closed rightCarrier.left rightScaleUnary
+  have leftLedgerUnary : UnaryHistory leftLedger :=
+    unary_cont_closed leftCarrier.right.right.right.right leftScaleUnary leftLedgerRow
+  have rightLedgerUnary : UnaryHistory rightLedger :=
+    unary_cont_closed rightCarrier.right.right.right.right rightScaleUnary rightLedgerRow
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed leftLedgerUnary rightLedgerUnary windowRow
+  exact And.intro commonPositive
+    (And.intro leftScaledCarrier
+      (And.intro rightScaledCarrier
+        (And.intro leftLedgerUnary
+          (And.intro rightLedgerUnary
+            (And.intro windowUnary windowRow)))))
+
 end BEDC.Derived.DyadicRatCoreUp

@@ -419,4 +419,30 @@ theorem CauchyModulusLedgerPacket_regseqrat_regularity_rows
   exact And.intro toleranceCarrier
     (And.intro windowUnary (And.intro consumptionRow sameProvenance))
 
+theorem CauchyModulusCarrierPacket_cont_window_closure
+    {precision threshold tolerance observationA observationB ledger provenance tail window :
+      BHist} :
+    CauchyModulusCarrierPacket precision threshold tolerance observationA observationB ledger
+        provenance ->
+      UnaryHistory tail -> Cont observationB tail window ->
+        PositiveUnaryDenominator tolerance ∧ UnaryHistory threshold ∧ UnaryHistory ledger ∧
+          UnaryHistory observationB ∧ UnaryHistory window ∧
+            Cont threshold observationA ledger ∧ Cont ledger provenance observationB ∧
+              hsame ledger (append threshold observationA) ∧
+                hsame observationB (append ledger provenance) ∧
+                  hsame window (append observationB tail) := by
+  intro packet tailUnary windowRow
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed packet.right.right.right.right.left tailUnary windowRow
+  exact And.intro packet.right.right.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.left
+          (And.intro windowUnary
+            (And.intro packet.right.right.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.right.right.right
+                (And.intro packet.right.right.right.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.right.right.right
+                    windowRow))))))))
+
 end BEDC.Derived.CauchyModulusUp
