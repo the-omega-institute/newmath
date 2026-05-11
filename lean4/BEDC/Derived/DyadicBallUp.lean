@@ -88,4 +88,59 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+def DyadicBallFiniteCarrier [AskSetup] [PackageSetup]
+    (center radius schedule observation containment route provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+      UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont center radius containment ∧
+        Cont schedule observation route ∧ Cont route provenance nameRow ∧
+          PkgSig bundle nameRow pkg
+
+theorem DyadicBallFiniteCarrier_radius_refinement_closure [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance nameRow center' radius'
+      schedule' observation' containment' route' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteCarrier center radius schedule observation containment route provenance
+        nameRow bundle pkg ->
+      UnaryHistory radius' ->
+        hsame center center' ->
+          hsame schedule schedule' ->
+            hsame observation observation' ->
+              hsame provenance provenance' ->
+                Cont center' radius' containment' ->
+                  Cont schedule' observation' route' ->
+                    Cont route' provenance' nameRow' ->
+                      PkgSig bundle nameRow' pkg ->
+                        DyadicBallFiniteCarrier center' radius' schedule' observation'
+                            containment' route' provenance' nameRow' bundle pkg ∧
+                          hsame route route' ∧ hsame nameRow nameRow' := by
+  intro carrier radiusUnary' sameCenter sameSchedule sameObservation sameProvenance
+    containmentRow' routeRow' nameRowRoute' pkgRow'
+  have centerUnary' : UnaryHistory center' :=
+    unary_transport carrier.left sameCenter
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport carrier.right.right.left sameSchedule
+  have observationUnary' : UnaryHistory observation' :=
+    unary_transport carrier.right.right.right.left sameObservation
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport carrier.right.right.right.right.right.right.left sameProvenance
+  have containmentUnary' : UnaryHistory containment' :=
+    unary_cont_closed centerUnary' radiusUnary' containmentRow'
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed scheduleUnary' observationUnary' routeRow'
+  have nameRowUnary' : UnaryHistory nameRow' :=
+    unary_cont_closed routeUnary' provenanceUnary' nameRowRoute'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameSchedule sameObservation
+      carrier.right.right.right.right.right.right.right.right.right.left routeRow'
+  have sameNameRow : hsame nameRow nameRow' :=
+    cont_respects_hsame sameRoute sameProvenance
+      carrier.right.right.right.right.right.right.right.right.right.right.left nameRowRoute'
+  exact
+    ⟨⟨centerUnary', radiusUnary', scheduleUnary', observationUnary', containmentUnary',
+        routeUnary', provenanceUnary', nameRowUnary', containmentRow', routeRow',
+        nameRowRoute', pkgRow'⟩,
+      sameRoute, sameNameRow⟩
+
 end BEDC.Derived.DyadicBallUp
