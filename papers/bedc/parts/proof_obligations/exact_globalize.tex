@@ -250,7 +250,6 @@ The local classification equivalence is derived from soundness and completeness.
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_classification\_field}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_symmetric\_classify\_iff}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_admitted\_pair\_export\_shape}
-\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_self\_covered\_classification}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_covered\_classification}
 
 \begin{proposition}[Classification is derivable from the two directions]
@@ -286,6 +285,26 @@ $$
 
 \begin{proof}
 The first three clauses are the projections of \(\ExactGlobalizeBase(\Pi,D)\). The displayed equivalence is Proposition~\ref{prop:iff-derived}.
+\end{proof}
+
+\begin{theorem}[Exact Globalize self-covered classification]
+\label{thm:exact-globalize-base-self-covered-classification}
+Let $\ExactGlobalizeBase(\Pi,D)$ hold. For every admitted history $h$, there is a package $p$ covering $h$ such that the local classification relates $h$ to itself through the package pair $(p,p)$:
+$$
+  \InDom(D,h)
+  \quad\Rightarrow\quad
+  \exists p,\;
+    \InGapSig(\Pi,D,p,h)
+    \wedge
+    \bigl(\psame_{\Pi}^{\mathrm{base}}(p,p)\Longleftrightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,h))\bigr).
+$$
+\end{theorem}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_self\_covered\_classification}
+
+\begin{proof}
+Use the coverage component isolated in Corollary~\ref{cor:exact-globalize-projections-and-classification} for the admitted history $h$. It supplies a package $p$ with $\InGapSig(\Pi,D,p,h)$.
+
+Apply the same corollary's local classification equivalence to the two identical displayed witnesses. With both sides instantiated by $p$ and $h$, the pairwise equivalence becomes exactly the self-covered classification statement.
 \end{proof}
 
 \begin{protocol}[Exactness export discipline]
