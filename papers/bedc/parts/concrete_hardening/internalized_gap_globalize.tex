@@ -198,3 +198,33 @@ The forward directions are Theorem~\ref{thm:concrete-globalize-completeness} app
 \leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_token\_witness\_directions}
 \leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_sameSig\_directions}
 \leanvariant{BEDC.FKernel.Gap.concrete\_globalize\_classifies\_by\_signatures\_directions}
+
+\begin{theorem}[Bundle-local internalized gap separation]
+\label{thm:bundle-local-internalized-gap-separation}
+Assume $\mathsf{BundleAskPolicy}(\Pi,D)$. If
+$$
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,h),
+$$
+then
+$$
+  \psame(p,q).
+$$
+\end{theorem}
+
+\begin{proof}
+Unpack the first gap membership using \autoref{def:internalized-signature-gap}. It supplies the admitted-source judgment $\InDom(D,h)$, an answer history $s$, and an evidence ledger $\Delta$ such that
+$$
+  \Sig(\Pi,h,s,\Delta),
+  \qquad
+  \TokIntro(\Pi,s,p).
+$$
+Unpack the second gap membership in the same way, obtaining an answer history $t$ and an evidence ledger $\Theta$ such that
+$$
+  \Sig(\Pi,h,t,\Theta),
+  \qquad
+  \TokIntro(\Pi,t,q).
+$$
+The shared admitted-source judgment and the two generated signatures are exactly the hypotheses of \autoref{thm:bundle-local-signature-determinacy} under $\mathsf{BundleAskPolicy}(\Pi,D)$, so $\hsame(s,t)$. The concrete package-sameness introduction rule, equivalently \autoref{thm:internalized-globalize-soundness-intro} applied to the two generated signatures, the two token-introduction witnesses, and $\hsame(s,t)$, yields $\psame(p,q)$.
+\end{proof}
