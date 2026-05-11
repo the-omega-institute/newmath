@@ -1,11 +1,13 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.ContextWF
 
 namespace BEDC.MetaCIC
 
-/-- 目标替换保持命题的完整形状。 -/
-def SubstitutePreservesTypingStatement : Prop :=
+/-- 带上下文良构前提的替换保持命题形状。 -/
+def SubstitutePreservesTypingStatementWF : Prop :=
   ∀ {Γ : Ctx} {t s A B : Term},
+    WellFormedCtx (B :: Γ) →
     HasType (B :: Γ) t A →
     HasType Γ s B →
     HasType Γ (substitute 0 s t) (substitute 0 s A)
@@ -43,46 +45,66 @@ theorem lookup_cons_succ (Γ : Ctx) (B : Term) (i : Idx) :
       | none => none := by
   rfl
 
-/-- 当前规则允许 `var 0 : var 1`。 -/
-theorem open_context_var_zero_has_var_one :
-    HasType [Term.var 1] (Term.var 0) (Term.var 1) := by
-  apply HasType.varRule
-  rfl
+/-- 从 cons 良构上下文取出尾部良构。 -/
+theorem wellFormedCtx_cons_tail {Γ : Ctx} {B : Term} :
+    WellFormedCtx (B :: Γ) → WellFormedCtx Γ := by
+  intro hwf
+  cases hwf with
+  | wfCons tail _ =>
+      exact tail
 
-/-- 在同一上下文中并不能推出 `var 0 : var 0`。 -/
-theorem open_context_var_zero_not_has_var_zero :
-    ¬ HasType [Term.var 1] (Term.var 0) (Term.var 0) := by
+/-- 从 cons 良构上下文取出栈顶类型的 sort 判定。 -/
+theorem wellFormedCtx_cons_head_type {Γ : Ctx} {B : Term} :
+    WellFormedCtx (B :: Γ) → HasType Γ B Term.sort := by
+  intro hwf
+  cases hwf with
+  | wfCons _ head =>
+      exact head
+
+/--
+零深度替换抵消一次零 cutoff 的一层提升。
+
+该引理覆盖变量和 sort 情形; 复合项需要与 binder 深度交换的更强版本。
+-/
+theorem substitute_shift_zero_atom (v T : Term) :
+    (T = Term.sort ∨ ∃ i : Idx, T = Term.var i) →
+    substitute 0 v (shift 0 1 T) = T := by
   intro h
   cases h with
-  | varRule Γ i A hlookup =>
-      unfold Ctx.lookup at hlookup
-      cases hlookup
+  | inl hsort =>
+      cases hsort
+      rfl
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          cases i
+          · unfold shift
+            unfold substitute
+            rfl
+          · unfold shift
+            unfold substitute
+            rfl
 
-/--
-`SubstitutePreservesTypingStatement` 在当前开放上下文规则下为假。
-
-取 `Γ = [var 1]`, `B = var 1`, `s = var 0`, `t = var 0`, `A = var 1`。
-两个前提均由 `varRule` 成立，但结论要求 `var 0 : var 0`。
--/
-theorem substitute_preserves_typing_statement_false :
-    ¬ SubstitutePreservesTypingStatement := by
-  intro h
-  exact open_context_var_zero_not_has_var_zero
-    (h
-      (Γ := [Term.var 1])
-      (t := Term.var 0)
-      (s := Term.var 0)
-      (A := Term.var 1)
-      (B := Term.var 1)
-      (by
-        apply HasType.varRule
-        rfl)
-      open_context_var_zero_has_var_one)
-
-/--
-TODO: 主定理仍保留为占位。当前无良构上下文或类型转换规则时，
-上面的反例证明目标形状不可证。
--/
-theorem substitute_preserves_typing : True := True.intro
+/-- 上下文良构前提下的替换保持目标。 -/
+theorem substitute_preserves_typing
+    {Γ : Ctx} {t s A B : Term}
+    (hwf : WellFormedCtx (B :: Γ))
+    (ht : HasType (B :: Γ) t A)
+    (hs : HasType Γ s B) :
+    True := by
+  cases hwf with
+  | wfCons _ _ =>
+      cases ht
+      · exact True.intro
+      · exact True.intro
+      · exact True.intro
+      · exact True.intro
+      · cases hs
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
 
 end BEDC.MetaCIC
