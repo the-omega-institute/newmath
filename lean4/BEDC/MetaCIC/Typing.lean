@@ -5,11 +5,14 @@ namespace BEDC.MetaCIC
 /-- Typing context = 类型栈。 -/
 abbrev Ctx := List Term
 
-/-- 在 ctx 里 lookup 第 i 个变量的类型；越界返回 none。 -/
+/-- 在 ctx 里 lookup 第 i 个变量的类型；穿过 binder 时同步提升类型。 -/
 def Ctx.lookup : Ctx → Idx → Option Term
   | [], _ => none
   | (t :: _), 0 => some t
-  | (_ :: rest), n + 1 => Ctx.lookup rest n
+  | (_ :: rest), n + 1 =>
+      match Ctx.lookup rest n with
+      | some T => some (shift 0 1 T)
+      | none => none
 
 /-- HasType Γ t A: 在 ctx Γ 下，term t 的类型是 A。 -/
 inductive HasType : Ctx → Term → Term → Prop
