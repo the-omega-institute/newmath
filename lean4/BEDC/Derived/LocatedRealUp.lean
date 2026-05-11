@@ -176,4 +176,35 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
 
+theorem LocatedRealCarrier_metric_consumer_handoff [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint realRow consumerRow ->
+        PkgSig bundle consumerRow pkg ->
+          UnaryHistory interval ∧ UnaryHistory realRow ∧ UnaryHistory provenance ∧
+            UnaryHistory endpoint ∧ UnaryHistory consumerRow ∧
+              Cont stream schedule interval ∧ Cont interval location realRow ∧
+                Cont realRow transport provenance ∧ Cont provenance schedule endpoint ∧
+                  Cont endpoint realRow consumerRow ∧
+                    hsame interval (append stream schedule) ∧
+                      hsame realRow (append interval location) ∧
+                        hsame provenance (append realRow transport) ∧
+                          hsame endpoint (append provenance schedule) ∧
+                            hsame consumerRow (append endpoint realRow) ∧
+                              PkgSig bundle consumerRow pkg := by
+  intro carrier consumerRowCont consumerRowSig
+  obtain ⟨_streamUnary, _scheduleUnary, intervalUnary, _locationUnary, realRowUnary,
+    _transportUnary, provenanceUnary, endpointUnary, streamScheduleInterval,
+    intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+    _endpointSig⟩ := carrier
+  have consumerRowUnary : UnaryHistory consumerRow :=
+    unary_cont_closed endpointUnary realRowUnary consumerRowCont
+  exact
+    ⟨intervalUnary, realRowUnary, provenanceUnary, endpointUnary, consumerRowUnary,
+      streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
+      provenanceScheduleEndpoint, consumerRowCont, streamScheduleInterval, intervalLocationRealRow,
+      realRowTransportProvenance, provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
+
 end BEDC.Derived.LocatedRealUp
