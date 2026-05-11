@@ -23,6 +23,7 @@ The spanning-tree carrier adds no ambient graph object. It records the incidence
 The classifier for $\SpanningTreeUp$ is componentwise $\hsame$ on the visible vertex, graph-edge, tree-edge, root, incidence, reachability, acyclicity, and provenance rows named in \autoref{thm:spanningtree-carrier-obligation}. Transport along the classifier may use the $\GraphUp$ and $\TreeUp$ source classifiers, but it does not compare hidden host graphs, hidden edge sets, or unrecorded root choices.
 \end{theorem}
 \leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeBHistCarrier\_classifier\_obligation}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_classifier\_obligation}
 \begin{proof}
 Project the two source classifiers from $\NameCert_{\GraphUp}$ and $\NameCert_{\TreeUp}$. These transport the graph-edge rows and tree rows by the same $\hsame$ witnesses carried in the spanning-tree packet.
 
@@ -34,6 +35,8 @@ The remaining rows are finite ledger coordinates. Transporting incidence, reacha
 \label{thm:spanningtree-acyclic-maximality-obligation}
 Maximal acyclic reachability for $\SpanningTreeUp$ is read only from the displayed tree-edge ledger, the finite incidence rows, the root or root-free branch inherited from $\TreeUp$, and finite $\Cont$ routes witnessing reachability. The obligation excludes any maximality proof that inspects a hidden graph equality, an unlisted edge, or an infinite search over ambient edges.
 \end{theorem}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeAcyclicMaximality\_surface}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeAcyclicMaximality\_obligation\_surface}
 \begin{proof}
 Use the tree-edge ledger as the only candidate subgraph. Acyclicity is the visible row imported from the $\TreeUp$ certificate, and reachability is checked by finite $\Cont$ routes whose endpoints are the displayed vertex rows.
 
@@ -54,7 +57,7 @@ The total weight of a candidate is a finite summation ledger over those displaye
 \label{thm:spanningtree-namecert-obligation-surface}
 The local $\NameCert_{\SpanningTreeUp}$ surface is assembled from the carrier rows of \autoref{thm:spanningtree-carrier-obligation}, the classifier transport of \autoref{thm:spanningtree-classifier-obligation}, the acyclic-reachability ledger of \autoref{thm:spanningtree-acyclic-maximality-obligation}, and the weighted readback rows of \autoref{thm:spanningtree-weight-readback-obligation}. It explicitly excludes host graph equality, hidden edges, external minimization, and infinite graph data.
 \end{theorem}
-\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrierPacket\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.SpanningTreeUp.SpanningTreeCarrier\_semantic\_name\_certificate}
 \begin{proof}
 Collect the four preceding obligation surfaces into one certificate packet. The carrier and classifier determine which histories are admissible and how they transport under $\hsame$.
 
