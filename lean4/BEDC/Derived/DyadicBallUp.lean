@@ -88,4 +88,29 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+def DyadicBallFiniteEnclosureCarrier [AskSetup] [PackageSetup]
+    (center radius schedule observation containment route provenance certificate : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+      UnaryHistory provenance ∧ UnaryHistory certificate ∧ Cont schedule observation route ∧
+        Cont center radius containment ∧ Cont containment route provenance ∧
+          PkgSig bundle observation pkg
+
+theorem DyadicBallFiniteEnclosureCarrier_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certificate : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteEnclosureCarrier center radius schedule observation containment route
+        provenance certificate bundle pkg ->
+      UnaryHistory schedule ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ Cont schedule observation route ∧
+          PkgSig bundle observation pkg ∧ hsame certificate certificate := by
+  intro carrier
+  exact
+    ⟨carrier.right.right.left, carrier.left, carrier.right.left,
+      carrier.right.right.right.left, carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right,
+      hsame_refl certificate⟩
+
 end BEDC.Derived.DyadicBallUp
