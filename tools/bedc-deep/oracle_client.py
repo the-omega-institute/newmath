@@ -76,11 +76,13 @@ def server_status(server_url: str) -> dict:
 
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
+    zero_hang = status.get("zero_extraction_hang_agents") or []
+    zero_part = f" zero_extract={','.join(map(str, zero_hang))}" if zero_hang else ""
     return (
         f"diagnosis={status.get('diagnosis', 'unknown')} "
         f"queue={status.get('queue_length', '?')} "
         f"busy={status.get('agents_busy', '?')}/{status.get('max_agents', '?')} "
-        f"recent_agents={len(recent)} completed={status.get('completed', '?')}"
+        f"recent_agents={len(recent)}{zero_part} completed={status.get('completed', '?')}"
     )
 
 
@@ -106,6 +108,14 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "queue_waiting_for_project_agent":
         print("[status] active BEDC tab is not inside the BEDC ChatGPT Project.", flush=True)
         print("[status] open: https://chatgpt.com/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc/project?bedc=1 and click Start in the BEDC panel", flush=True)
+    elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
+        agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
+        seconds = status.get("zero_extraction_hang_seconds", "?")
+        print(
+            f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
+            flush=True,
+        )
+        print("[status] refresh only the affected ChatGPT tab, then let the queued/pending task resume.", flush=True)
     return status
 
 
