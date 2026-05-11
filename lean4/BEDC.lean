@@ -138,6 +138,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -612,6 +613,7 @@ import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.ToposUp
+import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
