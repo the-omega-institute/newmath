@@ -372,6 +372,24 @@ theorem CauchyModulusPacket_regseqrat_regularity_handoff
   exact ⟨representative, regularity, representativeRow, regularityRow, representativeUnary,
     regularityUnary, packet.right.right.left, regularityRow⟩
 
+theorem CauchyModulusCarrier_finite_cont_window_closure
+    {precision threshold tolerance observationA observationB ledger provenance window : BHist} :
+    CauchyModulusCarrierPacket precision threshold tolerance observationA observationB ledger
+        provenance ->
+      Cont precision threshold window ->
+        UnaryHistory window ∧
+          Cont precision threshold window ∧
+            Cont threshold observationA ledger ∧
+              Cont ledger provenance observationB ∧ PositiveUnaryDenominator tolerance := by
+  intro packet windowRow
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed packet.left packet.right.left windowRow
+  exact And.intro windowUnary
+    (And.intro windowRow
+      (And.intro packet.right.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.right
+          packet.right.right.left)))
+
 def CauchyModulusTailWindow
     (packet precision threshold tolerance schedule ledger pkg : BHist) : Prop :=
   UnaryHistory precision ∧

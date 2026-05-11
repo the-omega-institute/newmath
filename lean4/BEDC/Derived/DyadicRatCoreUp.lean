@@ -205,4 +205,34 @@ theorem DyadicRatCoreCarrier_common_exponent_window_exactness
           (And.intro classifierUnary
             (And.intro scaleRow (And.intro scaleRow' classifierRow))))))
 
+theorem DyadicRatCoreCarrier_monotone_radius_obligation
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail ->
+        Cont exponent tail refinedExponent ->
+          Cont refinedExponent mantissa refinedLedger ->
+            DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+              PositiveUnaryDenominator refinedExponent ∧
+                hsame refinedExponent (append exponent tail) ∧
+                  Cont refinedExponent mantissa refinedLedger := by
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow
+  have exponentPositive : PositiveUnaryDenominator exponent := carrier.right.left
+  have refinedExponentPositive : PositiveUnaryDenominator refinedExponent :=
+    PositiveUnaryDenominator_hsame_transport (hsame_symm refinedExponentRow)
+      (PositiveUnaryDenominator_append_unary_tail exponentPositive tailUnary)
+  have refinedExponentUnary : UnaryHistory refinedExponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty refinedExponentPositive).left
+  have mantissaUnary : UnaryHistory mantissa :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier.left)).left
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    unary_cont_closed refinedExponentUnary mantissaUnary refinedLedgerRow
+  have refinedCarrier :
+      DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance :=
+    And.intro carrier.left
+      (And.intro refinedExponentPositive
+        (And.intro carrier.right.right.left (And.intro refinedLedgerRow refinedLedgerUnary)))
+  exact And.intro refinedCarrier
+    (And.intro refinedExponentPositive (And.intro refinedExponentRow refinedLedgerRow))
+
 end BEDC.Derived.DyadicRatCoreUp
