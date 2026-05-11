@@ -5,33 +5,38 @@ The $\ModelPredictiveControlUp$ interface records the finite receding-horizon
 surface used by control packets that repeatedly solve a displayed finite
 prediction problem and export only the first control row. The reference point
 is Rawlings, Mayne, and Diehl, \emph{Model Predictive Control: Theory,
-Computation, and Design} (2017). The BEDC certificate below names the finite
-rows of that surface over $\StateSpaceModelUp$, $\DynSystemUp$, $\MatrixUp$,
-$\VecSpaceUp$, $\RealUp$, $\LQRUp$, $\ControlObservabilityUp$,
-$\ControlControllabilityUp$, $\KalmanFilterUp$, and
-$\LyapunovStabilityUp$. It does not assert infinite-horizon optimality,
-analytic optimizer existence, compactness, recursive feasibility beyond the
-displayed terminal rows, or a host convex optimization solver.
+Computation, and Design} (2017), together with Boyd and Vandenberghe,
+\emph{Convex Optimization} (2004) for finite convex constraint rows. The BEDC
+certificate below names the finite rows of that surface over
+$\StateSpaceModelUp$, $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$,
+$\LQRUp$, $\RiccatiUp$, $\ConvexSetUp$, $\PolytopeUp$,
+$\ControlObservabilityUp$, and $\ControlControllabilityUp$. It does not assert
+infinite-horizon optimality, analytic convergence, stochastic control,
+recursive feasibility beyond the displayed terminal rows, or host optimizer
+semantics.
 
-\begin{definition}[MPC finite-horizon carrier]
-\label{def:mpc-finite-horizon-carrier}
+\begin{definition}[Model predictive control $\mathsf{BHist}$ carrier]
+\label{def:modelpredictivecontrol-bhist-carrier}
 A $\ModelPredictiveControlUp$ carrier is a finite $\mathsf{BHist}$ packet
 $$
-M=(X,N,A,W,J,T,O,F,H,R,P,C)
+M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C)
 $$
 whose visible rows are:
 \begin{enumerate}
 \item a current-state row $X$ read through $\StateSpaceModelUp$ and
 $\VecSpaceUp$;
+\item an input row $U$ read through $\VecSpaceUp$ and the displayed control
+dependency certificates;
 \item a finite prediction-horizon row $N$ read as a unary length bound;
 \item a dynamics-transition row $A$ read through $\DynSystemUp$,
 $\StateSpaceModelUp$, $\MatrixUp$, and $\VecSpaceUp$;
+\item a quadratic-cost row $Q$ read through $\LQRUp$ and $\RiccatiUp$;
 \item a constraint-window row $W$ naming the displayed admissible state and
-control rows for each horizon index;
+control rows through $\ConvexSetUp$ and $\PolytopeUp$ for each horizon index;
 \item a stage-cost ledger $J$ read through $\RealUp$, $\MatrixUp$,
 $\VecSpaceUp$, and the finite-cost face of $\LQRUp$;
-\item a terminal-cost or terminal-region row $T$ read through $\LQRUp$ and
-$\LyapunovStabilityUp$ when those rows are present;
+\item a terminal-cost or terminal-region row $T$ read through $\LQRUp$,
+$\RiccatiUp$, $\ConvexSetUp$, and $\PolytopeUp$ when those rows are present;
 \item an optimizer-candidate row $O$ containing only a displayed finite control
 sequence candidate and its finite rollout ledger;
 \item a first-control extraction row $F$ selecting the initial control entry
@@ -42,8 +47,8 @@ rows;
 \item $\Cont$ rollout routes $R$ for reading the finite prediction recursion,
 stage-cost accumulation, terminal read, and first-control extraction;
 \item a $\mathsf{Pkg}$ provenance row $P$ naming the consumed state-space,
-dynamical, matrix, vector-space, real, LQR, observability, controllability,
-Kalman-filter, and Lyapunov-stability certificates;
+dynamical, matrix, vector-space, real, LQR, Riccati, convex-set, polytope,
+observability, and controllability certificates;
 \item a local $\NameCert$ provenance row $C$ for the finite receding-horizon
 surface.
 \end{enumerate}
@@ -52,19 +57,21 @@ transport componentwise by $H$ and every rollout, cost, terminal, and
 first-control read follows one of the recorded $\Cont$ routes in $R$.
 \end{definition}
 
-\begin{theorem}[MPC prediction ledger obligation]
-\label{thm:mpc-prediction-ledger-obligation}
+\begin{theorem}[Model predictive control finite-horizon obligation]
+\label{thm:modelpredictivecontrol-finite-horizon-obligation}
 Every accepted $\ModelPredictiveControlUp$ packet exposes its prediction
 ledger as exactly the finite row family consisting of the current-state row,
-the finite horizon row, the displayed dynamics-transition row, the rollout
-$\Cont$ routes, and the provenance rows of
-\autoref{def:mpc-finite-horizon-carrier}. The prediction surface exports no
-host trajectory space, no infinite rollout, and no unlogged model semantics.
+the input row, the unary horizon row, the displayed dynamics-transition row,
+the quadratic-cost rows, the rollout $\Cont$ routes, and the provenance rows
+of \autoref{def:modelpredictivecontrol-bhist-carrier}. The prediction surface
+exports no host trajectory space, no infinite rollout, and no unlogged model
+semantics.
 \end{theorem}
 \begin{proof}
-Project the accepted carrier of \autoref{def:mpc-finite-horizon-carrier}. The
-only coordinates that can generate prediction rows are $X$, $N$, $A$, $R$,
-$P$, and the transport data $H$.
+Project the accepted carrier of
+\autoref{def:modelpredictivecontrol-bhist-carrier}. The only coordinates that
+can generate prediction rows are $X$, $U$, $N$, $A$, $Q$, $R$, $P$, and the
+transport data $H$.
 
 Read the rollout one horizon index at a time. Each step follows a recorded
 $\Cont$ route from the displayed state and transition rows to the next
@@ -76,19 +83,21 @@ for a host trajectory space or an infinite stream, the prediction ledger is
 exhausted by these finite rows.
 \end{proof}
 
-\begin{theorem}[MPC constraint-window obligation]
-\label{thm:mpc-constraint-window-obligation}
+\begin{theorem}[Model predictive control constraint ledger]
+\label{thm:modelpredictivecontrol-constraint-ledger}
 For an accepted $\ModelPredictiveControlUp$ packet, every admissibility read
 is the constraint-window row $W$ together with the horizon index, state and
-control rows, rollout routes, and provenance recorded in
-\autoref{def:mpc-finite-horizon-carrier}. The packet exports no ambient
-feasible set, no compactness assertion, and no recursive-feasibility theorem
-beyond the displayed terminal-cost or terminal-region row.
+control rows, rollout routes, convex and polytopal provenance, and terminal
+row recorded in \autoref{def:modelpredictivecontrol-bhist-carrier}. The packet
+exports no ambient feasible set, no compactness assertion, and no
+recursive-feasibility theorem beyond the displayed terminal-cost or
+terminal-region row.
 \end{theorem}
 \begin{proof}
 Project the constraint coordinate $W$ from the carrier. Its entries are
 indexed by the same finite horizon row $N$ used by the prediction ledger, and
-they refer only to the displayed state and control rows.
+they refer only to the displayed state and control rows through the consumed
+$\ConvexSetUp$ and $\PolytopeUp$ certificates.
 
 Use the rollout routes to align each constraint entry with the corresponding
 predicted state and candidate control row. The admissibility read is therefore
@@ -100,8 +109,8 @@ global feasibility, or recursive feasibility beyond this displayed terminal
 surface.
 \end{proof}
 
-\begin{theorem}[MPC receding-horizon control row]
-\label{thm:mpc-receding-horizon-control-row}
+\begin{theorem}[Model predictive control receding-horizon boundary]
+\label{thm:modelpredictivecontrol-receding-horizon-boundary}
 The control exported by an accepted $\ModelPredictiveControlUp$ packet is
 exactly the first-control extraction row $F$ applied to the displayed
 optimizer-candidate row $O$. The stage-cost ledger $J$, terminal row $T$,
@@ -124,24 +133,49 @@ minimizer, a global optimality proof, or an external solver state, so the
 exported control row is precisely the first displayed entry of $O$.
 \end{proof}
 
-\begin{theorem}[MPC NameCert obligation surface]
-\label{thm:mpc-namecert-obligation-surface}
+\begin{theorem}[Model predictive control consumer boundary]
+\label{thm:modelpredictivecontrol-consumer-boundary}
+Every downstream reader of an accepted $\ModelPredictiveControlUp$ packet sees
+only the finite state, input, horizon, dynamics, quadratic-cost, constraint,
+rollout, terminal, first-control, transport, continuation, and provenance rows
+of \autoref{def:modelpredictivecontrol-bhist-carrier}. A consumer cannot read
+an infinite-horizon optimum, analytic convergence proof, stochastic controller,
+or host optimizer semantics from the packet.
+\end{theorem}
+\begin{proof}
+Project an arbitrary downstream read of the accepted packet. The carrier
+provides only the displayed coordinates $X$, $U$, $N$, $A$, $Q$, $W$, $J$,
+$T$, $O$, $F$, $H$, $R$, $P$, and $C$.
+
+The prediction, constraint, and receding-horizon theorems identify the only
+control-facing rows: finite rollout, finite admissibility, and first-control
+extraction. Each one is reached by a recorded $\Cont$ route and transported
+componentwise by $\hsame$.
+
+Since the packet has no coordinate for infinite horizons, analytic convergence
+data, stochastic laws, or host optimizer semantics, no consumer read can export
+those objects.
+\end{proof}
+
+\begin{theorem}[Model predictive control NameCert obligation surface]
+\label{thm:modelpredictivecontrol-namecert-obligation-surface}
 The local $\NameCert_{\ModelPredictiveControlUp}$ obligation surface consists
 of five finite rows:
 \begin{enumerate}
 \item carrier habitation: the finite packet of
-\autoref{def:mpc-finite-horizon-carrier};
-\item prediction ledger: the finite rollout rows of
-\autoref{thm:mpc-prediction-ledger-obligation};
-\item constraint-window ledger: the admissibility rows of
-\autoref{thm:mpc-constraint-window-obligation};
-\item control extraction: the first-control row of
-\autoref{thm:mpc-receding-horizon-control-row};
-\item provenance boundary: the $\mathsf{Pkg}$ and $\NameCert$ rows naming
+\autoref{def:modelpredictivecontrol-bhist-carrier};
+\item classifier transport: the componentwise $\hsame$ rows for the carrier
+coordinates and the $\Cont$ routes that preserve the displayed reads;
+\item finite horizon rollout: the finite prediction rows of
+\autoref{thm:modelpredictivecontrol-finite-horizon-obligation};
+\item constraint ledger exactness: the admissibility rows of
+\autoref{thm:modelpredictivecontrol-constraint-ledger};
+\item consumer boundary: the $\mathsf{Pkg}$ and $\NameCert$ rows of
+\autoref{thm:modelpredictivecontrol-consumer-boundary} naming
 $\StateSpaceModelUp$, $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$,
-$\LQRUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$,
-$\KalmanFilterUp$, and $\LyapunovStabilityUp$ as the only imported certificate
-surfaces.
+$\LQRUp$, $\RiccatiUp$, $\ConvexSetUp$, $\PolytopeUp$,
+$\ControlObservabilityUp$, and $\ControlControllabilityUp$ as the only
+imported certificate surfaces.
 \end{enumerate}
 These rows form the finite seed obligation surface for naming receding-horizon
 model predictive control data in BEDC.
@@ -152,10 +186,10 @@ horizon, transition, window, cost, terminal, candidate, extraction, transport,
 continuation, package, and local name rows are all finite $\mathsf{BHist}$
 data.
 
-The prediction, constraint-window, and control-extraction theorems identify
-the only rollout, admissibility, and exported-control reads. Each read is a
-projection from the same finite packet and follows one of the recorded
-$\Cont$ routes.
+The finite-horizon, constraint-ledger, receding-horizon, and consumer-boundary
+theorems identify the only rollout, admissibility, exported-control, and
+downstream-consumer reads. Each read is a projection from the same finite
+packet and follows one of the recorded $\Cont$ routes.
 
 The provenance row then lists exactly the consumed control and algebra
 certificates. Since no extra coordinate carries host optimization, analytic
@@ -168,10 +202,10 @@ five rows exhaust the local $\NameCert_{\ModelPredictiveControlUp}$ surface.
 \begin{closurestatus}{\ModelPredictiveControlUp}
   \constructivestory{A $\ModelPredictiveControlUp$ packet is seeded by finite $\mathsf{BHist}$ rows for current state, finite prediction horizon, dynamics transition, constraint window, stage-cost ledger, terminal-cost or terminal-region row, optimizer-candidate row, first-control extraction, $\hsame$ transports, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:mpc-finite-horizon-carrier}, \autoref{thm:mpc-prediction-ledger-obligation}, \autoref{thm:mpc-constraint-window-obligation}, \autoref{thm:mpc-receding-horizon-control-row}, and \autoref{thm:mpc-namecert-obligation-surface} seed the finite MPC carrier, prediction ledger, constraint-window ledger, first-control extraction row, and NameCert obligation surface.}
+  \scopeclosed{\autoref{def:modelpredictivecontrol-bhist-carrier}, \autoref{thm:modelpredictivecontrol-finite-horizon-obligation}, \autoref{thm:modelpredictivecontrol-constraint-ledger}, \autoref{thm:modelpredictivecontrol-receding-horizon-boundary}, \autoref{thm:modelpredictivecontrol-namecert-obligation-surface}, and \autoref{thm:modelpredictivecontrol-consumer-boundary} seed the finite MPC carrier, prediction ledger, constraint ledger, receding-horizon boundary, NameCert obligation surface, and consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close infinite-horizon stability, global optimality, recursive feasibility beyond displayed terminal rows, analytic optimizer existence, compactness, host convex optimizer correctness, or a standard bridge.}
+  \notclaimed{This chapter does not close infinite-horizon optimality, analytic convergence, stochastic control, host optimizer semantics, recursive feasibility beyond displayed terminal rows, or a standard bridge.}
   \upgradepath{Scoped closure requires checked finite carrier, prediction-ledger, constraint-window, first-control, and NameCert obligation targets for the displayed $\ModelPredictiveControlUp$ packet.}
 \end{closurestatus}
