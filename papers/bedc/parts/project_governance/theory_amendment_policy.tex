@@ -37,3 +37,78 @@ BEDC neither claims nor rejects:
   \item \textbf{L4b: Internalized audit.} Moving the external Python audits to Lean elab-time commands is operationally desirable but does not change the theoretical surface; it is treated as engineering refactor.
   \item \textbf{Reflection bridge.} A bridge between \texttt{BEDC.MetaCIC.HasType} and host Lean's kernel \texttt{\#check} is research-stage and not on a delivery commitment.
 \end{itemize}
+
+\section{Pure-CIC Tactic Discipline}\label{sec:pure-cic-tactics}
+
+BEDC proofs are constrained to a subset of Lean tactics chosen to preserve
+the axiom-purity invariant. This section records which tactics are admitted,
+which are forbidden, and why.
+
+\subsection{Admitted Tactics}\label{subsec:admitted-tactics}
+
+The following tactics are admitted in BEDC proofs:
+
+\begin{itemize}
+  \item Structural elimination: \texttt{match}, \texttt{cases}, \texttt{induction}
+  \item Direct construction: \texttt{exact}, \texttt{apply}, \texttt{refine}
+  \item Reduction: \texttt{rfl}, \texttt{unfold}, \texttt{show}
+  \item Hypothesis manipulation: \texttt{intro}, \texttt{intros}, \texttt{rename\_i}
+  \item Discharging absurd cases: \texttt{contradiction}, \texttt{Bool.noConfusion}
+  \item Composition: \texttt{constructor}
+\end{itemize}
+
+These tactics either reduce to pure CIC term construction or to structural
+operations on inductive types. Their proof outputs are checkable by
+\texttt{\#print axioms} as ``does not depend on any axioms''.
+
+\subsection{Forbidden Tactics}\label{subsec:forbidden-tactics}
+
+The following tactics are forbidden in BEDC proofs:
+
+\begin{itemize}
+  \item \texttt{simp}, \texttt{simp\_all}, \texttt{simp [...]}, \texttt{simp [...] at h}
+  \item \texttt{decide}
+  \item \texttt{omega}
+  \item Tactics that invoke stdlib decidability lemmas with \texttt{propext}
+    dependencies in their transitive closure
+\end{itemize}
+
+These tactics silently pull in axioms from Lean stdlib, most commonly
+\texttt{propext}, sometimes \texttt{Classical.choice} or \texttt{Quot.sound},
+through automated simplification or decidability rewrites. A proof
+that uses \texttt{simp [foo] at h} typically inherits all axioms touched
+by the simp lemma's transitive provenance, even when those axioms are
+irrelevant to the immediate term.
+
+\subsection{Audit Enforcement}\label{subsec:audit-enforcement}
+
+The discipline is enforced by \texttt{bedc\_ci.py axiom-purity --strict}.
+This audit invokes \texttt{\#print axioms} on every theorem in
+\texttt{lean4/BEDC/} and rejects any theorem whose transitive axiom set
+contains \texttt{Classical.choice}, \texttt{Quot.sound}, or
+\texttt{propext}. The invariant is reported as
+$$
+\mathrm{theorems} = \mathrm{pure} \wedge \mathrm{impure} = 0.
+$$
+A theorem that violates the discipline fails this audit and is rejected
+at PR merge time.
+
+\subsection{Historical Origin}\label{subsec:tactic-origin}
+
+This rule originates in the 2026-05-11 PR \#64 incident: a
+\texttt{simp}-based soundness proof for a checker theorem in
+\texttt{BEDC.MetaCIC.Checker} appears as \texttt{propext}-dependent under
+\texttt{axiom-purity --strict}. The accepted proof shape for that theorem
+uses structural elimination on the underlying inductive type and satisfies
+\texttt{\#print axioms ... does not depend on any axioms}. The incident
+establishes that BEDC's axiom-purity invariant constrains not only declared
+axioms but also tactic choices, and the tactic discipline above codifies
+that constraint.
+
+\subsection{Position}\label{subsec:tactic-position}
+
+The discipline is not a stylistic preference. It is a load-bearing
+condition for the project's stated goal of pure CIC formalization.
+Proofs that violate the discipline are not BEDC proofs even when they
+type-check, because they introduce theoretical commitments BEDC does
+not endorse.
