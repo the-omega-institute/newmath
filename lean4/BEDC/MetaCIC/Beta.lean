@@ -18,6 +18,9 @@ inductive BetaStep : Term → Term → Prop
   | congPiCod (d c c' : Term) :
       BetaStep c c' →
       BetaStep (Term.pi d c) (Term.pi d c')
+  | congPiDom (d d' c : Term) :
+      BetaStep d d' →
+      BetaStep (Term.pi d c) (Term.pi d' c)
   | congLamDom (d d' b : Term) :
       BetaStep d d' →
       BetaStep (Term.lam d b) (Term.lam d' b)
