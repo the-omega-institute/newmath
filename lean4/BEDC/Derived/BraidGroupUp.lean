@@ -229,4 +229,26 @@ theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSet
     append_eq_empty_iff.mp appendedEmpty
   exact And.intro parts.left parts.right
 
+theorem BraidGroupPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {strand word ledger classifier provenance action closureRow artinStrand artinWord moveLedger
+      dependency artinClassifier endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupPacket strand word ledger classifier provenance action closureRow bundle pkg ->
+      BraidGroupArtinPacket artinStrand artinWord moveLedger artinClassifier dependency endpoint
+          bundle pkg ->
+        PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory ledger ∧
+          Cont word ledger classifier ∧ Cont classifier provenance action ∧
+            Cont action strand closureRow ∧ PositiveUnaryDenominator artinStrand ∧
+              UnaryHistory artinWord ∧ Cont artinStrand artinWord moveLedger ∧
+                Cont moveLedger dependency artinClassifier ∧ PkgSig bundle closureRow pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  intro packet artinPacket
+  obtain ⟨strandPositive, wordUnary, ledgerUnary, _provenanceUnary, classifierRow,
+    actionRow, closureRowCont, closurePkg⟩ := packet
+  obtain ⟨artinStrandPositive, artinWordUnary, _moveLedgerUnary, _dependencyUnary,
+    moveLedgerRow, artinClassifierRow, _endpointRow, endpointPkg⟩ := artinPacket
+  exact ⟨strandPositive, wordUnary, ledgerUnary, classifierRow, actionRow, closureRowCont,
+    artinStrandPositive, artinWordUnary, moveLedgerRow, artinClassifierRow, closurePkg,
+    endpointPkg⟩
+
 end BEDC.Derived.BraidGroupUp
