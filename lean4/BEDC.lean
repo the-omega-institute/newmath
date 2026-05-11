@@ -1055,3 +1055,4 @@ import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 /- Capstone formalizations. -/
 import BEDC.Capstone
+import BEDC.Manifest
