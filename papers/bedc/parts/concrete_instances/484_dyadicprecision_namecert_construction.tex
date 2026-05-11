@@ -147,3 +147,39 @@ Now restrict to the empty unary precision branch of the carrier-inhabitation obl
 
 It remains only to check consumer coverage. By the ledger clause of \autoref{def:dyadic-precision-schedule-carrier}, every consumer-visible precision, radius, and window read is one of the displayed schedule rows recorded by $L$. In the empty branch those displayed rows are precisely the empty unary row $n$, the base dyadic radius row $\rho$, and the empty observation window $W$, with the already-carried $H$, $C$, $P$, and $N$ rows providing transport and provenance. Since the carrier has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external stream tail, there is no further coordinate from which an additional consumer read could be obtained.
 \end{proof}
+
+\begin{theorem}[Dyadic precision monotone refinement handoff]
+\label{thm:dyadic-precision-monotone-refinement-handoff}
+If a $\DyadicPrecisionUp$ schedule carrier refines a unary precision row through
+the displayed $\hsame$ and $\Cont$ routes, then the transported radius row and
+observation-window row form the consumer-visible refinement surface for
+$\RegSeqRatUp$ and $\RealUp$. Every public read factors through the carrier rows
+$n$, $\rho$, $W$, $H$, $C$, $P$, $N$, and $L$.
+
+The handoff exposes no hidden Cauchy modulus, completed real object, or external
+stream tail.
+\end{theorem}
+\begin{proof}
+Unpack the schedule carrier of
+\autoref{def:dyadic-precision-schedule-carrier}. Its visible rows already name
+the unary precision request, selected dyadic radius, finite observation window,
+componentwise $\hsame$ witnesses, displayed $\Cont$ routes, package provenance,
+local $\NameCert$ row, and exact ledger.
+
+Use the classifier of \autoref{def:dyadic-precision-schedule-classifier} to read
+a refinement as componentwise movement of those finite rows. The transported
+radius and transported observation window remain the displayed $\rho$ and $W$
+coordinates, carried by $H$ and $C$ rather than by an external sequence model.
+
+The consumer boundaries are
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff} and
+\autoref{thm:dyadic-precision-schedule-realup-boundary}. They show that
+$\RegSeqRatUp$ and $\RealUp$ consume the same precision, radius, window,
+transport, provenance, and naming rows, so every public read factors through the
+carrier ledger $L$.
+
+The empty case of \autoref{thm:dyadic-precision-empty-schedule-exactness} is the
+base instance of this surface. In the successor case the same carrier rows are
+refined through the displayed routes, and no hidden Cauchy modulus, completed
+real object, or external stream tail is introduced.
+\end{proof}
