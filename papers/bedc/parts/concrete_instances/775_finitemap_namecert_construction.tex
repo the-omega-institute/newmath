@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMapUp$}
+\label{ch:concrete-instances-finitemap-namecert}
+
+\origin{human}
+
+The $\FiniteMapUp$ interface records finite key-value lookup data as displayed BEDC history rows. Its carrier is an association-list presentation over the existing $\ListUp$, $\ProdUp$, and $\OptionUp$ finite-data chapters from \autoref{ch:concrete-instances-list-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-option-namecert}, with finite support read through \autoref{ch:concrete-instances-finset-namecert} when a consumer needs a displayed support boundary.
+
+\section{Finite-map source}
+\label{sec:finitemap-source}
+
+\begin{definition}[FiniteMapUp NameCert source]
+\label{def:finitemap-namecert-source}
+A $\FiniteMapUp$ source is a finite $\ListUp$ spine of $\ProdUp$ rows whose first component is a displayed key history and whose second component is a displayed value history. The empty spine is the empty-map carrier. A lookup query is evaluated by scanning the displayed spine from left to right and returning an $\OptionUp$ classifier witness: $\mathsf{none}$ when no displayed key row matches the query classifier, and $\mathsf{some}$ of the first displayed value row whose key matches the query classifier otherwise.
+
+The source also carries a duplicate-key ledger. Each ledger row records the visible key order, the first-hit lookup position for that key when it exists, the later key rows suppressed by the first hit, and the $\mathsf{BHist}$ source provenance of every displayed key-value row. Thus a finite map is not a host function, a primitive finite set of graph pairs, or a quotient of presentations; it is exactly a finite displayed row spine with an $\OptionUp$ lookup classifier and a suppression ledger.
+\end{definition}
+
+\begin{theorem}[FiniteMapUp carrier and classifier obligations]
+\label{thm:finitemap-carrier-classifier-obligations}
+The $\FiniteMapUp$ carrier described in \autoref{def:finitemap-namecert-source} satisfies the local carrier and classifier obligations for a naming certificate. The carrier is inhabited by the empty $\ListUp$ spine. The lookup classifier is reflexive, symmetric, and transitive because each query is compared through the key classifier and the result is an $\OptionUp$ witness over the first matching $\ProdUp$ row. Carrier rows transport componentwise along $\hsame$ for keys and values, along the displayed $\Cont$ lookup route, and along the recorded $\mathsf{Pkg}$ provenance. No quotient carrier or host-level map equality is part of the obligation surface.
+\end{theorem}
+\begin{proof}
+The empty spine supplies the carrier inhabitant. For a nonempty spine, every row is already a $\ProdUp$ key-value row inside a $\ListUp$ carrier, so the source predicates are inherited componentwise from those chapters.
+
+Reflexivity of lookup compares a query against the same displayed scan. Symmetry and transitivity are inherited from the key classifier and from the $\OptionUp$ classifier on the returned witness, while the first-hit rule fixes the selected value row.
+
+Transport follows the same finite spine. Move each key and value through its $\hsame$ witness, carry the lookup route through $\Cont$, and keep the package row naming the source certificate. Since equality is read only from the displayed scan and its option witness, there is no quotient carrier to construct.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp lookup Option exactness]
+\label{thm:finitemap-lookup-option-exactness}
+For every accepted $\FiniteMapUp$ source and every displayed query key, lookup returns exactly one $\OptionUp$ witness. It returns $\mathsf{none}$ precisely when no displayed key row in the finite spine matches the query classifier. It returns $\mathsf{some}(v)$ precisely when the first displayed key row matching the query classifier has value row $v$, and every later matching key row is recorded only in the duplicate-key ledger.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the displayed $\ListUp$ spine. For the empty spine, there is no displayed key row, so the lookup classifier is the single $\mathsf{none}$ witness and the ledger is empty.
+
+For a cons spine, inspect the head $\ProdUp$ row. If its key matches the query classifier, the first-hit rule returns the head value as the unique $\mathsf{some}$ witness, and the tail contributes only suppressed duplicate rows for the same key.
+
+If the head key does not match, apply the induction hypothesis to the tail. A tail $\mathsf{none}$ remains $\mathsf{none}$ for the whole spine, while a tail $\mathsf{some}$ remains the first matching row because the head was rejected. These cases exhaust the displayed finite spine.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp ledger transport]
+\label{thm:finitemap-ledger-transport}
+Let two accepted $\FiniteMapUp$ sources have key and value rows related componentwise by $\hsame$, with lookup continuations related by $\Cont$ and package rows related by $\mathsf{Pkg}$. Then the visible key order, first-hit lookup result, suppressed duplicate-key rows, and source-provenance rows transport together. In particular, lookup and the duplicate-key ledger are preserved by the displayed transport data.
+\end{theorem}
+\begin{proof}
+Transport the spine row by row. A transported head key has the same classifier outcome against the transported query key, and the transported value row is the value read by the corresponding $\OptionUp$ witness.
+
+The first-hit index is therefore stable under the displayed transport. Rows before it remain nonmatching rows, the selected row remains selected, and rows after it that match the same key remain ledger entries rather than lookup outputs.
+
+The $\Cont$ routes identify the lookup readback, and the $\mathsf{Pkg}$ rows identify the certificate sources used by the scan. Thus the lookup result and the duplicate-key ledger move as one finite displayed object.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp NameCert obligation surface]
+\label{thm:finitemap-namecert-obligation-surface}
+The $\NameCert_{\FiniteMapUp}$ obligation surface consists of five rows: the finite $\ListUp$ carrier of $\ProdUp$ key-value rows from \autoref{def:finitemap-namecert-source}; the lookup classifier into $\OptionUp$ with reflexivity, symmetry, and transitivity from \autoref{thm:finitemap-carrier-classifier-obligations}; lookup exactness from \autoref{thm:finitemap-lookup-option-exactness}; carrier transport along $\hsame$, $\Cont$, and $\mathsf{Pkg}$ from \autoref{thm:finitemap-ledger-transport}; and duplicate-key ledger soundness for visible key order, first-hit selection, suppressed duplicates, and source provenance.
+\end{theorem}
+\begin{proof}
+Collect the carrier row, classifier row, exactness row, transport row, and ledger row. Each is expressed using only the displayed finite spine, product-coded key-value histories, option-valued lookup witness, and finite support boundary supplied by the existing finite-data chapters.
+
+The first four rows are exactly the preceding definition and theorems. The ledger soundness row is the remaining projection of the same source: it records which later rows are suppressed and why the first matching row is the only lookup output.
+
+These five rows are closed under consumer readback because every consumer-visible fact is obtained by scanning the finite displayed spine. No primitive finite-map object, ambient host function, or quotient equality is exported.
+\end{proof}
+
+\closureat{FiniteMapUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMapUp}
+  \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finitemap-namecert-source}, \autoref{thm:finitemap-carrier-classifier-obligations}, \autoref{thm:finitemap-lookup-option-exactness}, \autoref{thm:finitemap-ledger-transport}, and \autoref{thm:finitemap-namecert-obligation-surface} bind the finite association-list source, lookup classifier, option exactness, transport, and duplicate-key ledger rows over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
+  \upgradepath{To move beyond seed closure, encode the association-list carrier and prove lookup exactness in the BEDC.Derived.FiniteMapUp namespace.}
+\end{closurestatus}
