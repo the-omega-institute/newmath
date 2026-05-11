@@ -86,6 +86,18 @@ def CauchyModulusCarrier [AskSetup] [PackageSetup]
         Cont tolerance schedule provenance ∧ Cont consumption provenance window ∧
           PkgSig bundle window pkg
 
+def CauchyModulusClassifier [AskSetup] [PackageSetup]
+    (precision threshold tolerance schedule consumption provenance window precision' threshold'
+      tolerance' schedule' consumption' provenance' window' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyModulusCarrier precision threshold tolerance schedule consumption provenance window
+      bundle pkg ∧
+    CauchyModulusCarrier precision' threshold' tolerance' schedule' consumption' provenance'
+        window' bundle pkg ∧
+      hsame precision precision' ∧ hsame threshold threshold' ∧ hsame tolerance tolerance' ∧
+        hsame schedule schedule' ∧ hsame consumption consumption' ∧
+          hsame provenance provenance' ∧ hsame window window'
+
 theorem CauchyModulusCarrier_hsame_stability [AskSetup] [PackageSetup]
     {precision threshold tolerance schedule consumption provenance window precision' threshold'
       tolerance' schedule' consumption' provenance' window' : BHist}
