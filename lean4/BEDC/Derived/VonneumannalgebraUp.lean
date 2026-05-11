@@ -223,4 +223,27 @@ theorem VonneumannalgebraBHistCarrier_star_operation_stability [AskSetup] [Packa
                         (And.intro weakTransportRow' packageRow')))))))))))
     (And.intro sameOperator (And.intro sameMultiplication sameEndpoint))
 
+theorem VonneumannalgebraBHistCarrier_downstream_boundary [AskSetup] [PackageSetup]
+    {cstar hilbert operator adjoint multiplication weakProbe transport provenance endpoint
+      downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication weakProbe
+        transport provenance endpoint bundle pkg ->
+      Cont endpoint weakProbe downstream ->
+        UnaryHistory downstream ∧ Cont cstar hilbert operator ∧
+          Cont operator adjoint multiplication ∧ Cont weakProbe transport endpoint ∧
+            Cont endpoint weakProbe downstream ∧ PkgSig bundle endpoint pkg := by
+  intro carrier downstreamRow
+  obtain ⟨_cstarUnary, _hilbertUnary, _operatorUnary, _adjointUnary, _multiplicationUnary,
+    weakProbeUnary, transportUnary, _provenanceUnary, cstarHilbertRow, operatorAdjointRow,
+    weakTransportRow, packageRow⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed weakProbeUnary transportUnary weakTransportRow
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed endpointUnary weakProbeUnary downstreamRow
+  exact And.intro downstreamUnary
+    (And.intro cstarHilbertRow
+      (And.intro operatorAdjointRow
+        (And.intro weakTransportRow (And.intro downstreamRow packageRow))))
+
 end BEDC.Derived.VonneumannalgebraUp
