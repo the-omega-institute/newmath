@@ -143,4 +143,43 @@ theorem SemidefiniteConePacket_dual_pairing_empty_boundary [AskSetup] [PackageSe
     append_eq_empty_iff.mp appendedEmpty
   exact And.intro parts.left parts.right
 
+theorem SemidefiniteConePacket_scoped_provenance_package [AskSetup] [PackageSetup]
+    {matrix vector convexLedger bilinearPairing nonnegative provenance endpoint scopedRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemidefiniteConePacket matrix vector convexLedger bilinearPairing nonnegative provenance
+        endpoint bundle pkg ->
+      Cont endpoint provenance scopedRow ->
+        PkgSig bundle scopedRow pkg ->
+          UnaryHistory matrix ∧ UnaryHistory vector ∧ UnaryHistory convexLedger ∧
+            UnaryHistory bilinearPairing ∧ UnaryHistory nonnegative ∧ UnaryHistory provenance ∧
+              UnaryHistory endpoint ∧ UnaryHistory scopedRow ∧
+                Cont matrix vector bilinearPairing ∧
+                  Cont convexLedger bilinearPairing nonnegative ∧
+                    Cont bilinearPairing nonnegative endpoint ∧
+                      Cont endpoint provenance scopedRow ∧
+                        hsame scopedRow (append endpoint provenance) ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle scopedRow pkg := by
+  intro packet scopedCont scopedPkg
+  obtain ⟨matrixUnary, vectorUnary, convexUnary, bilinearUnary, nonnegativeUnary,
+    provenanceUnary, endpointUnary, bilinearRow, nonnegativeRow, endpointRow,
+    endpointPkg⟩ := packet
+  have scopedUnary : UnaryHistory scopedRow :=
+    unary_cont_closed endpointUnary provenanceUnary scopedCont
+  have scopedSame : hsame scopedRow (append endpoint provenance) := by
+    exact scopedCont
+  exact And.intro matrixUnary
+    (And.intro vectorUnary
+      (And.intro convexUnary
+        (And.intro bilinearUnary
+          (And.intro nonnegativeUnary
+            (And.intro provenanceUnary
+              (And.intro endpointUnary
+                (And.intro scopedUnary
+                  (And.intro bilinearRow
+                    (And.intro nonnegativeRow
+                      (And.intro endpointRow
+                        (And.intro scopedCont
+                          (And.intro scopedSame
+                            (And.intro endpointPkg scopedPkg)))))))))))))
+
 end BEDC.Derived.SemidefiniteConeUp
