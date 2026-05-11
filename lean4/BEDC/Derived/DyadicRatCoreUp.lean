@@ -1,5 +1,6 @@
 import BEDC.Derived.RatUp
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -159,6 +160,176 @@ theorem DyadicRatCoreCarrier_monotone_radius_refinement
   exact And.intro exponentTailPositive
     (And.intro refinedLedgerUnary (And.intro refinementRow refinementRow))
 
+theorem DyadicRatCoreCommonExponentWindow_exactness
+    {mantissa exponent ledger provenance leftScale rightScale leftScaled rightScaled
+      commonWindow : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      Cont exponent ledger leftScale ->
+        Cont leftScale mantissa leftScaled ->
+          Cont exponent ledger rightScale ->
+            Cont rightScale provenance rightScaled ->
+              Cont leftScaled rightScaled commonWindow ->
+                exists packedLeft packedRight : BHist,
+                  Cont exponent (append ledger mantissa) packedLeft ∧
+                    Cont exponent (append ledger provenance) packedRight ∧
+                      hsame packedLeft leftScaled ∧ hsame packedRight rightScaled ∧
+                        Cont packedLeft packedRight commonWindow ∧ RatHistoryCarrier mantissa ∧
+                          PositiveUnaryDenominator exponent ∧ UnaryHistory ledger := by
+  intro carrier leftScaleRow leftScaledRow rightScaleRow rightScaledRow commonRow
+  have leftPacked : Cont exponent (append ledger mantissa) leftScaled := by
+    cases leftScaleRow
+    cases leftScaledRow
+    exact append_assoc exponent ledger mantissa
+  have rightPacked : Cont exponent (append ledger provenance) rightScaled := by
+    cases rightScaleRow
+    cases rightScaledRow
+    exact append_assoc exponent ledger provenance
+  exact Exists.intro leftScaled
+    (Exists.intro rightScaled
+      (And.intro leftPacked
+        (And.intro rightPacked
+          (And.intro (hsame_refl leftScaled)
+            (And.intro (hsame_refl rightScaled)
+              (And.intro commonRow
+                (And.intro carrier.left
+                  (And.intro carrier.right.left carrier.right.right.right.right))))))))
+
+theorem DyadicRatCoreClassifier_common_exponent_transport
+    {mantissa exponent ledger provenance mantissa2 exponent2 ledger2 provenance2 common common'
+      scaleLeft scaleRight scaledLeft scaledRight scaleLeft' scaleRight' scaledLeft'
+      scaledRight' classifierWindow classifierWindow' : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      DyadicRatCoreCarrier mantissa2 exponent2 ledger2 provenance2 ->
+        hsame common common' ->
+          Cont exponent common scaleLeft ->
+            Cont exponent common' scaleLeft' ->
+              Cont exponent2 common scaleRight ->
+                Cont exponent2 common' scaleRight' ->
+                  Cont mantissa scaleLeft scaledLeft ->
+                    Cont mantissa scaleLeft' scaledLeft' ->
+                      Cont mantissa2 scaleRight scaledRight ->
+                        Cont mantissa2 scaleRight' scaledRight' ->
+                          RatHistoryClassifier scaledLeft scaledRight ->
+                            Cont scaledLeft scaledRight classifierWindow ->
+                              Cont scaledLeft' scaledRight' classifierWindow' ->
+                                RatHistoryClassifier scaledLeft' scaledRight' ∧
+                                  hsame scaleLeft scaleLeft' ∧
+                                    hsame scaleRight scaleRight' ∧
+                                      hsame scaledLeft scaledLeft' ∧
+                                        hsame scaledRight scaledRight' ∧
+                                          hsame classifierWindow classifierWindow' := by
+  intro _carrierLeft _carrierRight sameCommon scaleLeftRow scaleLeftRow' scaleRightRow
+    scaleRightRow' scaledLeftRow scaledLeftRow' scaledRightRow scaledRightRow' classified
+    classifierWindowRow classifierWindowRow'
+  have sameScaleLeft : hsame scaleLeft scaleLeft' :=
+    cont_respects_hsame (hsame_refl exponent) sameCommon scaleLeftRow scaleLeftRow'
+  have sameScaleRight : hsame scaleRight scaleRight' :=
+    cont_respects_hsame (hsame_refl exponent2) sameCommon scaleRightRow scaleRightRow'
+  have sameScaledLeft : hsame scaledLeft scaledLeft' :=
+    cont_respects_hsame (hsame_refl mantissa) sameScaleLeft scaledLeftRow scaledLeftRow'
+  have sameScaledRight : hsame scaledRight scaledRight' :=
+    cont_respects_hsame (hsame_refl mantissa2) sameScaleRight scaledRightRow
+      scaledRightRow'
+  have transportedClassifier : RatHistoryClassifier scaledLeft' scaledRight' :=
+    RatHistoryClassifier_hsame_transport sameScaledLeft sameScaledRight classified
+  have sameClassifierWindow : hsame classifierWindow classifierWindow' :=
+    cont_respects_hsame sameScaledLeft sameScaledRight classifierWindowRow classifierWindowRow'
+  exact And.intro transportedClassifier
+    (And.intro sameScaleLeft
+      (And.intro sameScaleRight
+        (And.intro sameScaledLeft (And.intro sameScaledRight sameClassifierWindow))))
+
+def DyadicRatCoreArithmeticWindow
+    (mantissa0 mantissa1 exponent0 exponent1 ledger0 ledger1 provenance0 provenance1 sum neg
+      diff prod window : BHist) : Prop :=
+  UnaryHistory mantissa0 ∧
+    UnaryHistory mantissa1 ∧
+      UnaryHistory exponent0 ∧
+        UnaryHistory exponent1 ∧
+          Cont exponent0 mantissa0 ledger0 ∧
+            Cont exponent1 mantissa1 ledger1 ∧
+              Cont ledger0 provenance0 sum ∧
+                Cont ledger1 provenance1 neg ∧ Cont sum neg diff ∧ Cont diff prod window
+
+theorem DyadicRatCoreArithmeticWindow_transport_stability
+    {mantissa0 mantissa1 exponent0 exponent1 ledger0 ledger1 provenance0 provenance1 sum neg
+      diff prod window mantissa0' mantissa1' exponent0' exponent1' ledger0' ledger1'
+      provenance0' provenance1' sum' neg' diff' prod' window' : BHist} :
+    DyadicRatCoreArithmeticWindow mantissa0 mantissa1 exponent0 exponent1 ledger0 ledger1
+        provenance0 provenance1 sum neg diff prod window ->
+      hsame mantissa0 mantissa0' ->
+        hsame mantissa1 mantissa1' ->
+          hsame exponent0 exponent0' ->
+            hsame exponent1 exponent1' ->
+              hsame ledger0 ledger0' ->
+                hsame ledger1 ledger1' ->
+                  hsame provenance0 provenance0' ->
+                    hsame provenance1 provenance1' ->
+                      hsame sum sum' ->
+                        hsame neg neg' ->
+                          hsame diff diff' ->
+                            hsame prod prod' ->
+                              hsame window window' ->
+                                DyadicRatCoreArithmeticWindow mantissa0' mantissa1'
+                                    exponent0' exponent1' ledger0' ledger1' provenance0'
+                                    provenance1' sum' neg' diff' prod' window' ∧
+                                  Cont sum' neg' diff' ∧ Cont diff' prod' window' := by
+  intro windowData sameMantissa0 sameMantissa1 sameExponent0 sameExponent1 sameLedger0
+    sameLedger1 sameProvenance0 sameProvenance1 sameSum sameNeg sameDiff sameProd sameWindow
+  cases windowData with
+  | intro mantissa0Unary windowRest =>
+      cases windowRest with
+      | intro mantissa1Unary windowRest =>
+          cases windowRest with
+          | intro exponent0Unary windowRest =>
+              cases windowRest with
+              | intro exponent1Unary windowRest =>
+                  cases windowRest with
+                  | intro ledger0Row windowRest =>
+                      cases windowRest with
+                      | intro ledger1Row windowRest =>
+                          cases windowRest with
+                          | intro sumRow windowRest =>
+                              cases windowRest with
+                              | intro negRow windowRest =>
+                                  cases windowRest with
+                                  | intro diffRow prodRow =>
+                                      have mantissa0Unary' : UnaryHistory mantissa0' :=
+                                        unary_transport mantissa0Unary sameMantissa0
+                                      have mantissa1Unary' : UnaryHistory mantissa1' :=
+                                        unary_transport mantissa1Unary sameMantissa1
+                                      have exponent0Unary' : UnaryHistory exponent0' :=
+                                        unary_transport exponent0Unary sameExponent0
+                                      have exponent1Unary' : UnaryHistory exponent1' :=
+                                        unary_transport exponent1Unary sameExponent1
+                                      have ledger0Row' : Cont exponent0' mantissa0' ledger0' :=
+                                        cont_hsame_transport sameExponent0 sameMantissa0
+                                          sameLedger0 ledger0Row
+                                      have ledger1Row' : Cont exponent1' mantissa1' ledger1' :=
+                                        cont_hsame_transport sameExponent1 sameMantissa1
+                                          sameLedger1 ledger1Row
+                                      have sumRow' : Cont ledger0' provenance0' sum' :=
+                                        cont_hsame_transport sameLedger0 sameProvenance0 sameSum
+                                          sumRow
+                                      have negRow' : Cont ledger1' provenance1' neg' :=
+                                        cont_hsame_transport sameLedger1 sameProvenance1 sameNeg
+                                          negRow
+                                      have diffRow' : Cont sum' neg' diff' :=
+                                        cont_hsame_transport sameSum sameNeg sameDiff diffRow
+                                      have prodRow' : Cont diff' prod' window' :=
+                                        cont_hsame_transport sameDiff sameProd sameWindow prodRow
+                                      exact And.intro
+                                        (And.intro mantissa0Unary'
+                                          (And.intro mantissa1Unary'
+                                            (And.intro exponent0Unary'
+                                              (And.intro exponent1Unary'
+                                                (And.intro ledger0Row'
+                                                  (And.intro ledger1Row'
+                                                    (And.intro sumRow'
+                                                      (And.intro negRow'
+                                                        (And.intro diffRow' prodRow')))))))))
+                                        (And.intro diffRow' prodRow')
+
 theorem DyadicRatCoreCarrier_common_exponent_window_exactness
     {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common scale
       scale' left right classifierWindow : BHist} :
@@ -204,5 +375,35 @@ theorem DyadicRatCoreCarrier_common_exponent_window_exactness
         (And.intro rightUnary
           (And.intro classifierUnary
             (And.intro scaleRow (And.intro scaleRow' classifierRow))))))
+
+theorem DyadicRatCoreCarrier_monotone_radius_obligation
+    {mantissa exponent ledger provenance tail refinedExponent refinedLedger : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail ->
+        Cont exponent tail refinedExponent ->
+          Cont refinedExponent mantissa refinedLedger ->
+            DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance ∧
+              PositiveUnaryDenominator refinedExponent ∧
+                hsame refinedExponent (append exponent tail) ∧
+                  Cont refinedExponent mantissa refinedLedger := by
+  intro carrier tailUnary refinedExponentRow refinedLedgerRow
+  have exponentPositive : PositiveUnaryDenominator exponent := carrier.right.left
+  have refinedExponentPositive : PositiveUnaryDenominator refinedExponent :=
+    PositiveUnaryDenominator_hsame_transport (hsame_symm refinedExponentRow)
+      (PositiveUnaryDenominator_append_unary_tail exponentPositive tailUnary)
+  have refinedExponentUnary : UnaryHistory refinedExponent :=
+    (PositiveUnaryDenominator_unary_and_nonempty refinedExponentPositive).left
+  have mantissaUnary : UnaryHistory mantissa :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (RatHistoryCarrier_iff_positive_denominator.mp carrier.left)).left
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    unary_cont_closed refinedExponentUnary mantissaUnary refinedLedgerRow
+  have refinedCarrier :
+      DyadicRatCoreCarrier mantissa refinedExponent refinedLedger provenance :=
+    And.intro carrier.left
+      (And.intro refinedExponentPositive
+        (And.intro carrier.right.right.left (And.intro refinedLedgerRow refinedLedgerUnary)))
+  exact And.intro refinedCarrier
+    (And.intro refinedExponentPositive (And.intro refinedExponentRow refinedLedgerRow))
 
 end BEDC.Derived.DyadicRatCoreUp
