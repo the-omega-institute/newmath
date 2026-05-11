@@ -23,6 +23,15 @@ def ClosedTermSubstitutePreservesTypingStatement : Prop :=
     HasType Γ s B →
     HasType Γ (substitute 0 s t) (substitute 0 s A)
 
+def SubstitutePreservesTypingGeneralStatement : Prop :=
+  ∀ (Γ₁ Γ₂ : Ctx) {t s A B : Term},
+    WellFormedCtx (Γ₁ ++ B :: Γ₂) →
+    HasType (Γ₁ ++ B :: Γ₂) t A →
+    HasType Γ₂ s B →
+    HasType (Γ₁ ++ Γ₂)
+      (substitute Γ₁.length s t)
+      (substitute Γ₁.length s A)
+
 /-- sort 上的替换按定义保持 sort。 -/
 theorem substitute_sort (d : Idx) (v : Term) :
     substitute d v Term.sort = Term.sort := by
@@ -357,6 +366,16 @@ theorem closed_term_substitute_preserves_typing_statement_absurd :
     (h closed_substitute_counter_wf
       ClosedAt.sortClosed
       ClosedAt.sortClosed
+      closed_substitute_counter_source
+      (HasType.sortRule []))
+
+theorem substitute_preserves_typing_general_statement_absurd :
+    ¬ SubstitutePreservesTypingGeneralStatement := by
+  intro h
+  exact closed_substitute_counter_target_absurd
+    (h []
+      []
+      closed_substitute_counter_wf
       closed_substitute_counter_source
       (HasType.sortRule []))
 
