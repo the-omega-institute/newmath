@@ -198,6 +198,7 @@ import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
+import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
