@@ -6,5 +6,107 @@ The transcendence interface $\TranscendenceUp$ packages the supremum of cardinal
 \section{Carrier definition}
 \label{sec:transcendence-carrier}
 
+\begin{definition}[Transcendence BHist carrier]\label{def:transcendence-bhist-carrier}
+A $\TranscendenceUp$ carrier packet is a finite $\mathsf{BHist}$ packet over
+the $\FieldExtUp$ source rows. Its displayed rows consist of a certified field
+extension packet, a finite family row $S=(s_1,\ldots,s_n)$ in the extension
+endpoint, a base-field coefficient ledger, a finite list of polynomial-relation
+test rows for the family, $\hsame$ transports for the field-extension and family
+rows, $\Cont$ readbacks for each test row, and $\mathsf{Pkg}$ provenance pointing
+back to the $\NameCert_{\FieldExtUp}$ source packet.
+\end{definition}
+
+\begin{definition}[Transcendence classifier]\label{def:transcendence-classifier}
+Two $\TranscendenceUp$ carrier packets are classified as the same when their
+$\FieldExtUp$ source packets are matched by the displayed $\FieldExtUp$
+classifier, their finite family rows are paired coordinatewise by $\hsame$, and
+their polynomial-relation test ledgers have the same finite readback through
+$\Cont$. The classifier compares only the listed rows; it does not compare
+supremum cardinalities, quotient fields, chosen transcendence bases, or maximal
+independent subsets.
+\end{definition}
+
 \section{The certificate}
 \label{sec:transcendence-certificate}
+
+\begin{theorem}[Transcendence algebraic-independence ledger]\label{thm:transcendence-algebraic-independence-ledger}
+For a $\TranscendenceUp$ carrier packet, the finite family row $S$ is accepted
+as algebraically independent over the displayed $\FieldExtUp$ base exactly when
+every polynomial-relation test row in the packet reads through $\Cont$ as the
+zero relation only at the zero coefficient ledger. This certificate is a finite
+ledger statement over the displayed family and coefficient rows, not a statement
+about the supremum of all independent cardinalities.
+\end{theorem}
+\begin{proof}
+Read the carrier of
+\autoref{def:transcendence-bhist-carrier}. It supplies a finite family row, a
+finite coefficient ledger, and a finite list of polynomial-relation test rows,
+all sourced from the same $\NameCert_{\FieldExtUp}$ packet.
+
+For each displayed test row, the $\Cont$ readback records the evaluated
+relation endpoint. Ledger exactness says that the relation endpoint is zero
+only when the coefficient ledger is the zero ledger, so each listed polynomial
+test witnesses the independence condition for the finite family.
+
+The converse uses the same finite rows. If the packet records the zero-only
+outcome for every displayed polynomial-relation test, repacking those readbacks
+gives the algebraic-independence ledger for $S$. No step selects a basis,
+maximizes a family, forms a quotient field, or invokes a Zorn-style argument.
+\end{proof}
+
+\begin{theorem}[Transcendence FieldExt source boundary]\label{thm:transcendence-fieldext-source-boundary}
+Every source read used by a $\TranscendenceUp$ carrier packet factors through
+the displayed $\NameCert_{\FieldExtUp}$ rows: base-field endpoint,
+extension-field endpoint, inclusion row, field-operation rows, finite family
+membership rows, polynomial coefficient rows, $\hsame$ transports, $\Cont$
+readbacks, and $\mathsf{Pkg}$ provenance. The boundary exports no ambient
+quotient-field construction, algebraic closure, transcendence basis choice, or
+maximality principle.
+\end{theorem}
+\begin{proof}
+Start from the source component of
+\autoref{def:transcendence-bhist-carrier}. Each row is tagged by the
+$\NameCert_{\FieldExtUp}$ provenance, so the base endpoint, extension endpoint,
+inclusion row, and field-operation rows are inherited as finite displayed
+source data.
+
+The family and polynomial-test rows consume only those inherited endpoints and
+the finite coefficient ledger. Their stability is read by the $\hsame$
+transports named in the carrier, and their observations are returned by the
+listed $\Cont$ rows.
+
+Constructor inspection of the source boundary leaves no slot for a quotient
+field, algebraic closure, chosen transcendence basis, or maximality witness.
+Thus downstream $\TranscendenceUp$ consumers receive only the displayed
+$\FieldExtUp$ packet and the finite independence ledger.
+\end{proof}
+
+\begin{theorem}[Transcendence NameCert obligation surface]\label{thm:transcendence-namecert-obligation-surface}
+The carrier of \autoref{def:transcendence-bhist-carrier} and the classifier of
+\autoref{def:transcendence-classifier} determine the $\NameCert$ obligation
+surface for $\TranscendenceUp$: carrier membership, classifier reflexivity,
+classifier symmetry, classifier transitivity, and carrier stability under the
+classifier are all witnessed by the finite $\FieldExtUp$ source packet,
+coordinatewise $\hsame$ transports, polynomial-test ledger exactness, $\Cont$
+readbacks, and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Carrier membership is the finite packet described in
+\autoref{def:transcendence-bhist-carrier}. The family row, coefficient ledger,
+polynomial tests, transports, readbacks, and provenance are all explicit rows,
+so no extra host-level algebraic object is needed to admit the packet.
+
+Reflexivity uses reflexive $\hsame$ rows for the displayed $\FieldExtUp$ source
+and each family coordinate, together with identical polynomial-test readbacks.
+Symmetry reverses the same coordinatewise transports. Transitivity composes the
+source and family transports and then reuses the finite ledger exactness rows
+for the polynomial tests.
+
+For carrier stability, transport the $\FieldExtUp$ packet and finite family row
+through the classifier, then carry each polynomial-relation test row along the
+named $\hsame$ transport. The $\Cont$ readbacks preserve the zero-only
+coefficient ledger, so the transported packet is again accepted by the
+transcendence carrier. The resulting surface is the displayed
+$\NameCert_{\TranscendenceUp}$ obligation packet, with no appeal to supremum
+cardinalities, quotient fields, basis choice, or maximality.
+\end{proof}
