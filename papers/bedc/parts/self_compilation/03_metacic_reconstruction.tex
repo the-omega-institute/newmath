@@ -266,6 +266,29 @@ $\#\mathrm{metacic\_decide}\ e$ runs $\mathrm{infer}$ on the reflected
 $\mathrm{Term}$ and prints the inferred MetaCIC type. The latter is the
 end-to-end demonstration of the host-MetaCIC pipeline.
 
+\paragraph{Atomic inference and concrete typing gallery.}
+\texttt{BEDC.MetaCIC.AtomInfer} carries a minimal type-inference procedure
+for closed atoms: a sort literal infers to itself, a de Bruijn variable
+infers to its context lookup.
+\leandef{BEDC.MetaCIC.inferAtom}
+\leanchecked{BEDC.MetaCIC.inferAtom\_sort\_sound}
+\leanchecked{BEDC.MetaCIC.inferAtom\_var\_sound}
+\texttt{BEDC.MetaCIC.TypedExamples} carries a gallery of concrete typed
+terms over the shift-aware substrate: sort and Pi types in singleton and
+binary contexts, the dependent identity that exhibits shift-aware binder
+tracking, and a beta-reducible identity application.
+\leanchecked{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.var\_one\_in\_double\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.pi\_var\_sort\_in\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.lam\_dependent\_identity}
+\leanchecked{BEDC.MetaCIC.pi\_sort\_sort\_in\_empty\_ctx}
+\leanchecked{BEDC.MetaCIC.app\_id\_sort\_in\_empty\_ctx}
+\texttt{BEDC.MetaCIC.Normalization} records that sort and variable atoms
+are reduction-stable: no $\beta$-step starts from a sort or variable
+constructor, so closed atoms typed at sort are normal forms.
+\leanchecked{BEDC.MetaCIC.sort\_no\_beta}
+\leanchecked{BEDC.MetaCIC.closed\_var\_no\_beta}
+
 \paragraph{Audit gating.} Every module in the stack is gated by
 \texttt{check-axioms.py}, which rejects raw \texttt{axiom} declarations;
 \texttt{bedc\_ci.py axiom-purity --strict}, which rejects transitive
