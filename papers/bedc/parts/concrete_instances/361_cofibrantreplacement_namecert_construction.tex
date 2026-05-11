@@ -73,12 +73,29 @@ The weak-equivalence row is supplied by \autoref{thm:cofibrantreplacement-weak-e
 \label{thm:cofibrantreplacement-dependency-boundary}
 Any consumer of $\NameCert_{\CofibrantReplacementUp}$ may read only the displayed $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$ dependency rows, the factorization packet $(X,Q,i,p,F,\rho,\lambda)$, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. The packet does not export functorial cofibrant replacement, a global replacement assignment, localization data, derived-category objects, or homotopy-category quotients.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofibrantReplacementUp.CofibrantReplacementBHistSource\_dependency\_boundary}
 \begin{proof}
 Project the package coordinate $\rho$. It names precisely the model-category, simplicial-set, homotopy, and category certificates used by the source.
 
 Project the continuation ledger $\lambda$. It contains the visible $\Cont$ routes and componentwise $\hsame$ rows by which downstream consumers may transport the factorization packet.
 
 All excluded objects require coordinates absent from the source tuple. A consumer can therefore read the single displayed factorization witness but cannot promote it to a functor, a global assignment, a localization, or a quotient category.
+\end{proof}
+
+\begin{theorem}[CofibrantReplacement scoped kernel dependency package]
+\label{thm:cofibrantreplacement-scoped-kernel-dependency-package}
+Every accepted finite $\CofibrantReplacementUp$ factorization packet $(X,Q,i,p,F,\rho,\lambda)$ exposes its consumer-readable scope exactly through the displayed $\mathsf{BHist}$ packet rows, componentwise $\hsame$ comparisons, visible $\Cont$ routes, the dependency package $\rho$, and the local $\NameCert$ surface over $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$.
+
+The scoped package exports no global choice of replacements, functorial replacement operation, localization, derived mapping space, or homotopy-category quotient.
+\end{theorem}
+\begin{proof}
+Project the dependency package $\rho$ and the continuation ledger $\lambda$. These coordinates name the four dependency certificates and the visible routes by which the finite packet may be transported componentwise.
+
+Apply \autoref{thm:cofibrantreplacement-factorization-obligation} to read the object row $X$, the cofibrant object row $Q$, the arrow $i$, the factorization provenance $p$, and the finite lifting-test row $F$ as displayed packet data. Apply \autoref{thm:cofibrantreplacement-weak-equivalence-ledger} to keep the weak-equivalence read of $i$ inside the same homotopy and model-category ledger.
+
+Finally use \autoref{thm:cofibrantreplacement-dependency-boundary}. It identifies the consumer boundary with the factorization packet, $\rho$, $\lambda$, and their visible provenance over the four named dependencies.
+
+Since the source tuple contains no coordinate for a global replacement function, a functorial assignment, a localization, a derived mapping object, or a homotopy-category quotient, none of those objects can be exported by the scoped package.
 \end{proof}
 
 \begin{theorem}[CofibrantReplacement five-row NameCert sketch]

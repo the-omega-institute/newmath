@@ -199,6 +199,43 @@ refined inputs, because the proof reads only the displayed endpoint,
 classifier, operation, and enclosure rows.
 \end{proof}
 
+\begin{theorem}[IntervalArithmetic obligation enclosure package]
+\label{thm:intervalarithmetic-obligation-enclosure-package}
+The obligation package for $\IntervalArithmeticUp$ is the finite endpoint
+carrier, endpoint classifier, outward-rounded addition ledger, classifier
+transport, $\RealUp$ enclosure soundness row, monotone enclosure transport,
+width-bound stability row, and refined-endpoint addition soundness row.
+
+All coordinates are displayed over $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\RealUp$, $\IntervalUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$; no host interval carrier, external real
+equality, compactness principle, or completion object is part of the package.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:intervalarithmetic-bhist-carrier}. It supplies the
+finite endpoint carrier, the endpoint classifier coordinates, and the displayed
+observation rows over the dyadic, stream, regular-sequence, real, and interval
+certificates.
+
+Apply \autoref{thm:intervalarithmetic-classifier-transport} to account for the
+classifier transport rows, and apply
+\autoref{thm:intervalarithmetic-outward-rounded-addition} to add the operation
+ledger. The latter contributes only outward-rounded dyadic endpoint evidence and
+finite observation provenance.
+
+The enclosure obligations are then supplied by
+\autoref{thm:intervalarithmetic-realup-enclosure-soundness} and
+\autoref{thm:intervalarithmetic-monotone-enclosure-transport}. These rows keep
+the $\RealUp$ observations and monotone transport inside the displayed endpoint
+and finite-window surface.
+
+Finally use \autoref{thm:intervalarithmetic-width-bound-stability} and
+\autoref{thm:intervalarithmetic-refined-endpoint-addition-soundness}. They give
+the width-bound stability and refined-endpoint addition soundness rows, so the
+listed data form the full finite obligation package and introduce no additional
+host-level interval or real object.
+\end{proof}
+
 \closureat{IntervalArithmeticUp}{seedStr}
 
 \begin{closurestatus}{\IntervalArithmeticUp}
