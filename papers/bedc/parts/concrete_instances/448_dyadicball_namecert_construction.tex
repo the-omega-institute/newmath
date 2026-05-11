@@ -413,36 +413,45 @@ remains a finite $\RegSeqRatUp/\RealUp$ package with precisely the rows listed
 above.
 \end{proof}
 
-\begin{theorem}[DyadicBall center-radius bridge boundary]
-\label{thm:dyadicball-center-radius-bridge-boundary}
-Let $B$ be an accepted $\DyadicBallUp$ packet whose center-radius public
-interface is supplied by
-\autoref{thm:dyadicball-center-radius-public-interface}. Suppose its common
-observation overlap with any compared packet is supplied by
-\autoref{thm:dyadicball-common-observation-overlap}. Then the bridge rows
-available to $\RegSeqRatUp$ and $\RealUp$ consumers are exactly the finite
-center row, positive radius row, schedule row, observation window, containment
-ledger, $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and
+\begin{theorem}[DyadicBall public bridge package]
+\label{thm:dyadicball-public-bridge-package}
+Let $B$ be an accepted $\DyadicBallUp$ packet whose public center-radius
+interface is the one of
+\autoref{thm:dyadicball-center-radius-public-interface}. Then the
+$\RegSeqRatUp$ window handoff of
+\autoref{thm:dyadicball-regseqrat-window-handoff} and the $\RealUp$ seal
+boundary of \autoref{thm:dyadicball-real-seal-boundary} assemble a single
+finite bridge package. Its visible rows are exactly the center row, positive
+radius row, schedule row, scheduled observation row, containment ledger,
+componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and
 local $\NameCert$ row displayed by the public interface.
 
-Consequently, the bridge boundary exposes no host real ball, selected point,
-metric-completion datum, quotient stream equality, or hidden tail coordinate.
+Under the overlap hypotheses of
+\autoref{thm:dyadicball-common-observation-overlap} and
+\autoref{thm:dyadicball-refinement-overlap-transitivity}, the same bridge
+package is stable under common refinement. No quotient ball, host real
+equality, metric topology, completeness witness, or selected limit is
+introduced.
 \end{theorem}
 \begin{proof}
-Unpack the public interface theorem. It packages the center, radius, schedule,
-observation, containment, transport, provenance, and local naming rows of
-\autoref{def:dyadicball-carrier} as the reusable
-$\NameCert_{\DyadicBallUp}$ surface.
+Unpack the public center-radius interface. It exposes exactly the finite
+center, radius, schedule, observation, containment, transport, provenance, and
+local naming rows of \autoref{def:dyadicball-carrier}.
 
-Route the common observation theorem through the same schedule and observation
-rows. The overlap proof can only compare accepted packets by their displayed
-center-radius rows, containment ledgers, $\hsame$ witnesses, $\Cont$ routes,
-$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+Project the consumer rows through the RegSeqRat handoff and the RealUp seal
+boundary. Both consumer surfaces read the same displayed rows, so their joint
+package has no coordinate beyond the center-radius interface listed in the
+statement.
 
-Every $\RegSeqRatUp$ or $\RealUp$ consumer read therefore factors through one
-of the listed finite rows. Since neither cited theorem supplies a coordinate
-for a host real ball, selected point, metric completion, quotient stream
-equality, or hidden tail, no such datum is present at the bridge boundary.
+For refinement stability, apply the common-observation overlap theorem and then
+the refinement-overlap transitivity theorem. These results transport the
+displayed center, positive radius, schedule, scheduled observation,
+containment, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows through common
+refinement without adding a quotient ball or host real datum.
+
+The exclusions follow by inspection of the assembled finite rows: neither the
+handoff nor the seal boundary introduces host real equality, metric topology,
+completeness data, or a selected limit.
 \end{proof}
 
 \closureat{DyadicBallUp}{seedStr}
