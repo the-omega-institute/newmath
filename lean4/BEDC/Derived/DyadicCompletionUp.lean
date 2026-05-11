@@ -18,6 +18,61 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
+def DyadicCompletionWindowCarrier [AskSetup] [PackageSetup]
+    (dyadic windows tail realBoundary ledger provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory dyadic ∧ UnaryHistory windows ∧ UnaryHistory tail ∧
+    UnaryHistory realBoundary ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+      Cont dyadic windows tail ∧ Cont tail realBoundary ledger ∧
+        Cont ledger windows provenance ∧ PkgSig bundle provenance pkg
+
+theorem DyadicCompletionWindowCarrier_regular_tail_stability [AskSetup] [PackageSetup]
+    {dyadic windows tail realBoundary ledger provenance dyadic' windows' tail' realBoundary'
+      ledger' provenance' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionWindowCarrier dyadic windows tail realBoundary ledger provenance bundle pkg ->
+      hsame dyadic dyadic' ->
+        hsame windows windows' ->
+          hsame realBoundary realBoundary' ->
+            Cont dyadic' windows' tail' ->
+              Cont tail' realBoundary' ledger' ->
+                Cont ledger' windows' provenance' ->
+                  PkgSig bundle provenance' pkg ->
+                    DyadicCompletionWindowCarrier dyadic' windows' tail' realBoundary'
+                        ledger' provenance' bundle pkg ∧
+                      hsame tail tail' ∧ hsame ledger ledger' ∧
+                        hsame provenance provenance' := by
+  intro carrier sameDyadic sameWindows sameBoundary tailRow ledgerRow provenanceRow pkgSig
+  have dyadicUnary : UnaryHistory dyadic' :=
+    unary_transport carrier.left sameDyadic
+  have windowsUnary : UnaryHistory windows' :=
+    unary_transport carrier.right.left sameWindows
+  have boundaryUnary : UnaryHistory realBoundary' :=
+    unary_transport carrier.right.right.right.left sameBoundary
+  have sameTail : hsame tail tail' :=
+    cont_respects_hsame sameDyadic sameWindows
+      carrier.right.right.right.right.right.right.left tailRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTail sameBoundary
+      carrier.right.right.right.right.right.right.right.left ledgerRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameWindows
+      carrier.right.right.right.right.right.right.right.right.left provenanceRow
+  have tailUnary : UnaryHistory tail' :=
+    unary_cont_closed dyadicUnary windowsUnary tailRow
+  have ledgerUnary : UnaryHistory ledger' :=
+    unary_cont_closed tailUnary boundaryUnary ledgerRow
+  have provenanceUnary : UnaryHistory provenance' :=
+    unary_cont_closed ledgerUnary windowsUnary provenanceRow
+  exact And.intro
+    (And.intro dyadicUnary
+      (And.intro windowsUnary
+        (And.intro tailUnary
+          (And.intro boundaryUnary
+            (And.intro ledgerUnary
+              (And.intro provenanceUnary
+                (And.intro tailRow (And.intro ledgerRow (And.intro provenanceRow pkgSig)))))))))
+    (And.intro sameTail (And.intro sameLedger sameProvenance))
+
 def DyadicCompletionWindowPacket [AskSetup] [PackageSetup]
     (dyadic window regularTail realBoundary ledger provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -51,6 +106,47 @@ theorem DyadicCompletionWindowPacket_streamname_handoff [AskSetup] [PackageSetup
   exact
     ⟨dyadicUnary, windowUnary, regularTailUnary, handoffUnary, sameRegularTail,
       sameLedger, sameHandoff, handoffPkg⟩
+
+theorem DyadicCompletionWindowPacket_regular_tail_stability [AskSetup] [PackageSetup]
+    {dyadic window tail realBoundary ledger provenance dyadic' window' tail' realBoundary'
+      ledger' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCompletionWindowPacket dyadic window tail realBoundary ledger provenance bundle pkg ->
+      hsame dyadic dyadic' ->
+        hsame window window' ->
+          hsame realBoundary realBoundary' ->
+            hsame provenance provenance' ->
+              Cont dyadic' window' tail' ->
+                Cont tail' realBoundary' ledger' ->
+                  Cont ledger' provenance' provenance' ->
+                    PkgSig bundle ledger' pkg ->
+                      DyadicCompletionWindowPacket dyadic' window' tail' realBoundary' ledger'
+                          provenance' bundle pkg ∧
+                        hsame tail tail' ∧ hsame ledger ledger' := by
+  intro packet sameDyadic sameWindow sameRealBoundary sameProvenance
+  intro tailRow' ledgerRow' _provenanceRow' pkgRow'
+  obtain ⟨dyadicUnary, windowUnary, _tailUnary, realBoundaryUnary, _ledgerUnary,
+    provenanceUnary, tailRow, ledgerRow, _pkgRow⟩ := packet
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport windowUnary sameWindow
+  have realBoundaryUnary' : UnaryHistory realBoundary' :=
+    unary_transport realBoundaryUnary sameRealBoundary
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have tailUnary' : UnaryHistory tail' :=
+    unary_cont_closed dyadicUnary' windowUnary' tailRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed tailUnary' realBoundaryUnary' ledgerRow'
+  have sameTail : hsame tail tail' :=
+    cont_respects_hsame sameDyadic sameWindow tailRow tailRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTail sameRealBoundary ledgerRow ledgerRow'
+  constructor
+  · exact ⟨dyadicUnary', windowUnary', tailUnary', realBoundaryUnary', ledgerUnary',
+      provenanceUnary', tailRow', ledgerRow', pkgRow'⟩
+  · exact ⟨sameTail, sameLedger⟩
 
 def DyadicCompletionPacket [AskSetup] [PackageSetup]
     (dyadic window tail real ledger provenance : BHist)
