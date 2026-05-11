@@ -185,4 +185,56 @@ theorem NestedDyadicIntervalPacket_empty_refinement_source [AskSetup] [PackageSe
     exact endpointRow.trans (append_empty_right schedule)
   exact ⟨firstEmpty, nextEmpty, endpointSchedule⟩
 
+def NestedDyadicIntervalClassifier [AskSetup] [PackageSetup]
+    (first next schedule refinement provenance ledger endpoint first' next' schedule'
+      refinement' provenance' ledger' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint bundle pkg ∧
+    NestedDyadicIntervalPacket first' next' schedule' refinement' provenance' ledger' endpoint'
+        bundle pkg ∧
+      hsame first first' ∧ hsame next next' ∧ hsame schedule schedule' ∧
+        hsame refinement refinement' ∧ hsame provenance provenance' ∧
+          hsame ledger ledger' ∧ hsame endpoint endpoint'
+
+theorem NestedDyadicIntervalPacket_shared_prefix_handoff [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint first' next' schedule'
+      refinement' provenance' ledger' endpoint' sharedSchedule sharedRefinement
+      sharedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalClassifier first next schedule refinement provenance ledger endpoint
+        first' next' schedule' refinement' provenance' ledger' endpoint' bundle pkg ->
+      hsame schedule sharedSchedule ->
+        hsame refinement sharedRefinement ->
+          Cont sharedSchedule sharedRefinement sharedEndpoint ->
+            PkgSig bundle sharedEndpoint pkg ->
+              hsame endpoint sharedEndpoint ∧ hsame endpoint' sharedEndpoint ∧
+                PkgSig bundle sharedEndpoint pkg := by
+  intro classifier sameSchedule sameRefinement sharedEndpointRoute sharedEndpointPkg
+  have leftPacket :
+      NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg :=
+    classifier.left
+  have rightPacket :
+      NestedDyadicIntervalPacket first' next' schedule' refinement' provenance' ledger'
+        endpoint' bundle pkg :=
+    classifier.right.left
+  have sameScheduleRows : hsame schedule schedule' :=
+    classifier.right.right.right.right.left
+  have sameRefinementRows : hsame refinement refinement' :=
+    classifier.right.right.right.right.right.left
+  have leftEndpointRoute : Cont schedule refinement endpoint :=
+    leftPacket.right.right.right.right.right.right.right.right.left
+  have rightEndpointRoute : Cont schedule' refinement' endpoint' :=
+    rightPacket.right.right.right.right.right.right.right.right.left
+  have sameEndpoint : hsame endpoint sharedEndpoint :=
+    cont_respects_hsame sameSchedule sameRefinement leftEndpointRoute sharedEndpointRoute
+  have sameScheduleRight : hsame schedule' sharedSchedule :=
+    hsame_trans (hsame_symm sameScheduleRows) sameSchedule
+  have sameRefinementRight : hsame refinement' sharedRefinement :=
+    hsame_trans (hsame_symm sameRefinementRows) sameRefinement
+  have sameEndpointRight : hsame endpoint' sharedEndpoint :=
+    cont_respects_hsame sameScheduleRight sameRefinementRight rightEndpointRoute
+      sharedEndpointRoute
+  exact ⟨sameEndpoint, sameEndpointRight, sharedEndpointPkg⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp
