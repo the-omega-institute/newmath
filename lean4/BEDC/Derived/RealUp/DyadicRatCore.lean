@@ -1,8 +1,10 @@
+import BEDC.FKernel.Unary.Closure
 import BEDC.Derived.RealUp.Core
 
 namespace BEDC.Derived.RealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.Derived.RatUp
 
@@ -96,8 +98,21 @@ theorem RegSeqRatDyadicLedger_real_seal_obligation {d e d' e' radiusD radiusE : 
         (And.intro feed.right.right.right.left
           (And.intro feed.right.right.right.right.left
             (And.intro feed.right.right.right.right.right.left
-              (And.intro feed.right.right.right.right.right.right.left
-                (And.intro feed.right.right.right.right.right.right.right
-                  (And.intro transported.left transported.right.left))))))))
+                (And.intro feed.right.right.right.right.right.right.left
+                  (And.intro feed.right.right.right.right.right.right.right
+                    (And.intro transported.left transported.right.left))))))))
+
+theorem DyadicRatCoreObservationRow_scoped_source_package {d e radiusD radiusE ledger : BHist} :
+    DyadicRatCoreObservationRow d radiusD -> DyadicRatCoreObservationRow e radiusE ->
+      RatHistoryClassifier d e -> Cont radiusD radiusE ledger ->
+        RatHistoryCarrier d ∧ PositiveUnaryDenominator d ∧ RatHistoryClassifier d e ∧
+          UnaryHistory ledger ∧ hsame ledger (append radiusD radiusE) := by
+  intro rowD rowE classified ledgerCont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_repetition_closed_under_continuation rowD.right.right rowE.right.right ledgerCont
+  exact And.intro rowD.left
+    (And.intro rowD.right.left
+      (And.intro classified
+        (And.intro ledgerUnary ledgerCont)))
 
 end BEDC.Derived.RealUp

@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\NestedDyadicIntervalUp$}
+\label{ch:concrete-instances-nesteddyadicinterval-namecert}
+
+The $\NestedDyadicIntervalUp$ interface names finite decreasing dyadic interval chains positioned between the public $\DyadicIntervalUp$ endpoint packet and the regular rational and real-name layers. Moore--Kearfott--Cloud interval analysis treats nested interval enclosures as standard constructive data; here the carrier is only a finite-window BEDC packet and carries no host completeness principle.
+
+\section{Finite decreasing dyadic chains}
+\label{sec:nesteddyadicinterval-finite-decreasing-dyadic-chains}
+
+\begin{definition}[NestedDyadicInterval finite-chain carrier]
+\label{def:nesteddyadicinterval-carrier}
+A $\NestedDyadicIntervalUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(I_0,\ldots,I_n,S,R,P,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item each $I_i$ is a $\DyadicIntervalUp$ endpoint packet with lower and upper $\DyadicRatCoreUp$ endpoint rows and its displayed interval-order ledger;
+\item $S$ is the unary $\StreamNameUp$ schedule naming the finite prefix that selects the displayed interval chain;
+\item $R$ is the nested-refinement ledger: for every displayed successor pair, $R$ stores the $\Cont$ route and $\hsame$ rows witnessing that $I_{i+1}$ refines inside $I_i$ endpointwise;
+\item $P$ is the $\Pkg$ provenance naming the consumed $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ certificate surfaces;
+\item $L$ is the ledger that hides only the unobserved tail beyond the displayed finite chain and records that every public read factors through the shown intervals, $S$, $R$, and $P$.
+\end{enumerate}
+The carrier predicate is $\mathsf{NestedDyadicIntervalPacket}(K)$. Its dependency list is exactly $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{definition}
+
+\begin{definition}[NestedDyadicInterval finite-window classifier]
+\label{def:nesteddyadicinterval-classifier}
+For accepted carriers $K=(I_0,\ldots,I_n,S,R,P,L)$ and $K'=(I'_0,\ldots,I'_m,S',R',P',L')$, the predicate $\mathsf{NestedDyadicIntervalClassifier}(K,K')$ says that every shared scheduled window transports endpointwise and that every common window has the same refined dyadic enclosure.
+
+Concretely, for each unary index requested by both $S$ and $S'$, the classifier supplies displayed $\hsame$ rows between the lower endpoints, displayed $\hsame$ rows between the upper endpoints, the matching $\Cont$ routes for the interval provenance, and equality of the nested-refinement ledger read on that common prefix. It does not quotient infinite chains and does not identify any completed intersection point.
+\end{definition}
+
+\begin{theorem}[NestedDyadicInterval window transport]
+\label{thm:nesteddyadicinterval-window-transport}
+Let $K=(I_0,\ldots,I_n,S,R,P,L)$ be an accepted $\NestedDyadicIntervalUp$ carrier. If each displayed interval $I_i$ is transported endpointwise through $\hsame$ rows and through the same $\Cont$ routes named by $R$ and $P$, and if the transported schedule names the same unary finite prefix, then the transported packet is again an accepted $\NestedDyadicIntervalUp$ carrier.
+
+The transported classifier reads the same finite decreasing dyadic chain on every shared scheduled window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nesteddyadicinterval-carrier}. Each visible interval row is already a $\DyadicIntervalUp$ packet, so endpointwise transport supplies transported lower endpoint rows, transported upper endpoint rows, and the interval-order ledger attached to the same displayed slot.
+
+Now transport the refinement ledger. For each adjacent pair, the $\Cont$ route and $\hsame$ rows in $R$ say that the successor interval refines inside its predecessor. Applying the same routes after endpoint transport gives the corresponding adjacent refinement row for the transported chain.
+
+Finally transport $S$, $P$, and $L$. The schedule still exposes the same unary finite prefix, the provenance still names the same source certificate boundaries, and the ledger still hides only the tail beyond the displayed chain. Repacking these finite rows yields the accepted transported carrier and the same classifier surface on common windows.
+\end{proof}
+
+\begin{theorem}[NestedDyadicInterval RegSeqRat handoff]
+\label{thm:nesteddyadicinterval-regseqrat-handoff}
+An accepted $\NestedDyadicIntervalUp$ carrier hands a $\RegSeqRatUp$ consumer only finite-window data: the unary $\StreamNameUp$ schedule, the displayed $\DyadicIntervalUp$ endpoint packets, the nested-refinement ledger connecting adjacent visible intervals, and the $\Pkg$ provenance that ties these rows to $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+A regular rational consumer may read the midpoint, endpoint, or width information available in the displayed dyadic enclosures, but the handoff does not certify a completed limit, a Dedekind cut, a quotient interval, or a host real interval.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:nesteddyadicinterval-carrier}. The only $\RegSeqRatUp$-facing coordinates are the scheduled finite prefix $S$, the endpoint packets $I_i$, the refinement ledger $R$, and the source provenance $P$.
+
+For each displayed index, the $\DyadicIntervalUp$ row exposes lower and upper $\DyadicRatCoreUp$ endpoints and its interval-order ledger. The adjacent rows of $R$ show that later visible intervals refine earlier visible intervals, so a regular rational consumer receives explicit finite enclosures and their displayed nesting evidence.
+
+The tail ledger $L$ states that nothing beyond the finite chain is public. Therefore the handoff cannot supply regularity beyond the displayed window, cannot select an intersection point, and cannot seal a host real interval.
+\end{proof}
+
+\begin{theorem}[NestedDyadicInterval NameCert obligation surface]
+\label{thm:nesteddyadicinterval-namecert-obligation-surface}
+The local $\NameCert_{\NestedDyadicIntervalUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the finite $\mathsf{BHist}$ packet $K=(I_0,\ldots,I_n,S,R,P,L)$ of \autoref{def:nesteddyadicinterval-carrier};
+\item classifier: the finite-window endpoint and refinement classifier of \autoref{def:nesteddyadicinterval-classifier};
+\item window stability: the endpointwise transport statement of \autoref{thm:nesteddyadicinterval-window-transport};
+\item handoff: the $\RegSeqRatUp$ and $\RealUp$ finite enclosure surface of \autoref{thm:nesteddyadicinterval-regseqrat-handoff};
+\item ledger exactness: the assertion that the hidden part of the name is only the unobserved tail beyond the displayed chain, while all public interval, schedule, refinement, provenance, and certificate reads are listed in the carrier.
+\end{enumerate}
+These rows are the full seed certificate surface for finite decreasing dyadic interval-chain names.
+\end{theorem}
+\begin{proof}
+The carrier row fixes the visible source of every read: each interval is a $\DyadicIntervalUp$ packet, the schedule is a $\StreamNameUp$ prefix, and the provenance names exactly the dyadic rational, interval, stream, regular-rational, and real-name certificate surfaces.
+
+The classifier row is the common-window comparison from \autoref{def:nesteddyadicinterval-classifier}. It compares only displayed endpoints and displayed refinement ledgers, so it supplies the required stability relation without creating a quotient of chains.
+
+Window stability is \autoref{thm:nesteddyadicinterval-window-transport}. The handoff row is \autoref{thm:nesteddyadicinterval-regseqrat-handoff}. Ledger exactness follows from the coordinate $L$: every public read factors through $I_0,\ldots,I_n$, $S$, $R$, and $P$, while only the tail outside the finite chain is hidden. Thus the five rows exhaust the local naming obligation.
+\end{proof}
+
+\closureat{NestedDyadicIntervalUp}{seedStr}
+
+\begin{closurestatus}{\NestedDyadicIntervalUp}
+  \constructivestory{A nested dyadic interval packet is generated by a finite $\mathsf{BHist}$ chain of $\DyadicIntervalUp$ endpoint packets, a unary $\StreamNameUp$ schedule, a nested-refinement ledger using $\Cont$ and $\hsame$, $\Pkg$ provenance for $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and a ledger hiding only the unobserved tail.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The finite-chain carrier of \autoref{def:nesteddyadicinterval-carrier} binds the visible endpoint-packet, schedule, refinement, provenance, handoff, and tail-ledger rows for $\NestedDyadicIntervalUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim completeness, Dedekind cuts, quotient intervals, open-cover compactness, host real intervals, or standard bridge data.}
+  \upgradepath{Formal closure requires Lean targets for the finite carrier, finite-window classifier, window transport, $\RegSeqRatUp$ handoff, and NameCert obligation surface.}
+\end{closurestatus}
