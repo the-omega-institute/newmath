@@ -79,6 +79,32 @@ theorem TranscendenceCarrierPacket_fieldext_source_boundary [AskSetup] [PackageS
       · exact readbacksSame
       · exact endpointSame
 
+def TranscendenceCarrierPacket_classifier [AskSetup] [PackageSetup]
+    {fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource' family'
+      coeffLedger' tests' transports' readbacks' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} : Prop :=
+  TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks endpoint
+      bundle pkg ∧
+    TranscendenceCarrierPacket fieldExtSource' family' coeffLedger' tests' transports' readbacks'
+        endpoint' bundle pkg ∧
+      hsame fieldExtSource fieldExtSource' ∧ hsame family family' ∧
+        hsame coeffLedger coeffLedger' ∧ hsame tests tests' ∧
+          hsame transports transports' ∧ hsame readbacks readbacks' ∧ hsame endpoint endpoint'
+
+def TranscendenceClassifier [AskSetup] [PackageSetup]
+    (fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
+      family' coeffLedger' tests' transports' readbacks' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks
+      endpoint bundle pkg ∧
+    TranscendenceCarrierPacket fieldExtSource' family' coeffLedger' tests' transports'
+      readbacks' endpoint' bundle pkg ∧
+      hsame fieldExtSource fieldExtSource' ∧ hsame family family' ∧
+        hsame coeffLedger coeffLedger' ∧ hsame tests tests' ∧
+          hsame transports transports' ∧ hsame readbacks readbacks' ∧
+            hsame endpoint endpoint' ∧ Cont coeffLedger' tests' readbacks' ∧
+              PkgSig bundle endpoint' pkg
+
 def TranscendenceCarrierPacketClassifier [AskSetup] [PackageSetup]
     (fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
       family' coeffLedger' tests' transports' readbacks' endpoint' : BHist)
@@ -90,6 +116,49 @@ def TranscendenceCarrierPacketClassifier [AskSetup] [PackageSetup]
       hsame fieldExtSource fieldExtSource' ∧ hsame family family' ∧
         hsame coeffLedger coeffLedger' ∧ hsame tests tests' ∧
           hsame transports transports' ∧ hsame readbacks readbacks' ∧ hsame endpoint endpoint'
+
+theorem TranscendenceCarrierPacket_classifier_ledger_transport [AskSetup] [PackageSetup]
+    {fieldExtSource family coeffLedger tests transports readbacks endpoint tests' readbacks' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks endpoint
+        bundle pkg ->
+      hsame tests tests' ->
+        Cont coeffLedger tests' readbacks' ->
+          Cont transports readbacks' endpoint ->
+            TranscendenceCarrierPacket_classifier
+              (fieldExtSource := fieldExtSource) (family := family) (coeffLedger := coeffLedger)
+              (tests := tests) (transports := transports) (readbacks := readbacks)
+              (endpoint := endpoint) (fieldExtSource' := fieldExtSource) (family' := family)
+              (coeffLedger' := coeffLedger) (tests' := tests') (transports' := transports)
+              (readbacks' := readbacks') (endpoint' := endpoint) (bundle := bundle) (pkg := pkg) := by
+  intro packet sameTests coeffTestsReadbacks' transportsReadbacksEndpoint'
+  rcases packet with
+    ⟨fieldExtSourceUnary, familyUnary, coeffLedgerUnary, testsUnary, transportsUnary,
+      _readbacksUnary, fieldFamilyTests, _coeffTestsReadbacks, _transportsReadbacksEndpoint,
+      pkgSig⟩
+  have testsUnary' : UnaryHistory tests' :=
+    unary_transport testsUnary sameTests
+  have fieldFamilyTests' : Cont fieldExtSource family tests' :=
+    cont_result_hsame_transport fieldFamilyTests sameTests
+  have sameReadbacks : hsame readbacks readbacks' :=
+    cont_respects_hsame (hsame_refl coeffLedger) sameTests _coeffTestsReadbacks
+      coeffTestsReadbacks'
+  have readbacksUnary' : UnaryHistory readbacks' :=
+    unary_cont_closed coeffLedgerUnary testsUnary' coeffTestsReadbacks'
+  have packet :
+      TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks
+          endpoint bundle pkg :=
+    ⟨fieldExtSourceUnary, familyUnary, coeffLedgerUnary, testsUnary, transportsUnary,
+      _readbacksUnary, fieldFamilyTests, _coeffTestsReadbacks, _transportsReadbacksEndpoint,
+      pkgSig⟩
+  have packet' :
+      TranscendenceCarrierPacket fieldExtSource family coeffLedger tests' transports readbacks'
+          endpoint bundle pkg :=
+    ⟨fieldExtSourceUnary, familyUnary, coeffLedgerUnary, testsUnary', transportsUnary,
+      readbacksUnary', fieldFamilyTests', coeffTestsReadbacks', transportsReadbacksEndpoint',
+      pkgSig⟩
+  exact ⟨packet, packet', hsame_refl fieldExtSource, hsame_refl family,
+    hsame_refl coeffLedger, sameTests, hsame_refl transports, sameReadbacks, hsame_refl endpoint⟩
 
 theorem TranscendenceCarrierPacketClassifier_transport [AskSetup] [PackageSetup]
     {fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
