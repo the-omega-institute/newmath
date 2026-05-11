@@ -382,4 +382,60 @@ theorem KnotReidemeisterLedgerClassifier_reversal_symmetry [AskSetup] [PackageSe
       (And.intro reverseLedgerRow
         (And.intro reverseEndpointRow reversePkg)))
 
+theorem KnotDiagramPacket_consumer_boundary_extraction [AskSetup] [PackageSetup]
+    {sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger endpoint consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket sone ambient diagram trace homotopy endpoint0 endpoint1 provenance ledger
+        endpoint bundle pkg ->
+      Cont endpoint provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory provenance ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory consumer ∧ Cont sone ambient provenance ∧
+              Cont endpoint0 endpoint1 ledger ∧ Cont provenance ledger endpoint ∧
+                Cont endpoint provenance consumer ∧ hsame consumer (append endpoint provenance) ∧
+                  PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerPkg
+  have sourceRows :=
+    KnotDiagramPacket_sone_source_boundary packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sourceRows.right.right.left sourceRows.left consumerRow
+  exact And.intro sourceRows.left
+    (And.intro sourceRows.right.left
+      (And.intro sourceRows.right.right.left
+        (And.intro consumerUnary
+          (And.intro sourceRows.right.right.right.left
+            (And.intro sourceRows.right.right.right.right.left
+              (And.intro sourceRows.right.right.right.right.right.left
+                (And.intro consumerRow
+                  (And.intro consumerRow consumerPkg))))))))
+
+theorem KnotDiagramPacket_consumer_cont_composition [AskSetup] [PackageSetup]
+    {soneA ambientA diagramA traceA homotopyA endpoint0A endpoint1A provenanceA ledgerA
+      endpointA soneB ambientB diagramB traceB homotopyB endpoint0B endpoint1B provenanceB ledgerB
+      endpointB joined final : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KnotDiagramPacket soneA ambientA diagramA traceA homotopyA endpoint0A endpoint1A
+        provenanceA ledgerA endpointA bundle pkg ->
+      KnotDiagramPacket soneB ambientB diagramB traceB homotopyB endpoint0B endpoint1B
+          provenanceB ledgerB endpointB bundle pkg ->
+        Cont endpointA endpointB joined ->
+          Cont joined ledgerB final ->
+            PkgSig bundle final pkg ->
+              UnaryHistory joined ∧ UnaryHistory final ∧ hsame joined (append endpointA endpointB) ∧
+                hsame final (append joined ledgerB) ∧ PkgSig bundle final pkg := by
+  intro packetA packetB joinedRow finalRow finalPkg
+  have rowsA :=
+    KnotDiagramPacket_sone_source_boundary packetA
+  have rowsB :=
+    KnotDiagramPacket_sone_source_boundary packetB
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed rowsA.right.right.left rowsB.right.right.left joinedRow
+  have finalUnary : UnaryHistory final :=
+    unary_cont_closed joinedUnary rowsB.right.left finalRow
+  exact And.intro joinedUnary
+    (And.intro finalUnary
+      (And.intro joinedRow
+        (And.intro finalRow finalPkg)))
+
 end BEDC.Derived.KnotUp
