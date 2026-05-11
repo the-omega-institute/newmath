@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -73,6 +75,48 @@ theorem FiniteVectorPacket_length_index_transport [AskSetup] [PackageSetup]
                   (And.intro endpointUnary'
                     (And.intro endpointCont' endpointPkg')))))))))
     sameEndpoint
+
+theorem FiniteVectorPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {length spine pairs component ledger provenance hidden endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteVectorPacket length spine pairs component ledger provenance hidden endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FiniteVectorPacket length spine pairs component ledger provenance hidden endpoint
+            bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          FiniteVectorPacket length spine pairs component ledger provenance hidden endpoint
+            bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          FiniteVectorPacket length spine pairs component ledger provenance hidden endpoint
+            bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig NameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
 
 def FiniteVectorSame
     (n spine pairs routes provenance ledger n' spine' pairs' routes' provenance'
