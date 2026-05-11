@@ -112,3 +112,46 @@ All excluded objects are absent from the carrier inventory. Since consumer reads
   \notclaimed{This chapter does not close stochastic optimality, analytic convergence, probability-space semantics, controllability decomposition, or a public standard bridge.}
   \upgradepath{The next paper-side step is a public certificate export boundary for consumer-visible Kalman prediction and update rows.}
 \end{closurestatus}
+
+\begin{theorem}[KalmanFilterUp zero-gain posterior estimate collapse]
+\label{thm:kalmanfilter-zero-gain-posterior-estimate-collapse}
+Let $\mathcal K$ be an accepted $\KalmanFilterUp$ packet in the sense of \autoref{def:kalmanfilter-bhist-carrier}. Write
+$$
+\widehat{x}^{-}
+$$
+for its predicted-estimate row, $K$ for its gain row, $\nu$ for its innovation row, $K\nu$ for the displayed gain-application row, and $\widehat{x}^{+}$ for its posterior-estimate row. Assume that the update face is the displayed affine Kalman estimate row
+$$
+\widehat{x}^{+}\sim_{\VecSpaceUp}\widehat{x}^{-}+_{\VecSpaceUp}K\nu,
+$$
+with the gain application $K\nu$ read through the $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ rows exposed by \autoref{thm:kalmanfilter-prediction-update-obligation}. If the gain row is classified with the zero matrix row,
+$$
+K\sim_{\MatrixUp}Z,
+$$
+where $Z$ is the zero matrix datum of \autoref{def:finite-fold-zero-matrix-data}, then the posterior-estimate row is classified with the predicted-estimate row:
+$$
+\widehat{x}^{+}\sim_{\VecSpaceUp}\widehat{x}^{-}.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted packet by \autoref{thm:kalmanfilter-prediction-update-obligation}. The projection supplies the finite prediction row, innovation row, gain row, posterior-estimate row, and the provenance rows saying that the gain application is read only through the displayed $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ certificates. By \autoref{def:kalmanfilter-bhist-carrier}, no hidden estimator object or stochastic equality is available; every comparison must be assembled from those rows.
+
+The gain hypothesis identifies the carried gain endpoint with the zero matrix datum $Z$. Matrix classifier stability transports the gain-application row along this comparison, so the displayed product $K\nu$ is classified with the zero-gain product $Z\nu$. The finite-fold zero matrix multiplication law, \autoref{thm:finite-fold-matrix-zero-multiplication-law}, classifies $Z\nu$ with the zero vector endpoint in the codomain vector carrier. Thus the gain-application contribution satisfies
+$$
+K\nu\sim_{\VecSpaceUp}0.
+$$
+The use of \autoref{thm:finite-fold-matrix-zero-multiplication-law} is entrywise: each scalar summand has a zero matrix factor, the scalar zero-product row reduces it to the scalar zero, and the finite additive fold reduces the whole displayed product to the zero endpoint.
+
+Now apply vector-space addition congruence to the posterior affine row. The comparison $K\nu\sim_{\VecSpaceUp}0$ transports
+$$
+\widehat{x}^{-}+_{\VecSpaceUp}K\nu
+$$
+to
+$$
+\widehat{x}^{-}+_{\VecSpaceUp}0.
+$$
+The vector additive right-unit row in the $\VecSpaceUp$ certificate identifies this endpoint with $\widehat{x}^{-}$. Transitivity in the $\VecSpaceUp$ classifier composes the displayed affine update comparison, the transported zero-gain comparison, and the additive right-unit comparison. Hence
+$$
+\widehat{x}^{+}\sim_{\VecSpaceUp}\widehat{x}^{-}.
+$$
+All rows used in the argument are among the finite prediction, innovation, gain, posterior-estimate, matrix, vector-space, linear-map, $\Cont$, $\hsame$, and $\Pkg$ rows named by \autoref{def:kalmanfilter-bhist-carrier}; the consumer boundary of \autoref{thm:kalmanfilter-downstream-consumer-boundary} excludes any additional analytic or probabilistic premise.
+\end{proof}

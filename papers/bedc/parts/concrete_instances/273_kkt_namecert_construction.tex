@@ -130,14 +130,15 @@ All excluded analytic objects require rows absent from the carrier. The downstre
 
 \closureat{KKTUp}{seedStr}
 \closureat{KKTUp}{obligationStr}
+\closureat{KKTUp}{scopedStr}[BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary]
 \begin{closurestatus}{\KKTUp}
   \constructivestory{The construction starts from a finite constrained-convex-program packet, records primal, dual, residual, stationarity, feasibility, and complementary-slackness rows, and routes every read through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation boundary records a finite KKT packet over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$, with visible primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
-  \formalstatus{\encodedDefV}
-  \leantarget{BEDC.Derived.KKTUp.KKTCarrierPacket}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{By \autoref{thm:kkt-downstream-consumer-boundary}, the scoped boundary binds the primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of the finite KKT packet.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full nonlinear optimization, Slater existence, analytic differentiability, host real optimization semantics, or a standard bridge.}
-  \upgradepath{Scoped closure requires checked finite BEDC targets for the carrier, primal-dual rows, stationarity and feasibility stability, complementarity ledger, and downstream boundary.}
+  \upgradepath{Public closure requires a displayed public export surface for the finite KKT packet without adding analytic optimization semantics.}
 \end{closurestatus}
