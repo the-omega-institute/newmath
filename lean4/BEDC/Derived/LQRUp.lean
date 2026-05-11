@@ -22,6 +22,59 @@ def LQRFiniteControlCarrier
     UnaryHistory estimator ∧ Cont state control transition ∧ Cont transition cost backward ∧
       Cont backward estimator provenance ∧ Cont provenance horizon endpoint
 
+theorem LQRFiniteControlCarrier_transition_stability
+    {state control transition cost horizon estimator backward provenance endpoint state' control'
+      transition' cost' horizon' estimator' backward' provenance' endpoint' : BHist} :
+    LQRFiniteControlCarrier state control transition cost horizon estimator backward provenance
+        endpoint ->
+      hsame state state' ->
+        hsame control control' ->
+          hsame cost cost' ->
+            hsame horizon horizon' ->
+              hsame estimator estimator' ->
+                Cont state' control' transition' ->
+                  Cont transition' cost' backward' ->
+                    Cont backward' estimator' provenance' ->
+                      Cont provenance' horizon' endpoint' ->
+                        LQRFiniteControlCarrier state' control' transition' cost' horizon'
+                            estimator' backward' provenance' endpoint' ∧
+                          hsame transition transition' ∧
+                            hsame backward backward' ∧
+                              hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro carrier sameState sameControl sameCost sameHorizon sameEstimator transitionRow'
+    backwardRow' provenanceRow' endpointRow'
+  rcases carrier with
+    ⟨stateUnary, controlUnary, costUnary, horizonUnary, estimatorUnary, transitionRow,
+      backwardRow, provenanceRow, endpointRow⟩
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport controlUnary sameControl
+  have costUnary' : UnaryHistory cost' :=
+    unary_transport costUnary sameCost
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport horizonUnary sameHorizon
+  have estimatorUnary' : UnaryHistory estimator' :=
+    unary_transport estimatorUnary sameEstimator
+  have sameTransition : hsame transition transition' :=
+    cont_respects_hsame sameState sameControl transitionRow transitionRow'
+  have sameBackward : hsame backward backward' :=
+    cont_respects_hsame sameTransition sameCost backwardRow backwardRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameBackward sameEstimator provenanceRow provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameHorizon endpointRow endpointRow'
+  exact And.intro
+    (And.intro stateUnary'
+      (And.intro controlUnary'
+        (And.intro costUnary'
+          (And.intro horizonUnary'
+            (And.intro estimatorUnary'
+              (And.intro transitionRow'
+                (And.intro backwardRow' (And.intro provenanceRow' endpointRow'))))))))
+    (And.intro sameTransition
+      (And.intro sameBackward (And.intro sameProvenance sameEndpoint)))
+
 def LQRFiniteControlPacket [AskSetup] [PackageSetup]
     (state control transition cost horizon successorValue estimatorInput backwardUpdate
       predecessorValue endpoint : BHist)
@@ -202,5 +255,77 @@ theorem LQR_dynamic_programming_cont_determinacy
   have sameStcce : hsame stcce stcce' :=
     cont_respects_hsame sameStcc sameEstimator rowStcce rowStcce'
   exact cont_respects_hsame sameStcce sameProvenance rowPredecessor rowPredecessor'
+
+theorem LQRFiniteControlPacket_transition_transport [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint state' control' transition' cost' horizon' successorValue'
+      estimatorInput' backwardUpdate' predecessorValue' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame state state' ->
+        hsame control control' ->
+          hsame transition transition' ->
+            hsame cost cost' ->
+              hsame horizon horizon' ->
+                hsame successorValue successorValue' ->
+                  hsame estimatorInput estimatorInput' ->
+                    Cont state' control' transition' ->
+                      Cont transition' cost' successorValue' ->
+                        Cont successorValue' estimatorInput' backwardUpdate' ->
+                          Cont backwardUpdate' horizon' predecessorValue' ->
+                            Cont predecessorValue' cost' endpoint' ->
+                              Cont estimatorInput' transition' backwardUpdate' ->
+                                Cont backwardUpdate' control' predecessorValue' ->
+                                  Cont successorValue' horizon' endpoint' ->
+                                    PkgSig bundle endpoint' pkg ->
+                                      LQRFiniteControlPacket state' control' transition' cost'
+                                          horizon' successorValue' estimatorInput' backwardUpdate'
+                                          predecessorValue' endpoint' bundle pkg ∧
+                                        hsame backwardUpdate backwardUpdate' ∧
+                                          hsame predecessorValue predecessorValue' ∧
+                                            hsame endpoint endpoint' := by
+  intro packet sameState sameControl sameTransition sameCost sameHorizon sameSuccessor
+    sameEstimator stateControlTransition transitionCostSuccessor successorEstimatorBackward
+    backwardHorizonPredecessor predecessorCostEndpoint estimatorTransitionBackward
+    backwardControlPredecessor successorHorizonEndpoint endpointPkg
+  rcases packet with
+    ⟨stateUnary, controlUnary, transitionUnary, costUnary, horizonUnary, successorUnary,
+      estimatorUnary, _backwardUnary, _predecessorUnary, _endpointUnary, _stateControl,
+      _transitionCost, successorEstimator, backwardHorizon, predecessorCost,
+      estimatorTransition, _backwardControl, _successorHorizon, _pkgRow⟩
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport controlUnary sameControl
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have costUnary' : UnaryHistory cost' :=
+    unary_transport costUnary sameCost
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport horizonUnary sameHorizon
+  have successorUnary' : UnaryHistory successorValue' :=
+    unary_transport successorUnary sameSuccessor
+  have estimatorUnary' : UnaryHistory estimatorInput' :=
+    unary_transport estimatorUnary sameEstimator
+  have backwardUnary' : UnaryHistory backwardUpdate' :=
+    unary_cont_closed successorUnary' estimatorUnary' successorEstimatorBackward
+  have predecessorUnary' : UnaryHistory predecessorValue' :=
+    unary_cont_closed backwardUnary' horizonUnary' backwardHorizonPredecessor
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed predecessorUnary' costUnary' predecessorCostEndpoint
+  have sameBackward : hsame backwardUpdate backwardUpdate' :=
+    cont_respects_hsame sameSuccessor sameEstimator successorEstimator successorEstimatorBackward
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward sameHorizon backwardHorizon backwardHorizonPredecessor
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost predecessorCost predecessorCostEndpoint
+  exact
+    ⟨⟨stateUnary', controlUnary', transitionUnary', costUnary', horizonUnary', successorUnary',
+        estimatorUnary', backwardUnary', predecessorUnary', endpointUnary', stateControlTransition,
+        transitionCostSuccessor, successorEstimatorBackward, backwardHorizonPredecessor,
+        predecessorCostEndpoint, estimatorTransitionBackward, backwardControlPredecessor,
+        successorHorizonEndpoint, endpointPkg⟩,
+      sameBackward, samePredecessor, sameEndpoint⟩
 
 end BEDC.Derived.LQRUp
