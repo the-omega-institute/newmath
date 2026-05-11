@@ -45,4 +45,37 @@ theorem app_id_sort_in_empty_ctx :
     id_sort_well_typed
     (HasType.sortRule [])
 
+/-- 空 ctx 下: app (lam sort sort) sort 类型为 sort. -/
+theorem app_const_sort_in_empty_ctx :
+    HasType [] (Term.app (Term.lam Term.sort Term.sort) Term.sort) Term.sort := by
+  exact HasType.appRule [] (Term.lam Term.sort Term.sort)
+    Term.sort Term.sort Term.sort
+    (HasType.lamRule [] Term.sort Term.sort Term.sort
+      (HasType.sortRule [])
+      (HasType.sortRule [Term.sort]))
+    (HasType.sortRule [])
+
+/-- 单 sort ctx 下: app (lam sort (var 0)) (var 0) 类型为 sort. -/
+theorem app_id_var_in_sort_ctx :
+    HasType [Term.sort] (Term.app (Term.lam Term.sort (Term.var 0)) (Term.var 0))
+      Term.sort := by
+  exact HasType.appRule [Term.sort] (Term.lam Term.sort (Term.var 0))
+    (Term.var 0) Term.sort Term.sort
+    (HasType.lamRule [Term.sort] Term.sort (Term.var 0) Term.sort
+      (HasType.sortRule [Term.sort])
+      (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl))
+    (HasType.varRule [Term.sort] 0 Term.sort rfl)
+
+/-- 单 sort ctx 下: app (lam sort (var 0)) (pi (var 0) sort) 类型为 sort. -/
+theorem app_id_pi_var_sort_in_sort_ctx :
+    HasType [Term.sort]
+      (Term.app (Term.lam Term.sort (Term.var 0)) (Term.pi (Term.var 0) Term.sort))
+      Term.sort := by
+  exact HasType.appRule [Term.sort] (Term.lam Term.sort (Term.var 0))
+    (Term.pi (Term.var 0) Term.sort) Term.sort Term.sort
+    (HasType.lamRule [Term.sort] Term.sort (Term.var 0) Term.sort
+      (HasType.sortRule [Term.sort])
+      (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl))
+    pi_var_sort_in_sort_ctx
+
 end BEDC.MetaCIC
