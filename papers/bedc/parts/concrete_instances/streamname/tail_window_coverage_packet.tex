@@ -102,6 +102,47 @@ metric-completeness, arithmetic or order, and standard bridge rows remain
 outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[StreamName tail-window dyadic endpoint determinacy]
+\label{thm:streamname-tail-window-dyadic-endpoint-determinacy}
+Let $\mathcal P$ and $\mathcal Q$ be StreamName tail-window coverage packets
+over shared public endpoints $s,t:\mathsf{BHist}\to\mathsf{BHist}$ and the same
+accepted $\RegSeqRat$ spine. Suppose their displayed finite-window classifier
+rows agree, and suppose the selected $\mathsf{UnaryHistory}$ and
+$\mathsf{InBundle}$ membership rows agree by the shown
+$\hsame/\Cont/\Pkg$ provenance. Then the two packets expose identical
+DyadicRatCore endpoint rows to any finite $\RealUp$ consumer.
+
+The determined finite interface is the shared
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the selected
+$\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$ rows, the
+pointwise $\mathsf{RatHistoryClassifier}$ rows consumed by the accepted
+$\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the common
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ ledger. It contains no completion,
+quotient, metric-completeness, arithmetic or order, or standard-bridge row.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:streamname-tail-window-coverage-packet}. The only selected
+rows available for comparison are the finite-window classifier, the displayed
+bundle and unary-history rows, the pointwise rational-history classifiers, the
+accepted $\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the finite
+ledger provenance.
+
+Apply \autoref{thm:streamname-regseqrat-finite-window-classifier-coverage}. The
+shared finite-window classifier and the agreed selected membership rows force
+the same pointwise $\mathsf{RatHistoryClassifier}$ rows to feed the common
+accepted $\RegSeqRat$ spine in both packets.
+
+Next apply \autoref{thm:streamname-tail-window-coverage-exhaustion}. Since the
+accepted spine and its pointwise StreamName inputs are the same displayed rows,
+the DyadicRatCore endpoint rows selected from that spine are the same finite
+packet rows for both consumers.
+
+Finally use \autoref{thm:streamname-tail-window-realup-boundary}. The boundary
+has no slot for completion, quotient, metric-completeness, arithmetic or order,
+or standard bridge data, so no off-packet row can separate the two exposed
+DyadicRatCore endpoint surfaces.
+\end{proof}
+
 \begin{theorem}[StreamName tail-window common refinement]
 \label{thm:streamname-tail-window-cover-common-refinement}
 Given two StreamName tail-window coverage packets for finite
