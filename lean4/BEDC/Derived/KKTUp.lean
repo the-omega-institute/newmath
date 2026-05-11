@@ -547,7 +547,7 @@ theorem KKTCarrierPacket_stationarity_feasibility_hsame_transport [AskSetup] [Pa
                                 slackness' comparison' ledger' provenance' endpoint' probe pkg ∧
                               hsame comparison comparison' ∧
                                 hsame slackness slackness' ∧ hsame ledger ledger' ∧
-                                  hsame endpoint endpoint' := by
+                                   hsame endpoint endpoint' := by
   exact KKTCarrierPacket_stationarity_feasibility_stability
 
 end BEDC.Derived.KKTUp
