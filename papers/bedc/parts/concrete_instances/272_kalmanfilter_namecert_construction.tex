@@ -99,15 +99,16 @@ Project the exported rows from \autoref{def:kalmanfilter-bhist-carrier}. These a
 All excluded objects are absent from the carrier inventory. Since consumer reads are projections from accepted $\mathsf{BHist}$ rows and their provenance, no consumer can recover a host stochastic or analytic object without an additional certificate.
 \end{proof}
 
-\closureat{KalmanFilterUp}{obligationStr}
+\closureat{KalmanFilterUp}{scopedStr}[BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\KalmanFilterUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope records a finite Kalman prediction-update packet over $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$, with visible covariance, innovation, gain, transport, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary binds the finite Kalman prediction-update packet to $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
   \constructivestory{The construction starts from the finite observation packet and dynamic-system transition row, adds matrix and vector rows for prediction, covariance propagation, innovation, gain, and posterior estimate transport, and records the whole calculation as $\mathsf{BHist}$ rows with $\Cont$ and $\mathsf{Pkg}$ provenance.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close stochastic optimality, analytic convergence, probability-space semantics, controllability decomposition, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding the prediction-update, innovation, covariance, gain, estimator, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows to $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$.}
+  \upgradepath{The next paper-side step is a public certificate export boundary for consumer-visible Kalman prediction and update rows.}
 \end{closurestatus}
