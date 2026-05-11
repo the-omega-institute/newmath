@@ -217,6 +217,7 @@ import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger
