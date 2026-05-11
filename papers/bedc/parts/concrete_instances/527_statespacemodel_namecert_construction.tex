@@ -162,6 +162,38 @@ Apply \autoref{thm:statespacemodel-ledger-boundary} and \autoref{thm:statespacem
 The boundary therefore excludes host trajectory spaces, analytic semigroups, stochastic models, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, and standard bridge data.
 \end{proof}
 
+\begin{theorem}[StateSpaceModel standard finite-transition bridge]
+\label{thm:statespacemodel-standard-finite-transition-bridge}
+Any standard finite state-transition presentation accepted by this chapter is
+read into the same finite BEDC packet rows for state, input, output,
+transition, input map, observation map, trace ledger, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$. Conversely, every accepted $\StateSpaceModelUp$
+packet exposes exactly that standard finite-transition surface and no further
+state-space coordinate.
+\end{theorem}
+\begin{proof}
+Start with an accepted standard finite-transition presentation. Apply
+\autoref{thm:statespacemodel-public-finite-transition-export} to read the
+finite state, input, output, transition, input-map, observation-map,
+trace-ledger, transport, continuation, provenance, and local name rows.
+
+Next apply \autoref{thm:statespacemodel-public-interface-boundary}. This
+identifies the public interface with the same packet rows and prevents a
+consumer from reading outside the displayed $\DynSystemUp$, $\MatrixUp$,
+$\VecSpaceUp$, $\LinMapUp$, $\Cont$, $\hsame$, and $\Pkg$ surface.
+
+For the converse direction, project an accepted packet through
+\autoref{thm:statespacemodel-ledger-boundary}. The ledger boundary says that
+every state-transition, input-map, observation-map, and trace read is one of
+the recorded finite rows, so the packet exposes exactly the standard finite
+transition surface.
+
+The bridge does not assert controllability, observability, filtering
+optimality, regulator optimality, stochastic models, analytic trajectories, or
+infinite-horizon semantics; those objects are not coordinates of the accepted
+packet.
+\end{proof}
+
 \closureat{StateSpaceModelUp}{seedStr}
 \closureat{StateSpaceModelUp}{obligationStr}
 \closureat{StateSpaceModelUp}{scopedStr}

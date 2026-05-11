@@ -49,6 +49,39 @@ theorem DyadicPrecisionSchedule_common_window_readback
     cont_respects_hsame sameTransport sameProvenance leftLedger rightLedger
   exact And.intro sameTransport sameLedger
 
+theorem DyadicPrecisionSchedule_radius_window_coverage
+    {precision radius window transport provenance nameCert ledger : BHist} :
+    DyadicPrecisionSchedule precision radius window transport provenance nameCert ledger ->
+      UnaryHistory precision ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+        UnaryHistory nameCert ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+          UnaryHistory ledger ∧ hsame transport (append precision window) ∧
+            hsame provenance (append radius nameCert) ∧
+              hsame ledger (append transport provenance) := by
+  intro schedule
+  have precisionUnary : UnaryHistory precision :=
+    schedule.left
+  have radiusUnary : UnaryHistory radius :=
+    schedule.right.left
+  have windowUnary : UnaryHistory window :=
+    schedule.right.right.left
+  have nameCertUnary : UnaryHistory nameCert :=
+    schedule.right.right.right.left
+  have provenanceRow : Cont radius nameCert provenance :=
+    schedule.right.right.right.right.left
+  have transportRow : Cont precision window transport :=
+    schedule.right.right.right.right.right.left
+  have ledgerRow : Cont transport provenance ledger :=
+    schedule.right.right.right.right.right.right
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary transportRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed radiusUnary nameCertUnary provenanceRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary provenanceUnary ledgerRow
+  exact
+    ⟨precisionUnary, radiusUnary, windowUnary, nameCertUnary, transportUnary,
+      provenanceUnary, ledgerUnary, transportRow, provenanceRow, ledgerRow⟩
+
 theorem DyadicPrecisionUp_semantic_name_certificate (x : DyadicPrecisionUp) :
     SemanticNameCert
       (fun row : BHist =>
