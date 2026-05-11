@@ -22,6 +22,27 @@ def LQRFiniteControlCarrier
     UnaryHistory estimator ∧ Cont state control transition ∧ Cont transition cost backward ∧
       Cont backward estimator provenance ∧ Cont provenance horizon endpoint
 
+theorem LQRFiniteControlCarrier_endpoint_closed_generation
+    {state control transition cost horizon estimator backward provenance endpoint : BHist}
+    {P : BHist -> Prop} :
+    LQRFiniteControlCarrier state control transition cost horizon estimator backward provenance
+        endpoint ->
+      P BHist.Empty ->
+        (forall h : BHist, UnaryHistory h -> P h -> P (BHist.e1 h)) -> P endpoint := by
+  intro carrier base step
+  rcases carrier with
+    ⟨stateUnary, controlUnary, costUnary, horizonUnary, estimatorUnary, transitionRow,
+      backwardRow, provenanceRow, endpointRow⟩
+  have transitionUnary : UnaryHistory transition :=
+    unary_cont_closed stateUnary controlUnary transitionRow
+  have backwardUnary : UnaryHistory backward :=
+    unary_cont_closed transitionUnary costUnary backwardRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed backwardUnary estimatorUnary provenanceRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary horizonUnary endpointRow
+  exact unary_history_induction base step endpoint endpointUnary
+
 theorem LQRFiniteControlCarrier_transition_stability
     {state control transition cost horizon estimator backward provenance endpoint state' control'
       transition' cost' horizon' estimator' backward' provenance' endpoint' : BHist} :
@@ -97,6 +118,18 @@ def LQRFiniteControlPacket [AskSetup] [PackageSetup]
                                 Cont estimatorInput transition backwardUpdate ∧
                                   Cont backwardUpdate control predecessorValue ∧
                                     Cont successorValue horizon endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem LQRFiniteControlCarrier_quadratic_cost_exactness [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+      backwardUpdate predecessorValue endpoint bundle pkg ->
+      UnaryHistory cost ∧ Cont predecessorValue cost endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  rcases packet with
+    ⟨_, _, _, costUnary, _, _, _, _, _, _, _, _, _, _, predecessorCostEndpoint, _, _, _, pkgSig⟩
+  exact And.intro costUnary (And.intro predecessorCostEndpoint pkgSig)
 
 theorem LQRFiniteControlPacket_namecert_seed_obligation_surface [AskSetup] [PackageSetup]
     {state control transition cost horizon successorValue estimatorInput backwardUpdate
