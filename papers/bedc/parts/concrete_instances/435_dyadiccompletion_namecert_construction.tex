@@ -1,0 +1,149 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCompletionUp$}
+\label{ch:concrete-instances-dyadiccompletion}
+
+The $\DyadicCompletionUp$ surface is the constructive completion handoff between
+finite dyadic observations and the regular real-name layer. Following the
+Bishop--Bridges constructive-analysis treatment of Cauchy completion for
+dyadics, the chapter records only scheduled finite observations, explicit
+regular-tail witnesses, and visible precision ledgers. It does not identify
+streams by quotient classes, select limits by choice, or replace the stream
+surface by Dedekind cuts.
+
+\section{Carrier Surface}
+\label{sec:dyadiccompletion-carrier-surface}
+
+\begin{definition}[DyadicCompletion finite-window carrier]
+\label{def:dyadiccompletion-carrier}
+A $\DyadicCompletionUp$ carrier row is a finite $\mathsf{BHist}$ packet
+$(d,w,r,s,L,P)$ with the following visible coordinates:
+\begin{enumerate}
+\item dyadic observation rows $d$ accepted by $\DyadicRatCoreUp$;
+\item certified stream windows $w$ requested through $\StreamNameUp$;
+\item a regular-tail classifier row $r$ whose comparisons are read through
+$\RegSeqRatUp$;
+\item a real-name boundary row $s$ naming the data consumed by $\RealUp$;
+\item a precision ledger $L$ recording every finite schedule, tail bound, and
+window restriction used by the packet;
+\item a $\Pkg$ provenance row $P$ naming the $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ certificates.
+\end{enumerate}
+The carrier stores finite windows and their ledgers. It contains no completed
+host real, no quotient class of Cauchy streams, no hidden precision schedule,
+and no Dedekind-cut classifier.
+\end{definition}
+
+\begin{theorem}[DyadicCompletion NameCert obligation surface]
+\label{thm:dyadiccompletion-namecert-obligation-surface}
+The local $\NameCert_{\DyadicCompletionUp}$ obligation surface consists exactly
+of the carrier of \autoref{def:dyadiccompletion-carrier}, the componentwise
+classifier that compares dyadic observations and stream-window rows, the
+regular-tail stability row read through $\RegSeqRatUp$, the $\RealUp$ handoff
+row for accepted real-name consumers, and the precision ledger boundary that
+records every schedule consumed by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The dyadic, stream, regular-tail, real-handoff,
+ledger, and provenance rows are all stored as finite $\mathsf{BHist}$ data.
+
+The classifier is componentwise because a consumer can compare only the rows it
+can read: dyadic observations through $\DyadicRatCoreUp$, scheduled windows
+through $\StreamNameUp$, and tail comparisons through $\RegSeqRatUp$.
+
+The $\RealUp$ handoff is therefore a boundary projection rather than a selected
+limit. Repacking these projections gives the listed obligation surface and no
+additional completion object.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion constant dyadic embedding]
+\label{thm:dyadiccompletion-constant-embedding}
+Every accepted $\DyadicRatCoreUp$ row $q$ determines a $\DyadicCompletionUp$
+carrier whose scheduled stream windows all read $q$, whose regular-tail
+classifier rows are reflexive dyadic comparisons, whose $\RealUp$ boundary row
+is the constant real-name handoff, and whose precision ledger records only the
+requested windows and their constant readback routes.
+\end{theorem}
+\begin{proof}
+Use the constant $\StreamNameUp$ schedule with value row $q$ at each requested
+finite window. Each endpoint read is already accepted by $\DyadicRatCoreUp$.
+
+For the regular-tail coordinate, compare any two displayed windows by the
+reflexive dyadic classifier on the same row $q$. The bound rows are the trivial
+constant-tail witnesses consumed by $\RegSeqRatUp$.
+
+Finally attach the $\RealUp$ handoff row that reads the same constant windows.
+The ledger records the schedule requests and the constant routes, so no
+quotient, limit selector, or hidden precision choice is introduced.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion regular-tail stability]
+\label{thm:dyadiccompletion-regular-tail-stability}
+Let $C$ be an accepted $\DyadicCompletionUp$ carrier. If a second carrier
+$C'$ is obtained by $\hsame$ transport of the dyadic observation rows, certified
+stream windows, regular-tail comparisons, real-name boundary row, ledger, and
+provenance, then $C'$ is accepted and has the same regular-tail classifier
+surface over $\RegSeqRatUp$.
+\end{theorem}
+\begin{proof}
+Transport the dyadic observation rows and certified stream windows along the
+displayed $\hsame$ comparisons. The $\StreamNameUp$ schedule is finite, so each
+requested window is repacked with the transported row.
+
+The regular-tail classifier is a finite family of dyadic bound ledgers. Transport
+each bound row and each comparison route componentwise through $\RegSeqRatUp$.
+
+The real-name boundary and precision ledger are projections of the same windows.
+Transporting those projections yields the accepted carrier $C'$ and preserves
+the regular-tail surface.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion StreamName handoff]
+\label{thm:dyadiccompletion-streamname-handoff}
+Every accepted $\DyadicCompletionUp$ carrier exposes a $\StreamNameUp$ handoff:
+for each finite precision request, the handoff returns exactly the scheduled
+dyadic observation row, its window certificate, the regular-tail comparison rows
+visible at that precision, and the ledger entries proving that the same rows
+are available to $\RegSeqRatUp$ and $\RealUp$ consumers.
+\end{theorem}
+\begin{proof}
+Unpack the carrier. A precision request first selects a finite stream window,
+and the carrier stores the dyadic observation row and certificate attached to
+that window.
+
+The regular-tail row records the comparisons visible at the same precision. The
+ledger points to the shared schedule entry, so the $\RegSeqRatUp$ consumer and
+the $\RealUp$ boundary read the same finite rows.
+
+Thus the handoff is only a projection from stored data. It does not synthesize a
+global stream outside the certified windows.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion ledger boundary]
+\label{thm:dyadiccompletion-ledger-boundary}
+The precision ledger of an accepted $\DyadicCompletionUp$ carrier is the whole
+boundary between dyadic finite observations and real-name consumption: every
+visible $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ row
+used by the carrier is named in the ledger, and no consumer can project an
+unstored modulus, quotient representative, Dedekind cut, or ambient completed
+real from the packet.
+\end{theorem}
+\begin{proof}
+Inspect the ledger coordinate in \autoref{def:dyadiccompletion-carrier}. It
+lists the finite schedules, tail bounds, window restrictions, and continuation
+routes consumed by each displayed row.
+
+Any downstream read by $\RegSeqRatUp$ or $\RealUp$ must pass through one of
+those listed routes. Since the carrier has no coordinate for an unstored
+modulus, quotient representative, Dedekind cut, or completed host real, such
+data cannot be projected from the packet.
+\end{proof}
+
+\begin{closurestatus}{\DyadicCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the finite dyadic completion handoff from $\DyadicRatCoreUp$ observations through $\StreamNameUp$ windows and $\RegSeqRatUp$ tail rows into the $\RealUp$ boundary.}
+  \constructivestory{A $\DyadicCompletionUp$ packet is generated by scheduled dyadic observations, certified stream windows, regular-tail comparison rows, a real-name handoff boundary, and a precision ledger that records every consumed schedule and tail bound.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the Lean namespace, a complete real construction, quotient equality of Cauchy streams, Dedekind real equivalence, or a standard bridge.}
+  \upgradepath{Obligation closure requires a checked $\NameCert_{\DyadicCompletionUp}$ theorem over the carrier, classifier, regular-tail stability, StreamName handoff, and ledger boundary.}
+\end{closurestatus}
