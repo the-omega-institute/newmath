@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -294,6 +296,45 @@ theorem KalmanFilterCarrier_estimate_transport_stability [AskSetup] [PackageSetu
         (And.intro sameInnovation
           (And.intro sameUpdate (And.intro sameCovariancePosterior sameEndpoint))))
 
+theorem KalmanFilterCarrier_downstream_consumer_boundary [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint predictionConsumer updateConsumer finalConsumer
+      finalConsumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      Cont prediction residual predictionConsumer ->
+        Cont update posterior updateConsumer ->
+          Cont predictionConsumer updateConsumer finalConsumer ->
+            hsame finalConsumer finalConsumer' ->
+              UnaryHistory finalConsumer' ∧
+                hsame finalConsumer' (append (append prediction residual) (append update posterior)) ∧
+                  Cont posterior covariancePosterior endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier predictionConsumerRow updateConsumerRow finalConsumerRow sameFinal
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, predictionUnary, _observationUnary, residualUnary,
+      _covarianceUnary, _gainUnary, posteriorUnary, _innovationUnary, updateUnary,
+      covariancePosteriorUnary, _provenanceUnary, _endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, _posteriorRow, _covariancePosteriorRow,
+      endpointRow, pkgSig⟩
+  have predictionConsumerUnary : UnaryHistory predictionConsumer :=
+    unary_cont_closed predictionUnary residualUnary predictionConsumerRow
+  have updateConsumerUnary : UnaryHistory updateConsumer :=
+    unary_cont_closed updateUnary posteriorUnary updateConsumerRow
+  have finalConsumerUnary : UnaryHistory finalConsumer :=
+    unary_cont_closed predictionConsumerUnary updateConsumerUnary finalConsumerRow
+  have finalConsumerUnary' : UnaryHistory finalConsumer' :=
+    unary_transport finalConsumerUnary sameFinal
+  have sameFinalAppend : hsame finalConsumer' (append (append prediction residual)
+      (append update posterior)) := by
+    cases predictionConsumerRow
+    cases updateConsumerRow
+    cases finalConsumerRow
+    cases sameFinal
+    rfl
+  exact And.intro finalConsumerUnary'
+    (And.intro sameFinalAppend (And.intro endpointRow pkgSig))
+
 theorem KalmanFilterCarrier_prediction_update_endpoint_transport [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
       covariancePosterior provenance endpoint prior' transition' prediction' observation' residual'
@@ -335,5 +376,79 @@ theorem KalmanFilterCarrier_prediction_update_endpoint_transport [AskSetup] [Pac
   exact And.intro samePrediction
     (And.intro sameResidual
       (And.intro sameInnovation (And.intro sameUpdate sameEndpoint)))
+
+theorem KalmanFilterCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              KalmanFilterCarrier prior transition prediction observation residual covariance gain
+                posterior innovation update covariancePosterior provenance e bundle pkg ∧
+                hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KalmanFilterCarrier prior transition prediction observation residual covariance gain
+                posterior innovation update covariancePosterior provenance e bundle pkg ∧
+                hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KalmanFilterCarrier prior transition prediction observation residual covariance gain
+                posterior innovation update covariancePosterior provenance e bundle pkg ∧
+                hsame row e)
+          hsame ∧
+        Cont prior transition prediction ∧
+          Cont prediction observation residual ∧
+            Cont covariance observation innovation ∧
+              Cont innovation gain posterior ∧
+                Cont posterior covariancePosterior endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  let Carrier : BHist -> Prop :=
+    fun row : BHist =>
+      exists e : BHist,
+        KalmanFilterCarrier prior transition prediction observation residual covariance gain
+          posterior innovation update covariancePosterior provenance e bundle pkg ∧ hsame row e
+  have endpointCarrier : Carrier endpoint :=
+    Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+  have cert : SemanticNameCert Carrier Carrier Carrier hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointCarrier
+      equiv_refl := by
+        intro row _rowCarrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other rowOther
+        exact hsame_symm rowOther
+      equiv_trans := by
+        intro row middle other rowMiddle middleOther
+        exact hsame_trans rowMiddle middleOther
+      carrier_respects_equiv := by
+        intro row other rowOther rowCarrier
+        cases rowCarrier with
+        | intro e rowWitness =>
+            exact Exists.intro e
+              (And.intro rowWitness.left (hsame_trans (hsame_symm rowOther) rowWitness.right))
+    }
+    pattern_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+    ledger_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+  }
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, _residualUnary,
+      _covarianceUnary, _gainUnary, _posteriorUnary, _innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, _endpointUnary, predictionRow,
+      residualRow, innovationRow, _updateRow, posteriorRow, _covariancePosteriorRow,
+      endpointRow, pkgSig⟩
+  exact And.intro cert
+    (And.intro predictionRow
+      (And.intro residualRow
+        (And.intro innovationRow
+          (And.intro posteriorRow (And.intro endpointRow pkgSig)))))
 
 end BEDC.Derived.KalmanFilterUp

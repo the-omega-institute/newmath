@@ -116,3 +116,45 @@ stream-name observation surface, but any regular Cauchy condition, completion
 witness, or standard bridge must be supplied in the downstream chapter rather
 than by this handoff.
 \end{proof}
+
+\begin{theorem}[StreamNameUp finite-window schedule exhaustion]
+\label{thm:streamname-finite-window-schedule-exhaustion}
+Any downstream finite-window request whose rows consist of a public
+$\StreamNameUp$ observation map, certified $\UnaryHistory$ indices, a
+$\mathsf{ProbeBundle}$ schedule, pointwise $\RatUp$ endpoint rows, and
+$\RegSeqRat$ or $\RealUp$ consumer provenance is exhausted by the public
+finite-window interface of
+\autoref{thm:streamname-public-finite-window-interface}, the public reindexing
+obligation of \autoref{def:streamname-public-reindexing-obligation}, the
+transport obligation of \autoref{thm:streamname-public-transport-obligation},
+the finite ledger of \autoref{thm:streamname-public-ledger-obligation}, and the
+handoff boundary of \autoref{thm:streamname-public-real-handoff-obligation}.
+The request introduces no additional $\RegSeqRat$ regularity row, $\RealUp$
+completion row, quotient representative, hidden limit selector, or observation
+source beyond that union.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier through
+\autoref{thm:streamname-public-finite-window-interface}. The public observation
+map and certified $\UnaryHistory$ indices determine the displayed pointwise
+$\RatUp$ rows, while the $\mathsf{ProbeBundle}$ schedule restricts those rows
+to the requested finite window.
+
+Next apply \autoref{def:streamname-public-reindexing-obligation}. It repacks
+the same scheduled rows after any certified unary reindexing, so the displayed
+bundle is a restriction and reindexing of the public countable-name surface
+rather than a separate request for stream data.
+
+Use \autoref{thm:streamname-public-transport-obligation} for the pointwise
+rational endpoint rows. The supplied $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows
+transport the endpoint classifiers componentwise and preserve the same
+finite-window provenance.
+
+Finally combine \autoref{thm:streamname-public-ledger-obligation} with
+\autoref{thm:streamname-public-real-handoff-obligation}. The ledger identifies
+all exposed rows as scheduled public observation rows and pointwise rational
+classifiers, and the handoff theorem states that downstream $\RegSeqRat$ and
+$\RealUp$ consumers must supply their own regularity, completion, quotient, and
+limit-selection data. Hence the finite-window request is exhausted by the
+listed public StreamNameUp obligations.
+\end{proof}
