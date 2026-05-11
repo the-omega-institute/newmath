@@ -79,14 +79,15 @@ No coordinate of the carrier contains an open cover, a covering selection princi
 \label{thm:realball-standard-obligation-boundary}
 The $\RealBallUp$ chapter claims only finite dyadic-window balls around $\RealUp$ names. Its dependency list is exactly the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, and $\DyadicIntervalUp$ certificate surface named by the provenance row.
 
-It does not claim real-number completeness, order trichotomy, locatedness outside the displayed window, Heine--Borel compactness, equivalence with host real open balls, a standard bridge, or any open-cover compactness principle.
+It does not claim real-number completeness, order trichotomy, locatedness outside the displayed window, Heine--Borel compactness, equivalence with host real open balls, a host topological bridge, or any open-cover compactness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealBallUp.RealBallWindowPacket\_standard\_obligation\_boundary}
 \begin{proof}
 The positive-radius datum is a $\DyadicRatCoreUp$ row, the center datum is a $\RealUp$ name read through $\RegSeqRat$ and $\StreamNameUp$, and the visible ball surface is a finite collection of $\DyadicIntervalUp$ rows. These are exactly the dependencies listed in the carrier provenance.
 
 Apply \autoref{thm:realball-finite-window-namecert} to exhaust the public obligation surface. Every accepted read is one of the five finite rows listed there.
 
-The excluded principles would require coordinates not present in the packet: global real order data, completed metric limits, open-cover families, compactness witnesses, or a standard bridge. Since the carrier has no such coordinate, the boundary is precisely the finite dyadic-window claim.
+The excluded principles would require coordinates not present in the packet: global real order data, completed metric limits, open-cover families, compactness witnesses, or a host topological bridge. Since the carrier has no such coordinate, the boundary is precisely the finite dyadic-window claim.
 \end{proof}
 
 \begin{theorem}[RealBall scoped dependency packet]
@@ -104,12 +105,13 @@ The consumer face is the metric-neighborhood handoff of \autoref{thm:realball-me
 
 Finally apply \autoref{thm:realball-standard-obligation-boundary}. It rules out host topology, compactness, and completeness coordinates, so the scoped dependency packet is exactly the finite center, radius, window, provenance, and ledger surface stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.RealBallUp.RealBallWindowPacket\_scoped\_dependency\_packet}
 
 \begin{theorem}[RealBall public NameCert export]
 \label{thm:realball-public-namecert-export}
 The finite-window carrier of \autoref{def:realball-window-carrier}, the radius transport of \autoref{thm:realball-radius-transport}, the finite-window $\NameCert_{\RealBallUp}$ surface of \autoref{thm:realball-finite-window-namecert}, the metric-neighborhood handoff of \autoref{thm:realball-metric-neighborhood-handoff}, the standard obligation boundary of \autoref{thm:realball-standard-obligation-boundary}, and the scoped dependency packet of \autoref{thm:realball-scoped-dependency-packet} assemble a public $\NameCert_{\RealBallUp}$ export for downstream $\MetricSpaceUp$ and $\RealUp$ consumers.
 
-The exported boundary is exactly the finite dyadic-window neighborhood surface: a $\RealUp$ center read through $\RegSeqRat$ and $\StreamNameUp$, a positive $\DyadicRatCoreUp$ radius, visible $\DyadicIntervalUp$ rows, $\mathsf{Pkg}$ provenance, and the tail ledger. It exports no host topology, open-cover compactness, trichotomy, completeness datum, or standard bridge.
+The exported boundary is exactly the finite dyadic-window neighborhood surface: a $\RealUp$ center read through $\RegSeqRat$ and $\StreamNameUp$, a positive $\DyadicRatCoreUp$ radius, visible $\DyadicIntervalUp$ rows, $\mathsf{Pkg}$ provenance, and the tail ledger. It exports no host topology, open-cover compactness, trichotomy, completeness datum, or host real ball.
 \end{theorem}
 \begin{proof}
 Start with the carrier of \autoref{def:realball-window-carrier}. Its rows give the center name, positive dyadic radius, finite visible window, provenance packet, and ledger boundary that a public consumer can inspect.
@@ -121,18 +123,93 @@ Next use the metric-neighborhood handoff of \autoref{thm:realball-metric-neighbo
 Finally combine the standard obligation boundary of \autoref{thm:realball-standard-obligation-boundary} with the scoped dependency packet of \autoref{thm:realball-scoped-dependency-packet}. These two rows state exactly which dependencies are public and which coordinates are absent, so repacking the listed rows gives the claimed $\NameCert_{\RealBallUp}$ export and nothing beyond it.
 \end{proof}
 
+\begin{theorem}[RealBall standard finite-window bridge]
+\label{thm:realball-standard-bridge}
+The public export of \autoref{thm:realball-public-namecert-export} determines
+the standard finite-window bridge schema for $\RealBallUp$. The source row is
+the $\RealUp$ center read through $\RegSeqRatUp$ and $\StreamNameUp$, the radius
+row is the positive $\DyadicRatCoreUp$ datum, and the window row is the visible
+$\DyadicIntervalUp$ packet. The only bridge routes are the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and ledger rows.
+
+This bridge exports no host topology, open-cover compactness, trichotomy,
+completeness datum, or host real ball.
+\end{theorem}
+\begin{proof}
+Begin with the public export of
+\autoref{thm:realball-public-namecert-export}. It exposes exactly the center,
+positive radius, finite window, provenance, and ledger rows of the
+$\NameCert_{\RealBallUp}$ packet.
+
+Apply \autoref{thm:realball-scoped-dependency-packet} to identify the permitted
+routes. The center row factors through $\RealUp$, $\RegSeqRatUp$, and
+$\StreamNameUp$; the radius row factors through $\DyadicRatCoreUp$; and the
+visible window factors through $\DyadicIntervalUp$.
+
+Finally use \autoref{thm:realball-standard-obligation-boundary}. It excludes
+host topology, compactness, trichotomy, completeness, and host-ball
+coordinates. Projecting the displayed rows and repacking them gives exactly the
+finite bridge schema stated above.
+\end{proof}
+
+\begin{theorem}[RealBall finite-window consumer coverage]
+\label{thm:realball-finite-window-consumer-coverage}
+Let $B=(c,r,W,P,L)$ be an accepted $\RealBallUp$ packet. Every public read of
+$B$ by a $\MetricSpaceUp$ consumer, by a $\RegSeqRatUp$ read of the center, or
+by a $\RealUp$ neighborhood consumer factors through exactly the center row
+$c$, the positive dyadic radius row $r$, the visible $\DyadicIntervalUp$ window
+rows $W$, the $\mathsf{Pkg}$ provenance row $P$, the ledger $L$, and the
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows isolated by
+\autoref{thm:realball-scoped-dependency-packet},
+\autoref{thm:realball-public-namecert-export}, and
+\autoref{thm:realball-standard-bridge}.
+
+The consumer surface contains no coordinate for host topology, open-cover
+compactness, Heine--Borel data, trichotomy, completeness, or host real balls.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:realball-window-carrier}. The projection exposes only the center
+name, positive dyadic radius, finite visible dyadic window, provenance packet,
+and tail ledger, so these rows form the whole candidate packet seen by a
+consumer.
+
+Use the radius transport of \autoref{thm:realball-radius-transport} and the
+finite-window $\NameCert_{\RealBallUp}$ surface of
+\autoref{thm:realball-finite-window-namecert}. They keep the positive radius
+row and the visible window stable under the displayed $\hsame$ and $\Cont$
+classifiers, so replacing the packet by a classified equal one does not reveal a
+new read coordinate.
+
+Next apply the metric-neighborhood handoff and the public export of
+\autoref{thm:realball-metric-neighborhood-handoff} and
+\autoref{thm:realball-public-namecert-export}. These are exactly the public
+routes used by $\MetricSpaceUp$, $\RegSeqRatUp$, and $\RealUp$ neighborhood
+consumers: each route reads one of the displayed rows and then repacks it as
+the same finite-window $\NameCert$ boundary.
+
+Finally use the standard bridge of \autoref{thm:realball-standard-bridge}. The
+bridge has no extra source, pattern, or ledger coordinate beyond the center,
+radius, visible-window, provenance, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\NameCert$ rows already listed. Since the bridge also excludes host topology,
+open-cover compactness, Heine--Borel data, trichotomy, completeness, and host
+real balls, every public consumer read is exhausted by the same visible packet.
+\end{proof}
+
 \closureat{RealBallUp}{seedStr}
 \closureat{RealBallUp}{obligationStr}
 \closureat{RealBallUp}{scopedStr}
 \closureat{RealBallUp}{publicStr}
+\closureat{RealBallUp}{bridgedStr}
+\closureat{RealBallUp}{matureStr}
 
 \begin{closurestatus}{\RealBallUp}
   \constructivestory{A real-ball packet is generated by a $\RealUp$ center name read through $\RegSeqRat$ and $\StreamNameUp$, a positive $\DyadicRatCoreUp$ radius row, visible $\DyadicIntervalUp$ window rows, $\Pkg$ provenance, and a ledger hiding only the unobserved tail.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The finite-window carrier of \autoref{def:realball-window-carrier}, radius transport of \autoref{thm:realball-radius-transport}, finite-window NameCert surface of \autoref{thm:realball-finite-window-namecert}, metric handoff of \autoref{thm:realball-metric-neighborhood-handoff}, boundary row of \autoref{thm:realball-standard-obligation-boundary}, scoped dependency packet of \autoref{thm:realball-scoped-dependency-packet}, and public export of \autoref{thm:realball-public-namecert-export} are bound to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\DyadicIntervalUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The finite-window carrier of \autoref{def:realball-window-carrier}, radius transport of \autoref{thm:realball-radius-transport}, finite-window NameCert surface of \autoref{thm:realball-finite-window-namecert}, metric handoff of \autoref{thm:realball-metric-neighborhood-handoff}, boundary row of \autoref{thm:realball-standard-obligation-boundary}, scoped dependency packet of \autoref{thm:realball-scoped-dependency-packet}, public export of \autoref{thm:realball-public-namecert-export}, standard bridge of \autoref{thm:realball-standard-bridge}, and consumer coverage of \autoref{thm:realball-finite-window-consumer-coverage} are bound to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\DyadicIntervalUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close completeness, trichotomy, Heine--Borel compactness, host real topology, or a standard bridge.}
-  \upgradepath{The next closure grade requires a checked standard bridge from the public $\RealBallUp$ export to the accepted bridge schema.}
+  \notclaimed{This chapter does not close completeness, trichotomy, Heine--Borel compactness, host real topology, or host real balls.}
+  \upgradepath{Formal closure requires Lean targets for the finite-window carrier, public export, standard bridge, and consumer-coverage theorem.}
 \end{closurestatus}

@@ -87,12 +87,46 @@ The classifier is componentwise because each coordinate already lives in a displ
 The two ledger theorems account for the only marginal and objective reads. The feasible-surface theorem accounts for the only convex, polytope, and dual rows. Since no remaining coordinate contains a completed measure, a quotient coupling, an infinite support, or a global optimizer, the five rows exhaust the local seed certificate.
 \end{proof}
 
+\begin{theorem}[OptimalTransport obligation closure]
+\label{thm:optimaltransport-obligation-closure}
+The rows of \autoref{def:optimaltransport-finite-coupling-carrier},
+\autoref{thm:optimaltransport-coupling-marginal-ledger},
+\autoref{thm:optimaltransport-cost-summation-ledger},
+\autoref{thm:optimaltransport-lpduality-feasible-surface}, and
+\autoref{thm:optimaltransport-namecert-obligation-surface} exhaust the
+$\NameCert_{\OptimalTransportUp}$ obligation set over finite support,
+distribution, cost, coupling, marginal, feasible-polytope, dual, $\hsame$,
+$\Cont$, and $\Pkg$ rows.
+
+No measure completion, infinite Kantorovich duality, quotient coupling space, or
+optimizer selection is part of the obligation surface.
+\end{theorem}
+\begin{proof}
+Project the finite carrier first. Its coordinates list the source and target
+supports, distribution masses, cost row, coupling table, marginal ledger,
+cost-summation ledger, feasible-region data, dual certificate, and package
+provenance.
+
+The marginal and cost reads are exactly the ledgers of
+\autoref{thm:optimaltransport-coupling-marginal-ledger} and
+\autoref{thm:optimaltransport-cost-summation-ledger}. The feasible and dual
+reads are exactly the finite linear-programming rows of
+\autoref{thm:optimaltransport-lpduality-feasible-surface}.
+
+The NameCert theorem repacks those projected rows as the local certificate
+surface. Since the packet exposes no completed measure, infinite duality
+principle, quotient coupling space, or optimizer-selection coordinate, there is
+no remaining row from which a further obligation could be read.
+\end{proof}
+
 \closureat{OptimalTransportUp}{seedStr}
+\closureat{OptimalTransportUp}{obligationStr}
+\closureat{OptimalTransportUp}{scopedStr}
 
 \begin{closurestatus}{\OptimalTransportUp}
   \constructivestory{An optimal-transport packet is generated from displayed finite source and target support rows, $\DistributionUp$ mass rows, a cost table or $\MetricUp$ cost row, a finite coupling table, marginal summation ledgers, a finite objective ledger, $\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, an $\LPDualityUp$ dual-feasibility row, and $\Pkg$ provenance.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface binds the finite-support carrier, marginal ledgers, cost ledger, feasible polytope rows, and dual-feasibility rows named in \autoref{def:optimaltransport-finite-coupling-carrier}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the finite-support carrier of \autoref{def:optimaltransport-finite-coupling-carrier}, the marginal ledger of \autoref{thm:optimaltransport-coupling-marginal-ledger}, the cost ledger of \autoref{thm:optimaltransport-cost-summation-ledger}, the finite dual-feasible surface of \autoref{thm:optimaltransport-lpduality-feasible-surface}, the NameCert obligation surface of \autoref{thm:optimaltransport-namecert-obligation-surface}, and the obligation closure of \autoref{thm:optimaltransport-obligation-closure} through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\DistributionUp$, $\MetricUp$, $\ConvexSetUp$, $\PolytopeUp$, and $\LPDualityUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
