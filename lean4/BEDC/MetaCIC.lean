@@ -6,5 +6,7 @@ import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
+import BEDC.MetaCIC.AtomInfer
+import BEDC.MetaCIC.TypedExamples
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
