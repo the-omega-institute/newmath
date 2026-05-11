@@ -54,6 +54,39 @@ theorem LocatedRealCarrierSurface_regseqrat_classifier_stability [AskSetup] [Pac
       pkgrowSig'⟩
   exact And.intro transported (And.intro sameClassifier samePkgrow)
 
+theorem LocatedRealCarrierSurface_dyadic_interval_obligation [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      UnaryHistory interval ∧ UnaryHistory schedule ∧ UnaryHistory classifier ∧
+        Cont regseq schedule classifier ∧ Cont interval classifier pkgrow ∧
+          hsame classifier (append regseq schedule) ∧ hsame pkgrow (append interval classifier) ∧
+            PkgSig bundle pkgrow pkg := by
+  intro surface
+  have intervalUnary : UnaryHistory interval :=
+    surface.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    surface.right.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    surface.right.right.right.left
+  have classifierRow : Cont regseq schedule classifier :=
+    surface.right.right.right.right.right.left
+  have pkgrowRow : Cont interval classifier pkgrow :=
+    surface.right.right.right.right.right.right.left
+  have classifierSame : hsame classifier (append regseq schedule) :=
+    classifierRow
+  have pkgrowSame : hsame pkgrow (append interval classifier) :=
+    pkgrowRow
+  have pkgSig : PkgSig bundle pkgrow pkg :=
+    surface.right.right.right.right.right.right.right
+  exact And.intro intervalUnary
+    (And.intro scheduleUnary
+      (And.intro classifierUnary
+        (And.intro classifierRow
+          (And.intro pkgrowRow
+            (And.intro classifierSame
+              (And.intro pkgrowSame pkgSig))))))
+
 def LocatedRealCarrier [AskSetup] [PackageSetup]
     (stream schedule interval location realRow transport provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
