@@ -59,6 +59,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
@@ -70,6 +71,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CstaralgebraUp
+import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -108,6 +110,7 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InterpolationUp
+import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
