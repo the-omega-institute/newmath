@@ -107,6 +107,59 @@ theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetu
                       packet.right.right.right.right.right.right.right)))))))
       (And.intro (hsame_refl radius) (hsame_refl window))
 
+def ApartnessRealMetricHandoffPacket [AskSetup] [PackageSetup]
+    (left right radius window leftReadback rightReadback separation provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+    UnaryHistory provenance ∧ Cont left window leftReadback ∧
+      Cont right window rightReadback ∧ Cont leftReadback rightReadback separation ∧
+        Cont separation provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ApartnessRealMetricHandoffPacket_transport [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback separation provenance endpoint left'
+      right' radius' window' leftReadback' rightReadback' separation' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealMetricHandoffPacket left right radius window leftReadback rightReadback
+        separation provenance endpoint bundle pkg ->
+      hsame left left' -> hsame right right' -> hsame radius radius' ->
+        hsame window window' -> hsame provenance provenance' ->
+          Cont left' window' leftReadback' -> Cont right' window' rightReadback' ->
+            Cont leftReadback' rightReadback' separation' ->
+              Cont separation' provenance' endpoint' -> PkgSig bundle endpoint' pkg ->
+                ApartnessRealMetricHandoffPacket left' right' radius' window' leftReadback'
+                    rightReadback' separation' provenance' endpoint' bundle pkg ∧
+                  hsame leftReadback leftReadback' ∧ hsame rightReadback rightReadback' ∧
+                    hsame separation separation' ∧ hsame endpoint endpoint' := by
+  intro packet sameLeft sameRight sameRadius sameWindow sameProvenance
+  intro leftRow' rightRow' separationRow' endpointRow' pkgSig'
+  have sameLeftReadback : hsame leftReadback leftReadback' :=
+    cont_respects_hsame sameLeft sameWindow
+      packet.right.right.right.right.right.left leftRow'
+  have sameRightReadback : hsame rightReadback rightReadback' :=
+    cont_respects_hsame sameRight sameWindow
+      packet.right.right.right.right.right.right.left rightRow'
+  have sameSeparation : hsame separation separation' :=
+    cont_respects_hsame sameLeftReadback sameRightReadback
+      packet.right.right.right.right.right.right.right.left separationRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameSeparation sameProvenance
+      packet.right.right.right.right.right.right.right.right.left endpointRow'
+  have transported :
+      ApartnessRealMetricHandoffPacket left' right' radius' window' leftReadback'
+          rightReadback' separation' provenance' endpoint' bundle pkg :=
+    ⟨unary_transport packet.left sameLeft,
+      unary_transport packet.right.left sameRight,
+      unary_transport packet.right.right.left sameRadius,
+      unary_transport packet.right.right.right.left sameWindow,
+      unary_transport packet.right.right.right.right.left sameProvenance,
+      leftRow',
+      rightRow',
+      separationRow',
+      endpointRow',
+      pkgSig'⟩
+  exact ⟨transported, sameLeftReadback, sameRightReadback, sameSeparation, sameEndpoint⟩
+
 def ApartnessRealPositiveSeparationCarrier [AskSetup] [PackageSetup]
     (leftName rightName radius window leftReadback rightReadback separation provenance
       endpoint : BHist)
