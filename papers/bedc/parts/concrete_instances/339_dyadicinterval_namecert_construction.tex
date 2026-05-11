@@ -193,7 +193,8 @@ $\mathsf{Pkg}$ and $\NameCert$ rows are transported by their own visible
 routes. This gives the componentwise target classifier without adding any
 extra source datum.
 \end{proof}
-\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_endpoint\_classifier\_transport}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalEndpointPacket\_endpoint\_classifier\_transport}
+\leanvariant{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_endpoint\_classifier\_transport}
 
 \begin{theorem}[DyadicInterval width-radius ledger exactness]
 \label{thm:dyadicinterval-width-radius-ledger-exactness}
@@ -430,6 +431,44 @@ Finally apply \autoref{thm:dyadicinterval-real-seal-source-boundary},
 refined-width theorem already exhausts the rows readable by $\RealUp$ and
 $\RegSeqRatUp$ consumers, so a standard interval-analysis bridge has only the
 finite rows listed above.
+\end{proof}
+
+\begin{theorem}[DyadicInterval regular-window bridge boundary]
+\label{thm:dyadicinterval-regular-window-bridge-boundary}
+The refined-width package of
+\autoref{thm:dyadicinterval-refined-width-enclosure-package}, together with the
+nested-refinement ledger, width-radius exactness row, $\RealUp$ seal boundary,
+and regular-window seal handoff, forms the paper bridge from finite
+$\DyadicIntervalUp$ packets to $\RegSeqRatUp$ and $\RealUp$ finite observation
+windows. The consumer-visible rows are exactly endpoint, radius, width, order,
+refinement, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, and
+$\StreamNameUp$ schedule rows.
+
+The bridge boundary still excludes Dedekind cuts, quotient intervals, host real
+endpoints, open-cover compactness, real completeness, and standard bridge data.
+\end{theorem}
+\begin{proof}
+Project the public package through
+\autoref{thm:dyadicinterval-refined-width-enclosure-package}. This exposes the
+finite endpoint, radius, width, order, refinement, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows, while withholding host endpoints,
+quotient intervals, Dedekind cuts, compactness witnesses, completeness data, and
+standard bridge rows.
+
+Next apply \autoref{thm:dyadicinterval-nested-refinement-ledger} and
+\autoref{thm:dyadicinterval-width-radius-ledger-exactness}. These projections
+identify the refinement row and the exact width-radius readback as rows already
+present in the dyadic packet rather than as external real-analysis structure.
+
+Finally use \autoref{thm:dyadicinterval-real-seal-source-boundary} and
+\autoref{thm:dyadicinterval-regular-window-seal-handoff}. They attach the
+$\RegSeqRatUp$ and $\RealUp$ finite-window reads to the same
+$\StreamNameUp$ schedule rows and exhaust every row available at the seal
+boundary.
+
+The cited projections account for every consumer-visible coordinate. Since no
+named component contains any of the excluded data, the paper bridge has exactly
+the finite regular-window surface stated above.
 \end{proof}
 
 \closureat{DyadicIntervalUp}{seedStr}
