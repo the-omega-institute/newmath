@@ -164,6 +164,7 @@ Downstream consumers may cite this export instead of reopening the carrier. The
 exported interface contains no quotient stream, host real equality, selected
 limit, completeness datum, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFiniteCarrier\_public\_interface\_export}
 \begin{proof}
 Begin with the carrier of \autoref{def:fastcauchy-carrier} and the classifier of
 \autoref{def:fastcauchy-classifier}. These give the scheduled stream rows,
@@ -419,14 +420,15 @@ quotient, equality, completeness, tail, and bridge data remain unavailable.
 \closureat{FastCauchyUp}{scopedStr}
 \closureat{FastCauchyUp}{publicStr}
 \closureat{FastCauchyUp}{bridgedStr}
+\closureat{FastCauchyUp}{matureStr}
 
 \begin{closurestatus}{\FastCauchyUp}
   \constructivestory{A fast Cauchy name is a finite $\mathsf{BHist}$ packet consisting of scheduled $\StreamNameUp$ observation rows, explicit $\CauchyModulusUp$ threshold rows, dyadic endpoint rows from $\DyadicRatCoreUp$, late-pair radius ledgers, componentwise $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:fastcauchy-standard-regseqrat-real-bridge} binds the finite modulus-normalized packet to the public $\RegSeqRatUp$ and $\RealUp$ consumer rows over scheduled $\StreamNameUp$ observations, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoints, late-pair radius ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:fastcauchy-mature-finite-window-consumer-catalogue} and the explicit-rate seal-window exhaustion bind the finite modulus-normalized consumer catalogue over scheduled $\StreamNameUp$ observations, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoints, late-pair radius ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, host real equality, or selected limits.}
-  \upgradepath{Formal closure requires a Lean theorem for the standard RegSeqRat/Real finite bridge and later checked bridge status.}
+  \upgradepath{No further paper theory-axis step is recorded for this chapter; Lean formalization and checked bridge status remain separate formal-axis work.}
 \end{closurestatus}
