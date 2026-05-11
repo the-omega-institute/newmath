@@ -301,6 +301,36 @@ theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
   exact ⟨digitsUnary, scheduleUnary, carryUnary, endpointUnary, radiusUnary, regWindowUnary,
     carryRow, endpointRow, ledgerRow, regWindowRow, regWindowSig⟩
 
+theorem SignedDigitStreamPacket_consumer_read_chain_unary_closed [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      forall reads : List BHist,
+        (forall row : BHist, row ∈ reads -> UnaryHistory row) ->
+          UnaryHistory (reads.foldl append ledger) := by
+  intro packet reads
+  obtain ⟨_digitsUnary, _scheduleUnary, _provenanceUnary, _hiddenUnary, _carryUnary,
+    _endpointUnary, ledgerUnary, _carryRow, _endpointRow, _ledgerRow, _packageRow⟩ := packet
+  have foldClosed :
+      forall base : BHist,
+        UnaryHistory base ->
+          (forall row : BHist, row ∈ reads -> UnaryHistory row) ->
+            UnaryHistory (reads.foldl append base) := by
+    induction reads with
+    | nil =>
+        intro base baseUnary _readUnary
+        exact baseUnary
+    | cons read tail ih =>
+        intro base baseUnary readUnary
+        have readHeadUnary : UnaryHistory read :=
+          readUnary read (List.Mem.head tail)
+        have nextLedgerUnary : UnaryHistory (append base read) :=
+          unary_append_closed baseUnary readHeadUnary
+        exact ih (append base read) nextLedgerUnary
+          (fun row rowInTail => readUnary row (List.Mem.tail read rowInTail))
+  intro readUnary
+  exact foldClosed ledger ledgerUnary readUnary
+
 theorem SignedDigitStreamPacket_real_seal_semantic_name_certificate [AskSetup] [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
