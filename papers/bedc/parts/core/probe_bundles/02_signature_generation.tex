@@ -456,3 +456,86 @@ then $\hsame(s,t)$.
 \begin{proof}
 Induct on $\Pi$. The empty case follows by reflexivity. In the cons case, invert the two signature derivations. Asking-policy history-respect transports the head asking events across $\hsame(h,k)$, the induction hypothesis transports the tail signatures, and extension respect combines the resulting mark-sameness and history-sameness for the generated histories.
 \end{proof}
+
+\begin{lemma}[Continuation fixed-length split uniqueness]
+\label{lem:continuation-fixed-length-split-uniqueness}
+Let $s,s',t,t',u,u'$ be histories. Suppose
+$$
+\ContR(t,s,u),
+\qquad
+\ContR(t',s',u'),
+\qquad
+\hsame(u,u').
+$$
+If $s$ and $s'$ have the same external binary length, then
+$$
+\hsame(s,s')
+\quad\text{and}\quad
+\hsame(t,t').
+$$
+\end{lemma}
+\begin{proof}
+Induct simultaneously on the generated histories $s$ and $s'$. In the
+empty-empty branch, both continuation witnesses are right-unit witnesses from
+\autoref{def:continuation-relation}, so the displayed result sameness gives
+$\hsame(t,t')$, while $\hsame(s,s')$ is reflexive. The empty-visible and
+visible-empty branches contradict equality of the external binary lengths by
+natural-number constructor no-confusion. In matching visible branches, inversion
+of the two continuation witnesses exposes matching visible outer constructors
+on $u$ and $u'$. Constructor injectivity reduces the displayed result sameness
+to the two tail continuation results, and successor injectivity reduces the
+length equality to the tail lengths. The induction hypothesis gives sameness of
+the visible tails and of $t$ with $t'$, and the same visible constructor rebuilds
+$\hsame(s,s')$. Opposite visible branches contradict history constructor
+no-confusion at the result comparison.
+\end{proof}
+
+\begin{theorem}[Signature-sameness exact split under bundle append]
+\label{thm:samesig-bundle-append-exact-split}
+For probe bundles $\Pi,\Theta$ and histories $h,k$, if
+$$
+\sameSig_{\mathsf{BAppend}(\Pi,\Theta)}(h,k),
+$$
+then
+$$
+\sameSig_\Pi(h,k)
+\quad\text{and}\quad
+\sameSig_\Theta(h,k).
+$$
+\end{theorem}
+\begin{proof}
+Unpack the appended signature-sameness witness. It gives appended signatures
+from $h$ and from $k$ with answer histories $u_h$ and $u_k$ satisfying
+$\hsame(u_h,u_k)$. Apply
+\autoref{thm:signature-generation-bundle-append-inversion} to the appended
+signature from $h$. This recovers histories $s_h,t_h$ and evidence ledgers with
+$$
+\Sig(\Pi,h,s_h,\Delta_h),
+\qquad
+\Sig(\Theta,h,t_h,\Gamma_h),
+\qquad
+\ContR(t_h,s_h,u_h).
+$$
+Apply the same inversion to the appended signature from $k$, recovering
+histories $s_k,t_k$ with
+$$
+\Sig(\Pi,k,s_k,\Delta_k),
+\qquad
+\Sig(\Theta,k,t_k,\Gamma_k),
+\qquad
+\ContR(t_k,s_k,u_k).
+$$
+By \autoref{thm:signature-result-length-bundle-length}, the two $\Pi$ results
+$s_h$ and $s_k$ both have external binary length $\mathsf{BLEN}(\Pi)$. Hence
+they have the same external binary length. The fixed-length continuation split
+lemma applied to the two displayed continuation witnesses and to
+$\hsame(u_h,u_k)$ yields
+$$
+\hsame(s_h,s_k)
+\quad\text{and}\quad
+\hsame(t_h,t_k).
+$$
+The recovered $\Pi$ signatures together with $\hsame(s_h,s_k)$ are exactly a
+witness for $\sameSig_\Pi(h,k)$, and the recovered $\Theta$ signatures together
+with $\hsame(t_h,t_k)$ are exactly a witness for $\sameSig_\Theta(h,k)$.
+\end{proof}
