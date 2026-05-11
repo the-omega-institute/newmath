@@ -1,0 +1,31 @@
+\begin{theorem}[RealUp RegSeqRat StreamName seal handoff]
+\label{thm:realup-regseqrat-streamname-seal-handoff}
+The rows of \autoref{thm:regseqrat-streamname-scoped-interface}, together
+with the finite-window seal and endpoint readback rows displayed in the
+$\RealUp$ stream-prefix certificate boundary, determine exactly the $\RealUp$
+seal handoff package. Its exported rows are the
+$\mathsf{RatStreamNameClassifier}$ row, the
+$\mathsf{RealUnaryStreamClassifier}$ transport row, the certified unary
+endpoint carriers, the finite-window ledger, and the seal/readback provenance.
+
+No quotient carrier, host equality, real completeness, arithmetic package,
+order package, or metric-completeness row is exported by this handoff.
+\end{theorem}
+\begin{proof}
+First project the scoped stream-name interface. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+supplies the $\mathsf{RatStreamNameClassifier}$ row, the transported
+$\mathsf{RealUnaryStreamClassifier}$ row, and the certified unary endpoint
+carrier rows used by the $\RealUp$ stream-prefix certificate.
+
+Next read the finite-window seal boundary. Theorems
+\ref{thm:regseqrat-finite-window-seal-coverage} and
+\ref{thm:regseqrat-finite-window-real-seal-interface} identify the finite
+window, the pointwise dyadic observation rows, and the $\RegSeqRat$ spine
+ledger consumed by the public $\RealUp$ seal.
+
+Finally use the endpoint readback and hidden-data ledger rows of the
+stream-prefix certificate boundary. They repack the displayed classifier,
+transport, endpoint, finite-window, and provenance rows as the stated seal
+handoff package, while excluding every off-table claim: quotient carriers,
+host equality, completeness, arithmetic, order, and metric-completeness data.
+\end{proof}
