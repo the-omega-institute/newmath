@@ -77,6 +77,20 @@ The operation rows are supplied by \autoref{thm:modulararithmetic-add-mul-ledger
 The handoff row is supplied by \autoref{thm:modulararithmetic-int-rat-handoff}. Together these projections list every coordinate readable from the packet, so the $\NameCert_{\ModularArithmeticUp}$ surface is exhausted by the five displayed rows and no quotient primitive is exported.
 \end{proof}
 
+\begin{theorem}[ModularArithmetic scoped dependency boundary]
+\label{thm:modulararithmetic-scoped-dependency-boundary}
+The five local $\NameCert_{\ModularArithmeticUp}$ rows are scoped exactly by the displayed $\IntUp$ modulus and representative rows, the $\AddUp$ and $\MulUp$ operation rows, the $\OrderUp$ reduction-window row, the $\RatUp$ handoff row, the positive $\mathsf{UnaryHistory}$ modulus witness, the $\mathsf{BHist}$ residue packet, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the dependency certificates named by $\NameCert$. No quotient ring, host congruence class, finite-field structure, or external equality is exported from this scoped boundary.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:modulararithmetic-residue-source}. Its carrier and classifier coordinates give the representative row, modulus row, positive unary witness, residue packet, transported remainder window, continuation routes, package provenance, and dependency certificates.
+
+Use \autoref{thm:modulararithmetic-add-mul-ledger} for the operation surface. The addition and multiplication rows consume only the displayed $\AddUp$ and $\MulUp$ dependencies before repacking the reduced residue through the same modulus witness and $\OrderUp$ reduction window.
+
+Use \autoref{thm:modulararithmetic-int-rat-handoff} for the consumer boundary. The handoff exposes exactly the integer representative and modulus rows to $\RatUp$ consumers, together with the same $\hsame$, $\Cont$, and $\mathsf{Pkg}$ ledgers.
+
+These three projections exhaust the concrete BEDC rows visible in the packet. Since none of the named rows contains a coordinate for quotient-ring equality, host congruence classes, finite-field structure, or external equality, the scoped surface exports no such object.
+\end{proof}
+
 \closureat{ModularArithmeticUp}{seedStr}
 \closureat{ModularArithmeticUp}{obligationStr}
 
