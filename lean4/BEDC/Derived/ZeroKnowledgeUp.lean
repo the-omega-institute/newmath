@@ -166,4 +166,39 @@ theorem ZeroKnowledgeCarrier_classifier_obligation [AskSetup] [PackageSetup]
       targetPkg⟩
   exact ⟨carrier', sameChallenge, sameResponse, sameLedger⟩
 
+def ZeroKnowledgeFiniteCarrier [AskSetup] [PackageSetup]
+    (prover verifier challenge response commitment computable verifierAccept simulator ledger
+      provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory prover ∧ UnaryHistory verifier ∧ UnaryHistory challenge ∧
+    UnaryHistory response ∧ UnaryHistory commitment ∧ UnaryHistory computable ∧
+      UnaryHistory verifierAccept ∧ UnaryHistory simulator ∧ UnaryHistory provenance ∧
+        Cont prover verifier challenge ∧ Cont challenge prover response ∧
+          Cont challenge computable verifierAccept ∧ Cont response verifierAccept ledger ∧
+            Cont provenance ledger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ZeroKnowledgeFiniteCarrier_completeness_ledger_obligation [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment computable verifierAccept simulator ledger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeroKnowledgeFiniteCarrier prover verifier challenge response commitment computable
+        verifierAccept simulator ledger provenance endpoint bundle pkg ->
+      UnaryHistory verifierAccept ∧ Cont challenge computable verifierAccept ∧
+        Cont response verifierAccept ledger ∧ Cont provenance ledger endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have verifierAcceptUnary : UnaryHistory verifierAccept :=
+    carrier.right.right.right.right.right.right.left
+  have verifierAcceptRow : Cont challenge computable verifierAccept :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have ledgerRow : Cont response verifierAccept ledger :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont provenance ledger endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have packageRow : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro verifierAcceptUnary
+    (And.intro verifierAcceptRow
+      (And.intro ledgerRow (And.intro endpointRow packageRow)))
+
 end BEDC.Derived.ZeroKnowledgeUp
