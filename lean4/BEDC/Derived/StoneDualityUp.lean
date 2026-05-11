@@ -91,4 +91,63 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
 
+theorem StoneDualityStoneSpaceClassifier_transport [AskSetup] [PackageSetup]
+    {zero one meet join compl distributive source pkgRow clopen ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoneDualityBooleanSource zero one meet join compl distributive source pkgRow bundle pkg ->
+      Cont source clopen ledger ->
+        Cont ledger pkgRow endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory clopen ->
+              UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+                hsame ledger (append source clopen) ∧
+                  hsame endpoint (append ledger pkgRow) ∧ PkgSig bundle endpoint pkg := by
+  intro sourcePacket sourceClopenLedger ledgerPkgEndpoint endpointPkg clopenUnary
+  rcases sourcePacket with
+    ⟨zeroUnary, oneUnary, _, _, complUnary, _, _, zeroOneSource, sourcePkgRow, _⟩
+  have sourceUnary : UnaryHistory source :=
+    unary_cont_closed zeroUnary oneUnary zeroOneSource
+  have pkgRowUnary : UnaryHistory pkgRow :=
+    unary_cont_closed sourceUnary complUnary sourcePkgRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed sourceUnary clopenUnary sourceClopenLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary pkgRowUnary ledgerPkgEndpoint
+  exact
+    ⟨ledgerUnary, endpointUnary, sourceClopenLedger, ledgerPkgEndpoint, endpointPkg⟩
+
+theorem StoneDualityContinuousMapReadback_cont_transport [AskSetup] [PackageSetup]
+    {boolean booleanTarget morph clopenTarget clopenSource preimage ledger ledgerTarget
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont booleanTarget morph boolean ->
+      Cont boolean clopenSource preimage ->
+        Cont booleanTarget clopenTarget ledgerTarget ->
+          Cont preimage ledgerTarget ledger ->
+            Cont ledger morph endpoint ->
+              PkgSig bundle endpoint pkg ->
+                UnaryHistory booleanTarget ->
+                  UnaryHistory morph ->
+                    UnaryHistory clopenTarget ->
+                      UnaryHistory clopenSource ->
+                        UnaryHistory ledger ∧ hsame boolean (append booleanTarget morph) ∧
+                          hsame preimage (append boolean clopenSource) ∧
+                            hsame ledger (append preimage ledgerTarget) ∧
+                              hsame endpoint (append ledger morph) ∧
+                                PkgSig bundle endpoint pkg := by
+  intro booleanTargetMorphism booleanClopenPreimage targetClopenLedger preimageTargetLedger
+    ledgerMorphismEndpoint endpointPkg booleanTargetUnary morphUnary clopenTargetUnary
+    clopenSourceUnary
+  have booleanUnary : UnaryHistory boolean :=
+    unary_cont_closed booleanTargetUnary morphUnary booleanTargetMorphism
+  have preimageUnary : UnaryHistory preimage :=
+    unary_cont_closed booleanUnary clopenSourceUnary booleanClopenPreimage
+  have ledgerTargetUnary : UnaryHistory ledgerTarget :=
+    unary_cont_closed booleanTargetUnary clopenTargetUnary targetClopenLedger
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed preimageUnary ledgerTargetUnary preimageTargetLedger
+  exact
+    ⟨ledgerUnary, booleanTargetMorphism, booleanClopenPreimage, preimageTargetLedger,
+      ledgerMorphismEndpoint, endpointPkg⟩
+
 end BEDC.Derived.StoneDualityUp
