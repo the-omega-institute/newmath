@@ -63,6 +63,34 @@ theorem SpectralMeasurePacket_hsame_stability [AskSetup] [PackageSetup]
         finiteAddUnary', routeCont', endpointCont', provenanceCont', pkgSig'⟩,
       sameRoute, sameEndpoint⟩
 
+theorem SpectralMeasurePacket_projection_ledger_finite_additivity [AskSetup]
+    [PackageSetup]
+    {hilbert observable event projection orthogonality finiteAdd route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasurePacket hilbert observable event projection orthogonality finiteAdd route
+        provenance endpoint bundle pkg ->
+      UnaryHistory route ∧ UnaryHistory endpoint ∧ Cont event projection route ∧
+        Cont orthogonality finiteAdd endpoint ∧ Cont provenance route endpoint ∧
+          hsame route (append event projection) ∧ hsame endpoint (append orthogonality finiteAdd) ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed packet.right.right.right.right.left packet.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  exact
+    And.intro routeUnary
+      (And.intro endpointUnary
+        (And.intro packet.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.right.left
+                  packet.right.right.right.right.right.right.right.right.right))))))
+
 def SpectralMeasureCarrier [AskSetup] [PackageSetup]
     (hilbert observable event projection orthogonality additivity route provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -266,24 +294,92 @@ theorem SpectralMeasureFinitePacket_namecert_obligation_surface [AskSetup] [Pack
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
-theorem SpectralMeasureFinitePacket_projection_ledger_finite_additivity [AskSetup]
-    [PackageSetup]
-    {hilbert observable event projection orthogonality additivity transport provenance endpoint
-      union additivityUnion : BHist}
+theorem SpectralMeasureFinitePacket_projection_ledger_additivity [AskSetup] [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance
+      endpoint : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :
     SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
         transport provenance endpoint probe pkg ->
-      Cont projection transport union ->
-        Cont union orthogonality additivityUnion ->
-          PkgSig probe additivityUnion pkg ->
-            SpectralMeasureFiniteAdditivityLedger event projection transport union orthogonality
-              additivityUnion probe pkg := by
-  intro packet unionRow additivityRow pkgSig
+      ∃ orthTransport : BHist,
+        UnaryHistory orthTransport ∧ Cont orthogonality transport orthTransport ∧
+          Cont projection orthTransport endpoint ∧ hsame endpoint (append projection orthTransport) ∧
+            PkgSig probe provenance pkg := by
+  intro packet
+  have orthogonalityUnary : UnaryHistory orthogonality :=
+    packet.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.right.left
+  have projectionOrthogonality : Cont projection orthogonality additivity :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have additivityTransport : Cont additivity transport endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig probe provenance pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right
+  cases cont_assoc_middle_exists projectionOrthogonality additivityTransport with
+  | intro orthTransport transportRows =>
+      have orthTransportUnary : UnaryHistory orthTransport :=
+        unary_cont_closed orthogonalityUnary transportUnary transportRows.left
+      exact Exists.intro orthTransport
+        (And.intro orthTransportUnary
+          (And.intro transportRows.left
+            (And.intro transportRows.right
+              (And.intro transportRows.right pkgSig))))
+
+theorem SpectralMeasureFinitePacket_projection_ledger_transport [AskSetup] [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance endpoint
+      hilbert' observable' event' projection' orthogonality' additivity' transport'
+      endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
+        transport provenance endpoint probe pkg ->
+      hsame hilbert hilbert' ->
+        hsame observable observable' ->
+          hsame event event' ->
+            hsame orthogonality orthogonality' ->
+              hsame transport transport' ->
+                Cont observable' event' projection' ->
+                  Cont projection' orthogonality' additivity' ->
+                    Cont additivity' transport' endpoint' ->
+                      PkgSig probe provenance pkg ->
+                        SpectralMeasureFinitePacket hilbert' observable' event' projection'
+                            orthogonality' additivity' transport' provenance endpoint' probe
+                            pkg ∧
+                          hsame projection projection' ∧ hsame additivity additivity' ∧
+                            hsame endpoint endpoint' := by
+  intro packet sameHilbert sameObservable sameEvent sameOrthogonality sameTransport
+    projectionRow' additivityRow' endpointRow' pkgSig'
+  have hilbertUnary' : UnaryHistory hilbert' :=
+    unary_transport packet.left sameHilbert
+  have observableUnary' : UnaryHistory observable' :=
+    unary_transport packet.right.left sameObservable
+  have eventUnary' : UnaryHistory event' :=
+    unary_transport packet.right.right.left sameEvent
+  have orthogonalityUnary' : UnaryHistory orthogonality' :=
+    unary_transport packet.right.right.right.right.left sameOrthogonality
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport packet.right.right.right.right.right.right.left sameTransport
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.right.left
+  have sameProjection : hsame projection projection' :=
+    cont_respects_hsame sameObservable sameEvent
+      packet.right.right.right.right.right.right.right.right.right.left projectionRow'
+  have projectionUnary' : UnaryHistory projection' :=
+    unary_cont_closed observableUnary' eventUnary' projectionRow'
+  have sameAdditivity : hsame additivity additivity' :=
+    cont_respects_hsame sameProjection sameOrthogonality
+      packet.right.right.right.right.right.right.right.right.right.right.left additivityRow'
+  have additivityUnary' : UnaryHistory additivity' :=
+    unary_cont_closed projectionUnary' orthogonalityUnary' additivityRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameAdditivity sameTransport
+      packet.right.right.right.right.right.right.right.right.right.right.right.left
+      endpointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed additivityUnary' transportUnary' endpointRow'
   exact
-    And.intro packet.right.right.left
-      (And.intro packet.right.right.right.left
-        (And.intro packet.right.right.right.right.right.right.left
-          (And.intro packet.right.right.right.right.left
-            (And.intro unionRow (And.intro additivityRow pkgSig)))))
+    ⟨⟨hilbertUnary', observableUnary', eventUnary', projectionUnary', orthogonalityUnary',
+        additivityUnary', transportUnary', provenanceUnary, endpointUnary', projectionRow',
+        additivityRow', endpointRow', pkgSig'⟩,
+      sameProjection, sameAdditivity, sameEndpoint⟩
 
 end BEDC.Derived.SpectralMeasureUp
