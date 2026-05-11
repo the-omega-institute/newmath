@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\DyadicApproximationUp$}
+\label{ch:concrete-instances-dyadicapproximation-namecert}
+
+The $\DyadicApproximationUp$ interface names the finite dyadic observation surface that lies between $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the sealing boundary of $\RealUp$. Bishop--Bridges constructive analysis treats rational approximants with explicit precision as the computational face of real-number construction; the BEDC packet below keeps that face as finite $\mathsf{BHist}$ rows rather than as quotient reals, hidden limits, or choice-selected representatives.
+
+\section{Finite dyadic observation packets}
+\label{sec:dyadicapproximation-finite-packets}
+
+\begin{definition}[DyadicApproximation carrier]
+\label{def:dyadic-approximation-carrier}
+A $\DyadicApproximationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+A=(n,d,w,l,p)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $n$ is a unary precision row naming the requested dyadic accuracy;
+\item $d$ is a $\DyadicRatCoreUp$ endpoint row whose denominator ledger is readable at the precision named by $n$;
+\item $w$ is a certified finite observation window from $\StreamNameUp$ and $\RegSeqRatUp$, displaying the scheduled stream read that produced the endpoint row;
+\item $l$ is a ledger tying the finite window to a $\RealUp$ seal candidate by recording the regular-sequence source rows, dyadic-radius budget, and continuation route consumed at the real-name boundary;
+\item $p$ is the $\mathsf{Pkg}$ provenance naming the consumed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ certificate surfaces.
+\end{enumerate}
+The classifier compares two accepted packets at the same precision when the precision rows are related by displayed $\hsame$, the dyadic endpoint rows are related by the transported $\DyadicRatCoreUp$ classifier, and the finite-window readbacks through $\StreamNameUp$ and $\RegSeqRatUp$ are equivalent after transporting their ledgers componentwise. The carrier contains no quotient of regular sequences, no ambient real endpoint, no hidden completion object, and no selected limit.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:dyadicapproximation-certificate-obligations}
+
+\begin{theorem}[DyadicApproximation finite-window obligations]
+\label{thm:dyadic-approximation-window-obligations}
+The local $\NameCert_{\DyadicApproximationUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation: the constant dyadic zero row from $\DyadicRatCoreUp$, read through the constant $\StreamNameUp$ schedule and regular sequence, inhabits the carrier at every unary precision;
+\item classifier laws: reflexivity, symmetry, and transitivity are obtained by componentwise $\hsame$ transport of the precision row, dyadic endpoint row, certified finite window, real-seal ledger, and provenance row;
+\item carrier transport: any displayed $\hsame$ and $\Cont$ route preserving $n$, $d$, $w$, $l$, and $p$ repacks an accepted carrier as an accepted carrier;
+\item finite-window exactness: every consumer-visible approximation read factors through exactly the displayed precision row, dyadic endpoint row, finite observation window, seal ledger, and provenance row;
+\item real-seal handoff: the ledger $l$ is the only boundary datum exported to $\RealUp$, and it presents the finite regular-sequence source rows needed for a real-name seal candidate.
+\end{enumerate}
+These rows define the naming-certificate surface for finite dyadic approximants with explicit precision, following the Bishop--Bridges constructive-analysis reading of rational approximations.
+\end{theorem}
+\begin{proof}
+For carrier habitation, choose the displayed zero packet of $\DyadicRatCoreUp$ at the requested precision and read it through the constant stream schedule. The corresponding $\RegSeqRatUp$ window has the zero endpoint at every displayed index, and the real-seal ledger records the same constant regular source.
+
+For the classifier laws, inspect only the coordinates of \autoref{def:dyadic-approximation-carrier}. Reflexivity uses identity $\hsame$ rows and identity $\Cont$ routes on $n$, $d$, $w$, $l$, and $p$. Symmetry reverses those componentwise comparisons. Transitivity composes the same finite rows and then repacks the common dyadic endpoint comparison through $\DyadicRatCoreUp$.
+
+Carrier transport follows the same inventory. A transport route preserving the five visible coordinates moves the accepted precision, endpoint, window, ledger, and provenance rows to the target packet, so acceptance is recovered by repacking those rows.
+
+For finite-window exactness, a consumer can project only the rows named in the carrier tuple. The endpoint read is the $\DyadicRatCoreUp$ row $d$, the scheduled observation is $w$, and the downstream boundary is $l$ with provenance $p$.
+
+The real-seal handoff is therefore forced: $\RealUp$ receives the regular-sequence source rows exposed by $l$ and no quotient real, hidden completion point, or chosen limit. This is exactly the finite rational-approximant discipline used by the constructive analysis precedent.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation Real seal handoff]
+\label{thm:dyadic-approximation-real-seal-handoff}
+Every accepted $\DyadicApproximationUp$ packet $A=(n,d,w,l,p)$ exports to a $\RealUp$ consumer only the finite regular-sequence source surface recorded by $w$ and $l$: the unary precision row, the $\DyadicRatCoreUp$ endpoint row, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ finite-window readback, the dyadic-radius budget, the displayed $\hsame$ and $\Cont$ routes, and the $\mathsf{Pkg}$ provenance.
+
+If two accepted packets have the same precision and equivalent finite-window readback after componentwise $\hsame$ transport, then their $\RealUp$ seal candidates receive the same finite source surface. The handoff introduces no quotient real, host real equality, metric-completion point, or choice-selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-approximation-carrier}. The window row $w$ supplies the scheduled finite observations, and the ledger row $l$ records how those observations are read as a regular-sequence source for the $\RealUp$ boundary.
+
+The exported precision and endpoint rows are already visible as $n$ and $d$. The dyadic-radius budget and regular-window readback are the displayed coordinates of $l$, and the routing and provenance rows are supplied by the same ledger together with $p$.
+
+Now compare two accepted packets with transported equivalent finite-window readback. Componentwise $\hsame$ identifies the precision rows, transports the $\DyadicRatCoreUp$ endpoint comparison, and moves the scheduled $\StreamNameUp$ and $\RegSeqRatUp$ windows to the same readback surface.
+
+Since the $\RealUp$ consumer can inspect only the finite source rows just listed, the two seal candidates receive the same boundary datum. No coordinate remains from which a quotient real, host equality witness, completion point, or selected representative could be produced.
+\end{proof}
