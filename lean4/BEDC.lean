@@ -99,6 +99,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -128,6 +129,7 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
