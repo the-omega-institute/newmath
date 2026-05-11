@@ -334,4 +334,52 @@ theorem subject_reduction_retype
     ∃ A' : Term, HasType Γ t' A' := by
   exact ⟨A, subject_reduction hsubst happArgStable ht hbeta⟩
 
+def closedBinderRedexTerm : Term :=
+  Term.lam Term.sort
+    (Term.app (Term.lam Term.sort (Term.var 0)) (Term.var 0))
+
+theorem closedBinderRedexTerm_closed :
+    ClosedAt 0 closedBinderRedexTerm := by
+  unfold closedBinderRedexTerm
+  apply ClosedAt.lamClosed
+  · exact ClosedAt.sortClosed
+  · apply ClosedAt.appClosed
+    · apply ClosedAt.lamClosed
+      · exact ClosedAt.sortClosed
+      · apply ClosedAt.varClosed
+        exact Nat.zero_lt_succ 1
+    · apply ClosedAt.varClosed
+      exact Nat.zero_lt_succ 0
+
+theorem closedBinderRedexTerm_steps :
+    BetaStep closedBinderRedexTerm
+      (Term.lam Term.sort (Term.var 0)) := by
+  unfold closedBinderRedexTerm
+  exact BetaStep.congLam Term.sort
+    (Term.app (Term.lam Term.sort (Term.var 0)) (Term.var 0))
+    (Term.var 0)
+    (BetaStep.beta Term.sort (Term.var 0) (Term.var 0))
+
+theorem closedBinderRedexTerm_argument_not_closed :
+    ¬ ClosedAt 0 (Term.var 0) := by
+  intro h
+  cases h with
+  | varClosed hlt =>
+      exact Nat.not_lt_zero 0 hlt
+
+theorem closed_term_step_has_unclosed_local_argument :
+    ∃ d dom body arg : Term,
+      ClosedAt 0 (Term.lam d (Term.app (Term.lam dom body) arg)) ∧
+        BetaStep
+          (Term.lam d (Term.app (Term.lam dom body) arg))
+          (Term.lam d (substitute 0 arg body)) ∧
+        ¬ ClosedAt 0 arg := by
+  exact ⟨Term.sort,
+    Term.sort,
+    Term.var 0,
+    Term.var 0,
+    closedBinderRedexTerm_closed,
+    closedBinderRedexTerm_steps,
+    closedBinderRedexTerm_argument_not_closed⟩
+
 end BEDC.MetaCIC
