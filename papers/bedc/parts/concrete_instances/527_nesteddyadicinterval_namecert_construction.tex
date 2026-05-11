@@ -103,6 +103,7 @@ K=(I_0,S,R,P,L)
 $$
 with no displayed interval $I_i$ for $i>0$, then the nested-refinement ledger $R$ has no successor-pair read. Consequently the public finite-window handoff of $K$ is exactly the single $\DyadicIntervalUp$ endpoint packet $I_0$, the unary $\StreamNameUp$ schedule $S$, the provenance row $P$, and the tail ledger $L$; there is no public adjacent-refinement datum to expose.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedDyadicIntervalUp.NestedDyadicIntervalPacket\_singleton\_chain\_vacuity}
 \begin{proof}
 By \autoref{def:nesteddyadicinterval-carrier}, the only entries recorded in the nested-refinement ledger $R$ are the rows attached to displayed successor pairs $I_{i+1}$ inside $I_i$. A carrier whose displayed chain consists only of $I_0$ has no displayed source index $i$ for which both $I_i$ and $I_{i+1}$ occur in the chain. Hence the indexing set of successor-pair reads is empty, and every requested read of $R$ over a displayed adjacent pair is vacuous.
 
@@ -240,18 +241,91 @@ Finally apply \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. It
 \end{proof}
 \leanchecked{BEDC.Derived.NestedDyadicIntervalUp.NestedDyadicIntervalPacket\_public\_finite\_window\_export}
 
+\begin{theorem}[NestedDyadicInterval standard finite-window bridge]
+\label{thm:nesteddyadicinterval-standard-bridge-window}
+A certified finite decreasing dyadic interval chain gives a standard bridge row
+for $\RegSeqRatUp$ and $\RealUp$ consumers by exposing exactly its
+adjacent-refinement coverage, shared-prefix handoff, $\RegSeqRatUp$ window
+exhaustion, and public $\NameCert_{\NestedDyadicIntervalUp}$ export.
+
+The bridge claims no completeness principle, host real interval, Dedekind cut,
+open-cover compactness, quotient interval, hidden infinite tail, or selected
+limit.
+\end{theorem}
+\begin{proof}
+Project the certified chain through
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage}. Each visible
+ledger read is either the singleton empty surface or one adjacent refinement
+pair with its displayed $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Apply \autoref{thm:nesteddyadicinterval-shared-prefix-handoff}. The requested
+consumer window is determined by the displayed finite prefix, so the handoff
+does not inspect an unobserved tail or any host interval coordinate.
+
+Next use \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. The
+$\RegSeqRatUp$ and $\RealUp$ consumer boundary is exhausted by prefix endpoint
+packets, adjacent-refinement rows, finite schedules, and source provenance.
+
+Finally apply
+\autoref{thm:nesteddyadicinterval-public-namecert-export}. The public
+certificate repacks exactly those finite-chain rows as the standard
+finite-window bridge. Since the cited surfaces have no coordinates for
+completeness, host real intervals, Dedekind cuts, open-cover compactness,
+quotient intervals, hidden infinite tails, or selected limits, the bridge
+cannot claim them.
+\end{proof}
+
+\begin{theorem}[NestedDyadicInterval successive refinement chain]
+\label{thm:nesteddyadicinterval-successive-refinement-chain}
+Let $I_0,\ldots,I_n$ be a finite displayed chain of
+$\NestedDyadicIntervalUp$ entries whose adjacent pairs satisfy the displayed
+refinement rows. Then the adjacent rows compose into one accepted
+nested-dyadic-interval window over the same finite prefix, $\mathsf{BHist}$
+ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ rows.
+
+The $\RegSeqRatUp$ handoff of the composed chain is exactly the shared-prefix
+handoff of that finite window. The composition does not select a limit, form a
+quotient interval object, or invoke a host completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:nesteddyadicinterval-prefix-truncation-stability}. It restricts
+the displayed chain to the finite prefix inspected by the consumer and hides
+the unobserved tail.
+
+Apply
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} to each
+adjacent pair. Each step contributes only the displayed endpoint packets,
+refinement ledger, transport rows, package provenance, and local naming rows.
+
+Use \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion} to exhaust
+the consumer boundary by the finite prefix and adjacent-refinement rows. This
+turns the list of adjacent steps into one accepted nested-dyadic-interval
+window.
+
+Finally apply
+\autoref{thm:nesteddyadicinterval-shared-prefix-handoff} and
+\autoref{thm:nesteddyadicinterval-public-namecert-export}. The handoff is the
+shared-prefix handoff of the composed chain, and the public certificate reads
+only the same finite rows. Since the composed window has no coordinate for a
+selected limit, quotient interval, or host completeness principle, none is
+exported.
+\end{proof}
+
 \closureat{NestedDyadicIntervalUp}{seedStr}
 \closureat{NestedDyadicIntervalUp}{obligationStr}
 \closureat{NestedDyadicIntervalUp}{scopedStr}
 \closureat{NestedDyadicIntervalUp}{publicStr}
+\closureat{NestedDyadicIntervalUp}{bridgedStr}
 
 \begin{closurestatus}{\NestedDyadicIntervalUp}
   \constructivestory{A nested dyadic interval packet is generated by a finite $\mathsf{BHist}$ chain of $\DyadicIntervalUp$ endpoint packets, a unary $\StreamNameUp$ schedule, a nested-refinement ledger using $\Cont$ and $\hsame$, $\Pkg$ provenance for $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and a ledger hiding only the unobserved tail.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:nesteddyadicinterval-public-namecert-export} binds the exported public surface over the finite-chain carrier, prefix truncations, adjacent-refinement rows, $\RegSeqRatUp/\RealUp$ handoff, $\mathsf{BHist}$ ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance for $\NestedDyadicIntervalUp$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:nesteddyadicinterval-standard-bridge-window} binds the standard finite-window bridge over the finite-chain carrier, prefix truncations, adjacent-refinement rows, $\RegSeqRatUp/\RealUp$ handoff, $\mathsf{BHist}$ ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$ provenance, and public export for $\NestedDyadicIntervalUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not claim completeness, Dedekind cuts, quotient intervals, open-cover compactness, host real intervals, or standard bridge data.}
-  \upgradepath{Bridged closure requires a standard finite-window bridge over the same endpoint, provenance, and finite-chain rows.}
+  \notclaimed{This chapter does not claim completeness, Dedekind cuts, quotient intervals, open-cover compactness, host real intervals, hidden infinite tails, selected limits, or bridgeChecked status.}
+  \upgradepath{Only Lean-side formal targets and bridge checking remain for this finite-window bridge boundary.}
 \end{closurestatus}
