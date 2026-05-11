@@ -16448,3 +16448,51 @@ Rationale:
 184_affinespace_namecert_construction.tex (230 lines) has 'AffineSpaceUp action additivity' at line 189 (= B-510) and 'AffineSpaceUp zero action classifies the carried point' at line 212 (= B-571). Combining them gives act(act(p,v),-v) ~ act(p, v +V (-v)) ~ act(p, 0V) ~ p, but no theorem exposes this two-step cancellation. Grep 'inverse.*vector|negative.*vector|act.*inv' in the file returns only proof prose at line 119 mentioning 'inverse translation packet supplied by the GroupUp certificate' — used internally for free-action argumentation, never as a top-level row. This is a concrete inversion claim about the action pair (v,-v); not parameter-transport because the proof requires combining additivity, zero-action, and the GroupUp inverse law for the translation-packet readings. File at 230 lines.
 
 ---
+
+### B-650 - PersistentHomUp empty filtration spine yields empty persistence ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | PersistentHomUp empty filtration spine yields empty persistence ledger |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted PersistentHomUp carrier packet has its finite filtration-index spine row empty, then its stagewise SimplicialComplexUp readback rows, HomologyUp readback rows, persistence-map ledger entries, and barcode-summary rows are all empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/217_persistenthom_namecert_construction.tex`
+
+Rationale:
+PersistentHomUp (217_persistenthom_namecert_construction.tex, 138 lines) has 0 completed BOARD entries and the file's filtration carrier (thm:persistenthom-carrier-obligation-surface, lines 9-34) and ledger exactness (thm:persistenthom-filtration-ledger-exactness, lines 86-108) explicitly enumerate index spine, stage rows, persistence maps, and barcode summary as the only ledger contents — but no theorem witnesses the empty-spine boundary. The pattern matches B-640 (MatroidUp empty-subset), B-630/B-632 (Markov/Brownian finite-suffix restriction), B-638-style boundary lemmas, but the topological-data-analysis subarea is otherwise entirely untouched by the bedc-deep loop.
+
+---
+
+### B-651 - InterpolationUp empty node selection has empty evaluation ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | InterpolationUp empty node selection has empty evaluation ledger |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If the FinSetUp selected-node membership ledger of an accepted InterpolationUp carrier row has no entries, then the carrier's polynomial-evaluation ledger contains no sample rows and the sample-ledger surface is empty.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/202_interpolation_namecert_construction.tex`
+
+Rationale:
+InterpolationUp (202_interpolation_namecert_construction.tex, 188 lines) has 0 completed BOARD entries. Its carrier (def:interpolation-bhist-node-carrier, lines 13-32) is explicitly node-indexed, and thm:interpolation-sample-ledger-surface (lines 34-65) reads every accepted sample through one FinSet membership row. Numerical-analysis concept tier (interpolation, quadrature, fft) is partially covered (B-538/B-575/B-590/B-606 quadrature; B-641 fft) but interpolation is missing this baseline empty-index lemma.
+
+---
