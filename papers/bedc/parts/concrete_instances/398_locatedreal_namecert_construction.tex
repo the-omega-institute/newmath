@@ -76,6 +76,7 @@ The seed $\NameCert_{\LocatedRealUp}$ obligation sketch consists of five rows:
 \end{enumerate}
 The boundary claims neither Dedekind cuts, quotient reals, trichotomy, open-cover compactness, nor host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealNameCertBoundary\_rows}
 \begin{proof}
 For inhabitance, take the constant dyadic stream. Its $\StreamNameUp$ schedule reads the same dyadic endpoint at every displayed window, the $\RegSeqRatUp$ regularity ledger is the constant-window ledger, and each located interval can use that endpoint as both sides.
 
@@ -149,6 +150,9 @@ Any later $\MetricSpaceUp$ or real-order consumer of a $\LocatedRealUp$ packet m
 
 Such a consumer cannot read a quotient-real carrier, host real equality, trichotomy decision, open-cover compactness datum, or metric-completion object from the $\LocatedRealUp$ certificate surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_metric\_consumer\_empty\_boundary}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_metric\_consumer\_handoff}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_metric\_consumer\_handoff}
 \begin{proof}
 Begin with the source projection supplied by \autoref{thm:locatedreal-realup-seal-compatibility}. It identifies the $\RealUp$ seal-facing part of the packet with the displayed $\RegSeqRatUp$ source, finite schedule, dyadic radius data, and classifier source rows.
 
@@ -213,18 +217,34 @@ Next apply \autoref{thm:locatedreal-scope-carrier-transport}. It shows that any 
 Finally apply \autoref{thm:locatedreal-scope-real-seal-consumer}. The $\RealUp$ seal-facing consumer reads the same finite source and located interval rows, so the public package is the stated single handoff package. The excluded objects have no coordinate in the cited carrier, ledger, transport, or seal-consumer surfaces, hence they are not exported.
 \end{proof}
 
+\begin{theorem}[LocatedReal standard bridge boundary]
+\label{thm:locatedreal-standard-bridge-boundary}
+A $\LocatedRealUp$ packet whose $\RegSeqRatUp$ source row, $\DyadicRatCore$ interval endpoint rows, $\StreamNameUp$ observation schedule, $\RealUp$ seal row, metric handoff row, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance, and classifier-transport rows are exactly the public rows displayed in \autoref{thm:locatedreal-public-regseqrat-interval-handoff} admits the standard bridge surface used by downstream $\LocatedRealUp$ consumers.
+
+Conversely, any such standard bridge packet repacks to the public $\LocatedRealUp$ boundary without adding quotient reals, trichotomy, open-cover compactness, host real equality, or completion data.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:locatedreal-namecert-boundary}. It binds the carrier, classifier transport, interval obligation, seal compatibility, and certificate provenance to the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:locatedreal-metric-consumer-handoff}. The metric and order consumer surface can read only the regular rational source, schedule, dyadic endpoint and radius rows, enclosure classifier, and visible provenance. Then apply \autoref{thm:locatedreal-public-regseqrat-interval-handoff} to package those rows with the $\RealUp$ seal handoff as the public boundary.
+
+The reverse direction forgets the bridge wrapper and keeps the same finite rows. The exclusions recorded in the closure status show that quotient reals, trichotomy, open-cover compactness, host real equality, and completion data have no coordinate in the bridge surface, so no off-table object enters during either packing.
+\end{proof}
+
 \closureat{LocatedRealUp}{seedStr}
 \closureat{LocatedRealUp}{obligationStr}
 \closureat{LocatedRealUp}{scopedStr}
+\closureat{LocatedRealUp}{publicStr}[BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary]
+\closureat{LocatedRealUp}{bridgedStr}[BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary]
 
 \begin{closurestatus}{\LocatedRealUp}
   \constructivestory{A $\LocatedRealUp$ packet is generated from a displayed $\RegSeqRatUp$ real-name source, a $\DyadicRatCore$ dyadic interval endpoint ledger, a finite $\StreamNameUp$ observation schedule, and a locatedness classifier whose rows enclose each scheduled regular-sequence window at the displayed radius.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped boundary names exactly the $\RegSeqRatUp$ source, $\DyadicRatCore$ interval endpoints, $\StreamNameUp$ finite-observation schedule, locatedness classifier, carrier transport, $\RealUp$ seal consumer row, and their visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public boundary names exactly the $\RegSeqRatUp$ source, $\DyadicRatCore$ interval endpoints, $\StreamNameUp$ finite-observation schedule, locatedness classifier, carrier transport, $\RealUp$ seal consumer row, and their visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not claim Dedekind cuts, quotient reals, trichotomy, open-cover compactness, host real equality, or a standard bridge.}
-  \upgradepath{Public closure requires checked consumer examples or public boundary rows for the displayed $\LocatedRealUp$ source surface.}
+  \notclaimed{This chapter does not claim Dedekind cuts, quotient reals, trichotomy, open-cover compactness, host real equality, or completion data.}
+  \upgradepath{Mature closure requires consumer completeness and examples for the bridge surface.}
 \end{closurestatus}
