@@ -59,11 +59,13 @@ Estimate transport stability is supplied by \autoref{thm:kalmanfilter-estimate-t
 \label{thm:kalmanfilter-estimate-transport-stability}
 If two accepted $\KalmanFilterUp$ packets have $\hsame$-matched state-estimate, covariance, transition, observation, linear-map, $\Cont$, and $\mathsf{Pkg}$ rows, then prediction, innovation, gain, posterior-estimate, and posterior-covariance reads transport to accepted $\KalmanFilterUp$ rows. The classifier is therefore stable under componentwise $\hsame$ transport of the displayed carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_estimate\_transport\_stability}
 \begin{proof}
 Transport each dependency row componentwise along the displayed $\hsame$ witnesses. The transition and observation rows remain accepted by their consumed certificates, while the vector, matrix, and linear-map rows remain inside their carrier surfaces.
 
 Apply the same componentwise transport to the prediction, innovation, gain, and posterior rows. The $\Cont$ and $\mathsf{Pkg}$ entries transport the provenance, so the resulting packet again satisfies the finite carrier inventory of \autoref{def:kalmanfilter-bhist-carrier}.
 \end{proof}
+\leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_estimate\_transport}
 
 \begin{theorem}[KalmanFilterUp NameCert obligation surface]
 \label{thm:kalmanfilter-namecert-obligation-surface}
@@ -102,5 +104,5 @@ All excluded objects are absent from the carrier inventory. Since consumer reads
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close stochastic optimality, analytic convergence, probability-space semantics, controllability decomposition, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding the prediction, innovation, covariance, gain, estimator, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows to their named dependency certificates.}
+  \upgradepath{Scoped closure requires binding the prediction-update, innovation, covariance, gain, estimator, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows to $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$.}
 \end{closurestatus}
