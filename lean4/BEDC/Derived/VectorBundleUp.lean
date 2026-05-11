@@ -199,6 +199,32 @@ theorem VectorBundleFiniteCarrier_carrier_obligation [AskSetup] [PackageSetup]
       endpointUnary, bundleVecspaceRow, trivializationOverlapRow, transitionLinearityRow,
       provenanceContRowsRow, pkgSig⟩
 
+def VectorBundleFiniteCarrierClassifier [AskSetup] [PackageSetup]
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+      contRows provenance endpoint probe pkg ∧
+    VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+      linearity' contRows' provenance' endpoint' probe pkg ∧
+      hsame bundleRow bundleRow' ∧ hsame vecspace vecspace' ∧ hsame fibre fibre' ∧
+        hsame overlap overlap' ∧ hsame linearity linearity' ∧ hsame endpoint endpoint'
+
+theorem VectorBundleFiniteCarrierClassifier_transport [AskSetup] [PackageSetup]
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    VectorBundleFiniteCarrierClassifier bundleRow vecspace trivialization fibre transition overlap
+        linearity contRows provenance endpoint bundleRow' vecspace' trivialization' fibre'
+        transition' overlap' linearity' contRows' provenance' endpoint' probe pkg ->
+      VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+          linearity' contRows' provenance' endpoint' probe pkg ∧
+        hsame endpoint endpoint' := by
+  intro classifier
+  exact And.intro classifier.right.left classifier.right.right.right.right.right.right.right
+
 theorem VectorBundleFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
     {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
       endpoint : BHist}
