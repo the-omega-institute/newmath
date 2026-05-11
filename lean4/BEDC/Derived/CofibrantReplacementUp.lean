@@ -225,4 +225,30 @@ theorem CofibrantReplacementPacket_dependency_boundary [AskSetup] [PackageSetup]
       endpointUnary, dependencyRowUnary, ledgerRow, endpointRow, dependencyRowCont, ledgerRow,
       endpointRow, dependencyRowCont, dependencyRowSig⟩
 
+theorem CofibrantReplacementBHistSource_dependency_boundary [AskSetup] [PackageSetup]
+    {object cofibrant arrow factorization lifting dependency ledger endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementBHistSource object cofibrant arrow factorization lifting dependency
+        ledger endpoint bundle pkg ->
+      Cont endpoint dependency consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory dependency ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory consumer ∧ Cont ledger dependency endpoint ∧
+              Cont endpoint dependency consumer ∧ PkgSig bundle consumer pkg := by
+  intro source consumerRow consumerSig
+  obtain ⟨objectUnary, cofibrantUnary, factorizationUnary, _liftingUnary, dependencyUnary,
+    objectCofibrantArrow, arrowFactorizationLedger, ledgerDependencyEndpoint,
+    _endpointSig⟩ := source
+  have arrowUnary : UnaryHistory arrow :=
+    unary_cont_closed objectUnary cofibrantUnary objectCofibrantArrow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed arrowUnary factorizationUnary arrowFactorizationLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary dependencyUnary ledgerDependencyEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary dependencyUnary consumerRow
+  exact
+    ⟨dependencyUnary, ledgerUnary, endpointUnary, consumerUnary, ledgerDependencyEndpoint,
+      consumerRow, consumerSig⟩
+
 end BEDC.Derived.CofibrantReplacementUp
