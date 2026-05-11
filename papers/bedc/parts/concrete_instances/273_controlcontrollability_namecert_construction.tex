@@ -51,6 +51,7 @@ The preserved object is therefore the displayed reachability-matrix packet itsel
 \label{thm:controlcontrollability-classifier-stability-obligation}
 The $\ControlControllabilityUp$ classifier is reflexive, symmetric, and transitive componentwise over the state row, input row, $A$ row, $B$ row, horizon row, reachability-column rows, reachability-matrix row, $\Cont$ rows, and $\mathsf{Pkg}$ rows of the carrier packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_classifier\_stability\_obligation}
 \begin{proof}
 For reflexivity, apply the rowwise reflexivity of $\hsame$ to the state, input, matrix, horizon, reachability, continuation, and package coordinates, then repack the resulting finite row comparisons as a classifier witness.
 
@@ -70,6 +71,7 @@ Every public reachability read is a projection from that finite provenance packe
 
 The packet contains no coordinate for a host reachable subspace, no Kalman decomposition object, and no analytic trajectory semantics. Those objects are outside the dependency scope of the public surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_dependency\_scope}
 
 \begin{theorem}[ControlControllability NameCert obligation surface]
 \label{thm:controlcontrollability-namecert-obligation-surface}
@@ -88,6 +90,7 @@ The remaining dependency rows are package provenance. They allow consumers to co
 \label{thm:controlcontrollability-consumer-boundary}
 Every downstream consumer of $\ControlControllabilityUp$ can read controllability data only through the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of \autoref{def:controlcontrollability-carrier}. No consumer can require analytic trajectory semantics, a host reachable subspace, Kalman decomposition, stochastic optimality, or a standard bridge from this chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_consumer\_boundary}
 \begin{proof}
 Take a consumer-visible readback from an accepted packet. By the classifier, the readback is invariant only under the displayed $\hsame$ transports and the $\MatrixUp$ column-transport ledger.
 
@@ -124,7 +127,7 @@ The construction is finite at every step. It records only the concatenated displ
 \leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_continuation\_closure}
 
 \closureat{ControlControllabilityUp}{seedStr}
-\closureat{ControlControllabilityUp}{obligationStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_reachability\_ledger]
+\closureat{ControlControllabilityUp}{obligationStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_namecert\_obligation\_surface]
 \begin{closurestatus}{\ControlControllabilityUp}
   \constructivestory{}
   \theoryclosure{\obligationClosure}
