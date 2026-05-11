@@ -216,17 +216,93 @@ dyadic endpoint, late-pair radius ledger, transport, provenance, or name rows,
 and no completeness coordinate or quotient stream is available.
 \end{proof}
 
+\begin{theorem}[FastCauchy precision window restriction]
+\label{thm:fastcauchy-precision-window-restriction}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be a displayed
+$\DyadicPrecisionUp$ finite precision row selecting a subwindow of the schedule
+of $F$. The packet restricted along $D$ exposes exactly the selected
+$\StreamNameUp$ observation rows, the selected $\CauchyModulusUp$ threshold
+row, the selected $\DyadicRatCoreUp$ endpoint rows, the late-pair radius ledger
+over the selected window, the componentwise $\hsame$ and $\Cont$ rows, the
+restricted $\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows attached to
+those selected coordinates.
+
+Its $\RegSeqRatUp$ handoff is the restriction of
+\autoref{thm:fastcauchy-regseqrat-handoff} to the selected window, and its
+$\RealUp$ boundary is the restriction of
+\autoref{thm:fastcauchy-real-boundary-window} to the same displayed
+$\DyadicPrecisionUp$ row. The restriction introduces no selected limit, quotient
+stream, host real equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of $F$ from \autoref{def:fastcauchy-carrier}. The
+displayed $\DyadicPrecisionUp$ row selects a finite subwindow of the scheduled
+$\StreamNameUp$ observations, so the restricted packet keeps precisely the
+matching threshold row, dyadic endpoint rows, late-pair radius entries,
+transport rows, provenance rows, and local naming rows.
+
+Use \autoref{thm:fastcauchy-modulus-transport} on the selected rows. The
+transport theorem keeps the modulus threshold, dyadic endpoints, $\hsame$
+comparisons, and $\Cont$ routes stable inside the same finite window, so the
+restriction has the same public coordinates as the parent packet, only with the
+schedule narrowed by $D$.
+
+Apply \autoref{thm:fastcauchy-public-regseqrat-real-seal} to the restricted
+surface. Its $\RegSeqRatUp$ handoff is therefore the selected part of
+\autoref{thm:fastcauchy-regseqrat-handoff}, and its $\RealUp$ boundary is the
+selected part of \autoref{thm:fastcauchy-real-boundary-window}.
+
+The seal theorem also rules out any extra coordinate for a selected limit,
+quotient stream, host real equality, completeness datum, or standard bridge.
+Thus the precision subwindow is only a finite public restriction of the
+displayed $\FastCauchyUp$ rows.
+\end{proof}
+
+\begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
+\label{thm:fastcauchy-standard-regseqrat-real-bridge}
+A standard bridge for the finite modulus-normalized $\FastCauchyUp$ packet
+factors through the scheduled $\StreamNameUp$ observations,
+$\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoint rows, late-pair
+radius ledger, $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance,
+and local $\NameCert$ rows already isolated by
+\autoref{thm:fastcauchy-public-regseqrat-real-seal}. Its $\RegSeqRatUp$ and
+$\RealUp$ consumer reads are exactly the public rows supplied by
+\autoref{thm:fastcauchy-public-interface-export},
+\autoref{thm:fastcauchy-regseqrat-handoff}, and
+\autoref{thm:fastcauchy-real-boundary-window}.
+
+The bridge exports no selected limit, completeness coordinate, quotient
+stream, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the public interface export. It lists the scheduled stream
+observations, modulus thresholds, dyadic endpoints, late-pair radius ledger,
+transport rows, package provenance, and local name rows available to any
+consumer.
+
+Route the regular-rational side through
+\autoref{thm:fastcauchy-regseqrat-handoff} and the real-name side through
+\autoref{thm:fastcauchy-real-boundary-window}. Both consumers read the same
+finite modulus-normalized rows and add no separate limit or equality
+coordinate.
+
+Finally apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The seal
+identifies the two consumer surfaces as the public finite rows, so the standard
+bridge is exactly this RegSeqRat/Real factorization and nothing outside it.
+\end{proof}
+
 \closureat{FastCauchyUp}{obligationStr}
 \closureat{FastCauchyUp}{scopedStr}
 \closureat{FastCauchyUp}{publicStr}
+\closureat{FastCauchyUp}{bridgedStr}
 
 \begin{closurestatus}{\FastCauchyUp}
   \constructivestory{A fast Cauchy name is a finite $\mathsf{BHist}$ packet consisting of scheduled $\StreamNameUp$ observation rows, explicit $\CauchyModulusUp$ threshold rows, dyadic endpoint rows from $\DyadicRatCoreUp$, late-pair radius ledgers, componentwise $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:fastcauchy-public-interface-export} gives the reusable public boundary over scheduled $\StreamNameUp$ observations, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoints, late-pair radius ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:fastcauchy-standard-regseqrat-real-bridge} binds the finite modulus-normalized packet to the public $\RegSeqRatUp$ and $\RealUp$ consumer rows over scheduled $\StreamNameUp$ observations, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ endpoints, late-pair radius ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, quotient streams, host real equality, selected limits, or a standard bridge.}
-  \upgradepath{Bridged closure requires a bridge from the public finite modulus-normalized boundary to the $\RegSeqRatUp$ and $\RealUp$ consumer surfaces.}
+  \notclaimed{This chapter does not close RealUp completeness, quotient streams, host real equality, or selected limits.}
+  \upgradepath{Formal closure requires a Lean theorem for the standard RegSeqRat/Real finite bridge and later checked bridge status.}
 \end{closurestatus}
