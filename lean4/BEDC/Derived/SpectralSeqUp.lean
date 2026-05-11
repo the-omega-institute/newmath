@@ -409,4 +409,35 @@ theorem SpectralSeqBHistPageCarrier_page_transition_bridge [AskSetup] [PackageSe
             (And.intro transitionRow
               carrier.right.right.right.right.right.right.right.right.right))))
 
+theorem SpectralSeqBHistPageCarrier_differential_ledger [AskSetup] [PackageSetup]
+    {abelian homology page differential readback convergence transition provenance endpoint
+      morphismLedger differentialLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralSeqBHistPageCarrier abelian homology page differential readback convergence
+        transition provenance endpoint bundle pkg ->
+      Cont differential page morphismLedger ->
+        Cont readback morphismLedger differentialLedger ->
+          UnaryHistory morphismLedger ∧ UnaryHistory differentialLedger ∧
+            hsame morphismLedger (append differential page) ∧
+              hsame differentialLedger (append readback morphismLedger) ∧
+                hsame transition (append readback convergence) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier morphismLedgerRow differentialLedgerRow
+  have readbackRow : Cont page differential readback :=
+    carrier.right.right.right.right.right.right.left
+  have transitionRow : Cont readback convergence transition :=
+    carrier.right.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed carrier.right.right.left carrier.right.right.right.left readbackRow
+  have morphismLedgerUnary : UnaryHistory morphismLedger :=
+    unary_cont_closed carrier.right.right.right.left carrier.right.right.left morphismLedgerRow
+  have differentialLedgerUnary : UnaryHistory differentialLedger :=
+    unary_cont_closed readbackUnary morphismLedgerUnary differentialLedgerRow
+  exact And.intro morphismLedgerUnary
+    (And.intro differentialLedgerUnary
+      (And.intro morphismLedgerRow
+        (And.intro differentialLedgerRow
+          (And.intro transitionRow
+            carrier.right.right.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.SpectralSeqUp
