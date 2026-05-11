@@ -458,4 +458,41 @@ theorem CyclotomicRootClassifier_readback_threshold [AskSetup] [PackageSetup]
             (And.intro sourceRows0.right.right.right.right.right.right.right.right.right
               sourceRows1.right.right.right.right.right.right.right.right.right)))))
 
+theorem CyclotomicRootCarrier_primitive_root_readback_exactness [AskSetup] [PackageSetup]
+    {numField exponent polynomial splittingField primitiveRoot acceptance comparison provenance
+      ledger factorRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CyclotomicRootCarrier numField exponent polynomial splittingField primitiveRoot acceptance
+        comparison provenance ledger bundle pkg ->
+      Cont splittingField ledger factorRead ->
+        Cont primitiveRoot acceptance rootRead ->
+          UnaryHistory primitiveRoot ∧ UnaryHistory acceptance ∧ UnaryHistory ledger ∧
+            UnaryHistory factorRead ∧ UnaryHistory rootRead ∧
+              hsame acceptance (append exponent polynomial) ∧
+                hsame ledger (append acceptance primitiveRoot) ∧
+                  hsame factorRead (append splittingField ledger) ∧
+                    hsame rootRead (append primitiveRoot acceptance) ∧
+                      hsame comparison (append provenance acceptance) ∧
+                        PkgSig bundle ledger pkg := by
+  intro carrier factorReadCont rootReadCont
+  have sourceRows :=
+    CyclotomicRootCarrier_source_triad_obligation (bundle := bundle) (pkg := pkg) carrier
+  have factorReadUnary : UnaryHistory factorRead :=
+    unary_cont_closed sourceRows.right.left sourceRows.right.right.right.right.right.left
+      factorReadCont
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed sourceRows.right.right.left sourceRows.right.right.right.right.left
+      rootReadCont
+  exact And.intro sourceRows.right.right.left
+    (And.intro sourceRows.right.right.right.right.left
+      (And.intro sourceRows.right.right.right.right.right.left
+        (And.intro factorReadUnary
+          (And.intro rootReadUnary
+            (And.intro sourceRows.right.right.right.right.right.right.right.left
+              (And.intro sourceRows.right.right.right.right.right.right.right.right.left
+                (And.intro factorReadCont
+                  (And.intro rootReadCont
+                    (And.intro carrier.right.right.right.right.right.right.right.right.left
+                      sourceRows.right.right.right.right.right.right.right.right.right)))))))))
+
 end BEDC.Derived.CyclotomicUp
