@@ -18,27 +18,3 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-666 - Bundle-local concrete Globalize classifies-by-signatures
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Bundle-local concrete Globalize classifies-by-signatures |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-Assume BundleAskPolicy(Pi,D), PkgTokPol(Pi), InGapSig(Pi,D,p,h), InGapSig(Pi,D,q,k); then psame(p,q) iff there exist s,t,Delta,Theta with Sig(Pi,h,s,Delta) and Sig(Pi,k,t,Theta) and hsame(s,t).
-
-Local inputs:
-- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
-- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
-
-Rationale:
-The chapter proves three bundle-local cousins of the AskPol-based theorems: bundle-local-internalized-gap-separation (line 202), bundle-local-internalized-gap-coverage (line 232), bundle-local-gap-memberships-share-signature (line 256). The corresponding AskPol-based classification corollary cor:concrete-globalize-classifies-by-signatures sits at line 155 (uses AskPol+PkgTokPol). Grep for 'bundle.local.*classif|bundleAskPolicy.*classif|bundle.local.*globalize|bundleAskPolicy.*Glob' across papers/bedc/parts/ and lean4/BEDC/ returns 0 — confirming no bundle-local classification corollary exists in either side. The reverse direction reduces to thm:bundle-local-signature-determinacy (papers/bedc/parts/core/probe_bundles/02_signature_generation.tex:365) plus PkgTokPol soundness, both already available. Lands cleanly in internalized_gap_globalize.tex (293 lines, room). Concrete classification claim, not parameter echo.
-
----
