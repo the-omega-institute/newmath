@@ -506,8 +506,26 @@ The statement is registered as
 $\mathrm{ClosedTermSubstitutePreservesTypingStatement}$. The
 infrastructure---$\mathrm{ClosedAt}$ inductive, $\mathrm{shift\_closed}$,
 $\mathrm{substitute\_closed}$, $\mathrm{substitute\_shift\_at\_eq}$---is in
-place with axiom-free proofs. The main theorem body remains a
-$\mathrm{True}$ placeholder pending induction-based gluing.
+place with axiom-free proofs.
+
+\paragraph{Closed-term substitute preservation: case status.}
+The closed-term restriction has case lemmas in place for four of
+five inductive cases of the typing derivation:
+
+\begin{itemize}
+  \item $\mathrm{substitute\_sort\_preserves\_typing\_closed\_anchor}$ (sort case);
+  \item $\mathrm{substitute\_var\_zero\_preserves\_typing\_closed\_anchor}$ (variable, depth 0);
+  \item $\mathrm{substitute\_var\_nonzero\_preserves\_typing\_closed\_anchor}$ (variable, depth > 0, uses substitute-shift cancellation);
+  \item $\mathrm{substitute\_pi\_preserves\_typing\_closed\_anchor}$ (Pi, with explicit recursive premises);
+\end{itemize}
+
+each axiom-free. The lambda and application cases remain pending;
+assembling the case lemmas into the main inductive proof requires
+the outer induction tying the recursive premises together. Term
+induction (\autoref{subsec:substrate-stack}) is the working technique
+for these case lemmas; $\mathrm{HasType}$ induction repeatedly hit
+substrate counterexamples at the lambda case
+(\autoref{subsec:substrate-gap-discovery}, finding 8).
 
 The closed-term restriction sidesteps the seventh substrate gap
 (\autoref{subsec:substrate-gap-discovery}) by ensuring the substitution
