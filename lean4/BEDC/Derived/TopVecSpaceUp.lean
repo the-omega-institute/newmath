@@ -149,4 +149,100 @@ theorem TopVecSpaceBHistCarrier_continuous_scalar_obligation [AskSetup] [Package
                     (And.intro routeRow' (And.intro endpointRow' pkgSig')))))))))
       (And.intro sameRoute sameEndpoint)
 
+theorem TopVecSpaceBHistCarrier_topology_source_scope [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      UnaryHistory topology ∧ Cont route topology endpoint ∧
+        hsame endpoint (append route topology) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  exact And.intro carrier.right.left
+    (And.intro carrier.right.right.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right))
+
+theorem TopVecSpaceBHistCarrier_topology_source_obligation [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row topology)
+          (fun row : BHist => hsame row topology)
+          (fun row : BHist => hsame row topology) hsame ∧
+        UnaryHistory topology ∧ Cont vec topology addLedger ∧ Cont route topology endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row topology)
+        (fun row : BHist => hsame row topology)
+        (fun row : BHist => hsame row topology) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro topology (hsame_refl topology)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
+  exact And.intro cert
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
+
+theorem TopVecSpaceBHistCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint vec' topology' addLedger'
+      scalarLedger' route' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      hsame vec vec' -> hsame topology topology' -> hsame addLedger addLedger' ->
+      hsame scalarLedger scalarLedger' -> hsame route route' -> hsame endpoint endpoint' ->
+      Cont vec' topology' addLedger' -> Cont addLedger' scalarLedger' route' ->
+      Cont route' topology' endpoint' -> PkgSig bundle endpoint' pkg ->
+        TopVecSpaceBHistCarrier vec' topology' addLedger' scalarLedger' route' endpoint' bundle pkg ∧
+          UnaryHistory vec' ∧ UnaryHistory topology' ∧ UnaryHistory addLedger' ∧
+            UnaryHistory scalarLedger' ∧ UnaryHistory route' ∧ UnaryHistory endpoint' := by
+  intro carrier sameVec sameTopology sameAddLedger sameScalarLedger sameRoute sameEndpoint
+    addLedgerRow' routeRow' endpointRow' pkgSig'
+  have vecUnary' : UnaryHistory vec' :=
+    unary_transport carrier.left sameVec
+  have topologyUnary' : UnaryHistory topology' :=
+    unary_transport carrier.right.left sameTopology
+  have addLedgerUnary' : UnaryHistory addLedger' :=
+    unary_transport carrier.right.right.left sameAddLedger
+  have scalarLedgerUnary' : UnaryHistory scalarLedger' :=
+    unary_transport carrier.right.right.right.left sameScalarLedger
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport carrier.right.right.right.right.left sameRoute
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport carrier.right.right.right.right.right.left sameEndpoint
+  exact
+    And.intro
+      (And.intro vecUnary'
+        (And.intro topologyUnary'
+          (And.intro addLedgerUnary'
+            (And.intro scalarLedgerUnary'
+              (And.intro routeUnary'
+                (And.intro endpointUnary'
+                  (And.intro addLedgerRow'
+                    (And.intro routeRow' (And.intro endpointRow' pkgSig')))))))))
+      (And.intro vecUnary'
+      (And.intro topologyUnary'
+        (And.intro addLedgerUnary'
+          (And.intro scalarLedgerUnary'
+            (And.intro routeUnary' endpointUnary')))))
+
 end BEDC.Derived.TopVecSpaceUp
