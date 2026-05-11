@@ -18,6 +18,7 @@ the stacked observation-matrix row $\mathcal O(A,C)$, the finite output-trace le
 
 The classifier identifies two accepted packets exactly when their finite observable output traces are matched by displayed $\hsame$ rows, with the same $\Cont$ and $\mathsf{Pkg}$ provenance. The carrier exports no hidden host state-space quotient, analytic trajectory space, unlogged infinite trace, or external control-system object.
 \end{definition}
+\leandef{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteObservationPacket}
 
 \section{The certificate}
 \label{sec:control-observability-certificate}
@@ -38,6 +39,9 @@ The local $\NameCert_{\ControlObservabilityUp}$ obligation surface consists of t
 \item The transport-stability row saying that $\hsame$ transport of the state, transition, output, observation, ledger, $\Cont$, and $\mathsf{Pkg}$ rows remains an accepted $\ControlObservabilityUp$ packet.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteObservationPacket\_classifier\_transport}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityCarrierPacket\_obligation\_surface}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservationPacket\_namecert\_obligation\_surface}
 \begin{proof}
 Start from the carrier definition. It already lists the finite source rows, the observation-matrix rows, the trace ledger, and the provenance rows, so the carrier obligation is a projection from a displayed $\mathsf{BHist}$ packet.
 
@@ -69,14 +73,15 @@ Project the dependency rows next. The $\mathsf{Pkg}$ entries name exactly the dy
 
 Constructor inspection of the carrier excludes any additional trace source. Since no unbounded trajectory object, hidden observer state, host controllability dual, or external realization has a row in the packet, every visible trace must read back to the finite ledger just described.
 \end{proof}
+\leanchecked{BEDC.Derived.ControlObservabilityUp.ControlObservabilityFiniteTraceLedger\_readback}
 
 \begin{closurestatus}{\ControlObservabilityUp}
-  \constructivestory{}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope fixes a finite observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$, with classifier comparison by shared finite output traces under $\hsame$.}
+  \constructivestory{The chapter builds a finite observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$: it displays the observation-matrix row, separates rank and kernel obligations, records the finite output-trace ledger, and keeps host trajectory and full control-system data outside the carrier.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope is the carrier of \autoref{def:control-observability-carrier}, the NameCert surface of \autoref{thm:control-observability-namecert-obligation-surface}, the kernel separation of \autoref{thm:control-observability-kernel-separation}, and the ledger readback of \autoref{thm:control-observability-ledger-readback}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a host control-system category, analytic trajectory semantics, Kalman decomposition, controllability duality, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier, classifier, observation-matrix rank/kernel separation, finite trace ledger readback, and transport-stability rows.}
+  \upgradepath{Scoped closure requires binding those obligations to checked Lean targets and adding an explicit transport-stability row.}
 \end{closurestatus}
