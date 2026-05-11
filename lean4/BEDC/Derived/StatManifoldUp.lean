@@ -220,6 +220,34 @@ theorem StatManifoldCarrier_classifier_transport [AskSetup] [PackageSetup]
             (And.intro ledgerRow' pkgSig'))))))))))))
   · exact And.intro sameMetric (And.intro sameDual (And.intro sameProvenance sameLedger))
 
+theorem StatManifoldFisherManifoldSource_scope_transport [AskSetup] [PackageSetup]
+    {manifold fisher theta distribution metric primal dual provenance ledger manifold' fisher'
+      provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StatManifoldCarrier manifold fisher theta distribution metric primal dual provenance ledger
+        bundle pkg ->
+      hsame manifold manifold' ->
+        hsame fisher fisher' ->
+          Cont manifold' fisher' provenance' ->
+            UnaryHistory manifold' ∧ UnaryHistory fisher' ∧ UnaryHistory provenance' ∧
+              hsame provenance provenance' ∧ PkgSig bundle ledger pkg := by
+  intro carrier sameManifold sameFisher provenanceRow'
+  have manifoldUnary' : UnaryHistory manifold' :=
+    unary_transport carrier.left sameManifold
+  have fisherUnary' : UnaryHistory fisher' :=
+    unary_transport carrier.right.left sameFisher
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed manifoldUnary' fisherUnary' provenanceRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameManifold sameFisher
+      carrier.right.right.right.right.right.right.right.right.right.right.right.left
+      provenanceRow'
+  exact And.intro manifoldUnary'
+    (And.intro fisherUnary'
+      (And.intro provenanceUnary'
+        (And.intro sameProvenance
+          carrier.right.right.right.right.right.right.right.right.right.right.right.right.right)))
+
 theorem StatManifoldPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {manifold fisher theta distribution metric primal dual provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
