@@ -142,4 +142,37 @@ theorem TriangulatedCatFiniteCarrier_obligation_surface [AskSetup] [PackageSetup
                                                                 (And.intro rowsProvenanceEndpoint
                                                                   pkgSig))))
 
+inductive TriangulatedCatOctahedralLedger : List BHist -> BHist -> Prop where
+  | nil {endpoint : BHist} :
+      hsame endpoint BHist.Empty ->
+        TriangulatedCatOctahedralLedger [] endpoint
+  | face {face restEndpoint endpoint : BHist} {rest : List BHist} :
+      UnaryHistory face ->
+        TriangulatedCatOctahedralLedger rest restEndpoint ->
+          Cont face restEndpoint endpoint ->
+            TriangulatedCatOctahedralLedger (face :: rest) endpoint
+
+theorem TriangulatedCatOctahedralLedger_boundary {rows : List BHist} {endpoint : BHist} :
+    TriangulatedCatOctahedralLedger rows endpoint ->
+      (forall face : BHist, List.Mem face rows -> UnaryHistory face) ∧
+        (rows = [] -> hsame endpoint BHist.Empty) := by
+  intro ledger
+  induction ledger with
+  | nil sameEndpoint =>
+      constructor
+      · intro face mem
+        cases mem
+      · intro _rowsEmpty
+        exact sameEndpoint
+  | face faceUnary _restLedger _contFaceRest ih =>
+      constructor
+      · intro row mem
+        cases mem with
+        | head =>
+            exact faceUnary
+        | tail _ tailMem =>
+            exact ih.left row tailMem
+      · intro rowsEmpty
+        cases rowsEmpty
+
 end BEDC.Derived.TriangulatedCatUp
