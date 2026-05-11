@@ -144,6 +144,39 @@ the same rows listed in the carrier. Since the carrier contains no stream
 quotient or completed limit, the handoff cannot export one.
 \end{proof}
 
+\begin{theorem}[DyadicBall finite-window packet RegSeqRat handoff]
+\label{thm:dyadicball-finite-window-packet-regseqrat-handoff}
+A finite-window $\DyadicBallUp$ packet with $\mathsf{BHist}$ rows
+$(center,radius,schedule,observation,containment,route,provenance,certRow,$
+$handoff,sealBoundary)$ exposes exactly the $\RegSeqRatUp$ handoff rows:
+unary center, radius, schedule, observation, containment, route, and handoff
+rows; the append-readback rows $\hsame$ containment $(append\ center\ radius)$,
+$\hsame$ route $(append\ schedule\ observation)$, and $\hsame$ handoff
+$(append\ containment\ route)$; and the package row
+$\mathsf{PkgSig}(bundle,handoff,pkg)$.
+
+The finite-window packet exports no quotient stream, completed real point,
+host real equality, or external ball object.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_regseqrat\_window\_handoff}
+\begin{proof}
+Project the finite-window packet rows. The unary rows for center, radius,
+schedule, and observation are stored directly, and the displayed $\Cont$
+routes build the containment, route, and handoff rows over those sources.
+
+The three displayed $\Cont$ routes are precisely the append readbacks:
+containment reads $\mathsf{append}(center,radius)$, route reads
+$\mathsf{append}(schedule,observation)$, and handoff reads
+$\mathsf{append}(containment,route)$. Keeping the package row
+$\mathsf{PkgSig}(bundle,handoff,pkg)$ gives the full regular-rational
+handoff surface.
+
+The remaining packet coordinates are provenance, certificate, and
+seal-boundary rows. They certify and delimit the finite packet, but they do
+not add a quotient stream, a completed real point, a host real equality, or
+an external ball object.
+\end{proof}
+
 \begin{theorem}[DyadicBall Real seal boundary]
 \label{thm:dyadicball-real-seal-boundary}
 A $\RealUp$ seal reading an accepted $\DyadicBallUp$ packet may inspect only
@@ -386,6 +419,7 @@ and the three $\NameCert$ rows.
 The package introduces no quotient ball, host real equality, completeness
 datum, or selected real point.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteWindowPacket\_refinement\_overlap\_transitivity}
 \begin{proof}
 Project the three accepted packets through \autoref{def:dyadicball-carrier}.
 This exposes only center rows, radius rows, the shared schedule, the shared
