@@ -170,6 +170,7 @@ import BEDC.Derived.SemiringUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
+import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
