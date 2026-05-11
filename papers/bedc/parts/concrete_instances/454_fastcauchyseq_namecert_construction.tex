@@ -162,17 +162,68 @@ interface exports no coordinate for quotient equality, completed metrics, or
 limit selection.
 \end{proof}
 
+\begin{theorem}[FastCauchySeq standard explicit-rate bridge]
+\label{thm:fastcauchyseq-standard-explicit-rate-bridge}
+The public explicit-rate export of
+\autoref{thm:fastcauchyseq-public-explicit-rate-export} is precisely the
+standard constructive explicit-rate Cauchy-sequence schema over scheduled
+$\StreamNameUp$ observations, $\CauchyModulusUp$ threshold rows,
+$\DyadicRatCoreUp$ endpoint and radius rows, the late-pair comparison ledger,
+visible $\hsame$ and $\Cont$ transport, $\Pkg$ provenance, and the local
+$\NameCert$ row.
+
+In one direction, every public $\FastCauchySeqUp$ row supplies one standard
+explicit-rate datum: a scheduled observation stream, an explicit threshold
+assignment for each tolerance row, dyadic endpoint and radius evidence for the
+observed window, and a late-pair comparison certificate whose transport and
+provenance are visible. In the reverse direction, every standard datum accepted
+at this paper site is one of those public $\FastCauchySeqUp$ rows, read through
+the $\RegSeqRatUp$ forgetful handoff and the $\RealUp$ seal boundary.
+
+Thus the bridge adds no quotient real, completed metric object, selected
+limit, or hidden threshold selector to the public export.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier of
+\autoref{def:fastcauchyseq-carrier} and
+\autoref{def:fastcauchyseq-classifier}. The projection exposes exactly the
+scheduled stream, explicit threshold table, dyadic endpoint and radius rows,
+late-pair comparison ledger, componentwise transport rows, continuation
+windows, package provenance, and local name-certificate row named by the public
+export.
+
+For the forward direction, apply the $\RegSeqRatUp$ forgetful handoff of
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}. It reads the same
+finite stream, threshold, dyadic, comparison, transport, window, and provenance
+rows as a regular-rational explicit-rate datum, while the
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary} records the matching
+$\RealUp$ consumer face.
+
+For the reverse direction, inspect what is accepted at this site as a standard
+explicit-rate datum. The only available coordinates are the rows exported by
+\autoref{thm:fastcauchyseq-public-explicit-rate-export}; the classifier
+identifies representatives only through visible $\hsame$ and $\Cont$ transport,
+and $\Pkg$ plus $\NameCert$ provide provenance rather than extra analytic
+structure.
+
+Since neither the carrier nor the two consumer boundaries contain a coordinate
+for quotient-real equality, a completed metric object, a selected limit, or a
+hidden threshold selector, the two readings are the same finite BEDC
+explicit-rate schema.
+\end{proof}
+
 \closureat{FastCauchySeqUp}{obligationStr}
 \closureat{FastCauchySeqUp}{scopedStr}
 \closureat{FastCauchySeqUp}{publicStr}
+\closureat{FastCauchySeqUp}{bridgedStr}
 
 \begin{closurestatus}{\FastCauchySeqUp}
   \constructivestory{A fast-Cauchy-sequence packet is generated from a scheduled dyadic-rational observation stream, visible Cauchy-modulus threshold rows, dyadic endpoint and radius rows, late-pair comparison ledgers, componentwise $\hsame$ and $\Cont$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:fastcauchyseq-public-explicit-rate-export} gives the public explicit-rate interface over the scheduled stream, $\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ endpoint and radius rows, late-pair ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:fastcauchyseq-standard-explicit-rate-bridge} bridges the public explicit-rate interface over $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close completeness, quotient equality of Cauchy names, selected limits, or standard bridge data.}
-  \upgradepath{Bridged closure requires a bridge from the public explicit-rate export to the $\RegSeqRatUp$ and $\RealUp$ consumer surfaces.}
+  \upgradepath{The next step is Lean formalization and checking of the explicit-rate bridge.}
 \end{closurestatus}
