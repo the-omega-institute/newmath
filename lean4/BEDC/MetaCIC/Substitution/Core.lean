@@ -1,4 +1,5 @@
 import BEDC.MetaCIC.Substitution.NatShift
+import BEDC.MetaCIC.ClosedTerm
 
 namespace BEDC.MetaCIC
 
@@ -421,38 +422,5 @@ theorem substitute_substitute_zero_zero_pi_closed_anchor
   rw [hshift]
   rw [hcod]
 
-theorem substitute_var_zero_preserves_typing_closed_anchor
-    {Γ : Ctx} {s B : Term}
-    (hclosed_s : ClosedAt 0 s)
-    (hclosed_B : ClosedAt 0 B)
-    (hs : HasType Γ s B)
-    (ht : HasType (B :: Γ) (Term.var 0) B) :
-    ClosedAt 0 (substitute 0 s (Term.var 0)) ∧
-      HasType Γ (substitute 0 s (Term.var 0)) (substitute 0 s B) := by
-  cases ht with
-  | varRule Γ' i A hlook =>
-      rw [substitute_var_zero]
-      rw [substitute_closed_via_term_induction 0 s B hclosed_B]
-      constructor
-      · exact hclosed_s
-      · exact hs
-
-theorem substitute_lam_preserves_typing_closed_anchor
-    {Γ : Ctx} {s B dom body cod : Term}
-    (_hwf : WellFormedCtx (B :: Γ))
-    (_hclosed_B : ClosedAt 0 B)
-    (_hclosed_s : ClosedAt 0 s)
-    (hdom_sub : HasType Γ (substitute 0 s dom) Term.sort)
-    (hbody_sub : HasType (substitute 0 s dom :: Γ)
-      (substitute 1 (shift 0 1 s) body)
-      (substitute 1 (shift 0 1 s) cod))
-    (_hs : HasType Γ s B) :
-    HasType Γ
-      (substitute 0 s (Term.lam dom body))
-      (substitute 0 s (Term.pi dom cod)) := by
-  unfold substitute
-  apply HasType.lamRule
-  · exact hdom_sub
-  · exact hbody_sub
 
 end BEDC.MetaCIC
