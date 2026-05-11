@@ -75,6 +75,29 @@ theorem ApartnessRealCarrier_symmetry_stability [AskSetup] [PackageSetup]
     · exact hsame_refl radius
     · exact swappedLedgerRow
 
+theorem ApartnessRealCarrier_metric_consumer_separation_boundary [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback ledger provenance endpoint consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealCarrier left right radius window leftReadback rightReadback ledger provenance
+        endpoint bundle pkg ->
+      Cont ledger provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory leftReadback ∧ UnaryHistory rightReadback ∧ UnaryHistory ledger ∧
+            UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+              Cont leftReadback rightReadback ledger ∧ Cont left right endpoint ∧
+                Cont ledger provenance consumer ∧ PkgSig bundle consumer pkg := by
+  intro carrier consumerRow consumerSig
+  obtain ⟨_leftUnary, _rightUnary, _radiusUnary, _windowUnary, leftReadbackUnary,
+    rightReadbackUnary, ledgerUnary, provenanceUnary, endpointUnary, _leftWindowReadback,
+    _rightWindowReadback, leftRightEndpoint, leftReadbackRightReadbackLedger,
+    _endpointSig⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary provenanceUnary consumerRow
+  exact
+    ⟨leftReadbackUnary, rightReadbackUnary, ledgerUnary, endpointUnary, consumerUnary,
+      leftReadbackRightReadbackLedger, leftRightEndpoint, consumerRow, consumerSig⟩
+
 def ApartnessRealSeparationPacket [AskSetup] [PackageSetup]
     (left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
       BHist)
@@ -106,6 +129,34 @@ theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetu
                     (And.intro packet.right.right.right.right.right.left
                       packet.right.right.right.right.right.right.right)))))))
       (And.intro (hsame_refl radius) (hsame_refl window))
+
+theorem ApartnessRealSeparationPacket_real_separation_scope [AskSetup] [PackageSetup]
+    {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow
+      scopeRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealSeparationPacket left right radius window leftEndpoint rightEndpoint
+        forwardLedger reverseLedger pkgrow bundle pkg ->
+      Cont pkgrow window scopeRow ->
+        PkgSig bundle scopeRow pkg ->
+          PositiveUnaryDenominator radius ∧ Cont left window leftEndpoint ∧
+            Cont right window rightEndpoint ∧
+              Cont leftEndpoint rightEndpoint forwardLedger ∧
+                Cont rightEndpoint leftEndpoint reverseLedger ∧
+                  Cont forwardLedger reverseLedger pkgrow ∧
+                    Cont reverseLedger forwardLedger pkgrow ∧
+                      Cont pkgrow window scopeRow ∧ PkgSig bundle scopeRow pkg := by
+  intro packet scopeCont scopePkg
+  obtain ⟨positiveRadius, leftEndpointRow, rightEndpointRow, forwardLedgerRow,
+    reverseLedgerRow, forwardPkgRow, reversePkgRow, _pkgSig⟩ := packet
+  exact
+    And.intro positiveRadius
+      (And.intro leftEndpointRow
+        (And.intro rightEndpointRow
+          (And.intro forwardLedgerRow
+            (And.intro reverseLedgerRow
+              (And.intro forwardPkgRow
+                (And.intro reversePkgRow
+                  (And.intro scopeCont scopePkg)))))))
 
 theorem ApartnessRealSeparationPacket_metric_handoff [AskSetup] [PackageSetup]
     {leftName rightName radius window leftEndpoint rightEndpoint separation metricRow endpoint :
