@@ -121,6 +121,7 @@ import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
@@ -506,6 +507,7 @@ import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
@@ -1023,6 +1025,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.DerivedIndexAnalysis
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
