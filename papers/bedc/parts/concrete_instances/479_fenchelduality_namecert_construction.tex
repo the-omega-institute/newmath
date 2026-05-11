@@ -47,6 +47,67 @@ The classifier and stability obligations are componentwise. Transporting an acce
 The readback clause is therefore exact: a consumer obtains a pairing value, an order comparison, or an epigraph membership only by projecting the corresponding finite ledger row. Since no coordinate stores a separating hyperplane principle, a Hahn--Banach extension, a strong-duality existence witness, a host quotient, or an analytic closure theorem, the excluded classical principles remain outside the seed surface.
 \end{proof}
 
+\begin{theorem}[FenchelDualityUp carrier row]\label{thm:fenchelduality-carrier-row}
+Every accepted $\FenchelDualityUp$ packet exposes exactly the primal functional
+row, dual functional row, pairing row, $\RealUp$ comparison row,
+$\ConvexSetUp$ epigraph rows, optional $\SemidefiniteConeUp$ compatibility row,
+and $\Pkg$ provenance named in \autoref{def:fenchelduality-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted packet along the coordinates of
+\autoref{def:fenchelduality-carrier}. The definition lists $P$, $D$, $E$, $Q$,
+$C$, $R$, and $L$ as the full visible carrier, so each consumer-facing carrier
+read is one of those rows.
+
+Apply \autoref{thm:fenchelduality-namecert-obligation-surface} to identify the
+same carrier coordinates as the local naming-certificate surface. Since the
+obligation surface records no further coordinate, the exposed carrier row is
+exactly the displayed primal, dual, pairing, comparison, epigraph,
+compatibility, and provenance packet.
+\end{proof}
+
+\begin{theorem}[FenchelDualityUp classifier stability row]\label{thm:fenchelduality-classifier-stability-row}
+If the displayed primal row, dual row, pairing row, $\RealUp$ comparison row,
+$\ConvexSetUp$ epigraph rows, optional $\SemidefiniteConeUp$ compatibility row,
+and $\Pkg$ provenance of an accepted $\FenchelDualityUp$ packet are transported
+componentwise by the $\hsame$ witnesses and $\Cont$ routes named in the ledger,
+then the transported packet remains an accepted carrier and has the same
+classifier surface.
+\end{theorem}
+\begin{proof}
+Use the classifier clause in \autoref{def:fenchelduality-carrier}. It classifies
+packets only by componentwise $\hsame$ on $P$, $D$, $E$, $Q$, $C$, $R$, and $L$
+along the $\Cont$ routes already named by the provenance ledger.
+
+Then apply the stability row of
+\autoref{thm:fenchelduality-namecert-obligation-surface}. Transport of each
+displayed coordinate stays inside the finite $\TopVecSpaceUp$, $\VecSpaceUp$,
+$\RealUp$, $\ConvexSetUp$, $\LPDualityUp$, and $\SemidefiniteConeUp$
+certificate boundaries, so the transported packet is accepted by the same
+carrier predicate and no additional classifier field is introduced.
+\end{proof}
+
+\begin{theorem}[FenchelDualityUp ledger boundary row]\label{thm:fenchelduality-ledger-boundary-row}
+All $\FenchelDualityUp$ consumer reads of pairings, extended-value comparisons,
+and epigraph membership factor through the displayed ledger of
+\autoref{def:fenchelduality-carrier}. The ledger introduces no Hahn--Banach
+principle, separation theorem, strong-duality existence witness, host quotient
+space, or analytic closedness assertion.
+\end{theorem}
+\begin{proof}
+Project the ledger coordinate $L$ of the carrier. By
+\autoref{def:fenchelduality-carrier}, every consumer readback is tied to the
+displayed primal, dual, pairing, comparison, epigraph, optional cone-facing,
+and provenance rows by finite $\hsame$ and $\Cont$ routes.
+
+Apply the exact ledger readback and consumer-boundary clauses of
+\autoref{thm:fenchelduality-namecert-obligation-surface}. Those clauses allow
+only the recorded pairing, extended-value comparison, and epigraph membership
+rows to be read, and they explicitly leave Hahn--Banach, separation, strong
+duality, host quotient spaces, and analytic closedness outside the certificate
+surface.
+\end{proof}
+
 \closureat{FenchelDualityUp}{seedStr}
 \closureat{FenchelDualityUp}{obligationStr}[BEDC.Derived.FenchelDualityUp.FenchelDualityPrimalDualPacket\_namecert\_obligation\_surface]
 
@@ -59,5 +120,5 @@ The readback clause is therefore exact: a consumer obtains a pairing value, an o
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close separation theorems, Hahn--Banach, strong duality existence, host quotient spaces, analytic closedness, or an external conjugacy theorem.}
-  \upgradepath{Scoped closure requires pinning the primal row, dual row, pairing row, comparison rows, epigraph rows, optional cone-facing rows, and exact ledger readback to their kernel dependency boundary.}
+  \upgradepath{Scoped closure requires binding the carrier, classifier, stability, ledger, and consumer-boundary rows to their BEDC source certificates.}
 \end{closurestatus}
