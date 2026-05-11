@@ -196,3 +196,34 @@ window exhaustion supplies no additional arithmetic, order, quotient, or
 metric-completion component, so the seal over $W'$ is exactly the restricted
 $\RegSeqRat$-to-$\RealUp$ seal package.
 \end{proof}
+
+\begin{theorem}[RegSeqRat finite-window source-route uniqueness]
+\label{thm:regseqrat-window-source-route-uniqueness}
+Let $W$ be a selected finite $\RealUp$ observation window carrying the scoped
+$\RegSeqRat$ stream-name interface, the displayed dyadic ledger rows, and the
+Real seal row. If two consumer derivations pass through the same accepted
+$\RegSeqRat$ spine inside $W$, then they expose the same finite
+$\mathsf{StreamName}$ carrier, the same $\mathsf{DyadicRatCore}$ observation
+rows, the same $\RegSeqRat$ classifier and tolerance ledger, and the same
+$\RealUp$ seal row through the displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance. No consumer derivation may bypass the
+$\mathsf{StreamName}$--$\RegSeqRat$ handoff while still consuming the selected
+finite-window seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-finite-window-tail-determinacy} to the shared
+accepted $\RegSeqRat$ tail. The selected endpoint, denominator, dyadic, and
+Real ledger tail rows are thereby pinned to one finite-window surface.
+
+Next apply \autoref{thm:realup-regseqrat-window-seal-restriction} to each
+consumer derivation. Since both derivations restrict to the same displayed
+spine, the visible seal can only read the scoped stream-name interface, the
+dyadic ledger, and the Real tail rows already fixed by the shared window.
+
+It remains to compare the exposed rows. The $\mathsf{StreamName}$ carrier rows
+agree by the common spine, the $\mathsf{DyadicRatCore}$ observation rows agree
+by the finite dyadic ledger, and the classifier and tolerance entries agree by
+the displayed $\hsame$ and $\Cont$ readbacks. The $\mathsf{Pkg}$ provenance
+then repacks the same rows as the unique $\RegSeqRat$-to-$\RealUp$ source route
+for the selected finite seal.
+\end{proof}
