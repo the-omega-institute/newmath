@@ -110,7 +110,7 @@ itself'' has a legitimate L4-mid reading and no legitimate L4a or V3 reading.
 \subsection{Substrate Gap Discovery}\label{subsec:substrate-gap-discovery}
 
 The substitution preservation lemma for the represented type theory exposes
-the substrate's hidden requirements in three stages, each identified by a
+the substrate's hidden requirements in successive stages, each identified by a
 Lean-checked counterexample.
 
 \paragraph{First stage: shift in substitution.} A direct
@@ -170,11 +170,62 @@ $$
 The preservation lemma carries an explicit
 $\mathrm{WellFormedCtx}\ (B :: \Gamma)$ premise.
 
+\paragraph{Sixth stage: Bool-level substitute.} With context well-formedness
+in place, the generalized substitute preservation proof identifies a further
+substrate constraint. The V3 $\mathrm{substitute}$ implementation uses
+Prop-level conditional branching on de Bruijn index decidability:
+
+$$
+\begin{aligned}
+  \mathrm{substitute}\ d\ v\ (\mathrm{var}\ i) =
+  \mathrm{if}\ i = d\ \mathrm{then}\ v\
+  \mathrm{else}\ \mathrm{if}\ i > d\ \mathrm{then}\ \mathrm{var}\ (i{-}1)
+  \mathrm{else}\ \mathrm{var}\ i.
+\end{aligned}
+$$
+
+Generalized substitution-shift lemmas require structural induction through
+these conditional positions. The structural induction inherits Lean's stdlib
+decidable-equality machinery, which has $\mathrm{propext}$ in its transitive
+provenance. Under the tactic discipline of \autoref{sec:pure-cic-tactics},
+this disqualifies the proof.
+
+The substrate fix is to re-implement $\mathrm{substitute}$ using Boolean
+branching:
+
+$$
+\begin{aligned}
+  \mathrm{substitute}\ d\ v\ (\mathrm{var}\ i) =
+  \mathrm{match}\ \mathrm{Nat.beq}\ i\ d,\ \mathrm{Nat.blt}\ d\ i\
+  \mathrm{with}
+  \\
+  \mid \mathtt{true},\, \_ \Rightarrow v
+  \\
+  \mid \mathtt{false},\, \mathtt{true}
+  \Rightarrow \mathrm{var}\ (i{-}1)
+  \\
+  \mid \mathtt{false},\, \mathtt{false}
+  \Rightarrow \mathrm{var}\ i.
+\end{aligned}
+$$
+
+The match dispatches structurally on $\mathrm{Bool}$ values without invoking
+decidable-equality Prop machinery, so structural induction through these
+positions stays in pure CIC.
+
+This is a discipline-driven substrate decision rather than a mathematical
+necessity. A Lean formalization that admits $\mathrm{propext}$ may use the
+Prop-level form without difficulty. BEDC's pure-CIC invariant places the
+constraint as a load-bearing condition, surfacing the decidable-if cost only
+when the substitute preservation proof is attempted in earnest. The
+substrate-gap discovery sequence therefore has methodological as well as
+type-theoretic content.
+
 \paragraph{Position.} The progression illustrates a methodological point:
 when the represented system's metatheorem is not provable, the substrate is
 incomplete. Each Lean-checked rejection identifies the next gap rigorously, not
-by suspicion. The substrate built up through the three stages is what the
-represented type theory actually requires to support its metatheorems,
+by suspicion. The substrate built up through the discovery sequence is what
+the represented type theory actually requires to support its metatheorems,
 distilled bottom-up rather than imported from an external reference.
 
 \paragraph{Note on tactic discipline.} Each Lean check above is constrained to
