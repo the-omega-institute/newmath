@@ -723,6 +723,7 @@ import BEDC.Derived.SumUp.CarrierExactness
 import BEDC.Derived.SumUp.Classifier
 import BEDC.Derived.SumUp.Ledger
 import BEDC.Derived.SumUp.LedgerBranchExactness
+import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.CaseExactness
