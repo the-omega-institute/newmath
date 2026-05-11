@@ -85,4 +85,20 @@ theorem DyadicRatCoreCarrier_denominator_transport
     (And.intro ledgerSame
       (And.intro mantissaCarrier' (And.intro exponentPositive' ledgerUnary')))
 
+theorem DyadicRatCoreCarrier_monotone_radius_refinement
+    {mantissa exponent ledger provenance tail refinedLedger : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail -> Cont ledger tail refinedLedger ->
+        PositiveUnaryDenominator (append exponent tail) ∧ UnaryHistory refinedLedger ∧
+          Cont ledger tail refinedLedger ∧ hsame refinedLedger (append ledger tail) := by
+  intro carrier tailUnary refinementRow
+  have exponentPositive : PositiveUnaryDenominator exponent := carrier.right.left
+  have exponentTailPositive : PositiveUnaryDenominator (append exponent tail) :=
+    PositiveUnaryDenominator_append_unary_tail exponentPositive tailUnary
+  have ledgerUnary : UnaryHistory ledger := carrier.right.right.right.right
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    unary_cont_closed ledgerUnary tailUnary refinementRow
+  exact And.intro exponentTailPositive
+    (And.intro refinedLedgerUnary (And.intro refinementRow refinementRow))
+
 end BEDC.Derived.DyadicRatCoreUp

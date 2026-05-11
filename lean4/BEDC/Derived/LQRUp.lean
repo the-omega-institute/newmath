@@ -73,4 +73,28 @@ theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
                               · exact horizonUnary
                               · exact endpointPkg
 
+theorem LQR_dynamic_programming_cont_determinacy
+    {successor successor' transition transition' control control' cost cost' estimator estimator'
+      provenance provenance' st st' stc stc' stcc stcc' stcce stcce' predecessor
+      predecessor' : BHist} :
+    hsame successor successor' -> hsame transition transition' -> hsame control control' ->
+      hsame cost cost' -> hsame estimator estimator' -> hsame provenance provenance' ->
+        Cont successor transition st -> Cont successor' transition' st' ->
+          Cont st control stc -> Cont st' control' stc' ->
+            Cont stc cost stcc -> Cont stc' cost' stcc' ->
+              Cont stcc estimator stcce -> Cont stcc' estimator' stcce' ->
+                Cont stcce provenance predecessor ->
+                  Cont stcce' provenance' predecessor' -> hsame predecessor predecessor' := by
+  intro sameSuccessor sameTransition sameControl sameCost sameEstimator sameProvenance rowSt rowSt'
+    rowStc rowStc' rowStcc rowStcc' rowStcce rowStcce' rowPredecessor rowPredecessor'
+  have sameSt : hsame st st' :=
+    cont_respects_hsame sameSuccessor sameTransition rowSt rowSt'
+  have sameStc : hsame stc stc' :=
+    cont_respects_hsame sameSt sameControl rowStc rowStc'
+  have sameStcc : hsame stcc stcc' :=
+    cont_respects_hsame sameStc sameCost rowStcc rowStcc'
+  have sameStcce : hsame stcce stcce' :=
+    cont_respects_hsame sameStcc sameEstimator rowStcce rowStcce'
+  exact cont_respects_hsame sameStcce sameProvenance rowPredecessor rowPredecessor'
+
 end BEDC.Derived.LQRUp
