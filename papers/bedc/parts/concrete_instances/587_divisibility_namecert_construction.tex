@@ -1,0 +1,172 @@
+\chapter{A Concrete Naming Certificate for $\DivisibilityUp$}
+\label{ch:concrete-instances-divisibility-namecert}
+
+The $\DivisibilityUp$ interface names the finite arithmetic surface in which
+one natural-number row divides another by an explicitly displayed
+multiplication witness. In the sense of Hardy and Wright,
+\emph{An Introduction to the Theory of Numbers}, divisibility is the relation
+that records a multiplier $q$ with $bq=a$. The BEDC surface below keeps the
+relation constructive: the multiplier, product ledger, bounded search row,
+visible divisibility ledger, and provenance all remain finite
+$\mathsf{BHist}$ rows. It does not introduce quotient classes, ideal
+membership, or classical decidability.
+
+\begin{definition}[Divisibility finite-history carrier]
+\label{def:divisibility-bhist-carrier}
+A $\DivisibilityUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+D=(a,b,q,w,o,l,p)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $a$ and $b$ are accepted $\NatUp$ rows naming the dividend and divisor;
+\item $q$ is an accepted $\NatUp$ multiplier row;
+\item $w$ is the displayed $\MulUp$ witness row whose multiplication ledger
+records $b\cdot q=a$;
+\item $o$ is an $\OrderUp$ boundedness row recording the unary search envelope
+for $q$ whenever the consumer asks for a bounded witness;
+\item $l$ is the visible divisibility ledger tying the $a$, $b$, $q$, $w$, and
+$o$ rows to the same displayed classifier;
+\item $p$ is the $\Pkg$ provenance row naming the $\NatUp$, $\AddUp$,
+$\MulUp$, $\OrderUp$, $\PrimeUp$, and $\ModularArithmeticUp$ certificate
+boundaries used by the packet.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{DivLedger}(a,b,q,w,o,l,p)$. Two accepted sources classify together
+only when all displayed rows transport componentwise by $\hsame$ and the
+multiplication and boundedness reads follow the $\Cont$ routes recorded in
+$l$ and $p$.
+\end{definition}
+
+\begin{theorem}[Divisibility multiplication-witness closure]
+\label{thm:divisibility-mul-witness-closure}
+Let $D=(a,b,q,w,o,l,p)$ be an accepted $\DivisibilityUp$ source. The
+divisibility assertion exported by $D$ is exactly the displayed
+$\MulUp$ witness row $w$ for $b\cdot q=a$, together with the $\NatUp$ rows
+$a$, $b$, and $q$ named in \autoref{def:divisibility-bhist-carrier}. Every
+transport of $D$ by the componentwise $\hsame$ rows in $l$ gives another
+accepted source with the transported multiplication witness and no additional
+host divisibility predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:divisibility-bhist-carrier}. The rows
+$a$, $b$, and $q$ supply the displayed natural-number data, and $w$ is the
+only coordinate that reads a multiplication computation.
+
+Transport each of these rows by the $\hsame$ data recorded in $l$. Since the
+ledger also carries the continuation route used to read multiplication, the
+transported packet has the same visible product comparison, now over the
+transported rows.
+
+The remaining coordinates record boundedness and provenance. They contain no
+coordinate for an external divisibility relation, quotient class, or
+decidable predicate, so the multiplication witness row exhausts the exported
+divisibility assertion.
+\end{proof}
+
+\begin{theorem}[Divisibility order-bounded ledger]
+\label{thm:divisibility-order-bounded-ledger}
+For an accepted source $D=(a,b,q,w,o,l,p)$, every bounded search read of the
+divisibility witness is exactly the $\OrderUp$ row $o$ together with the
+unary envelope recorded by $l$. The row bounds the displayed multiplier $q$
+inside the finite search region selected by the dividend row $a$ when such a
+region is requested, and otherwise exports no order fact beyond the visible
+boundedness ledger.
+\end{theorem}
+\begin{proof}
+Read $o$ through the carrier of \autoref{def:divisibility-bhist-carrier}. It
+is typed over the same $a$, $b$, and $q$ rows used by the multiplication
+witness, so its boundedness comparison cannot name a different multiplier.
+
+When a bounded consumer requests a search envelope, the ledger $l$ supplies
+the finite unary route that compares $q$ with the selected bound. The route is
+a displayed order row, not a global well-ordering principle.
+
+No coordinate in the source stores least witnesses, unbounded search, or
+classical existence. Thus the bounded read is exhausted by $o$ and the finite
+envelope recorded by $l$.
+\end{proof}
+
+\begin{theorem}[Divisibility NameCert obligation surface]
+\label{thm:divisibility-namecert-obligation-surface}
+The local $\NameCert_{\DivisibilityUp}$ obligation surface consists of five
+finite rows:
+\begin{enumerate}
+\item carrier habitation: the source of
+\autoref{def:divisibility-bhist-carrier} is inhabited by taking the divisor
+row $b$ to be the certified natural row for $1$, the multiplier row $q$ to be
+$a$, and $w$ to be the displayed $\MulUp$ unit multiplication ledger;
+\item classifier transport: the classifier compares accepted sources by
+componentwise $\hsame$ transport of $a$, $b$, $q$, $w$, $o$, $l$, and $p$;
+\item multiplication-witness closure:
+\autoref{thm:divisibility-mul-witness-closure} is the only exported
+divisibility assertion;
+\item order-bounded exactness:
+\autoref{thm:divisibility-order-bounded-ledger} is the only exported bounded
+search surface;
+\item downstream readback: $\PrimeUp$ and $\ModularArithmeticUp$ consumers
+read only the divisor, multiplier, product, boundedness, ledger, and
+provenance rows of the same packet.
+\end{enumerate}
+These five rows form the full public seed obligation for naming finite
+divisibility data over certified natural-number histories.
+\end{theorem}
+\begin{proof}
+The habitation row uses the displayed natural-number unit. With $b=1$ and
+$q=a$, the $\MulUp$ unit ledger supplies the witness row $w$, while the
+boundedness and divisibility ledgers are the finite rows that record this
+same calculation.
+
+Classifier transport is componentwise. Transporting $a$, $b$, $q$, $w$, $o$,
+$l$, and $p$ by their displayed $\hsame$ rows gives a packet with the same
+carrier shape and the same multiplication and boundedness continuation
+routes.
+
+The multiplication and order theorems identify the only arithmetic reads
+exported from the carrier. Since the provenance row names exactly the
+natural, additive, multiplicative, order, prime, and modular certificates,
+downstream consumers can read no further object from the local
+$\NameCert_{\DivisibilityUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Divisibility prime and modular boundary]
+\label{thm:divisibility-prime-modular-boundary}
+Every $\PrimeUp$ or $\ModularArithmeticUp$ consumer of an accepted
+$\DivisibilityUp$ source must factor through the same finite rows
+$D=(a,b,q,w,o,l,p)$. A prime-oriented consumer may read $b$, $q$, and the
+product ledger $w$ as the visible witness surface for divisor tests. A
+modular-arithmetic consumer may read the same witness as a zero-remainder
+certificate only through the displayed $\MulUp$ product, $\OrderUp$
+boundedness row, and provenance carried by $p$.
+
+No primality decision, gcd computation, quotient residue class, finite-field
+structure, or host congruence is exported by the $\DivisibilityUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the accepted source through
+\autoref{def:divisibility-bhist-carrier}. The prime-facing read obtains only
+the divisor row, multiplier row, and multiplication witness already present
+in $D$.
+
+For a modular consumer, the same witness is read through the product row and
+the boundedness ledger. The provenance row $p$ names the
+$\ModularArithmeticUp$ boundary, but it does not add a quotient carrier or
+external congruence relation.
+
+Thus both downstream reads factor through the finite source itself. Any
+primality decision, gcd computation, quotient residue class, finite-field
+law, or host congruence would require a coordinate absent from $D$.
+\end{proof}
+
+\closureat{DivisibilityUp}{seedStr}
+
+\begin{closurestatus}{\DivisibilityUp}
+  \constructivestory{Divisibility is generated by finite natural-number rows for $a$, $b$, and $q$, a displayed multiplication witness for $b\cdot q=a$, an optional bounded search row, a visible divisibility ledger, and provenance over the arithmetic dependency certificates.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:divisibility-bhist-carrier} and \autoref{thm:divisibility-namecert-obligation-surface} bind only the seed carrier, witness, boundedness, readback, and provenance rows for finite divisibility data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close gcd algorithms, Euclidean division, primality decisions, unique factorization, quotient residue classes, finite fields, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier stability, multiplication-witness closure, bounded-ledger exactness, and downstream readback theorems.}
+\end{closurestatus}
