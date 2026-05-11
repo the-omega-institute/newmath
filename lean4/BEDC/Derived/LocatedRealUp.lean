@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -86,6 +88,69 @@ theorem LocatedRealCarrierSurface_dyadic_interval_obligation [AskSetup] [Package
           (And.intro pkgrowRow
             (And.intro classifierSame
               (And.intro pkgrowSame pkgSig))))))
+
+theorem LocatedRealCarrierSurface_metric_consumer_handoff_certificate [AskSetup]
+    [PackageSetup]
+    {regseq interval schedule classifier pkgrow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      Cont classifier pkgrow consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                exists c : BHist, Cont classifier pkgrow c ∧ PkgSig bundle c pkg ∧
+                  hsame row c)
+              (fun row : BHist =>
+                exists c : BHist, Cont classifier pkgrow c ∧ PkgSig bundle c pkg ∧
+                  hsame row c)
+              (fun row : BHist =>
+                exists c : BHist, Cont classifier pkgrow c ∧ PkgSig bundle c pkg ∧
+                  hsame row c)
+              hsame ∧
+            UnaryHistory consumer ∧ hsame consumer (append classifier pkgrow) ∧
+              PkgSig bundle consumer pkg := by
+  intro surface consumerCont consumerSig
+  have classifierUnary : UnaryHistory classifier :=
+    surface.right.right.right.left
+  have pkgrowUnary : UnaryHistory pkgrow :=
+    surface.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed classifierUnary pkgrowUnary consumerCont
+  let Carrier := fun row : BHist =>
+    exists c : BHist, Cont classifier pkgrow c ∧ PkgSig bundle c pkg ∧ hsame row c
+  have consumerCarrier : Carrier consumer :=
+    Exists.intro consumer
+      (And.intro consumerCont (And.intro consumerSig (hsame_refl consumer)))
+  have cert : SemanticNameCert Carrier Carrier Carrier hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer consumerCarrier
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows rowSource
+        cases rowSource with
+        | intro c witness =>
+            exact Exists.intro c
+              (And.intro witness.left
+                (And.intro witness.right.left
+                  (hsame_trans (hsame_symm sameRows) witness.right.right)))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro consumerUnary (And.intro consumerCont consumerSig))
 
 def LocatedRealCarrier [AskSetup] [PackageSetup]
     (stream schedule interval location realRow transport provenance endpoint : BHist)
