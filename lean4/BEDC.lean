@@ -70,6 +70,7 @@ import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
+import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.EqtypeUp
@@ -216,6 +217,7 @@ import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger

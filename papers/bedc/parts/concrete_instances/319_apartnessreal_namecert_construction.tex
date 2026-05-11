@@ -73,6 +73,8 @@ An accepted $\ApartnessRealUp$ packet supplies exactly the finite positive-separ
 
 The handoff permits a downstream metric or order construction to consume apartness evidence as data. It does not provide real trichotomy, total order, completeness, quotient classes, or a standard bridge for constructive reals.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealSeparationPacket\_metric\_handoff}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealMetricHandoffPacket\_transport}
 \begin{proof}
 Read the packet through \autoref{thm:apartnessreal-namecert-obligation-surface}. The carrier and exactness rows expose the two endpoints, positive radius, finite observation window, endpoint readbacks, and separation ledger.
 
@@ -121,6 +123,20 @@ Apply \autoref{thm:apartnessreal-namecert-obligation-surface}. Its carrier, clas
 Apply \autoref{thm:apartnessreal-symmetry-stability} to account for the reversible orientation required by apartness consumers. The symmetry operation swaps only the two endpoint rows and the two endpoint readbacks while preserving the same positive radius, finite window, and provenance rows.
 
 Finally apply \autoref{thm:apartnessreal-metric-handoff}. That handoff is already limited to finite positive-separation evidence for downstream metric or order constructions. Composing these three surfaces leaves the consumer with the finite-window row and no additional coordinate from which host inequality, total order, quotient, or completion data could be extracted.
+\end{proof}
+
+\begin{theorem}[ApartnessReal real separation scope]
+\label{thm:apartnessreal-real-separation-scope}
+The scoped separation surface consists exactly of the two displayed $\RealUp$ or $\RegSeqRatUp$ endpoint rows, one positive $\DyadicRatCoreUp$ radius row, one finite $\StreamNameUp$ observation window, two endpoint readbacks, the separation ledger, and their $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Any $\MetricSpaceUp$ or real-order consumer may read those rows as finite positive-separation data. The surface provides no host inequality, trichotomy decision, quotient carrier, total order, or completeness datum.
+\end{theorem}
+\begin{proof}
+Combine the obligation surface of \autoref{thm:apartnessreal-namecert-obligation-surface} with the finite-window row of \autoref{def:apartnessreal-finite-window-separation-row}. Together they expose exactly the two endpoint rows, positive radius, finite window, endpoint readbacks, separation ledger, and visible provenance.
+
+Apply \autoref{thm:apartnessreal-finite-window-separation-transport} to keep that tuple stable under the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes. Then apply \autoref{thm:apartnessreal-metric-consumer-separation-boundary} to identify the same tuple as the downstream metric or order consumer surface.
+
+The carrier and classifier coordinate lists contain only those finite rows. Therefore a consumer has no coordinate from which to read host inequality, trichotomy, quotient-carrier, total-order, or completeness data.
 \end{proof}
 
 \closureat{ApartnessRealUp}{seedStr}
