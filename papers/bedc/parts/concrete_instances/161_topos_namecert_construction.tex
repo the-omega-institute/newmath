@@ -117,6 +117,20 @@ Use the finite-limit exponential theorem for the structural categorical coordina
 With no remaining coordinate for host semantics or an external internal-language object, the consumer can read only the displayed certificate rows.
 \end{proof}
 
+\begin{theorem}[Topos NameCert obligation surface]
+\label{thm:topos-namecert-obligation-surface}
+The public $\NameCert_{\ToposUp}$ fields determined by \autoref{def:topos-carrier} are exactly the displayed $\CategoryUp$ and $\SheafUp$ source rows, finite-limit rows, exponential rows, subobject-classifier row, componentwise $\hsame$ transport, finite $\Cont$ ledger, $\mathsf{Pkg}$ provenance, and the consumer boundary of \autoref{thm:topos-certificate-boundary}. The obligation surface excludes host set semantics, an ambient universe, unlogged predicates, and any external internal language.
+\end{theorem}
+\begin{proof}
+Project the carrier obligation. It supplies the displayed $\CategoryUp$ and $\SheafUp$ source rows, the finite-limit and exponential rows, the subobject-classifier row, componentwise $\hsame$ transport, finite $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Apply \autoref{thm:topos-finite-limit-exponential-scope}. The structural reads remain inside the finite carrier rows and cannot import an ambient complete category, an external cartesian-closed structure, or host set-theoretic semantics.
+
+Apply \autoref{thm:topos-subobject-classifier-ledger-exactness} and \autoref{thm:topos-subobject-classifier-pullback-boundary}. The classifier readback is the displayed finite ledger entry, and pullback access to it factors only through the same $\CategoryUp$, $\SheafUp$, finite-limit, exponential, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ routes.
+
+Finally apply \autoref{thm:topos-certificate-boundary}. It exhausts downstream internal-logic reads by the listed certificate rows, leaving no coordinate for host set semantics, an ambient universe, unlogged predicates, or an external internal language.
+\end{proof}
+
 \closureat{ToposUp}{seedStr}
 \closureat{ToposUp}{obligationStr}[BEDC.Derived.ToposUp.ToposFiniteCarrier\_obligation\_surface]
 
