@@ -24,6 +24,7 @@ with the following visible rows:
 \end{enumerate}
 The classifier compares two accepted packets componentwise by $\hsame$ on support entries, distribution masses, cost entries, coupling entries, marginal ledgers, cost ledgers, $\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, and $\LPDualityUp$ dual rows. No coordinate stores a host probability space, a completed measure, a quotient of couplings, or a selected optimizer over arbitrary measures.
 \end{definition}
+\leandef{BEDC.Derived.OptimalTransportUp.OptimalTransportFiniteCouplingCarrier}
 
 \begin{theorem}[OptimalTransport coupling marginal ledger]
 \label{thm:optimaltransport-coupling-marginal-ledger}
@@ -39,6 +40,7 @@ For a source support entry $x$, read the row of $\Gamma$ indexed by $x$ and the 
 
 Since the proof uses only finite table projections and the displayed summation rows, there is no operation that can create an ambient measure, complete a sigma algebra, or search over couplings that are not already present in the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.OptimalTransportUp.OptimalTransportFiniteCouplingCarrier\_marginal\_ledger}
 
 \begin{theorem}[OptimalTransport cost summation ledger]
 \label{thm:optimaltransport-cost-summation-ledger}
@@ -80,6 +82,7 @@ The local $\NameCert_{\OptimalTransportUp}$ seed surface consists of the followi
 \end{enumerate}
 These rows are sufficient to name the finite-support optimal-transport certificate surface and deliberately exclude measure completion, arbitrary-measure optimizer selection, quotient spaces, and Kantorovich duality beyond the finite linear-programming boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.OptimalTransportUp.OptimalTransportFiniteCouplingPacket\_namecert\_obligation\_surface}
 \leanchecked{BEDC.Derived.OptimalTransportUp.OptimalTransportPacket\_semantic\_name\_certificate}
 \begin{proof}
 The carrier row fixes the finite support entries, source and target distributions, cost rows, coupling table, marginal ledgers, objective ledger, and provenance. These are precisely the coordinates available to an $\OptimalTransportUp$ consumer.
@@ -361,14 +364,15 @@ representative choices, the catalogue exports none of those objects.
 \closureat{OptimalTransportUp}{scopedStr}
 \closureat{OptimalTransportUp}{publicStr}
 \closureat{OptimalTransportUp}{bridgedStr}
+\closureat{OptimalTransportUp}{matureStr}
 
 \begin{closurestatus}{\OptimalTransportUp}
   \constructivestory{An optimal-transport packet is generated from displayed finite source and target support rows, $\DistributionUp$ mass rows, a cost table or $\MetricUp$ cost row, a finite coupling table, marginal summation ledgers, a finite objective ledger, $\ConvexSetUp$ and $\PolytopeUp$ feasible-region rows, an $\LPDualityUp$ dual-feasibility row, and $\Pkg$ provenance.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The bridge surface binds the finite-support carrier of \autoref{def:optimaltransport-finite-coupling-carrier}, the marginal ledger of \autoref{thm:optimaltransport-coupling-marginal-ledger}, the cost ledger of \autoref{thm:optimaltransport-cost-summation-ledger}, the finite dual-feasible surface of \autoref{thm:optimaltransport-lpduality-feasible-surface}, the NameCert obligation surface of \autoref{thm:optimaltransport-namecert-obligation-surface}, the public finite linear-programming certificate of \autoref{thm:optimaltransport-public-finite-lp-certificate}, the obligation closure of \autoref{thm:optimaltransport-obligation-closure}, the public export surface of \autoref{thm:optimaltransport-public-export-surface}, and the finite-support bridge package of \autoref{thm:optimaltransport-finite-support-bridge-package} through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\DistributionUp$, $\MetricUp$, $\ConvexSetUp$, $\PolytopeUp$, and $\LPDualityUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close measure completion, arbitrary-measure minimizer selection, quotient spaces, infinite-dimensional Kantorovich duality, analytic compactness, or a standard bridge.}
-  \upgradepath{Mature closure requires a complete finite-support package boundary and a standard comparison surface for the displayed marginal, cost, feasible-polytope, dual-feasibility, classifier-transport, continuation, and provenance readers.}
+  \upgradepath{The finite-support mature catalogue is present; the remaining progress is Lean formalization and any later standard bridge for the displayed marginal, cost, feasible-polytope, dual-feasibility, classifier-transport, continuation, and provenance readers.}
 \end{closurestatus}
