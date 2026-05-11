@@ -106,6 +106,7 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KKTUp
+import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
@@ -134,6 +135,7 @@ import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
+import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.BoolUp
@@ -590,6 +592,7 @@ import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
+import BEDC.Derived.TopVecSpaceUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
@@ -1054,6 +1057,7 @@ import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
+import BEDC.MetaCIC
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
