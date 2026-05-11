@@ -150,6 +150,26 @@ theorem concrete_closed_subst_preserves :
   · exact ClosedAt.sortClosed
   · exact HasType.sortRule []
 
+/-- 深度一替换在目标变量上命中替换项。 -/
+theorem substitute_at_one_var_one (v : Term) :
+    substitute 1 v (Term.var 1) = v := by
+  unfold substitute
+  rfl
+
+/-- 深度一替换穿过更高变量时删除一层 binder。 -/
+theorem substitute_at_one_var_two (v : Term) :
+    substitute 1 v (Term.var 2) = Term.var 1 := by
+  unfold substitute
+  rfl
+
+/-- `lam` 下 descend 后, depth-1 替换命中 body 中对应的外层引用。 -/
+theorem concrete_depth_one_lam_example :
+    substitute 1 Term.sort (Term.lam Term.sort (Term.var 2)) =
+      Term.lam Term.sort Term.sort := by
+  unfold substitute
+  unfold shift
+  rfl
+
 /-- β-step 的目标项可由 V6 替换-提升抵消引理回到 Sort。 -/
 theorem beta_shifted_sort_step_preserves_sort_typing :
     BetaStep (Term.app (Term.lam Term.sort (shift 0 1 Term.sort)) Term.sort) Term.sort ∧
