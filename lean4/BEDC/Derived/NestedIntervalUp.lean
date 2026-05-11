@@ -269,4 +269,27 @@ theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
     ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
       regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
 
+theorem NestedIntervalFiniteCarrier_public_window_boundary [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace endpoint
+        pkgLedger bundle pkg ->
+      NestedIntervalRegSeqRatWindow schedule lower upper width inclusion schedule regRead pkgLedger
+        endpoint bundle pkg ->
+        UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory width ∧
+          UnaryHistory inclusion ∧ UnaryHistory schedule ∧ UnaryHistory regRead ∧
+            UnaryHistory sealFace ∧ Cont lower upper endpoint ∧ Cont lower upper width ∧
+              Cont width inclusion regRead ∧ PkgSig bundle pkgLedger pkg ∧
+                PkgSig bundle regRead pkg := by
+  intro carrier window
+  obtain ⟨lowerUnary, upperUnary, _orderUnary, widthUnary, inclusionUnary, scheduleUnary,
+    regReadUnary, sealFaceUnary, _endpointUnary, _pkgLedgerUnary, endpointRow, _ledgerRow,
+    ledgerPkg⟩ := carrier
+  obtain ⟨_prefixUnary, _windowLowerUnary, _windowUpperUnary, _windowWidthUnary,
+    _windowInclusionUnary, _windowScheduleUnary, _windowRegReadUnary, _provenanceUnary,
+    _certUnary, widthRow, regReadRow, regReadPkg⟩ := window
+  exact
+    ⟨lowerUnary, upperUnary, widthUnary, inclusionUnary, scheduleUnary, regReadUnary,
+      sealFaceUnary, endpointRow, widthRow, regReadRow, ledgerPkg, regReadPkg⟩
+
 end BEDC.Derived.NestedIntervalUp
