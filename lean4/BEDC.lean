@@ -100,6 +100,7 @@ import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
