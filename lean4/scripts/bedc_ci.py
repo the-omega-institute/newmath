@@ -5,6 +5,7 @@ Subcommands:
   - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
   - inventory: build a declaration + paper-label + Lean-marker inventory
   - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
+  - marker-existence-audit: report paper markers that do not resolve in Lean
   - manifest-check: check selected Lean theorem type shapes against a manifest
   - verify-files: run ``lake env lean`` on one or more Lean files
 
@@ -47,11 +48,21 @@ FIELD_RE = re.compile(r"^\s{2,}(?P<name>[A-Za-z0-9_']+)\s*:")
 CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
+MARKER_EXISTENCE_RE = re.compile(
+    r"\\(leanchecked|leanvariant|leantarget|leandef|leanstmt|leansorryd)\{([^}]+)\}"
+)
 LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
 CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
+MARKER_DECL_RE = re.compile(
+    r"^\s*"
+    r"(?:@\[[^\]]+\]\s*)*"
+    r"(?:(?:private|protected|noncomputable|unsafe|partial|scoped|mutual)\s+)*"
+    r"(?P<kind>theorem|def|lemma|abbrev|instance|inductive|structure|class)\s+"
+    r"(?P<name>«[^»]+»|[A-Za-z0-9_'.]+)\b"
+)
 
 FORBIDDEN_PATTERNS = {
     "axiom": re.compile(r"\baxiom\b"),
@@ -361,6 +372,41 @@ def collect_paper_leanchecked_targets() -> set[str]:
             for match in LEAN_CHECKED_RE.finditer(raw_line):
                 targets.add(match.group(1).replace(r"\_", "_").strip())
     return targets
+
+
+def collect_marker_existence_markers() -> list[LeanMarkerRecord]:
+    markers: list[LeanMarkerRecord] = []
+    for path in part_tex_files():
+        text = read_text(path)
+        for line_no, raw_line in enumerate(text.splitlines(), start=1):
+            if raw_line.lstrip().startswith("%"):
+                continue
+            for match in MARKER_EXISTENCE_RE.finditer(raw_line):
+                target = match.group(2).replace(r"\_", "_").strip()
+                markers.append(LeanMarkerRecord(
+                    file=str(path.relative_to(REPO_ROOT)),
+                    line=line_no,
+                    macro=match.group(1),
+                    target=target,
+                ))
+    return markers
+
+
+def collect_marker_existence_lean_names() -> set[str]:
+    names: set[str] = set()
+    for path in lean_files():
+        text = strip_comments_and_strings(read_text(path))
+        module = module_name(path)
+        namespace_stack: list[str] = []
+        for raw_line in text.splitlines():
+            update_namespace_stack(raw_line, namespace_stack)
+            match = MARKER_DECL_RE.match(raw_line)
+            if not match:
+                continue
+            name = match.group("name").strip()
+            namespace = declaration_namespace(module, namespace_stack)
+            names.add(qualified_name(name, namespace))
+    return names
 
 
 def collect_manifest_entry_targets() -> set[str]:
@@ -976,6 +1022,39 @@ def cmd_manifest_coverage(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_marker_existence_audit(args: argparse.Namespace) -> int:
+    markers = collect_marker_existence_markers()
+    lean_names = collect_marker_existence_lean_names()
+    missing = [marker for marker in markers if marker.target not in lean_names]
+    resolved = len(markers) - len(missing)
+    missing_ratio = (len(missing) / len(markers) * 100.0) if markers else 0.0
+
+    print("marker-existence-audit report")
+    print(f"  markers_total: {len(markers)}")
+    print(f"  markers_resolved: {resolved}")
+    print(f"  markers_missing: {len(missing)} (M/N = {missing_ratio:.2f}%)")
+    print()
+    print("  -- Missing markers (first 30) by kind:")
+    if not missing:
+        print("  none")
+        return 0
+
+    by_kind: dict[str, list[LeanMarkerRecord]] = {}
+    for marker in missing:
+        by_kind.setdefault(marker.macro, []).append(marker)
+    emitted = 0
+    for kind in sorted(by_kind):
+        if emitted >= 30:
+            break
+        print(f"  {kind}:")
+        for marker in by_kind[kind]:
+            if emitted >= 30:
+                break
+            print(f"    {marker.target}  ({marker.file}:{marker.line})")
+            emitted += 1
+    return 0
+
+
 DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
     "Classical.choice",
     "Quot.sound",
@@ -1408,6 +1487,12 @@ def parser() -> argparse.ArgumentParser:
         help="Filter paper markers and manifest entries to Lean names with this namespace prefix",
     )
     manifest_coverage_p.set_defaults(func=cmd_manifest_coverage)
+
+    marker_existence_p = sub.add_parser(
+        "marker-existence-audit",
+        help="Report informational paper Lean markers that do not exist in lean4/BEDC/",
+    )
+    marker_existence_p.set_defaults(func=cmd_marker_existence_audit)
 
     manifest_check_p = sub.add_parser(
         "manifest-check",
