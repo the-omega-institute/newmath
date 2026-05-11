@@ -47,6 +47,7 @@ The transported packet introduces no analytic differentiability row, Slater
 data, host minimization predicate, or solver semantics beyond the displayed
 BEDC rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.KKTUp.KKTCarrierPacket\_stationarity\_feasibility\_hsame\_transport}
 \begin{proof}
 Unfold \autoref{def:kkt-bhist-carrier}. The carrier names exactly the primal,
 dual multiplier, residual, stationarity, feasibility, slackness, comparison,
@@ -69,6 +70,7 @@ comparison, continuation, and package rows, so the transport cannot add
 analytic differentiability, Slater data, host minimization semantics, or solver
 evidence.
 \end{proof}
+\leanchecked{BEDC.Derived.KKTUp.KKTPrimalDualPacket\_stationarity\_feasibility\_hsame\_transport}
 
 \begin{theorem}[KKTUp stationarity and feasibility stability]
 \label{thm:kkt-stationarity-feasibility-stability}
@@ -124,14 +126,15 @@ All excluded analytic objects require rows absent from the carrier. The downstre
 \end{proof}
 
 \closureat{KKTUp}{seedStr}
+\closureat{KKTUp}{obligationStr}
 \begin{closurestatus}{\KKTUp}
   \constructivestory{The construction starts from a finite constrained-convex-program packet, records primal, dual, residual, stationarity, feasibility, and complementary-slackness rows, and routes every read through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed boundary records a finite KKT packet over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$, with visible primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation boundary records a finite KKT packet over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$, with visible primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.KKTUp.KKTCarrierPacket}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full nonlinear optimization, Slater existence, analytic differentiability, host real optimization semantics, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the KKT carrier, primal-dual rows, stationarity and feasibility stability, complementarity ledger, and downstream boundary to checked finite BEDC rows.}
+  \upgradepath{Scoped closure requires checked finite BEDC targets for the carrier, primal-dual rows, stationarity and feasibility stability, complementarity ledger, and downstream boundary.}
 \end{closurestatus}

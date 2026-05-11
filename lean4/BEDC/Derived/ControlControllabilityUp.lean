@@ -115,4 +115,49 @@ theorem ControlControllabilityReachabilityPacket_reachability_ledger [AskSetup]
               (And.intro reachabilityUnary
                 (And.intro firstColumnRow (And.intro reachabilityRow pkgSig))))))))
 
+theorem ControlControllabilityReachabilityPacket_continuation_closure [AskSetup]
+    [PackageSetup]
+    {state input transition control horizon firstColumn reachability provenance endpoint
+      endpointNext joinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      UnaryHistory endpointNext ->
+        Cont endpoint endpointNext joinedEndpoint ->
+          PkgSig bundle joinedEndpoint pkg ->
+            ∃ joinedProvenance : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                  firstColumn reachability joinedProvenance joinedEndpoint bundle pkg ∧
+                hsame joinedProvenance (append provenance endpointNext) := by
+  intro packet endpointNextUnary endpointJoin pkgSig
+  have stateUnary : UnaryHistory state := packet.left
+  have inputUnary : UnaryHistory input := packet.right.left
+  have transitionUnary : UnaryHistory transition := packet.right.right.left
+  have controlUnary : UnaryHistory control := packet.right.right.right.left
+  have horizonUnary : UnaryHistory horizon := packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.right.left
+  have firstColumnRow : Cont control horizon firstColumn :=
+    packet.right.right.right.right.right.right.left
+  have reachabilityRow : Cont firstColumn transition reachability :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont reachability provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have joinedRows := cont_assoc_middle_exists endpointRow endpointJoin
+  cases joinedRows with
+  | intro joinedProvenance joinedData =>
+      have joinedProvenanceUnary : UnaryHistory joinedProvenance :=
+        unary_cont_closed provenanceUnary endpointNextUnary joinedData.left
+      exact Exists.intro joinedProvenance
+        (And.intro
+          (And.intro stateUnary
+            (And.intro inputUnary
+              (And.intro transitionUnary
+                (And.intro controlUnary
+                  (And.intro horizonUnary
+                    (And.intro joinedProvenanceUnary
+                      (And.intro firstColumnRow
+                        (And.intro reachabilityRow
+                          (And.intro joinedData.right pkgSig)))))))))
+          joinedData.left)
+
 end BEDC.Derived.ControlControllabilityUp
