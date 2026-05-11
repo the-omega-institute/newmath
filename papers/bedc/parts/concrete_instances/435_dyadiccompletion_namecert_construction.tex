@@ -138,50 +138,59 @@ modulus, quotient representative, Dedekind cut, or completed host real, such
 data cannot be projected from the packet.
 \end{proof}
 
-\begin{theorem}[DyadicCompletion obligation closure packet]
-\label{thm:dyadiccompletion-obligation-closure-packet}
-The carrier, componentwise classifier, regular-tail stability, constant dyadic
-embedding, $\StreamNameUp$ handoff, $\RealUp$ boundary, and precision ledger
-form the full paper obligation surface for $\DyadicCompletionUp$. The six
-visible coordinates are scheduled dyadic observations, certified stream
-windows, regular-tail comparison rows, constant dyadic rows, consumer handoff
-routes, and the ledger entries naming every finite precision read.
+\begin{theorem}[DyadicCompletion scoped dependency packet]
+\label{thm:dyadiccompletion-scoped-dependency-packet}
+The carrier of \autoref{def:dyadiccompletion-carrier}, the componentwise
+classifier of
+\autoref{thm:dyadiccompletion-namecert-obligation-surface}, the constant dyadic
+embedding of \autoref{thm:dyadiccompletion-constant-embedding}, the
+regular-tail stability of
+\autoref{thm:dyadiccompletion-regular-tail-stability}, the $\StreamNameUp$
+handoff of \autoref{thm:dyadiccompletion-streamname-handoff}, the $\RealUp$
+handoff boundary named in the carrier, and the ledger boundary of
+\autoref{thm:dyadiccompletion-ledger-boundary} depend only on finite
+$\mathsf{BHist}$ rows, displayed $\hsame$ comparisons, visible $\Cont$ routes,
+the $\mathsf{Pkg}$ provenance row, and the named $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source certificates.
 
-Every downstream read of the packet passes through a stored finite schedule and
-ledger route. No quotient stream, unstored modulus, Dedekind cut, or completed
-ambient real is introduced by the obligation surface.
+Thus every accepted $\DyadicCompletionUp$ packet is scoped by the finite BEDC
+rows and source certificates listed above.
 \end{theorem}
 \begin{proof}
-Enumerate the six visible coordinates from \autoref{def:dyadiccompletion-carrier}:
-the dyadic observation row, the stream-window certificate, the regular-tail
-comparison row, the constant dyadic embedding row, the consumer handoff row,
-and the precision ledger.
+Project the finite packet coordinates of
+\autoref{def:dyadiccompletion-carrier}. They are dyadic observation rows,
+certified stream windows, regular-tail rows, a real-name handoff row, ledger
+entries, and one $\mathsf{Pkg}$ provenance row naming the source certificates.
 
-The local certificate surface is \autoref{thm:dyadiccompletion-namecert-obligation-surface}.
-It identifies the carrier and componentwise classifier as the public obligation
-rows for the packet. The constant dyadic component is supplied by
-\autoref{thm:dyadiccompletion-constant-embedding}.
+The componentwise classifier is the classifier component of
+\autoref{thm:dyadiccompletion-namecert-obligation-surface}. The constant
+embedding row is \autoref{thm:dyadiccompletion-constant-embedding}, and the
+regular-tail row is transported by
+\autoref{thm:dyadiccompletion-regular-tail-stability}; each cited block reads
+only finite $\mathsf{BHist}$ rows through $\hsame$, $\Cont$, and the displayed
+package provenance.
 
-Regular-tail reads use \autoref{thm:dyadiccompletion-regular-tail-stability},
-and consumer reads use \autoref{thm:dyadiccompletion-streamname-handoff}. Both
-theorems return only rows already indexed by a finite schedule.
+The consumer handoff is \autoref{thm:dyadiccompletion-streamname-handoff}. Its
+stream-name and real-name reads are the same scheduled rows already present in
+the carrier, with the $\RegSeqRatUp$ and $\RealUp$ source certificates named by
+the package row.
 
-It remains to account for the boundary. Apply
-\autoref{thm:dyadiccompletion-ledger-boundary}: every $\DyadicRatCoreUp$,
-$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ read is named in the precision
-ledger, and the packet contains no extra coordinate from which a completed real
-or quotient stream could be projected.
+Finally apply \autoref{thm:dyadiccompletion-ledger-boundary}. The ledger names
+every $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ row
+available to a consumer, and the carrier has no coordinate for a quotient
+stream, Dedekind cut, host real, or chosen limit.
 \end{proof}
 
 \closureat{DyadicCompletionUp}{obligationStr}
+\closureat{DyadicCompletionUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicCompletionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The carrier of \autoref{def:dyadiccompletion-carrier}, NameCert obligation surface of \autoref{thm:dyadiccompletion-namecert-obligation-surface}, constant dyadic embedding of \autoref{thm:dyadiccompletion-constant-embedding}, regular-tail stability of \autoref{thm:dyadiccompletion-regular-tail-stability}, StreamName handoff of \autoref{thm:dyadiccompletion-streamname-handoff}, and ledger boundary of \autoref{thm:dyadiccompletion-ledger-boundary} form the complete obligation set.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:dyadiccompletion-scoped-dependency-packet} binds the dyadic observation, stream-window, regular-tail, real-boundary, ledger, transport, continuation, and package rows to the listed BEDC source certificates.}
   \constructivestory{A $\DyadicCompletionUp$ packet is generated by scheduled dyadic observations, certified stream windows, regular-tail comparison rows, a real-name handoff boundary, and a precision ledger that records every consumed schedule and tail bound.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the Lean namespace, a complete real construction, quotient equality of Cauchy streams, Dedekind real equivalence, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the dyadic observation, $\StreamNameUp$ window, $\RegSeqRatUp$ tail, $\RealUp$ boundary, precision ledger, $\hsame$, $\Cont$, and $\Pkg$ rows to their BEDC source certificates.}
+  \upgradepath{Public closure requires a single exported $\DyadicCompletionUp$ NameCert statement consumed by $\RegSeqRatUp$ and $\RealUp$.}
 \end{closurestatus}
