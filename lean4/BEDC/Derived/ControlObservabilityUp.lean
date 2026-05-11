@@ -1,10 +1,13 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.DynSystemUp
+import BEDC.Derived.MatrixUp
 
 namespace BEDC.Derived.ControlObservabilityUp
 
@@ -15,6 +18,8 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.DynSystemUp
+open BEDC.Derived.MatrixUp
 
 def ControlObservabilityCarrier [AskSetup] [PackageSetup]
     (state transition output observation stack trace provenance endpoint : BHist)
@@ -246,5 +251,70 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
       And.intro packet.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
+
+def ControlObservabilityPacket_kernel_separation_carrier
+    (state observationMatrix trace provenance : BHist) : Prop :=
+  Cont state observationMatrix trace ∧ UnaryHistory provenance
+
+theorem ControlObservabilityPacket_kernel_separation
+    {stateA stateB observationMatrix traceA traceB provenanceA provenanceB : BHist}
+    (left :
+      ControlObservabilityPacket_kernel_separation_carrier stateA observationMatrix traceA
+        provenanceA)
+    (right :
+      ControlObservabilityPacket_kernel_separation_carrier stateB observationMatrix traceB
+        provenanceB)
+    (sameTrace : hsame traceA traceB) :
+    hsame stateA stateB ∧
+      Cont stateA observationMatrix traceA ∧
+        Cont stateB observationMatrix traceB := by
+  have sameState : hsame stateA stateB :=
+    cont_right_cancel_hsame_result left.left right.left sameTrace
+  exact And.intro sameState (And.intro left.left right.left)
+
+def ControlObservabilityZeroKernelTrace
+    (packet stateA stateB diff zero kernel rank trace ledger : BHist) : Prop :=
+  Cont stateA diff stateB ∧
+    hsame kernel zero ∧
+      hsame rank packet ∧ Cont diff kernel zero ∧ Cont stateA trace ledger ∧ Cont stateB trace ledger
+
+theorem ControlObservabilityKernelSeparation_state_rows_hsame
+    {packet stateA stateB diff zero kernel rank trace ledger : BHist} :
+    ControlObservabilityZeroKernelTrace packet stateA stateB diff zero kernel rank trace ledger ->
+      hsame diff zero -> hsame zero BHist.Empty -> Cont stateA trace ledger ->
+        Cont stateB trace ledger ->
+          hsame stateA stateB /\ Cont stateA trace ledger /\ Cont stateB trace ledger := by
+  intro surface sameDiffZero sameZeroEmpty stateATrace stateBTrace
+  have diffEmpty : hsame diff BHist.Empty := hsame_trans sameDiffZero sameZeroEmpty
+  have stateAStep : Cont stateA BHist.Empty stateB :=
+    cont_hsame_transport (hsame_refl stateA) diffEmpty (hsame_refl stateB) surface.left
+  have sameStatesFromKernel : hsame stateA stateB :=
+    hsame_symm (cont_right_unit_iff.mp stateAStep)
+  have sameStatesFromTrace : hsame stateA stateB :=
+    cont_right_cancel stateATrace stateBTrace
+  exact And.intro
+    (hsame_trans (hsame_trans sameStatesFromKernel (hsame_symm sameStatesFromTrace))
+      sameStatesFromTrace)
+    (And.intro stateATrace stateBTrace)
+
+theorem ControlObservability_finite_trace_ledger_readback [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route output observation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      MatrixSingletonCarrier output -> Cont output endpoint observation ->
+        UnaryHistory observation ∧ hsame flowWitness (append (append phase time) source) ∧
+          hsame endpoint (append flowWitness ode) ∧ hsame route (append endpoint target) ∧
+            MatrixSingletonCarrier output := by
+  intro packet outputCarrier observationCont
+  have coverage := DynSystemFlowPacket_endpoint_coverage packet
+  have outputUnary : UnaryHistory output := by
+    cases outputCarrier
+    exact unary_empty
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed outputUnary coverage.right.left observationCont
+  exact And.intro observationUnary
+    (And.intro coverage.right.right.right.left
+      (And.intro coverage.right.right.right.right.left
+        (And.intro coverage.right.right.right.right.right.left outputCarrier)))
 
 end BEDC.Derived.ControlObservabilityUp
