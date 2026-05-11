@@ -1023,6 +1023,7 @@ import BEDC.Derived.RingUp.NegEndpoint
 import BEDC.Derived.RingUp.StdBridge
 import BEDC.Derived.MatrixUp.ZeroMatrixMultiplication
 import BEDC.Derived.MatrixUp.PublicConstructorSurface
+import BEDC.Derived.MatrixUp.StdBridge
 import BEDC.Derived.CommRingUp
 import BEDC.Derived.CommRingUp.NegEndpoint
 import BEDC.Derived.CommRingUp.EmptyLinearFactor
