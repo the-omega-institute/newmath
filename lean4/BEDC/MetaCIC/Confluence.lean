@@ -45,10 +45,19 @@ def BetaParallelDiamond : Prop :=
     BetaParallel t u2 →
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v)
 
+theorem betaStarStep_refl_self (t : Term) :
+    BetaStarStep t t := by
+  exact BetaStarStep.refl t
+
 theorem betaStar_one {t u : Term} :
     BetaStep t u → BetaStarStep t u := by
   intro h
   exact BetaStarStep.step h (BetaStarStep.refl u)
+
+theorem betaStep_to_star {t t' : Term}
+    (h : BetaStep t t') :
+    BetaStarStep t t' := by
+  exact betaStar_one h
 
 theorem betaStar_trans {t u v : Term} :
     BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
@@ -365,6 +374,11 @@ theorem betaStar_sort_target
       rfl
   | step hstep _ =>
       exact False.elim (betaStep_sort_absurd hstep)
+
+theorem betaStarStep_sort_unique {t : Term}
+    (h : BetaStarStep Term.sort t) :
+    t = Term.sort := by
+  exact betaStar_sort_target h
 
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}
