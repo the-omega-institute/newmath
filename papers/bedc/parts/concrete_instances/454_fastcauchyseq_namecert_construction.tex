@@ -538,6 +538,47 @@ prefix-modulus packet, the finite BEDC handoff is exactly the shared source
 surface named in the statement.
 \end{proof}
 
+\begin{theorem}[FastCauchySeq cofinal-tail Real-seal coherence]
+\label{thm:fastcauchyseq-cofinal-tail-real-seal-coherence}
+Let $F_0$ and $F_1$ be accepted $\FastCauchySeqUp$ packets whose
+explicit-rate streams admit a common cofinal tail. Suppose their synchronized
+precision windows agree on the displayed $\DyadicRatCoreUp$ endpoint and
+radius rows, late-pair comparison rows, transport rows, $\mathsf{Pkg}$
+provenance, and $\NameCert$ rows. Then the $\RealUp$ seal source surfaces
+obtained through the $\RegSeqRatUp$ forgetful handoff agree on that cofinal
+tail.
+
+The agreement is only the displayed finite consumer boundary: the shared tail
+contains the selected $\CauchyModulusUp$ threshold rows, dyadic endpoint and
+radius rows, comparison rows, $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ provenance. It contains no quotient real
+equality, selected limit, completed metric object, hidden threshold selector,
+or $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project both packets by
+\autoref{thm:fastcauchyseq-modulus-precision-window-factorization}. This
+presents each consumer read through a finite modulus precision window rather
+than through any completed real object.
+
+Synchronize the two windows with
+\autoref{thm:fastcauchyseq-synchronized-precision-window}. The hypothesis
+identifies the displayed endpoint, radius, comparison, transport, package, and
+naming rows in the synchronized surface.
+
+Use \autoref{thm:fastcauchyseq-prefix-window-eventual-lock} to pass from the
+synchronized prefixes to the stable cofinal tail rows. Then apply
+\autoref{thm:fastcauchyseq-tail-cofinal-regseqrat-real-boundary} to read that
+tail as the same $\RegSeqRatUp$-to-$\RealUp$ consumer boundary.
+
+Finally invoke
+\autoref{thm:fastcauchyseq-prefix-modulus-real-seal-factorization}. The
+$\RealUp$ seal factors through the shared prefix-modulus packet on the cofinal
+tail, so both accepted packets expose the same finite BEDC source surface and
+no quotient equality, selected limit, completion object, hidden selector, or
+completeness row.
+\end{proof}
+
 \closureat{FastCauchySeqUp}{obligationStr}
 \closureat{FastCauchySeqUp}{scopedStr}
 \closureat{FastCauchySeqUp}{publicStr}

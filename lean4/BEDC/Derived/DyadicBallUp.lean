@@ -415,6 +415,60 @@ theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
                             hsame endpoint endpoint' := by
   exact DyadicBallPacket_classifier_laws
 
+theorem DyadicBallPacket_real_seal_boundary [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+        UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory route ∧
+          UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont center radius schedule ∧
+            Cont schedule observation containment ∧ Cont containment route endpoint ∧
+              hsame schedule (append center radius) ∧
+                hsame containment (append schedule observation) ∧
+                  hsame endpoint (append containment route) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have centerUnary : UnaryHistory center :=
+    packet.left
+  have radiusUnary : UnaryHistory radius :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have observationUnary : UnaryHistory observation :=
+    packet.right.right.right.left
+  have containmentUnary : UnaryHistory containment :=
+    packet.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    packet.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have scheduleRow : Cont center radius schedule :=
+    packet.right.right.right.right.right.right.right.right.left
+  have containmentRow : Cont schedule observation containment :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont containment route endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨centerUnary,
+      radiusUnary,
+      scheduleUnary,
+      observationUnary,
+      containmentUnary,
+      routeUnary,
+      provenanceUnary,
+      endpointUnary,
+      scheduleRow,
+      containmentRow,
+      endpointRow,
+      scheduleRow,
+      containmentRow,
+      endpointRow,
+      pkgSig⟩
+
 theorem DyadicBallPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
