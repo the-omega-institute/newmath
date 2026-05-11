@@ -74,6 +74,41 @@ Now assume that $S$ is empty. If a downstream consumer had an inverted-map row t
 It remains only to identify what the consumer may still inspect. The exactness row in \autoref{thm:bousfieldlocalization-namecert-obligations} allows consumer reads only from the recorded rows of the packet or from their finite named provenance. After the empty row $S$ contributes no inverted-map read, the visible nonempty handoff coordinates are exactly the possible reads from $M$, $L$, $T$, $P$, and $N$. This also preserves the exclusions in \autoref{thm:bousfieldlocalization-local-object-handoff}: no quotient localization, homotopy-category object outside the displayed rows, global functorial localization, or representative-choice row is exported.
 \end{proof}
 
+\begin{theorem}[BousfieldLocalization two-stage local-object readback]
+\label{thm:bousfieldlocalization-two-stage-local-object-readback}
+Let $B=(M,S,L,T,P,N)$ be an accepted $\BousfieldLocalizationUp$ carrier. Every
+downstream local-object test read obtained after choosing a selected map row in
+$S$ and a fibrant-local-object row in $L$ factors first through the displayed
+model-category row $M$ and then through the transport and provenance rows
+$T$, $P$, and $N$.
+
+The readback exports no homotopy-category quotient, localization functor,
+derived mapping object, local-equivalence representative choice, or row outside
+the finite packet $B$.
+\end{theorem}
+\begin{proof}
+Project $B$ through \autoref{def:bousfieldlocalization-carrier}. The selected
+map rows live only in $S$, the fibrant-local-object rows live only in $L$, and
+both are typed against the displayed model-category coordinate $M$.
+
+Apply the exactness row in
+\autoref{thm:bousfieldlocalization-namecert-obligations}. A consumer read
+after selecting one row from $S$ and one row from $L$ must be a read from
+$M,S,L,T,P,N$ or from their finite named provenance.
+
+Use \autoref{thm:bousfieldlocalization-local-object-handoff} to order that
+readback. The selected map is interpreted through $M$, the fibrant-local-object
+test is read through $L$, and the allowed transport and naming data are exactly
+the $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows recorded in
+$T$, $P$, and $N$.
+
+In the degenerate selected-map case,
+\autoref{thm:bousfieldlocalization-empty-selected-map-boundary} removes the
+first-stage selected-map read. The remaining local-object reads still pass
+through $M$, $L$, $T$, $P$, and $N$, so no quotient, global localization
+functor, derived mapping object, or representative-choice row is exported.
+\end{proof}
+
 \closureat{BousfieldLocalizationUp}{seedStr}
 \closureat{BousfieldLocalizationUp}{obligationStr}
 
