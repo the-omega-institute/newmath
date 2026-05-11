@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\KalmanFilterUp$}
+\label{ch:concrete-instances-kalmanfilter-namecert}
+
+The $\KalmanFilterUp$ interface records the finite prediction-and-update packet of a discrete linear estimator. Its BEDC surface consumes $\NameCert_{\DynSystemUp}$ for transition rows, $\NameCert_{\ControlObservabilityUp}$ for observation rows, $\NameCert_{\MatrixUp}$ for covariance and gain updates, $\NameCert_{\VecSpaceUp}$ for state and measurement rows, and $\NameCert_{\LinMapUp}$ for the displayed linear maps. Standard references are Kailath, Sayed, and Hassibi, \emph{Linear Estimation} (2000), and Anderson and Moore, \emph{Optimal Filtering} (1979).
+
+\section{Finite carrier}
+\label{sec:kalmanfilter-carrier}
+
+\begin{definition}[KalmanFilterUp BHist carrier]
+\label{def:kalmanfilter-bhist-carrier}
+A $\KalmanFilterUp$ carrier is a finite $\mathsf{BHist}$ packet whose visible rows are:
+\begin{enumerate}
+\item a state-estimate row $\widehat{x}$ and predicted-state row $\widehat{x}^{-}$ over $\VecSpaceUp$;
+\item an error and covariance ledger row $P^{-},P,K,P^{+}$ over $\MatrixUp$;
+\item a transition row $A$ and optional input row read from $\DynSystemUp$;
+\item an observation row $C$ and finite observation ledger read from $\ControlObservabilityUp$;
+\item linear-map rows for prediction, observation, innovation, gain application, and estimate transport read from $\LinMapUp$;
+\item matrix update rows for the displayed Riccati-style covariance, gain, and posterior covariance ledgers read from $\MatrixUp$;
+\item $\Cont$ and $\mathsf{Pkg}$ provenance rows naming the consumed $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ certificates.
+\end{enumerate}
+No host stochastic process, probability measure, analytic convergence theorem, infinite trajectory, or external estimator object is part of the carrier.
+\end{definition}
+
+\begin{theorem}[KalmanFilterUp prediction and update obligation]
+\label{thm:kalmanfilter-prediction-update-obligation}
+Every accepted $\KalmanFilterUp$ packet exposes a finite prediction row, innovation row, gain row, and posterior-update row. The prediction row reads the transition and prior estimate through $\DynSystemUp$, $\VecSpaceUp$, and $\LinMapUp$; the update row reads the observation, innovation, gain, and posterior estimate through $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. Each row remains a $\mathsf{BHist}$ row with its displayed $\Cont/\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:kalmanfilter-bhist-carrier}. The prediction rows are exactly the transition, state-estimate, and linear-map rows, while the update rows are exactly the observation, innovation, gain, and posterior-estimate rows.
+
+The matrix rows supply the covariance and gain ledgers, the vector rows supply the state and observation endpoints, and the provenance rows name the certificates consumed by each read. Since the packet has only finite $\mathsf{BHist}$ rows, every exported prediction or update entry remains inside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[KalmanFilterUp observation innovation ledger]
+\label{thm:kalmanfilter-observation-innovation-ledger}
+For an accepted $\KalmanFilterUp$ packet, the observation residual and innovation covariance are read from the displayed observation row of $\ControlObservabilityUp$, the predicted estimate row of $\VecSpaceUp$, and the covariance and observation-matrix rows of $\MatrixUp$. The innovation ledger is exact: no unrecorded measurement stream, hidden residual object, or host probabilistic equality contributes to the consumer-visible innovation row.
+\end{theorem}
+\begin{proof}
+Read the observation row first. By \autoref{def:kalmanfilter-bhist-carrier}, it is a finite $\ControlObservabilityUp$ row paired with vector, matrix, and linear-map rows.
+
+The residual is the displayed comparison between the observation endpoint and the predicted observation endpoint. The innovation covariance is the displayed matrix update over the covariance and observation rows. Because the carrier excludes host stochastic and trajectory objects, exactness is only the projection from these finite rows.
+\end{proof}
+
+\begin{theorem}[KalmanFilterUp estimate transport stability]
+\label{thm:kalmanfilter-estimate-transport-stability}
+If two accepted $\KalmanFilterUp$ packets have $\hsame$-matched state-estimate, covariance, transition, observation, linear-map, $\Cont$, and $\mathsf{Pkg}$ rows, then prediction, innovation, gain, posterior-estimate, and posterior-covariance reads transport to accepted $\KalmanFilterUp$ rows. The classifier is therefore stable under componentwise $\hsame$ transport of the displayed carrier.
+\end{theorem}
+\begin{proof}
+Transport each dependency row componentwise along the displayed $\hsame$ witnesses. The transition and observation rows remain accepted by their consumed certificates, while the vector, matrix, and linear-map rows remain inside their carrier surfaces.
+
+Apply the same componentwise transport to the prediction, innovation, gain, and posterior rows. The $\Cont$ and $\mathsf{Pkg}$ entries transport the provenance, so the resulting packet again satisfies the finite carrier inventory of \autoref{def:kalmanfilter-bhist-carrier}.
+\end{proof}
+
+\begin{theorem}[KalmanFilterUp NameCert obligation surface]
+\label{thm:kalmanfilter-namecert-obligation-surface}
+The local $\NameCert_{\KalmanFilterUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item prediction carrier: prior estimate, transition, predicted estimate, and predicted covariance rows;
+\item update carrier: observation, residual, gain, posterior estimate, and posterior covariance rows;
+\item innovation ledger exactness: the residual and innovation covariance are exactly the displayed observation, prediction, covariance, and matrix-update reads;
+\item classifier transport under $\hsame$: componentwise transport preserves accepted prediction and update packets;
+\item downstream read boundary: consumers may read only the prediction, update, innovation, covariance, classifier, $\Cont$, and $\mathsf{Pkg}$ rows displayed by the carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The prediction carrier and update carrier are the two action faces of \autoref{def:kalmanfilter-bhist-carrier}. Their rows are finite because each consumed dependency certificate exports finite $\mathsf{BHist}$ data.
+
+The innovation row is exact by \autoref{thm:kalmanfilter-observation-innovation-ledger}, and classifier stability is the componentwise transport of \autoref{thm:kalmanfilter-estimate-transport-stability}. The consumer boundary is the remaining projection from the same finite inventory.
+\end{proof}
+
+\begin{theorem}[KalmanFilterUp downstream consumer boundary]
+\label{thm:kalmanfilter-downstream-consumer-boundary}
+Any algebraic or control-theory consumer of $\NameCert_{\KalmanFilterUp}$ may read only the finite state-estimate, covariance, transition, observation, innovation, gain, posterior-update, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the carrier. It cannot infer a host probability space, optimality theorem, convergence rate, controllability decomposition, or external trajectory semantics from the $\KalmanFilterUp$ certificate alone.
+\end{theorem}
+\begin{proof}
+Project the exported rows from \autoref{def:kalmanfilter-bhist-carrier}. These are precisely the finite rows named by the prediction-update obligation and the NameCert obligation surface.
+
+All excluded objects are absent from the carrier inventory. Since consumer reads are projections from accepted $\mathsf{BHist}$ rows and their provenance, no consumer can recover a host stochastic or analytic object without an additional certificate.
+\end{proof}
+
+\begin{closurestatus}{\KalmanFilterUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records a finite Kalman prediction-update packet over $\DynSystemUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$, with visible covariance, innovation, gain, transport, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \constructivestory{The construction starts from the finite observation packet and dynamic-system transition row, adds matrix and vector rows for prediction, covariance propagation, innovation, gain, and posterior estimate transport, and records the whole calculation as $\mathsf{BHist}$ rows with $\Cont$ and $\mathsf{Pkg}$ provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close stochastic optimality, analytic convergence, probability-space semantics, controllability decomposition, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier, innovation exactness, classifier transport, and downstream read-boundary rows for the finite prediction-update packet.}
+\end{closurestatus}
