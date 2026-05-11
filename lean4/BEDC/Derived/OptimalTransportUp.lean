@@ -127,6 +127,53 @@ theorem OptimalTransportFiniteCouplingPacket_marginal_ledger [AskSetup] [Package
     _objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
   exact ⟨sourceMarginalUnary, targetMarginalUnary, sourceMarginalRow, targetMarginalRow, pkgRow⟩
 
+theorem OptimalTransportFiniteCouplingPacket_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
+      targetMarginal objective feasible dual provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance (And.intro packet (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+
 theorem OptimalTransportFiniteCouplingPacket_namecert_obligation_surface
     [AskSetup] [PackageSetup]
     {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
