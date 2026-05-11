@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -87,5 +89,46 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         routeUnary', provenanceUnary', endpointUnary', targetSchedule, targetContainment,
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
+
+theorem DyadicBallPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint ⟨packet, hsame_refl endpoint⟩
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same carrier
+        exact ⟨carrier.left, hsame_trans (hsame_symm same) carrier.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.DyadicBallUp
