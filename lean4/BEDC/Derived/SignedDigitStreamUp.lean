@@ -398,6 +398,42 @@ theorem SignedDigitStreamWindowPacket_window_transport [AskSetup] [PackageSetup]
       digitScheduleCarry', carryProvenanceEndpoint', endpointScheduleLedger', pkgLedger'⟩
   exact ⟨packet', sameCarry, sameEndpoint, sameLedger⟩
 
+theorem SignedDigitStreamWindowPacket_public_transport_bridge [AskSetup] [PackageSetup]
+    {digit schedule carry provenance endpoint ledger digit' schedule' carry' provenance'
+      endpoint' ledger' radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamWindowPacket digit schedule carry provenance endpoint ledger bundle pkg ->
+      hsame digit digit' ->
+        hsame schedule schedule' ->
+          hsame provenance provenance' ->
+            Cont digit' schedule' carry' ->
+              Cont carry' provenance' endpoint' ->
+                Cont endpoint' schedule' ledger' ->
+                  PkgSig bundle ledger' pkg ->
+                    UnaryHistory radius ->
+                      Cont endpoint' radius regWindow ->
+                        PkgSig bundle regWindow pkg ->
+                          SignedDigitStreamWindowPacket digit' schedule' carry' provenance'
+                              endpoint' ledger' bundle pkg ∧
+                            hsame carry carry' ∧ hsame endpoint endpoint' ∧
+                              hsame ledger ledger' ∧ UnaryHistory regWindow ∧
+                                hsame regWindow (append endpoint' radius) ∧
+                                  PkgSig bundle regWindow pkg := by
+  intro packet sameDigit sameSchedule sameProvenance digitScheduleCarry'
+    carryProvenanceEndpoint' endpointScheduleLedger' packageLedger' radiusUnary
+    endpointRadiusRegWindow packageRegWindow
+  have transported :
+      SignedDigitStreamWindowPacket digit' schedule' carry' provenance' endpoint' ledger'
+          bundle pkg ∧
+        hsame carry carry' ∧ hsame endpoint endpoint' ∧ hsame ledger ledger' :=
+    SignedDigitStreamWindowPacket_window_transport packet sameDigit sameSchedule sameProvenance
+      digitScheduleCarry' carryProvenanceEndpoint' endpointScheduleLedger' packageLedger'
+  have regWindowUnary : UnaryHistory regWindow :=
+    unary_cont_closed transported.left.right.right.right.right.left radiusUnary
+      endpointRadiusRegWindow
+  exact ⟨transported.left, transported.right.left, transported.right.right.left,
+    transported.right.right.right, regWindowUnary, endpointRadiusRegWindow, packageRegWindow⟩
+
 theorem SignedDigitStreamPacket_real_regseqrat_window_correspondence [AskSetup]
     [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
