@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -147,5 +149,64 @@ theorem LyapunovLedger_stability_transport [AskSetup] [PackageSetup]
                           (And.intro transportCont'
                             (And.intro nameCont' pkgSig')))))))))))))
     (And.intro sameTransport sameName)
+
+def LyapunovLedgerNameSurface [AskSetup] [PackageSetup]
+    (state transition quadratic positive decrease transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) (row : BHist) : Prop :=
+  row = name ∧
+    LyapunovLedger state transition quadratic positive decrease transport route provenance name
+      bundle pkg
+
+theorem LyapunovLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {state transition quadratic positive decrease transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LyapunovLedger state transition quadratic positive decrease transport route provenance name
+        bundle pkg ->
+      SemanticNameCert
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
+          (LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+            provenance name bundle pkg)
+          hsame ∧
+        UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory quadratic ∧
+          UnaryHistory positive ∧ UnaryHistory decrease ∧ UnaryHistory transport ∧
+            UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+              Cont state transition positive ∧ Cont quadratic positive decrease ∧
+                Cont decrease route transport ∧ Cont transport provenance name ∧
+                  PkgSig bundle name pkg := by
+  intro ledger
+  let Surface : BHist -> Prop :=
+    LyapunovLedgerNameSurface state transition quadratic positive decrease transport route
+      provenance name bundle pkg
+  have sourceName : Surface name := by
+    exact And.intro rfl ledger
+  have core : NameCert Surface hsame := {
+    carrier_inhabited := Exists.intro name sourceName
+    equiv_refl := by
+      intro h _source
+      exact hsame_refl h
+    equiv_symm := by
+      intro h k same
+      exact hsame_symm same
+    equiv_trans := by
+      intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    carrier_respects_equiv := by
+      intro h k same sourceH
+      cases same
+      exact sourceH
+  }
+  have semantic : SemanticNameCert Surface Surface Surface hsame := {
+    core := core
+    pattern_sound := by
+      intro h source
+      exact source
+    ledger_sound := by
+      intro h source
+      exact source
+  }
+  exact And.intro semantic ledger
 
 end BEDC.Derived.LyapunovUp
