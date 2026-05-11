@@ -544,6 +544,41 @@ quotient ball, metric-topology row, host real equality, selected limit, or
 completeness datum is invoked.
 \end{proof}
 
+\begin{theorem}[DyadicBall radius-window monotonicity]
+\label{thm:dyadicball-radius-window-monotonicity}
+Let $B$ be an accepted $\DyadicBallUp$ finite enclosure. If its displayed
+positive dyadic radius is narrowed or its finite observation window is
+restricted along displayed refinement rows, then the resulting finite
+enclosure is again an accepted $\DyadicBallUp$ packet.
+
+The narrowed packet preserves the $\RegSeqRatUp$ handoff and every
+consumer-visible read factors through the original $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows. No quotient ball, metric-topology
+row, host real equality, selected limit, or completeness datum is introduced
+by the narrowing.
+\end{theorem}
+\begin{proof}
+Start from the accepted center-radius carrier of $B$ and apply
+\autoref{thm:dyadicball-radius-refinement-closure}. Narrowing the displayed
+radius or observation window keeps the finite center, positive-radius,
+containment, transport, provenance, and naming coordinates inside the
+$\DyadicBallUp$ carrier.
+
+Use \autoref{thm:dyadicball-common-observation-overlap} for the common visible
+schedule row. It identifies the narrowed observation as a shared finite
+overlap of the original packet and the restricted packet.
+
+Apply \autoref{thm:dyadicball-refinement-overlap-transitivity} to compose the
+radius and observation refinements. The composed refinement still reads
+through the same displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows.
+
+Finally invoke \autoref{thm:dyadicball-finite-intersection-basis-package}. The
+finite basis package repacks the narrowed enclosure as the same
+$\RegSeqRatUp/\RealUp$ consumer surface, so the handoff is preserved and no
+excluded host or quotient coordinate is available.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
