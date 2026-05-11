@@ -196,3 +196,88 @@ of the cited boundaries exports a regularity witness, seal classifier,
 completion datum, quotient representative, hidden limit selector, or host
 index equality, so no such datum can be read by the finite-window consumer.
 \end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat window union exhaustion]
+\label{thm:streamname-regseqrat-window-union-exhaustion}
+Let two downstream finite-window requests over a common public
+$\StreamNameUp$ observation map be displayed by probe bundles $B_1$ and
+$B_2$. Suppose each request is exhausted by
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. Then the
+combined request over the displayed bundle union is exhausted by the public
+StreamName finite-window interface, the two displayed
+$\mathsf{InBundle}$ membership families for $B_1$ and $B_2$, the pointwise
+$\RatUp$ classifier rows, the dyadic denominator ledger rows, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance. The union request exports no
+$\RegSeqRat$ regularity witness, $\RealUp$ completion row, quotient
+representative, hidden limit selector, or host index equality.
+\end{theorem}
+\begin{proof}
+Start from the common public classifier supplied by
+\autoref{thm:streamname-public-finite-window-interface}. It fixes the
+observation map, the certified $\UnaryHistory$ observation rows, and the
+pointwise $\RatUp$ classifier rows before either downstream finite request is
+chosen.
+
+Apply \autoref{thm:streamname-finite-window-schedule-exhaustion} separately
+to $B_1$ and to $B_2$. This gives two finite schedules with their displayed
+$\mathsf{InBundle}$ membership families, $\hsame$ comparisons, $\Cont$
+routes, and $\mathsf{Pkg}$ provenance, all over the same public StreamName
+observation surface.
+
+Next use \autoref{thm:streamname-regseqrat-denominator-source-exhaustion} for
+each scheduled request. The first request contributes only its displayed
+observation rows and dyadic denominator ledger rows, and the second request
+contributes the same kind of displayed rows over its own membership family.
+
+It remains to repack the two finite ledgers. For an observation in the
+displayed bundle union, case on whether the membership row comes from $B_1$
+or from $B_2$. In the first case read the row from the first exhausted
+request; in the second case read it from the second exhausted request. If a
+row is displayed by both bundles, the common public classifier and the
+displayed $\hsame$ rows identify the two readbacks as the same public
+StreamName observation row.
+
+Thus every row in the combined finite request is one of the displayed public
+observation, membership, rational-classifier, denominator-ledger,
+continuation, or provenance rows already listed. Since neither component
+exhaustion theorem exports regularity, completion, quotient, limit-selection,
+or host index equality data, the bundle-union request exports none of those
+rows.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp observation coverage]
+\label{thm:streamname-regseqrat-realup-observation-coverage}
+Every finite-window handoff from public $\StreamNameUp$ to a downstream
+$\RegSeqRat$ consumer or finite-window $\RealUp$ consumer is covered exactly by
+certified $\UnaryHistory$ observation rows, $\mathsf{ProbeBundle}$ scheduling
+rows, $\mathsf{InBundle}$ membership rows, pointwise $\RatUp$ classifier rows,
+displayed $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+the $\DyadicRatCoreUp$ denominator ledger exposed at the real-phase source
+boundary. The handoff exports no $\RegSeqRat$ regularity witness, $\RealUp$
+completion row, quotient representative, hidden limit selector, or host index
+equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-real-handoff-obligation}. It fixes the
+public observation surface for downstream $\RegSeqRat$ and finite-window
+$\RealUp$ consumers, and it restricts the handoff to displayed StreamNameUp
+rows rather than to host streams.
+
+Apply \autoref{thm:streamname-finite-window-schedule-exhaustion}. The finite
+request is then exhausted by the certified $\UnaryHistory$ observation rows,
+the $\mathsf{ProbeBundle}$ schedule, $\mathsf{InBundle}$ membership, pointwise
+$\RatUp$ classifier rows, displayed $\hsame$ comparisons, continuation routes,
+and package provenance.
+
+For a $\RegSeqRat$ consumer, use
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. It identifies
+the same public observation rows and adds only the dyadic denominator ledger
+needed by the regular-sequence interface.
+
+Finally, \autoref{thm:dyadicratcore-real-phase-source-coverage} supplies the
+source boundary for that denominator ledger. Thus the public observation rows,
+the dyadic denominator rows, and the downstream seal boundary form one finite
+BEDC source inventory. The exclusion clauses follow because none of the four
+cited boundaries exports regularity witnesses, completion rows, quotient
+representatives, hidden limit selectors, or host index equality.
+\end{proof}
