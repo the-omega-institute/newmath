@@ -99,6 +99,31 @@ theorem FastCauchySeqPacket_real_seal_consumer_boundary [AskSetup] [PackageSetup
     ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary, transportUnary,
       regUnary, sealUnary, certUnary, certRowRoute, pkgRow⟩
 
+theorem FastCauchySeqPacket_public_explicit_rate_export [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius comparison transportWindow regWindow sealBoundary certRow
+      publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchySeqPacket stream modulus endpoint radius comparison transportWindow regWindow
+        sealBoundary certRow bundle pkg ->
+      Cont regWindow certRow publicRow ->
+        PkgSig bundle publicRow pkg ->
+          FastCauchySeqRegSeqRatWindow stream modulus endpoint radius comparison
+              transportWindow regWindow bundle pkg ∧
+            UnaryHistory publicRow ∧ Cont stream modulus transportWindow ∧
+              Cont endpoint radius comparison ∧ Cont comparison transportWindow regWindow ∧
+                Cont regWindow certRow publicRow ∧ PkgSig bundle publicRow pkg := by
+  intro packet publicRoute publicPkg
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary,
+    transportUnary, regUnary, _sealUnary, certUnary, streamModulusRow, endpointRadiusRow,
+    comparisonTransportRow, _certRowRoute, regPkg⟩ := packet
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed regUnary certUnary publicRoute
+  exact
+    ⟨⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, comparisonUnary, transportUnary,
+        regUnary, streamModulusRow, endpointRadiusRow, comparisonTransportRow, regPkg⟩,
+      publicUnary, streamModulusRow, endpointRadiusRow, comparisonTransportRow, publicRoute,
+      publicPkg⟩
+
 theorem FastCauchySeqPacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {stream modulus endpoint radius comparison transportWindow regWindow sealBoundary certRow
       : BHist}
