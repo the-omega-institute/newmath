@@ -87,6 +87,48 @@ theorem LocatedRealCarrierSurface_dyadic_interval_obligation [AskSetup] [Package
             (And.intro classifierSame
               (And.intro pkgrowSame pkgSig))))))
 
+theorem LocatedRealNameCertBoundary_rows [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow regseq' interval' schedule' classifier'
+      pkgrow' consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      hsame regseq regseq' -> hsame interval interval' -> hsame schedule schedule' ->
+        Cont regseq' schedule' classifier' -> Cont interval' classifier' pkgrow' ->
+          PkgSig bundle pkgrow' pkg -> Cont pkgrow' classifier' consumerRow ->
+            PkgSig bundle consumerRow pkg ->
+              LocatedRealCarrierSurface regseq' interval' schedule' classifier' pkgrow'
+                  bundle pkg ∧
+                UnaryHistory interval ∧ UnaryHistory schedule ∧ UnaryHistory classifier ∧
+                  Cont regseq schedule classifier ∧ Cont interval classifier pkgrow ∧
+                    UnaryHistory consumerRow ∧ Cont pkgrow' classifier' consumerRow ∧
+                      PkgSig bundle consumerRow pkg := by
+  intro surface sameRegseq sameInterval sameSchedule classifierRow' pkgrowRow' pkgrowSig'
+    consumerRowRow consumerRowSig
+  have transportedData :=
+    LocatedRealCarrierSurface_regseqrat_classifier_stability surface sameRegseq sameInterval
+      sameSchedule classifierRow' pkgrowRow' pkgrowSig'
+  have surface' :
+      LocatedRealCarrierSurface regseq' interval' schedule' classifier' pkgrow' bundle pkg :=
+    transportedData.left
+  have obligation :=
+    LocatedRealCarrierSurface_dyadic_interval_obligation surface
+  have pkgrowUnary' : UnaryHistory pkgrow' :=
+    surface'.right.right.right.right.left
+  have classifierUnary' : UnaryHistory classifier' :=
+    surface'.right.right.right.left
+  have consumerRowUnary : UnaryHistory consumerRow :=
+    unary_cont_closed pkgrowUnary' classifierUnary' consumerRowRow
+  exact
+    ⟨surface',
+      obligation.left,
+      obligation.right.left,
+      obligation.right.right.left,
+      obligation.right.right.right.left,
+      obligation.right.right.right.right.left,
+      consumerRowUnary,
+      consumerRowRow,
+      consumerRowSig⟩
+
 def LocatedRealCarrier [AskSetup] [PackageSetup]
     (stream schedule interval location realRow transport provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -175,6 +217,37 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
     ⟨streamUnary, scheduleUnary, intervalUnary, realRowUnary, endpointUnary, consumerRowUnary,
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
+
+theorem LocatedRealCarrier_metric_consumer_handoff [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint realRow consumerRow ->
+        PkgSig bundle consumerRow pkg ->
+          UnaryHistory interval ∧ UnaryHistory realRow ∧ UnaryHistory provenance ∧
+            UnaryHistory endpoint ∧ UnaryHistory consumerRow ∧
+              Cont stream schedule interval ∧ Cont interval location realRow ∧
+                Cont realRow transport provenance ∧ Cont provenance schedule endpoint ∧
+                  Cont endpoint realRow consumerRow ∧
+                    hsame interval (append stream schedule) ∧
+                      hsame realRow (append interval location) ∧
+                        hsame provenance (append realRow transport) ∧
+                          hsame endpoint (append provenance schedule) ∧
+                            hsame consumerRow (append endpoint realRow) ∧
+                              PkgSig bundle consumerRow pkg := by
+  intro carrier consumerRowCont consumerRowSig
+  obtain ⟨_streamUnary, _scheduleUnary, intervalUnary, _locationUnary, realRowUnary,
+    _transportUnary, provenanceUnary, endpointUnary, streamScheduleInterval,
+    intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+    _endpointSig⟩ := carrier
+  have consumerRowUnary : UnaryHistory consumerRow :=
+    unary_cont_closed endpointUnary realRowUnary consumerRowCont
+  exact
+    ⟨intervalUnary, realRowUnary, provenanceUnary, endpointUnary, consumerRowUnary,
+      streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
+      provenanceScheduleEndpoint, consumerRowCont, streamScheduleInterval, intervalLocationRealRow,
+      realRowTransportProvenance, provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
 
 theorem LocatedRealCarrier_common_refinement_gluing [AskSetup] [PackageSetup]
     {stream stream' schedule schedule' interval interval' location location' realRow realRow'
