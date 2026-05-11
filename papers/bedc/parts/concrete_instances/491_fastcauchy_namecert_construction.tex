@@ -300,6 +300,50 @@ and late-pair row named by $D$ is one of the rows sealed into both public
 consumer surfaces.
 \end{proof}
 
+\begin{theorem}[FastCauchy shared-window RegSeqRat handoff]
+\label{thm:fastcauchy-shared-window-regseqrat-handoff}
+Let $F$ be an accepted $\FastCauchyUp$ packet, and let $D$ and $D'$ be accepted
+$\DyadicPrecisionUp$ schedules for $F$ whose selected finite windows are
+related by the $\DyadicPrecisionUp$ classifier. The restricted
+$\RegSeqRatUp$ handoff rows obtained from $F|D$ and $F|D'$ are the same
+displayed rows after the componentwise $\hsame$ and $\Cont$ transports carried
+by $F$, $D$, and $D'$.
+
+The common handoff consists exactly of the scheduled $\StreamNameUp$
+observation rows, the $\CauchyModulusUp$ threshold rows, the
+$\DyadicRatCoreUp$ endpoint rows, the late-pair radius rows, the componentwise
+$\hsame$ rows, the $\Cont$ rows, the restricted $\mathsf{Pkg}$ provenance
+rows, and the local $\NameCert$ rows attached to the common transported window.
+It contains no selected limit, quotient stream, host real equality,
+completeness datum, hidden tail, or standard bridge datum.
+\end{theorem}
+\begin{proof}
+Project $F$ through \autoref{def:fastcauchy-carrier}. The projection exposes
+only the scheduled observation rows, modulus thresholds, dyadic endpoints,
+late-pair radius ledger, transport rows, package provenance, and local
+name-certificate rows available to a finite consumer.
+
+Project $D$ and $D'$ through
+\autoref{def:dyadic-precision-schedule-carrier}. Use the classifier of
+\autoref{def:dyadic-precision-schedule-classifier} together with
+\autoref{thm:dyadicprecision-common-window-readback} to read the common finite
+window transported by the two accepted schedules.
+
+Apply \autoref{thm:fastcauchy-precision-window-restriction} to both
+restrictions. Since both selected windows read back to the same transported
+window, the two restricted packets display the same scheduled observations,
+thresholds, endpoints, late-pair rows, $\hsame$ rows, $\Cont$ rows,
+$\mathsf{Pkg}$ rows, and $\NameCert$ rows.
+
+Finally use
+\autoref{thm:fastcauchy-dyadicprecision-window-cofinality} and
+\autoref{thm:fastcauchy-public-regseqrat-real-seal}. Cofinality says every
+selected row of the common window appears in the restricted $\RegSeqRatUp$
+handoff, and the seal identifies the RegSeqRat and finite Real consumer rows
+with that same public finite surface. The excluded limit, quotient, equality,
+completeness, hidden-tail, and bridge data are not coordinates of this surface.
+\end{proof}
+
 \begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
 \label{thm:fastcauchy-standard-regseqrat-real-bridge}
 A standard bridge for the finite modulus-normalized $\FastCauchyUp$ packet
