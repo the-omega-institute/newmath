@@ -47,7 +47,7 @@ The transported packet introduces no analytic differentiability row, Slater
 data, host minimization predicate, or solver semantics beyond the displayed
 BEDC rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.KKTUp.KKTCarrierPacket\_stationarity\_feasibility\_transport}
+\leanchecked{BEDC.Derived.KKTUp.KKTCarrierPacket\_stationarity\_feasibility\_hsame\_transport}
 \begin{proof}
 Unfold \autoref{def:kkt-bhist-carrier}. The carrier names exactly the primal,
 dual multiplier, residual, stationarity, feasibility, slackness, comparison,
@@ -70,11 +70,13 @@ comparison, continuation, and package rows, so the transport cannot add
 analytic differentiability, Slater data, host minimization semantics, or solver
 evidence.
 \end{proof}
+\leanchecked{BEDC.Derived.KKTUp.KKTPrimalDualPacket\_stationarity\_feasibility\_hsame\_transport}
 
 \begin{theorem}[KKTUp stationarity and feasibility stability]
 \label{thm:kkt-stationarity-feasibility-stability}
 Let $K$ and $K'$ be accepted $\KKTUp$ packets whose displayed primal variable, dual multiplier, residual, matrix and vector stationarity rows, real scalar rows, finite $\Cont$ routes, and $\mathsf{Pkg}$ provenance compare componentwise by the $\hsame$ rows of the $\KKTUp$ classifier. Transporting along those rows preserves the accepted stationarity and feasibility rows of the packet. The transport introduces no analytic differentiability oracle, Slater witness, nonlinear optimizer, or host minimization semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.KKTUp.KKTCarrierPacket\_stationarity\_feasibility\_stability}
 \begin{proof}
 Unpack the carrier of \autoref{def:kkt-bhist-carrier}. The stationarity and feasibility coordinates are displayed rows in the same finite $\mathsf{BHist}$ packet as the primal variable, multiplier, residual, scalar, continuation, package, and naming rows.
 
@@ -116,6 +118,7 @@ Apply \autoref{thm:kkt-complementarity-ledger-exactness} for the slackness face.
 \label{thm:kkt-downstream-consumer-boundary}
 Any optimization, algebraic, or control consumer of $\NameCert_{\KKTUp}$ may read only the finite primal, multiplier, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of the carrier. It cannot infer full nonlinear optimization semantics, Slater existence, analytic differentiability, host real minimization, or a solver certificate from the $\KKTUp$ packet alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary}
 \begin{proof}
 Take an arbitrary downstream read of the certificate. By the local obligation surface, the read must factor through the displayed carrier and its finite provenance rows.
 
