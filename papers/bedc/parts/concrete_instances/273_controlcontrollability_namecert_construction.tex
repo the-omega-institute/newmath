@@ -110,6 +110,7 @@ Route the prediction-update and observation-innovation rows through the same fin
 
 Apply \autoref{thm:controlcontrollability-reachability-ledger} to identify those coordinates as the complete reachability ledger. Apply \autoref{thm:controlcontrollability-consumer-boundary} to exclude any readback that would require a rank theorem, a host reachable subspace, stochastic filter semantics, or an analytic trajectory.
 \end{proof}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_kalman\_reachability\_source}
 
 \begin{theorem}[ControlControllability finite continuation closure]
 \label{thm:controlcontrollability-continuation-closure}
@@ -128,9 +129,10 @@ The construction is finite at every step. It records only the concatenated displ
 
 \closureat{ControlControllabilityUp}{seedStr}
 \closureat{ControlControllabilityUp}{obligationStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_namecert\_obligation\_surface]
+\closureat{ControlControllabilityUp}{scopedStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_continuation\_closure]
 \begin{closurestatus}{\ControlControllabilityUp}
   \constructivestory{}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The seed surface records the finite reachability carrier, classifier, reachability ledger, NameCert obligation surface, and consumer boundary for $\ControlControllabilityUp$ over displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket}

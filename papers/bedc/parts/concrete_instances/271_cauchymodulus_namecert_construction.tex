@@ -261,6 +261,48 @@ the naming-certificate fields at the paper surface without adding hidden
 limits or unrecorded threshold choices.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus public consumer boundary]
+\label{thm:cauchymodulus-public-consumer-boundary}
+The public $\CauchyModulusUp$ consumer boundary is exactly the finite
+$\mathsf{BHist}$ package consisting of the carrier rows of
+\autoref{def:cauchymodulus-carrier}, the classifier rows of
+\autoref{def:cauchymodulus-classifier}, the $\hsame$ stability rows, the
+finite $\Cont$ window-closure rows, monotone tail transport, the
+$\RegSeqRat$ regularity handoff, $\RealUp$ classifier transport, and the
+local $\NameCert_{\CauchyModulusUp}$ obligation surface. Thus any
+$\RegSeqRat$ consumer or finite-window $\RealUp$ consumer reads only visible
+$\NatUp$ precision rows, $\RatUp$ tolerance rows, $\StreamNameUp$ scheduled
+observation rows, $\RegSeqRat$ late-pair rows, $\RealUp$ classifier-transport
+rows, $\hsame$ rows, $\Cont$ rows, and $\mathsf{Pkg}$ provenance. It reads no
+selected limit, stream quotient, host index equality, or completion row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier}. These rows display the precision,
+tolerance, scheduled observation, comparison, continuation, and provenance
+coordinates available to a consumer.
+
+Apply \autoref{thm:cauchymodulus-hsame-stability} to keep the classifier
+rowwise, and apply \autoref{thm:cauchymodulus-cont-window-closure} to bound
+the finite readback window. Use
+\autoref{thm:cauchymodulus-monotone-tail-obligation} for stronger-tolerance
+transport, and use
+\autoref{thm:cauchymodulus-regseqrat-regularity-obligation} for the
+regular-sequence late-pair handoff.
+
+Now apply \autoref{thm:cauchymodulus-real-classifier-transport-obligation}
+to identify the finite real-classifier transport rows. The dependency stack is
+then the one certified by
+\autoref{thm:cauchymodulus-scoped-dependency-certificate} and exposed by
+\autoref{thm:cauchymodulus-namecert-obligation-surface}.
+
+Finite ledger exhaustion gives the boundary. Every row named in the statement
+is a displayed $\mathsf{BHist}$ coordinate or a displayed transport of one,
+and the carrier has no coordinate for a selected limit, a stream quotient, a
+host index equality, or a completion row.
+\end{proof}
+
 \closureat{CauchyModulusUp}{scopedStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\CauchyModulusUp}
