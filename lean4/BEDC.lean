@@ -591,6 +591,7 @@ import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
+import BEDC.Derived.TopVecSpaceUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
 import BEDC.Derived.ComplexTopologyUp.VisibleRadius
