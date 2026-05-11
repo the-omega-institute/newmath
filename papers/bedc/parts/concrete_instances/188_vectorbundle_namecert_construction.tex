@@ -100,6 +100,32 @@ $\mathsf{VectorBundlePkt}(V)$. This produces the public transition witness and
 uses no host transition function.
 \end{proof}
 
+\begin{theorem}[VectorBundle transition composition scope]
+\label{thm:vectorbundle-transition-composition-scope}
+Every composed transition witness in $\VectorBundleUp$ is consumed through the
+displayed overlap rows, the source and target trivialization histories, the
+linearity rows, the $\Cont$ composition rows, and the $\mathsf{Pkg}$
+provenance of \autoref{def:vectorbundle-carrier}. No host transition
+composition, ambient vector-bundle map, or unlogged fibre map may be invoked
+to build such a witness.
+\end{theorem}
+\begin{proof}
+Project the transition coordinate of the carried packet. A composable
+transition readback first exposes the two overlap ledgers and the three
+trivialization histories that supply the source, middle, and target endpoints.
+
+The two ledger rows already contain the displayed linearity witnesses for the
+four vector-space operation families. Their endpoints are connected only by
+the listed transition-composition $\Cont$ rows, so the composition step is a
+consumer of those rows rather than an operation on a host bundle.
+
+Repack the composed transition by carrying forward the same overlap ledgers,
+linearity rows, $\Cont$ composition witness, and $\mathsf{Pkg}$ provenance
+from \autoref{def:vectorbundle-carrier}. Constructor inversion leaves no
+coordinate for an external transition function or an unlogged vector-bundle
+map.
+\end{proof}
+
 \begin{theorem}[VectorBundle classifier stability obligation]
 \label{thm:vectorbundle-classifier-stability-obligation}
 The classifier of \autoref{def:vectorbundle-classifier} transports accepted
