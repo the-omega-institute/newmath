@@ -265,6 +265,52 @@ completeness, trichotomy, metric structure, topology, or a standard bridge.
 The intended Lean target shape for this certificate is
 \texttt{BEDC.Derived.RealAlgOrderUp.constant\_rational\_scoped\_certificate}.
 
+\begin{theorem}[RealAlgOrder constant apartness metric handoff]
+\label{thm:realalgorder-constant-apartness-metric-handoff}
+For constant-rational RealUp endpoints carried by the $\RealAlgOrder$
+constant carrier, the checked carrier and classifier rows, algebra rows, and
+order and apartness rows package a finite $\mathsf{BHist}$ handoff for
+downstream apartness and metric consumers. The handoff consists exactly of the
+two displayed RealUp endpoint rows $\Eone(d)$ and $\Eone(e)$, their RatUp
+witness rows, the supplied positive dyadic or apartness row, the $\hsame$ and
+$\Cont$ transport routes, the visible $\mathsf{Pkg}$ provenance, and the
+$\NameCert$ ledger that records the constant rational source.
+
+Any $\ApartnessRealUp$ or $\MetricSpaceUp$ consumer may read this packet only
+as finite positive-separation data in the sense of
+\autoref{def:apartnessreal-finite-window-separation-row},
+\autoref{thm:apartnessreal-metric-handoff}, and
+\autoref{thm:apartnessreal-metric-consumer-separation-boundary}. The packet
+does not export trichotomy, completeness, host real equality, quotient data,
+or a classifier outside the displayed constant-rational boundary.
+\end{theorem}
+\begin{proof}
+First project the RealAlgOrder constant boundary rows. The carrier and
+classifier rows come from
+\autoref{thm:realalgorder-constant-carrier-classifier-obligations}; the
+operation rows come from
+\autoref{thm:realalgorder-constant-algebra-row-obligations}; and the order and
+apartness rows come from
+\autoref{thm:realalgorder-constant-order-apartness-obligations}.
+
+Next apply
+\autoref{thm:realalgorder-constant-rational-scoped-certificate}. It packages
+those rows over $\mathsf{BHist}$ with the exposed $\hsame$ transport, the
+RatUp source witnesses, the e-one RealUp endpoint seals, and the visible
+ledger provenance. Thus a consumer sees the two endpoint rows and the finite
+positive dyadic or apartness row as one bounded packet, rather than as a
+global real-order principle.
+
+Finally match that packet with the downstream apartness surface. The finite
+row of \autoref{def:apartnessreal-finite-window-separation-row}, the handoff
+of \autoref{thm:apartnessreal-metric-handoff}, and the consumer boundary of
+\autoref{thm:apartnessreal-metric-consumer-separation-boundary} read exactly
+the endpoint, radius or apartness, transport, $\mathsf{Pkg}$, and $\NameCert$
+coordinates named above. Since no cited surface contains trichotomy,
+completion, host equality, or quotient coordinates, the handoff cannot export
+any of them.
+\end{proof}
+
 \begin{closurestatus}{\RealAlgOrder}
   \constructivestory{A constant-rational real is obtained by taking a $\RatUp$ denominator history $d$ and placing one b1 boundary over it, so the admitted real histories are exactly those of the form $\Eone(d)$ coming from the rational embedding. Two such real histories name the same constant rational when the rational classifier already identifies their underlying denominators; the real layer does not add a second comparison beyond that transported rational one. The source is the constant-rational predicate, the pattern records the b1-embedded shape together with the addition, multiplication, order, and apartness rows, and the ledger keeps the visible real endpoint tied to the rational witness from which it came. Because the rational classifier is an equivalence and the embedding is injective on representatives, the embedded rational supplies the carrier witness, the transported classifier is reflexive, symmetric, and transitive, and any recognized representative remains in the constant-rational subcarrier. A real history $h$ lies in the signature gap of a $\RealAlgOrder$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with a rational witness and evidence ledger, and the token-introduction relation names that witness as $p$; after unfolding, $h$ is $\Eone(d)$ for a rational $d$ classified as the rational value encoded by $p$. Each algebra or order row is read by going down to the rational witness, applying the matching $\RatUp$ row, and embedding the result back upward, as in $\Eone(d)+\Eone(e)$ being computed by $d+e$ before re-embedding. The chapter registers this transport-through-rational construction under the name $\RealAlgOrder$; these rows are inherited through the rational embedding, with no full non-constant real arithmetic, completeness, or standard bridge introduced here.}
   \theoryclosure{\scopedClosure}
