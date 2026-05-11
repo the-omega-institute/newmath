@@ -62,6 +62,7 @@ These laws act only on the rows exposed by
 \autoref{def:dyadicball-carrier}. They introduce no quotient ball, host real
 equality, hidden metric point, or completed real.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_transport}
 \leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_laws}
 \begin{proof}
 Project the accepted packets through \autoref{def:dyadicball-carrier}. The
@@ -125,6 +126,7 @@ The handoff may be read as a dyadic endpoint-radius window for the regular
 stream, but it exports no quotient stream, no completion object, and no
 external real value.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallFiniteEnclosure\_regseqrat\_window\_handoff}
 \begin{proof}
 Read the packet through \autoref{def:dyadicball-carrier}. The schedule row is
 already a $\StreamNameUp$ finite request, and the center and radius rows are
@@ -245,6 +247,7 @@ are the three theorem rows just stated. Together they cover the local ways a
 dyadic ball packet is refined, consumed by a regular stream window, and read by
 a real-name seal.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_semantic\_name\_certificate}
 
 \begin{theorem}[DyadicBall obligation closure]
 \label{thm:dyadicball-obligation-closure}
@@ -355,18 +358,106 @@ interface. The resulting $\RegSeqRatUp/\RealUp$ package has exactly the rows
 listed in the statement.
 \end{proof}
 
+\begin{theorem}[DyadicBall refinement overlap transitivity]
+\label{thm:dyadicball-refinement-overlap-transitivity}
+Let
+$B_0=(c_0,r_0,k,o,\eta_0,H_0,C_0,P_0,N_0)$,
+$B_1=(c_1,r_1,k,o,\eta_1,H_1,C_1,P_1,N_1)$, and
+$B_2=(c_2,r_2,k,o,\eta_2,H_2,C_2,P_2,N_2)$ be accepted
+$\DyadicBallUp$ packets with the same schedule row $k$ and the same scheduled
+observation row $o$. Suppose $B_0$ and $B_1$ admit a common refined positive
+dyadic radius row $\rho$ with displayed containment ledgers into both packets,
+and suppose $B_1$ and $B_2$ admit a common refined positive dyadic radius row
+$\sigma$ with displayed containment ledgers into both packets.
+
+If a positive dyadic radius row $\tau$ is displayed together with refinement
+ledgers from $\tau$ to both $\rho$ and $\sigma$, and with containment ledgers
+from $\tau$ into all three packets, then the three packets determine one finite
+$\RegSeqRatUp/\RealUp$ consumer package. Its visible rows are exactly the
+shared schedule $k$, the shared observation $o$, the transported center rows,
+the positive radius row $\tau$, the three containment ledgers, the displayed
+$\hsame$ rows, the visible $\Cont$ routes, the $\mathsf{Pkg}$ provenance rows,
+and the three $\NameCert$ rows.
+
+The package introduces no quotient ball, host real equality, completeness
+datum, or selected real point.
+\end{theorem}
+\begin{proof}
+Project the three accepted packets through \autoref{def:dyadicball-carrier}.
+This exposes only center rows, radius rows, the shared schedule, the shared
+observation, containment ledgers, transport rows, package provenance, and local
+naming rows.
+
+Use \autoref{thm:dyadicball-radius-refinement-closure} separately for $B_0$,
+$B_1$, and $B_2$ at the displayed radius row $\tau$. The refinement ledgers
+from $\tau$ to $\rho$ and $\sigma$, together with the containment ledgers into
+the three packets, supply the radius and containment coordinates required for
+each repacked packet.
+
+Apply \autoref{thm:dyadicball-common-observation-overlap} to the pair
+$(B_0,B_1)$ using the row $\rho$, and again to the pair $(B_1,B_2)$ using the
+row $\sigma$. The two overlap packages have the same schedule and scheduled
+observation, and their middle packet rows are transported through the same
+carrier coordinates.
+
+Now read both overlap packages through
+\autoref{thm:dyadicball-regseqrat-window-handoff}. The handoff identifies the
+single finite regular-rational consumer surface carried by the shared schedule,
+shared observation, transported center rows, radius row $\tau$, and the three
+containment ledgers.
+
+Finally apply \autoref{thm:dyadicball-real-seal-boundary} to the same finite
+rows. The real-name seal has no coordinate for a quotient ball, host real
+equality, completeness datum, or selected point, so the composite overlap
+remains a finite $\RegSeqRatUp/\RealUp$ package with precisely the rows listed
+above.
+\end{proof}
+
+\begin{theorem}[DyadicBall center-radius bridge boundary]
+\label{thm:dyadicball-center-radius-bridge-boundary}
+Let $B$ be an accepted $\DyadicBallUp$ packet whose center-radius public
+interface is supplied by
+\autoref{thm:dyadicball-center-radius-public-interface}. Suppose its common
+observation overlap with any compared packet is supplied by
+\autoref{thm:dyadicball-common-observation-overlap}. Then the bridge rows
+available to $\RegSeqRatUp$ and $\RealUp$ consumers are exactly the finite
+center row, positive radius row, schedule row, observation window, containment
+ledger, $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and
+local $\NameCert$ row displayed by the public interface.
+
+Consequently, the bridge boundary exposes no host real ball, selected point,
+metric-completion datum, quotient stream equality, or hidden tail coordinate.
+\end{theorem}
+\begin{proof}
+Unpack the public interface theorem. It packages the center, radius, schedule,
+observation, containment, transport, provenance, and local naming rows of
+\autoref{def:dyadicball-carrier} as the reusable
+$\NameCert_{\DyadicBallUp}$ surface.
+
+Route the common observation theorem through the same schedule and observation
+rows. The overlap proof can only compare accepted packets by their displayed
+center-radius rows, containment ledgers, $\hsame$ witnesses, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+
+Every $\RegSeqRatUp$ or $\RealUp$ consumer read therefore factors through one
+of the listed finite rows. Since neither cited theorem supplies a coordinate
+for a host real ball, selected point, metric completion, quotient stream
+equality, or hidden tail, no such datum is present at the bridge boundary.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
 \closureat{DyadicBallUp}{publicStr}
+\closureat{DyadicBallUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicBallUp}
   \constructivestory{A $\DyadicBallUp$ packet is generated by a finite dyadic center row, a positive dyadic radius row, a scheduled observation row, a containment ledger, componentwise $\hsame$ and $\Cont$ transport, package provenance, and a local naming row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The finite center, positive radius, schedule, observation, containment, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are bound to the $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ source certificates and exported as the public center-radius interface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:dyadicball-center-radius-public-interface} and \autoref{thm:dyadicball-common-observation-overlap} bridge the public center-radius packet to the shared $\RegSeqRatUp/\RealUp$ consumer surface through the finite center, radius, schedule, observation, containment, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient stream equality, host real balls, metric topology, or a standard bridge.}
-  \upgradepath{Bridged closure requires a standard finite-window schema bridge for the public center-radius interface.}
+  \upgradepath{Mature closure requires examples or completeness-style consumer boundaries for dyadic-ball packets.}
 \end{closurestatus}
