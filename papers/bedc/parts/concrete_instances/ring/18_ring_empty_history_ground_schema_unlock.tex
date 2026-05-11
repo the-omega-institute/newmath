@@ -1,0 +1,67 @@
+\section{Empty-History Ground Schema Unlock}
+\label{sec:ring-empty-history-ground-schema-unlock}
+
+\begin{definition}[RingUp empty-history ground instance]
+\label{def:ring-empty-history-ground-instance}
+The ground $\RingUp$ tuple over $\mathsf{BHist}$ is the singleton
+empty-history instance
+$$
+(A_{\emp},R_{\emp},+_{\emp},0_{\emp},-_{\emp},\cdot_{\emp},1_{\emp})
+$$
+of \autoref{def:ring-singleton-empty-history-instance}. Its carrier is the
+singleton row $A_{\emp}$ at the empty history, its classifier is
+$R_{\emp}$, and its displayed operations are fixed by
+$$
+h+_{\emp}k:=\emp,\qquad
+-_{\emp}h:=\emp,\qquad
+0_{\emp}:=\emp,
+$$
+together with
+$$
+h\cdot_{\emp}k:=\emp,\qquad
+1_{\emp}:=\emp.
+$$
+Thus every operator row is a concrete $\mathsf{BHist}$ row with endpoint
+$\emp$, and every classifier read is the carrier-aware singleton comparison.
+\end{definition}
+
+\begin{theorem}[RingUp empty-history ground laws]
+\label{thm:ring-empty-history-ground-laws}
+The tuple of \autoref{def:ring-empty-history-ground-instance} satisfies the
+$\RingUp$ laws: additive abelian-group laws, multiplicative monoid laws,
+left and right distributivity, left and right zero absorption, and
+congruence of addition and multiplication under $R_{\emp}$.
+\end{theorem}
+\begin{proof}
+The tuple is exactly the singleton empty-history instance of
+\autoref{def:ring-singleton-empty-history-instance}. Its operation rows,
+distinguished zero and one rows, negation row, carrier, and classifier are
+the same displayed rows.
+
+Apply \autoref{thm:ring-singleton-empty-history-laws}. That theorem supplies
+the additive, multiplicative, distributive, zero-absorption, and congruence
+rows for the same tuple, so no abstract carrier or operator parameter remains
+to instantiate.
+\end{proof}
+
+\begin{theorem}[RingUp empty-history schema unlock]
+\label{thm:ring-empty-history-schema-unlock}
+Every $\RingUp$ schema consumer that only requires a concrete ground ring may
+use the displayed tuple of
+\autoref{def:ring-empty-history-ground-instance}. The consumer receives the
+carrier $A_{\emp}$, classifier $R_{\emp}$, addition, negation, zero,
+multiplication, one, and the law package of
+\autoref{thm:ring-empty-history-ground-laws} as concrete $\mathsf{BHist}$ rows,
+rather than abstract carrier and operator parameters.
+\end{theorem}
+\begin{proof}
+Project the ground instance. The carrier, classifier, and five operation rows
+are all displayed singleton empty-history rows, so a schema consumer can cite
+them directly.
+
+The law package is supplied by
+\autoref{thm:ring-empty-history-ground-laws}. Since that theorem is already
+about the same displayed tuple, substituting it into a ground-ring schema
+does not introduce a new carrier, a second classifier, or additional operator
+parameters.
+\end{proof}
