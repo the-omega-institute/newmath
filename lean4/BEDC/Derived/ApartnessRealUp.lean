@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -14,6 +15,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -474,10 +476,10 @@ theorem ApartnessRealSeparationPacket_metric_consumer_separation_boundary [AskSe
           (And.intro forwardLedgerUnary
             (And.intro reverseLedgerUnary
               (And.intro pkgrowUnary
-                (And.intro consumerUnary
-                  (And.intro forwardLedgerCont
-                    (And.intro reverseLedgerCont
-                      (And.intro consumerRowCont consumerPkg)))))))))
+                  (And.intro consumerUnary
+                    (And.intro forwardLedgerCont
+                      (And.intro reverseLedgerCont
+                        (And.intro consumerRowCont consumerPkg)))))))))
 
 def ApartnessRealPositiveSeparationCarrier [AskSetup] [PackageSetup]
     (leftName rightName radius window leftReadback rightReadback separation provenance
