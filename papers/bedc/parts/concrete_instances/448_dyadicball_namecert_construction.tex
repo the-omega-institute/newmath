@@ -355,6 +355,61 @@ interface. The resulting $\RegSeqRatUp/\RealUp$ package has exactly the rows
 listed in the statement.
 \end{proof}
 
+\begin{theorem}[DyadicBall refinement overlap transitivity]
+\label{thm:dyadicball-refinement-overlap-transitivity}
+Let
+$B_0=(c_0,r_0,k,o,\eta_0,H_0,C_0,P_0,N_0)$,
+$B_1=(c_1,r_1,k,o,\eta_1,H_1,C_1,P_1,N_1)$, and
+$B_2=(c_2,r_2,k,o,\eta_2,H_2,C_2,P_2,N_2)$ be accepted
+$\DyadicBallUp$ packets with the same schedule row $k$ and the same scheduled
+observation row $o$. Suppose $B_0$ and $B_1$ admit a common refined positive
+dyadic radius row $\rho$ with displayed containment ledgers into both packets,
+and suppose $B_1$ and $B_2$ admit a common refined positive dyadic radius row
+$\sigma$ with displayed containment ledgers into both packets.
+
+If a positive dyadic radius row $\tau$ is displayed together with refinement
+ledgers from $\tau$ to both $\rho$ and $\sigma$, and with containment ledgers
+from $\tau$ into all three packets, then the three packets determine one finite
+$\RegSeqRatUp/\RealUp$ consumer package. Its visible rows are exactly the
+shared schedule $k$, the shared observation $o$, the transported center rows,
+the positive radius row $\tau$, the three containment ledgers, the displayed
+$\hsame$ rows, the visible $\Cont$ routes, the $\mathsf{Pkg}$ provenance rows,
+and the three $\NameCert$ rows.
+
+The package introduces no quotient ball, host real equality, completeness
+datum, or selected real point.
+\end{theorem}
+\begin{proof}
+Project the three accepted packets through \autoref{def:dyadicball-carrier}.
+This exposes only center rows, radius rows, the shared schedule, the shared
+observation, containment ledgers, transport rows, package provenance, and local
+naming rows.
+
+Use \autoref{thm:dyadicball-radius-refinement-closure} separately for $B_0$,
+$B_1$, and $B_2$ at the displayed radius row $\tau$. The refinement ledgers
+from $\tau$ to $\rho$ and $\sigma$, together with the containment ledgers into
+the three packets, supply the radius and containment coordinates required for
+each repacked packet.
+
+Apply \autoref{thm:dyadicball-common-observation-overlap} to the pair
+$(B_0,B_1)$ using the row $\rho$, and again to the pair $(B_1,B_2)$ using the
+row $\sigma$. The two overlap packages have the same schedule and scheduled
+observation, and their middle packet rows are transported through the same
+carrier coordinates.
+
+Now read both overlap packages through
+\autoref{thm:dyadicball-regseqrat-window-handoff}. The handoff identifies the
+single finite regular-rational consumer surface carried by the shared schedule,
+shared observation, transported center rows, radius row $\tau$, and the three
+containment ledgers.
+
+Finally apply \autoref{thm:dyadicball-real-seal-boundary} to the same finite
+rows. The real-name seal has no coordinate for a quotient ball, host real
+equality, completeness datum, or selected point, so the composite overlap
+remains a finite $\RegSeqRatUp/\RealUp$ package with precisely the rows listed
+above.
+\end{proof}
+
 \closureat{DyadicBallUp}{seedStr}
 \closureat{DyadicBallUp}{obligationStr}
 \closureat{DyadicBallUp}{scopedStr}
