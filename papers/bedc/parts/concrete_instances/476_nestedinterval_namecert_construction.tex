@@ -194,6 +194,43 @@ real equality row, or choice operator would require a separate coordinate, and
 none is present in the routed boundary.
 \end{proof}
 
+\begin{theorem}[NestedInterval finite-window bridge route]
+\label{thm:nestedinterval-bridge-window-route}
+The public finite-window boundary of
+\autoref{thm:nestedinterval-public-window-boundary} together with the consumer
+bridge boundary of \autoref{thm:nestedinterval-consumer-bridge-boundary}
+determines the standard constructive finite-window nested-interval reading.
+That reading consists exactly of the displayed dyadic endpoints,
+endpoint-order rows, width rows, adjacent inclusion rows, schedule rows,
+$\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, $\hsame$ and $\Cont$
+transport rows, $\mathsf{Pkg}$ provenance, and $\NameCert$ provenance.
+
+The route contains no infinite intersection point, compactness theorem, host
+real equality, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:nestedinterval-finite-carrier}. The projection exposes precisely
+the dyadic endpoint packets, endpoint-order ledgers, width ledgers, adjacent
+inclusion rows, schedule provenance, regular-rational handoff rows,
+seal-facing rows, and visible provenance coordinates.
+
+Use \autoref{thm:nestedinterval-public-window-boundary} to identify these
+coordinates as the exported public finite-window rows. This fixes the standard
+finite reading at the level of displayed endpoints, width and inclusion
+ledgers, schedules, transports, package provenance, and name-certificate rows.
+
+Use \autoref{thm:nestedinterval-consumer-bridge-boundary} for the
+$\RegSeqRatUp$ and $\RealUp$ routing. The consumer bridge reads the same
+finite rows through the regular-rational handoff and the seal-facing boundary,
+so it supplies no additional coordinate beyond the public boundary.
+
+Therefore the standard nested-interval reading is exactly this finite route.
+An infinite intersection point, compactness theorem, host real equality row, or
+choice principle would require a carrier coordinate outside
+\autoref{def:nestedinterval-finite-carrier}, and no such coordinate is present.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 \closureat{NestedIntervalUp}{publicStr}
