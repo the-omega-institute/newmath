@@ -311,12 +311,53 @@ completion, host equality, or quotient coordinates, the handoff cannot export
 any of them.
 \end{proof}
 
+\begin{theorem}[RealAlgOrder apartness positive-gap order consumer]
+\label{thm:realalgorder-apartness-positive-gap-order-consumer}
+For constant-rational RealUp endpoints carried by the $\RealAlgOrder$
+boundary, a supplied RatUp apartness or nonnegative positive-gap row together
+with the e-one embedding determines exactly the finite $\ApartnessRealUp$
+separation packet consumed by later $\MetricSpaceUp$ and order consumers. The
+packet consists of the two endpoint rows, the positive dyadic radius or
+apartness row, the finite window and readback rows, the visible $\hsame$ and
+$\Cont$ transports, the $\mathsf{Pkg}$ provenance, and the $\NameCert$
+dependency rows.
+
+The consumer surface exports no trichotomy, completeness, quotient equality,
+host real inequality, topology row, or non-constant RealUp arithmetic. Every
+downstream read is restricted to the finite separation packet of
+\autoref{def:apartnessreal-finite-window-separation-row} and the consumer
+boundary of \autoref{thm:apartnessreal-metric-consumer-separation-boundary}.
+\end{theorem}
+\begin{proof}
+Project the constant-rational order and apartness rows from
+\autoref{thm:realalgorder-constant-order-apartness-obligations}. The supplied
+RatUp positive-gap row is then carried upward only through the e-one endpoint
+embedding, so the visible RealUp endpoints remain the constant-rational rows
+certified by
+\autoref{thm:realalgorder-constant-rational-scoped-certificate}.
+
+Next repackage those projected rows through
+\autoref{thm:realalgorder-constant-apartness-metric-handoff}. Its handoff
+surface already isolates the two endpoint rows, the positive dyadic radius or
+apartness row, the $\hsame$ and $\Cont$ routes, the $\mathsf{Pkg}$ provenance,
+and the $\NameCert$ ledger that records the constant rational source.
+
+It remains to identify the packet consumed downstream. The finite row of
+\autoref{def:apartnessreal-finite-window-separation-row} supplies the endpoint,
+window, readback, and separation-ledger shape. Applying
+\autoref{thm:apartnessreal-metric-consumer-separation-boundary} then restricts
+every metric or order consumer to exactly those coordinates, so no excluded
+order, quotient, host-inequality, completeness, or topology coordinate is
+available to read.
+\end{proof}
+
 \begin{closurestatus}{\RealAlgOrder}
   \constructivestory{A constant-rational real is obtained by taking a $\RatUp$ denominator history $d$ and placing one b1 boundary over it, so the admitted real histories are exactly those of the form $\Eone(d)$ coming from the rational embedding. Two such real histories name the same constant rational when the rational classifier already identifies their underlying denominators; the real layer does not add a second comparison beyond that transported rational one. The source is the constant-rational predicate, the pattern records the b1-embedded shape together with the addition, multiplication, order, and apartness rows, and the ledger keeps the visible real endpoint tied to the rational witness from which it came. Because the rational classifier is an equivalence and the embedding is injective on representatives, the embedded rational supplies the carrier witness, the transported classifier is reflexive, symmetric, and transitive, and any recognized representative remains in the constant-rational subcarrier. A real history $h$ lies in the signature gap of a $\RealAlgOrder$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with a rational witness and evidence ledger, and the token-introduction relation names that witness as $p$; after unfolding, $h$ is $\Eone(d)$ for a rational $d$ classified as the rational value encoded by $p$. Each algebra or order row is read by going down to the rational witness, applying the matching $\RatUp$ row, and embedding the result back upward, as in $\Eone(d)+\Eone(e)$ being computed by $d+e$ before re-embedding. The chapter registers this transport-through-rational construction under the name $\RealAlgOrder$; these rows are inherited through the rational embedding, with no full non-constant real arithmetic, completeness, or standard bridge introduced here.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{thm:realalgorder-constant-rational-scoped-certificate} binds RatUp, StreamNameUp, RealUp constant rational endpoints, $\mathsf{BHist}$, $\hsame$, and classifier transport for carrier, classifier, algebra, order, and apartness rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealAlgOrderUp.RealAlgOrderConstant\_rational\_scoped\_certificate}
   \bridgestatus{none}
   \notclaimed{This boundary does not claim complete real arithmetic, trichotomy, completeness, metric or topological consequences, or a standard bridge.}
-  \upgradepath{A formal verification grade requires a Lean theorem for the scoped certificate while preserving the independent paper and Lean axes.}
+  \upgradepath{A stronger verification grade requires audit-clean and bridge-checked RealAlgOrder targets while preserving the independent paper and Lean axes.}
 \end{closurestatus}
