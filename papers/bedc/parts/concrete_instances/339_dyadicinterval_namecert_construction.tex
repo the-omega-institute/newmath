@@ -159,6 +159,7 @@ the transported rows supplied by
 readback may use an external host-real radius, quotient-interval width, or
 completion-side midpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_width\_radius\_ledger\_exactness}
 \begin{proof}
 The carrier projection exposes exactly the width row $W$, midpoint row $M$,
 and radius row $\rho$. These are the only rows named in
@@ -187,6 +188,7 @@ $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows displayed in
 Dedekind cut, quotient interval, open-cover compactness witness, host real
 equality, or completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalUp.DyadicIntervalPacket\_real\_seal\_source\_boundary}
 \begin{proof}
 Start with the carrier projection. Its finite rows provide the endpoint,
 radius, width, order, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
@@ -232,43 +234,35 @@ refinement rows just identified. Hence every regular-window read is exhausted
 by the finite seal-source rows transported from $I$.
 \end{proof}
 
-\begin{theorem}[DyadicInterval scoped source package]
-\label{thm:dyadicinterval-scoped-source-package}
-The scoped source package for $\DyadicIntervalUp$ is exactly the carrier of
-\autoref{def:dyadicinterval-carrier}, the endpointwise classifier and order
-rows from \autoref{thm:dyadicinterval-namecert-obligation}, the refinement
-transport from \autoref{thm:dyadicinterval-nested-refinement-ledger}, the
-endpoint transport from
-\autoref{thm:dyadicinterval-endpoint-classifier-transport}, the width-radius
-exactness row from
-\autoref{thm:dyadicinterval-width-radius-ledger-exactness}, and the
-$\RealUp/\RegSeqRatUp$ seal boundary from
-\autoref{thm:dyadicinterval-real-seal-source-boundary}. It exports no
-Dedekind cut, quotient interval, host real equality, open-cover compactness,
-completeness datum, or standard bridge row.
+\begin{theorem}[DyadicInterval scoped kernel dependency package]
+\label{thm:dyadicinterval-scoped-kernel-dependency-package}
+Every accepted $\DyadicIntervalUp$ carrier, endpoint classifier transport,
+width-radius exactness row, nested-refinement ledger, and $\RealUp$ or
+$\RegSeqRatUp$ seal handoff is read only through the displayed
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. No Dedekind cut, quotient
+interval, open-cover compactness witness, host-real endpoint, or completeness
+datum is in scope for the package.
 \end{theorem}
 \begin{proof}
-Project the carrier through \autoref{def:dyadicinterval-carrier}. This gives
-the finite endpoint, width, midpoint, radius, $\mathsf{BHist}$, $\hsame$,
-$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows and no completion-side object.
+Project the accepted carrier through \autoref{def:dyadicinterval-carrier}.
+This gives the finite endpoint, width, midpoint, radius, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates, all sourced
+from the displayed $\DyadicRatCoreUp$ rows.
 
-Next apply \autoref{thm:dyadicinterval-namecert-obligation} for the
-endpointwise classifier and order rows. Apply
-\autoref{thm:dyadicinterval-nested-refinement-ledger} for nested-refinement
-transport, and apply
-\autoref{thm:dyadicinterval-endpoint-classifier-transport} for endpoint
-transport.
+Next use \autoref{thm:dyadicinterval-endpoint-classifier-transport} for
+endpoint classifier movement, \autoref{thm:dyadicinterval-width-radius-ledger-exactness}
+for the width-radius row, and
+\autoref{thm:dyadicinterval-nested-refinement-ledger} for finite nested
+refinement. These results repack the same dyadic endpoint and history rows
+under displayed $\hsame$ and $\Cont$ transport.
 
-The remaining numerical row is the width-radius exactness row of
-\autoref{thm:dyadicinterval-width-radius-ledger-exactness}. The consumer
-seal is bounded by \autoref{thm:dyadicinterval-real-seal-source-boundary},
-so $\RealUp$ and $\RegSeqRatUp$ receive only the displayed finite source
-rows.
-
-Since every exported coordinate is one of these cited rows, there is no
-source for a Dedekind cut, quotient interval, host real equality, open-cover
-compactness witness, completeness datum, or standard bridge row inside the
-scoped package.
+Finally apply \autoref{thm:dyadicinterval-real-seal-source-boundary}. The
+$\RealUp$ or $\RegSeqRatUp$ seal handoff reads the same finite package through
+the visible $\mathsf{Pkg}$ and $\NameCert$ rows. Since every accepted row is
+exhausted by these cited surfaces, there is no coordinate from which a
+Dedekind cut, quotient interval, open-cover compactness witness, host-real
+endpoint, or completeness datum can enter the scoped dependency package.
 \end{proof}
 
 \closureat{DyadicIntervalUp}{seedStr}
