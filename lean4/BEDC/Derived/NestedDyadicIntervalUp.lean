@@ -78,6 +78,35 @@ theorem NestedDyadicIntervalPacket_window_transport [AskSetup] [PackageSetup]
         ledgerUnary', endpointUnary', targetRefinement, targetEndpoint, targetPkg⟩,
       sameRefinement, sameEndpoint⟩
 
+theorem NestedDyadicIntervalPacket_singleton_chain_vacuity [AskSetup] [PackageSetup]
+    {first schedule refinement provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first BHist.Empty schedule refinement provenance ledger endpoint
+        bundle pkg →
+      hsame refinement first ∧ UnaryHistory endpoint ∧ Cont schedule first endpoint ∧
+        PkgSig bundle endpoint pkg := by
+  intro packet
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    packet.right.right.right.right.right.right.left
+  have firstRefinement : Cont first BHist.Empty refinement :=
+    packet.right.right.right.right.right.right.right.left
+  have scheduleRefinement : Cont schedule refinement endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  have refinementEq : refinement = first := by
+    exact Eq.trans firstRefinement (append_empty_right first)
+  constructor
+  · exact refinementEq
+  · constructor
+    · exact endpointUnary
+    · constructor
+      · cases refinementEq
+        exact scheduleRefinement
+      · exact pkgSig
+
 theorem NestedDyadicIntervalPacket_public_finite_window_export [AskSetup] [PackageSetup]
     {first next schedule refinement provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
