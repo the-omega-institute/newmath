@@ -377,6 +377,26 @@ theorem KalmanFilterCarrier_prediction_update_endpoint_transport [AskSetup] [Pac
     (And.intro sameResidual
       (And.intro sameInnovation (And.intro sameUpdate sameEndpoint)))
 
+theorem KalmanFilterCarrier_zero_gain_posterior_estimate_collapse [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      hsame gain BHist.Empty ->
+        hsame posterior innovation ∧ UnaryHistory posterior ∧ PkgSig bundle endpoint pkg := by
+  intro carrier gainZero
+  rcases carrier with
+    ⟨_priorUnary, _transitionUnary, _predictionUnary, _observationUnary, _residualUnary,
+      _covarianceUnary, _gainUnary, posteriorUnary, _innovationUnary, _updateUnary,
+      _covariancePosteriorUnary, _provenanceUnary, _endpointUnary, _predictionRow,
+      _residualRow, _innovationRow, _updateRow, posteriorRow, _covariancePosteriorRow,
+      _endpointRow, pkgSig⟩
+  have posteriorInnovation : hsame posterior innovation :=
+    cont_respects_hsame (hsame_refl innovation) gainZero posteriorRow
+      (cont_right_unit innovation)
+  exact And.intro posteriorInnovation (And.intro posteriorUnary pkgSig)
+
 theorem KalmanFilterCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {prior transition prediction observation residual covariance gain posterior innovation update
       covariancePosterior provenance endpoint : BHist}
