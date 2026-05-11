@@ -269,4 +269,23 @@ theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
     ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
       regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
 
+theorem NestedIntervalPacket_consumer_bridge_finite_route_exactness [AskSetup] [PackageSetup]
+    {unaryPrefix lower upper width inclusion schedule regRead provenance cert bridgeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalRegSeqRatWindow unaryPrefix lower upper width inclusion schedule regRead
+        provenance cert bundle pkg ->
+      Cont regRead cert bridgeRoute ->
+        PkgSig bundle bridgeRoute pkg ->
+          UnaryHistory bridgeRoute ∧ hsame width (append lower upper) ∧
+            hsame regRead (append width inclusion) ∧ Cont regRead cert bridgeRoute ∧
+              PkgSig bundle bridgeRoute pkg := by
+  intro window bridgeRouteRow bridgePkg
+  obtain ⟨_prefixUnary, _lowerUnary, _upperUnary, _widthUnary, _inclusionUnary, _scheduleUnary,
+    regReadUnary, _provenanceUnary, certUnary, lowerUpperRow, widthInclusionRow,
+    _regReadPkg⟩ := window
+  have bridgeUnary : UnaryHistory bridgeRoute :=
+    unary_cont_closed regReadUnary certUnary bridgeRouteRow
+  exact
+    ⟨bridgeUnary, lowerUpperRow, widthInclusionRow, bridgeRouteRow, bridgePkg⟩
+
 end BEDC.Derived.NestedIntervalUp
