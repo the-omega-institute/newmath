@@ -17,6 +17,7 @@ The classifier compares two accepted packets only through displayed $\hsame$ row
 \label{thm:zeroknowledge-carrier-obligation}
 For a $\ZeroKnowledgeUp$ packet with displayed rows $P$, $V$, $c$, $r$, $k$, $q$, $s$, and $\ell$, the carrier obligation is exactly the finite $\mathsf{BHist}$ surface consisting of the prover row, verifier row, challenge transcript row, response transcript row, hash commitment row, computable verifier row, simulator transcript row, the $\Cont$ transcript routes among those rows, and the $\Pkg$ provenance rows naming the consumed $\HashUp$ and $\ComputableUp$ certificates. No cryptographic hardness predicate, negligible bound, host randomness source, or external protocol machine is part of this carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeFinitePacket\_carrier\_obligation}
 \begin{proof}
 Project the packet to its displayed histories. The prover, verifier, challenge, response, commitment, computable-verifier, simulator, and evidence rows are the only carrier coordinates.
 
@@ -27,11 +28,13 @@ Next project the continuation evidence. Each visible read is one of the listed $
 \label{thm:zeroknowledge-classifier-obligation}
 Two accepted $\ZeroKnowledgeUp$ packets classify together only when their prover rows, verifier rows, challenge transcript rows, response transcript rows, hash commitment rows, computable verifier rows, simulator transcript rows, continuation ledgers, and package provenance rows are related by the displayed componentwise $\hsame$ comparisons. The classifier does not compare hidden witnesses, probability distributions, bitstring encodings, or machine implementations outside the accepted $\mathsf{BHist}$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgeCarrier\_classifier\_obligation}
 \begin{proof}
 Read the classifier by projection to the accepted packet coordinates. Each coordinate has a named $\hsame$ comparison row, and the dependency rows are compared through the same $\Pkg$ provenance that supplied $\HashUp$ and $\ComputableUp$.
 
 For reflexivity, symmetry, and transitivity, apply the corresponding $\hsame$ operation componentwise to the displayed rows. The continuation and provenance rows are then repacked with those transported coordinates, giving a classifier on accepted packets and nothing beyond them.
 \end{proof}
+\leanchecked{BEDC.Derived.ZeroKnowledgeUp.ZeroKnowledgePacket\_classifier\_transport}
 
 \begin{theorem}[ZeroKnowledgeUp completeness ledger obligation]
 \label{thm:zeroknowledge-completeness-ledger-obligation}
