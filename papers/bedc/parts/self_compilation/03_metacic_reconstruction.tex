@@ -241,12 +241,14 @@ The stack is finite, ordered by formal dependency, and audited at PR merge
 time.
 
 \paragraph{Syntax layer.} \texttt{BEDC.MetaCIC.Syntax} provides
-$\mathrm{Term}$, an inductive type with five constructors:
-$\mathrm{var}$, $\mathrm{app}$, $\mathrm{lam}$, $\mathrm{pi}$, and
-$\mathrm{sort}$. It also provides $\mathrm{shift}$, de Bruijn lifting at a
-cutoff with an explicit amount, and $\mathrm{substitute}$, capture-aware
-substitution at arbitrary depth with binder descent and $\mathrm{shift}$
-adjustment.
+$\mathrm{Term}$ (an inductive with five constructors: $\mathrm{var}$,
+$\mathrm{app}$, $\mathrm{lam}$, $\mathrm{pi}$, $\mathrm{sort}$),
+$\mathrm{shift}$ (de Bruijn lifting at cutoff with explicit amount,
+dispatching on Boolean $\mathrm{Nat.ble}$), and $\mathrm{substitute}$
+(capture-aware substitution at arbitrary depth, dispatching on Boolean
+$\mathrm{Nat.beq}$ and $\mathrm{Nat.blt}$; the Bool-level branching avoids the
+$\mathrm{propext}$ exposure that Prop-level decidable-if would introduce for
+generalized substitute lemmas).
 
 \paragraph{Typing layer.} \texttt{BEDC.MetaCIC.Typing} provides
 $\mathrm{Ctx}$ as a list of represented types, $\mathrm{Ctx.lookup}$ with
