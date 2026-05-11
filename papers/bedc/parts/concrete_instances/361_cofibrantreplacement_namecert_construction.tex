@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\CofibrantReplacementUp$}
+\label{ch:concrete-instances-cofibrantreplacement-namecert}
+
+The $\CofibrantReplacementUp$ interface names the finite model-category row that displays one cofibrant replacement witness for one object. Hovey's \emph{Model Categories} treats cofibrant replacement as a standard model-category construction; the BEDC surface below records only a finite displayed factorization packet, not a selection of replacements for every object.
+
+The dependency boundary is $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$. The model-category row supplies cofibration, weak-equivalence, and factorization surfaces; the simplicial-set row supplies a concrete displayed source family when the model surface is read in that setting; the homotopy row records the weak-equivalence ledger; and the category row supplies the object and arrow typing rows.
+
+\section{Finite factorization source}
+\label{sec:cofibrantreplacement-factorization-source}
+
+\begin{definition}[CofibrantReplacement BHist source]
+\label{def:cofibrantreplacement-bhist-source}
+A $\CofibrantReplacementUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+(X,Q,i,p,F,\rho,\lambda)
+$$
+whose visible rows have the following shape:
+\begin{enumerate}
+\item $X$ is the displayed object row read from $\ModelCatUp$ and typed through $\CategoryUp$;
+\item $Q$ is the displayed cofibrant object row over the same model-category surface;
+\item $i:Q\to X$ is the displayed arrow row whose model-category ledger marks it as a cofibration and as a weak equivalence;
+\item $p$ is the factorization provenance row recording the finite factorization step that produced $Q$ and $i$;
+\item $F$ is a finite list of lifting-test rows attached to the displayed cofibration face;
+\item $\rho$ is the package row naming the $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$ dependency certificates used by the packet;
+\item $\lambda$ is the continuation ledger that records the $\Cont$ routes and componentwise $\hsame$ comparisons used to read the packet downstream.
+\end{enumerate}
+The carrier predicate accepts exactly such packets. Its classifier compares accepted packets componentwise by the object, cofibrant-object, arrow, factorization, lifting-test, package, and continuation-ledger $\hsame$ rows, and it does not identify replacements by a homotopy-category quotient.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:cofibrantreplacement-certificate-obligations}
+
+\begin{theorem}[CofibrantReplacement factorization obligation]
+\label{thm:cofibrantreplacement-factorization-obligation}
+Every accepted $\CofibrantReplacementUp$ source exposes a finite factorization row over $\ModelCatUp$: the displayed object $X$, the displayed cofibrant object $Q$, the arrow $i:Q\to X$, the cofibration ledger for $i$, the weak-equivalence ledger for $i$, and the provenance row $p$ that records this factorization as part of the displayed model-category surface.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:cofibrantreplacement-bhist-source}. The first four coordinates are exactly $X$, $Q$, $i$, and $p$, and the arrow coordinate is stored with both model-category marks.
+
+The category typing of the arrow is read through the $\CategoryUp$ rows named in $\rho$. The model-category marks are read through the $\ModelCatUp$ row, while the provenance coordinate records that these rows come from a finite factorization step.
+
+Since the carrier has no coordinate for a family of replacements, the obligation is exhausted by the displayed packet for this one object.
+\end{proof}
+
+\begin{theorem}[CofibrantReplacement weak-equivalence ledger]
+\label{thm:cofibrantreplacement-weak-equivalence-ledger}
+In an accepted $\CofibrantReplacementUp$ source, every weak-equivalence read of $i:Q\to X$ factors through the finite homotopy and model-category ledger carried by the tuple $(X,Q,i,p,F,\rho,\lambda)$. Transporting the packet along its displayed $\hsame$ rows preserves the weak-equivalence ledger and introduces no localization, derived mapping space, or homotopy-category quotient.
+\end{theorem}
+\begin{proof}
+Read the arrow coordinate $i$ in \autoref{def:cofibrantreplacement-bhist-source}. Its weak-equivalence mark is one of the displayed rows of the accepted packet, and $\rho$ names the $\HomotopyUp$ and $\ModelCatUp$ certificates through which that mark is interpreted.
+
+Transport uses the componentwise $\hsame$ comparisons stored in $\lambda$. These comparisons carry the source object, cofibrant object, arrow row, and weak-equivalence mark together, so the target packet reads the same weak-equivalence ledger.
+
+No localization or quotient row is available in the source tuple. Therefore all weak-equivalence information remains inside the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[CofibrantReplacement NameCert obligation surface]
+\label{thm:cofibrantreplacement-namecert-obligation-surface}
+The local $\NameCert_{\CofibrantReplacementUp}$ obligation surface consists of five finite rows: the source carrier of \autoref{def:cofibrantreplacement-bhist-source}; the componentwise classifier over $X$, $Q$, $i$, $p$, $F$, $\rho$, and $\lambda$; the finite factorization obligation of \autoref{thm:cofibrantreplacement-factorization-obligation}; the weak-equivalence ledger of \autoref{thm:cofibrantreplacement-weak-equivalence-ledger}; and the dependency-boundary row over $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are the two direct projections of the source definition. They list the accepted finite packets and the componentwise comparison relation used between them.
+
+The factorization row is supplied by \autoref{thm:cofibrantreplacement-factorization-obligation}. It records the object, cofibrant object, arrow, cofibration mark, weak-equivalence mark, and factorization provenance.
+
+The weak-equivalence row is supplied by \autoref{thm:cofibrantreplacement-weak-equivalence-ledger}. The remaining dependency-boundary row is the package coordinate $\rho$, which names exactly the four certificates used by the construction.
+\end{proof}
+
+\begin{theorem}[CofibrantReplacement dependency boundary]
+\label{thm:cofibrantreplacement-dependency-boundary}
+Any consumer of $\NameCert_{\CofibrantReplacementUp}$ may read only the displayed $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$ dependency rows, the factorization packet $(X,Q,i,p,F,\rho,\lambda)$, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. The packet does not export functorial cofibrant replacement, a global replacement assignment, localization data, derived-category objects, or homotopy-category quotients.
+\end{theorem}
+\begin{proof}
+Project the package coordinate $\rho$. It names precisely the model-category, simplicial-set, homotopy, and category certificates used by the source.
+
+Project the continuation ledger $\lambda$. It contains the visible $\Cont$ routes and componentwise $\hsame$ rows by which downstream consumers may transport the factorization packet.
+
+All excluded objects require coordinates absent from the source tuple. A consumer can therefore read the single displayed factorization witness but cannot promote it to a functor, a global assignment, a localization, or a quotient category.
+\end{proof}
+
+\begin{theorem}[CofibrantReplacement five-row NameCert sketch]
+\label{thm:cofibrantreplacement-five-row-namecert-sketch}
+The $\CofibrantReplacementUp$ source supplies the five expected $\NameCert$ checks at the displayed finite boundary:
+\begin{enumerate}
+\item carrier inhabitance is witnessed by a displayed finite factorization row $(X,Q,i,p,F,\rho,\lambda)$;
+\item classifier reflexivity, symmetry, and transitivity are componentwise $\hsame$ checks on $X$, $Q$, $i$, $p$, $F$, $\rho$, and $\lambda$;
+\item carrier transport along the factorization ledger repacks the same object, cofibrant-object, arrow, factorization, and lifting-test rows;
+\item weak-equivalence ledger stability follows from the transported $\HomotopyUp$ and $\ModelCatUp$ rows for $i$;
+\item dependency-boundary non-leakage follows because $\rho$ names only $\ModelCatUp$, $\SimplicialSetUp$, $\HomotopyUp$, and $\CategoryUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For carrier inhabitance, use the displayed finite factorization row itself. It supplies the object, cofibrant object, arrow, factorization provenance, lifting tests, package row, and continuation ledger.
+
+For the classifier, compare accepted packets componentwise. Reflexivity, symmetry, and transitivity are exactly the corresponding $\hsame$ moves on each coordinate, repacked into the tuple classifier.
+
+For transport, follow the continuation ledger $\lambda$. It carries each coordinate of the factorization row through the displayed routes and repacks the target tuple with the same shape.
+
+The weak-equivalence and dependency claims are the two boundary projections of the transported packet. The weak-equivalence mark remains attached to $i$ through the $\HomotopyUp$ and $\ModelCatUp$ rows, and $\rho$ contains no dependency certificate beyond the four named rows.
+\end{proof}
+
+\closureat{CofibrantReplacementUp}{seedStr}
+
+\begin{closurestatus}{\CofibrantReplacementUp}
+  \constructivestory{A cofibrant-replacement packet is generated by displaying one object row $X$, one cofibrant object row $Q$, one arrow $i:Q\to X$ marked as a cofibration and weak equivalence, one factorization provenance row, finite lifting tests, dependency certificates, and continuation routes.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary binds the finite carrier, componentwise classifier, factorization obligation, weak-equivalence ledger, dependency-boundary row, and five-row NameCert sketch for one displayed cofibrant-replacement witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close functorial cofibrant replacement, global choice of replacements, localization, derived mapping spaces, or homotopy category quotients.}
+  \upgradepath{Scoped closure requires checked carrier, classifier, factorization, weak-equivalence, transport, and dependency-boundary targets for the displayed $\CofibrantReplacementUp$ packet.}
+\end{closurestatus}
