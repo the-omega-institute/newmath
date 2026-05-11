@@ -359,15 +359,57 @@ or external weak-equivalence calculus.
 \end{proof}
 \leanchecked{BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_public\_certificate\_boundary}
 
+\begin{theorem}[ModelCat finite model-structure bridge boundary]
+\label{thm:modelcat-finite-model-structure-bridge-boundary}
+The public $\ModelCatUp$ finite packet interprets the standard finite
+model-category schema only through the consumed $\CategoryUp$ row, the displayed
+cofibration, fibration, and weak-equivalence classifiers, the finite lifting
+ledger, the finite factorisation ledger, $\mathsf{Pkg}$ provenance, $\Cont$
+routes, and $\hsame$ transport.
+
+Thus every bridge-facing read of the finite model-structure surface is already
+one of the rows certified by the public packet. The surface contains no host
+localization, quotient category, derived mapping space, external
+weak-equivalence calculus, or unrecorded factorisation choice.
+\end{theorem}
+\begin{proof}
+Project the public certificate boundary of
+\autoref{thm:modelcat-public-certificate-boundary}. It identifies the consumed
+$\CategoryUp$ dependency row, the three displayed morphism classifiers, the
+lifting and factorisation ledgers, provenance, and rowwise
+$\Cont/\hsame$ transport as the public finite packet.
+
+The weak-equivalence component is isolated by
+\autoref{thm:modelcat-weak-equivalence-classifier-laws}. The cofibration and
+fibration components remain the two parallel classifier rows named by the root
+obligation surface, not external model-structure data.
+
+The lifting and factorisation surfaces are fixed by
+\autoref{thm:modelcat-lifting-square-boundary},
+\autoref{thm:modelcat-factorization-ledger-determinacy}, and
+\autoref{thm:modelcat-finite-factorization-transport-surface}. These results
+show that bridge-facing reads of lifting squares and factorisation rows pass
+through the displayed finite ledgers with their $\mathsf{Pkg}$, $\Cont$, and
+$\hsame$ provenance.
+
+Finally,
+\autoref{thm:modelcat-category-dependency-boundary} forces ordinary
+categorical reads through the consumed category row, and
+\autoref{thm:modelcat-root-threshold-obligation-triad} exhausts the remaining
+root surfaces. Hence the finite bridge boundary is exactly the public packet
+surface and exports none of the excluded host data.
+\end{proof}
+
 \closureat{ModelCatUp}{scopedStr}[BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_category\_dependency\_boundary]
 \closureat{ModelCatUp}{publicStr}[BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_public\_certificate\_boundary]
+\closureat{ModelCatUp}{bridgedStr}[BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_public\_certificate\_boundary]
 \begin{closurestatus}{\ModelCatUp}
   \constructivestory{A ModelCat packet is built from a consumed $\CategoryUp$ row, three displayed morphism-classifier rows, finite lifting and factorisation ledgers, a package row, provenance, and rowwise $\Cont/\hsame$ transport. The checked category dependency boundary forces ordinary categorical reads through the consumed dependency row, while the root, classifier, lifting, factorisation, and threshold surfaces expose only the displayed finite packet rows.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The scoped packet binds the displayed $\mathsf{BHist}$ source packet, consumed $\CategoryUp$ row, morphism classifiers, lifting and factorisation ledgers, $\Pkg$ provenance, $\Cont$, and $\hsame$ transport boundaries.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ModelCatUp.ModelCatBHistSourcePacket\_category\_dependency\_boundary}
-  \bridgestatus{none}
-  \notclaimed{Host localization, quotient category, derived mapping space, external weak-equivalence calculus, and bridge rows are not closed.}
-  \upgradepath{The next paper-side step is a standard-bridge boundary for the finite model-category public surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Host localization, quotient category, derived mapping space, external weak-equivalence calculus, checked bridge status, and downstream localization or replacement consumers are not closed.}
+  \upgradepath{Mature closure requires downstream localization and replacement consumers over the same finite public packet.}
 \end{closurestatus}
