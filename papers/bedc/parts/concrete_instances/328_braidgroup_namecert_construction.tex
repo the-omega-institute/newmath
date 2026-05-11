@@ -50,6 +50,7 @@ The monoid and group faces are the visible concatenation, empty-word, and invers
 
 The consumer faces are projections of the same packet: $\SymGroupUp$ reads the adjacent transposition shadow, $\WeylGroupUp$ reads the root-action braid rows, and $\KnotUp$ reads braid closure as a finite closure ledger. No face adds host word equality, a presentation quotient, or an unrecorded isotopy class.
 \end{proof}
+\leanchecked{BEDC.Derived.BraidGroupUp.BraidGroupPacket\_namecert\_obligation\_surface}
 \leanchecked{BEDC.Derived.BraidGroupUp.BraidGroupArtinPacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[BraidGroup Weyl root-action handoff]
@@ -104,6 +105,76 @@ The two downstream faces are the finite projections already isolated by
 remove Markov moves, Artin-representation faithfulness, knot isotopy
 completeness, and standard bridge data, leaving exactly the scoped Artin source
 package stated above.
+\end{proof}
+
+\begin{theorem}[BraidGroup public Artin interface]
+\label{thm:braidgroup-public-artin-interface}
+The finite signed Artin-word carrier, Artin ledger stability, NameCert
+obligation surface, Weyl root-action handoff, knot-closure ledger boundary, and
+scoped Artin source package assemble the public
+$\NameCert_{\BraidGroupUp}$ interface. It is readable by $\GroupUp$,
+$\SymGroupUp$, $\WeylGroupUp$, and $\KnotUp$ consumers as strand-count rows,
+signed adjacent-strand word rows, braid/inverse/far-commutation ledgers,
+symmetric-group shadow rows, Weyl action rows, knot-closure ledger rows,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+The interface exports no Markov theorem, braid-group faithfulness, knot isotopy
+completeness, presentation quotient, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier of \autoref{def:braidgroup-word-carrier}. It
+provides the strand count, signed Artin word, classifier ledger, dependency
+provenance, and packet rows that all four consumer directions read.
+
+Apply \autoref{thm:braidgroup-artin-ledger-stability} to keep braid,
+inverse-cancellation, and far-commutation transport inside the displayed Artin
+ledger. Then use \autoref{thm:braidgroup-namecert-obligation-surface} to expose
+the NameCert rows shared by the group, symmetric-group, Weyl-group, and knot
+readers.
+
+The two non-group faces are exactly the finite handoffs isolated by
+\autoref{thm:braidgroup-weyl-root-action-handoff} and
+\autoref{thm:braidgroup-knot-closure-ledger-boundary}. Finally
+\autoref{thm:braidgroup-scoped-artin-source-package} gathers these rows into a
+single scoped Artin source package.
+
+Since the cited package has no coordinate for Markov moves, representation
+faithfulness, isotopy completeness, presentation quotients, or standard bridge
+rows, repacking it as a public $\NameCert_{\BraidGroupUp}$ interface cannot
+export any of that data.
+\end{proof}
+
+\begin{theorem}[BraidGroup public NameCert export]
+\label{thm:braidgroup-public-namecert-export}
+The finite Artin-word carrier, Artin ledger stability, NameCert obligation
+surface, Weyl root-action handoff, knot-closure ledger boundary, and scoped
+Artin source package assemble the public $\NameCert_{\BraidGroupUp}$ export.
+Every consumer reads only signed Artin words, strand-count rows,
+braid/inverse/far-commutation ledgers, symmetric-group shadow, Weyl action
+handoff, knot closure ledger, $\mathsf{BHist}$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ provenance, with no Markov theorem, braid faithfulness,
+knot-isotopy completeness, presentation quotient, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier of \autoref{def:braidgroup-word-carrier}. It
+displays the strand count, signed Artin word, classifier ledger, dependency
+provenance, and packet ledger that every public consumer can read.
+
+Use \autoref{thm:braidgroup-artin-ledger-stability} and
+\autoref{thm:braidgroup-namecert-obligation-surface}. These theorems keep the
+braid, inverse, and far-commutation moves inside visible ledgers and identify
+the NameCert rows inherited by the group, monoid, symmetric-group, Weyl-group,
+and knot consumers.
+
+Next apply \autoref{thm:braidgroup-weyl-root-action-handoff},
+\autoref{thm:braidgroup-knot-closure-ledger-boundary}, and
+\autoref{thm:braidgroup-scoped-artin-source-package}. Their exclusion clauses
+remove Markov moves, braid faithfulness, knot-isotopy completeness,
+presentation quotients, and standard bridge data.
+
+The cited carrier and theorem blocks exhaust the consumer-facing rows. Repacking
+them gives the public $\NameCert_{\BraidGroupUp}$ export with exactly the finite
+surface stated above.
 \end{proof}
 
 \closureat{BraidGroupUp}{seedStr}
