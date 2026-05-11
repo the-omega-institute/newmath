@@ -1,0 +1,187 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBallUp$}
+\label{ch:concrete-instances-dyadicball-namecert}
+
+Following the Bishop--Bridges constructive-analysis treatment of rational
+balls, the $\DyadicBallUp$ interface names a finite center-radius enclosure
+packet for L10 real-name observations. It sits between the dyadic arithmetic
+surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the
+regular rational stream surface of
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal
+surface of \autoref{ch:concrete-instances-real-namecert}.
+
+\section{Finite center-radius carrier}
+\label{sec:dyadicball-finite-center-radius-carrier}
+
+\begin{definition}[DyadicBall finite enclosure carrier]
+\label{def:dyadicball-carrier}
+A $\DyadicBallUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(c,r,k,o,\eta,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $c$ is a center row accepted by $\DyadicRatCoreUp$;
+\item $r$ is a positive dyadic radius row, displayed by the same dyadic
+arithmetic surface and readable as a one-sided
+$\DyadicIntervalUp$ tolerance window;
+\item $k$ is a precision and schedule row supplied by $\StreamNameUp$, with
+the requested tolerance coordinated by $\CauchyModulusUp$ when a regular
+source provides an explicit rate;
+\item $o$ is the scheduled observation row, either a finite
+$\RegSeqRatUp$ window endpoint or the finite source read of a $\RealUp$
+seal;
+\item $\eta$ is the containment ledger proving that the displayed observation
+lies within the radius row around the center row;
+\item $H$ and $C$ are the componentwise $\hsame$ witnesses and displayed
+$\Cont$ routes for the center, radius, schedule, observation, and
+containment rows;
+\item $P$ is the $\mathsf{Pkg}$ provenance naming the consumed
+$\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\StreamNameUp$,
+$\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ source surfaces;
+\item $N$ is the local $\NameCert$ row recording that classification is by
+componentwise finite transport of the displayed rows.
+\end{enumerate}
+The carrier has no quotient ball space, no host real equality, no completed
+metric object, and no hidden real-radius coordinate. Its classifier compares
+two accepted packets only by transporting the listed center, radius, schedule,
+observation, containment, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows.
+\end{definition}
+
+\begin{theorem}[DyadicBall radius refinement closure]
+\label{thm:dyadicball-radius-refinement-closure}
+Let $B=(c,r,k,o,\eta,H,C,P,N)$ be an accepted $\DyadicBallUp$ carrier, and let
+$r'$ be a positive dyadic radius row whose displayed comparison ledger proves
+$r'\leq r$. If the same center row $c$, schedule row $k$, observation row $o$,
+and containment ledger are transported through finite $\Cont$ rows so that the
+observation remains inside the smaller displayed radius, then the repacked
+tuple
+$$
+B'=(c,r',k,o,\eta',H',C',P',N')
+$$
+is again an accepted $\DyadicBallUp$ carrier.
+
+The refinement changes only the visible radius and containment rows. It does
+not form a quotient of balls and does not compare centers by host real
+equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadicball-carrier}. The center, radius,
+schedule, observation, containment, routing, provenance, and naming
+coordinates are all explicit finite $\mathsf{BHist}$ rows.
+
+Use the displayed comparison $r'\leq r$ to replace the radius coordinate. The
+extra hypothesis supplies the finite containment ledger $\eta'$ for the same
+center and observation at the smaller radius.
+
+Transport the remaining coordinates by the componentwise $\hsame$ witnesses
+and $\Cont$ routes. Repacking these rows gives the accepted packet $B'$, and
+the construction has no coordinate from which a quotient ball space or host
+real equality could be read.
+\end{proof}
+
+\begin{theorem}[DyadicBall RegSeqRat window handoff]
+\label{thm:dyadicball-regseqrat-window-handoff}
+Every accepted $\DyadicBallUp$ packet supplies exactly the finite dyadic rows
+that a scheduled $\RegSeqRatUp$ window may consume: the $\StreamNameUp$
+precision row, the $\DyadicRatCoreUp$ center row, the positive dyadic radius
+row, the scheduled endpoint row, the containment ledger, and the associated
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+The handoff may be read as a dyadic endpoint-radius window for the regular
+stream, but it exports no quotient stream, no completion object, and no
+external real value.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:dyadicball-carrier}. The schedule row is
+already a $\StreamNameUp$ finite request, and the center and radius rows are
+accepted dyadic rows.
+
+For a $\RegSeqRatUp$ consumer, keep exactly the scheduled observation row and
+the containment ledger that compares it to the displayed center and radius.
+These are the endpoint and tolerance rows consumed by a finite regular-stream
+window.
+
+The componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows are
+the same rows listed in the carrier. Since the carrier contains no stream
+quotient or completed limit, the handoff cannot export one.
+\end{proof}
+
+\begin{theorem}[DyadicBall Real seal boundary]
+\label{thm:dyadicball-real-seal-boundary}
+A $\RealUp$ seal reading an accepted $\DyadicBallUp$ packet may inspect only
+the center row, the positive radius row, the scheduled observation row, the
+containment ledger, the componentwise $\hsame$ rows, the displayed $\Cont$
+routes, the $\mathsf{Pkg}$ provenance, and the local $\NameCert$ row.
+
+The seal boundary does not add a real-equality classifier, a quotient of
+regular streams, a completeness witness, or a host real ball. It merely records
+that the displayed finite observation lies in the displayed dyadic
+center-radius enclosure.
+\end{theorem}
+\begin{proof}
+Start with the public coordinates of \autoref{def:dyadicball-carrier}. These
+coordinates already include the finite source read that a $\RealUp$ seal may
+consume: center, radius, schedule, observation, containment, routing,
+provenance, and naming data.
+
+Apply the handoff statement of
+\autoref{thm:dyadicball-regseqrat-window-handoff} when the seal source is read
+through a regular-rational scheduled window. The same finite dyadic rows are
+then the only source rows available to the real-name seal.
+
+No carrier coordinate stores a real quotient, a completed metric point, or a
+host ball. Therefore the seal boundary is exactly the listed finite row
+surface.
+\end{proof}
+
+\begin{theorem}[DyadicBall NameCert obligation surface]
+\label{thm:dyadicball-namecert-obligation-surface}
+The local $\NameCert_{\DyadicBallUp}$ obligation surface consists of five
+finite requirements:
+\begin{enumerate}
+\item carrier: the finite center-radius packet of
+\autoref{def:dyadicball-carrier};
+\item classifier: componentwise $\hsame$ transport of the center, radius,
+schedule, scheduled observation, containment ledger, $\Cont$ routes,
+$\mathsf{Pkg}$ rows, and $\NameCert$ rows;
+\item radius-refinement stability:
+\autoref{thm:dyadicball-radius-refinement-closure} repacks a smaller displayed
+positive radius when the containment ledger is supplied for that radius;
+\item $\RegSeqRatUp$ handoff:
+\autoref{thm:dyadicball-regseqrat-window-handoff} exposes exactly the finite
+endpoint-radius rows consumed by a scheduled regular-rational window;
+\item $\RealUp$ seal boundary:
+\autoref{thm:dyadicball-real-seal-boundary} restricts real-name reads to the
+center, radius, observation, containment, routing, package, and naming rows.
+\end{enumerate}
+These requirements are the full public obligation surface for
+$\DyadicBallUp$.
+\end{theorem}
+\begin{proof}
+The carrier requirement is \autoref{def:dyadicball-carrier}. It lists every
+coordinate that can appear in an accepted packet.
+
+The classifier requirement follows by transporting those coordinates
+componentwise. The transport data named in the carrier are precisely the
+$\hsame$ witnesses and $\Cont$ routes for the center, radius, schedule,
+observation, containment, provenance, and naming rows.
+
+Radius-refinement stability, regular-window handoff, and real-seal boundary
+are the three theorem rows just stated. Together they cover the local ways a
+dyadic ball packet is refined, consumed by a regular stream window, and read by
+a real-name seal.
+\end{proof}
+
+\closureat{DyadicBallUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBallUp}
+  \constructivestory{A $\DyadicBallUp$ packet is generated by a finite dyadic center row, a positive dyadic radius row, a scheduled observation row, a containment ledger, componentwise $\hsame$ and $\Cont$ transport, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The finite carrier of \autoref{def:dyadicball-carrier} binds the visible center, radius, schedule, observation, containment, routing, provenance, and naming rows for $\DyadicBallUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close real completeness, quotient stream equality, host real balls, metric topology, or a standard bridge.}
+  \upgradepath{Formal closure requires Lean targets for the carrier, radius-refinement closure, RegSeqRat handoff, Real seal boundary, and NameCert obligation surface.}
+\end{closurestatus}

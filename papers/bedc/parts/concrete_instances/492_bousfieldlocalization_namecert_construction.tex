@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BousfieldLocalizationUp$}
+\label{ch:concrete-instances-bousfieldlocalization-namecert}
+
+The $\BousfieldLocalizationUp$ interface names the finite certificate surface for a displayed left Bousfield-localization packet over a model-category row. In Hirschhorn 2003 and in Goerss--Jardine 1999, local objects and inverted maps are controlled by a model-category background, a selected class of morphisms, and fibrant replacement tests; the BEDC packet below records only the displayed rows that a downstream consumer may inspect.
+
+The dependency boundary is $\ModelCatUp$, $\CategoryUp$, and $\FunctorUp$. The model-category row supplies weak-equivalence, cofibration, fibration, and fibrant-object faces; the category row types objects and arrows; and the functor row records classifier transport and readback routes without exporting a homotopy-category quotient.
+
+\section{Finite localizing packet}
+\label{sec:bousfieldlocalization-finite-localizing-packet}
+
+\begin{definition}[BousfieldLocalization carrier]
+\label{def:bousfieldlocalization-carrier}
+A $\BousfieldLocalizationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(M,S,L,T,P,N)
+$$
+whose visible rows have the following shape:
+\begin{enumerate}
+\item $M$ is a displayed $\ModelCatUp$ row, typed through the displayed $\CategoryUp$ object and morphism rows;
+\item $S$ is a finite selected morphism-class row whose arrows are the maps to be read as inverted by the localizing certificate;
+\item $L$ is a finite list of fibrant-local-object rows, each recording a displayed fibrant object together with the mapping-test rows by which $S$ reads locally;
+\item $T$ is the classifier-transport ledger, consisting of the componentwise $\hsame$ witnesses and $\Cont$ routes that carry the model-category, selected-map, and local-object rows;
+\item $P$ is the $\Pkg$ provenance row naming the $\ModelCatUp$, $\CategoryUp$, and $\FunctorUp$ dependency certificates used by the packet;
+\item $N$ is the $\NameCert$ ledger for the carrier, classifier, stability, exactness, and consumer-readback obligations.
+\end{enumerate}
+The carrier predicate is $\mathsf{BousfieldLocalizationPacket}(M,S,L,T,P,N)$. Two accepted packets classify together only when the model-category row, selected morphism-class row, fibrant-local-object rows, classifier-transport ledger, package provenance, and $\NameCert$ ledger transport by the displayed $\hsame$ witnesses along the same $\Cont$ routes named in $T$.
+\end{definition}
+
+\begin{theorem}[BousfieldLocalization NameCert obligations]
+\label{thm:bousfieldlocalization-namecert-obligations}
+The local $\NameCert_{\BousfieldLocalizationUp}$ seed surface consists of the following five finite obligations:
+\begin{enumerate}
+\item carrier row: the $\mathsf{BHist}$ packet of \autoref{def:bousfieldlocalization-carrier}, including the model-category row, selected morphism-class row, fibrant-local-object rows, classifier-transport ledger, $\Pkg$ provenance, and $\NameCert$ ledger;
+\item classifier row: componentwise $\hsame$ on exactly those displayed coordinates, with no comparison of hidden model structures, external homotopy categories, or unrecorded mapping-space objects;
+\item stability row: whenever the displayed coordinates are transported along the $\hsame$ witnesses and $\Cont$ routes named by $T$, the transported packet is again an accepted $\BousfieldLocalizationUp$ carrier;
+\item exactness row: every local-object test, inverted-map read, and fibrant-row readback obtained by a consumer must be one of the rows recorded in $M$, $S$, $L$, $T$, $P$, and $N$ or a finite readback through their named $\Pkg$ provenance;
+\item ledger row: the $\NameCert$ ledger records the carrier, classifier, stability, exactness, and dependency-boundary checks without storing a global localization functor, a quotient homotopy category, or a choice of representatives.
+\end{enumerate}
+These obligations define only the BEDC-kernel naming surface for a displayed Bousfield-localization packet; they do not assert the existence theorem for a localization model structure.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:bousfieldlocalization-carrier}. Its six coordinates list exactly the finite rows a Bousfield-localization consumer can inspect: a model-category row, a selected class of maps, fibrant-local-object rows, classifier transport, package provenance, and the local certificate ledger.
+
+The classifier and stability obligations are componentwise. Transporting an accepted packet along the displayed $\hsame$ witnesses replaces representatives only inside the visible rows, and the $\Cont$ routes in $T$ keep the reads inside the named $\ModelCatUp$, $\CategoryUp$, and $\FunctorUp$ boundaries.
+
+Exactness is then a projection statement. A consumer obtains a local-object test, an inverted-map read, or a fibrant-row readback only from the recorded rows or from the finite provenance named by $P$ and $N$.
+
+No coordinate stores a localization functor, a host quotient category, a derived mapping object, or a representative choice. Those classical outputs therefore remain outside the seed surface.
+\end{proof}
+
+\begin{theorem}[BousfieldLocalization local-object handoff]
+\label{thm:bousfieldlocalization-local-object-handoff}
+Every downstream homotopy consumer of an accepted $\BousfieldLocalizationUp$ packet may read only the certified fibrant-local-object rows in $L$, the selected maps in $S$ as inverted-map rows through the displayed model-category ledger $M$, and the finite $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance recorded in $T$, $P$, and $N$.
+
+The handoff exports no unlicensed quotient localization, no homotopy-category object outside the displayed rows, no global functorial localization, and no choice of representatives for local equivalence classes.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B=(M,S,L,T,P,N)$. The local-object data are exactly the finite rows in $L$, and the inverted-map data are exactly the selected arrows in $S$ interpreted through the displayed model-category ledger $M$.
+
+Transport and readback use only the visible continuation ledger and provenance rows. The $\hsame$ witnesses and $\Cont$ routes in $T$ carry the selected-map and local-object rows componentwise, while $P$ and $N$ name the dependency certificates and the finite readback surface.
+
+It remains to check that nothing else is exported. Since the tuple contains no quotient-localization coordinate, no homotopy-category object coordinate, no global localization functor, and no representative-choice row, the consumer boundary is exhausted by the certified local-object and inverted-map rows.
+\end{proof}
+
+\closureat{BousfieldLocalizationUp}{seedStr}
+
+\begin{closurestatus}{\BousfieldLocalizationUp}
+  \constructivestory{A Bousfield-localization packet is generated by a displayed $\ModelCatUp$ row, a selected morphism-class row, fibrant-local-object rows, classifier transport by $\hsame$ and $\Cont$, $\Pkg$ provenance, and a $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface binds the finite carrier, classifier, stability, exactness, ledger, and local-object handoff rows named in \autoref{def:bousfieldlocalization-carrier}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the existence of a localized model structure, global functorial localization, homotopy-category quotients, derived mapping objects, or representative choices.}
+  \upgradepath{Formal closure requires Lean targets for the carrier row, componentwise classifier, displayed $\hsame$ stability, exact readback, ledger boundary, and local-object handoff.}
+\end{closurestatus}
