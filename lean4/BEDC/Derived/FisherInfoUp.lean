@@ -308,4 +308,30 @@ theorem FisherInfoBHistScoreCarrier_score_expectation_metric_confluence
           (And.intro expectationLedger.right.right.left
             carrier.right.right.right.right.right.right.left))))
 
+theorem FisherInfoBHistScoreCarrier_ledger_exactness_boundary [AskSetup] [PackageSetup]
+    {distribution metric parameter score expectation component provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FisherInfoBHistScoreCarrier distribution metric parameter score expectation component
+        provenance ledger bundle pkg ->
+      DistributionPushforwardSourceSpec distribution ∧
+        RiemannianMetricSingletonFibreSurface parameter score metric ∧
+          UnaryHistory parameter ∧ UnaryHistory score ∧ Cont distribution score expectation ∧
+            Cont expectation metric component ∧ PkgSig bundle provenance pkg ∧
+              Cont component provenance ledger ∧ hsame expectation (append distribution score) ∧
+                hsame component (append expectation metric) ∧
+                  hsame ledger (append component provenance) := by
+  intro carrier
+  have exactness :=
+    FisherInfoBHistScoreCarrier_expectation_ledger_exactness carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left
+          (And.intro carrier.right.right.right.right.left
+            (And.intro carrier.right.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right.left
+                (And.intro carrier.right.right.right.right.right.right.right
+                  (And.intro exactness.left
+                    (And.intro exactness.right.left exactness.right.right.left)))))))))
+
 end BEDC.Derived.FisherInfoUp
