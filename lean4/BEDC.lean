@@ -93,6 +93,7 @@ import BEDC.Derived.EntropyUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
+import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FastCauchySeqUp
@@ -148,6 +149,7 @@ import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -233,7 +235,6 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
-import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger
