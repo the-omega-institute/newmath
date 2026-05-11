@@ -315,4 +315,70 @@ theorem TriangulatedCatPacketCarrier_distinguished_triangle_rotation_obligation 
     ⟨triangleUnary, shiftUnary, rotationEndpointUnary, routeRow, rotationRow, routeRow, rotationRow,
       carrier.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem TriangulatedCatPacketCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {category derived additive shift triangle octahedral route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route endpoint
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          hsame ∧
+        Cont category derived additive ∧ Cont shift triangle route ∧
+          Cont octahedral route endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          (fun row : BHist =>
+            TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+                endpoint bundle pkg ∧
+              hsame row endpoint)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    And.intro cert
+      (And.intro carrier.right.right.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.right.left
+          (And.intro carrier.right.right.right.right.right.right.right.right.right.right.left
+            carrier.right.right.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.TriangulatedCatUp
