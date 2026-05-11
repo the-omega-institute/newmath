@@ -75,6 +75,30 @@ theorem ApartnessRealCarrier_symmetry_stability [AskSetup] [PackageSetup]
     · exact hsame_refl radius
     · exact swappedLedgerRow
 
+theorem ApartnessRealCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {left right radius window leftReadback rightReadback ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealCarrier left right radius window leftReadback rightReadback ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+        UnaryHistory leftReadback ∧ UnaryHistory rightReadback ∧ UnaryHistory ledger ∧
+          UnaryHistory endpoint ∧ Cont left window leftReadback ∧
+            Cont right window rightReadback ∧ Cont left right endpoint ∧
+              Cont leftReadback rightReadback ledger ∧
+                hsame leftReadback (append left window) ∧
+                  hsame rightReadback (append right window) ∧
+                    hsame endpoint (append left right) ∧
+                      hsame ledger (append leftReadback rightReadback) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨leftUnary, rightUnary, radiusUnary, windowUnary, leftReadbackUnary,
+    rightReadbackUnary, ledgerUnary, _provenanceUnary, endpointUnary, leftReadbackRow,
+    rightReadbackRow, endpointRow, ledgerRow, endpointSig⟩ := carrier
+  exact
+    ⟨leftUnary, rightUnary, radiusUnary, windowUnary, leftReadbackUnary, rightReadbackUnary,
+      ledgerUnary, endpointUnary, leftReadbackRow, rightReadbackRow, endpointRow, ledgerRow,
+      leftReadbackRow, rightReadbackRow, endpointRow, ledgerRow, endpointSig⟩
+
 theorem ApartnessRealCarrier_metric_consumer_separation_boundary [AskSetup] [PackageSetup]
     {left right radius window leftReadback rightReadback ledger provenance endpoint consumer :
       BHist}
