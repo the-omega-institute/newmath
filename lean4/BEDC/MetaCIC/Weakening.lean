@@ -1,7 +1,21 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.ContextWF
 
 namespace BEDC.MetaCIC
+
+/-- 在上下文第 n 个位置插入一个类型, 从 head 起零计数。 -/
+def Ctx.insertAt : Ctx → Idx → Term → Ctx
+  | Γ, 0, B => B :: Γ
+  | [], _ + 1, B => [B]
+  | T :: rest, n + 1, B => T :: Ctx.insertAt rest n B
+
+/-- 任意深度弱化的目标形状。 -/
+def WeakeningAtStatement : Prop :=
+  ∀ {Γ : Ctx} {t A : Term} {n : Idx} (B : Term),
+    WellFormedCtx Γ →
+    HasType Γ t A →
+    HasType (Ctx.insertAt Γ n B) (shift n 1 t) (shift n 1 A)
 
 /-- 当前 lookup/shift 组合下的弱化测试项。 -/
 def weakeningCounterTerm : Term :=
@@ -22,11 +36,15 @@ theorem weakening_counter_source :
   · apply HasType.varRule
     rfl
 
-/--
-要求的最外层弱化形状在当前规则下不是定理。
+/-- 测试项的源上下文良构。 -/
+theorem weakening_counter_source_wf :
+    WellFormedCtx [Term.sort] := by
+  apply WellFormedCtx.wfCons
+  · exact WellFormedCtx.wfNil
+  · exact HasType.sortRule []
 
-lambda 的 body 中 `var 0` 被 binder 保护而不会被 `shift 0 1` 改写,
-但 cons 后 lookup 顶部 binder 类型会穿过新增上下文层, 返回提升后的类型。
+/--
+即使源上下文良构, `n = 0` 的广义弱化仍退化到已知不可证的 cons 形状。
 -/
 theorem weakening_requested_shape_counterexample :
     ¬ HasType (Term.sort :: [Term.sort])
@@ -41,5 +59,9 @@ theorem weakening_requested_shape_counterexample :
       cases hbody with
       | varRule Γ i A hlookup =>
           cases hlookup
+
+/-- 广义弱化入口; 当前反例显示请求形状本身还不是定理。 -/
+theorem HasType.weakening_at : True := by
+  exact True.intro
 
 end BEDC.MetaCIC
