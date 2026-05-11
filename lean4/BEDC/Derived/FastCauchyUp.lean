@@ -88,6 +88,70 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
+def FastCauchyFiniteCarrier [AskSetup] [PackageSetup]
+    (stream modulus endpoint latePair transport window provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+    UnaryHistory latePair ∧ UnaryHistory transport ∧ UnaryHistory window ∧
+      UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont stream modulus endpoint ∧
+        Cont endpoint latePair transport ∧ Cont transport window provenance ∧
+          Cont provenance latePair nameRow ∧ PkgSig bundle nameRow pkg
+
+theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow stream' modulus'
+      endpoint' latePair' transport' window' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+        nameRow bundle pkg ->
+      hsame stream stream' ->
+        hsame modulus modulus' ->
+          hsame latePair latePair' ->
+            hsame window window' ->
+              Cont stream' modulus' endpoint' ->
+                Cont endpoint' latePair' transport' ->
+                  Cont transport' window' provenance' ->
+                    Cont provenance' latePair' nameRow' ->
+                      PkgSig bundle nameRow' pkg ->
+                        FastCauchyFiniteCarrier stream' modulus' endpoint' latePair'
+                            transport' window' provenance' nameRow' bundle pkg ∧
+                          hsame endpoint endpoint' ∧ hsame transport transport' ∧
+                            hsame provenance provenance' ∧ hsame nameRow nameRow' := by
+  intro carrier sameStream sameModulus sameLatePair sameWindow endpointRow' transportRow'
+    provenanceRow' nameRowRoute' pkgRow'
+  have streamUnary' : UnaryHistory stream' :=
+    unary_transport carrier.left sameStream
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport carrier.right.left sameModulus
+  have latePairUnary' : UnaryHistory latePair' :=
+    unary_transport carrier.right.right.right.left sameLatePair
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport carrier.right.right.right.right.right.left sameWindow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed streamUnary' modulusUnary' endpointRow'
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed endpointUnary' latePairUnary' transportRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed transportUnary' windowUnary' provenanceRow'
+  have nameRowUnary' : UnaryHistory nameRow' :=
+    unary_cont_closed provenanceUnary' latePairUnary' nameRowRoute'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameStream sameModulus
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameEndpoint sameLatePair
+      carrier.right.right.right.right.right.right.right.right.right.left transportRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameWindow
+      carrier.right.right.right.right.right.right.right.right.right.right.left provenanceRow'
+  have sameNameRow : hsame nameRow nameRow' :=
+    cont_respects_hsame sameProvenance sameLatePair
+      carrier.right.right.right.right.right.right.right.right.right.right.right.left
+      nameRowRoute'
+  exact
+    ⟨⟨streamUnary', modulusUnary', endpointUnary', latePairUnary', transportUnary',
+        windowUnary', provenanceUnary', nameRowUnary', endpointRow', transportRow',
+        provenanceRow', nameRowRoute', pkgRow'⟩,
+      sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
 def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
     (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
