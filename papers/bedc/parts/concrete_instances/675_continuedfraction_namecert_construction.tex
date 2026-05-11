@@ -1,0 +1,148 @@
+\chapter{A Concrete Naming Certificate for $\ContinuedFractionUp$}
+\label{ch:concrete-instances-continuedfraction-namecert}
+
+The $\ContinuedFractionUp$ interface names finite continued-fraction
+observation packets as constructive real-name neighbors. Following Khinchin's
+continued-fraction treatment, the BEDC surface records partial quotients,
+convergent rows, certified dyadic error radii, stream observations, regular
+rational handoff rows, and a real-name boundary without completing an infinite
+expansion or quotienting tails.
+
+\begin{definition}[ContinuedFraction carrier packet]
+\label{def:continuedfraction-carrier}
+A $\ContinuedFractionUp$ carrier packet is a finite $\mathsf{BHist}$ record
+$$
+C=(a,p,q,e,s,r,b,\ell,P)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $a$ is the finite partial-quotient spine over $\NatUp$;
+\item $p$ and $q$ are the convergent numerator and denominator rows read over
+$\RatUp$, including the displayed recurrence ledger for each finite index;
+\item $e$ is the $\DyadicRatCoreUp$ error-radius row attached to the displayed
+convergent window;
+\item $s$ is the $\StreamNameUp$ observation schedule through which finite
+convergent windows are exposed;
+\item $r$ is the $\RegSeqRatUp$ handoff row built from the scheduled rational
+convergents and their dyadic radius rows;
+\item $b$ is the $\RealUp$ seal boundary row that consumes the regular
+sequence surface without selecting a completed real value;
+\item $\ell$ is the finite ledger naming the recurrence rows, endpoint rows,
+transport windows, and dependency anchors;
+\item $P$ is the $\mathsf{Pkg}$ provenance row for the carrier and the local
+$\NameCert_{\ContinuedFractionUp}$ registration.
+\end{enumerate}
+The carrier accepts exactly those packets whose rows occur in one finite
+history and whose recurrence, endpoint, schedule, handoff, boundary, and
+provenance entries are connected by displayed $\hsame$ and $\Cont$ routes.
+\end{definition}
+
+\begin{definition}[ContinuedFraction classifier]
+\label{def:continuedfraction-classifier}
+Two accepted $\ContinuedFractionUp$ packets classify together when every shared
+finite convergent window has classifier-equal numerator, denominator, and
+dyadic radius endpoint rows through the $\RatUp$ and $\DyadicRatCoreUp$
+classifiers, and when the transported $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealUp$, recurrence-ledger, and $\mathsf{Pkg}$ rows agree through the same
+displayed $\hsame$ and $\Cont$ routes.
+\end{definition}
+
+\begin{theorem}[ContinuedFraction NameCert obligations]
+\label{thm:continuedfraction-namecert-obligations}
+The local $\NameCert_{\ContinuedFractionUp}$ obligation surface consists of
+five rows:
+\begin{enumerate}
+\item carrier inhabitation by the empty partial-quotient spine or by a
+singleton convergent with visible $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\mathsf{Pkg}$ rows;
+\item classifier transport along the componentwise $\hsame$ and $\Cont$ routes
+named in \autoref{def:continuedfraction-classifier};
+\item recurrence-ledger stability for the finite convergent numerator and
+denominator rows;
+\item finite-window $\RegSeqRatUp$ handoff for scheduled convergent windows
+and dyadic radius rows;
+\item $\RealUp$ boundary exactness through the displayed seal row and no other
+real-facing coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For habitation, use either the empty spine with an empty scheduled window or a
+singleton spine whose first convergent is carried by the displayed rational
+endpoint rows. The dyadic radius, stream schedule, handoff row, boundary row,
+ledger, and package provenance are then the corresponding finite rows in the
+same $\mathsf{BHist}$ packet.
+
+For transport, project the carrier coordinates of
+\autoref{def:continuedfraction-carrier}. The classifier of
+\autoref{def:continuedfraction-classifier} compares only shared finite
+windows, so every transported row is one of the named numerator, denominator,
+radius, schedule, handoff, boundary, ledger, or provenance coordinates.
+
+For stability and exactness, read the recurrence ledger before the handoff
+rows. The ledger records the finite recurrence steps for convergents, the
+handoff consumes only scheduled finite windows, and the real-facing boundary
+is the single seal row $b$.
+\end{proof}
+
+\begin{theorem}[ContinuedFraction RegSeqRat handoff]
+\label{thm:continuedfraction-regseqrat-handoff}
+Every accepted $\ContinuedFractionUp$ packet exports a $\RegSeqRatUp$ handoff
+only through scheduled finite convergent windows, their $\RatUp$ numerator and
+denominator rows, their $\DyadicRatCoreUp$ radius rows, the displayed
+recurrence ledger, and the accompanying $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the rows $a$, $p$, $q$, $e$, $s$, $r$, $\ell$,
+and $P$. The schedule $s$ selects the finite convergent windows, while $p$ and
+$q$ provide the rational endpoint rows and $e$ provides the dyadic radius rows
+for those windows.
+
+The handoff row $r$ is indexed by exactly that scheduled data. Transport of a
+handoff comparison therefore factors through the componentwise $\hsame$ rows,
+the displayed $\Cont$ routes, and the package provenance already present in
+the carrier packet.
+
+No coordinate of the carrier stores an infinite tail, a quotient class of
+tails, or a completed real. The handoff is consequently a finite
+regular-sequence surface over the visible convergent ledger.
+\end{proof}
+
+\begin{theorem}[ContinuedFraction RealUp boundary]
+\label{thm:continuedfraction-real-boundary}
+Every $\RealUp$ read of an accepted $\ContinuedFractionUp$ packet factors
+through the $\RegSeqRatUp$ handoff row and the seal boundary row carried by
+\autoref{def:continuedfraction-carrier}. It exposes the same finite
+convergent, radius, schedule, recurrence, transport, and provenance ledger,
+and it does not assert total continued-fraction expansion for every real,
+uniqueness of infinite expansions, measure-theoretic typicality, or quotient
+equality of infinite tails.
+\end{theorem}
+\begin{proof}
+Read the boundary coordinate $b$ of the carrier. Its source is the regular
+sequence handoff row $r$, so any real-facing consumer first passes through the
+scheduled convergent windows and their rational and dyadic endpoint rows.
+
+The classifier has no separate real-equality clause. Boundary comparisons are
+therefore inherited from the finite-window $\RegSeqRatUp$ handoff and from the
+transport, continuation, ledger, and provenance rows already visible in the
+packet.
+
+Since the carrier stores only a finite partial-quotient spine and finite
+window data, it cannot provide a total expansion theorem, an infinite-tail
+uniqueness theorem, a typicality theorem, or a quotient equality principle.
+The $\RealUp$ boundary is exactly the displayed seal surface.
+\end{proof}
+
+\closureat{ContinuedFractionUp}{seedStr}
+
+\begin{closurestatus}{\ContinuedFractionUp}
+  \constructivestory{A $\ContinuedFractionUp$ packet is generated by a finite partial-quotient spine, rational convergent rows, dyadic radius rows, scheduled observation windows, a regular-sequence handoff, a real-name seal boundary, and a finite provenance ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter records the finite carrier, classifier, obligation surface, regular-sequence handoff, and real-name boundary for continued-fraction packets over existing BEDC kernels.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close total expansion for every real, uniqueness of infinite expansions, measure-theoretic typicality, quotient equality of infinite tails, or a standard bridge.}
+  \upgradepath{Obligation closure requires binding the carrier, classifier, recurrence-ledger, handoff, and boundary rows to explicit $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies.}
+\end{closurestatus}
