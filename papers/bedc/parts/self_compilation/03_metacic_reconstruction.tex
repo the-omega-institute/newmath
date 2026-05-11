@@ -338,6 +338,17 @@ propagation explicitly, changing $\mathrm{Ctx.lookup}$ semantics, or
 restating the main theorem with a different invariant, such as over fully
 closed terms only, where substitute reduces to identity.
 
+\paragraph{Twelfth stage: subject reduction also refuted.}
+Subject reduction for the represented type theory admits a
+Lean-verified counterexample using the substitute preservation
+counterexample as the typed-beta-redex source: applying the lambda
+$\mathrm{lam}\ (\mathrm{var}\ 0)\ (\mathrm{var}\ 0)$ to $\mathrm{sort}$
+in context $[\mathrm{sort}]$ produces a beta step whose target
+$\mathrm{substitute}\ 0\ \mathrm{sort}\ (\mathrm{var}\ 0) = \mathrm{sort}$
+is not derivable at the source type. The substrate-design fix that
+would discharge R11 would also discharge R12, since both depend on
+the same lam-codomain propagation behavior.
+
 \begin{table}[t]
 \centering
 \begin{tabular}{r|p{0.34\linewidth}|p{0.34\linewidth}|l}
@@ -365,6 +376,8 @@ No. & Finding & Consequence & Status \\
 10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 5/5 cases, two conditional \\
 \hline
 11 & WF premise does not discharge R8 counterexample & Substrate redesign of lam typing rule & Open \\
+\hline
+12 & Subject reduction also refuted & Same lam typing redesign as R11 & Open \\
 \hline
 \end{tabular}
 \caption{Substrate-gap findings for MetaCIC substitution preservation.}
@@ -423,9 +436,38 @@ artifacts of impure proof automation.
 \hline
 11 & WF premise does not discharge R8 counterexample & Substrate redesign of lam typing rule & Open \\
 \hline
+12 & Subject reduction also refuted & Same lam typing redesign as R11 & Open \\
+\hline
 \end{tabular}
-\caption{Eleven substrate-gap findings, each Lean-verified.}
+\caption{Twelve substrate-gap findings, each Lean-verified.}
 \end{table}
+
+\paragraph{V6 substrate metatheoretic boundary.}
+The twelve substrate-gap findings collectively map the V6 MetaCIC
+substrate's metatheoretic boundary. Both substitute preservation
+and subject reduction are refuted under the current
+$\mathrm{Typing}$ rules; each is documented by a Lean-verified
+counterexample. The findings divide into three classes:
+\begin{itemize}
+  \item \textbf{Substrate omissions} (R1-R3): substitute lacked binder
+    shift, lookup lacked shift, context lacked well-formedness; each
+    fixed by a corresponding substrate addition.
+  \item \textbf{Statement-shape failures} (R4-R5, R7-R9, R11): naive
+    forms of weakening, generalized weakening, and substitute
+    preservation each refuted; restricted forms or closed-self
+    variants admit proofs in specific sub-cases.
+  \item \textbf{Tactic discipline} (R6) and \textbf{metatheorem
+    refutations} (R10, R12): unconditional substitute composition
+    refuted, subject reduction refuted; partial coverage via closure
+    restrictions.
+\end{itemize}
+The substrate is consistent (no axioms, all proofs axiom-free); it
+admits substantial fragments of the represented metatheory (case
+lemmas, identities on closed terms, decidable type checking). It
+does not admit unconditional substitute preservation or subject
+reduction. Further progress requires substrate-design choices
+(typing rule restructuring or context-aware shift propagation) that
+are outside the present chapter's scope.
 
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
 
