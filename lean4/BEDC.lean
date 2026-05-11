@@ -129,6 +129,7 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.MirrorSymmetryUp
@@ -241,6 +242,7 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
