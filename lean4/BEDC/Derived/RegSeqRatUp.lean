@@ -363,6 +363,150 @@ theorem RegSeqRatStreamCarrier_classifier_transport [AskSetup] [PackageSetup]
       regularityProvenanceReadback', pkgSig'⟩
   exact ⟨carrier', sameEndpoint, sameRegularity, sameReadback⟩
 
+theorem RegSeqRatStreamCarrier_window_regularity_ledger [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback bundle pkg ->
+      RegSeqRatClassifier endpoint radius regularity readback endpoint radius regularity readback ->
+        UnaryHistory index ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+          UnaryHistory regularity ∧ Cont endpoint radius regularity ∧
+            Cont regularity provenance readback ∧ PkgSig bundle readback pkg ∧
+              hsame endpoint endpoint ∧ hsame radius radius := by
+  intro carrier classifier
+  cases carrier with
+  | intro _scheduleUnary carrierRest =>
+      cases carrierRest with
+      | intro indexUnary carrierRest =>
+          cases carrierRest with
+          | intro endpointUnary carrierRest =>
+              cases carrierRest with
+              | intro radiusUnary carrierRest =>
+                  cases carrierRest with
+                  | intro regularityUnary carrierRest =>
+                      cases carrierRest with
+                      | intro _provenanceUnary carrierRest =>
+                          cases carrierRest with
+                          | intro _readbackUnary carrierRest =>
+                              cases carrierRest with
+                              | intro _scheduleIndexEndpoint carrierRest =>
+                                  cases carrierRest with
+                                  | intro endpointRadiusRegularity carrierRest =>
+                                      cases carrierRest with
+                                      | intro regularityProvenanceReadback pkgReadback =>
+                                          cases classifier with
+                                          | intro _endpointUnaryC classifierRest =>
+                                              cases classifierRest with
+                                              | intro _radiusUnaryC classifierRest =>
+                                                  cases classifierRest with
+                                                  | intro _regularityUnaryC classifierRest =>
+                                                      cases classifierRest with
+                                                      | intro _readbackUnaryC classifierRest =>
+                                                          cases classifierRest with
+                                                          | intro _endpointUnaryC' classifierRest =>
+                                                              cases classifierRest with
+                                                              | intro _radiusUnaryC'
+                                                                    classifierRest =>
+                                                                  cases classifierRest with
+                                                                  | intro _regularityUnaryC'
+                                                                        classifierRest =>
+                                                                      cases classifierRest with
+                                                                      | intro _readbackUnaryC'
+                                                                            classifierRest =>
+                                                                          cases classifierRest
+                                                                            with
+                                                                          | intro sameEndpoint
+                                                                                classifierRest =>
+                                                                              cases
+                                                                                classifierRest
+                                                                                with
+                                                                              | intro sameRadius
+                                                                                    _classifierRest =>
+                                                                                  exact
+                                                                                    ⟨indexUnary,
+                                                                                      endpointUnary,
+                                                                                      radiusUnary,
+                                                                                      regularityUnary,
+                                                                                      endpointRadiusRegularity,
+                                                                                      regularityProvenanceReadback,
+                                                                                      pkgReadback,
+                                                                                      sameEndpoint,
+                                                                                      sameRadius⟩
+
+theorem RegSeqRatStreamCarrier_scheduled_window_projection [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback bundle pkg ->
+      RegSeqRatClassifier endpoint radius regularity readback endpoint radius regularity readback ->
+        UnaryHistory schedule ∧ UnaryHistory index ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+          Cont schedule index endpoint ∧ Cont endpoint radius regularity ∧
+            Cont regularity provenance readback ∧ PkgSig bundle readback pkg ∧
+              hsame readback readback := by
+  intro carrier classifier
+  cases carrier with
+  | intro scheduleUnary carrierRest =>
+      cases carrierRest with
+      | intro indexUnary carrierRest =>
+          cases carrierRest with
+          | intro endpointUnary carrierRest =>
+              cases carrierRest with
+              | intro radiusUnary carrierRest =>
+                  cases carrierRest with
+                  | intro _regularityUnary carrierRest =>
+                      cases carrierRest with
+                      | intro _provenanceUnary carrierRest =>
+                          cases carrierRest with
+                          | intro _readbackUnary carrierRest =>
+                              cases carrierRest with
+                              | intro scheduleIndexEndpoint carrierRest =>
+                                  cases carrierRest with
+                                  | intro endpointRadiusRegularity carrierRest =>
+                                      cases carrierRest with
+                                      | intro regularityProvenanceReadback pkgReadback =>
+                                          cases classifier with
+                                          | intro _endpointUnaryC classifierRest =>
+                                              cases classifierRest with
+                                              | intro _radiusUnaryC classifierRest =>
+                                                  cases classifierRest with
+                                                  | intro _regularityUnaryC classifierRest =>
+                                                      cases classifierRest with
+                                                      | intro _readbackUnaryC classifierRest =>
+                                                          cases classifierRest with
+                                                          | intro _endpointUnaryC' classifierRest =>
+                                                              cases classifierRest with
+                                                              | intro _radiusUnaryC'
+                                                                    classifierRest =>
+                                                                  cases classifierRest with
+                                                                  | intro _regularityUnaryC'
+                                                                        classifierRest =>
+                                                                      cases classifierRest with
+                                                                      | intro _readbackUnaryC'
+                                                                            classifierRest =>
+                                                                          cases classifierRest
+                                                                            with
+                                                                          | intro _sameEndpoint
+                                                                                classifierRest =>
+                                                                              cases
+                                                                                classifierRest
+                                                                                with
+                                                                              | intro _sameRadius
+                                                                                    classifierRest =>
+                                                                                  cases
+                                                                                    classifierRest
+                                                                                    with
+                                                                                  | intro
+                                                                                        _sameRegularity
+                                                                                        sameReadback =>
+                                                                                      exact
+                                                                                        ⟨scheduleUnary,
+                                                                                          indexUnary,
+                                                                                          endpointUnary,
+                                                                                          radiusUnary,
+                                                                                          scheduleIndexEndpoint,
+                                                                                          endpointRadiusRegularity,
+                                                                                          regularityProvenanceReadback,
+                                                                                          pkgReadback,
+                                                                                          sameReadback⟩
+
 theorem RegSeqRatStreamCarrier_dyadic_radius_ledger_readback [AskSetup] [PackageSetup]
     {schedule index endpoint radius regularity provenance readback endpoint' radius' regularity'
       readback' : BHist}
@@ -450,5 +594,25 @@ theorem RegSeqRatClassifier_dyadic_radius_observation [AskSetup] [PackageSetup]
       sameRegularity, sameReadback⟩
   exact ⟨endpointUnary, radiusUnary, endpointUnary', radiusUnary', sameRadius,
     sameRegularity, sameReadback⟩
+
+theorem RegSeqRatClassifier_window_pairing [AskSetup] [PackageSetup]
+    {schedule index endpoint radius regularity provenance readback endpoint' radius'
+      regularity' readback' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatStreamCarrier schedule index endpoint radius regularity provenance readback
+        bundle pkg ->
+      RegSeqRatClassifier endpoint radius regularity readback endpoint' radius' regularity'
+          readback' ->
+        UnaryHistory schedule ∧ UnaryHistory index ∧ UnaryHistory endpoint' ∧
+          UnaryHistory radius' ∧ hsame endpoint endpoint' ∧ hsame radius radius' ∧
+            Cont endpoint radius regularity ∧ PkgSig bundle readback pkg := by
+  intro carrier classifier
+  obtain ⟨scheduleUnary, indexUnary, _endpointUnary, _radiusUnary, _regularityUnary,
+    _provenanceUnary, _readbackUnary, _scheduleIndexEndpoint, endpointRadiusRegularity,
+    _regularityProvenanceReadback, packageRow⟩ := carrier
+  obtain ⟨_endpointUnaryC, _radiusUnaryC, _regularityUnaryC, _readbackUnaryC,
+    endpointUnary', radiusUnary', _regularityUnary', _readbackUnary', sameEndpoint,
+    sameRadius, _sameRegularity, _sameReadback⟩ := classifier
+  exact ⟨scheduleUnary, indexUnary, endpointUnary', radiusUnary', sameEndpoint, sameRadius,
+    endpointRadiusRegularity, packageRow⟩
 
 end BEDC.Derived.RegSeqRatUp
