@@ -281,6 +281,63 @@ theorem DyadicBallFiniteWindowPacket_real_seal_boundary [AskSetup] [PackageSetup
     ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary, routeUnary,
       handoffUnary, sealUnary, certUnary, sealBoundaryRow, sealBoundaryRow, pkgRow⟩
 
+theorem DyadicBallFiniteWindowPacket_common_observation_overlap [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff sealBoundary
+      center' radius' containment' route' provenance' certRow' handoff' sealBoundary' commonRadius
+      commonContainment commonRoute commonHandoff commonCertRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route provenance
+        certRow handoff sealBoundary bundle pkg ->
+      DyadicBallFiniteWindowPacket center' radius' schedule observation containment' route'
+          provenance' certRow' handoff' sealBoundary' bundle pkg ->
+        UnaryHistory commonRadius -> hsame center center' -> hsame provenance provenance' ->
+          hsame sealBoundary sealBoundary' ->
+            Cont center commonRadius commonContainment -> Cont schedule observation commonRoute ->
+              Cont commonContainment commonRoute commonHandoff ->
+                Cont commonHandoff provenance commonCertRow ->
+                  Cont commonHandoff sealBoundary commonCertRow ->
+                    PkgSig bundle commonHandoff pkg ->
+                      forall overlapReads : List BHist,
+                        (forall row : BHist, row ∈ overlapReads -> UnaryHistory row) ->
+                          UnaryHistory (overlapReads.foldl append commonHandoff) ∧
+                            hsame commonHandoff (append commonContainment commonRoute) := by
+  intro packet _packet' commonRadiusUnary _sameCenter _sameProvenance _sameSeal
+  intro commonContainmentRow commonRouteRow commonHandoffRow _commonCertByProvenance
+  intro _commonCertBySeal _commonPackage overlapReads
+  obtain ⟨centerUnary, _radiusUnary, scheduleUnary, observationUnary, _provenanceUnary,
+    _certUnary, _sealUnary, _containmentRow, _routeRow, _handoffRow, _provenanceRow,
+    _sealRow, _pkgRow⟩ := packet
+  have commonContainmentUnary : UnaryHistory commonContainment :=
+    unary_cont_closed centerUnary commonRadiusUnary commonContainmentRow
+  have commonRouteUnary : UnaryHistory commonRoute :=
+    unary_cont_closed scheduleUnary observationUnary commonRouteRow
+  have commonHandoffUnary : UnaryHistory commonHandoff :=
+    unary_cont_closed commonContainmentUnary commonRouteUnary commonHandoffRow
+  have overlapClosed :
+      (forall row : BHist, row ∈ overlapReads -> UnaryHistory row) ->
+        UnaryHistory (overlapReads.foldl append commonHandoff) := by
+    have foldClosed :
+        forall base : BHist,
+          UnaryHistory base ->
+            (forall row : BHist, row ∈ overlapReads -> UnaryHistory row) ->
+              UnaryHistory (overlapReads.foldl append base) := by
+      induction overlapReads with
+      | nil =>
+          intro base baseUnary _readUnary
+          exact baseUnary
+      | cons read tail ih =>
+          intro base baseUnary readUnary
+          have readHeadUnary : UnaryHistory read :=
+            readUnary read (List.Mem.head tail)
+          have nextHandoffUnary : UnaryHistory (append base read) :=
+            unary_append_closed baseUnary readHeadUnary
+          exact ih (append base read) nextHandoffUnary
+            (fun row rowInTail => readUnary row (List.Mem.tail read rowInTail))
+    intro readUnary
+    exact foldClosed commonHandoff commonHandoffUnary readUnary
+  intro readUnary
+  exact ⟨overlapClosed readUnary, commonHandoffRow⟩
+
 theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
     {center radius schedule observation containment route provenance endpoint center' radius'
       schedule' observation' containment' route' provenance' endpoint' : BHist}

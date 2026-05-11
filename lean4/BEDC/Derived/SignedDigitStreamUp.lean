@@ -301,6 +301,73 @@ theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
   exact ⟨digitsUnary, scheduleUnary, carryUnary, endpointUnary, radiusUnary, regWindowUnary,
     carryRow, endpointRow, ledgerRow, regWindowRow, regWindowSig⟩
 
+theorem SignedDigitStreamPacket_prefix_consumer_invariance [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger consumer hiddenConsumer
+      consumerLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      UnaryHistory consumer ->
+        Cont hidden consumer hiddenConsumer ->
+          Cont ledger consumer consumerLedger ->
+            PkgSig bundle consumerLedger pkg ->
+              SignedDigitStreamPacket digits schedule carry provenance endpoint hiddenConsumer
+                  consumerLedger bundle pkg ∧
+                hsame consumerLedger (append endpoint hiddenConsumer) ∧
+                  hsame consumerLedger (append ledger consumer) := by
+  intro packet consumerUnary hiddenConsumerRow consumerLedgerRow consumerLedgerSig
+  obtain ⟨digitsUnary, scheduleUnary, provenanceUnary, hiddenUnary, carryUnary,
+    endpointUnary, ledgerUnary, digitsScheduleRow, carryProvenanceRow, endpointHiddenRow,
+    _packetSig⟩ := packet
+  have hiddenConsumerUnary : UnaryHistory hiddenConsumer :=
+    unary_cont_closed hiddenUnary consumerUnary hiddenConsumerRow
+  have consumerLedgerUnary : UnaryHistory consumerLedger :=
+    unary_cont_closed ledgerUnary consumerUnary consumerLedgerRow
+  have endpointHiddenConsumerRow : Cont endpoint hiddenConsumer consumerLedger := by
+    calc
+      consumerLedger = append ledger consumer := consumerLedgerRow
+      _ = append (append endpoint hidden) consumer := by
+        rw [endpointHiddenRow]
+      _ = append endpoint (append hidden consumer) := append_assoc endpoint hidden consumer
+      _ = append endpoint hiddenConsumer := by
+        rw [hiddenConsumerRow]
+  have extendedPacket :
+      SignedDigitStreamPacket digits schedule carry provenance endpoint hiddenConsumer
+        consumerLedger bundle pkg :=
+    ⟨digitsUnary, scheduleUnary, provenanceUnary, hiddenConsumerUnary, carryUnary,
+      endpointUnary, consumerLedgerUnary, digitsScheduleRow, carryProvenanceRow,
+      endpointHiddenConsumerRow, consumerLedgerSig⟩
+  exact ⟨extendedPacket, endpointHiddenConsumerRow, consumerLedgerRow⟩
+
+theorem SignedDigitStreamPacket_consumer_read_chain_unary_closed [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      forall reads : List BHist,
+        (forall row : BHist, row ∈ reads -> UnaryHistory row) ->
+          UnaryHistory (reads.foldl append ledger) := by
+  intro packet reads
+  obtain ⟨_digitsUnary, _scheduleUnary, _provenanceUnary, _hiddenUnary, _carryUnary,
+    _endpointUnary, ledgerUnary, _carryRow, _endpointRow, _ledgerRow, _packageRow⟩ := packet
+  have foldClosed :
+      forall base : BHist,
+        UnaryHistory base ->
+          (forall row : BHist, row ∈ reads -> UnaryHistory row) ->
+            UnaryHistory (reads.foldl append base) := by
+    induction reads with
+    | nil =>
+        intro base baseUnary _readUnary
+        exact baseUnary
+    | cons read tail ih =>
+        intro base baseUnary readUnary
+        have readHeadUnary : UnaryHistory read :=
+          readUnary read (List.Mem.head tail)
+        have nextLedgerUnary : UnaryHistory (append base read) :=
+          unary_append_closed baseUnary readHeadUnary
+        exact ih (append base read) nextLedgerUnary
+          (fun row rowInTail => readUnary row (List.Mem.tail read rowInTail))
+  intro readUnary
+  exact foldClosed ledger ledgerUnary readUnary
+
 theorem SignedDigitStreamPacket_real_seal_semantic_name_certificate [AskSetup] [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
