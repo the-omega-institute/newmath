@@ -19,8 +19,12 @@ Design:
   `make` (double-pass), log result.
 - The daemon owns the `_paper_builder` worktree exclusively. Round
   workers never touch it.
-- No codex repair invocation yet — on build fail we just log; later
-  we can add a codex-exec hook similar to lean's `_builder_codex_fix`.
+- On build fail: invoke codex inside `_paper_builder` with the
+  build-log tail and `prompts/paper_builder_fix.txt`. Codex edits
+  `papers/bedc/`, commits with `paper-builder-fix:` prefix, and pushes
+  back to `codex-auto-dev`. Tracks per-SHA fix attempts in
+  `BROKEN_SHAS_FILE` so the same broken commit is not retried more
+  than MAX_FIX_ATTEMPTS times. Mirrors lean's `_builder_codex_fix`.
 
 Start (matches the bedc-codex-auto-dev skill style):
 
@@ -60,6 +64,15 @@ LOCK_FILE = REPO_ROOT / ".paper_builder.lock"
 POLL_SECONDS = 60
 BUILD_TIMEOUT_S = 1800
 BASE_BRANCH = "codex-auto-dev"
+
+CODEX_FIX_TIMEOUT_S = 1800
+MAX_FIX_ATTEMPTS = 3
+BROKEN_SHAS_FILE = (
+    REPO_ROOT / "papers" / "bedc" / "scripts" / ".broken_shas.txt"
+)
+PROMPT_PATH = (
+    REPO_ROOT / "papers" / "bedc" / "scripts" / "prompts" / "paper_builder_fix.txt"
+)
 
 
 def log(msg: str) -> None:
@@ -155,6 +168,78 @@ def run_full_build() -> tuple[bool, str, float]:
         return False, f"make raised {exc!r}", elapsed
 
 
+def fix_attempts_for(sha: str) -> int:
+    if not BROKEN_SHAS_FILE.exists():
+        return 0
+    n = 0
+    for line in BROKEN_SHAS_FILE.read_text(encoding="utf-8").splitlines():
+        if line.strip() == sha:
+            n += 1
+    return n
+
+
+def record_fix_attempt(sha: str) -> None:
+    BROKEN_SHAS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with BROKEN_SHAS_FILE.open("a", encoding="utf-8") as f:
+        f.write(sha + "\n")
+
+
+def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
+    """Invoke codex inside _paper_builder worktree to repair a broken build.
+
+    Returns True if codex left a committed-and-pushed fix on
+    `codex-auto-dev`; the daemon's next tick picks up the new tip
+    and re-runs `make`."""
+    if not PROMPT_PATH.exists():
+        log(f"codex_fix: prompt {PROMPT_PATH} missing, skipping")
+        return False
+    try:
+        prompt_template = PROMPT_PATH.read_text(encoding="utf-8")
+    except Exception as exc:
+        log(f"codex_fix: prompt read failed: {exc!r}")
+        return False
+    prompt = prompt_template.format(
+        sha=sha[:8],
+        elapsed=elapsed,
+        log_tail=log_tail[-6000:],
+    )
+    pre_tip = subprocess.run(
+        ["git", "-C", str(REPO_ROOT), "rev-parse", f"origin/{BASE_BRANCH}"],
+        capture_output=True, text=True,
+    ).stdout.strip()
+    log(f"codex_fix: invoking codex on {sha[:8]} (origin tip {pre_tip[:8]})")
+    try:
+        subprocess.run(
+            [
+                "codex", "exec", "--dangerously-bypass-approvals-and-sandbox",
+                "-C", str(BUILDER_DIR), prompt,
+            ],
+            timeout=CODEX_FIX_TIMEOUT_S,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        log(f"codex_fix: timed out after {CODEX_FIX_TIMEOUT_S}s on {sha[:8]}")
+        return False
+    except Exception as exc:
+        log(f"codex_fix: codex invocation raised {exc!r}")
+        return False
+    # Re-fetch origin and check whether the tip advanced — if codex
+    # pushed a fix commit, the tip moved. We don't trust the worktree's
+    # local state because codex may have left it in odd shape; the
+    # daemon will checkout the new origin tip on next loop iteration.
+    rc, _ = run_git("-C", str(REPO_ROOT), "fetch", "origin",
+                     BASE_BRANCH, "--quiet")
+    post_tip = subprocess.run(
+        ["git", "-C", str(REPO_ROOT), "rev-parse", f"origin/{BASE_BRANCH}"],
+        capture_output=True, text=True,
+    ).stdout.strip()
+    if post_tip and post_tip != pre_tip:
+        log(f"codex_fix: tip advanced {pre_tip[:8]} -> {post_tip[:8]}")
+        return True
+    log(f"codex_fix: tip did not advance, codex produced no pushed commit")
+    return False
+
+
 def acquire_lock() -> int | None:
     fd = os.open(str(LOCK_FILE), os.O_CREAT | os.O_RDWR, 0o644)
     try:
@@ -208,6 +293,28 @@ def main() -> int:
                             f"(consecutive_fail={consecutive_fail}); tail:\n"
                             f"{tail[-1200:]}"
                         )
+                        attempts_so_far = fix_attempts_for(sha)
+                        if attempts_so_far < MAX_FIX_ATTEMPTS:
+                            record_fix_attempt(sha)
+                            log(
+                                f"codex repair: attempt "
+                                f"{attempts_so_far + 1}/{MAX_FIX_ATTEMPTS} on {sha[:8]}"
+                            )
+                            if codex_fix(sha, tail, elapsed):
+                                # tip moved; keep last_built pointing at the
+                                # FAILED sha so the daemon's next iteration
+                                # detects the new tip and re-builds.
+                                continue
+                            log(
+                                f"codex repair: no fix pushed on {sha[:8]}; "
+                                f"daemon will retry on next merged tip"
+                            )
+                        else:
+                            log(
+                                f"codex repair: max attempts "
+                                f"({MAX_FIX_ATTEMPTS}) exhausted for {sha[:8]}; "
+                                f"giving up until tip moves"
+                            )
                     # Even on fail, advance last_built so we don't loop
                     # forever on a broken commit. The next merged commit
                     # will trigger a fresh build attempt and (usually)
