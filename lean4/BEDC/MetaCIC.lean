@@ -8,3 +8,5 @@ import BEDC.MetaCIC.Examples
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.Checker
 import BEDC.MetaCIC.LeanBridge
+import BEDC.MetaCIC.Weakening
+import BEDC.MetaCIC.Elaborator
