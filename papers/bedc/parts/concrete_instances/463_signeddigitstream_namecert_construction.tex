@@ -342,6 +342,41 @@ witness, or trichotomy row, no such datum is available to a downstream
 consumer.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream canonical finite-tail normal form]
+\label{thm:signeddigitstream-canonical-tail-normal-form}
+Every accepted $\SignedDigitStreamUp$ packet has a canonical finite-tail normal
+form determined by its displayed prefix window, signed digit rows, carry
+ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows.
+
+Any $\RegSeqRatUp$ or $\RealUp$ consumer read of the packet factors through
+that normal form. The factorization introduces no hidden tail coordinate,
+quotient equality, selected limit, completeness datum, trichotomy datum, or
+host real equality.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:signeddigitstream-prefix-truncation-stability}. It replaces the
+packet by the displayed finite prefix without changing the endpoint and carry
+rows visible to consumers.
+
+Use \autoref{thm:signeddigitstream-common-window-determinacy} to identify the
+normal endpoint and carry ledger determined by the shared prefix window. This
+gives the canonical finite-tail representative over the displayed signed
+digit rows.
+
+Next apply \autoref{thm:signeddigitstream-regseqrat-handoff} and
+\autoref{thm:signeddigitstream-public-real-boundary-export}. The
+regular-rational and real consumer boundaries both read the same finite
+endpoint, carry, transport, provenance, and naming rows.
+
+Finally invoke
+\autoref{thm:signeddigitstream-mature-consumer-coverage}. Every downstream
+$\RegSeqRatUp$ or $\RealUp$ read is one of the finite-window consumer rows
+already carried by the normal form, so no excluded tail, quotient, limit,
+completeness, trichotomy, or host-equality coordinate is introduced.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
 \closureat{SignedDigitStreamUp}{scopedStr}
