@@ -140,6 +140,7 @@ import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
