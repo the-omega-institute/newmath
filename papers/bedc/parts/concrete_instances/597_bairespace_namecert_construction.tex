@@ -60,6 +60,47 @@ history object. Thus the transported packet is accepted with the transported
 prefix-cylinder read.
 \end{proof}
 
+\begin{theorem}[BaireSpace prefix-restriction composition]
+\label{thm:baire-space-prefix-restriction-composition}
+Let $B=(s,w,c,l,p)$ be an accepted $\BaireSpaceUp$ carrier. Suppose the ledger
+$l$ displays a prefix restriction from $B$ to $B_1$ and then a second prefix
+restriction from $B_1$ to $B_2$, each recorded by the corresponding $\hsame$
+comparisons and $\Cont$ routes on the stream schedule, finite index window,
+unary answer rows, classifier row, and provenance row. Then the composite
+restriction is again an accepted $\BaireSpaceUp$ prefix packet.
+
+Its visible unary rows are exactly the twice-restricted subwindow of $w$, its
+classifier is the componentwise $\hsame$ restriction of the original
+prefix-cylinder classifier $c$ to that subwindow, and its provenance is still
+the same $\Pkg$ row $p$. The composite packet introduces no hidden infinite
+tail and no host sequence equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B$ through
+\autoref{def:baire-space-stream-carrier}. The first displayed restriction is a
+transport of the schedule, window, unary rows, classifier, ledger, and
+provenance along rows already recorded in $l$.
+
+Use \autoref{thm:baire-space-prefix-cylinder-stability} on this first
+restriction. The result is an accepted prefix packet $B_1$ whose classifier
+reads only the first restricted finite subwindow.
+
+Apply the same stability theorem to the second displayed restriction out of
+$B_1$. The $\Cont$ routes compose inside the displayed ledger, so the resulting
+packet reads precisely the subwindow obtained by restricting the original
+prefix window twice.
+
+It remains to identify the classifier and provenance. The classifier at each
+listed coordinate is obtained by the componentwise $\hsame$ restriction of the
+original cylinder row $c$, and the $\Pkg$ coordinate is transported as the same
+provenance row $p$.
+
+Finally, the ledger coverage statement of
+\autoref{thm:baire-space-ledger-coverage} rules out every consumer read not
+listed in the finite window. Hence the composite construction cannot expose an
+infinite tail or an equality of host sequences.
+\end{proof}
+
 \begin{theorem}[BaireSpace NameCert obligations]
 \label{thm:baire-space-namecert-obligations}
 The local $\NameCert_{\BaireSpaceUp}$ obligation surface consists of five
