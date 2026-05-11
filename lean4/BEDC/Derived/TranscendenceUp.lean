@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -21,6 +23,126 @@ def TranscendenceCarrierPacket [AskSetup] [PackageSetup]
     UnaryHistory tests ∧ UnaryHistory transports ∧ UnaryHistory readbacks ∧
       Cont fieldExtSource family tests ∧ Cont coeffLedger tests readbacks ∧
         Cont transports readbacks endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem TranscendenceCarrierPacket_fieldext_source_boundary [AskSetup] [PackageSetup]
+    {fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
+      family' coeffLedger' tests' readbacks' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks
+      endpoint bundle pkg ->
+    hsame fieldExtSource fieldExtSource' ->
+    hsame family family' ->
+    hsame coeffLedger coeffLedger' ->
+    Cont fieldExtSource' family' tests' ->
+    Cont coeffLedger' tests' readbacks' ->
+    Cont transports readbacks' endpoint' ->
+    PkgSig bundle endpoint' pkg ->
+    TranscendenceCarrierPacket fieldExtSource' family' coeffLedger' tests' transports
+        readbacks' endpoint' bundle pkg ∧
+      hsame tests tests' ∧ hsame readbacks readbacks' ∧ hsame endpoint endpoint' := by
+  intro packet sameSource sameFamily sameCoeff testsRow' readbacksRow' endpointRow' pkgSig'
+  have sourceUnary : UnaryHistory fieldExtSource := packet.left
+  have familyUnary : UnaryHistory family := packet.right.left
+  have coeffUnary : UnaryHistory coeffLedger := packet.right.right.left
+  have transportsUnary : UnaryHistory transports := packet.right.right.right.right.left
+  have sourceUnary' : UnaryHistory fieldExtSource' := unary_transport sourceUnary sameSource
+  have familyUnary' : UnaryHistory family' := unary_transport familyUnary sameFamily
+  have coeffUnary' : UnaryHistory coeffLedger' := unary_transport coeffUnary sameCoeff
+  have testsUnary' : UnaryHistory tests' :=
+    unary_cont_closed sourceUnary' familyUnary' testsRow'
+  have readbacksUnary' : UnaryHistory readbacks' :=
+    unary_cont_closed coeffUnary' testsUnary' readbacksRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed transportsUnary readbacksUnary' endpointRow'
+  have testsSame : hsame tests tests' :=
+    cont_respects_hsame sameSource sameFamily
+      packet.right.right.right.right.right.right.left testsRow'
+  have readbacksSame : hsame readbacks readbacks' :=
+    cont_respects_hsame sameCoeff testsSame
+      packet.right.right.right.right.right.right.right.left readbacksRow'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl transports) readbacksSame
+      packet.right.right.right.right.right.right.right.right.left endpointRow'
+  constructor
+  · exact And.intro sourceUnary'
+      (And.intro familyUnary'
+        (And.intro coeffUnary'
+          (And.intro testsUnary'
+            (And.intro transportsUnary
+              (And.intro readbacksUnary'
+                (And.intro testsRow'
+                  (And.intro readbacksRow'
+                    (And.intro endpointRow' pkgSig'))))))))
+  · constructor
+    · exact testsSame
+    · constructor
+      · exact readbacksSame
+      · exact endpointSame
+
+theorem TranscendenceCarrierPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {fieldExtSource family coeffLedger tests transports readbacks endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks endpoint
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          hsame ∧ Cont fieldExtSource family tests ∧ Cont coeffLedger tests readbacks ∧
+            Cont transports readbacks endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist => exists e : BHist,
+            TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks e
+                bundle pkg ∧ hsame row e)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro endpoint
+            (Exists.intro endpoint (And.intro packet (hsame_refl endpoint)))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          cases source with
+          | intro e data =>
+              cases data with
+              | intro packetE sameRowE =>
+                  exact Exists.intro e
+                    (And.intro packetE (hsame_trans (hsame_symm same) sameRowE))
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  exact ⟨cert, packet.right.right.right.right.right.right.left,
+    packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+        packet.right.right.right.right.right.right.right.right.right⟩
 
 theorem TranscendenceCarrierPacket_algebraic_independence_ledger [AskSetup]
     [PackageSetup] {fieldExtSource family coeffLedger tests transports readbacks endpoint
