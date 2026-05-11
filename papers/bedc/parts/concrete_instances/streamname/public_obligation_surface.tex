@@ -196,3 +196,40 @@ of the cited boundaries exports a regularity witness, seal classifier,
 completion datum, quotient representative, hidden limit selector, or host
 index equality, so no such datum can be read by the finite-window consumer.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat RealUp observation coverage]
+\label{thm:streamname-regseqrat-realup-observation-coverage}
+Every finite-window handoff from public $\StreamNameUp$ to a downstream
+$\RegSeqRat$ consumer or finite-window $\RealUp$ consumer is covered exactly by
+certified $\UnaryHistory$ observation rows, $\mathsf{ProbeBundle}$ scheduling
+rows, $\mathsf{InBundle}$ membership rows, pointwise $\RatUp$ classifier rows,
+displayed $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+the $\DyadicRatCoreUp$ denominator ledger exposed at the real-phase source
+boundary. The handoff exports no $\RegSeqRat$ regularity witness, $\RealUp$
+completion row, quotient representative, hidden limit selector, or host index
+equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-real-handoff-obligation}. It fixes the
+public observation surface for downstream $\RegSeqRat$ and finite-window
+$\RealUp$ consumers, and it restricts the handoff to displayed StreamNameUp
+rows rather than to host streams.
+
+Apply \autoref{thm:streamname-finite-window-schedule-exhaustion}. The finite
+request is then exhausted by the certified $\UnaryHistory$ observation rows,
+the $\mathsf{ProbeBundle}$ schedule, $\mathsf{InBundle}$ membership, pointwise
+$\RatUp$ classifier rows, displayed $\hsame$ comparisons, continuation routes,
+and package provenance.
+
+For a $\RegSeqRat$ consumer, use
+\autoref{thm:streamname-regseqrat-denominator-source-exhaustion}. It identifies
+the same public observation rows and adds only the dyadic denominator ledger
+needed by the regular-sequence interface.
+
+Finally, \autoref{thm:dyadicratcore-real-phase-source-coverage} supplies the
+source boundary for that denominator ledger. Thus the public observation rows,
+the dyadic denominator rows, and the downstream seal boundary form one finite
+BEDC source inventory. The exclusion clauses follow because none of the four
+cited boundaries exports regularity witnesses, completion rows, quotient
+representatives, hidden limit selectors, or host index equality.
+\end{proof}
