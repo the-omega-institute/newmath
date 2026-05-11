@@ -21,6 +21,17 @@ theorem subject_reduction_congApp1
   | appRule Γ f a dom cod hf ha =>
       exact HasType.appRule Γ f' a dom cod (ih hf) ha
 
+theorem subject_reduction_congApp2_retype
+    {Γ : Ctx} {f a a' A : Term}
+    (_hwf : WellFormedCtx Γ)
+    (ht : HasType Γ (Term.app f a) A)
+    (_hb : BetaStep a a')
+    (ih : ∀ {B : Term}, HasType Γ a B → HasType Γ a' B) :
+    ∃ A' : Term, HasType Γ (Term.app f a') A' := by
+  cases ht with
+  | appRule Γ f a dom cod hf ha =>
+      exact ⟨substitute 0 a' cod, HasType.appRule Γ f a' dom cod hf (ih ha)⟩
+
 theorem subject_reduction_congLam
     {Γ : Ctx} {d b b' A : Term}
     (hwf : WellFormedCtx Γ)
@@ -42,6 +53,27 @@ theorem subject_reduction_beta_case
     (_ht : HasType Γ (Term.app (Term.lam dom body) arg) A) :
     True := by
   exact True.intro
+
+theorem subject_reduction_statement_absurd :
+    ¬ SubjectReductionStatement := by
+  intro hsr
+  exact closed_substitute_counter_target_absurd
+    (hsr
+      WellFormedCtx.wfNil
+      (HasType.appRule []
+        (Term.lam Term.sort
+          closedSubstituteCounterTerm)
+        Term.sort
+        Term.sort
+        closedSubstituteCounterType
+        (HasType.lamRule []
+          Term.sort
+          closedSubstituteCounterTerm
+          closedSubstituteCounterType
+          (HasType.sortRule [])
+          closed_substitute_counter_source)
+        (HasType.sortRule []))
+      (BetaStep.beta Term.sort closedSubstituteCounterTerm Term.sort))
 
 theorem subject_reduction_congApp2_case
     {Γ : Ctx} {f a a' A : Term}
