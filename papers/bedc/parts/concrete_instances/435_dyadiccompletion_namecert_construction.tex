@@ -225,6 +225,7 @@ $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source
 certificates. The bridge exports no quotient Cauchy stream, Dedekind cut, host
 real limit, choice-selected limit, or completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCompletionUp.DyadicCompletionWindowPacket\_finite\_window\_standard\_bridge}
 \begin{proof}
 Project the carrier from \autoref{def:dyadiccompletion-carrier}. The projected
 coordinates are the dyadic observation rows, stream-window rows, regular-tail
@@ -326,6 +327,40 @@ mature coverage theorem identifies the complete consumer boundary, so the two
 directions exhaust the same finite ledger rows and exclude quotient completion,
 Dedekind cuts, trichotomy, host equality, chosen limits, and hidden precision
 schedules.
+\end{proof}
+
+\begin{theorem}[DyadicCompletion terminal finite-window seal determinacy]\label{thm:dyadiccompletion-terminal-window-seal-determinacy}
+Consider two $\DyadicCompletionUp$ finite-window packets whose dyadic
+observation row, $\StreamNameUp$ window row, regular-tail row, $\RealUp$
+boundary row, ledger row, provenance row, and downstream handoff route agree by
+the displayed $\hsame$, $\Cont$, and $\Pkg$ witnesses. Then every terminal
+$\RegSeqRatUp$ or $\RealUp$ seal consumer factors through the same public
+finite-window row. No second terminal seal, hidden precision schedule, quotient
+completion, host equality, or choice-selected limit is exported by the
+DyadicCompletion boundary.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadiccompletion-streamname-handoff}. The common
+$\StreamNameUp$ window row fixes the visible stream handoff for both packets,
+and the displayed $\hsame$ witness gives the same finite observation boundary.
+
+Next combine \autoref{thm:dyadiccompletion-public-regseqrat-real-export} with
+\autoref{thm:dyadiccompletion-ledger-boundary}. The regular-tail row,
+$\RealUp$ boundary row, ledger row, provenance row, and $\Pkg$ source row are
+therefore read from a single public packet surface, while the listed $\Cont$
+routes give the same downstream handoff for $\RegSeqRatUp$ and $\RealUp$
+consumers.
+
+Now use \autoref{thm:dyadiccompletion-finite-window-standard-bridge}. The
+shared ledger and transport rows repack the two finite-window packets as the
+same standard public row, so transitivity of the displayed $\hsame$ comparisons
+identifies the row consumed by either terminal seal.
+
+Finally invoke \autoref{thm:dyadiccompletion-mature-consumer-coverage}. Mature
+coverage says that the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers
+listed above exhaust the terminal boundary; hence no further seal, precision
+schedule, quotient completion, host equality, or choice-selected limit can be
+exported outside the identified finite-window row.
 \end{proof}
 
 \closureat{DyadicCompletionUp}{obligationStr}
