@@ -145,6 +145,7 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
+import BEDC.Derived.RealBallUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RealBallUp
@@ -223,6 +224,8 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
+import BEDC.Derived.DyadicIntervalUp.PublicBridge
+import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger
@@ -906,6 +909,7 @@ import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PublicInterface
+import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoff
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.StdBridge
