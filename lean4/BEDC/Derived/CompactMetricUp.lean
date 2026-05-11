@@ -21,6 +21,23 @@ def CompactMetricCertificate (X : BHist -> Prop) (eps : BHist)
     (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
   TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
 
+def CompactMetricCertificateCarrier (X : BHist -> Prop) (x y dist eps : BHist)
+    (bundle : ProbeBundle BHist) (s M : BHist -> BHist) (limit : BHist) : Prop :=
+  X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
+    TotallyBoundedProbeBundleNet X eps bundle ∧ CompleteMetricLimitWitness X s M limit
+
+theorem CompactMetricCertificateCarrier_source_scope {X : BHist -> Prop}
+    {x y dist eps : BHist} {bundle : ProbeBundle BHist} {s M : BHist -> BHist}
+    {limit : BHist} :
+    CompactMetricCertificateCarrier X x y dist eps bundle s M limit ->
+      X x ∧ X y ∧ MetricDistanceWitness x y dist ∧
+        CompactMetricCertificate X eps bundle s M limit := by
+  intro carrier
+  exact And.intro carrier.left
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.left
+        (And.intro carrier.right.right.right.left carrier.right.right.right.right)))
+
 theorem CompactMetricCertificate_hsame_transport {X : BHist -> Prop} {eps eps' : BHist}
     {bundle : ProbeBundle BHist} {s s' M M' : BHist -> BHist} {limit limit' : BHist} :
     (forall {h k : BHist}, hsame h k -> X h -> X k) ->

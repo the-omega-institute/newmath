@@ -378,6 +378,36 @@ theorem BrownianStepContinuityClassifier_path_continuity_ledger_exactness
         (And.intro endpointUnary
           (And.intro pathRow endpointRow))))
 
+theorem BrownianStepContinuityClassifier_time_step_path_interface
+    {martingale continuous time path step normal provenance ledger pathLedger endpoint : BHist} :
+    BrownianStepContinuityClassifier martingale continuous time path step normal provenance
+        ledger ->
+      Cont continuous path pathLedger ->
+        Cont pathLedger ledger endpoint ->
+          UnaryHistory martingale ∧ UnaryHistory continuous ∧ UnaryHistory time ∧
+            UnaryHistory path ∧ UnaryHistory normal ∧ UnaryHistory pathLedger ∧
+              UnaryHistory endpoint ∧ Cont continuous path step ∧
+                Cont continuous path pathLedger ∧ Cont martingale step provenance ∧
+                  Cont provenance normal ledger ∧ hsame pathLedger (append continuous path) ∧
+                    hsame endpoint (append pathLedger ledger) := by
+  intro classified pathLedgerRow endpointRow
+  have pathLedgerExact :=
+    BrownianStepContinuityClassifier_path_continuity_ledger_exactness classified pathLedgerRow
+      endpointRow
+  exact And.intro classified.left
+    (And.intro classified.right.left
+      (And.intro classified.right.right.left
+        (And.intro classified.right.right.right.left
+          (And.intro classified.right.right.right.right.left
+            (And.intro pathLedgerExact.right.right.left
+              (And.intro pathLedgerExact.right.right.right.left
+                (And.intro classified.right.right.right.right.right.left
+                  (And.intro pathLedgerRow
+                    (And.intro classified.right.right.right.right.right.right.left
+                      (And.intro classified.right.right.right.right.right.right.right
+                        (And.intro pathLedgerExact.right.right.right.right.left
+                          pathLedgerExact.right.right.right.right.right)))))))))))
+
 theorem BrownianStepContinuityClassifier_ledger_exactness
     {martingale continuous time path step normal provenance ledger publicRow : BHist} :
     BrownianStepContinuityClassifier martingale continuous time path step normal provenance ledger ->
