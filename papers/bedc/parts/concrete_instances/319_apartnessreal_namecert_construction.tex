@@ -57,6 +57,7 @@ If an accepted $\ApartnessRealUp$ packet witnesses positive separation from a di
 
 This symmetry is stability of the displayed apartness evidence. It is not a decision procedure for whether $x$ and $y$ are equal or apart.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealCarrier\_symmetry\_stability}
 \begin{proof}
 Start from the accepted carrier of \autoref{def:apartnessreal-carrier}. It contains the two real-name rows, the shared finite observation window, the positive radius, the two endpoint readbacks, and the separation ledger.
 
@@ -79,6 +80,7 @@ A metric or order consumer may use only those exposed rows. The classifier row t
 
 Because the exported surface is a finite separation witness, it gives no way to select a separation witness for arbitrary distinct names and no way to decide equality against apartness. The handoff is therefore constructive apartness data only.
 \end{proof}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealPositiveSeparationCarrier\_metric\_handoff}
 
 \begin{definition}[ApartnessReal finite-window separation row]
 \label{def:apartnessreal-finite-window-separation-row}
@@ -122,14 +124,15 @@ Finally apply \autoref{thm:apartnessreal-metric-handoff}. That handoff is alread
 \end{proof}
 
 \closureat{ApartnessRealUp}{seedStr}
+\closureat{ApartnessRealUp}{obligationStr}
 
 \begin{closurestatus}{\ApartnessRealUp}
   \constructivestory{An apartness-real packet is generated from two displayed $\RealUp$ or $\RegSeqRatUp$ names, a positive $\DyadicRatCoreUp$ radius, a finite $\StreamNameUp$ observation window, two endpoint readbacks, and a visible separation ledger transported componentwise by $\hsame$ and $\Cont$.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed boundary names the finite positive-separation carrier, classifier transport, symmetry swap, finite-window exactness, and $\Cont$/$\Pkg$ ledger visibility rows for $\ApartnessRealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close trichotomy, total order, completeness, quotient construction, metric-completion data, or a standard bridge for constructive reals.}
-  \upgradepath{Scoped closure requires checked carrier, classifier, symmetry, exactness, and metric-handoff targets for the displayed $\ApartnessRealUp$ apartness surface.}
+  \upgradepath{Scoped closure requires explicit scope binding of the carrier, classifier, symmetry, exactness, and metric-handoff rows against $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
 \end{closurestatus}
