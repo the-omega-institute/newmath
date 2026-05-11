@@ -232,6 +232,34 @@ theorem LQRFiniteControlCarrier_transition_transport
     (And.intro sameTransition
       (And.intro sameBackward (And.intro sameProvenance sameEndpoint)))
 
+theorem LQRFiniteControlPacket_finite_horizon_riccati_transport [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint state' control' transition' cost' horizon' successorValue'
+      estimatorInput' backwardUpdate' predecessorValue' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+      backwardUpdate predecessorValue endpoint bundle pkg ->
+      LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+        estimatorInput' backwardUpdate' predecessorValue' endpoint' bundle pkg ->
+      hsame successorValue successorValue' ->
+      hsame estimatorInput estimatorInput' ->
+      hsame horizon horizon' ->
+      hsame cost cost' ->
+      hsame backwardUpdate backwardUpdate' ∧ hsame predecessorValue predecessorValue' ∧
+        hsame endpoint endpoint' := by
+  intro packet packet' sameSuccessor sameEstimator sameHorizon sameCost
+  rcases packet with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, _, backwardRow, predecessorRow, endpointRow, _, _, _, _⟩
+  rcases packet' with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, _, backwardRow', predecessorRow', endpointRow', _, _, _, _⟩
+  have sameBackward : hsame backwardUpdate backwardUpdate' :=
+    cont_respects_hsame sameSuccessor sameEstimator backwardRow backwardRow'
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward sameHorizon predecessorRow predecessorRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost endpointRow endpointRow'
+  exact And.intro sameBackward (And.intro samePredecessor sameEndpoint)
+
 theorem LQR_dynamic_programming_cont_determinacy
     {successor successor' transition transition' control control' cost cost' estimator estimator'
       provenance provenance' st st' stc stc' stcc stcc' stcce stcce' predecessor
