@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -90,5 +92,66 @@ theorem StoneDualityClopenLedger_transport_closure [AskSetup] [PackageSetup]
   have sameLedger : hsame ledger ledger' :=
     cont_respects_hsame sameBoolean sameClopen ledgerRow ledgerRow'
   exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
+
+theorem StoneDualityUltrafilterFreeSoundness [AskSetup] [PackageSetup]
+    {booleanRow clopenRow ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont booleanRow clopenRow ledger -> Cont ledger provenance endpoint ->
+      PkgSig bundle endpoint pkg ->
+        SemanticNameCert
+            (fun row : BHist =>
+              exists e : BHist,
+                Cont booleanRow clopenRow ledger ∧ Cont ledger provenance e ∧
+                  PkgSig bundle e pkg ∧ hsame row e)
+            (fun row : BHist =>
+              exists e : BHist,
+                Cont booleanRow clopenRow ledger ∧ Cont ledger provenance e ∧
+                  PkgSig bundle e pkg ∧ hsame row e)
+            (fun row : BHist =>
+              exists e : BHist,
+                Cont booleanRow clopenRow ledger ∧ Cont ledger provenance e ∧
+                  PkgSig bundle e pkg ∧ hsame row e)
+            hsame ∧
+          Cont booleanRow clopenRow ledger ∧ Cont ledger provenance endpoint ∧
+            PkgSig bundle endpoint pkg := by
+  intro ledgerRow endpointRow pkgRow
+  let Carrier : BHist -> Prop :=
+    fun row : BHist =>
+      exists e : BHist,
+        Cont booleanRow clopenRow ledger ∧ Cont ledger provenance e ∧
+          PkgSig bundle e pkg ∧ hsame row e
+  have endpointCarrier : Carrier endpoint :=
+    Exists.intro endpoint
+      (And.intro ledgerRow (And.intro endpointRow (And.intro pkgRow (hsame_refl endpoint))))
+  have cert : SemanticNameCert Carrier Carrier Carrier hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointCarrier
+      equiv_refl := by
+        intro row _rowCarrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other rowOther
+        exact hsame_symm rowOther
+      equiv_trans := by
+        intro _row _middle _other rowMiddle middleOther
+        exact hsame_trans rowMiddle middleOther
+      carrier_respects_equiv := by
+        intro row _other rowOther rowCarrier
+        cases rowCarrier with
+        | intro e rowWitness =>
+            exact Exists.intro e
+              (And.intro rowWitness.left
+                (And.intro rowWitness.right.left
+                  (And.intro rowWitness.right.right.left
+                    (hsame_trans (hsame_symm rowOther) rowWitness.right.right.right))))
+    }
+    pattern_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+    ledger_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+  }
+  exact And.intro cert (And.intro ledgerRow (And.intro endpointRow pkgRow))
 
 end BEDC.Derived.StoneDualityUp
