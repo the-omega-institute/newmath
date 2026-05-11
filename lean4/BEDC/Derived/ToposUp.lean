@@ -197,6 +197,29 @@ theorem ToposFiniteCarrier_site_sheaf_classifier_obligation [AskSetup] [PackageS
   exact And.intro transportedCarrier
     (And.intro categorySheafRow (And.intro finiteExponentialRow subobjectLedgerRow))
 
+theorem ToposFiniteCarrier_subobject_classifier_pullback_boundary [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobject comparison ledger provenance endpoint
+      classifierEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposFiniteCarrier category sheaf finiteLimit exponential subobject comparison ledger
+        provenance endpoint bundle pkg ->
+      ToposSubobjectClassifierLedger category sheaf finiteLimit exponential subobject ledger
+        provenance classifierEndpoint bundle pkg ->
+      hsame provenance classifierEndpoint ->
+        ToposFiniteCarrier category sheaf finiteLimit exponential subobject comparison ledger
+            classifierEndpoint endpoint bundle pkg ∧
+          Cont comparison classifierEndpoint endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier ledgerRows sameProvenanceClassifier
+  obtain ⟨transportedCarrier, _categorySheafRow, _finiteExponentialRow,
+    _subobjectLedgerRow⟩ :=
+    ToposFiniteCarrier_site_sheaf_classifier_obligation carrier ledgerRows
+      sameProvenanceClassifier
+  have classifierEndpointRow : Cont comparison classifierEndpoint endpoint :=
+    transportedCarrier.right.right.right.right.right.right.right.right.left
+  have packageEndpointRow : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
+  exact And.intro transportedCarrier (And.intro classifierEndpointRow packageEndpointRow)
+
 theorem ToposFiniteCarrier_finite_limit_exponential_scope [AskSetup] [PackageSetup]
     {category sheaf finiteLimit exponential subobjectClassifier comparison ledger provenance
       endpoint : BHist}
