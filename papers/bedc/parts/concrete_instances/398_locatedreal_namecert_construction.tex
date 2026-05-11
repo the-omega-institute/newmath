@@ -115,6 +115,20 @@ Use \autoref{thm:locatedreal-dyadic-interval-obligation} to keep the transported
 Finally repack the common window, transported endpoint pairs, enclosure classifier, and provenance rows into the locatedness classifier coordinate of \autoref{def:locatedreal-carrier-surface}. The repacking does not introduce any host real equality or completion datum, so it yields exactly one classifier row over the displayed common refinement.
 \end{proof}
 
+\begin{theorem}[LocatedReal common-refinement consumer exactness]
+\label{thm:locatedreal-common-refinement-consumer-exactness}
+Let two accepted $\LocatedRealUp$ packets have a common finite $\StreamNameUp$ observation window and transported $\DyadicRatCore$ endpoint ledgers as in \autoref{thm:locatedreal-common-refinement-gluing}. Every later $\MetricSpaceUp$ or real-order consumer read of their locatedness data factors through the repacked common-window row.
+
+The consumer can read only the $\RegSeqRatUp$ source, the schedule row, the dyadic endpoint pair, the enclosure classifier, and the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. It cannot read quotient reals, host real equality, trichotomy, open-cover compactness, metric completion, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedreal-common-refinement-gluing} to repack the two accepted packets over the common finite window. The resulting row has exactly the common schedule, transported endpoint pairs, classifier coordinate, and visible provenance named in the carrier surface.
+
+Apply \autoref{thm:locatedreal-interval-ledger-exactness} to the endpoint side of the repacked row. This exhausts every dyadic endpoint consumed by the locatedness classifier by projection from the displayed $\DyadicRatCore$ interval ledger.
+
+Finally apply \autoref{thm:locatedreal-metric-consumer-handoff}. Its downstream projection bound says that a metric or order consumer reads only the displayed source, schedule, ledger, classifier, and provenance coordinates. Since none of those coordinates contains quotient reals, host real equality, trichotomy, compactness, completion, or standard bridge data, the consumer read is exhausted by the common-window row.
+\end{proof}
+
 \begin{theorem}[LocatedReal interval ledger exactness]
 \label{thm:locatedreal-interval-ledger-exactness}
 Every dyadic endpoint consumed by the $\LocatedRealUp$ locatedness classifier is the projection of an endpoint row from the $\DyadicRatCore$ interval ledger displayed in \autoref{def:locatedreal-carrier-surface}.
