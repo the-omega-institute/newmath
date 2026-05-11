@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Derived.BeliefUp.TasteGate
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -249,5 +251,72 @@ theorem BeliefFiniteEvidenceLedger_coverage [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right⟩
+
+theorem BeliefObservationUpdateCarrier_public_namecert_surface [AskSetup] [PackageSetup]
+    {prior observation updateTrace probability evidence posterior : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BeliefObservationUpdateCarrier
+        (BeliefUp.mk prior observation updateTrace probability evidence) posterior bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              BeliefObservationUpdateCarrier
+                (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+                hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              BeliefObservationUpdateCarrier
+                (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+                hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              BeliefObservationUpdateCarrier
+                (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+                hsame row e)
+          (fun h k : BHist =>
+            (exists e : BHist,
+              BeliefObservationUpdateCarrier
+                (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+                hsame h e) ∧
+              (exists e : BHist,
+                BeliefObservationUpdateCarrier
+                  (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+                  hsame k e) ∧
+                hsame h k) := by
+  intro carrier
+  let PublicRow : BHist -> Prop :=
+    fun row : BHist =>
+      exists e : BHist,
+        BeliefObservationUpdateCarrier
+          (BeliefUp.mk prior observation updateTrace probability e) posterior bundle pkg ∧
+          hsame row e
+  have evidencePublic : PublicRow evidence :=
+    Exists.intro evidence (And.intro carrier (hsame_refl evidence))
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro evidence evidencePublic
+      equiv_refl := by
+        intro row rowPublic
+        exact And.intro rowPublic (And.intro rowPublic (hsame_refl row))
+      equiv_symm := by
+        intro row other classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro row middle other rowMiddle middleOther
+        exact And.intro rowMiddle.left
+          (And.intro middleOther.right.left
+            (hsame_trans rowMiddle.right.right middleOther.right.right))
+      carrier_respects_equiv := by
+        intro row other classified _rowPublic
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row rowPublic
+      exact rowPublic
+    ledger_sound := by
+      intro _row rowPublic
+      exact rowPublic
+  }
 
 end BEDC.Derived.BeliefUp
