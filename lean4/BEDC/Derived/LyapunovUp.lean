@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -147,5 +149,67 @@ theorem LyapunovLedger_stability_transport [AskSetup] [PackageSetup]
                           (And.intro transportCont'
                             (And.intro nameCont' pkgSig')))))))))))))
     (And.intro sameTransport sameName)
+
+theorem LyapunovLedger_semantic_name_certificate [AskSetup] [PackageSetup]
+    {state transition quadratic positive decrease transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LyapunovLedger state transition quadratic positive decrease transport route provenance name
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          hsame ∧
+        Cont state transition positive ∧ Cont quadratic positive decrease ∧
+          Cont decrease route transport ∧ Cont transport provenance name ∧
+            PkgSig bundle name pkg := by
+  intro ledger
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          (fun row : BHist =>
+            LyapunovLedger state transition quadratic positive decrease transport route provenance
+              name bundle pkg ∧ hsame row name)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name (And.intro ledger (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _left _right sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _left _middle _right sameLeftMiddle sameMiddleRight
+        exact hsame_trans sameLeftMiddle sameMiddleRight
+      carrier_respects_equiv := by
+        intro left right sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro ledger.right.right.right.right.right.right.right.right.right.left
+      (And.intro ledger.right.right.right.right.right.right.right.right.right.right.left
+        (And.intro ledger.right.right.right.right.right.right.right.right.right.right.right.left
+          (And.intro
+            ledger.right.right.right.right.right.right.right.right.right.right.right.right.left
+            ledger.right.right.right.right.right.right.right.right.right.right.right.right.right))))
 
 end BEDC.Derived.LyapunovUp
