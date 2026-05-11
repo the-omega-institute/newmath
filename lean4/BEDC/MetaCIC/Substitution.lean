@@ -256,8 +256,108 @@ theorem substitute_substitute : True := by
 theorem substitute_preserves_typing : True := by
   exact True.intro
 
-/-- 闭合替换保持目标的登记定理。 -/
-theorem closed_term_substitute_preserves_typing : True := by
-  exact True.intro
+/-- 闭合替换保持在 sort 与变量项上的可证明核心。 -/
+theorem closed_term_substitute_preserves_typing
+    {Γ : Ctx} {t s A B : Term}
+    (hwf : WellFormedCtx (B :: Γ))
+    (hclosed_B : ClosedAt 0 B)
+    (hclosed_s : ClosedAt 0 s)
+    (ht : HasType (B :: Γ) t A)
+    (hs : HasType Γ s B)
+    (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
+    HasType Γ (substitute 0 s t) (substitute 0 s A) := by
+  cases ht with
+  | sortRule Γ' =>
+      exact HasType.sortRule Γ
+  | varRule Γ' i A hi =>
+      cases i with
+      | zero =>
+          rw [substitute_var_zero]
+          rw [lookup_cons_zero] at hi
+          cases hi
+          rw [substitute_closed 0 s A hclosed_B]
+          exact hs
+      | succ n =>
+          rw [substitute_var_succ_zero]
+          rw [lookup_cons_succ] at hi
+          cases hlook : Ctx.lookup Γ n with
+          | none =>
+              rw [hlook] at hi
+              cases hi
+          | some T =>
+              rw [hlook] at hi
+              cases hi
+              rw [substitute_shift_at_eq]
+              exact HasType.varRule Γ n T hlook
+  | piRule Γ' dom cod hdom hcod =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | lamRule Γ' dom body cod hdom hbody =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+  | appRule Γ' f a dom cod hf ha =>
+      cases hshape with
+      | inl hsort => cases hsort
+      | inr hvar =>
+          cases hvar with
+          | intro i hi => cases hi
+
+/-- 闭合替换保持完整语句的最小反例项。 -/
+def closedSubstituteCounterTerm : Term :=
+  Term.lam (Term.var 0) (Term.var 0)
+
+/-- 闭合替换保持完整语句的最小反例类型。 -/
+def closedSubstituteCounterType : Term :=
+  Term.pi (Term.var 0) (Term.var 0)
+
+/-- 反例源项在单 sort 上下文中可类型化。 -/
+theorem closed_substitute_counter_source :
+    HasType [Term.sort] closedSubstituteCounterTerm closedSubstituteCounterType := by
+  unfold closedSubstituteCounterTerm
+  unfold closedSubstituteCounterType
+  apply HasType.lamRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.varRule
+    rfl
+
+/-- 反例源上下文良构。 -/
+theorem closed_substitute_counter_wf :
+    WellFormedCtx [Term.sort] := by
+  apply WellFormedCtx.wfCons
+  · exact WellFormedCtx.wfNil
+  · exact HasType.sortRule []
+
+/-- 反例目标项在空上下文中不可具有替换后的类型。 -/
+theorem closed_substitute_counter_target_absurd :
+    ¬ HasType []
+        (substitute 0 Term.sort closedSubstituteCounterTerm)
+        (substitute 0 Term.sort closedSubstituteCounterType) := by
+  intro h
+  unfold closedSubstituteCounterTerm at h
+  unfold closedSubstituteCounterType at h
+  unfold substitute at h
+  cases h with
+  | lamRule Γ dom body cod hdom hbody =>
+      cases hbody with
+      | varRule Γ i A hlookup =>
+          cases hlookup
+
+/-- 当前语法和 typing 规则下, 登记的完整闭合替换保持语句不成立。 -/
+theorem closed_term_substitute_preserves_typing_statement_absurd :
+    ¬ ClosedTermSubstitutePreservesTypingStatement := by
+  intro h
+  exact closed_substitute_counter_target_absurd
+    (h closed_substitute_counter_wf
+      ClosedAt.sortClosed
+      ClosedAt.sortClosed
+      closed_substitute_counter_source
+      (HasType.sortRule []))
 
 end BEDC.MetaCIC
