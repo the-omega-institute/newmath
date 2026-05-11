@@ -95,7 +95,7 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
 
 def _paper_file_lookup() -> dict[str, dict[str, Any]]:
     index = paper_index.load_or_build()
-    return {item.get("file", ""): item for item in index.get("files", [])}
+    return {str(item.get("file", "")).replace("\\", "/"): item for item in index.get("files", [])}
 
 
 def _paper_labels(file_lookup: dict[str, dict[str, Any]]) -> set[str]:

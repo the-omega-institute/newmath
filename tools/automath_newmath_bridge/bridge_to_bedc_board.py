@@ -112,6 +112,9 @@ def _title(record: dict[str, Any]) -> str:
 
 
 def _claim(record: dict[str, Any], packet_rel: str) -> str:
+    specific = _specific_board_claim(record)
+    if specific:
+        return specific
     evidence = record.get("evidence_summary")
     if not isinstance(evidence, list) or not evidence:
         evidence = [record.get("next_action") or "Automath source evidence is ready for NewMath-side review."]
@@ -125,24 +128,83 @@ def _claim(record: dict[str, Any], packet_rel: str) -> str:
     )
 
 
+def _specific_board_claim(record: dict[str, Any]) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if "killogodelcompressionnotfiniterankhomologizable" in source_path:
+        return (
+            "Add a BEDC-side S1 bridge-obligation target that states: any attempted "
+            "finite-rank host homologization of the S1 bridge ledger must expose a "
+            "bounded-rank certificate, and cofinal prime-support evidence rules out "
+            "such a certificate. The target should be phrased as a NewMath/BEDC "
+            "obstruction over `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`, "
+            "not as an import of the Automath theorem."
+        )
+    if "killogrothendieckcompletionpreservesinjection" in source_path:
+        return (
+            "Add a BEDC-side S1 bridge prerequisite target for cancellation in a "
+            "Grothendieck-style completion: an injective cancellative additive "
+            "source map should remain separated after the displayed completion "
+            "representative is used by bridge readback. The target should connect "
+            "this to the existing S1 carrier/readback transport rows without using "
+            "host quotient primitives as BEDC inputs."
+        )
+    if "killos4burnsidekanirosenprymsquare" in source_path:
+        return (
+            "Add a BEDC-side S1 adjacent target asking for a finite representation-ledger "
+            "obligation surface for a Prym-square style bridge: explicit induced "
+            "representation equalities should be recorded only as paper-level "
+            "bridge evidence, while the BEDC target checks which carrier/readback "
+            "rows would be needed before such a host comparison can be admitted."
+        )
+    return ""
+
+
+def _landing_inputs(record: dict[str, Any]) -> list[str]:
+    source_path = str(record.get("source_path") or "").lower()
+    if "circledimension" in source_path or "s4burnside" in source_path:
+        return ["papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex"]
+    if str(record.get("source_artifact_kind") or "") == "paper_claim":
+        return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
+    return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
+
+
 def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
     priority = int(record.get("priority") or 50)
     fit = min(10, max(7, priority // 10))
     novelty = min(10, max(6, (priority + 8) // 10))
     return {
-        "title": _title(record),
+        "title": _target_title(record),
         "claim": _claim(record, packet_rel),
         "chapter": "concrete_instances",
         "relation": "bridge_input",
         "source": "automath_newmath_bridge",
-        "local_inputs": [packet_rel],
+        "local_inputs": _landing_inputs(record),
         "rationale": (
             "Automath-to-NewMath bridge gate passed. BEDC board_spawn must still "
-            "judge fit, novelty, dedup, and paper coverage before BOARD append."
+            "judge fit, novelty, dedup, and paper coverage before BOARD append. "
+            f"The bridge review packet is {packet_rel}."
         ),
         "fit_score": fit,
         "novelty": novelty,
     }
+
+
+def _target_title(record: dict[str, Any]) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if "killogodelcompressionnotfiniterankhomologizable" in source_path:
+        return "S1 finite-rank host homologization obstruction"
+    if "killogrothendieckcompletionpreservesinjection" in source_path:
+        return "S1 completion-readback injectivity prerequisite"
+    if "killos4burnsidekanirosenprymsquare" in source_path:
+        return "S1 Prym-square representation ledger bridge target"
+    return _title(record)
+
+
+def _existing_board_titles() -> set[str]:
+    sys.path.insert(0, str(BEDC_DEEP_DIR))
+    import board_archive  # type: ignore
+
+    return board_archive.existing_target_titles(include_archive=True)
 
 
 def _eligible(record: dict[str, Any]) -> bool:
@@ -171,19 +233,26 @@ def build_candidates(
     packet_dir: Path,
     limit: int,
     write_packets: bool,
-) -> tuple[list[dict[str, Any]], list[Path]]:
+) -> tuple[list[dict[str, Any]], list[Path], list[str]]:
     candidates: list[dict[str, Any]] = []
     packets: list[Path] = []
+    skipped_duplicate_titles: list[str] = []
+    existing_titles = _existing_board_titles()
     for record in records:
         if len(candidates) >= limit:
             break
         if not _eligible(record):
             continue
+        title = _target_title(record)
+        if title.strip().lower() in existing_titles:
+            skipped_duplicate_titles.append(title)
+            continue
         packet_path = _write_packet(record, packet_dir) if write_packets else _packet_path(record, packet_dir)
         packet_rel = str(packet_path.relative_to(REPO_ROOT))
         packets.append(packet_path)
         candidates.append(_candidate(record, packet_rel))
-    return candidates, packets
+        existing_titles.add(title.strip().lower())
+    return candidates, packets, skipped_duplicate_titles
 
 
 def run_board_spawn(candidates: list[dict[str, Any]], *, fit_threshold: int, novelty_threshold: int) -> Any:
@@ -248,7 +317,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     records = _read_jsonl(Path(args.gate_results))
-    candidates, packets = build_candidates(
+    candidates, packets, skipped_duplicate_titles = build_candidates(
         records,
         packet_dir=Path(args.packet_dir),
         limit=max(0, args.limit),
@@ -256,6 +325,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     summary: dict[str, Any] = {
         "eligible_candidates": len(candidates),
+        "skipped_duplicate_titles": skipped_duplicate_titles,
+        "skipped_duplicate_title_count": len(skipped_duplicate_titles),
         "packet_paths": [str(path.relative_to(REPO_ROOT)) for path in packets],
         "apply": bool(args.apply),
     }
