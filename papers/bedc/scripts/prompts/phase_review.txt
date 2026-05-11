@@ -293,7 +293,16 @@ you MAY propose a `kind = "theory_extension"` with `notes.flavor =
    anchors (so it does NOT land as an isolated island).
 4. `paper_files[0]` is a NEW chapter file
    `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`
-   where `<NN>` is the next free integer above 268 (current max).
+   where `<NN>` is a random integer in `[current_max+1, current_max+100]`
+   (NOT just `current_max+1`). Run
+   `ls papers/bedc/parts/concrete_instances/ | awk -F_ '{print $1+0}' | sort -n | tail -1`
+   to find current_max, then pick a random offset 1-100 above it
+   (e.g. python `random.randint(current_max+1, current_max+100)`).
+   This spreads concurrent saturation rounds across the NN range so
+   two workers proposing different new chapters at the same time
+   don't both land on `271_*` and create cosmetic numbering
+   collisions. The serial numbers are purely cosmetic — filenames
+   are unique by slug; the LaTeX build doesn't care about gaps.
 5. `proposed_change` MUST contain: chapter title, carrier sketch
    (one paragraph in BEDC vocabulary: BHist, hsame, Cont, Pkg,
    source, classifier, ledger, transport, NameCert), dependency
