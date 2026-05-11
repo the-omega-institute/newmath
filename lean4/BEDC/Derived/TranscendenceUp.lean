@@ -79,6 +79,20 @@ theorem TranscendenceCarrierPacket_fieldext_source_boundary [AskSetup] [PackageS
       · exact readbacksSame
       · exact endpointSame
 
+def TranscendenceClassifier [AskSetup] [PackageSetup]
+    (fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
+      family' coeffLedger' tests' transports' readbacks' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  TranscendenceCarrierPacket fieldExtSource family coeffLedger tests transports readbacks
+      endpoint bundle pkg ∧
+    TranscendenceCarrierPacket fieldExtSource' family' coeffLedger' tests' transports'
+      readbacks' endpoint' bundle pkg ∧
+      hsame fieldExtSource fieldExtSource' ∧ hsame family family' ∧
+        hsame coeffLedger coeffLedger' ∧ hsame tests tests' ∧
+          hsame transports transports' ∧ hsame readbacks readbacks' ∧
+            hsame endpoint endpoint' ∧ Cont coeffLedger' tests' readbacks' ∧
+              PkgSig bundle endpoint' pkg
+
 def TranscendenceCarrierPacketClassifier [AskSetup] [PackageSetup]
     (fieldExtSource family coeffLedger tests transports readbacks endpoint fieldExtSource'
       family' coeffLedger' tests' transports' readbacks' endpoint' : BHist)
