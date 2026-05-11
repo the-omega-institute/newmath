@@ -1,0 +1,157 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterUp$}
+\label{ch:concrete-instances-cauchyfilter-namecert}
+
+The $\CauchyFilterUp$ surface names the finite observation filter used by the
+Real and Completion phase when a consumer needs explicit Cauchy data without
+host filters or choice-selected subsequences. It sits between
+$\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ as a visible packet of late-window evidence.
+
+\begin{definition}[CauchyFilter carrier]\label{def:cauchyfilter-carrier}
+A $\CauchyFilterUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(s,d,m,e,r,t,c,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the $\StreamNameUp$ observation family whose entries are visible
+in the packet;
+\item $d$ is a directed finite-window index ledger ordering the finite tails
+through which observations are read;
+\item $m$ is the $\CauchyModulusUp$ threshold row assigning a displayed
+precision request to a finite tail bound;
+\item $e$ is the dyadic endpoint row package supplied by $\DyadicRatCoreUp$;
+\item $r$ is the compatibility row against $\RegSeqRatUp$, recording the same
+late-window comparisons as regular rational sequence evidence;
+\item $t$ contains the $\hsame$ and $\Cont$ transport rows used to compare and
+extend finite windows;
+\item $c$ is the consumer-facing ledger naming $\RealUp$ as the sealed reader
+of the finite filter packet;
+\item $P$ is the $\mathsf{Pkg}$ provenance for the dependency anchors
+$\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$;
+\item $N$ is the local $\NameCert_{\CauchyFilterUp}$ row.
+\end{enumerate}
+The carrier accepts exactly those packets whose listed rows occur in one
+finite history and whose transport routes are displayed in that history. It
+does not contain a host filter, ultrafilter, chosen subsequence, metric
+completion point, or quotient stream.
+\end{definition}
+
+\begin{theorem}[CauchyFilter finite-window coverage]\label{thm:cauchyfilter-finite-window-coverage}
+Every accepted $\CauchyFilterUp$ carrier covers its public observations by a
+directed finite window. More precisely, each visible $\StreamNameUp$ read in
+the packet factors through the index ledger $d$, the $\CauchyModulusUp$
+threshold row $m$, the dyadic endpoint rows $e$, the $\hsame$ and $\Cont$
+transport rows $t$, and the $\mathsf{Pkg}$ provenance $P$.
+\end{theorem}
+\begin{proof}
+Start from the carrier decomposition in
+\autoref{def:cauchyfilter-carrier}. The observation family, directed window
+ledger, threshold row, endpoint rows, transport rows, and provenance row are
+all coordinates of the same finite $\mathsf{BHist}$ packet.
+
+For a displayed observation read, choose the finite tail window named by the
+ledger. The threshold row supplies the bound for the requested precision, and
+the dyadic endpoint rows give the finite values inspected inside that tail.
+
+The remaining comparison is routed through the displayed $\hsame$ and $\Cont$
+transport rows. Since the packet contains no constructor for an external
+filter object, the public read is exhausted by the finite window and its
+package provenance.
+\end{proof}
+
+\begin{theorem}[CauchyFilter RegSeqRat handoff]\label{thm:cauchyfilter-regseqrat-handoff}
+An accepted $\CauchyFilterUp$ packet hands off to $\RegSeqRatUp$ exactly
+through its compatibility row $r$. The handoff preserves the
+$\StreamNameUp$ observation family, the $\CauchyModulusUp$ threshold row, the
+$\DyadicRatCoreUp$ endpoint rows, the directed finite-window ledger, and the
+displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+\end{theorem}
+\begin{proof}
+Project the packet to the compatibility row $r$ and the rows named in
+\autoref{def:cauchyfilter-carrier}. The row $r$ is already the displayed
+regular-sequence comparison against the same late-window observations.
+
+Transport along the listed $\hsame$ rows and restrict along the displayed
+$\Cont$ windows. These operations do not change the stream observations,
+threshold row, dyadic endpoints, or directed window ledger; they only re-read
+the same finite rows through the $\RegSeqRatUp$ certificate.
+
+Thus the handoff has no additional carrier beyond the visible compatibility
+row and the package provenance. A $\RegSeqRatUp$ consumer receives finite
+late-window evidence, not a quotient stream or a completed real.
+\end{proof}
+
+\begin{theorem}[CauchyFilter Real seal consumer boundary]\label{thm:cauchyfilter-real-seal-consumer-boundary}
+Every $\RealUp$ consumer of an accepted $\CauchyFilterUp$ packet factors
+through the displayed finite filter surface: the $\StreamNameUp$ observations,
+directed finite-window ledger, $\CauchyModulusUp$ threshold row,
+$\DyadicRatCoreUp$ endpoints, $\RegSeqRatUp$ compatibility row, $\hsame$ and
+$\Cont$ transport, and $\mathsf{Pkg}$ provenance. The boundary exports no
+metric-completion point, host real equality, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Read the consumer ledger coordinate $c$ of the carrier. It names $\RealUp$ as
+a sealed reader of the same finite filter rows rather than as a source of
+extra completion data.
+
+Apply the finite-window coverage theorem to the underlying observations, then
+apply the $\RegSeqRatUp$ handoff theorem to the compatibility row. Together
+they identify every available consumer read with a displayed tail window,
+endpoint package, threshold row, transport route, and provenance row.
+
+There is no remaining coordinate from which a metric-completion point, host
+real equality, or selected infinite subsequence could be read. The real-facing
+boundary is therefore the finite filter surface itself.
+\end{proof}
+
+\begin{theorem}[CauchyFilter public obligation catalogue]\label{thm:cauchyfilter-public-obligation-catalogue}
+The public $\NameCert_{\CauchyFilterUp}$ obligation catalogue has exactly five
+rows:
+\begin{enumerate}
+\item the carrier row of \autoref{def:cauchyfilter-carrier};
+\item the classifier row identifying two packets when they admit a common
+finite filter refinement with the same threshold, endpoint, and compatibility
+rows;
+\item stability under $\hsame$ transport of the observation, threshold,
+endpoint, compatibility, and provenance rows;
+\item exactness of visible filter-window reads through the directed finite
+ledger and displayed $\Cont$ routes;
+\item a ledger-exclusion row forbidding host filters, ultrafilters,
+choice-selected subsequences, metric-completion points, and quotient streams.
+\end{enumerate}
+These rows are the entire public surface used by $\StreamNameUp$,
+$\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$
+consumers.
+\end{theorem}
+\begin{proof}
+The carrier row is the finite packet specified in
+\autoref{def:cauchyfilter-carrier}. Its coordinates already list the
+observation family, finite-window ledger, threshold, endpoints,
+regular-sequence compatibility, transport, provenance, and local naming row.
+
+The classifier compares two packets by refining their directed ledgers to a
+common finite window and then comparing the threshold, endpoint, compatibility,
+transport, and provenance rows through $\hsame$. This gives the stability row
+at the same time, because transported packets retain the rows used by the
+classifier.
+
+Exactness follows by re-reading each public observation through the same
+finite ledger and $\Cont$ route. The ledger-exclusion row is forced by the
+carrier shape: none of the listed external filter, completion, choice, or
+quotient objects is a coordinate of the packet.
+\end{proof}
+
+\closureat{CauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterUp}
+  \constructivestory{A $\CauchyFilterUp$ packet is generated by visible $\StreamNameUp$ observations, a directed finite-window ledger, a $\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ compatibility, displayed transport, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter records the finite observation filter surface that Real and Completion consumers may read without importing host filters or choice-selected tails.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host filter theory, ultrafilter selection, quotient-stream equality, metric completion, or a standard bridge.}
+  \upgradepath{Obligation closure requires a Lean carrier and classifier for the finite filter ledger together with checked $\hsame$ transport, exact visible-window reads, and ledger exclusions.}
+\end{closurestatus}
