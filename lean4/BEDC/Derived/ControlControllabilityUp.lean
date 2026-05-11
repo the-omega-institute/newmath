@@ -115,4 +115,110 @@ theorem ControlControllabilityReachabilityPacket_reachability_ledger [AskSetup]
               (And.intro reachabilityUnary
                 (And.intro firstColumnRow (And.intro reachabilityRow pkgSig))))))))
 
+theorem ControlControllabilityReachabilityPacket_column_transport_obligation [AskSetup]
+    [PackageSetup] {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {state input transition control horizon firstColumn reachability provenance endpoint state' input'
+      transition' control' horizon' firstColumn' reachability' provenance' endpoint' : BHist} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      hsame state state' ->
+        hsame input input' ->
+          hsame transition transition' ->
+            hsame control control' ->
+              hsame horizon horizon' ->
+                hsame provenance provenance' ->
+                  Cont control' horizon' firstColumn' ->
+                    Cont firstColumn' transition' reachability' ->
+                      Cont reachability' provenance' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          ControlControllabilityReachabilityPacket state' input' transition'
+                              control' horizon' firstColumn' reachability' provenance' endpoint'
+                              bundle pkg ∧
+                            hsame firstColumn firstColumn' ∧ hsame reachability reachability' ∧
+                              hsame endpoint endpoint' := by
+  intro packet sameState sameInput sameTransition sameControl sameHorizon sameProvenance
+    firstColumnRow' reachabilityRow' endpointRow' pkgSig'
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport packet.left sameState
+  have inputUnary' : UnaryHistory input' :=
+    unary_transport packet.right.left sameInput
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport packet.right.right.left sameTransition
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport packet.right.right.right.left sameControl
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport packet.right.right.right.right.left sameHorizon
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport packet.right.right.right.right.right.left sameProvenance
+  have firstColumnRow : Cont control horizon firstColumn :=
+    packet.right.right.right.right.right.right.left
+  have reachabilityRow : Cont firstColumn transition reachability :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont reachability provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sameFirstColumn : hsame firstColumn firstColumn' :=
+    cont_respects_hsame sameControl sameHorizon firstColumnRow firstColumnRow'
+  have sameReachability : hsame reachability reachability' :=
+    cont_respects_hsame sameFirstColumn sameTransition reachabilityRow reachabilityRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameReachability sameProvenance endpointRow endpointRow'
+  have transportedPacket :
+      ControlControllabilityReachabilityPacket state' input' transition' control' horizon'
+        firstColumn' reachability' provenance' endpoint' bundle pkg :=
+    And.intro stateUnary'
+      (And.intro inputUnary'
+        (And.intro transitionUnary'
+          (And.intro controlUnary'
+            (And.intro horizonUnary'
+              (And.intro provenanceUnary'
+                (And.intro firstColumnRow'
+                  (And.intro reachabilityRow' (And.intro endpointRow' pkgSig'))))))))
+  exact And.intro transportedPacket
+    (And.intro sameFirstColumn (And.intro sameReachability sameEndpoint))
+
+theorem ControlControllabilityReachabilityPacket_continuation_closure [AskSetup]
+    [PackageSetup]
+    {state input transition control horizon firstColumn reachability provenance endpoint
+      endpointNext joinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      UnaryHistory endpointNext ->
+        Cont endpoint endpointNext joinedEndpoint ->
+          PkgSig bundle joinedEndpoint pkg ->
+            ∃ joinedProvenance : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                  firstColumn reachability joinedProvenance joinedEndpoint bundle pkg ∧
+                hsame joinedProvenance (append provenance endpointNext) := by
+  intro packet endpointNextUnary endpointJoin pkgSig
+  have stateUnary : UnaryHistory state := packet.left
+  have inputUnary : UnaryHistory input := packet.right.left
+  have transitionUnary : UnaryHistory transition := packet.right.right.left
+  have controlUnary : UnaryHistory control := packet.right.right.right.left
+  have horizonUnary : UnaryHistory horizon := packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.right.right.left
+  have firstColumnRow : Cont control horizon firstColumn :=
+    packet.right.right.right.right.right.right.left
+  have reachabilityRow : Cont firstColumn transition reachability :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont reachability provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have joinedRows := cont_assoc_middle_exists endpointRow endpointJoin
+  cases joinedRows with
+  | intro joinedProvenance joinedData =>
+      have joinedProvenanceUnary : UnaryHistory joinedProvenance :=
+        unary_cont_closed provenanceUnary endpointNextUnary joinedData.left
+      exact Exists.intro joinedProvenance
+        (And.intro
+          (And.intro stateUnary
+            (And.intro inputUnary
+              (And.intro transitionUnary
+                (And.intro controlUnary
+                  (And.intro horizonUnary
+                    (And.intro joinedProvenanceUnary
+                      (And.intro firstColumnRow
+                        (And.intro reachabilityRow
+                          (And.intro joinedData.right pkgSig)))))))))
+          joinedData.left)
+
 end BEDC.Derived.ControlControllabilityUp

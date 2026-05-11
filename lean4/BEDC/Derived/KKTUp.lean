@@ -1,6 +1,6 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -288,6 +288,66 @@ theorem KKTPrimalDualPacket_namecert_obligation_surface [AskSetup] [PackageSetup
       (And.intro packet.right.right.right.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem KKTPrimalDualPacket_stationarity_feasibility_hsame_transport [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasibility slackness provenance endpoint primalNext
+      dualNext residualNext stationarityNext feasibilityNext slacknessNext provenanceNext
+      endpointNext : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTPrimalDualPacket primal dual residual stationarity feasibility slackness provenance endpoint
+        probe pkg ->
+      hsame primal primalNext ->
+        hsame dual dualNext ->
+          hsame residual residualNext ->
+            hsame stationarity stationarityNext ->
+              hsame feasibility feasibilityNext ->
+                hsame slackness slacknessNext ->
+                  hsame provenance provenanceNext ->
+                    hsame endpoint endpointNext ->
+                      PkgSig probe provenanceNext pkg ->
+                        KKTPrimalDualPacket primalNext dualNext residualNext stationarityNext
+                            feasibilityNext slacknessNext provenanceNext endpointNext probe pkg ∧
+                          hsame endpoint endpointNext := by
+  intro packet samePrimal sameDual sameResidual sameStationarity sameFeasibility sameSlackness
+    sameProvenance sameEndpoint pkgSig
+  have primalUnary : UnaryHistory primalNext :=
+    unary_transport packet.left samePrimal
+  have dualUnary : UnaryHistory dualNext :=
+    unary_transport packet.right.left sameDual
+  have residualUnary : UnaryHistory residualNext :=
+    unary_transport packet.right.right.left sameResidual
+  have stationarityUnary : UnaryHistory stationarityNext :=
+    unary_transport packet.right.right.right.left sameStationarity
+  have feasibilityUnary : UnaryHistory feasibilityNext :=
+    unary_transport packet.right.right.right.right.left sameFeasibility
+  have slacknessUnary : UnaryHistory slacknessNext :=
+    unary_transport packet.right.right.right.right.right.left sameSlackness
+  have provenanceUnary : UnaryHistory provenanceNext :=
+    unary_transport packet.right.right.right.right.right.right.left sameProvenance
+  have endpointUnary : UnaryHistory endpointNext :=
+    unary_transport packet.right.right.right.right.right.right.right.left sameEndpoint
+  have residualRow : Cont primalNext dualNext residualNext :=
+    cont_hsame_transport samePrimal sameDual sameResidual
+      packet.right.right.right.right.right.right.right.right.left
+  have feasibilityRow : Cont residualNext stationarityNext feasibilityNext :=
+    cont_hsame_transport sameResidual sameStationarity sameFeasibility
+      packet.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont feasibilityNext slacknessNext endpointNext :=
+    cont_hsame_transport sameFeasibility sameSlackness sameEndpoint
+      packet.right.right.right.right.right.right.right.right.right.right.left
+  exact And.intro
+    (And.intro primalUnary
+      (And.intro dualUnary
+        (And.intro residualUnary
+          (And.intro stationarityUnary
+            (And.intro feasibilityUnary
+              (And.intro slacknessUnary
+                (And.intro provenanceUnary
+                  (And.intro endpointUnary
+                    (And.intro residualRow
+                      (And.intro feasibilityRow
+                        (And.intro endpointRow pkgSig)))))))))))
+    sameEndpoint
 
 def KKTCarrierPacket [AskSetup] [PackageSetup]
     (primal dual residual stationarity feasibility slackness comparison ledger provenance
