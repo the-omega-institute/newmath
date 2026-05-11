@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RegSeqRatUp$}
+\label{ch:concrete-instances-regseqrat-namecert}
+
+The $\RegSeqRatUp$ interface names Bishop-style regular rational streams over the dyadic observation layer. It sits between $\DyadicRatCoreUp$, which supplies finite dyadic endpoints and radius ledgers, and $\RealUp$, which consumes accepted regular-sequence packets as the finite source surface of a real-name seal.
+
+\section{Carrier and classifier}
+\label{sec:regseqrat-carrier-classifier}
+
+\begin{definition}[RegSeqRat stream carrier]
+\label{def:regseqrat-stream-carrier}
+A $\RegSeqRatUp$ stream carrier is a finite $\mathsf{BHist}$ packet naming a stream $x:\mathbb{N}\to\mathsf{BHist}$ together with the visible observation schedule supplied by $\StreamNameUp$. For every finite window requested by the schedule, the packet carries:
+\begin{enumerate}
+\item a unary index row naming the requested stream position;
+\item a dyadic endpoint row accepted by $\DyadicRatCoreUp$;
+\item the dyadic radius row $2^{-n}$ attached to the requested precision;
+\item a regularity ledger comparing any two displayed endpoints $x_n$ and $x_m$ by the bound $2^{-n}+2^{-m}$;
+\item the $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance rows for the $\StreamNameUp$ and $\DyadicRatCoreUp$ reads.
+\end{enumerate}
+The carrier stores only these scheduled finite observations. It contains no quotient carrier of Cauchy sequences, no ambient metric completion, and no host real endpoint.
+\end{definition}
+
+\begin{definition}[RegSeqRat dyadic-tolerance classifier]
+\label{def:regseqrat-classifier}
+For accepted $\RegSeqRatUp$ carriers $x$ and $y$, the predicate $\mathsf{RegSeqRatClassifier}(x,y)$ records dyadic tolerance agreement on scheduled finite windows. A classifier witness supplies, for each requested unary precision window, dyadic observation rows for $x_n$ and $y_m$, a common finite refinement requested through $\StreamNameUp$, and a $\DyadicRatCoreUp$ tolerance ledger proving that the displayed dyadic distance is bounded by the requested dyadic radius.
+
+The classifier is a predicate over finite dyadic ledgers and visible stream-name rows. It does not identify streams by a quotient relation and does not import any external real equality.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:regseqrat-certificate-obligations}
+
+\begin{theorem}[RegSeqRat regularity obligation surface]
+\label{thm:regseqrat-regularity-obligation-surface}
+The local $\NameCert_{\RegSeqRatUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the scheduled stream carrier of \autoref{def:regseqrat-stream-carrier};
+\item classifier: the dyadic-tolerance classifier of \autoref{def:regseqrat-classifier};
+\item regularity ledger: every displayed pair of endpoints $x_n,x_m$ is accompanied by a $\DyadicRatCoreUp$ bound row for $2^{-n}+2^{-m}$;
+\item dyadic-radius observation: each precision request exposes the radius row, endpoint row, and finite dyadic distance row consumed by the classifier;
+\item finite-window transport: restricting, refining, or transporting a window through $\hsame$ and $\Cont$ repacks the same $\StreamNameUp$ and $\DyadicRatCoreUp$ rows without adding a quotient or completion object.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier definition. Its accepted packet already lists the scheduled unary index rows, dyadic endpoint rows, radius rows, regularity comparisons, continuation routes, package provenance, and naming rows.
+
+The classifier definition supplies the second face: every comparison between two accepted packets is a finite dyadic-tolerance ledger over the same scheduled observation rows. The regularity and dyadic-radius faces are the two distinguished projections from that ledger.
+
+For finite-window transport, follow the displayed $\hsame$ and $\Cont$ rows attached to the schedule. A restriction or refinement only changes which finite indices are read; each selected endpoint and radius remains a $\DyadicRatCoreUp$ row with the same visible provenance. Repacking these projections gives exactly the five obligation rows and no additional carrier.
+\end{proof}
+
+\begin{theorem}[RegSeqRat classifier transport]
+\label{thm:regseqrat-classifier-transport}
+Let $x,y,x',y'$ be accepted $\RegSeqRatUp$ stream carriers. Suppose $x$ is transported to $x'$ and $y$ is transported to $y'$ by componentwise $\hsame$ rows and displayed $\Cont$ routes that preserve the $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ endpoint rows, the dyadic-radius rows, and the finite regularity ledgers. If $\mathsf{RegSeqRatClassifier}(x,y)$ holds, then $\mathsf{RegSeqRatClassifier}(x',y')$ holds on the transported finite windows.
+
+The transported classifier reads only the carried stream-name, dyadic endpoint, radius, distance, regularity, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with a finite classifier witness for $x$ and $y$. It consists of scheduled observation indices, endpoint rows, radius rows, common finite refinements, and dyadic distance ledgers.
+
+Transport the two endpoint families along the supplied componentwise $\hsame$ rows. The $\Cont$ routes preserve the schedule, so every requested finite window for $x'$ and $y'$ has the same shape as the source window and reads the corresponding transported $\DyadicRatCoreUp$ endpoint rows.
+
+Transport the dyadic-radius and distance ledgers through the same provenance. Since the regularity rows are carried with the endpoints, the transported witness satisfies the dyadic-tolerance classifier for $x'$ and $y'$ on the selected windows. No quotient sequence or ambient real equality is introduced.
+\end{proof}
+
+\begin{theorem}[RegSeqRat RealUp seal handoff]
+\label{thm:regseqrat-real-seal-handoff}
+An accepted $\RegSeqRatUp$ packet is exactly the finite source surface consumed by the existing $\RealUp$ seal rows. The handoff surface consists of the scheduled stream carrier, the dyadic-tolerance classifier, the regularity ledger, the dyadic-radius observation rows, the finite-window transport rows, and their $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Thus a $\RealUp$ seal may read a regular rational stream only through those finite source rows. The handoff does not provide RealUp completeness, quotient carriers, metric completeness, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through \autoref{thm:regseqrat-regularity-obligation-surface}. The projection exposes precisely the carrier, classifier, regularity, dyadic-radius, and finite-window transport rows.
+
+The existing $\RealUp$ seal rows consume regular rational-stream data by finite windows: a stream-name schedule selects dyadic endpoint observations, the classifier supplies dyadic tolerance agreement, and the regularity ledger supplies the source bounds needed at the seal boundary.
+
+Conversely, any source read used by the seal is one of those finite rows, because the $\RegSeqRatUp$ carrier has no coordinate for quotient sequences, ambient metric completion, host real equality, or standard bridge data. The accepted packet and the seal source surface therefore coincide at the displayed finite boundary.
+\end{proof}
+
+\closureat{RegSeqRatUp}{seedStr}
+
+\begin{closurestatus}{\RegSeqRatUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary names the scheduled $\mathsf{BHist}$ stream carrier, dyadic-tolerance classifier, regularity ledger, dyadic-radius observation rows, and finite-window transport rows over $\StreamNameUp$ and $\DyadicRatCoreUp$.}
+  \constructivestory{Construct the packet by finite scheduled reads: $\StreamNameUp$ supplies the visible windows, $\DyadicRatCoreUp$ supplies endpoint and radius ledgers, and the regularity and classifier rows are projections of those finite observations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient carriers, metric completeness, or standard bridge data.}
+  \upgradepath{Scoped closure requires checked carrier, classifier, regularity, finite-window transport, and $\RealUp$ seal-handoff targets for the displayed $\RegSeqRatUp$ source surface.}
+\end{closurestatus}

@@ -140,6 +140,7 @@ import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -1025,6 +1026,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.DerivedIndexAnalysis
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
