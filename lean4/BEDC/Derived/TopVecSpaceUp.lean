@@ -203,4 +203,20 @@ theorem TopVecSpaceBHistCarrier_classifier_transport [AskSetup] [PackageSetup]
             (And.intro scalarLedgerUnary'
               (And.intro routeUnary' endpointUnary')))))
 
+theorem TopVecSpaceBHistCarrier_consumer_scope [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      Cont endpoint route consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append endpoint route) ∧
+          hsame endpoint (append route topology) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier consumerRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed carrier.right.right.right.right.right.left
+      carrier.right.right.right.right.left consumerRow
+  exact And.intro consumerUnary
+    (And.intro consumerRow
+      (And.intro carrier.right.right.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.TopVecSpaceUp
