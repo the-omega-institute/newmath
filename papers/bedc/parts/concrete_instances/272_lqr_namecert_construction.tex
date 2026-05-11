@@ -12,6 +12,7 @@ An $\LQRUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state r
 
 The classifier accepts exactly those packets whose transition, cost, horizon, estimator, and backward-update rows are read through the displayed dependency certificates and finite provenance ledger. It exports no host stochastic process, analytic optimal-control problem, unbounded horizon, external Riccati solver, or hidden policy object.
 \end{definition}
+\leandef{BEDC.Derived.LQRUp.LQRFiniteControlCarrier}
 
 \section{The certificate}
 \label{sec:lqr-certificate}
@@ -142,13 +143,14 @@ policy, a limiting Riccati equation, an external solver, or a host
 optimal-control object.
 \end{proof}
 
+\closureat{LQRUp}{obligationStr}
 \begin{closurestatus}{\LQRUp}
   \constructivestory{}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope fixes a finite linear-quadratic control packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$, with classifier comparison by displayed $\hsame$ rows and finite backward-update provenance.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The enumerated obligation surface fixes the finite linear-quadratic control carrier over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$, together with displayed transition, quadratic-cost, finite backward-update, and estimator/control consumption rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close an analytic stochastic-control model, infinite-horizon regulator, host Riccati solver, projective limit, or public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier and classifier rows, transition stability under $\hsame$, quadratic-cost ledger exactness, a backward-update row, and the estimator/control consumption boundary.}
+  \upgradepath{Scoped closure requires binding the listed carrier, transition, cost, backward-update, and estimator/control rows to $\hsame$, $\Cont$, $\mathsf{Pkg}$, and dependency certificate rows.}
 \end{closurestatus}

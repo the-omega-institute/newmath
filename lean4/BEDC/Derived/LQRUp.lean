@@ -16,6 +16,12 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def LQRFiniteControlCarrier
+    (state control transition cost horizon estimator backward provenance endpoint : BHist) : Prop :=
+  UnaryHistory state ∧ UnaryHistory control ∧ UnaryHistory cost ∧ UnaryHistory horizon ∧
+    UnaryHistory estimator ∧ Cont state control transition ∧ Cont transition cost backward ∧
+      Cont backward estimator provenance ∧ Cont provenance horizon endpoint
+
 def LQRFiniteControlPacket [AskSetup] [PackageSetup]
     (state control transition cost horizon successorValue estimatorInput backwardUpdate
       predecessorValue endpoint : BHist)
