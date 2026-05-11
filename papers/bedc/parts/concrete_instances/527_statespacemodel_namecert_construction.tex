@@ -113,14 +113,15 @@ surface is exhausted.
 
 \closureat{StateSpaceModelUp}{seedStr}
 \closureat{StateSpaceModelUp}{obligationStr}
+\closureat{StateSpaceModelUp}{scopedStr}
 
 \begin{closurestatus}{\StateSpaceModelUp}
   \constructivestory{A state-space-model packet is seeded by finite $\mathsf{BHist}$ rows for state, input, output, transition, input-map, observation-map, transition and observation traces, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and a hidden-data ledger.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed boundary names the finite state-transition carrier shared by $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The finite state-transition carrier, component classifier, control handoff, ledger boundary, and obligation closure rows are bound to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, and the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\KalmanFilterUp$, $\LQRUp$, and $\RiccatiUp$ dependency chapters.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host trajectory spaces, analytic semigroups, probability measures, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, or a standard bridge.}
-  \upgradepath{Formalization begins with the finite carrier and NameCert obligation surface in the future BEDC.Derived.StateSpaceModelUp namespace.}
+  \upgradepath{Public closure requires a consumer-facing export for the finite state-transition packet and its displayed control-theory certificate rows.}
 \end{closurestatus}
