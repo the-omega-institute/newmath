@@ -88,4 +88,25 @@ theorem DyadicBallPacket_classifier_laws [AskSetup] [PackageSetup]
         targetEndpoint, targetPkg⟩,
       sameSchedule, sameContainment, sameEndpoint⟩
 
+theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint center' radius'
+      schedule' observation' containment' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      hsame center center' ->
+        hsame radius radius' ->
+          hsame observation observation' ->
+            hsame route route' ->
+              hsame provenance provenance' ->
+                Cont center' radius' schedule' ->
+                  Cont schedule' observation' containment' ->
+                    Cont containment' route' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        DyadicBallPacket center' radius' schedule' observation' containment'
+                            route' provenance' endpoint' bundle pkg ∧
+                          hsame schedule schedule' ∧ hsame containment containment' ∧
+                            hsame endpoint endpoint' := by
+  exact DyadicBallPacket_classifier_laws
+
 end BEDC.Derived.DyadicBallUp
