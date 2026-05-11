@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -73,6 +75,52 @@ theorem FiniteVectorPacket_length_index_transport [AskSetup] [PackageSetup]
                   (And.intro endpointUnary'
                     (And.intro endpointCont' endpointPkg')))))))))
     sameEndpoint
+
+theorem FiniteVectorPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {length spine pairs component ledger provenance hidden endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteVectorPacket length spine pairs component ledger provenance hidden endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row endpoint ∨ hsame row ledger ∨ hsame row provenance)
+        (fun row : BHist => hsame row endpoint ∨ hsame row ledger ∨ hsame row provenance)
+        (fun row : BHist => hsame row endpoint ∨ hsame row ledger ∨ hsame row provenance)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist FiniteVectorPacket hsame
+  intro packet
+  obtain ⟨_lengthUnary, _spineUnary, _pairsUnary, _componentUnary, _ledgerUnary,
+    _provenanceUnary, _hiddenUnary, _endpointUnary, _endpointCont, _endpointPkg⟩ := packet
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (Or.inl (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        cases carrierRow with
+        | inl endpointRow =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) endpointRow)
+        | inr rest =>
+            cases rest with
+            | inl ledgerRow =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) ledgerRow))
+            | inr provenanceRow =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) provenanceRow))
+    }
+    pattern_sound := by
+      intro _row carrier
+      exact carrier
+    ledger_sound := by
+      intro _row carrier
+      exact carrier
+  }
 
 def FiniteVectorSame
     (n spine pairs routes provenance ledger n' spine' pairs' routes' provenance'
