@@ -152,4 +152,19 @@ theorem SemiringFiniteSource_semantic_name_certificate [AskSetup] [PackageSetup]
       exact rowSource
   }
 
+def SemiringZeroAnnihilationLedger (zero mul left right : BHist) : Prop :=
+  UnaryHistory zero ∧ UnaryHistory mul ∧ Cont zero mul left ∧ Cont mul zero right
+
+theorem SemiringZeroAnnihilationLedger_scope {zero mul left right : BHist} :
+    SemiringZeroAnnihilationLedger zero mul left right ->
+      UnaryHistory left ∧ UnaryHistory right ∧ hsame left (append zero mul) ∧
+        hsame right (append mul zero) := by
+  intro ledger
+  obtain ⟨zeroUnary, mulUnary, leftRoute, rightRoute⟩ := ledger
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed zeroUnary mulUnary leftRoute
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed mulUnary zeroUnary rightRoute
+  exact ⟨leftUnary, rightUnary, leftRoute, rightRoute⟩
+
 end BEDC.Derived.SemiringUp

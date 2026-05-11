@@ -141,6 +141,20 @@ Finally read the $\RealUp$ seal boundary through \autoref{thm:regseqrat-real-sea
 \end{proof}
 \leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_common\_refinement\_classifier\_determinacy}
 
+\begin{theorem}[RegSeqRat classifier common-refinement transitivity]
+\label{thm:regseqrat-classifier-common-refinement-transitivity}
+Let $x$, $y$, and $z$ be accepted $\RegSeqRatUp$ packets. Suppose one finite $\StreamNameUp$ schedule witnesses $\mathsf{RegSeqRatClassifier}(x,y)$ and another finite $\StreamNameUp$ schedule witnesses $\mathsf{RegSeqRatClassifier}(y,z)$. If the two witnesses admit a common refinement on which the middle $y$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ provenance agree, then the common refinement witnesses $\mathsf{RegSeqRatClassifier}(x,z)$ using only the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Project both classifier witnesses to their finite scheduled windows. The finite-window transport obligation of \autoref{thm:regseqrat-finite-window-transport-obligation} moves the $x$--$y$ and $y$--$z$ endpoint families, radius rows, regularity ledgers, classifier ledgers, $\hsame$ rows, $\Cont$ routes, package rows, and naming rows to the stated common refinement.
+
+On that common refinement, apply \autoref{thm:regseqrat-common-refinement-classifier-determinacy} to the two transported reads of the middle $y$ side. The agreement hypotheses identify the displayed $y$ endpoint rows and all provenance rows that the classifier can inspect, so the two source schedules have one middle finite surface.
+
+Read the two dyadic tolerance ledgers through \autoref{thm:regseqrat-dyadic-radius-ledger-readback}. Since the radius and distance data are displayed on the same refined finite window, the $x$ endpoint rows and the $z$ endpoint rows compose across the common $y$ rows inside the dyadic ledger surface.
+
+Finally use classifier transport from \autoref{thm:regseqrat-classifier-transport} to repack the composed finite surface as a witness for $\mathsf{RegSeqRatClassifier}(x,z)$. The construction introduces no quotient stream equality, host real equality, metric-completion object, or $\RealUp$ completeness datum.
+\end{proof}
+
 \begin{theorem}[RegSeqRat scheduled-window projection]
 \label{thm:regseqrat-scheduled-window-projection}
 For every accepted finite scheduled window of a $\RegSeqRatUp$ stream carrier, projection exposes only the unary index row, the $\DyadicRatCoreUp$ endpoint row, the dyadic-radius row, the regularity ledger rows, and the associated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. No projected window contains a quotient sequence coordinate, a host real coordinate, or a completion object.
@@ -282,6 +296,22 @@ Start with the public source export of \autoref{thm:regseqrat-public-source-expo
 The seal-facing part is supplied by \autoref{thm:regseqrat-real-seal-handoff}. The finite-window part is supplied by \autoref{thm:regseqrat-finite-window-transport-closure}, \autoref{thm:regseqrat-refined-window-gluing}, and \autoref{thm:regseqrat-scheduled-window-projection}; the dyadic-radius readback is supplied by \autoref{thm:regseqrat-dyadic-radius-ledger-readback}.
 
 Composing these rows gives the finite boundary read by the regular rational stream interface. Since the cited statements expose only the carrier, classifier, ledger, window, seal, and provenance coordinates just listed, there is no extra coordinate from which a quotient sequence, host real equality, ambient metric completion, or $\RealUp$ completeness datum could be exported.
+\end{proof}
+
+\begin{theorem}[RegSeqRat StreamName Dyadic finite-window lock]
+\label{thm:regseqrat-streamname-dyadic-window-lock}
+Let $P$ be an accepted finite $\RegSeqRatUp$ scheduled window. The same finite packet simultaneously exposes the $\StreamNameUp$ schedule row, the $\DyadicRatCoreUp$ endpoint and radius ledger extracted by the dyadic-radius window theorem, and the exact $\RealUp$ seal source surface consumed by \autoref{thm:regseqrat-real-seal-handoff}.
+
+If two refinements of $P$ agree on the displayed $\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier rows, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows, then they induce the same $\RealUp$ seal source surface. The lock exports no quotient stream, host real equality, ambient completion point, $\RealUp$ completeness datum, or additional standard-bridge coordinate.
+\end{theorem}
+\begin{proof}
+Project $P$ by \autoref{thm:regseqrat-scheduled-window-projection}. This exposes the finite $\StreamNameUp$ schedule row together with the endpoint, regularity, classifier, transport, provenance, and local naming rows carried by the same accepted packet.
+
+Next read the regularity and radius data through \autoref{thm:regseqrat-window-regularity-ledger} and \autoref{thm:regseqrat-dyadic-radius-ledger-readback}. These two facts identify the displayed $\DyadicRatCoreUp$ endpoint rows and radius ledger as rows of the same finite scheduled window.
+
+For two refinements, apply \autoref{thm:regseqrat-refined-window-gluing}. Agreement on the displayed schedule, endpoint, radius, regularity, classifier, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows repacks the overlap as one accepted finite $\RegSeqRatUp$ window whose restrictions recover both refinements.
+
+Finally use \autoref{thm:regseqrat-real-seal-handoff}. Since the seal reads only the finite regular-rational source rows just locked together, the two agreeing refinements present the same $\RealUp$ seal source surface and no hidden quotient, completion, equality, or bridge coordinate is available.
 \end{proof}
 
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
