@@ -62,6 +62,36 @@ For the binary step, apply \autoref{thm:spectralmeasure-orthogonal-additivity} t
 The packet has no coordinate for countable families, completed measurable spaces, eigenvectors, or external projection-valued functions. Thus the finite-union endpoint is exhausted by the projection ledger recorded in the accepted $\SpectralMeasureUp$ packet.
 \end{proof}
 
+\begin{theorem}[SpectralMeasureUp projection-ledger binary composition]
+\label{thm:spectralmeasure-projection-ledger-binary-composition}
+Let $S$ be an accepted $\SpectralMeasureUp$ packet with displayed disjoint
+event rows $E$, $F$, and $G$. Suppose the packet also displays the finite-union
+rows $E\cup F$ and $(E\cup F)\cup G$. Then the projection endpoint for the
+three-term displayed union is obtained by composing two applications of the
+packet's orthogonality and finite-additivity ledger over the same
+$\HilbertUp$, $\ObservableUp$, $\MeasureUp$, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows. The read introduces no countable additivity row and no
+host projection-valued function.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:spectralmeasure-orthogonal-additivity} to the displayed
+event rows $E$ and $F$. This reads the orthogonality row for the pair and
+names the projection endpoint for the displayed union row $E\cup F$ over the
+same Hilbert, observable, and measure provenance.
+
+Apply \autoref{thm:spectralmeasure-orthogonal-additivity} again to the
+displayed union row $E\cup F$ and the event row $G$. The second read uses the
+same packet ledger and therefore keeps the same $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ rows.
+
+Finally use
+\autoref{thm:spectralmeasure-projection-ledger-finite-additivity}. Its row
+inventory identifies this two-step binary composition as the three-term
+finite-union endpoint already displayed in the accepted packet. Since the
+inventory has no countable-additivity coordinate or host projection-valued
+function, neither can be read by the composition.
+\end{proof}
+
 \begin{theorem}[SpectralMeasureUp NameCert obligation surface]
 \label{thm:spectralmeasure-namecert-obligation-surface}
 The local $\NameCert_{\SpectralMeasureUp}$ obligation surface consists of the carrier of \autoref{def:spectralmeasure-carrier}, the classifier of \autoref{def:spectralmeasure-classifier}, the $\hsame$ stability theorem, the orthogonal finite-additivity ledger, and the provenance rows naming $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$. Every consumer of $\SpectralMeasureUp$ can read only those finite $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
