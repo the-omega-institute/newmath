@@ -24,6 +24,38 @@ def ThetaFunctionCarrierSource [AskSetup] [PackageSetup]
       Cont period chart coeff ∧ Cont provenance readback endpoint ∧
         PkgSig bundle endpoint pkg
 
+def ThetaFunctionCarrier [AskSetup] [PackageSetup]
+    (period chart coeff readback : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  UnaryHistory period ∧ UnaryHistory chart ∧ UnaryHistory coeff ∧
+    Cont period chart readback ∧ TokIntro bundle readback pkg
+
+theorem ThetaFunctionCarrier_hsame_stability [AskSetup] [PackageSetup]
+    {period chart coeff readback period' chart' coeff' readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    ThetaFunctionCarrier period chart coeff readback bundle pkg ->
+      TokIntro bundle readback' pkg' -> hsame period period' -> hsame chart chart' ->
+        hsame coeff coeff' -> Cont period' chart' readback' ->
+          ThetaFunctionCarrier period' chart' coeff' readback' bundle pkg' ∧
+            hsame readback readback' ∧ psame bundle pkg pkg' := by
+  intro source targetToken samePeriod sameChart sameCoeff targetCont
+  have periodUnary : UnaryHistory period' :=
+    unary_transport source.left samePeriod
+  have chartUnary : UnaryHistory chart' :=
+    unary_transport source.right.left sameChart
+  have coeffUnary : UnaryHistory coeff' :=
+    unary_transport source.right.right.left sameCoeff
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame samePeriod sameChart source.right.right.right.left targetCont
+  have samePkg : psame bundle pkg pkg' :=
+    psame.intro source.right.right.right.right targetToken sameReadback
+  exact And.intro
+    (And.intro periodUnary
+      (And.intro chartUnary
+        (And.intro coeffUnary
+          (And.intro targetCont targetToken))))
+    (And.intro sameReadback samePkg)
+
 theorem ThetaFunctionCarrierSource_namecert_boundary [AskSetup] [PackageSetup]
     {period chart coeff provenance readback endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -64,6 +96,21 @@ theorem ThetaFunctionCarrierSource_namecert_boundary [AskSetup] [PackageSetup]
       (And.intro source.right.right.right.right.right.right.left
         (And.intro source.right.right.right.right.right.right.right.left
           source.right.right.right.right.right.right.right.right))
+
+theorem ThetaFunctionCarrierSource_ledger_exactness [AskSetup] [PackageSetup]
+    {period chart coeff provenance readback endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThetaFunctionCarrierSource period chart coeff provenance readback endpoint bundle pkg ->
+      UnaryHistory period ∧ UnaryHistory chart ∧ UnaryHistory coeff ∧
+        Cont period chart coeff ∧ Cont provenance readback endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro source
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.left
+        (And.intro source.right.right.right.right.right.right.left
+          (And.intro source.right.right.right.right.right.right.right.left
+            source.right.right.right.right.right.right.right.right))))
 
 theorem ThetaFunctionCarrierSource_period_lattice_scope [AskSetup] [PackageSetup]
     {period chart coeff provenance readback endpoint period' chart' coeff' provenance'
