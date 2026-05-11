@@ -1,9 +1,11 @@
-import BEDC.Derived.DiffFormUp
+import BEDC.Derived.DiffFormUp.RootConsumerFace
 
 namespace BEDC.Derived.DiffFormUp
 
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem DiffFormRootConsumerEntry_carrier {degree probe tensor scalar antisym ledger target : BHist} :
@@ -68,5 +70,61 @@ theorem DiffFormRootConsumerEntry_wedge
       wedgeLedger.right.right.right.left,
       wedgeLedger.right.right.right.right.right,
       wedgeLedger.right.right.right.right.left⟩
+
+theorem DiffFormRootConsumerEntry_threshold {ScalarCarrier : BHist -> Prop}
+    {ScalarClassifier : BHist -> BHist -> Prop} (scalarCert : NameCert ScalarCarrier
+      ScalarClassifier) {probes : ProbeBundle BHist}
+    {degree probe tensor scalar antisym ledger target dplus outDegree rightLedger tensorLedger
+      derivativeBoundary scalarLeft scalarRight : BHist} :
+    InBundle probe probes ->
+      ScalarCarrier scalar ->
+        UnaryHistory degree ->
+          UnaryHistory probe ->
+            Cont degree probe tensor ->
+              UnaryHistory antisym ->
+                Cont tensor antisym scalar ->
+                  hsame ledger
+                    (append degree (append probe (append tensor (append scalar antisym)))) ->
+                    Cont ledger BHist.Empty target ->
+                      Cont degree (BHist.e1 BHist.Empty) dplus ->
+                        Cont degree dplus outDegree ->
+                          UnaryHistory rightLedger ->
+                            hsame ledger rightLedger ->
+                              UnaryHistory tensorLedger ->
+                                Cont tensor scalar derivativeBoundary ->
+                                  ScalarClassifier scalarLeft scalar ->
+                                    ScalarClassifier scalar scalarRight ->
+                                      UnaryHistory target ∧ hsame target ledger ∧
+                                        DiffFormWedgeDegreeLedger degree dplus outDegree ledger
+                                          rightLedger tensorLedger ∧
+                                          DiffFormExteriorDerivativeLedger scalar dplus degree
+                                            dplus probe probe tensor tensor scalar scalar antisym
+                                            ledger ∧
+                                            DiffFormBHistClassifier ScalarClassifier probes degree
+                                              probe tensor scalarLeft antisym ledger degree probe
+                                              tensor scalarRight antisym ledger ∧
+                                              UnaryHistory derivativeBoundary := by
+  intro probeIn scalarCarrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+  intro ledgerRoute targetRoute degreeSuccessor wedgeRoute rightLedgerUnary sameRightLedger
+  intro tensorLedgerUnary derivativeRoute leftScalar rightScalar
+  have carrierRows :=
+    DiffFormRootConsumerEntry_carrier degreeUnary probeUnary tensorRoute antisymUnary scalarRoute
+      ledgerRoute targetRoute
+  have routingRows :=
+    DiffFormRootConsumerPackage_operation_routing scalarCert probeIn scalarCarrier degreeUnary
+      probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute degreeSuccessor wedgeRoute
+      rightLedgerUnary sameRightLedger tensorLedgerUnary
+  have crossedRows :=
+    DiffFormRootConsumerFace_disjointness scalarCert routingRows.left leftScalar rightScalar
+  have derivativeRows :=
+    DiffFormRootConsumerEntry_derivative_boundary degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute targetRoute derivativeRoute
+  exact
+    ⟨carrierRows.left,
+      carrierRows.right.left,
+      routingRows.right.right,
+      routingRows.right.left,
+      crossedRows.left,
+      derivativeRows.right.right.left⟩
 
 end BEDC.Derived.DiffFormUp
