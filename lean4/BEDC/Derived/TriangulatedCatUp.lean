@@ -221,6 +221,18 @@ def TriangulatedCatPacketCarrier [AskSetup] [PackageSetup]
         Cont shift triangle route ∧ Cont octahedral route endpoint ∧
           PkgSig bundle endpoint pkg
 
+def TriangulatedCatPacketClassifier [AskSetup] [PackageSetup]
+    (category derived additive shift triangle octahedral route endpoint category' derived'
+      additive' shift' triangle' octahedral' route' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  TriangulatedCatPacketCarrier category derived additive shift triangle octahedral route
+      endpoint bundle pkg ∧
+    TriangulatedCatPacketCarrier category' derived' additive' shift' triangle' octahedral'
+      route' endpoint' bundle pkg ∧
+      hsame category category' ∧ hsame derived derived' ∧ hsame additive additive' ∧
+        hsame shift shift' ∧ hsame triangle triangle' ∧ hsame octahedral octahedral' ∧
+          hsame route route' ∧ hsame endpoint endpoint'
+
 theorem TriangulatedCatPacketCarrier_classifier_stability [AskSetup] [PackageSetup]
     {category derived additive shift triangle octahedral route endpoint category' derived'
       additive' shift' triangle' octahedral' route' endpoint' : BHist}
