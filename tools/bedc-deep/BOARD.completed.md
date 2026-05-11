@@ -16961,3 +16961,51 @@ Rationale:
 The candidate is a bounded public certificate theorem for an existing concrete_instances chapter, expressed as a single implication from the three displayed obligation rows to the exported consumer surface. It is distinct from the existing proof-checker, fixed-point, and undecidable-row obligations already present in the paper because it asks for the aggregate NameCert-facing export and explicit consumer boundary. No existing BOARD title closely matches GoedelIncompleteness, and the landing file is short enough for a local theorem block without line-cap risk.
 
 ---
+
+### B-672 - NestedDyadicInterval singleton chain vacuity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | NestedDyadicInterval singleton chain vacuity |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted \NestedDyadicIntervalUp carrier displays exactly one interval row, then under the finite-chain carrier its nested-refinement ledger has no successor-pair reads and its public handoff is exactly that interval, the schedule, provenance, and tail ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/527_nesteddyadicinterval_namecert_construction.tex`
+
+Rationale:
+The carrier defines K=(I_0,\ldots,I_n,S,R,P,L), with R storing a refinement row for every displayed successor pair and L hiding only the unobserved tail, at papers/bedc/parts/concrete_instances/527_nesteddyadicinterval_namecert_construction.tex:9-23. Existing theorems cover endpointwise window transport, RegSeqRat handoff, and the NameCert surface at lines 33-79, but none isolates the zero-successor-pair case. A focused grep for NestedDyadicInterval singleton/single/vacuous/one displayed and matching theorem labels returned 0 hits across papers/bedc/parts and lean4/BEDC. The exact local theorem inventory contains only thm:nesteddyadicinterval-window-transport, thm:nesteddyadicinterval-regseqrat-handoff, and thm:nesteddyadicinterval-namecert-obligation-surface at lines 33-62; marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching NestedDyadic returned 0 files.
+
+---
+
+### B-673 - BousfieldLocalization empty selected-map boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | BousfieldLocalization empty selected-map boundary |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted \BousfieldLocalizationUp carrier has an empty selected morphism-class row S, then under the finite localizing packet every inverted-map consumer read is absent and downstream handoff is limited to M, L, T, P, and N rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex`
+
+Rationale:
+The carrier defines B=(M,S,L,T,P,N), with S as the finite selected morphism-class row and L as fibrant-local-object rows, at papers/bedc/parts/concrete_instances/492_bousfieldlocalization_namecert_construction.tex:11-27. Existing theorems state broad NameCert obligations and a local-object handoff where consumers read local-object rows in L and selected maps in S at lines 29-63, but they do not spell out the empty-S boundary or the absence of inverted-map reads. A focused grep for BousfieldLocalization empty selected/no selected/empty morphism/empty map and matching theorem labels returned 0 hits across papers/bedc/parts and lean4/BEDC. The exact local theorem inventory contains only thm:bousfieldlocalization-namecert-obligations and thm:bousfieldlocalization-local-object-handoff at lines 29-52; marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching Bousfield returned 0 files.
+
+---
