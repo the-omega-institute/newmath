@@ -382,6 +382,31 @@ theorem ControlControllabilityReachabilityPacket_column_transport_obligation [As
   exact And.intro transportedPacket
     (And.intro sameFirstColumn (And.intro sameReachability sameEndpoint))
 
+theorem ControlControllabilityReachabilityPacket_kalman_reachability_source [AskSetup]
+    [PackageSetup] {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {state input transition control horizon firstColumn reachability provenance endpoint : BHist} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory control ∧ UnaryHistory horizon ∧
+        Cont control horizon firstColumn ∧ Cont firstColumn transition reachability ∧
+          Cont reachability provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have stateUnary : UnaryHistory state := packet.left
+  have transitionUnary : UnaryHistory transition := packet.right.right.left
+  have controlUnary : UnaryHistory control := packet.right.right.right.left
+  have horizonUnary : UnaryHistory horizon := packet.right.right.right.right.left
+  have firstColumnRow : Cont control horizon firstColumn :=
+    packet.right.right.right.right.right.right.left
+  have reachabilityRow : Cont firstColumn transition reachability :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont reachability provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨stateUnary, transitionUnary, controlUnary, horizonUnary, firstColumnRow,
+      reachabilityRow, endpointRow, pkgSig⟩
+
 theorem ControlControllabilityReachabilityPacket_continuation_closure [AskSetup]
     [PackageSetup]
     {state input transition control horizon firstColumn reachability provenance endpoint
