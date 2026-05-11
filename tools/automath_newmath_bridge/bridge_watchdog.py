@@ -124,14 +124,10 @@ def _python_bridge_processes() -> list[dict[str, Any]]:
     ps_script = (
         "Get-CimInstance Win32_Process | "
         "Where-Object { "
-        "($_.CommandLine -like '*tools/automath_newmath_bridge/bridge_supervisor.py*' -or "
-        "$_.CommandLine -like '*tools\\\\automath_newmath_bridge\\\\bridge_supervisor.py*' -or "
-        "$_.CommandLine -like '*tools/automath_newmath_bridge/bridge_heavy_loop.py*' -or "
-        "$_.CommandLine -like '*tools\\\\automath_newmath_bridge\\\\bridge_heavy_loop.py*' -or "
-        "$_.CommandLine -like '*tools/automath_newmath_bridge/bridge_production_loop.py*' -or "
-        "$_.CommandLine -like '*tools\\\\automath_newmath_bridge\\\\bridge_production_loop.py*' -or "
-        "$_.CommandLine -like '*tools/automath_newmath_bridge/bridge_watchdog.py*' -or "
-        "$_.CommandLine -like '*tools\\\\automath_newmath_bridge\\\\bridge_watchdog.py*') -and "
+        "($_.CommandLine -like '*bridge_supervisor.py*' -or "
+        "$_.CommandLine -like '*bridge_heavy_loop.py*' -or "
+        "$_.CommandLine -like '*bridge_production_loop.py*' -or "
+        "$_.CommandLine -like '*bridge_watchdog.py*') -and "
         "$_.ExecutablePath -like '*Python*' "
         "} | Select-Object ProcessId,ParentProcessId,CreationDate,CommandLine | ConvertTo-Json -Depth 3"
     )
