@@ -18,27 +18,3 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-663 - Append sameSig exact split into both components
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Append sameSig exact split into both components |
-| Layer | core |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under BundleAskPolicy(Π,D), BundleAskPolicy(Θ,D), and h,k admitted by D, sameSig_{BAppend(Π,Θ)}(h,k) implies sameSig_Π(h,k) and sameSig_Θ(h,k).
-
-Local inputs:
-- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
-- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
-
-Rationale:
-B-660 covers residual exactness with a known Θ-component; B-659 covers bundle-local same-source membership sharing signatures. Neither gives the unconditional component-split converse to append closure of sameSig. This is the appended-classifier → two-component-classifiers exact split, a genuine converse of the append closure theorem rather than a paraphrase. Lands cleanly in 02_signature_generation.tex.
-
----
