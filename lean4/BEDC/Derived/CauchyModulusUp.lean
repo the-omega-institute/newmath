@@ -357,4 +357,27 @@ theorem CauchyModulus_monotone_tail_refinement_window
     (And.intro refineCont
       (And.intro oldLedgerCont refinedLedgerCont))
 
+theorem CauchyModulusLedgerPacket_regseqrat_regularity_rows
+    {precision threshold tolerance observation observation' consumption provenance provenance'
+      window : BHist} :
+    CauchyModulusLedgerPacket precision threshold tolerance observation consumption provenance
+        window ->
+      hsame observation observation' -> Cont consumption observation' provenance' ->
+        RatHistoryCarrier tolerance ∧ UnaryHistory window ∧ Cont window tolerance consumption ∧
+          hsame provenance provenance' := by
+  intro packet sameObservation provenanceRow'
+  have toleranceCarrier : RatHistoryCarrier tolerance := packet.right.right.left
+  have precisionUnary : UnaryHistory precision := packet.left
+  have thresholdUnary : UnaryHistory threshold := packet.right.left
+  have windowRow : Cont precision threshold window := packet.right.right.right.left
+  have consumptionRow : Cont window tolerance consumption := packet.right.right.right.right.left
+  have provenanceRow : Cont consumption observation provenance :=
+    packet.right.right.right.right.right
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed precisionUnary thresholdUnary windowRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl consumption) sameObservation provenanceRow provenanceRow'
+  exact And.intro toleranceCarrier
+    (And.intro windowUnary (And.intro consumptionRow sameProvenance))
+
 end BEDC.Derived.CauchyModulusUp
