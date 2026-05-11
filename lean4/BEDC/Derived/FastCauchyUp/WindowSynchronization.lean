@@ -1,4 +1,4 @@
-import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.ExplicitRateSealWindow
 
 namespace BEDC.Derived.FastCauchyUp
 
