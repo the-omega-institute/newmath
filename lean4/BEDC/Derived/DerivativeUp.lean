@@ -575,4 +575,14 @@ theorem DerivativeMetricQuotient_chain_product_composition
     (And.intro distanceProduct
       (And.intro innerQuotientLedger sameFunctionQuotient))
 
+theorem DerivativeUp_StdBridge
+    {f g z h_f h_g h_fg q_f q_g q_fg d_f d_g d_fg F_fg : BHist} :
+    DerivativeMetricQuotient f z h_f q_f d_f ->
+      DerivativeMetricQuotient g q_f h_g q_g d_g ->
+        Cont h_f h_g h_fg -> Cont q_f q_g q_fg -> Cont d_f d_g d_fg ->
+          Cont f g F_fg -> Cont f h_fg q_g ->
+            DerivativeMetricQuotient F_fg z h_fg q_fg d_fg ∧
+              Cont d_f d_g d_fg ∧ Cont q_f h_g q_g ∧ hsame g q_f := by
+  exact DerivativeMetricQuotient_chain_product_composition
+
 end BEDC.Derived.DerivativeUp
