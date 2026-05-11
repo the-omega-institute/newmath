@@ -319,6 +319,87 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
 
+theorem LocatedRealCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            LocatedRealCarrier stream schedule interval location realRow transport provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            LocatedRealCarrier stream schedule interval location realRow transport provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            LocatedRealCarrier stream schedule interval location realRow transport provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory stream ∧ UnaryHistory schedule ∧ UnaryHistory interval ∧
+          UnaryHistory location ∧ UnaryHistory realRow ∧ UnaryHistory transport ∧
+            UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont stream schedule interval ∧
+              Cont interval location realRow ∧ Cont realRow transport provenance ∧
+                Cont provenance schedule endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have carrierTransport :
+      forall {row row' : BHist},
+        hsame row row' ->
+          LocatedRealCarrier stream schedule interval location realRow transport provenance
+              endpoint bundle pkg ∧ hsame row endpoint ->
+            LocatedRealCarrier stream schedule interval location realRow transport provenance
+                endpoint bundle pkg ∧ hsame row' endpoint := by
+    intro row row' sameRow source
+    exact And.intro source.left (hsame_trans (hsame_symm sameRow) source.right)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          LocatedRealCarrier stream schedule interval location realRow transport provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := {
+    carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+    equiv_refl := by
+      intro row _source
+      exact hsame_refl row
+    equiv_symm := by
+      intro row row' sameRow
+      exact hsame_symm sameRow
+    equiv_trans := by
+      intro row row' row'' sameRow sameRow'
+      exact hsame_trans sameRow sameRow'
+    carrier_respects_equiv := by
+      intro row row' sameRow source
+      exact carrierTransport sameRow source
+  }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          LocatedRealCarrier stream schedule interval location realRow transport provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          LocatedRealCarrier stream schedule interval location realRow transport provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          LocatedRealCarrier stream schedule interval location realRow transport provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := {
+    core := core
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  obtain ⟨streamUnary, scheduleUnary, intervalUnary, locationUnary, realRowUnary,
+    transportUnary, provenanceUnary, endpointUnary, streamScheduleInterval,
+    intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+    endpointSig⟩ := carrier
+  exact
+    ⟨cert, streamUnary, scheduleUnary, intervalUnary, locationUnary, realRowUnary,
+      transportUnary, provenanceUnary, endpointUnary, streamScheduleInterval,
+      intervalLocationRealRow, realRowTransportProvenance, provenanceScheduleEndpoint,
+      endpointSig⟩
+
 theorem LocatedRealCarrier_metric_consumer_empty_boundary [AskSetup] [PackageSetup]
     {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
