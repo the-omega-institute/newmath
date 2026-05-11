@@ -84,4 +84,133 @@ theorem KKTPrimalDualCarrier_primal_dual_row_obligations [AskSetup] [PackageSetu
   }
   exact And.intro cert carrier
 
+def KKTComplementarityLedger [AskSetup] [PackageSetup]
+    (residual multiplier slack ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory residual ∧ UnaryHistory multiplier ∧ UnaryHistory slack ∧
+    UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont residual multiplier ledger ∧
+      Cont ledger slack endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem KKTComplementarityLedger_exactness [AskSetup] [PackageSetup]
+    {residual multiplier slack ledger endpoint residual' multiplier' slack' ledger'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTComplementarityLedger residual multiplier slack ledger endpoint bundle pkg ->
+      hsame residual residual' -> hsame multiplier multiplier' -> hsame slack slack' ->
+        Cont residual' multiplier' ledger' -> Cont ledger' slack' endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            KKTComplementarityLedger residual' multiplier' slack' ledger' endpoint' bundle pkg ∧
+              hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro packet sameResidual sameMultiplier sameSlack residualLedger' endpointLedger' pkgSig'
+  have residualUnary' : UnaryHistory residual' :=
+    unary_transport packet.left sameResidual
+  have multiplierUnary' : UnaryHistory multiplier' :=
+    unary_transport packet.right.left sameMultiplier
+  have slackUnary' : UnaryHistory slack' :=
+    unary_transport packet.right.right.left sameSlack
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameResidual sameMultiplier packet.right.right.right.right.right.left
+      residualLedger'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed residualUnary' multiplierUnary' residualLedger'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameSlack packet.right.right.right.right.right.right.left
+      endpointLedger'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' slackUnary' endpointLedger'
+  exact
+    And.intro
+      (And.intro residualUnary'
+        (And.intro multiplierUnary'
+          (And.intro slackUnary'
+            (And.intro ledgerUnary'
+              (And.intro endpointUnary'
+                (And.intro residualLedger'
+                  (And.intro endpointLedger' pkgSig')))))))
+      (And.intro sameLedger sameEndpoint)
+
+def KKTPrimalDualPacket [AskSetup] [PackageSetup]
+    (primal dual residual stationarity feasibility slackness provenance endpoint : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory primal ∧ UnaryHistory dual ∧ UnaryHistory residual ∧
+    UnaryHistory stationarity ∧ UnaryHistory feasibility ∧ UnaryHistory slackness ∧
+      UnaryHistory provenance ∧ UnaryHistory endpoint ∧ Cont primal dual residual ∧
+        Cont residual stationarity feasibility ∧ Cont feasibility slackness endpoint ∧
+          PkgSig probe provenance pkg
+
+theorem KKTPrimalDualPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {primal dual residual stationarity feasibility slackness provenance endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    KKTPrimalDualPacket primal dual residual stationarity feasibility slackness provenance
+        endpoint probe pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          hsame ∧
+        Cont primal dual residual ∧ Cont residual stationarity feasibility ∧
+          Cont feasibility slackness endpoint ∧ PkgSig probe provenance pkg := by
+  intro packet
+  have endpointSource :
+      (fun row : BHist =>
+        exists e : BHist,
+          KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+            provenance e probe pkg ∧ hsame row e) endpoint :=
+    Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              KKTPrimalDualPacket primal dual residual stationarity feasibility slackness
+                provenance e probe pkg ∧ hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        cases carrierRow with
+        | intro e endpointWitness =>
+            exact Exists.intro e
+              (And.intro endpointWitness.left
+                (hsame_trans (hsame_symm sameRows) endpointWitness.right))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.right.right.right.right.right.right.right.right.left
+      (And.intro packet.right.right.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.KKTUp
