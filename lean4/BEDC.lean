@@ -69,6 +69,7 @@ import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
+import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
