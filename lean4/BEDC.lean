@@ -95,6 +95,7 @@ import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.GaloisExtUp
@@ -107,7 +108,6 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
-import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HypothesisUp
@@ -126,14 +126,17 @@ import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LocatedRealUp
+import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
+import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
+import BEDC.Derived.MonodromyUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
@@ -144,6 +147,7 @@ import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
+import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -157,7 +161,6 @@ import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
-import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
@@ -239,6 +242,7 @@ import BEDC.Derived.DeRhamUp.BridgeInputSource
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
