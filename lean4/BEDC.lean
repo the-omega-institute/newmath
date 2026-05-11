@@ -58,6 +58,7 @@ import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
+import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
@@ -749,6 +750,7 @@ import BEDC.Derived.ConvergenceRadiusUp.PublicExport
 import BEDC.Derived.ConvergenceRadiusUp.PublicBoundaryExactness
 import BEDC.Derived.ConvergenceRadiusUp.PublicBoundary
 import BEDC.Derived.ConvergenceRadiusUp.NameCertificate
+import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ConvergenceRadiusUp.TailShift
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.RandomVarUp
