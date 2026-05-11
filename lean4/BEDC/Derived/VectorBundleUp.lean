@@ -27,6 +27,20 @@ def VectorBundleFiniteCarrier [AskSetup] [PackageSetup]
           Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
             Cont provenance contRows endpoint ∧ PkgSig probe endpoint pkg
 
+def VectorBundleFiniteCarrier_classifier [AskSetup] [PackageSetup]
+    (bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
+      contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+      contRows provenance endpoint probe pkg ∧
+    VectorBundleFiniteCarrier bundleRow' vecspace' trivialization' fibre' transition' overlap'
+      linearity' contRows' provenance' endpoint' probe pkg ∧
+      hsame bundleRow bundleRow' ∧ hsame vecspace vecspace' ∧ hsame fibre fibre' ∧
+        hsame overlap overlap' ∧ hsame linearity linearity' ∧
+          hsame provenance provenance' ∧ Cont transition' linearity' contRows' ∧
+            PkgSig probe endpoint' pkg
+
 theorem VectorBundleFiniteCarrier_classifier_stability_obligation [AskSetup] [PackageSetup]
     {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
       endpoint bundleRow' vecspace' trivialization' fibre' transition' overlap' linearity'
