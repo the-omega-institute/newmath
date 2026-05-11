@@ -59,6 +59,7 @@ octahedral-ledger, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ rows of
 \autoref{def:triangulatedcat-carrier}. No host Verdier quotient object and no
 unlogged octahedral datum is carried by the $\TriangulatedCatUp$ surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.TriangulatedCatUp.TriangulatedCatPacketCarrier\_carrier\_obligation}
 \begin{proof}
 Unpack the carrier definition. The packet constructor lists the retained
 $\CategoryUp$ and $\DerivedCatUp$ rows first, then the additive,
@@ -190,6 +191,8 @@ of the logged finite faces of the octahedral ledger, together with its
 comparison-morphism history and displayed $\Cont$ witness. The certificate has
 no access path to an octahedral face outside those packet rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TriangulatedCatUp.TriangulatedCatOctahedralLedger\_face\_cont\_coverage}
+\leanvariant{BEDC.Derived.TriangulatedCatUp.TriangulatedCatOctahedralLedger\_face\_cont\_witness}
 \begin{proof}
 Start with the octahedral coordinate of
 \autoref{def:triangulatedcat-carrier}. Its accepted rows are the finite face
@@ -261,14 +264,16 @@ octahedral datum.
 \leanchecked{BEDC.Derived.TriangulatedCatUp.TriangulatedCatFiniteCarrier\_obligation\_surface}
 
 \closureat{TriangulatedCatUp}{seedStr}
+\closureat{TriangulatedCatUp}{obligationStr}[BEDC.Derived.TriangulatedCatUp.TriangulatedCatPacketCarrier\_classifier\_stability]
 
 \begin{closurestatus}{\TriangulatedCatUp}
   \constructivestory{A triangulated-category packet is generated from finite dependency rows for $\CategoryUp$ and $\DerivedCatUp$, additive and translation rows, distinguished-triangle rows, the logged octahedral faces, and the $\Cont/\mathsf{Pkg}$ provenance that makes those rows visible at the BEDC boundary.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed boundary binds the finite $\mathsf{BHist}$ carrier, the componentwise $\hsame$ classifier, the $\Cont$ octahedral ledger, the $\mathsf{Pkg}$ provenance row, and the dependency rows for $\CategoryUp$ and $\DerivedCatUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation boundary binds the finite $\mathsf{BHist}$ carrier, the componentwise $\hsame$ classifier, the $\Cont$ octahedral ledger, the $\mathsf{Pkg}$ provenance row, and the dependency rows for $\CategoryUp$ and $\DerivedCatUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TriangulatedCatUp.TriangulatedCatPacketCarrier\_classifier\_stability}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host Verdier quotient semantics, ambient triangulated-category equality, or octahedral data not logged in the displayed packet.}
-  \upgradepath{Reaching obligation closure requires the carrier, classifier, transport, and octahedral-ledger obligations to be bound to checked certificate targets.}
+  \upgradepath{Scoped closure requires a displayed boundary over the additive, shift, distinguished-triangle, octahedral-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
 \end{closurestatus}
