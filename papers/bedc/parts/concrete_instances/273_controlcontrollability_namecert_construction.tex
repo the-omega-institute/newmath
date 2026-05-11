@@ -71,6 +71,7 @@ Every public reachability read is a projection from that finite provenance packe
 
 The packet contains no coordinate for a host reachable subspace, no Kalman decomposition object, and no analytic trajectory semantics. Those objects are outside the dependency scope of the public surface.
 \end{proof}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_dependency\_scope}
 
 \begin{theorem}[ControlControllability NameCert obligation surface]
 \label{thm:controlcontrollability-namecert-obligation-surface}
@@ -127,9 +128,10 @@ The construction is finite at every step. It records only the concatenated displ
 
 \closureat{ControlControllabilityUp}{seedStr}
 \closureat{ControlControllabilityUp}{obligationStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_namecert\_obligation\_surface]
+\closureat{ControlControllabilityUp}{scopedStr}[BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_continuation\_closure]
 \begin{closurestatus}{\ControlControllabilityUp}
   \constructivestory{}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The seed surface records the finite reachability carrier, classifier, reachability ledger, NameCert obligation surface, and consumer boundary for $\ControlControllabilityUp$ over displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, $\LQRUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket}
