@@ -276,6 +276,23 @@ theorem DynSystemFlowPacket_composition_flow_obligation [AskSetup] [PackageSetup
             (And.intro joinedEndpointCont
               (And.intro joinedRouteCont joinedRoutePkg)))))
 
+theorem DynSystemUp_StdBridge [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      Cont endpoint route bridge ->
+        PkgSig bundle bridge pkg ->
+          DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ∧
+            UnaryHistory endpoint ∧ hsame endpoint (append flowWitness ode) ∧
+              hsame bridge (append endpoint route) ∧ PkgSig bundle bridge pkg := by
+  intro packet bridgeRow bridgePkg
+  have endpointRows :=
+    DynSystemFlowPacket_endpoint_coverage packet
+  exact And.intro packet
+    (And.intro endpointRows.right.left
+      (And.intro endpointRows.right.right.right.right.left
+        (And.intro bridgeRow bridgePkg)))
+
 def DynSystemOrbitIteratePacket [AskSetup] [PackageSetup]
     (index segment endpoint : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory index ∧ UnaryHistory segment ∧ UnaryHistory endpoint ∧ PkgSig bundle segment pkg

@@ -227,6 +227,20 @@ field, algebraic closure, host root set, or host factorization source is
 available unless it is represented by one of $E,P,R,F,C,H,\Pi$.
 \end{proof}
 
+\begin{theorem}[SplittingFieldUp standard bridge boundary]
+\label{thm:splittingfield-standard-bridge-boundary}
+The public root packet $\mathcal{S}=(E,P,R,F,C,H,\Pi)$ described by the $\SplittingFieldUp$ carrier gives the BEDC-side boundary of the standard splitting-field reading. Roots and linear factors are read only from the displayed $\FieldExtUp$, $\PolynomialUp$, root endpoint, factor, $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows of that packet. The bridge introduces no quotient fields, algebraic-closure carrier, host root set, or external factorization.
+\end{theorem}
+\begin{proof}
+Start from the root $\NameCert$ surface of \autoref{thm:splittingfield-root-namecert-surface}. It exposes the accepted packet as the displayed $E,P,R,F,C,H,\Pi$ rows and no additional field, polynomial, root, or factor carrier.
+
+Apply \autoref{thm:splittingfield-root-factor-ledger-exhaustion}. Every factor read in the standard interpretation is forced through the finite continuation ledger $C$ and the package provenance $\Pi$, so the factor side is already exhausted by displayed packet data.
+
+Use the downstream threshold of \autoref{thm:splittingfield-root-downstream-threshold} together with the consumer boundary of \autoref{thm:splittingfield-cyclotomic-consumer-source-boundary}. These project every standard root, linear-factor, transport, and provenance read to one of the displayed rows.
+
+Finally invert the carrier of \autoref{def:splittingfield-root-carrier-packet}. Since the carrier has no coordinate for quotient fields, algebraic closures, host root sets, or external factorization procedures, those data cannot be introduced by the BEDC-side bridge boundary.
+\end{proof}
+
 \closureat{SplittingFieldUp}{scopedStr}
 \closureat{SplittingFieldUp}{bridgedStr}[BEDC.Derived.SplittingFieldUp.SplittingFieldRootCarrierPacket\_cyclotomic\_consumer\_source\_boundary]
 

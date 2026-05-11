@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ModularArithmeticUp$}
+\label{ch:concrete-instances-modulararithmetic}
+
+The $\ModularArithmeticUp$ interface names residue arithmetic over certified integer histories. In the standard sense of modular arithmetic developed in Ireland--Rosen and Hardy--Wright, a modulus determines residue classes and addition and multiplication are read by reducing integer operations modulo that modulus. The BEDC surface keeps the modulus and every residue representative as finite rows over $\IntUp$, $\AddUp$, $\MulUp$, $\OrderUp$, and $\RatUp$; it does not introduce a quotient primitive.
+
+\section{Residue source}
+\label{sec:modulararithmetic-residue-source}
+
+\begin{definition}[ModularArithmetic residue source]
+\label{def:modulararithmetic-residue-source}
+A $\ModularArithmeticUp$ residue source is a finite $\mathsf{BHist}$ packet
+$$
+(m,u,r,\rho,P)
+$$
+whose rows have the following shape:
+\begin{enumerate}
+\item $m$ is an accepted $\IntUp$ modulus row;
+\item $u$ is a positive $\UnaryHistory$ witness naming the nonzero modulus boundary;
+\item $r$ is an accepted $\IntUp$ representative row;
+\item $\rho$ is a finite residue ledger recording that $r$ is classified by the remainder window selected by $m$ and $u$;
+\item $P$ is the $\Pkg$ provenance row naming the $\IntUp$, $\AddUp$, $\MulUp$, $\OrderUp$, and $\RatUp$ dependency certificates used by the packet.
+\end{enumerate}
+The carrier is the predicate $\mathsf{ModResidue}(m,u,r,\rho,P)$. Its classifier compares two accepted residue packets exactly when their modulus rows and unary modulus witnesses transport by $\hsame$ and their representatives reduce to the same displayed remainder window through the carried $\rho$ ledgers.
+\end{definition}
+
+\begin{theorem}[ModularArithmetic residue carrier stability]
+\label{thm:modulararithmetic-residue-carrier-stability}
+Let $D=(m,u,r,\rho,P)$ be an accepted $\ModularArithmeticUp$ residue source and let $D'=(m',u',r',\rho',P')$ be obtained from $D$ by displayed $\hsame$ transport of the modulus, unary witness, representative, residue ledger, and provenance rows. Then $D'$ is again an accepted residue source, and its classifier reads the same remainder window through the transported $\IntUp$, $\OrderUp$, and $\Pkg$ rows.
+\end{theorem}
+\begin{proof}
+Project the residue source of \autoref{def:modulararithmetic-residue-source}. Each coordinate is a displayed row rather than a quotient class, so an $\hsame$ transport of the coordinate gives the corresponding coordinate in $D'$.
+
+The positivity and nonzero-modulus information is carried by the unary witness $u$. Transporting this witness gives $u'$, and the remainder window selected by the transported modulus is read by the same finite order ledger.
+
+Finally transport the residue ledger $\rho$ and the package row $P$. Repacking the transported modulus, unary witness, representative, ledger, and provenance gives $\mathsf{ModResidue}(m',u',r',\rho',P')$, and the classifier has exactly the transported remainder-window rows available.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic addition and multiplication ledger]
+\label{thm:modulararithmetic-add-mul-ledger}
+For accepted residue sources over the same transported modulus witness, the $\ModularArithmeticUp$ addition and multiplication reads consist of the following finite rows: the two $\IntUp$ representative rows, the shared modulus and unary witness, the $\AddUp$ sum row or $\MulUp$ product row on representatives, the $\OrderUp$ reduction window selecting the remainder, the resulting $\IntUp$ residue representative, and the $\Pkg$ provenance tying these rows to the same dependency certificates.
+
+The ledger exports no host quotient ring, no set of residue classes, and no equality outside the displayed $\hsame$ and classifier rows.
+\end{theorem}
+\begin{proof}
+Start with two accepted sources and project their common modulus data. The carrier gives the two representative rows and the same transported nonzero-modulus witness.
+
+For addition, read the displayed $\AddUp$ row on the two representatives. The order and modulus rows then select the finite remainder window, which is repacked as a new residue source by \autoref{def:modulararithmetic-residue-source}.
+
+For multiplication, use the same construction with the displayed $\MulUp$ product row. In both cases the resulting packet is exhausted by the representative operation row, the reduction ledger, and the shared provenance, so no quotient-ring object is introduced.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic Int/Rat handoff]
+\label{thm:modulararithmetic-int-rat-handoff}
+Every accepted $\ModularArithmeticUp$ residue packet exposes its representative and modulus through $\IntUp$ rows, and every rational normalization or denominator-side consumer may read the packet only through the corresponding $\RatUp$ handoff rows, the modulus unary witness, the residue ledger, $\hsame$ transport, $\Cont$ routes, and $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+The source definition stores the representative and modulus as $\IntUp$ rows. Projecting the packet therefore gives the integer data needed by the residue classifier without invoking any external arithmetic carrier.
+
+A $\RatUp$ consumer can only receive the integer-to-rational handoff rows named by the same provenance package. The modulus witness and residue ledger remain visible, so the consumer sees which finite reduction window produced the representative.
+
+Because the packet has no coordinate for a rational quotient of residue classes, the handoff is exactly the displayed $\IntUp/\RatUp$ boundary with its $\hsame$, $\Cont$, and $\Pkg$ rows.
+\end{proof}
+
+\begin{theorem}[ModularArithmetic NameCert obligation surface]
+\label{thm:modulararithmetic-namecert-obligation-surface}
+The local $\NameCert_{\ModularArithmeticUp}$ obligation surface consists of five rows: the residue source carrier of \autoref{def:modulararithmetic-residue-source}; the remainder-window classifier over transported modulus witnesses; the addition ledger of \autoref{thm:modulararithmetic-add-mul-ledger}; the multiplication ledger of the same theorem; and the $\IntUp/\RatUp$ handoff boundary of \autoref{thm:modulararithmetic-int-rat-handoff}. These rows are the full public surface for residue arithmetic over certified integer histories.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are the two projections of \autoref{def:modulararithmetic-residue-source}. They provide the accepted residue packets and the visible equality test by common remainder windows.
+
+The operation rows are supplied by \autoref{thm:modulararithmetic-add-mul-ledger}. Addition and multiplication both use the same modulus witness, representative rows, finite reduction window, and package provenance.
+
+The handoff row is supplied by \autoref{thm:modulararithmetic-int-rat-handoff}. Together these projections list every coordinate readable from the packet, so the $\NameCert_{\ModularArithmeticUp}$ surface is exhausted by the five displayed rows and no quotient primitive is exported.
+\end{proof}
+
+\closureat{ModularArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\ModularArithmeticUp}
+  \constructivestory{Residue arithmetic is generated by choosing a certified integer modulus, a positive unary modulus witness, an integer representative, and a finite reduction ledger; addition and multiplication read the existing $\AddUp$ and $\MulUp$ rows before reducing through the displayed $\OrderUp$ window.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary names the residue source carrier, transported remainder-window classifier, addition and multiplication ledgers, and $\IntUp/\RatUp$ handoff rows over certified integer histories.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient rings, Chinese-remainder structure, primality-specific arithmetic, finite-field laws, or a standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier, classifier, addition, multiplication, and handoff targets for the displayed residue source surface.}
+\end{closurestatus}
