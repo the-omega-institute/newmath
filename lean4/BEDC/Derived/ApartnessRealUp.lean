@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -14,6 +15,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -174,6 +176,29 @@ def ApartnessRealSeparationPacket [AskSetup] [PackageSetup]
       Cont rightEndpoint leftEndpoint reverseLedger ∧
         Cont forwardLedger reverseLedger pkgrow ∧
           Cont reverseLedger forwardLedger pkgrow ∧ PkgSig bundle pkgrow pkg
+
+theorem ApartnessRealSeparationPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessRealSeparationPacket left right radius window leftEndpoint rightEndpoint
+        forwardLedger reverseLedger pkgrow bundle pkg ->
+      PositiveUnaryDenominator radius ∧ Cont left window leftEndpoint ∧
+        Cont right window rightEndpoint ∧ Cont leftEndpoint rightEndpoint forwardLedger ∧
+          Cont rightEndpoint leftEndpoint reverseLedger ∧
+            Cont forwardLedger reverseLedger pkgrow ∧
+              Cont reverseLedger forwardLedger pkgrow ∧ PkgSig bundle pkgrow pkg := by
+  intro packet
+  obtain ⟨positiveRadius, leftEndpointRow, rightEndpointRow, forwardLedgerRow,
+    reverseLedgerRow, forwardPkgRow, reversePkgRow, pkgSig⟩ := packet
+  exact
+    And.intro positiveRadius
+      (And.intro leftEndpointRow
+        (And.intro rightEndpointRow
+          (And.intro forwardLedgerRow
+            (And.intro reverseLedgerRow
+              (And.intro forwardPkgRow
+                (And.intro reversePkgRow pkgSig))))))
 
 theorem ApartnessRealSeparationPacket_symmetry_stability [AskSetup] [PackageSetup]
     {left right radius window leftEndpoint rightEndpoint forwardLedger reverseLedger pkgrow :
@@ -474,10 +499,10 @@ theorem ApartnessRealSeparationPacket_metric_consumer_separation_boundary [AskSe
           (And.intro forwardLedgerUnary
             (And.intro reverseLedgerUnary
               (And.intro pkgrowUnary
-                (And.intro consumerUnary
-                  (And.intro forwardLedgerCont
-                    (And.intro reverseLedgerCont
-                      (And.intro consumerRowCont consumerPkg)))))))))
+                  (And.intro consumerUnary
+                    (And.intro forwardLedgerCont
+                      (And.intro reverseLedgerCont
+                        (And.intro consumerRowCont consumerPkg)))))))))
 
 def ApartnessRealPositiveSeparationCarrier [AskSetup] [PackageSetup]
     (leftName rightName radius window leftReadback rightReadback separation provenance

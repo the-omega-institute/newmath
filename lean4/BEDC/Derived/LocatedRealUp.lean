@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -86,6 +88,55 @@ theorem LocatedRealCarrierSurface_dyadic_interval_obligation [AskSetup] [Package
           (And.intro pkgrowRow
             (And.intro classifierSame
               (And.intro pkgrowSame pkgSig))))))
+
+theorem LocatedRealCarrierSurface_common_refinement_tail_empty [AskSetup] [PackageSetup]
+    {regseqA intervalA scheduleA classifierA pkgrowA regseqB intervalB scheduleB classifierB
+      pkgrowB commonSchedule commonClassifier commonEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseqA intervalA scheduleA classifierA pkgrowA bundle pkg ->
+      LocatedRealCarrierSurface regseqB intervalB scheduleB classifierB pkgrowB bundle pkg ->
+        Cont scheduleA scheduleB commonSchedule ->
+          Cont classifierA classifierB commonClassifier ->
+            Cont commonClassifier commonSchedule commonEndpoint ->
+              hsame commonEndpoint (append classifierA commonSchedule) ->
+                hsame classifierB BHist.Empty := by
+  intro _surfaceA _surfaceB _scheduleCommon classifierCommon endpointCommon endpointSame
+  have endpointExpanded :
+      commonEndpoint = append (append classifierA classifierB) commonSchedule :=
+    endpointCommon.trans (congrArg (fun h => append h commonSchedule) classifierCommon)
+  have classifierPrefixSame : hsame (append classifierA classifierB) classifierA :=
+    append_right_cancel (k := commonSchedule) (endpointExpanded.symm.trans endpointSame)
+  have classifierCycle : Cont classifierA classifierB classifierA :=
+    cont_intro classifierPrefixSame.symm
+  exact cont_right_unit_unique classifierCycle
+
+theorem LocatedRealCarrierSurface_metric_consumer_handoff [AskSetup] [PackageSetup]
+    {regseq interval schedule classifier pkgrow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseq interval schedule classifier pkgrow bundle pkg ->
+      Cont pkgrow regseq consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory regseq ∧ UnaryHistory interval ∧ UnaryHistory schedule ∧
+            UnaryHistory classifier ∧ UnaryHistory pkgrow ∧ UnaryHistory consumer ∧
+              Cont regseq schedule classifier ∧ Cont interval classifier pkgrow ∧
+                Cont pkgrow regseq consumer ∧ hsame classifier (append regseq schedule) ∧
+                  hsame pkgrow (append interval classifier) ∧
+                    hsame consumer (append pkgrow regseq) ∧ PkgSig bundle consumer pkg := by
+  intro surface consumerCont consumerSig
+  obtain ⟨regseqUnary, intervalUnary, scheduleUnary, classifierUnary, pkgrowUnary,
+    classifierCont, pkgrowCont, _surfaceSig⟩ := surface
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed pkgrowUnary regseqUnary consumerCont
+  have classifierSame : hsame classifier (append regseq schedule) :=
+    classifierCont
+  have pkgrowSame : hsame pkgrow (append interval classifier) :=
+    pkgrowCont
+  have consumerSame : hsame consumer (append pkgrow regseq) :=
+    consumerCont
+  exact
+    ⟨regseqUnary, intervalUnary, scheduleUnary, classifierUnary, pkgrowUnary, consumerUnary,
+      classifierCont, pkgrowCont, consumerCont, classifierSame, pkgrowSame, consumerSame,
+      consumerSig⟩
 
 theorem LocatedRealNameCertBoundary_rows [AskSetup] [PackageSetup]
     {regseq interval schedule classifier pkgrow regseq' interval' schedule' classifier'
@@ -217,6 +268,22 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
     ⟨streamUnary, scheduleUnary, intervalUnary, realRowUnary, endpointUnary, consumerRowUnary,
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
+
+theorem LocatedRealCarrier_metric_consumer_empty_boundary [AskSetup] [PackageSetup]
+    {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      Cont endpoint realRow consumerRow ->
+        hsame consumerRow BHist.Empty ->
+          hsame endpoint BHist.Empty ∧ hsame realRow BHist.Empty := by
+  intro _carrier consumerRowCont consumerRowEmpty
+  have appendedEmpty : append endpoint realRow = BHist.Empty := by
+    cases consumerRowCont
+    exact consumerRowEmpty
+  have parts : endpoint = BHist.Empty ∧ realRow = BHist.Empty :=
+    append_eq_empty_iff.mp appendedEmpty
+  exact And.intro parts.left parts.right
 
 theorem LocatedRealCarrier_metric_consumer_handoff [AskSetup] [PackageSetup]
     {stream schedule interval location realRow transport provenance endpoint consumerRow : BHist}

@@ -58,11 +58,18 @@ elab "#reflect_metacic " e:term : command => do
 
 end BEDC.MetaCIC.HostBridge
 
--- Sanity demo
-section
+-- 具体 sanity demo: 几个 host Lean term 的 MetaCIC encoding 演示
+section HostBridgeSanityDemos
   open BEDC.MetaCIC.HostBridge
 
-  -- Should encode as Term.sort
-  -- #reflect_metacic Sort 0
-  -- Above may or may not work depending on universe handling
-end
+  -- Show: ∀ T : Sort 0, T  encodes via reflectExpr
+  -- (output goes to InfoView via #reflect_metacic logInfo)
+  -- #reflect_metacic (∀ T : Sort 0, T)
+
+  -- More concrete: a closed Pi term
+  example (T : Sort 0) : Sort 0 := T  -- exists in Lean
+
+  -- show pi sort sort encoding:
+  -- expected: Term.pi Term.sort Term.sort
+  -- #reflect_metacic (Sort 0 → Sort 0)
+end HostBridgeSanityDemos
