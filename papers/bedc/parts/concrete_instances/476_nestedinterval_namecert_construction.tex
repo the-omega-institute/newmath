@@ -165,6 +165,35 @@ Next use the $\RegSeqRatUp$ handoff and the local $\NameCert_{\NestedIntervalUp}
 Finally, the scoped dependency package fixes the permitted primitives for downstream consumers. An infinite intersection point, compactness theorem, host real equality, or choice principle would require an additional coordinate outside those seven displayed blocks, so none is exported by the public boundary.
 \end{proof}
 
+\begin{theorem}[NestedInterval consumer bridge boundary]
+\label{thm:nestedinterval-consumer-bridge-boundary}
+The public finite-window boundary of
+\autoref{thm:nestedinterval-public-window-boundary} bridges to $\RegSeqRatUp$
+and $\RealUp$ consumers by routing only the displayed dyadic endpoint rows,
+endpoint-order rows, width rows, inclusion rows, schedule rows,
+regular-rational handoff rows, seal-facing rows, $\hsame$ and $\Cont$
+transports, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows.
+
+This bridge boundary adds no infinite intersection point, compactness theorem,
+host real equality, or choice principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:nestedinterval-public-window-boundary}. The public boundary
+already restricts every consumer-visible coordinate to finite dyadic endpoint,
+order, width, inclusion, schedule, handoff, seal-facing, transport,
+provenance, and name-certificate rows.
+
+Next use \autoref{thm:nestedinterval-regseqrat-handoff} for the
+regular-rational consumer and \autoref{thm:nestedinterval-real-seal-boundary}
+for the real-name consumer. Their shared inputs are exactly the finite rows
+displayed by the public boundary.
+
+The bridge therefore has no readable coordinate outside the intersection of
+those three surfaces. An infinite intersection point, compactness theorem, host
+real equality row, or choice operator would require a separate coordinate, and
+none is present in the routed boundary.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 \closureat{NestedIntervalUp}{publicStr}
