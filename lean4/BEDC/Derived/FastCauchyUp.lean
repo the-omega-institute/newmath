@@ -196,6 +196,49 @@ theorem FastCauchyFiniteCarrier_modulus_transport [AskSetup] [PackageSetup]
         windowUnary', provenanceUnary', nameRowUnary', endpointRow', transportRow',
         provenanceRow', nameRowRoute', pkgRow'⟩,
       sameEndpoint, sameTransport, sameProvenance, sameNameRow⟩
+
+theorem FastCauchyFiniteCarrier_public_interface_export [AskSetup] [PackageSetup]
+    {stream modulus endpoint latePair transport window provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+        nameRow bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        (fun row : BHist =>
+          FastCauchyFiniteCarrier stream modulus endpoint latePair transport window provenance
+            nameRow bundle pkg ∧ hsame row nameRow)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro nameRow (And.intro carrier (hsame_refl nameRow))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
     (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -293,5 +336,94 @@ theorem FastCauchyFinitePacket_precision_window_restriction [AskSetup] [PackageS
         transportUnary', regUnary', targetTransport, targetLatePair, targetRegWindow,
         targetPkg⟩,
       sameTransport, sameLatePair, sameRegWindow, sameCertRow⟩
+
+theorem FastCauchyFinitePacket_obligation_closure_certificate [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius latePair transportWindow regWindow sealBoundary
+      certRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+        regWindow sealBoundary certRow bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          hsame ∧
+        FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+          regWindow bundle pkg ∧
+        UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧
+          Cont regWindow sealBoundary certRow := by
+  intro packet
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary,
+    transportUnary, regUnary, sealUnary, certUnary, streamModulusRoute,
+    endpointRadiusRoute, latePairTransportRoute, certRoute, pkgRow⟩ := packet
+  have finitePacket :
+      FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+        regWindow sealBoundary certRow bundle pkg :=
+    ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary, transportUnary,
+      regUnary, sealUnary, certUnary, streamModulusRoute, endpointRadiusRoute,
+      latePairTransportRoute, certRoute, pkgRow⟩
+  have regseqWindow :
+      FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+        regWindow bundle pkg :=
+    ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary, transportUnary,
+      regUnary, streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          (fun row : BHist =>
+            FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow
+              regWindow sealBoundary certRow bundle pkg ∧
+                (hsame row regWindow ∨ hsame row sealBoundary ∨ hsame row certRow))
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro regWindow (And.intro finitePacket (Or.inl (hsame_refl regWindow)))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        constructor
+        · exact source.left
+        · cases source.right with
+          | inl sameReg =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameReg)
+          | inr sourceRows =>
+              cases sourceRows with
+              | inl sameSeal =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameSeal))
+              | inr sameCert =>
+                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameCert))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, regseqWindow, sealUnary, certUnary, certRoute⟩
 
 end BEDC.Derived.FastCauchyUp
