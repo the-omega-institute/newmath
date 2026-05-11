@@ -46,12 +46,12 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 # non-overlapping. As top grows (paper unlocks new chapters),
 # lean grows to match.
 LEAN_BUFFER = 0
-LEAN_MIN = 10
-LEAN_MAX = 14
+LEAN_MIN = 12
+LEAN_MAX = 18
 
 PAPER_BUFFER = 4
-PAPER_MIN = 10
-PAPER_MAX = 12
+PAPER_MIN = 12
+PAPER_MAX = 16
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
