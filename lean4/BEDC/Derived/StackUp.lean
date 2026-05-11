@@ -115,6 +115,36 @@ theorem StackBHistCarrier_obligation_surface [AskSetup] [PackageSetup]
     (And.intro carrier.right.right.right.left
       (And.intro endpointUnary carrier.right.right.right.right.right))
 
+theorem StackRepresentability_boundary [AskSetup] [PackageSetup]
+    {site object arrow restriction descent provenance endpoint representability atlas
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackBHistCarrier site object arrow restriction descent provenance endpoint bundle pkg ->
+      Cont descent restriction representability ->
+        Cont representability site atlas ->
+          Cont atlas provenance boundary ->
+            UnaryHistory representability ∧ UnaryHistory atlas ∧ UnaryHistory boundary ∧
+              hsame representability (append descent restriction) ∧
+                hsame atlas (append representability site) ∧
+                  hsame boundary (append atlas provenance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier representabilityCont atlasCont boundaryCont
+  have descentUnary : UnaryHistory descent :=
+    unary_cont_closed carrier.left.right.left carrier.right.left carrier.left.right.right
+  have representabilityUnary : UnaryHistory representability :=
+    unary_cont_closed descentUnary carrier.right.right.left representabilityCont
+  have atlasUnary : UnaryHistory atlas :=
+    unary_cont_closed representabilityUnary carrier.left.left atlasCont
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed atlasUnary carrier.right.right.right.right.left boundaryCont
+  exact
+    ⟨representabilityUnary,
+      atlasUnary,
+      boundaryUnary,
+      representabilityCont,
+      atlasCont,
+      boundaryCont,
+      carrier.right.right.right.right.right⟩
+
 theorem StackDescent_obligation_surface [AskSetup] [PackageSetup]
     {site objectRows arrowRows descentLedger carrierRow : BHist}
     {schemeBundle sheafBundle : ProbeBundle ProbeName} {schemePkg sheafPkg : Pkg} :
@@ -161,6 +191,40 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
 
+theorem StackLedger_obligation_surface [AskSetup] [PackageSetup]
+    {site cover objectRows arrowRows descentRows representabilityRows routes provenance
+      ledger : BHist}
+    {schemeBundle sheafBundle : ProbeBundle ProbeName} {schemePkg sheafPkg : Pkg} :
+    UnaryHistory site -> UnaryHistory cover -> UnaryHistory objectRows -> UnaryHistory arrowRows ->
+      UnaryHistory representabilityRows -> Cont site cover routes ->
+        Cont objectRows arrowRows descentRows ->
+          Cont descentRows representabilityRows provenance -> Cont routes provenance ledger ->
+            PkgSig schemeBundle routes schemePkg -> PkgSig sheafBundle provenance sheafPkg ->
+              UnaryHistory descentRows ∧ UnaryHistory provenance ∧ UnaryHistory ledger ∧
+                hsame routes (append site cover) ∧
+                  hsame descentRows (append objectRows arrowRows) ∧
+                    hsame provenance (append descentRows representabilityRows) ∧
+                      hsame ledger (append routes provenance) ∧
+                        PkgSig schemeBundle routes schemePkg ∧
+                          PkgSig sheafBundle provenance sheafPkg := by
+  intro siteUnary coverUnary objectRowsUnary arrowRowsUnary representabilityRowsUnary siteCover
+  intro objectArrow descentRepresentability routesProvenance schemePkgSig sheafPkgSig
+  have descentUnary : UnaryHistory descentRows :=
+    unary_cont_closed objectRowsUnary arrowRowsUnary objectArrow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed descentUnary representabilityRowsUnary descentRepresentability
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed siteUnary coverUnary siteCover
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed routesUnary provenanceUnary routesProvenance
+  exact And.intro descentUnary
+    (And.intro provenanceUnary
+      (And.intro ledgerUnary
+        (And.intro siteCover
+          (And.intro objectArrow
+            (And.intro descentRepresentability
+              (And.intro routesProvenance
+                (And.intro schemePkgSig sheafPkgSig)))))))
 theorem StackCarrierPacket_descent_obligation [AskSetup] [PackageSetup]
     {site sheaf object arrow transport restriction provenance carrier endpoint
       descentEndpoint : BHist}
@@ -260,5 +324,81 @@ theorem StackCarrier_obligation_surface
     (And.intro sheafLedger
       (And.intro schemePackage
         (And.intro restrictionRow packageReadback)))
+
+theorem StackCarrierPacket_representability_surface [AskSetup] [PackageSetup]
+    {schemeSite diagonal atlas overlap cover representability transport endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory schemeSite ->
+      UnaryHistory diagonal ->
+        UnaryHistory atlas ->
+          UnaryHistory overlap ->
+            UnaryHistory cover ->
+              Cont schemeSite diagonal transport ->
+                Cont atlas overlap representability ->
+                  Cont transport cover endpoint ->
+                    PkgSig bundle endpoint pkg ->
+                      UnaryHistory transport ∧ UnaryHistory representability ∧
+                        UnaryHistory endpoint ∧ hsame transport (append schemeSite diagonal) ∧
+                          hsame representability (append atlas overlap) ∧
+                            hsame endpoint (append transport cover) ∧ PkgSig bundle endpoint pkg := by
+  intro schemeUnary diagonalUnary atlasUnary overlapUnary coverUnary
+  intro siteDiagonalTransport atlasOverlapRepresentability transportCoverEndpoint endpointPkg
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed schemeUnary diagonalUnary siteDiagonalTransport
+  have representabilityUnary : UnaryHistory representability :=
+    unary_cont_closed atlasUnary overlapUnary atlasOverlapRepresentability
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary coverUnary transportCoverEndpoint
+  exact And.intro transportUnary
+    (And.intro representabilityUnary
+      (And.intro endpointUnary
+        (And.intro siteDiagonalTransport
+          (And.intro atlasOverlapRepresentability
+            (And.intro transportCoverEndpoint endpointPkg)))))
+
+def StackCarrier [AskSetup] [PackageSetup]
+    (site presheaf localObj localArrow gluedObj gluedArrow cover restrict provenance
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont localObj restrict gluedObj ∧ Cont localArrow restrict gluedArrow ∧
+    Cont site presheaf provenance ∧ Cont provenance cover endpoint ∧
+      PkgSig bundle endpoint pkg
+
+theorem StackCarrier_descent_obligation [AskSetup] [PackageSetup]
+    {site presheaf localObj localArrow gluedObj gluedArrow cover restrict provenance endpoint
+      gluedObj' gluedArrow' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StackCarrier site presheaf localObj localArrow gluedObj gluedArrow cover restrict
+        provenance endpoint bundle pkg ->
+      Cont localObj restrict gluedObj' ->
+        Cont localArrow restrict gluedArrow' ->
+          Cont site presheaf provenance' ->
+            Cont provenance' cover endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                StackCarrier site presheaf localObj localArrow gluedObj' gluedArrow' cover
+                    restrict provenance' endpoint' bundle pkg ∧
+                  hsame gluedObj gluedObj' ∧ hsame gluedArrow gluedArrow' ∧
+                    hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro carrier gluedObjRow' gluedArrowRow' provenanceRow' endpointRow' pkgSig'
+  have sameGluedObj : hsame gluedObj gluedObj' :=
+    cont_respects_hsame (hsame_refl localObj) (hsame_refl restrict) carrier.left gluedObjRow'
+  have sameGluedArrow : hsame gluedArrow gluedArrow' :=
+    cont_respects_hsame (hsame_refl localArrow) (hsame_refl restrict)
+      carrier.right.left gluedArrowRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl site) (hsame_refl presheaf)
+      carrier.right.right.left provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl cover)
+      carrier.right.right.right.left endpointRow'
+  have transported :
+      StackCarrier site presheaf localObj localArrow gluedObj' gluedArrow' cover restrict
+        provenance' endpoint' bundle pkg :=
+    ⟨gluedObjRow', gluedArrowRow', provenanceRow', endpointRow', pkgSig'⟩
+  exact
+    And.intro transported
+      (And.intro sameGluedObj
+        (And.intro sameGluedArrow
+          (And.intro sameProvenance sameEndpoint)))
 
 end BEDC.Derived.StackUp
