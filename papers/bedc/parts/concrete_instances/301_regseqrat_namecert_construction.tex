@@ -464,6 +464,47 @@ host real equality, ambient completion, metric completeness, or any further
 bridge datum, which gives equality of the two displayed source surfaces.
 \end{proof}
 
+\begin{theorem}[RegSeqRat refined-window gluing RealUp seal factorization]
+\label{thm:regseqrat-refined-window-gluing-real-seal-factorization}
+Let $W_0$ and $W_1$ be accepted finite $\RegSeqRatUp$ windows whose displayed
+$\StreamNameUp$ schedules admit a common refined window $W_\cup$ as in
+\autoref{thm:regseqrat-refined-window-gluing}. Suppose the overlap hypotheses
+identify the shared unary index rows, $\DyadicRatCoreUp$ endpoint rows,
+dyadic-radius rows, regularity ledgers, classifier ledgers, $\hsame$
+comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$
+provenance on $W_\cup$. Then the common refined window $W_\cup$ is exactly the
+finite $\mathsf{BHist}$ source surface consumed by the $\RealUp$ seal handoff
+of \autoref{thm:regseqrat-real-seal-handoff}.
+
+Equivalently, composing refined-window gluing with the $\RealUp$ seal handoff
+factors through the displayed finite BEDC packet $W_\cup$. The composition
+introduces no quotient stream, host real equality, metric completeness,
+completion point, or seal datum beyond the finite rows already present in
+$W_\cup$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-refined-window-gluing} to the two accepted
+windows. The result is one accepted finite $\RegSeqRatUp$ window over
+$W_\cup$ whose union schedule, unary indices, endpoint rows, dyadic-radius
+rows, regularity ledgers, provenance rows, and classifier readback restrict to
+the two source windows.
+
+Use the classifier window-pairing row of
+\autoref{thm:regseqrat-classifier-window-pairing} on the refined window. It
+identifies the shared endpoint observations and radius observations as the
+same displayed $\DyadicRatCoreUp$ rows inside the common finite packet, so the
+two source reads cannot supply separate seal-facing data.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. The handoff consumes
+exactly the accepted finite regular-rational source surface just produced by
+the gluing theorem, and therefore reads $W_\cup$ itself as the $\RealUp$ finite
+seal source. Since every consumed coordinate is already a displayed
+$\mathsf{BHist}$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, or $\NameCert$ row of $W_\cup$, the composition has no route to
+a quotient stream, host real equality, metric-completion object, completion
+point, or extra seal datum.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
