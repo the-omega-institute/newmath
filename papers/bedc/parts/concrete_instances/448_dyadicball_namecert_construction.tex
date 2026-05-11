@@ -62,6 +62,7 @@ These laws act only on the rows exposed by
 \autoref{def:dyadicball-carrier}. They introduce no quotient ball, host real
 equality, hidden metric point, or completed real.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBallUp.DyadicBallPacket\_classifier\_laws}
 \begin{proof}
 Project the accepted packets through \autoref{def:dyadicball-carrier}. The
 only rows available to the classifier are the center, radius, schedule,
@@ -303,6 +304,55 @@ Finally use \autoref{thm:dyadicball-obligation-closure} to see that these rows
 exhaust the local obligation surface. Repacking them yields the public
 $\NameCert_{\DyadicBallUp}$ interface, with no quotient ball, host real
 equality, metric topology, or extra completeness coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicBall common observation overlap]
+\label{thm:dyadicball-common-observation-overlap}
+Let
+$B=(c,r,k,o,\eta,H,C,P,N)$ and
+$B'=(c',r',k,o,\eta',H',C',P',N')$ be accepted
+$\DyadicBallUp$ packets with the same scheduled observation row $o$ and the
+same schedule row $k$. Suppose the displayed center and radius rows admit the
+componentwise $\hsame$ and $\Cont$ transports required by
+\autoref{thm:dyadicball-classifier-laws}, and suppose a finite dyadic positive
+radius row $\rho$ is supplied with containment ledgers into both packets. Then
+the common observation determines a single finite $\RegSeqRatUp/\RealUp$
+consumer package whose visible rows are exactly $o$, $k$, the transported
+center rows, the transported radius row $\rho$, the two containment ledgers,
+the displayed $\hsame$ rows, the visible $\Cont$ routes, the $\mathsf{Pkg}$
+provenance rows, and the two $\NameCert$ rows.
+
+This common package exports no quotient ball, host real equality, metric
+completeness claim, or selected real point.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through the carrier of
+\autoref{def:dyadicball-carrier}. The two projections expose only their
+displayed centers, radii, common schedule row, common scheduled observation,
+containment ledgers, $\hsame$ rows, $\Cont$ routes, package provenance, and
+local naming rows.
+
+Use \autoref{thm:dyadicball-radius-refinement-closure} on each side with the
+finite radius row $\rho$ and its displayed containment ledger. This repacks
+both packets at the same radius row while retaining only the transported
+center, schedule, observation, containment, transport, package, and naming
+coordinates.
+
+The shared schedule and observation rows now feed
+\autoref{thm:dyadicball-regseqrat-window-handoff}. That handoff identifies one
+finite regular-rational window surface, because the visible scheduled rows are
+the same and the remaining differences have already been transported into the
+displayed center, radius, and containment ledgers.
+
+Apply \autoref{thm:dyadicball-real-seal-boundary} to the same repacked rows.
+The $\RealUp$ seal can read only the finite carrier coordinates named above, so
+it cannot distinguish the two packets by any quotient ball, host real equality,
+metric-completeness datum, or selected point.
+
+Finally cite \autoref{thm:dyadicball-center-radius-public-interface} to package
+the common finite surface as the public $\NameCert_{\DyadicBallUp}$ consumer
+interface. The resulting $\RegSeqRatUp/\RealUp$ package has exactly the rows
+listed in the statement.
 \end{proof}
 
 \closureat{DyadicBallUp}{seedStr}
