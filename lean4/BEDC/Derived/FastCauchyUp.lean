@@ -88,4 +88,36 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
         targetProvenance, targetPkg⟩,
       sameEndpoint, sameWindow, sameProvenance⟩
 
+def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory provenance ∧
+      UnaryHistory cert ∧ Cont stream modulus transportWindow ∧
+        Cont endpoint radius latePair ∧ PkgSig bundle provenance pkg
+
+theorem FastCauchyRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius latePair transportWindow provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+        provenance cert bundle pkg ->
+      UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+        UnaryHistory radius ∧ UnaryHistory latePair ∧ Cont stream modulus transportWindow ∧
+          Cont endpoint radius latePair ∧ PkgSig bundle provenance pkg := by
+  intro window
+  obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary,
+    _transportUnary, _provenanceUnary, _certUnary, streamModulusRow, endpointRadiusRow,
+    pkgRow⟩ := window
+  have streamHistory : UnaryHistory stream := streamUnary
+  have modulusHistory : UnaryHistory modulus := modulusUnary
+  have endpointHistory : UnaryHistory endpoint := endpointUnary
+  have radiusHistory : UnaryHistory radius := radiusUnary
+  have latePairHistory : UnaryHistory latePair := latePairUnary
+  have streamModulus : Cont stream modulus transportWindow := streamModulusRow
+  have endpointRadius : Cont endpoint radius latePair := endpointRadiusRow
+  have provenancePkg : PkgSig bundle provenance pkg := pkgRow
+  exact
+    ⟨streamHistory, modulusHistory, endpointHistory, radiusHistory, latePairHistory,
+      streamModulus, endpointRadius, provenancePkg⟩
+
 end BEDC.Derived.FastCauchyUp
