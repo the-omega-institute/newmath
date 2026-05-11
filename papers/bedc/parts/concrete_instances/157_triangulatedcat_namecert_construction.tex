@@ -6,5 +6,147 @@ The triangulated-category interface $\TriangulatedCatUp$ packages an additive ca
 \section{Carrier definition}
 \label{sec:triangulatedcat-carrier}
 
+\begin{definition}[TriangulatedCat finite carrier]
+\label{def:triangulatedcat-carrier}
+A $\TriangulatedCatUp$ carrier is the finite $\mathsf{BHist}$ packet
+$\mathsf{TriangulatedCatPkt}(\mathcal{T})$ with the following displayed rows.
+\begin{enumerate}
+  \item A retained $\CategoryUp$ row for the underlying category object,
+  morphism, identity, and composition histories.
+  \item A retained $\DerivedCatUp$ row for the visible localization boundary
+  used by the triangulated presentation.
+  \item An additive-category row recording the zero object, biproduct,
+  addition on hom histories, and additive inverse histories.
+  \item A translation-autoequivalence row recording a shift history
+  $\Sigma$, its inverse shift history, and the displayed unit and counit
+  comparison histories.
+  \item A distinguished-triangle row recording triples
+  $X\to Y\to Z\to \Sigma X$ as finite morphism-history ledgers.
+  \item An octahedral ledger row recording only the named faces, comparison
+  morphisms, and $\Cont$ witnesses that are explicitly displayed in the
+  packet.
+  \item Componentwise $\hsame$ rows for all category, derived-category,
+  additive, shift, triangle, and octahedral histories.
+  \item $\Cont$ rows for shift transport, triangle rotation, triangle
+  morphism composition, and octahedral-face composition.
+  \item A $\mathsf{Pkg}$ provenance row tying the retained dependency
+  certificates and all displayed triangulated rows to one source packet.
+\end{enumerate}
+The carrier accepts no row that is not one of these displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ fields.
+\end{definition}
+
+\begin{definition}[TriangulatedCat classifier]
+\label{def:triangulatedcat-classifier}
+Two $\mathsf{TriangulatedCatPkt}$ carriers classify together when their
+retained $\CategoryUp$ and $\DerivedCatUp$ rows classify by the corresponding
+dependency certificates and every additive, translation, triangle,
+octahedral-ledger, $\Cont$, and $\mathsf{Pkg}$ row is related by the displayed
+componentwise $\hsame$ comparison. This classifier is a comparison of finite
+packet rows; it is not a host localization, a Verdier quotient, or an
+unstated equality of triangulated categories.
+\end{definition}
+
 \section{The certificate}
 \label{sec:triangulatedcat-certificate}
+
+\begin{theorem}[TriangulatedCat carrier obligation]
+\label{thm:triangulatedcat-carrier-obligation}
+Every accepted $\mathsf{TriangulatedCatPkt}(\mathcal{T})$ row projects to one
+of the displayed dependency, additive, translation, distinguished-triangle,
+octahedral-ledger, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ rows of
+\autoref{def:triangulatedcat-carrier}. No host Verdier quotient object and no
+unlogged octahedral datum is carried by the $\TriangulatedCatUp$ surface.
+\end{theorem}
+\begin{proof}
+Unpack the carrier definition. The packet constructor lists the retained
+$\CategoryUp$ and $\DerivedCatUp$ rows first, then the additive,
+translation-autoequivalence, distinguished-triangle, octahedral-ledger,
+componentwise $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+
+Projecting an accepted carrier therefore selects one of those coordinates.
+The categorical and derived rows are read through their dependency
+certificates, while the triangulated-specific rows are histories inside the
+same finite packet.
+
+Conversely, each displayed coordinate repacks into the same packet by the
+carrier constructor. Constructor inversion leaves no separate case for a host
+Verdier quotient, an unlabelled localization equality, or octahedral data
+outside the listed ledger row.
+\end{proof}
+
+\begin{theorem}[TriangulatedCat classifier stability obligation]
+\label{thm:triangulatedcat-classifier-stability-obligation}
+The classifier of \autoref{def:triangulatedcat-classifier} transports the
+finite $\TriangulatedCatUp$ carrier surface: classified packets have
+classified dependency rows and componentwise transported additive, shift,
+triangle, octahedral-ledger, $\Cont$, and $\mathsf{Pkg}$ rows.
+\end{theorem}
+\begin{proof}
+Begin with a classifier witness between two displayed packets. Its dependency
+fields are the retained classifiers for the $\CategoryUp$ and $\DerivedCatUp$
+rows, so those two rows transport by the existing certificate surfaces.
+
+The remaining classifier fields are componentwise $\hsame$ comparisons.
+Apply them separately to the additive-category row, the shift and inverse
+shift rows, the unit and counit comparison rows, the distinguished-triangle
+ledger, and the octahedral ledger.
+
+The $\Cont$ rows transport because their source, middle, and target histories
+are among the same componentwise comparisons. The provenance row transports
+by the displayed $\mathsf{Pkg}$ comparison. Repacking these transported rows
+with the carrier constructor gives a classified target packet and no extra
+semantic equality is used.
+\end{proof}
+
+\begin{theorem}[TriangulatedCat octahedral ledger boundary]
+\label{thm:triangulatedcat-octahedral-ledger-boundary}
+The octahedral obligation in the $\TriangulatedCatUp$ packet is bounded by the
+displayed octahedral ledger: it records finite faces, comparison morphism
+histories, and $\Cont$ witnesses, and it does not assert any unrecorded
+octahedral filler or external triangulated-category semantics.
+\end{theorem}
+\begin{proof}
+Read the octahedral coordinate of
+\autoref{def:triangulatedcat-carrier}. Its data are the named triangle faces,
+the comparison morphism histories between those faces, and the finite
+$\Cont$ rows witnessing the displayed composites.
+
+Any use of the octahedral obligation must project through that coordinate.
+Thus a face comparison or composite can be cited only when the corresponding
+history and continuation row appears in the ledger.
+
+If a purported octahedral datum is not in the displayed ledger, constructor
+inversion gives no packet coordinate from which to project it. Therefore the
+chapter exposes an octahedral boundary ledger, not an ambient octahedral
+oracle.
+\end{proof}
+
+\begin{theorem}[TriangulatedCat NameCert obligation surface]
+\label{thm:triangulatedcat-namecert-obligation-surface}
+The public $\NameCert_{\TriangulatedCatUp}$ surface determined by
+\autoref{def:triangulatedcat-carrier} and
+\autoref{def:triangulatedcat-classifier} consists of the finite carrier rows,
+the componentwise classifier, carrier transport, the displayed octahedral
+ledger boundary, and the $\mathsf{Pkg}$ provenance row. It excludes host
+Verdier quotient semantics and octahedral data not logged in the packet.
+\end{theorem}
+\begin{proof}
+First project the carrier by
+\autoref{thm:triangulatedcat-carrier-obligation}. This accounts for all
+dependency, additive, translation, distinguished-triangle,
+octahedral-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows in the public
+surface.
+
+Next apply
+\autoref{thm:triangulatedcat-classifier-stability-obligation}. The classifier
+is componentwise over those same rows, and its transport clauses repack the
+transported histories as another accepted carrier.
+
+Finally apply
+\autoref{thm:triangulatedcat-octahedral-ledger-boundary} to identify the
+octahedral part of the certificate. Since the boundary theorem permits only
+logged faces, comparison morphisms, and $\Cont$ witnesses, the public
+certificate has no remaining source for a host Verdier quotient or unlogged
+octahedral datum.
+\end{proof}
