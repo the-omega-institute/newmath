@@ -25,6 +25,8 @@ with the following visible rows:
 \end{enumerate}
 The carrier predicate is $\mathsf{DyadicPrecisionSchedule}(n,\rho,W,H,C,P,N,L)$. The packet has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external choice of an infinite stream tail.
 \end{definition}
+\leandef{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionUp}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.taste\_gate}
 
 \begin{definition}[Dyadic precision schedule classifier]
 \label{def:dyadic-precision-schedule-classifier}
@@ -51,6 +53,7 @@ The local $\NameCert_{\DyadicPrecisionUp}$ seed surface consists of five finite 
 \end{enumerate}
 These obligations define only the finite precision-schedule certificate surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionUp\_semantic\_name\_certificate}
 \begin{proof}
 For carrier inhabitation, begin with the empty unary row and attach the base dyadic radius and the empty observation window. A successor precision request appends one unary row, refines the visible dyadic radius ledger through $\DyadicRatCoreUp$, and opens the finite window requested by $\StreamNameUp$.
 
@@ -95,7 +98,7 @@ $\RealUp$ boundary of
 \autoref{thm:dyadic-precision-schedule-realup-boundary}, and ledger-exactness
 rows exhaust the obligation surface for finite dyadic precision schedules.
 
-Because this chapter has $\origin{ai}$, promotion beyond seed remains
+Because this chapter is marked with AI origin, promotion beyond seed remains
 conditional on the future TasteGate-backed Lean target. The closure packet adds
 no hidden tail, quotient real, trichotomy, completeness row, or bridge row.
 \end{theorem}
@@ -128,12 +131,34 @@ be a $\DyadicPrecisionUp$ schedule carrier in the sense of \autoref{def:dyadic-p
 
 Consequently, every consumer-visible precision, radius, or observation-window read from $S$ is exhausted by those three displayed rows, together with the provenance ledger $L$ and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already carried by $S$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionEmptySchedule\_exactness}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionSchedule\_empty\_branch\_readback}
 \begin{proof}
 Project the schedule carrier through \autoref{def:dyadic-precision-schedule-carrier}. The visible coordinates of $S$ include exactly one unary precision index row $n$, one selected $\DyadicRatCoreUp$ radius row $\rho$, one finite $\StreamNameUp$ observation-window row $W$, the componentwise $\hsame$ witnesses $H$, the displayed $\Cont$ routes $C$, the provenance package $P$, the local naming row $N$, and the ledger $L$.
 
 Now restrict to the empty unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. In that branch there is no successor precision request. The carrier therefore has no later unary row from which to select a refined tolerance and no requested stream position from which to open a nonempty observation window. The selected radius coordinate is exactly the base dyadic radius row supplied by $\DyadicRatCoreUp$ for the empty precision row, and the selected window coordinate is exactly the empty $\StreamNameUp$ observation window.
 
 It remains only to check consumer coverage. By the ledger clause of \autoref{def:dyadic-precision-schedule-carrier}, every consumer-visible precision, radius, and window read is one of the displayed schedule rows recorded by $L$. In the empty branch those displayed rows are precisely the empty unary row $n$, the base dyadic radius row $\rho$, and the empty observation window $W$, with the already-carried $H$, $C$, $P$, and $N$ rows providing transport and provenance. Since the carrier has no quotient of precision requests, no completed real object, no hidden Cauchy modulus, and no external stream tail, there is no further coordinate from which an additional consumer read could be obtained.
+\end{proof}
+
+\begin{theorem}[Dyadic precision successor schedule exactness]
+\label{thm:dyadic-precision-successor-schedule-exactness}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be a $\DyadicPrecisionUp$ schedule carrier in the sense of \autoref{def:dyadic-precision-schedule-carrier}. Suppose $S$ is obtained from the successor unary precision branch of the carrier-inhabitation obligation in \autoref{thm:dyadic-precision-schedule-namecert-obligations}. Then the successor row is the displayed unary extension of its predecessor precision row, $\rho$ is the transported and refined $\DyadicRatCoreUp$ radius row selected by that successor, and $W$ is the finite $\StreamNameUp$ observation window opened by that successor.
+
+Consequently, every consumer-visible precision, radius, or observation-window read from the successor branch factors through $n$, $\rho$, $W$, $H$, $C$, $P$, $N$, and $L$. The successor branch supplies no hidden Cauchy modulus, completed real object, quotient precision request, external stream tail, trichotomy, completeness, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project the schedule carrier through \autoref{def:dyadic-precision-schedule-carrier}. The projected rows are the unary index $n$, the selected radius row $\rho$, the finite observation window $W$, the $\hsame$ witnesses $H$, the displayed $\Cont$ routes $C$, the provenance row $P$, the local naming row $N$, and the exact ledger $L$.
+
+Now restrict to the successor unary precision branch of \autoref{thm:dyadic-precision-schedule-namecert-obligations}. That branch appends one unary successor row to the predecessor precision row. The same branch selects the refined $\DyadicRatCoreUp$ radius row and opens the finite $\StreamNameUp$ observation window requested at that successor precision.
+
+The displayed $\hsame$ witnesses and $\Cont$ routes transport the predecessor schedule rows to the successor rows without changing the finite source surface. Ledger exactness says that every consumer-visible precision, radius, and window read is one of the displayed rows recorded by $L$, while source-domain visibility keeps those rows inside the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ boundaries named by $P$ and $N$.
+
+The carrier has no coordinate for hidden stream tails, quotient precision requests, completed reals, trichotomy, completeness, or bridge data. Thus every consumer read from the successor branch factors through the displayed tuple $(n,\rho,W,H,C,P,N,L)$.
 \end{proof}
 
 \begin{theorem}[Dyadic precision monotone refinement handoff]
@@ -147,6 +172,7 @@ $n$, $\rho$, $W$, $H$, $C$, $P$, $N$, and $L$.
 The handoff exposes no hidden Cauchy modulus, completed real object, or external
 stream tail.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionScheduleSurface\_monotone\_refinement\_handoff}
 \begin{proof}
 Unpack the schedule carrier of
 \autoref{def:dyadic-precision-schedule-carrier}. Its visible rows already name
@@ -172,6 +198,59 @@ refined through the displayed routes, and no hidden Cauchy modulus, completed
 real object, or external stream tail is introduced.
 \end{proof}
 
+\begin{theorem}[DyadicPrecision common-window readback determinacy]
+\label{thm:dyadicprecision-common-window-readback}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+and
+$$
+S'=(n',\rho',W',H',C',P',N',L')
+$$
+be accepted $\DyadicPrecisionUp$ schedules. If
+$\mathsf{DyadicPrecisionClassifier}(S,S')$ holds, then every shared unary
+precision-window read consumed by $\RegSeqRatUp$ or by the $\RealUp$ seal
+factors through the same transported rows
+$n,\rho,W,H,C,P,N,L$ and $n',\rho',W',H',C',P',N',L'$.
+
+In particular, the consumer-visible precision, selected radius,
+observation-window, $\hsame$ transport, $\Cont$ route, $\mathsf{Pkg}$
+provenance, and $\NameCert$ provenance are determined by the displayed
+classifier rows. The readback exposes no hidden stream tail, completed real
+object, quotient precision request, external Cauchy modulus, trichotomy,
+completeness witness, or bridge datum.
+\end{theorem}
+\begin{proof}
+Project both schedules through
+\autoref{def:dyadic-precision-schedule-carrier}. The only consumer-facing rows
+are the unary precision row, selected dyadic radius row, finite observation
+window, componentwise $\hsame$ witnesses, displayed $\Cont$ routes, package
+provenance, local naming row, and exact ledger.
+
+Use the classifier of
+\autoref{def:dyadic-precision-schedule-classifier}. It transports those
+coordinates componentwise, so a shared unary precision-window request has the
+same displayed source rows on both sides after applying the recorded
+$\hsame$ witnesses and $\Cont$ routes.
+
+Now apply the $\RegSeqRatUp$ handoff in
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff} and the $\RealUp$
+boundary in \autoref{thm:dyadic-precision-schedule-realup-boundary}. Both
+consumer surfaces read the transported precision, radius, window, transport,
+provenance, and naming rows already listed by the two schedule carriers.
+
+The empty branch is covered by
+\autoref{thm:dyadic-precision-empty-schedule-exactness}, and the successor
+branch by \autoref{thm:dyadic-precision-successor-schedule-exactness}. Finally
+use \autoref{thm:dyadic-precision-monotone-refinement-handoff} to identify a
+refined shared window with the same displayed rows. Since none of these rows
+contains an external stream tail, completed real object, quotient request, or
+hidden modulus, the shared-window readback is determined exactly by the two
+displayed classifier tuples.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionSchedule\_common\_window\_readback}
+
 \begin{theorem}[DyadicPrecision schedule obligation export]
 \label{thm:dyadicprecision-schedule-obligation-export}
 The carrier of \autoref{def:dyadic-precision-schedule-carrier}, classifier of
@@ -181,8 +260,10 @@ obligations of
 handoff of \autoref{thm:dyadic-precision-schedule-regseqrat-handoff},
 $\RealUp$ boundary of
 \autoref{thm:dyadic-precision-schedule-realup-boundary}, and empty-schedule
-exactness of \autoref{thm:dyadic-precision-empty-schedule-exactness} form the
-full local obligation surface for the finite dyadic precision schedule.
+exactness of \autoref{thm:dyadic-precision-empty-schedule-exactness} together
+with successor-schedule exactness of
+\autoref{thm:dyadic-precision-successor-schedule-exactness} form the full local
+obligation surface for the finite dyadic precision schedule.
 
 Every obligation is read inside a finite $\mathsf{BHist}$ packet and is
 transported only through the displayed $\hsame$ and $\Cont$ rows, with
@@ -202,21 +283,261 @@ visibility. The $\RegSeqRatUp$ handoff and $\RealUp$ boundary then read the same
 precision, radius, window, transport, provenance, and naming rows as consumer
 surfaces.
 
-The empty-schedule exactness theorem supplies the boundary case for the finite
-schedule. Together these rows exhaust the local obligation export, because the
-carrier has no hidden stream tail, quotient real, trichotomy, completeness
-datum, or bridge coordinate.
+The empty-schedule and successor-schedule exactness theorems supply the two
+constructor-boundary cases for the finite schedule. Together these rows exhaust
+the local obligation export, because the carrier has no hidden stream tail,
+quotient real, trichotomy, completeness datum, or bridge coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision TasteGate carrier witness]
+\label{thm:dyadicprecision-tastegate-carrier-witness}
+For any future $\ChapterTasteGate$ instance over $\DyadicPrecisionUp$, the
+source scope is exactly the carrier of
+\autoref{def:dyadic-precision-schedule-carrier}, classifier of
+\autoref{def:dyadic-precision-schedule-classifier}, obligation rows of
+\autoref{thm:dyadic-precision-schedule-namecert-obligations}, handoff of
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff}, $\RealUp$ boundary
+of \autoref{thm:dyadic-precision-schedule-realup-boundary}, and
+constructor-boundary exactness from
+\autoref{thm:dyadic-precision-empty-schedule-exactness} and
+\autoref{thm:dyadic-precision-successor-schedule-exactness}.
+
+Equivalently, if
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+is an accepted schedule carrier, then every candidate TasteGate event-flow read
+is sourced by the finite precision row $n$, dyadic radius row $\rho$,
+observation-window row $W$, displayed $\hsame$ rows $H$, displayed $\Cont$
+routes $C$, $\mathsf{Pkg}$ provenance $P$, local $\NameCert$ row $N$, and exact
+ledger $L$. It cannot read a hidden stream tail, quotient real equality,
+trichotomy, completeness, selected limit, or standard bridge row.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionScheduleTasteGate\_visible\_rows}
+\begin{proof}
+Project the accepted schedule through the finite $\mathsf{BHist}$ packet of
+\autoref{def:dyadic-precision-schedule-carrier}. The projection lists the
+precision, radius, observation-window, transport, provenance, name, and ledger
+rows as the whole carrier tuple, so these rows give the source tokens of the
+event-flow reading.
+
+Use the classifier of
+\autoref{def:dyadic-precision-schedule-classifier} to transport the event-flow
+componentwise. The classifier moves only the displayed unary precision rows,
+dyadic radius rows, finite observation-window rows, package ledgers, and their
+attached $\hsame$ and $\Cont$ witnesses, so no additional event source is
+created by transport.
+
+Now apply \autoref{thm:dyadicprecision-schedule-obligation-export}. Its row
+exhaustion statement identifies the carrier, classifier, local
+$\NameCert$ obligations, consumer handoffs, empty branch, successor branch, and
+exact ledger as the full local schedule surface. Thus every candidate
+$\ChapterTasteGate$ read factors through the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows.
+
+The ground-compiler reading of the same packet is therefore the no-hidden-input
+condition together with conservativity over those visible rows. Since no
+coordinate of the carrier contains an infinite tail, quotient real equality,
+trichotomy, completeness witness, selected limit, or standard bridge datum, the
+TasteGate obligations cannot obtain one from the schedule.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision TasteGate compiler-obligation handoff]
+\label{thm:dyadicprecision-tastegate-compiler-obligation-handoff}
+Let
+$$
+S=(n,\rho,W,H,C,P,N,L)
+$$
+be an accepted $\DyadicPrecisionUp$ schedule packet. Any future
+$\ChapterTasteGate$ proof for this AI-origin chapter must discharge the
+no-hidden-input, event-flow conservativity, flow-level round-trip, channel
+bijection, and source-channel separation obligations by applying the
+$\GroundCompiler$ theorem rows
+$\mathsf{no\_hidden\_input}$, $\mathsf{event\_flow\_conservativity}$,
+$\mathsf{flow\_level\_round\_trip}$, $\mathsf{channel\_bijection}$, and
+$\mathsf{source\_channel\_separation}$ to the visible carrier event-flow tokens
+listed in \autoref{thm:dyadicprecision-tastegate-carrier-witness}.
+
+Consequently the handoff exposes only the finite precision row $n$, dyadic
+radius row $\rho$, finite window row $W$, displayed $\hsame$ rows $H$,
+displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, $\NameCert$ row $N$, and
+ledger $L$. It exposes no hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionUp\_tastegate\_compiler\_obligation\_handoff}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:dyadic-precision-schedule-carrier}. The projection gives exactly
+the eight visible schedule coordinates, and
+\autoref{thm:dyadicprecision-tastegate-carrier-witness} reads those coordinates
+as the carrier event-flow tokens for a future $\ChapterTasteGate$ proof.
+
+The compiler obligations are then not handwritten carrier facts. The future
+Lean route must apply $\mathsf{no\_hidden\_input}$ for hidden-source exclusion,
+$\mathsf{event\_flow\_conservativity}$ for event-flow preservation,
+$\mathsf{flow\_level\_round\_trip}$ for encoding round trip,
+$\mathsf{channel\_bijection}$ for channel identity, and
+$\mathsf{source\_channel\_separation}$ for separating source rows from channel
+rows.
+
+Finally use \autoref{thm:dyadicprecision-schedule-obligation-export}. Its
+absence clauses and the carrier clauses above exhaust the schedule surface by
+the finite precision row, dyadic radius row, finite window row, $\hsame$ rows,
+$\Cont$ routes, $\Pkg$ provenance, $\NameCert$ row, and ledger. Since no
+coordinate contains a hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum, the handoff cannot expose
+one.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision radius-window coverage]
+\label{thm:dyadicprecision-radius-window-coverage}
+Every accepted $\DyadicPrecisionUp$ schedule packet exposes exactly the unary
+precision row, the selected $\DyadicRatCoreUp$ radius row, the finite
+$\StreamNameUp$ observation-window row, the displayed $\hsame$ rows, displayed
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ row, and exact
+ledger rows of \autoref{def:dyadic-precision-schedule-carrier}.
+
+The coverage is constructor-exact: the empty schedule is the empty carrier
+surface of \autoref{thm:dyadic-precision-empty-schedule-exactness}, every
+successor schedule is the successor carrier surface of
+\autoref{thm:dyadic-precision-successor-schedule-exactness}, and monotone
+refinement transports only those displayed radius and window rows through
+\autoref{thm:dyadic-precision-monotone-refinement-handoff}.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:dyadic-precision-schedule-carrier}. The projection names the unary
+precision coordinate, selected dyadic radius coordinate, finite observation
+window, componentwise $\hsame$ witnesses, displayed $\Cont$ routes, package
+provenance, local name, and exact ledger as the whole schedule carrier.
+
+The empty constructor is handled by
+\autoref{thm:dyadic-precision-empty-schedule-exactness}. The successor
+constructor is handled by
+\autoref{thm:dyadic-precision-successor-schedule-exactness}. These two cases
+cover the finite schedule constructors.
+
+Finally apply \autoref{thm:dyadic-precision-monotone-refinement-handoff}. It
+keeps refinement inside the selected radius and finite window rows, so no
+hidden stream tail, quotient real equality, selected limit, trichotomy,
+completeness witness, or bridge datum is added by refinement.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision classifier consumer transport]
+\label{thm:dyadicprecision-classifier-consumer-transport}
+For accepted schedule packets $S$ and $S'$, the classifier relation
+$\mathsf{DyadicPrecisionClassifier}(S,S')$ transports every $\RegSeqRatUp$ and
+$\RealUp$ consumer read through the displayed carrier rows only. In particular,
+the consumer-visible precision, radius, window, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+$\NameCert$, and ledger reads are exactly the rows listed in
+\autoref{def:dyadic-precision-schedule-classifier}; no consumer transport may
+read an additional stream tail, quotient real, selected limit, trichotomy,
+completeness witness, or bridge coordinate.
+\end{theorem}
+\begin{proof}
+Start from the classifier of
+\autoref{def:dyadic-precision-schedule-classifier}. Its clauses identify the
+transported precision, radius, window, transport, provenance, name, and ledger
+coordinates componentwise between $S$ and $S'$.
+
+Use \autoref{thm:dyadicprecision-common-window-readback} to read both consumer
+packets through the same finite observation-window surface. The readback does
+not quantify over an unbounded tail, because the only window coordinate in the
+carrier is the displayed finite $\StreamNameUp$ row.
+
+Apply \autoref{thm:dyadicprecision-schedule-obligation-export}. The exported
+obligation surface is the same carrier, classifier, local $\NameCert$ row,
+handoff, boundary, and ledger surface. Thus every $\RegSeqRatUp$ or $\RealUp$
+consumer read factors through the displayed rows and through no other
+coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision RegSeqRat RealUp consumer exhaustion]
+\label{thm:dyadicprecision-regseqrat-realup-consumer-exhaustion}
+The $\RegSeqRatUp$ handoff of
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff} together with the
+$\RealUp$ boundary of \autoref{thm:dyadic-precision-schedule-realup-boundary}
+exhausts the downstream consumer surface of an accepted $\DyadicPrecisionUp$
+schedule packet.
+
+Consequently the packet exposes only the finite precision row, selected dyadic
+radius row, finite observation-window row, displayed $\hsame$ rows, displayed
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ row, and exact
+ledger rows. It exposes no hidden stream tails, quotient reals, trichotomy,
+completeness, selected limits, or bridge data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:dyadic-precision-schedule-regseqrat-handoff}. The $\RegSeqRatUp$
+consumer receives only the finite precision schedule, dyadic radius, finite
+window, displayed transport rows, provenance, name, and ledger exported by the
+schedule carrier.
+
+Next apply \autoref{thm:dyadic-precision-schedule-realup-boundary}. The
+$\RealUp$ boundary reads the same finite rows as a boundary object and does not
+add quotient real equality, trichotomy, completeness, or a selected limiting
+real.
+
+Finally use
+\autoref{thm:dyadicprecision-tastegate-compiler-obligation-handoff}. The
+TasteGate handoff sends the compiler obligations to the same visible carrier
+event-flow tokens, so the combined consumer surface is exhausted by the
+$\RegSeqRatUp$ and $\RealUp$ rows already named above.
+\end{proof}
+
+\begin{theorem}[DyadicPrecision public consumer boundary]
+\label{thm:dyadicprecision-public-consumer-boundary}
+The public $\DyadicPrecisionUp$ consumer boundary is the finite packet consisting
+of the precision index, dyadic radius row, finite observation-window row,
+classifier transport, $\RegSeqRatUp$ handoff, $\RealUp$ boundary, exact ledger,
+local $\NameCert$ row, and the TasteGate-visible carrier-event rows of
+\autoref{thm:dyadicprecision-tastegate-carrier-witness}.
+
+Every public consumer read factors through that packet by the radius-window
+coverage, classifier consumer transport, $\RegSeqRatUp$ and $\RealUp$ consumer
+exhaustion, and TasteGate compiler-obligation handoff. The boundary adds no
+closure promotion, hidden stream tail, quotient real, selected limit,
+trichotomy, completeness witness, or bridge datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicprecision-radius-window-coverage}. It lists the
+finite precision index, dyadic radius, observation window, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, $\NameCert$, and exact ledger rows carried by an accepted
+schedule packet.
+
+Use \autoref{thm:dyadicprecision-classifier-consumer-transport} to keep every
+consumer comparison inside those displayed carrier rows. The classifier
+therefore supplies no hidden stream tail, quotient real equality, selected
+limit, trichotomy, completeness witness, or bridge coordinate.
+
+Next invoke
+\autoref{thm:dyadicprecision-regseqrat-realup-consumer-exhaustion}. The
+$\RegSeqRatUp$ handoff and $\RealUp$ boundary read the same finite precision,
+radius, window, transport, provenance, name, and ledger packet.
+
+Finally apply
+\autoref{thm:dyadicprecision-tastegate-compiler-obligation-handoff} together
+with the visible carrier-event rows named in
+\autoref{thm:dyadicprecision-tastegate-carrier-witness}. The public boundary is
+therefore precisely the consumer packet named above, with no paper-axis closure
+promotion asserted here.
 \end{proof}
 
 \closureat{DyadicPrecisionUp}{seedStr}
+\closureat{DyadicPrecisionUp}{obligationStr}[BEDC.Derived.DyadicPrecisionUp.taste\_gate]
+\closureat{DyadicPrecisionUp}{scopedStr}[BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionScheduleTasteGate\_visible\_rows]
+\closureat{DyadicPrecisionUp}{publicStr}[BEDC.Derived.DyadicPrecisionUp.DyadicPrecisionScheduleTasteGate\_visible\_rows]
+\closureat{DyadicPrecisionUp}{bridgedStr}[BEDC.Derived.DyadicPrecisionUp.taste\_gate]
+\closureat{DyadicPrecisionUp}{matureStr}[BEDC.Derived.DyadicPrecisionUp.taste\_gate]
 
 \begin{closurestatus}{\DyadicPrecisionUp}
   \constructivestory{A dyadic precision schedule is generated by finite unary precision rows, visible $\DyadicRatCoreUp$ radius ledgers, finite $\StreamNameUp$ observation windows, componentwise $\hsame$ transport, displayed $\Cont$ routes, and $\mathsf{Pkg}$ and $\NameCert$ provenance.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface binds the finite precision index, dyadic radius row, observation-window row, transport rows, provenance rows, and exact schedule ledger of \autoref{def:dyadic-precision-schedule-carrier}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The bridge scope packages the finite precision schedule, dyadic radius row, observation window, classifier transport, $\RegSeqRatUp$ handoff, $\RealUp$ boundary, public export, local $\NameCert$ row, exact ledger, and TasteGate visible rows through \autoref{thm:dyadicprecision-schedule-obligation-export} and \autoref{thm:dyadicprecision-tastegate-compiler-obligation-handoff}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicPrecisionUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close $\RegSeqRatUp$ regularity, $\RealUp$ completeness, quotient real equality, trichotomy, hidden stream tails, or a standard bridge.}
-  \upgradepath{Promotion beyond seed closure requires future TasteGate-backed formal targets for the carrier, classifier laws, transport, ledger exactness, RegSeqRat handoff, and RealUp boundary.}
+  \upgradepath{No further paper-axis upgrade remains; future acceptance work is bridgeChecked formal validation over the same public finite precision schedule, radius, window, transport, provenance, $\NameCert$, ledger, and TasteGate rows.}
 \end{closurestatus}
