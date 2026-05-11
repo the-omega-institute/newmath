@@ -286,6 +286,51 @@ completion, quotient, limit-selection, or host-equality coordinate, the
 transported finite-window packet exposes none of that data.
 \end{proof}
 
+\begin{theorem}[StreamNameUp public reindexing composition]
+\label{thm:streamname-public-reindexing-composition}
+Let $r$ and $s$ be certified $\UnaryHistory$ reindexers displayed over finite
+$\mathsf{ProbeBundle}$ windows for a public $\StreamNameUp$ observation map.
+Suppose the $r$ leg transports every displayed public observation row by
+pointwise $\hsame$ through its recorded $\Cont$ route and $\Pkg$ provenance,
+and suppose the $s$ leg does the same for the reindexed window. Then the
+composite reindexer transports the same finite-window classifier packet.
+
+The composite packet consists only of $\UnaryHistory$ observation rows,
+$\mathsf{InBundle}$ membership, pointwise $\RatUp$ classifier rows, $\hsame$
+comparisons, composed $\Cont$ provenance, and the displayed $\Pkg$ rows. It
+does not export $\RegSeqRat$ regularity, $\RealUp$ completion, quotient
+representatives, selected limits, or host index equality.
+\end{theorem}
+\begin{proof}
+Apply the public reindexing obligation of
+\autoref{def:streamname-public-reindexing-obligation} to the $r$ leg and then
+to the $s$ leg. Each application reads only certified $\UnaryHistory$
+observation rows, displayed membership, pointwise rational classifier rows,
+and the recorded $\Cont$ and $\Pkg$ provenance for that leg.
+
+Use \autoref{thm:streamname-public-transport-obligation} on the pointwise
+$\hsame$ rows supplied by both legs. The first application transports the
+source classifier row to the intermediate window, and the second transports
+the intermediate row to the target window. Composing the two displayed
+$\Cont$ routes gives the route used by the composite packet, while the
+$\Pkg$ rows remain exactly the provenance rows displayed by the two legs.
+
+Project the finite target window by
+\autoref{thm:streamname-finite-window-schedule-exhaustion}. The projection
+lists precisely the $\UnaryHistory$ observation rows, $\mathsf{InBundle}$
+membership, pointwise $\RatUp$ classifier rows, $\hsame$ comparisons,
+continuation routes, and package provenance exposed by the composite
+finite-window schedule.
+
+Finally combine \autoref{thm:streamname-public-ledger-obligation} with the
+window-union exhaustion of
+\autoref{thm:streamname-regseqrat-window-union-exhaustion}. Any row seen by a
+consumer of the composite window must already appear in one of the two
+displayed leg ledgers or in their finite union. Since those ledgers carry no
+regularity, completion, quotient, selected-limit, or host-index coordinate,
+the composite public packet exports none of those objects.
+\end{proof}
+
 \begin{theorem}[StreamNameUp RegSeqRat window intersection exhaustion]
 \label{thm:streamname-regseqrat-window-intersection-exhaustion}
 Let two downstream finite-window requests over a common public
