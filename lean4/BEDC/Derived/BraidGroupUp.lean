@@ -149,6 +149,32 @@ theorem BraidGroupArtinPacket_artin_ledger_stability [AskSetup] [PackageSetup]
                         hsame endpoint endpoint' :=
   BraidGroupArtinPacket_ledger_stability
 
+theorem BraidGroupArtinPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont endpoint dependency consumer ->
+        PkgSig bundle consumer pkg ->
+          PositiveUnaryDenominator strand ∧ UnaryHistory word ∧ UnaryHistory moveLedger ∧
+            UnaryHistory dependency ∧ UnaryHistory classifier ∧ UnaryHistory endpoint ∧
+              UnaryHistory consumer ∧ Cont strand word moveLedger ∧
+                Cont moveLedger dependency classifier ∧ Cont classifier word endpoint ∧
+                  Cont endpoint dependency consumer ∧ hsame endpoint (append classifier word) ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerSig
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, strandWordRow,
+    classifierRow, endpointRow, endpointSig⟩ := packet
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed moveLedgerUnary dependencyUnary classifierRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed classifierUnary wordUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary dependencyUnary consumerRow
+  exact
+    ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, classifierUnary, endpointUnary,
+      consumerUnary, strandWordRow, classifierRow, endpointRow, consumerRow, endpointRow,
+      endpointSig, consumerSig⟩
+
 theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSetup]
     {strand word moveLedger classifier dependency endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
