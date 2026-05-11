@@ -27,3 +27,14 @@ python3 lean4/scripts/bedc_ci.py inventory --json
 - Worktrees live under `.worktrees/` and logs under `lean4/scripts/logs/`.
 - `bedc_ci.py verify-files` runs `lake env lean` on explicit files; the orchestrator itself uses `lake_gate.py` for build concurrency.
 - Run a real formalization round only after reviewing the adapted prompts and dry-run output.
+
+## manifest-coverage subcommand
+
+`python3 lean4/scripts/bedc_ci.py manifest-coverage` reports how many paper
+`\leanchecked{X}` markers are currently registered in `BEDC.Manifest.Entries`
+(the Lean-side hand-curated anchor list of paper-bound theorems). Informational
+only — does not gate CI. As `BEDC.Manifest` grows, the coverage ratio grows
+toward the full paper corpus.
+
+Related: `manifest_codegen.py` emits Lean stubs from paper markers for human
+review before adding to `BEDC/Manifest/Entries.lean`.
