@@ -161,4 +161,46 @@ theorem TopVecSpaceBHistCarrier_topology_source_scope [AskSetup] [PackageSetup]
       (And.intro carrier.right.right.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right.right))
 
+theorem TopVecSpaceBHistCarrier_topology_source_obligation [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row topology)
+          (fun row : BHist => hsame row topology)
+          (fun row : BHist => hsame row topology) hsame ∧
+        UnaryHistory topology ∧ Cont vec topology addLedger ∧ Cont route topology endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row topology)
+        (fun row : BHist => hsame row topology)
+        (fun row : BHist => hsame row topology) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro topology (hsame_refl topology)
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        exact hsame_trans (hsame_symm sameRows) carrierRow
+    }
+    pattern_sound := by
+      intro _row carrierRow
+      exact carrierRow
+    ledger_sound := by
+      intro _row carrierRow
+      exact carrierRow
+  }
+  exact And.intro cert
+    (And.intro carrier.right.left
+      (And.intro carrier.right.right.right.right.right.right.left
+        (And.intro carrier.right.right.right.right.right.right.right.right.left
+          carrier.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.TopVecSpaceUp
