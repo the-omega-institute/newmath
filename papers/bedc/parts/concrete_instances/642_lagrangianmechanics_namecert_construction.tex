@@ -175,6 +175,69 @@ Hamiltonian equivalence, complete Noether correspondence, analytic regularity
 principle, or standard bridge.
 \end{proof}
 
+\begin{theorem}[LagrangianMechanics finite obligation carrier]
+\label{thm:lagrangianmechanics-finite-obligation-carrier}
+The finite $\LagrangianMechanicsUp$ obligation carrier consists of
+$\mathsf{BHist}$ rows for configuration history, velocity history,
+action-density data, a variation token, and visible $\Pkg$ and $\NameCert$
+provenance. Each row is read as part of the carrier of
+\autoref{def:lagrangianmechanics-bhist-carrier}, and no row introduces a
+smooth manifold, a completed path space, or an analytic extremal.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of
+\autoref{def:lagrangianmechanics-bhist-carrier}. The configuration and
+velocity histories are the rows $Q$ and $V$, while the action-density and
+variation data are read from the action and variation coordinates $A$ and
+$R$.
+
+The provenance rows are the package and local naming coordinates $P$ and $N$.
+Repacking these projected rows gives the finite obligation carrier. Since the
+carrier list contains no host manifold, path-space completion, or analytic
+extremal coordinate, those objects are outside the obligation carrier.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics action ledger policy]
+\label{thm:lagrangianmechanics-action-ledger-policy}
+The $\LagrangianMechanicsUp$ action ledger exposes only finite
+action-comparison rows, boundary variation rows, and $\Cont$ transport through
+the displayed action, variation, endpoint, and continuation coordinates of
+\autoref{def:lagrangianmechanics-bhist-carrier}. It does not solve an
+Euler--Lagrange equation, select an analytic minimizer, or supply a smooth
+manifold model.
+\end{theorem}
+\begin{proof}
+Start from the action ledger obligation already identified in
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. Its readable rows
+are the finite configuration, velocity, action, variation, endpoint,
+transport, continuation, and provenance coordinates.
+
+The comparison data are therefore the finite action rows and the boundary
+variation rows transported along the displayed $\Cont$ routes. Repacking those
+rows yields the ledger policy, and the excluded analytic objects are absent
+from the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics Euler boundary scope]
+\label{thm:lagrangianmechanics-euler-boundary-scope}
+The Euler boundary for $\LagrangianMechanicsUp$ is a scoped obligation over
+the displayed finite variation rows. Its dependencies are exactly the
+$\mathsf{BHist}$ carrier rows, the $\hsame$ transports, the $\Cont$ routes,
+and the visible $\Pkg$ and $\NameCert$ provenance needed to read the
+Euler--Lagrange residual row of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface}.
+\end{theorem}
+\begin{proof}
+Use the Euler--Lagrange interface theorem to identify the residual row $G$ and
+the finite action, variation, endpoint, transport, continuation, and
+provenance rows that feed it. These are all rows of the same
+$\mathsf{BHist}$ carrier.
+
+Transporting the displayed variation rows uses only the $\hsame$ witnesses in
+$H$ and the continuation routes in $C$. Repacking them with $P$ and $N$ gives
+the scoped Euler boundary, with no further analytic equation surface added.
+\end{proof}
+
 \closureat{LagrangianMechanicsUp}{seedStr}
 \closureat{LagrangianMechanicsUp}{obligationStr}
 
