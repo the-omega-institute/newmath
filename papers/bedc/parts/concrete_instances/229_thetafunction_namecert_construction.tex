@@ -39,7 +39,6 @@ The classifier of \autoref{def:thetafunction-classifier} is stable under
 rowwise $\hsame$ transport of the period ledger, coefficient window,
 holomorphic chart row, $\mathsf{Pkg}$ provenance, and $\Cont$ readback rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_hsame\_stability}
 \begin{proof}
 Unpack the classifier into its displayed coordinates. The period coordinate is
 transported by the $\EllipticCurveUp$ period row, the chart coordinate by the
@@ -88,6 +87,7 @@ $\mathsf{Pkg}$. The boundary consumes only the displayed $\EllipticCurveUp$,
 $\HolomorphicUp$, and $\ComplexSeriesUp$ source rows and supplies exactly the
 finite period, chart, and coefficient observation surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary}
 \begin{proof}
 The carrier definition supplies the source object for the certificate. The
 classifier definition supplies the comparison relation, and
@@ -103,4 +103,29 @@ Combining these rows gives the advertised boundary: a finite $\mathsf{BHist}$
 packet with dependency provenance through $\mathsf{Pkg}$, readback through
 $\Cont$, and no additional analytic-continuation or completed-modular-form
 field.
+\end{proof}
+
+\begin{theorem}[ThetaFunction modular-shift ledger]
+\label{thm:thetafunction-modular-shift-ledger}
+Let $\Theta$ be a $\ThetaFunctionUp$ packet whose $\ComplexSeriesUp$ source row is transported by a certified integer or unary period-shift row. The transported packet preserves the displayed $q$-expansion carrier, classifier, and ledger rows through the same $\hsame$ comparisons, $\Cont$ provenance, and $\mathsf{Pkg}$ entries. The shift is recorded as a finite package-ledger row rather than as an external modular-group action.
+\end{theorem}
+\begin{proof}
+Inspect the carrier packet of \autoref{def:thetafunction-carrier-source}. The period row, holomorphic chart row, coefficient window, provenance row, and readback row are the only available coordinates.
+
+Use the $\ComplexSeriesUp$ pointwise append and transport rows on each finite coefficient window touched by the certified shift. The $\HolomorphicUp$ source row supplies stability for the analytic carrier coordinate, while the $\EllipticCurveUp$ period ledger supplies the displayed period source.
+
+Repack the transported coefficient, period, chart, continuation, and package rows. Since the shift appears only as a $\mathsf{Pkg}$ ledger entry, the resulting packet preserves the carrier, classifier, and ledger without exporting a modular-group action.
+\end{proof}
+
+\begin{theorem}[ThetaFunction period-lattice scope]
+\label{thm:thetafunction-period-lattice-scope}
+Every consumer-visible period-lattice readback of a $\ThetaFunctionUp$ packet factors through the $\ComplexSeriesUp$ coefficient stream, the $\EllipticCurveUp$ period source, the $\HolomorphicUp$ carrier row, displayed $\hsame$ comparisons, the $\Cont$ route, and the $\mathsf{Pkg}$ ledger of \autoref{def:thetafunction-carrier-source}. The packet exports no analytic continuation object, quotient torus, host lattice object, or completed infinite coefficient stream.
+\end{theorem}
+\leanchecked{BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_period\_lattice\_scope}
+\begin{proof}
+Begin with the carrier source, classifier, hsame stability, and ledger exactness rows. These rows already identify the finite period ledger, local holomorphic chart, coefficient window, provenance, and readback coordinates.
+
+For a period-lattice readback, first project the $\EllipticCurveUp$ period source and the $\ComplexSeriesUp$ coefficient stream rows. Then transport the chart and coefficient windows along the displayed $\hsame$ comparisons and follow the recorded $\Cont$ route.
+
+The NameCert boundary of \autoref{thm:thetafunction-namecert-boundary} exhausts the consumer-visible surface. Since the boundary has no constructor field for analytic continuation, quotient tori, host lattices, or completed coefficient streams, none of those objects is exported.
 \end{proof}
