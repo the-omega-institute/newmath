@@ -189,6 +189,45 @@ the listed downstream chapters can consume only the visible-context witness,
 budget, and classifier rows.
 \end{proof}
 
+\begin{theorem}[MetricSpace visible-context public certificate]
+\label{thm:metricspace-visible-context-public-certificate}
+The public $\MetricSpaceUp$ certificate is exactly the finite
+$\mathsf{BHist}$ endpoint rows, the $\mathsf{MetricDistanceWitness}$ row, the
+$\mathsf{MetricBallBudget}$ row, the $\hsame$ classifier row, the finite
+$\Cont$ provenance row, and the $\RealUp$ budget rows of
+\autoref{def:metricspace-public-distance-surface}. Every downstream read by
+$\TotallyBoundedUp$, $\CompleteMetricUp$, $\CompactMetricUp$,
+$\ContinuousMapUp$, and $\SOneUp$ factors through the visible-context consumer
+surface of
+\autoref{thm:metricspace-visible-context-distance-consumer-surface}, so the
+certificate exports no host metric-space carrier, no separate topology
+generator, and no analytic completeness or compactness row.
+\end{theorem}
+\begin{proof}
+First project the visible distance read through
+\autoref{thm:metric-distance-witness-semantic-namecert}. This fixes the
+endpoint $\mathsf{BHist}$ rows, the displayed
+$\mathsf{MetricDistanceWitness}$ row, and the $\hsame$ classifier that names
+the distance witness.
+
+Next compose the budget rows by
+\autoref{thm:metric-ball-budget-composition}. The only available comparison,
+addition, transitivity, and monotonicity data are the displayed $\RealUp$
+budget rows already present in
+\autoref{def:metricspace-public-distance-surface}.
+
+Then read the standard-facing side through
+\autoref{thm:metric-distance-witness-standard-bridge}. The bridge has the same
+finite witness surface, so it does not introduce a host metric function or an
+ambient metric-space object.
+
+Finally apply
+\autoref{thm:metricspace-visible-context-distance-consumer-surface}. The
+listed downstream chapters read the metric interface only through this
+visible-context surface. Combining these rows gives exactly the public
+$\MetricSpaceUp$ certificate and no larger object.
+\end{proof}
+
 \paragraph{Primitive boundary.}
 \(\MetricSpaceUp\) is not a BEDC primitive. It is admitted only when those obligations are supplied.
 \input{parts/concrete_instances/32_metric_empty_boundary_visible_context_distance_empty}
