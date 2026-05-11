@@ -158,16 +158,18 @@ paper obligations.
 
 \closureat{MarkovChainUp}{obligationStr}
 \closureat{MarkovChainUp}{publicStr}[BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_finite\_suffix\_carrier]
+\closureat{MarkovChainUp}{bridgedStr}[BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_semantic\_name\_certificate]
+\closureat{MarkovChainUp}{matureStr}[BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_finite\_suffix\_carrier]
 
 \begin{closurestatus}{\MarkovChainUp}
   \constructivestory{A Markov-chain packet is generated from a displayed $\ProbSpaceUp$ source, a unary time ledger, carried $\RandomVarUp$ rows, $\DistributionUp$ law rows, transition rows, $\Cont$ displays, $\hsame$ transport, and $\mathsf{Pkg}$ provenance. The carrier accepts only finite transition ledgers whose next-law rows are sourced from the adjacent carried random-variable rows, so host stochastic-process objects, filtrations, conditional-expectation primitives, and standard kernel bridges remain outside the certificate.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public surface consists of the finite-prefix restriction, transition-concat closure, splice transport, and finite-suffix carrier rows displayed in this chapter, over the same $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ transition packet.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MarkovChainUp.MarkovChainTransitionCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{No host stochastic-process carrier, filtration, conditional-expectation construction, stationary law, martingale property, or standard kernel bridge is claimed.}
-  \upgradepath{The next paper-grade step is bridged closure through a standard-kernel MarkovChainUp bridge boundary.}
+  \upgradepath{No paper-axis strengthening remains; stronger status is purely formal or bridge-axis work.}
 \end{closurestatus}
 
 \begin{definition}[MarkovChain finite-prefix restriction]
@@ -247,6 +249,46 @@ By \autoref{thm:markovchain-kernel-classifier-stability}, this componentwise tra
 The time ledger is finite and unary because $T_1$ and $T_2$ are unary and the displayed continuation row $\Cont(T_1,T_2,T_{12})$ is the finite BEDC concatenation of those two ledgers. The transition provenance ledgers concatenate in the same order: rows internal to $P_1$ and $P_2$ are inherited, and the single boundary row is the transported splice row just constructed. The carrier definition asks for no host stochastic process, filtration, conditional expectation, or standard kernel bridge; it asks only for these displayed random-variable rows, law rows, transition rows, and $\hsame/\Cont/\Pkg$ provenance. Hence the assembled packet satisfies the accepted $\MarkovChainUp$ carrier predicate over the unary ledger $T_{12}$ of length $n+m$.
 \end{proof}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainTransitionPacket\_splice\_transport\_closure}
+
+\begin{theorem}[MarkovChain filtered transition consumer catalogue]
+\label{thm:markovchain-filtered-transition-consumer-catalogue}
+Every downstream finite stochastic-process consumer of an accepted
+$\MarkovChainUp$ transition packet reads only the displayed $\ProbSpaceUp$
+source, unary time ledger, adjacent $\RandomVarUp$ rows, $\DistributionUp$ law
+rows, transition rows, finite-prefix restrictions, concatenation and splice
+rows, $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+The catalogue excludes host stochastic processes, filtrations, conditional
+expectation, stationary laws, martingale structure, and standard kernel
+bridges. A consumer may restrict to a finite window, concatenate compatible
+windows, or read across a transported splice, but every such read remains inside
+the displayed finite transition packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:markovchain-bhist-transition-carrier}. The projection exposes only
+the $\ProbSpaceUp$ source, the unary time ledger, adjacent $\RandomVarUp$
+endpoints, $\DistributionUp$ law rows, transition rows, and the displayed
+$\hsame/\Cont/\Pkg$ provenance.
+
+For local finite windows, apply
+\autoref{thm:markovchain-finite-prefix-restriction-carrier}. The restriction
+keeps the same source row and copies only the visible endpoint, law,
+transition, and provenance rows whose indices lie in the chosen finite prefix.
+
+For consumers that splice or extend windows, apply
+\autoref{thm:markovchain-transition-packet-concatenation-closure} together with
+the adjacent transport row recorded after that theorem. These results rebuild
+the concatenated packet from the two displayed finite ledgers and the single
+transported splice row.
+
+The semantic certificate row for
+$\MarkovChainUp$ is then the public boundary: it certifies that the visible
+carrier, classifier, stability, exactness, and provenance fields are the rows
+available to downstream consumers. No host stochastic process, filtration,
+conditional expectation, stationary law, martingale datum, or standard kernel
+bridge is a field of that packet.
+\end{proof}
 
 \begin{definition}[MarkovChain finite-suffix restriction]
 \label{def:markovchain-finite-suffix-restriction}

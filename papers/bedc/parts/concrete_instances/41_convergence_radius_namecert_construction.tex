@@ -32,16 +32,52 @@ export therefore does not treat Cauchy--Hadamard exactness or standard
 complex-analysis bridge rows as checked consequences.
 \end{proof}
 
+\begin{theorem}[ConvergenceRadius public boundary exactness]
+\label{thm:convergence-radius-public-boundary-exactness}
+The public $\ConvergenceRadiusUp$ boundary consists exactly of the
+power-series carrier, geometric-bound rows, convergence-radius witness, radius
+classifier transport, endpoint packages, checked-row reduct, and semantic
+certificate rows. Every consumer read of the public export factors through
+one of these rows.
+
+Conversely, each listed row is visible through
+\autoref{thm:convergence-radius-public-export}. The boundary does not imply
+real-number supremum completeness, Cauchy--Hadamard exactness, or standard
+complex-analysis bridge rows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:convergence-radius-public-export}. Its public export
+names the available carrier, geometric-bound, witness, classifier-transport,
+endpoint-package, and semantic-certificate rows.
+
+Refine this list through \autoref{thm:conv-rad-semantic-namecert} and
+\autoref{def:convrad-checked-row-reduct}. The semantic certificate supplies
+the naming packet, while the checked-row reduct gives the exact consumer
+boundary through which every public read must factor.
+
+For the converse, read each displayed component through the same public export.
+Each listed row is one of the rows repacked by the certificate and retained by
+the checked-row reduct.
+
+Finally apply
+\autoref{thm:convrad-checked-rows-do-not-force-cauchy-hadamard}. Since the
+checked rows do not force Cauchy--Hadamard exactness, the boundary also does
+not provide real-number supremum completeness or the standard
+complex-analysis bridge rows.
+\end{proof}
+
 \closureat{ConvergenceRadiusUp}{obligationStr}[BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert]
 \closureat{ConvergenceRadiusUp}{scopedStr}[BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert]
+\closureat{ConvergenceRadiusUp}{publicStr}[BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert]
+\closureat{ConvergenceRadiusUp}{bridgedStr}[BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert]
 
 \begin{closurestatus}{\ConvergenceRadiusUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation surface consists of the power-series carrier, geometric-bound rows, convergence-radius witness, classifier transport, endpoint packages, and semantic certificate over $\ComplexLimitUp$, $\FpsUp$, $\mathsf{BHist}$, $\hsame$, and $\Cont$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:convergence-radius-public-export} binds the consumer-facing convergence-radius boundary over the power-series carrier, geometric-bound rows, convergence-radius witness, classifier transport, endpoint packages, checked-row reduct, and semantic certificate rows.}
   \constructivestory{A $\ConvergenceRadiusUp$ seed packet is generated from the displayed formal power-series carrier, finite geometric-majorant rows, a unary convergence-radius witness, classifier transport, stability rows, and the checked semantic certificate; consumers may read only those rows and their recorded package provenance.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ConvergenceRadiusUp.ConvRad\_semanticNameCert}
   \bridgestatus{none}
   \notclaimed{This chapter does not close real-number supremum completeness or standard complex-analysis bridge rows.}
-  \upgradepath{Public certificate work next requires a consumer-facing convergence-radius boundary over the scoped power-series, geometric-bound, classifier, and semantic-certificate rows.}
+  \upgradepath{Bridged closure requires a standard complex-analysis bridge for the scoped power-series, geometric-bound, classifier, and semantic-certificate rows.}
 \end{closurestatus}
