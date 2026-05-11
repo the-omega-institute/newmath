@@ -179,6 +179,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
