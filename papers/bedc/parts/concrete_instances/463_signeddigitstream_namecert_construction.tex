@@ -37,12 +37,28 @@ Let $S$ be an accepted $\SignedDigitStreamUp$ carrier. Suppose $T$ is obtained b
 
 The transport preserves only the finite signed-digit observation surface and introduces no quotient stream, ambient real equality, or completed real endpoint.
 \end{theorem}
+\leanchecked{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamPacket\_window\_transport}
+\leanvariant{BEDC.Derived.SignedDigitStreamUp.SignedDigitStreamWindowPacket\_window\_transport}
 \begin{proof}
 Project the carrier of \autoref{def:signeddigitstream-carrier}. The digit rows, unary schedule, carry ledger, provenance, endpoint rows, and hidden-tail ledger are the only coordinates available for transport.
 
 Move each coordinate along the displayed $\hsame$ and $\Cont$ routes. The hypothesis says that prefix normalization is preserved after the move, so every visible prefix of $T$ still has the corresponding $\DyadicRatCoreUp$ endpoint row.
 
 Apply the classifier of \autoref{def:signeddigitstream-classifier} on a shared finite window. The endpoint classifiers come from the transported $\DyadicRatCoreUp$ rows, and the carry ledgers match by the componentwise ledger transport. Since no extra coordinate is created, the transported packet exports exactly the same finite observation surface.
+\end{proof}
+
+\begin{theorem}[SignedDigitStream common-window determinacy]
+\label{thm:signeddigitstream-common-window-determinacy}
+Let $S$ and $T$ be accepted $\SignedDigitStreamUp$ carriers such that $\mathsf{SignedDigitStreamClassifier}(S,T)$ holds. For every unary window requested by both $\StreamNameUp$ schedules, the normalized $\DyadicRatCoreUp$ endpoint row read from $S$ and the normalized endpoint row read from $T$ are classifier-equal, and the carry ledgers repack to the same endpoint read.
+
+The conclusion is only a finite-window determinacy statement: it compares scheduled signed-digit prefixes, normalized endpoint rows, and carry ledgers, and it introduces no quotient stream, $\RealUp$ equality, or ambient host endpoint.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:signeddigitstream-classifier}. A common scheduled unary window is one of the shared finite observation rows named by the two $\StreamNameUp$ schedules, so the classifier exposes the two digit prefixes, their carry ledgers, and their normalized endpoint rows at that same window.
+
+Project the endpoint component of the classifier row. The row states that the two normalized $\DyadicRatCoreUp$ endpoints are compared by the $\DyadicRatCoreUp$ classifier, hence the endpoint reads are equal in the only public sense available to the packet.
+
+It remains to identify the carry data used by the read. The componentwise carry-ledger transport in the classifier repacks the two prefix normalizations into the same endpoint row. Since the carrier has no quotient-stream or $\RealUp$ coordinate, this exhausts the common-window conclusion.
 \end{proof}
 
 \begin{theorem}[SignedDigitStream RegSeqRat handoff]
@@ -79,13 +95,28 @@ The classifier and transport rows identify the only stable motion of that data: 
 The handoff row records exactly what a $\RegSeqRatUp$ consumer may read, namely scheduled normalized dyadic endpoints and their visible ledgers. The remaining ledger boundary excludes quotient tails, host real equality, and completed real endpoints, so the five listed rows exhaust the local $\NameCert_{\SignedDigitStreamUp}$ surface.
 \end{proof}
 
+\begin{theorem}[SignedDigitStream scoped finite-window package]
+\label{thm:signeddigitstream-scoped-window-package}
+Every accepted $\SignedDigitStreamUp$ packet determines a scoped BEDC package whose carrier row is the finite $\mathsf{BHist}$ packet $(D,N,C,P,E,L)$, whose classifier row compares shared finite windows through $\DyadicRatCoreUp$ endpoint equality, whose transport row is componentwise $\hsame$ and $\Cont$ transport, whose consumer row is the $\RegSeqRatUp$ handoff, and whose ledger row hides only unobserved windows.
+
+The package reads the signed-digit stream surface only through the finite rows named by $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$, together with the L10 source certificates that supply those rows.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:signeddigitstream-carrier} as the package spine. Its tuple $(D,N,C,P,E,L)$ supplies the finite digit rows, schedule rows, carry ledger, provenance, endpoint rows, and hidden-tail ledger.
+
+The classifier is the shared-window endpoint comparison of \autoref{def:signeddigitstream-classifier}. Transport is the componentwise $\hsame$ and $\Cont$ movement supplied by \autoref{thm:signeddigitstream-window-transport}.
+
+The consumer face is exactly the $\RegSeqRatUp$ handoff of \autoref{thm:signeddigitstream-regseqrat-handoff}. Finally, \autoref{thm:signeddigitstream-namecert-obligation-surface} identifies the five rows as the local $\NameCert_{\SignedDigitStreamUp}$ surface, so the scoped package has no additional quotient tail, host-real, or completed-real coordinate.
+\end{proof}
+
 \closureat{SignedDigitStreamUp}{seedStr}
 \closureat{SignedDigitStreamUp}{obligationStr}
+\closureat{SignedDigitStreamUp}{scopedStr}
 
 \begin{closurestatus}{\SignedDigitStreamUp}
   \constructivestory{A signed-digit stream packet is generated from finite signed dyadic digit rows, a unary $\StreamNameUp$ observation schedule, carry and normalization ledgers, $\StreamNameUp$ provenance, normalized $\DyadicRatCoreUp$ endpoint rows, and a ledger hiding only the unobserved tail beyond the requested window.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The finite-window carrier of \autoref{def:signeddigitstream-carrier} binds the visible signed digits, schedule, carry ledger, provenance, endpoint rows, and hidden-tail ledger for $\SignedDigitStreamUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:signeddigitstream-scoped-window-package} binds the carrier, classifier, transport, $\RegSeqRatUp$ consumer, and hidden-window ledger rows to the finite BEDC primitives and L10 source certificates of the signed-digit stream surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
