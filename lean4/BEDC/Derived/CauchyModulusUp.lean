@@ -224,6 +224,26 @@ theorem CauchyModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup
             (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+theorem CauchyModulusPacket_cont_window_closure [AskSetup] [PackageSetup]
+    {precision threshold tolerance schedule observationLedger consumptionLedger window
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusPacket precision threshold tolerance schedule observationLedger
+        consumptionLedger window endpoint bundle pkg ->
+      UnaryHistory threshold ∧ UnaryHistory tolerance ∧ UnaryHistory observationLedger ∧
+        UnaryHistory consumptionLedger ∧ Cont precision threshold schedule ∧
+          Cont schedule tolerance observationLedger ∧
+            Cont observationLedger consumptionLedger window ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact And.intro packet.right.left
+    (And.intro packet.right.right.left
+      (And.intro packet.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
+                packet.right.right.right.right.right.right.right.right.right.right.right.right))))))
+
 def CauchyModulusCarrierPacket
     (precision threshold tolerance observationA observationB ledger provenance : BHist) : Prop :=
   UnaryHistory precision ∧
