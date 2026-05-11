@@ -293,4 +293,38 @@ theorem DyadicBallPacket_regseqrat_window_handoff [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem DyadicBallFiniteWindowPacket_intersection_refinement_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance certRow handoff
+      sealBoundary smallerRadius containment' handoff' certRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteWindowPacket center radius schedule observation containment route
+        provenance certRow handoff sealBoundary bundle pkg ->
+      UnaryHistory smallerRadius ->
+        Cont center smallerRadius containment' ->
+          Cont containment' route handoff' ->
+            Cont handoff' provenance certRow' ->
+              Cont handoff' sealBoundary certRow' ->
+                PkgSig bundle handoff' pkg ->
+                  DyadicBallFiniteWindowPacket center smallerRadius schedule observation
+                      containment' route provenance certRow' handoff' sealBoundary bundle pkg ∧
+                    hsame route (append schedule observation) ∧
+                      hsame handoff' (append containment' route) := by
+  intro packet smallerRadiusUnary containmentRow' handoffRow' provenanceRow' sealRow' pkgRow'
+  obtain ⟨centerUnary, _radiusUnary, scheduleUnary, observationUnary, provenanceUnary,
+    _certUnary, sealUnary, _containmentRow, routeRow, _handoffRow, _provenanceRow,
+    _sealRow, _packetPkg⟩ := packet
+  have containmentUnary' : UnaryHistory containment' :=
+    unary_cont_closed centerUnary smallerRadiusUnary containmentRow'
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed scheduleUnary observationUnary routeRow
+  have handoffUnary' : UnaryHistory handoff' :=
+    unary_cont_closed containmentUnary' routeUnary handoffRow'
+  have certUnary' : UnaryHistory certRow' :=
+    unary_cont_closed handoffUnary' provenanceUnary provenanceRow'
+  exact
+    ⟨⟨centerUnary, smallerRadiusUnary, scheduleUnary, observationUnary, provenanceUnary,
+        certUnary', sealUnary, containmentRow', routeRow, handoffRow', provenanceRow',
+        sealRow', pkgRow'⟩,
+      routeRow, handoffRow'⟩
+
 end BEDC.Derived.DyadicBallUp
