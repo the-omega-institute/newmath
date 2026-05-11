@@ -258,6 +258,57 @@ Closed-term substitution preservation is recorded as
 \autoref{thm:closed-term-substitute-preserves-typing}; it sidesteps the
 binder propagation gap at the cost of generality.
 
+\paragraph{Ninth stage: depth-parameterized form also refuted.} The
+textbook-standard depth-parameterized statement
+$$
+\begin{aligned}
+  & \mathrm{substitute\_preserves\_typing\_general} : \\
+  & \quad \forall \Gamma_1\ \Gamma_2,\
+    \mathrm{WellFormedCtx}\ (\Gamma_1 \mathbin{+\!+} B :: \Gamma_2) \to
+    \mathrm{HasType}\ (\Gamma_1 \mathbin{+\!+} B :: \Gamma_2)\ t\ A \to \\
+  & \qquad \mathrm{HasType}\ \Gamma_2\ s\ B \to
+    \mathrm{HasType}\ (\Gamma_1 \mathbin{+\!+} \Gamma_2)\
+      (\mathrm{substitute}\ |\Gamma_1|\ s\ t)\
+      (\mathrm{substitute}\ |\Gamma_1|\ s\ A)
+\end{aligned}
+$$
+admits a Lean-verified counterexample when $\Gamma_1 = []$: the statement
+degenerates to the existing minimal counterexample at depth 0.
+Depth-parameterization alone does not resolve the underlying
+$\mathrm{lookup}/\mathrm{shift}$ interaction. The substrate fix likely
+requires re-engineering one of: \texttt{Ctx.lookup}, \texttt{shift}, or the
+typing rule for \texttt{lam} (e.g., adding context-well-formedness premises to
+the \texttt{lamRule}).
+
+\begin{table}[t]
+\centering
+\begin{tabular}{r|p{0.34\linewidth}|p{0.34\linewidth}|l}
+\hline
+No. & Finding & Consequence & Status \\
+\hline
+1 & Shift in substitution required & Binder-aware substitution required & Closed \\
+\hline
+2 & Shift in context lookup required & Lookup must account for cons depth & Closed \\
+\hline
+3 & Context well-formedness required & Ill-typed contexts excluded & Closed \\
+\hline
+4 & Unrestricted statement shape refuted & Premises must expose context validity & Closed \\
+\hline
+5 & Naive generalized statement shape refuted & Statement shape constrained by lookup and substitution & Closed \\
+\hline
+6 & Prop-level substitute exposes $\mathrm{propext}$ & Bool-level substitute required for pure CIC & Closed \\
+\hline
+7 & Shift propagation through binders exposed & Closed-term route or substrate redesign required & Open \\
+\hline
+8 & Depth-zero generalized form refuted & Minimal counterexample remains active & Open \\
+\hline
+9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
+\hline
+\end{tabular}
+\caption{Substrate-gap findings for MetaCIC substitution preservation.}
+\label{tab:metacic-substrate-gap-findings}
+\end{table}
+
 \paragraph{Methodological note.} The seventh finding differs in character
 from findings one through six. The first three are substrate omissions; the
 fourth and fifth are statement-shape errors; the sixth is a tactic-discipline
@@ -279,6 +330,34 @@ distilled bottom-up rather than imported from an external reference.
 the pure-CIC tactic subset codified in \autoref{sec:pure-cic-tactics},
 ensuring that the counterexamples are genuine refutations rather than
 artifacts of impure proof automation.
+
+\subsubsection*{Summary Table}\label{subsubsec:gap-summary-table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|l|l|}
+\hline
+\textbf{\#} & \textbf{Finding} & \textbf{Substrate Fix} & \textbf{Status} \\
+\hline
+1 & V1 substitute lacks binder shift & V3 substitute with shift & Fixed \\
+\hline
+2 & V1 Ctx.lookup unshifted tail types & V4 lookup with cons-depth shift & Fixed \\
+\hline
+3 & Context not required well-formed & V5 WellFormedCtx inductive & Fixed \\
+\hline
+4 & Naive cons-form weakening unprovable & N/A (statement-shape) & Counterexample \\
+\hline
+5 & Generalized n=0 weakening with WF & N/A (statement-shape) & Counterexample \\
+\hline
+6 & Prop-level if leaks propext & V6 Bool-level branching & Fixed \\
+\hline
+7 & Shift binder propagation issue & Closed-term restriction & Workaround \\
+\hline
+8 & ClosedAt 0 not propagating in lam & Depth-parameterized statement & Open \\
+\hline
+\end{tabular}
+\caption{Eight substrate-gap findings, each Lean-verified.}
+\end{table}
 
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
 
@@ -372,7 +451,7 @@ content from outside the stack.
 
 \subsection{Current State of the Reconstruction}\label{subsec:current-state}
 
-This subsection records the state of the V1 MetaCIC reconstruction as encoded
+This subsection records the state of the MetaCIC reconstruction as encoded
 in BEDC's Lean library.
 
 \paragraph{Definitions in place.} The represented type theory exposes
@@ -397,14 +476,43 @@ for:
   \item Soundness of $\mathrm{check}$ against $\mathrm{HasType}$.
 \end{itemize}
 
-\paragraph{Theorems with statements pending proof.} The library carries one
-statement-only target, $\mathrm{substitute\_preserves\_typing}$, guarded by a
+\paragraph{Theorems with statements pending proof.} The library carries the
+unrestricted target, $\mathrm{substitute\_preserves\_typing}$, guarded by a
 $\mathrm{WellFormedCtx}$ premise. Its proof requires weakening of
 $\mathrm{HasType}$, substitution-shift composition, and binder substitution
-composition. The substrate gap progression recorded in
+composition. The same substrate also supports
+$\mathrm{closed\_term\_substitute\_preserves\_typing}$ as a more tractable
+closed-term variant. The substrate gap analysis in
 \autoref{subsec:substrate-gap-discovery} identifies the
-$\mathrm{WellFormedCtx}$ requirement; the remaining proof work is the helper
-lemmas above.
+$\mathrm{WellFormedCtx}$ requirement and the binder-shift propagation issue;
+the remaining proof work is the induction-based gluing from the available
+helper lemmas.
+
+\paragraph{Closed-term substitute preservation.} The library carries
+a closed-term restriction of substitute preservation:
+$$
+\begin{aligned}
+  \mathrm{closed\_term\_substitute\_preserves\_typing} :
+  \mathrm{WellFormedCtx}\ (B :: \Gamma) \to
+  \mathrm{ClosedAt}\ 0\ B \to
+  \mathrm{ClosedAt}\ 0\ s \to \\
+  \mathrm{HasType}\ (B :: \Gamma)\ t\ A \to
+  \mathrm{HasType}\ \Gamma\ s\ B \to \\
+  \mathrm{HasType}\ \Gamma\ (\mathrm{substitute}\ 0\ s\ t)\
+    (\mathrm{substitute}\ 0\ s\ A).
+\end{aligned}
+$$
+The statement is registered as
+$\mathrm{ClosedTermSubstitutePreservesTypingStatement}$. The
+infrastructure---$\mathrm{ClosedAt}$ inductive, $\mathrm{shift\_closed}$,
+$\mathrm{substitute\_closed}$, $\mathrm{substitute\_shift\_at\_eq}$---is in
+place with axiom-free proofs. The main theorem body remains a
+$\mathrm{True}$ placeholder pending induction-based gluing.
+
+The closed-term restriction sidesteps the seventh substrate gap
+(\autoref{subsec:substrate-gap-discovery}) by ensuring the substitution
+targets and source terms have no free variables that would expose the
+binder-shift propagation issue.
 
 \paragraph{Out of scope.} The reconstruction does not currently implement
 strong normalization, confluence, full universe hierarchy, inductive
