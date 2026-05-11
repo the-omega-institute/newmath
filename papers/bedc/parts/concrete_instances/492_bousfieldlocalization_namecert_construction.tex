@@ -202,6 +202,47 @@ functor, homotopy-category quotient, derived mapping object, or representative
 choice, no such datum can appear in the bridge boundary.
 \end{proof}
 
+\begin{theorem}[BousfieldLocalization displayed packet bridge exactness]
+\label{thm:bousfieldlocalization-displayed-packet-bridge-exactness}
+For an accepted $\BousfieldLocalizationUp$ packet
+$$
+B=(M,S,L,T,P,N),
+$$
+the displayed bridge boundary is exact exactly when every consumer read factors
+through the selected-map row $S$, fibrant-local-object row $L$,
+model-category row $M$, classifier-transport row $T$, package row $P$, and
+$\NameCert$ row $N$. Equivalently, the bridge exports precisely those six
+packet rows as the finite localizing boundary and exports no localized model
+structure, global localization functor, homotopy-category quotient, derived
+mapping object, or representative choice.
+\end{theorem}
+\begin{proof}
+For exactness to consumer factorization, apply
+\autoref{thm:bousfieldlocalization-namecert-obligations}. It identifies the
+accepted packet carrier, componentwise classifier, stability rows, exact
+readback rows, and ledger coordinates over $M$, $S$, $L$, $T$, $P$, and $N$.
+
+Use \autoref{thm:bousfieldlocalization-local-object-handoff} and
+\autoref{thm:bousfieldlocalization-two-stage-local-object-readback} to route
+the local-object reads through the selected-map row, fibrant-local-object row,
+and classifier-transport ledger. The readback route therefore factors through
+the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ surfaces named by the packet.
+
+For consumer factorization to exactness, apply
+\autoref{thm:bousfieldlocalization-scoped-kernel-boundary} and
+\autoref{thm:bousfieldlocalization-public-export}. A consumer read that factors
+through exactly the six displayed rows is the same scoped finite packet viewed
+as the public $\BousfieldLocalizationUp$ boundary.
+
+Finally invoke \autoref{thm:bousfieldlocalization-bridge-boundary}. Its bridge
+boundary is precisely the finite packet over $M$, $S$, $L$, $T$, $P$, and $N$.
+Since none of those rows contains a localized model structure, global
+localization functor, homotopy-category quotient, derived mapping object, or
+representative choice, the displayed bridge packet is exact with exactly the
+advertised exclusions.
+\end{proof}
+
 \closureat{BousfieldLocalizationUp}{seedStr}
 \closureat{BousfieldLocalizationUp}{obligationStr}
 \closureat{BousfieldLocalizationUp}{scopedStr}
