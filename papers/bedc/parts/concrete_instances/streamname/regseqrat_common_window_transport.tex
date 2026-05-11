@@ -270,3 +270,48 @@ identify the repacked package with the original terminal boundary. Since each
 cited boundary explicitly excludes quotient, completion, host-index equality,
 and host real equality rows, no additional source row is available.
 \end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat common-window seal functoriality]
+\label{thm:streamname-regseqrat-common-window-seal-functoriality}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be certified common
+finite $\StreamNameUp$ windows over the same public endpoints and the same
+accepted $\RegSeqRat$ dyadic-tolerance spine. Suppose the displayed transports
+$\mathcal W_0 \to \mathcal W_1$ and $\mathcal W_1 \to \mathcal W_2$ preserve
+the finite-window classifier, the selected unary observations, the pointwise
+rational-history rows, the accepted $\RegSeqRat$ spine, and the DyadicRatCore
+endpoint and radius rows.
+
+Then the $\RealUp$ seal source obtained by applying
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} after the
+two displayed transports is the same finite source surface as the one obtained
+by first using the common-window composition handoff of
+\autoref{thm:streamname-regseqrat-common-window-composition-handoff} and then
+applying source-boundary exhaustion. The common source surface consists only of
+the displayed StreamName window rows, the accepted RegSeqRat dyadic rows, and
+the finite RealUp seal ledger rows; it contains no quotient row, completion
+row, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the two displayed common-window transports. By
+\autoref{thm:streamname-regseqrat-common-window-composition-handoff}, their
+composition preserves the same classifier, selected unary observations,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, and DyadicRatCore
+endpoint and radius rows as the single composed transport
+$\mathcal W_0 \to \mathcal W_2$.
+
+Apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} to both
+the two-stage transport and the composed transport. In each case the endpoint
+surface is exhausted by the displayed finite window rows and the accepted
+dyadic-tolerance spine, so the downstream endpoint ledger has the same visible
+source families.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. The
+terminal $\RealUp$ seal reads only the StreamName window rows, the RegSeqRat
+dyadic endpoint rows, and the finite seal ledger rows. Since both transport
+routes expose the same rows to this exhaustion theorem, they expose the same
+finite source surface. The cited boundaries leave no coordinate for quotient
+rows, completion rows, or host real equality, so no further source can
+distinguish the two routes.
+\end{proof}

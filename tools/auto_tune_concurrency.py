@@ -34,24 +34,28 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CRITICAL_PATH = REPO_ROOT / "lean4/scripts/critical_path.py"
 CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 
-# Tuning constants. Adjust here if the cluster's resource profile
-# changes (e.g. moving from 16GB → 32GB RAM allows higher LEAN_MAX).
+# Tuning constants.
 #
-# LEAN_BUFFER reduced from 3 → 0 after observing chapter-dogpile
-# lake-build failures: when top_size=7 and lean=11, 4+ extra workers
-# necessarily picked overlapping chapters (NumFieldUp / FieldExtUp),
-# producing duplicate-declaration build errors at merge. With
-# lean = top_size, each worker has its own sibling front and the
-# sibling claim mechanism inside critical_path keeps them
-# non-overlapping. As top grows (paper unlocks new chapters),
-# lean grows to match.
+# ============================================================
+# DO NOT CHANGE LEAN_MAX / PAPER_MAX — pinned at 20 by user
+# directive (2026-05-11). The cap stays at 20 regardless of
+# what the demand signals report. MIN / BUFFER may still be
+# tuned for ramp-up behaviour, but ceiling = 20 is fixed.
+#
+# Sustainability rationale: with paper PDF moved out of round
+# (paper_builder_daemon handles full build async) and lean
+# R-rounds skipping in-round lake build (bg_builder handles
+# it), per-round CPU cost is dominated by codex exec
+# (network-bound), so 20+20 concurrent rounds is sustainable
+# on an 8-core MBP with load avg ~10-12.
+# ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 10
-LEAN_MAX = 14
+LEAN_MIN = 12
+LEAN_MAX = 20  # DO NOT CHANGE — pinned
 
 PAPER_BUFFER = 4
-PAPER_MIN = 10
-PAPER_MAX = 12
+PAPER_MIN = 12
+PAPER_MAX = 20  # DO NOT CHANGE — pinned
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
