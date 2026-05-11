@@ -151,23 +151,70 @@ Apply \autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage} to the led
 The remaining coordinates are the finite $\StreamNameUp$ schedule and the same source provenance rows. Since the carrier ledger hides only unrequested suffix and tail data, no completed intersection point, hidden tail, quotient interval, or host-completeness witness can be projected by the regular rational consumer.
 \end{proof}
 
-\begin{theorem}[NestedDyadicInterval public interface export]
-\label{thm:nesteddyadicinterval-public-interface-export}
-The carrier of \autoref{def:nesteddyadicinterval-carrier}, classifier of
-\autoref{def:nesteddyadicinterval-classifier}, classifier laws, window
-transport, $\RegSeqRatUp$ handoff, prefix truncation, adjacent-refinement
-coverage, and window exhaustion assemble a reusable public
-$\NameCert_{\NestedDyadicIntervalUp}$ interface over finite chains.
+\begin{theorem}[NestedDyadicInterval shared-prefix handoff]
+\label{thm:nesteddyadicinterval-shared-prefix-handoff}
+Let $K=(I_0,\ldots,I_n,S,R,P,L)$ and
+$K'=(I'_0,\ldots,I'_{n'},S',R',P',L')$ be accepted
+$\NestedDyadicIntervalUp$ packets related by the finite-window classifier. If
+their schedules share a displayed unary prefix, then any $\RegSeqRatUp$ or
+$\RealUp$ consumer read on that prefix factors through the corresponding
+prefix-truncated endpoint packets, adjacent-refinement rows, $\hsame$ rows,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ provenance on both
+sides.
 
-Every downstream read of this interface factors through displayed
-$\DyadicIntervalUp$ endpoint packets, the unary $\StreamNameUp$ schedule,
-adjacent-refinement ledger, $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$
-provenance, and $\NameCert$ rows. The interface contains no completed point,
-quotient interval, hidden infinite tail, host interval, or completeness
-witness.
+The handoff is determined by the displayed finite prefix alone. It does not
+export a completed intersection point, hidden infinite tail, quotient interval,
+host real interval, completeness witness, open-cover compactness datum, or
+standard bridge row.
 \end{theorem}
 \begin{proof}
-Project an accepted packet through the finite carrier of \autoref{def:nesteddyadicinterval-carrier}. This exposes exactly the displayed dyadic interval endpoint packets, the unary schedule, the nested-refinement ledger, source provenance, and the ledger that hides only data outside the displayed finite window.
+Start with the classifier on $K$ and $K'$. By
+\autoref{thm:nesteddyadicinterval-window-transport}, a shared unary prefix
+transports only the displayed endpoint packets, schedules, refinement rows, and
+provenance coordinates.
+
+Apply \autoref{thm:nesteddyadicinterval-prefix-truncation-stability} on both
+sides. The requested consumer window is therefore represented by
+prefix-truncated accepted packets, and the classifier restricts to the same
+displayed prefix rather than to an unobserved tail.
+
+For each adjacent-refinement read inside the prefix, use
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage}. The read is
+empty in the singleton case, or else attached to one displayed adjacent pair
+with its recorded $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. It exhausts
+the $\RegSeqRatUp$ and $\RealUp$ consumer boundary by prefix endpoint packets,
+adjacent-refinement rows, finite schedules, and source provenance. Since the
+carrier ledger hides only data outside the displayed prefix, the shared-prefix
+read factors through the corresponding finite rows on both accepted packets.
+\end{proof}
+
+\begin{theorem}[NestedDyadicInterval public NameCert export]
+\label{thm:nesteddyadicinterval-public-namecert-export}
+The carrier of \autoref{def:nesteddyadicinterval-carrier}, classifier of
+\autoref{def:nesteddyadicinterval-classifier}, classifier laws, window
+transport, $\RegSeqRatUp$ handoff, singleton-chain vacuity, prefix
+truncation stability, adjacent-refinement coverage, and $\RegSeqRatUp$
+window exhaustion assemble the reusable public
+$\NameCert_{\NestedDyadicIntervalUp}$ export for finite decreasing dyadic
+chains.
+
+Every downstream read of this interface factors through displayed
+$\mathsf{BHist}$ interval-chain rows, the unary $\StreamNameUp$ schedule,
+$\DyadicIntervalUp$ endpoint packets, $\DyadicRatCoreUp$ endpoint rows, the
+$\RegSeqRatUp/\RealUp$ consumer boundary, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ provenance. It exports no completed intersection point,
+hidden infinite tail, quotient interval, host real interval, completeness
+witness, open-cover compactness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through the finite carrier of
+\autoref{def:nesteddyadicinterval-carrier}. This exposes exactly the
+displayed dyadic interval endpoint packets, the unary schedule, the
+nested-refinement ledger, source provenance, and the ledger that hides only
+data outside the displayed finite window.
 
 Use the classifier and classifier laws of
 \autoref{def:nesteddyadicinterval-classifier} to compare two accepted packets
@@ -181,7 +228,12 @@ For any requested consumer window, apply
 read is a prefix-truncated accepted packet, and its classifier is the
 corresponding restriction of \autoref{def:nesteddyadicinterval-classifier}.
 
-For ledger reads inside that prefix, apply \autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage}. In the singleton case the adjacent-refinement surface is empty; otherwise each visible refinement read is one displayed adjacent pair together with its $\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+For ledger reads inside that prefix, apply
+\autoref{thm:nesteddyadicinterval-singleton-chain-vacuity} and
+\autoref{thm:nesteddyadicinterval-adjacent-refinement-coverage}. In the
+singleton case the adjacent-refinement surface is empty; otherwise each
+visible refinement read is one displayed adjacent pair together with its
+$\Cont$, $\hsame$, $\mathsf{Pkg}$, and $\NameCert$ rows.
 
 Finally apply \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. It identifies the full consumer surface as prefix endpoint packets, adjacent-refinement rows, finite schedules, and source provenance, so every $\RegSeqRatUp$ or $\RealUp$ downstream read factors through the displayed finite BEDC rows and no excluded infinite or host-completeness datum is introduced.
 \end{proof}
@@ -198,5 +250,5 @@ Finally apply \autoref{thm:nesteddyadicinterval-regseqrat-window-exhaustion}. It
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim completeness, Dedekind cuts, quotient intervals, open-cover compactness, host real intervals, or standard bridge data.}
-  \upgradepath{Public closure is supplied by \autoref{thm:nesteddyadicinterval-public-interface-export}; the next theory-axis step is a standard finite-window bridge over the same endpoint and provenance rows.}
+  \upgradepath{Public closure is supplied by \autoref{thm:nesteddyadicinterval-public-namecert-export}; the next theory-axis step is a standard finite-window bridge over the same endpoint and provenance rows.}
 \end{closurestatus}
