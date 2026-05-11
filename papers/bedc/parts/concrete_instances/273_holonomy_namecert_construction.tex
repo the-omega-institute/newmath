@@ -50,6 +50,7 @@ Since the carrier contains no coordinate for an analytic path space or a host lo
 If two $\HolonomyUp$ packets have componentwise $\hsame$ transports of their base loop rows, certified connection rows, transported fibre endpoints, curvature-control provenance rows, and finite continuation ledgers, then the transported packet remains accepted by the carrier of \autoref{def:holonomy-bhist-transport-carrier}. The fibre endpoint readback is stable under that transport and remains tied to the same $\ConnectionUp$ source row.
 \end{theorem}
 \leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_loop\_source\_obligation}
+\leanchecked{BEDC.Derived.HolonomyUp.HolonomyBHistTransportCarrier\_continuation\_transport\_stability}
 \begin{proof}
 Unpack the two packets and read the supplied componentwise comparisons. The loop comparison transports the displayed base endpoints, while the connection comparison transports the row that supplies the parallel-transport ledger.
 
@@ -107,6 +108,7 @@ The $\NameCert_{\HolonomyUp}$ seed obligation surface consists of five rows over
 \item The finite naming ledger row saying that $\NameCert_{\BundleUp}$, $\NameCert_{\ManifoldUp}$, and $\NameCert_{\LieGroupUp}$ are consumed only through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportCarrier\_namecert\_obligation\_surface}
 \leanchecked{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_namecert\_obligation\_surface}
 \begin{proof}
 Read the carrier packet of \autoref{def:holonomy-bhist-transport-carrier}. Its fields list the bundle, connection, loop, transported endpoint, curvature-control provenance, continuation, and package rows.
@@ -142,15 +144,15 @@ The Lie-group dependency is present only through the named $\NameCert_{\LieGroup
 Thus the standard boundary remains a scope statement about which classical rows can be consumed from the finite packet. Anything requiring a host path space, host parallel transport, or Lie-subgroup theorem lies outside this seed chapter.
 \end{proof}
 
-\closureat{HolonomyUp}{seedStr}
+\closureat{HolonomyUp}{obligationStr}
 \begin{closurestatus}{\HolonomyUp}
   \constructivestory{The holonomy packet is a finite $\mathsf{BHist}$ transport ledger over certified bundle, connection, loop, transported fibre endpoint, curvature-control, continuation, and package rows. Classification transports the loop, connection, endpoint, curvature-control provenance, and ledger rows componentwise by $\hsame$, while composition is a finite $\Cont$ route rather than a host path operation.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope names only the displayed $\ConnectionUp$, $\CurvatureUp$, $\BundleUp$, $\ManifoldUp$, $\LieGroupUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the transport packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope names only the displayed $\ConnectionUp$, $\CurvatureUp$, $\BundleUp$, $\ManifoldUp$, $\LieGroupUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the transport packet.}
   \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_loop\_source\_obligation}
+  \leantarget{BEDC.Derived.HolonomyUp.HolonomyTransportPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host parallel transport, analytic path spaces, a holonomy Lie subgroup theorem, or a standard bridge.}
-  \upgradepath{The next step is Lean formalization of the finite transport carrier and its NameCert obligation surface.}
+  \upgradepath{Scoped closure requires binding the loop, connection, curvature, bundle, manifold, Lie-group, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows into one checked certificate boundary.}
 \end{closurestatus}
