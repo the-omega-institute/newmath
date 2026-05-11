@@ -43,4 +43,60 @@ theorem var_zero_in_sort_ctx :
   apply HasType.varRule
   rfl
 
+/-- K 组合子: `λ (x : Sort). λ (_ : Sort). x`。 -/
+def kCombinator : Term :=
+  Term.lam Term.sort (Term.lam Term.sort (Term.var 1))
+
+def kCombinatorType : Term :=
+  Term.pi Term.sort (Term.pi Term.sort Term.sort)
+
+theorem k_combinator_well_typed :
+    HasType [] kCombinator kCombinatorType := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.varRule
+      rfl
+
+/-- `K Sort Sort` 的类型回到 `Sort`。 -/
+theorem k_applied_twice :
+    HasType [] (Term.app (Term.app kCombinator Term.sort) Term.sort) Term.sort := by
+  have hFirst :
+      HasType [] (Term.app kCombinator Term.sort) (Term.pi Term.sort Term.sort) := by
+    exact HasType.appRule
+      []
+      kCombinator
+      Term.sort
+      Term.sort
+      (Term.pi Term.sort Term.sort)
+      k_combinator_well_typed
+      (HasType.sortRule [])
+  exact HasType.appRule
+    []
+    (Term.app kCombinator Term.sort)
+    Term.sort
+    Term.sort
+    Term.sort
+    hFirst
+    (HasType.sortRule [])
+
+/-- `λ (f : Sort → Sort). λ (x : Sort). x` 的 Sort-level zero-like term。 -/
+def churchZeroSort : Term :=
+  Term.lam (Term.pi Term.sort Term.sort) (Term.lam Term.sort (Term.var 0))
+
+def churchZeroSortType : Term :=
+  Term.pi (Term.pi Term.sort Term.sort) (Term.pi Term.sort Term.sort)
+
+theorem church_zero_sort_well_typed :
+    HasType [] churchZeroSort churchZeroSortType := by
+  apply HasType.lamRule
+  · apply HasType.piRule
+    · exact HasType.sortRule []
+    · exact HasType.sortRule [Term.sort]
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.pi Term.sort Term.sort]
+    · apply HasType.varRule
+      rfl
+
 end BEDC.MetaCIC
