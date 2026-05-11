@@ -469,4 +469,67 @@ theorem LQRFiniteControlPacket_transition_transport [AskSetup] [PackageSetup]
         successorHorizonEndpoint, endpointPkg⟩,
       sameBackward, samePredecessor, sameEndpoint⟩
 
+theorem LQRFiniteControlPacket_estimator_control_consumption_boundary [AskSetup]
+    [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint successorValue' estimatorInput' transition' control' cost'
+      backwardUpdate' predecessorValue' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame successorValue successorValue' ->
+        hsame estimatorInput estimatorInput' ->
+          hsame transition transition' ->
+            hsame control control' ->
+              hsame cost cost' ->
+                Cont estimatorInput' transition' backwardUpdate' ->
+                  Cont backwardUpdate' control' predecessorValue' ->
+                    Cont predecessorValue' cost' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        hsame backwardUpdate backwardUpdate' ∧
+                          hsame predecessorValue predecessorValue' ∧
+                            hsame endpoint endpoint' := by
+  intro packet _sameSuccessor sameEstimator sameTransition sameControl sameCost
+    estimatorTransitionRow' backwardControlRow' predecessorCostRow' _endpointPkg'
+  rcases packet with
+    ⟨_stateUnary, _controlUnary, _transitionUnary, _costUnary, _horizonUnary,
+      _successorUnary, _estimatorUnary, _backwardUnary, _predecessorUnary, _endpointUnary,
+      _stateControlRow, _transitionCostRow, _successorEstimatorRow, _backwardHorizonRow,
+      predecessorCostRow, estimatorTransitionRow, backwardControlRow, _successorHorizonRow,
+      _endpointPkg⟩
+  have sameBackward : hsame backwardUpdate backwardUpdate' :=
+    cont_respects_hsame sameEstimator sameTransition estimatorTransitionRow estimatorTransitionRow'
+  have samePredecessor : hsame predecessorValue predecessorValue' :=
+    cont_respects_hsame sameBackward sameControl backwardControlRow backwardControlRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost predecessorCostRow predecessorCostRow'
+  exact And.intro sameBackward (And.intro samePredecessor sameEndpoint)
+
+theorem LQRFiniteControlPacket_quadratic_cost_transport_exactness [AskSetup]
+    [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint transition' cost' successorValue' predecessorValue' endpoint' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame transition transition' ->
+        hsame cost cost' ->
+          hsame predecessorValue predecessorValue' ->
+            Cont transition' cost' successorValue' ->
+              Cont predecessorValue' cost' endpoint' ->
+                hsame successorValue successorValue' ∧ hsame endpoint endpoint' := by
+  intro packet sameTransition sameCost samePredecessor transitionCostRow' predecessorCostRow'
+  rcases packet with
+    ⟨_stateUnary, _controlUnary, _transitionUnary, _costUnary, _horizonUnary,
+      _successorUnary, _estimatorUnary, _backwardUnary, _predecessorUnary, _endpointUnary,
+      _stateControlRow, transitionCostRow, _successorEstimatorRow, _backwardHorizonRow,
+      predecessorCostRow, _estimatorTransitionRow, _backwardControlRow, _successorHorizonRow,
+      _endpointPkg⟩
+  have sameSuccessor : hsame successorValue successorValue' :=
+    cont_respects_hsame sameTransition sameCost transitionCostRow transitionCostRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePredecessor sameCost predecessorCostRow predecessorCostRow'
+  exact And.intro sameSuccessor sameEndpoint
+
 end BEDC.Derived.LQRUp
