@@ -49,6 +49,7 @@ The local $\NameCert_{\StateSpaceModelUp}$ obligation surface consists of five f
 \item hidden-data ledger: the packet records that host trajectories, analytic realizations, stochastic data, and infinite-horizon objects are outside the exported carrier.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_semantic\_name\_certificate}
 \begin{proof}
 Start with the carrier rows. They enumerate exactly the finite state, input, output, matrix, linear-map, transition, observation, continuation, transport, provenance, and hidden-ledger coordinates.
 
@@ -56,6 +57,7 @@ The classifier row is the componentwise comparison of those coordinates. Transpo
 
 The trace ledger rows are projections from the displayed transition and observation entries. Since the hidden-data ledger is also a coordinate of the packet, every consumer can see the boundary saying that the excluded host and limiting objects are not part of the exported surface.
 \end{proof}
+\leanchecked{BEDC.Derived.StateSpaceModelUp.StateSpaceModelPacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[StateSpaceModel control handoff]
 \label{thm:statespacemodel-control-handoff}
@@ -143,6 +145,20 @@ downstream Kalman, LQR, controllability, observability, and Riccati reads to
 those finite rows. The same boundary excludes host trajectories, analytic
 semigroups, stochastic data, and infinite-horizon limits from the exported
 interface.
+\end{proof}
+
+\begin{theorem}[StateSpaceModel public interface boundary]
+\label{thm:statespacemodel-public-interface-boundary}
+The public $\StateSpaceModelUp$ interface exports exactly the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows isolated by \autoref{def:statespacemodel-carrier}, \autoref{def:statespacemodel-classifier}, \autoref{thm:statespacemodel-control-handoff}, \autoref{thm:statespacemodel-ledger-boundary}, and \autoref{thm:statespacemodel-obligation-closure}. No further public coordinate is part of the certificate boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier definitions. They expose the finite state, input, output, transition, input-map, observation-map, trace-ledger, classifier-transport, continuation, sameness, package, and naming rows carried by a $\StateSpaceModelUp$ packet.
+
+Compose those projections with \autoref{thm:statespacemodel-control-handoff}. The handoff routes every control-facing read through the same displayed rows, so no consumer-facing state-space coordinate can be read outside the finite certificate surface.
+
+Apply \autoref{thm:statespacemodel-ledger-boundary} and \autoref{thm:statespacemodel-obligation-closure} to close the projection under the visible ledger and obligation rows. These two results repack the projected rows as the public interface boundary and show that the exported surface is exhausted by the listed data.
+
+The boundary therefore excludes host trajectory spaces, analytic semigroups, stochastic models, infinite-horizon limits, controllability tests, observability tests, filtering optimality, regulator optimality, and standard bridge data.
 \end{proof}
 
 \closureat{StateSpaceModelUp}{seedStr}
