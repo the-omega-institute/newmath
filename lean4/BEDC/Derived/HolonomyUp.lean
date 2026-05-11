@@ -216,6 +216,23 @@ theorem HolonomyTransportPacket_parallel_transport_stability [AskSetup] [Package
                       (And.intro compositionRow' pkgSig')))))))))
       sameEndpoint
 
+theorem HolonomyTransportPacket_standard_boundary_scope [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvatureLedger compositionLedger
+        provenance probe pkg ->
+      UnaryHistory loop ∧ UnaryHistory endpoint ∧ UnaryHistory curvatureLedger ∧
+        UnaryHistory compositionLedger ∧ Cont connection loop endpoint ∧
+          Cont endpoint curvatureLedger compositionLedger ∧ PkgSig probe provenance pkg := by
+  intro packet
+  exact And.intro packet.right.right.left
+    (And.intro packet.right.right.right.left
+      (And.intro packet.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right.right.right)))))
+
 theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :
