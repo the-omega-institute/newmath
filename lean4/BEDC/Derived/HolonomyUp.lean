@@ -290,6 +290,90 @@ theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageS
       (And.intro packet.right.right.right.right.right.right.right.right.left
         packet.right.right.right.right.right.right.right.right.right))
 
+theorem HolonomyTransportPacket_certificate_boundary [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvatureLedger compositionLedger
+        provenance probe pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          hsame ∧
+        UnaryHistory bundle ∧ UnaryHistory connection ∧ UnaryHistory loop ∧
+          UnaryHistory endpoint ∧ UnaryHistory curvatureLedger ∧
+            UnaryHistory compositionLedger ∧ UnaryHistory provenance ∧
+              Cont connection loop endpoint ∧ Cont endpoint curvatureLedger compositionLedger ∧
+                PkgSig probe provenance pkg := by
+  intro packet
+  have endpointSource :
+      (fun row : BHist =>
+        exists e : BHist,
+          HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+            provenance probe pkg ∧ hsame row e) endpoint :=
+    Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              HolonomyTransportPacket bundle connection loop e curvatureLedger compositionLedger
+                provenance probe pkg ∧ hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows carrierRow
+        cases carrierRow with
+        | intro e endpointWitness =>
+            exact Exists.intro e
+              (And.intro endpointWitness.left
+                (hsame_trans (hsame_symm sameRows) endpointWitness.right))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro packet.right.right.right.right.right.right.right.left
+                    (And.intro packet.right.right.right.right.right.right.right.right.left
+                      packet.right.right.right.right.right.right.right.right.right)))))))))
+
 theorem HolonomyTransportPacket_curvature_loop_boundary [AskSetup] [PackageSetup]
     {bundle connection loop endpoint endpoint' curvatureLedger curvatureLedger'
       compositionLedger compositionLedger' provenance provenance' : BHist}
