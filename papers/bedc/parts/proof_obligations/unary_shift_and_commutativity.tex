@@ -322,3 +322,34 @@ two carrier elements, the preceding case split would supply the missing
 swapped-source equality, a contradiction. Hence a finite equality countermodel
 must have at least three carrier elements.
 \end{proof}
+
+\begin{theorem}[Three-point minimality of swapped-source additive obstruction]
+\label{thm:three-point-minimal-swapped-add-obstruction}
+Let $C$ be a finite equality-classified carrier equipped with a total deterministic continuation relation $\Gamma$ and a two-sided unit $e\in C$. Assume the additive result classifier is equality, as in \autoref{def:additive-classifier-specification}. If the swapped-source additive commutativity field fails, so that there exist $a,b,r,s\in C$ with
+$$
+  \Gamma(a,b,r),
+  \qquad
+  \Gamma(b,a,s),
+  \qquad
+  r\neq s,
+$$
+then $C$ has at least three equality classes, hence at least three carrier elements. The bound is sharp: the three-element equality-classified carrier of \autoref{thm:core-additive-stability-not-swapped-commutative} satisfies the carrier $\NameCert$, closure, total deterministic graph behavior, two-sided unit, associativity, same-source determinacy, and the source-to-pattern and source-to-ledger fields of the additive naming template, while failing the swapped-source additive commutativity field.
+\end{theorem}
+
+\begin{proof}
+Assume, toward contradiction, that $C$ has at most two equality classes. Since $e$ is the unit, choose an element $u\in C$ such that every carrier element is equal either to $e$ or to $u$; in the one-class case take $u=e$. The hypotheses are exactly the equality-classified deterministic total unital setup covered by \autoref{thm:two-element-unital-continuations-swapped-commutative}. Applying that theorem to the witnesses
+$$
+  \Gamma(a,b,r)
+  \qquad\text{and}\qquad
+  \Gamma(b,a,s)
+$$
+gives $r=s$, contradicting the assumed failure $r\neq s$. Therefore any equality-classified finite countermodel to the swapped-source additive commutativity field must have at least three equality classes.
+
+It remains to check sharpness. In \autoref{thm:core-additive-stability-not-swapped-commutative}, the carrier is $\{e,p,q\}$, the classifier is equality, and the continuation relation is the graph of the displayed operation table. That theorem verifies the carrier certificate, closure, unit, associativity, same-source determinacy, and the source-to-pattern and source-to-ledger fields. The same table gives
+$$
+  \Gamma(p,q,p)
+  \qquad\text{and}\qquad
+  \Gamma(q,p,q),
+$$
+and equality classification does not identify $p$ and $q$. Hence the swapped-source additive commutativity field fails on a three-element carrier. Combining the lower bound with this witness proves that three points are minimal for this obstruction.
+\end{proof}
