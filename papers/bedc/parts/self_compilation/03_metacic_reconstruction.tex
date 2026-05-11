@@ -280,6 +280,34 @@ the pure-CIC tactic subset codified in \autoref{sec:pure-cic-tactics},
 ensuring that the counterexamples are genuine refutations rather than
 artifacts of impure proof automation.
 
+\subsubsection*{Summary Table}\label{subsubsec:gap-summary-table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|l|l|}
+\hline
+\textbf{\#} & \textbf{Finding} & \textbf{Substrate Fix} & \textbf{Status} \\
+\hline
+1 & V1 substitute lacks binder shift & V3 substitute with shift & Fixed \\
+\hline
+2 & V1 Ctx.lookup unshifted tail types & V4 lookup with cons-depth shift & Fixed \\
+\hline
+3 & Context not required well-formed & V5 WellFormedCtx inductive & Fixed \\
+\hline
+4 & Naive cons-form weakening unprovable & N/A (statement-shape) & Counterexample \\
+\hline
+5 & Generalized n=0 weakening with WF & N/A (statement-shape) & Counterexample \\
+\hline
+6 & Prop-level if leaks propext & V6 Bool-level branching & Fixed \\
+\hline
+7 & Shift binder propagation issue & Closed-term restriction & Workaround \\
+\hline
+8 & ClosedAt 0 not propagating in lam & Depth-parameterized statement & Open \\
+\hline
+\end{tabular}
+\caption{Eight substrate-gap findings, each Lean-verified.}
+\end{table}
+
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
 
 The V1 MetaCIC reconstruction is a layered stack of Lean modules. Each module
