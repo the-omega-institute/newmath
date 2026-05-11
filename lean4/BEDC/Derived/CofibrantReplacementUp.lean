@@ -155,6 +155,65 @@ theorem CofibrantReplacementBHistSource_factorization_readback [AskSetup] [Packa
         (And.intro endpointUnary
           (And.intro endpointRow packageBoundary))))
 
+theorem CofibrantReplacementNameCertObligationSurface_dependency_transport [AskSetup]
+    [PackageSetup]
+    {object cofibrant arrow factorization lifting dependency ledger endpoint dependency'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementBHistSource object cofibrant arrow factorization lifting dependency
+        ledger endpoint bundle pkg ->
+      hsame dependency dependency' -> Cont ledger dependency' endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          CofibrantReplacementBHistSource object cofibrant arrow factorization lifting
+              dependency' ledger endpoint' bundle pkg ∧
+            UnaryHistory object ∧ UnaryHistory cofibrant ∧ UnaryHistory arrow ∧
+              UnaryHistory factorization ∧ UnaryHistory lifting ∧ UnaryHistory dependency' ∧
+                UnaryHistory endpoint' ∧ Cont object cofibrant arrow ∧
+                  Cont arrow factorization ledger ∧ Cont ledger dependency' endpoint' ∧
+                    hsame endpoint endpoint' ∧ PkgSig bundle endpoint' pkg := by
+  intro source sameDependency endpointRow' endpointSig'
+  have objectUnary : UnaryHistory object :=
+    source.left
+  have cofibrantUnary : UnaryHistory cofibrant :=
+    source.right.left
+  have factorizationUnary : UnaryHistory factorization :=
+    source.right.right.left
+  have liftingUnary : UnaryHistory lifting :=
+    source.right.right.right.left
+  have dependencyUnary : UnaryHistory dependency :=
+    source.right.right.right.right.left
+  have arrowRow : Cont object cofibrant arrow :=
+    source.right.right.right.right.right.left
+  have ledgerRow : Cont arrow factorization ledger :=
+    source.right.right.right.right.right.right.left
+  have endpointRow : Cont ledger dependency endpoint :=
+    source.right.right.right.right.right.right.right.left
+  have dependencyUnary' : UnaryHistory dependency' :=
+    unary_transport dependencyUnary sameDependency
+  have arrowUnary : UnaryHistory arrow :=
+    unary_cont_closed objectUnary cofibrantUnary arrowRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed arrowUnary factorizationUnary ledgerRow
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary dependencyUnary' endpointRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl ledger) sameDependency endpointRow endpointRow'
+  exact
+    ⟨⟨objectUnary, cofibrantUnary, factorizationUnary, liftingUnary, dependencyUnary',
+        arrowRow, ledgerRow, endpointRow', endpointSig'⟩,
+      objectUnary,
+      cofibrantUnary,
+      arrowUnary,
+      factorizationUnary,
+      liftingUnary,
+      dependencyUnary',
+      endpointUnary',
+      arrowRow,
+      ledgerRow,
+      endpointRow',
+      sameEndpoint,
+      endpointSig'⟩
+
 def CofibrantReplacementPacket [AskSetup] [PackageSetup]
     (X Q arrow factorization lifting package ledger endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -197,6 +256,35 @@ theorem CofibrantReplacementPacket_weak_equivalence_ledger_transport [AskSetup]
       endpointRow',
       pkgSig'⟩
   exact ⟨transported, sameLedger, sameEndpoint⟩
+
+theorem CofibrantReplacementPacket_dependency_boundary [AskSetup] [PackageSetup]
+    {X Q arrow factorization lifting package ledger endpoint dependencyRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementPacket X Q arrow factorization lifting package ledger endpoint
+        bundle pkg ->
+      Cont endpoint package dependencyRow ->
+        PkgSig bundle dependencyRow pkg ->
+          UnaryHistory X ∧ UnaryHistory Q ∧ UnaryHistory arrow ∧
+            UnaryHistory factorization ∧ UnaryHistory lifting ∧ UnaryHistory package ∧
+              UnaryHistory ledger ∧ UnaryHistory endpoint ∧ UnaryHistory dependencyRow ∧
+                Cont arrow factorization ledger ∧ Cont ledger package endpoint ∧
+                  Cont endpoint package dependencyRow ∧ hsame ledger (append arrow factorization) ∧
+                    hsame endpoint (append ledger package) ∧
+                      hsame dependencyRow (append endpoint package) ∧
+                        PkgSig bundle dependencyRow pkg := by
+  intro packet dependencyRowCont dependencyRowSig
+  obtain ⟨XUnary, QUnary, arrowUnary, factorizationUnary, liftingUnary, packageUnary,
+    ledgerRow, endpointRow, _endpointSig⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed arrowUnary factorizationUnary ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packageUnary endpointRow
+  have dependencyRowUnary : UnaryHistory dependencyRow :=
+    unary_cont_closed endpointUnary packageUnary dependencyRowCont
+  exact
+    ⟨XUnary, QUnary, arrowUnary, factorizationUnary, liftingUnary, packageUnary, ledgerUnary,
+      endpointUnary, dependencyRowUnary, ledgerRow, endpointRow, dependencyRowCont, ledgerRow,
+      endpointRow, dependencyRowCont, dependencyRowSig⟩
 
 theorem CofibrantReplacementBHistSource_dependency_boundary [AskSetup] [PackageSetup]
     {object cofibrant arrow factorization lifting dependency ledger endpoint consumer : BHist}
