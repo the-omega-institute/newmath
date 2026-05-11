@@ -89,35 +89,38 @@ theorem FastCauchyPacket_modulus_transport [AskSetup] [PackageSetup]
       sameEndpoint, sameWindow, sameProvenance⟩
 
 def FastCauchyRegSeqRatWindow [AskSetup] [PackageSetup]
-    (stream modulus endpoint radius latePair transportWindow provenance cert : BHist)
+    (stream modulus endpoint radius latePair transportWindow regWindow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
-    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory provenance ∧
-      UnaryHistory cert ∧ Cont stream modulus transportWindow ∧
-        Cont endpoint radius latePair ∧ PkgSig bundle provenance pkg
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+        Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg
 
-theorem FastCauchyRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
-    {stream modulus endpoint radius latePair transportWindow provenance cert : BHist}
+def FastCauchyFinitePacket [AskSetup] [PackageSetup]
+    (stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+    UnaryHistory latePair ∧ UnaryHistory transportWindow ∧ UnaryHistory regWindow ∧
+      UnaryHistory sealBoundary ∧ UnaryHistory certRow ∧ Cont stream modulus transportWindow ∧
+        Cont endpoint radius latePair ∧ Cont latePair transportWindow regWindow ∧
+          Cont regWindow sealBoundary certRow ∧ PkgSig bundle regWindow pkg
+
+theorem FastCauchyFinitePacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream modulus endpoint radius latePair transportWindow regWindow sealBoundary certRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
-        provenance cert bundle pkg ->
-      UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
-        UnaryHistory radius ∧ UnaryHistory latePair ∧ Cont stream modulus transportWindow ∧
-          Cont endpoint radius latePair ∧ PkgSig bundle provenance pkg := by
-  intro window
+    FastCauchyFinitePacket stream modulus endpoint radius latePair transportWindow regWindow
+        sealBoundary certRow bundle pkg ->
+      FastCauchyRegSeqRatWindow stream modulus endpoint radius latePair transportWindow
+          regWindow bundle pkg ∧
+        Cont stream modulus transportWindow ∧ Cont endpoint radius latePair ∧
+          Cont latePair transportWindow regWindow ∧ PkgSig bundle regWindow pkg := by
+  intro packet
   obtain ⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary,
-    _transportUnary, _provenanceUnary, _certUnary, streamModulusRow, endpointRadiusRow,
-    pkgRow⟩ := window
-  have streamHistory : UnaryHistory stream := streamUnary
-  have modulusHistory : UnaryHistory modulus := modulusUnary
-  have endpointHistory : UnaryHistory endpoint := endpointUnary
-  have radiusHistory : UnaryHistory radius := radiusUnary
-  have latePairHistory : UnaryHistory latePair := latePairUnary
-  have streamModulus : Cont stream modulus transportWindow := streamModulusRow
-  have endpointRadius : Cont endpoint radius latePair := endpointRadiusRow
-  have provenancePkg : PkgSig bundle provenance pkg := pkgRow
+    transportUnary, regUnary, _sealUnary, _certUnary, streamModulusRoute,
+    endpointRadiusRoute, latePairTransportRoute, _certRoute, pkgRow⟩ := packet
   exact
-    ⟨streamHistory, modulusHistory, endpointHistory, radiusHistory, latePairHistory,
-      streamModulus, endpointRadius, provenancePkg⟩
+    ⟨⟨streamUnary, modulusUnary, endpointUnary, radiusUnary, latePairUnary, transportUnary,
+        regUnary, streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩,
+      streamModulusRoute, endpointRadiusRoute, latePairTransportRoute, pkgRow⟩
 
 end BEDC.Derived.FastCauchyUp
