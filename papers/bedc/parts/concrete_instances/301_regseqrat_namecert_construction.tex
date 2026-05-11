@@ -78,11 +78,13 @@ The tolerance witness is a finite dyadic ledger. It records the requested radius
 
 All comparison and routing data are the componentwise $\hsame$ rows, displayed $\Cont$ routes, package provenance, and naming rows already present in the packets. No external real equality, quotient carrier, or completion datum can be projected from the classifier definition.
 \end{proof}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatClassifier\_dyadic\_radius\_observation}
 
 \begin{theorem}[RegSeqRat finite-window transport obligation]
 \label{thm:regseqrat-finite-window-transport-obligation}
 Restricting, refining, or transporting a finite $\RegSeqRatUp$ window preserves the carrier and classifier rows through componentwise $\hsame$ comparisons and the displayed $\Cont$ routes. The transported window retains the $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ endpoint rows, dyadic radius rows, finite dyadic distance rows, regularity ledgers, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows, and introduces no additional carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_finite\_window\_transport\_obligation}
 \begin{proof}
 Start with the window ledger of \autoref{thm:regseqrat-window-regularity-ledger}. It identifies the unary index rows, endpoint rows, radius rows, and regularity bound carried by the source window.
 
@@ -131,17 +133,35 @@ The available radius and regularity rows are exactly the dyadic-radius observati
 
 Transport stability follows from \autoref{thm:regseqrat-classifier-transport}. When the window is carried through $\hsame$ and $\Cont$, the radius and distance ledgers are carried as the same $\DyadicRatCoreUp$ rows, so no quotient or host-real equality can enter the readback.
 \end{proof}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_dyadic\_radius\_ledger\_readback}
 
 \begin{theorem}[RegSeqRat finite-window transport closure]
 \label{thm:regseqrat-finite-window-transport-closure}
 Restriction, refinement, and componentwise $\hsame$ or $\Cont$ transport of an accepted finite $\RegSeqRatUp$ window repack the same $\StreamNameUp$ schedule rows and $\DyadicRatCoreUp$ endpoint, radius, distance, and regularity rows. The repacked window remains within the displayed carrier and classifier surface of the same stream-name certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_finite\_window\_transport\_closure}
 \begin{proof}
 Begin with the finite-window transport row singled out by \autoref{thm:regseqrat-regularity-obligation-surface}. Restriction selects fewer scheduled unary indices, while refinement requests a larger finite schedule through $\StreamNameUp$ and keeps each selected endpoint and radius as a displayed $\DyadicRatCoreUp$ row.
 
 For componentwise transport, apply \autoref{thm:regseqrat-classifier-transport}. Its hypotheses preserve the stream schedule, endpoint rows, radius rows, and regularity ledgers, and its conclusion rebuilds the dyadic-tolerance classifier on the transported finite windows.
 
 The carrier of \autoref{def:regseqrat-stream-carrier} and the classifier of \autoref{def:regseqrat-classifier} therefore close under these finite operations by repacking existing rows. The resulting packet is still a $\RegSeqRatUp$ source surface, not a quotient or completion object.
+\end{proof}
+
+\begin{theorem}[RegSeqRat refined-window gluing]
+\label{thm:regseqrat-refined-window-gluing}
+Let $W_0$ and $W_1$ be accepted finite scheduled windows of the same $\RegSeqRatUp$ stream carrier. Suppose $\StreamNameUp$ supplies a finite common refinement schedule $W_\cup$ whose source rows restrict to the two input schedules, and suppose the overlapping unary index rows, $\DyadicRatCoreUp$ endpoint rows, dyadic radius rows, regularity ledgers, and classifier ledgers of $W_0$ and $W_1$ agree along the displayed $\hsame$ comparisons and $\Cont$ routes. Then the refined union repacks as an accepted finite $\RegSeqRatUp$ window over $W_\cup$.
+
+The restrictions of this refined window back to $W_0$ and $W_1$ recover the original classifier witnesses on the two input windows. The gluing operation introduces no quotient sequence, host real equality, metric-completion row, or additional $\RealUp$ seal datum.
+\end{theorem}
+\begin{proof}
+Project the two accepted windows by \autoref{thm:regseqrat-scheduled-window-projection}. This exposes the two finite lists of unary indices, dyadic endpoints, radius rows, regularity ledgers, classifier ledgers, and their displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance rows.
+
+Use the common-refinement schedule supplied by $\StreamNameUp$ to choose the joint finite source window. On rows that come from only one input window, keep the corresponding projected row. On overlapping rows, use the stated $\hsame$ comparisons and $\Cont$ routes to identify the unary index, endpoint, radius, regularity, and classifier ledger entries as the same displayed BEDC data.
+
+The overlap classifier is stable by \autoref{thm:regseqrat-classifier-transport}. Thus the two classifier witnesses restrict to the same transported witness wherever the schedules meet, and the non-overlap rows remain the witnesses already accepted in the two input windows.
+
+Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the joint schedule, transported overlap rows, and retained non-overlap rows as one finite $\RegSeqRatUp$ carrier and classifier surface. Restricting the repacked window back along either source schedule discards only the other side's rows, so it recovers the original classifier witness for that input window. Since every row used in the construction came from the two projected finite packets and their displayed refinement routes, no quotient sequence, host real equality, completion object, or $\RealUp$ seal row is created.
 \end{proof}
 
 \begin{theorem}[RegSeqRat RealUp seal handoff]
@@ -157,6 +177,7 @@ The existing $\RealUp$ seal rows consume regular rational-stream data by finite 
 
 Conversely, any source read used by the seal is one of those finite rows, because the $\RegSeqRatUp$ carrier has no coordinate for quotient sequences, ambient metric completion, host real equality, or standard bridge data. The accepted packet and the seal source surface therefore coincide at the displayed finite boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}
 
 \closureat{RegSeqRatUp}{seedStr}
 
