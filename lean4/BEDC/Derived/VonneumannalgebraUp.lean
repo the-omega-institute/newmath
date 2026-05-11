@@ -158,4 +158,69 @@ theorem VonneumannalgebraBHistCarrier_weak_operator_ledger_exactness [AskSetup]
           (And.intro operatorAdjointRow
             (And.intro weakTransportRow (And.intro weakRow packageRow)))))
 
+theorem VonneumannalgebraBHistCarrier_star_operation_stability [AskSetup] [PackageSetup]
+    {cstar hilbert operator adjoint multiplication weakProbe transport provenance endpoint cstar'
+      hilbert' adjoint' weakProbe' transport' provenance' operator' multiplication' endpoint' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VonneumannalgebraBHistCarrier cstar hilbert operator adjoint multiplication weakProbe
+        transport provenance endpoint bundle pkg ->
+      hsame cstar cstar' ->
+        hsame hilbert hilbert' ->
+          hsame adjoint adjoint' ->
+            hsame weakProbe weakProbe' ->
+              hsame transport transport' ->
+                hsame provenance provenance' ->
+                  Cont cstar' hilbert' operator' ->
+                    Cont operator' adjoint' multiplication' ->
+                      Cont weakProbe' transport' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          VonneumannalgebraBHistCarrier cstar' hilbert' operator' adjoint'
+                              multiplication' weakProbe' transport' provenance' endpoint' bundle
+                              pkg ∧
+                            hsame operator operator' ∧ hsame multiplication multiplication' ∧
+                              hsame endpoint endpoint' := by
+  intro carrier sameCstar sameHilbert sameAdjoint sameWeakProbe sameTransport sameProvenance
+    cstarHilbertRow' operatorAdjointRow' weakTransportRow' packageRow'
+  obtain ⟨cstarUnary, hilbertUnary, _operatorUnary, adjointUnary, _multiplicationUnary,
+    weakProbeUnary, transportUnary, provenanceUnary, cstarHilbertRow, operatorAdjointRow,
+    weakTransportRow, _packageRow⟩ := carrier
+  have cstarUnary' : UnaryHistory cstar' :=
+    unary_transport cstarUnary sameCstar
+  have hilbertUnary' : UnaryHistory hilbert' :=
+    unary_transport hilbertUnary sameHilbert
+  have adjointUnary' : UnaryHistory adjoint' :=
+    unary_transport adjointUnary sameAdjoint
+  have weakProbeUnary' : UnaryHistory weakProbe' :=
+    unary_transport weakProbeUnary sameWeakProbe
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have operatorUnary' : UnaryHistory operator' :=
+    unary_cont_closed cstarUnary' hilbertUnary' cstarHilbertRow'
+  have multiplicationUnary' : UnaryHistory multiplication' :=
+    unary_cont_closed operatorUnary' adjointUnary' operatorAdjointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed weakProbeUnary' transportUnary' weakTransportRow'
+  have sameOperator : hsame operator operator' :=
+    cont_respects_hsame sameCstar sameHilbert cstarHilbertRow cstarHilbertRow'
+  have sameMultiplication : hsame multiplication multiplication' :=
+    cont_respects_hsame sameOperator sameAdjoint operatorAdjointRow operatorAdjointRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameWeakProbe sameTransport weakTransportRow weakTransportRow'
+  exact And.intro
+    (And.intro cstarUnary'
+      (And.intro hilbertUnary'
+        (And.intro operatorUnary'
+          (And.intro adjointUnary'
+            (And.intro multiplicationUnary'
+              (And.intro weakProbeUnary'
+                (And.intro transportUnary'
+                  (And.intro provenanceUnary'
+                    (And.intro cstarHilbertRow'
+                      (And.intro operatorAdjointRow'
+                        (And.intro weakTransportRow' packageRow')))))))))))
+    (And.intro sameOperator (And.intro sameMultiplication sameEndpoint))
+
 end BEDC.Derived.VonneumannalgebraUp
