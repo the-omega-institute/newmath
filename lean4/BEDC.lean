@@ -119,6 +119,7 @@ import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.ThetaFunctionUp
+import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
