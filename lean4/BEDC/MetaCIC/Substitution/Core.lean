@@ -455,44 +455,4 @@ theorem substitute_lam_preserves_typing_closed_anchor
   · exact hdom_sub
   · exact hbody_sub
 
-theorem substitute_app_preserves_typing_closed_anchor
-    {Γ : Ctx} {s B f a dom cod : Term}
-    (_hwf : WellFormedCtx (B :: Γ))
-    (_hclosed_B : ClosedAt 0 B)
-    (_hclosed_s : ClosedAt 0 s)
-    (_hf_sub : HasType Γ
-      (substitute 0 s f)
-      (Term.pi (substitute 0 s dom)
-        (substitute 1 (shift 0 1 s) cod)))
-    (_ha_sub : HasType Γ (substitute 0 s a) (substitute 0 s dom))
-    (_hs : HasType Γ s B) :
-    True := by
-  constructor
-
-theorem substitute_app_preserves_typing_closed_anchor_with_type_eq
-    {Γ : Ctx} {s B f a dom cod : Term}
-    (_hwf : WellFormedCtx (B :: Γ))
-    (_hclosed_B : ClosedAt 0 B)
-    (_hclosed_s : ClosedAt 0 s)
-    (hf_sub : HasType Γ
-      (substitute 0 s f)
-      (Term.pi (substitute 0 s dom)
-        (substitute 1 (shift 0 1 s) cod)))
-    (ha_sub : HasType Γ (substitute 0 s a) (substitute 0 s dom))
-    (_hs : HasType Γ s B)
-    (hcod_sub :
-      substitute 0 (substitute 0 s a)
-        (substitute 1 (shift 0 1 s) cod) =
-      substitute 0 s (substitute 0 a cod)) :
-    HasType Γ
-      (substitute 0 s (Term.app f a))
-      (substitute 0 s (substitute 0 a cod)) := by
-  change HasType Γ
-    (Term.app (substitute 0 s f) (substitute 0 s a))
-    (substitute 0 s (substitute 0 a cod))
-  rw [← hcod_sub]
-  apply HasType.appRule
-  · exact hf_sub
-  · exact ha_sub
-
 end BEDC.MetaCIC
