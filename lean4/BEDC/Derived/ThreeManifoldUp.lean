@@ -123,6 +123,25 @@ theorem ThreeManifoldFiniteCarrier_jsj_ledger_exactness [AskSetup] [PackageSetup
                   (And.intro decompositionClassifierRow packageRow)))))))
   exact And.intro transportedCarrier sameContRows
 
+theorem ThreeManifoldFiniteCarrier_certificate_boundary [AskSetup] [PackageSetup]
+    {manifold topology decomposition classifier contRows provenance boundary : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThreeManifoldFiniteCarrier manifold topology decomposition classifier contRows provenance
+        probe pkg ->
+      Cont contRows provenance boundary ->
+        UnaryHistory boundary ∧ Cont manifold topology decomposition ∧
+          Cont decomposition classifier contRows ∧ Cont contRows provenance boundary ∧
+            PkgSig probe provenance pkg := by
+  intro carrier boundaryRow
+  obtain ⟨_manifoldUnary, _topologyUnary, _decompositionUnary, _classifierUnary,
+    contRowsUnary, provenanceUnary, manifoldTopologyRow, decompositionClassifierRow,
+    packageRow⟩ := carrier
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed contRowsUnary provenanceUnary boundaryRow
+  exact And.intro boundaryUnary
+    (And.intro manifoldTopologyRow
+      (And.intro decompositionClassifierRow (And.intro boundaryRow packageRow)))
+
 theorem ThreeManifoldFiniteCarrier_chart_transition_ledger_obligation [AskSetup] [PackageSetup]
     {manifold topology decomposition classifier contRows provenance manifold' topology'
       decomposition' classifier' contRows' provenance' : BHist}
