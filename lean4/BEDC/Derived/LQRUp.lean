@@ -158,6 +158,68 @@ theorem LQRFiniteControlPacket_namecert_seed_obligation_surface [AskSetup] [Pack
     ⟨_, _, _, _, _, _, _, _, _, _, _, _, backwardCont, predecessorCont, _, _, _, _, pkgRow⟩
   exact And.intro cert (And.intro backwardCont (And.intro predecessorCont pkgRow))
 
+theorem LQRFiniteControlPacket_quadratic_cost_exactness [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+      backwardUpdate predecessorValue endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              LQRFiniteControlPacket state control transition cost horizon successorValue
+                estimatorInput backwardUpdate predecessorValue e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              LQRFiniteControlPacket state control transition cost horizon successorValue
+                estimatorInput backwardUpdate predecessorValue e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              LQRFiniteControlPacket state control transition cost horizon successorValue
+                estimatorInput backwardUpdate predecessorValue e bundle pkg ∧ hsame row e)
+          hsame ∧
+        Cont transition cost successorValue ∧ Cont predecessorValue cost endpoint ∧
+          UnaryHistory cost ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  let Carrier : BHist -> Prop :=
+    fun row : BHist =>
+      exists e : BHist,
+        LQRFiniteControlPacket state control transition cost horizon successorValue
+          estimatorInput backwardUpdate predecessorValue e bundle pkg ∧ hsame row e
+  have endpointCarrier : Carrier endpoint :=
+    Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+  have cert : SemanticNameCert Carrier Carrier Carrier hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointCarrier
+      equiv_refl := by
+        intro row _rowCarrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other rowOther
+        exact hsame_symm rowOther
+      equiv_trans := by
+        intro _row _middle _other rowMiddle middleOther
+        exact hsame_trans rowMiddle middleOther
+      carrier_respects_equiv := by
+        intro row _other rowOther rowCarrier
+        cases rowCarrier with
+        | intro e rowWitness =>
+            exact Exists.intro e
+              (And.intro rowWitness.left (hsame_trans (hsame_symm rowOther) rowWitness.right))
+    }
+    pattern_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+    ledger_sound := by
+      intro _row rowCarrier
+      exact rowCarrier
+  }
+  rcases packet with
+    ⟨_, _, _, costUnary, _, _, _, _, _, _, _, transitionCost, _, _, predecessorCost, _, _, _,
+      pkgRow⟩
+  exact And.intro cert
+    (And.intro transitionCost (And.intro predecessorCost (And.intro costUnary pkgRow)))
+
 theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
     {state control transition cost horizon estimator successor update predecessor endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
