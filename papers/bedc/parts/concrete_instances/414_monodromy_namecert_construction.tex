@@ -47,6 +47,18 @@ Next read the finite continuation ledger $\lambda$. Its entries record loop subd
 Finally apply the componentwise $\hsame$ transports stored in $\tau$. The classifier accepts exactly those rowwise transports, and repacking the transported loop, base, fibre, returned row, ledger, and provenance rows gives another accepted $\MonodromyUp$ packet.
 \end{proof}
 
+\begin{theorem}[Monodromy returned-row provenance exactness]
+\label{thm:monodromy-returned-row-provenance-exactness}
+For any accepted $\MonodromyUp$ packet, every returned fibre row or returned stalk row accepted by the classifier is obtained from the displayed loop row, base endpoint row, local-system or fibre row, finite continuation ledger, componentwise $\hsame$ transports, and $\Pkg$ provenance named in \autoref{def:monodromy-bhist-transport-carrier}. A transported returned row is accepted only through these same rows. No host path equality, analytic continuation germ, or external representation row supplies a returned-row source for the packet.
+\end{theorem}
+\begin{proof}
+Project the packet to $\gamma$, $b$, $\mathcal L$, $F$, $\lambda$, $\tau$, and $\rho$. These coordinates name the loop, endpoint, local-system or fibre source, returned row, continuation ledger, rowwise transports, and package provenance visible to the classifier.
+
+Apply \autoref{thm:monodromy-loop-continuation-obligation} to the transport step. The obligation binds the returned row to the displayed loop route and to the finite continuation ledger, and the transported returned row is repacked by the same componentwise $\hsame$ transports.
+
+The classifier of \autoref{def:monodromy-finite-transport-classifier} has no coordinate for host paths, analytic germs, or representation rows outside the packet. Hence every accepted returned row, including a transported one, has exactly the displayed provenance listed in the carrier.
+\end{proof}
+
 \begin{theorem}[Monodromy NameCert obligation surface]
 \label{thm:monodromy-namecert-obligation-surface}
 The seed $\NameCert_{\MonodromyUp}$ obligation surface consists of five finite rows.
@@ -54,14 +66,14 @@ The seed $\NameCert_{\MonodromyUp}$ obligation surface consists of five finite r
 \item The carrier row supplied by \autoref{def:monodromy-bhist-transport-carrier}.
 \item The classifier row supplied by \autoref{def:monodromy-finite-transport-classifier}.
 \item The loop-continuation stability row supplied by \autoref{thm:monodromy-loop-continuation-obligation}.
-\item The provenance ledger row naming the consumed $\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$ certificates through $\mathsf{Pkg}$.
+\item The returned-row provenance row of \autoref{thm:monodromy-returned-row-provenance-exactness}, naming the consumed $\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and $\CurvatureUp$ certificates through $\mathsf{Pkg}$.
 \item The standard-boundary exclusion row saying that no analytic fundamental group, representation category, unbounded continuation solver, or regular-singular comparison theorem is exported by the seed packet.
 \end{enumerate}
 \end{theorem}
 \begin{proof}
 Read the carrier fields. The loop, base endpoint, local-system or fibre, returned row, continuation ledger, componentwise transport rows, and package provenance supply the carrier and classifier obligations directly.
 
-Use \autoref{thm:monodromy-loop-continuation-obligation} for the stability row. Its proof records that transported packets remain inside the same finite row shape, so no extra continuation principle is needed.
+Use \autoref{thm:monodromy-loop-continuation-obligation} for the stability row and \autoref{thm:monodromy-returned-row-provenance-exactness} for the returned-row provenance row. Their proofs record that transported packets remain inside the same finite row shape, so no extra continuation principle is needed.
 
 The provenance and boundary rows are projections from $\rho$ and from the absence of any host path, representation, or analytic solver coordinate in the carrier. These five rows exhaust the seed obligation surface for $\NameCert_{\MonodromyUp}$.
 \end{proof}
