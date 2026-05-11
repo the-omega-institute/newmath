@@ -12,58 +12,8 @@ def Term.beq : Term → Term → Bool
   | Term.sort, Term.sort => true
   | _, _ => false
 
-/-- `Term.beq` 为真时两个项相等。 -/
-theorem Term.beq_eq {x y : Term} (h : Term.beq x y = true) : x = y := by
-  induction x generalizing y with
-  | var i =>
-      cases y with
-      | var j =>
-          simp [Term.beq] at h
-          rw [h]
-      | app f a => simp [Term.beq] at h
-      | lam d b => simp [Term.beq] at h
-      | pi d c => simp [Term.beq] at h
-      | sort => simp [Term.beq] at h
-  | app f a ihF ihA =>
-      cases y with
-      | var j => simp [Term.beq] at h
-      | app f' a' =>
-          simp [Term.beq] at h
-          cases ihF h.left
-          cases ihA h.right
-          rfl
-      | lam d b => simp [Term.beq] at h
-      | pi d c => simp [Term.beq] at h
-      | sort => simp [Term.beq] at h
-  | lam d b ihD ihB =>
-      cases y with
-      | var j => simp [Term.beq] at h
-      | app f a => simp [Term.beq] at h
-      | lam d' b' =>
-          simp [Term.beq] at h
-          cases ihD h.left
-          cases ihB h.right
-          rfl
-      | pi d' c' => simp [Term.beq] at h
-      | sort => simp [Term.beq] at h
-  | pi d c ihD ihC =>
-      cases y with
-      | var j => simp [Term.beq] at h
-      | app f a => simp [Term.beq] at h
-      | lam d' b => simp [Term.beq] at h
-      | pi d' c' =>
-          simp [Term.beq] at h
-          cases ihD h.left
-          cases ihC h.right
-          rfl
-      | sort => simp [Term.beq] at h
-  | sort =>
-      cases y with
-      | var j => simp [Term.beq] at h
-      | app f a => simp [Term.beq] at h
-      | lam d b => simp [Term.beq] at h
-      | pi d c => simp [Term.beq] at h
-      | sort => rfl
+-- Term.beq_eq soundness lemma 暂未给出: simp-based proof 拉入了 propext;
+-- 重写为 pure CIC 推理是 V4 工作。Checker.lean 的当前形态只提供 def，不主张 soundness。
 
 /-- Recursive checker. 返回 some (推断的类型) 或 none。 -/
 def infer : Ctx → Term → Option Term
@@ -93,45 +43,7 @@ def infer : Ctx → Term → Option Term
           | none => none
       | _ => none
 
-/-- `infer` 成功时给出对应的 typing derivation。 -/
-theorem infer_sound
-    {Γ : Ctx} {t A : Term}
-    (h : infer Γ t = some A) :
-    HasType Γ t A := by
-  induction t generalizing Γ A with
-  | var i =>
-      exact HasType.varRule Γ i A h
-  | app f a ihF ihA =>
-      simp [infer] at h
-      split at h <;> try contradiction
-      rename_i dom cod hf
-      split at h <;> try contradiction
-      rename_i aTy ha
-      split at h <;> try contradiction
-      rename_i hbeq
-      cases h
-      exact HasType.appRule Γ f a dom cod (ihF hf) (by
-        cases Term.beq_eq hbeq
-        exact ihA ha)
-  | lam dom body ihD ihB =>
-      simp [infer] at h
-      split at h <;> try contradiction
-      rename_i hdom
-      split at h <;> try contradiction
-      rename_i bodyTy hbody
-      cases h
-      exact HasType.lamRule Γ dom body bodyTy (ihD hdom) (ihB hbody)
-  | pi dom cod ihD ihC =>
-      simp [infer] at h
-      split at h <;> try contradiction
-      rename_i hdom
-      split at h <;> try contradiction
-      rename_i hcod
-      cases h
-      exact HasType.piRule Γ dom cod (ihD hdom) (ihC hcod)
-  | sort =>
-      cases h
-      exact HasType.sortRule Γ
+-- infer_sound theorem 暂未给出: 同上 (simp-based 拉入 propext, V4 工作)。
 
 /-- Decidable check: 给定 Γ t A, 检查 t 在 Γ 下是否类型为 A。 -/
 def check (Γ : Ctx) (t A : Term) : Bool :=
@@ -139,16 +51,7 @@ def check (Γ : Ctx) (t A : Term) : Bool :=
   | some inferred => Term.beq inferred A
   | none => false
 
-/-- Soundness: 如果 check Γ t A 返回 true，则 HasType Γ t A。 -/
-theorem check_sound
-    {Γ : Ctx} {t A : Term}
-    (h : check Γ t A = true) :
-    HasType Γ t A := by
-  unfold check at h
-  split at h <;> try contradiction
-  rename_i inferred hinfer
-  rw [← Term.beq_eq h]
-  exact infer_sound hinfer
+-- check_sound 同上: 依赖 infer_sound + Term.beq_eq, 都是 V4 工作。
 
 example : check [] Term.sort Term.sort = true := rfl
 

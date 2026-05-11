@@ -12,9 +12,6 @@ def pp : Term → String
   | Term.pi d c => "(Π:" ++ pp d ++ " . " ++ pp c ++ ")"
   | Term.sort => "Sort"
 
-/-- pp 是确定性的 — 相同 Term 总产生相同 String. -/
-theorem pp_deterministic (t : Term) : pp t = pp t := rfl
-
 example : pp Term.sort = "Sort" := rfl
 
 example : pp (Term.var 0) = "v0" := rfl
