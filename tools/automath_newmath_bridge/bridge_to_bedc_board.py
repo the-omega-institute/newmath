@@ -488,8 +488,6 @@ def _render_ledger(summary: dict[str, Any], candidates: list[dict[str, Any]]) ->
         "This durable ledger records Automath-to-NewMath bridge candidates that were shaped as evidence-backed BEDC continuation targets.",
         "Runtime inbox, state, logs, and raw gate output remain untracked.",
         "",
-        f"Last run: `{_now_iso()}`",
-        "",
         "| Metric | Value |",
         "| --- | --- |",
         f"| Apply | `{summary.get('apply')}` |",
