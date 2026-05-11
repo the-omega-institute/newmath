@@ -5,6 +5,8 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.DynSystemUp
+import BEDC.Derived.MatrixUp
 
 namespace BEDC.Derived.ControlObservabilityUp
 
@@ -15,6 +17,8 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.DynSystemUp
+open BEDC.Derived.MatrixUp
 
 def ControlObservabilityCarrierPacket [AskSetup] [PackageSetup]
     (dynSystem matrix vecspace linmap state transition output observationStack traceLedger
@@ -106,5 +110,25 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
       And.intro packet.right.right.right.right.right.right.left
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
+
+theorem ControlObservability_finite_trace_ledger_readback [AskSetup] [PackageSetup]
+    {phase ode time source target flowWitness endpoint route output observation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DynSystemFlowPacket phase ode time source target flowWitness endpoint route bundle pkg ->
+      MatrixSingletonCarrier output -> Cont output endpoint observation ->
+        UnaryHistory observation ∧ hsame flowWitness (append (append phase time) source) ∧
+          hsame endpoint (append flowWitness ode) ∧ hsame route (append endpoint target) ∧
+            MatrixSingletonCarrier output := by
+  intro packet outputCarrier observationCont
+  have coverage := DynSystemFlowPacket_endpoint_coverage packet
+  have outputUnary : UnaryHistory output := by
+    cases outputCarrier
+    exact unary_empty
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed outputUnary coverage.right.left observationCont
+  exact And.intro observationUnary
+    (And.intro coverage.right.right.right.left
+      (And.intro coverage.right.right.right.right.left
+        (And.intro coverage.right.right.right.right.right.left outputCarrier)))
 
 end BEDC.Derived.ControlObservabilityUp

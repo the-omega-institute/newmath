@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.RatUp
 
 namespace BEDC.Derived.CauchyModulusUp
 
@@ -14,6 +15,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RatUp
 
 def CauchyModulusPacket [AskSetup] [PackageSetup]
     (precision threshold tolerance schedule observationLedger consumptionLedger window
@@ -83,5 +85,20 @@ theorem CauchyModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup
           (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
             (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
               packet.right.right.right.right.right.right.right.right.right.right.right.right)))
+
+theorem CauchyModulus_monotone_tail_refinement_window
+    {tol refined threshold oldLedger refinedLedger tail : BHist} :
+    RatHistoryCarrier tol -> UnaryHistory tail -> Cont tol tail refined ->
+      Cont threshold tol oldLedger -> Cont threshold refined refinedLedger ->
+        RatHistoryCarrier refined ∧ hsame refined (append tol tail) ∧
+          hsame oldLedger (append threshold tol) ∧
+            hsame refinedLedger (append threshold refined) := by
+  intro tolCarrier tailUnary refineCont oldLedgerCont refinedLedgerCont
+  have refinedCarrier : RatHistoryCarrier refined := by
+    cases refineCont
+    exact RatHistoryCarrier_append_unary_denominator_closed tolCarrier tailUnary
+  exact And.intro refinedCarrier
+    (And.intro refineCont
+      (And.intro oldLedgerCont refinedLedgerCont))
 
 end BEDC.Derived.CauchyModulusUp
