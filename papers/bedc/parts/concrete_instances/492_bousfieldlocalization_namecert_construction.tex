@@ -74,3 +74,15 @@ It remains to check that nothing else is exported. Since the tuple contains no q
   \notclaimed{This chapter does not close the existence of a localized model structure, global functorial localization, homotopy-category quotients, derived mapping objects, or representative choices.}
   \upgradepath{Formal closure requires Lean targets for the carrier row, componentwise classifier, displayed $\hsame$ stability, exact readback, ledger boundary, and local-object handoff.}
 \end{closurestatus}
+
+\begin{theorem}[BousfieldLocalization empty selected-map boundary]
+\label{thm:bousfieldlocalization-empty-selected-map-boundary}
+Let $B=(M,S,L,T,P,N)$ be an accepted $\BousfieldLocalizationUp$ carrier in the sense of \autoref{def:bousfieldlocalization-carrier}. If the selected morphism-class row $S$ is empty, then no downstream consumer has an inverted-map row to read from $B$. The remaining certified handoff surface is confined to the displayed model-category row $M$, the fibrant-local-object rows $L$, the classifier-transport ledger $T$, the $\Pkg$ provenance row $P$, and the $\NameCert$ ledger $N$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:bousfieldlocalization-carrier}, the only coordinate of $B$ whose entries are maps read as inverted by the localizing certificate is the selected morphism-class row $S$. The local-object rows in $L$ record fibrant objects and their mapping-test rows, while $M$, $T$, $P$, and $N$ record the model-category ledger, transport routes, package provenance, and certificate ledger. None of those five coordinates is a second selected morphism-class row.
+
+Now assume that $S$ is empty. If a downstream consumer had an inverted-map row to read, then \autoref{thm:bousfieldlocalization-local-object-handoff} would force that read to be one of the selected maps in $S$, interpreted through the displayed model-category ledger $M$. Since $S$ has no displayed arrow entry, there is no such selected map. Hence every inverted-map consumer read is absent.
+
+It remains only to identify what the consumer may still inspect. The exactness row in \autoref{thm:bousfieldlocalization-namecert-obligations} allows consumer reads only from the recorded rows of the packet or from their finite named provenance. After the empty row $S$ contributes no inverted-map read, the visible nonempty handoff coordinates are exactly the possible reads from $M$, $L$, $T$, $P$, and $N$. This also preserves the exclusions in \autoref{thm:bousfieldlocalization-local-object-handoff}: no quotient localization, homotopy-category object outside the displayed rows, global functorial localization, or representative-choice row is exported.
+\end{proof}
