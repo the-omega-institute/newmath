@@ -230,4 +230,37 @@ theorem ModularArithmeticResidueSource_namecert_obligation_surface [AskSetup] [P
               (And.intro residueLedgerRow
                 (And.intro pkgrowRow pkgrowSig)))))))
 
+theorem ModularArithmeticResidueSource_scoped_dependency_boundary [AskSetup] [PackageSetup]
+    {modulus witness representative residueLedger pkgrow modulus' witness' representative'
+      residueLedger' pkgrow' endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModularArithmeticResidueSource modulus witness representative residueLedger pkgrow bundle
+        pkg ->
+      hsame modulus modulus' ->
+        hsame witness witness' ->
+          hsame representative representative' ->
+            Cont modulus' witness' residueLedger' ->
+              Cont residueLedger' representative' pkgrow' ->
+                PkgSig bundle pkgrow' pkg ->
+                  Cont pkgrow' witness' endpoint ->
+                    ModularArithmeticResidueSource modulus' witness' representative'
+                        residueLedger' pkgrow' bundle pkg ∧
+                      PositiveUnaryDenominator witness' ∧ UnaryHistory witness' ∧
+                        hsame residueLedger residueLedger' ∧ hsame pkgrow pkgrow' ∧
+                          hsame endpoint (append pkgrow' witness') := by
+  intro source sameModulus sameWitness sameRepresentative residueLedgerRow' pkgrowRow'
+    pkgrowSig' endpointRow
+  have stable :=
+    ModularArithmeticResidueSource_carrier_stability source sameModulus sameWitness
+      sameRepresentative residueLedgerRow' pkgrowRow' pkgrowSig'
+  have witnessPositive : PositiveUnaryDenominator witness' :=
+    stable.left.right.left
+  have witnessUnary : UnaryHistory witness' :=
+    (PositiveUnaryDenominator_unary_and_nonempty witnessPositive).left
+  exact
+    And.intro stable.left
+      (And.intro witnessPositive
+        (And.intro witnessUnary
+          (And.intro stable.right.left (And.intro stable.right.right endpointRow))))
+
 end BEDC.Derived.ModularArithmeticUp
