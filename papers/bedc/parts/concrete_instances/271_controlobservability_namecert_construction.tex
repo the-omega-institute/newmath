@@ -76,11 +76,11 @@ Constructor inspection of the carrier excludes any additional trace source. Sinc
 
 \begin{closurestatus}{\ControlObservabilityUp}
   \constructivestory{The chapter builds a finite observation packet over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$: it displays the observation-matrix row, separates rank and kernel obligations, records the finite output-trace ledger, and keeps host trajectory and full control-system data outside the carrier.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is the carrier of \autoref{def:control-observability-carrier}, the NameCert surface of \autoref{thm:control-observability-namecert-obligation-surface}, the kernel separation of \autoref{thm:control-observability-kernel-separation}, and the ledger readback of \autoref{thm:control-observability-ledger-readback}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary is the finite $\mathsf{BHist}$ observation packet, the $\hsame$ trace classifier, the observation-matrix rank and kernel rows, the $\Cont$ trace ledger, and the $\mathsf{Pkg}$ dependencies on $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a host control-system category, analytic trajectory semantics, Kalman decomposition, controllability duality, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding those obligations to checked Lean targets and adding an explicit transport-stability row.}
+  \upgradepath{The next step is Lean formalization of the displayed scoped rows.}
 \end{closurestatus}
