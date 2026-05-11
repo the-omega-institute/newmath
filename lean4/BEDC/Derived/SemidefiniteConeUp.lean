@@ -143,4 +143,45 @@ theorem SemidefiniteConePacket_dual_pairing_empty_boundary [AskSetup] [PackageSe
     append_eq_empty_iff.mp appendedEmpty
   exact And.intro parts.left parts.right
 
+theorem SemidefiniteConePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {matrix vector convexLedger bilinearPairing nonnegative provenance endpoint operation
+      dualRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemidefiniteConePacket matrix vector convexLedger bilinearPairing nonnegative provenance
+        endpoint bundle pkg ->
+      Cont endpoint provenance operation ->
+        Cont operation nonnegative dualRow ->
+          PkgSig bundle dualRow pkg ->
+            UnaryHistory matrix ∧ UnaryHistory vector ∧ UnaryHistory convexLedger ∧
+              UnaryHistory bilinearPairing ∧ UnaryHistory nonnegative ∧
+                UnaryHistory provenance ∧ UnaryHistory operation ∧ UnaryHistory dualRow ∧
+                  Cont matrix vector bilinearPairing ∧
+                    Cont convexLedger bilinearPairing nonnegative ∧
+                      Cont bilinearPairing nonnegative endpoint ∧
+                        Cont endpoint provenance operation ∧ Cont operation nonnegative dualRow ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle dualRow pkg := by
+  intro packet operationRow dualRowCont dualPkg
+  obtain ⟨matrixUnary, vectorUnary, convexUnary, bilinearUnary, nonnegativeUnary,
+    provenanceUnary, endpointUnary, bilinearRow, nonnegativeRow, endpointRow,
+    endpointPkg⟩ := packet
+  have operationUnary : UnaryHistory operation :=
+    unary_cont_closed endpointUnary provenanceUnary operationRow
+  have dualUnary : UnaryHistory dualRow :=
+    unary_cont_closed operationUnary nonnegativeUnary dualRowCont
+  exact
+    And.intro matrixUnary
+      (And.intro vectorUnary
+        (And.intro convexUnary
+          (And.intro bilinearUnary
+            (And.intro nonnegativeUnary
+              (And.intro provenanceUnary
+                (And.intro operationUnary
+                  (And.intro dualUnary
+                    (And.intro bilinearRow
+                      (And.intro nonnegativeRow
+                        (And.intro endpointRow
+                          (And.intro operationRow
+                            (And.intro dualRowCont
+                              (And.intro endpointPkg dualPkg)))))))))))))
+
 end BEDC.Derived.SemidefiniteConeUp
