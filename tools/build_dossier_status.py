@@ -312,6 +312,25 @@ SCHEMA_ONLY_REGIONS: set[str] = {"interhist", "observer"}
 LEAN_IMPORT_RE = re.compile(r"^\s*import\s+([A-Za-z0-9_.]+)", re.MULTILINE)
 PAPER_AUTOREF_RE = re.compile(r"\\autoref\{ch:concrete-instances-([a-z][a-z0-9\-]*?)(?:-namecert)?\}")
 PAPER_CAPSTONE_AUTOREF_RE = re.compile(r"\\autoref\{ch:capstones-([a-z][a-z0-9\-]*?)\}")
+# Any cross-reference. Resolved against a paper-wide label->region index so
+# `\autoref{thm:foo}` / `\autoref{def:bar}` from one chapter to another
+# contribute real dependency edges, not just the rare `\autoref{ch:...}` form.
+PAPER_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
+PAPER_ANY_REF_RE = re.compile(r"\\(?:autoref|Autoref|cref|Cref|ref)\{([^}]+)\}")
+# `\NameCert_{\VonNeumannAlgUp}` is BEDC's first-class way of declaring "this
+# chapter depends on the VonNeumannAlg namecert". The dependency is structural,
+# not a Lean import: FactorUp.lean takes `vna : BHist` as a parameter and the
+# *paper* asserts that vna must be admitted by `\NameCert_{\VonNeumannAlgUp}`.
+# Far more reliable than `\autoref{ch:...}` for cross-chapter edges.
+PAPER_NAMECERT_RE = re.compile(r"\\NameCert_\{\\([A-Za-z][A-Za-z0-9]*?)Up\}")
+# Many namecert chapters declare cross-region dependencies by writing the
+# *bare* `\XxxUp` macro in prose (10+ occurrences is the norm) without
+# wrapping it in `\NameCert_{...}`. e.g. the BousfieldLocalizationUp chapter
+# mentions `\ModelCatUp` / `\CategoryUp` / `\FunctorUp` repeatedly to discuss
+# the underlying model structure. Treat every bare `\XxxUp` mention from one
+# region's files as a dependency on the XxxUp region (after self-reference
+# filtering by the caller).
+PAPER_BARE_UP_MACRO_RE = re.compile(r"\\([A-Z][A-Za-z0-9]*?)Up\b")
 
 
 # Aliases that fold paper-side and Lean-side spellings into a single region id.
@@ -481,6 +500,94 @@ def parse_paper_autorefs(f: Path) -> list[str]:
     return refs
 
 
+def build_paper_label_index(paper_files: list[Path]) -> dict[str, str]:
+    """Scan every paper .tex once and build a label -> region reverse index.
+
+    Every `\\label{X}` declared inside a file whose chapter resolves to a
+    region R contributes `X -> R`. First definition wins; collisions are
+    rare in practice because label namespaces are chapter-scoped by
+    convention. Used by `parse_paper_refs_via_index` so that an
+    `\\autoref{thm:foo-bar}` from chapter A to chapter B is recorded as a
+    real `A -> B` dependency edge instead of being silently dropped.
+    """
+    index: dict[str, str] = {}
+    for f in paper_files:
+        region = canonical(paper_chapter_to_region(f))
+        if not region:
+            continue
+        text = _read_text_or_none(f)
+        if text is None:
+            continue
+        for m in PAPER_LABEL_RE.finditer(text):
+            index.setdefault(m.group(1), region)
+    return index
+
+
+def parse_paper_refs_via_index(
+    f: Path, label_index: dict[str, str]
+) -> list[str]:
+    """Resolve every `\\autoref` / `\\ref` / `\\cref` in `f` through the
+    paper-wide label index. Returns the list of regions referenced
+    (may contain duplicates; caller dedupes)."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_ANY_REF_RE.finditer(text):
+        r = label_index.get(m.group(1))
+        if r:
+            out.append(r)
+    return out
+
+
+def resolve_namecert_macro(name: str, regions: set[str]) -> str | None:
+    """Map a `\\XxxUp` macro stem (already lowercased, `Up` stripped) to a
+    canonical region id.
+
+    Strategy, in order:
+      1. Exact match against region set (post-`canonical`).
+      2. Unique prefix / containment match against the region set — handles
+         `vonneumannalg` -> `vonneumannalgebra`, `metricspace` -> `metric`,
+         `continuousfunction` -> `continuous` without a hand-curated alias dict.
+      3. Give up: return None.
+
+    Strategy 2 only fires when there is *exactly one* candidate, so ambiguous
+    matches (e.g. `func` -> `functor` | `functionalanalysis`) are rejected
+    rather than guessed."""
+    direct = canonical(name)
+    if direct and direct in regions:
+        return direct
+    candidates = {r for r in regions if r.startswith(name) or name.startswith(r)}
+    candidates |= {r for r in regions if name in r or r in name}
+    candidates.discard(name)
+    if len(candidates) == 1:
+        return next(iter(candidates))
+    return None
+
+
+def parse_paper_namecerts(f: Path, regions: set[str]) -> list[str]:
+    """Every `\\NameCert_{\\XxxUp}` in `f` declares a structural dependency on
+    the XxxUp region. Returns the list of region ids referenced."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_NAMECERT_RE.finditer(text):
+        r = resolve_namecert_macro(m.group(1).lower(), regions)
+        if r:
+            out.append(r)
+    return out
+
+
+def parse_paper_bare_up_macros(f: Path, regions: set[str]) -> list[str]:
+    """Every bare `\\XxxUp` macro invocation in `f` (e.g. `\\ModelCatUp`,
+    `\\RealUp`) signals a reference to the XxxUp region. Self-references are
+    not filtered here — the caller already drops `rc == my_region`."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_BARE_UP_MACRO_RE.finditer(text):
+        r = resolve_namecert_macro(m.group(1).lower(), regions)
+        if r:
+            out.append(r)
+    return out
+
+
 def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
     """Walk sources to build the dep graph in two phases.
 
@@ -530,12 +637,34 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
             if dep and dep in regions and dep != my_region:
                 deps[my_region].add(dep)
 
+    # Build the label -> region reverse index once across all paper files
+    # so cross-chapter `\autoref{thm:...}` / `\autoref{def:...}` resolve to
+    # real edges (these vastly outnumber the rare `\autoref{ch:...}` form).
+    all_paper_files: list[Path] = []
+    if PAPER_INSTANCES.exists():
+        all_paper_files.extend(PAPER_INSTANCES.rglob("*.tex"))
+    if capstones_dir.exists():
+        all_paper_files.extend(capstones_dir.rglob("*.tex"))
+    label_index = build_paper_label_index(all_paper_files)
+
     if PAPER_INSTANCES.exists():
         for f in PAPER_INSTANCES.rglob("*.tex"):
             my_region = canonical(paper_chapter_to_region(f))
             if not my_region or my_region not in regions:
                 continue
             for r in parse_paper_autorefs(f):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_refs_via_index(f, label_index):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_namecerts(f, regions):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_bare_up_macros(f, regions):
                 rc = canonical(r)
                 if rc and rc in regions and rc != my_region:
                     deps[my_region].add(rc)
@@ -546,6 +675,18 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
             if not my_region:
                 continue
             for r in parse_paper_autorefs(f):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_refs_via_index(f, label_index):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_namecerts(f, regions):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    deps[my_region].add(rc)
+            for r in parse_paper_bare_up_macros(f, regions):
                 rc = canonical(r)
                 if rc and rc in regions and rc != my_region:
                     deps[my_region].add(rc)
