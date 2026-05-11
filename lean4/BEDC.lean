@@ -153,6 +153,7 @@ import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
+import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
