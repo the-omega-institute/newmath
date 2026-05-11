@@ -346,6 +346,7 @@ import BEDC.Derived.OptionUp.EndpointSemanticFields
 import BEDC.Derived.OptionUp.Pattern
 import BEDC.Derived.OptionUp.Context
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.ObservableUp
 import BEDC.Derived.ObservableUp.SemanticCertificate
 import BEDC.Derived.ObservableUp.ObligationSurface
@@ -356,6 +357,7 @@ import BEDC.Derived.ObservableUp.ExpectationTransportReadback
 import BEDC.Derived.ObservableUp.PublicSurfaceBridgeBoundary
 import BEDC.Derived.OdeUp
 import BEDC.Derived.PdeUp
+import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.PermutationUp
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.SymGroupUp
