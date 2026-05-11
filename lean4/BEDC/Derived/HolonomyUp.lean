@@ -326,6 +326,41 @@ theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [Packag
                       (And.intro endpointRow' pkgSig')))))))))
       (And.intro sameLedger sameEndpoint)
 
+theorem HolonomyTransportCarrier_composition_ledger_obligation [AskSetup] [PackageSetup]
+    {bundle connection loopA endpointA curvature ledgerA provenance loopB endpointB ledgerB
+      composedLoop composedEndpoint : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loopA endpointA curvature ledgerA provenance
+        probeBundle pkg ->
+      HolonomyTransportCarrier bundle connection loopB endpointB curvature ledgerB provenance
+          probeBundle pkg ->
+        Cont loopA loopB composedLoop ->
+          Cont ledgerA ledgerB composedEndpoint ->
+            PkgSig probeBundle composedEndpoint pkg ->
+              UnaryHistory composedLoop ∧ UnaryHistory composedEndpoint ∧
+                hsame composedLoop (append loopA loopB) ∧
+                  hsame composedEndpoint (append ledgerA ledgerB) ∧
+                    Cont loopA loopB composedLoop ∧ Cont ledgerA ledgerB composedEndpoint ∧
+                      PkgSig probeBundle composedEndpoint pkg := by
+  intro carrierA carrierB loopComposition ledgerComposition composedPkg
+  have loopAUnary : UnaryHistory loopA :=
+    carrierA.right.right.left
+  have loopBUnary : UnaryHistory loopB :=
+    carrierB.right.right.left
+  have ledgerAUnary : UnaryHistory ledgerA :=
+    carrierA.right.right.right.right.right.left
+  have ledgerBUnary : UnaryHistory ledgerB :=
+    carrierB.right.right.right.right.right.left
+  have composedLoopUnary : UnaryHistory composedLoop :=
+    unary_cont_closed loopAUnary loopBUnary loopComposition
+  have composedEndpointUnary : UnaryHistory composedEndpoint :=
+    unary_cont_closed ledgerAUnary ledgerBUnary ledgerComposition
+  exact And.intro composedLoopUnary
+    (And.intro composedEndpointUnary
+      (And.intro loopComposition
+        (And.intro ledgerComposition
+          (And.intro loopComposition (And.intro ledgerComposition composedPkg)))))
+
 theorem HolonomyTransportPacket_loop_source_obligation [AskSetup] [PackageSetup]
     {bundle connection loop endpoint curvature ledger pkgRow : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :

@@ -115,4 +115,80 @@ theorem ControlControllabilityReachabilityPacket_reachability_ledger [AskSetup]
               (And.intro reachabilityUnary
                 (And.intro firstColumnRow (And.intro reachabilityRow pkgSig))))))))
 
+theorem ControlControllabilityReachabilityPacket_classifier_stability [AskSetup]
+    [PackageSetup]
+    {state input transition control horizon firstColumn reachability provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlControllabilityReachabilityPacket state input transition control horizon firstColumn
+        reachability provenance endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          hsame ∧
+        Cont control horizon firstColumn ∧ Cont firstColumn transition reachability ∧
+          Cont reachability provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have endpointSource :
+      (fun row : BHist =>
+        exists e : BHist,
+          ControlControllabilityReachabilityPacket state input transition control horizon
+            firstColumn reachability provenance e bundle pkg ∧ hsame row e) endpoint :=
+    Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlControllabilityReachabilityPacket state input transition control horizon
+                firstColumn reachability provenance e bundle pkg ∧ hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sourceRow with
+        | intro e endpointWitness =>
+            exact Exists.intro e
+              (And.intro endpointWitness.left
+                (hsame_trans (hsame_symm sameRows) endpointWitness.right))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro packet.right.right.right.right.right.right.left
+      (And.intro packet.right.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right.right)))
+
 end BEDC.Derived.ControlControllabilityUp
