@@ -61,8 +61,23 @@ theorem ThetaFunctionCarrierSource_namecert_boundary [AskSetup] [PackageSetup]
       exact sourceRow
   }
   exact And.intro cert
-    (And.intro source.right.right.right.right.right.right.left
-      (And.intro source.right.right.right.right.right.right.right.left
-        source.right.right.right.right.right.right.right.right))
+      (And.intro source.right.right.right.right.right.right.left
+        (And.intro source.right.right.right.right.right.right.right.left
+          source.right.right.right.right.right.right.right.right))
+
+theorem ThetaFunctionCarrierSource_ledger_exactness [AskSetup] [PackageSetup]
+    {period chart coeff provenance readback endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ThetaFunctionCarrierSource period chart coeff provenance readback endpoint bundle pkg ->
+      UnaryHistory period ∧ UnaryHistory chart ∧ UnaryHistory coeff ∧
+        Cont period chart coeff ∧ Cont provenance readback endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro source
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro source.right.right.left
+        (And.intro source.right.right.right.right.right.right.left
+          (And.intro source.right.right.right.right.right.right.right.left
+            source.right.right.right.right.right.right.right.right))))
 
 end BEDC.Derived.ThetaFunctionUp
