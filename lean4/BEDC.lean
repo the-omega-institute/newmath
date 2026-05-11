@@ -143,7 +143,9 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.BoolUp
@@ -196,6 +198,7 @@ import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
+import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
