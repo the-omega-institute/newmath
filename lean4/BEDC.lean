@@ -151,6 +151,7 @@ import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
+import BEDC.Derived.CurvatureUp.ConsumerRow
 import BEDC.Derived.CurvatureUp.ConsumerRowCoverage
 import BEDC.Derived.CurvatureUp.ConsumerBoundary
 import BEDC.Derived.CurvatureUp.LedgerExactnessObligation
@@ -176,6 +177,7 @@ import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
 import BEDC.Derived.CauchyModulusUp
+import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -194,8 +196,11 @@ import BEDC.Derived.DiffGaloisUp
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
+import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
+import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.RealPhaseSourceCoverage
 import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
+import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
@@ -573,6 +578,7 @@ import BEDC.Derived.TopGroupUp.ObligationSurfacePublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.PublicThresholdFinalPacket
 import BEDC.Derived.TopGroupUp.ObligationPublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
+import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
@@ -690,6 +696,7 @@ import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
 import BEDC.Derived.LambdaCalcUp.NameCertCarrierObligation
+import BEDC.Derived.LambdaCalcUp.PublicBoundary
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
