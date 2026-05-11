@@ -1,14 +1,63 @@
 import BEDC.Derived.RatUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DyadicRatCoreUp
 
+open BEDC.Derived.RatUp
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-open BEDC.Derived.RatUp
+
+def DyadicRatCorePackageCarrier [AskSetup] [PackageSetup]
+    (mantissa exponent ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  RatHistoryCarrier mantissa ∧
+    UnaryHistory exponent ∧
+      UnaryHistory ledger ∧
+        Cont exponent ledger provenance ∧
+          Cont provenance mantissa endpoint ∧
+            PkgSig bundle endpoint pkg
+
+theorem DyadicRatCoreCarrier_denominator_ledger_transport [AskSetup] [PackageSetup]
+    {mantissa exponent ledger provenance endpoint mantissa' exponent' ledger' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRatCorePackageCarrier mantissa exponent ledger provenance endpoint bundle pkg ->
+      hsame mantissa mantissa' ->
+        hsame exponent exponent' ->
+          hsame ledger ledger' ->
+            Cont exponent' ledger' provenance' ->
+              Cont provenance' mantissa' endpoint' ->
+                PkgSig bundle endpoint' pkg ->
+                  DyadicRatCorePackageCarrier mantissa' exponent' ledger' provenance' endpoint'
+                      bundle pkg ∧
+                    UnaryHistory exponent' ∧
+                      hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro carrier sameMantissa sameExponent sameLedger provenanceRow' endpointRow' pkgSig'
+  have mantissaCarrier' : RatHistoryCarrier mantissa' :=
+    RatHistoryCarrier_hsame_transport sameMantissa carrier.left
+  have exponentUnary' : UnaryHistory exponent' :=
+    unary_transport carrier.right.left sameExponent
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport carrier.right.right.left sameLedger
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameExponent sameLedger carrier.right.right.right.left provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameMantissa carrier.right.right.right.right.left
+      endpointRow'
+  exact And.intro
+    (And.intro mantissaCarrier'
+      (And.intro exponentUnary'
+        (And.intro ledgerUnary'
+          (And.intro provenanceRow'
+            (And.intro endpointRow' pkgSig')))))
+        (And.intro exponentUnary' (And.intro sameProvenance sameEndpoint))
 
 def DyadicRatCorePacket
     (_mantissa exponent ledger provenance denominator window packet : BHist) : Prop :=
@@ -51,6 +100,15 @@ def DyadicRatCoreCarrier (mantissa exponent ledger provenance : BHist) : Prop :=
   RatHistoryCarrier mantissa ∧ PositiveUnaryDenominator exponent ∧ UnaryHistory provenance ∧
     Cont exponent mantissa ledger ∧ UnaryHistory ledger
 
+def DyadicRatCoreClassifier
+    (mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' common
+      leftScale rightScale : BHist) : Prop :=
+  DyadicRatCoreCarrier mantissa exponent ledger provenance ∧
+    DyadicRatCoreCarrier mantissa' exponent' ledger' provenance' ∧
+      PositiveUnaryDenominator common ∧ Cont exponent common leftScale ∧
+        Cont exponent' common rightScale ∧ RatHistoryClassifier leftScale rightScale ∧
+          hsame provenance provenance'
+
 theorem DyadicRatCoreCarrier_denominator_transport
     {mantissa exponent ledger provenance mantissa' exponent' ledger' provenance' : BHist} :
     DyadicRatCoreCarrier mantissa exponent ledger provenance ->
@@ -84,5 +142,21 @@ theorem DyadicRatCoreCarrier_denominator_transport
   exact And.intro carrier'
     (And.intro ledgerSame
       (And.intro mantissaCarrier' (And.intro exponentPositive' ledgerUnary')))
+
+theorem DyadicRatCoreCarrier_monotone_radius_refinement
+    {mantissa exponent ledger provenance tail refinedLedger : BHist} :
+    DyadicRatCoreCarrier mantissa exponent ledger provenance ->
+      UnaryHistory tail -> Cont ledger tail refinedLedger ->
+        PositiveUnaryDenominator (append exponent tail) ∧ UnaryHistory refinedLedger ∧
+          Cont ledger tail refinedLedger ∧ hsame refinedLedger (append ledger tail) := by
+  intro carrier tailUnary refinementRow
+  have exponentPositive : PositiveUnaryDenominator exponent := carrier.right.left
+  have exponentTailPositive : PositiveUnaryDenominator (append exponent tail) :=
+    PositiveUnaryDenominator_append_unary_tail exponentPositive tailUnary
+  have ledgerUnary : UnaryHistory ledger := carrier.right.right.right.right
+  have refinedLedgerUnary : UnaryHistory refinedLedger :=
+    unary_cont_closed ledgerUnary tailUnary refinementRow
+  exact And.intro exponentTailPositive
+    (And.intro refinedLedgerUnary (And.intro refinementRow refinementRow))
 
 end BEDC.Derived.DyadicRatCoreUp
