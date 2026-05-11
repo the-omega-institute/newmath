@@ -131,6 +131,23 @@ which such checking is meaningful. Together they explain why ``BEDC compiles
 itself'' has a legitimate L4-mid reading and no legitimate L4a or replacement
 reading.
 
+\subsection{Glossary}\label{subsec:reconstruction-glossary}
+
+The following terms name the local reconstruction conventions used in this
+section:
+\begin{itemize}
+  \item A shift-aware binder context is a lambda or Pi binder slot whose stored
+    domain is $\mathrm{shift}\ 0\ 1\ \mathrm{dom}$ rather than
+    $\mathrm{dom}$; this choice prevents capture by $\mathrm{var}\ 0$.
+  \item A closed binder domain is the domain of that lambda or Pi satisfying
+    $\mathrm{ClosedAt}\ 0$.
+  \item $\mathrm{BetaStarStep}$ is the reflexive-transitive closure of one-step
+    $\mathrm{BetaStep}$.
+  \item $\mathrm{BetaParallel}$ is Tait--Martin-L\"of style parallel reduction.
+  \item An atom shape is a term whose shape is either $\mathrm{sort}$ or
+    $\mathrm{var}\ i$.
+\end{itemize}
+
 \subsection{Internal Manifest Coverage}\label{subsec:internal-manifest-coverage}
 
 \texttt{BEDC.Manifest} is the Lean-side registry for paper-facing theorem
@@ -473,3 +490,43 @@ four standing audits at PR merge time:
 \end{itemize}
 The current state is coherent. Formal targets without full proof terms are
 reported as such, and the audit guarantees make this distinction enforceable.
+
+\subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
+
+The MetaCIC reconstruction has three foundation layers in Lean:
+\texttt{BEDC.MetaCIC.Syntax} defines the de Bruijn term grammar, contexts,
+lookup, shift, and substitution; \texttt{BEDC.MetaCIC.Beta} defines
+one-step beta reduction with congruence constructors; and
+\texttt{BEDC.MetaCIC.ClosedTerm} defines closure at a de Bruijn boundary
+together with the closure lemmas for shift and substitution. On this base,
+\texttt{BEDC.MetaCIC.Typing} exposes the shift-aware typing relation and its
+substitution surface.
+
+Substitution preservation is represented inside
+\texttt{BEDC.MetaCIC.Typing}. The closed binder-domain form,
+$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$,
+gives the binder-domain complete closed variant: when the substituted
+domain, source term, and binder-domain typing surface are closed at the
+relevant boundary, substitution preserves the resulting typing judgment.
+The same module family records the closedness, prefix-removal, and
+$\mathrm{HasType}$ projection lemmas used by that theorem.
+
+Subject reduction is represented by
+\texttt{BEDC.MetaCIC.SubjectReduction}. It contains the beta case, the main
+subject-reduction theorem parameterized by the substitution-preservation and
+stability premises, and the congruence cases for application heads,
+application arguments, lambda bodies, and Pi codomains. The confluence
+surface in \texttt{BEDC.MetaCIC.Confluence} supplies beta-star and parallel
+beta relations, the embedding of one-step beta into parallel beta, and
+diamond components for the variable, sort, application, lambda, and Pi
+cases. The normalization surface in
+\texttt{BEDC.MetaCIC.Normalization} proves the atomic no-step cases for
+sorts and closed variables, including the closed atomic normal-form theorem.
+
+The demonstration layer consists of \texttt{BEDC.MetaCIC.AtomInfer}, which
+infers and proves soundness for sort and variable atoms, and
+\texttt{BEDC.MetaCIC.TypedExamples}, which gives concrete typing derivations
+for variables, Pi terms, lambda identity terms, and applications. The whole
+MetaCIC reconstruction is maintained as axiom-free under
+\texttt{\#print axioms}: the audited theorem dependencies do not include
+\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.

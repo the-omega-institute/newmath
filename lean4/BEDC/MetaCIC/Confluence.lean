@@ -59,6 +59,60 @@ theorem betaStar_trans {t u v : Term} :
   | step htw hwu ih =>
       exact BetaStarStep.step htw (ih huv)
 
+theorem betaStarStep_lam_cong {d b b' : Term} :
+    BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.lam d t)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congLam d _ _ htw) ih
+
+theorem betaStarStep_app_left {f f' a : Term} :
+    BetaStarStep f f' → BetaStarStep (Term.app f a) (Term.app f' a) := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.app t a)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congApp1 _ _ a htw) ih
+
+theorem betaStarStep_app_right {f a a' : Term} :
+    BetaStarStep a a' → BetaStarStep (Term.app f a) (Term.app f a') := by
+  intro h
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.app f t)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congApp2 f _ _ htw) ih
+
+theorem betaStarStep_pi_cod (d : Term) {c c' : Term}
+    (h : BetaStarStep c c') :
+    BetaStarStep (Term.pi d c) (Term.pi d c') := by
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.pi d t)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congPiCod d _ _ htw) ih
+
+theorem betaStarStep_pi_dom {d d' : Term} (c : Term)
+    (h : BetaStarStep d d') :
+    BetaStarStep (Term.pi d c) (Term.pi d' c) := by
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.pi t c)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congPiDom _ _ c htw) ih
+
+theorem betaStarStep_lam_dom {d d' : Term} (b : Term)
+    (h : BetaStarStep d d') :
+    BetaStarStep (Term.lam d b) (Term.lam d' b) := by
+  induction h with
+  | refl t =>
+      exact BetaStarStep.refl (Term.lam t b)
+  | step htw hwu ih =>
+      exact BetaStarStep.step (BetaStep.congLamDom _ _ b htw) ih
+
 theorem betaParallel_refl (t : Term) :
     BetaParallel t t := by
   induction t with
@@ -91,6 +145,8 @@ theorem betaStep_to_parallel {t u : Term} :
       exact BetaParallel.lam (betaParallel_refl d) ih
   | congPiCod d c c' hcc' ih =>
       exact BetaParallel.pi (betaParallel_refl d) ih
+  | congPiDom d d' c hdd' ih =>
+      exact BetaParallel.pi ih (betaParallel_refl c)
   | congLamDom d d' b hdd' ih =>
       exact BetaParallel.lam ih (betaParallel_refl b)
 
