@@ -345,6 +345,43 @@ with that same public finite surface. The excluded limit, quotient, equality,
 completeness, hidden-tail, and bridge data are not coordinates of this surface.
 \end{proof}
 
+\begin{theorem}[FastCauchy modulus synchronization common RegSeqRat window]
+\label{thm:fastcauchy-modulus-synchronization-common-regseqrat-window}
+Let $F$ and $G$ be accepted $\FastCauchyUp$ packets. Suppose that both packets
+display the same accepted $\DyadicPrecisionUp$ row $D$, classifier-compatible
+$\CauchyModulusUp$ threshold rows over the precision indices selected by $D$,
+and a common scheduled $\StreamNameUp$ observation window. Then the two packets
+determine one finite $\RegSeqRatUp/\RealUp$ consumer package.
+
+The visible rows of this package are exactly the shared precision row $D$, the
+shared $\StreamNameUp$ schedule, the shared $\DyadicRatCoreUp$ endpoint rows,
+the synchronized $\CauchyModulusUp$ threshold rows, the late-pair radius
+ledgers, the displayed $\hsame$ rows, the displayed $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows carried by the two
+accepted packets. The package has no coordinate for a selected limit, quotient
+stream, host real equality, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project $F$ and $G$ through \autoref{def:fastcauchy-carrier}. The projections
+expose only the displayed precision, stream-window, modulus, dyadic endpoint,
+late-pair, transport, provenance, and local naming rows named in the statement.
+
+Apply \autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to each
+packet with the shared row $D$. Every requested precision index is therefore
+forced through the same displayed $\DyadicPrecisionUp$ window, so no consumer
+row can escape the shared schedule.
+
+Use \autoref{thm:fastcauchy-shared-window-regseqrat-handoff} on the two
+restricted handoffs. The classifier-compatible threshold rows and the common
+$\StreamNameUp$ window identify the same finite regular-sequence handoff rows,
+including the synchronized threshold rows and late-pair radius ledgers.
+
+Finally apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The
+$\RegSeqRatUp$ handoff and the finite $\RealUp$ boundary read the same finite
+surface, and the seal leaves no coordinate for selected limits, quotient
+streams, host real equality, completeness data, or standard bridge rows.
+\end{proof}
+
 \begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
 \label{thm:fastcauchy-standard-regseqrat-real-bridge}
 A standard bridge for the finite modulus-normalized $\FastCauchyUp$ packet
