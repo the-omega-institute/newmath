@@ -1,0 +1,202 @@
+\chapter{A Concrete Naming Certificate for $\ComputableRealUp$}
+\label{ch:concrete-instances-computablereal-namecert}
+
+The $\ComputableRealUp$ interface names effective real presentations by finite
+BEDC packets rather than by completed real objects. Following the
+Bishop--Bridges constructive-analysis treatment of explicit moduli and the
+Weihrauch computable-analysis treatment of names as effective approximation
+procedures, the packet below records a dyadic approximation program only
+through certified finite observation windows, a unary Cauchy modulus, dyadic
+endpoint rows, a regular-sequence handoff, and a $\RealUp$ seal boundary.
+
+\begin{definition}[ComputableReal source packet]
+\label{def:computable-real-source-packet}
+A $\ComputableRealUp$ source packet is a finite $\mathsf{BHist}$ record
+$$
+X=(s,\mu,d,r,\ell,h,c,p,n)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $s$ is a $\StreamNameUp$ observation schedule naming the certified
+finite windows through which the approximation program is read;
+\item $\mu$ is a unary $\CauchyModulusUp$ row naming, for each requested
+precision row, the finite threshold after which observations are compared;
+\item $d$ is the family of $\DyadicRatCoreUp$ packets read on the scheduled
+windows selected by $s$ and $\mu$;
+\item $r$ is the $\RegSeqRatUp$ regularity handoff ledger built from those
+dyadic packets and modulus rows;
+\item $\ell$ is the $\RealUp$ seal-source row that consumes the regular
+sequence surface without selecting a completed real value;
+\item $h$ records the componentwise $\hsame$ rows for stream windows, modulus
+rows, dyadic packets, regularity rows, and the seal source;
+\item $c$ records the $\Cont$ routes through which certified finite windows
+are read by downstream consumers;
+\item $p$ is the $\Pkg$ provenance row naming the
+$\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ dependency certificates;
+\item $n$ is the local $\NameCert_{\ComputableRealUp}$ registration row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{ComputableRealSource}(s,\mu,d,r,\ell,h,c,p,n)$. Its classifier
+compares two accepted packets by running the existing regular-sequence
+classifier on every certified finite window and transporting all displayed
+rows componentwise by $\hsame$ and $\Cont$. It does not quotient completed
+reals or appeal to host real equality.
+\end{definition}
+
+\begin{theorem}[ComputableReal NameCert obligation surface]
+\label{thm:computable-real-namecert-obligation-surface}
+The local $\NameCert_{\ComputableRealUp}$ obligation surface consists of five
+rows:
+\begin{enumerate}
+\item carrier habitation: the carrier is inhabited by the constant dyadic
+stream whose every certified window reads the same $\DyadicRatCoreUp$ zero
+packet, with the unary modulus selecting the first threshold row;
+\item classifier transport: accepted packets compare only by pointwise
+$\hsame$ transport of the displayed $\StreamNameUp$, $\CauchyModulusUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows;
+\item modulus-window stability: restricting, enlarging, or refining a
+certified finite window preserves the late-observation comparisons named by
+the same unary modulus row;
+\item $\RealUp$ seal handoff: every real-facing read factors through the
+$\RegSeqRatUp$ handoff surface and then through the displayed $\RealUp$ seal
+source row;
+\item ledger coverage: the packet exposes no row beyond the stream schedule,
+modulus table, dyadic approximation rows, regularity handoff, seal source,
+transport, continuation, provenance, and local naming registration.
+\end{enumerate}
+These rows are the complete seed obligation for constructive effective real
+names over certified dyadic approximations.
+\end{theorem}
+\begin{proof}
+For habitation, take the constant scheduled stream whose dyadic observation
+row is the certified zero packet. The unary modulus can select the first
+threshold for every precision request, and the regularity handoff reads
+identical dyadic endpoints on every finite window.
+
+For classifier transport, project the carrier of
+\autoref{def:computable-real-source-packet}. Each visible coordinate is a
+finite BEDC row, so the classifier is obtained by applying the
+$\RegSeqRatUp$ finite-window classifier after transporting the corresponding
+stream, modulus, dyadic, regularity, seal, continuation, provenance, and
+local naming rows.
+
+For window stability, compare two certified finite windows by passing to their
+displayed common refinement. The unary modulus still names the same threshold
+rows, and the dyadic observations beyond those thresholds are the rows already
+stored in the packet, so restriction and refinement do not create a new
+approximation object.
+
+Finally, the $\RealUp$ read is exactly the seal-source row $\ell$ fed by the
+regular-sequence ledger $r$. Since the carrier has no coordinate for a
+completed real, a quotient stream, a selected limit, or host real equality,
+the listed ledger rows exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[ComputableReal RealUp handoff]
+\label{thm:computable-real-realup-handoff}
+Every accepted $\ComputableRealUp$ packet presents a $\RealUp$ seal source
+only through its $\RegSeqRatUp$ regularity handoff, dyadic approximation rows,
+certified $\StreamNameUp$ windows, unary $\CauchyModulusUp$ threshold rows,
+and displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The handoff exports no completed real carrier, no selected limit, no quotient
+of Cauchy names, and no appeal to classical real completeness.
+\end{theorem}
+\begin{proof}
+Project the source packet of
+\autoref{def:computable-real-source-packet}. The rows $s$, $\mu$, and $d$
+give the scheduled dyadic approximation data, while $r$ is the regular
+rational handoff built from those finite observations.
+
+Read the seal-source row $\ell$. It is indexed by the same regularity handoff
+and therefore consumes only the finite scheduled windows, dyadic endpoint
+rows, modulus thresholds, transport rows, continuation routes, and provenance
+already visible in the carrier.
+
+No additional coordinate remains from which a completed real object or
+selected limiting value could be read. The $\RealUp$ handoff is therefore a
+finite source-surface handoff, not a completeness principle.
+\end{proof}
+
+\begin{theorem}[ComputableReal ledger coverage]
+\label{thm:computable-real-ledger-coverage}
+Every consumer of an accepted $\ComputableRealUp$ packet factors through the
+same finite ledger:
+$$
+(s,\mu,d,r,\ell,h,c,p,n).
+$$
+The stream schedule, modulus table, dyadic approximation rows, regularity
+handoff, seal source, transport rows, continuation routes, package provenance,
+and local naming registration cover all readable coordinates of the packet.
+
+Consequently the packet exports no oracle beyond its certified observation
+windows, no real-number quotient, no metric completion object, and no hidden
+standard bridge.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. Its tuple lists exactly nine coordinates,
+and each coordinate is a finite row over the existing BEDC kernel and
+certificate interfaces.
+
+Any stream-facing consumer reads $s$ and the certified windows named by $c$.
+Any rate-facing consumer reads $\mu$. Any approximation-facing consumer reads
+$d$. Any regular-sequence or real-facing consumer reads $r$ and $\ell$, with
+$h$, $p$, and $n$ carrying the transport and provenance required to keep those
+reads inside the same packet.
+
+Thus every consumer projection is one of the displayed coordinates or a
+projection through the listed transport and continuation rows. Since no other
+coordinate exists, external oracles, quotient reals, completion objects, and
+standard bridge data are outside the ledger.
+\end{proof}
+
+\begin{theorem}[ComputableReal standard bridge boundary]
+\label{thm:computable-real-standard-bridge-boundary}
+The standard mathematical reading of an accepted $\ComputableRealUp$ packet is
+the constructive effective real name consisting of an explicit dyadic
+approximation procedure and a unary convergence modulus. The BEDC bridge
+boundary is exactly the finite source surface of
+\autoref{def:computable-real-source-packet} together with the obligation rows
+of \autoref{thm:computable-real-namecert-obligation-surface},
+\autoref{thm:computable-real-realup-handoff}, and
+\autoref{thm:computable-real-ledger-coverage}.
+
+This bridge boundary is compatible with Bishop--Bridges constructive reals and
+Weihrauch-style computable names, but it does not assert classical real
+completeness, a quotient of names, extensional equality of completed reals, or
+a total comparison operation.
+\end{theorem}
+\begin{proof}
+Read the accepted packet as the finite program interface encoded by
+$s$, $\mu$, and $d$: certified windows select dyadic observations, and the
+unary modulus selects the finite thresholds at which precision requests are
+checked.
+
+Apply \autoref{thm:computable-real-namecert-obligation-surface} to identify
+the carrier, pointwise classifier, modulus-window stability, seal handoff, and
+ledger coverage rows. Apply
+\autoref{thm:computable-real-realup-handoff} to identify the only real-facing
+read, and apply \autoref{thm:computable-real-ledger-coverage} to rule out
+unlisted consumer coordinates.
+
+The resulting bridge boundary is therefore the standard effective real-name
+surface interpreted through finite BEDC rows. The external precedents explain
+the intended mathematical reading, while the BEDC packet itself retains only
+the displayed approximation, modulus, regularity, seal, transport, and
+provenance rows.
+\end{proof}
+
+\closureat{ComputableRealUp}{seedStr}
+
+\begin{closurestatus}{\ComputableRealUp}
+  \constructivestory{A computable real source is generated by certified finite stream-observation windows, a unary Cauchy modulus, dyadic approximation packets, a regular-sequence handoff, a RealUp seal source, and visible transport and provenance rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:computable-real-source-packet}, \autoref{thm:computable-real-namecert-obligation-surface}, \autoref{thm:computable-real-realup-handoff}, and \autoref{thm:computable-real-ledger-coverage} bind the seed carrier, obligation rows, real-seal handoff, and finite ledger coverage for constructive effective real names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close classical real completeness, quotient equality of names, total comparison of completed reals, selected limits, or a machine-checked standard bridge.}
+  \upgradepath{Formal carrier, classifier, modulus-window stability, RealUp handoff, ledger coverage, and bridge-boundary targets are required before the surface can move beyond seed status.}
+\end{closurestatus}
