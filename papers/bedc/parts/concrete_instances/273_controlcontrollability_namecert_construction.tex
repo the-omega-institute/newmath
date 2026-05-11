@@ -10,6 +10,7 @@ The $\ControlControllabilityUp$ interface records the finite reachability surfac
 \label{def:controlcontrollability-carrier}
 A $\ControlControllabilityUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state-carrier row, an input-carrier row, a transition-matrix row $A$, a control-matrix row $B$, a finite horizon unary row $n$, the displayed reachability columns $B,AB,\ldots,A^{n-1}B$, a reachability-matrix row collecting those columns, $\hsame$ comparisons between corresponding finite rows, $\Cont$ provenance for each displayed multiplication and column append, and $\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$.
 \end{definition}
+\leandef{BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier}
 
 \begin{definition}[ControlControllability classifier]
 \label{def:controlcontrollability-classifier}
@@ -23,6 +24,7 @@ Two $\ControlControllabilityUp$ carriers are classified as the same finite reach
 \label{thm:controlcontrollability-reachability-ledger}
 Every accepted $\ControlControllabilityUp$ packet exposes exactly the state-carrier row, input-carrier row, transition row $A$, control row $B$, finite horizon row $n$, displayed reachability columns $B,AB,\ldots,A^{n-1}B$, reachability-matrix row, $\hsame$ transports, $\Cont$ provenance, and $\mathsf{Pkg}$ dependency rows of \autoref{def:controlcontrollability-carrier}. It exports no host reachable subspace, rank theorem, Kalman decomposition, analytic trajectory semantics, or infinite-horizon object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityReachabilityPacket\_reachability\_ledger}
 \begin{proof}
 Project the accepted carrier to the rows listed in \autoref{def:controlcontrollability-carrier}. The state, input, transition, control, horizon, column, reachability-matrix, transport, continuation, and provenance rows are visible as finite $\mathsf{BHist}$ coordinates.
 
@@ -71,6 +73,7 @@ The packet contains no coordinate for a host reachable subspace, no Kalman decom
 \label{thm:controlcontrollability-namecert-obligation-surface}
 The local $\NameCert_{\ControlControllabilityUp}$ seed surface consists of the carrier and classifier rows of \autoref{def:controlcontrollability-carrier} and \autoref{def:controlcontrollability-classifier}, the finite reachability-ledger row of \autoref{thm:controlcontrollability-reachability-ledger}, the reachability-column transport obligation of \autoref{thm:controlcontrollability-column-transport-obligation}, the classifier stability obligation of \autoref{thm:controlcontrollability-classifier-stability-obligation}, and the dependency scope obligation of \autoref{thm:controlcontrollability-dependency-scope-obligation}.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Start with the finite carrier and classifier. They determine the visible packet shape and the rowwise comparison relation for all state, input, transition, control, horizon, column, reachability-matrix, continuation, and provenance coordinates.
 

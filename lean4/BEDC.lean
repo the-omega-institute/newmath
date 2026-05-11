@@ -101,6 +101,7 @@ import BEDC.Derived.GaloisExtUp.StdBridge
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HolonomyUp
@@ -130,6 +131,7 @@ import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
+import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.UnitaryGroupUp
@@ -151,6 +153,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
+import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
@@ -381,7 +384,6 @@ import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
-import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
