@@ -78,6 +78,20 @@ from $\emp$ rules out the displayed history sameness.
 \end{proof}
 \leanchecked{BEDC.FKernel.Cont.append\_visible\_left\_empty\_absurd}
 
+\begin{theorem}[Append visible-right empty exclusion]
+\label{thm:append-visible-right-empty-absurd}
+For histories $h,k:\mathsf{BHist}$, appending a visible right tail cannot produce an internally empty history:
+both $\HSame(\mathsf{append}(h,\Ezero(k)),\emp)\to\bot$ and $\HSame(\mathsf{append}(h,\Eone(k)),\emp)\to\bot$ hold.
+\end{theorem}
+\begin{proof}
+Appending a visible right tail exposes that visible constructor at the result.
+Thus the result has outer constructor $\Ezero$ or $\Eone$, respectively.
+
+In both cases, history no-confusion with $\emp$ rules out the displayed
+history sameness.
+\end{proof}
+\leanchecked{BEDC.FKernel.Cont.append\_visible\_right\_empty\_absurd}
+
 \begin{theorem}[Append visible-left same-tail tag separation]
 \label{thm:append-visible-left-same-tail-tag-separation}
 For histories $h_0,h_1,k:\mathsf{BHist}$, common right-tail append preserves
