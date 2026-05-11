@@ -139,6 +139,7 @@ provenance, and $\NameCert$ row. It exposes those rows as the common surface
 for $\RegSeqRatUp$ and $\RealUp$ consumers without adding quotient real
 equality, a completed metric object, or a selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchySeqUp.FastCauchySeqPacket\_public\_explicit\_rate\_export}
 \begin{proof}
 Project the packet through \autoref{def:fastcauchyseq-carrier}. This exposes
 the scheduled stream, explicit threshold table, dyadic endpoint and radius
@@ -422,6 +423,44 @@ Finally cite \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
 restrictions are exactly the handoff and seal-boundary interfaces used above,
 so no quotient real equality, selected limit, completed metric object, or
 hidden threshold selector is added.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq prefix-modulus Real seal factorization]
+\label{thm:fastcauchyseq-prefix-modulus-real-seal-factorization}
+Let $F$ and $F'$ be accepted $\FastCauchySeqUp$ packets with a shared
+prefix-window eventual lock. Then every $\RegSeqRatUp$ handoff and every
+$\RealUp$ seal-boundary read over that locked prefix factors through one
+prefix-modulus packet.
+
+The prefix-modulus packet contains exactly the transported
+$\CauchyModulusUp$ threshold, the $\DyadicRatCoreUp$ endpoint-radius rows, the
+late-pair ledger, the visible $\hsame$ and $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance, and the local $\NameCert$ row. It contains no
+quotient real equality, selected limit, completed metric object, hidden
+threshold selector, or $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:fastcauchyseq-modulus-precision-window-factorization} to both
+accepted packets. Each side presents its $\RegSeqRatUp$ handoff and $\RealUp$
+seal-boundary read through a finite packet carrying the selected modulus
+threshold, dyadic endpoint-radius rows, late-pair ledger, transport,
+provenance, and local naming rows.
+
+Use \autoref{thm:fastcauchyseq-synchronized-precision-window} to identify the
+transported rows. The synchronized window equates the visible threshold,
+endpoint-radius, late-pair, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ coordinates without adding a second threshold selector.
+
+Now apply \autoref{thm:fastcauchyseq-prefix-window-eventual-lock}. The lock
+collapses the synchronized selected prefixes to one shared prefix-modulus
+packet, so both finite displays feed the same consumer-readable data.
+
+Finish with \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff} and
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. These two consumer
+boundaries read only the displayed prefix-modulus packet, hence no quotient
+real equality, selected limit, completed metric object, hidden threshold
+selector, or $\RealUp$ completeness row is introduced.
 \end{proof}
 
 \closureat{FastCauchySeqUp}{obligationStr}
