@@ -253,3 +253,46 @@ constant StreamName finite-window rows and the displayed $\Cont/\hsame$ ledger.
 Therefore every available RealUp source row factors through the unique
 StreamName component on $K$.
 \end{proof}
+
+\begin{theorem}[StreamName constant directed RealUp seal classifier determinacy]
+\label{thm:streamname-constant-directed-realup-seal-classifier-determinacy}
+Let $a,b:\Hist$ be rational-history endpoints, and let
+$\{I_i\}_{i\in I}$ and $\{J_j\}_{j\in J}$ be directed finite inhabited
+constant rational $\StreamNameUp$ window families over those endpoints.
+Assume that their directed overlap rows expose the same
+$\mathsf{RatHistoryClassifier}(a,b)$ row, the same finite
+$\mathsf{ProbeBundle}$ ledger, and the displayed $\mathsf{UnaryHistory}$,
+$\hsame$, $\Cont$, and $\Pkg$ rows. Let two finite-window $\RealUp$ seals
+consume these families through $\RegSeqRat$ stream-certificate spines
+compatible with the displayed constant-window rows.
+
+Then the two seals export the same $\RealUp$ observation classifier row. The
+classifier factors through the constant $\StreamNameUp$ finite-window package,
+the $\RegSeqRat$ constant stream spine, and the displayed seal handoff. It
+reads no completion, quotient, host stream equality, hidden selector,
+arithmetic or order package, or standard bridge.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-constant-window-directed-realup-source-uniqueness}.
+The two seals see the same public $\StreamNameUp$ source on every common
+directed subwindow, namely the constant rational stream row determined by
+$\mathsf{RatHistoryClassifier}(a,b)$ and the shared finite
+$\mathsf{ProbeBundle}$ ledger.
+
+Next use \autoref{thm:regseqrat-reindexed-constant-stream-spine}. The common
+constant StreamName row supplies compatible $\RegSeqRat$ stream-certificate
+spines for the reindexed constant streams. Apply
+\autoref{thm:regseqrat-constant-stream-seal-classifier-package} to those
+spines and to the displayed seal classifier row; the resulting package is the
+RealUp observation classifier exported by each finite-window seal.
+
+Finally use
+\autoref{thm:streamname-constant-window-directed-regseq-real-tail-boundary}.
+That boundary keeps the selected $\RegSeqRat$ tail and the RealUp handoff
+inside the displayed $\mathsf{UnaryHistory}$, $\mathsf{ProbeBundle}$,
+$\hsame$, $\Cont$, $\Pkg$, and rational-classifier rows. Since both seals
+consume exactly that finite surface, no completion, quotient, host stream
+equality, hidden selector, arithmetic or order package, or standard bridge can
+distinguish their exported classifier rows.
+\end{proof}
