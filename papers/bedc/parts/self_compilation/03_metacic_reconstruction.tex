@@ -414,6 +414,25 @@ judgment, the polymorphic identity, and variable lookup.
 \texttt{BEDC.MetaCIC.LeanBridge} carries one worked encoding of a host CIC
 term into MetaCIC with its $\mathrm{HasType}$ derivation.
 
+\paragraph{Reflection bridge layer.} \texttt{BEDC.MetaCIC.HostBridge}
+provides $\mathrm{reflectExpr} : \mathrm{Lean.Expr} \to
+\mathrm{Option}\ \mathrm{Term}$ via the Lean elaboration monad, plus
+the elab command \texttt{\#reflect\_metacic} for printing the
+encoding of host terms. The metaprogramming layer is outside the
+pure-CIC discipline by design (\texttt{Lean.Expr} is host elaboration
+data), but the output $\mathrm{Term}$ values remain pure-CIC data.
+
+\paragraph{Term-induction technique.} The substitute preservation
+investigation uses two complementary induction schemes:
+$\mathrm{induction}\ ht$ on $\mathrm{HasType}$ derivations and
+$\mathrm{induction}\ t$ on $\mathrm{Term}$ syntax. The HasType
+induction is canonical for typing-rule case analysis; the Term
+induction is canonical for closure-propagation lemmas. Lemmas such as
+$\mathrm{substitute\_closed\_source\_closes\_anchor\_via\_term\_induction}$
+demonstrate the Term-induction angle producing real proofs at
+positions where HasType-induction repeatedly hit substrate
+counterexamples.
+
 \paragraph{Decidable layer.} \texttt{BEDC.MetaCIC.Checker} provides
 $\mathrm{Term.beq}$, structural equality on terms, with soundness
 $\mathrm{Term.beq\_eq}$; $\mathrm{infer}$, type inference returning
