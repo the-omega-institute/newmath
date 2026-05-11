@@ -1,4 +1,4 @@
-import BEDC.Derived.FastCauchyUp
+import BEDC.Derived.FastCauchyUp.FinitePacketWindows
 
 namespace BEDC.Derived.FastCauchyUp
 
