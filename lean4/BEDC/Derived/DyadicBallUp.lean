@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -142,5 +144,101 @@ theorem DyadicBallFiniteCarrier_radius_refinement_closure [AskSetup] [PackageSet
         routeUnary', provenanceUnary', nameRowUnary', containmentRow', routeRow',
         nameRowRoute', pkgRow'⟩,
       sameRoute, sameNameRow⟩
+theorem DyadicBallPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          DyadicBallPacket center radius schedule observation containment route provenance endpoint
+              bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint ⟨packet, hsame_refl endpoint⟩
+      equiv_refl := by
+        intro row _carrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' same carrier
+        exact ⟨carrier.left, hsame_trans (hsame_symm same) carrier.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
+def DyadicBallRegSeqRatWindow [AskSetup] [PackageSetup]
+    (center radius schedule observation containment transportWindow regWindow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory transportWindow ∧
+      UnaryHistory regWindow ∧ Cont center radius transportWindow ∧
+        Cont observation containment regWindow ∧ PkgSig bundle regWindow pkg
+
+def DyadicBallFiniteEnclosure [AskSetup] [PackageSetup]
+    (center radius schedule observation containment transportWindow regWindow certRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory schedule ∧
+    UnaryHistory observation ∧ UnaryHistory containment ∧ UnaryHistory transportWindow ∧
+      UnaryHistory regWindow ∧ UnaryHistory certRow ∧
+        Cont center radius transportWindow ∧ Cont observation containment regWindow ∧
+          Cont transportWindow regWindow certRow ∧ PkgSig bundle regWindow pkg
+
+theorem DyadicBallFiniteEnclosure_regseqrat_window_handoff [AskSetup] [PackageSetup]
+    {center radius schedule observation containment transportWindow regWindow certRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallFiniteEnclosure center radius schedule observation containment transportWindow
+        regWindow certRow bundle pkg ->
+      DyadicBallRegSeqRatWindow center radius schedule observation containment transportWindow
+          regWindow bundle pkg ∧
+        Cont center radius transportWindow ∧ Cont observation containment regWindow ∧
+          PkgSig bundle regWindow pkg := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary,
+    transportUnary, regUnary, _certUnary, centerRadiusRoute, observationContainmentRoute,
+    _certRoute, pkgRow⟩ := packet
+  exact
+    ⟨⟨centerUnary, radiusUnary, scheduleUnary, observationUnary, containmentUnary,
+        transportUnary, regUnary, centerRadiusRoute, observationContainmentRoute, pkgRow⟩,
+      centerRadiusRoute, observationContainmentRoute, pkgRow⟩
+
+theorem DyadicBallPacket_classifier_transport [AskSetup] [PackageSetup]
+    {center radius schedule observation containment route provenance endpoint center' radius'
+      schedule' observation' containment' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicBallPacket center radius schedule observation containment route provenance endpoint
+        bundle pkg ->
+      hsame center center' ->
+        hsame radius radius' ->
+          hsame observation observation' ->
+            hsame route route' ->
+              hsame provenance provenance' ->
+                Cont center' radius' schedule' ->
+                  Cont schedule' observation' containment' ->
+                    Cont containment' route' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        DyadicBallPacket center' radius' schedule' observation' containment'
+                            route' provenance' endpoint' bundle pkg ∧
+                          hsame schedule schedule' ∧ hsame containment containment' ∧
+                            hsame endpoint endpoint' := by
+  exact DyadicBallPacket_classifier_laws
 
 end BEDC.Derived.DyadicBallUp
