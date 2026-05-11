@@ -621,52 +621,74 @@ theorem closed_term_substitute_preserves_typing
     {Γ : Ctx} {t s A B : Term}
     (hwf : WellFormedCtx (B :: Γ))
     (hclosed_B : ClosedAt 0 B)
-    (_hclosed_s : ClosedAt 0 s)
+    (hclosed_s : ClosedAt 0 s)
     (ht : HasType (B :: Γ) t A)
     (hs : HasType Γ s B)
     (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
     HasType Γ (substitute 0 s t) (substitute 0 s A) := by
-  cases ht with
-  | sortRule Γ' =>
-      exact HasType.sortRule Γ
-  | varRule Γ' i A hi =>
-      cases i with
-      | zero =>
-          rw [substitute_var_zero]
-          rw [lookup_cons_zero] at hi
-          cases hi
-          rw [substitute_closed 0 s A hclosed_B]
-          exact hs
-      | succ n =>
-          rw [substitute_var_succ_zero]
-          rw [lookup_cons_succ] at hi
-          cases hlook : Ctx.lookup Γ n with
-          | none =>
-              rw [hlook] at hi
-              cases hi
-          | some T =>
-              rw [hlook] at hi
-              cases hi
-              rw [substitute_shift_at_eq]
-              exact HasType.varRule Γ n T hlook
-  | piRule Γ' dom cod hdom hcod =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
-  | lamRule Γ' dom body cod hdom hbody =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
-  | appRule Γ' f a dom cod hf ha =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
+  have aux :
+      ∀ {Δ : Ctx} {t A : Term},
+        HasType Δ t A →
+        ∀ {Γ : Ctx} {B : Term},
+          Δ = B :: Γ →
+          WellFormedCtx (B :: Γ) →
+          ClosedAt 0 B →
+          ClosedAt 0 s →
+          HasType Γ s B →
+          (t = Term.sort ∨ ∃ i : Idx, t = Term.var i) →
+          HasType Γ (substitute 0 s t) (substitute 0 s A) := by
+    intro Δ t A ht
+    induction ht with
+    | sortRule Δ =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs _hshape
+        exact HasType.sortRule Γ
+    | varRule Δ i A hi =>
+        intro Γ B hΔ _hwf hclosed_B hclosed_s hs _hshape
+        cases hΔ
+        cases i with
+        | zero =>
+            rw [lookup_cons_zero] at hi
+            cases hi
+            exact
+              (substitute_var_zero_preserves_typing_closed_anchor
+                hclosed_s
+                hclosed_B
+                hs
+                (HasType.varRule (A :: Γ) 0 A (lookup_cons_zero Γ A))).right
+        | succ n =>
+            rw [substitute_var_succ_zero]
+            rw [lookup_cons_succ] at hi
+            cases hlook : Ctx.lookup Γ n with
+            | none =>
+                rw [hlook] at hi
+                cases hi
+            | some T =>
+                rw [hlook] at hi
+                cases hi
+                rw [substitute_shift_at_eq]
+                exact HasType.varRule Γ n T hlook
+    | piRule Δ dom cod hdom hcod ihdom ihcod =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | lamRule Δ dom body cod hdom hbody ihdom ihbody =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | appRule Δ f a dom cod hf ha ihf iha =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+  exact aux ht rfl hwf hclosed_B hclosed_s hs hshape
 
 /-- 闭合替换保持完整语句的最小反例项。 -/
 def closedSubstituteCounterTerm : Term :=
