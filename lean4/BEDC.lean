@@ -56,6 +56,7 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
@@ -174,6 +175,7 @@ import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.ControlControllabilityUp
+import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRow
