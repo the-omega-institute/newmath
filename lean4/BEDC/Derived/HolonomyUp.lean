@@ -6,6 +6,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.Commutativity
 
 namespace BEDC.Derived.HolonomyUp
 
@@ -272,5 +273,80 @@ theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageS
     (And.intro packet.right.right.right.right.right.right.right.left
       (And.intro packet.right.right.right.right.right.right.right.right.left
         packet.right.right.right.right.right.right.right.right.right))
+
+theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [PackageSetup]
+    {bundle bundle' connection connection' loop loop' endpoint endpoint' curvature curvature'
+      ledger ledger' provenance provenance' : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loop endpoint curvature ledger provenance
+        probeBundle pkg ->
+      hsame bundle bundle' ->
+        hsame connection connection' ->
+          hsame loop loop' ->
+            hsame curvature curvature' ->
+              hsame provenance provenance' ->
+                Cont loop' connection' ledger' ->
+                  Cont ledger' curvature' endpoint' ->
+                    PkgSig probeBundle endpoint' pkg ->
+                      HolonomyTransportCarrier bundle' connection' loop' endpoint' curvature'
+                          ledger' provenance' probeBundle pkg ∧
+                        hsame ledger ledger' ∧ hsame endpoint endpoint' := by
+  intro carrier sameBundle sameConnection sameLoop sameCurvature sameProvenance
+  intro ledgerRow' endpointRow' pkgSig'
+  have bundleUnary' : UnaryHistory bundle' :=
+    unary_transport carrier.left sameBundle
+  have connectionUnary' : UnaryHistory connection' :=
+    unary_transport carrier.right.left sameConnection
+  have loopUnary' : UnaryHistory loop' :=
+    unary_transport carrier.right.right.left sameLoop
+  have curvatureUnary' : UnaryHistory curvature' :=
+    unary_transport carrier.right.right.right.right.left sameCurvature
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameLoop sameConnection
+      carrier.right.right.right.right.right.right.right.left ledgerRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed loopUnary' connectionUnary' ledgerRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLedger sameCurvature
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed ledgerUnary' curvatureUnary' endpointRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport carrier.right.right.right.right.right.right.left sameProvenance
+  exact
+    And.intro
+      (And.intro bundleUnary'
+        (And.intro connectionUnary'
+          (And.intro loopUnary'
+            (And.intro endpointUnary'
+              (And.intro curvatureUnary'
+                (And.intro ledgerUnary'
+                  (And.intro provenanceUnary'
+                    (And.intro ledgerRow'
+                      (And.intro endpointRow' pkgSig')))))))))
+      (And.intro sameLedger sameEndpoint)
+
+theorem HolonomyTransportPacket_loop_source_obligation [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvature ledger pkgRow : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvature ledger pkgRow probe pkg ->
+      UnaryHistory bundle ∧ UnaryHistory connection ∧ UnaryHistory loop ∧
+        UnaryHistory endpoint ∧ UnaryHistory ledger ∧
+          hsame endpoint (append loop connection) ∧
+            hsame ledger (append endpoint curvature) ∧ PkgSig probe pkgRow pkg := by
+  intro packet
+  have endpointFromConnection : hsame endpoint (append connection loop) :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointFromLoop : hsame endpoint (append loop connection) :=
+    hsame_trans endpointFromConnection
+      (unary_append_comm_hsame packet.right.left packet.right.right.left)
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.right.left
+             (And.intro endpointFromLoop
+               (And.intro packet.right.right.right.right.right.right.right.right.left
+                 packet.right.right.right.right.right.right.right.right.right))))))
 
 end BEDC.Derived.HolonomyUp
