@@ -119,12 +119,30 @@ A later $\MetricSpaceUp$ or real-order consumer may consume exactly the $\Apartn
 
 Such a consumer cannot read a host real inequality, total order, trichotomy decision, quotient carrier, or completion datum from the $\ApartnessRealUp$ certificate surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealSeparationPacket\_metric\_consumer\_separation\_boundary}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealCarrier\_metric\_consumer\_separation\_boundary}
 \begin{proof}
 Apply \autoref{thm:apartnessreal-namecert-obligation-surface}. Its carrier, classifier, exactness, and ledger-visibility rows expose precisely the finite endpoint, radius, window, readback, and separation-ledger data named in \autoref{def:apartnessreal-finite-window-separation-row}.
 
 Apply \autoref{thm:apartnessreal-symmetry-stability} to account for the reversible orientation required by apartness consumers. The symmetry operation swaps only the two endpoint rows and the two endpoint readbacks while preserving the same positive radius, finite window, and provenance rows.
 
 Finally apply \autoref{thm:apartnessreal-metric-handoff}. That handoff is already limited to finite positive-separation evidence for downstream metric or order constructions. Composing these three surfaces leaves the consumer with the finite-window row and no additional coordinate from which host inequality, total order, quotient, or completion data could be extracted.
+\end{proof}
+
+\begin{theorem}[ApartnessReal located-window positive gap handoff]
+\label{thm:apartnessreal-located-window-positive-gap-handoff}
+Let $L$ and $R$ be displayed $\LocatedRealUp$ packets. Suppose they share a finite $\StreamNameUp$ observation window and their $\DyadicRatCoreUp$ endpoint ledgers display two disjoint enclosures with positive dyadic gap row $\rho$. If the two endpoint real-name rows, the common finite window, the two endpoint readbacks, and the visible gap ledger are all carried by the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance of the two packets, then the tuple consisting of those two endpoint real-name rows, $\rho$, the common finite window, the two endpoint readbacks, and the visible separation ledger repacks as an accepted $\ApartnessRealUp$ finite-window separation row in the sense of \autoref{def:apartnessreal-finite-window-separation-row}.
+
+The handoff exports finite positive-gap evidence only. It does not decide equality of real names, does not supply trichotomy or a total order, and does not identify located real packets by a quotient or host real equality.
+\end{theorem}
+\begin{proof}
+Project both located packets through \autoref{def:locatedreal-carrier-surface}. The carrier surface exposes the $\RegSeqRatUp$ source rows, the $\StreamNameUp$ schedule row, the $\DyadicRatCoreUp$ endpoint ledger, and the locatedness classifier rows, all tied to the visible provenance.
+
+Apply \autoref{thm:locatedreal-scope-regseqrat-dyadic-window} to read the shared observation window as a finite scheduled window. Apply \autoref{thm:locatedreal-interval-ledger-exactness} to identify the two endpoint readbacks with rows of the displayed dyadic endpoint ledgers.
+
+The disjoint-enclosure hypothesis supplies the positive dyadic gap row $\rho$. Repack that row as the separation ledger, using the same common window, endpoint readbacks, and provenance rows already projected from the two located packets.
+
+Finally apply \autoref{thm:apartnessreal-finite-window-separation-transport} and then \autoref{thm:apartnessreal-metric-consumer-separation-boundary}. The first theorem identifies the repacked tuple as a stable finite-window separation row, and the second theorem restricts every later metric or order consumer to exactly that finite apartness evidence.
 \end{proof}
 
 \begin{theorem}[ApartnessReal real separation scope]
@@ -144,11 +162,12 @@ The carrier and classifier coordinate lists contain only those finite rows. Ther
 
 \closureat{ApartnessRealUp}{seedStr}
 \closureat{ApartnessRealUp}{obligationStr}
+\closureat{ApartnessRealUp}{scopedStr}
 
 \begin{closurestatus}{\ApartnessRealUp}
   \constructivestory{An apartness-real packet is generated from two displayed $\RealUp$ or $\RegSeqRatUp$ names, a positive $\DyadicRatCoreUp$ radius, a finite $\StreamNameUp$ observation window, two endpoint readbacks, and a visible separation ledger transported componentwise by $\hsame$ and $\Cont$.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation boundary binds the finite positive-separation carrier, classifier transport, symmetry swap, exactness, finite-window separation, metric handoff, and ledger visibility rows for $\ApartnessRealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped boundary binds exactly the finite positive-separation carrier, classifier transport, symmetry swap, finite-window separation, metric handoff, real-separation scope, and their $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance for $\ApartnessRealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
