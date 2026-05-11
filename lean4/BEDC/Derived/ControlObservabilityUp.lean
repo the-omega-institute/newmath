@@ -252,6 +252,25 @@ theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [Package
         (And.intro packet.right.right.right.right.right.right.right.left
           packet.right.right.right.right.right.right.right.right)
 
+theorem ControlObservationPacket_zero_dimensional_observation_ledger [AskSetup] [PackageSetup]
+    {transition output observationMatrix traceLedger endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservationPacket BHist.Empty transition output observationMatrix traceLedger endpoint
+        bundle pkg ->
+      Cont observationMatrix traceLedger endpoint' ->
+        hsame endpoint endpoint' ->
+          hsame observationMatrix (append transition output) ∧
+            hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg := by
+  intro packet _endpointRow sameEndpoint
+  have observationMatrixDisplayed :
+      hsame observationMatrix (append (append BHist.Empty transition) output) :=
+    packet.right.right.right.right.right.right.left
+  have emptyTransitionOutput : hsame (append (append BHist.Empty transition) output)
+      (append transition output) := by
+    exact congrArg (fun row : BHist => append row output) (append_empty_left transition)
+  exact And.intro (hsame_trans observationMatrixDisplayed emptyTransitionOutput)
+    (And.intro sameEndpoint packet.right.right.right.right.right.right.right.right)
+
 def ControlObservabilityPacket
     (state transition output observation matrix trace packet : BHist) : Prop :=
   Cont state transition observation ∧ Cont observation output matrix ∧ Cont matrix trace packet
