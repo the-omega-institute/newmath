@@ -665,6 +665,43 @@ rationals, host equality, completed real endpoints, and real-completeness data
 from the composed boundary.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore directed refinement common window]
+\label{thm:dyadicratcore-directed-refinement-common-window}
+Let $P$, $P'$, and $P''$ be public $\DyadicRatCoreUp$ packets. Suppose two displayed denominator-refinement routes through the standard source bridge carry $P$ to $P'$ and carry $P'$ to $P''$. Then any two $\RegSeqRat$ finite-window handoffs consuming the resulting refined packets factor through one common monotone unary radius window.
+
+The rows of this common window are exactly the signed mantissa row, refined exponent row, refined denominator ledger, common-exponent classifier, distance-window rows, $\mathsf{BHist}$ carrier rows, $\hsame$ transport rows, $\Cont$ readback rows, and $\mathsf{Pkg}$ provenance rows named by \autoref{thm:dyadicratcore-standard-source-bridge}, \autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-composition}, \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}, and \autoref{thm:dyadicratcore-regseqrat-radius-window-composition}. The common window exports no quotient rational, host equality row, completed $\RealUp$ endpoint, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+First compose the two displayed denominator-refinement routes by
+\autoref{thm:dyadicratcore-standard-bridge-denominator-refinement-composition}.
+The composed bridge route identifies the refined denominator ledger carried by
+$P'$ with the source denominator ledger consumed by the route into $P''$, while
+leaving the signed mantissa, refined exponent, common-exponent classifier,
+distance rows, carrier rows, transport rows, readback rows, and package
+provenance inside the displayed standard source inventory.
+
+Next apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness} to the
+two $\RegSeqRat$ handoffs. Each handoff reads only the finite dyadic bridge
+rows: signed mantissas, refined unary exponents, denominator ledgers,
+common-exponent classifiers, distance and radius windows, $\mathsf{BHist}$
+carrier data, $\hsame$ transport, $\Cont$ readback, and $\mathsf{Pkg}$
+provenance.
+
+Now use \autoref{thm:dyadicratcore-regseqrat-radius-window-composition} for the
+two handoff windows, and then
+\autoref{thm:dyadicratcore-regseqrat-radius-monotone-window-extraction} for the
+composed packet. The resulting monotone unary radius window is common to both
+routes because both are read through the same composed denominator-refinement
+ledger.
+
+Finally inspect the exclusion clauses of
+\autoref{thm:dyadicratcore-public-readback-envelope} and
+\autoref{thm:dyadicratcore-standard-source-bridge}. Neither envelope has a row
+for quotient rationals, host equality, completed real endpoints, or real
+completeness, so no $\RegSeqRat$ handoff factored through the common window can
+export such data.
+\end{proof}
+
 \closureat{DyadicRatCoreUp}{publicStr}
 \closureat{DyadicRatCoreUp}{bridgedStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
 \closureat{DyadicRatCoreUp}{matureStr}[BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_standard\_source\_bridge]
