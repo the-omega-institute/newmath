@@ -68,6 +68,22 @@ theorem HolonomyTransportCarrier_namecert_obligation_surface [AskSetup] [Package
       exact source
   }
 
+theorem HolonomyTransportCarrier_curvature_loop_boundary [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvature ledger provenance : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loop endpoint curvature ledger provenance
+        probeBundle pkg ->
+      UnaryHistory loop ∧ UnaryHistory curvature ∧ UnaryHistory ledger ∧
+        Cont loop connection ledger ∧ Cont ledger curvature endpoint ∧
+          PkgSig probeBundle endpoint pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨_bundleUnary, _connectionUnary, loopUnary, _endpointUnary, curvatureUnary, ledgerUnary,
+      _provenanceUnary, loopConnectionLedger, ledgerCurvatureEndpoint, endpointPkg⟩
+  exact
+    ⟨loopUnary, curvatureUnary, ledgerUnary, loopConnectionLedger, ledgerCurvatureEndpoint,
+      endpointPkg⟩
+
 def HolonomyBHistTransportCarrier [AskSetup] [PackageSetup]
     (bundleRow connectionRow loopRow endpointRow curvatureRow controlRow ledgerRow
       dependencyRow : BHist)
@@ -357,6 +373,49 @@ theorem HolonomyTransportPacket_certificate_boundary [AskSetup] [PackageSetup]
                   (And.intro packet.right.right.right.right.right.right.right.left
                     (And.intro packet.right.right.right.right.right.right.right.right.left
                       packet.right.right.right.right.right.right.right.right.right)))))))))
+
+theorem HolonomyTransportPacket_curvature_loop_boundary [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint endpoint' curvatureLedger curvatureLedger'
+      compositionLedger compositionLedger' provenance provenance' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvatureLedger compositionLedger
+        provenance probe pkg ->
+      hsame endpoint endpoint' ->
+        hsame curvatureLedger curvatureLedger' ->
+          hsame provenance provenance' ->
+            Cont endpoint' curvatureLedger' compositionLedger' ->
+              PkgSig probe provenance' pkg ->
+                HolonomyTransportPacket bundle connection loop endpoint' curvatureLedger'
+                    compositionLedger' provenance' probe pkg ∧
+                  hsame compositionLedger compositionLedger' := by
+  intro packet sameEndpoint sameCurvatureLedger sameProvenance compositionLedgerRow'
+    pkgSig'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport packet.right.right.right.left sameEndpoint
+  have curvatureLedgerUnary' : UnaryHistory curvatureLedger' :=
+    unary_transport packet.right.right.right.right.left sameCurvatureLedger
+  have compositionLedgerUnary' : UnaryHistory compositionLedger' :=
+    unary_cont_closed endpointUnary' curvatureLedgerUnary' compositionLedgerRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport packet.right.right.right.right.right.right.left sameProvenance
+  have endpointRow' : Cont connection loop endpoint' :=
+    cont_result_hsame_transport packet.right.right.right.right.right.right.right.left
+      sameEndpoint
+  have sameCompositionLedger : hsame compositionLedger compositionLedger' :=
+    cont_respects_hsame sameEndpoint sameCurvatureLedger
+      packet.right.right.right.right.right.right.right.right.left compositionLedgerRow'
+  exact
+    And.intro
+      (And.intro packet.left
+        (And.intro packet.right.left
+          (And.intro packet.right.right.left
+            (And.intro endpointUnary'
+              (And.intro curvatureLedgerUnary'
+                (And.intro compositionLedgerUnary'
+                  (And.intro provenanceUnary'
+                    (And.intro endpointRow'
+                      (And.intro compositionLedgerRow' pkgSig')))))))))
+      sameCompositionLedger
 
 theorem HolonomyTransportCarrier_parallel_transport_stability [AskSetup] [PackageSetup]
     {bundle bundle' connection connection' loop loop' endpoint endpoint' curvature curvature'
