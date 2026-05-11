@@ -194,10 +194,12 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.CyclotomicUp
+import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.LocalFieldUp
 import BEDC.Derived.LanglandsUp
+import BEDC.Derived.LQRUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
 import BEDC.Derived.MarkovChainUp.FinitePrefix

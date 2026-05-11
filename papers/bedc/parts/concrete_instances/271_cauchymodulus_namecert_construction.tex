@@ -53,6 +53,7 @@ displayed $\hsame$ comparisons, then $Q$ is accepted by the carrier of
 \autoref{def:cauchymodulus-carrier} and the classifier of
 \autoref{def:cauchymodulus-classifier} identifies the two packets.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_hsame\_stability}
 \leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusCarrier\_hsame\_stability}
 \begin{proof}
 Project $P$ to the four carrier groups. The supplied $\hsame$ rows transport
@@ -104,6 +105,7 @@ transported to a threshold that works for the smaller tolerance, and the
 late-pair bound rows remain accepted after $\hsame$ transport of the
 observation indices.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusTailWindow\_smaller\_tolerance\_transport}
 \leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulus\_monotone\_tail\_refinement\_window}
 \begin{proof}
 Unpack the carrier packet of \autoref{def:cauchymodulus-carrier}. The selected
@@ -154,6 +156,38 @@ Apply the $\RegSeqRat$ transport to the representative stream and then repack
 the threshold, comparison, and provenance rows. Since no equivalence class of
 real numbers is formed, the transport is a row-by-row certificate operation
 inside the displayed $\mathsf{BHist}$ packet.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus scoped dependency certificate]
+\label{thm:cauchymodulus-scoped-dependency-certificate}
+The carrier, classifier, $\hsame$ stability, finite $\Cont$ window closure,
+monotone tail obligation, $\RegSeqRat$ regularity handoff, and $\RealUp$
+classifier transport theorem bind every exported $\CauchyModulusUp$ row to the
+following dependency stack: $\NatUp$ index rows, $\RatUp$ tolerance rows,
+$\StreamNameUp$ scheduled observations, $\RegSeqRat$ regularity rows, $\RealUp$
+classifier transport, $\hsame$ transport, finite $\Cont$ windows, and
+$\mathsf{Pkg}$ provenance. No exported row uses a selected limit, a stream
+quotient, or an unrecorded threshold selector.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier}. They list the visible precision,
+tolerance, scheduled-observation, comparison, $\Cont$, and $\mathsf{Pkg}$ rows,
+so every consumer-visible coordinate begins as a displayed finite
+$\mathsf{BHist}$ entry.
+
+Next project the transport rows in order. The $\hsame$ stability theorem keeps
+the classifier componentwise, the finite $\Cont$ window theorem bounds the
+readback window, the monotone tail theorem records stronger-tolerance reuse,
+and the $\RegSeqRat$ handoff reads the regularity estimate from the same late
+pair ledger.
+
+Finally apply the $\RealUp$ classifier transport theorem. It reuses the
+representative-stream, threshold, comparison, and provenance rows already named
+above, so the scoped dependency certificate closes inside the displayed
+dependency stack and introduces no selected limit, stream quotient, or hidden
+threshold choice.
 \end{proof}
 
 \begin{theorem}[Cauchy-modulus NameCert obligation surface]
