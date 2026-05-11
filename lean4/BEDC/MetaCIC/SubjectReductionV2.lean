@@ -79,4 +79,48 @@ theorem subject_reduction_V2_beta
       | lamRule Γ lamDom lamBody lamCod hdom hbody =>
           exact hsubst hbody ha
 
+theorem subject_reduction_V2_congApp1
+    {Γ : Ctx} {f f' a A : Term}
+    (ht : HasTypeV2 Γ (Term.app f a) A)
+    (_hb : BetaStep f f')
+    (ih : ∀ {B : Term}, HasTypeV2 Γ f B → HasTypeV2 Γ f' B) :
+    HasTypeV2 Γ (Term.app f' a) A := by
+  cases ht with
+  | appRule Γ f a dom cod hf ha =>
+      exact HasTypeV2.appRule Γ f' a dom cod (ih hf) ha
+
+theorem subject_reduction_V2_congApp2
+    {Γ : Ctx} {f a a' A : Term}
+    (ht : HasTypeV2 Γ (Term.app f a) A)
+    (_hb : BetaStep a a')
+    (ih : ∀ {B : Term}, HasTypeV2 Γ a B → HasTypeV2 Γ a' B) :
+    ∃ A' : Term, HasTypeV2 Γ (Term.app f a') A' := by
+  cases ht with
+  | appRule Γ f a dom cod hf ha =>
+      exact ⟨substitute 0 a' cod, HasTypeV2.appRule Γ f a' dom cod hf (ih ha)⟩
+
+theorem subject_reduction_V2_congLam
+    {Γ : Ctx} {d b b' A : Term}
+    (ht : HasTypeV2 Γ (Term.lam d b) A)
+    (_hb : BetaStep b b')
+    (ih : ∀ {B : Term},
+      HasTypeV2 ((shift 0 1 d) :: Γ) b B →
+      HasTypeV2 ((shift 0 1 d) :: Γ) b' B) :
+    HasTypeV2 Γ (Term.lam d b') A := by
+  cases ht with
+  | lamRule Γ dom body cod hdom hbody =>
+      exact HasTypeV2.lamRule Γ d b' cod hdom (ih hbody)
+
+theorem subject_reduction_V2_congPi
+    {Γ : Ctx} {dom cod cod' A : Term}
+    (ht : HasTypeV2 Γ (Term.pi dom cod) A)
+    (_hb : BetaStep cod cod')
+    (ih :
+      HasTypeV2 ((shift 0 1 dom) :: Γ) cod Term.sort →
+      HasTypeV2 ((shift 0 1 dom) :: Γ) cod' Term.sort) :
+    HasTypeV2 Γ (Term.pi dom cod') A := by
+  cases ht with
+  | piRule Γ dom cod hdom hcod =>
+      exact HasTypeV2.piRule Γ dom cod' hdom (ih hcod)
+
 end BEDC.MetaCIC.V2
