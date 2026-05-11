@@ -1,0 +1,67 @@
+\section{Singleton Cont History Instance for \texorpdfstring{$\CommRingUp$}{CommRingUp}}
+\label{sec:commring-singleton-cont-history-instance}
+
+\begin{definition}[CommRingUp singleton Cont history instance]
+\label{def:commring-singleton-cont-history-instance}
+Let $A_{\emp}$ be the singleton $\mathsf{BHist}$ carrier whose only accepted
+endpoint is $\emp$, and let $R_{\emp}$ be the classifier that identifies two
+accepted endpoints exactly when both are $\hsame$ to $\emp$. Define addition
+and multiplication by the same concrete continuation endpoint:
+$$
+x+_{\emp}y:=\Cont(x,y,\emp),
+\qquad
+x\cdot_{\emp}y:=\Cont(x,y,\emp).
+$$
+The zero and one rows are both the displayed empty endpoint $\emp$. The
+package ledger records the two input endpoints, the append read, the output
+endpoint, and the singleton classifier witness returning the output to
+$\emp$.
+\end{definition}
+
+\begin{theorem}[Singleton Cont commutative-ring laws]
+\label{thm:commring-singleton-cont-commutative-laws}
+The carrier $A_{\emp}$ with classifier $R_{\emp}$, operations
+$+_{\emp}$ and $\cdot_{\emp}$, and constants $0_{\emp}=1_{\emp}=\emp$
+satisfies the $\CommRingUp$ law surface. Additive group laws, multiplicative
+monoid laws, distributivity, and multiplicative commutativity all read back to
+the singleton endpoint under $\hsame$.
+\end{theorem}
+\begin{proof}
+Every accepted input endpoint is classified with $\emp$ by $R_{\emp}$. The
+continuation endpoint for either operation is therefore an accepted singleton
+endpoint and is again classified with $\emp$.
+
+For associativity, identity, and inverse rows on addition, both sides of each
+law are continuation endpoints whose source and target histories classify to
+$\emp$. The additive inverse operation is the constant empty endpoint, so the
+left and right inverse rows also reduce to the same readback.
+
+The multiplicative identity, associativity, and commutativity rows are
+identical endpoint-readback arguments, because multiplication uses the same
+concrete continuation endpoint and its unit is also $\emp$.
+
+For distributivity, expand both sides as finite continuation endpoints over
+accepted singleton histories. Each displayed endpoint returns to $\emp$ under
+$R_{\emp}$, so the two sides classify together. Repacking these rows gives the
+commutative-ring law surface without quantified abstract operators.
+\end{proof}
+
+\begin{theorem}[CommRingUp singleton Cont schema source]
+\label{thm:commring-singleton-cont-schema-unlock}
+The singleton Cont history instance of
+\autoref{def:commring-singleton-cont-history-instance} is a concrete
+$\mathsf{BHist}$-anchored source for $\CommRingUp$. Future formal targets may
+use this carrier, classifier, operation table, constants, and endpoint ledger
+as the ground source instead of proving the commutative-ring schema from
+arbitrary carrier parameters and abstract binary operations.
+\end{theorem}
+\begin{proof}
+The definition supplies all rows demanded by the commutative-ring source:
+carrier, classifier, addition, multiplication, zero, one, and package
+provenance. The preceding theorem supplies the finite law rows for the same
+objects.
+
+Thus a consumer can cite the singleton packet directly. No external carrier,
+parameter family, host equality, or abstract operation table is needed to
+obtain a concrete $\CommRingUp$ source.
+\end{proof}
