@@ -186,6 +186,7 @@ It remains to check the exported packet fields. Exhausting the displayed carrier
 \label{thm:lqr-empty-horizon-backward-ledger}
 Let $L$ be an accepted $\LQRUp$ packet. If the finite horizon unary index row of $L$ is the empty unary row, then the Riccati or backward dynamic-programming ledger of $L$ contains no backward-update entries. Equivalently, there is no displayed $\Cont$ row in $L$ whose role is a finite-horizon backward update from a successor value row to a predecessor value row.
 \end{theorem}
+\leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_empty\_horizon\_predecessor\_update\_hsame}
 \begin{proof}
 Project the carrier of \autoref{def:lqr-finite-control-carrier}. Its backward dynamic-programming ledger is not an ambient list of solver events; it is the displayed finite ledger whose entries are indexed by the finite horizon unary row and whose accepted entries must be read through the packet's visible provenance rows.
 
@@ -193,3 +194,5 @@ Assume for contradiction that the backward ledger contains an update entry. By \
 
 The empty unary row has no finite horizon index position. Hence it supplies no coordinate at which such a backward-update entry can be placed. This contradicts the existence of the displayed update entry, so the Riccati or backward dynamic-programming ledger contains no update entries.
 \end{proof}
+\leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlCarrier\_empty\_horizon\_backward\_ledger}
+\leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_empty\_horizon\_backward\_ledger}
