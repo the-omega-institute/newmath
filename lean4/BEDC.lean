@@ -60,7 +60,6 @@ import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
-import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
@@ -71,11 +70,9 @@ import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.BesselUp
-import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CstaralgebraUp
-import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -98,7 +95,9 @@ import BEDC.Derived.EstimatorUp
 import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -107,6 +106,7 @@ import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GaloisExtUp.StdBridge
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
@@ -114,7 +114,6 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InterpolationUp
-import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
@@ -124,14 +123,20 @@ import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
+import BEDC.Derived.LyapunovStabilityUp
+import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LocatedRealUp
+import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.MonodromyUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
+import BEDC.Derived.MonodromyUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
@@ -142,6 +147,7 @@ import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
+import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -149,7 +155,6 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
-import BEDC.Derived.RealBallUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
@@ -186,7 +191,6 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
-import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CurvatureUp
 import BEDC.Derived.CurvatureUp.Bridge
 import BEDC.Derived.CurvatureUp.ConsumerRow
@@ -214,6 +218,7 @@ import BEDC.Derived.CurvatureUp.AntisymmetricBoundaryClassifier
 import BEDC.Derived.CurvatureUp.ExactnessPredicateSurface
 import BEDC.Derived.CurvatureUp.FiniteBasis
 import BEDC.Derived.CurvatureUp.ClassifierObligation
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
@@ -406,7 +411,6 @@ import BEDC.Derived.ContactUp
 import BEDC.Derived.ConnectionUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.RealAlgOrderUp
-import BEDC.Derived.RealBallUp
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.ComplexLimitUp
