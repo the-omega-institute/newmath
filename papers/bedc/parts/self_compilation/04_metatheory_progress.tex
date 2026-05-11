@@ -24,6 +24,16 @@ the atom-shape discharge:
 \leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_pi\_if\_subderivations}
 \leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_lam\_if\_subderivations}
 
+The closed binder-domain surface removes the atom-shape restriction when every
+binder domain in the source derivation is closed at its local depth. In that
+surface, removing the substituted hypothesis preserves the represented
+derivation, and closedness makes substitution definitionally inert on both the
+term and its type. This gives a direct closed-domain substitution-preservation
+theorem for the represented typing judgment.
+\leandef{BEDC.MetaCIC.ClosedBinderDomainTyping}
+\leandef{BEDC.MetaCIC.ClosedBinderDomainsSubstitutionSurface}
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_closed\_binder\_domains}
+
 \paragraph{Beta-substitution cases.}
 The clean beta-substitution contract is
 $\mathrm{BetaSubstitutionPreservation}$: a typed body under the shifted
@@ -48,6 +58,25 @@ premises, then closes the result type by a shape-bounded substitute composition
 equation for the application codomain.
 \leanchecked{BEDC.MetaCIC.betaSubstitutionPreservation\_app\_body}
 
+\paragraph{Parallel-reduction confluence frame.}
+The confluence layer separates ordinary beta steps from a parallel reduction
+relation. One-step beta embeds into the parallel relation, while reflexivity is
+available for every represented term. The diamond goal is recorded as the
+closed proposition $\mathrm{BetaParallelDiamond}$, and the constructor-level
+join assemblers close the variable, sort, application, lambda, and Pi
+component cases.
+\leandef{BEDC.MetaCIC.BetaStarStep}
+\leandef{BEDC.MetaCIC.BetaStarConfluent}
+\leandef{BEDC.MetaCIC.BetaParallel}
+\leandef{BEDC.MetaCIC.BetaParallelDiamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_refl}
+\leanchecked{BEDC.MetaCIC.betaStep\_to\_parallel}
+\leanchecked{BEDC.MetaCIC.betaParallel\_var\_diamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_sort\_diamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+\leanchecked{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}
+\leanchecked{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}
+
 \paragraph{Subject-reduction assembly.}
 Subject reduction is split across beta contraction and congruence rules. The
 beta contraction step is the abstract interface from
@@ -64,3 +93,16 @@ step. It takes beta-substitution preservation and application-argument type
 stability as explicit hypotheses, then returns preservation of the same
 represented type across a single beta step.
 \leanchecked{BEDC.MetaCIC.subject\_reduction}
+
+The closed-term boundary is also represented explicitly. A closed lambda can
+contain a beta redex whose local argument is the bound variable of the enclosing
+lambda; the whole term is closed, the inner beta contraction steps under the
+binder, but the contracted argument is not closed at depth zero. This records
+the precise local obstruction that a closed-term subject-reduction theorem must
+discharge: closedness of the outer term alone does not provide zero-depth
+closedness for every local redex argument.
+\leandef{BEDC.MetaCIC.closedBinderRedexTerm}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_closed}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_steps}
+\leanchecked{BEDC.MetaCIC.closedBinderRedexTerm\_argument\_not\_closed}
+\leanchecked{BEDC.MetaCIC.closed\_term\_step\_has\_unclosed\_local\_argument}
