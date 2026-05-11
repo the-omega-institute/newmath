@@ -103,8 +103,10 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HolonomyUp
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.KolmogorovUp
+import BEDC.Derived.KKTUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.MapperUp
@@ -116,6 +118,7 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
+import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
@@ -198,11 +201,10 @@ import BEDC.Derived.DyadicRatCoreUp
 import BEDC.Derived.DyadicRatCoreUp.DistanceWindow
 import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.PublicReadbackEnvelope
-import BEDC.Derived.DyadicRatCoreUp.PublicBoundary
 import BEDC.Derived.DyadicRatCoreUp.RealPhaseSourceCoverage
 import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
-import BEDC.Derived.RiemannHilbertUp
+import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
@@ -379,6 +381,7 @@ import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootConsumer
 import BEDC.Derived.SpectralSeqUp
+import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.IntegralUp
 import BEDC.Derived.ComplexSeriesUp
@@ -579,7 +582,6 @@ import BEDC.Derived.TopGroupUp.ObligationSurfacePublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.PublicThresholdFinalPacket
 import BEDC.Derived.TopGroupUp.ObligationPublicConsumerExhaustion
 import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
-import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
@@ -853,6 +855,7 @@ import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
+import BEDC.Derived.StreamNameUp.OverlapExactness
 import BEDC.Derived.StreamNameUp.PublicInterface
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
