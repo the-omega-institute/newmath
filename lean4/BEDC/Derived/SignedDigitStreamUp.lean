@@ -408,4 +408,19 @@ theorem SignedDigitStreamPacket_real_regseqrat_window_correspondence [AskSetup]
       exact source
   }
 
+theorem SignedDigitStreamWindowPacket_common_window_determinacy [AskSetup] [PackageSetup]
+    {digit schedule carry provenance endpoint ledger radius regWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamWindowPacket digit schedule carry provenance endpoint ledger bundle pkg ->
+      UnaryHistory radius ->
+        Cont endpoint radius regWindow ->
+          PkgSig bundle regWindow pkg ->
+            hsame carry (append digit schedule) ∧ hsame endpoint (append carry provenance) ∧
+              hsame ledger (append endpoint schedule) ∧
+                hsame regWindow (append endpoint radius) := by
+  intro packet _radiusUnary regWindowRow _pkgRow
+  obtain ⟨_digitUnary, _scheduleUnary, _carryUnary, _provenanceUnary, _endpointUnary,
+    _ledgerUnary, carryRow, endpointRow, ledgerRow, _ledgerSig⟩ := packet
+  exact ⟨carryRow, endpointRow, ledgerRow, regWindowRow⟩
+
 end BEDC.Derived.SignedDigitStreamUp
