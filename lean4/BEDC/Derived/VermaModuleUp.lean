@@ -154,4 +154,73 @@ theorem VermaModuleFiniteCarrier_carrier_obligation [AskSetup] [PackageSetup]
     ⟨lieUnary, rootUnary, highestUnary, borelUnary, generatorUnary, loweringUnary,
       lieRootRow, highestBorelRow, generatorLoweringRow, packageRow⟩
 
+theorem VermaModuleFiniteCarrier_semanticNameCert [AskSetup] [PackageSetup]
+    {lie root highest borel generator lowering contRows provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VermaModuleFiniteCarrier lie root highest borel generator lowering contRows provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          hsame ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have endpointCarrier :
+      VermaModuleFiniteCarrier lie root highest borel generator lowering contRows provenance
+        endpoint bundle pkg := carrier
+  obtain ⟨_lieUnary, _rootUnary, _highestUnary, _borelUnary, _generatorUnary,
+    _loweringUnary, _contRowsUnary, _provenanceUnary, _lieRootRow, _highestBorelRow,
+    _generatorLoweringRow, packageRow⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              VermaModuleFiniteCarrier lie root highest borel generator lowering contRows
+                provenance e bundle pkg ∧ hsame row e)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint
+          (Exists.intro endpoint (And.intro endpointCarrier (hsame_refl endpoint)))
+      equiv_refl := by
+        intro row _rowCarrier
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameRows sameRows'
+        exact hsame_trans sameRows sameRows'
+      carrier_respects_equiv := by
+        intro row row' sameRows rowCarrier
+        obtain ⟨e, endpointCarrier, sameEndpoint⟩ := rowCarrier
+        exact Exists.intro e
+          (And.intro endpointCarrier (hsame_trans (hsame_symm sameRows) sameEndpoint))
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert packageRow
+
 end BEDC.Derived.VermaModuleUp
