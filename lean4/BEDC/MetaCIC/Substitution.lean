@@ -86,9 +86,138 @@ theorem substitute_shift_zero_atom (v T : Term) :
             unfold substitute
             rfl
 
-/-- 任意深度替换抵消同深度提升的目标入口。 -/
-theorem substitute_shift_at_eq : True := by
-  exact True.intro
+private theorem nat_beq_add_one_add_one (i n : Nat) :
+    Nat.beq (i + 1) (n + 1) = Nat.beq i n := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
+
+private theorem nat_blt_add_one_add_one (n i : Nat) :
+    Nat.blt (n + 1) (i + 1) = Nat.blt n i := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
+
+private theorem nat_ble_add_one_add_one (n i : Nat) :
+    Nat.ble (n + 1) (i + 1) = Nat.ble n i := by
+  cases i
+  · cases n
+    · rfl
+    · rfl
+  · cases n
+    · rfl
+    · rfl
+
+private theorem nat_beq_false_of_ble_false (n i : Nat) :
+    Nat.ble n i = false → Nat.beq i n = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · cases h
+      · cases h
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => rfl
+      | succ i => exact ih i h
+
+private theorem nat_blt_false_of_ble_false (n i : Nat) :
+    Nat.ble n i = false → Nat.blt n i = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · cases h
+      · cases h
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => rfl
+      | succ i => exact ih i h
+
+private theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
+    Nat.ble n i = true → Nat.beq (i + 1) n = false := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => cases h
+      | succ i => exact ih i h
+
+private theorem nat_blt_succ_true_of_ble_true (n i : Nat) :
+    Nat.ble n i = true → Nat.blt n (i + 1) = true := by
+  induction n generalizing i with
+  | zero =>
+      intro h
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      intro h
+      cases i with
+      | zero => cases h
+      | succ i => exact ih i h
+
+private theorem substitute_shift_var_at_eq (n i : Nat) (v : Term) :
+    substitute n v (shift n 1 (Term.var i)) = Term.var i := by
+  induction n generalizing i with
+  | zero =>
+      cases i
+      · rfl
+      · rfl
+  | succ n ih =>
+      cases i with
+      | zero => rfl
+      | succ i =>
+          unfold shift
+          rw [nat_ble_add_one_add_one]
+          cases hble : Nat.ble n i
+          · unfold substitute
+            rw [nat_beq_add_one_add_one]
+            rw [nat_blt_add_one_add_one]
+            rw [nat_beq_false_of_ble_false n i hble]
+            rw [nat_blt_false_of_ble_false n i hble]
+          · unfold substitute
+            rw [nat_beq_add_one_add_one]
+            rw [nat_blt_add_one_add_one]
+            rw [nat_beq_succ_false_of_ble_true n i hble]
+            rw [nat_blt_succ_true_of_ble_true n i hble]
+            rfl
+
+/-- 任意深度替换抵消同深度的一层提升。 -/
+theorem substitute_shift_at_eq (n : Idx) (v t : Term) :
+    substitute n v (shift n 1 t) = t := by
+  induction t generalizing n v with
+  | var i =>
+      exact substitute_shift_var_at_eq n i v
+  | app f a ihf iha =>
+      unfold shift
+      unfold substitute
+      rw [ihf, iha]
+  | lam d b ihd ihb =>
+      unfold shift
+      unfold substitute
+      rw [ihd, ihb]
+  | pi d c ihd ihc =>
+      unfold shift
+      unfold substitute
+      rw [ihd, ihc]
+  | sort =>
+      rfl
 
 /-- 替换与提升交换的目标形状。 -/
 def ShiftSubstituteStatement : Prop :=
