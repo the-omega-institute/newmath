@@ -7,6 +7,7 @@ import BEDC.Derived.KKTUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Reflection
 import BEDC.Capstone.EmptyFableMachine
+import BEDC.MetaCIC
 
 namespace BEDC.Manifest
 
@@ -191,7 +192,10 @@ def manifest : List ClaimEntry := [
     _, @BEDC.Reflection.type_checking_as_ext_membership_proof⟩,
   ⟨"sec:compilation-as-namecert-morphism",
     "BEDC.Reflection.compilation_as_namecert_morphism_proof",
-    _, @BEDC.Reflection.compilation_as_namecert_morphism_proof⟩
+    _, @BEDC.Reflection.compilation_as_namecert_morphism_proof⟩,
+  ⟨"sec:self-comp-metacic",
+    "BEDC.MetaCIC.sort_in_empty_ctx",
+    _, @BEDC.MetaCIC.sort_in_empty_ctx⟩
 ]
 
 /-- Wellformedness 的可观察推论: manifest 里每条 claim 都至少有一个证明 witness。

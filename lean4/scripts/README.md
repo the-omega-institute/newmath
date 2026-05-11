@@ -38,3 +38,11 @@ toward the full paper corpus.
 
 Related: `manifest_codegen.py` emits Lean stubs from paper markers for human
 review before adding to `BEDC/Manifest/Entries.lean`.
+
+## marker-existence-audit subcommand
+
+`python3 lean4/scripts/bedc_ci.py marker-existence-audit` reports paper
+\leanchecked / \leanvariant / \leantarget / \leandef / \leanstmt / \leansorryd
+markers whose referenced Lean name does not exist in lean4/BEDC/. Informational
+only — does not gate CI. Use as a standing check that paper marker references
+remain consistent with the Lean source.
