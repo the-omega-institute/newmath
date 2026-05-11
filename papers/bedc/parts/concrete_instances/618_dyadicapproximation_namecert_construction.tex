@@ -66,6 +66,22 @@ Now compare two accepted packets with transported equivalent finite-window readb
 Since the $\RealUp$ consumer can inspect only the finite source rows just listed, the two seal candidates receive the same boundary datum. No coordinate remains from which a quotient real, host equality witness, completion point, or selected representative could be produced.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation classifier transport]
+\label{thm:dyadic-approximation-classifier-transport}
+Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted $\DyadicApproximationUp$ packets. Suppose the precision rows $n,n'$, the $\DyadicRatCoreUp$ endpoint rows $d,d'$, the $\StreamNameUp$ and $\RegSeqRatUp$ finite-window readbacks $w,w'$, the $\RealUp$ seal ledgers $l,l'$, the displayed $\Cont$ routes, and the provenance rows $p,p'$ are related by componentwise displayed $\hsame$ transport along the same carrier coordinates of \autoref{def:dyadic-approximation-carrier}.
+
+Then the transported packet still satisfies the $\DyadicApproximationUp$ classifier. The resulting comparison is precisely a finite-window dyadic approximation comparison: it compares the transported precision row, transported dyadic endpoint row, transported stream and regular-sequence readback, transported seal ledger, displayed continuation routes, and transported $\mathsf{Pkg}$ provenance. It does not become quotient-real equality, host-real equality, metric-completion equality, or equality of selected limits.
+\end{theorem}
+\begin{proof}
+Project the five coordinates of \autoref{def:dyadic-approximation-carrier}. The precision coordinate gives the row along which the comparison is read, the endpoint coordinate gives the $\DyadicRatCoreUp$ comparison, the window coordinate gives the finite $\StreamNameUp$ and $\RegSeqRatUp$ readback, the ledger coordinate gives the $\RealUp$ seal boundary, and the provenance coordinate records the consumed certificate surfaces.
+
+Transport these coordinates by the displayed $\hsame$ rows. The precision row moves to $n'$, the dyadic endpoint comparison moves to $d'$, and the finite-window readback moves through the same $\StreamNameUp$ schedule and $\RegSeqRatUp$ readback surface. The displayed $\Cont$ routes are transported with those rows, so no consumer obtains an additional route outside the carrier.
+
+Reuse the endpoint classifier supplied by $\DyadicRatCoreUp$ and the finite-window readback described in \autoref{thm:dyadic-approximation-real-seal-handoff}. The seal ledger $l'$ records only the transported regular-sequence source rows, dyadic-radius budget, and continuation boundary available to $\RealUp$, while $p'$ records the transported $\mathsf{Pkg}$ provenance.
+
+Repack these transported rows into the classifier of the target packet. Carrier exhaustiveness leaves exactly the five projected coordinates, so there is no coordinate from which a completion point, quotient real, selected limit, host-real equality, or quotient-real equality could be introduced.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 
 \begin{closurestatus}{\DyadicApproximationUp}
