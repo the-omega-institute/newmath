@@ -22,6 +22,28 @@ def IntervalArithmeticEndpointPacket [AskSetup] [PackageSetup]
       UnaryHistory endpoint ∧ Cont lower upper enclosure ∧
         Cont lowerObs upperObs endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem IntervalArithmeticEndpointPacket_outward_addition_closure [AskSetup] [PackageSetup]
+    {lowerA upperA lowerObsA upperObsA enclosureA provenanceA endpointA lowerB upperB
+      lowerC upperC package : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalArithmeticEndpointPacket lowerA upperA lowerObsA upperObsA enclosureA
+        provenanceA endpointA bundle pkg ->
+      UnaryHistory lowerB ->
+        UnaryHistory upperB ->
+          Cont lowerA lowerB lowerC ->
+            Cont upperA upperB upperC ->
+              Cont lowerC upperC package ->
+                PkgSig bundle endpointA pkg ->
+                  UnaryHistory lowerC ∧ UnaryHistory upperC ∧ UnaryHistory package := by
+  intro packet lowerBUnary upperBUnary lowerRow upperRow packageRow _
+  have lowerCUnary : UnaryHistory lowerC :=
+    unary_cont_closed packet.left lowerBUnary lowerRow
+  have upperCUnary : UnaryHistory upperC :=
+    unary_cont_closed packet.right.left upperBUnary upperRow
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed lowerCUnary upperCUnary packageRow
+  exact ⟨lowerCUnary, upperCUnary, packageUnary⟩
+
 theorem IntervalArithmeticEndpointPacket_classifier_transport [AskSetup] [PackageSetup]
     {lower upper lowerObs upperObs enclosure provenance endpoint lower' upper' lowerObs'
       upperObs' enclosure' provenance' endpoint' : BHist}
