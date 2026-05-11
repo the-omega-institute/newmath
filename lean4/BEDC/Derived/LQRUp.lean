@@ -122,6 +122,63 @@ theorem LQRFiniteControlPacket_dynamic_programming_row [AskSetup] [PackageSetup]
       (And.intro predecessorEndpoint
         (And.intro estimatorEndpoint (And.intro horizonUnary endpointPkg))))
 
+theorem LQRFiniteControlCarrier_transition_transport
+    {state control transition cost horizon estimator backward provenance endpoint state' control'
+      transition' cost' horizon' estimator' backward' provenance' endpoint' : BHist} :
+    LQRFiniteControlCarrier state control transition cost horizon estimator backward provenance
+        endpoint ->
+      hsame state state' ->
+        hsame control control' ->
+          hsame cost cost' ->
+            hsame horizon horizon' ->
+              hsame estimator estimator' ->
+                Cont state' control' transition' ->
+                  Cont transition' cost' backward' ->
+                    Cont backward' estimator' provenance' ->
+                      Cont provenance' horizon' endpoint' ->
+                        LQRFiniteControlCarrier state' control' transition' cost' horizon'
+                            estimator' backward' provenance' endpoint' ∧
+                          hsame transition transition' ∧
+                            hsame backward backward' ∧ hsame provenance provenance' ∧
+                              hsame endpoint endpoint' := by
+  intro carrier sameState sameControl sameCost sameHorizon sameEstimator transitionRow'
+    backwardRow' provenanceRow' endpointRow'
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport carrier.left sameState
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport carrier.right.left sameControl
+  have costUnary' : UnaryHistory cost' :=
+    unary_transport carrier.right.right.left sameCost
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport carrier.right.right.right.left sameHorizon
+  have estimatorUnary' : UnaryHistory estimator' :=
+    unary_transport carrier.right.right.right.right.left sameEstimator
+  have sameTransition : hsame transition transition' :=
+    cont_respects_hsame sameState sameControl carrier.right.right.right.right.right.left
+      transitionRow'
+  have sameBackward : hsame backward backward' :=
+    cont_respects_hsame sameTransition sameCost
+      carrier.right.right.right.right.right.right.left backwardRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameBackward sameEstimator
+      carrier.right.right.right.right.right.right.right.left provenanceRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance sameHorizon
+      carrier.right.right.right.right.right.right.right.right endpointRow'
+  have carrier' :
+      LQRFiniteControlCarrier state' control' transition' cost' horizon' estimator' backward'
+        provenance' endpoint' :=
+    And.intro stateUnary'
+      (And.intro controlUnary'
+        (And.intro costUnary'
+          (And.intro horizonUnary'
+            (And.intro estimatorUnary'
+              (And.intro transitionRow'
+                (And.intro backwardRow' (And.intro provenanceRow' endpointRow')))))))
+  exact And.intro carrier'
+    (And.intro sameTransition
+      (And.intro sameBackward (And.intro sameProvenance sameEndpoint)))
+
 theorem LQR_dynamic_programming_cont_determinacy
     {successor successor' transition transition' control control' cost cost' estimator estimator'
       provenance provenance' st st' stc stc' stcc stcc' stcce stcce' predecessor
