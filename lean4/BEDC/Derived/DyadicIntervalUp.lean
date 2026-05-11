@@ -304,4 +304,39 @@ theorem DyadicIntervalEndpointPacket_nested_refinement_ledger [AskSetup] [Packag
         (And.intro sameMidpoint
           (And.intro sameRadius sameNameRow)))
 
+theorem DyadicIntervalEndpointPacket_endpoint_classifier_transport [AskSetup] [PackageSetup]
+    {left right width order midpoint radius hsameLedger contLedger pkgrow nameRow left' right'
+      width' order' midpoint' radius' contLedger' nameRow' endpointWitness endpointWitness' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalEndpointPacket left right width order midpoint radius hsameLedger
+        contLedger pkgrow nameRow bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame width width' ->
+            Cont left' right' order' ->
+              Cont left' right' midpoint' ->
+                Cont midpoint' width' radius' ->
+                  Cont order' radius' contLedger' ->
+                    Cont contLedger' pkgrow nameRow' ->
+                      PkgSig bundle pkgrow pkg ->
+                        Cont nameRow width endpointWitness ->
+                          Cont nameRow' width' endpointWitness' ->
+                            DyadicIntervalEndpointPacket left' right' width' order' midpoint'
+                                radius' hsameLedger contLedger' pkgrow nameRow' bundle pkg ∧
+                              hsame endpointWitness endpointWitness' ∧
+                                PkgSig bundle pkgrow pkg := by
+  intro packet sameLeft sameRight sameWidth orderCont' midpointCont' radiusCont'
+    contLedgerCont' nameRowCont' pkgSig' endpointWitnessRow endpointWitnessRow'
+  have transported :=
+    DyadicIntervalEndpointPacket_nested_refinement_ledger packet sameLeft sameRight sameWidth
+      orderCont' midpointCont' radiusCont' contLedgerCont' nameRowCont' pkgSig'
+  have sameNameRow : hsame nameRow nameRow' :=
+    transported.right.right.right.right
+  have sameEndpointWitness : hsame endpointWitness endpointWitness' :=
+    cont_respects_hsame sameNameRow sameWidth endpointWitnessRow endpointWitnessRow'
+  exact
+    And.intro transported.left
+      (And.intro sameEndpointWitness pkgSig')
+
 end BEDC.Derived.DyadicIntervalUp
