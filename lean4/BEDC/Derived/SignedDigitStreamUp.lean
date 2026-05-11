@@ -627,4 +627,28 @@ theorem SignedDigitStreamWindowPacket_common_window_determinacy [AskSetup] [Pack
     _ledgerUnary, carryRow, endpointRow, ledgerRow, _ledgerSig⟩ := packet
   exact ⟨carryRow, endpointRow, ledgerRow, regWindowRow⟩
 
+theorem SignedDigitStreamWindowPacket_prefix_truncation_stability [AskSetup]
+    [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger prefixLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ->
+      Cont endpoint schedule prefixLedger ->
+        PkgSig bundle prefixLedger pkg ->
+          SignedDigitStreamWindowPacket digits schedule carry provenance endpoint prefixLedger
+              bundle pkg ∧
+            hsame carry (append digits schedule) ∧
+              hsame endpoint (append carry provenance) ∧
+                hsame prefixLedger (append endpoint schedule) := by
+  intro packet prefixRow prefixPkg
+  obtain ⟨digitsUnary, scheduleUnary, provenanceUnary, _hiddenUnary, carryUnary,
+    endpointUnary, _ledgerUnary, carryRow, endpointRow, _ledgerRow, _ledgerPkg⟩ := packet
+  have prefixUnary : UnaryHistory prefixLedger :=
+    unary_cont_closed endpointUnary scheduleUnary prefixRow
+  have windowPacket :
+      SignedDigitStreamWindowPacket digits schedule carry provenance endpoint prefixLedger
+        bundle pkg :=
+    ⟨digitsUnary, scheduleUnary, carryUnary, provenanceUnary, endpointUnary, prefixUnary,
+      carryRow, endpointRow, prefixRow, prefixPkg⟩
+  exact ⟨windowPacket, carryRow, endpointRow, prefixRow⟩
+
 end BEDC.Derived.SignedDigitStreamUp
