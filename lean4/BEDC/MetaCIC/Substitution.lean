@@ -32,6 +32,14 @@ def SubstitutePreservesTypingGeneralStatement : Prop :=
       (substitute Γ₁.length s t)
       (substitute Γ₁.length s A)
 
+def SubstitutePreservesTypingShiftedStatement : Prop :=
+  ∀ {Γ : Ctx} {t s A B : Term},
+    WellFormedCtx (B :: Γ) →
+    ClosedAt 0 s →
+    HasType (B :: Γ) t A →
+    HasType Γ s B →
+    HasType Γ (substitute 0 s t) (substitute 0 s A)
+
 /-- sort 上的替换按定义保持 sort。 -/
 theorem substitute_sort (d : Idx) (v : Term) :
     substitute d v Term.sort = Term.sort := by
@@ -864,6 +872,37 @@ theorem closed_term_substitute_preserves_typing
             | intro i hi => cases hi
   exact aux ht rfl hwf hclosed_B hclosed_s hs hshape
 
+theorem substitute_preserves_typing_lam_aware_atom
+    {Γ : Ctx} {t s A B : Term}
+    (hwf : WellFormedCtx (B :: Γ))
+    (hclosed_B : ClosedAt 0 B)
+    (hclosed_s : ClosedAt 0 s)
+    (h_A_external : ClosedAt 0 A)
+    (ht : HasType (B :: Γ) t A)
+    (hs : HasType Γ s B)
+    (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
+    HasType Γ (substitute 0 s t) A := by
+  rw [← substitute_closed_via_term_induction 0 s A h_A_external]
+  exact closed_term_substitute_preserves_typing
+    hwf hclosed_B hclosed_s ht hs hshape
+
+theorem substitute_preserves_typing_shifted_shifted_identity
+    {t s A : Term}
+    (hclosed_t : ClosedAt 0 t)
+    (hclosed_A : ClosedAt 0 A) :
+    substitute 0 s t = t ∧ substitute 0 s A = A := by
+  constructor
+  · exact substitute_closed 0 s t hclosed_t
+  · exact substitute_closed 0 s A hclosed_A
+
+theorem substitute_preserves_typing_closed_self
+    {Γ : Ctx} {t s A : Term}
+    (hclosed_t : ClosedAt 0 t)
+    (ht : HasType Γ t A) :
+    HasType Γ (substitute 0 s t) A := by
+  rw [substitute_closed 0 s t hclosed_t]
+  exact ht
+
 /-- 闭合替换保持完整语句的最小反例项。 -/
 def closedSubstituteCounterTerm : Term :=
   Term.lam (Term.var 0) (Term.var 0)
@@ -912,6 +951,15 @@ theorem closed_term_substitute_preserves_typing_statement_absurd :
   exact closed_substitute_counter_target_absurd
     (h closed_substitute_counter_wf
       ClosedAt.sortClosed
+      ClosedAt.sortClosed
+      closed_substitute_counter_source
+      (HasType.sortRule []))
+
+theorem substitute_preserves_typing_shifted_statement_absurd :
+    ¬ SubstitutePreservesTypingShiftedStatement := by
+  intro h
+  exact closed_substitute_counter_target_absurd
+    (h closed_substitute_counter_wf
       ClosedAt.sortClosed
       closed_substitute_counter_source
       (HasType.sortRule []))
