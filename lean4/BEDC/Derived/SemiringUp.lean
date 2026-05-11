@@ -73,4 +73,83 @@ theorem SemiringLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+def SemiringDistributiveLedger (add mul left right dist : BHist) : Prop :=
+  UnaryHistory add ∧
+    UnaryHistory mul ∧
+      Cont mul add left ∧
+        Cont add mul right ∧
+          hsame dist (append left right)
+
+theorem SemiringDistributiveLedger_boundary {add mul left right dist : BHist} :
+    SemiringDistributiveLedger add mul left right dist →
+      UnaryHistory left ∧
+        UnaryHistory right ∧
+          UnaryHistory dist ∧
+            hsame dist (append left right) ∧ Cont mul add left ∧ Cont add mul right := by
+  intro ledger
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed ledger.right.left ledger.left ledger.right.right.left
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed ledger.left ledger.right.left ledger.right.right.right.left
+  have distUnary : UnaryHistory dist :=
+    unary_transport_symm
+      (unary_cont_closed leftUnary rightUnary (cont_intro rfl))
+      ledger.right.right.right.right
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro distUnary
+        (And.intro ledger.right.right.right.right
+          (And.intro ledger.right.right.left ledger.right.right.right.left))))
+
+def SemiringFiniteSource [AskSetup] [PackageSetup]
+    (add mul shared distrib annihil transport routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory add ∧ UnaryHistory mul ∧ UnaryHistory shared ∧ UnaryHistory distrib ∧
+    UnaryHistory annihil ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+      UnaryHistory provenance ∧ UnaryHistory name ∧ Cont add mul shared ∧
+        Cont shared distrib transport ∧ Cont annihil transport routes ∧
+          Cont routes provenance name ∧ PkgSig bundle name pkg
+
+theorem SemiringFiniteSource_semantic_name_certificate [AskSetup] [PackageSetup]
+    {add mul shared distrib annihil transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          SemiringFiniteSource add mul shared distrib annihil transport routes provenance name
+              bundle pkg ∧ hsame row name)
+        hsame := by
+  intro source
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro name (And.intro source (hsame_refl name))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows rowSource
+        exact And.intro rowSource.left (hsame_trans (hsame_symm sameRows) rowSource.right)
+    }
+    pattern_sound := by
+      intro _row rowSource
+      exact rowSource
+    ledger_sound := by
+      intro _row rowSource
+      exact rowSource
+  }
+
 end BEDC.Derived.SemiringUp
