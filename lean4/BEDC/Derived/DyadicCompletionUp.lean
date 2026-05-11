@@ -235,6 +235,28 @@ theorem DyadicCompletionPacket_regular_tail_stability [AskSetup] [PackageSetup]
       (And.intro tailUnary'
         (And.intro ledgerUnary' (And.intro sameTail sameLedger)))
 
+theorem DyadicCompletionPacket_constant_embedding [AskSetup] [PackageSetup]
+    {q window tail real ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory q ->
+      UnaryHistory window ->
+        UnaryHistory real ->
+          UnaryHistory provenance ->
+            Cont q window tail ->
+              Cont tail real ledger ->
+                PkgSig bundle provenance pkg ->
+                  DyadicCompletionPacket q window tail real ledger provenance bundle pkg ∧
+                    UnaryHistory tail ∧ UnaryHistory ledger ∧
+                      hsame tail (append q window) ∧ hsame ledger (append tail real) := by
+  intro qUnary windowUnary realUnary provenanceUnary tailRow ledgerRow provenancePkg
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed qUnary windowUnary tailRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed tailUnary realUnary ledgerRow
+  exact
+    ⟨⟨qUnary, windowUnary, realUnary, provenanceUnary, tailRow, ledgerRow, provenancePkg⟩,
+      tailUnary, ledgerUnary, tailRow, ledgerRow⟩
+
 theorem DyadicCompletionPacket_ledger_boundary [AskSetup] [PackageSetup]
     {dyadic window tail real ledger provenance boundary : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
