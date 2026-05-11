@@ -102,6 +102,9 @@ not be uploaded.
 15. `tools/bedc-deep/BOARD.completed.md` is a completed archive, not a bridge
     intake surface. Automath-to-NewMath candidates must go through
     `bridge_to_bedc_board.py` and BEDC `board_spawn`.
+16. Watchdogs on `codex/*` bridge branches may self-sync only by clean
+    fast-forward from their configured upstream. They must never reset, switch
+    branches, or merge diverged histories.
 
 ## Operator approval boundary
 

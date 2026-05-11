@@ -118,6 +118,12 @@ python3 tools/automath_newmath_bridge/bridge_watchdog.py \
 The watchdog does not create PRs, merge BEDC branches, push production bridge
 branches, or commit runtime artifacts.
 
+Before each health pass, the watchdog performs a conservative self-sync for the
+current branch: if the branch is `codex/*`, has an upstream, has no tracked
+changes, has no local-ahead commits, and is behind upstream, it runs
+`git merge --ff-only @{u}`. It never switches branches, resets files, or merges
+diverged histories. Pass `--no-self-sync-current-branch` to disable this.
+
 `tools/bedc-deep/BOARD.completed.md` is not a bridge intake surface. Bridge
 candidates must enter NewMath through `bridge_to_bedc_board.py`, which calls
 BEDC `board_spawn`; completed archive entries require BEDC completion semantics
