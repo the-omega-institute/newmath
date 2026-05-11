@@ -144,6 +144,27 @@ theorem VectorBundleFiniteCarrier_transition_ledger_exactness [AskSetup] [Packag
                               (And.intro provenanceContRowsRow pkgSig'))))))))))))))
     (And.intro contRowsSame endpointSame)
 
+theorem VectorBundleFiniteCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+        contRows provenance endpoint probe pkg ->
+      UnaryHistory bundleRow ∧ UnaryHistory vecspace ∧ UnaryHistory trivialization ∧
+        UnaryHistory fibre ∧ UnaryHistory transition ∧ UnaryHistory endpoint ∧
+          Cont bundleRow vecspace trivialization ∧ Cont trivialization overlap transition ∧
+            Cont transition linearity contRows ∧ Cont provenance contRows endpoint ∧
+              PkgSig probe endpoint pkg := by
+  intro carrier
+  obtain ⟨bundleUnary, vecspaceUnary, trivializationUnary, fibreUnary, transitionUnary,
+    _overlapUnary, _linearityUnary, _contRowsUnary, _provenanceUnary, endpointUnary,
+    bundleVecspaceRow, trivializationOverlapRow, transitionLinearityRow,
+    provenanceContRowsRow, pkgSig⟩ := carrier
+  exact
+    ⟨bundleUnary, vecspaceUnary, trivializationUnary, fibreUnary, transitionUnary,
+      endpointUnary, bundleVecspaceRow, trivializationOverlapRow, transitionLinearityRow,
+      provenanceContRowsRow, pkgSig⟩
+
 theorem VectorBundleFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
     {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
       endpoint : BHist}
@@ -226,5 +247,28 @@ theorem VectorBundleFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
   exact And.intro cert
     (And.intro bundleRowData
       (And.intro transitionRow (And.intro contRowsRow (And.intro endpointRow packageRow))))
+
+theorem VectorBundleFiniteCarrier_transition_composition_scope [AskSetup] [PackageSetup]
+    {bundleRow vecspace trivialization fibre transition overlap linearity contRows provenance
+      endpoint composed : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    VectorBundleFiniteCarrier bundleRow vecspace trivialization fibre transition overlap linearity
+        contRows provenance endpoint probe pkg ->
+      Cont contRows transition composed ->
+        UnaryHistory composed ∧ Cont bundleRow vecspace trivialization ∧
+          Cont trivialization overlap transition ∧ Cont transition linearity contRows ∧
+            Cont contRows transition composed ∧ PkgSig probe endpoint pkg := by
+  intro carrier composedRow
+  obtain ⟨_bundleUnary, _vecspaceUnary, _trivializationUnary, _fibreUnary,
+    transitionUnary, _overlapUnary, _linearityUnary, contRowsUnary, _provenanceUnary,
+    _endpointUnary, bundleVecspaceRow, trivializationOverlapRow, transitionLinearityRow,
+    _provenanceContRowsRow, pkgSig⟩ := carrier
+  have composedUnary : UnaryHistory composed :=
+    unary_cont_closed contRowsUnary transitionUnary composedRow
+  exact And.intro composedUnary
+    (And.intro bundleVecspaceRow
+      (And.intro trivializationOverlapRow
+        (And.intro transitionLinearityRow
+          (And.intro composedRow pkgSig))))
 
 end BEDC.Derived.VectorBundleUp
