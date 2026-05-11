@@ -237,6 +237,7 @@ $\RealUp$ boundary is the restriction of
 $\DyadicPrecisionUp$ row. The restriction introduces no selected limit, quotient
 stream, host real equality, completeness datum, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFinitePacket\_precision\_window\_restriction}
 \begin{proof}
 Project the carrier tuple of $F$ from \autoref{def:fastcauchy-carrier}. The
 displayed $\DyadicPrecisionUp$ row selects a finite subwindow of the scheduled
@@ -459,6 +460,49 @@ does not create an additional public coordinate; it only routes the displayed
 RegSeqRat and Real consumers through the same explicit-rate window. Therefore
 every public seal read is exhausted by the listed rows, and the omitted limit,
 quotient, equality, completeness, tail, and bridge data remain unavailable.
+\end{proof}
+
+\begin{theorem}[FastCauchy uniform StreamName window extraction]
+\label{thm:fastcauchy-uniform-streamname-window-extraction}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be a displayed
+$\DyadicPrecisionUp$ row of its explicit-rate schedule. There is a finite
+schedule window, uniform for the displayed precision row $D$, whose visible
+surface consists exactly of the selected $\StreamNameUp$ observation rows,
+$\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ endpoint rows,
+late-pair radius ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows.
+
+The induced $\RegSeqRatUp$ and $\RealUp$ consumer reads are precisely the
+restrictions of the public seal to that finite schedule window. The extraction
+has no coordinate for a selected limit, quotient stream, host real equality,
+completeness datum, hidden tail, or standard bridge object outside the
+displayed public rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of $F$ through \autoref{def:fastcauchy-carrier}. This
+exposes only scheduled observations, explicit modulus thresholds, dyadic
+endpoints, late-pair radius entries, componentwise transport, package
+provenance, and local naming rows.
+
+Apply \autoref{thm:fastcauchy-precision-window-restriction} to restrict the
+carrier along $D$. The restricted carrier keeps exactly the rows whose indices
+belong to the finite precision window.
+
+Use \autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to choose the
+same schedule window for every consumer read at the displayed precision. This
+makes the selected $\StreamNameUp$ rows and the explicit modulus threshold
+uniform over the whole extracted surface.
+
+Next invoke \autoref{thm:fastcauchy-shared-window-regseqrat-handoff}. The
+$\RegSeqRatUp$ read is the handoff of the same selected schedule, endpoint,
+radius-ledger, transport, provenance, and naming rows.
+
+Finally apply
+\autoref{thm:fastcauchy-explicit-rate-seal-window-exhaustion}. The public
+$\RealUp$ seal is exhausted by that finite explicit-rate window, so the
+consumer reads are exactly restrictions of the public seal. The excluded
+limit, quotient, equality, completeness, tail, and bridge objects require
+coordinates absent from the extracted carrier.
 \end{proof}
 
 \closureat{FastCauchyUp}{obligationStr}
