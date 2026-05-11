@@ -133,4 +133,27 @@ theorem NestedDyadicIntervalPacket_public_finite_window_export [AskSetup] [Packa
       packet.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right⟩
 
+theorem NestedDyadicIntervalPacket_empty_refinement_source [AskSetup] [PackageSetup]
+    {first next schedule refinement provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedDyadicIntervalPacket first next schedule refinement provenance ledger endpoint
+        bundle pkg ->
+      hsame refinement BHist.Empty ->
+        hsame first BHist.Empty ∧ hsame next BHist.Empty ∧ hsame endpoint schedule := by
+  intro packet refinementEmpty
+  have refinementRow : Cont first next refinement :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointRow : Cont schedule refinement endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have appendedEmpty : append first next = BHist.Empty :=
+    refinementRow.symm.trans refinementEmpty
+  have firstEmpty : hsame first BHist.Empty :=
+    (append_eq_empty_iff.mp appendedEmpty).left
+  have nextEmpty : hsame next BHist.Empty :=
+    (append_eq_empty_iff.mp appendedEmpty).right
+  have endpointSchedule : hsame endpoint schedule := by
+    cases refinementEmpty
+    exact endpointRow.trans (append_empty_right schedule)
+  exact ⟨firstEmpty, nextEmpty, endpointSchedule⟩
+
 end BEDC.Derived.NestedDyadicIntervalUp
