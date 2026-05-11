@@ -288,4 +288,16 @@ theorem TensorProductSingletonFactor_ledger_exactness_obligation {left right ten
             intro tensor' factor'
             exact (TensorProductSingletonFactor_classifier_uniqueness factor factor').left))))
 
+theorem TensorProductSingletonFactor_swap_semantic_name_certificate {left right tensor : BHist} :
+    TensorProductSingletonFactor left right tensor ->
+      SemanticNameCert (fun t : BHist => TensorProductSingletonFactor right left t)
+        (fun t : BHist => TensorProductSingletonFactor right left t)
+        (fun t : BHist => TensorProductSingletonFactor right left t) hsame ∧
+        TensorProductSingletonFactor right left tensor ∧ Cont right left tensor := by
+  intro factor
+  have swapped := TensorProductSingletonFactor_source_target_swap factor
+  exact And.intro
+    (TensorProductSingletonFactor_tensor_semanticNameCert swapped.left)
+    swapped
+
 end BEDC.Derived.TensorProductUp
