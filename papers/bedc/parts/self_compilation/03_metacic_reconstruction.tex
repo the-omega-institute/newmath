@@ -221,6 +221,53 @@ when the substitute preservation proof is attempted in earnest. The
 substrate-gap discovery sequence therefore has methodological as well as
 type-theoretic content.
 
+\paragraph{Seventh stage: shift propagation through binders.} The V6
+Bool-level substitute removes the $\mathrm{propext}$ exposure, and the
+substitution preservation weakening step exposes a further substrate issue.
+The syntactic shift function applies $\mathrm{shift}\ 0\ 1$ to terms
+uniformly, but Pi codomain shifts must additionally reflect the post-shift
+body context's variable re-binding. Concretely,
+
+$$
+\begin{aligned}
+  \mathrm{shift}\ 0\ 1\ (\Pi\ (\mathrm{var}\ 0).\ \mathrm{var}\ 0) =
+  \Pi\ (\mathrm{var}\ 1).\ \mathrm{var}\ 0.
+\end{aligned}
+$$
+
+Under weakening from $\Gamma$ to $(B :: \Gamma)$, the resulting
+$\mathrm{lam}$ in the shifted body context $[\mathrm{var}\ 1, \ldots]$
+type-checks the body $\mathrm{var}\ 0$ at lookup-type $\mathrm{var}\ 1$,
+requiring the Pi codomain to be $\mathrm{var}\ 1$, not $\mathrm{var}\ 0$.
+The naive weakening lemma is therefore unprovable for terms whose binder
+bodies reference previously bound variables.
+
+The substrate fix is non-trivial. Three candidate approaches are available:
+\begin{itemize}
+  \item Re-engineer $\mathrm{shift}$ to propagate context-dependent variable
+    re-bindings through binder codomains, requiring extra context tracking;
+  \item Restrict the substitution preservation statement to closed terms,
+    terms with no free de Bruijn variables in the affected range, sidestepping
+    the binder propagation issue;
+  \item Reformulate $\mathrm{HasType}$ to treat the codomain modulo a
+    syntactic equivalence relation that absorbs the shift gap.
+\end{itemize}
+
+The closed-term restriction is the most tractable substrate-friendly option.
+Closed-term substitution preservation is recorded as
+\autoref{thm:closed-term-substitute-preserves-typing}; it sidesteps the
+binder propagation gap at the cost of generality.
+
+\paragraph{Methodological note.} The seventh finding differs in character
+from findings one through six. The first three are substrate omissions; the
+fourth and fifth are statement-shape errors; the sixth is a tactic-discipline
+obstacle, the $\mathrm{propext}$ leakage through Prop-level decidable-if,
+addressed by Bool-level substitution. The seventh is a substrate-design issue
+that requires a structural choice: re-engineer shift, restrict to closed
+terms, or change typing equivalence. It is not a missing piece of the existing
+V6 substrate; it is a constraint of V6's chosen shift semantics that surfaces
+at the weakening lemma.
+
 \paragraph{Position.} The progression illustrates a methodological point:
 when the represented system's metatheorem is not provable, the substrate is
 incomplete. Each Lean-checked rejection identifies the next gap rigorously, not
@@ -325,7 +372,7 @@ content from outside the stack.
 
 \subsection{Current State of the Reconstruction}\label{subsec:current-state}
 
-This subsection records the state of the V1 MetaCIC reconstruction as encoded
+This subsection records the state of the MetaCIC reconstruction as encoded
 in BEDC's Lean library.
 
 \paragraph{Definitions in place.} The represented type theory exposes
@@ -350,14 +397,43 @@ for:
   \item Soundness of $\mathrm{check}$ against $\mathrm{HasType}$.
 \end{itemize}
 
-\paragraph{Theorems with statements pending proof.} The library carries one
-statement-only target, $\mathrm{substitute\_preserves\_typing}$, guarded by a
+\paragraph{Theorems with statements pending proof.} The library carries the
+unrestricted target, $\mathrm{substitute\_preserves\_typing}$, guarded by a
 $\mathrm{WellFormedCtx}$ premise. Its proof requires weakening of
 $\mathrm{HasType}$, substitution-shift composition, and binder substitution
-composition. The substrate gap progression recorded in
+composition. The same substrate also supports
+$\mathrm{closed\_term\_substitute\_preserves\_typing}$ as a more tractable
+closed-term variant. The substrate gap analysis in
 \autoref{subsec:substrate-gap-discovery} identifies the
-$\mathrm{WellFormedCtx}$ requirement; the remaining proof work is the helper
-lemmas above.
+$\mathrm{WellFormedCtx}$ requirement and the binder-shift propagation issue;
+the remaining proof work is the induction-based gluing from the available
+helper lemmas.
+
+\paragraph{Closed-term substitute preservation.} The library carries
+a closed-term restriction of substitute preservation:
+$$
+\begin{aligned}
+  \mathrm{closed\_term\_substitute\_preserves\_typing} :
+  \mathrm{WellFormedCtx}\ (B :: \Gamma) \to
+  \mathrm{ClosedAt}\ 0\ B \to
+  \mathrm{ClosedAt}\ 0\ s \to \\
+  \mathrm{HasType}\ (B :: \Gamma)\ t\ A \to
+  \mathrm{HasType}\ \Gamma\ s\ B \to \\
+  \mathrm{HasType}\ \Gamma\ (\mathrm{substitute}\ 0\ s\ t)\
+    (\mathrm{substitute}\ 0\ s\ A).
+\end{aligned}
+$$
+The statement is registered as
+$\mathrm{ClosedTermSubstitutePreservesTypingStatement}$. The
+infrastructure---$\mathrm{ClosedAt}$ inductive, $\mathrm{shift\_closed}$,
+$\mathrm{substitute\_closed}$, $\mathrm{substitute\_shift\_at\_eq}$---is in
+place with axiom-free proofs. The main theorem body remains a
+$\mathrm{True}$ placeholder pending induction-based gluing.
+
+The closed-term restriction sidesteps the seventh substrate gap
+(\autoref{subsec:substrate-gap-discovery}) by ensuring the substitution
+targets and source terms have no free variables that would expose the
+binder-shift propagation issue.
 
 \paragraph{Out of scope.} The reconstruction does not currently implement
 strong normalization, confluence, full universe hierarchy, inductive
