@@ -118,6 +118,7 @@ import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
@@ -360,11 +361,13 @@ import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.ReflectionExtension
+import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.CarrierObligation
 import BEDC.Derived.SpinGroupUp.StdBridge
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CliffordUnitCarrierObligation
+import BEDC.Derived.SpinGroupUp.CliffordEvenUnitCarrierObligation
 import BEDC.Derived.SpinGroupUp.GroupInterfaceBoundary
 import BEDC.Derived.SpinGroupUp.EvenProductClassifierObligation
 import BEDC.Derived.SpinGroupUp.LiftParityLedger
