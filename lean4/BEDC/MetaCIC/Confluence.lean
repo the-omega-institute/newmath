@@ -89,6 +89,10 @@ theorem betaStep_to_parallel {t u : Term} :
       exact BetaParallel.app (betaParallel_refl f) ih
   | congLam d b b' hbb' ih =>
       exact BetaParallel.lam (betaParallel_refl d) ih
+  | congPiCod d c c' hcc' ih =>
+      exact BetaParallel.pi (betaParallel_refl d) ih
+  | congLamDom d d' b hdd' ih =>
+      exact BetaParallel.lam ih (betaParallel_refl b)
 
 theorem betaParallel_join_refl_left {t u : Term} :
     BetaParallel t u →
@@ -286,12 +290,6 @@ theorem betaStep_sort_absurd
   intro h
   cases h
 
-theorem betaStep_pi_absurd
-    {d c u : Term} :
-    BetaStep (Term.pi d c) u → False := by
-  intro h
-  cases h
-
 theorem betaStar_var_target
     (i : Idx) {u : Term}
     (h : BetaStarStep (Term.var i) u) :
@@ -311,16 +309,6 @@ theorem betaStar_sort_target
       rfl
   | step hstep _ =>
       exact False.elim (betaStep_sort_absurd hstep)
-
-theorem betaStar_pi_target
-    {d c u : Term}
-    (h : BetaStarStep (Term.pi d c) u) :
-    u = Term.pi d c := by
-  cases h with
-  | refl t =>
-      rfl
-  | step hstep _ =>
-      exact False.elim (betaStep_pi_absurd hstep)
 
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}
@@ -349,19 +337,5 @@ theorem betaStar_sort_join
       (And.intro
         (BetaStarStep.refl Term.sort)
         (BetaStarStep.refl Term.sort))
-
-theorem betaStar_pi_join
-    {d c u1 u2 : Term}
-    (h1 : BetaStarStep (Term.pi d c) u1)
-    (h2 : BetaStarStep (Term.pi d c) u2) :
-    Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
-  cases betaStar_pi_target h1
-  cases betaStar_pi_target h2
-  exact
-    Exists.intro
-      (Term.pi d c)
-      (And.intro
-        (BetaStarStep.refl (Term.pi d c))
-        (BetaStarStep.refl (Term.pi d c)))
 
 end BEDC.MetaCIC

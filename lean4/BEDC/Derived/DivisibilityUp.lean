@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.PrimeUp.DividesClosure
 
 namespace BEDC.Derived.DivisibilityUp
 
@@ -13,6 +14,82 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.PrimeUp
+
+def DivisibilityBHistCarrier [AskSetup] [PackageSetup]
+    (dividend divisor multiplier productWitness bound ledger provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory dividend ∧
+    UnaryHistory divisor ∧
+      UnaryHistory multiplier ∧
+        NatMul divisor multiplier dividend ∧
+          Cont divisor multiplier productWitness ∧
+            Cont multiplier dividend bound ∧
+              Cont productWitness bound ledger ∧
+                Cont ledger provenance provenance ∧
+                  PkgSig bundle provenance pkg
+
+theorem DivisibilityBHistCarrier_mul_witness_closure [AskSetup] [PackageSetup]
+    {dividend divisor multiplier productWitness bound ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityBHistCarrier dividend divisor multiplier productWitness bound ledger provenance
+        bundle pkg ->
+      NatDivides divisor dividend ∧ UnaryHistory productWitness ∧
+        Cont divisor multiplier productWitness ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  cases carrier with
+  | intro dividendUnary rest =>
+      cases rest with
+      | intro divisorUnary rest =>
+          cases rest with
+          | intro multiplierUnary rest =>
+              cases rest with
+              | intro mul rest =>
+                  cases rest with
+                  | intro productRow rest =>
+                      cases rest with
+                      | intro _boundRow rest =>
+                          cases rest with
+                          | intro _ledgerRow rest =>
+                              cases rest with
+                              | intro _provenanceRow pkgSig =>
+                                  exact
+                                    ⟨Exists.intro multiplier (And.intro multiplierUnary mul),
+                                      unary_cont_closed divisorUnary multiplierUnary productRow,
+                                      productRow,
+                                      pkgSig⟩
+
+theorem DivisibilityBHistCarrier_order_bounded_ledger [AskSetup] [PackageSetup]
+    {dividend divisor multiplier productWitness bound ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityBHistCarrier dividend divisor multiplier productWitness bound ledger provenance
+        bundle pkg ->
+      UnaryHistory bound ∧ Cont multiplier dividend bound ∧
+        hsame bound (append multiplier dividend) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  cases carrier with
+  | intro _dividendUnary rest =>
+      cases rest with
+      | intro divisorUnary rest =>
+          cases rest with
+          | intro multiplierUnary rest =>
+              cases rest with
+              | intro mul rest =>
+                  cases rest with
+                  | intro _productRow rest =>
+                      cases rest with
+                      | intro boundRow rest =>
+                          cases rest with
+                          | intro _ledgerRow rest =>
+                              cases rest with
+                              | intro _provenanceRow pkgSig =>
+                                  have dividendUnary : UnaryHistory dividend :=
+                                    NatMul_result_unary divisorUnary mul
+                                  exact
+                                    ⟨unary_cont_closed multiplierUnary dividendUnary boundRow,
+                                      boundRow,
+                                      boundRow,
+                                      pkgSig⟩
 
 def DivisibilityFiniteHistoryCarrier [AskSetup] [PackageSetup]
     (dividend divisor multiplier product bound ledger provenance : BHist)
@@ -35,5 +112,28 @@ theorem DivisibilityFiniteHistoryCarrier_order_bounded_ledger
   obtain ⟨_dividendUnary, _divisorUnary, _multiplierUnary, _productUnary, boundUnary,
     ledgerUnary, _provenanceUnary, _productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
   exact ⟨boundUnary, ledgerUnary, ledgerRow, provenanceRow, pkgRow⟩
+
+def DivisibilityLedger [AskSetup] [PackageSetup]
+    (a b q witness order ledger provenance product : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ UnaryHistory witness ∧
+    UnaryHistory order ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+      Cont b q product ∧ hsame product a ∧ Cont witness ledger product ∧
+        PkgSig bundle provenance pkg
+
+theorem DivisibilityLedger_multiplication_witness_closure [AskSetup] [PackageSetup]
+    {a b q witness order ledger provenance product : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityLedger a b q witness order ledger provenance product bundle pkg ->
+      UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ Cont b q product ∧
+        hsame product a ∧ Cont witness ledger product ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right.right.right.right)))))
 
 end BEDC.Derived.DivisibilityUp
