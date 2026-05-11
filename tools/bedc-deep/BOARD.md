@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-662 - Bundle append Levi residual decomposition
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | Bundle append Levi residual decomposition |
-| Layer | core |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-Under BAppend setup, if BAppend(Π,Θ)=BAppend(Ω,Λ), there exists a residual R with either (Ω=BAppend(Π,R) and Θ=BAppend(R,Λ)) or (Π=BAppend(Ω,R) and Λ=BAppend(R,Θ)).
-
-Local inputs:
-- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
-
-Rationale:
-Bundle append currently has fixed-length cancellations and fixed-length split uniqueness but no Levi/overlap classification that drops the length-equality hypothesis. This is the unrestricted structural classifier that the existing cancellation theorems specialize from, and is a natural prerequisite for the unrestricted signature append split (candidate 2). Not a parameter-echo, not a wording variant of any B-### entry.
-
----
-
 ### B-663 - Append sameSig exact split into both components
 
 | field | value |
