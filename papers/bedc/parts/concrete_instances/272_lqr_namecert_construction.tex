@@ -196,3 +196,17 @@ The empty unary row has no finite horizon index position. Hence it supplies no c
 \end{proof}
 \leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlCarrier\_empty\_horizon\_backward\_ledger}
 \leanchecked{BEDC.Derived.LQRUp.LQRFiniteControlPacket\_empty\_horizon\_backward\_ledger}
+
+\begin{theorem}[LQRUp public NameCert export]
+\label{thm:lqr-public-namecert-export}
+The finite-control carrier of \autoref{def:lqr-finite-control-carrier}, together with the seed obligation surface, transition stability, quadratic-cost exactness, estimator-control boundary, finite-horizon Riccati closure, and empty-horizon ledger, assembles the public $\NameCert_{\LQRUp}$ over the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\EstimatorUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows. This public surface exports no host stochastic process, infinite-horizon policy, ambient optimizer, or external Riccati solver.
+\end{theorem}
+\begin{proof}
+Project the finite-control carrier. Its visible rows are exactly the state, control, transition, cost, estimator, horizon, backward-ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ coordinates already bound in the scoped dependency certificate.
+
+Apply \autoref{thm:lqr-scoped-dependency-certificate} to bind those rows to the displayed $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\ProbSpaceUp$, $\RandomVarUp$, and $\EstimatorUp$ sources. The transition-stability, quadratic-cost exactness, estimator-control, and finite-horizon Riccati rows supply the public certificate fields without importing an ambient control model.
+
+Use \autoref{thm:lqr-empty-horizon-backward-ledger} for the terminal boundary. It rules out hidden predecessor updates at the empty horizon, so the public packet cannot read an infinite-horizon policy or an external Riccati solver from a missing ledger row.
+
+Repack the displayed rows as the public $\NameCert_{\LQRUp}$ surface. Every exported coordinate is one of the named carrier, dependency, classifier, continuation, or provenance rows, and every non-displayed stochastic or optimizer object remains outside the certificate.
+\end{proof}
