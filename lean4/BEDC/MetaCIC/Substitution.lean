@@ -974,4 +974,56 @@ theorem substitute_preserves_typing_general_statement_absurd :
       closed_substitute_counter_source
       (HasType.sortRule []))
 
+theorem substitute_closed_self_under_arbitrary
+    (s t A : Term) (hclosed_t : ClosedAt 0 t) (hclosed_A : ClosedAt 0 A) :
+    substitute 0 s t = t ∧ substitute 0 s A = A := by
+  constructor
+  · exact substitute_closed 0 s t hclosed_t
+  · exact substitute_closed 0 s A hclosed_A
+
+theorem substitute_preserves_typing_closed_self_type
+    {Γ : Ctx} {t s A : Term}
+    (hclosed_t : ClosedAt 0 t)
+    (hclosed_A : ClosedAt 0 A)
+    (ht : HasType Γ t A) :
+    HasType Γ (substitute 0 s t) (substitute 0 s A) := by
+  rw [substitute_closed 0 s t hclosed_t]
+  rw [substitute_closed 0 s A hclosed_A]
+  exact ht
+
+theorem beta_closed_preserves_typing
+    (closedFun : Term) (_h_closed : ClosedAt 0 closedFun)
+    (h_typed : HasType [] closedFun (Term.pi Term.sort Term.sort)) :
+    HasType [] (Term.app closedFun Term.sort) Term.sort := by
+  change HasType [] (Term.app closedFun Term.sort) (substitute 0 Term.sort Term.sort)
+  apply HasType.appRule
+  · exact h_typed
+  · exact HasType.sortRule []
+
+theorem beta_closed_preserves_typing_after_substitution
+    (s closedFun : Term) (h_closed : ClosedAt 0 closedFun)
+    (h_typed : HasType [] closedFun (Term.pi Term.sort Term.sort)) :
+    HasType []
+      (Term.app (substitute 0 s closedFun) (substitute 0 s Term.sort))
+      (substitute 0 s Term.sort) := by
+  rw [substitute_closed 0 s closedFun h_closed]
+  exact beta_closed_preserves_typing closedFun h_closed h_typed
+
+theorem substitute_closed_self_preserves_closed_application_typing
+    {Γ : Ctx} {f s a dom cod : Term}
+    (hclosed_f : ClosedAt 0 f)
+    (hclosed_a : ClosedAt 0 a)
+    (hclosed_cod_sub : ClosedAt 0 (substitute 0 a cod))
+    (hf : HasType Γ f (Term.pi dom cod))
+    (ha : HasType Γ a dom) :
+    HasType Γ
+      (Term.app (substitute 0 s f) (substitute 0 s a))
+      (substitute 0 s (substitute 0 a cod)) := by
+  rw [substitute_closed 0 s f hclosed_f]
+  rw [substitute_closed 0 s a hclosed_a]
+  rw [substitute_closed 0 s (substitute 0 a cod) hclosed_cod_sub]
+  apply HasType.appRule
+  · exact hf
+  · exact ha
+
 end BEDC.MetaCIC
