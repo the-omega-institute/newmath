@@ -73,4 +73,32 @@ theorem SemiringLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+def SemiringDistributiveLedger (add mul left right dist : BHist) : Prop :=
+  UnaryHistory add ∧
+    UnaryHistory mul ∧
+      Cont mul add left ∧
+        Cont add mul right ∧
+          hsame dist (append left right)
+
+theorem SemiringDistributiveLedger_boundary {add mul left right dist : BHist} :
+    SemiringDistributiveLedger add mul left right dist →
+      UnaryHistory left ∧
+        UnaryHistory right ∧
+          UnaryHistory dist ∧
+            hsame dist (append left right) ∧ Cont mul add left ∧ Cont add mul right := by
+  intro ledger
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed ledger.right.left ledger.left ledger.right.right.left
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed ledger.left ledger.right.left ledger.right.right.right.left
+  have distUnary : UnaryHistory dist :=
+    unary_transport_symm
+      (unary_cont_closed leftUnary rightUnary (cont_intro rfl))
+      ledger.right.right.right.right
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro distUnary
+        (And.intro ledger.right.right.right.right
+          (And.intro ledger.right.right.left ledger.right.right.right.left))))
+
 end BEDC.Derived.SemiringUp
