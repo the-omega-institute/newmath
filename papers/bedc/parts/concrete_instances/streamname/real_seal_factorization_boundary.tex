@@ -1,0 +1,49 @@
+\section{StreamName Real seal factorization boundary}
+\label{sec:streamname-real-seal-factorization-boundary}
+
+\begin{theorem}[StreamName Real seal factorization boundary]
+\label{thm:streamname-real-seal-factorization-boundary}
+Let $W$ be a finite public $\StreamNameUp$ rational observation window. Suppose
+that $W$ is read through certified unary indices, that an accepted
+$\RegSeqRat$ pointwise seal package is displayed over the same certified
+indices, and that a finite-window $\RealUp$ seal read arises from that
+StreamName-to-$\RegSeqRat$ handoff. Then the $\RealUp$ seal read factors
+through exactly the following rows: the StreamName point rows over $W$, the
+accepted $\RegSeqRat$ seal rows, the $\mathsf{ProbeBundle}$ and
+$\mathsf{InBundle}$ membership rows, the $\mathsf{UnaryHistory}$ observation
+rows, the finite $\Cont$ ledger, the displayed $\hsame$ transports, and the
+$\mathsf{Pkg}$ provenance naming the source certificates.
+
+Conversely, any finite packet consisting of precisely those rows repacks as
+the same public finite-window $\RealUp$ seal read. The factorization contains
+no completion data, quotient representative, host index equality, Classical
+choice, or $\RealUp$ completeness datum outside the displayed
+$\RegSeqRat$ seal rows.
+\end{theorem}
+\begin{proof}
+First read the public $\RealUp$ boundary through
+\autoref{thm:streamname-realup-seal-boundary}. This identifies every
+finite-window endpoint read arising from the handoff with the StreamName source
+rows, the accepted $\RegSeqRat$ pointwise rows, bundle membership, unary
+observations, finite ledger entries, $\hsame$ transports, and provenance rows.
+
+Next use \autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. It
+prevents nested finite windows from changing the seal surface: restricting or
+refining $W$ keeps the same displayed point rows, the same accepted
+$\RegSeqRat$ seal rows, and the same finite $\Cont/\mathsf{Pkg}$ provenance
+on the certified indices.
+
+The common seal cover is supplied by
+\autoref{thm:streamname-regseqrat-realup-triple-seal-cover}. The StreamName
+window, the $\RegSeqRat$ seal packet, and the $\RealUp$ endpoint read agree
+only through the listed rows, so any public $\RealUp$ read from the handoff
+has the announced factorization.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion}. The pointwise
+handoff exhausts the downstream seal rows by the certified StreamName
+observations and accepted $\RegSeqRat$ rows. Since none of the cited boundary
+theorems introduces completion data, quotient representatives, host index
+equality, Classical choice, or a $\RealUp$ completeness field, the reverse
+packing uses exactly the displayed rows and no further datum.
+\end{proof}
