@@ -409,4 +409,26 @@ theorem SpectralMeasureFinitePacket_projection_ledger_transport [AskSetup] [Pack
         additivityRow', endpointRow', pkgSig'⟩,
       sameProjection, sameAdditivity, sameEndpoint⟩
 
+theorem SpectralMeasureFinitePacket_public_consumer_boundary [AskSetup] [PackageSetup]
+    {hilbert observable event projection orthogonality additivity transport provenance endpoint
+      consumer : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpectralMeasureFinitePacket hilbert observable event projection orthogonality additivity
+        transport provenance endpoint probe pkg ->
+      Cont endpoint transport consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append endpoint transport) ∧
+          Cont observable event projection ∧ Cont projection orthogonality additivity ∧
+            Cont additivity transport endpoint ∧ PkgSig probe provenance pkg := by
+  intro packet consumerRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed packet.right.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.left consumerRow
+  exact
+    And.intro consumerUnary
+      (And.intro consumerRow
+        (And.intro packet.right.right.right.right.right.right.right.right.right.left
+          (And.intro packet.right.right.right.right.right.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right.right.right.right.right.right))))
+
 end BEDC.Derived.SpectralMeasureUp
