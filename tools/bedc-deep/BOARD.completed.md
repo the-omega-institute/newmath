@@ -16742,3 +16742,27 @@ Rationale:
 package_token_policy.tex:360 states thm:package-token-policy-from-token-unique (TokUnique → PkgTokPol) but the converse is not stated. Lean side: `grep 'TokUnique_from|tokUnique_from_packageTokenPolicy' lean4/BEDC/` returns 0 — only `packageTokenPolicy_from_tokUnique` exists. The converse holds: given TokIntro(Π,s,p), TokIntro(Π,t,p), apply soundness with hsame(s,s) to two copies of TokIntro(Π,s,p) yielding psame(p,p); then reflection on TokIntro(Π,s,p), TokIntro(Π,t,p), psame(p,p) gives hsame(s,t). Together with the existing forward direction this gives an equivalence (TokUnique ⇔ PkgTokPol) on the concrete instance — closes the policy-mode contract loop highlighted in def:policy-mode (line 375). Concrete uniqueness claim, host file 513 lines.
 
 ---
+
+### B-664 - Strict unary prefix trichotomy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Strict unary prefix trichotomy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under Unary(h) and Unary(k), exactly one of hsame(h,k), StrictUnaryPrefix(h,k), or StrictUnaryPrefix(k,h) holds.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`
+
+Rationale:
+Nat↑ seeds totality, directed common upper, and strict-prefix asymmetry separately; this is the order-classifier trichotomy that assembles them into a rigid three-way exhaustive-and-exclusive partition. Concrete classification target, not a transport echo, not in paper labels under nat/unary. Single-file landing in the unary section of 04_nat_namecert_construction.tex; file is not near line cap.
+
+---
