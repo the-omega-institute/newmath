@@ -181,6 +181,15 @@ theorem AxisAddCont_zeroSpine_result_inversion {h k r : BHist} :
       cases contHK
       exact False.elim (zeroSpine_no_e1_extension spineR)
 
+theorem AxisAddCont_zeroSpine_result_sources_iff {h k r : BHist} :
+    Cont h k r -> (ZeroSpine r ↔ ZeroSpine h ∧ ZeroSpine k) := by
+  intro contHK
+  constructor
+  · intro spineR
+    exact AxisAddCont_zeroSpine_result_inversion contHK spineR
+  · intro sourceSpines
+    exact AxisAddCont_result_zeroSpine sourceSpines.left sourceSpines.right contHK
+
 theorem AxisAdd_semantic_name_certificate {h k : BHist} :
     AxisAddSourceSpec h k ->
       SemanticNameCert (AxisAddPatternSpec h k) (AxisAddPatternSpec h k)

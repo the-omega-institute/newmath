@@ -32,6 +32,55 @@ theorem DiffFormRootCarrierSource_obligation {degree probe tensor scalar antisym
       tensorRoute,
       scalarRoute⟩
 
+theorem DiffFormRootSource_obligation {degree probe tensor scalar antisym ledger : BHist} :
+    UnaryHistory degree -> UnaryHistory probe -> Cont degree probe tensor ->
+      UnaryHistory antisym -> Cont tensor antisym scalar ->
+        hsame ledger (append degree (append probe (append tensor (append scalar antisym)))) ->
+          SemanticNameCert (fun row : BHist => hsame row ledger)
+              (fun row : BHist => hsame row ledger)
+              (fun row : BHist => hsame row ledger) hsame ∧
+            UnaryHistory degree ∧ UnaryHistory probe ∧ UnaryHistory tensor ∧
+              UnaryHistory scalar ∧ Cont degree probe tensor ∧ Cont tensor antisym scalar := by
+  intro degreeUnary probeUnary tensorRoute antisymUnary scalarRoute ledgerRoute
+  have carrierRows :=
+    DiffFormBHistCarrier_coordinate_ledger degreeUnary probeUnary tensorRoute antisymUnary
+      scalarRoute ledgerRoute
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row ledger)
+        (fun row : BHist => hsame row ledger)
+        (fun row : BHist => hsame row ledger) hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro ledger (hsame_refl ledger)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _left _right same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _left _middle _right sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _left _right same source
+          exact hsame_trans (hsame_symm same) source
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  exact
+    ⟨cert,
+      carrierRows.left,
+      carrierRows.right.left,
+      carrierRows.right.right.left,
+      carrierRows.right.right.right.left,
+      tensorRoute,
+      scalarRoute⟩
+
 theorem DiffFormRootWedgeProbe_obligation
     {leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger : BHist}
     {left right : ProbeBundle BHist} :
@@ -87,6 +136,31 @@ theorem DiffFormRootWedgeProbe_obligation
       coverage.right.right.right,
       degreeLedger.right.right.left,
       degreeLedger.right.right.right.left⟩
+
+theorem DiffFormRootWedgeOperation_obligation {left right : ProbeBundle BHist}
+    {leftDegree rightDegree outDegree leftLedger rightLedger tensorLedger assocLeft assocRight :
+      BHist} :
+    DiffFormWedgeProbeConcatenationLedger left right leftLedger rightLedger tensorLedger ->
+      DiffFormWedgeDegreeLedger leftDegree rightDegree outDegree leftLedger rightLedger
+          tensorLedger ->
+        DiffFormWedgeDegreeLedger leftDegree outDegree assocLeft leftLedger tensorLedger
+            tensorLedger ->
+          DiffFormWedgeDegreeLedger outDegree rightDegree assocRight tensorLedger rightLedger
+              tensorLedger ->
+            bundleLength (bundleAppend left right) = bundleLength left + bundleLength right ∧
+              (forall probe : BHist,
+                InBundle probe (bundleAppend left right) <-> InBundle probe left ∨
+                  InBundle probe right) ∧
+                Cont leftDegree rightDegree outDegree ∧ UnaryHistory outDegree ∧
+                  hsame tensorLedger (append leftLedger rightLedger) := by
+  intro probeLedger degreeLedger _assocLeftLedger _assocRightLedger
+  have coverage := DiffFormWedgeProbeConcatenationLedger_coverage probeLedger
+  exact
+    ⟨coverage.left,
+      coverage.right.left,
+      degreeLedger.right.right.left,
+      degreeLedger.right.right.right.left,
+      coverage.right.right.right⟩
 
 theorem DiffFormRootDownstreamConsumption_obligation
     {ScalarCarrier : BHist -> Prop} {ScalarClassifier : BHist -> BHist -> Prop}
