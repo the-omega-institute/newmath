@@ -574,3 +574,57 @@ the rows already read from the terminal $\StreamNameUp$ source packet, the seal
 inherits that ledger and has no constructor that could export quotient,
 completion, host, arithmetic, order, bridge, or separate classifier data.
 \end{proof}
+
+\begin{theorem}[RealUp common-refinement seal pullback]
+\label{thm:streamname-realup-common-refinement-seal-pullback}
+Let $C$ be a certified $\StreamNameUp$ common-refinement package, and let
+$R$ and $R'$ be finite-window $\RealUp$ terminal seal consumers reached from
+$C$ through compatible accepted $\RegSeqRat$ tail-refinement seals. Then
+equality of the common-refinement source tuple is equivalent to equality of the
+visible terminal seal boundary.
+
+The common-refinement source tuple consists exactly of the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the $\mathsf{UnaryHistory}$
+rows, the $\mathsf{ProbeBundle}$ rows, the $\mathsf{InBundle}$ rows, the
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, the $\mathsf{DyadicRatCore}$ endpoint rows, the visible $\Cont$,
+$\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows, and the certified
+$\StreamNameUp$ provenance route in $C$.
+
+The visible terminal seal boundary consists of the same finite
+$\mathsf{BHist}$ ledger rows after the terminal $\RealUp$ consumer read. It
+contains no completion object, quotient row, host index, metric-completeness
+datum, arithmetic row, order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First assume equality of the common-refinement source tuple. Apply
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} to the
+two routes out of $C$. The route comparison identifies the restricted
+StreamName classifier rows, probe and unary-history rows, bundle membership,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, dyadic endpoint
+rows, and visible transport and provenance rows before either terminal
+consumer reads the packet.
+
+Next pass the identified source tuple through the terminal $\RealUp$ surface.
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage} and
+\autoref{thm:regseqrat-terminal-tail-refinement-seal}. Coverage says that the
+terminal consumer can read only the listed finite source rows, and the
+tail-refinement seal says that compatible accepted $\RegSeqRat$ refinements
+produce the unique terminal seal over those rows. Thus $R$ and $R'$ expose the
+same visible terminal seal boundary.
+
+Conversely assume equality of the visible terminal seal boundary. Apply
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness}. Equality of
+the terminal boundary reads back exactly the StreamName classifier rows,
+unary-history and bundle rows, pointwise rational-history rows, accepted
+$\RegSeqRat$ spine, dyadic endpoint rows, and visible $\Cont$, $\hsame$,
+$\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+It remains to identify the common-refinement route itself. Apply
+\autoref{thm:realup-finite-window-seal-cofinality}. The two compatible
+tail-refinement seals are cofinal over the same certified package $C$, so the
+finite terminal boundary readback recovers the same common-refinement source
+tuple. The cited coverage and seal theorems expose no completion, quotient,
+host, metric, arithmetic, order, or bridge rows, so equality cannot depend on
+any data outside that tuple.
+\end{proof}
