@@ -742,6 +742,7 @@ import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
 import BEDC.Derived.LambdaCalcUp.NameCertCarrierObligation
 import BEDC.Derived.LambdaCalcUp.PublicBoundary
+import BEDC.Derived.LambdaCalcUp.RootFrontier
 import BEDC.Derived.LambdaCalcUp.RootConstructorScope
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.NumFieldUp
