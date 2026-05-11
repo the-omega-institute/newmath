@@ -82,6 +82,7 @@ observation rows, and the consumption ledger read by $\RegSeqRat$ and
 $\RealUp$. No consumer may read a convergence rate except through that finite
 window.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_cont\_window\_closure}
 \begin{proof}
 Inspect the accepted carrier packet at the requested precision row. The
 threshold is present as a visible $\NatUp$ row, and the tolerance budget is
@@ -129,6 +130,7 @@ threshold selected by the modulus row, the bound ledger gives the estimate
 required by the regular-sequence classifier, and this estimate is stable under
 componentwise $\hsame$ transport of $m$, $n$, and the scheduled observations.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_regseqrat\_regularity\_handoff}
 \begin{proof}
 Read the $\RegSeqRat$ regularity row as a request for a visible late-pair
 estimate. The carrier already stores exactly that estimate in the consumption
@@ -221,15 +223,16 @@ the naming-certificate fields at the paper surface without adding hidden
 limits or unrecorded threshold choices.
 \end{proof}
 
-\closureat{CauchyModulusUp}{obligationStr}
+\closureat{CauchyModulusUp}{scopedStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\CauchyModulusUp}
   \constructivestory{A $\CauchyModulusUp$ packet is generated from visible $\NatUp$ precision and threshold rows, visible $\RatUp$ tolerance rows, scheduled $\StreamNameUp$ observation rows, and a finite consumption ledger showing how the displayed bound is read by $\RegSeqRat$ and $\RealUp$. This is the Bishop-style explicit-rate object needed for regular rational sequences and real-number convergence, with no stream quotient, ambient limit object, hidden threshold choice, limit selector, or completed real object.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope enumerates the carrier, classifier, $\hsame$ stability, finite $\Cont$ window closure, regular-sequence handoff, and local $\NameCert_{\CauchyModulusUp}$ obligation surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{The chapter does not close the formal Lean namespace, the full $\NameCert_{\CauchyModulusUp}$ theorem, $\RealUp$ completeness, a Cauchy completion, quotient equality of real names, or a selected limit.}
-  \upgradepath{Scoped closure requires binding these rows explicitly to $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
+  \upgradepath{The next paper-axis step is a public $\CauchyModulusUp$ consumer certificate for $\RegSeqRat$ and $\RealUp$.}
 \end{closurestatus}
