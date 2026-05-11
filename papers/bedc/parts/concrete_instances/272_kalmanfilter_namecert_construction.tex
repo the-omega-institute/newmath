@@ -1,0 +1,126 @@
+\chapter{A Concrete Naming Certificate for $\KalmanFilterUp$}
+\label{ch:concrete-instances-kalmanfilter-namecert}
+
+The $\KalmanFilterUp$ interface records the finite prediction-update packet of
+a linear state estimator. Its BEDC surface is the textbook recursive filter
+ledger of Kailath, \emph{Linear Systems} (1980), read through
+$\NameCert_{\DynSystemUp}$, $\NameCert_{\MatrixUp}$,
+$\NameCert_{\VecSpaceUp}$, $\NameCert_{\ProbSpaceUp}$ or
+$\NameCert_{\RandomVarUp}$, and the finite observation discipline of
+$\ControlObservabilityUp$.
+
+\section{Carrier and classifier}
+\label{sec:kalmanfilter-carrier-classifier}
+
+\begin{definition}[Kalman-filter carrier]
+\label{def:kalmanfilter-carrier}
+A $\KalmanFilterUp$ carrier is a finite $\mathsf{BHist}$
+prediction-update packet. Its visible rows are a transition matrix row $A$, an
+observation matrix row $C$, a prior-state row $\hat x^{-}$, an innovation row
+$y-C\hat x^{-}$, a gain row $K$, and a posterior row
+$\hat x^{+}=\hat x^{-}+K(y-C\hat x^{-})$, all named over the displayed
+$\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, and
+$\ProbSpaceUp/\RandomVarUp$ dependency packets.
+
+The carrier also contains the $\hsame$ transports for corresponding matrix,
+state, observation, innovation, gain, and posterior rows; the $\Cont$
+provenance explaining how the posterior row is read from the prediction and
+observation rows; and the $\mathsf{Pkg}$ dependencies naming the source
+certificates and the $\ControlObservabilityUp$ finite observation packet.
+It exports no Gaussian measure completion, analytic convergence theorem, host
+stochastic process, or unbounded filtration object.
+\end{definition}
+
+\begin{definition}[Kalman-filter classifier]
+\label{def:kalmanfilter-classifier}
+Two accepted $\KalmanFilterUp$ packets are classified together exactly when
+their transition, observation, prior-state, innovation, gain, and posterior
+rows are matched by displayed $\hsame$ transports with the same $\Cont$
+readback and $\mathsf{Pkg}$ provenance. The classifier is therefore a
+finite-ledger comparison of prediction-update packets, not equality of host
+random variables, covariance operators, or ambient stochastic processes.
+\end{definition}
+
+\section{Finite prediction-update surface}
+\label{sec:kalmanfilter-prediction-update-surface}
+
+\begin{theorem}[Kalman-filter prediction-update ledger]
+\label{thm:kalmanfilter-prediction-update-ledger}
+Every accepted $\KalmanFilterUp$ carrier exposes its prediction-update step
+only through the displayed rows $A$, $C$, $\hat x^{-}$, $y-C\hat x^{-}$, $K$,
+and $\hat x^{+}$, the $\hsame$ transports between corresponding rows, the
+$\Cont$ provenance of the posterior readback, and the $\mathsf{Pkg}$
+dependencies on $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$,
+$\ProbSpaceUp/\RandomVarUp$, and $\ControlObservabilityUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kalmanfilter-carrier} to its six displayed
+prediction-update rows. These rows contain the full finite calculation used by
+the packet: transition, observation, prior state, innovation, gain, and
+posterior.
+
+Next project the transport and provenance rows. The $\hsame$ entries compare
+only corresponding displayed rows, while the $\Cont$ entry names the readback
+of the posterior from the prediction and innovation ledger.
+
+The remaining rows are the $\mathsf{Pkg}$ dependencies. Since the carrier has
+no coordinate for a completed Gaussian measure, analytic convergence argument,
+host stochastic process, or unbounded filtration, no consumer can read such an
+object from the packet.
+\end{proof}
+
+\begin{theorem}[Kalman-filter observation readback]
+\label{thm:kalmanfilter-observation-readback}
+The observation part of an accepted $\KalmanFilterUp$ packet factors through
+the finite $\ControlObservabilityUp$ observation ledger: the observation matrix
+row $C$, the innovation row $y-C\hat x^{-}$, and the posterior update row are
+read from finite observation data together with the displayed $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ rows. No hidden observer state or external
+realization is exported.
+\end{theorem}
+\begin{proof}
+Use the $\mathsf{Pkg}$ dependency naming $\ControlObservabilityUp$ to locate
+the finite observation packet. The matrix row $C$ and every observation used
+by the innovation row are rows of that finite ledger.
+
+The posterior row is then read by the carrier's $\Cont$ provenance from the
+prior-state, innovation, and gain rows. Transport stability follows by applying
+the displayed $\hsame$ entries to the same finite observation and update rows.
+
+Because all observation reads pass through the finite
+$\ControlObservabilityUp$ ledger, the packet has no row from which a hidden
+observer state or external realization can be projected.
+\end{proof}
+
+\begin{theorem}[Kalman-filter local NameCert surface]
+\label{thm:kalmanfilter-local-namecert-surface}
+The local $\NameCert_{\KalmanFilterUp}$ seed surface consists of the carrier
+row of \autoref{def:kalmanfilter-carrier}, the classifier row of
+\autoref{def:kalmanfilter-classifier}, the prediction-update ledger of
+\autoref{thm:kalmanfilter-prediction-update-ledger}, the observation readback
+of \autoref{thm:kalmanfilter-observation-readback}, and the source
+$\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$,
+$\ProbSpaceUp/\RandomVarUp$, and $\ControlObservabilityUp$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier supply the finite packet and its comparison rule.
+The prediction-update ledger identifies the consumer-visible calculation rows,
+and the observation readback binds the observation rows to the finite
+$\ControlObservabilityUp$ surface.
+
+Collect the source dependencies through the displayed $\mathsf{Pkg}$ rows.
+This gives the local naming-certificate surface for the seed chapter while
+leaving Gaussian measure completion, analytic convergence, and host stochastic
+process semantics outside the exported BEDC packet.
+\end{proof}
+
+\begin{closurestatus}{\KalmanFilterUp}
+  \constructivestory{A $\KalmanFilterUp$ packet is generated from a finite transition row, observation row, prior-state row, innovation row, gain row, posterior row, rowwise $\hsame$ transports, posterior $\Cont$ readback, and $\mathsf{Pkg}$ dependencies on the displayed system, matrix, vector-space, probability or random-variable, and control-observability certificates.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the finite prediction-update carrier, classifier, observation readback, and local $\NameCert_{\KalmanFilterUp}$ surface over $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\ProbSpaceUp/\RandomVarUp$, and $\ControlObservabilityUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Gaussian measure completion, analytic filter convergence, covariance-limit theory, a host stochastic process, or a public standard bridge.}
+  \upgradepath{Obligation closure requires explicit carrier, classifier, prediction-update ledger, observation readback, transport-stability, and local NameCert rows under BEDC.Derived.KalmanFilterUp.}
+\end{closurestatus}
