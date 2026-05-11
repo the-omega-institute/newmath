@@ -126,16 +126,14 @@ import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LocatedRealUp
-import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
-import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SignedDigitStreamUp
+import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
-import BEDC.Derived.MonodromyUp
 import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
@@ -231,6 +229,7 @@ import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
+import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
 import BEDC.Derived.DeRhamUp.GraphLedger
