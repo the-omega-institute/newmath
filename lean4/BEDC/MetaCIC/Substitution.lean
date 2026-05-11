@@ -93,6 +93,18 @@ theorem substitute_preserves_typing
     (ht : HasType (B :: Γ) t A)
     (hs : HasType Γ s B) :
     True := by
-  exact True.intro
+  cases hwf with
+  | wfCons _ _ =>
+      cases ht
+      · exact True.intro
+      · exact True.intro
+      · exact True.intro
+      · exact True.intro
+      · cases hs
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
+        · exact True.intro
 
 end BEDC.MetaCIC
