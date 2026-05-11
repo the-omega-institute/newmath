@@ -399,4 +399,59 @@ theorem StatManifoldSourceScope_dependency_boundary [AskSetup] [PackageSetup]
     cont_respects_hsame sameProvenance (hsame_refl dual) ledgerRow ledgerRow'
   exact And.intro sameProvenance sameLedger
 
+theorem StatManifoldFisherManifoldSource_scope_semanticNameCert [AskSetup] [PackageSetup]
+    {manifold fisher theta distribution metric primal dual provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StatManifoldCarrier manifold fisher theta distribution metric primal dual provenance ledger
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => row = manifold ∨ row = fisher)
+          (fun row : BHist => row = manifold ∨ row = fisher ∨ row = metric ∨ row = provenance)
+          (fun row : BHist => row = manifold ∨ row = fisher ∨ row = metric ∨ row = provenance)
+          hsame ∧
+        Cont theta distribution metric ∧ Cont manifold fisher provenance ∧
+          PkgSig bundle ledger pkg := by
+  intro carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => row = manifold ∨ row = fisher)
+          (fun row : BHist => row = manifold ∨ row = fisher ∨ row = metric ∨ row = provenance)
+          (fun row : BHist => row = manifold ∨ row = fisher ∨ row = metric ∨ row = provenance)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro manifold (Or.inl rfl)
+      equiv_refl := by
+        intro row _rowSource
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other rowOther
+        exact hsame_symm rowOther
+      equiv_trans := by
+        intro _row _middle _other rowMiddle middleOther
+        exact hsame_trans rowMiddle middleOther
+      carrier_respects_equiv := by
+        intro row other rowOther rowSource
+        cases rowOther
+        exact rowSource
+    }
+    pattern_sound := by
+      intro _row rowSource
+      cases rowSource with
+      | inl manifoldEq =>
+          exact Or.inl manifoldEq
+      | inr fisherEq =>
+          exact Or.inr (Or.inl fisherEq)
+    ledger_sound := by
+      intro _row rowSource
+      cases rowSource with
+      | inl manifoldEq =>
+          exact Or.inl manifoldEq
+      | inr fisherEq =>
+          exact Or.inr (Or.inl fisherEq)
+  }
+  exact And.intro cert
+    (And.intro carrier.right.right.right.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right.right.right.right.right))
+
 end BEDC.Derived.StatManifoldUp
