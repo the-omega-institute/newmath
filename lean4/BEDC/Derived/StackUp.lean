@@ -155,4 +155,25 @@ theorem StackCarrierPacket_public_surface [AskSetup] [PackageSetup]
         (And.intro objectArrowTransport
           (And.intro carrierRestrictionEndpoint endpointPkg))))
 
+theorem StackCarrierSurface_carrier_obligation [AskSetup] [PackageSetup]
+    {scheme sheaf objectRow arrowRow transportRow restrictionRow provenance siteLedger
+      groupoidLedger routeLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont scheme sheaf siteLedger ->
+      Cont objectRow arrowRow groupoidLedger ->
+        Cont transportRow restrictionRow routeLedger ->
+          Cont siteLedger groupoidLedger provenance ->
+            Cont provenance routeLedger endpoint ->
+              PkgSig bundle endpoint pkg ->
+                hsame siteLedger (append scheme sheaf) ∧
+                  hsame groupoidLedger (append objectRow arrowRow) ∧
+                    hsame routeLedger (append transportRow restrictionRow) ∧
+                      hsame endpoint (append provenance routeLedger) ∧
+                        PkgSig bundle endpoint pkg := by
+  intro siteRow groupoidRow routeRow _provenanceRow endpointRow pkgSig
+  exact And.intro siteRow
+    (And.intro groupoidRow
+      (And.intro routeRow
+        (And.intro endpointRow pkgSig)))
+
 end BEDC.Derived.StackUp

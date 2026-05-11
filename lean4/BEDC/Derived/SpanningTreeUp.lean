@@ -167,4 +167,23 @@ theorem SpanningTreeCarrierPacket_dependency_surface [AskSetup] [PackageSetup]
               (And.intro reachabilityLedger
                 (And.intro provenanceEndpoint endpointPkg)))))))
 
+theorem SpanningTreeCarrierSurface_carrier_obligation [AskSetup] [PackageSetup]
+    {vertex graphEdge treeEdge root incidence reachability acyclicity ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont vertex graphEdge incidence ->
+      Cont treeEdge root reachability ->
+        Cont incidence reachability ledger ->
+          Cont ledger acyclicity endpoint ->
+            PkgSig bundle endpoint pkg ->
+              hsame incidence (append vertex graphEdge) ∧
+                hsame reachability (append treeEdge root) ∧
+                  hsame ledger (append incidence reachability) ∧
+                    hsame endpoint (append ledger acyclicity) ∧
+                      PkgSig bundle endpoint pkg := by
+  intro incidenceRow reachabilityRow ledgerRow endpointRow pkgSig
+  exact And.intro incidenceRow
+    (And.intro reachabilityRow
+      (And.intro ledgerRow
+        (And.intro endpointRow pkgSig)))
+
 end BEDC.Derived.SpanningTreeUp
