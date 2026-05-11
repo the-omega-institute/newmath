@@ -169,6 +169,54 @@ theorem nat_blt_false_of_ble_false (n i : Nat) :
       | zero => rfl
       | succ i => exact ih i h
 
+theorem nat_lt_succ_of_ble_false (d i : Nat) :
+    Nat.ble d i = false → i < d + 1 := by
+  induction d generalizing i with
+  | zero =>
+      intro h
+      cases h
+  | succ d ih =>
+      intro h
+      cases i with
+      | zero =>
+          exact Nat.zero_lt_succ (d + 1)
+      | succ i =>
+          rw [nat_ble_add_one_add_one] at h
+          exact Nat.succ_lt_succ (ih i h)
+
+theorem nat_blt_true_of_ble_true_beq_false (d i : Nat) :
+    Nat.ble d i = true → Nat.beq i d = false → Nat.blt d i = true := by
+  induction d generalizing i with
+  | zero =>
+      intro _ hbeq
+      cases i with
+      | zero => cases hbeq
+      | succ _ => rfl
+  | succ d ih =>
+      intro hble hbeq
+      cases i with
+      | zero => cases hble
+      | succ i =>
+          rw [nat_ble_add_one_add_one] at hble
+          rw [nat_beq_add_one_add_one] at hbeq
+          rw [nat_blt_add_one_add_one]
+          exact ih i hble hbeq
+
+theorem nat_ble_pred_of_blt_succ_true (d i : Nat) :
+    Nat.blt d (i + 1) = true → Nat.ble d i = true := by
+  induction d generalizing i with
+  | zero =>
+      intro _
+      rfl
+  | succ d ih =>
+      intro h
+      cases i with
+      | zero => cases h
+      | succ i =>
+          rw [nat_blt_add_one_add_one] at h
+          rw [nat_ble_add_one_add_one]
+          exact ih i h
+
 theorem nat_beq_succ_false_of_ble_true (n i : Nat) :
     Nat.ble n i = true → Nat.beq (i + 1) n = false := by
   induction n generalizing i with
@@ -305,6 +353,132 @@ theorem closedAt_zero_at (d : Idx) (t : Term) :
   | succ d ih =>
       intro h
       exact closedAt_succ d t (ih h)
+
+theorem shift_substitute_var_closed_at_zero
+    (d i : Idx) (s : Term) (hclosed_s : ClosedAt 0 s) :
+    shift d 1 (substitute d s (Term.var i)) =
+      substitute (d + 1) s (shift d 1 (Term.var i)) := by
+  cases hble : Nat.ble d i
+  · have hlt : i < d + 1 := nat_lt_succ_of_ble_false d i hble
+    have hbeq : Nat.beq i d = false :=
+      nat_beq_false_of_ble_false d i hble
+    have hblt : Nat.blt d i = false :=
+      nat_blt_false_of_ble_false d i hble
+    change shift d 1
+        (match Nat.beq i d, Nat.blt d i with
+        | true, _ => s
+        | false, true => Term.var (i - 1)
+        | false, false => Term.var i) =
+      substitute (d + 1) s
+        (match Nat.ble d i with
+        | true => Term.var (i + 1)
+        | false => Term.var i)
+    rw [hbeq, hblt, hble]
+    change shift d 1 (Term.var i) = substitute (d + 1) s (Term.var i)
+    change
+      (match Nat.ble d i with
+      | true => Term.var (i + 1)
+      | false => Term.var i) =
+        (match Nat.beq i (d + 1), Nat.blt (d + 1) i with
+        | true, _ => s
+        | false, true => Term.var (i - 1)
+        | false, false => Term.var i)
+    rw [hble]
+    rw [nat_beq_false_of_lt _ _ hlt]
+    rw [nat_blt_false_of_lt _ _ hlt]
+  · change shift d 1
+        (match Nat.beq i d, Nat.blt d i with
+        | true, _ => s
+        | false, true => Term.var (i - 1)
+        | false, false => Term.var i) =
+      substitute (d + 1) s
+        (match Nat.ble d i with
+        | true => Term.var (i + 1)
+        | false => Term.var i)
+    rw [hble]
+    cases hbeq : Nat.beq i d
+    · have hblt : Nat.blt d i = true :=
+        nat_blt_true_of_ble_true_beq_false d i hble hbeq
+      rw [hblt]
+      cases i with
+      | zero =>
+          cases hblt
+      | succ i =>
+          change shift d 1 (Term.var (i + 1 - 1)) =
+            substitute (d + 1) s (Term.var (i + 1 + 1))
+          change
+            (match Nat.ble d (i + 1 - 1) with
+            | true => Term.var (i + 1 - 1 + 1)
+            | false => Term.var (i + 1 - 1)) =
+              (match Nat.beq (i + 1 + 1) (d + 1),
+                  Nat.blt (d + 1) (i + 1 + 1) with
+              | true, _ => s
+              | false, true => Term.var (i + 1 + 1 - 1)
+              | false, false => Term.var (i + 1 + 1))
+          rw [Nat.succ_sub_one]
+          rw [nat_ble_pred_of_blt_succ_true d i hblt]
+          rw [nat_beq_add_one_add_one]
+          rw [nat_blt_add_one_add_one]
+          rw [hbeq]
+          rw [hblt]
+          rfl
+    · change shift d 1 s = substitute (d + 1) s (Term.var (i + 1))
+      rw [shift_closed d s (closedAt_zero_at d s hclosed_s)]
+      change s =
+        (match Nat.beq (i + 1) (d + 1), Nat.blt (d + 1) (i + 1) with
+        | true, _ => s
+        | false, true => Term.var (i + 1 - 1)
+        | false, false => Term.var (i + 1))
+      rw [nat_beq_add_one_add_one]
+      rw [hbeq]
+
+theorem shift_substitute_at_closed_zero
+    (d : Idx) (s a : Term) (hclosed_s : ClosedAt 0 s) :
+    shift d 1 (substitute d s a) =
+      substitute (d + 1) s (shift d 1 a) := by
+  induction a generalizing d s with
+  | var i =>
+      exact shift_substitute_var_closed_at_zero d i s hclosed_s
+  | app f a ihf iha =>
+      change
+        Term.app (shift d 1 (substitute d s f))
+            (shift d 1 (substitute d s a)) =
+          Term.app (substitute (d + 1) s (shift d 1 f))
+            (substitute (d + 1) s (shift d 1 a))
+      rw [ihf d s hclosed_s]
+      rw [iha d s hclosed_s]
+  | lam dom body ihdom ihbody =>
+      change
+        Term.lam (shift d 1 (substitute d s dom))
+            (shift (d + 1) 1
+              (substitute (d + 1) (shift 0 1 s) body)) =
+          Term.lam (substitute (d + 1) s (shift d 1 dom))
+            (substitute (d + 1 + 1) (shift 0 1 s)
+              (shift (d + 1) 1 body))
+      rw [shift_closed 0 s hclosed_s]
+      rw [ihdom d s hclosed_s]
+      rw [ihbody (d + 1) s hclosed_s]
+  | pi dom cod ihdom ihcod =>
+      change
+        Term.pi (shift d 1 (substitute d s dom))
+            (shift (d + 1) 1
+              (substitute (d + 1) (shift 0 1 s) cod)) =
+          Term.pi (substitute (d + 1) s (shift d 1 dom))
+            (substitute (d + 1 + 1) (shift 0 1 s)
+              (shift (d + 1) 1 cod))
+      rw [shift_closed 0 s hclosed_s]
+      rw [ihdom d s hclosed_s]
+      rw [ihcod (d + 1) s hclosed_s]
+  | sort =>
+      rfl
+
+theorem shift_substitute_zero_zero_closed
+    (s a : Term)
+    (hclosed_s : ClosedAt 0 s) :
+    shift 0 1 (substitute 0 s a) =
+      substitute 1 (shift 0 1 s) (shift 0 1 a) := by
+  rw [shift_closed 0 s hclosed_s]
+  exact shift_substitute_at_closed_zero 0 s a hclosed_s
 
 theorem nat_succ_lt_of_beq_false_blt_false_succ_lt (d i : Nat) :
     Nat.beq i d = false →
@@ -621,52 +795,74 @@ theorem closed_term_substitute_preserves_typing
     {Γ : Ctx} {t s A B : Term}
     (hwf : WellFormedCtx (B :: Γ))
     (hclosed_B : ClosedAt 0 B)
-    (_hclosed_s : ClosedAt 0 s)
+    (hclosed_s : ClosedAt 0 s)
     (ht : HasType (B :: Γ) t A)
     (hs : HasType Γ s B)
     (hshape : t = Term.sort ∨ ∃ i : Idx, t = Term.var i) :
     HasType Γ (substitute 0 s t) (substitute 0 s A) := by
-  cases ht with
-  | sortRule Γ' =>
-      exact HasType.sortRule Γ
-  | varRule Γ' i A hi =>
-      cases i with
-      | zero =>
-          rw [substitute_var_zero]
-          rw [lookup_cons_zero] at hi
-          cases hi
-          rw [substitute_closed 0 s A hclosed_B]
-          exact hs
-      | succ n =>
-          rw [substitute_var_succ_zero]
-          rw [lookup_cons_succ] at hi
-          cases hlook : Ctx.lookup Γ n with
-          | none =>
-              rw [hlook] at hi
-              cases hi
-          | some T =>
-              rw [hlook] at hi
-              cases hi
-              rw [substitute_shift_at_eq]
-              exact HasType.varRule Γ n T hlook
-  | piRule Γ' dom cod hdom hcod =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
-  | lamRule Γ' dom body cod hdom hbody =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
-  | appRule Γ' f a dom cod hf ha =>
-      cases hshape with
-      | inl hsort => cases hsort
-      | inr hvar =>
-          cases hvar with
-          | intro i hi => cases hi
+  have aux :
+      ∀ {Δ : Ctx} {t A : Term},
+        HasType Δ t A →
+        ∀ {Γ : Ctx} {B : Term},
+          Δ = B :: Γ →
+          WellFormedCtx (B :: Γ) →
+          ClosedAt 0 B →
+          ClosedAt 0 s →
+          HasType Γ s B →
+          (t = Term.sort ∨ ∃ i : Idx, t = Term.var i) →
+          HasType Γ (substitute 0 s t) (substitute 0 s A) := by
+    intro Δ t A ht
+    induction ht with
+    | sortRule Δ =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs _hshape
+        exact HasType.sortRule Γ
+    | varRule Δ i A hi =>
+        intro Γ B hΔ _hwf hclosed_B hclosed_s hs _hshape
+        cases hΔ
+        cases i with
+        | zero =>
+            rw [lookup_cons_zero] at hi
+            cases hi
+            exact
+              (substitute_var_zero_preserves_typing_closed_anchor
+                hclosed_s
+                hclosed_B
+                hs
+                (HasType.varRule (A :: Γ) 0 A (lookup_cons_zero Γ A))).right
+        | succ n =>
+            rw [substitute_var_succ_zero]
+            rw [lookup_cons_succ] at hi
+            cases hlook : Ctx.lookup Γ n with
+            | none =>
+                rw [hlook] at hi
+                cases hi
+            | some T =>
+                rw [hlook] at hi
+                cases hi
+                rw [substitute_shift_at_eq]
+                exact HasType.varRule Γ n T hlook
+    | piRule Δ dom cod hdom hcod ihdom ihcod =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | lamRule Δ dom body cod hdom hbody ihdom ihbody =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+    | appRule Δ f a dom cod hf ha ihf iha =>
+        intro Γ B _hΔ _hwf _hclosed_B _hclosed_s _hs hshape
+        cases hshape with
+        | inl hsort => cases hsort
+        | inr hvar =>
+            cases hvar with
+            | intro i hi => cases hi
+  exact aux ht rfl hwf hclosed_B hclosed_s hs hshape
 
 /-- 闭合替换保持完整语句的最小反例项。 -/
 def closedSubstituteCounterTerm : Term :=
