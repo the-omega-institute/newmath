@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -516,5 +518,130 @@ theorem DyadicIntervalPacket_refined_width_enclosure_package [AskSetup] [Package
         (And.intro windowUnary
           (And.intro refined.right.left
             (And.intro refined.right.right.right.left windowPkg))))
+
+theorem DyadicIntervalPacket_nested_window_name_certificate [AskSetup] [PackageSetup]
+    {left0 right0 width0 midpoint0 radius0 order0 provenance0 endpoint0 left1 right1 width1
+      midpoint1 radius1 order1 provenance1 endpoint1 left2 right2 width2 midpoint2 radius2
+      order2 provenance2 endpoint2 sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left0 right0 width0 midpoint0 radius0 order0 provenance0 endpoint0
+        bundle pkg ->
+      hsame left0 left1 ->
+        hsame right0 right1 ->
+          hsame provenance0 provenance1 ->
+            Cont left1 right1 width1 ->
+              Cont left1 width1 midpoint1 ->
+                Cont right1 width1 radius1 ->
+                  Cont midpoint1 radius1 order1 ->
+                    Cont order1 provenance1 endpoint1 ->
+                      PkgSig bundle endpoint1 pkg ->
+                        hsame left1 left2 ->
+                          hsame right1 right2 ->
+                            hsame provenance1 provenance2 ->
+                              Cont left2 right2 width2 ->
+                                Cont left2 width2 midpoint2 ->
+                                  Cont right2 width2 radius2 ->
+                                    Cont midpoint2 radius2 order2 ->
+                                      Cont order2 provenance2 endpoint2 ->
+                                        PkgSig bundle endpoint2 pkg ->
+                                          Cont endpoint2 width2 sealRow ->
+                                            PkgSig bundle sealRow pkg ->
+                                              SemanticNameCert
+                                                  (fun e : BHist =>
+                                                    DyadicIntervalPacket left2 right2 width2
+                                                      midpoint2 radius2 order2 provenance2 e
+                                                      bundle pkg)
+                                                  (fun e : BHist =>
+                                                    DyadicIntervalPacket left2 right2 width2
+                                                      midpoint2 radius2 order2 provenance2 e
+                                                      bundle pkg)
+                                                  (fun e : BHist =>
+                                                    DyadicIntervalPacket left2 right2 width2
+                                                      midpoint2 radius2 order2 provenance2 e
+                                                      bundle pkg)
+                                                  (fun a b : BHist =>
+                                                    DyadicIntervalPacket left2 right2 width2
+                                                        midpoint2 radius2 order2 provenance2 a
+                                                        bundle pkg ∧
+                                                      DyadicIntervalPacket left2 right2 width2
+                                                        midpoint2 radius2 order2 provenance2 b
+                                                        bundle pkg ∧
+                                                        hsame a b) ∧
+                                                hsame endpoint0 endpoint2 ∧
+                                                  UnaryHistory sealRow ∧
+                                                    hsame sealRow (append endpoint2 width2) ∧
+                                                      PkgSig bundle sealRow pkg := by
+  intro packet0 sameLeft01 sameRight01 sameProvenance01 widthRow1 midpointRow1 radiusRow1
+    orderRow1 endpointRow1 pkgRow1 sameLeft12 sameRight12 sameProvenance12 widthRow2
+    midpointRow2 radiusRow2 orderRow2 endpointRow2 pkgRow2 sealRowCont sealRowPkg
+  have step1 :=
+    DyadicIntervalPacket_nested_refinement_ledger packet0 sameLeft01 sameRight01
+      sameProvenance01 widthRow1 midpointRow1 radiusRow1 orderRow1 endpointRow1 pkgRow1
+  have packet1 :
+      DyadicIntervalPacket left1 right1 width1 midpoint1 radius1 order1 provenance1 endpoint1
+        bundle pkg :=
+    step1.left
+  have sameEndpoint01 : hsame endpoint0 endpoint1 :=
+    step1.right.right.right.right.right
+  have step2 :=
+    DyadicIntervalPacket_nested_refinement_ledger packet1 sameLeft12 sameRight12
+      sameProvenance12 widthRow2 midpointRow2 radiusRow2 orderRow2 endpointRow2 pkgRow2
+  have packet2 :
+      DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 endpoint2
+        bundle pkg :=
+    step2.left
+  have sameEndpoint12 : hsame endpoint1 endpoint2 :=
+    step2.right.right.right.right.right
+  have sameEndpoint02 : hsame endpoint0 endpoint2 :=
+    hsame_trans sameEndpoint01 sameEndpoint12
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed packet2.right.right.right.right.right.right.right.left packet2.right.right.left
+      sealRowCont
+  have cert :
+      SemanticNameCert
+          (fun e : BHist =>
+            DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 e
+              bundle pkg)
+          (fun e : BHist =>
+            DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 e
+              bundle pkg)
+          (fun e : BHist =>
+            DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 e
+              bundle pkg)
+          (fun a b : BHist =>
+            DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 a
+                bundle pkg ∧
+              DyadicIntervalPacket left2 right2 width2 midpoint2 radius2 order2 provenance2 b
+                bundle pkg ∧
+                hsame a b) := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint2 packet2
+      equiv_refl := by
+        intro row source
+        exact And.intro source (And.intro source (hsame_refl row))
+      equiv_symm := by
+        intro row row' classified
+        exact And.intro classified.right.left
+          (And.intro classified.left (hsame_symm classified.right.right))
+      equiv_trans := by
+        intro row row' row'' classifiedLeft classifiedRight
+        exact And.intro classifiedLeft.left
+          (And.intro classifiedRight.right.left
+            (hsame_trans classifiedLeft.right.right classifiedRight.right.right))
+      carrier_respects_equiv := by
+        intro row row' classified _source
+        exact classified.right.left
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact And.intro cert
+    (And.intro sameEndpoint02
+      (And.intro sealUnary
+        (And.intro sealRowCont sealRowPkg)))
 
 end BEDC.Derived.DyadicIntervalUp
