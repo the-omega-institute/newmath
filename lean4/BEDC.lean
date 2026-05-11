@@ -373,6 +373,7 @@ import BEDC.Derived.ComplexDifferentiabilityUp.SourceObligationSurface
 import BEDC.Derived.ComplexDifferentiabilityUp.TransportLedgerObligationSurface
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.PinGroupUp
+import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
 import BEDC.Derived.SpinGroupUp
