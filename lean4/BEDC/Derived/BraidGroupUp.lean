@@ -316,4 +316,58 @@ theorem BraidGroupPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     artinStrandPositive, artinWordUnary, moveLedgerRow, artinClassifierRow, closurePkg,
     endpointPkg⟩
 
+theorem BraidGroupArtinPacket_public_certificate_export [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint rootAction knotClosure action closureRow
+      publicLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      Cont endpoint dependency rootAction ->
+        Cont endpoint strand knotClosure ->
+          Cont classifier word action ->
+            Cont action strand closureRow ->
+              Cont closureRow knotClosure publicLedger ->
+                PkgSig bundle knotClosure pkg ->
+                  PkgSig bundle closureRow pkg ->
+                    PkgSig bundle publicLedger pkg ->
+                      PositiveUnaryDenominator strand ∧ UnaryHistory word ∧
+                        UnaryHistory moveLedger ∧ UnaryHistory dependency ∧
+                          UnaryHistory rootAction ∧ UnaryHistory knotClosure ∧
+                            UnaryHistory action ∧ UnaryHistory closureRow ∧
+                              UnaryHistory publicLedger ∧
+                                Cont endpoint dependency rootAction ∧
+                                  Cont endpoint strand knotClosure ∧
+                                    Cont classifier word action ∧
+                                      Cont action strand closureRow ∧
+                                        Cont closureRow knotClosure publicLedger ∧
+                                          hsame action (append classifier word) ∧
+                                            hsame closureRow (append action strand) ∧
+                                              hsame publicLedger
+                                                (append closureRow knotClosure) ∧
+                                                PkgSig bundle publicLedger pkg := by
+  intro packet rootActionRow knotClosureRow actionRow closureRowCont publicLedgerRow
+    _knotClosurePkg _closureRowPkg publicLedgerPkg
+  obtain ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, _moveLedgerRow,
+    classifierRow, endpointRow, _endpointPkg⟩ := packet
+  have strandUnary : UnaryHistory strand :=
+    (PositiveUnaryDenominator_unary_and_nonempty strandPositive).left
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed moveLedgerUnary dependencyUnary classifierRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed classifierUnary wordUnary endpointRow
+  have rootActionUnary : UnaryHistory rootAction :=
+    unary_cont_closed endpointUnary dependencyUnary rootActionRow
+  have knotClosureUnary : UnaryHistory knotClosure :=
+    unary_cont_closed endpointUnary strandUnary knotClosureRow
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed classifierUnary wordUnary actionRow
+  have closureRowUnary : UnaryHistory closureRow :=
+    unary_cont_closed actionUnary strandUnary closureRowCont
+  have publicLedgerUnary : UnaryHistory publicLedger :=
+    unary_cont_closed closureRowUnary knotClosureUnary publicLedgerRow
+  exact
+    ⟨strandPositive, wordUnary, moveLedgerUnary, dependencyUnary, rootActionUnary,
+      knotClosureUnary, actionUnary, closureRowUnary, publicLedgerUnary, rootActionRow,
+      knotClosureRow, actionRow, closureRowCont, publicLedgerRow, actionRow, closureRowCont,
+      publicLedgerRow, publicLedgerPkg⟩
+
 end BEDC.Derived.BraidGroupUp
