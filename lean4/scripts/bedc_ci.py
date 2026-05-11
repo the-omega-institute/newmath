@@ -949,12 +949,23 @@ def cmd_manifest(args: argparse.Namespace) -> int:
 def cmd_manifest_coverage(args: argparse.Namespace) -> int:
     paper_markers = collect_paper_leanchecked_targets()
     manifest_entries = collect_manifest_entry_targets()
+    if args.scope:
+        paper_markers = {
+            target for target in paper_markers
+            if target.startswith(args.scope)
+        }
+        manifest_entries = {
+            target for target in manifest_entries
+            if target.startswith(args.scope)
+        }
     marker_count = len(paper_markers)
     entry_count = len(manifest_entries)
     ratio = (entry_count / marker_count * 100.0) if marker_count else 100.0
     missing = sorted(paper_markers - manifest_entries)
 
     print("manifest-coverage report")
+    if args.scope:
+        print(f"  scope: {args.scope}")
     print(f"  paper_markers (\\leanchecked): {marker_count}")
     print(f"  manifest_entries (Lean-side):  {entry_count}")
     print(f"  coverage_ratio: {entry_count}/{marker_count} = {ratio:.2f}%")
@@ -1389,6 +1400,12 @@ def parser() -> argparse.ArgumentParser:
     manifest_coverage_p = sub.add_parser(
         "manifest-coverage",
         help="Report informational coverage of paper \\leanchecked markers in BEDC.Manifest.Entries",
+    )
+    manifest_coverage_p.add_argument(
+        "--scope",
+        type=str,
+        default=None,
+        help="Filter paper markers and manifest entries to Lean names with this namespace prefix",
     )
     manifest_coverage_p.set_defaults(func=cmd_manifest_coverage)
 
