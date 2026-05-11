@@ -469,4 +469,80 @@ theorem LQRFiniteControlPacket_transition_transport [AskSetup] [PackageSetup]
         successorHorizonEndpoint, endpointPkg⟩,
       sameBackward, samePredecessor, sameEndpoint⟩
 
+theorem LQRFiniteControlPacket_scoped_dependency_certificate [AskSetup] [PackageSetup]
+    {state control transition cost horizon successorValue estimatorInput backwardUpdate
+      predecessorValue endpoint state' control' transition' cost' horizon' successorValue'
+      estimatorInput' backwardUpdate' predecessorValue' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LQRFiniteControlPacket state control transition cost horizon successorValue estimatorInput
+        backwardUpdate predecessorValue endpoint bundle pkg ->
+      hsame state state' ->
+        hsame control control' ->
+          hsame cost cost' ->
+            hsame horizon horizon' ->
+              hsame estimatorInput estimatorInput' ->
+                Cont state' control' transition' ->
+                  Cont transition' cost' successorValue' ->
+                    Cont successorValue' estimatorInput' backwardUpdate' ->
+                      Cont backwardUpdate' horizon' predecessorValue' ->
+                        Cont predecessorValue' cost' endpoint' ->
+                          Cont estimatorInput' transition' backwardUpdate' ->
+                            Cont backwardUpdate' control' predecessorValue' ->
+                              Cont successorValue' horizon' endpoint' ->
+                                PkgSig bundle endpoint' pkg ->
+                                  LQRFiniteControlPacket state' control' transition' cost'
+                                      horizon' successorValue' estimatorInput' backwardUpdate'
+                                      predecessorValue' endpoint' bundle pkg ∧
+                                    SemanticNameCert
+                                      (fun row : BHist =>
+                                        exists e : BHist,
+                                          LQRFiniteControlPacket state' control' transition'
+                                            cost' horizon' successorValue' estimatorInput'
+                                            backwardUpdate' predecessorValue' e bundle pkg ∧
+                                            hsame row e)
+                                      (fun row : BHist =>
+                                        exists e : BHist,
+                                          LQRFiniteControlPacket state' control' transition'
+                                            cost' horizon' successorValue' estimatorInput'
+                                            backwardUpdate' predecessorValue' e bundle pkg ∧
+                                            hsame row e)
+                                      (fun row : BHist =>
+                                        exists e : BHist,
+                                          LQRFiniteControlPacket state' control' transition'
+                                            cost' horizon' successorValue' estimatorInput'
+                                            backwardUpdate' predecessorValue' e bundle pkg ∧
+                                            hsame row e)
+                                      hsame ∧
+                                      hsame endpoint endpoint' := by
+  intro packet sameState sameControl sameCost sameHorizon sameEstimator rowTransition'
+    rowSuccessor' rowBackward' rowPredecessor' rowEndpoint' rowEstimatorBackward'
+    rowControlPredecessor' rowHorizonEndpoint' pkgSig'
+  have transported :=
+    LQRFiniteControlPacket_transition_stability packet sameState sameControl sameCost
+      sameHorizon sameEstimator rowTransition' rowSuccessor' rowBackward' rowPredecessor'
+      rowEndpoint' rowEstimatorBackward' rowControlPredecessor' rowHorizonEndpoint' pkgSig'
+  have packet' :
+      LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+        estimatorInput' backwardUpdate' predecessorValue' endpoint' bundle pkg :=
+    transported.left
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          exists e : BHist,
+            LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+              estimatorInput' backwardUpdate' predecessorValue' e bundle pkg ∧ hsame row e)
+        (fun row : BHist =>
+          exists e : BHist,
+            LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+              estimatorInput' backwardUpdate' predecessorValue' e bundle pkg ∧ hsame row e)
+        (fun row : BHist =>
+          exists e : BHist,
+            LQRFiniteControlPacket state' control' transition' cost' horizon' successorValue'
+              estimatorInput' backwardUpdate' predecessorValue' e bundle pkg ∧ hsame row e)
+        hsame :=
+    (LQRFiniteControlPacket_namecert_seed_obligation_surface packet').left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    transported.right.right.right.right.right
+  exact And.intro packet' (And.intro cert sameEndpoint)
+
 end BEDC.Derived.LQRUp
