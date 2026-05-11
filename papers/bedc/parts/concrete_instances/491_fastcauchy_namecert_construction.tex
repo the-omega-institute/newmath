@@ -61,6 +61,20 @@ For each precision row, the $\CauchyModulusUp$ threshold names the finite index 
 These retained rows are the regular-sequence surface consumed by $\RegSeqRatUp$. Since the construction never adds a quotient, host real equality, or selected limit coordinate, the resulting handoff is only the finite regularity window.
 \end{proof}
 
+\begin{theorem}[FastCauchy Real boundary finite window]
+\label{thm:fastcauchy-real-boundary-window}
+Every accepted $\FastCauchyUp$ packet exposes to a $\RealUp$ consumer only the scheduled $\StreamNameUp$ observations, the $\CauchyModulusUp$ threshold table, the $\DyadicRatCoreUp$ endpoint rows, the late-pair radius ledger, the $\hsame$ and $\Cont$ transport rows, and the $\mathsf{Pkg}$ provenance retained by \autoref{thm:fastcauchy-regseqrat-handoff}.
+
+It does not export a selected limit, quotient stream, host real equality, or completeness datum.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:fastcauchy-carrier}. Its visible coordinates are the stream observations, modulus table, endpoint rows, late-pair radius ledger, transport windows, provenance row, and local certificate row.
+
+Invoke \autoref{thm:fastcauchy-regseqrat-handoff}. After forgetting the local $\NameCert_{\FastCauchyUp}$ row, the retained coordinates are exactly the finite regularity surface that a $\RealUp$ consumer may inspect through the regular-sequence boundary.
+
+There is no further $\RealUp$ coordinate in the carrier. In particular, the packet contains no selected limit, quotient stream, host real equality witness, or completeness datum beyond the listed finite rows.
+\end{proof}
+
 \begin{theorem}[FastCauchy NameCert obligation surface]
 \label{thm:fastcauchy-namecert-obligation-surface}
 The local $\NameCert_{\FastCauchyUp}$ obligation surface has the following finite rows:
@@ -81,13 +95,15 @@ The stability row is \autoref{thm:fastcauchy-modulus-transport}. It shows that t
 The regular-sequence handoff is \autoref{thm:fastcauchy-regseqrat-handoff}. The real-name boundary is the same finite handoff viewed as input data for $\RealUp$, with no additional completion or equality principle.
 \end{proof}
 
+\closureat{FastCauchyUp}{obligationStr}
+
 \begin{closurestatus}{\FastCauchyUp}
   \constructivestory{A fast Cauchy name is a finite $\mathsf{BHist}$ packet consisting of scheduled $\StreamNameUp$ observation rows, explicit $\CauchyModulusUp$ threshold rows, dyadic endpoint rows from $\DyadicRatCoreUp$, late-pair radius ledgers, componentwise $\hsame$ and $\Cont$ transport rows, $\mathsf{Pkg}$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed surface binds the finite modulus-normalized Cauchy-name carrier, classifier, transport, and $\RegSeqRatUp$ handoff obligations displayed in this chapter.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, host real equality, selected limits, or a standard bridge.}
-  \upgradepath{Formal closure requires Lean targets under BEDC.Derived.FastCauchyUp for the carrier, classifier, modulus transport, RegSeqRat handoff, and NameCert obligation surface.}
+  \upgradepath{Scoped closure requires binding the FastCauchy carrier, classifier, modulus transport, RegSeqRat handoff, Real boundary, and NameCert rows to the BEDC primitives and source certificates named in the packet.}
 \end{closurestatus}
