@@ -185,4 +185,96 @@ theorem KalmanFilterCarrier_observation_innovation_ledger [AskSetup] [PackageSet
               (And.intro innovationLedgerCont
                 (And.intro innovationCont pkgSig)))))))
 
+theorem KalmanFilterCarrier_estimate_transport_stability [AskSetup] [PackageSetup]
+    {prior transition prediction observation residual covariance gain posterior innovation update
+      covariancePosterior provenance endpoint prior' transition' prediction' observation' residual'
+      covariance' gain' posterior' innovation' update' covariancePosterior' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KalmanFilterCarrier prior transition prediction observation residual covariance gain posterior
+        innovation update covariancePosterior provenance endpoint bundle pkg ->
+      hsame prior prior' ->
+        hsame transition transition' ->
+          hsame observation observation' ->
+            hsame covariance covariance' ->
+              hsame gain gain' ->
+                hsame posterior posterior' ->
+                  hsame update update' ->
+                    hsame provenance provenance' ->
+                      Cont prior' transition' prediction' ->
+                        Cont prediction' observation' residual' ->
+                          Cont covariance' observation' innovation' ->
+                            Cont innovation' gain' update' ->
+                              Cont innovation' gain' posterior' ->
+                                Cont update' posterior' covariancePosterior' ->
+                                  Cont posterior' covariancePosterior' endpoint' ->
+                                    PkgSig bundle endpoint' pkg ->
+                                      KalmanFilterCarrier prior' transition' prediction'
+                                          observation' residual' covariance' gain' posterior'
+                                          innovation' update' covariancePosterior' provenance'
+                                          endpoint' bundle pkg ∧
+                                        hsame prediction prediction' ∧
+                                          hsame residual residual' ∧
+                                            hsame innovation innovation' ∧ hsame update update' ∧
+                                              hsame covariancePosterior covariancePosterior' ∧
+                                                hsame endpoint endpoint' := by
+  intro carrier samePrior sameTransition sameObservation sameCovariance sameGain samePosterior
+    sameUpdate sameProvenance predictionRoute' residualRoute' innovationRoute' updateRoute'
+    posteriorRoute' covariancePosteriorRoute' endpointRoute' pkgSig'
+  rcases carrier with
+    ⟨priorUnary, transitionUnary, _predictionUnary, observationUnary, _residualUnary,
+      covarianceUnary, gainUnary, posteriorUnary, _innovationUnary, updateUnary,
+      _covariancePosteriorUnary, provenanceUnary, _endpointUnary, predictionRoute,
+      residualRoute, innovationRoute, _updateRoute, _posteriorRoute, covariancePosteriorRoute,
+      endpointRoute, _pkgSig⟩
+  have priorUnary' : UnaryHistory prior' :=
+    unary_transport priorUnary samePrior
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have observationUnary' : UnaryHistory observation' :=
+    unary_transport observationUnary sameObservation
+  have covarianceUnary' : UnaryHistory covariance' :=
+    unary_transport covarianceUnary sameCovariance
+  have gainUnary' : UnaryHistory gain' :=
+    unary_transport gainUnary sameGain
+  have posteriorUnary' : UnaryHistory posterior' :=
+    unary_transport posteriorUnary samePosterior
+  have updateUnary' : UnaryHistory update' :=
+    unary_transport updateUnary sameUpdate
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have predictionUnary' : UnaryHistory prediction' :=
+    unary_cont_closed priorUnary' transitionUnary' predictionRoute'
+  have residualUnary' : UnaryHistory residual' :=
+    unary_cont_closed predictionUnary' observationUnary' residualRoute'
+  have innovationUnary' : UnaryHistory innovation' :=
+    unary_cont_closed covarianceUnary' observationUnary' innovationRoute'
+  have covariancePosteriorUnary' : UnaryHistory covariancePosterior' :=
+    unary_cont_closed updateUnary' posteriorUnary' covariancePosteriorRoute'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed posteriorUnary' covariancePosteriorUnary' endpointRoute'
+  have samePrediction : hsame prediction prediction' :=
+    cont_respects_hsame samePrior sameTransition predictionRoute predictionRoute'
+  have sameResidual : hsame residual residual' :=
+    cont_respects_hsame samePrediction sameObservation residualRoute residualRoute'
+  have sameInnovation : hsame innovation innovation' :=
+    cont_respects_hsame sameCovariance sameObservation innovationRoute innovationRoute'
+  have sameCovariancePosterior : hsame covariancePosterior covariancePosterior' :=
+    cont_respects_hsame sameUpdate samePosterior covariancePosteriorRoute
+      covariancePosteriorRoute'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePosterior sameCovariancePosterior endpointRoute
+      endpointRoute'
+  constructor
+  · exact
+      ⟨priorUnary', transitionUnary', predictionUnary', observationUnary', residualUnary',
+        covarianceUnary', gainUnary', posteriorUnary', innovationUnary', updateUnary',
+        covariancePosteriorUnary', provenanceUnary', endpointUnary', predictionRoute',
+        residualRoute', innovationRoute', updateRoute', posteriorRoute', covariancePosteriorRoute',
+        endpointRoute', pkgSig'⟩
+  · exact And.intro samePrediction
+      (And.intro sameResidual
+        (And.intro sameInnovation
+          (And.intro sameUpdate (And.intro sameCovariancePosterior sameEndpoint))))
+
 end BEDC.Derived.KalmanFilterUp
