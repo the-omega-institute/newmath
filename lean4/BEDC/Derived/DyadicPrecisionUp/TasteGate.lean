@@ -194,6 +194,72 @@ theorem DyadicPrecisionScheduleTasteGate_visible_rows :
 def taste_gate : ChapterTasteGate DyadicPrecisionUp :=
   dyadicPrecisionChapterTasteGate
 
+def DyadicPrecisionSchedulePacket [AskSetup] [PackageSetup]
+    (precision radius window sameRows route provenance namecert ledger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+    UnaryHistory sameRows ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+      UnaryHistory namecert ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+        Cont precision radius sameRows ∧ Cont sameRows window route ∧
+          Cont route provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem DyadicPrecisionSchedule_realup_boundary [AskSetup] [PackageSetup]
+    {precision radius window sameRows route provenance namecert ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicPrecisionSchedulePacket precision radius window sameRows route provenance namecert
+        ledger endpoint bundle pkg ->
+      UnaryHistory precision ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+        UnaryHistory sameRows ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+          UnaryHistory namecert ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            Cont precision radius sameRows ∧ Cont sameRows window route ∧
+              Cont route provenance endpoint ∧ hsame sameRows (append precision radius) ∧
+                hsame route (append sameRows window) ∧
+                  hsame endpoint (append route provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have radiusUnary : UnaryHistory radius :=
+    packet.right.left
+  have windowUnary : UnaryHistory window :=
+    packet.right.right.left
+  have sameRowsUnary : UnaryHistory sameRows :=
+    packet.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    packet.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.left
+  have namecertUnary : UnaryHistory namecert :=
+    packet.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    packet.right.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sameRowsRoute : Cont precision radius sameRows :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have routeRow : Cont sameRows window route :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have endpointRow : Cont route provenance endpoint :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨precisionUnary,
+      radiusUnary,
+      windowUnary,
+      sameRowsUnary,
+      routeUnary,
+      provenanceUnary,
+      namecertUnary,
+      ledgerUnary,
+      endpointUnary,
+      sameRowsRoute,
+      routeRow,
+      endpointRow,
+      sameRowsRoute,
+      routeRow,
+      endpointRow,
+      pkgSig⟩
+
 theorem DyadicPrecisionSchedule_empty_branch_readback
     {rho window transport provenance nameCert ledger : BHist} :
     BHistCarrier.fromEventFlow
