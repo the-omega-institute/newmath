@@ -61,6 +61,20 @@ For each precision row, the $\CauchyModulusUp$ threshold names the finite index 
 These retained rows are the regular-sequence surface consumed by $\RegSeqRatUp$. Since the construction never adds a quotient, host real equality, or selected limit coordinate, the resulting handoff is only the finite regularity window.
 \end{proof}
 
+\begin{theorem}[FastCauchy Real boundary finite window]
+\label{thm:fastcauchy-real-boundary-window}
+Every accepted $\FastCauchyUp$ packet exposes to a $\RealUp$ consumer only the scheduled $\StreamNameUp$ observations, the $\CauchyModulusUp$ threshold table, the $\DyadicRatCoreUp$ endpoint rows, the late-pair radius ledger, the $\hsame$ and $\Cont$ transport rows, and the $\mathsf{Pkg}$ provenance retained by \autoref{thm:fastcauchy-regseqrat-handoff}.
+
+It does not export a selected limit, quotient stream, host real equality, or completeness datum.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:fastcauchy-carrier}. Its visible coordinates are the stream observations, modulus table, endpoint rows, late-pair radius ledger, transport windows, provenance row, and local certificate row.
+
+Invoke \autoref{thm:fastcauchy-regseqrat-handoff}. After forgetting the local $\NameCert_{\FastCauchyUp}$ row, the retained coordinates are exactly the finite regularity surface that a $\RealUp$ consumer may inspect through the regular-sequence boundary.
+
+There is no further $\RealUp$ coordinate in the carrier. In particular, the packet contains no selected limit, quotient stream, host real equality witness, or completeness datum beyond the listed finite rows.
+\end{proof}
+
 \begin{theorem}[FastCauchy NameCert obligation surface]
 \label{thm:fastcauchy-namecert-obligation-surface}
 The local $\NameCert_{\FastCauchyUp}$ obligation surface has the following finite rows:
