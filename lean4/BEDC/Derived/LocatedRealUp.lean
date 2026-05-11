@@ -176,4 +176,47 @@ theorem LocatedRealCarrier_realup_regseqrat_boundary [AskSetup] [PackageSetup]
       streamScheduleInterval, intervalLocationRealRow, realRowTransportProvenance,
       provenanceScheduleEndpoint, consumerRowCont, consumerRowSig⟩
 
+theorem LocatedRealCarrier_common_refinement_gluing [AskSetup] [PackageSetup]
+    {stream stream' schedule schedule' interval interval' location location' realRow realRow'
+      transport transport' provenance provenance' endpoint endpoint' commonWindow commonEndpoint
+      commonPkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrier stream schedule interval location realRow transport provenance endpoint
+        bundle pkg ->
+      LocatedRealCarrier stream' schedule' interval' location' realRow' transport' provenance'
+          endpoint' bundle pkg ->
+        hsame schedule commonWindow ->
+          hsame schedule' commonWindow ->
+            Cont provenance commonWindow commonEndpoint ->
+              Cont provenance' commonWindow commonEndpoint ->
+                Cont endpoint endpoint' commonPkgrow ->
+                  PkgSig bundle commonPkgrow pkg ->
+                    UnaryHistory commonWindow ∧ UnaryHistory commonEndpoint ∧
+                      hsame commonEndpoint (append provenance commonWindow) ∧
+                        hsame commonEndpoint (append provenance' commonWindow) ∧
+                          UnaryHistory commonPkgrow ∧
+                            hsame commonPkgrow (append endpoint endpoint') ∧
+                              PkgSig bundle commonPkgrow pkg := by
+  intro carrier carrier' sameSchedule sameSchedule' provenanceWindow provenanceWindow'
+    endpointPair commonPkgrowSig
+  obtain ⟨_streamUnary, scheduleUnary, _intervalUnary, _locationUnary, _realRowUnary,
+    _transportUnary, provenanceUnary, endpointUnary, _streamScheduleInterval,
+    _intervalLocationRealRow, _realRowTransportProvenance, _provenanceScheduleEndpoint,
+    _endpointSig⟩ := carrier
+  obtain ⟨_streamUnary', scheduleUnary', _intervalUnary', _locationUnary', _realRowUnary',
+    _transportUnary', _provenanceUnary', endpointUnary', _streamScheduleInterval',
+    _intervalLocationRealRow', _realRowTransportProvenance', _provenanceScheduleEndpoint',
+    _endpointSig'⟩ := carrier'
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_transport scheduleUnary sameSchedule
+  have _commonWindowUnary' : UnaryHistory commonWindow :=
+    unary_transport scheduleUnary' sameSchedule'
+  have commonEndpointUnary : UnaryHistory commonEndpoint :=
+    unary_cont_closed provenanceUnary commonWindowUnary provenanceWindow
+  have commonPkgrowUnary : UnaryHistory commonPkgrow :=
+    unary_cont_closed endpointUnary endpointUnary' endpointPair
+  exact
+    ⟨commonWindowUnary, commonEndpointUnary, provenanceWindow, provenanceWindow',
+      commonPkgrowUnary, endpointPair, commonPkgrowSig⟩
+
 end BEDC.Derived.LocatedRealUp
