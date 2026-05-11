@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealUp$}
+\label{ch:concrete-instances-locatedreal-namecert}
+
+The $\LocatedRealUp$ interface names the constructive real boundary at which a regular dyadic stream also carries finite location evidence. It sits after $\RegSeqRatUp$ and before order, metric, and locatedness consumers: the source stream supplies regular rational observations, the dyadic core supplies interval rows, the stream-name layer supplies visible schedules, and the $\RealUp$ classifier supplies the equality surface through which the packet is read.
+
+Bishop--Bridges constructive analysis treats located reals as the boundary where order and metric claims become computationally visible. The certificate below records that boundary without importing Dedekind cuts, quotient reals, choice, or an ambient completion object.
+
+\section{Carrier and classifier}
+\label{sec:locatedreal-carrier-classifier}
+
+\begin{definition}[LocatedReal carrier]
+\label{def:locatedreal-carrier}
+A $\LocatedRealUp$ carrier is a finite $\mathsf{BHist}$ packet whose source row is an accepted $\RegSeqRatUp$ regular dyadic stream together with displayed dyadic location data. For each finite observation window selected by $\StreamNameUp$, the packet carries:
+\begin{enumerate}
+\item the scheduled $\RegSeqRatUp$ endpoint rows and regularity ledgers;
+\item dyadic interval rows from $\DyadicRatCoreUp$, including left and right endpoints and their radius ledgers;
+\item a location row recording that the displayed stream endpoint lies inside the displayed dyadic interval at the requested precision;
+\item the $\RealUp$ classifier row through which the regular stream is read as a real-name source;
+\item the $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance rows for the stream, dyadic interval, and real-name reads.
+\end{enumerate}
+The carrier stores only these finite scheduled rows. It contains no Dedekind cut, quotient-real carrier, choice function, or host completion point.
+\end{definition}
+
+\begin{definition}[LocatedReal classifier]
+\label{def:locatedreal-classifier}
+For accepted $\LocatedRealUp$ carriers $x$ and $y$, the predicate $\mathsf{LocatedRealClassifier}(x,y)$ records mutual dyadic-location refinement under the existing $\RealUp$ classifier. A witness supplies a finite $\StreamNameUp$ refinement schedule, the $\RegSeqRatUp$ endpoint and regularity rows for both carriers, $\DyadicRatCoreUp$ interval rows for the selected precisions, and displayed $\RealUp$ classifier comparisons between the real-name source rows read from the two packets.
+
+The classifier is a finite ledger predicate. It compares two located packets only by shared dyadic refinements, interval containment rows, regular-stream tolerance rows, and the inherited $\RealUp$ classifier; it does not add an external order relation or an independent equality on reals.
+\end{definition}
+
+\section{Certificate obligations}
+\label{sec:locatedreal-certificate-obligations}
+
+\begin{theorem}[LocatedReal carrier transport]
+\label{thm:locatedreal-carrier-transport}
+Let $x$ and $x'$ be accepted $\LocatedRealUp$ carriers. Suppose the displayed $\hsame$ rows and $\Cont$ routes transport the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ source stream rows, the $\DyadicRatCoreUp$ interval rows, the finite location ledgers, and the inherited $\RealUp$ classifier rows from $x$ to $x'$. Then $x'$ carries the same $\LocatedRealUp$ carrier surface as $x$ on every transported finite window.
+
+The transported carrier still consists only of regular dyadic stream rows, dyadic interval and location rows, $\RealUp$ classifier rows, and their displayed BEDC provenance.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locatedreal-carrier}. Each finite window exposes a stream-name schedule, a regular dyadic source packet, dyadic interval rows, a location ledger, and the real-name classifier row attached to the source.
+
+Transport the stream rows through the stated $\hsame$ comparisons and $\Cont$ routes. Since the routes preserve the schedule and the $\RegSeqRatUp$ regularity ledgers, every selected source endpoint in $x$ has a corresponding endpoint row in $x'$ with the same finite provenance.
+
+Transport the dyadic interval and location rows through the same displayed routes. The location statement remains a row over the transported endpoint and transported interval, so the packet can be repacked as a $\LocatedRealUp$ carrier.
+
+The $\RealUp$ classifier row is also one of the transported rows. Thus the target packet has exactly the same visible source surface, and no cut, quotient, choice function, or completion point is introduced.
+\end{proof}
+
+\begin{theorem}[LocatedReal NameCert obligation surface]
+\label{thm:locatedreal-namecert-obligation-surface}
+The local $\NameCert_{\LocatedRealUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the scheduled $\mathsf{BHist}$ carrier of \autoref{def:locatedreal-carrier};
+\item classifier: the mutual dyadic-location classifier of \autoref{def:locatedreal-classifier};
+\item location-ledger stability: interval membership and radius rows from $\DyadicRatCoreUp$ remain stable under common $\StreamNameUp$ refinements;
+\item $\hsame$ and $\Cont$ transport: finite schedules, regular-stream rows, dyadic intervals, location ledgers, and $\RealUp$ classifier rows repack under displayed transport;
+\item $\RealUp$ seal compatibility: every real-name read factors through the inherited $\RealUp$ classifier on the underlying $\RegSeqRatUp$ source surface.
+\end{enumerate}
+These rows depend only on $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the order and interval comparison rows exposed by $\RealAlgOrder$.
+\end{theorem}
+\begin{proof}
+The carrier row is the finite packet of \autoref{def:locatedreal-carrier}. It supplies the regular dyadic stream source, the scheduled observation windows, and the dyadic interval and location rows.
+
+The classifier row is the mutual-refinement predicate of \autoref{def:locatedreal-classifier}. It reads both carriers through common finite schedules and checks their dyadic location ledgers against the same inherited $\RealUp$ classifier surface.
+
+For location-ledger stability, refine a displayed schedule and keep the dyadic interval endpoints, radius rows, and membership rows supplied by $\DyadicRatCoreUp$. The comparison rows used to read intervals and endpoints are the order-facing rows exposed by $\RealAlgOrder$, transported through the same real-name classifier.
+
+For transport, apply \autoref{thm:locatedreal-carrier-transport} to the carrier side and use the classifier definition on the transported common refinement. Both sides repack only the displayed finite rows.
+
+Finally, every $\RealUp$ read in the packet is attached to the underlying $\RegSeqRatUp$ source row. Therefore the seal boundary is compatible with $\RealUp$ exactly along that source surface and does not expose a second real carrier.
+\end{proof}
+
+\begin{theorem}[LocatedReal boundary over RealUp and RegSeqRat]
+\label{thm:locatedreal-realup-regseqrat-boundary}
+A $\LocatedRealUp$ packet is precisely a $\RegSeqRatUp$ source surface read through $\RealUp$ together with finite dyadic location ledgers. Any order, metric, or locatedness consumer may read the scheduled stream rows, $\DyadicRatCoreUp$ interval rows, $\RealAlgOrder$ comparison rows, inherited $\RealUp$ classifier rows, and displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+The same consumer cannot infer Dedekind-cut data, quotient-real representatives, choice-selected endpoints, metric-completion points, or a standard bridge from the $\LocatedRealUp$ packet alone.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:locatedreal-namecert-obligation-surface}. The first two rows expose the carrier and classifier, so every consumer access factors through scheduled regular-stream observations and mutual dyadic-location refinements.
+
+The location and order-facing data are the displayed dyadic interval, radius, and comparison rows. They are finite rows supplied by $\DyadicRatCoreUp$ and $\RealAlgOrder$, not an ambient real-order structure.
+
+The $\RealUp$ seal compatibility row identifies the exact boundary with $\RegSeqRatUp$: the real-name source is read only through the inherited classifier on the regular dyadic stream surface. Thus order, metric, and locatedness consumers can use the finite location ledgers without gaining any absent quotient, cut, choice, completion, or bridge datum.
+\end{proof}
+
+\closureat{LocatedRealUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealUp}
+  \constructivestory{The construction starts from a finite regular dyadic stream packet, adds displayed dyadic interval and location rows, and routes every real-name read through the inherited $\RealUp$ classifier on the $\RegSeqRatUp$ source surface.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary binds the scheduled carrier, mutual dyadic-location classifier, location-ledger stability row, finite transport row, and $\RealUp$ seal-compatibility row for $\LocatedRealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient-real construction, metric completion, public order or metric APIs, or standard bridge data.}
+  \upgradepath{Scoped closure requires checked carrier, classifier, location-ledger stability, finite transport, and $\RealUp$ seal-compatibility targets for the displayed $\LocatedRealUp$ source surface.}
+\end{closurestatus}
