@@ -26,6 +26,19 @@ def TriangulatedCatFiniteCarrier [AskSetup] [PackageSetup]
           Cont morphism classifier contRows ∧ Cont contRows provenance endpoint ∧
             PkgSig probe endpoint pkg
 
+def TriangulatedCatFiniteCarrier_classifier [AskSetup] [PackageSetup]
+    (category derived shift triangle morphism classifier contRows provenance endpoint category'
+      derived' shift' triangle' morphism' classifier' contRows' provenance' endpoint' : BHist)
+    (probe : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  TriangulatedCatFiniteCarrier category derived shift triangle morphism classifier contRows
+      provenance endpoint probe pkg ∧
+    TriangulatedCatFiniteCarrier category' derived' shift' triangle' morphism' classifier'
+      contRows' provenance' endpoint' probe pkg ∧
+      hsame category category' ∧ hsame derived derived' ∧ hsame shift shift' ∧
+        hsame triangle triangle' ∧ hsame morphism morphism' ∧ hsame classifier classifier' ∧
+          hsame provenance provenance' ∧ Cont morphism' classifier' contRows' ∧
+            PkgSig probe endpoint' pkg
+
 theorem TriangulatedCatFiniteCarrier_obligation_surface [AskSetup] [PackageSetup]
     {category derived shift triangle morphism classifier contRows provenance endpoint : BHist}
     {probe : ProbeBundle ProbeName} {pkg : Pkg} :

@@ -62,6 +62,19 @@ theorem TopVecSpaceBHistCarrier_vecspace_source_obligation [AskSetup] [PackageSe
       (And.intro carrier.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right.right))
 
+theorem TopVecSpaceBHistCarrier_endpoint_route_readback [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      UnaryHistory endpoint ∧ hsame endpoint (append route topology) ∧
+        Cont route topology endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have endpointRoute : Cont route topology endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  exact And.intro carrier.right.right.right.right.right.left
+    (And.intro endpointRoute
+      (And.intro endpointRoute carrier.right.right.right.right.right.right.right.right.right))
+
 theorem TopVecSpaceBHistCarrier_continuous_addition_obligation [AskSetup] [PackageSetup]
     {vec topology addLedger scalarLedger route endpoint vec' topology' addLedger'
       scalarLedger' route' endpoint' : BHist}
@@ -322,5 +335,37 @@ theorem TopVecSpaceBHistCarrier_consumer_scope [AskSetup] [PackageSetup]
     (And.intro consumerRow
       (And.intro carrier.right.right.right.right.right.right.right.right.left
         carrier.right.right.right.right.right.right.right.right.right))
+
+theorem TopVecSpaceBHistCarrier_route_transport_boundary [AskSetup] [PackageSetup]
+    {vec topology addLedger scalarLedger route route' endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route endpoint bundle pkg ->
+      hsame route route' ->
+        Cont route' topology endpoint' ->
+          PkgSig bundle endpoint' pkg ->
+            TopVecSpaceBHistCarrier vec topology addLedger scalarLedger route' endpoint'
+                bundle pkg ∧
+              hsame endpoint endpoint' ∧ UnaryHistory route' ∧ UnaryHistory endpoint' := by
+  intro carrier sameRoute endpointRow' pkgSig'
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport carrier.right.right.right.right.left sameRoute
+  have routeRow' : Cont addLedger scalarLedger route' :=
+    cont_result_hsame_transport carrier.right.right.right.right.right.right.right.left sameRoute
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRoute (hsame_refl topology)
+      carrier.right.right.right.right.right.right.right.right.left endpointRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed routeUnary' carrier.right.left endpointRow'
+  exact
+    And.intro
+      (And.intro carrier.left
+        (And.intro carrier.right.left
+          (And.intro carrier.right.right.left
+            (And.intro carrier.right.right.right.left
+              (And.intro routeUnary'
+                (And.intro endpointUnary'
+                  (And.intro carrier.right.right.right.right.right.right.left
+                    (And.intro routeRow' (And.intro endpointRow' pkgSig')))))))))
+      (And.intro sameEndpoint (And.intro routeUnary' endpointUnary'))
 
 end BEDC.Derived.TopVecSpaceUp

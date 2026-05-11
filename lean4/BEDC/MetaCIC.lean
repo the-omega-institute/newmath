@@ -1,8 +1,13 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.ContextWF
+import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Examples
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.Checker
+import BEDC.MetaCIC.LeanBridge
+import BEDC.MetaCIC.Weakening
+import BEDC.MetaCIC.Elaborator
