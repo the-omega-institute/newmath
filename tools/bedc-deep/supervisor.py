@@ -40,6 +40,7 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 STATE_DIR = SCRIPT_DIR / "state"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 STOP_FILE = SCRIPT_DIR / ".stop"
+NETWORK_RESUME_FILE = STATE_DIR / "network_resume.json"
 
 ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
@@ -83,6 +84,48 @@ def supervisor_log(msg: str) -> None:
     print(line, flush=True)
     with open(SUPERVISOR_LOG_DIR / "supervisor.log", "a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+
+def _write_network_resume_checkpoint(kind: str, branch: str, reason: str,
+                                     *, head: str = "", upstream: str = "") -> None:
+    """Persist a resume marker for network-bound work.
+
+    The critical case is: auto-commit succeeded, git push failed because the
+    network dropped. The working tree is then clean, so the normal
+    "commit if changed" path will not retry. This checkpoint lets later
+    supervisor ticks notice that HEAD is still ahead of its upstream and
+    retry the push after connectivity returns.
+    """
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "kind": kind,
+        "branch": branch,
+        "head": head,
+        "upstream": upstream,
+        "reason": reason[:1000],
+        "updated_at": _now_iso(),
+    }
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            old = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(old, dict) and old.get("created_at"):
+                payload["created_at"] = old["created_at"]
+        except (OSError, json.JSONDecodeError):
+            pass
+    payload.setdefault("created_at", payload["updated_at"])
+    NETWORK_RESUME_FILE.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _clear_network_resume_checkpoint() -> None:
+    try:
+        NETWORK_RESUME_FILE.unlink()
+    except FileNotFoundError:
+        pass
+    except OSError as exc:
+        supervisor_log(f"network-resume: failed to clear checkpoint: {exc}")
 
 
 # ---------------------------------------------------------------------------
@@ -640,6 +683,89 @@ def _git(args: list[str], capture: bool = True) -> subprocess.CompletedProcess[s
     )
 
 
+def current_branch_name() -> str:
+    return _git(["branch", "--show-current"]).stdout.strip()
+
+
+def current_head() -> str:
+    return _git(["rev-parse", "HEAD"]).stdout.strip()
+
+
+def current_upstream() -> str:
+    return _git(["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]).stdout.strip()
+
+
+def ahead_behind_upstream() -> tuple[int, int] | None:
+    result = _git(["rev-list", "--left-right", "--count", "@{u}...HEAD"])
+    if result.returncode != 0:
+        return None
+    parts = result.stdout.strip().split()
+    if len(parts) != 2:
+        return None
+    try:
+        behind = int(parts[0])
+        ahead = int(parts[1])
+    except ValueError:
+        return None
+    return ahead, behind
+
+
+def retry_pending_network_push() -> bool:
+    """Resume a push that may have failed during a network outage.
+
+    This also works when the checkpoint file is absent: if the branch is
+    ahead of its upstream, the supervisor has a clean, deterministic action
+    to take. If the branch is behind as well, leave conflict-aware sync to
+    the normal dev-sync path rather than forcing a blind push.
+    """
+    branch = current_branch_name()
+    if not branch:
+        return False
+    relation = ahead_behind_upstream()
+    if relation is None:
+        if NETWORK_RESUME_FILE.exists():
+            _write_network_resume_checkpoint(
+                "upstream_unknown",
+                branch,
+                "could not resolve upstream while checking pending network resume",
+                head=current_head(),
+            )
+            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        return False
+    ahead, behind = relation
+    if ahead == 0:
+        if NETWORK_RESUME_FILE.exists():
+            supervisor_log("network-resume: upstream caught up; clearing checkpoint")
+            _clear_network_resume_checkpoint()
+        return False
+    if behind:
+        reason = f"branch is ahead={ahead} and behind={behind}; waiting for normal sync"
+        _write_network_resume_checkpoint(
+            "push_blocked_diverged",
+            branch,
+            reason,
+            head=current_head(),
+            upstream=current_upstream(),
+        )
+        supervisor_log(f"network-resume: {reason}")
+        return False
+    supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
+    push = _git(["push", "origin", branch], capture=False)
+    if push.returncode != 0:
+        _write_network_resume_checkpoint(
+            "push_failed",
+            branch,
+            f"git push rc={push.returncode}",
+            head=current_head(),
+            upstream=current_upstream(),
+        )
+        supervisor_log(f"network-resume: push still failing rc={push.returncode}")
+        return False
+    _clear_network_resume_checkpoint()
+    supervisor_log(f"network-resume: push complete on {branch}")
+    return True
+
+
 def commit_and_push_if_changed() -> bool:
     # Acquire paper_writes lock so we never commit a partial Stage 2 state
     # (where _append_to_tex has run but _make_paper hasn't decided
@@ -670,12 +796,20 @@ def commit_and_push_if_changed() -> bool:
         if rc != 0:
             supervisor_log("auto-commit: git commit returned non-zero (race or empty)")
             return False
-        branch = _git(["branch", "--show-current"]).stdout.strip()
+        branch = current_branch_name()
         push = _git(["push", "origin", branch], capture=False)
         if push.returncode != 0:
             supervisor_log(f"auto-commit: push failed rc={push.returncode}")
+            _write_network_resume_checkpoint(
+                "push_failed_after_commit",
+                branch,
+                f"git push rc={push.returncode}",
+                head=current_head(),
+                upstream=current_upstream(),
+            )
             return False
     supervisor_log(f"auto-commit + push complete on {branch}")
+    _clear_network_resume_checkpoint()
     return True
 
 
@@ -916,6 +1050,7 @@ def main() -> int:
 
             if not args.no_auto_commit:
                 try:
+                    retry_pending_network_push()
                     commit_and_push_if_changed()
                 except Exception as exc:
                     supervisor_log(f"auto-commit error: {exc}")
