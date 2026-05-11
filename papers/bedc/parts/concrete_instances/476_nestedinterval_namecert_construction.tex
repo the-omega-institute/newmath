@@ -33,6 +33,7 @@ Let $N=(I,O,W,S,R,E,T,P,C)$ be an accepted $\NestedIntervalUp$ carrier, and let 
 
 The transported classifier reads exactly the transported finite dyadic interval chain and introduces no point-selection operator, no completed intersection object, and no host real completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFinitePacket\_endpoint\_transport}
 \begin{proof}
 Project the carrier of \autoref{def:nestedinterval-finite-carrier}. The lower and upper endpoints are $\DyadicRatCoreUp$ rows, and the endpoint-order and width ledgers are ordinary displayed rows attached to the same interval slots.
 
@@ -40,6 +41,7 @@ Transport the interval rows and their endpoint ledgers componentwise through the
 
 Finally transport the schedule, regular-rational, seal-facing, package, and name-certificate rows. Repacking these transported coordinates gives the accepted carrier $N'$, and the classifier has no coordinate other than those finite rows.
 \end{proof}
+\leanchecked{BEDC.Derived.NestedIntervalUp.NestedIntervalFiniteCarrier\_endpoint\_transport}
 
 \begin{theorem}[NestedInterval window refinement]
 \label{thm:nestedinterval-window-refinement}
@@ -105,15 +107,74 @@ Use \autoref{thm:nestedinterval-regseqrat-handoff} to identify the regular-ratio
 The excluded principles would require additional coordinates: an infinite chain object, a completed intersection, compactness data, or a choice operator selecting a point. The carrier contains none of these, so the seal boundary is exactly the displayed finite surface.
 \end{proof}
 
+\begin{theorem}[NestedInterval obligation scope packet]
+\label{thm:nestedinterval-obligation-scope-packet}
+The finite carrier of \autoref{def:nestedinterval-finite-carrier}, endpoint
+transport of \autoref{thm:nestedinterval-endpoint-transport}, window refinement
+of \autoref{thm:nestedinterval-window-refinement}, $\RegSeqRatUp$ handoff of
+\autoref{thm:nestedinterval-regseqrat-handoff}, $\NameCert_{\NestedIntervalUp}$
+obligation surface of
+\autoref{thm:nestedinterval-namecert-obligation-surface}, and $\RealUp$ seal
+boundary of \autoref{thm:nestedinterval-real-seal-boundary} depend only on
+$\mathsf{BHist}$ endpoint rows, finite dyadic interval packets, displayed
+$\hsame$ comparisons, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+$\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ source
+certificates.
+
+Thus every accepted $\NestedIntervalUp$ packet is scoped by finite interval
+rows and the named BEDC source certificates.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:nestedinterval-finite-carrier}.
+Its rows provide the dyadic interval endpoints, endpoint-order ledgers, width
+ledgers, adjacent inclusion rows, schedule provenance, handoff rows, and
+seal-facing rows.
+
+Apply \autoref{thm:nestedinterval-endpoint-transport} to account for endpoint
+transport, then apply \autoref{thm:nestedinterval-window-refinement} to account
+for finite-window restriction and extension. These two results give the
+permitted $\hsame$ and $\Cont$ movement of the nested interval rows.
+
+The consumer boundary is supplied by
+\autoref{thm:nestedinterval-regseqrat-handoff} and by the finite
+$\NameCert_{\NestedIntervalUp}$ surface of
+\autoref{thm:nestedinterval-namecert-obligation-surface}. Together they bind
+the scheduled $\StreamNameUp$ windows, $\RegSeqRatUp$ rows, $\mathsf{Pkg}$
+provenance, and $\NameCert$ rows to the carrier.
+
+Finally use \autoref{thm:nestedinterval-real-seal-boundary}. The seal boundary
+exports only displayed finite rows to $\RealUp$ consumers and excludes
+open-cover compactness, choice of a nested intersection point, and host real
+completeness, so the scoped package is exactly the finite dependency surface
+stated above.
+\end{proof}
+
+\begin{theorem}[NestedInterval public finite-window boundary]
+\label{thm:nestedinterval-public-window-boundary}
+The finite carrier of \autoref{def:nestedinterval-finite-carrier}, endpoint transport of \autoref{thm:nestedinterval-endpoint-transport}, window refinement of \autoref{thm:nestedinterval-window-refinement}, $\RegSeqRatUp$ handoff of \autoref{thm:nestedinterval-regseqrat-handoff}, $\NameCert_{\NestedIntervalUp}$ obligation surface of \autoref{thm:nestedinterval-namecert-obligation-surface}, $\RealUp$ seal boundary of \autoref{thm:nestedinterval-real-seal-boundary}, and scoped dependency package of \autoref{thm:nestedinterval-obligation-scope-packet} assemble a single public finite-window boundary for $\NestedIntervalUp$.
+
+Every consumer-visible row of that boundary is one of the displayed dyadic endpoint rows, endpoint-order rows, width rows, inclusion rows, schedule rows, regular-rational handoff rows, seal-facing rows, $\hsame$ transport rows, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance rows, or $\NameCert$ rows. The boundary exports no infinite intersection point, compactness theorem, host real equality, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:nestedinterval-finite-carrier}. The carrier supplies the dyadic endpoint packets, endpoint-order ledgers, width ledgers, adjacent inclusion rows, schedules, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, and visible provenance rows.
+
+Use endpoint transport of \autoref{thm:nestedinterval-endpoint-transport} and window refinement of \autoref{thm:nestedinterval-window-refinement} to account for movement of the carrier rows across $\hsame$ and $\Cont$ routes. These two blocks leave the boundary inside finite endpoint, width, inclusion, and schedule data.
+
+Next use the $\RegSeqRatUp$ handoff and the local $\NameCert_{\NestedIntervalUp}$ obligation surface to bind the regular-rational windows and package provenance to the same finite rows. Apply the $\RealUp$ seal boundary to restrict seal-facing reads to displayed endpoint, inclusion, schedule, and handoff data.
+
+Finally, the scoped dependency package fixes the permitted primitives for downstream consumers. An infinite intersection point, compactness theorem, host real equality, or choice principle would require an additional coordinate outside those seven displayed blocks, so none is exported by the public boundary.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
+\closureat{NestedIntervalUp}{scopedStr}
 
 \begin{closurestatus}{\NestedIntervalUp}
   \constructivestory{A nested-interval packet is generated by finite $\mathsf{BHist}$ dyadic interval rows indexed by a unary prefix, lower and upper $\DyadicRatCoreUp$ endpoints, endpoint-order and width ledgers, adjacent nested-inclusion rows, $\StreamNameUp$ schedule provenance, $\RegSeqRatUp$ finite-window reads, $\RealUp$ seal-facing rows, and $\Pkg$ and $\NameCert$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The finite carrier of \autoref{def:nestedinterval-finite-carrier} binds the visible endpoint, ledger, nesting, schedule, handoff, seal-facing, transport, package, and certificate rows for $\NestedIntervalUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:nestedinterval-obligation-scope-packet} binds the $\DyadicIntervalUp$ endpoint and refinement rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-boundary rows, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim Cantor nested-interval convergence, completeness, compactness, Heine--Borel, extraction of a point by choice, host real intersections, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the finite carrier, endpoint transport, window refinement, $\RegSeqRatUp$ handoff, NameCert obligation surface, and $\RealUp$ seal boundary to the source certificates and BEDC primitives named in the carrier.}
+  \upgradepath{Public closure requires a single exported $\NestedIntervalUp$ theorem consumed by the finite $\RegSeqRatUp$ and $\RealUp$ window interfaces.}
 \end{closurestatus}

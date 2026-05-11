@@ -66,6 +66,7 @@ The $\CauchyModulusUp$ rows close the finite threshold requests: for each displa
 
 These are precisely the finite regularity rows consumed by $\RegSeqRatUp$. Repacking them yields the regular sequence window, while the absence of any completed-real coordinate prevents the handoff from selecting a limit or asserting quotient equality.
 \end{proof}
+\leanchecked{BEDC.Derived.FastCauchySeqUp.FastCauchySeqPacket\_regseqrat\_forgetful\_handoff}
 
 \begin{theorem}[FastCauchySeq Real seal consumer boundary]
 \label{thm:fastcauchyseq-real-seal-consumer-boundary}
@@ -81,13 +82,52 @@ Apply the $\RegSeqRatUp$ forgetful handoff of \autoref{thm:fastcauchyseq-regseqr
 Finally restrict along the $\RealUp$ classifier transport boundary. That boundary consumes the displayed regular sequence data and provenance only. Since the carrier has no quotient-real coordinate, no completed metric coordinate, and no selected limit coordinate, none can be read by a $\RealUp$ consumer.
 \end{proof}
 
+\begin{theorem}[FastCauchySeq tail-modulus Real boundary]
+\label{thm:fastcauchyseq-tail-modulus-real-boundary}
+For an accepted $\FastCauchySeqUp$ packet, every $\RealUp$ consumer read
+factors through the $\RegSeqRatUp$ forgetful handoff together with the visible
+$\CauchyModulusUp$ threshold rows, dyadic endpoint and radius rows, late-pair
+comparison ledger, componentwise $\hsame$ transports, displayed $\Cont$
+windows, and $\Pkg$ provenance named by the carrier.
+
+The factorization keeps the local $\NameCert$ row as the certificate for the
+finite explicit-rate surface and exposes no quotient real equality, no
+selected limit, and no completed metric object. Thus the $\RealUp$ boundary is
+the finite tail-modulus read of the scheduled stream, not a completion or
+limit-selection principle.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:fastcauchyseq-carrier}. The packet contains the scheduled
+stream, the explicit $\CauchyModulusUp$ threshold table, dyadic endpoint and
+radius rows, the late-pair comparison ledger, $\hsame$ transport rows, $\Cont$
+windows, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+Apply \autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}. This keeps the
+stream, modulus, dyadic, comparison, transport, window, and provenance rows as
+the finite regular-rational window and forgets only the local
+$\FastCauchySeqUp$ certificate row from the outgoing $\RegSeqRatUp$ packet.
+
+Now restrict that window by
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary}. The $\RealUp$
+consumer may inspect exactly the scheduled observations, threshold rows,
+dyadic endpoint-radius data, late-pair ledger, transport, window, provenance,
+and naming rows already visible in the carrier.
+
+Because the carrier contains no quotient-real coordinate, no selected limit,
+and no completed metric object, the resulting Real-facing read cannot acquire
+any such row after the handoff.
+\end{proof}
+
+\closureat{FastCauchySeqUp}{obligationStr}
+\closureat{FastCauchySeqUp}{scopedStr}
+
 \begin{closurestatus}{\FastCauchySeqUp}
   \constructivestory{A fast-Cauchy-sequence packet is generated from a scheduled dyadic-rational observation stream, visible Cauchy-modulus threshold rows, dyadic endpoint and radius rows, late-pair comparison ledgers, componentwise $\hsame$ and $\Cont$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The finite explicit-rate carrier of \autoref{def:fastcauchyseq-carrier} binds the displayed stream, threshold, dyadic, comparison, transport, window, provenance, and local certificate rows for $\FastCauchySeqUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scheduled stream, $\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ endpoint and radius rows, late-pair ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are bound to the $\RegSeqRatUp$ and $\RealUp$ source boundaries.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close completeness, quotient equality of Cauchy names, selected limits, or standard bridge data.}
-  \upgradepath{Formal closure requires Lean targets for the carrier, classifier, NameCert obligation surface, RegSeqRat handoff, and Real seal consumer boundary.}
+  \upgradepath{Public closure requires a public-facing $\FastCauchySeqUp$ export theorem over the scoped explicit-rate packet.}
 \end{closurestatus}
