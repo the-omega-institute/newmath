@@ -318,6 +318,19 @@ theorem ZeroKnowledgeCarrier_soundness_ledger_obligation [AskSetup] [PackageSetu
       targetPkg⟩
   exact And.intro carrier' (And.intro sameLedger targetPkg)
 
+theorem ZeroKnowledgeCarrier_simulation_transcript_boundary [AskSetup] [PackageSetup]
+    {prover verifier challenge response commitment computableVerifier simulator ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeroKnowledgeCarrier prover verifier challenge response commitment computableVerifier simulator
+        ledger bundle pkg ->
+      UnaryHistory simulator ∧ UnaryHistory ledger ∧ Cont simulator verifier ledger ∧
+        PkgSig bundle ledger pkg := by
+  intro carrier
+  exact And.intro carrier.right.right.right.right.right.right.left
+    (And.intro carrier.right.right.right.right.right.right.right.left
+      (And.intro carrier.right.right.right.right.right.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.right.right.right.right.right))
+
 def ZeroKnowledgeFiniteCarrier [AskSetup] [PackageSetup]
     (prover verifier challenge response commitment computable verifierAccept simulator ledger
       provenance endpoint : BHist)
