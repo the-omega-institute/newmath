@@ -172,6 +172,47 @@ theorem SimplicialSetBHistSimplexRowCarrier_public_dependency_scope
       (And.intro ledger.right.left
         (And.intro ledger.right.right.left ledger.right.right.right.left)))
 
+theorem SimplicialSetBHistSimplexRowCarrier_face_endpoint_scope_binding
+    [AskSetup] [PackageSetup]
+    {functor simplex face degeneracy package provenance ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SimplicialSetBHistSimplexRowCarrier functor simplex face degeneracy package provenance
+        ledger bundle pkg ->
+      Cont face degeneracy endpoint ->
+        SemanticNameCert
+            (fun row : BHist => hsame row endpoint ∧ Cont functor simplex face ∧
+              Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                Cont package provenance ledger ∧ PkgSig bundle provenance pkg)
+            (fun row : BHist => hsame row endpoint ∧ Cont functor simplex face ∧
+              Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                Cont package provenance ledger ∧ PkgSig bundle provenance pkg)
+            (fun row : BHist => hsame row endpoint ∧ Cont functor simplex face ∧
+              Cont simplex functor degeneracy ∧ Cont face degeneracy endpoint ∧
+                Cont package provenance ledger ∧ PkgSig bundle provenance pkg)
+            hsame ∧ hsame endpoint (append face degeneracy) := by
+  intro carrier endpointRow
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          exact Exists.intro endpoint
+            (And.intro (hsame_refl endpoint)
+              (And.intro carrier.left
+                (And.intro carrier.right.left
+                  (And.intro endpointRow
+                    (And.intro carrier.right.right.right carrier.right.right.left)))))
+        equiv_refl := by intro row _rowCarrier; exact hsame_refl row
+        equiv_symm := by intro _left _right same; exact hsame_symm same
+        equiv_trans := by intro _left _middle _right sameLM sameMR; exact hsame_trans sameLM sameMR
+        carrier_respects_equiv := by
+          intro left right same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left) source.right
+      }
+      pattern_sound := by intro _row source; exact source
+      ledger_sound := by intro _row source; exact source
+    }
+  · exact endpointRow
+
 def SimplicialSetSimplexRowCarrier
     (functor finite endpoint package route : BHist) : Prop :=
   UnaryHistory functor ∧ UnaryHistory finite ∧ UnaryHistory package ∧
