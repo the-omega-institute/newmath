@@ -223,6 +223,67 @@ theorem ToposFiniteCarrier_finite_limit_exponential_scope [AskSetup] [PackageSet
     ⟨finiteLimitUnary, exponentialUnary, subobjectClassifierUnary, ledgerRow, provenanceRow,
       endpointRow, pkgSig⟩
 
+theorem ToposFiniteCarrier_classified_boundary_transport [AskSetup] [PackageSetup]
+    {category sheaf finiteLimit exponential subobjectClassifier comparison ledger provenance
+      endpoint category' sheaf' finiteLimit' exponential' subobjectClassifier' comparison'
+      ledger' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ToposFiniteCarrier category sheaf finiteLimit exponential subobjectClassifier comparison
+        ledger provenance endpoint bundle pkg ->
+      hsame category category' ->
+      hsame sheaf sheaf' ->
+      hsame finiteLimit finiteLimit' ->
+      hsame exponential exponential' ->
+      hsame subobjectClassifier subobjectClassifier' ->
+      Cont category' sheaf' comparison' ->
+      Cont finiteLimit' exponential' ledger' ->
+      Cont ledger' subobjectClassifier' provenance' ->
+      Cont comparison' provenance' endpoint' ->
+      PkgSig bundle endpoint' pkg ->
+      ToposFiniteCarrier category' sheaf' finiteLimit' exponential' subobjectClassifier'
+          comparison' ledger' provenance' endpoint' bundle pkg ∧
+        hsame comparison comparison' ∧ hsame ledger ledger' ∧
+          hsame provenance provenance' ∧ hsame endpoint endpoint' := by
+  intro carrier sameCategory sameSheaf sameFiniteLimit sameExponential
+    sameSubobjectClassifier categorySheafRow finiteExponentialRow ledgerSubobjectRow
+    comparisonProvenanceRow pkgRow
+  obtain ⟨categoryUnary, sheafUnary, finiteLimitUnary, exponentialUnary,
+    subobjectClassifierUnary, oldCategorySheafRow, oldFiniteExponentialRow,
+    oldLedgerSubobjectRow, oldComparisonProvenanceRow, _oldPkgRow⟩ := carrier
+  have categoryUnary' : UnaryHistory category' :=
+    unary_transport categoryUnary sameCategory
+  have sheafUnary' : UnaryHistory sheaf' :=
+    unary_transport sheafUnary sameSheaf
+  have finiteLimitUnary' : UnaryHistory finiteLimit' :=
+    unary_transport finiteLimitUnary sameFiniteLimit
+  have exponentialUnary' : UnaryHistory exponential' :=
+    unary_transport exponentialUnary sameExponential
+  have subobjectClassifierUnary' : UnaryHistory subobjectClassifier' :=
+    unary_transport subobjectClassifierUnary sameSubobjectClassifier
+  have sameComparison : hsame comparison comparison' :=
+    cont_respects_hsame sameCategory sameSheaf oldCategorySheafRow categorySheafRow
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameFiniteLimit sameExponential oldFiniteExponentialRow
+      finiteExponentialRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameSubobjectClassifier oldLedgerSubobjectRow
+      ledgerSubobjectRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameComparison sameProvenance oldComparisonProvenanceRow
+      comparisonProvenanceRow
+  exact And.intro
+    (And.intro categoryUnary'
+      (And.intro sheafUnary'
+        (And.intro finiteLimitUnary'
+          (And.intro exponentialUnary'
+            (And.intro subobjectClassifierUnary'
+              (And.intro categorySheafRow
+                (And.intro finiteExponentialRow
+                  (And.intro ledgerSubobjectRow
+                    (And.intro comparisonProvenanceRow pkgRow)))))))))
+    (And.intro sameComparison
+      (And.intro sameLedger (And.intro sameProvenance sameEndpoint)))
+
 theorem ToposSubobjectClassifierLedger_site_sheaf_classifier_obligation [AskSetup] [PackageSetup]
     {category sheaf finiteLimit exponential subobject contRows provenance endpoint category' sheaf'
       finiteLimit' exponential' subobject' endpoint' : BHist}
