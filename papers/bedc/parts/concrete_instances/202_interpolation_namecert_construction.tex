@@ -186,3 +186,29 @@ finite $\mathsf{BHist}$ threshold surface stated above.
   external uniqueness.}
   \upgradepath{Public closure requires an exported $\InterpolationUp$ NameCert surface over the same finite-node and polynomial-evaluation rows.}
 \end{closurestatus}
+
+\begin{theorem}[Interpolation empty selection has empty evaluation ledger]
+\label{thm:interpolation-empty-selection-empty-evaluation-ledger}
+Let $I$ be an $\InterpolationUp$ carrier row in the sense of
+\autoref{def:interpolation-bhist-node-carrier}. Suppose that the displayed
+$\FinSetUp$ selected-node membership ledger of $I$ has no entries: no history
+$n:\mathsf{BHist}$ occurs as a selected node in that finite-spine ledger. Then
+$I$ has no accepted sample. Consequently, its polynomial-evaluation ledger has
+no sample-indexed row, and the sample-ledger surface of $I$ is empty.
+\end{theorem}
+\begin{proof}
+Assume, toward contradiction, that $I$ has an accepted sample at a node $n$.
+By \autoref{thm:interpolation-sample-ledger-surface}, every accepted sample is
+read through the $\FinSetUp$ membership row for its selected node and the
+$\PolynomialUp$ evaluation row at that same node. In particular, the accepted
+sample exposes a selected-node membership entry for $n$ in the displayed
+finite-spine ledger of $I$.
+
+This contradicts the empty-ledger hypothesis. Hence no accepted sample exists.
+The only polynomial-evaluation rows admitted as sample rows by
+\autoref{def:interpolation-bhist-node-carrier} are the rows indexed by selected
+nodes and read together with the corresponding membership rows. Since there is
+no selected-node membership entry, there is no sample index from which such an
+evaluation row can be read. Therefore the polynomial-evaluation ledger contains
+no sample-indexed row, and the sample-ledger surface is empty.
+\end{proof}
