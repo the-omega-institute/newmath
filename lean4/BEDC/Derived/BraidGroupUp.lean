@@ -131,6 +131,24 @@ theorem BraidGroupArtinPacket_ledger_stability [AskSetup] [PackageSetup]
                 (And.intro classifierCont' (And.intro endpointCont' endpointPkg')))))))
       (And.intro sameMoveLedger (And.intro sameClassifier sameEndpoint))
 
+theorem BraidGroupArtinPacket_artin_ledger_stability [AskSetup] [PackageSetup]
+    {strand word moveLedger classifier dependency endpoint strand' word' moveLedger' classifier'
+      dependency' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BraidGroupArtinPacket strand word moveLedger classifier dependency endpoint bundle pkg ->
+      hsame strand strand' ->
+        hsame word word' ->
+          hsame dependency dependency' ->
+            Cont strand' word' moveLedger' ->
+              Cont moveLedger' dependency' classifier' ->
+                Cont classifier' word' endpoint' ->
+                  PkgSig bundle endpoint' pkg ->
+                    BraidGroupArtinPacket strand' word' moveLedger' classifier' dependency'
+                        endpoint' bundle pkg ∧
+                      hsame moveLedger moveLedger' ∧ hsame classifier classifier' ∧
+                        hsame endpoint endpoint' :=
+  BraidGroupArtinPacket_ledger_stability
+
 theorem BraidGroupArtinPacket_knot_closure_empty_boundary [AskSetup] [PackageSetup]
     {strand word moveLedger classifier dependency endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
