@@ -1,0 +1,182 @@
+\chapter{A Concrete Naming Certificate for $\BitVectorUp$}
+\label{ch:concrete-instances-bitvector-namecert}
+
+The $\BitVectorUp$ interface names fixed-length bit strings as finite BEDC
+data rather than as host-level binary strings. Knuth, \emph{The Art of
+Computer Programming}, Vol. 4A, treats fixed-length bit strings as finite
+combinatorial objects; the BEDC packet below keeps that reading at the
+$\mathsf{BHist}$ level by using $\BoolUp$, $\ListUp$, and $\NatUp$ rows with
+explicit length and provenance ledgers.
+
+\begin{definition}[BitVector BHist source]\label{def:bitvector-bhist-source}
+A $\BitVectorUp$ source packet is a finite $\mathsf{BHist}$ record
+$$
+B=(n,s,l,p)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $n$ is a unary $\NatUp$ length row;
+\item $s$ is a $\ListUp$ spine whose entries are $\BoolUp$ histories and whose
+displayed list length is transported from $n$;
+\item $l$ is the length ledger recording that every public bit read of $s$
+lies at an index below $n$ and that no row beyond the displayed length is read;
+\item $p$ is the $\Pkg$ provenance naming the consumed $\BoolUp$, $\ListUp$,
+$\NatUp$, $\hsame$, and $\Cont$ certificate rows.
+\end{enumerate}
+The carrier predicate is $\mathsf{BitVectorSource}(n,s,l,p)$. The classifier
+on accepted packets compares the unary length rows by $\hsame$, compares the
+list spines by the $\ListUp$ classifier, compares each visible bit by the
+$\BoolUp$ classifier, and requires the same $\Cont$ routes and $\Pkg$
+provenance. No host bit-string equality, machine word, numeric binary
+encoding, or hidden padding convention is exported.
+\end{definition}
+
+\begin{theorem}[BitVector carrier stability]\label{thm:bitvector-carrier-stability}
+Let $B=(n,s,l,p)$ be an accepted $\BitVectorUp$ source packet. If the unary
+length row, the list-of-bool spine, the length ledger, and the provenance row
+are transported by displayed $\hsame$ along the same $\Cont$ routes named by
+$p$, then the transported packet $B'=(n',s',l',p')$ is again an accepted
+$\BitVectorUp$ source packet.
+\end{theorem}
+\begin{proof}
+Project the four coordinates of \autoref{def:bitvector-bhist-source}. The
+$\NatUp$ length row transports first, so the displayed target length is fixed
+before any bit read is considered.
+
+Transport the $\ListUp$ spine along that length row. Each visible component of
+the spine is a $\BoolUp$ history, so the component reads transport by the
+componentwise $\BoolUp$ classifier and the displayed $\hsame$ rows.
+
+Finally transport the length ledger and $\Pkg$ provenance through the same
+$\Cont$ routes. The ledger still permits exactly the positions below the
+transported length and hides every position beyond it, so the transported
+packet is accepted.
+\end{proof}
+
+\begin{theorem}[BitVector classifier laws]\label{thm:bitvector-classifier-laws}
+The $\BitVectorUp$ classifier is reflexive, symmetric, and transitive on
+accepted packets by componentwise use of the $\NatUp$ length classifier, the
+$\ListUp$ spine classifier, and the $\BoolUp$ entry classifier.
+\end{theorem}
+\begin{proof}
+For reflexivity, take the reflexive $\hsame$ row on the displayed unary length
+and the reflexive $\ListUp$ comparison of the list spine. Each entry read is a
+$\BoolUp$ row and hence compares with itself by the boolean classifier.
+
+For symmetry, reverse the displayed length comparison, then reverse the
+$\ListUp$ spine comparison and every visible $\BoolUp$ entry comparison. The
+same ledger and provenance rows are read in the opposite order.
+
+For transitivity, compose the two displayed length comparisons, compose the two
+list-spine comparisons, and compose the entrywise boolean comparisons at each
+transported index. The length ledger keeps the index set fixed under the
+transport, so no hidden position enters the composite classifier.
+\end{proof}
+
+\begin{theorem}[BitVector ledger coverage]\label{thm:bitvector-ledger-coverage}
+Every public read of an accepted $\BitVectorUp$ packet factors through the
+finite ledger $(n,s,l,p)$. The packet exposes exactly the unary length row, the
+list-of-bool spine, the length exactness ledger, the componentwise $\BoolUp$
+classifier rows, the $\Cont$ routes, and the $\Pkg$ provenance.
+
+Consequently the packet exports no host binary-string primitive, no numeric
+interpretation of the bits, no padding policy, and no machine-word overflow
+rule.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. Its tuple lists exactly four coordinates,
+and each coordinate is a finite row over the existing BEDC kernel and finite
+data certificates.
+
+A length-facing consumer reads $n$. A bit-facing consumer reads $s$ only
+through the positions admitted by $l$. A transport-facing consumer reads the
+componentwise $\BoolUp$ and $\ListUp$ classifier rows together with the
+displayed $\Cont$ routes and provenance named by $p$.
+
+No other coordinate is present in the packet. Therefore every public consumer
+projection is one of the displayed rows or a projection through those route and
+provenance rows.
+\end{proof}
+
+\begin{theorem}[BitVector NameCert obligation surface]\label{thm:bitvector-namecert-obligation-surface}
+The local $\NameCert_{\BitVectorUp}$ obligation surface consists of five
+finite rows:
+\begin{enumerate}
+\item carrier habitation: the empty vector is carried by the zero $\NatUp$
+length row, the empty $\ListUp$ boolean spine, the empty length ledger, and the
+corresponding $\Pkg$ provenance;
+\item classifier laws: reflexivity, symmetry, and transitivity are inherited
+componentwise from the length, list, and boolean classifiers of
+\autoref{thm:bitvector-classifier-laws};
+\item length-ledger exactness: the public bit positions are exactly the
+positions below the displayed unary length row;
+\item transport under $\hsame$: the carrier stability of
+\autoref{thm:bitvector-carrier-stability} repacks every transported length,
+spine, ledger, and provenance row as another accepted packet;
+\item downstream finite-data consumption: list, product, matrix-index, and
+error-code chapters may read only the displayed finite bit spine, length row,
+componentwise classifier rows, continuation routes, and provenance ledger.
+\end{enumerate}
+These rows are the complete seed obligation for the fixed-length bit-vector
+name.
+\end{theorem}
+\begin{proof}
+For carrier habitation, choose the zero unary length row and the empty
+$\ListUp$ spine of $\BoolUp$ entries. The length ledger has no public bit
+position to expose, and the provenance row records only the consumed finite
+data certificates.
+
+For the classifier laws, apply \autoref{thm:bitvector-classifier-laws}. The
+classifier is built from the displayed length comparison, list-spine
+comparison, and entrywise boolean comparisons, so the three equivalence laws
+are inherited componentwise.
+
+For length-ledger exactness, unfold the carrier. A public bit read must be a
+read of the list spine at an index admitted by $l$, and $l$ admits exactly the
+indices below $n$.
+
+For transport, apply \autoref{thm:bitvector-carrier-stability}. The same
+$\hsame$ and $\Cont$ routes transport the length row, the boolean spine, the
+ledger, and the provenance without adding a hidden binary-string comparison.
+
+For downstream use, every listed consumer receives only the rows displayed in
+\autoref{thm:bitvector-ledger-coverage}. Thus a list, product, matrix-index,
+or error-code construction can consume fixed-length bit data without treating
+bit strings as host primitives.
+\end{proof}
+
+\begin{theorem}[BitVector finite-data anchor]\label{thm:bitvector-finite-data-anchor}
+The $\BitVectorUp$ source packet is a finite-data anchor between $\ListUp$ and
+later finite algebraic encodings. It can be consumed as a length-indexed
+boolean list with explicit $\NatUp$, $\ListUp$, $\BoolUp$, $\hsame$, $\Cont$,
+and $\Pkg$ rows, and it supplies no additional arithmetic, hashing, coding, or
+matrix operation.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:bitvector-bhist-source}. The only payload
+row is a $\ListUp$ spine of $\BoolUp$ entries, and the only shape row is the
+unary $\NatUp$ length with its ledger.
+
+Apply \autoref{thm:bitvector-ledger-coverage}. It identifies every public
+consumer route with the finite length, boolean spine, classifier rows,
+continuations, and provenance.
+
+The exclusions follow by projection: the packet has no coordinate for a
+numeric interpretation, hash evaluation, error-correction metric, matrix
+indexing operation, or host machine word. Those later chapters may consume the
+finite bit-vector source, but they must add their own operation rows.
+\end{proof}
+
+\closureat{BitVectorUp}{seedStr}
+\closureat{BitVectorUp}{obligationStr}
+
+\begin{closurestatus}{\BitVectorUp}
+  \constructivestory{A bit-vector packet is generated by a unary $\NatUp$ length row, a $\ListUp$ spine of $\BoolUp$ histories, a length ledger exposing exactly the displayed positions, and $\Pkg$ provenance for the finite-data dependencies.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bitvector-bhist-source}, \autoref{thm:bitvector-carrier-stability}, \autoref{thm:bitvector-classifier-laws}, \autoref{thm:bitvector-ledger-coverage}, \autoref{thm:bitvector-namecert-obligation-surface}, and \autoref{thm:bitvector-finite-data-anchor} bind the fixed-length boolean-list source surface as a seed certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close numeric binary encodings, hashing semantics, error-correction metrics, matrix indexing operations, machine-word overflow, or a standard bridge.}
+  \upgradepath{Scoped closure next requires binding the displayed carrier, classifier, length-ledger, transport, and downstream finite-data obligations explicitly to the named BEDC primitives.}
+\end{closurestatus}
