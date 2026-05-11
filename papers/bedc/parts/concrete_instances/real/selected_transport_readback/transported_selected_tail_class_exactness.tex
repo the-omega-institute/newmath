@@ -70,3 +70,58 @@ exactness the displayed selected tail class is precisely the pair of
 $\hsame$ classes of $a$ and $b$; standard bridge and downstream consumer
 RegSeqRat selected observation canonicalization; status
 $\mathsf{ProofTarget}$.
+
+\begin{theorem}[RealUp RegSeqRat terminal seal functoriality]
+\label{thm:realup-regseqrat-terminal-seal-functoriality}
+Let $x,y,x',y',x'',y'':\mathbb{N}\to\Hist$ be rational-observation streams,
+let $n$ be a selected finite-window index, and let $a,b:\Hist$ be selected
+tails. Suppose that $x,y$ satisfy $\mathsf{RealStreamClassifier}(x,y)$, that
+the first representative transport carries $x,y$ to $x',y'$, and that the
+second representative transport carries $x',y'$ to $x'',y''$:
+$$
+\forall i,\ \hsame(x(i),x'(i)),\quad
+\forall i,\ \hsame(y(i),y'(i)),\quad
+\forall i,\ \hsame(x'(i),x''(i)),\quad
+\forall i,\ \hsame(y'(i),y''(i)).
+$$
+Assume also that both stages preserve the selected e-one displays used by the
+RegSeqRat finite-window consumer:
+$$
+\hsame(x'(n),\Eone(a)),\quad
+\hsame(y'(n),\Eone(b)),\quad
+\hsame(x''(n),\Eone(a)),\quad
+\hsame(y''(n),\Eone(b)).
+$$
+Then the terminal $\RealUp$ seal reads the same selected tail class through the
+staged route $x,y\to x',y'\to x'',y''$ as through the composed route
+$x,y\to x'',y''$. In particular, for every candidate pair
+$a',b':\Hist$, the RegSeqRat terminal consumer accepts the terminal displays
+$\hsame(x''(n),\Eone(a'))$ and $\hsame(y''(n),\Eone(b'))$ exactly when
+$a'$ and $b'$ lie in the selected $\hsame$ classes of $a$ and $b$.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+to the first-stage transport and the selected displays at $x'(n)$ and
+$y'(n)$. This identifies the selected tail class seen by the staged route
+after the first transport.
+
+For the composed route, use $\mathsf{BEDC.FKernel.Hist.hsame\_trans}$ to
+compose the two pointwise representative transports, obtaining
+$\hsame(x(i),x''(i))$ and $\hsame(y(i),y''(i))$ for each index $i$. Apply
+\autoref{thm:real-stream-classifier-transported-selected-tail-class-exactness}
+again to the composed transport and the selected terminal displays at
+$x''(n)$ and $y''(n)$.
+
+It remains only to compare candidate terminal displays. If the staged read
+uses a candidate $a',b'$ at the terminal seal, the selected-tail exactness
+theorem places $a'$ and $b'$ in the $\hsame$ classes of $a$ and $b$. Conversely,
+$\mathsf{BEDC.FKernel.Hist.hsame\_e1\_congr}$ lifts $\hsame(a,a')$ and
+$\hsame(b,b')$ to e-one displays, and
+$\mathsf{BEDC.FKernel.Hist.hsame\_trans}$ composes those lifted displays with
+the terminal displays for $a$ and $b$.
+
+The argument uses only the displayed $\hsame$ transports, e-one congruence, and
+selected-tail exactness. It introduces no quotient sequence, completion object,
+host index equality, or host real equality.
+\end{proof}
