@@ -11,15 +11,15 @@ Input source: `gate`.
 
 | Source | Kind | Readiness | Priority | Input | NewMath action |
 | --- | --- | --- | ---: | --- | --- |
-| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloGodelCompressionNotFiniteRankHomologizable.lean` | `lean_theorem` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloGrothendieckCompletionPreservesInjection.lean` | `lean_theorem` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloS4BurnsideKaniRosenPrymSquare.lean` | `lean_theorem` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:lean4/scripts/codex_formalize.py` | `pipeline_status` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:lean4/scripts/omega_ci.py` | `pipeline_status` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_appendix.tex` | `paper_claim` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_cayley_gate.tex` | `paper_claim` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_doob_phi_entropy.tex` | `paper_claim` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
-| `the-omega-institute/automath@origin/dev:tools/chatgpt-oracle/oracle_pipeline.py` | `pipeline_status` | `needs_operator_review` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloGodelCompressionNotFiniteRankHomologizable.lean` | `lean_theorem` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloGrothendieckCompletionPreservesInjection.lean` | `lean_theorem` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:lean4/Omega/CircleDimension/KilloS4BurnsideKaniRosenPrymSquare.lean` | `lean_theorem` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:lean4/scripts/codex_formalize.py` | `pipeline_status` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:lean4/scripts/omega_ci.py` | `pipeline_status` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_appendix.tex` | `paper_claim` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_cayley_gate.tex` | `paper_claim` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_doob_phi_entropy.tex` | `paper_claim` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
+| `the-omega-institute/automath@origin/dev:tools/chatgpt-oracle/oracle_pipeline.py` | `pipeline_status` | `ready_for_local_packet` | low | `gate` | review as a NewMath research-object input; do not auto-promote synthesis-only rows |
 
 ## Policy
 
