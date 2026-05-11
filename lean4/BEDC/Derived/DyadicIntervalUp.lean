@@ -109,12 +109,100 @@ theorem DyadicIntervalPacket_nested_refinement_ledger [AskSetup] [PackageSetup]
         · constructor
           · exact sameOrder
           · exact sameEndpoint
+
+theorem DyadicIntervalPacket_width_radius_ledger_exactness [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      UnaryHistory width ∧ UnaryHistory midpoint ∧ UnaryHistory radius ∧
+        hsame midpoint (append left width) ∧ hsame radius (append right width) ∧
+          hsame order (append midpoint radius) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  obtain ⟨_leftUnary, _rightUnary, widthUnary, midpointUnary, radiusUnary, _orderUnary,
+    _provenanceUnary, _endpointUnary, _widthRow, midpointRow, radiusRow, orderRow,
+    _endpointRow, pkgRow⟩ := packet
+  exact
+    And.intro widthUnary
+      (And.intro midpointUnary
+        (And.intro radiusUnary
+          (And.intro midpointRow
+            (And.intro radiusRow
+              (And.intro orderRow pkgRow)))))
+
+theorem DyadicIntervalPacket_real_seal_source_boundary [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint sealRowOut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      Cont endpoint width sealRowOut ->
+        PkgSig bundle sealRowOut pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory radius ∧
+            UnaryHistory width ∧ UnaryHistory order ∧ UnaryHistory sealRowOut ∧
+              Cont endpoint width sealRowOut ∧ hsame sealRowOut (append endpoint width) ∧
+                PkgSig bundle sealRowOut pkg := by
+  intro packet sealRow sealPkg
+  obtain ⟨leftUnary, rightUnary, widthUnary, _midpointUnary, radiusUnary, orderUnary,
+    _provenanceUnary, endpointUnary, _widthRow, _midpointRow, _radiusRow, _orderRow,
+    _endpointRow, _pkgRow⟩ := packet
+  have sealUnary : UnaryHistory sealRowOut :=
+    unary_cont_closed endpointUnary widthUnary sealRow
+  exact
+    And.intro leftUnary
+      (And.intro rightUnary
+        (And.intro radiusUnary
+          (And.intro widthUnary
+            (And.intro orderUnary
+              (And.intro sealUnary
+                (And.intro sealRow
+                  (And.intro sealRow sealPkg)))))))
 def DyadicIntervalEndpointPacket [AskSetup] [PackageSetup]
     (left right width order midpoint radius hsameLedger contLedger pkgrow nameRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory hsameLedger ∧ UnaryHistory width ∧ Cont left right order ∧
     Cont left right midpoint ∧ Cont midpoint width radius ∧ Cont order radius contLedger ∧
       Cont contLedger pkgrow nameRow ∧ PkgSig bundle pkgrow pkg
+
+theorem DyadicIntervalPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint leftE rightE widthE orderE
+      midpointE radiusE hsameLedger contLedger pkgrow nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      DyadicIntervalEndpointPacket leftE rightE widthE orderE midpointE radiusE hsameLedger
+        contLedger pkgrow nameRow bundle pkg ->
+        UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory width ∧ UnaryHistory midpoint ∧
+          UnaryHistory radius ∧ UnaryHistory order ∧ UnaryHistory endpoint ∧
+            Cont left right width ∧ Cont left width midpoint ∧ Cont right width radius ∧
+              Cont midpoint radius order ∧ Cont order provenance endpoint ∧
+                UnaryHistory hsameLedger ∧ Cont leftE rightE orderE ∧
+                  Cont leftE rightE midpointE ∧ Cont midpointE widthE radiusE ∧
+                    Cont contLedger pkgrow nameRow ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle pkgrow pkg := by
+  intro packet endpointPacket
+  obtain ⟨leftUnary, rightUnary, widthUnary, midpointUnary, radiusUnary, orderUnary,
+    provenanceUnary, _endpointUnary, widthRow, midpointRow, radiusRow, orderRow, endpointRow,
+    endpointPkg⟩ := packet
+  obtain ⟨hsameLedgerUnary, _widthEUnary, orderERow, midpointERow, radiusERow,
+    _contLedgerRow, nameRowRow, pkgrowPkg⟩ := endpointPacket
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed orderUnary provenanceUnary endpointRow
+  exact
+    And.intro leftUnary
+      (And.intro rightUnary
+        (And.intro widthUnary
+          (And.intro midpointUnary
+            (And.intro radiusUnary
+              (And.intro orderUnary
+                (And.intro endpointUnary
+                  (And.intro widthRow
+                    (And.intro midpointRow
+                      (And.intro radiusRow
+                        (And.intro orderRow
+                          (And.intro endpointRow
+                            (And.intro hsameLedgerUnary
+                              (And.intro orderERow
+                                (And.intro midpointERow
+                                  (And.intro radiusERow
+                                    (And.intro nameRowRow
+                                      (And.intro endpointPkg pkgrowPkg)))))))))))))))))
 
 theorem DyadicIntervalEndpointPacket_nested_refinement_ledger [AskSetup] [PackageSetup]
     {left right width order midpoint radius hsameLedger contLedger pkgrow nameRow left' right'

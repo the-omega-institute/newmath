@@ -127,4 +127,20 @@ theorem SemidefiniteConePacket_cone_operation_ledger [AskSetup] [PackageSetup]
       convexRow,
       endpointRow⟩
 
+theorem SemidefiniteConePacket_dual_pairing_empty_boundary [AskSetup] [PackageSetup]
+    {matrix vector convexLedger bilinearPairing nonnegative provenance endpoint consumerRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemidefiniteConePacket matrix vector convexLedger bilinearPairing nonnegative provenance
+        endpoint bundle pkg ->
+      Cont endpoint provenance consumerRow ->
+        hsame consumerRow BHist.Empty ->
+          hsame endpoint BHist.Empty ∧ hsame provenance BHist.Empty := by
+  intro _packet consumerRowCont consumerRowEmpty
+  have appendedEmpty : append endpoint provenance = BHist.Empty := by
+    cases consumerRowCont
+    exact consumerRowEmpty
+  have parts : endpoint = BHist.Empty ∧ provenance = BHist.Empty :=
+    append_eq_empty_iff.mp appendedEmpty
+  exact And.intro parts.left parts.right
+
 end BEDC.Derived.SemidefiniteConeUp
