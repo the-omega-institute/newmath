@@ -70,6 +70,42 @@ The objective is the finite cost ledger from \autoref{thm:optimaltransport-cost-
 Because every primal and dual constraint is indexed by a listed support entry, the surface remains a finite linear program. Nothing in the construction invokes topological compactness, arbitrary-measure duality, or a minimizer-selection principle.
 \end{proof}
 
+\begin{theorem}[OptimalTransport finite-support dual-certificate exhaustion]
+\label{thm:optimaltransport-dual-certificate-finite-support-exhaustion}
+Every $\OptimalTransportUp$ dual certificate read by a consumer is indexed only
+by the displayed source support rows, target support rows, visible mass rows,
+and cost inequalities of the finite LP surface of
+\autoref{thm:optimaltransport-lpduality-feasible-surface}. Conversely, each
+listed dual row is read through the finite coupling carrier of
+\autoref{def:optimaltransport-finite-coupling-carrier}.
+
+The certificate surface is exhausted by those finite support rows. It contains
+no sigma-additivity principle, arbitrary-measure minimizer, or
+infinite-dimensional Kantorovich duality datum.
+\end{theorem}
+\begin{proof}
+Project the finite coupling carrier. Its visible coordinates are the source
+and target support rows, the two finite distribution rows, the cost row, the
+coupling table, the marginal ledgers, the objective ledger, the feasible-region
+rows, the dual-certificate rows, and the $\mathsf{Pkg}$ provenance.
+
+Use \autoref{thm:optimaltransport-coupling-marginal-ledger} to identify the
+only consumer-readable mass constraints. Use
+\autoref{thm:optimaltransport-cost-summation-ledger} to identify the only cost
+summation rows over the displayed coupling table.
+
+Apply \autoref{thm:optimaltransport-lpduality-feasible-surface}. That theorem
+places each dual potential and each dual inequality over the same finite source
+and target supports and over the same displayed cost inequalities. Hence every
+dual certificate read by a consumer factors through the finite carrier rows,
+and every listed dual row is read back through that carrier.
+
+No coordinate of the carrier stores a sigma-additive measure space, an
+arbitrary-measure optimizer, or an infinite-dimensional Kantorovich dual
+principle. The displayed finite LP rows therefore exhaust the dual-certificate
+surface.
+\end{proof}
+
 \begin{theorem}[OptimalTransport NameCert obligation surface]
 \label{thm:optimaltransport-namecert-obligation-surface}
 The local $\NameCert_{\OptimalTransportUp}$ seed surface consists of the following finite rows:
