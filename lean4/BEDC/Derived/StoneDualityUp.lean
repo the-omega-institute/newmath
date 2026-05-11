@@ -250,4 +250,26 @@ theorem StoneDualityUltrafilterFreeSoundness [AskSetup] [PackageSetup]
   }
   exact And.intro cert (And.intro ledgerRow (And.intro endpointRow pkgRow))
 
+theorem StoneDualityContinuousMapReadback_contravariant_endpoint [AskSetup] [PackageSetup]
+    {targetBoolean targetBoolean' morphism morphism' preimage preimage' sourceClopen
+      sourceClopen' ledger ledger' provenance endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hsame targetBoolean targetBoolean' ->
+      hsame morphism morphism' ->
+        hsame sourceClopen sourceClopen' ->
+          Cont targetBoolean morphism preimage ->
+            Cont targetBoolean' morphism' preimage' ->
+              Cont preimage sourceClopen ledger ->
+                Cont preimage' sourceClopen' ledger' ->
+                  Cont ledger provenance endpoint ->
+                    Cont ledger' provenance endpoint' ->
+                      PkgSig bundle endpoint pkg -> hsame endpoint endpoint' := by
+  intro sameBoolean sameMorphism sameClopen preimageRow preimageRow' ledgerRow ledgerRow'
+    endpointRow endpointRow' _pkgSig
+  have samePreimage : hsame preimage preimage' :=
+    cont_respects_hsame sameBoolean sameMorphism preimageRow preimageRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame samePreimage sameClopen ledgerRow ledgerRow'
+  exact cont_respects_hsame sameLedger (hsame_refl provenance) endpointRow endpointRow'
+
 end BEDC.Derived.StoneDualityUp
