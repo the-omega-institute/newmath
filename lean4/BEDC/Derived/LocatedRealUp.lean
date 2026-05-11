@@ -87,6 +87,27 @@ theorem LocatedRealCarrierSurface_dyadic_interval_obligation [AskSetup] [Package
             (And.intro classifierSame
               (And.intro pkgrowSame pkgSig))))))
 
+theorem LocatedRealCarrierSurface_common_refinement_tail_empty [AskSetup] [PackageSetup]
+    {regseqA intervalA scheduleA classifierA pkgrowA regseqB intervalB scheduleB classifierB
+      pkgrowB commonSchedule commonClassifier commonEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedRealCarrierSurface regseqA intervalA scheduleA classifierA pkgrowA bundle pkg ->
+      LocatedRealCarrierSurface regseqB intervalB scheduleB classifierB pkgrowB bundle pkg ->
+        Cont scheduleA scheduleB commonSchedule ->
+          Cont classifierA classifierB commonClassifier ->
+            Cont commonClassifier commonSchedule commonEndpoint ->
+              hsame commonEndpoint (append classifierA commonSchedule) ->
+                hsame classifierB BHist.Empty := by
+  intro _surfaceA _surfaceB _scheduleCommon classifierCommon endpointCommon endpointSame
+  have endpointExpanded :
+      commonEndpoint = append (append classifierA classifierB) commonSchedule :=
+    endpointCommon.trans (congrArg (fun h => append h commonSchedule) classifierCommon)
+  have classifierPrefixSame : hsame (append classifierA classifierB) classifierA :=
+    append_right_cancel (k := commonSchedule) (endpointExpanded.symm.trans endpointSame)
+  have classifierCycle : Cont classifierA classifierB classifierA :=
+    cont_intro classifierPrefixSame.symm
+  exact cont_right_unit_unique classifierCycle
+
 def LocatedRealCarrier [AskSetup] [PackageSetup]
     (stream schedule interval location realRow transport provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
