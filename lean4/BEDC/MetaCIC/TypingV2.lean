@@ -50,6 +50,72 @@ theorem dependent_identity_tracks_outer_domain :
   · apply HasTypeV2.varRule
     rfl
 
+theorem id_sort_well_typed_V2 :
+    HasTypeV2 [] (Term.lam Term.sort (Term.var 0))
+      (Term.pi Term.sort Term.sort) := by
+  apply HasTypeV2.lamRule
+  · exact HasTypeV2.sortRule []
+  · apply HasTypeV2.varRule
+    rfl
+
+theorem pi_sort_sort_well_typed_V2 :
+    HasTypeV2 [] (Term.pi Term.sort Term.sort) Term.sort := by
+  apply HasTypeV2.piRule
+  · exact HasTypeV2.sortRule []
+  · exact HasTypeV2.sortRule [Term.sort]
+
+theorem id_sort_applied_V2 :
+    HasTypeV2 []
+      (Term.app (Term.lam Term.sort (Term.var 0)) Term.sort)
+      Term.sort := by
+  exact HasTypeV2.appRule
+    []
+    (Term.lam Term.sort (Term.var 0))
+    Term.sort
+    Term.sort
+    Term.sort
+    id_sort_well_typed_V2
+    (HasTypeV2.sortRule [])
+
+theorem pi_dependent_identity_type_V2 :
+    HasTypeV2 [Term.sort] (Term.pi (Term.var 0) (Term.var 1)) Term.sort := by
+  apply HasTypeV2.piRule
+  · apply HasTypeV2.varRule
+    rfl
+  · apply HasTypeV2.varRule
+    rfl
+
+theorem dependent_id_V2_differs_from_V6 :
+    HasTypeV2 [Term.sort] (Term.lam (Term.var 0) (Term.var 0))
+      (Term.pi (Term.var 0) (Term.var 1)) := by
+  exact dependent_identity_tracks_outer_domain
+
+theorem substitute_sort_preserves_V2
+    {Γ : Ctx} {s : Term} :
+    HasTypeV2 Γ (substitute 0 s Term.sort) (substitute 0 s Term.sort) := by
+  exact HasTypeV2.sortRule Γ
+
+theorem substitute_var_zero_preserves_typing_closed_V2
+    {Γ : Ctx} {s B : Term}
+    (hclosed_B : ClosedAt 0 B)
+    (hs : HasTypeV2 Γ s B) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.var 0))
+      (substitute 0 s B) := by
+  rw [substitute_var_zero]
+  rw [substitute_closed_via_term_induction 0 s B hclosed_B]
+  exact hs
+
+theorem substitute_var_succ_preserves_typing_V2
+    {Γ : Ctx} {s A : Term} {i : Idx}
+    (hlook : Ctx.lookup Γ i = some A) :
+    HasTypeV2 Γ
+      (substitute 0 s (Term.var (i + 1)))
+      (substitute 0 s (shift 0 1 A)) := by
+  rw [substitute_var_succ_zero]
+  rw [substitute_shift_at_eq]
+  exact HasTypeV2.varRule Γ i A hlook
+
 theorem substitute_preserves_typing_V2_sort_var
     {Γ : Ctx} {t s A B : Term}
     (hclosed_B : ClosedAt 0 B)
