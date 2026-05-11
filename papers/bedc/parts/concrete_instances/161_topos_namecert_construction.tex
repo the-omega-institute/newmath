@@ -62,6 +62,9 @@ subobject-classifier row, componentwise $\hsame$, finite $\Cont$, and
 $\mathsf{Pkg}$ provenance. It exposes no host truth values, ambient set
 semantics, or unlogged predicate extensions.
 \end{theorem}
+\leanchecked{BEDC.Derived.ToposUp.ToposSubobjectClassifierLedger\_pullback\_boundary\_certificate}
+\leanvariant{BEDC.Derived.ToposUp.ToposFiniteCarrier\_subobject\_classifier\_pullback\_boundary}
+\leanvariant{BEDC.Derived.ToposUp.ToposSubobjectClassifier\_pullback\_boundary}
 \begin{proof}
 Start with \autoref{thm:topos-finite-limit-exponential-scope}. It confines the
 structural part of any pullback request to the displayed category and sheaf
@@ -109,12 +112,27 @@ truth-value object or ambient set semantics.
 \label{thm:topos-certificate-boundary}
 Every downstream internal-logic consumer of $\ToposUp$ reads only the displayed finite-limit, exponential, subobject-classifier, $\NameCert_{\CategoryUp}$, $\NameCert_{\SheafUp}$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and provenance rows of \autoref{def:topos-carrier}. The certificate boundary excludes host set semantics, unlogged predicates, and any internal-language object not displayed in the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ToposUp.ToposFiniteCarrier\_classified\_boundary\_transport}
 \begin{proof}
 Start from an internal-logic readback. The carrier obligation theorem confines it to the finite packet rows.
 
 Use the finite-limit exponential theorem for the structural categorical coordinates and the subobject-classifier theorem for predicate-like readback. These account for the category and sheaf dependency rows, the continuation ledger, and the provenance data.
 
 With no remaining coordinate for host semantics or an external internal-language object, the consumer can read only the displayed certificate rows.
+\end{proof}
+
+\begin{theorem}[Topos NameCert obligation surface]
+\label{thm:topos-namecert-obligation-surface}
+The public $\NameCert_{\ToposUp}$ fields determined by \autoref{def:topos-carrier} are exactly the displayed $\CategoryUp$ and $\SheafUp$ source rows, finite-limit rows, exponential rows, subobject-classifier row, componentwise $\hsame$ transport, finite $\Cont$ ledger, $\mathsf{Pkg}$ provenance, and the consumer boundary of \autoref{thm:topos-certificate-boundary}. The obligation surface excludes host set semantics, an ambient universe, unlogged predicates, and any external internal language.
+\end{theorem}
+\begin{proof}
+Project the carrier obligation. It supplies the displayed $\CategoryUp$ and $\SheafUp$ source rows, the finite-limit and exponential rows, the subobject-classifier row, componentwise $\hsame$ transport, finite $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Apply \autoref{thm:topos-finite-limit-exponential-scope}. The structural reads remain inside the finite carrier rows and cannot import an ambient complete category, an external cartesian-closed structure, or host set-theoretic semantics.
+
+Apply \autoref{thm:topos-subobject-classifier-ledger-exactness} and \autoref{thm:topos-subobject-classifier-pullback-boundary}. The classifier readback is the displayed finite ledger entry, and pullback access to it factors only through the same $\CategoryUp$, $\SheafUp$, finite-limit, exponential, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ routes.
+
+Finally apply \autoref{thm:topos-certificate-boundary}. It exhausts downstream internal-logic reads by the listed certificate rows, leaving no coordinate for host set semantics, an ambient universe, unlogged predicates, or an external internal language.
 \end{proof}
 
 \closureat{ToposUp}{seedStr}
