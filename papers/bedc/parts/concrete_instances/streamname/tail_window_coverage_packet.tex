@@ -430,3 +430,52 @@ data. Hence the finite $\RealUp$ consumer factors through the global
 StreamName classifier and the displayed packet rows, with no off-boundary row
 exposed.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window global classifier transport stability]
+\label{thm:streamname-tail-window-global-classifier-transport-stability}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be public $\StreamNameUp$
+endpoints satisfying the singleton-window hypotheses of
+\autoref{thm:streamname-tail-window-global-classifier-boundary}. Let
+$\mathcal P$ be a StreamName tail-window coverage packet over $s,t$, generated
+from finitely many selected observations over an accepted $\RegSeqRat$ spine.
+Suppose displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows transport
+$s,t$ and every row of $\mathcal P$ to endpoints $s',t'$ and to a second
+finite tail-window coverage packet $\mathcal P'$ over the transported
+endpoints.
+
+Then every finite $\RealUp$ consumer of $\mathcal P'$ factors through the
+transported global
+$\mathsf{RatStreamNameClassifier}(s',t')$ and exactly the transported
+StreamName, $\RegSeqRat$, DyadicRatCore, $\Cont$, $\hsame$, $\mathsf{Pkg}$,
+and $\mathsf{RealLedgerPolicy}$ packet surface. The transported consumer
+reads no completion object, quotient representative, host-index equality,
+metric-completeness row, arithmetic or order operation, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-tail-window-hsame-transport-stability}. The displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows carry the finite-window classifier,
+selected unary-history and bundle-membership rows, pointwise
+rational-history classifiers, accepted $\RegSeqRat$ spine, DyadicRatCore
+endpoint rows, and ledger-policy rows into the transported packet
+$\mathcal P'$.
+
+The singleton-window hypotheses transport with those same displayed rows.
+Apply \autoref{thm:streamname-tail-window-global-classifier-boundary} to
+$\mathcal P'$ over $s',t'$. This supplies the transported global
+$\mathsf{RatStreamNameClassifier}(s',t')$ as the StreamName classifier row
+available to any finite $\RealUp$ consumer of the transported packet.
+
+Now apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization}. The
+consumer factors through the transported packet surface: the StreamName
+classifier rows, selected window rows, pointwise rational-history rows,
+accepted rational-sequence spine, DyadicRatCore endpoint rows, continuation
+rows, history comparisons, package provenance, and ledger policy.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary}. Since the
+transported finite packet has no constructor for completion, quotient,
+host-index equality, metric-completeness, arithmetic or order, or standard
+bridge rows, none of those rows can be read by the transported consumer.
+\end{proof}
