@@ -169,6 +169,59 @@ theorem SignedDigitStreamPacket_window_transport [AskSetup] [PackageSetup]
   exact And.intro transported
     (And.intro sameCarry (And.intro sameEndpoint sameLedger))
 
+def SignedDigitStreamClassifier [AskSetup] [PackageSetup]
+    (digits schedule carry provenance endpoint hidden ledger digits' schedule' carry'
+      provenance' endpoint' hidden' ledger' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg ∧
+    SignedDigitStreamPacket digits' schedule' carry' provenance' endpoint' hidden' ledger'
+        bundle pkg ∧
+      hsame digits digits' ∧ hsame schedule schedule' ∧ hsame provenance provenance' ∧
+        hsame hidden hidden'
+
+theorem SignedDigitStreamClassifier_common_window_determinacy [AskSetup] [PackageSetup]
+    {digits schedule carry provenance endpoint hidden ledger digits' schedule' carry'
+      provenance' endpoint' hidden' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitStreamClassifier digits schedule carry provenance endpoint hidden ledger digits'
+        schedule' carry' provenance' endpoint' hidden' ledger' bundle pkg ->
+      hsame carry carry' ∧ hsame endpoint endpoint' ∧ hsame ledger ledger' := by
+  intro classifier
+  have leftPacket :
+      SignedDigitStreamPacket digits schedule carry provenance endpoint hidden ledger bundle pkg :=
+    classifier.left
+  have rightPacket :
+      SignedDigitStreamPacket digits' schedule' carry' provenance' endpoint' hidden' ledger'
+        bundle pkg :=
+    classifier.right.left
+  have sameDigits : hsame digits digits' :=
+    classifier.right.right.left
+  have sameSchedule : hsame schedule schedule' :=
+    classifier.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    classifier.right.right.right.right.left
+  have sameHidden : hsame hidden hidden' :=
+    classifier.right.right.right.right.right
+  have leftCarryRoute : Cont digits schedule carry :=
+    leftPacket.right.right.right.right.right.right.right.left
+  have rightCarryRoute : Cont digits' schedule' carry' :=
+    rightPacket.right.right.right.right.right.right.right.left
+  have leftEndpointRoute : Cont carry provenance endpoint :=
+    leftPacket.right.right.right.right.right.right.right.right.left
+  have rightEndpointRoute : Cont carry' provenance' endpoint' :=
+    rightPacket.right.right.right.right.right.right.right.right.left
+  have leftLedgerRoute : Cont endpoint hidden ledger :=
+    leftPacket.right.right.right.right.right.right.right.right.right.left
+  have rightLedgerRoute : Cont endpoint' hidden' ledger' :=
+    rightPacket.right.right.right.right.right.right.right.right.right.left
+  have sameCarry : hsame carry carry' :=
+    cont_respects_hsame sameDigits sameSchedule leftCarryRoute rightCarryRoute
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameCarry sameProvenance leftEndpointRoute rightEndpointRoute
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameEndpoint sameHidden leftLedgerRoute rightLedgerRoute
+  exact ⟨sameCarry, sameEndpoint, sameLedger⟩
+
 theorem SignedDigitStreamPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     {digits schedule carry provenance endpoint hidden ledger radius regWindow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
