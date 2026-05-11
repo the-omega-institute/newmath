@@ -229,3 +229,23 @@ It remains only to read this identity classification in the affine carrier langu
 
 Finally transport the carried repacking of $u$ along the recorded $\hsame$ comparison between $u$ and $\mathsf{act}(p,0_V)$. This gives the stated classification of the original point row $p$ with the zero-action endpoint $\mathsf{act}(p,0_V)$ over the same two source certificates and the same zero translation row.
 \end{proof}
+
+\begin{theorem}[AffineSpaceUp inverse-vector action cancels to the carried point]
+\label{thm:affinespace-inverse-vector-action-cancels-carried-point}
+Let $\mathcal{V}:\NameCert_{\VecSpaceUp}$ and $\mathcal{G}:\NameCert_{\GroupUp}$ be the dependency certificates of \autoref{def:affinespace-history-torsor-carrier}. Let $p:\mathsf{BHist}$ be a carried point row, and let $v:\mathsf{BHist}$ be a vector row accepted by $\mathcal{V}$ whose translation reading is accepted by $\mathcal{G}$. Suppose the vector inverse row $-_V v$ is the additive inverse supplied by $\mathcal{V}$, its translation reading is the inverse translation packet supplied by $\mathcal{G}$, and the dependency certificates classify the cumulative vector row by the zero row:
+$$
+\mathsf{VecCls}_{\mathcal{V}}(v+_V(-_V v),0_V).
+$$
+Then the iterated inverse-action endpoint $\mathsf{act}(\mathsf{act}(p,v),-_V v)$ and the original point row $p$ admit carried $\AffineSpaceUp$ repackings over the same source certificates, and those repackings are classified by $\mathsf{AffCls}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:affinespace-action-additivity} to the accepted vector rows $v$ and $-_V v$. It gives carried affine repackings of the one-step endpoint $\mathsf{act}(p,v+_V(-_V v))$ and the iterated endpoint $\mathsf{act}(\mathsf{act}(p,v),-_V v)$ over the same two source certificates, with cumulative translation row $v+_V(-_V v)$, and it classifies those repackings by $\mathsf{AffCls}$.
+
+The vector inverse hypothesis is read through the two dependency certificates. On the $\VecSpaceUp$ side, $v+_V(-_V v)$ is classified with the zero vector row $0_V$. On the $\GroupUp$ side, the translation reading of $-_V v$ is the inverse packet for the translation reading of $v$, so the cumulative translation packet read from $v+_V(-_V v)$ is classified with the identity translation row.
+
+Use the classifier transport theorem \autoref{thm:affinespace-classifier-transport} to transport the one-step repacking of $\mathsf{act}(p,v+_V(-_V v))$ along the displayed vector classifier comparison from $v+_V(-_V v)$ to $0_V$. The transported repacking has point component classified with $\mathsf{act}(p,0_V)$, keeps the same $\NameCert_{\VecSpaceUp}$ and $\NameCert_{\GroupUp}$ sources, and carries the zero translation row.
+
+Now apply \autoref{thm:affinespace-zero-action-classifies-carried-point}. It classifies the zero-action endpoint $\mathsf{act}(p,0_V)$ with the original carried point row $p$ after repacking both over the same source certificates and the same zero translation row.
+
+Finally compose the affine classifier comparisons: the additivity comparison from the iterated endpoint to the cumulative one-step endpoint, the classifier-transport comparison from the cumulative endpoint to the zero-action endpoint, and the zero-action comparison from that endpoint to $p$. Since $\mathsf{AffCls}$ is componentwise $\hsame$ on point rows together with the $\VecSpaceUp$ classifier on translation rows, its transitivity is inherited from those two component classifiers. Therefore $\mathsf{act}(\mathsf{act}(p,v),-_V v)$ and $p$ admit carried affine repackings over the same two source certificates and are classified by $\mathsf{AffCls}$.
+\end{proof}
