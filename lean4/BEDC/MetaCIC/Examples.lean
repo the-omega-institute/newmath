@@ -1,6 +1,8 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.Beta
+import BEDC.MetaCIC.Substitution
+import BEDC.MetaCIC.ClosedTerm
 
 namespace BEDC.MetaCIC
 
@@ -19,6 +21,20 @@ theorem pi_sort_sort_well_typed :
   apply HasType.piRule
   · exact HasType.sortRule []
   · exact HasType.sortRule [Term.sort]
+
+/-- `Sort` 在空上下文边界处闭合。 -/
+theorem sort_closed_at_zero : ClosedAt 0 Term.sort :=
+  ClosedAt.sortClosed
+
+/-- `Sort` 在一变量边界处也闭合。 -/
+theorem sort_closed_at_one : ClosedAt 1 Term.sort :=
+  ClosedAt.sortClosed
+
+/-- `Π (_ : Sort), Sort` 在空上下文边界处闭合。 -/
+theorem pi_sort_sort_closed : ClosedAt 0 (Term.pi Term.sort Term.sort) := by
+  apply ClosedAt.piClosed
+  · exact ClosedAt.sortClosed
+  · exact ClosedAt.sortClosed
 
 /-- `id_sort` 应用到 `Term.sort` 上。 -/
 theorem id_sort_applied :
@@ -81,6 +97,15 @@ theorem k_applied_twice :
     hFirst
     (HasType.sortRule [])
 
+/-- `K` 组合子本身是闭合项。 -/
+theorem k_combinator_closed : ClosedAt 0 kCombinator := by
+  apply ClosedAt.lamClosed
+  · exact ClosedAt.sortClosed
+  · apply ClosedAt.lamClosed
+    · exact ClosedAt.sortClosed
+    · apply ClosedAt.varClosed
+      exact Nat.lt_add_one 1
+
 /-- `λ (f : Sort → Sort). λ (x : Sort). x` 的 Sort-level zero-like term。 -/
 def churchZeroSort : Term :=
   Term.lam (Term.pi Term.sort Term.sort) (Term.lam Term.sort (Term.var 0))
@@ -98,5 +123,65 @@ theorem church_zero_sort_well_typed :
     · exact HasType.sortRule [Term.pi Term.sort Term.sort]
     · apply HasType.varRule
       rfl
+
+/-- 在 Sort 原子项上, 同深度替换抵消一层同深度提升。 -/
+theorem sort_shift_substitute_identity :
+    substitute 0 Term.sort (shift 0 1 Term.sort) = Term.sort := by
+  exact substitute_shift_at_eq 0 Term.sort Term.sort
+
+/-- 具体闭合替换路线中, 替换项和被替换目标都满足闭合前提。 -/
+theorem concrete_closed_subst_preconditions :
+    ClosedAt 0 Term.sort ∧ ClosedAt 0 Term.sort ∧
+      substitute 0 Term.sort Term.sort = Term.sort := by
+  refine ⟨?_, ?_, ?_⟩
+  · exact ClosedAt.sortClosed
+  · exact ClosedAt.sortClosed
+  · exact substitute_closed 0 Term.sort Term.sort ClosedAt.sortClosed
+
+/-- 一个具体闭合项替换后的 typing 结论。 -/
+theorem concrete_closed_subst_preserves :
+    let Γ : Ctx := []
+    let B : Term := Term.sort
+    let s : Term := Term.sort
+    let t : Term := Term.sort
+    let A : Term := Term.sort
+    ClosedAt 0 B ∧ HasType Γ (substitute 0 s t) (substitute 0 s A) := by
+  refine ⟨?_, ?_⟩
+  · exact ClosedAt.sortClosed
+  · exact HasType.sortRule []
+
+/-- β-step 的目标项可由 V6 替换-提升抵消引理回到 Sort。 -/
+theorem beta_shifted_sort_step_preserves_sort_typing :
+    BetaStep (Term.app (Term.lam Term.sort (shift 0 1 Term.sort)) Term.sort) Term.sort ∧
+    HasType [] (Term.app (Term.lam Term.sort (shift 0 1 Term.sort)) Term.sort) Term.sort ∧
+    HasType [] Term.sort Term.sort := by
+  have hSub : substitute 0 Term.sort (shift 0 1 Term.sort) = Term.sort := by
+    exact substitute_shift_at_eq 0 Term.sort Term.sort
+  refine ⟨?_, ?_, ?_⟩
+  · rw [← hSub]
+    exact BetaStep.beta Term.sort (shift 0 1 Term.sort) Term.sort
+  · exact HasType.appRule
+      []
+      (Term.lam Term.sort (shift 0 1 Term.sort))
+      Term.sort
+      Term.sort
+      Term.sort
+      (HasType.lamRule
+        []
+        Term.sort
+        (shift 0 1 Term.sort)
+        Term.sort
+        (HasType.sortRule [])
+        (HasType.sortRule [Term.sort]))
+      (HasType.sortRule [])
+  · exact HasType.sortRule []
+
+/-- 嵌套 Pi 项上, V6 替换-提升抵消引理穿过 binder 后仍保持结构。 -/
+theorem nested_pi_shift_substitute_identity :
+    substitute 0 Term.sort
+        (shift 0 1 (Term.pi Term.sort (Term.pi Term.sort Term.sort))) =
+      Term.pi Term.sort (Term.pi Term.sort Term.sort) := by
+  exact substitute_shift_at_eq 0 Term.sort
+    (Term.pi Term.sort (Term.pi Term.sort Term.sort))
 
 end BEDC.MetaCIC

@@ -36,6 +36,8 @@ u_A+u_B \leq_{\mathsf{dyad}} u_C,
 $$
 the transported $\RegSeqRatUp$ and $\StreamNameUp$ observation rows for the two endpoints, and a $\Pkg$ row tying these data to $P_A$ and $P_B$. The result packet $C=(\ell_C,u_C,\lambda_C,\upsilon_C,\epsilon_C,P_C)$ is an accepted $\IntervalArithmeticUp$ packet whose enclosure predicate contains every finite $\RealUp$ observation obtained by adding an observation enclosed by $A$ to an observation enclosed by $B$.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticPacket\_outward\_rounded\_addition}
+\leanvariant{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_outward\_rounded\_addition}
 \begin{proof}
 Project the two endpoint packets. Their carrier rows expose only dyadic endpoint histories, observation histories, enclosure predicates, and package provenance.
 
@@ -45,12 +47,13 @@ Transport the lower and upper observation rows through the finite-window $\Cont$
 
 Repack the transported observation rows and the endpoint inequalities as $\epsilon_C$. The resulting packet is exhausted by the displayed dyadic, stream, regular-sequence, real-name, and package rows, so the addition ledger exports no host real interval.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_outward\_addition\_closure}
 
 \begin{theorem}[IntervalArithmetic classifier transport]
 \label{thm:intervalarithmetic-classifier-transport}
 Suppose $A$ and $A'$ are accepted $\IntervalArithmeticUp$ packets whose lower and upper endpoint histories are related by endpoint $\hsame$, and whose observation and enclosure rows are related by the displayed finite-window $\Cont$ transports. Then every outward-rounded operation ledger accepted for $A$ transports to an accepted ledger for $A'$, and the result packets are classified by the $\IntervalArithmeticUp$ classifier.
 \end{theorem}
-\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_classifier\_transport}
+\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_transport}
 \begin{proof}
 Unpack the classifier. It gives endpoint $\hsame$ rows for the lower and upper dyadic histories and continuation rows for the observation and enclosure data.
 
@@ -63,6 +66,7 @@ Finally repack the transported coordinates as the result ledger. Since the class
 \label{thm:intervalarithmetic-realup-enclosure-soundness}
 For every accepted $\IntervalArithmeticUp$ packet $A=(\ell,u,\lambda,\upsilon,\epsilon,P)$, any $\RealUp$ observation row admitted by $\epsilon$ is enclosed by the displayed lower and upper endpoint histories at each finite observation window named by $P$. In particular, the soundness claim is a finite ledger claim over $\RegSeqRatUp$ and $\StreamNameUp$ observations, not a completeness or compactness claim about external real intervals.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_realup\_enclosure\_soundness}
 \begin{proof}
 Read the enclosure coordinate $\epsilon$ from the carrier. It is already indexed by the finite observation windows named in the package row.
 
@@ -93,6 +97,7 @@ The stability row says that accepted ledgers survive classifier transport. The o
 
 The public enclosure row is exactly the real-name readback permitted to downstream consumers. Since the five rows list every exported coordinate, the certificate surface has no coordinate for completeness, Heine--Borel, external real intervals, or bridge data.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface}
 
 \closureat{IntervalArithmeticUp}{seedStr}
 
