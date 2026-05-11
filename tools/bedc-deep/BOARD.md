@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-680 - GeneratedSameSig inhabitation iff sameSig
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | GeneratedSameSig inhabitation iff sameSig |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-For any Π, h, and k, Nonempty(GeneratedSameSig(Π,h,k)) holds if and only if sameSig_Π(h,k).
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
-- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
-
-Rationale:
-This is a concrete bridge between the core signature-sameness predicate and the checker-friendly GeneratedSameSig witness object used by exact Globalize. Existing text defines both sides and gives witness projections, but the paper does not appear to contain a theorem label aligning the two interfaces directly. It is a useful low-risk bridge target rather than a marker-only or closurestatus item.
-
----
-
 ### B-681 - GeneratedSameSig append closure
 
 | field | value |
@@ -91,4 +66,3 @@ Rationale:
 EntropyUp has public paper closure but no bridge boundary: the BHist measure source and log-partition carrier are defined at papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex:9-32; the chapter proves log-partition consumer exhaustion and transport closure at lines 34-89, distribution-integral boundary at lines 91-111, NameCert obligation surface at lines 116-136, log-weight transport determinacy at lines 138-169, and inventory/ledger stability at lines 171-232. Its closure block states that the next paper-axis step is a bridge boundary for the public entropy readback surface at lines 234-245. Prior discovery rejected a generic 'Entropy exported readback surface' as already covered by the distribution-integral boundary, so this candidate deliberately targets the different missing bridge-boundary implication and keeps the exclusions concrete.
 
 ---
-
