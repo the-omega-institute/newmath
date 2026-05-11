@@ -304,4 +304,108 @@ theorem DyadicIntervalEndpointPacket_nested_refinement_ledger [AskSetup] [Packag
         (And.intro sameMidpoint
           (And.intro sameRadius sameNameRow)))
 
+theorem DyadicIntervalPacket_regular_window_seal_handoff [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint windowSource sealRowOut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      Cont endpoint radius windowSource ->
+        Cont windowSource width sealRowOut ->
+          PkgSig bundle sealRowOut pkg ->
+            UnaryHistory windowSource ∧ UnaryHistory sealRowOut ∧
+              hsame windowSource (append endpoint radius) ∧
+                hsame sealRowOut (append windowSource width) ∧
+                  Cont endpoint radius windowSource ∧ Cont windowSource width sealRowOut ∧
+                    PkgSig bundle sealRowOut pkg := by
+  intro packet windowRow sealRow sealPkg
+  obtain ⟨_leftUnary, _rightUnary, widthUnary, _midpointUnary, radiusUnary, _orderUnary,
+    _provenanceUnary, endpointUnary, _widthRow, _midpointRow, _radiusRow, _orderRow,
+    _endpointRow, _pkgRow⟩ := packet
+  have windowUnary : UnaryHistory windowSource :=
+    unary_cont_closed endpointUnary radiusUnary windowRow
+  have sealUnary : UnaryHistory sealRowOut :=
+    unary_cont_closed windowUnary widthUnary sealRow
+  exact
+    And.intro windowUnary
+      (And.intro sealUnary
+        (And.intro windowRow
+          (And.intro sealRow
+            (And.intro windowRow
+              (And.intro sealRow sealPkg)))))
+
+theorem DyadicIntervalEndpointPacket_endpoint_classifier_transport [AskSetup] [PackageSetup]
+    {left right width order midpoint radius hsameLedger contLedger pkgrow nameRow left' right'
+      width' order' midpoint' radius' contLedger' nameRow' endpointWitness endpointWitness' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalEndpointPacket left right width order midpoint radius hsameLedger
+        contLedger pkgrow nameRow bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame width width' ->
+            Cont left' right' order' ->
+              Cont left' right' midpoint' ->
+                Cont midpoint' width' radius' ->
+                  Cont order' radius' contLedger' ->
+                    Cont contLedger' pkgrow nameRow' ->
+                      PkgSig bundle pkgrow pkg ->
+                        Cont nameRow width endpointWitness ->
+                          Cont nameRow' width' endpointWitness' ->
+                            DyadicIntervalEndpointPacket left' right' width' order' midpoint'
+                                radius' hsameLedger contLedger' pkgrow nameRow' bundle pkg ∧
+                              hsame endpointWitness endpointWitness' ∧
+                                PkgSig bundle pkgrow pkg := by
+  intro packet sameLeft sameRight sameWidth orderCont' midpointCont' radiusCont'
+    contLedgerCont' nameRowCont' pkgSig' endpointWitnessRow endpointWitnessRow'
+  have transported :=
+    DyadicIntervalEndpointPacket_nested_refinement_ledger packet sameLeft sameRight sameWidth
+      orderCont' midpointCont' radiusCont' contLedgerCont' nameRowCont' pkgSig'
+  have sameNameRow : hsame nameRow nameRow' :=
+    transported.right.right.right.right
+  have sameEndpointWitness : hsame endpointWitness endpointWitness' :=
+    cont_respects_hsame sameNameRow sameWidth endpointWitnessRow endpointWitnessRow'
+  exact
+    And.intro transported.left
+      (And.intro sameEndpointWitness pkgSig')
+
+theorem DyadicIntervalPacket_refined_width_enclosure_package [AskSetup] [PackageSetup]
+    {left right width midpoint radius order provenance endpoint left' right' width' midpoint'
+      radius' order' provenance' endpoint' sealRow windowRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalPacket left right width midpoint radius order provenance endpoint bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          hsame provenance provenance' ->
+            Cont left' right' width' ->
+              Cont left' width' midpoint' ->
+                Cont right' width' radius' ->
+                  Cont midpoint' radius' order' ->
+                    Cont order' provenance' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        Cont endpoint' width' sealRow ->
+                          Cont sealRow radius' windowRow ->
+                            PkgSig bundle windowRow pkg ->
+                              DyadicIntervalPacket left' right' width' midpoint' radius' order'
+                                  provenance' endpoint' bundle pkg ∧
+                                UnaryHistory sealRow ∧
+                                  UnaryHistory windowRow ∧
+                                    hsame width width' ∧
+                                      hsame radius radius' ∧
+                                        PkgSig bundle windowRow pkg := by
+  intro packet sameLeft sameRight sameProvenance widthRow' midpointRow' radiusRow' orderRow'
+    endpointRow' endpointPkg sealCont windowCont windowPkg
+  have refined :=
+    DyadicIntervalPacket_nested_refinement_ledger packet sameLeft sameRight sameProvenance
+      widthRow' midpointRow' radiusRow' orderRow' endpointRow' endpointPkg
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed refined.left.right.right.right.right.right.right.right.left
+      refined.left.right.right.left sealCont
+  have windowUnary : UnaryHistory windowRow :=
+    unary_cont_closed sealUnary refined.left.right.right.right.right.left windowCont
+  exact
+    And.intro refined.left
+      (And.intro sealUnary
+        (And.intro windowUnary
+          (And.intro refined.right.left
+            (And.intro refined.right.right.right.left windowPkg))))
+
 end BEDC.Derived.DyadicIntervalUp

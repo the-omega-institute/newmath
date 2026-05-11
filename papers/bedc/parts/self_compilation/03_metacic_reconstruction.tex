@@ -509,23 +509,29 @@ $\mathrm{substitute\_closed}$, $\mathrm{substitute\_shift\_at\_eq}$---is in
 place with axiom-free proofs.
 
 \paragraph{Closed-term substitute preservation: case status.}
-The closed-term restriction has case lemmas in place for four of
-five inductive cases of the typing derivation:
+The closed-term restriction has axiom-free case lemmas covering all five
+inductive cases of the typing derivation. The variable case is split by
+depth, and the application helper carries a type-equality premise:
 
 \begin{itemize}
   \item $\mathrm{substitute\_sort\_preserves\_typing\_closed\_anchor}$ (sort case);
   \item $\mathrm{substitute\_var\_zero\_preserves\_typing\_closed\_anchor}$ (variable, depth 0);
-  \item $\mathrm{substitute\_var\_nonzero\_preserves\_typing\_closed\_anchor}$ (variable, depth > 0, uses substitute-shift cancellation);
-  \item $\mathrm{substitute\_pi\_preserves\_typing\_closed\_anchor}$ (Pi, with explicit recursive premises);
+  \item $\mathrm{substitute\_var\_nonzero\_preserves\_typing\_closed\_anchor}$ (variable, depth > 0);
+  \item $\mathrm{substitute\_pi\_preserves\_typing\_closed\_anchor}$ (Pi);
+  \item $\mathrm{substitute\_lam\_preserves\_typing\_closed\_anchor}$ (lambda, proved via term induction; the $\mathrm{HasType}$-induction path at this case is substrate-gap 8 territory);
+  \item $\mathrm{substitute\_app\_preserves\_typing\_closed\_anchor\_with\_type\_eq}$ (application, conditional on a substitute composition equation).
 \end{itemize}
 
-each axiom-free. The lambda and application cases remain pending;
-assembling the case lemmas into the main inductive proof requires
-the outer induction tying the recursive premises together. Term
-induction (\autoref{subsec:substrate-stack}) is the working technique
-for these case lemmas; $\mathrm{HasType}$ induction repeatedly hit
-substrate counterexamples at the lambda case
-(\autoref{subsec:substrate-gap-discovery}, finding 8).
+The remaining work for the main theorem is two pieces:
+\begin{enumerate}
+  \item Prove the substitute composition equation
+    $\mathrm{substitute}\ 0\ s\ (\mathrm{substitute}\ 0\ a\ \mathrm{cod})
+    = \mathrm{substitute}\ 0\ (\mathrm{substitute}\ 0\ s\ a)\
+      (\mathrm{substitute}\ 1\ s\ \mathrm{cod})$, discharging the
+    application conditional.
+  \item Run the outer induction on the typing derivation, supplying each
+    case lemma's recursive premises and assembling them into the main theorem.
+\end{enumerate}
 
 The closed-term restriction sidesteps the seventh substrate gap
 (\autoref{subsec:substrate-gap-discovery}) by ensuring the substitution
