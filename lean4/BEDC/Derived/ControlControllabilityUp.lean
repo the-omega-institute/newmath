@@ -68,6 +68,61 @@ theorem ControlControllabilityCarrier_namecert_obligation_surface [AskSetup] [Pa
         (And.intro carrier.right.right.right.right.right.right.right.right.right.right.right.left
           carrier.right.right.right.right.right.right.right.right.right.right.right.right)))
 
+theorem ControlControllabilityCarrier_classifier_stability_obligation [AskSetup] [PackageSetup]
+    {state input transition control horizon columns matrix contRows endpoint state' input'
+      transition' control' horizon' columns' matrix' contRows' endpoint' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlControllabilityCarrier state input transition control horizon columns matrix contRows
+        endpoint probe pkg ->
+      hsame state state' ->
+        hsame input input' ->
+          hsame transition transition' ->
+            hsame control control' ->
+              hsame horizon horizon' ->
+                hsame matrix matrix' ->
+                  hsame contRows contRows' ->
+                    Cont transition' control' columns' ->
+                      Cont columns' matrix' endpoint' ->
+                        Cont contRows' horizon' endpoint' ->
+                          PkgSig probe endpoint' pkg ->
+                            ControlControllabilityCarrier state' input' transition' control'
+                                horizon' columns' matrix' contRows' endpoint' probe pkg ∧
+                              hsame columns columns' ∧ hsame endpoint endpoint' := by
+  intro carrier sameState sameInput sameTransition sameControl sameHorizon sameMatrix
+    sameContRows transitionControlColumns columnsMatrixEndpoint contRowsHorizonEndpoint pkgSig
+  rcases carrier with
+    ⟨stateUnary, inputUnary, transitionUnary, controlUnary, horizonUnary, _columnsUnary,
+      matrixUnary, contRowsUnary, _endpointUnary, transitionControlColumnsOld,
+      columnsMatrixEndpointOld, _contRowsHorizonEndpointOld, _pkgSigOld⟩
+  have stateUnary' : UnaryHistory state' :=
+    unary_transport stateUnary sameState
+  have inputUnary' : UnaryHistory input' :=
+    unary_transport inputUnary sameInput
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have controlUnary' : UnaryHistory control' :=
+    unary_transport controlUnary sameControl
+  have horizonUnary' : UnaryHistory horizon' :=
+    unary_transport horizonUnary sameHorizon
+  have matrixUnary' : UnaryHistory matrix' :=
+    unary_transport matrixUnary sameMatrix
+  have contRowsUnary' : UnaryHistory contRows' :=
+    unary_transport contRowsUnary sameContRows
+  have sameColumns : hsame columns columns' :=
+    cont_respects_hsame sameTransition sameControl transitionControlColumnsOld
+      transitionControlColumns
+  have columnsUnary' : UnaryHistory columns' :=
+    unary_cont_closed transitionUnary' controlUnary' transitionControlColumns
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameColumns sameMatrix columnsMatrixEndpointOld columnsMatrixEndpoint
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed columnsUnary' matrixUnary' columnsMatrixEndpoint
+  exact
+    ⟨⟨stateUnary', inputUnary', transitionUnary', controlUnary', horizonUnary', columnsUnary',
+        matrixUnary', contRowsUnary', endpointUnary', transitionControlColumns,
+        columnsMatrixEndpoint, contRowsHorizonEndpoint, pkgSig⟩,
+      sameColumns, sameEndpoint⟩
+
 def ControlControllabilityReachabilityPacket [AskSetup] [PackageSetup]
     (state input transition control horizon firstColumn reachability provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

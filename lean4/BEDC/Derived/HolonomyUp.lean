@@ -68,6 +68,22 @@ theorem HolonomyTransportCarrier_namecert_obligation_surface [AskSetup] [Package
       exact source
   }
 
+theorem HolonomyTransportCarrier_curvature_loop_boundary [AskSetup] [PackageSetup]
+    {bundle connection loop endpoint curvature ledger provenance : BHist}
+    {probeBundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportCarrier bundle connection loop endpoint curvature ledger provenance
+        probeBundle pkg ->
+      UnaryHistory loop ∧ UnaryHistory curvature ∧ UnaryHistory ledger ∧
+        Cont loop connection ledger ∧ Cont ledger curvature endpoint ∧
+          PkgSig probeBundle endpoint pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨_bundleUnary, _connectionUnary, loopUnary, _endpointUnary, curvatureUnary, ledgerUnary,
+      _provenanceUnary, loopConnectionLedger, ledgerCurvatureEndpoint, endpointPkg⟩
+  exact
+    ⟨loopUnary, curvatureUnary, ledgerUnary, loopConnectionLedger, ledgerCurvatureEndpoint,
+      endpointPkg⟩
+
 def HolonomyBHistTransportCarrier [AskSetup] [PackageSetup]
     (bundleRow connectionRow loopRow endpointRow curvatureRow controlRow ledgerRow
       dependencyRow : BHist)
