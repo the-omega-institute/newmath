@@ -374,6 +374,47 @@ rational, host equality row, standard bridge, or completed real endpoint, none
 of those objects can be exported by the public consumer certificate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore public bridge consumer exactness]
+\label{thm:dyadicratcore-public-bridge-consumer-exactness}
+Every standard dyadic-source consumer admitted through the public bridge reads
+exactly the signed $\RatUp$ mantissa row, positive $\UnaryHistory$ exponent
+row, denominator ledger, common-exponent classifier, arithmetic window,
+distance window, radius window, $\mathsf{BHist}$ carrier data, $\hsame$
+transport, $\Cont$ readback, and $\mathsf{Pkg}$ provenance already enumerated
+by \autoref{thm:dyadicratcore-public-readback-envelope}. Conversely, every
+public envelope row with precisely those coordinates supplies the finite
+observation interface consumed by $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$.
+The bridge exports no quotient rational, host equality row, completion object,
+or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+For the consumer-to-envelope direction, apply
+\autoref{thm:dyadicratcore-public-readback-envelope}. It lists exactly the
+mantissa, exponent, denominator, classifier, finite-window, carrier,
+transport, readback, and provenance rows visible to a public
+$\DyadicRatCoreUp$ read.
+
+The bridge admission cannot enlarge that inventory. Use
+\autoref{thm:dyadicratcore-scoped-source-boundary} to restrict the downstream
+$\StreamNameUp$, $\RegSeqRat$, and $\RealUp$ reads to the displayed dyadic
+source rows, and use
+\autoref{thm:dyadicratcore-public-observation-standard-bridge-boundary} for the
+standard dyadic-source shape consumed at the bridge boundary.
+
+For the envelope-to-consumer direction, start with one of the public envelope
+rows. Its signed mantissa, positive unary exponent, denominator ledger,
+common-exponent classifier, finite arithmetic and distance windows, radius
+refinement, $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ readback, and
+$\mathsf{Pkg}$ provenance are exactly the coordinates requested by the
+standard dyadic-source bridge. Repacking them gives the finite observation
+interface used by $\StreamNameUp$, $\RegSeqRat$, and $\RealUp$.
+
+The exclusion clauses are constructor inspections of the same public envelope
+and bridge boundary. Neither theorem supplies a quotient-rational row, a host
+equality row, a completion object, or a real-completeness field, so no admitted
+consumer can read one.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore standard source bridge]
 \label{thm:dyadicratcore-standard-source-bridge}
 The public envelope of \autoref{thm:dyadicratcore-public-readback-envelope}
