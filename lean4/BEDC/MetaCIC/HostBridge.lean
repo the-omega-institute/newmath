@@ -1,5 +1,6 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.Checker
 import Lean.Elab.Command
 import Lean.Meta.Basic
 
@@ -56,6 +57,21 @@ elab "#reflect_metacic " e:term : command => do
     | some metaTerm => Lean.logInfo m!"MetaCIC encoding: {repr metaTerm}"
     | none => Lean.logInfo m!"cannot encode: {repr expr}"
 
+/-- Command 入口: `#metacic_decide e` 反射 host term 并调用 MetaCIC checker 推断类型。 -/
+elab "#metacic_decide " e:term : command => do
+  liftTermElabM do
+    let expr ← Term.elabTerm e none
+    let metaTerm? ← reflectExpr expr
+    match metaTerm? with
+    | none =>
+        Lean.logInfo m!"metacic_decide: cannot encode target: {repr expr}"
+    | some metaTerm =>
+        match infer [] metaTerm with
+        | none =>
+            Lean.logInfo m!"metacic_decide: reflected: {repr metaTerm}, but not typeable in []"
+        | some ty =>
+            Lean.logInfo m!"metacic_decide: reflected: {repr metaTerm}, typed as: {repr ty}"
+
 end BEDC.MetaCIC.HostBridge
 
 -- 具体 sanity demo: 几个 host Lean term 的 MetaCIC encoding 演示
@@ -72,4 +88,7 @@ section HostBridgeSanityDemos
   -- show pi sort sort encoding:
   -- expected: Term.pi Term.sort Term.sort
   -- #reflect_metacic (Sort 0 → Sort 0)
+
+  -- Should report typed as sort:
+  -- #metacic_decide (Sort 0)
 end HostBridgeSanityDemos
