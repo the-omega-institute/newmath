@@ -72,4 +72,33 @@ theorem IntervalArithmeticEndpointPacket_classifier_transport [AskSetup] [Packag
                   (And.intro enclosureRow' (And.intro endpointRow' endpointPkg')))))))))
     (And.intro sameEnclosure sameEndpoint)
 
+theorem IntervalArithmeticEndpointPacket_realup_enclosure_soundness [AskSetup] [PackageSetup]
+    {lower upper lowerObs upperObs enclosure provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory lower ->
+    UnaryHistory upper ->
+    UnaryHistory lowerObs ->
+    UnaryHistory upperObs ->
+    Cont lower upper enclosure ->
+    Cont lowerObs upperObs provenance ->
+    Cont enclosure provenance endpoint ->
+    PkgSig bundle endpoint pkg ->
+      UnaryHistory enclosure ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+        hsame enclosure (append lower upper) ∧ hsame provenance (append lowerObs upperObs) ∧
+          hsame endpoint (append enclosure provenance) ∧ PkgSig bundle endpoint pkg := by
+  intro lowerUnary upperUnary lowerObsUnary upperObsUnary enclosureRow provenanceRow endpointRow
+    pkgSig
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed lowerUnary upperUnary enclosureRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed lowerObsUnary upperObsUnary provenanceRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed enclosureUnary provenanceUnary endpointRow
+  exact And.intro enclosureUnary
+    (And.intro provenanceUnary
+      (And.intro endpointUnary
+        (And.intro enclosureRow
+          (And.intro provenanceRow
+            (And.intro endpointRow pkgSig)))))
+
 end BEDC.Derived.IntervalArithmeticUp
