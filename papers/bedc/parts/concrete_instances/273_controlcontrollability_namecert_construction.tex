@@ -10,6 +10,7 @@ The $\ControlControllabilityUp$ interface records the finite reachability surfac
 \label{def:controlcontrollability-carrier}
 A $\ControlControllabilityUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a state-carrier row, an input-carrier row, a transition-matrix row $A$, a control-matrix row $B$, a finite horizon unary row $n$, the displayed reachability columns $B,AB,\ldots,A^{n-1}B$, a reachability-matrix row collecting those columns, $\hsame$ comparisons between corresponding finite rows, $\Cont$ provenance for each displayed multiplication and column append, and $\mathsf{Pkg}$ rows naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$.
 \end{definition}
+\leandef{BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier}
 
 \begin{definition}[ControlControllability classifier]
 \label{def:controlcontrollability-classifier}
@@ -35,6 +36,7 @@ The carrier has no coordinate for a host reachable subspace, rank theorem, Kalma
 \label{thm:controlcontrollability-namecert-obligation-surface}
 The local $\NameCert_{\ControlControllabilityUp}$ seed surface consists of the carrier and classifier rows of \autoref{def:controlcontrollability-carrier} and \autoref{def:controlcontrollability-classifier}, the finite reachability-ledger row of \autoref{thm:controlcontrollability-reachability-ledger}, the $\MatrixUp$ column-transport row for $B,AB,\ldots,A^{n-1}B$, the $\hsame$ stability row for state, input, matrix, horizon, $\Cont$, and $\mathsf{Pkg}$ coordinates, and the dependency rows naming $\DynSystemUp$, $\ControlObservabilityUp$, $\KalmanFilterUp$, and $\LQRUp$ as finite control-theory anchors.
 \end{theorem}
+\leanchecked{BEDC.Derived.ControlControllabilityUp.ControlControllabilityCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Start with the finite carrier and classifier. They determine the visible packet shape and the rowwise comparison relation for all state, input, transition, control, horizon, column, reachability-matrix, continuation, and provenance coordinates.
 
