@@ -161,6 +161,32 @@ theorem ControlObservabilityFiniteObservationPacket_classifier_transport [AskSet
       (And.intro sameObservationMatrix
         (And.intro sameTraceLedger sameEndpoint)))
 
+theorem ControlObservabilityFiniteObservationPacket_zero_dimensional_observation_ledger
+    [AskSetup] [PackageSetup]
+    {state transition output traceLedger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservabilityFiniteObservationPacket state transition output BHist.Empty BHist.Empty
+        traceLedger provenance endpoint bundle pkg ->
+      hsame output BHist.Empty ∧ hsame transition BHist.Empty ∧ hsame state BHist.Empty ∧
+        Cont BHist.Empty provenance traceLedger ∧ Cont traceLedger provenance endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet
+  have outputTransitionEmpty :
+      append output transition = BHist.Empty := packet.right.right.right.left.symm
+  have outputEmpty : hsame output BHist.Empty :=
+    (append_eq_empty_iff.mp outputTransitionEmpty).left
+  have transitionEmpty : hsame transition BHist.Empty :=
+    (append_eq_empty_iff.mp outputTransitionEmpty).right
+  have stateEmpty : hsame state BHist.Empty :=
+    (append_eq_empty_iff.mp packet.right.right.right.right.left.symm).right
+  exact
+    And.intro outputEmpty
+      (And.intro transitionEmpty
+        (And.intro stateEmpty
+          (And.intro packet.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.left
+              packet.right.right.right.right.right.right.right))))
+
 def ControlObservabilityCarrierPacket [AskSetup] [PackageSetup]
     (dynSystem matrix vecspace linmap state transition output observationStack traceLedger
       provenance endpoint : BHist)
