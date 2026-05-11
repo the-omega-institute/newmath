@@ -6,5 +6,59 @@ The zero-knowledge-proof interface $\ZeroKnowledgeUp$ packages an interactive pr
 \section{Carrier definition}
 \label{sec:zeroknowledge-carrier}
 
+A $\ZeroKnowledgeUp$ carrier is a finite $\mathsf{BHist}$ packet. It displays a prover row $P$, a verifier row $V$, a challenge transcript row $c$, a response transcript row $r$, a hash commitment row $k$, a computable verifier row $q$, a simulator transcript row $s$, and an evidence ledger row $\ell$. The hash row is sourced from $\NameCert_{\HashUp}$ and the computable verifier row is sourced from $\NameCert_{\ComputableUp}$ through the packet provenance $\Pkg$; neither dependency is read through host bitstrings, probability spaces, or external machines.
+
+The classifier compares two accepted packets only through displayed $\hsame$ rows: prover with prover, verifier with verifier, challenge transcript with challenge transcript, response transcript with response transcript, commitment with commitment, computable-verifier row with computable-verifier row, simulator transcript with simulator transcript, and ledger with ledger. The continuation ledger $\Cont$ records the transcript routes from prover and verifier to challenge, from challenge and prover to response, from response and hash source to commitment, from challenge and computable verifier to acceptance, from simulator and verifier to simulated transcript, and from the visible transcript rows to the evidence ledger.
+
 \section{The certificate}
 \label{sec:zeroknowledge-certificate}
+
+\begin{theorem}[ZeroKnowledgeUp carrier obligation]
+\label{thm:zeroknowledge-carrier-obligation}
+For a $\ZeroKnowledgeUp$ packet with displayed rows $P$, $V$, $c$, $r$, $k$, $q$, $s$, and $\ell$, the carrier obligation is exactly the finite $\mathsf{BHist}$ surface consisting of the prover row, verifier row, challenge transcript row, response transcript row, hash commitment row, computable verifier row, simulator transcript row, the $\Cont$ transcript routes among those rows, and the $\Pkg$ provenance rows naming the consumed $\HashUp$ and $\ComputableUp$ certificates. No cryptographic hardness predicate, negligible bound, host randomness source, or external protocol machine is part of this carrier.
+\end{theorem}
+\begin{proof}
+Project the packet to its displayed histories. The prover, verifier, challenge, response, commitment, computable-verifier, simulator, and evidence rows are the only carrier coordinates.
+
+Next project the continuation evidence. Each visible read is one of the listed $\Cont$ routes, and each dependency read is one of the two $\Pkg$ provenance rows. Repacking those projections gives the same finite carrier surface, so no unlisted host object is available to the carrier.
+\end{proof}
+
+\begin{theorem}[ZeroKnowledgeUp classifier obligation]
+\label{thm:zeroknowledge-classifier-obligation}
+Two accepted $\ZeroKnowledgeUp$ packets classify together only when their prover rows, verifier rows, challenge transcript rows, response transcript rows, hash commitment rows, computable verifier rows, simulator transcript rows, continuation ledgers, and package provenance rows are related by the displayed componentwise $\hsame$ comparisons. The classifier does not compare hidden witnesses, probability distributions, bitstring encodings, or machine implementations outside the accepted $\mathsf{BHist}$ packet.
+\end{theorem}
+\begin{proof}
+Read the classifier by projection to the accepted packet coordinates. Each coordinate has a named $\hsame$ comparison row, and the dependency rows are compared through the same $\Pkg$ provenance that supplied $\HashUp$ and $\ComputableUp$.
+
+For reflexivity, symmetry, and transitivity, apply the corresponding $\hsame$ operation componentwise to the displayed rows. The continuation and provenance rows are then repacked with those transported coordinates, giving a classifier on accepted packets and nothing beyond them.
+\end{proof}
+
+\begin{theorem}[ZeroKnowledgeUp completeness ledger obligation]
+\label{thm:zeroknowledge-completeness-ledger-obligation}
+The completeness ledger of a $\ZeroKnowledgeUp$ packet is a BEDC obligation over the displayed prover row $P$, verifier row $V$, challenge row $c$, response row $r$, computable verifier row $q$, transcript continuation rows, and provenance rows for $\HashUp$ and $\ComputableUp$. It states only that the accepted transcript route records a verifier-acceptance row in the packet ledger; it does not assert a probability of acceptance or a completeness error bound.
+\end{theorem}
+\begin{proof}
+Project the completeness evidence to the transcript route from prover and verifier into challenge, then from challenge and prover into response. The computable verifier row reads that response through the displayed $\Cont$ evidence.
+
+The verifier-acceptance row is then packed into the ledger $\ell$ together with the dependency provenance. Since every object used in this packing is one of the carrier rows of \autoref{thm:zeroknowledge-carrier-obligation}, the completeness ledger is a finite BEDC row statement rather than a probabilistic claim.
+\end{proof}
+
+\begin{theorem}[ZeroKnowledgeUp soundness ledger obligation]
+\label{thm:zeroknowledge-soundness-ledger-obligation}
+The soundness ledger of a $\ZeroKnowledgeUp$ packet is a finite BEDC obligation over challenge rows, response rows, hash commitment rows, computable verifier rows, $\hsame$ comparisons, $\Cont$ transcript routes, and $\Pkg$ provenance for $\HashUp$ and $\ComputableUp$. It records only the visible rows needed to compare an accepting transcript with the commitment and verifier rows; it does not claim cryptographic hardness, extractor existence, or a negligible cheating bound.
+\end{theorem}
+\begin{proof}
+First project the accepting transcript to its challenge, response, commitment, and computable-verifier rows. The hash dependency is read through the carried $\HashUp$ provenance, and the verifier computation is read through the carried $\ComputableUp$ provenance.
+
+The ledger comparison is then obtained by transporting those rows through their displayed $\hsame$ comparisons and repacking them with the transcript $\Cont$ routes. This proves only that the packet exposes the finite soundness surface claimed in the statement.
+\end{proof}
+
+\begin{theorem}[ZeroKnowledgeUp simulation ledger obligation]
+\label{thm:zeroknowledge-simulation-ledger-obligation}
+The simulation ledger of a $\ZeroKnowledgeUp$ packet is a finite BEDC obligation over the simulator transcript row $s$, verifier row $V$, challenge row $c$, response row $r$, commitment row $k$, computable verifier row $q$, componentwise $\hsame$ comparisons, transcript $\Cont$ routes, and $\Pkg$ provenance for $\HashUp$ and $\ComputableUp$. It states that the simulated transcript row is compared to the displayed interaction transcript by packet rows alone; it does not assert distributional indistinguishability, zero-knowledge error bounds, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Project the simulator evidence to the simulator transcript row and the verifier-facing transcript rows. The comparison with the interaction transcript is a row-by-row $\hsame$ comparison between the displayed challenge, response, commitment, and verifier-computation coordinates.
+
+Repack the simulator route, the verifier route, and the dependency provenance into the ledger $\ell$. Because the proof uses only accepted carrier rows and their $\Cont$ routes, the result is a BEDC simulation surface and not a claim about external distributions.
+\end{proof}
