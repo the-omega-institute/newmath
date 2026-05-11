@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -195,5 +197,63 @@ theorem CofibrantReplacementPacket_weak_equivalence_ledger_transport [AskSetup]
       endpointRow',
       pkgSig'⟩
   exact ⟨transported, sameLedger, sameEndpoint⟩
+
+theorem CofibrantReplacementPacket_five_row_namecert_sketch [AskSetup] [PackageSetup]
+    {X Q arrow factorization lifting package ledger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofibrantReplacementPacket X Q arrow factorization lifting package ledger endpoint
+        bundle pkg ->
+      (let Source := fun h : BHist => hsame h endpoint;
+        SemanticNameCert Source Source Source hsame) ∧
+        UnaryHistory X ∧ UnaryHistory Q ∧ UnaryHistory arrow ∧
+          UnaryHistory factorization ∧ UnaryHistory lifting ∧ UnaryHistory package ∧
+            UnaryHistory ledger ∧ UnaryHistory endpoint ∧ Cont arrow factorization ledger ∧
+              Cont ledger package endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary packet.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.left
+  have cert :
+      SemanticNameCert (fun h : BHist => hsame h endpoint)
+        (fun h : BHist => hsame h endpoint) (fun h : BHist => hsame h endpoint)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        exact hsame_trans (hsame_symm sameRows) sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    And.intro cert
+      (And.intro packet.left
+        (And.intro packet.right.left
+          (And.intro packet.right.right.left
+            (And.intro packet.right.right.right.left
+              (And.intro packet.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.left
+                  (And.intro ledgerUnary
+                    (And.intro endpointUnary
+                      (And.intro packet.right.right.right.right.right.right.left
+                        (And.intro packet.right.right.right.right.right.right.right.left
+                          packet.right.right.right.right.right.right.right.right))))))))))
 
 end BEDC.Derived.CofibrantReplacementUp
