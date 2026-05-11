@@ -280,6 +280,28 @@ requires re-engineering one of: \texttt{Ctx.lookup}, \texttt{shift}, or the
 typing rule for \texttt{lam} (e.g., adding context-well-formedness premises to
 the \texttt{lamRule}).
 
+\paragraph{Tenth stage: substitute composition unconditional form refuted.}
+The textbook substitute composition equation
+$$
+\begin{aligned}
+  \mathrm{substitute}\ 0\ s\ (\mathrm{substitute}\ 0\ a\ \mathrm{cod}) =
+  \mathrm{substitute}\ 0\ (\mathrm{substitute}\ 0\ s\ a)\
+    (\mathrm{substitute}\ 1\ s\ \mathrm{cod})
+\end{aligned}
+$$
+admits a Lean-verified counterexample without closure constraints on
+$s$. The substrate fix is to require $\mathrm{ClosedAt}\ 0\ s$ as an
+additional hypothesis; under that hypothesis, three of five
+inductive cases of $\mathrm{cod}$ (sort, var, app) admit real
+proofs. The lam and pi cases require a further shift-substitute
+commutation lemma whose unconditional form is itself a research-stage
+question.
+
+The pattern repeats: each composition lemma's unconditional form
+fails, and the closed-term restriction makes a sub-cases tractable
+without resolving the underlying $\mathrm{shift}/\mathrm{substitute}$
+binder-propagation issue identified at finding 7.
+
 \begin{table}[t]
 \centering
 \begin{tabular}{r|p{0.34\linewidth}|p{0.34\linewidth}|l}
@@ -303,6 +325,8 @@ No. & Finding & Consequence & Status \\
 8 & Depth-zero generalized form refuted & Minimal counterexample remains active & Open \\
 \hline
 9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
+\hline
+10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 3/5 cases real \\
 \hline
 \end{tabular}
 \caption{Substrate-gap findings for MetaCIC substitution preservation.}
@@ -355,8 +379,12 @@ artifacts of impure proof automation.
 \hline
 8 & ClosedAt 0 not propagating in lam & Depth-parameterized statement & Open \\
 \hline
+9 & Depth-parameterized form refuted & Substrate redesign required & Open \\
+\hline
+10 & Unconditional composition form refuted & Closure restriction (ClosedAt 0 s) & 3/5 cases real \\
+\hline
 \end{tabular}
-\caption{Eight substrate-gap findings, each Lean-verified.}
+\caption{Ten substrate-gap findings, each Lean-verified.}
 \end{table}
 
 \subsection{Substrate Stack}\label{subsec:substrate-stack}
