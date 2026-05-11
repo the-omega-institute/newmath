@@ -45,6 +45,7 @@ The local $\NameCert_{\FastCauchySeqUp}$ obligation surface has five finite rows
 \end{enumerate}
 These rows are exactly the explicit-rate naming certificate for $\FastCauchySeqUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchySeqUp.FastCauchySeqPacket\_semantic\_name\_certificate}
 \begin{proof}
 Project the carrier coordinates from \autoref{def:fastcauchyseq-carrier}. The first two rows expose the scheduled dyadic observation stream and the precision-threshold table, while the dyadic and late-pair rows expose the finite comparison data at the requested precisions.
 
@@ -210,6 +211,55 @@ Since neither the carrier nor the two consumer boundaries contain a coordinate
 for quotient-real equality, a completed metric object, a selected limit, or a
 hidden threshold selector, the two readings are the same finite BEDC
 explicit-rate schema.
+\end{proof}
+
+\begin{theorem}[FastCauchySeq modulus precision-window factorization]
+\label{thm:fastcauchyseq-modulus-precision-window-factorization}
+Let $F$ be an accepted $\FastCauchySeqUp$ packet, and let $D$ be a displayed
+$\DyadicPrecisionUp$ row selecting a finite precision window for $F$. Every
+$\RegSeqRatUp$ consumer read and every $\RealUp$ consumer read over $D$ factors
+through the same visible finite rows of $F$: the $\CauchyModulusUp$ threshold
+row selected by $D$, the $\DyadicRatCoreUp$ endpoint and radius rows read at
+that precision, the late-pair ledger for the selected window, the componentwise
+$\hsame$ transports, the displayed $\Cont$ routes, the $\mathsf{Pkg}$
+provenance, and the local $\NameCert$ row.
+
+Conversely, each displayed threshold, endpoint, radius, late-pair, transport,
+continuation, provenance, and name row indexed by $D$ appears in both the
+$\RegSeqRatUp$ forgetful handoff and the $\RealUp$ seal boundary. Thus the
+finite-window read over $D$ is a factorization of explicit Cauchy-rate data
+through the public $\FastCauchySeqUp$ packet, not a read through quotient real
+equality, a completed metric object, a selected limit, or a hidden threshold
+selector.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:fastcauchyseq-carrier}. The
+displayed row $D$ selects only a finite precision window, so the carrier
+projection exposes exactly the corresponding threshold row, dyadic endpoint
+and radius rows, late-pair ledger, transport rows, continuation routes,
+provenance row, and local naming row.
+
+For the $\RegSeqRatUp$ read, apply
+\autoref{thm:fastcauchyseq-regseqrat-forgetful-handoff}. The handoff forgets
+only the local $\FastCauchySeqUp$ certificate row as a local certificate and
+retains the selected stream, threshold, dyadic, comparison, transport, window,
+and provenance coordinates indexed by $D$.
+
+For the $\RealUp$ read, use
+\autoref{thm:fastcauchyseq-real-seal-consumer-boundary} together with
+\autoref{thm:fastcauchyseq-tail-modulus-real-boundary}. These boundaries allow
+a real-name consumer to inspect the same displayed explicit-rate rows and no
+coordinate outside the finite tail-modulus surface.
+
+Finally compare with
+\autoref{thm:fastcauchyseq-standard-explicit-rate-bridge}. The bridge identifies
+the public explicit-rate schema with the visible $\CauchyModulusUp$,
+$\DyadicRatCoreUp$, late-pair, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows, so every row selected by $D$ occurs in both consumer faces
+and every such consumer face factors through those rows. Since the carrier and
+the two boundaries contain no quotient-real equality, completed metric object,
+selected limit, or hidden threshold selector, none is introduced by the
+factorization.
 \end{proof}
 
 \closureat{FastCauchySeqUp}{obligationStr}
