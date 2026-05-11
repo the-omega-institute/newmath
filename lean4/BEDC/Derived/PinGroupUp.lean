@@ -540,6 +540,18 @@ theorem PinGroupReflectionParityCarrier_spin_extension_obligation
     (And.intro (Or.inl (And.intro (hsame_refl spin) spinUnary)) spinLedger)
     spinLedger
 
+theorem PinGroupSpinSubrowClassifier_readback {spin ledger carried reflected : BHist} :
+    UnaryHistory spin ->
+      Cont spin ledger carried ->
+        Cont BHist.Empty carried reflected ->
+          PinGroupReflectionParityLedgerSurface spin BHist.Empty BHist.Empty spin ledger carried ∧
+            hsame carried (append spin ledger) ∧ hsame reflected carried := by
+  intro spinUnary spinLedger reflectedRow
+  have spinSurface :=
+    PinGroupReflectionParityCarrier_spin_extension_obligation spinUnary spinLedger
+  exact And.intro spinSurface.left
+    (And.intro spinSurface.right (cont_left_unit_result reflectedRow))
+
 theorem PinGroupUp_StdBridge
     {spin reflection product endpoint ledger carried action actionOut provenance : BHist} :
     PinGroupReflectionParityLedgerSurface spin reflection product endpoint ledger carried ->
