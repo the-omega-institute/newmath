@@ -102,6 +102,70 @@ theorem HomotopyBHistSourcePacket_deformation_composition_row [AskSetup] [Packag
               (And.intro composedLedgerCont
                 (And.intro composedEndpointCont composedPkg)))))))
 
+theorem HomotopyBHistSourcePacket_endpoint_composition_transitivity_row [AskSetup]
+    [PackageSetup]
+    {source middle middle' target deformation deformation' interval provenance endpointRead ledger
+      endpoint endpointRead' ledger' endpoint' composedDeformation composedRead composedLedger
+      composedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source middle deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      HomotopyBHistSourcePacket middle' target deformation' interval provenance endpointRead'
+          ledger' endpoint' bundle pkg ->
+        hsame middle middle' ->
+          Cont deformation deformation' composedDeformation ->
+            Cont composedDeformation interval composedRead ->
+              Cont composedRead provenance composedLedger ->
+                Cont composedLedger target composedEndpoint ->
+                  PkgSig bundle composedEndpoint pkg ->
+                    HomotopyBHistSourcePacket source target composedDeformation interval
+                        provenance composedRead composedLedger composedEndpoint bundle pkg ∧
+                      UnaryHistory composedDeformation ∧ UnaryHistory composedRead ∧
+                        UnaryHistory composedLedger ∧ UnaryHistory composedEndpoint := by
+  intro leftPacket rightPacket sameMiddle deformationCont composedReadCont composedLedgerCont
+    composedEndpointCont composedPkg
+  have middleUnary : UnaryHistory middle :=
+    unary_transport rightPacket.left (hsame_symm sameMiddle)
+  have rightPacketOnMiddle :
+      HomotopyBHistSourcePacket middle target deformation' interval provenance endpointRead'
+        ledger' endpoint' bundle pkg :=
+    And.intro middleUnary
+      (And.intro rightPacket.right.left
+        (And.intro rightPacket.right.right.left
+          (And.intro rightPacket.right.right.right.left
+            (And.intro rightPacket.right.right.right.right.left
+              (And.intro rightPacket.right.right.right.right.right.left
+                (And.intro rightPacket.right.right.right.right.right.right.left
+                  (And.intro rightPacket.right.right.right.right.right.right.right.left
+                    rightPacket.right.right.right.right.right.right.right.right)))))))
+  have targetUnary : UnaryHistory target :=
+    rightPacketOnMiddle.right.left
+  have deformationUnary' : UnaryHistory deformation' :=
+    rightPacketOnMiddle.right.right.left
+  have composedDeformationUnary : UnaryHistory composedDeformation :=
+    unary_cont_closed leftPacket.right.right.left deformationUnary' deformationCont
+  have composedReadUnary : UnaryHistory composedRead :=
+    unary_cont_closed composedDeformationUnary leftPacket.right.right.right.left composedReadCont
+  have composedLedgerUnary : UnaryHistory composedLedger :=
+    unary_cont_closed composedReadUnary leftPacket.right.right.right.right.left composedLedgerCont
+  have composedEndpointUnary : UnaryHistory composedEndpoint :=
+    unary_cont_closed composedLedgerUnary targetUnary composedEndpointCont
+  have sourcePacket :
+      HomotopyBHistSourcePacket source target composedDeformation interval provenance composedRead
+        composedLedger composedEndpoint bundle pkg :=
+    And.intro leftPacket.left
+      (And.intro targetUnary
+        (And.intro composedDeformationUnary
+          (And.intro leftPacket.right.right.right.left
+            (And.intro leftPacket.right.right.right.right.left
+              (And.intro composedReadCont
+                (And.intro composedLedgerCont
+                  (And.intro composedEndpointCont composedPkg)))))))
+  exact And.intro sourcePacket
+    (And.intro (unary_transport composedDeformationUnary (hsame_refl composedDeformation))
+      (And.intro composedReadUnary
+        (And.intro composedLedgerUnary composedEndpointUnary)))
+
 theorem HomotopyBHistSourcePacket_interval_endpoint_determinacy [AskSetup] [PackageSetup]
     {source target deformation interval interval' provenance endpointRead endpointRead' ledger
       endpoint : BHist}
@@ -213,6 +277,37 @@ theorem HomotopyBHistSourcePacket_reversal_symmetry_row [AskSetup] [PackageSetup
                   (And.intro endpointCont
                     packet.right.right.right.right.right.right.right.right))))))))
     (hsame_symm sameSourceTarget)
+
+theorem HomotopyBHistSourcePacket_double_reversal_classifier_row [AskSetup] [PackageSetup]
+    {source target deformation interval provenance endpointRead ledger endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint bundle pkg ->
+      Cont ledger target endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+              endpoint' bundle pkg ∧
+            hsame endpoint endpoint' ∧ hsame deformation deformation ∧ hsame interval interval ∧
+              hsame provenance provenance := by
+  intro packet endpointCont' packageRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl ledger) (hsame_refl target)
+      packet.right.right.right.right.right.right.right.left endpointCont'
+  have packet' :
+      HomotopyBHistSourcePacket source target deformation interval provenance endpointRead ledger
+        endpoint' bundle pkg :=
+    And.intro packet.left
+      (And.intro packet.right.left
+        (And.intro packet.right.right.left
+          (And.intro packet.right.right.right.left
+            (And.intro packet.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.left
+                (And.intro packet.right.right.right.right.right.right.left
+                  (And.intro endpointCont' packageRow')))))))
+  exact And.intro packet'
+    (And.intro sameEndpoint
+      (And.intro (hsame_refl deformation)
+        (And.intro (hsame_refl interval) (hsame_refl provenance))))
 
 theorem HomotopyBHistSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {source target deformation interval provenance endpointRead ledger endpoint : BHist}
