@@ -111,4 +111,25 @@ theorem ModularArithmeticResidueSource_carrier_stability [AskSetup] [PackageSetu
           (And.intro residueLedgerRow' (And.intro pkgrowRow' pkgrowSig')))))
     (And.intro sameResidueLedger samePkgrow)
 
+theorem ModularArithmeticResidueSource_int_rat_handoff [AskSetup] [PackageSetup]
+    {modulus witness representative residueLedger pkgrow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModularArithmeticResidueSource modulus witness representative residueLedger pkgrow bundle
+        pkg ->
+      UnaryHistory modulus ∧ PositiveUnaryDenominator witness ∧ UnaryHistory witness ∧
+        UnaryHistory representative ∧ Cont modulus witness residueLedger ∧
+          Cont residueLedger representative pkgrow ∧ hsame residueLedger (append modulus witness) ∧
+            hsame pkgrow (append residueLedger representative) ∧ PkgSig bundle pkgrow pkg := by
+  intro source
+  have witnessRows := PositiveUnaryDenominator_unary_and_nonempty source.right.left
+  exact And.intro source.left
+    (And.intro source.right.left
+      (And.intro witnessRows.left
+        (And.intro source.right.right.left
+          (And.intro source.right.right.right.left
+            (And.intro source.right.right.right.right.left
+              (And.intro source.right.right.right.left
+                (And.intro source.right.right.right.right.left
+                  source.right.right.right.right.right)))))))
+
 end BEDC.Derived.ModularArithmeticUp
