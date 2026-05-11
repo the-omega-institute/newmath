@@ -56,6 +56,16 @@ The first command that errors is what you need to fix.
 - The new theorem proof is using a non-CIC axiom transitively. Find which
   imported lemma introduced it; replace with a constructive variant or
   drop the theorem.
+- **propext-via-typeclass-projection trap (very common in TasteGate work)**:
+  a standalone theorem of shape `BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x`
+  forces Lean to unfold the typeclass instance via propositional
+  equality, which depends on `propext`. Fix: drop the helper theorem
+  entirely (the `ChapterTasteGate <X>Up` instance already carries the
+  equivalent `round_trip` field), OR rewrite the helper to reference
+  the concrete underlying defs (e.g. `dyadicPrecisionFromEventFlow` /
+  `dyadicPrecisionToEventFlow`) instead of the typeclass projections.
+  Then re-run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict`
+  and confirm `pure=N impure=0`.
 
 ### `NO BEDC TOUCHPOINT` failure (touchpoint gate rejected new declarations)
 - Gate `_BEDC_TOUCHPOINT_RE` checks each new declaration block for a bare token (`\bBHist\b`, `\bBMark\b`, …). `BHistCarrier` does NOT satisfy `\bBHist\b` (no word boundary between `BHist` and `Carrier`), so `BHistCarrier <X>Up` / `ChapterTasteGate <X>Up` instances are rejected unless the block additionally contains a bare token.
