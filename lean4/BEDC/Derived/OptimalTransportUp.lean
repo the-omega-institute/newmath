@@ -301,6 +301,75 @@ theorem OptimalTransportFiniteCouplingPacket_namecert_obligation_surface
     ⟨cert, sourceMarginalRow, targetMarginalRow, objectiveRow, feasibleRow, dualRow,
       provenanceRow, pkgRow⟩
 
+theorem OptimalTransportFiniteCouplingPacket_finite_support_bridge_package
+    [AskSetup] [PackageSetup]
+    {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
+      targetMarginal objective feasible dual provenance bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      Cont provenance dual bridge ->
+        SemanticNameCert
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+                cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row bridge)
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+                cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row bridge)
+            (fun row : BHist =>
+              OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+                cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+                bundle pkg ∧ hsame row bridge)
+            hsame ∧
+          Cont provenance dual bridge ∧ PkgSig bundle provenance pkg := by
+  intro packet bridgeRow
+  have packetProof := packet
+  obtain ⟨_sourceSupportUnary, _targetSupportUnary, _sourceMassUnary, _targetMassUnary,
+    _costUnary, _couplingUnary, _sourceMarginalUnary, _targetMarginalUnary, _objectiveUnary,
+    _feasibleUnary, _dualUnary, _provenanceUnary, _sourceMarginalRow, _targetMarginalRow,
+    _objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row bridge)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row bridge)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row bridge)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridge (And.intro packetProof (hsame_refl bridge))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+  exact ⟨cert, bridgeRow, pkgRow⟩
+
 theorem OptimalTransportFiniteCouplingPacket_obligation_closure
     [AskSetup] [PackageSetup]
     {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
