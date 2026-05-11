@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -268,5 +270,81 @@ theorem NestedIntervalRegSeqRatWindow_handoff [AskSetup] [PackageSetup]
   exact
     ⟨prefixHistory, lowerHistory, upperHistory, widthHistory, inclusionHistory, scheduleHistory,
       regReadHistory, lowerUpper, widthInclusion, regReadPkg⟩
+
+theorem NestedIntervalFiniteCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+        endpoint pkgLedger bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+            endpoint pkgLedger bundle pkg ∧
+            (hsame row sealFace ∨ hsame row regRead ∨ hsame row endpoint ∨
+              hsame row pkgLedger))
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+            endpoint pkgLedger bundle pkg ∧
+            (hsame row sealFace ∨ hsame row regRead ∨ hsame row endpoint ∨
+              hsame row pkgLedger))
+        (fun row : BHist =>
+          NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+            endpoint pkgLedger bundle pkg ∧
+            (hsame row sealFace ∨ hsame row regRead ∨ hsame row endpoint ∨
+              hsame row pkgLedger))
+        hsame := by
+  intro carrier
+  let SealSurface : BHist -> Prop :=
+    fun row : BHist =>
+      NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace
+        endpoint pkgLedger bundle pkg ∧
+        (hsame row sealFace ∨ hsame row regRead ∨ hsame row endpoint ∨ hsame row pkgLedger)
+  have sealSource : SealSurface sealFace :=
+    And.intro carrier (Or.inl (hsame_refl sealFace))
+  have transportSurface :
+      forall {row row' : BHist}, hsame row row' -> SealSurface row -> SealSurface row' := by
+    intro row row' sameRow sourceRow
+    have rowFromRow' : hsame row' row :=
+      hsame_symm sameRow
+    cases sourceRow.right with
+    | inl sameSeal =>
+        exact And.intro sourceRow.left (Or.inl (hsame_trans rowFromRow' sameSeal))
+    | inr rest =>
+        cases rest with
+        | inl sameRegRead =>
+            exact And.intro sourceRow.left (Or.inr (Or.inl (hsame_trans rowFromRow' sameRegRead)))
+        | inr rest' =>
+            cases rest' with
+            | inl sameEndpoint =>
+                exact
+                  And.intro sourceRow.left
+                    (Or.inr (Or.inr (Or.inl (hsame_trans rowFromRow' sameEndpoint))))
+            | inr samePkgLedger =>
+                exact
+                  And.intro sourceRow.left
+                    (Or.inr (Or.inr (Or.inr (hsame_trans rowFromRow' samePkgLedger))))
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro sealFace sealSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        exact transportSurface same sourceRow
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.NestedIntervalUp
