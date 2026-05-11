@@ -392,4 +392,40 @@ theorem CauchyModulusLedgerPacket_regseqrat_regularity_rows
   exact And.intro toleranceCarrier
     (And.intro windowUnary (And.intro consumptionRow sameProvenance))
 
+theorem CauchyModulusCarrierPacket_real_classifier_transport
+    {precision threshold tolerance observationA observationB ledger provenance precision' threshold'
+      tolerance' observationA' observationB' ledger' provenance' realWindow realWindow' : BHist} :
+    CauchyModulusCarrierPacket precision threshold tolerance observationA observationB ledger
+        provenance ->
+      hsame precision precision' ->
+        hsame threshold threshold' ->
+          hsame tolerance tolerance' ->
+            hsame observationA observationA' ->
+              hsame observationB observationB' ->
+                hsame ledger ledger' ->
+                  hsame provenance provenance' ->
+                    Cont observationB tolerance realWindow ->
+                      Cont observationB' tolerance' realWindow' ->
+                        CauchyModulusCarrierPacket precision' threshold' tolerance'
+                            observationA' observationB' ledger' provenance' ∧
+                          hsame realWindow realWindow' ∧
+                            RatHistoryCarrier tolerance' ∧ UnaryHistory observationB' := by
+  intro packet samePrecision sameThreshold sameTolerance sameObservationA sameObservationB
+    sameLedger sameProvenance realWindowRow realWindowRow'
+  have transported :=
+    CauchyModulusPacket_hsame_stability packet samePrecision sameThreshold sameTolerance
+      sameObservationA sameObservationB sameLedger sameProvenance
+  have targetPacket :
+      CauchyModulusCarrierPacket precision' threshold' tolerance' observationA'
+        observationB' ledger' provenance' :=
+    transported.left
+  have sameWindow : hsame realWindow realWindow' :=
+    cont_respects_hsame sameObservationB sameTolerance realWindowRow realWindowRow'
+  have toleranceCarrier : RatHistoryCarrier tolerance' :=
+    RatHistoryCarrier_iff_positive_denominator.mpr targetPacket.right.right.left
+  have observationBUnary : UnaryHistory observationB' :=
+    targetPacket.right.right.right.right.left
+  exact And.intro targetPacket
+    (And.intro sameWindow (And.intro toleranceCarrier observationBUnary))
+
 end BEDC.Derived.CauchyModulusUp
