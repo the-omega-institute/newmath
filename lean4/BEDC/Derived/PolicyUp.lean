@@ -199,4 +199,41 @@ theorem PolicyActionLedgerCarrier_tastegate_scoped_package [AskSetup] [PackageSe
     · exact PolicyActionLedgerCarrier_semantic_name_certificate carrier
     · exact (PolicyUp_taste_gate_source_scope carrier).left
 
+theorem PolicyActionLedgerCarrier_public_export_surface [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      ChapterTasteGate PolicyUp ∧
+        SemanticNameCert
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          (fun row : BHist =>
+            PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+              endpoint bundle pkg ∧ hsame row endpoint)
+          hsame ∧
+        UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory endpoint ∧
+          hsame ledger (append belief markov) ∧
+            hsame provenance (append ledger estimator) ∧
+              hsame endpoint (append provenance decision) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  have scopedPackage :=
+    PolicyActionLedgerCarrier_tastegate_scoped_package (bundle := bundle) (pkg := pkg) carrier
+  have dependencySurface :=
+    PolicyActionLedgerCarrier_dependency_source_exactness (bundle := bundle) (pkg := pkg) carrier
+  exact
+    ⟨scopedPackage.left,
+      scopedPackage.right.left,
+      dependencySurface.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.right.right.right.right.left,
+      dependencySurface.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PolicyUp
