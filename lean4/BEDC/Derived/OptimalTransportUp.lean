@@ -72,7 +72,6 @@ theorem OptimalTransportPacket_semantic_name_certificate [AskSetup] [PackageSetu
           OptimalTransportPacket source target massSource massTarget cost coupling marginal
             objective feasible dual provenance bundle pkg ∧ hsame row provenance)
         hsame := by
-  -- BEDC touchpoint anchor: BHist Cont PkgSig NameCert
   intro packet
   exact {
     core := {
@@ -127,5 +126,78 @@ theorem OptimalTransportFiniteCouplingPacket_marginal_ledger [AskSetup] [Package
     _feasibleUnary, _dualUnary, _provenanceUnary, sourceMarginalRow, targetMarginalRow,
     _objectiveRow, _feasibleRow, _dualRow, _provenanceRow, pkgRow⟩ := packet
   exact ⟨sourceMarginalUnary, targetMarginalUnary, sourceMarginalRow, targetMarginalRow, pkgRow⟩
+
+theorem OptimalTransportFiniteCouplingPacket_namecert_obligation_surface
+    [AskSetup] [PackageSetup]
+    {sourceSupport targetSupport sourceMass targetMass cost coupling sourceMarginal
+      targetMarginal objective feasible dual provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass cost
+        coupling sourceMarginal targetMarginal objective feasible dual provenance bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          hsame ∧
+        Cont coupling sourceMass sourceMarginal ∧
+          Cont coupling targetMass targetMarginal ∧ Cont cost coupling objective ∧
+            Cont sourceMarginal targetMarginal feasible ∧ Cont objective feasible dual ∧
+              Cont dual provenance provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have packetProof := packet
+  obtain ⟨_sourceSupportUnary, _targetSupportUnary, _sourceMassUnary, _targetMassUnary,
+    _costUnary, _couplingUnary, _sourceMarginalUnary, _targetMarginalUnary, _objectiveUnary,
+    _feasibleUnary, _dualUnary, _provenanceUnary, sourceMarginalRow, targetMarginalRow,
+    objectiveRow, feasibleRow, dualRow, provenanceRow, pkgRow⟩ := packet
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          (fun row : BHist =>
+            OptimalTransportFiniteCouplingPacket sourceSupport targetSupport sourceMass targetMass
+              cost coupling sourceMarginal targetMarginal objective feasible dual provenance
+              bundle pkg ∧ hsame row provenance)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (And.intro packetProof (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+  exact
+    ⟨cert, sourceMarginalRow, targetMarginalRow, objectiveRow, feasibleRow, dualRow,
+      provenanceRow, pkgRow⟩
 
 end BEDC.Derived.OptimalTransportUp
