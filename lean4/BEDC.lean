@@ -110,6 +110,9 @@ import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.LQRUp
+import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
+import BEDC.Derived.LQRUp.EmptyHorizon
+import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SpanningTreeUp
@@ -140,6 +143,8 @@ import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -179,6 +184,7 @@ import BEDC.Derived.CurvatureUp.SemanticNameCertificate
 import BEDC.Derived.CurvatureUp.SourceEnvelopeProjection
 import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CurvatureUp.CarrierBoundaryRow
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.CurvatureUp.ManifoldBaseDependencyRow
 import BEDC.Derived.CurvatureUp.BundleFibreDependencyRow
 import BEDC.Derived.CurvatureUp.ConnectionDerivativeDependencyRow
@@ -507,6 +513,7 @@ import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
@@ -614,7 +621,9 @@ import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.ToposUp
+import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.ClassFieldUp
@@ -1024,6 +1033,7 @@ import BEDC.Derived.CommRingUp.ZeroLinearFactor
 import BEDC.Derived.CommRingUp.ZeroLinearFactorExactPackage
 import BEDC.Derived.CommRingUp.ZeroDivisor
 import BEDC.DerivedIndexAnalysis
+import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.CompactUp.ImageLedger
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.ContinuationWitness
