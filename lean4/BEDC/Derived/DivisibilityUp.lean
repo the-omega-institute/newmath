@@ -36,4 +36,38 @@ theorem DivisibilityFiniteHistoryCarrier_order_bounded_ledger
     ledgerUnary, _provenanceUnary, _productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
   exact ⟨boundUnary, ledgerUnary, ledgerRow, provenanceRow, pkgRow⟩
 
+def DivisibilityLedgerCarrier [AskSetup] [PackageSetup]
+    (a b q w o ledger provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ UnaryHistory o ∧
+    UnaryHistory provenance ∧ Cont b q w ∧ Cont w o ledger ∧
+      Cont ledger provenance provenance ∧ PkgSig bundle provenance pkg
+
+theorem DivisibilityLedgerCarrier_mul_witness_closure [AskSetup] [PackageSetup]
+    {a b q w o ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityLedgerCarrier a b q w o ledger provenance bundle pkg ->
+      UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory q ∧ UnaryHistory w ∧
+        hsame w (append b q) ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  have unaryA : UnaryHistory a :=
+    carrier.left
+  have unaryB : UnaryHistory b :=
+    carrier.right.left
+  have unaryQ : UnaryHistory q :=
+    carrier.right.right.left
+  have contWitness : Cont b q w :=
+    carrier.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right
+  have unaryW : UnaryHistory w :=
+    unary_cont_closed unaryB unaryQ contWitness
+  have witnessRead : hsame w (append b q) :=
+    contWitness
+  exact And.intro unaryA
+    (And.intro unaryB
+      (And.intro unaryQ
+        (And.intro unaryW
+          (And.intro witnessRead pkgSig))))
+
 end BEDC.Derived.DivisibilityUp
