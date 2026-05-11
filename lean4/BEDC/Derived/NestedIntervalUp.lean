@@ -104,4 +104,68 @@ theorem NestedIntervalFiniteCarrier_endpoint_transport [AskSetup] [PackageSetup]
                                                       pkgLedgerUnary', endpointRow', ledgerRow',
                                                       pkgRow'⟩, sameEndpoint, sameLedger⟩
 
+theorem NestedIntervalPacket_window_refinement [AskSetup] [PackageSetup]
+    {lower upper order width inclusion schedule regRead sealFace endpoint pkgLedger extra lower'
+      upper' order' width' inclusion' schedule' regRead' sealFace' endpoint' pkgLedger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NestedIntervalFiniteCarrier lower upper order width inclusion schedule regRead sealFace endpoint
+        pkgLedger bundle pkg ->
+      UnaryHistory extra ->
+        Cont lower extra lower' ->
+          Cont upper extra upper' ->
+            Cont order extra order' ->
+              Cont width extra width' ->
+                Cont inclusion extra inclusion' ->
+                  Cont schedule extra schedule' ->
+                    Cont regRead extra regRead' ->
+                      Cont sealFace extra sealFace' ->
+                        Cont lower' upper' endpoint' ->
+                          Cont endpoint' order' pkgLedger' ->
+                            PkgSig bundle pkgLedger' pkg ->
+                              NestedIntervalFiniteCarrier lower' upper' order' width' inclusion'
+                                schedule' regRead' sealFace' endpoint' pkgLedger' bundle pkg := by
+  intro carrier extraUnary lowerRow upperRow orderRow widthRow inclusionRow scheduleRow regReadRow
+    sealFaceRow endpointRow ledgerRow pkgRow
+  cases carrier with
+  | intro lowerUnary rest =>
+      cases rest with
+      | intro upperUnary rest =>
+          cases rest with
+          | intro orderUnary rest =>
+              cases rest with
+              | intro widthUnary rest =>
+                  cases rest with
+                  | intro inclusionUnary rest =>
+                      cases rest with
+                      | intro scheduleUnary rest =>
+                          cases rest with
+                          | intro regReadUnary rest =>
+                              cases rest with
+                              | intro sealFaceUnary rest =>
+                                  have lowerUnary' : UnaryHistory lower' :=
+                                    unary_cont_closed lowerUnary extraUnary lowerRow
+                                  have upperUnary' : UnaryHistory upper' :=
+                                    unary_cont_closed upperUnary extraUnary upperRow
+                                  have orderUnary' : UnaryHistory order' :=
+                                    unary_cont_closed orderUnary extraUnary orderRow
+                                  have widthUnary' : UnaryHistory width' :=
+                                    unary_cont_closed widthUnary extraUnary widthRow
+                                  have inclusionUnary' : UnaryHistory inclusion' :=
+                                    unary_cont_closed inclusionUnary extraUnary inclusionRow
+                                  have scheduleUnary' : UnaryHistory schedule' :=
+                                    unary_cont_closed scheduleUnary extraUnary scheduleRow
+                                  have regReadUnary' : UnaryHistory regRead' :=
+                                    unary_cont_closed regReadUnary extraUnary regReadRow
+                                  have sealFaceUnary' : UnaryHistory sealFace' :=
+                                    unary_cont_closed sealFaceUnary extraUnary sealFaceRow
+                                  have endpointUnary' : UnaryHistory endpoint' :=
+                                    unary_cont_closed lowerUnary' upperUnary' endpointRow
+                                  have pkgLedgerUnary' : UnaryHistory pkgLedger' :=
+                                    unary_cont_closed endpointUnary' orderUnary' ledgerRow
+                                  exact
+                                    ⟨lowerUnary', upperUnary', orderUnary', widthUnary',
+                                      inclusionUnary', scheduleUnary', regReadUnary',
+                                      sealFaceUnary', endpointUnary', pkgLedgerUnary',
+                                      endpointRow, ledgerRow, pkgRow⟩
+
 end BEDC.Derived.NestedIntervalUp
