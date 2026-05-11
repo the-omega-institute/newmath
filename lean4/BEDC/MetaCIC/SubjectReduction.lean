@@ -295,6 +295,12 @@ theorem subject_reduction_congPi
   | piRule Γ dom cod hdom hcod =>
       exact HasType.piRule Γ dom cod' hdom (ih hcod)
 
+def LamDomainSubjectReduction : Prop :=
+  ∀ {Γ : Ctx} {d d' b A : Term},
+    HasType Γ (Term.lam d b) A →
+    BetaStep d d' →
+    HasType Γ (Term.lam d' b) A
+
 def AppArgTypeStable : Prop :=
   ∀ {Γ : Ctx} {f a a' dom cod : Term},
     HasType Γ f (Term.pi dom cod) →
@@ -305,6 +311,7 @@ def AppArgTypeStable : Prop :=
 theorem subject_reduction
     (hsubst : BetaSubstitutionPreservation)
     (happArgStable : AppArgTypeStable)
+    (hlamDom : LamDomainSubjectReduction)
     {Γ : Ctx} {t t' A : Term}
     (ht : HasType Γ t A)
     (hbeta : BetaStep t t') :
@@ -324,15 +331,21 @@ theorem subject_reduction
   | congLam d b b' hb ih =>
       exact subject_reduction_congLam ht hb
         (fun {B} hbody => ih hbody)
+  | congPiCod d c c' hb ih =>
+      exact subject_reduction_congPi ht hb
+        (fun hcod => ih hcod)
+  | congLamDom d d' b hb ih =>
+      exact hlamDom ht hb
 
 theorem subject_reduction_retype
     (hsubst : BetaSubstitutionPreservation)
     (happArgStable : AppArgTypeStable)
+    (hlamDom : LamDomainSubjectReduction)
     {Γ : Ctx} {t t' A : Term}
     (ht : HasType Γ t A)
     (hbeta : BetaStep t t') :
     ∃ A' : Term, HasType Γ t' A' := by
-  exact ⟨A, subject_reduction hsubst happArgStable ht hbeta⟩
+  exact ⟨A, subject_reduction hsubst happArgStable hlamDom ht hbeta⟩
 
 def closedBinderRedexTerm : Term :=
   Term.lam Term.sort
