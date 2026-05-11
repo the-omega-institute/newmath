@@ -1,4 +1,9 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 /-!
@@ -8,7 +13,12 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.DyadicPrecisionUp
 
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -175,5 +185,68 @@ theorem DyadicPrecisionScheduleTasteGate_visible_rows :
 /-- Public gate object for the finite dyadic-precision schedule carrier. -/
 def taste_gate : ChapterTasteGate DyadicPrecisionUp :=
   dyadicPrecisionChapterTasteGate
+
+def DyadicPrecisionScheduleSurface [AskSetup] [PackageSetup]
+    (precision radius window transport provenance nameCert ledger : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark
+  UnaryHistory precision ∧ UnaryHistory radius ∧ UnaryHistory window ∧
+    UnaryHistory transport ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+      UnaryHistory ledger ∧ Cont precision radius transport ∧
+        Cont transport window provenance ∧ Cont provenance nameCert ledger ∧
+          PkgSig bundle ledger pkg
+
+theorem DyadicPrecisionScheduleSurface_monotone_refinement_handoff [AskSetup] [PackageSetup]
+    {precision radius window transport provenance nameCert ledger precision' radius' window'
+      transport' provenance' nameCert' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicPrecisionScheduleSurface precision radius window transport provenance nameCert ledger
+        bundle pkg ->
+      hsame precision precision' ->
+        hsame radius radius' ->
+          hsame window window' ->
+            hsame nameCert nameCert' ->
+              Cont precision' radius' transport' ->
+                Cont transport' window' provenance' ->
+                  Cont provenance' nameCert' ledger' ->
+                    PkgSig bundle ledger' pkg ->
+                      DyadicPrecisionScheduleSurface precision' radius' window' transport'
+                          provenance' nameCert' ledger' bundle pkg ∧
+                        hsame transport transport' ∧ hsame provenance provenance' ∧
+                          hsame ledger ledger' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro surface samePrecision sameRadius sameWindow sameNameCert
+  intro precisionRadiusTransport' transportWindowProvenance' provenanceNameCertLedger'
+    packageLedger'
+  obtain ⟨precisionUnary, radiusUnary, windowUnary, _transportUnary, _provenanceUnary,
+    nameCertUnary, _ledgerUnary, precisionRadiusTransport, transportWindowProvenance,
+    provenanceNameCertLedger, _packageLedger⟩ := surface
+  have precisionUnary' : UnaryHistory precision' :=
+    unary_transport precisionUnary samePrecision
+  have radiusUnary' : UnaryHistory radius' :=
+    unary_transport radiusUnary sameRadius
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport windowUnary sameWindow
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_transport nameCertUnary sameNameCert
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame samePrecision sameRadius precisionRadiusTransport precisionRadiusTransport'
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed precisionUnary' radiusUnary' precisionRadiusTransport'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameWindow transportWindowProvenance
+      transportWindowProvenance'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed transportUnary' windowUnary' transportWindowProvenance'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameProvenance sameNameCert provenanceNameCertLedger
+      provenanceNameCertLedger'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed provenanceUnary' nameCertUnary' provenanceNameCertLedger'
+  exact
+    ⟨⟨precisionUnary', radiusUnary', windowUnary', transportUnary', provenanceUnary',
+        nameCertUnary', ledgerUnary', precisionRadiusTransport', transportWindowProvenance',
+        provenanceNameCertLedger', packageLedger'⟩,
+      sameTransport, sameProvenance, sameLedger⟩
 
 end BEDC.Derived.DyadicPrecisionUp
