@@ -1,11 +1,20 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ControlObservabilityUp
 
-open BEDC.FKernel.Hist
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 def ControlObservabilityFiniteTraceLedger
     (state transition output observationMatrix traceLedger provenance : BHist) : Prop :=
@@ -55,5 +64,160 @@ theorem ControlObservabilityFiniteTraceLedger_readback
                     intro _row source
                     exact source
                 }
+
+def ControlObservabilityFiniteObservationPacket [AskSetup] [PackageSetup]
+    (state transition output observationRows observationMatrix traceLedger provenance
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory output ∧
+    Cont output transition observationRows ∧ Cont observationRows state observationMatrix ∧
+      Cont observationMatrix provenance traceLedger ∧
+        Cont traceLedger provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ControlObservabilityFiniteObservationPacket_classifier_transport [AskSetup]
+    [PackageSetup]
+    {state state' transition transition' output output' observationRows observationRows'
+      observationMatrix observationMatrix' traceLedger traceLedger' provenance provenance'
+      endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservabilityFiniteObservationPacket state transition output observationRows
+        observationMatrix traceLedger provenance endpoint bundle pkg ->
+      hsame state state' ->
+        hsame transition transition' ->
+          hsame output output' ->
+            hsame provenance provenance' ->
+              Cont output' transition' observationRows' ->
+                Cont observationRows' state' observationMatrix' ->
+                  Cont observationMatrix' provenance' traceLedger' ->
+                    Cont traceLedger' provenance' endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        ControlObservabilityFiniteObservationPacket state' transition' output'
+                            observationRows' observationMatrix' traceLedger' provenance'
+                            endpoint' bundle pkg ∧
+                          hsame observationRows observationRows' ∧
+                            hsame observationMatrix observationMatrix' ∧
+                              hsame traceLedger traceLedger' ∧ hsame endpoint endpoint' := by
+  intro packet sameState sameTransition sameOutput sameProvenance observationRowsRow
+    observationMatrixRow traceLedgerRow endpointRow endpointPkg
+  have stateUnary : UnaryHistory state' :=
+    unary_transport packet.left sameState
+  have transitionUnary : UnaryHistory transition' :=
+    unary_transport packet.right.left sameTransition
+  have outputUnary : UnaryHistory output' :=
+    unary_transport packet.right.right.left sameOutput
+  have sameObservationRows : hsame observationRows observationRows' :=
+    cont_respects_hsame sameOutput sameTransition packet.right.right.right.left
+      observationRowsRow
+  have sameObservationMatrix : hsame observationMatrix observationMatrix' :=
+    cont_respects_hsame sameObservationRows sameState packet.right.right.right.right.left
+      observationMatrixRow
+  have sameTraceLedger : hsame traceLedger traceLedger' :=
+    cont_respects_hsame sameObservationMatrix sameProvenance
+      packet.right.right.right.right.right.left traceLedgerRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameTraceLedger sameProvenance
+      packet.right.right.right.right.right.right.left endpointRow
+  exact And.intro
+    (And.intro stateUnary
+      (And.intro transitionUnary
+        (And.intro outputUnary
+          (And.intro observationRowsRow
+            (And.intro observationMatrixRow
+              (And.intro traceLedgerRow
+                (And.intro endpointRow endpointPkg)))))))
+    (And.intro sameObservationRows
+      (And.intro sameObservationMatrix
+        (And.intro sameTraceLedger sameEndpoint)))
+
+def ControlObservabilityCarrierPacket [AskSetup] [PackageSetup]
+    (dynSystem matrix vecspace linmap state transition output observationStack traceLedger
+      provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory dynSystem ∧ UnaryHistory matrix ∧ UnaryHistory vecspace ∧
+    UnaryHistory linmap ∧ UnaryHistory state ∧ Cont transition output observationStack ∧
+      Cont observationStack provenance traceLedger ∧ Cont traceLedger provenance endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem ControlObservabilityCarrierPacket_obligation_surface [AskSetup] [PackageSetup]
+    {dynSystem matrix vecspace linmap state transition output observationStack traceLedger
+      provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservabilityCarrierPacket dynSystem matrix vecspace linmap state transition output
+        observationStack traceLedger provenance endpoint bundle pkg ->
+      UnaryHistory dynSystem ∧ UnaryHistory matrix ∧ UnaryHistory vecspace ∧
+        UnaryHistory linmap ∧ Cont transition output observationStack ∧
+          Cont observationStack provenance traceLedger ∧
+            Cont traceLedger provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  exact And.intro packet.left
+    (And.intro packet.right.left
+      (And.intro packet.right.right.left
+        (And.intro packet.right.right.right.left
+          (And.intro packet.right.right.right.right.right.left
+            (And.intro packet.right.right.right.right.right.right.left
+              (And.intro packet.right.right.right.right.right.right.right.left
+                packet.right.right.right.right.right.right.right.right))))))
+
+def ControlObservationPacket [AskSetup] [PackageSetup]
+    (state transition output observationMatrix traceLedger endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory state ∧ UnaryHistory transition ∧ UnaryHistory output ∧
+    UnaryHistory observationMatrix ∧ UnaryHistory traceLedger ∧ UnaryHistory endpoint ∧
+      hsame observationMatrix (append (append state transition) output) ∧
+        Cont observationMatrix traceLedger endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ControlObservationPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {state transition output observationMatrix traceLedger endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ControlObservationPacket state transition output observationMatrix traceLedger endpoint bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlObservationPacket state transition output observationMatrix traceLedger e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlObservationPacket state transition output observationMatrix traceLedger e
+                bundle pkg ∧ hsame row e)
+          (fun row : BHist =>
+            exists e : BHist,
+              ControlObservationPacket state transition output observationMatrix traceLedger e
+                bundle pkg ∧ hsame row e)
+          hsame ∧
+        hsame observationMatrix (append (append state transition) output) ∧
+          Cont observationMatrix traceLedger endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro endpoint (Exists.intro endpoint (And.intro packet (hsame_refl endpoint)))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          cases source with
+          | intro e data =>
+              exact Exists.intro e
+                (And.intro data.left (hsame_trans (hsame_symm same) data.right))
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  · exact
+      And.intro packet.right.right.right.right.right.right.left
+        (And.intro packet.right.right.right.right.right.right.right.left
+          packet.right.right.right.right.right.right.right.right)
 
 end BEDC.Derived.ControlObservabilityUp
