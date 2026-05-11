@@ -237,6 +237,7 @@ $\RealUp$ boundary is the restriction of
 $\DyadicPrecisionUp$ row. The restriction introduces no selected limit, quotient
 stream, host real equality, completeness datum, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFinitePacket\_precision\_window\_restriction}
 \begin{proof}
 Project the carrier tuple of $F$ from \autoref{def:fastcauchy-carrier}. The
 displayed $\DyadicPrecisionUp$ row selects a finite subwindow of the scheduled
@@ -280,6 +281,7 @@ $\RegSeqRatUp$ handoff and in the finite $\RealUp$ boundary. The coverage is a
 coverage of public finite rows only: it does not assert a selected limit,
 quotient stream, host real equality, completeness datum, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyUp.FastCauchyFinitePacket\_dyadicprecision\_window\_cofinality}
 \begin{proof}
 Project $F$ through \autoref{def:fastcauchy-carrier}. This exposes the
 scheduled observation rows, modulus thresholds, dyadic endpoints, late-pair
@@ -343,6 +345,43 @@ selected row of the common window appears in the restricted $\RegSeqRatUp$
 handoff, and the seal identifies the RegSeqRat and finite Real consumer rows
 with that same public finite surface. The excluded limit, quotient, equality,
 completeness, hidden-tail, and bridge data are not coordinates of this surface.
+\end{proof}
+
+\begin{theorem}[FastCauchy modulus synchronization common RegSeqRat window]
+\label{thm:fastcauchy-modulus-synchronization-common-regseqrat-window}
+Let $F$ and $G$ be accepted $\FastCauchyUp$ packets. Suppose that both packets
+display the same accepted $\DyadicPrecisionUp$ row $D$, classifier-compatible
+$\CauchyModulusUp$ threshold rows over the precision indices selected by $D$,
+and a common scheduled $\StreamNameUp$ observation window. Then the two packets
+determine one finite $\RegSeqRatUp/\RealUp$ consumer package.
+
+The visible rows of this package are exactly the shared precision row $D$, the
+shared $\StreamNameUp$ schedule, the shared $\DyadicRatCoreUp$ endpoint rows,
+the synchronized $\CauchyModulusUp$ threshold rows, the late-pair radius
+ledgers, the displayed $\hsame$ rows, the displayed $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows carried by the two
+accepted packets. The package has no coordinate for a selected limit, quotient
+stream, host real equality, completeness datum, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Project $F$ and $G$ through \autoref{def:fastcauchy-carrier}. The projections
+expose only the displayed precision, stream-window, modulus, dyadic endpoint,
+late-pair, transport, provenance, and local naming rows named in the statement.
+
+Apply \autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to each
+packet with the shared row $D$. Every requested precision index is therefore
+forced through the same displayed $\DyadicPrecisionUp$ window, so no consumer
+row can escape the shared schedule.
+
+Use \autoref{thm:fastcauchy-shared-window-regseqrat-handoff} on the two
+restricted handoffs. The classifier-compatible threshold rows and the common
+$\StreamNameUp$ window identify the same finite regular-sequence handoff rows,
+including the synchronized threshold rows and late-pair radius ledgers.
+
+Finally apply \autoref{thm:fastcauchy-public-regseqrat-real-seal}. The
+$\RegSeqRatUp$ handoff and the finite $\RealUp$ boundary read the same finite
+surface, and the seal leaves no coordinate for selected limits, quotient
+streams, host real equality, completeness data, or standard bridge rows.
 \end{proof}
 
 \begin{theorem}[FastCauchy standard RegSeqRat Real bridge]
@@ -459,6 +498,49 @@ does not create an additional public coordinate; it only routes the displayed
 RegSeqRat and Real consumers through the same explicit-rate window. Therefore
 every public seal read is exhausted by the listed rows, and the omitted limit,
 quotient, equality, completeness, tail, and bridge data remain unavailable.
+\end{proof}
+
+\begin{theorem}[FastCauchy uniform StreamName window extraction]
+\label{thm:fastcauchy-uniform-streamname-window-extraction}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be a displayed
+$\DyadicPrecisionUp$ row of its explicit-rate schedule. There is a finite
+schedule window, uniform for the displayed precision row $D$, whose visible
+surface consists exactly of the selected $\StreamNameUp$ observation rows,
+$\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ endpoint rows,
+late-pair radius ledger, $\hsame$ rows, $\Cont$ rows, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows.
+
+The induced $\RegSeqRatUp$ and $\RealUp$ consumer reads are precisely the
+restrictions of the public seal to that finite schedule window. The extraction
+has no coordinate for a selected limit, quotient stream, host real equality,
+completeness datum, hidden tail, or standard bridge object outside the
+displayed public rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of $F$ through \autoref{def:fastcauchy-carrier}. This
+exposes only scheduled observations, explicit modulus thresholds, dyadic
+endpoints, late-pair radius entries, componentwise transport, package
+provenance, and local naming rows.
+
+Apply \autoref{thm:fastcauchy-precision-window-restriction} to restrict the
+carrier along $D$. The restricted carrier keeps exactly the rows whose indices
+belong to the finite precision window.
+
+Use \autoref{thm:fastcauchy-dyadicprecision-window-cofinality} to choose the
+same schedule window for every consumer read at the displayed precision. This
+makes the selected $\StreamNameUp$ rows and the explicit modulus threshold
+uniform over the whole extracted surface.
+
+Next invoke \autoref{thm:fastcauchy-shared-window-regseqrat-handoff}. The
+$\RegSeqRatUp$ read is the handoff of the same selected schedule, endpoint,
+radius-ledger, transport, provenance, and naming rows.
+
+Finally apply
+\autoref{thm:fastcauchy-explicit-rate-seal-window-exhaustion}. The public
+$\RealUp$ seal is exhausted by that finite explicit-rate window, so the
+consumer reads are exactly restrictions of the public seal. The excluded
+limit, quotient, equality, completeness, tail, and bridge objects require
+coordinates absent from the extracted carrier.
 \end{proof}
 
 \closureat{FastCauchyUp}{obligationStr}
