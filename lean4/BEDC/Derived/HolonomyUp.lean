@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -24,6 +25,54 @@ def HolonomyTransportPacket [AskSetup] [PackageSetup]
       UnaryHistory compositionLedger ∧ UnaryHistory provenance ∧
         Cont connection loop endpoint ∧ Cont endpoint curvatureLedger compositionLedger ∧
           PkgSig probe provenance pkg
+
+theorem HolonomyTransportPacket_parallel_transport_stability [AskSetup] [PackageSetup]
+    {bundle bundle' connection connection' loop loop' endpoint endpoint' curvatureLedger
+      curvatureLedger' compositionLedger compositionLedger' provenance provenance' : BHist}
+    {probe : ProbeBundle ProbeName} {pkg : Pkg} :
+    HolonomyTransportPacket bundle connection loop endpoint curvatureLedger compositionLedger
+        provenance probe pkg ->
+      hsame bundle bundle' -> hsame connection connection' -> hsame loop loop' ->
+        hsame endpoint endpoint' -> hsame curvatureLedger curvatureLedger' ->
+          hsame compositionLedger compositionLedger' -> hsame provenance provenance' ->
+            PkgSig probe provenance' pkg ->
+              HolonomyTransportPacket bundle' connection' loop' endpoint' curvatureLedger'
+                  compositionLedger' provenance' probe pkg ∧
+                hsame endpoint endpoint' := by
+  intro packet sameBundle sameConnection sameLoop sameEndpoint sameCurvatureLedger
+    sameCompositionLedger sameProvenance pkgSig'
+  have bundleUnary' : UnaryHistory bundle' :=
+    unary_transport packet.left sameBundle
+  have connectionUnary' : UnaryHistory connection' :=
+    unary_transport packet.right.left sameConnection
+  have loopUnary' : UnaryHistory loop' :=
+    unary_transport packet.right.right.left sameLoop
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport packet.right.right.right.left sameEndpoint
+  have curvatureLedgerUnary' : UnaryHistory curvatureLedger' :=
+    unary_transport packet.right.right.right.right.left sameCurvatureLedger
+  have compositionLedgerUnary' : UnaryHistory compositionLedger' :=
+    unary_transport packet.right.right.right.right.right.left sameCompositionLedger
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport packet.right.right.right.right.right.right.left sameProvenance
+  have endpointRow' : Cont connection' loop' endpoint' :=
+    cont_hsame_transport sameConnection sameLoop sameEndpoint
+      packet.right.right.right.right.right.right.right.left
+  have compositionRow' : Cont endpoint' curvatureLedger' compositionLedger' :=
+    cont_hsame_transport sameEndpoint sameCurvatureLedger sameCompositionLedger
+      packet.right.right.right.right.right.right.right.right.left
+  exact
+    And.intro
+      (And.intro bundleUnary'
+        (And.intro connectionUnary'
+          (And.intro loopUnary'
+            (And.intro endpointUnary'
+              (And.intro curvatureLedgerUnary'
+                (And.intro compositionLedgerUnary'
+                  (And.intro provenanceUnary'
+                    (And.intro endpointRow'
+                      (And.intro compositionRow' pkgSig')))))))))
+      sameEndpoint
 
 theorem HolonomyTransportPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {bundle connection loop endpoint curvatureLedger compositionLedger provenance : BHist}
