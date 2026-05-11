@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-669 - StoneDuality consumer-facing export
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | StoneDuality consumer-facing export |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If a StoneDualityUp packet satisfies the Boolean-algebra source transport, Stone-space clopen classifier, clopen ledger, ultrafilter-free soundness, and continuous-map readback rows, then every downstream consumer reads exactly the LatticeUp, TopologyUp, finite BHist, hsame, Cont, Pkg, and NameCert rows and no ultrafilter, point-space, completed compact-Hausdorff, or choice-based Stone-space construction.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/239_stoneduality_namecert_construction.tex`
-
-Rationale:
-The candidate is a concrete implication over an existing concrete_instances chapter and lands directly on the chapter's stated public-closure boundary. It is not a marker-only or closurestatus task: it would be a theorem-level consumer export aggregating already displayed StoneDuality rows while preserving the explicit non-claims. Existing BOARD has a related StoneDuality bridge-surface target, but this candidate is narrower and different: it exports the ultrafilter-free finite-row consumer surface rather than adding a clopen-ultrafilter bridge. The input file is short and safe for a local theorem addition.
-
----
-
-
 ### B-670 - GoedelIncompleteness public consumer certificate
 
 | field | value |
@@ -66,4 +41,3 @@ Rationale:
 The candidate is a bounded public certificate theorem for an existing concrete_instances chapter, expressed as a single implication from the three displayed obligation rows to the exported consumer surface. It is distinct from the existing proof-checker, fixed-point, and undecidable-row obligations already present in the paper because it asks for the aggregate NameCert-facing export and explicit consumer boundary. No existing BOARD title closely matches GoedelIncompleteness, and the landing file is short enough for a local theorem block without line-cap risk.
 
 ---
-
