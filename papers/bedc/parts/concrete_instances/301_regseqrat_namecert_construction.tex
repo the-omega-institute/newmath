@@ -362,6 +362,46 @@ rows already locked by the common refinement, so the result is a finite BEDC
 surface equality and not a host-level equality or completion claim.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail seal diagonal-window coherence]
+\label{thm:regseqrat-tail-seal-diagonal-window-coherence}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $T_0$ and $T_1$ be
+certified unary tail shifts of $P$. Suppose the selected finite
+$\StreamNameUp$ windows for $T_0$ and $T_1$ admit a common refinement. Then the
+diagonal finite window supplied by
+\autoref{thm:regseqrat-streamname-dyadic-window-lock} is exactly the finite
+$\mathsf{BHist}$ surface consumed by
+\autoref{thm:regseqrat-real-seal-handoff} for both shifted reads.
+
+Consequently the two $\RealUp$ seal source surfaces agree on the displayed
+$\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint and radius ledgers,
+regularity rows, classifier rows, $\hsame$ comparisons, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and $\NameCert$ provenance. The coherence exports no
+quotient stream equality, host real equality, completion object, or
+completeness datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-shifted-tail-regularity-closure} to each
+certified tail shift. Each shifted read is thereby presented as an accepted
+finite regular-rational window carrying only the displayed schedule, dyadic,
+regularity, classifier, transport, package, and naming rows of $P$.
+
+Use \autoref{thm:regseqrat-refined-window-gluing} to glue the two selected
+windows along the common refinement. The overlap classifier is determined by
+\autoref{thm:regseqrat-common-refinement-classifier-determinacy}, so both
+restrictions read the same classifier and regularity rows on the refined
+window.
+
+Now apply \autoref{thm:regseqrat-streamname-dyadic-window-lock}. The lock
+identifies the shared $\StreamNameUp$ schedule rows with the same
+$\DyadicRatCoreUp$ endpoint and radius ledgers inside the diagonal finite
+packet.
+
+Finally use \autoref{thm:regseqrat-real-seal-handoff}. The seal consumes
+exactly that finite $\mathsf{BHist}$ surface, so the two shifted reads present
+the same displayed source rows to $\RealUp$ and still expose no quotient
+stream, host equality, completion object, or completeness datum.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
