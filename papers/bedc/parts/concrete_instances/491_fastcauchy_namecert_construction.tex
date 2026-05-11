@@ -216,6 +216,48 @@ dyadic endpoint, late-pair radius ledger, transport, provenance, or name rows,
 and no completeness coordinate or quotient stream is available.
 \end{proof}
 
+\begin{theorem}[FastCauchy precision window restriction]
+\label{thm:fastcauchy-precision-window-restriction}
+Let $F$ be an accepted $\FastCauchyUp$ packet and let $D$ be a displayed
+$\DyadicPrecisionUp$ finite precision row selecting a subwindow of the schedule
+of $F$. The packet restricted along $D$ exposes exactly the selected
+$\StreamNameUp$ observation rows, the selected $\CauchyModulusUp$ threshold
+row, the selected $\DyadicRatCoreUp$ endpoint rows, the late-pair radius ledger
+over the selected window, the componentwise $\hsame$ and $\Cont$ rows, the
+restricted $\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows attached to
+those selected coordinates.
+
+Its $\RegSeqRatUp$ handoff is the restriction of
+\autoref{thm:fastcauchy-regseqrat-handoff} to the selected window, and its
+$\RealUp$ boundary is the restriction of
+\autoref{thm:fastcauchy-real-boundary-window} to the same displayed
+$\DyadicPrecisionUp$ row. The restriction introduces no selected limit, quotient
+stream, host real equality, completeness datum, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of $F$ from \autoref{def:fastcauchy-carrier}. The
+displayed $\DyadicPrecisionUp$ row selects a finite subwindow of the scheduled
+$\StreamNameUp$ observations, so the restricted packet keeps precisely the
+matching threshold row, dyadic endpoint rows, late-pair radius entries,
+transport rows, provenance rows, and local naming rows.
+
+Use \autoref{thm:fastcauchy-modulus-transport} on the selected rows. The
+transport theorem keeps the modulus threshold, dyadic endpoints, $\hsame$
+comparisons, and $\Cont$ routes stable inside the same finite window, so the
+restriction has the same public coordinates as the parent packet, only with the
+schedule narrowed by $D$.
+
+Apply \autoref{thm:fastcauchy-public-regseqrat-real-seal} to the restricted
+surface. Its $\RegSeqRatUp$ handoff is therefore the selected part of
+\autoref{thm:fastcauchy-regseqrat-handoff}, and its $\RealUp$ boundary is the
+selected part of \autoref{thm:fastcauchy-real-boundary-window}.
+
+The seal theorem also rules out any extra coordinate for a selected limit,
+quotient stream, host real equality, completeness datum, or standard bridge.
+Thus the precision subwindow is only a finite public restriction of the
+displayed $\FastCauchyUp$ rows.
+\end{proof}
+
 \closureat{FastCauchyUp}{obligationStr}
 \closureat{FastCauchyUp}{scopedStr}
 \closureat{FastCauchyUp}{publicStr}
