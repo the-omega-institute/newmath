@@ -58,7 +58,8 @@ linear-transition, $\hsame$, $\Cont$, or $\mathsf{Pkg}$ rows of
 \autoref{def:vectorbundle-carrier}. There is no additional carrier case for a
 host vector bundle.
 \end{theorem}
-\leanchecked{BEDC.Derived.VectorBundleUp.VectorBundleFiniteCarrier\_obligation\_surface}
+\leanchecked{BEDC.Derived.VectorBundleUp.VectorBundleFiniteCarrier\_carrier\_obligation}
+\leanvariant{BEDC.Derived.VectorBundleUp.VectorBundleFiniteCarrier\_obligation\_surface}
 \begin{proof}
 Unpack the carrier definition. The first two coordinates are retained
 dependency rows from $\BundleUp$ and $\VecSpaceUp$. The remaining coordinates
@@ -112,6 +113,7 @@ provenance of \autoref{def:vectorbundle-carrier}. No host transition
 composition, ambient vector-bundle map, or unlogged fibre map may be invoked
 to build such a witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.VectorBundleUp.VectorBundleFiniteCarrier\_transition\_composition\_scope}
 \begin{proof}
 Project the transition coordinate of the carried packet. A composable
 transition readback first exposes the two overlap ledgers and the three
@@ -164,6 +166,7 @@ row, and the $\mathsf{Pkg}$ provenance row. The surface contains no host
 vector-bundle semantics beyond the displayed $\BundleUp$ and $\VecSpaceUp$
 dependency certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.VectorBundleUp.VectorBundleFiniteCarrier\_obligation\_surface}
 \begin{proof}
 First project the carrier by
 \autoref{thm:vectorbundle-carrier-obligation}. This accounts for the retained
@@ -182,3 +185,16 @@ transport and classifier stability over the same finite rows. Since all public
 fields have been projected from those rows or repacked into them, the
 certificate exposes no additional host vector-bundle semantics.
 \end{proof}
+
+\closureat{VectorBundleUp}{seedStr}
+
+\begin{closurestatus}{\VectorBundleUp}
+  \constructivestory{A vector-bundle packet is generated from displayed $\BundleUp$ and $\VecSpaceUp$ dependency rows, local trivialization histories, finite transition ledgers, componentwise classifier rows, continuation ledgers, and package provenance.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed boundary binds the displayed $\BundleUp$, $\VecSpaceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the vector-bundle packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host vector-bundle semantics, ambient transition functions, fibrewise smooth or topological structure, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked BEDC targets for the carrier, classifier, transition ledger, transport rows, and NameCert surface.}
+\end{closurestatus}
