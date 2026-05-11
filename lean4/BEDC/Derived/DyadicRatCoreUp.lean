@@ -376,6 +376,73 @@ theorem DyadicRatCoreCarrier_common_exponent_window_exactness
           (And.intro classifierUnary
             (And.intro scaleRow (And.intro scaleRow' classifierRow))))))
 
+theorem DyadicRatCoreCarrier_distance_window_transport_closure
+    {m0 e0 l0 p0 m1 e1 l1 p1 m0' e0' l0' p0' m1' e1' l1' p1' common common'
+      scale0 scale0' scale1 scale1' left left' right right' diff diff' abs abs' window
+      window' : BHist} :
+    DyadicRatCoreCarrier m0 e0 l0 p0 -> DyadicRatCoreCarrier m1 e1 l1 p1 ->
+      hsame m0 m0' -> hsame e0 e0' -> hsame l0 l0' -> hsame p0 p0' ->
+        hsame m1 m1' -> hsame e1 e1' -> hsame l1 l1' -> hsame p1 p1' ->
+          PositiveUnaryDenominator common -> hsame common common' ->
+            Cont e0 common scale0 -> Cont e0' common' scale0' ->
+              Cont e1 common scale1 -> Cont e1' common' scale1' ->
+                Cont m0 scale0 left -> Cont m0' scale0' left' ->
+                  Cont m1 scale1 right -> Cont m1' scale1' right' ->
+                    Cont left right diff -> Cont left' right' diff' ->
+                      Cont diff common abs -> Cont diff' common' abs' ->
+                        Cont abs p0 window -> Cont abs' p0' window' ->
+                          hsame window window' ∧ UnaryHistory scale0' ∧
+                            UnaryHistory scale1' ∧ UnaryHistory diff' ∧ UnaryHistory abs' := by
+  intro carrier0 carrier1 sameM0 sameE0 _sameL0 sameP0 sameM1 sameE1 _sameL1 _sameP1
+  intro commonPositive sameCommon scale0Row scale0Row' scale1Row scale1Row'
+  intro leftRow leftRow' rightRow rightRow' diffRow diffRow' absRow absRow' windowRow
+  intro windowRow'
+  have e0Unary' : UnaryHistory e0' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (PositiveUnaryDenominator_hsame_transport sameE0 carrier0.right.left)).left
+  have e1Unary' : UnaryHistory e1' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (PositiveUnaryDenominator_hsame_transport sameE1 carrier1.right.left)).left
+  have commonUnary' : UnaryHistory common' :=
+    (PositiveUnaryDenominator_unary_and_nonempty
+      (PositiveUnaryDenominator_hsame_transport sameCommon commonPositive)).left
+  have sameScale0 : hsame scale0 scale0' :=
+    cont_respects_hsame sameE0 sameCommon scale0Row scale0Row'
+  have sameScale1 : hsame scale1 scale1' :=
+    cont_respects_hsame sameE1 sameCommon scale1Row scale1Row'
+  have scale0Unary' : UnaryHistory scale0' :=
+    unary_cont_closed e0Unary' commonUnary' scale0Row'
+  have scale1Unary' : UnaryHistory scale1' :=
+    unary_cont_closed e1Unary' commonUnary' scale1Row'
+  have sameLeft : hsame left left' :=
+    cont_respects_hsame sameM0 sameScale0 leftRow leftRow'
+  have sameRight : hsame right right' :=
+    cont_respects_hsame sameM1 sameScale1 rightRow rightRow'
+  have sameDiff : hsame diff diff' :=
+    cont_respects_hsame sameLeft sameRight diffRow diffRow'
+  have diffUnary' : UnaryHistory diff' :=
+    unary_cont_closed
+      (unary_cont_closed
+        ((PositiveUnaryDenominator_unary_and_nonempty
+          (RatHistoryCarrier_iff_positive_denominator.mp
+            (RatHistoryCarrier_hsame_transport sameM0 carrier0.left))).left)
+        scale0Unary' leftRow')
+      (unary_cont_closed
+        ((PositiveUnaryDenominator_unary_and_nonempty
+          (RatHistoryCarrier_iff_positive_denominator.mp
+            (RatHistoryCarrier_hsame_transport sameM1 carrier1.left))).left)
+        scale1Unary' rightRow')
+      diffRow'
+  have sameAbs : hsame abs abs' :=
+    cont_respects_hsame sameDiff sameCommon absRow absRow'
+  have absUnary' : UnaryHistory abs' :=
+    unary_cont_closed diffUnary' commonUnary' absRow'
+  have sameWindow : hsame window window' :=
+    cont_respects_hsame sameAbs sameP0 windowRow windowRow'
+  exact And.intro sameWindow
+    (And.intro scale0Unary'
+      (And.intro scale1Unary' (And.intro diffUnary' absUnary')))
+
 theorem DyadicRatCoreCarrier_monotone_radius_obligation
     {mantissa exponent ledger provenance tail refinedExponent refinedLedger : BHist} :
     DyadicRatCoreCarrier mantissa exponent ledger provenance ->
