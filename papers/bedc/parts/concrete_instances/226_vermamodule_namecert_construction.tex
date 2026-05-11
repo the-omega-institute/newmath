@@ -6,5 +6,78 @@ The Verma-module interface $\VermaModuleUp$ packages, for a semisimple Lie algeb
 \section{Carrier definition}
 \label{sec:vermamodule-carrier}
 
+\begin{theorem}[Verma-module finite carrier obligation]
+\label{thm:vermamodule-carrier-obligation}
+A $\VermaModuleUp$ packet is a finite $\mathsf{BHist}$ row package containing a
+displayed $\LieAlgebraUp$ source row, $\RootSystemUp$ positive-root rows, a
+highest-weight row, Borel action rows, induced-module generator rows, and
+$\mathsf{Pkg}$ provenance naming the displayed Lie-algebra and root-system
+sources. The packet contains no host quotient module, no selected PBW basis,
+and no ambient category of modules beyond these finite rows.
+\end{theorem}
+\begin{proof}
+Unpack the packet as a finite BEDC history. The Lie-algebra source, positive
+root data, highest weight, Borel action, induced generator, and provenance
+coordinates are the displayed rows of that history package.
+
+Each consumer-visible coordinate is obtained by projecting one of those rows or
+transporting it along the displayed $\hsame$ and $\Cont$ data. Since the packet
+has no coordinate for a host quotient module or selected basis, neither object
+is introduced by the carrier obligation.
+\end{proof}
+
 \section{The certificate}
 \label{sec:vermamodule-certificate}
+
+\begin{theorem}[Verma-module highest-weight ledger]
+\label{thm:vermamodule-highest-weight-ledger}
+Every accepted $\VermaModuleUp$ packet exposes exactly the highest-weight row,
+lowering-operator rows from the displayed positive-root data, Borel action
+rows, $\hsame$ comparison rows, $\Cont$ provenance rows, and $\mathsf{Pkg}$
+dependency rows consumed by downstream representation certificates. It exports
+no quotient by a maximal submodule, no irreducible-module classifier, and no
+chosen basis for weight spaces.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to the rows named in
+\autoref{thm:vermamodule-carrier-obligation}. The highest-weight coordinate,
+lowering-operator coordinates, Borel action, transport, continuation, and
+package provenance are all finite $\mathsf{BHist}$ entries.
+
+Downstream representation certificates can only read through those finite
+entries. Componentwise transport preserves the highest-weight and action rows,
+and continuation rows record the finite lowering operations already present in
+the packet.
+
+The carrier contains no row for a maximal-submodule quotient, irreducibility
+classifier, or basis choice. The accepted ledger therefore exhausts exactly the
+displayed highest-weight surface.
+\end{proof}
+
+\begin{theorem}[Verma-module NameCert obligation surface]
+\label{thm:vermamodule-namecert-obligation-surface}
+The carrier obligation of \autoref{thm:vermamodule-carrier-obligation}, the
+componentwise classifier transport over the displayed highest-weight and action
+rows, the highest-weight ledger of
+\autoref{thm:vermamodule-highest-weight-ledger}, and the source dependencies on
+$\NameCert_{\LieAlgebraUp}$ and $\NameCert_{\RootSystemUp}$ provide the local
+$\NameCert_{\VermaModuleUp}$ obligation surface. The surface is entirely
+$\mathsf{BHist}$-anchored and does not introduce a host quotient module or a
+choice of basis.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier obligation. It supplies the source rows,
+positive-root rows, highest-weight row, Borel action rows, induced-generator
+rows, and package provenance needed for the local naming surface.
+
+Transport the displayed classifier componentwise along $\hsame$. The
+highest-weight and action rows move through the same finite coordinates, while
+the $\Cont$ rows record only the lowering operations already carried by the
+packet.
+
+Finally apply the highest-weight ledger to identify the exact downstream
+readback surface. Together with the displayed $\LieAlgebraUp$ and
+$\RootSystemUp$ provenance, these rows provide the local
+$\NameCert_{\VermaModuleUp}$ obligation surface without adding a quotient
+module, irreducible classifier, or basis choice.
+\end{proof}
