@@ -18,30 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-699 - KKT finite-packet standard bridge
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | KKT finite-packet standard bridge |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-If a standard KKT presentation is admitted solely through the finite primal, multiplier, residual, stationarity, feasibility, complementary-slackness, hsame, Cont, Pkg, NameCert, and dependency rows exported by KKTUp, then it roundtrips through the public KKTUp packet without adding Slater, differentiability, solver, or host minimization semantics.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex`
-
-Rationale:
-KKTUp already has row obligations, transport, complementarity exactness, downstream boundary, and public finite-packet export, while its closure block names the standard bridge as the next paper obligation. The proposed theorem is a bounded bridge target over the displayed finite packet, not a request for nonlinear optimization semantics, and it is not already covered by the public export theorem because it asks for the standard-presentation roundtrip boundary.
-
----
-
 ### B-700 - GeomQuantization public-surface standard bridge
 
 | field | value |
