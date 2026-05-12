@@ -161,6 +161,43 @@ the common-window classifier stability is exhausted by the displayed finite
 packet rows.
 \end{proof}
 
+\begin{theorem}[RationalStream common-denominator window exhaustion]
+\label{thm:rationalstream-common-denominator-window-exhaustion}
+Any finite consumer read comparing scheduled rational observations from two
+accepted $\RationalStreamUp$ packets can be refined to one displayed unary
+window and one displayed common-denominator $\RatUp$ comparison ledger over
+the pointwise carrier and classifier rows. The refinement uses only the
+stored $\mathsf{UnaryHistory}$ indices, the two $\StreamNameUp$ schedules,
+the pointwise rational carrier rows $q$, the pointwise classifier rows
+$\rho$, and the $\hsame$ and $\Cont$ transport routes already present in the
+packets. It introduces no quotient Cauchy classes, selected limits, or
+completed $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Start with the consumer read and project the two accepted carrier packets of
+\autoref{def:rational-stream-carrier}. The StreamName schedule boundary
+\autoref{thm:rational-stream-streamname-schedule-boundary} identifies the
+finite unary indices on which the compared observations are read.
+
+Apply the common-window classifier stability theorem
+\autoref{thm:rational-stream-common-window-classifier-stability}. It refines
+the two schedule reads to a single displayed finite unary window and transports
+the pointwise rows along the stored $\hsame$ witnesses.
+
+On that window, use the pointwise RatUp obligations of
+\autoref{thm:rational-stream-pointwise-rat-obligations}. Each scheduled
+comparison is a rational comparison between displayed $\RatUp$ rows, so the
+finite list of denominators read by the consumer can be represented by one
+common-denominator comparison ledger inside the same pointwise carrier and
+classifier surface.
+
+The ledger is routed through the displayed $\Cont$ rows and repacked with the
+same package and local naming data. Since every row used in the construction
+is already a finite packet coordinate, the refinement has no coordinate from
+which a quotient Cauchy class, selected limit, or completed $\RealUp$ equality
+could be obtained.
+\end{proof}
+
 \begin{theorem}[RationalStream schedule transport exactness]
 \label{thm:rational-stream-schedule-transport-exactness}
 Transporting an accepted $\RationalStreamUp$ packet by the stored $\hsame$
@@ -303,16 +340,58 @@ equality proof, the package records exactly the obligation surface needed by
 $\RegSeqRatUp$ and $\RealUp$.
 \end{proof}
 
+\begin{theorem}[RationalStream scoped boundary]
+\label{thm:rational-stream-scoped-boundary}
+The carrier of \autoref{def:rational-stream-carrier}, pointwise $\RatUp$
+obligations of \autoref{thm:rational-stream-pointwise-rat-obligations},
+$\StreamNameUp$ schedule boundary of
+\autoref{thm:rational-stream-streamname-schedule-boundary}, $\RegSeqRatUp$
+handoff of \autoref{thm:rational-stream-regseqrat-handoff}, classifier
+stability of \autoref{thm:rational-stream-pointwise-classifier-laws}, exact
+schedule transport of
+\autoref{thm:rational-stream-finite-window-carrier-transport}, and ledger
+completeness of \autoref{thm:rational-stream-regseqrat-ledger-completeness}
+assemble a scoped finite rational-stream packet.
+
+This packet is over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\StreamNameUp$, and
+$\RegSeqRatUp$. It exports no quotient Cauchy class, selected limit, $\RealUp$
+completeness row, trichotomy, or bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier and pointwise rational rows from
+\autoref{def:rational-stream-carrier} and
+\autoref{thm:rational-stream-pointwise-rat-obligations}. These projections give
+the finite unary index rows, displayed rational data, and classifier coordinates.
+
+Next use the StreamName schedule boundary and exact carrier transport. The
+theorems \autoref{thm:rational-stream-streamname-schedule-boundary} and
+\autoref{thm:rational-stream-finite-window-carrier-transport} keep the finite
+schedule and transported rows inside the displayed $\mathsf{UnaryHistory}$,
+$\hsame$, and $\Cont$ surface.
+
+Finally apply \autoref{thm:rational-stream-regseqrat-handoff},
+\autoref{thm:rational-stream-pointwise-classifier-laws}, and
+\autoref{thm:rational-stream-regseqrat-ledger-completeness}. They identify the
+regular-sequence handoff, classifier stability, and complete consumer ledger
+over the displayed package and naming rows.
+
+Repacking these rows gives the scoped finite boundary. Since the cited packet
+coordinates contain no quotient Cauchy class, selected limit, $\RealUp$
+completeness row, trichotomy, or bridge, none is exported by the handoff surface.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
 \closureat{RationalStreamUp}{obligationStr}
+\closureat{RationalStreamUp}{scopedStr}
 
 \begin{closurestatus}{\RationalStreamUp}
   \constructivestory{A rational stream packet is represented by finite unary index rows, a StreamName schedule, pointwise RatUp carrier and classifier rows, and visible transport, continuation, package, and NameCert provenance on the path to RegSeqRat and the RealUp seal.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:rational-stream-regseqrat-obligation-package} binds the finite carrier, pointwise classifier laws, finite-window transport, schedule boundary, finite ledger, and regular-sequence handoff consumed by $\RegSeqRatUp$ and $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:rational-stream-scoped-boundary} binds the finite carrier, pointwise classifier laws, finite-window transport, schedule boundary, finite ledger, regular-sequence handoff, and displayed $\mathsf{BHist}$, $\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies consumed by $\RegSeqRatUp$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient Cauchy classes, selected limits, RealUp completeness, trichotomy, or standard bridges.}
-  \upgradepath{Scoped closure requires binding these obligations to explicit $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies.}
+  \upgradepath{Public closure requires a consumer-facing export theorem for the same finite rational-stream handoff packet.}
 \end{closurestatus}

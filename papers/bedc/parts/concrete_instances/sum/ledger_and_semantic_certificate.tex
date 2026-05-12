@@ -700,14 +700,30 @@ $\SumUp$ is licensed as a derived disjoint sum, not as a primitive coproduct.
 \end{corollary}
 
 \closureat{SumUp}{publicStr}[BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate]
+\closureat{SumUp}{bridgedStr}[BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate]
+
+\begin{theorem}[Sum public tagged-payload standard bridge]\label{thm:sum-public-tagged-payload-standard-bridge}
+For source carriers $Left,Right : \mathsf{BHist}\to\mathsf{Prop}$ equipped with source classifiers and source $\NameCert$ rows, the public $\SumUp$ semantic certificate presents exactly the standard finite disjoint-sum interface with two visible injections. A public endpoint is either an $\Ezero$-tagged left payload or an $\Eone$-tagged right payload. Endpoints with the same tag compare by the corresponding source classifier, and endpoints with mixed tags are separated by constructor no-confusion.
+
+The exported ledger surface is precisely the visible tag, payload readback, raw-visible branch exactness, and endpoint exactness already recorded by the $\SumUp$ rows. No consumer receives an additional coproduct eliminator, hidden branch coordinate, host disjoint-union type, or classifier other than the branchwise tagged classifier.
+\end{theorem}
+\begin{proof}
+The public certificate is the one supplied by \autoref{thm:concrete-sum-namecert}. Its carrier consists of histories built by the two visible constructors, so constructor inversion gives the two alternatives $\Ezero(l)$ and $\Eone(r)$ and gives no third endpoint form.
+
+Within a left--left comparison, the tagged classifier in \autoref{thm:concrete-sum-namecert} projects to the left source classifier; within a right--right comparison, it projects to the right source classifier. The branch exactness statement in \autoref{thm:sum-ledger-branch-exactness-iff} identifies those projections with the raw visible branch rows exported by the ledger.
+
+For mixed tags, \autoref{thm:sum-ledger-visible-tag-separation} applies to the visible ledger row and reduces equality or classifier compatibility of opposite tags to constructor no-confusion. Thus a left endpoint and a right endpoint remain separated in the public reading.
+
+Finally, \autoref{thm:sum-ledger-visible-payload-readback} recovers the displayed source payload from each visible endpoint, and \autoref{thm:sum-ledger-chain-endpoint-exactness} states that the endpoint readback is exact along the public chain. These rows are exactly the finite two-injection interface described above, so the tagged-payload certificate is a paper bridge to the standard disjoint-sum reading.
+\end{proof}
 
 \begin{closurestatus}{\SumUp}
   \constructivestory{A sum value is made by choosing one side and marking that choice directly on the payload: a left payload $l$ from $L$ becomes $\Ezero(l)$, while a right payload $r$ from $R$ becomes $\Eone(r)$. Those two tags are part of the history itself, so the classifier first checks that the tags land on the same branch and only then compares the payloads by the left or right source classifier; a b0-tagged left value and a b1-tagged right value never meet. The same tagged-history predicate is the source, the pattern records the left-versus-right split, the two tag forms, and the no-confusion rows, and the ledger keeps each visible sum history aligned with the raw tagged payload that produced it. Because history-equality and the two source-side classifiers are equivalences, the injected witnesses supply the carrier, the branchwise classifier is reflexive, symmetric, and transitive, and classifier-recognized representatives stay inside the same tagged carrier. A history $h$ lies in the signature gap of a $\SumUp$ token $p$ when the source-domain accepts the tagged history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; after the tags are inspected, $h$ is either a left injection whose payload matches the left side encoded by $p$, or a right injection whose payload matches the right side encoded by $p$. The chapter registers this tagged-payload construction under the name $\SumUp$; disjoint union is the same b0/b1 choice used at the kernel level, now carrying a payload, with no separate coproduct type, eliminator, or host disjoint-union construct introduced.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The public paper scope binds the tagged sum semantic certificate, selected injection tag, left and right branch classifier exactness, source ledger, visible-history descent, and licensed public surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{Full sum or coproduct theory: eliminators into arbitrary certified targets, dependent sums, categorical coproduct universal property, distributivity laws, or generic case recursion.}
-  \upgradepath{A bridge grade requires a standard bridge over the public left and right tagged-payload surface.}
+  \upgradepath{Bridge-checked status requires a Lean standard-bridge theorem for the same public tagged-payload surface.}
 \end{closurestatus}
