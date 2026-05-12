@@ -48,4 +48,43 @@ theorem ValidatedNumericsReadbackPacket_real_readback_soundness [AskSetup] [Pack
   exact ⟨finiteReadUnary, sealRowUnary, modulusPrecision, observationReadback, intervalContainment,
     namePkg, sealPkg⟩
 
+theorem ValidatedNumericsReadbackPacket_precision_refinement_containment [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback containment provenance name refinedPrecision
+      refinedObservation refinedContainment refinedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory interval ->
+      UnaryHistory precision ->
+        UnaryHistory modulus ->
+          UnaryHistory observation ->
+            UnaryHistory readback ->
+              UnaryHistory containment ->
+                UnaryHistory provenance ->
+                  UnaryHistory name ->
+                    hsame precision refinedPrecision ->
+                      hsame observation refinedObservation ->
+                        Cont modulus refinedPrecision refinedObservation ->
+                          Cont refinedObservation readback refinedRead ->
+                            Cont interval containment refinedContainment ->
+                              PkgSig bundle refinedContainment pkg ->
+                                UnaryHistory refinedPrecision ∧ UnaryHistory refinedObservation ∧
+                                  UnaryHistory refinedRead ∧ UnaryHistory refinedContainment ∧
+                                    Cont modulus refinedPrecision refinedObservation ∧
+                                      Cont refinedObservation readback refinedRead ∧
+                                        Cont interval containment refinedContainment ∧
+                                          PkgSig bundle refinedContainment pkg := by
+  intro intervalUnary precisionUnary _modulusUnary observationUnary readbackUnary containmentUnary
+  intro _provenanceUnary _nameUnary samePrecision sameObservation modulusPrecisionObservation
+  intro observationReadback intervalContainment containmentPkg
+  have refinedPrecisionUnary : UnaryHistory refinedPrecision :=
+    unary_transport precisionUnary samePrecision
+  have refinedObservationUnary : UnaryHistory refinedObservation :=
+    unary_transport observationUnary sameObservation
+  have refinedReadUnary : UnaryHistory refinedRead :=
+    unary_cont_closed refinedObservationUnary readbackUnary observationReadback
+  have refinedContainmentUnary : UnaryHistory refinedContainment :=
+    unary_cont_closed intervalUnary containmentUnary intervalContainment
+  exact
+    ⟨refinedPrecisionUnary, refinedObservationUnary, refinedReadUnary, refinedContainmentUnary,
+      modulusPrecisionObservation, observationReadback, intervalContainment, containmentPkg⟩
+
 end BEDC.Derived.ValidatedNumericsUp
