@@ -339,22 +339,24 @@ stream, host equality, analytic convergence theorem, or selected limit, the
 ledger cannot expose any of them.
 \end{proof}
 
-\begin{theorem}[RealLimit primitive scope binding]
-\label{thm:reallimit-primitive-scope-binding}
-The classifier, stability, readback, and ledger obligations of
+\begin{theorem}[RealLimit scoped kernel interface]
+\label{thm:reallimit-scoped-kernel-interface}
+Every accepted $\RealLimitUp$ packet whose readback, classifier, stability, and
+ledger rows satisfy
 \autoref{thm:reallimit-classifier-obligation},
 \autoref{thm:reallimit-stability-obligation},
 \autoref{thm:reallimit-readback-obligation}, and
-\autoref{thm:reallimit-ledger-obligation} are scoped exactly by the
-$\mathsf{BHist}$ carrier of \autoref{def:reallimit-bhist-carrier}, the
-componentwise $\hsame$ rows, the displayed $\Cont$ routes, the $\Pkg$
-provenance row, the local $\NameCert_{\RealLimitUp}$ row, and the downstream
-$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ interfaces.
+\autoref{thm:reallimit-ledger-obligation} has its real-facing seal read wholly
+scoped by the displayed $\mathsf{BHist}$ packet, componentwise $\hsame$
+transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance,
+$\NameCert$ ledger, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ endpoint row.
 
 Within that scope the $\RealUp$ endpoint is only a sealed consumer row reached
 through the handoff of
 \autoref{thm:reallimit-regseqrat-streamname-handoff}. The binding does not
-claim completed real equality, quotient streams, or selected limits.
+export a completed real, quotient stream, host equality, analytic convergence
+theorem, or selected limiting object.
 \end{theorem}
 \begin{proof}
 Project an accepted packet as $R=(S,Q,E,D,H,C,P,N)$ from
@@ -373,21 +375,23 @@ factors every endpoint read through the scheduled $\RegSeqRatUp$ and
 $\DyadicRatCoreUp$ rows; and the ledger obligation is exhausted by $P$ and
 $N$.
 
-Since no coordinate of the carrier stores completed real equality, quotient
-streams, or selected limits, none of the four obligations can acquire such an
-object through the primitive scope binding.
+Since no coordinate of the carrier stores a completed real, quotient stream,
+host equality, analytic convergence theorem, or selected limiting object, none
+of the four obligations can acquire such an object through the scoped kernel
+interface.
 \end{proof}
 
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
+\closureat{RealLimitUp}{scopedStr}
 
 \begin{closurestatus}{\RealLimitUp}
   \constructivestory{A finite limit-name packet records a stream schedule, regular rational source stream, proposed real seal endpoint, dyadic tolerance windows, transport rows, continuation routes, package provenance, and local naming ledger.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:reallimit-classifier-obligation}, \autoref{thm:reallimit-stability-obligation}, \autoref{thm:reallimit-readback-obligation}, and \autoref{thm:reallimit-ledger-obligation} bind the classifier, stability, readback, and ledger obligations to the finite carrier of \autoref{def:reallimit-bhist-carrier} and the handoff of \autoref{thm:reallimit-regseqrat-streamname-handoff}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:reallimit-scoped-kernel-interface} binds the classifier, stability, readback, and ledger obligations to the finite carrier of \autoref{def:reallimit-bhist-carrier}, componentwise $\hsame$ transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance, the $\NameCert$ ledger, and the downstream $\RealUp$ endpoint row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, a selected limit object, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the same rows to exact BEDC primitives and downstream $\RealUp$ handoff scope.}
+  \upgradepath{Formal verification requires a Lean target for the scoped kernel interface and later bridge checking for the downstream $\RealUp$ handoff.}
 \end{closurestatus}
