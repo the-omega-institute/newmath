@@ -31,6 +31,7 @@ Transport follows the same finite spine. Move each key and value through its $\h
 \label{thm:finitemap-lookup-option-exactness}
 For every accepted $\FiniteMapUp$ source and every displayed query key, lookup returns exactly one $\OptionUp$ witness. It returns $\mathsf{none}$ precisely when no displayed key row in the finite spine matches the query classifier. It returns $\mathsf{some}(v)$ precisely when the first displayed key row matching the query classifier has value row $v$, and every later matching key row is recorded only in the duplicate-key ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_lookup\_option\_exactness}
 \begin{proof}
 Proceed by induction on the displayed $\ListUp$ spine. For the empty spine, there is no displayed key row, so the lookup classifier is the single $\mathsf{none}$ witness and the ledger is empty.
 
@@ -65,14 +66,15 @@ These five rows are closed under consumer readback because every consumer-visibl
 \end{proof}
 
 \closureat{FiniteMapUp}{seedStr}
+\closureat{FiniteMapUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteMapUp}
   \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:finitemap-namecert-source}, \autoref{thm:finitemap-carrier-classifier-obligations}, \autoref{thm:finitemap-lookup-option-exactness}, \autoref{thm:finitemap-ledger-transport}, and \autoref{thm:finitemap-namecert-obligation-surface} bind the finite association-list source, lookup classifier, option exactness, transport, and duplicate-key ledger rows over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
-  \upgradepath{To move beyond seed closure, encode the association-list carrier and prove lookup exactness in the BEDC.Derived.FiniteMapUp namespace.}
+  \upgradepath{Scoped closure requires binding the finite association-list carrier, Option lookup exactness, duplicate-key ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows to the exact BEDC primitive scope.}
 \end{closurestatus}
