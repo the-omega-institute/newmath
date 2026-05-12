@@ -258,6 +258,9 @@ import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
+import BEDC.Derived.RegularityModulusUp
+import BEDC.Derived.BitVectorUp
+import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
