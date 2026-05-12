@@ -718,6 +718,33 @@ step, and the seal normal form. Hence each consumer coordinate is one of the
 listed finite rows.
 \end{proof}
 
+\begin{theorem}[RationalStream tail-window determinacy]
+\label{thm:rational-stream-tail-window-determinacy}
+Two $\RationalStreamUp$ packets with the same finite unary schedule,
+common-denominator window, pointwise $\RatUp$ classifier rows, and
+$\hsame$-transported tail selector determine the same finite $\RegSeqRatUp$ and
+$\RealUp$ seal consumer package on that window.
+
+The conclusion is only the finite tail-window package: it exports no quotient
+Cauchy class, selected limit, completed $\RealUp$ equality, trichotomy row, or
+host standard stream equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rational-stream-common-window-classifier-stability} to place
+the classifier readings on the shared finite window. Then use
+\autoref{thm:rationalstream-common-denominator-window-exhaustion} for the common
+denominator rows.
+
+Transport the tail selector with
+\autoref{thm:rational-stream-finite-window-carrier-transport}. The transported
+carrier exposes the same schedule, classifier, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows to every finite consumer.
+
+Finally apply \autoref{thm:rational-stream-real-seal-common-window-normal-form}
+and \autoref{thm:rational-stream-finite-window-seal-determinacy}. They repack
+the shared tail-window read as one $\RegSeqRatUp$ and $\RealUp$ package.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
 \closureat{RationalStreamUp}{obligationStr}
 \closureat{RationalStreamUp}{scopedStr}
