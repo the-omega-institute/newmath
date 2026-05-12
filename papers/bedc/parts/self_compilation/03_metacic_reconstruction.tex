@@ -111,6 +111,27 @@ checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
 formalization: its checked claims have the same foundational strength as the
 host that checks them, not a stronger one.
 
+\subsection{Fragments and Limitations}\label{subsec:reconstruction-fragments-limitations}
+
+\texttt{BEDC.MetaCIC} represents a minimal CIC syntactic fragment. The included
+term grammar has variables, a single sort, dependent function types, lambda
+abstraction, and application. Binders use de Bruijn indices rather than names,
+and the substrate is shift-aware: context lookup, binder descent, and
+substitution all account for the index movement caused by crossing binders.
+
+Several host-CIC features are outside this represented fragment. There is no
+universe hierarchy or universe polymorphism: the syntax has one sort and no
+\texttt{Type i} annotation. There are no standalone inductive types beyond
+Pi and sort, so objects such as natural numbers or lists are not represented
+as primitive inductive families in this layer. There is also no represented
+equality type, no inference hint or coercion layer, and no eta-conversion:
+\texttt{BetaStep} contains beta contraction and beta congruence only.
+
+The design intent is correspondingly narrow. The fragment is large enough to
+demonstrate the self-compilation idea as syntax, typing, reduction, and binder
+mechanics internalized as BEDC data and predicates. It is not a full host-CIC
+model and does not aim to cover Lean's complete kernel language.
+
 \subsection{Typing Rules}\label{subsec:reconstruction-typing-rules}
 
 The represented typing judgment $\mathrm{HasType}\ \Gamma\ t\ A$ is generated
