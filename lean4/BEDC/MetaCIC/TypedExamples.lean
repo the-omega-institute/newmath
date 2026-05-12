@@ -692,6 +692,41 @@ theorem app_pi_ctx_to_sort :
       (Term.pi Term.sort Term.sort) rfl)
     (HasType.sortRule [Term.pi Term.sort Term.sort])
 
+theorem app_two_pi_vars :
+    HasType [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+      (Term.app (Term.var 0) Term.sort)
+      Term.sort ∧
+    HasType [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+      (Term.app (Term.var 1) Term.sort)
+      Term.sort := by
+  constructor
+  · exact HasType.appRule
+      [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+      (Term.var 0)
+      Term.sort
+      Term.sort
+      Term.sort
+      (HasType.varRule
+        [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+        0
+        (Term.pi Term.sort Term.sort)
+        rfl)
+      (HasType.sortRule
+        [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort])
+  · exact HasType.appRule
+      [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+      (Term.var 1)
+      Term.sort
+      Term.sort
+      Term.sort
+      (HasType.varRule
+        [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+        1
+        (Term.pi Term.sort Term.sort)
+        rfl)
+      (HasType.sortRule
+        [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort])
+
 theorem app_pi_deep_var :
     HasType [Term.sort, Term.sort, Term.sort, Term.pi Term.sort Term.sort]
       (Term.app (Term.var 3) Term.sort)
@@ -766,6 +801,27 @@ theorem apply_function_arg_in_value_ctx :
         1
         (Term.var 2)
         rfl)
+
+theorem dep_pi_app :
+    HasType [Term.pi Term.sort (Term.var 2), Term.sort]
+      (Term.app (Term.var 0) (Term.var 1))
+      (Term.var 1) := by
+  exact HasType.appRule
+    [Term.pi Term.sort (Term.var 2), Term.sort]
+    (Term.var 0)
+    (Term.var 1)
+    Term.sort
+    (Term.var 2)
+    (HasType.varRule
+      [Term.pi Term.sort (Term.var 2), Term.sort]
+      0
+      (Term.pi Term.sort (Term.var 2))
+      rfl)
+    (HasType.varRule
+      [Term.pi Term.sort (Term.var 2), Term.sort]
+      1
+      Term.sort
+      rfl)
 
 theorem apply_function_arg :
     HasType []
