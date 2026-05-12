@@ -326,15 +326,104 @@ therefore accounts for every listed consumer without any excluded host
 principle.
 \end{proof}
 
+\begin{theorem}[DyadicCover finite-window mesh incidence package]
+\label{thm:dyadic-cover-finite-window-mesh-incidence-package}
+Let
+$$
+D=(K,R,I,Q,W,H,C,P,N)
+$$
+be an accepted $\DyadicCoverUp$ packet. Every accepted coverage request for a
+point in the displayed finite window factors through exactly one listed
+dyadic center in $K$, one rational radius in $R$, one rational interval cell in
+$I$, one mesh row in $Q$, one $\StreamNameUp$ row, one $\RegSeqRatUp$ row, one
+$\RealUp$ row, and the displayed $\Cont$ route that relates those rows inside
+the local $\BHist$, $\Pkg$, and $\NameCert$ ledger.
+\end{theorem}
+\begin{proof}
+First unpack the packet with
+\autoref{thm:dyadic-cover-namecert-obligations}. This fixes the carrier
+coordinates, the local classifier, and the named transport and read routes
+available to a coverage consumer.
+
+Next use \autoref{thm:dyadic-cover-window-cell-incidence}. The covered point
+is read from the finite-window coordinate $W$, so its incidence witness is one
+listed center, radius, interval cell, stream-name row, regular-rational row,
+real row, and continuation route.
+
+Finally apply \autoref{thm:dyadic-cover-ledger-nonescape}. Since the ledger
+has no coordinate for an external cover or selector, the displayed incidence
+witness is the whole consumer-facing package for the finite window and mesh
+surface.
+\end{proof}
+
+\begin{theorem}[DyadicCover refined-window total-bounded package]
+\label{thm:dyadic-cover-refined-window-total-bounded-package}
+Every mesh-refined total-bounded consumer of an accepted $\DyadicCoverUp$
+packet receives only the refined finite dyadic center list, rational radius
+list, rational interval cell list, and the transported finite-window coverage
+witnesses already carried by the packet. The consumer receives these rows
+through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, and it
+receives no open-cover compactness principle, arbitrary subcover choice, or
+external metric-ball family.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-cover-finite-refinement}. It replaces cells by
+a finite list of named dyadic subcells and transports the finite-window
+witnesses along the displayed mesh refinement row.
+
+Then use \autoref{thm:dyadic-cover-refinement-witness-exhaustion}. This
+exhausts the refined witness by the packet's center, radius, cell, transport,
+continuation, package, and naming rows, so no new cover family appears during
+refinement.
+
+Attach the total-bounded read by
+\autoref{thm:dyadic-cover-total-bounded-handoff} and
+\autoref{thm:dyadic-cover-total-bounded-radius-ledger}. The bounded-radius
+consumer therefore sees the transported finite window package and the refined
+finite lists, with the non-escape boundary supplied by
+\autoref{thm:dyadic-cover-ledger-nonescape}.
+\end{proof}
+
+\begin{theorem}[DyadicCover Real envelope coverage exactness]
+\label{thm:dyadic-cover-real-envelope-coverage-exactness}
+Every $\RealUp$ or $\FiniteWindowEnvelopeUp$ coverage consumer of an accepted
+$\DyadicCoverUp$ packet factors through the same finite envelope rows: the
+displayed finite window, mesh-refined rational interval cells, dyadic centers,
+rational radii, stream-name rows, regular-rational rows, real rows,
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ certificate. Such a consumer cannot read open-cover compactness,
+arbitrary subcover choice, quotient real equality, or host real extensionality
+from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window incidence package from
+\autoref{thm:dyadic-cover-finite-window-mesh-incidence-package}. It gives the
+unique listed center, radius, interval cell, mesh row, stream row,
+regular-rational row, real row, and continuation route for each accepted
+coverage request.
+
+Now transport along refinements using
+\autoref{thm:dyadic-cover-refined-window-total-bounded-package}. The refined
+packet keeps the same finite envelope surface and presents only transported
+finite-window witnesses to downstream coverage consumers.
+
+Finally combine \autoref{thm:dyadic-cover-total-bounded-handoff} with
+\autoref{thm:dyadic-cover-ledger-nonescape}. These theorems bind the
+Real-facing and finite-envelope reads to the displayed rows and exclude
+compactness, arbitrary subcovers, quotient equality of reals, and host real
+extensionality.
+\end{proof}
+
 \closureat{DyadicCoverUp}{seedStr}
+\closureat{DyadicCoverUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicCoverUp}
   \constructivestory{A $\DyadicCoverUp$ packet is generated from finite dyadic centers, dyadic radii, rational interval cells, mesh refinement rows, coverage witnesses for a displayed finite window, $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, classifier, finite refinement, total-bounded handoff, and ledger nonescape over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope registers the carrier, classifier, finite refinement, total-bounded handoff, and ledger nonescape over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, metric completeness, compact-metric equivalence, quotient equality of real names, host real extensionality, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, finite refinement, total-bounded handoff, and consumer nonescape over the displayed dyadic, rational, real, finite-window, mesh, and coverage rows.}
+  \upgradepath{Scoped closure requires collecting the displayed dyadic, rational, real, finite-window, mesh, refinement, total-bounded handoff, ledger nonescape, and coverage rows into one scoped $\DyadicCoverUp$ package.}
 \end{closurestatus}

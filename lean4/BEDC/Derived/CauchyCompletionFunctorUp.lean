@@ -96,4 +96,32 @@ theorem CauchyCompletionFunctorPacket_namecert_obligations [AskSetup] [PackageSe
     ⟨cert, metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, metricRegularSeal,
       monadUniversalEndpoint, endpointPkg⟩
 
+theorem CauchyCompletionFunctorPacket_classifier_transport [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint classifier'
+      transport' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      hsame classifier classifier' ->
+        hsame transport transport' ->
+          hsame nameCert nameCert' ->
+            Cont classifier' transport' nameCert' ->
+              CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier'
+                  transport' nameCert' endpoint bundle pkg ∧
+                UnaryHistory nameCert' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameClassifier sameTransport sameNameCert classifierTransportNameCert'
+  obtain ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, classifierUnary,
+    transportUnary, nameCertUnary, endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+    _classifierTransportNameCert, endpointPkg⟩ := packet
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_transport nameCertUnary sameNameCert
+  exact
+    ⟨⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, classifierUnary',
+      transportUnary', nameCertUnary', endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+      classifierTransportNameCert', endpointPkg⟩, nameCertUnary', endpointPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp

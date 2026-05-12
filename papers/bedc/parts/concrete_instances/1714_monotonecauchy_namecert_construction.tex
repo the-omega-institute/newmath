@@ -51,6 +51,7 @@ The local $\NameCert_{\MonotoneCauchyUp}$ surface consists exactly of five rows:
 \item $\RealUp$ seal non-escape, stating that the seal row $Q$ consumes only $F,\sigma,\mu,\lambda,I,H,C,P,N$ and no hidden completion coordinate.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MonotoneCauchyUp.MonotoneCauchyCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Carrier admission is projection of the finite packet in \autoref{def:monotone-cauchy-carrier}. Each coordinate is a displayed history row, transport row, continuation route, package row, or local naming row.
 
@@ -143,6 +144,62 @@ Use \autoref{thm:monotone-cauchy-common-window-classifier} to place the comparis
 Next apply \autoref{thm:monotone-cauchy-modulus-tail-stability}. The Cauchy tail and monotone comparison rows remain attached to the same modulus-selected window under transport, so the downstream located interval row consumes the same finite ledger.
 
 Finally apply \autoref{thm:monotone-cauchy-located-interval-handoff}. The real-seal boundary of \autoref{thm:monotone-cauchy-real-seal-boundary} then reads $Q$ only after $I$ and its upstream ledger have been displayed, and the carrier contains none of the excluded analytic objects.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy located trap certificate]
+\label{thm:monotone-cauchy-located-trap-certificate}
+Let $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\MonotoneCauchyUp$ carrier. The monotone ledger row and Cauchy modulus row determine a finite $\LocatedIntervalUp$ trap row for the tail window selected by $\sigma$ and $\mu$. The trap certificate uses only $F$, $\sigma$, $\mu$, $\lambda$, $I$, $H$, $C$, $P$, and $N$, and it records the lower observation, upper guard, tolerance, and transport route before any $\RealUp$ seal read is available.
+
+No quotient real, selected representative, host real order, trichotomy, open-cover compactness, ambient completeness, or choice operator is part of this certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:monotone-cauchy-carrier}. The rows $F$, $\sigma$, $\mu$, and $\lambda$ display the regular rational observations, the selected finite window, the modulus tail, and the monotone located upper-bound ledger.
+
+Apply \autoref{thm:monotone-cauchy-common-window-classifier}. The trap is built on the same common finite window used by classifier comparisons, so every row needed for the located interval is already visible before interval handoff.
+
+Next use \autoref{thm:monotone-cauchy-modulus-tail-stability}. Transport through $H$ keeps the Cauchy tail and monotone comparison rows attached to the same scheduled observations, and $C$ replays the window read without adding a completion premise.
+
+Finally apply \autoref{thm:monotone-cauchy-located-interval-handoff} and \autoref{thm:monotone-cauchy-ledger-exhaustion}. The located row $I$ receives exactly the displayed trap data, while $P$ and $N$ name the same local package. The carrier contains no coordinate from which the excluded analytic objects could enter.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy tail-window Real seal certificate]
+\label{thm:monotone-cauchy-tail-window-real-seal-certificate}
+For every accepted $\MonotoneCauchyUp$ packet $M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, each $\RealUp$ seal read of $Q$ factors through the finite located trap certificate and the same modulus-selected tail window before reaching $Q$. The seal-facing path is therefore
+$$
+(F,\sigma,\mu,\lambda)
+\quad\hbox{then}\quad
+I
+\quad\hbox{then}\quad
+Q,
+$$
+with componentwise transport supplied by $H$ and displayed continuation supplied by $C$.
+
+The path does not branch through quotient equality, a selected real representative, host real order, open-cover compactness, ambient completeness, or choice.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:monotone-cauchy-located-trap-certificate}. It gives a finite located trap whose rows are already selected by the stream schedule, the Cauchy modulus, and the monotone dyadic ledger.
+
+Apply \autoref{thm:monotone-cauchy-real-seal-factorization-obligation}. Every seal-facing read must pass through the common finite-window classifier, the modulus tail route, the dyadic located ledger, and the located interval row before it consumes $Q$.
+
+Use \autoref{thm:monotone-cauchy-real-seal-boundary} for the final handoff. The boundary reads only the displayed located interval and the seal row, and \autoref{thm:monotone-cauchy-ledger-exhaustion} rules out any additional hidden coordinate for the excluded analytic objects.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy obligation package]
+\label{thm:monotone-cauchy-obligation-package}
+The rows $F$, $\sigma$, $\mu$, $\lambda$, $I$, $Q$, $H$, $C$, $P$, and $N$ of an accepted $\MonotoneCauchyUp$ carrier assemble into the five-row $\NameCert$ obligation package for located monotone Cauchy data: carrier admission, classifier by common finite windows, monotone-row transport through the modulus tail, located interval handoff, and $\RealUp$ seal non-escape. Each row is read from the displayed packet and its local $\Pkg$ and $\NameCert$ data.
+
+The package claims only this displayed finite-window obligation surface. It does not close quotient reals, selected representatives, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed carrier of \autoref{def:monotone-cauchy-carrier}. It exposes the regular sequence, stream schedule, modulus, dyadic ledger, located interval, real seal, transport, continuation, package, and naming rows.
+
+For classification, apply \autoref{thm:monotone-cauchy-common-window-classifier}. Accepted packets are compared only after the common finite window selected by $\sigma$ and $\mu$ is displayed.
+
+For transport, apply \autoref{thm:monotone-cauchy-modulus-tail-stability}. The monotone and Cauchy rows in $\lambda$ remain attached to the same scheduled observations under the componentwise $\hsame$ rows in $H$.
+
+For the downstream rows, apply \autoref{thm:monotone-cauchy-located-trap-certificate} and \autoref{thm:monotone-cauchy-tail-window-real-seal-certificate}. The located interval row consumes the finite trap, and every real-seal read remains inside that same tail window.
+
+Finally use \autoref{thm:monotone-cauchy-ledger-exhaustion}. Since every public read has already appeared in the displayed ledger, the five obligation rows are exhausted by the packet data and do not import any excluded completion or choice principle.
 \end{proof}
 
 \closureat{MonotoneCauchyUp}{seedStr}
