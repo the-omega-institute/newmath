@@ -864,6 +864,7 @@ import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
+import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -1047,6 +1048,7 @@ import BEDC.Derived.FpsUp.MultiplicativeMonoid
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.PublicAlgebraInterface
 import BEDC.Derived.FpsUp.RingUpTailAlgebra
+import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
@@ -1109,6 +1111,7 @@ import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
+import BEDC.Derived.RealUp.FiniteWindowDyadicObservationCoverage
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
