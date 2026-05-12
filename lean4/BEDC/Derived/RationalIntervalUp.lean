@@ -99,6 +99,27 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_public_rational_window_handoff [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint publicHandoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint provenance publicHandoff ->
+        PkgSig bundle publicHandoff pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+            UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory publicHandoff ∧
+              Cont endpoint provenance publicHandoff ∧ PkgSig bundle publicHandoff pkg := by
+  intro packet handoffRow handoffPkg
+  obtain ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩ := packet
+  have handoffUnary : UnaryHistory publicHandoff :=
+    unary_cont_closed endpointUnary provenanceUnary handoffRow
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, handoffUnary,
+      handoffRow, handoffPkg⟩
+
 theorem RationalIntervalPacket_window_consumer_exhaustion [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint consumer readback :
       BHist}
