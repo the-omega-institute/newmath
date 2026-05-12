@@ -98,5 +98,17 @@ The dyadic ledger coordinate records the rational readbacks. The $\StreamNameUp$
 The provenance coordinates $P$ and $N$ account for the package and local naming rows. Since every finite observation field is present in these coordinates or in their displayed component ledgers, the carrier leaves no hidden anchor, window, scale, or endpoint row outside the certificate.
 \end{proof}
 
+\begin{theorem}[FiniteWindowEnvelope StreamName RegSeqRat scope]
+\label{thm:finite-window-envelope-streamname-regseqrat-scope}
+Every accepted $\FiniteWindowEnvelopeUp$ read from a selected finite $\StreamNameUp$ window to a $\RegSeqRatUp$ seal is exhausted by the anchor row, window row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in the carrier. The handoff has no additional hidden window selector, rational readback table, endpoint classifier, or completion-side equality field.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The selected anchor and window rows name the finite $\StreamNameUp$ read, while the dyadic ledger records every rational observation made inside that read.
+
+By \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}, the $\RegSeqRatUp$ seal consumes exactly that selected window and ledger. By \autoref{thm:finite-window-envelope-realup-window-exactness}, the $\RealUp$ endpoint classifier is attached to the same finite window rather than to a separate endpoint object.
+
+The common refinement theorem \autoref{thm:finite-window-envelope-common-refinement-exactness} shows that transported comparisons factor through the same displayed window, ledger, seal, and endpoint rows. Finally, \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, window, scale, subwindow, readback, package, and certificate rows, so the $\StreamNameUp$ to $\RegSeqRatUp$ handoff is scoped by the listed data.
+\end{proof}
+
 \closureat{FiniteWindowEnvelopeUp}{seedStr}
 \closureat{FiniteWindowEnvelopeUp}{obligationStr}

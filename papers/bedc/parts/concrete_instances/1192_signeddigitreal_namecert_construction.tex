@@ -62,6 +62,58 @@ The hypothesis transports these enclosure rows through the $\DyadicApproximation
 Finally invoke the $\RealUp$ classifier specification of \autoref{def:real-classifier-specification}. Since the real boundary sees only the located Cauchy enclosure rows just identified, the two carriers have the same seal boundary and no additional stream quotient or choice-based representative is introduced.
 \end{proof}
 
+\begin{definition}[SignedDigitReal obligation ledger package]
+\label{def:signed-digit-real-obligation-ledger-package}
+For an accepted $\SignedDigitRealUp$ carrier
+$$
+R=(S,W,E,L,H,C,P,N),
+$$
+the obligation ledger package is the finite packet that reads these coordinates with the following roles:
+\begin{enumerate}
+\item $S$ is the signed-digit stream row, including digit data, unary window schedules, normalization ledgers, and endpoint rows;
+\item $W$ is the displayed family of finite windows;
+\item $E$ is the decoded $\DyadicRatCore$ enclosure row for each window, exposed through $\DyadicRatCoreUp$ and $\DyadicApproximationUp$;
+\item $L$ is the $\LocatedCauchyUp$ located-row route binding the decoded enclosures to requested precisions;
+\item the $\RealUp$ seal boundary is the public consumption row reached from $E$ and $L$;
+\item $H$ records componentwise $\hsame$ rows for streams, windows, enclosures, located rows, and seal rows;
+\item $C$ records the $\Cont$ routes through finite prefixes, decoded enclosures, located rows, and the real seal;
+\item $P$ and $N$ record the dependency package and local $\NameCert_{\SignedDigitRealUp}$ provenance.
+\end{enumerate}
+The package has no coordinate for quotient streams, selected representatives, trichotomy, choice, or host real equality.
+\end{definition}
+
+\begin{theorem}[SignedDigitReal window classifier stability]
+\label{thm:signed-digit-real-window-classifier-stability}
+Let $R=(S,W,E,L,H,C,P,N)$ and $R'=(S',W',E',L',H',C',P',N')$ be accepted $\SignedDigitRealUp$ carriers. If the signed-digit stream rows are related by the classifier on a displayed finite window, then the decoded dyadic enclosures, the $\DyadicApproximationUp$ routes, the $\LocatedCauchyUp$ rows, and the induced $\RealUp$ seal boundary transport through the same obligation ledger package of \autoref{def:signed-digit-real-obligation-ledger-package}.
+
+In particular, classifier-related windows do not create a second ledger for the enclosure or located-Cauchy read; the finite window, decoded enclosure, located row, and seal boundary are the displayed rows of the package.
+\end{theorem}
+\begin{proof}
+Apply the finite normalization window theorem \autoref{thm:signed-digit-real-normalization-window} to $R$ on the chosen displayed window. This projects the signed-digit prefix, its normalization ledger, the decoded dyadic enclosure row, and the corresponding located and seal rows from the obligation ledger package.
+
+Apply the same theorem to $R'$ on the classifier-related window. The stream classifier and common-window transport identify the finite prefixes and their normalization ledgers through the recorded componentwise $\hsame$ rows.
+
+Transport the decoded enclosures through the $\DyadicRatCoreUp$ and $\DyadicApproximationUp$ rows, and then transport the precision witnesses through the $\LocatedCauchyUp$ rows. The continuation routes in $C$ and $C'$ preserve the order from prefix read to enclosure read to located read.
+
+Finally, the $\RealUp$ seal boundary is reached only from the transported enclosure and located rows. Thus the classifier stability is witnessed inside the same finite ledger package, with no extra representative or quotient stream.
+\end{proof}
+
+\begin{theorem}[SignedDigitReal seal ledger exactness]
+\label{thm:signed-digit-real-seal-ledger-exactness}
+For every accepted $\SignedDigitRealUp$ carrier, the $\RealUp$ seal boundary consumes exactly the decoded $\DyadicRatCore$ enclosure rows and $\LocatedCauchyUp$ ledger exposed by \autoref{def:signed-digit-real-obligation-ledger-package}. The seal read is routed through the signed-digit finite window, the normalization ledger, the $\DyadicApproximationUp$ enclosure route, the located-Cauchy row, and the recorded $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The seal boundary exports no quotient stream, no selected signed-digit representative, no trichotomy branch, no choice datum, and no host real equality.
+\end{theorem}
+\begin{proof}
+Project the obligation ledger package. Each seal read begins with a finite window in $W$ and the signed-digit prefix of $S$ displayed on that window.
+
+Use the finite normalization window theorem to decode that prefix into the enclosure row named by $E$. The $\DyadicApproximationUp$ route records the enclosure shape and the $\LocatedCauchyUp$ row $L$ records the precision-facing located evidence.
+
+The dyadic seal compatibility theorem \autoref{thm:signed-digit-real-dyadic-seal-compatibility} then reads the real boundary from exactly those enclosure and located rows. Componentwise $\hsame$ and $\Cont$ transport can move the rows between equivalent carrier presentations, but it does not add any analytic coordinate.
+
+Since $P$ and $N$ list only the named dependency package and local certificate row, every exported seal fact is already accounted for by the ledger. The excluded quotient, representative choice, trichotomy, choice principle, and host real equality have no coordinate in the package.
+\end{proof}
+
 \begin{theorem}[SignedDigitReal NameCert obligation surface]
 \label{thm:signed-digit-real-namecert-obligation-surface}
 The local $\NameCert_{\SignedDigitRealUp}$ seed surface consists of five finite obligations:
