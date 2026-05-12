@@ -1,0 +1,21 @@
+\subsection{Stratification Recap}\label{subsec:reconstruction-stratification-recap}
+
+Within \texttt{BEDC.MetaCIC}, L1 is the registration level. BEDC records
+paper-claimed theorems as host-checked Lean data through
+\texttt{BEDC.Manifest}, and the MetaCIC reconstruction is the syntactic
+surface on which the registered calculus-facing claims can be named.
+
+L4-mid is the internal representation level. BEDC expresses the inductive
+structure of a CIC fragment, together with selected metatheory, as Lean
+objects and predicates. MetaCIC therefore supplies representation and
+derivation forms; it does not attempt to prove the host's consistency.
+
+L4a is blocked by the Godel boundary. Since BEDC is checked inside the host,
+BEDC cannot prove the host's own consistency from within that same host.
+MetaCIC keeps this boundary intact and does not turn reconstruction into a
+consistency proof for Lean.
+
+L4c is rejected. BEDC does not replace the host CIC, and MetaCIC is not an
+alternative foundation. The reconstruction is an inside-host formalization of
+syntax, reduction, typing, and selected metatheory, all under the checking
+authority of the host calculus.
