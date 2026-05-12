@@ -250,6 +250,26 @@ The readback and real-facing rows are supplied by \autoref{thm:dyadic-tail-bound
 Assembling the listed rows gives the obligation package. Since each component is a projection or repacking of the same $\mathsf{BHist}$ packet, no extra carrier for quotient streams, selected limits, host real equality, or ambient completeness is introduced.
 \end{proof}
 
+\begin{theorem}[DyadicTailBound budget composition]
+\label{thm:dyadic-tail-bound-budget-composition}
+Let
+$$
+T_1=(p,\mu,\epsilon,L_1,R_1,E_1,H,C,P,N)
+\quad\text{and}\quad
+T_2=(p,\mu,\epsilon,L_2,R_2,E_2,H,C,P,N)
+$$
+be accepted $\DyadicTailBoundUp$ packets sharing the displayed precision row, schedule threshold, dyadic tolerance, componentwise $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. If the second displayed tail ledger refines or extends the first through those same rows, then the concatenated ledger $L_1L_2$ is an accepted $\DyadicTailBoundUp$ packet whose $\RegSeqRatUp$ handoff and $\RealUp$ seal factor through the composite displayed budget. The conclusion exports only the composed finite ledger surface and no quotient stream, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the two accepted carriers and project their common rows. The precision, threshold, tolerance, transport, continuation, package, and local naming coordinates agree by hypothesis, so the only displayed change is the refinement from $L_1$ to $L_2$ and the concatenated ledger $L_1L_2$.
+
+Apply \autoref{thm:dyadic-tail-bound-ledger-append-stability} along the displayed refinement rows to accept each appended comparison with the same $\mu$, $\epsilon$, $H$, $C$, $P$, and $N$. Then use \autoref{thm:dyadic-tail-bound-ledger-threshold-exhaustion} to keep every comparison in the composite ledger tied to the displayed threshold and tolerance.
+
+Classifier transport is controlled by \autoref{thm:dyadic-tail-bound-classifier-transport-exactness}. It prevents the composite packet from replacing the shared provenance by an unrecorded tolerance, external estimate, or separate ledger surface.
+
+Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \autoref{thm:dyadic-tail-bound-real-seal-factorization}. The regular-sequence readback factors through the concatenated ledger, and the real-facing seal factors through that readback and the same composite displayed budget.
+\end{proof}
+
 \closureat{DyadicTailBoundUp}{seedStr}
 \closureat{DyadicTailBoundUp}{obligationStr}
 
