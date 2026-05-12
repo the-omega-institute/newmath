@@ -125,6 +125,49 @@ theorem DyadicApproximationCarrier_common_precision_refinement [AskSetup] [Packa
       sameLedger₂ sameProvenance₂ commonEndpointWindow commonWindowLedgerProvenance
   exact And.intro leftRefined.left (And.intro leftRefined.right rightRefined.right)
 
+theorem DyadicApproximationCarrier_terminal_mesh_enclosure_compatibility
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint
+      terminalWindow terminalLedger terminalProvenance meshCell enclosure : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance meshCell ->
+                    Cont meshCell terminalProvenance enclosure ->
+                      PkgSig bundle meshCell pkg ->
+                        PkgSig bundle enclosure pkg ->
+                          DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                              terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                            UnaryHistory meshCell ∧ UnaryHistory enclosure ∧
+                              hsame window terminalWindow := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance terminalWindowRoute
+    terminalProvenanceRoute meshCellRoute enclosureRoute _meshPkg _enclosurePkg
+  have transported :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        hsame window terminalWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance terminalWindowRoute terminalProvenanceRoute
+  rcases transported with ⟨terminalCarrier, sameWindow⟩
+  rcases terminalCarrier with
+    ⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+      _terminalLedgerUnary, terminalProvenanceUnary, _terminalWindowRoute,
+      _terminalProvenanceRoute, _terminalPkg⟩
+  have meshCellUnary : UnaryHistory meshCell :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary meshCellRoute
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed meshCellUnary terminalProvenanceUnary enclosureRoute
+  exact
+    ⟨⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+        _terminalLedgerUnary, terminalProvenanceUnary, _terminalWindowRoute,
+        _terminalProvenanceRoute, _terminalPkg⟩,
+      meshCellUnary, enclosureUnary, sameWindow⟩
+
 theorem DyadicApproximationCarrier_real_seal_radius_route_certificate [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance coarser endpoint2 window2 ledger2 provenance2
       sealRow : BHist}
