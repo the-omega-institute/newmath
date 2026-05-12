@@ -167,4 +167,74 @@ theorem BoundedVariationCarrier_common_refinement_classifier_exactness [AskSetup
     ⟨edgeReadUnary, sumReadUnary, sameVariation, sameTransport, sameRoute, sameProvenance,
       provenancePkg, sumPkg⟩
 
+theorem BoundedVariationCarrier_transport [AskSetup] [PackageSetup]
+    {interval partition endpoint dyadic variation refinement transport route provenance nameCert
+      interval' partition' endpoint' dyadic' variation' refinement' transport' route' provenance'
+      nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationCarrier interval partition endpoint dyadic variation refinement transport route
+        provenance nameCert bundle pkg ->
+      hsame interval interval' ->
+        hsame partition partition' ->
+          hsame endpoint endpoint' ->
+            hsame dyadic dyadic' ->
+              hsame refinement refinement' ->
+                hsame provenance provenance' ->
+                  Cont interval' partition' endpoint' ->
+                    Cont endpoint' dyadic' transport' ->
+                      Cont partition' dyadic' variation' ->
+                        Cont variation' refinement' route' ->
+                          Cont route' provenance' nameCert' ->
+                            PkgSig bundle provenance' pkg ->
+                              BoundedVariationCarrier interval' partition' endpoint' dyadic'
+                                  variation' refinement' transport' route' provenance'
+                                  nameCert' bundle pkg ∧
+                                hsame variation variation' ∧ hsame transport transport' ∧
+                                  hsame route route' ∧ hsame nameCert nameCert' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameInterval samePartition sameEndpoint sameDyadic sameRefinement
+    sameProvenance intervalRoute' transportRoute' variationRoute' routeRoute'
+    nameCertRoute' provenancePkg'
+  obtain ⟨intervalUnary, partitionUnary, endpointUnary, dyadicUnary, variationUnary,
+    refinementUnary, transportUnary, routeUnary, provenanceUnary, nameCertUnary,
+    intervalRoute, transportRoute, variationRoute, routeRoute, nameCertRoute,
+    variationSameAppend, _provenancePkg⟩ := carrier
+  have intervalUnary' : UnaryHistory interval' :=
+    unary_transport intervalUnary sameInterval
+  have partitionUnary' : UnaryHistory partition' :=
+    unary_transport partitionUnary samePartition
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have refinementUnary' : UnaryHistory refinement' :=
+    unary_transport refinementUnary sameRefinement
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have variationSame : hsame variation variation' :=
+    cont_respects_hsame samePartition sameDyadic variationRoute variationRoute'
+  have transportSame : hsame transport transport' :=
+    cont_respects_hsame sameEndpoint sameDyadic transportRoute transportRoute'
+  have routeSame : hsame route route' :=
+    cont_respects_hsame variationSame sameRefinement routeRoute routeRoute'
+  have nameCertSame : hsame nameCert nameCert' :=
+    cont_respects_hsame routeSame sameProvenance nameCertRoute nameCertRoute'
+  have variationUnary' : UnaryHistory variation' :=
+    unary_cont_closed partitionUnary' dyadicUnary' variationRoute'
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed endpointUnary' dyadicUnary' transportRoute'
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed variationUnary' refinementUnary' routeRoute'
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_cont_closed routeUnary' provenanceUnary' nameCertRoute'
+  have variationSameAppend' : hsame variation' (append partition' dyadic') :=
+    cont_respects_hsame (hsame_refl partition') (hsame_refl dyadic') variationRoute'
+      (cont_intro (hsame_refl (append partition' dyadic')))
+  exact
+    ⟨⟨intervalUnary', partitionUnary', endpointUnary', dyadicUnary', variationUnary',
+        refinementUnary', transportUnary', routeUnary', provenanceUnary', nameCertUnary',
+        intervalRoute', transportRoute', variationRoute', routeRoute', nameCertRoute',
+        variationSameAppend', provenancePkg'⟩,
+      variationSame, transportSame, routeSame, nameCertSame⟩
+
 end BEDC.Derived.BoundedVariationUp
