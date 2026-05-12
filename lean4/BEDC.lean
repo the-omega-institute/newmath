@@ -136,8 +136,10 @@ import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
@@ -240,6 +242,7 @@ import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
+import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
