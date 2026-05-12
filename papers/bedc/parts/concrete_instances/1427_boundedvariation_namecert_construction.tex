@@ -86,6 +86,7 @@ Move each of those coordinates along the displayed $\hsame$ routes. The $\Cont$ 
 
 Apply \autoref{thm:bounded-variation-variation-ledger-exactness} on the common refinement. The transported endpoint and dyadic rows repack the same finite variation ledger, leaving no extra classifier coordinate on which the packets could differ.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedVariationUp.BoundedVariationCarrier\_transport}
 
 \begin{theorem}[BoundedVariation no-escape boundary]
 \label{thm:bounded-variation-no-escape-boundary}
@@ -126,6 +127,34 @@ Project the classifier through \autoref{thm:bounded-variation-common-refinement-
 Use \autoref{thm:bounded-variation-variation-ledger-exactness} on that refinement. Both public variation reads are finite sums over the displayed edge observations and transported endpoint rows.
 
 Thus the refinement ledger is already the classifier scope. Since the carrier has no hidden partition family or host supremum coordinate, no additional comparison object can enter.
+\end{proof}
+
+\begin{theorem}[BoundedVariation finite Jordan-split scope]
+\label{thm:bounded-variation-jordan-finite-split-scope}
+For an accepted $\BoundedVariationUp$ packet, a displayed finite partition may be split into positive-edge and negative-edge dyadic variation ledgers using only the listed endpoint rows. The split reads the $\RealUp$ or $\RegSeqRatUp$ endpoint names, the $\DyadicRatCoreUp$ endpoint-difference observations, the finite partition ledger, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\BoundedVariationUp}$ provenance.
+
+This is only a finite displayed partition split. It does not assert Jordan decomposition, a variation measure, a host supremum over all partitions, or a completed function-space object.
+\end{theorem}
+\begin{proof}
+Project the finite partition ledger and endpoint rows from the carrier. Each edge already carries two endpoint reads and a displayed dyadic difference observation.
+
+Split the finite list of edge observations by the sign recorded in the $\DyadicRatCoreUp$ row. The positive-edge and negative-edge ledgers are therefore subledgers of the displayed partition, transported by the same $\hsame$ and $\Cont$ routes as the original variation sum.
+
+Repack the two ledgers with the existing package and naming provenance. Since the construction uses only the displayed finite partition, it does not create a Jordan decomposition or a measure-valued object.
+\end{proof}
+
+\begin{theorem}[BoundedVariation refinement additivity scope]
+\label{thm:bounded-variation-refinement-additivity-scope}
+For two accepted $\BoundedVariationUp$ packets compared on a displayed common finite refinement, the variation read is additive over the refinement blocks in the finite dyadic ledger. Each block sum uses only $\RealUp$ or $\RegSeqRatUp$ endpoint rows, $\DyadicRatCoreUp$ edge observations, the common-refinement row, and the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\BoundedVariationUp}$ provenance.
+
+The additivity claim is restricted to the displayed common refinement and exports no supremum principle, variation measure, hidden partition family, quotient function, or completed function space.
+\end{theorem}
+\begin{proof}
+Start with the refinement ledger scope. It supplies one displayed common finite refinement whose endpoint and dyadic edge rows are visible to both packets.
+
+Use variation-ledger exactness on each block of that common refinement. The finite dyadic sum for a block is obtained by summing exactly the edge observations in that block, with endpoint transports carried by the displayed $\hsame$ and $\Cont$ rows.
+
+Concatenate the finite block sums inside the same common-refinement ledger. The package and naming rows remain unchanged, and the statement never ranges over all partitions or any completed function object.
 \end{proof}
 
 \begin{theorem}[BoundedVariation endpoint transport scope]

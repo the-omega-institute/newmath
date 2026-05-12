@@ -163,6 +163,7 @@ K=(X,Y,W,D,\tau,L,E,H,C,P,N)
 $$
 every displayed comparison request uses exactly the rational tolerance row $\tau$ recorded in $L$. A classified replacement of $K$ may transport $\tau$ along the stored component of $H$ and read it along the displayed component of $C$, but it cannot replace $\tau$ by a tolerance row absent from the carrier ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_tolerance\_row\_stability}
 
 \begin{proof}
 Use \autoref{thm:regular-cauchy-comparison-window-exactness} to identify the tolerance inspected by any displayed comparison request. The theorem pins that row to the rational tolerance coordinate $\tau$ recorded in $L$.
@@ -284,6 +285,7 @@ Use \autoref{thm:regular-cauchy-comparison-classifier-window-exactness} to force
 
 Finally apply \autoref{thm:regular-cauchy-comparison-completion-consumer-surface}. The consumer surface is exactly the displayed packet evidence, so the seal handoff is an obligation row inside the carrier and not an appeal to quotient equality, host equality, a chosen limit, trichotomy, or completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_seal\_handoff\_obligation}
 
 \begin{theorem}[Regular Cauchy comparison dependency scope]
 \label{thm:regular-cauchy-comparison-dependency-scope}
@@ -329,14 +331,15 @@ The public seal and consumer boundaries are then supplied by \autoref{thm:regula
 
 \closureat{RegularCauchyComparisonUp}{seedStr}
 \closureat{RegularCauchyComparisonUp}{obligationStr}
+\closureat{RegularCauchyComparisonUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyComparisonUp}
   \constructivestory{A $\RegularCauchyComparisonUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, a shared $\StreamNameUp$ schedule, displayed $\DyadicRatCoreUp$ observations, a rational tolerance row, a finite ledger, $\RealUp$ seal provenance, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, and $\RealUp$ seal handoff over the displayed comparison rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the comparison obligation rows to the displayed $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies.}
+  \upgradepath{Public closure requires a single consumer-facing comparison certificate exporting the $\StreamNameUp$--$\RealUp$ seal package.}
 \end{closurestatus}
