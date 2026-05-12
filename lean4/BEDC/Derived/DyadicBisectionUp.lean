@@ -105,4 +105,28 @@ theorem DyadicBisectionCarrier_branch_endpoint_transport [AskSetup] [PackageSetu
       (And.intro (hsame_refl regseq)
         (And.intro (hsame_refl stream) (hsame_refl real))))
 
+theorem DyadicBisectionCarrier_branch_nested_window_scope [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      selected realSeal : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont branch nested selected ->
+        Cont selected endpoint realSeal ->
+          PkgSig bundle route pkg ->
+            UnaryHistory selected ∧ UnaryHistory realSeal ∧
+              hsame selected (append branch nested) ∧
+                hsame realSeal (append selected endpoint) ∧ PkgSig bundle route pkg := by
+  intro carrier selectedRow realSealRow routeSig
+  have branchUnary : UnaryHistory branch := carrier.right.right.right.left
+  have nestedUnary : UnaryHistory nested := carrier.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint := carrier.right.right.right.right.right.left
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed branchUnary nestedUnary selectedRow
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed selectedUnary endpointUnary realSealRow
+  exact And.intro selectedUnary
+    (And.intro realSealUnary
+      (And.intro selectedRow (And.intro realSealRow routeSig)))
+
 end BEDC.Derived.DyadicBisectionUp
