@@ -1,0 +1,174 @@
+\chapter{A Concrete Naming Certificate for $\FiniteErrorBudgetUp$}
+\label{ch:concrete-instances-finiteerrorbudget-namecert}
+\origin{human}
+
+The $\FiniteErrorBudgetUp$ interface names the finite precision-budget packet
+used on the $\RealUp$ and completion path. Following Bishop and Bridges,
+\emph{Constructive Analysis}, it treats accuracy as visible dyadic tolerance
+data, diagonal scheduling, tail ledgers, finite budget consumption, rational
+regular-sequence readback, and a real-name seal. The packet sits above
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DiagonalModulusUp$,
+$\DyadicTailBoundUp$, $\FastConvergentSeriesUp$, $\FastSeriesProductUp$, and
+$\RealCauchyCompletionUp$. It never forms quotient streams, chooses a host
+limit, compares host real equality, or appeals to ambient completeness.
+
+\begin{definition}[FiniteErrorBudget carrier]
+\label{def:finite-error-budget-carrier}
+A $\FiniteErrorBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+E=(n,\epsilon,b,d,t,r,e,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $n$ is the unary precision-request row read by downstream real and
+completion consumers;
+\item $\epsilon$ is the dyadic tolerance row, displayed as a positive
+$\DyadicRatCoreUp$ radius for the request $n$;
+\item $b$ is the $\DiagonalModulusUp$ selector row naming the finite diagonal
+index schedule used to answer the request;
+\item $d$ is the $\DyadicTailBoundUp$ tail ledger recording the tail estimate
+available at the selected schedule;
+\item $t$ is the finite budget-consumer row, either a
+$\FastConvergentSeriesUp$ packet or a $\FastSeriesProductUp$ packet, whose
+summand and convolution windows are bounded by $d$;
+\item $r$ is the $\RegSeqRatUp$ readback row that exposes the regular rational
+name reached by the selected budget;
+\item $e$ is the $\RealUp$ seal row exported to $\RealCauchyCompletionUp$ after
+the finite request is answered;
+\item $P$ is the $\Pkg$ provenance naming the dyadic tolerance, diagonal
+selector, tail ledger, budget consumer, regular-sequence readback, and real
+seal packets;
+\item $N$ is the local $\NameCert_{\FiniteErrorBudgetUp}$ row.
+\end{enumerate}
+The carrier contains no quotient of regular streams, no host real equality
+test, no selected infinite limit, and no ambient completeness principle.
+\end{definition}
+
+\begin{definition}[FiniteErrorBudget classifier]
+\label{def:finite-error-budget-classifier}
+For accepted $\FiniteErrorBudgetUp$ carriers $E$ and $E'$, the classifier
+$\mathsf{FiniteErrorBudgetClassifier}(E,E')$ compares only the displayed
+precision-request rows, dyadic tolerance rows, $\DiagonalModulusUp$ selector
+rows, $\DyadicTailBoundUp$ tail ledgers, finite budget-consumer rows,
+$\RegSeqRatUp$ readback rows, $\RealUp$ seal rows, $\Pkg$ provenance, and local
+$\NameCert$ evidence of \autoref{def:finite-error-budget-carrier}.
+
+Classifier transport is componentwise by $\hsame$ on the visible rows and by
+$\Cont$ along the recorded consumer routes. The classifier does not compare
+hidden streams, host real values, chosen limits, quotient classes, or ambient
+completion objects.
+\end{definition}
+
+\begin{theorem}[FiniteErrorBudget zero seed]
+\label{thm:finite-error-budget-zero-seed}
+The unary zero precision request with dyadic tolerance $1$, the initial
+$\DiagonalModulusUp$ selector, the zero $\DyadicTailBoundUp$ ledger, the empty
+$\FastConvergentSeriesUp$ budget consumer, the constant-zero $\RegSeqRatUp$
+readback, and the zero $\RealUp$ seal determine an accepted
+$\FiniteErrorBudgetUp$ carrier.
+\end{theorem}
+\begin{proof}
+Use the zero request as the displayed precision row and choose the dyadic unit
+row as the tolerance. The initial diagonal selector and the zero tail ledger
+give a finite schedule whose tail cost is already below the displayed budget.
+
+The empty fast-convergent-series packet consumes no summands, so its finite
+window is compatible with the zero tail ledger. Its regular rational readback
+is the constant-zero $\RegSeqRatUp$ name, and the real seal is the corresponding
+zero $\RealUp$ row.
+
+All transports and continuations are identity rows on the displayed packet
+coordinates. Repacking these rows with the package provenance and local
+certificate row gives the required carrier.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget diagonal handoff]
+\label{thm:finite-error-budget-diagonal-handoff}
+Every accepted $\FiniteErrorBudgetUp$ carrier
+$E=(n,\epsilon,b,d,t,r,e,P,N)$ exports a finite handoff into
+$\RealCauchyCompletionUp$: the request $n$ is answered through the dyadic
+tolerance $\epsilon$, the selector $b$, the tail ledger $d$, the budget
+consumer $t$, the $\RegSeqRatUp$ readback $r$, and the $\RealUp$ seal $e$ before
+any completion consumer can inspect the result.
+
+The handoff is stable under the classifier of
+\autoref{def:finite-error-budget-classifier} and exports no quotient stream,
+host real equality, selected limit, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the visible request row $n$. The dyadic tolerance row $\epsilon$
+fixes the precision budget that can be consumed by the downstream completion
+read.
+
+The diagonal selector $b$ chooses a finite schedule, and the tail ledger $d$
+records the bound available at that schedule. The budget consumer $t$ can be
+read only through that displayed schedule and ledger, so every finite summand
+or convolution window remains inside the packet.
+
+The readback row $r$ presents the resulting regular rational name, and the seal
+row $e$ is the only row handed to $\RealCauchyCompletionUp$. Componentwise
+$\hsame$ transport and the displayed $\Cont$ routes preserve each of these
+coordinates, so classified replacements give the same handoff surface.
+
+Since the carrier coordinates are exhausted by these visible rows, there is no
+field from which a quotient stream, host real equality test, selected infinite
+limit, or ambient completeness principle could be exported.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget NameCert obligations]
+\label{thm:finite-error-budget-namecert-obligations}
+The local $\NameCert_{\FiniteErrorBudgetUp}$ obligation surface consists of
+five rows:
+\begin{enumerate}
+\item carrier habitation by the zero-budget seed of
+\autoref{thm:finite-error-budget-zero-seed};
+\item classifier transport by componentwise $\hsame$ and the displayed $\Cont$
+routes of \autoref{def:finite-error-budget-classifier};
+\item zero-budget stability, asserting that the zero request, dyadic unit
+tolerance, initial selector, zero tail ledger, empty budget consumer,
+constant-zero readback, and zero real seal remain inside the carrier under
+classified replacement;
+\item diagonal handoff into $\RealCauchyCompletionUp$ by
+\autoref{thm:finite-error-budget-diagonal-handoff};
+\item non-escape of quotient streams, host real equality, selected limits, and
+ambient completeness beyond the displayed precision-budget rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is exactly the packet constructed in
+\autoref{thm:finite-error-budget-zero-seed}. It supplies every carrier
+coordinate using visible finite rows.
+
+Classifier transport follows from
+\autoref{def:finite-error-budget-classifier}. A classified replacement can move
+only the precision request, dyadic tolerance, diagonal selector, tail ledger,
+budget consumer, readback, seal, provenance, and local certificate rows that
+the carrier already displays.
+
+Zero-budget stability is obtained by projecting the same coordinates from the
+zero seed after transport. Identity $\hsame$ rows preserve the zero request,
+unit tolerance, initial selector, zero tail ledger, empty consumer,
+constant-zero readback, and zero real seal.
+
+The diagonal handoff row is supplied by
+\autoref{thm:finite-error-budget-diagonal-handoff}. Its exported surface is the
+finite path through $\epsilon$, $b$, $d$, $t$, $r$, and $e$, so the completion
+consumer sees a real-seal read and not an unrecorded stream.
+
+The non-escape row follows because all accepted carrier coordinates have been
+listed. None of them is a quotient constructor, a host equality oracle, a
+choice of limit, or an ambient completeness datum.
+\end{proof}
+
+\closureat{FiniteErrorBudgetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteErrorBudgetUp}
+  \constructivestory{A $\FiniteErrorBudgetUp$ packet is generated from a unary precision request, a dyadic tolerance row, a $\DiagonalModulusUp$ selector, a $\DyadicTailBoundUp$ ledger, a finite $\FastConvergentSeriesUp$ or $\FastSeriesProductUp$ budget consumer, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the carrier, classifier, zero-budget seed, diagonal handoff, and local NameCert obligation surface for finite precision-budget packets on the real-completion path.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, host real equality, selected limits, ambient real completeness, or bridge checking.}
+  \upgradepath{Scoped closure requires checked classifier stability, zero-budget stability, diagonal handoff totality, and public finite-packet export for the same carrier.}
+\end{closurestatus}
