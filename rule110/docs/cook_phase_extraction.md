@@ -70,6 +70,46 @@ different origin convention.
 | G1 | unclear: the left-moving tube is visually distinct, but the extracted row did not pass the current embedded-row check. |
 | H | unclear: the long period and multi-defect appearance require a wider mask than the 11-cell row alone. |
 
+## Brute-force Verification
+
+Method: direct Rule 110 simulation, with no bitmap parse. For each target
+glider, the standalone tool `rule110/encoder/glider_search.c` enumerates all
+`2^W` candidate W-cell seeds, embeds each seed in Cook ether, runs the claimed
+period, and checks whether the same W-cell seed appears at displacement `dx`.
+The tool also evolves a pure-ether control row and requires far-field ether to
+remain equal to that control.
+
+The output distinguishes two checks:
+
+| Class | Meaning |
+|---|---|
+| exact | the whole finite perturbation relative to pure ether is shifted by `dx` |
+| window | the W-cell seed reappears at `dx`, but other nearby perturbation cells are not a strict translate |
+
+### Results
+
+The search found at least one direct-simulation window-preservation candidate
+for all eight requested targets. This satisfies the single-row verification
+check requested for the brute-force pass. Only C1 and C3 had exact
+shifted-perturbation candidates under this embedding convention; the others
+remain non-unique top matches.
+
+| Glider | seed | candidates found | exact candidates | best class | verified |
+|---|---|---:|---:|---|---|
+| B | `01111101` | 50 | 0 | window | yes |
+| C1 | `111010000` | 103 | 4 | exact | yes |
+| C3 | `11101000011` | 158 | 15 | exact | yes |
+| D1 | `11000110111` | 172 | 0 | window | yes |
+| D2 | `11000` | 54 | 0 | window | yes |
+| F | `1` | 3 | 0 | window | yes |
+| G1 | `0011100110` | 56 | 0 | window | yes |
+| H | `11111111100` | 39 | 0 | window | yes |
+
+The registry records the deterministic top match for each target so downstream
+work can reproduce the direct simulation search. Rows with best class `window`
+are not ready for phase-exact emitter promotion without a wider phase mask or
+multi-row tube check.
+
 ## What Is Needed
 
 A reliable extraction needs one of the following:

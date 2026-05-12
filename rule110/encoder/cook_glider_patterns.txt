@@ -8,15 +8,16 @@ A    6   3    2   111110
 A4   10  3    2   0001110111
 C2   3   7    0   111
 
-# Target entries are not promoted. The bitmap parse located the Figure 4
-# panels and cell scale, but did not produce five simulation-verified targets
-# from {B, C1, C3, D1, D2, F, G1, H}.
-# B   width 8   period (4,-2)    extraction-unclear
-# C1  width 9   period (7,0)     extraction-unclear
-# C3  width 11  period (7,0)     extraction-unclear
-# D1  width 11  period (10,2)    extraction-unclear
-# D2  width 5   period (10,2)    extraction-unclear
-# F   width 1   period (36,-4)   extraction-unclear
-# G1  width 10  period (42,-14)  extraction-unclear
-# H   width 11  period (92,-18)  extraction-unclear
+# Direct simulation top matches from encoder/glider_search.c.
+# All rows pass the W-cell window-preservation check. C1 and C3 also have exact
+# shifted-perturbation candidates; the remaining rows are non-unique top
+# matches under the single-row embedding convention.
+B    8   4   -2   01111101
+C1   9   7    0   111010000
+C3   11  7    0   11101000011
+D1   11  10   2   11000110111
+D2   5   10   2   11000
+F    1   36  -4   1
+G1   10  42  -14  0011100110
+H    11  92  -18  11111111100
 # Ebar width 7   period (30,-8)   supplied seed 1001111 did not pass this embedded-row check
