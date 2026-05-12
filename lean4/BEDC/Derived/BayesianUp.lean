@@ -44,6 +44,25 @@ theorem BayesianPosteriorPacket_source_obligation [AskSetup] [PackageSetup]
                 (And.intro packet.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right)))))))
 
+theorem BayesianPosteriorPacket_non_escape_boundary [AskSetup] [PackageSetup]
+    {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+        endpoint bundle pkg ->
+      UnaryHistory provenance ->
+        UnaryHistory endpoint ∧ hsame endpoint (append provenance normalisation) ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet provenanceUnary
+  have normalisationUnary : UnaryHistory normalisation :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary normalisationUnary
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro endpointUnary
+    (And.intro packet.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right)
+
 def BayesianPosteriorSurface [AskSetup] [PackageSetup]
     (prior likelihood evidence posterior normalizer classifier provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
