@@ -128,4 +128,21 @@ theorem CollisionKernelSpectrumCarrier_namecert_obligations [AskSetup] [PackageS
             (And.intro fiberMomentKernel
               (And.intro kernelHandoffShadow nameCertPkg)))))
 
+theorem CollisionKernelSpectrumCarrier_ledger_non_escape [AskSetup] [PackageSetup]
+    {golden fold fiber moment kernel shadow handoff transport provenance nameCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff transport
+        provenance nameCert bundle pkg ->
+      Cont shadow transport consumer ->
+        UnaryHistory consumer ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier consumerRoute
+  obtain ⟨_goldenUnary, _foldUnary, _fiberUnary, _momentUnary, _kernelUnary, shadowUnary,
+    _handoffUnary, transportUnary, _provenanceUnary, _nameCertUnary, _goldenFoldFiber,
+    _fiberMomentKernel, _kernelHandoffShadow, provenancePkg, nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed shadowUnary transportUnary consumerRoute
+  exact ⟨consumerUnary, provenancePkg, nameCertPkg⟩
+
 end BEDC.Derived.CollisionKernelSpectrumUp
