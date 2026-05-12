@@ -1,0 +1,140 @@
+\chapter{Theory Stability and the TasteGate Framework}
+\label{ch:visions-theory-stability-taste-gate}
+
+The 280-plus concrete-instance chapters of \texttt{papers/bedc/parts/}
+formalise objects whose mathematical-consensus credit was earned by the
+mathematics community over decades or centuries: $\GroupUp$, $\HilbertUp$,
+$\CurvatureUp$, $\GelfandDualityUp$, $\DiffGaloisUp$, and the rest. Each
+chapter inherits this credit; the BEDC formalisation does not need to
+re-test whether $\GroupUp$ is a `real theory', because the question was
+settled outside the system.
+
+A new mode opens when codex itself proposes a chapter. An AI-proposed
+chapter has no mathematical-consensus credit. It might be combinatorial
+padding (a trivial cartesian-product object); it might be a synonym of
+an existing chapter under a new name; it might cross the BEDC zero-axiom
+boundary; it might be locally self-consistent yet break stability of
+the existing horizon when admitted. The taste gate of this chapter
+records the discipline by which AI-proposed chapters earn admission.
+
+The discipline reuses the conservativity, no-hidden-input, round-trip,
+and source-channel-separation theorems already established in the
+ground compiler chapters
+(\autoref{ch:ground-compiler-event-flow},
+ \autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding},
+ \autoref{ch:ground-compiler-source-channel-layer-separation},
+ \autoref{ch:ground-compiler-main-theorems-cannot-claims}). It elevates
+those compiler-internal invariants into a chapter-level taste gate.
+
+\section{Four obligations}
+\label{sec:taste-gate-four-obligations}
+
+A candidate chapter $X$ earns admission to the AI-proposed track when
+its taste-gate package supplies four propositional obligations together
+with discharging proofs.
+
+\begin{definition}[Conservativity obligation]
+\label{def:taste-gate-conservativity}
+The conservativity obligation for $X$ asserts that no formula already
+provable from the BEDC baseline becomes unprovable when $X$ is admitted,
+and no formula previously unprovable becomes provable except via formulas
+that explicitly mention $X$.
+\end{definition}
+
+\begin{definition}[No-hidden-input obligation]
+\label{def:taste-gate-no-hidden-input}
+The no-hidden-input obligation for $X$ asserts that every $X$-token is
+the recognised image of a finite event flow displayed from $\bzero,\bone$
+in the sense of \autoref{ch:ground-compiler-event-flow}. No external
+universe, no infinite parameter set, no oracle witness, and no
+representation-only metadata enters as a primitive carrier row.
+\end{definition}
+
+\begin{definition}[Round-trip obligation]
+\label{def:taste-gate-round-trip}
+The round-trip obligation for $X$ asserts that the chapter's display
+readback composed with reconstruction is the identity on tokens, in the
+sense of \autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding}'s
+\texttt{flow\_level\_round\_trip}. Display does not lose information.
+\end{definition}
+
+\begin{definition}[Layer-separation obligation]
+\label{def:taste-gate-layer-separation}
+The layer-separation obligation for $X$ asserts that the chapter's
+source role, channel role, and display role do not collapse into one
+another, in the sense of
+\autoref{ch:ground-compiler-source-channel-layer-separation}'s
+\texttt{source\_channel\_separation}. The chapter does not paper over
+the source/channel/display distinction by treating one as a renaming of
+another.
+\end{definition}
+
+\section{Lean interface}
+\label{sec:taste-gate-lean-interface}
+
+The four obligations live in a single Lean structure:
+
+\begin{verbatim}
+structure ChapterTasteGate (X : Type) where
+  conservativity_holds : Prop
+  conservativity_proof : conservativity_holds
+  no_hidden_input_holds : Prop
+  no_hidden_input_proof : no_hidden_input_holds
+  round_trip_holds : Prop
+  round_trip_proof : round_trip_holds
+  layer_separation_holds : Prop
+  layer_separation_proof : layer_separation_holds
+\end{verbatim}
+\leandef{BEDC.Meta.TasteGate.ChapterTasteGate}
+
+The reference instance witnesses that the ground compiler's own
+no-hidden-input compiler state already satisfies the four obligations,
+using \texttt{event\_flow\_conservativity}, \texttt{no\_hidden\_input},
+and \texttt{flow\_level\_round\_trip} as discharging proofs. The
+layer-separation field is currently a \texttt{True} placeholder; the
+\texttt{source\_channel\_separation} witness is wired in once the
+ground-compiler prototype layer chapters complete.
+
+\leanchecked{BEDC.Meta.TasteGate.groundCompilerSelfTasteGate}
+
+\section{Relationship to the NameCert obligations}
+\label{sec:taste-gate-versus-namecert}
+
+The \emph{naming-certificate} obligation set
+(\autoref{ch:core-typed-naming-certificates}) records source, classifier,
+pattern, ledger, and extension obligations within a single chapter. The
+TasteGate obligations record stability across chapters and across the
+ground compilation layer. The two are orthogonal:
+
+\begin{itemize}
+\item A chapter satisfying $\NameCert$ alone is internally consistent
+      but not necessarily stable when admitted to the global horizon.
+\item A chapter satisfying TasteGate alone has cross-horizon stability
+      but is not yet a usable BEDC carrier.
+\item Human-curated chapters supply $\NameCert$ and inherit TasteGate
+      credit from mathematical consensus.
+\item AI-proposed chapters must supply both $\NameCert$ and TasteGate.
+\end{itemize}
+
+The chapter does not retroactively impose TasteGate on the existing
+human-curated horizon. The audit gate distinguishes the two tracks by a
+single \texttt{\textbackslash origin\{human|ai\}} field on the
+\texttt{closurestatus} block; absence defaults to \texttt{human} and
+preserves backward compatibility.
+
+\section{Cannot-claim registry}
+\label{sec:taste-gate-cannot-claims}
+
+The chapter does not claim a complete answer to the underlying
+philosophical question of what makes a mathematical object `real';
+it claims only a machine-checkable filter. The chapter does not claim
+that any failure of the four obligations rules a candidate out as
+mathematics in some absolute sense; it rules the candidate out of
+\emph{this} BEDC horizon under the AI-proposed track. The chapter does
+not claim that human-curated chapters whose four obligations have not
+been mechanically checked are incorrect; it claims only that they
+inherit consensus credit and need not be re-checked at admission time.
+The chapter does not claim a conservativity proof for arbitrary chapter
+$X$ relative to arbitrary BEDC baseline; the
+\texttt{conservativity\_holds} field is per-chapter and the discharging
+proof is supplied by the chapter itself.

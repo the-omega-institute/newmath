@@ -109,52 +109,108 @@ inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
 inductive types or definitions, use no axioms, and have exactly the strength of
 the host CIC that checks them.
 
-\subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
+\input{parts/self_compilation/03_metacic_reconstruction_syntax_table.tex}
 
-The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
-it is the syntax and judgment-representation layer of the BEDC project. It
-does not replace the host calculus, and it does not present BEDC as a second
-kernel beside Lean. Its task is to make terms, contexts, reductions, and
-typing derivations available as inductive BEDC objects.
+\subsection{Paper vs Mechanization}\label{subsec:reconstruction-paper-vs-mechanization}
 
-This layer complements `\verb|BEDC.Manifest|'. The manifest side registers
-paper-anchored theorem entries as kernel-typed data, so that named results can
-be tracked through the project as typed artifacts. The MetaCIC side supplies
-the inductive description of the calculus whose syntax and judgments can be
-discussed internally.
+The paper and the mechanized Lean module describe the same reconstruction
+surface at different levels of notation. The paper uses LaTeX judgments such
+as $\Gamma \vdash t : T$ to present typing, while the mechanization uses an
+inductive proposition such as \texttt{HasType Gamma t T} to make the judgment
+a host-checked object.
 
-It also sits below `\verb|BEDC.Reflection|'. Reflection handles higher closure
-forms such as ext-membership, name certificates, and package-facing
-identification principles. MetaCIC supplies the typed-term syntactic
-foundation on which such higher closure forms can be related to represented
-judgments when a bridge is present.
+Paper-side markers record the correspondence explicitly. A marker written as
+\texttt{\textbackslash leanchecked}, \texttt{\textbackslash leandef}, or
+\texttt{\textbackslash leanstmt} names the Lean target that carries the
+corresponding theorem, definition, or statement-only surface.
 
-The limit is deliberate. MetaCIC does not simulate the host's full type
-checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
-formalization: its checked claims have the same foundational strength as the
-host that checks them, not a stronger one.
+Thus each paper-claimed theorem has a visible formal status: direct theorem
+via \texttt{\textbackslash leanchecked}, inductive or definitional encoding
+via \texttt{\textbackslash leandef}, or statement-only target via
+\texttt{\textbackslash leanstmt}. The paper therefore does not silently
+identify prose, notation, and kernel objects.
 
-\subsection{Stratification Recap}\label{subsec:reconstruction-stratification-recap}
+\texttt{bedc\_ci.py audit} continuously checks those marker names against
+\texttt{lean4/BEDC/}. A missing or renamed Lean target is an audit failure, so
+the paper text and mechanized module cannot drift silently.
 
-Within \texttt{BEDC.MetaCIC}, L1 is the registration level. BEDC records
-paper-claimed theorems as host-checked Lean data through
-\texttt{BEDC.Manifest}, and the MetaCIC reconstruction is the syntactic
-surface on which the registered calculus-facing claims can be named.
+\subsection{Host Fragment Coverage}\label{subsec:reconstruction-host-fragment-coverage}
 
-L4-mid is the internal representation level. BEDC expresses the inductive
-structure of a CIC fragment, together with selected metatheory, as Lean
-objects and predicates. MetaCIC therefore supplies representation and
-derivation forms; it does not attempt to prove the host's consistency.
+The represented host fragment is the dependent-function core of CIC, with
+explicit de Bruijn variables, one sort constructor, application, lambda, Pi,
+beta reduction, and a shift-aware typing judgment. The coverage boundary is:
 
-L4a is blocked by the Godel boundary. Since BEDC is checked inside the host,
-BEDC cannot prove the host's own consistency from within that same host.
-MetaCIC keeps this boundary intact and does not turn reconstruction into a
-consistency proof for Lean.
+\begin{center}
+\begin{tabular}{p{0.32\linewidth}p{0.34\linewidth}p{0.22\linewidth}}
+\hline
+Host feature & BEDC.MetaCIC & Status \\
+\hline
+\texttt{Term.app} / \texttt{lam} / \texttt{pi} / \texttt{var} / \texttt{sort} & \texttt{Term} inductive & covered \\
+$\beta$-reduction & \texttt{BetaStep} + \texttt{BetaStarStep} + \texttt{BetaParallel} & covered \\
+Typing judgment & \texttt{HasType} & covered, shift-aware substrate \\
+Universe polymorphism & none & not covered \\
+$\eta$-conversion & none & not covered \\
+Inductive types beyond Pi/sort & none & not covered \\
+Equality types (\texttt{Eq}) & none & not covered \\
+Definitional unfolding & \texttt{substitute} composition & partial coverage \\
+Reduction strategies (CBV/CBN) & non-deterministic \texttt{BetaStep} & abstract \\
+\hline
+\end{tabular}
+\end{center}
 
-L4c is rejected. BEDC does not replace the host CIC, and MetaCIC is not an
-alternative foundation. The reconstruction is an inside-host formalization of
-syntax, reduction, typing, and selected metatheory, all under the checking
-authority of the host calculus.
+Thus \texttt{BEDC.MetaCIC} is not a model of the full host kernel. It is the
+host-checked representation of the small CIC fragment needed for the local
+syntax, reduction, typing, and binder-mechanics claims.
+
+\input{parts/self_compilation/03_metacic_reconstruction_correctness_claims.tex}
+
+\subsection{Representation vs Mockup}\label{subsec:reconstruction-rep-vs-mockup}
+
+A mockup form places a host program in front of a separate syntax. For example,
+one may write a Lean tactic that runs a BNF parser, builds an external abstract
+syntax tree, and then reports whether the parsed expression satisfies a
+hand-coded relation. Such a program may be useful as tooling, but its behavior
+is not thereby formally tied to the host's actual type checker. The host checks
+the tactic implementation and any theorem it finally emits; it does not make
+the parser's accepted syntax into the host's own typing judgment.
+
+\texttt{BEDC.MetaCIC} uses a representation form instead. \texttt{Term} is a
+host data type, and \texttt{HasType} is a host inductive proposition. When the
+host kernel elaborates BEDC theorems about \texttt{HasType}, it is at the same
+time verifying the represented typing claims and their proof consequences.
+
+Thus \texttt{BEDC.MetaCIC} is not about mimicking the host from outside. It
+directly specifies the grammar and typing rules of a host-CIC fragment, and
+lets the host kernel check the consequences of those specifications.
+
+\subsection{Positioning Within BEDC}\label{subsec:reconstruction-positioning}
+
+The \texttt{BEDC.MetaCIC} namespace occupies a calculus-reconstruction
+position within the BEDC codebase. \texttt{BEDC.FKernel} is the foundational
+kernel layer, carrying the \texttt{BMark}, \texttt{BHist}, and probe
+primitives. \texttt{BEDC.Derived} builds derived mathematical structures such
+as real objects, groups, modules, and related packets on top of that base.
+
+\texttt{BEDC.Manifest} is the paper-anchored theorem registry: it records
+named theorem entries as kernel-typed artifacts. \texttt{BEDC.Reflection}
+handles closure and certificate forms, including package-facing
+identification principles and name-certificate surfaces. These modules give
+the project its object layer, registry layer, and certificate layer.
+
+\texttt{BEDC.MetaCIC} is complementary to those layers rather than downstream
+of them. It gives an inductive description of a CIC fragment itself: terms,
+contexts, reduction, typing, and closure as represented syntax and judgments.
+It therefore formalizes a calculus fragment in isolation from the derived
+structure, manifest, and reflection APIs, while sharing the same axiom-free
+Lean checking discipline as the rest of BEDC.
+
+MetaCIC does not replace the host CIC or serve as a second kernel beside Lean.
+It represents a fragment inside the host, so theorems about represented
+derivations remain host-checked BEDC theorems. The foundational guarantee is
+the same project-wide one: the surface is built from inductive definitions and
+checked proofs, with no additional axioms.
+
+\input{parts/self_compilation/03_metacic_reconstruction_stratification_recap.tex}
 
 \subsection{Fragments and Limitations}\label{subsec:reconstruction-fragments-limitations}
 
@@ -211,7 +267,7 @@ $$
 \end{aligned}
 $$
 
-\input{parts/self_compilation/03_metacic_reconstruction_typing_vs_host.tex}
+\input{parts/self_compilation/03_metacic_reconstruction_typing_interface.tex}
 
 \subsection{Context Mechanics}\label{subsec:reconstruction-context-mechanics}
 
@@ -271,6 +327,8 @@ The checked containment spine records reflexivity, $\mathrm{BetaStep}
 \leanchecked{BEDC.MetaCIC.betaParallel\_refl}
 \leanchecked{BEDC.MetaCIC.betaStep\_to\_parallel}
 \leanchecked{BEDC.MetaCIC.betaParallel\_to\_betaStar}
+
+\input{parts/self_compilation/03_metacic_reconstruction_reduction_boundary.tex}
 
 The normalization facts are deliberately atomic. $\mathrm{sort\_no\_beta}$
 and $\mathrm{closed\_var\_no\_beta}$ say that the sort constructor and a
@@ -344,36 +402,37 @@ L4a, because BEDC is not closed over the host that checks it, and it is not
 L4c, because BEDC does not replace the host kernel or identify paper closure
 with kernel verification.
 
-\subsection{Host CIC Relation}\label{subsec:reconstruction-host-cic-relation}
+\input{parts/self_compilation/03_metacic_reconstruction_host_cic_relation.tex}
 
-MetaCIC is represented inside the host Lean calculus, not beside it. The
-objects named \texttt{BEDC.MetaCIC.Term}, \texttt{BEDC.MetaCIC.HasType}, and
-\texttt{BEDC.MetaCIC.BetaStep} are implemented as inductive types or
-inductive predicates in the host CIC. They are therefore first-order objects
-for the host: Lean can quantify over represented terms, represented typing
-derivations, and represented beta steps exactly as it quantifies over any
-other inductively generated data.
+\input{parts/self_compilation/03_metacic_reconstruction_godel_tarski_boundary.tex}
 
-The important boundary is axiomatic. The host Lean environment has available
-constants such as \texttt{propext}, \texttt{Quot.sound}, and
-\texttt{Classical.choice} when developments choose to depend on them.
-\texttt{BEDC.MetaCIC} does not use those constants. Its syntax, reduction,
-typing, and checked metatheory are built in the pure CIC fragment by
-inductive definitions and structural proofs.
+\subsection{Host Internalization}\label{subsec:reconstruction-host-internalization}
 
-The verification relation is one-way. The host CIC kernel type-checks each
-BEDC theorem. Within that checked development, a MetaCIC typing derivation is
-an inhabitant of the inductive predicate \texttt{HasType}, and reasoning about
-typing inference is ordinary induction over that predicate. There is no
-circular dependence: the host checks BEDC, while BEDC encodes a CIC fragment
-as data and judgments.
+\texttt{BEDC.MetaCIC} is an internalization of the host CIC, not a mock
+interpreter. \texttt{BEDC.MetaCIC.Term} is the host's
+\texttt{inductive Term} type, so represented syntax is genuine host data.
+\texttt{BEDC.MetaCIC.HasType} is the host's inductive proposition for typing
+derivations, so represented typing is genuine host proposition structure.
 
-This also fixes the Godel-Tarski boundary. \texttt{BEDC.MetaCIC} is not
-outside the host and cannot prove the consistency of the host that checks it.
-It can state and prove fragment metatheory for the represented calculus, but
-it does not create a host-independent consistency proof.
+The operations \texttt{BEDC.MetaCIC.substitute} and
+\texttt{BEDC.MetaCIC.shift} are host \texttt{def} declarations. They are
+therefore genuine host computations on the represented syntax, not external
+notations or parser artifacts. When the Lean kernel type-checks
+\texttt{BEDC.MetaCIC} theorems, the same kernel is also checking the BEDC
+\texttt{HasType} propositions that occur inside those theorem statements.
+
+This differs from a mock interpreter. BEDC does not stub out a fake parser and
+then reason about traces of that parser. It directly represents the inductive
+structure of a CIC fragment as host inductive data, host inductive
+propositions, and host recursive definitions. Consequently, an inconsistency
+in the host kernel would imply an inconsistency in BEDC, because BEDC lives
+inside that host. The converse implication does not follow: a contradiction in
+the represented BEDC surface would not by itself establish host-kernel
+inconsistency.
 
 \input{parts/self_compilation/03_metacic_reconstruction_axiom_purity.tex}
+
+\input{parts/self_compilation/03_metacic_reconstruction_pure_cic_fragment.tex}
 
 \subsection{Encoding Choice}\label{subsec:reconstruction-encoding-choice}
 
@@ -485,22 +544,7 @@ a same-depth one-step shift.
 \leanchecked{BEDC.MetaCIC.substitute\_closed}
 \leanchecked{BEDC.MetaCIC.substitute\_shift\_at\_eq}
 
-\subsection{Glossary}\label{subsec:reconstruction-glossary}
-
-The following terms name the local reconstruction conventions used in this
-section:
-\begin{itemize}
-  \item A shift-aware binder context is a lambda or Pi binder slot whose stored
-    domain is $\mathrm{shift}\ 0\ 1\ \mathrm{dom}$ rather than
-    $\mathrm{dom}$; this choice prevents capture by $\mathrm{var}\ 0$.
-  \item A closed binder domain is the domain of that lambda or Pi satisfying
-    $\mathrm{ClosedAt}\ 0$.
-  \item $\mathrm{BetaStarStep}$ is the reflexive-transitive closure of one-step
-    $\mathrm{BetaStep}$.
-  \item $\mathrm{BetaParallel}$ is Tait--Martin-L\"of style parallel reduction.
-  \item An atom shape is a term whose shape is either $\mathrm{sort}$ or
-    $\mathrm{var}\ i$.
-\end{itemize}
+\input{parts/self_compilation/03_metacic_reconstruction_glossary.tex}
 
 \subsection{Construction Style}\label{subsec:reconstruction-construction-style}
 
@@ -563,6 +607,32 @@ term shapes and closure hypotheses. The development does not hide the
 remaining unrestricted theorem inside one monolithic proof; it exposes the
 proof-relevant shapes that make each derivation go through.
 
+\subsection{Induction Style}\label{subsec:reconstruction-induction-style}
+
+The induction style in \texttt{BEDC.MetaCIC} follows the object being
+analyzed. Term induction is used for syntactic properties of represented
+terms. A proof may proceed by
+\texttt{induction t with | sort => ... | var => ... | app f a ihf iha => ...},
+with the recursive hypotheses supplied exactly for the immediate subterms.
+This is the natural shape for results such as
+\texttt{substitute\_closed}, where the claim is driven by the constructors of
+\texttt{Term}.
+
+Judgment induction is used for structural properties of derivations. Proofs
+about typing and reduction inspect the evidence itself, for example by
+\texttt{induction ht} over a \texttt{HasType} witness or by induction over a
+\texttt{BetaStep} witness. This is the appropriate style for subject-reduction
+case analysis, where each typing or beta constructor exposes the premises that
+the corresponding preservation case may use.
+
+Most case lemmas are therefore local in shape: for an atom source, a concrete
+congruence constructor, or a fixed binder form, the required property holds.
+The main theorem surface is assembled by combining these lemmas with ordinary
+\texttt{cases} and induction over the relevant term or derivation. No proof
+relies on well-founded recursion beyond Lean's built-in recursion principles
+for \texttt{Nat}, \texttt{List}, and the inductive objects defined in the
+MetaCIC surface.
+
 \subsection{Namespace Rationale}\label{subsec:reconstruction-namespace-rationale}
 
 The \texttt{BEDC.MetaCIC} namespace is divided by proof responsibility rather
@@ -581,71 +651,9 @@ kept outside the metatheory namespaces so that examples do not determine the
 core proof interfaces. Each sub-namespace is axiom-free under the strict
 \texttt{bedc\_ci.py axiom-purity --strict} audit.
 
-\subsection{Lean Module Topology}\label{subsec:reconstruction-module-topology}
+\input{parts/self_compilation/03_metacic_reconstruction_process_discipline.tex}
 
-The Lean dependency topology for \texttt{BEDC.MetaCIC} is a directed acyclic
-graph. \texttt{BEDC.MetaCIC.Syntax} is the foundation: it imports
-\texttt{BEDC.FKernel.Mark} and defines $\mathrm{Term}$, $\mathrm{Ctx}$,
-$\mathrm{shift}$, and $\mathrm{substitute}$. On that base,
-\texttt{BEDC.MetaCIC.ClosedTerm} and \texttt{BEDC.MetaCIC.Beta} depend only
-on syntax. The substitution family
-\texttt{BEDC.MetaCIC.Substitution.NatShift},
-\texttt{BEDC.MetaCIC.Substitution.Basic},
-\texttt{BEDC.MetaCIC.Substitution.Core}, and
-\texttt{BEDC.MetaCIC.Substitution.Statements} depends on syntax and closed
-terms, while \texttt{BEDC.MetaCIC.Substitution} re-exports that surface.
-\texttt{BEDC.MetaCIC.Typing.Core},
-\texttt{BEDC.MetaCIC.Typing.SubstitutionSurface}, and
-\texttt{BEDC.MetaCIC.Typing.ClosedBinderDomains} depend on syntax and the
-substitution surface. \texttt{BEDC.MetaCIC.SubjectReduction} depends on
-typing and beta reduction; \texttt{BEDC.MetaCIC.Confluence} depends on beta
-reduction; \texttt{BEDC.MetaCIC.Normalization} depends on beta reduction and
-closed terms; and \texttt{BEDC.MetaCIC.AtomInfer} and
-\texttt{BEDC.MetaCIC.TypedExamples} depend on typing. No module in this
-topology imports back into one of its prerequisites.
-
-\input{parts/self_compilation/03_metacic_reconstruction_tactic_discipline.tex}
-
-\subsection{Internal Manifest Coverage}\label{subsec:internal-manifest-coverage}
-
-\texttt{BEDC.Manifest} is the Lean-side registry for paper-facing theorem
-claims. Its core record is \texttt{BEDC.Manifest.ClaimEntry}, with fields for
-the paper label, fully qualified Lean name, proposition, and proof witness.
-The field \texttt{proof : prop} is dependent: a manifest entry elaborates only
-when Lean's kernel accepts the supplied proof term at the recorded proposition.
-Thus manifest well-formedness is not a string audit; it is kernel type
-checking of the \texttt{List ClaimEntry}.
-
-The registry has 65 Lean-side entries in the unfiltered manifest-coverage
-report. Its breadth includes paper Lean-checked theorems from base reflection,
-ground compiler results, F-kernel gap transport, capstone fable-machine
-claims, reflection claims, derived structures for holonomy, KKT, and spectral
-measure packets, and the six primary MetaCIC examples in this section:
-\texttt{BEDC.MetaCIC.sort\_in\_empty\_ctx},
-\texttt{BEDC.MetaCIC.id\_sort\_well\_typed},
-\texttt{BEDC.MetaCIC.pi\_sort\_sort\_well\_typed},
-\texttt{BEDC.MetaCIC.id\_sort\_applied},
-\texttt{BEDC.MetaCIC.id\_sort\_beta}, and
-\texttt{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx}.
-
-The audit command \texttt{bedc\_ci.py manifest-coverage} compares two
-sets: paper targets named by $\backslash\mathtt{leanchecked}\{X\}$ and Lean
-targets registered in \texttt{BEDC.Manifest.manifest}. It reports the marker
-count, manifest-entry count, coverage ratio, and a sample of paper markers
-that are not represented by manifest entries. The unfiltered report gives
-7831 paper markers and 65 manifest entries, for
-\texttt{65/7831 = 0.83\%}. With the literal namespace filter
-\texttt{--scope all}, the same command reports zero markers and zero entries,
-because no Lean target has prefix \texttt{all}.
-
-The gap is therefore marker-heavy rather than manifest-heavy. The manifest
-contains a selected kernel-typed spine, while many paper markers remain outside
-the internal registry. In this section, the six primary MetaCIC markers above
-are manifest entries; the substitution, subject-reduction, and binder-transport
-markers below are Lean-checked paper markers without manifest entries. The
-audit makes this distinction mechanical: every paper-claimed theorem must be
-visible either through the ordinary $\backslash\mathtt{leanchecked}$ marker
-stream or through the stronger internal manifest entry stream.
+\input{parts/self_compilation/03_metacic_reconstruction_internal_manifest_coverage.tex}
 
 \subsection{Shift-Aware Metatheory Progress}\label{subsec:shift-aware-metatheory-progress}
 
@@ -683,116 +691,14 @@ closedness on closed binder domains.
 
 \input{parts/self_compilation/03_metacic_reconstruction_substrate_stack.tex}
 
+\input{parts/self_compilation/03_metacic_reconstruction_substrate_components_table.tex}
+
 \input{parts/self_compilation/03_metacic_reconstruction_current_state.tex}
 
-\subsection{Evolution Trajectory}\label{subsec:reconstruction-evolution-trajectory}
+\input{parts/self_compilation/03_metacic_reconstruction_evolution_trajectory.tex}
 
-The MetaCIC surface admits several coherent directions while retaining its
-inside-host reconstruction role. One direction is a richer conversion relation:
-eta-conversion can be added to \texttt{BetaStep} and
-\texttt{BetaParallel}, with eta-reduction for functions represented beside
-beta contraction. Another direction is a universe hierarchy, replacing the
-single sort by indexed $\mathrm{Type}\ i$ levels and typing rules that track
-universe movement. A third direction is syntax for inductive families beyond
-Pi and Sort, so that families with constructors and eliminators become
-represented objects.
-
-Deeper metatheory would strengthen the current shape-local surface. A full
-substitution-preservation theorem would transport arbitrary binder domains
-through shift and substitution, rather than relying only on closed-domain
-cases. Strong normalization for closed sort-typed terms would naturally follow
-a Tait reducibility route, with reducibility predicates indexed by represented
-types. A complete Church--Rosser theorem would turn the local parallel
-diamond components into confluence for the full represented reduction system.
-
-A host bridge would add reflection in the other direction: selected
-\texttt{Lean.Expr} values could be translated into BEDC \texttt{Term} values
-under an explicit reconstruction certificate. On that basis, a command such
-as \texttt{\#metacic\_decide} could ask the host to quote a term, reconstruct
-the corresponding MetaCIC object, and discharge represented typing or
-conversion goals against the internal BEDC surface.
-
-\subsection{Open Targets}\label{subsec:reconstruction-open-targets}
-
-The reconstruction does not yet close the following metatheoretic targets:
-\begin{itemize}
-  \item Substitute preservation for open binder domains. The checked theorem
-    covers closed binder-domain hypotheses; open domains still require a
-    general binder-shift and substitution transport argument.
-  \item Subject reduction without body-shape restrictions. The closed body
-    cases are represented, while arbitrary lambda and Pi bodies still require
-    binder-drop handling that commutes with typing projections.
-  \item Confluence as a full diamond property for parallel reduction across
-    all term shapes. The atom cases are closed; Pi, lambda, and application
-    cases still depend on general join assemblers for their components.
-  \item Strong normalization for closed sort-typed terms.
-  \item Decidable type checking for arbitrary Pi, lambda, and application
-    terms. The checked $\mathrm{AtomInfer}$ surface covers only sort and
-    variable atoms.
-\end{itemize}
+\input{parts/self_compilation/03_metacic_reconstruction_open_targets.tex}
 
 \input{parts/self_compilation/03_metacic_reconstruction_results_overview.tex}
 
-\subsection{Build and Audit Process}\label{subsec:reconstruction-build-audit-process}
-
-The complete local verification gate for \texttt{BEDC.MetaCIC} is the Lean
-build followed by the paper and axiom audits:
-
-\begin{verbatim}
-cd lean4 && lake build
-python3 tools/check-axioms.py
-python3 lean4/scripts/bedc_ci.py audit
-python3 lean4/scripts/bedc_ci.py axiom-purity --strict
-python3 lean4/scripts/bedc_ci.py conservativity-audit
-\end{verbatim}
-
-The first command checks that the Lean modules build with no accepted
-\texttt{sorry} terms and no project axioms. The axiom audit enforces the
-source-level ban on \texttt{axiom}. The drift audit resolves the paper's Lean
-markers against the actual \texttt{lean4/BEDC/} namespace. The strict
-axiom-purity audit checks transitive theorem dependencies, excluding
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The
-conservativity audit is the metalogical gate for the reconstruction surface.
-Each command must exit with status $0$. The chain passes only when the paper
-invariant and the mechanized state agree, and that agreement is the local
-shipping condition for the MetaCIC reconstruction.
-
-\subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
-
-The MetaCIC reconstruction has three foundation layers in Lean:
-\texttt{BEDC.MetaCIC.Syntax} defines the de Bruijn term grammar, contexts,
-lookup, shift, and substitution; \texttt{BEDC.MetaCIC.Beta} defines
-one-step beta reduction with congruence constructors; and
-\texttt{BEDC.MetaCIC.ClosedTerm} defines closure at a de Bruijn boundary
-together with the closure lemmas for shift and substitution. On this base,
-\texttt{BEDC.MetaCIC.Typing} exposes the shift-aware typing relation and its
-substitution surface.
-
-Substitution preservation is represented inside
-\texttt{BEDC.MetaCIC.Typing}. The closed binder-domain form,
-$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$,
-gives the binder-domain complete closed variant: when the substituted
-domain, source term, and binder-domain typing surface are closed at the
-relevant boundary, substitution preserves the resulting typing judgment.
-The same module family records the closedness, prefix-removal, and
-$\mathrm{HasType}$ projection lemmas used by that theorem.
-
-Subject reduction is represented by
-\texttt{BEDC.MetaCIC.SubjectReduction}. It contains the beta case, the main
-subject-reduction theorem parameterized by the substitution-preservation and
-stability premises, and the congruence cases for application heads,
-application arguments, lambda bodies, and Pi codomains. The confluence
-surface in \texttt{BEDC.MetaCIC.Confluence} supplies beta-star and parallel
-beta relations, the embedding of one-step beta into parallel beta, and
-diamond components for the variable, sort, application, lambda, and Pi
-cases. The normalization surface in
-\texttt{BEDC.MetaCIC.Normalization} proves the atomic no-step cases for
-sorts and closed variables, including the closed atomic normal-form theorem.
-
-The demonstration layer consists of \texttt{BEDC.MetaCIC.AtomInfer}, which
-infers and proves soundness for sort and variable atoms, and
-\texttt{BEDC.MetaCIC.TypedExamples}, which gives concrete typing derivations
-for variables, Pi terms, lambda identity terms, and applications. The whole
-MetaCIC reconstruction is maintained as axiom-free under
-\texttt{\#print axioms}: the audited theorem dependencies do not include
-\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+\input{parts/self_compilation/03_metacic_reconstruction_summary.tex}

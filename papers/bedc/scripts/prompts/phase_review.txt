@@ -15,6 +15,7 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
 5. `critical_path.top[0..9]` — open horizon chapters.
 6. Theory_extension on any chapter file — paper labels without companion theorems.
+7. **Vision concretization** (`kind = "vision_concretization"`) — at most ONE per round, opt-in (no HARD GATE forcing each round to include one). Scan `parts/visions/*.tex` for a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. If found, this is a valid candidate. **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real.
 
 If after enumerating sources 1-6 the candidate_pool is **still < 5**, then the repo has genuinely run dry on paper-side work and emitting fewer is OK — but you MUST justify in `notes` (e.g. "only 3 candidates: bridge_sync_pending=2 ContinuousUp/PdeUp, drift=1 banach; transitions all empty; theory_extension exhausted").
 
@@ -94,13 +95,22 @@ If a chapter does NOT appear in any of the three critical_path lists above, it i
 
 The corollary: if you see a chapter file with ten `\leanchecked` rows and a `\theoryclosure{\matureClosure}` line in its `closurestatus` block, that chapter is FINISHED — no closure_mark target is possible for it ever again. Pick a different chapter from the lists above.
 
+## HARD GATE — `parts/visions/` is inspiration-only
+
+Paper P-rounds may READ files under `papers/bedc/parts/visions/` as
+context for proposing or upgrading `parts/concrete_instances/` chapters,
+but MUST NOT propose `target_file` paths that point into
+`parts/visions/`. The only allowed write to `parts/visions/` is appending
+a `\concretizedIn{ch:concrete-instances-X-namecert}{one-line}` marker to
+an existing vision chapter; that targeted edit IS allowed.
+
 ## SOFT SIGNAL — meta-capstone discovery board (NO HARD GATE)
 
 `critical_path.py` JSON now exposes `capstone_overlap_map.pairs[*]` and
 `capstone_overlap_map.triples[*]` plus `capstone_overlap_map.open_pairs_total`
 and `capstone_overlap_map.open_triples_total`. Each pair/triple records:
 
-- `a`, `b` (and `c` for triples): capstone chapter file stems under `papers/bedc/parts/capstones/`
+- `a`, `b` (and `c` for triples): capstone chapter file stems under `papers/bedc/parts/visions/`
 - `shared_kernel_objects`: the BEDC namespace prefixes (e.g. `BEDC.FKernel.Hist`, `BEDC.Derived.RingUp`) cited by all sources
 - `shared_lean_targets`: specific Lean target names cited by all sources
 - `unified_by`: a fourth capstone that already unifies the slot, or `null` if open
@@ -114,56 +124,21 @@ not arise from the sieve itself.
 
 How to use this signal:
 
-- IF you (the reviewer) can identify a non-trivial mathematical
-  unification across two/three capstones whose `unified_by` is `null`,
-  AND the unification adds at least one definition or theorem that does
-  NOT trivially follow from the source capstones individually,
-  AND the unification can be stated in BEDC kernel terms (`BHist`, `BMark`,
-  `Cont`, `Ext`, `hsame`, `NameCert`) without introducing new kernel objects,
-  THEN you MAY propose `kind = "theory_extension"` with `notes.flavor =
-  "meta_capstone"`. The target's `paper_files[0]` is a NEW capstone file
-  `papers/bedc/parts/capstones/<theme>.tex`. Phase REVISE will create the
-  file and append `\input{parts/capstones/<theme>}` to
-  `papers/bedc/parts/capstones/_index_files.tex` (alphabetical order).
+- IF you can identify a non-trivial mathematical unification across
+  two/three visions whose `unified_by` is `null`, use the vision files as
+  context for a concrete-instance target under
+  `papers/bedc/parts/concrete_instances/`.
+- IF an existing vision has already been fully realized by one or more
+  concrete-instance NameCert chapters, you MAY propose the allowed marker
+  edit above: append `\concretizedIn{<full-label>}{<one-line>}` to that
+  existing vision chapter.
+- IF you cannot identify a substantive concrete-instance target or a valid
+  concretization marker, do NOT propose a vision target. Pure syntactic
+  intersection is a TRIVIAL candidate and produces a no-op round.
 
-- IF you cannot identify a substantive unification, do NOT propose a
-  meta-capstone target. Pure syntactic intersection is a TRIVIAL
-  candidate and produces a no-op round. The board's purpose is to
-  record negative space, not to mandate filling it.
-
-The pipeline never strictly requires a meta-capstone target; rounds
-that don't propose one are not penalized. Meta-capstone discovery is
-a soft track running alongside the hard-gate frontier.
-
-## HARD GATE — meta-capstone trivial-overlap rejection
-
-If the round proposes a `kind = "theory_extension"` with `notes.flavor =
-"meta_capstone"`, the proposal MUST satisfy ALL of:
-
-1. The proposed unification adds at least 2 NEW theorems or definitions
-   whose statements reference BEDC kernel objects (`BHist`, `BMark`,
-   `Cont`, `Ext`, `hsame`, `NameCert`).
-2. At least 1 of the new theorems must NOT be a corollary of source
-   capstones' existing theorems — its proof must use the unification
-   structure itself, not merely instantiate one source's claim in
-   another's vocabulary.
-3. The proposed capstone must declare at least 1 NEW Lean target
-   (`\leandef`, `\leanstmt`, or eventually `\leanchecked`) that does
-   not exist in any source capstone — i.e. the meta-capstone synthesizes
-   a new identification, not a name change.
-4. The proposed capstone's prose must explicitly cite BOTH (or all
-   THREE) source capstones via `\autoref{ch:capstones-<source-slug>}`.
-
-A meta-capstone proposal failing any of these is a TRIVIAL OVERLAP
-and MUST be replaced. This gate prevents the no-op cycle where the
-pipeline mechanically generates "Capstone A and B both invoke X, here
-is meta-capstone naming X" — a tautology, not a unification.
-
-This gate is independent of the existing capstone gate at line 415:
-ordinary capstones synthesize ≥ 3 `<X>Up`-style chapters; meta-capstones
-synthesize ≥ 2 capstones. The two gates compose; an ordinary-capstone
-target (flavor=capstone) and a meta-capstone target (flavor=meta_capstone)
-are distinct kinds and can coexist in a multi-target round.
+The pipeline never strictly requires a vision-derived target; rounds that
+do not propose one are not penalized. Vision discovery is a soft track
+running alongside the hard-gate frontier.
 
 ## HARD GATE — human-known chapter extension when frontier saturates
 
@@ -702,22 +677,22 @@ A Lean round picking such a horizon can ONLY produce parameter-echo schema (`(na
 
 Once such a paper block lands, the chapter exits `SCHEMA_ONLY_HORIZONS` (we update `critical_path.py` separately), and Lean rounds can attack it without producing parameter echo. **One unlock per round is enough.** The 16 banned chapters are 16 high-leverage extensions; do not stack two unlocks in a single review round.
 
-## Capstone extension (HARD GATE — high priority)
+## Cross-chapter extension (HARD GATE — high priority)
 
-When the candidate pool is otherwise weak (no top-3 critical-path target with a clear theorem, no schema-unlock backlog), prefer a CAPSTONE: a theorem that **combines `\leanchecked` results from ≥ 3 different chapters** into a single conclusion stated about concrete BEDC kernel objects. Capstones are the only path from BEDC's current "broad coverage of local closures" to "depth: external named results provable inside BEDC."
+When the candidate pool is otherwise weak (no top-3 critical-path target with a clear theorem, no schema-unlock backlog), prefer a cross-chapter theorem that **combines `\leanchecked` results from ≥ 3 different concrete-instance chapters** into a single conclusion stated about concrete BEDC kernel objects. Vision chapters may supply inspiration for the target, but the proposed write target is a concrete-instance chapter.
 
-A capstone target MUST satisfy ALL of:
+A cross-chapter target MUST satisfy ALL of:
 
-- `kind = "theory_extension"` AND `notes.flavor = "capstone"`.
+- `kind = "theory_extension"` AND `notes.flavor = "cross_chapter"`.
 - `cited_sources` field listing ≥ 3 fully-qualified Lean names from ≥ 3 different `BEDC.Derived.*` chapters.
 - `proposed_change` stating a concrete theorem whose proof composes the cited sources into a known external result (Cauchy completeness for RealUp; uniform continuity on compact metric spaces; Yoneda lemma in BEDC encoding; group isomorphism theorems; S¹ connectedness; supremum existence on bounded subsets of Real; …).
 - `downstream_use` naming the named external result (e.g. "constructive Cauchy completeness", "Yoneda lemma", "first isomorphism theorem").
 
-Capstones score higher than ordinary `missing_companion` candidates: they consume coverage rather than produce more of it. When you emit a capstone target, set its `quality_score = 10` and `selection_rank = 1`. If you cannot identify a capstone supported by ≥ 3 cross-chapter `\leanchecked`, do not invent one — ordinary `theory_extension` is fine, but record `capstone_attempted = true` in `notes` so the rolling window knows you tried.
+Cross-chapter targets score higher than ordinary `missing_companion` candidates: they consume coverage rather than produce more of it. When you emit such a target, set its `quality_score = 10` and `selection_rank = 1`. If you cannot identify a supported target with ≥ 3 cross-chapter `\leanchecked`, do not invent one — ordinary `theory_extension` is fine, but record `cross_chapter_attempted = true` in `notes` so the rolling window knows you tried.
 
-**Capstone candidates to keep an eye on (illustrative, not exhaustive — pick one whose support is actually present):**
+**Cross-chapter candidates to keep an eye on (illustrative, not exhaustive — pick one whose support is actually present):**
 
-| Capstone | Required cross-chapter support |
+| Target | Required cross-chapter support |
 |---|---|
 | Real Cauchy completeness | RealUp + RatUp + ContinuousUp |
 | Compact-metric uniform continuity | CompactUp + MetricUp + ContinuousUp |
@@ -726,7 +701,7 @@ Capstones score higher than ordinary `missing_companion` candidates: they consum
 | S¹ is connected and compact | S1Up + CompactUp + ContinuousUp |
 | Supremum on bounded Real subsets | RealUp + TotalOrderUp + LatticeUp (after order chapters are unlocked) |
 
-When a capstone lands, record it explicitly in `papers/bedc/parts/<theme>/<file>.tex` with a `\paragraph{Capstone}` annotation so future review rounds can grep for capstones and avoid duplicating them.
+When a cross-chapter theorem lands, place it in the concrete-instance chapter that consumes the result and use ordinary semantic labels so future review rounds can avoid duplicating it.
 
 ## Theory-extension quota (HARD GATE)
 
@@ -776,23 +751,24 @@ Concrete examples of `cross_chapter_unification = 2` candidates:
 
 Add `cross_chapter_unification: 0|1|2` as a field inside every `quality_score` JSON object, both in `candidate_pool` entries and in emitted `targets`. Without this field the round is malformed.
 
-## Capstone placement (HARD GATE for cross_chapter_unification = 2)
+## Cross-chapter placement (HARD GATE for cross_chapter_unification = 2)
 
-When the selected target has `cross_chapter_unification = 2`, its `paper_files[0]` MUST be either:
-
-(a) `papers/bedc/parts/capstones/<theme>.tex` (creating the file if it does not exist; `<theme>` is short snake_case naming the unification, e.g. `cont_as_morphism`, `real_metric_correspondence`, `bishop_uniform_continuity`).
-
-(b) the `.tex` file of the DEEPEST-DEPENDENT chapter among the cited sources, IF the bridge is naturally a refinement within that chapter rather than a standalone result.
+When the selected target has `cross_chapter_unification = 2`, its
+`paper_files[0]` MUST be the `.tex` file of the deepest-dependent
+concrete-instance chapter among the cited sources. The bridge may read
+`papers/bedc/parts/visions/` for context, but the mature theorem lands in
+`papers/bedc/parts/concrete_instances/`.
 
 Heuristic:
-- Bridge whose conclusion is an iff / equivalence / correspondence between constructions from DIFFERENT chapters → choose (a).
-- Bridge whose conclusion strengthens ONE chapter's existing theorem by importing a premise from another chapter → choose (b) on that chapter.
+- Bridge whose conclusion is an iff / equivalence / correspondence between
+  constructions from different chapters → choose the chapter whose
+  NameCert construction consumes the most downstream structure.
+- Bridge whose conclusion strengthens one chapter's existing theorem by
+  importing a premise from another chapter → choose that chapter.
 
-Default to (a) unless the bridge clearly belongs to one chapter's internal structure.
-
-When using (a) for a NEW theme (capstone file does not yet exist), the candidate's `new_files` MUST list `papers/bedc/parts/capstones/<theme>.tex`, and its `proposed_change` must include the explicit instruction to phase_revise: *"Append `\input{parts/capstones/<theme>}` to `papers/bedc/parts/capstones/_index_files.tex` (alphabetical order)."*
-
-For `cross_chapter_unification < 2`, capstones/ MUST NOT be selected as `paper_files[0]`. The capstones chapter is reserved for genuine 3+-chapter bridges; using it for ordinary cross-chapter references pollutes its purpose.
+For all `cross_chapter_unification` values, `parts/visions/` MUST NOT be
+selected as `paper_files[0]` unless the target is only a
+`\concretizedIn{...}{...}` marker append on an existing vision file.
 
 You MUST output the candidate pool in the top-level JSON field `candidate_pool`. This is an audit artifact, not work for the revise phase. Each candidate-pool entry must include: `candidate_id`, `kind`, `paper_files`, `anchor`, `summary`, `difficulty`, `quality_score`, `feasible`, `rejected_reason` (empty for feasible candidates), and `selection_rank` (1 is best). The emitted `targets[0]` MUST correspond exactly to the feasible candidate with `selection_rank = 1`. Do not hide harder feasible candidates; if a harder candidate is not selected, mark it infeasible or lower-ranked and state the concrete reason. Do not include invalid or speculative candidates in `targets`.
 

@@ -269,17 +269,45 @@ bridge packet, not through the public $\NameCert_{\FactorUp}$ surface itself.
 \end{proof}
 \leanchecked{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary}
 
+\begin{theorem}[Factor bridge consumer completeness]
+\label{thm:factor-bridge-consumer-completeness}
+Any finite consumer of the displayed $\FactorUp$ bridge surface reads exactly
+the dependency $\VonNeumannAlgUp$ row, algebra carrier, centre row, transported
+trivial-centre witness, factor-type classifier, and shared $\hsame/\Cont/\Pkg$
+ledger already exported by \autoref{thm:factor-public-namecert-export} and
+\autoref{thm:factor-public-bridge-boundary}.
+
+It cannot read a host von Neumann algebra, central decomposition, trace theorem,
+or ambient factor classification.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:factor-vonneumann-dependency-consumer-boundary}. It fixes the
+consumer boundary at the displayed $\VonNeumannAlgUp$ dependency, algebra
+carrier, centre row, and trivial-centre witness.
+
+Next apply \autoref{thm:factor-public-namecert-export}. The public certificate
+adds the factor-type classifier and the shared $\hsame/\Cont/\Pkg$ ledger, and
+ledger exactness prevents any hidden classifier or representation row from being
+read.
+
+Finally apply \autoref{thm:factor-public-bridge-boundary}. The bridge-facing
+surface is precisely the same public packet, so a finite consumer receives no
+host von Neumann algebra, central decomposition, trace theorem, or ambient
+factor classification.
+\end{proof}
+
 \closureat{FactorUp}{scopedStr}[BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary]
 \closureat{FactorUp}{publicStr}[BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_namecert\_export]
 \closureat{FactorUp}{bridgedStr}[BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary]
+\closureat{FactorUp}{matureStr}[BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary]
 
 \begin{closurestatus}{\FactorUp}
   \constructivestory{A $\FactorUp$ row is built as a finite $\mathsf{BHist}$ packet whose visible coordinates are the $\NameCert_{\VonNeumannAlgUp}$ dependency, the algebra carrier, the centre row, the transported trivial-centre witness, the factor-type classifier, and the shared $\hsame/\Cont$ ledger. The carrier theorem reads the dependency and trivial-centre witness directly from that packet, while the surrounding certificate theorems record classifier stability, ledger exactness, consumer boundaries, and the public bridge-facing surface.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The public surface is the listed $\mathsf{BHist}$ source packet, trivial-centre carrier, classifier, $\VonNeumannAlgUp$ consumer rows, exported public $\NameCert_{\FactorUp}$ certificate, and the cited Lean target.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.FactorUp.FactorBHistSourcePacket\_public\_bridge\_boundary}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close spectral decomposition, representation theorems, measure-class data, or standard bridge rows.}
-  \upgradepath{Mature closure requires finite consumer examples for the displayed $\FactorUp$ bridge surface.}
+  \upgradepath{No stronger paper theory grade remains; bridgeChecked is a separate verification-axis target.}
 \end{closurestatus}
