@@ -273,3 +273,12 @@ $(TEST_DIR)/test_meta_cic: $(TEST_DIR)/test_meta_cic.c $(TEST_DIR)/manifest_runn
 
 TESTS += $(TEST_DIR)/test_meta_cic
 test: $(TEST_DIR)/test_meta_cic
+
+$(TEST_DIR)/test_ground_compiler: $(TEST_DIR)/test_ground_compiler.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_ground_compiler.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
+	    $(ENCODER_DIR)/groundcompiler_encoding.c
+
+TESTS += $(TEST_DIR)/test_ground_compiler
+test: $(TEST_DIR)/test_ground_compiler
