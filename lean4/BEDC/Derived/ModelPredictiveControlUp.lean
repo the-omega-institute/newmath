@@ -107,6 +107,69 @@ theorem ModelPredictiveControlPacket_receding_horizon_boundary [AskSetup] [Packa
       provenanceUnary, firstControlUnary, rolloutRow, provenanceRow, firstControlRow,
       sameFirstControl, provenancePkg, firstControlPkg⟩
 
+def ModelPredictiveControlConstraintLedger [AskSetup] [PackageSetup]
+    (state input horizon dynamics cost rollout provenance nameRow constraintWindow terminal :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+      bundle pkg ∧
+    Cont horizon cost constraintWindow ∧ Cont constraintWindow rollout terminal ∧
+      PkgSig bundle terminal pkg
+
+theorem ModelPredictiveControlConstraintLedger_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow constraintWindow terminal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlConstraintLedger state input horizon dynamics cost rollout provenance
+        nameRow constraintWindow terminal bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ModelPredictiveControlConstraintLedger state input horizon dynamics cost rollout
+            provenance nameRow constraintWindow terminal bundle pkg ∧ hsame row terminal)
+        (fun row : BHist =>
+          ModelPredictiveControlConstraintLedger state input horizon dynamics cost rollout
+            provenance nameRow constraintWindow terminal bundle pkg ∧ hsame row terminal)
+        (fun row : BHist =>
+          ModelPredictiveControlConstraintLedger state input horizon dynamics cost rollout
+            provenance nameRow constraintWindow terminal bundle pkg ∧ hsame row terminal)
+        hsame := by
+  intro ledger
+  have ledgerSource := ledger
+  obtain ⟨packet, horizonCostWindow, windowRolloutTerminal, _terminalPkg⟩ := ledger
+  obtain ⟨stateUnary, _inputUnary, horizonUnary, dynamicsUnary, costUnary, _nameUnary,
+    stateDynamicsRollout, _rolloutHorizonProvenance, _provenancePkg⟩ := packet
+  have rolloutUnary : UnaryHistory rollout :=
+    unary_cont_closed stateUnary dynamicsUnary stateDynamicsRollout
+  have constraintWindowUnary : UnaryHistory constraintWindow :=
+    unary_cont_closed horizonUnary costUnary horizonCostWindow
+  have _terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed constraintWindowUnary rolloutUnary windowRolloutTerminal
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro terminal (And.intro ledgerSource (hsame_refl terminal))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 theorem ModelPredictiveControlPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {state input horizon dynamics cost rollout provenance nameRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

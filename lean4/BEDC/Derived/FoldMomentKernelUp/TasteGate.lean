@@ -1,19 +1,25 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
+
+/-!
+# FoldMomentKernelUp TasteGate carrier.
+-/
 
 namespace BEDC.Derived.FoldMomentKernelUp
 
-open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.MainTheorems
 open BEDC.Meta.TasteGate
 
+/-- Finite fold-moment kernel packet with the nine BEDC rows visible to consumers. -/
 inductive FoldMomentKernelUp : Type where
   | mk :
       (window foldSource fiberLedger momentIndex collisionCount transport continuation
         provenance nameCert : BHist) →
-        FoldMomentKernelUp
+      FoldMomentKernelUp
   deriving DecidableEq
 
 private def foldMomentKernelEncodeBHist : BHist → RawEvent
@@ -40,7 +46,7 @@ private theorem foldMomentKernelDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
+def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
       transport continuation provenance nameCert =>
@@ -203,6 +209,19 @@ instance foldMomentKernelChapterTasteGate : ChapterTasteGate FoldMomentKernelUp 
     intro x y hxy heq
     exact hxy (foldMomentKernelToEventFlow_injective heq)
 
+theorem FoldMomentKernelUp_zero_window_packet :
+    ∃ x : FoldMomentKernelUp,
+      x =
+          FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x :=
+    FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
+/-- Public gate object for the finite fold-moment-kernel carrier. -/
 def taste_gate : ChapterTasteGate FoldMomentKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
   foldMomentKernelChapterTasteGate
@@ -233,6 +252,38 @@ theorem FoldMomentKernelTasteGate_zero_window_display :
         []] := by
   -- BEDC touchpoint anchor: BHist BMark
   rfl
+
+theorem FoldMomentKernelTasteGate_single_carrier_alignment :
+    (∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h) ∧
+      (∀ x : FoldMomentKernelUp,
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x) ∧
+      (∀ x y : FoldMomentKernelUp,
+        foldMomentKernelToEventFlow x = foldMomentKernelToEventFlow y → x = y) ∧
+      foldMomentKernelEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact foldMomentKernelDecodeEncodeBHist
+  · constructor
+    · exact foldMomentKernel_round_trip
+    · constructor
+      · intro x y heq
+        exact foldMomentKernelToEventFlow_injective heq
+      · rfl
+
+theorem FoldMomentKernelZeroWindowPacket :
+    exists x : FoldMomentKernelUp,
+      x =
+          FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty /\
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine
+    Exists.intro
+      (FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ?_
+  constructor
+  · rfl
+  · rfl
 
 theorem FoldMomentKernelTasteGate_visible_rows :
     (forall x : FoldMomentKernelUp,

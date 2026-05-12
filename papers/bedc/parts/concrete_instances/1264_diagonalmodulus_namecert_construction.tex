@@ -35,6 +35,8 @@ Two $\DiagonalModulusUp$ carrier rows are classified together exactly when their
 \label{thm:diagonalmodulus-window-selector-total}
 For every accepted $\DiagonalModulusUp$ carrier row and every displayed unary precision request $n$, the selected modulus threshold $\mu$ determines a finite $\StreamNameUp$ window $w$ and a $\RegSeqRatUp$ readback row $r$ inside that window. The selector therefore returns visible finite data for every consumer precision request.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalModulusUp.DiagonalModulusPacket\_window\_selector\_total}
+\leanvariant{BEDC.Derived.DiagonalModulusUp.DiagonalModulusWindowCarrier\_selector\_total}
 \begin{proof}
 Project the carrier row of \autoref{def:diagonalmodulus-carrier}. The precision coordinate $n$ and the threshold coordinate $\mu$ are stored before any readback, so the window selection is read from displayed data rather than from an external sequence object.
 
@@ -94,14 +96,16 @@ Since the classifier of \autoref{def:diagonalmodulus-classifier} compares only d
 
 \closureat{DiagonalModulusUp}{seedStr}
 \closureat{DiagonalModulusUp}{obligationStr}
+\closureat{DiagonalModulusUp}{scopedStr}
+\closureat{DiagonalModulusUp}{publicStr}[BEDC.Derived.DiagonalModulusUp.DiagonalModulusPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\DiagonalModulusUp}
   \constructivestory{A $\DiagonalModulusUp$ packet is generated from a unary precision request, a selected modulus threshold, a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The obligation surface is the carrier row, classifier, total finite-window selector, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal boundary, dependency stability, and $\RealCauchyCompletionUp$ consumer transport.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, selector totality, $\RegSeqRatUp$ handoff exactness, $\RealUp$ seal non-escape, dependency stability, and the completion-consumer transport theorem.}
+  \upgradepath{The next paper grade is a bridge theorem over the same displayed precision, modulus, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
