@@ -167,16 +167,17 @@ The listed finite rows are therefore the whole public packet export.
 \closureat{KKTUp}{obligationStr}
 \closureat{KKTUp}{scopedStr}[BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary]
 \closureat{KKTUp}{publicStr}[BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary]
+\closureat{KKTUp}{bridgedStr}[BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary]
 \begin{closurestatus}{\KKTUp}
   \constructivestory{The construction starts from a finite constrained-convex-program packet, records primal, dual, residual, stationarity, feasibility, and complementary-slackness rows, and routes every read through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{By \autoref{thm:kkt-downstream-consumer-boundary} and \autoref{thm:kkt-public-finite-packet-export}, the scoped boundary binds the primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of the finite KKT packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{By \autoref{thm:kkt-downstream-consumer-boundary}, \autoref{thm:kkt-public-finite-packet-export}, \autoref{def:kkt-standard-finite-packet-presentation}, and \autoref{thm:kkt-finite-packet-standard-bridge}, the scoped boundary binds the primal, dual, residual, stationarity, feasibility, slackness, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of the finite KKT packet and its standard finite-packet bridge.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close full nonlinear optimization, Slater existence, analytic differentiability, host real optimization semantics, or a standard bridge.}
-  \upgradepath{The next paper obligation is the standard bridge for the finite KKT packet without adding analytic optimization semantics.}
+  \notclaimed{This chapter does not close full nonlinear optimization, Slater existence, analytic differentiability, host real optimization semantics, or checked bridge status.}
+  \upgradepath{Mature closure requires the finite-packet examples and completeness of downstream conservative reads without adding analytic optimization semantics.}
 \end{closurestatus}
 
 \begin{definition}[Standard finite KKT packet presentation]
