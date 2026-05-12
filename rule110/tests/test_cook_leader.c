@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static uint8_t ether_cell_at_step(size_t pos, size_t step_count) {
     size_t shift = (4 * step_count) % COOK_ETHER_WIDTH;
@@ -68,10 +69,27 @@ static void test_leader_does_not_destroy_ether_outside(void) {
     printf("  leader_does_not_destroy_ether_outside: PASS\n");
 }
 
+static void test_leader_phase_exact_missing_catalog(void) {
+    uint8_t cells[96];
+    uint8_t before[96];
+    int rc = 0;
+
+    memset(cells, 0x5a, sizeof(cells));
+    memcpy(before, cells, sizeof(cells));
+
+    rc = cook_leader_emit_phase_exact(cells, 20, sizeof(cells));
+
+    assert(rc == COOK_LEADER_PHASE_EXACT_CATALOG_MISSING);
+    assert(memcmp(cells, before, sizeof(cells)) == 0);
+
+    printf("  leader_phase_exact_missing_catalog: PASS\n");
+}
+
 int main(void) {
     printf("== test_cook_leader ==\n");
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
+    test_leader_phase_exact_missing_catalog();
     printf("ALL test_cook_leader tests passed\n");
     return 0;
 }
