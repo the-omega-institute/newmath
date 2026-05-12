@@ -27,6 +27,52 @@ def RegularCauchyFamilyCarrier [AskSetup] [PackageSetup]
           Cont modulus windows dyadicLedger ∧ Cont dyadicLedger diagonalRoute contRoutes ∧
             Cont transports contRoutes provenance ∧ PkgSig bundle provenance pkg
 
+theorem RegularCauchyFamilyCarrier_transport_stability [AskSetup] [PackageSetup]
+    {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
+      provenance localCert memberLedger' memberRows' modulus' windows' dyadicLedger'
+      diagonalRoute' transports' contRoutes' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows dyadicLedger
+        diagonalRoute transports contRoutes provenance localCert bundle pkg ->
+      hsame memberLedger memberLedger' ->
+        hsame memberRows memberRows' ->
+          hsame modulus modulus' ->
+            hsame windows windows' ->
+              hsame dyadicLedger dyadicLedger' ->
+                hsame diagonalRoute diagonalRoute' ->
+                  hsame transports transports' ->
+                    hsame contRoutes contRoutes' ->
+                      hsame provenance provenance' ->
+                        hsame localCert localCert' ->
+                          Cont memberLedger' memberRows' modulus' ->
+                            Cont modulus' windows' dyadicLedger' ->
+                              Cont dyadicLedger' diagonalRoute' contRoutes' ->
+                                Cont transports' contRoutes' provenance' ->
+                                  PkgSig bundle provenance' pkg ->
+                                    RegularCauchyFamilyCarrier memberLedger' memberRows'
+                                      modulus' windows' dyadicLedger' diagonalRoute'
+                                      transports' contRoutes' provenance' localCert'
+                                      bundle pkg := by
+  intro carrier sameMemberLedger sameMemberRows sameModulus sameWindows sameDyadicLedger
+    sameDiagonalRoute sameTransports sameContRoutes sameProvenance sameLocalCert
+    memberRoute' windowRoute' diagonalRouteRow' provenanceRoute' provenancePkg'
+  obtain ⟨memberLedgerUnary, memberRowsUnary, modulusUnary, windowsUnary,
+    dyadicLedgerUnary, diagonalRouteUnary, transportsUnary, contRoutesUnary,
+    provenanceUnary, localCertUnary, _memberRoute, _windowRoute, _diagonalRouteRow,
+    _provenanceRoute, _provenancePkg⟩ := carrier
+  exact
+    ⟨unary_transport memberLedgerUnary sameMemberLedger,
+      unary_transport memberRowsUnary sameMemberRows,
+      unary_transport modulusUnary sameModulus,
+      unary_transport windowsUnary sameWindows,
+      unary_transport dyadicLedgerUnary sameDyadicLedger,
+      unary_transport diagonalRouteUnary sameDiagonalRoute,
+      unary_transport transportsUnary sameTransports,
+      unary_transport contRoutesUnary sameContRoutes,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport localCertUnary sameLocalCert,
+      memberRoute', windowRoute', diagonalRouteRow', provenanceRoute', provenancePkg'⟩
+
 theorem RegularCauchyFamilyCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
       provenance localCert : BHist}
