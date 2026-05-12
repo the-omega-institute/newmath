@@ -178,4 +178,35 @@ theorem RegularCauchySumCarrier_symmetric_input_handoff [AskSetup] [PackageSetup
     unary_cont_comm leftEndpointUnary rightEndpointUnary sumEndpointRoute swappedRoute
   exact ⟨swappedUnary, sameSumSwapped, sumEndpointRoute, swappedRoute, pkgSig⟩
 
+theorem RegularCauchySumCarrier_realup_seal_nonempty_iff [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont readback provenance realSeal ->
+        UnaryHistory realSeal ∧
+          (((hsame realSeal BHist.Empty -> False) ↔
+              (hsame readback BHist.Empty -> False) ∨
+                (hsame provenance BHist.Empty -> False))) ∧
+            PkgSig bundle provenance pkg := by
+  intro carrier realSealRow
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, routesUnary,
+    provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, pkgSig⟩ := carrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary provenanceUnary realSealRow
+  have realSealNonempty :
+      ((hsame realSeal BHist.Empty -> False) ↔
+        (hsame readback BHist.Empty -> False) ∨
+          (hsame provenance BHist.Empty -> False)) := by
+    cases realSealRow
+    exact append_nonempty_iff
+  exact ⟨realSealUnary, realSealNonempty, pkgSig⟩
+
 end BEDC.Derived.RegularCauchySumUp
