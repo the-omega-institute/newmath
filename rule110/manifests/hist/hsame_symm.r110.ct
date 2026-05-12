@@ -1,0 +1,12 @@
+R110_MANIFEST 1
+SOURCE_CT rule110/manifests/hist/hsame_symm.enum.ct
+CONSTRUCTION direct_initial_payload
+INITIAL_LENGTH 60
+ASSERTIONS 7
+case empty_empty: input=1111 ; rule110_initial=000000000000000011110000000000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=4 ; expected_payload=1111 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_empty_e1_empty: input=0111011 ; rule110_initial=000000000000000001110110000000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=7 ; expected_payload=0111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e1_empty_e0_empty: input=1011011 ; rule110_initial=000000000000000010110110000000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=7 ; expected_payload=1011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_e1_self: input=0101101011 ; rule110_initial=000000000000000001011010110000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=10 ; expected_payload=0101101011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case deep_self: input=0100101000101101001010001011 ; rule110_initial=000000000000000001001010001011010010100010110000000000000000 ; steps=0 ; payload_start=16 ; payload_len=28 ; expected_payload=0100101000101101001010001011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0e1e0_e1e0e1: input=0100111001011 ; rule110_initial=000000000000000001001110010110000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=13 ; expected_payload=0100111001011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e1e0e1_e0e1e0: input=1001011010011 ; rule110_initial=000000000000000010010110100110000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=13 ; expected_payload=1001011010011 ; encoding=direct_bit_payload ; construction=direct_initial_payload

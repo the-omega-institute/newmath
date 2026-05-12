@@ -1,0 +1,10 @@
+R110_MANIFEST 1
+SOURCE_CT rule110/manifests/ground_compiler/flow_round_trip.enum.ct
+CONSTRUCTION direct_initial_payload
+INITIAL_LENGTH 48
+ASSERTIONS 5
+case empty_flow: input= ; rule110_initial=000000000000000000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=0 ; expected_payload= ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case single_empty: input=11 ; rule110_initial=000000000000000011000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=2 ; expected_payload=11 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case b0_then_b1: input=0111011 ; rule110_initial=000000000000000001110110000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=7 ; expected_payload=0111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case mixed_three: input=0101110011011 ; rule110_initial=000000000000000001011100110110000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=13 ; expected_payload=0101110011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case long_payload_pair: input=0100101100101011 ; rule110_initial=000000000000000001001011001010110000000000000000 ; steps=0 ; payload_start=16 ; payload_len=16 ; expected_payload=0100101100101011 ; encoding=direct_bit_payload ; construction=direct_initial_payload

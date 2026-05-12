@@ -1,0 +1,15 @@
+R110_MANIFEST 1
+SOURCE_CT rule110/manifests/cont/cont_basic.enum.ct
+CONSTRUCTION direct_initial_payload
+INITIAL_LENGTH 50
+ASSERTIONS 10
+case empty_empty_empty: input=111111 ; rule110_initial=00000000000000001111110000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=6 ; expected_payload=111111 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_empty_e0: input=01111011 ; rule110_initial=00000000000000000111101100000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=8 ; expected_payload=01111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case empty_e1_e1: input=1110111011 ; rule110_initial=00000000000000001110111011000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=10 ; expected_payload=1110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_e1_e1_e0: input=011101110011 ; rule110_initial=00000000000000000111011100110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=12 ; expected_payload=011101110011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e1_e0_e1_e0_e1: input=1011010110101011 ; rule110_initial=00000000000000001011010110101011000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=16 ; expected_payload=1011010110101011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011 ; rule110_initial=00000000000000000101110011100010110000000000000000 ; steps=0 ; payload_start=16 ; payload_len=18 ; expected_payload=010111001110001011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case empty_empty_e0: input=1111011 ; rule110_initial=00000000000000001111011000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=7 ; expected_payload=1111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case empty_e0_empty: input=1101111 ; rule110_initial=00000000000000001101111000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=7 ; expected_payload=1101111 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e0_e1_wrong_order: input=011101101011 ; rule110_initial=00000000000000000111011010110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=12 ; expected_payload=011101101011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case e1_e0_wrong_outer: input=101101110011 ; rule110_initial=00000000000000001011011100110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=12 ; expected_payload=101101110011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
