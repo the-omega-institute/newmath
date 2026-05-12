@@ -46,6 +46,33 @@ static void test_hsame_refl_enum(void) {
     printf("  hsame_refl.enum: 5/5 cases PASS\n");
 }
 
+static void assert_hsame_refl_algo_case(const char *input_bits,
+                                        const char *expected_marker) {
+    MrResult r = mr_run_ct_manifest("manifests/hist/hsame_refl.algo.ct",
+                                    input_bits,
+                                    expected_marker,
+                                    strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "hsame_refl.algo FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+static void test_hsame_refl_algo(void) {
+    assert_hsame_refl_algo_case("1111",
+                                "10000100011001010011");
+    assert_hsame_refl_algo_case("011011",
+                                "10001100101010010101");
+    assert_hsame_refl_algo_case("10111011",
+                                "100001001010011101001011010111");
+    assert_hsame_refl_algo_case("0101101011",
+                                "100011001110100101101100011001");
+    assert_hsame_refl_algo_case("10010111001011",
+                                "1000010011101011011010111110101110011101");
+    printf("  hsame_refl.algo: 5/5 cases PASS (bounded CT marker certificates)\n");
+}
+
 static void pipeline_smoke_test_hist_manifest(void) {
     MrResult r = mr_run_ct_manifest("manifests/hist/hsame_refl.enum.ct", "1111", "", 200);
     if (r != MR_PASS) {
@@ -59,7 +86,8 @@ static void pipeline_smoke_test_hist_manifest(void) {
 int main(void) {
     printf("== test_hist ==\n");
     test_hsame_refl_enum();
+    test_hsame_refl_algo();
     pipeline_smoke_test_hist_manifest();
-    printf("ALL test_hist assertions passed (5 BHist hsame_refl enum cases)\n");
+    printf("ALL test_hist assertions passed (5 BHist hsame_refl enum cases + 5 algo cases)\n");
     return 0;
 }
