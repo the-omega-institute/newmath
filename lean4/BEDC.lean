@@ -57,6 +57,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ArzelaAscoliUp
+import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -80,6 +81,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
+import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
@@ -214,6 +216,7 @@ import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
+import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
@@ -259,6 +262,7 @@ import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
+import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -1296,10 +1300,12 @@ import BEDC.MetaCIC.Substitution.Core
 import BEDC.MetaCIC.TypedExamples.Projections
 import BEDC.MetaCIC.TypedExamples.BasicApplications
 import BEDC.MetaCIC.TypedExamples.Applications
+import BEDC.MetaCIC.Consistency
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
 import BEDC.HostBridge.ChurchNatRoundTrip
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
+import BEDC.HostBridge.ChurchOptionRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
