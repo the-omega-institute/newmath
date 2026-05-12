@@ -24,6 +24,14 @@ def StationaryRationalCauchyCarrier [AskSetup] [PackageSetup]
       Cont q schedule regseq ∧ Cont regseq dyadic «seal» ∧ Cont provenance cert endpoint ∧
         PkgSig bundle endpoint pkg
 
+def StationaryRationalCauchyBHistCarrier [AskSetup] [PackageSetup]
+    (seed stream regular ledger realSeal provenance nameCert diagonalRoute : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory seed ∧ UnaryHistory stream ∧ UnaryHistory regular ∧
+    UnaryHistory ledger ∧ UnaryHistory realSeal ∧ UnaryHistory provenance ∧
+      UnaryHistory nameCert ∧ UnaryHistory diagonalRoute ∧
+        hsame diagonalRoute (append regular stream) ∧ PkgSig bundle realSeal pkg
+
 theorem StationaryRationalCauchyCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {q schedule regseq dyadic «seal» provenance cert endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -86,5 +94,21 @@ theorem StationaryRationalCauchyCarrier_namecert_obligations [AskSetup] [Package
       (And.intro carrier.right.right.right.right.right.right.right.right.left
         (And.intro carrier.right.right.right.right.right.right.right.right.right.right
           semantic)))
+
+theorem StationaryRationalCauchyBHistCarrier_diagonal_handoff [AskSetup] [PackageSetup]
+    {seed stream regular ledger realSeal provenance nameCert diagonalRoute readRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalCauchyBHistCarrier seed stream regular ledger realSeal provenance nameCert
+        diagonalRoute bundle pkg ->
+      Cont regular stream diagonalRoute ->
+        Cont diagonalRoute seed readRoute ->
+          UnaryHistory readRoute ∧ hsame diagonalRoute (append regular stream) ∧
+            PkgSig bundle realSeal pkg := by
+  intro carrier _diagonalRoute routeRead
+  obtain ⟨seedUnary, _streamUnary, _regularUnary, _ledgerUnary, _realSealUnary,
+    _provenanceUnary, _nameCertUnary, diagonalUnary, diagonalEq, pkgRow⟩ := carrier
+  have readUnary : UnaryHistory readRoute :=
+    unary_cont_closed diagonalUnary seedUnary routeRead
+  exact ⟨readUnary, diagonalEq, pkgRow⟩
 
 end BEDC.Derived.StationaryRationalCauchyUp
