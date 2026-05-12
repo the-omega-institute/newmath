@@ -22,6 +22,35 @@ def TrieSourcePacket [AskSetup] [PackageSetup]
       Cont payload depth payloadRoute ∧ Cont branch payloadRoute branchRoute ∧
         PkgSig bundle provenance pkg
 
+theorem TrieSourcePacket_ledger_coverage [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont provenance payloadRoute consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+            UnaryHistory branch ∧ UnaryHistory provenance ∧ UnaryHistory route ∧
+              UnaryHistory payloadRoute ∧ UnaryHistory branchRoute ∧ UnaryHistory consumer ∧
+                Cont key depth route ∧ Cont route branch provenance ∧
+                  Cont payload depth payloadRoute ∧ Cont branch payloadRoute branchRoute ∧
+                    Cont provenance payloadRoute consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerPkg
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, routeRow,
+    provenanceRow, payloadRouteRow, branchRouteRow, _packetPkg⟩ := packet
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed keyUnary depthUnary routeRow
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed payloadUnary depthUnary payloadRouteRow
+  have branchRouteUnary : UnaryHistory branchRoute :=
+    unary_cont_closed branchUnary payloadRouteUnary branchRouteRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary payloadRouteUnary consumerRow
+  exact
+    ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, routeUnary,
+      payloadRouteUnary, branchRouteUnary, consumerUnary, routeRow, provenanceRow,
+      payloadRouteRow, branchRouteRow, consumerRow, consumerPkg⟩
+
 theorem TrieSourcePacket_key_path_route_exhaustion [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
