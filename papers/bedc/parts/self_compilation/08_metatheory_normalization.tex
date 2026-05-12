@@ -1,0 +1,224 @@
+\section{Normalization Status for the MetaCIC Fragment}
+\label{sec:self-comp-metacic-normalization}
+
+The normalization surface of \texttt{BEDC.MetaCIC} has two distinct layers.
+The first layer is operational: reduction is represented by a first-principles
+syntax, a beta-step relation, and finite reduction chains. This layer supports
+bounded computation and checked closure preservation. The second layer is the
+textbook strong-normalization theorem for the represented dependent-function
+calculus. BEDC does not prove that theorem. The difference matters because the
+bounded layer is an effective, fuel-indexed operational account, while strong
+normalization is a global theorem over all well-typed reduction sequences.
+
+\subsection{Bounded Normalizer}
+\label{subsec:metacic-bounded-normalizer}
+
+A bounded normalizer for the represented calculus has the shape
+
+$$
+\begin{aligned}
+  \texttt{BEDC.MetaCIC.normalizeBounded} :
+  \mathrm{Nat} \to \texttt{BEDC.MetaCIC.Term} \to
+  \texttt{BEDC.MetaCIC.Term}.
+\end{aligned}
+$$
+
+Its intended reading is fuel driven. At fuel $0$ it returns the input term.
+At fuel $k+1$ it attempts one head reduction step and then continues with
+fuel $k$ on the reduct; if no head step is available, it returns the current
+term. Termination of this procedure is inherited from structural recursion on
+the natural-number fuel, not from any theorem that the represented calculus is
+strongly normalizing.
+
+This bounded interface is therefore not a strong-normalization certificate.
+It says that every chosen run of the evaluator has a finite host computation
+because the host recursion argument decreases. It does not say that every
+well-typed represented term admits no infinite beta-reduction path, and it
+does not identify the returned term as a unique normal form for arbitrary
+fuel. A run may stop because a normal form has been reached, or because the
+fuel budget has been exhausted.
+
+The available checked metatheory around this operational layer is closure
+preservation. If a fuel-driven run is decomposed into zero or more
+\texttt{BetaStep} transitions, each transition preserves the closedness
+predicate, and induction on the finite step trace preserves closedness at the
+end of the run. The proof is not a termination argument. It is an invariant
+argument over the finite trace that the bounded computation actually takes.
+
+\subsection{Closure Preservation Under Reduction}
+\label{subsec:metacic-normalization-closure}
+
+The mechanized closure theorem for one-step beta reduction is
+
+$$
+\begin{aligned}
+  \texttt{betaStep\_preserves\_closed} :
+  \texttt{ClosedAt}\ n\ t \to
+  \texttt{BetaStep}\ t\ t' \to
+  \texttt{ClosedAt}\ n\ t' .
+\end{aligned}
+$$
+
+The proof lives in
+\texttt{lean4/BEDC/MetaCIC/ClosurePreservation.lean}. Its beta-contraction
+case uses the closure-preserving substitution theorem. Its congruence cases
+peel the corresponding \texttt{ClosedAt} constructor and apply the induction
+hypothesis to the reduced component. Thus closedness is not treated as a
+syntactic side condition on whole terms only; it is propagated through
+application, lambda, and Pi constructors.
+
+The finite-chain theorem is
+
+$$
+\begin{aligned}
+  \texttt{betaStarStep\_preserves\_closed} :
+  \texttt{ClosedAt}\ n\ t \to
+  \texttt{BetaStarStep}\ t\ t' \to
+  \texttt{ClosedAt}\ n\ t' .
+\end{aligned}
+$$
+
+It is induction on the represented reflexive-transitive closure. The reflexive
+case returns the original closedness proof. The step case applies
+\texttt{betaStep\_preserves\_closed} to the first transition and then invokes
+the induction hypothesis on the remaining chain.
+
+\leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+
+These two checked targets are the normalizer-relevant safety results available
+inside BEDC. They justify the following operational statement: for any finite
+reduction trace produced by a bounded evaluator, closed input remains closed
+at every subsequent represented term. They do not assert progress, uniqueness
+of normal forms, confluence for all represented terms, or strong
+normalization.
+
+\subsection{Strong Normalization}
+\label{subsec:metacic-strong-normalization-open}
+
+Strong normalization for the represented calculus would state that every
+well-typed term in the intended admissible fragment has no infinite
+\texttt{BetaStep} chain. The standard proof route for a dependent-function
+calculus is a logical-relations or reducibility-candidates argument. Such a
+proof requires a predicate of admissible represented types and a semantic
+interpretation that is stable under the type formers of the calculus.
+
+BEDC does not currently carry that infrastructure. In particular, the current
+substrate lacks an inductive predicate of admissible types strong enough to
+support reducibility candidates. It also lacks preservation hypotheses in the
+form needed under Pi, lambda, and application constructors. The available
+subject-reduction surface is intentionally local: it records beta and
+congruence preservation facts, plus hypothesis-based interfaces for domain
+and argument stability. Those interfaces are useful for finite local
+metatheory, but they are not a logical-relations model.
+
+A strong-normalization proof would therefore need at least the following
+ingredients:
+
+\begin{itemize}
+  \item an inductive definition of the admissible type fragment;
+  \item a reducibility interpretation for sort, Pi, lambda, and application
+    shapes;
+  \item closure of the interpretation under beta expansion and beta
+    contraction;
+  \item preservation lemmas whose hypotheses are stable under the relevant
+    binder constructors;
+  \item an induction principle linking represented typing derivations to the
+    reducibility interpretation.
+\end{itemize}
+
+None of these is a consequence of having a fuel-indexed evaluator. Fuel gives
+an executable finite approximation. Strong normalization is a proof that no
+unbounded reduction path exists for well-typed represented terms in the
+chosen fragment.
+
+\subsection{Practical Impact}
+\label{subsec:metacic-normalization-practical-impact}
+
+The practical BEDC examples sit far below the strong-normalization boundary.
+The closed atom results prove that sort and closed variable atoms have no beta
+successor, and the typed closed-atom theorem packages this as a normal-form
+fact for the atomic cases.
+
+\leanvariant{BEDC.MetaCIC.closed\_atom\_normal\_form}
+
+The \texttt{TypedExamples} gallery is also operationally tame. Its witnesses
+are built from sort, Pi, lambda, variable, and application constructors in
+small closed shapes. The identity and projection examples have lambda or Pi
+heads until they are applied; the sort-headed and variable-headed components
+are already beta-inert; and the application examples expose the ordinary
+single beta contraction at the represented head when the function is a lambda.
+For these examples, a bounded evaluator gives an effective semantics: with
+enough fuel, the finite computation reaches the expected beta-normal
+representative and stops because there is no next reduction step along that
+chosen strategy.
+
+This is the operational content needed by the paper's examples. The examples
+do not require a theorem that all well-typed represented terms strongly
+normalize. They require a checked syntax, checked typing witnesses, checked
+beta-step rules, and checked preservation of closedness along the finite
+reduction traces under discussion.
+
+\subsection{Comparison with the Host Calculus}
+\label{subsec:metacic-normalization-host-cic}
+
+Lean 4's host kernel is trusted as the checker for this development. Its
+metatheory includes the normalization and consistency facts needed for the
+host's own dependent type theory at the meta level of the project. BEDC does
+not import those facts as axioms about \texttt{BEDC.MetaCIC}. The represented
+calculus is a first-principles object language built with inductive syntax,
+inductive typing, and inductive reduction relations. Its metatheory must be
+proved over those represented objects.
+
+This is the same boundary recorded in
+\autoref{sec:self-comp-metacic-representational-adequacy}. Representational
+adequacy for the finite gallery says that selected host-fragment terms have
+corresponding represented terms and typing derivations. It does not transfer
+the host kernel's global strong-normalization theorem into a checked theorem
+about \texttt{BEDC.MetaCIC}. Such a transfer would require a formal bridge
+whose statement and proof are not present here.
+
+The normalization status is consequently precise. BEDC has a finite
+operational reduction layer and mechanized closure preservation for one-step
+and finite-chain beta reduction. It has atomic normal-form facts and concrete
+closed examples whose reductions are finite and explicit. It does not claim a
+strong-normalization theorem for the represented calculus.
+
+\subsection{Status Summary}
+\label{subsec:metacic-normalization-status-summary}
+
+\begin{center}
+\begin{tabular}{p{0.25\linewidth}p{0.23\linewidth}p{0.40\linewidth}}
+\hline
+Topic & BEDC status & Exact reading \\
+\hline
+Fuel-bounded normalization &
+operational &
+finite host computation controlled by a natural-number fuel argument \\
+Closure under one beta step &
+checked &
+closedness is preserved by each represented \texttt{BetaStep} transition \\
+Closure under finite beta chains &
+checked &
+closedness is preserved by induction over \texttt{BetaStarStep} traces \\
+Atomic normal forms &
+checked &
+sort and closed variable atoms have no beta successor \\
+Typed examples &
+finite gallery &
+closed witnesses reduce only through explicit, finite beta traces \\
+Strong normalization &
+open &
+no theorem rules out all infinite beta paths for all admissible typed terms \\
+Host-kernel transfer &
+open &
+host normalization is not imported as a theorem about represented MetaCIC \\
+\hline
+\end{tabular}
+\end{center}
+
+The table is deliberately two-axis. A checked closure theorem is a Lean-side
+verification fact about a represented relation. An open strong-normalization
+entry is a theory-side boundary about the represented calculus as a whole.
+The fuel-bounded operational layer is useful precisely because it gives finite
+computation without pretending to close the global theorem.
