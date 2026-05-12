@@ -256,4 +256,25 @@ theorem CauchyRegularizationFiniteCarrier_regular_sequence_handoff [AskSetup]
                                                                           exact And.intro rfl
                                                                             (And.intro rfl pkgSig)
 
+theorem CauchyRegularizationFiniteCarrier_common_modulus_idempotence [AskSetup]
+    [PackageSetup]
+    {stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRegularizationFiniteCarrier stream modulus dyadic window regseq realSeal sameRows route
+      provenance namecert endpoint bundle pkg ->
+      Cont regseq realSeal endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg ∧
+            PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier secondRead secondPkg
+  obtain ⟨_streamUnary, _modulusUnary, _dyadicUnary, _windowUnary, _regseqUnary,
+    _realSealUnary, _sameRowsUnary, _routeUnary, _provenanceUnary, _namecertUnary,
+    _endpointUnary, _streamModulusDyadic, _dyadicWindowRegseq, regseqRealSealEndpoint,
+    _sameRows, _route, _provenance, _namecert, endpointPkg⟩ := carrier
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_deterministic regseqRealSealEndpoint secondRead
+  exact ⟨sameEndpoint, endpointPkg, secondPkg⟩
+
 end BEDC.Derived.CauchyRegularizationUp
