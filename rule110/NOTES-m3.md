@@ -99,7 +99,6 @@
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
 
-<<<<<<< HEAD
 ## ProbeBundle Encoding
 
 - `ProbeBundle` uses the `sigrel_design.md` fixture: probe names are unary
