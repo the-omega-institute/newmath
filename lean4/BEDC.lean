@@ -56,6 +56,7 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -69,6 +70,7 @@ import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BishopRealUp
+import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
@@ -199,6 +201,7 @@ import BEDC.Derived.LagrangianMechanicsUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
+import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LipschitzMapUp
@@ -210,7 +213,6 @@ import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
-import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
@@ -248,7 +250,6 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RationalBallUp
-import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
@@ -270,6 +271,7 @@ import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
@@ -282,6 +284,7 @@ import BEDC.Derived.SemiringUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
+import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
