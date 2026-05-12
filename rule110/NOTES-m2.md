@@ -50,3 +50,7 @@ The leader emitter uses a 20-cell row-0 overwrite `10111111010100001100` on a pr
 ## Ossifier observations (B4)
 
 The ossifier emitter uses a fixed 30-cell overwrite per production bit. Logical `0` and `1` select distinct local perturbation templates over the Cook ether, and an empty production writes nothing. This is a behavioral encoding of production-word width and persistence only; it does not certify Cook 2004 section 5 phase identity, production-index timing, or the data-block collision that appends bits after a consumed `1`.
+
+## Data block observations (B5)
+
+The Cook data-block emitter uses a fixed 50-cell slot per cyclic-tag tape bit. Logical `0` is represented by an 18-cell sparse marker and logical `1` by a 28-cell wider marker, both over pre-filled ether; the unwritten tail of each slot remains ether and supplies separation between adjacent logical symbols. This is a best-effort behavioral tape overlay, not a phase-exact Cook 2004 section 6 data block. The current test verifies fixed-width perturbation bounds and phase-preserving ether outside the block, but it does not certify productive ossifier collisions or tape-tail extension.
