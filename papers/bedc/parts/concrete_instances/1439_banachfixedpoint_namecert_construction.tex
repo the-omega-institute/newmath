@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\BanachFixedPointUp$}
+\label{ch:concrete-instances-banach-fixed-point-namecert}
+\origin{human}
+
+The $\BanachFixedPointUp$ interface names the finite BEDC contraction packet that carries a Banach fixed-point construction as displayed data. Its human reference is Banach's contraction principle, but the certificate records only the rows consumed by BEDC: a Banach carrier row, a complete-metric distance row, a contraction-map row, a rational Lipschitz ledger below the unit bound, a finite Picard ledger, an explicit Cauchy modulus, a regular-rational convergence handoff, a seal-facing real-name endpoint row, transport and continuation rows, package provenance, and a local $\NameCert$ row.
+
+Its dependency list is $\BanachUp$, $\CompleteMetricUp$, $\MetricSpaceUp$, $\PicardContractionUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+\begin{definition}[BanachFixedPoint carrier]
+\label{def:banach-fixed-point-carrier}
+A $\BanachFixedPointUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(B,d,T,\lambda,I,M,R,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $B$ is the $\BanachUp$ carrier row whose state histories provide the domain inspected by the fixed-point packet;
+\item $d$ is the $\CompleteMetricUp$ and $\MetricSpaceUp$ distance row used to read finite iterate distances and the carried completeness surface;
+\item $T$ is the contraction-map row displaying the map-code history and the continuation route from a carried state row to the next Picard state;
+\item $\lambda$ is a rational Lipschitz ledger with a displayed positivity row and a displayed unit-bound row;
+\item $I$ is the finite Picard-iterate ledger, recording $x_0,\ldots,x_n$ together with the application rows for $x_{k+1}=T(x_k)$;
+\item $M$ is the explicit $\CauchyModulusUp$ row built from the iterate ledger and the Lipschitz-ratio row;
+\item $R$ is the $\RegSeqRatUp$ and $\CompleteMetricUp$ convergence handoff, exposing the regular rational name and the carried completion route used by consumers;
+\item $E$ is the $\RealUp$ seal-facing endpoint row attached to the handoff;
+\item $H$ stores componentwise $\hsame$ transports for the Banach, distance, contraction, ratio, iterate, modulus, handoff, endpoint, package, and naming rows;
+\item $C$ stores the displayed $\Cont$ routes for metric reads, contraction application, finite Picard concatenation, modulus readback, completion handoff, and endpoint sealing;
+\item $P$ is the $\Pkg$ provenance row naming the $\BanachUp$, $\CompleteMetricUp$, $\MetricSpaceUp$, $\PicardContractionUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ dependencies;
+\item $N$ is the local $\NameCert_{\BanachFixedPointUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host real equality, a choice-selected limit, a global nonlinear-analysis theorem, or ambient completeness outside the carried $\CompleteMetricUp$ row.
+\end{definition}
+
+\begin{theorem}[BanachFixedPoint NameCert obligations]
+\label{thm:banach-fixed-point-namecert-obligations}
+The local $\NameCert_{\BanachFixedPointUp}$ obligation surface consists of carrier habitation, componentwise classifier transport, finite Picard-iterate stability, explicit Cauchy-modulus construction from the rational contraction ledger, $\CompleteMetricUp$ and $\RegSeqRatUp$ convergence handoff, $\RealUp$ seal non-escape, endpoint determinacy, package dependency stability, and local naming for the finite carrier of \autoref{def:banach-fixed-point-carrier}.
+\end{theorem}
+\begin{proof}
+Project the packet $F$. Carrier habitation is exactly the displayed tuple of Banach, metric, contraction, ratio, iterate, modulus, handoff, endpoint, transport, continuation, package, and naming rows.
+
+Classifier transport is componentwise. The $\hsame$ rows move the displayed histories, while the $\Cont$ rows preserve the metric read, contraction application, Picard concatenation, modulus readback, handoff, and endpoint seal.
+
+The Picard, modulus, handoff, uniqueness-boundary, and export obligations are the visible theorem rows of this chapter. Repacking those rows gives the local naming-certificate surface without adding a hidden fixed point or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint iteration ledger]
+\label{thm:banach-fixed-point-iteration-ledger}
+Every accepted $\BanachFixedPointUp$ carrier exposes a finite $\PicardContractionUp$ ledger $I$ over the carried $\BanachUp$ row $B$, distance row $d$, contraction row $T$, and rational Lipschitz ledger $\lambda$. For each displayed adjacent pair $x_k,x_{k+1}$ in $I$, the application row reads $x_{k+1}$ from $T$ and $x_k$, and the distance comparison is read through $d$ and $\lambda$.
+\end{theorem}
+\begin{proof}
+Read the $I$ coordinate of \autoref{def:banach-fixed-point-carrier}. It is a finite Picard ledger, so every adjacent pair in the ledger is a visible $\mathsf{BHist}$ row rather than a completed orbit.
+
+The contraction-map coordinate $T$ supplies the application route for each step. The distance row $d$ supplies the metric read, and the rational ledger $\lambda$ supplies the displayed Lipschitz comparison below the unit bound.
+
+Thus the finite iteration surface is exactly the $\PicardContractionUp$ surface carried inside $F$. No infinite sequence object or host fixed-point value is read from the packet.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint Cauchy handoff]
+\label{thm:banach-fixed-point-cauchy-handoff}
+For an accepted $\BanachFixedPointUp$ carrier, the finite Picard ledger $I$ and the rational Lipschitz ledger $\lambda$ determine the displayed $\CauchyModulusUp$ row $M$. The convergence handoff $R$ routes this modulus through $\RegSeqRatUp$ and the carried $\CompleteMetricUp$ row $d$, and the endpoint seal $E$ exposes only the resulting $\RealUp$-facing name boundary.
+\end{theorem}
+\begin{proof}
+Start with the finite iteration ledger supplied by \autoref{thm:banach-fixed-point-iteration-ledger}. The rational ledger $\lambda$ is stored with a displayed unit-bound row, so repeated contraction estimates produce a finite threshold for each requested rational tolerance.
+
+That threshold is the visible $\CauchyModulusUp$ coordinate $M$. It is constructed from displayed iterate distances and the rational ratio ledger, not from a host convergence theorem.
+
+The handoff row $R$ then records the regular rational name and the carried complete-metric route. The endpoint row $E$ is seal-facing: it is consumable by $\RealUp$ readers only after the modulus and handoff rows have been displayed.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint uniqueness boundary]
+\label{thm:banach-fixed-point-uniqueness-boundary}
+If two accepted $\BanachFixedPointUp$ carriers have the same displayed $\BanachUp$ row, distance row, contraction row, rational Lipschitz ledger, Cauchy-modulus row, and convergence handoff up to the recorded classifier transports, then their $\RealUp$ seal-facing endpoint rows are classifier-determinate. This uniqueness boundary is endpoint determinacy inside the BEDC classifier; it is not a claim of host real equality.
+\end{theorem}
+\begin{proof}
+Compare the two packets componentwise through their $H$ and $C$ rows. The shared Banach, distance, contraction, ratio, iterate, modulus, and handoff data force the same route to the seal-facing endpoint row.
+
+The usual Banach uniqueness argument is used only as a finite classifier pattern: the contraction ratio below the unit bound collapses two displayed endpoint routes to the same certificate boundary. The conclusion is therefore a statement about the $\RealUp$ seal row after BEDC transport.
+
+Because the carrier never stores a host real object, the theorem cannot export host equality. It records only determinacy of the endpoint row seen by the local classifier.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint public export]
+\label{thm:banach-fixed-point-public-export}
+Every public consumer of a $\BanachFixedPointUp$ certificate must factor through the carrier rows
+$$
+B,\ d,\ T,\ \lambda,\ I,\ M,\ R,\ E,\ H,\ C,\ P,\ N.
+$$
+The exported surface provides a finite Picard ledger, an explicit Cauchy modulus, a $\CompleteMetricUp$ and $\RegSeqRatUp$ convergence handoff, and a $\RealUp$ seal-facing endpoint row. It does not export host fixed-point equality, choice-selected limits, global nonlinear analysis, or completeness beyond the carried distance row.
+\end{theorem}
+\begin{proof}
+Take any public read of the certificate. The carrier definition lists all accessible rows, so the read must pass through the displayed Banach, metric, contraction, ratio, Picard, modulus, handoff, endpoint, transport, continuation, package, and naming coordinates.
+
+\autoref{thm:banach-fixed-point-iteration-ledger} identifies the finite Picard surface. \autoref{thm:banach-fixed-point-cauchy-handoff} identifies the modulus and convergence handoff. \autoref{thm:banach-fixed-point-uniqueness-boundary} identifies the endpoint determinacy available to the classifier.
+
+These rows repack as the public $\BanachFixedPointUp$ surface. Since no other coordinate is present, the exported certificate cannot be used to read host fixed-point equality, an externally selected limit, global nonlinear-analysis structure, or ambient completeness beyond $d$.
+\end{proof}
+
+\closureat{BanachFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\BanachFixedPointUp}
+  \constructivestory{A $\BanachFixedPointUp$ packet is generated from a $\BanachUp$ carrier row, a $\CompleteMetricUp$ and $\MetricSpaceUp$ distance row, a contraction-map row, a rational Lipschitz ledger below the unit bound, a finite $\PicardContractionUp$ ledger, an explicit $\CauchyModulusUp$ row, a $\RegSeqRatUp$ convergence handoff, a $\RealUp$ seal-facing endpoint row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-fixed-point-carrier}, \autoref{thm:banach-fixed-point-namecert-obligations}, \autoref{thm:banach-fixed-point-iteration-ledger}, \autoref{thm:banach-fixed-point-cauchy-handoff}, \autoref{thm:banach-fixed-point-uniqueness-boundary}, and \autoref{thm:banach-fixed-point-public-export} describe the seed fixed-point certificate over the carried finite rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host fixed-point equality, choice-selected limits, global nonlinear analysis, ambient completeness beyond the carried $\CompleteMetricUp$ row, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier transport, finite Picard stability, explicit Cauchy-modulus construction, convergence handoff, endpoint determinacy, and public export for the same displayed rows.}
+\end{closurestatus}
