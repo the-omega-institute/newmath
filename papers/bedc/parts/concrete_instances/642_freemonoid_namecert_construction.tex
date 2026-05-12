@@ -269,3 +269,15 @@ classifier clauses gives the two stated alternatives, and the finite spine
 inversion makes them disjoint: the unique singleton position cannot lie in both
 factors.
 \end{proof}
+
+\begin{theorem}[FreeMonoid ListUp Cont concrete instance]
+\label{thm:freemonoid-list-cont-concrete-instance}
+The $\FreeMonoidUp$ word carrier of \autoref{def:freemonoid-word-carrier}, with the empty word as unit and certified concatenation read through the $\ListUp$ spine and displayed $\Cont$ routes, forms a concrete $\mathsf{BHist}$-grounded $\MonoidUp$ instance. The left and right unit laws are the empty-word unit surface of \autoref{thm:freemonoid-empty-word-unit}; associativity is the certified concatenation associativity of \autoref{thm:freemonoid-concat-associativity}; and carrier and classifier stability are supplied by the existing $\NameCert_{\FreeMonoidUp}$ obligation surface over $\hsame$, $\Cont$, $\Pkg$, $\ListUp$, $\NatUp$, and $\MonoidUp$ rows.
+\end{theorem}
+\begin{proof}
+Read a word carrier as its finite $\ListUp$ spine, length row, componentwise payload rows, continuation routes, and package provenance. The empty word is the displayed empty spine with zero length, so \autoref{thm:freemonoid-empty-word-unit} gives both unit laws through the same $\mathsf{BHist}$ carrier rows.
+
+Concatenation is the certified append ledger on the $\ListUp$ spine together with the corresponding length and payload ledgers. Applying \autoref{thm:freemonoid-concat-associativity} identifies the two triple-concatenation readbacks by the displayed $\hsame$ comparisons and the same $\Cont$ routes.
+
+Finally use the $\NameCert_{\FreeMonoidUp}$ obligation surface. It is the carrier and classifier stability statement for these concrete rows, so the resulting $\MonoidUp$ instance is grounded in the listed $\mathsf{BHist}$ data rather than in abstract carrier or classifier equivalence parameters.
+\end{proof}

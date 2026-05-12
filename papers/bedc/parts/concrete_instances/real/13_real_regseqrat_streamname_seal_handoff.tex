@@ -204,3 +204,89 @@ coordinate. Thus quotient carriers, host equality, real completeness,
 arithmetic and order packages, and metric-completeness rows cannot appear in
 the pullback source or in its projected faces.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat seal readback determinacy]
+\label{thm:realup-regseqrat-seal-readback-determinacy}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal packets. Suppose they display
+the same $\RegSeqRatUp$ regular stream carrier, the same $\StreamNameUp$
+finite-window schedule, and the same $\RealUp$ seal/readback row. Then every
+consumer-visible readback route out of $S$ or $T$ factors through the same
+finite dyadic observation window, the same $\RegSeqRatUp$ classifier witness,
+and the same $\RealUp$ seal endpoint.
+
+The common readback boundary is the four-face packet whose rows are the
+$\DyadicRatCoreUp$ observations on the displayed window, the $\StreamNameUp$
+schedule rows, the $\RegSeqRatUp$ regularity spine rows, and the $\RealUp$
+seal/readback provenance rows. It exports no host equality, quotient class,
+completeness row, arithmetic package, or order package.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-regseqrat-streamname-seal-handoff} to both accepted
+packets. The handoff theorem reads their visible data as one package of
+stream-name classifier rows, transported unary classifier rows, endpoint
+carriers, finite-window ledger, and seal/readback provenance.
+
+Next use \autoref{thm:realup-open-phase-seal-exactness}. Since the accepted
+packets have the same displayed $\RegSeqRatUp$ carrier, the same
+$\StreamNameUp$ finite-window schedule, and the same $\RealUp$ seal/readback
+row, exactness restricts both reads to the same four open-phase row set.
+
+Apply \autoref{thm:realup-finite-seal-source-uniqueness} to identify the
+consumer-visible source surface. The shared source contains precisely the
+finite dyadic observation window, the regular-rational classifier witness, and
+the seal endpoint named by the displayed row.
+
+Now route downstream reads through
+\autoref{thm:realup-seal-source-factorization-boundary}. Every consumer of the
+seal source sees only the displayed schedule, the $\RegSeqRatUp$ spine, and the
+$\RealUp$ seal provenance, so no off-table host or completeness coordinate can
+separate the two packets.
+
+Finally apply \autoref{thm:realup-open-phase-four-face-pullback}. The two
+readback routes have the same componentwise four-face boundary, hence the same
+consumer-visible readback boundary, while quotient classes, host equality,
+arithmetic packages, order packages, and completeness rows remain absent.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName factorization pullback correspondence]
+\label{thm:realup-streamname-factorization-pullback-correspondence}
+Let $S$ be an accepted finite $\RealUp$ seal handoff. The
+$\StreamNameUp$ real-seal factorization boundary holds for $S$ precisely when
+there exists a $\RealUp$ open-phase four-face pullback packet whose projections
+match the same $\DyadicRatCoreUp$ observation rows, the same
+$\StreamNameUp$ finite-window classifier rows, the same $\RegSeqRatUp$
+regularity spine rows, and the same $\RealUp$ seal/readback provenance rows.
+
+The correspondence uses only the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ rows of the accepted handoff. It introduces no quotient
+carrier, host equality, real-completeness row, arithmetic package, order
+package, Classical-choice row, or metric-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Assume first that the $\StreamNameUp$ real-seal factorization boundary holds
+for $S$. Apply
+\autoref{thm:streamname-real-seal-factorization-boundary} to expose the
+finite-window stream classifier rows and the real-seal source rows named by the
+handoff.
+
+Next apply \autoref{thm:realup-open-phase-seal-exactness}. Exactness reads the
+accepted seal rows as the visible $\RealUp$ seal/readback provenance surface
+over the same finite $\mathsf{BHist}$ source.
+
+Now use \autoref{thm:realup-open-phase-four-face-pullback}. The dyadic
+observation rows, stream-name classifier rows, regularity-spine rows, and
+seal/readback provenance rows form the four matching faces, so they determine
+the required pullback packet.
+
+Conversely, suppose the four-face pullback packet exists with the displayed
+matching rows. Project its $\StreamNameUp$ face, its $\RegSeqRatUp$ face, and
+its $\RealUp$ seal/readback face through the same $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Apply \autoref{thm:realup-seal-source-factorization-boundary}. The projected
+faces recover exactly the seal-source factorization rows consumed by the
+$\StreamNameUp$ real-seal boundary, and no off-table coordinate can be inserted
+because neither theorem has a carrier for quotient representatives, host
+equality, real completeness, arithmetic or order packages, Classical choice, or
+metric completeness.
+\end{proof}
