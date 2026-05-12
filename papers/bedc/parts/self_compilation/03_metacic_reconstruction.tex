@@ -282,6 +282,33 @@ preservation therefore carries closure hypotheses in the binder cases; those
 hypotheses make the shifted domain stable and let the represented typing
 context line up without capture.
 
+\subsection{Closure Discipline}\label{subsec:reconstruction-closure-discipline}
+
+The main substitute-preservation theorems are closure-conditioned because the
+binder domain participates directly in the represented context. In the
+shift-aware typing rule, a lambda or Pi body is checked under
+$(\mathrm{shift}\ 0\ 1\ \mathrm{dom}) :: \Gamma$, so preservation under
+substitution must keep that domain aligned with the context obtained after the
+binder is crossed.
+
+The closed-domain hypothesis supplies exactly that alignment. When
+$\mathrm{ClosedAt}\ 0\ \mathrm{dom}$ holds, the closed-shift lemma gives
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom} = \mathrm{dom}$. The lift/lower path
+inside $\mathrm{substitute}$ then has a stable binder entry: descending under
+the binder raises the substitution depth and shifts the incoming term, but the
+domain stored in the context is unchanged.
+
+For open binder domains, the same preservation shape requires a general
+shift-substitute commutation theorem strong enough to transport the open
+domain through both operations. That commutation theorem is not part of the
+available substrate. The explicit condition keeps the theorem statement at the
+proved boundary rather than hiding a missing transport principle.
+
+$\mathrm{ClosedAt}$ is the inductive predicate defined in
+\texttt{BEDC.MetaCIC.ClosedTerm}: $\mathrm{var}\ i$ is closed at $n$ when
+$i<n$, and compound terms are closed exactly when their immediate subterms
+are closed at the appropriate binder depth.
+
 \subsection{Shift Mechanism Detail}\label{subsec:reconstruction-shift-detail}
 
 The operation $\mathrm{shift}\ \mathrm{cutoff}\ \mathrm{amount}\ t$ takes a
