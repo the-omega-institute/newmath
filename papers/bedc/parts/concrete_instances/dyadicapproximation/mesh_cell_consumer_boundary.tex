@@ -1,0 +1,50 @@
+\begin{theorem}[DyadicApproximation mesh cell consumer boundary]
+\label{thm:dyadicapproximation-mesh-cell-consumer-boundary}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. Suppose a
+$\DyadicMeshUp$ consumer or a $\ValidatedNumericsUp$ consumer reads $A$ only
+through a displayed mesh-cell request whose cell interval is a
+$\RationalIntervalUp$ row when such a row is present. Then the consumer boundary
+is exactly the finite packet consisting of the unary precision row $n$, the
+$\DyadicRatCoreUp$ endpoint $d$, the $\StreamNameUp$ schedule carried by $w$,
+the $\RegSeqRatUp$ finite readback carried by $w$ and $l$, the
+$\RationalIntervalUp$ cell row when present, the $\RealUp$ seal ledger, the
+visible $\hsame$ transports, the $\Cont$ routes, the $\mathsf{Pkg}$
+provenance, and the local $\NameCert$ rows.
+
+This boundary exports no quotient real equality, host real equality, completed
+cell, infinite mesh, solver-correctness claim, or choice-selected
+representative. The mesh-cell read is a finite BEDC packet read and not a
+completion, infinitary mesh, or external numerical-solver principle.
+\end{theorem}
+\begin{proof}
+Project the dyadic packet through
+\autoref{thm:dyadicapproximation-public-finite-window-export}. This gives the
+unary precision row, dyadic endpoint, $\StreamNameUp$ schedule,
+$\RegSeqRatUp$ readback, $\RealUp$ seal ledger, visible $\hsame$ transports,
+visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+
+If the mesh-cell request carries a rational-interval cell row, apply
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff}. The
+handoff identifies the displayed dyadic endpoint with the rational endpoint
+window at the same unary precision and contributes only the finite
+$\RationalIntervalUp$ order and containment rows.
+
+For a $\DyadicMeshUp$ reader, apply
+\autoref{thm:dyadicmesh-validatednumerics-handoff}. The mesh contributes the
+level row, cell-index row, cell coverage row, containment ledger, displayed
+refinement route, endpoint readback, transport rows, continuation routes,
+provenance, and local name row, all still inside the finite mesh-cell packet.
+
+For a $\ValidatedNumericsUp$ reader, use
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary}. Its
+finite enclosure surface reads the same interval row, endpoint provenance,
+finite request, regular-rational observation window, real-name readback token,
+containment ledger, transports, routes, provenance, and local name row.
+
+Finally compare the two consumer reads with
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form}.
+The normal form exhausts the common mesh-cell consumer surface by the listed
+rows, so no remaining coordinate can carry quotient real equality, host real
+equality, a completed cell, an infinite mesh, solver correctness, or a
+choice-selected representative.
+\end{proof}
