@@ -168,6 +168,46 @@ The radius ledger exactness theorem identifies the product-radius row with that 
 Finally apply the Real multiplication seal handoff. Since every real-facing consumer reads multiplication only through $E$ and the recorded ledger, the listed rows form the obligation package and no unlisted analytic primitive can enter.
 \end{proof}
 
+\begin{theorem}[CauchyProduct constant left factor]
+\label{thm:cauchy-product-constant-left-factor}
+For an accepted $\CauchyProductUp$ packet whose left source row $X$ is read as a constant regular Cauchy name through the displayed $\RegularCauchyNameUp$ and $\StreamNameUp$ schedules, multiplication by that left factor is certified only by the existing product packet. The consumer route factors through the paired windows, dyadic product observation $P$, product-radius ledger, $\RegSeqRatUp$ classifier $E$, and $\RealUp$ multiplication seal handoff, and it introduces no host scalar multiplication primitive or quotient equality.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName handoff. Even when the left source is constant, the packet still reads $X$ through its displayed $\RegularCauchyNameUp$ row and the window $W_X$ before the dyadic observation $Q_X$ is available.
+
+Use paired-window closure and radius product regularity. These force the product observation $P$ and the classifier row $E$ through the same finite route from $W_X,W_Y,M_X,M_Y,Q_X,Q_Y$ to the product-radius ledger.
+
+Finally apply the Real multiplication seal handoff. The seal receives only $E$ with its recorded ledger and transports, so the constant left factor is a specialization of the displayed product packet rather than a host scalar operation.
+\end{proof}
+
+\begin{theorem}[CauchyProduct constant right factor]
+\label{thm:cauchy-product-constant-right-factor}
+For an accepted $\CauchyProductUp$ packet whose right source row $Y$ is read as a constant regular Cauchy name through the displayed $\RegularCauchyNameUp$ and $\StreamNameUp$ schedules, multiplication by that right factor is certified only by the existing product packet. The consumer route factors through the paired windows, dyadic product observation $P$, product-radius ledger, $\RegSeqRatUp$ classifier $E$, and $\RealUp$ multiplication seal handoff, and it introduces no host scalar multiplication primitive or quotient equality.
+\end{theorem}
+\begin{proof}
+Start with the right source row. The StreamName handoff makes $W_Y$ the only route by which the constant right input exposes its dyadic observation $Q_Y$ and radius row $M_Y$.
+
+Apply paired-window closure and radius product regularity. The right constant read is paired with the left window through the product observation $P$, and the classifier row $E$ is supplied by the finite product-radius ledger.
+
+The Real multiplication seal handoff then exhausts the real-facing route. Since the seal sees only the displayed classifier and ledger, the right constant factor does not add host scalar multiplication, quotient streams, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyProduct bilinear tail window]
+\label{thm:cauchy-product-bilinear-tail-window}
+For an accepted $\CauchyProductUp$ packet and any shared tail read admitted by its paired $\StreamNameUp$ windows, the two one-sided constant-factor routes and the product route are all witnessed by the same finite window surface
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N.
+$$
+The bilinear tail window is therefore a NameCert obligation over the displayed product-radius ledger and $\RealUp$ seal handoff, not a field law, quotient equality, selected-limit argument, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First bind the shared tail read to the paired-window closure. The windows $W_X,W_Y$ expose the two source observations, their radius rows, the dyadic product observation, and the regular rational classifier through one finite route.
+
+Next use the two constant-factor obligations. The left and right constant reads are not new operations; each is a specialization of the same displayed product packet and therefore uses the same product observation $P$ and classifier row $E$.
+
+Finally use radius product regularity and the Real multiplication seal handoff. These identify the product-radius ledger as the only regularity evidence visible to the seal, so the bilinear tail window is exactly the finite NameCert surface and not an external algebraic law.
+\end{proof}
+
 \closureat{CauchyProductUp}{seedStr}
 
 \begin{closurestatus}{\CauchyProductUp}
