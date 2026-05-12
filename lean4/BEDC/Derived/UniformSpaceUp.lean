@@ -76,6 +76,32 @@ theorem UniformSpacePacket_common_refinement_functoriality [AskSetup] [PackageSe
     ⟨route01Unary, route12Unary, route02Unary, diagonalRefinementRoute, routeSymmetry,
       routeComposition, routePkg, namePkg⟩
 
+theorem UniformSpacePacket_symmetry_composition_obligation [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      symmetryRead compositionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement symmetryRead ->
+        Cont symmetryRead composition compositionRead ->
+          PkgSig bundle compositionRead pkg ->
+            UnaryHistory symmetryRead ∧ UnaryHistory compositionRead ∧
+              Cont diagonal refinement symmetryRead ∧
+                Cont symmetryRead composition compositionRead ∧
+                  PkgSig bundle compositionRead pkg ∧ PkgSig bundle name pkg := by
+  intro packet diagonalRefinementSymmetryRead symmetryCompositionRead compositionReadPkg
+  obtain ⟨_pointUnary, _entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    compositionUnary, _transportUnary, _provenanceUnary, _nameUnary, _pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    namePkg⟩ := packet
+  have symmetryReadUnary : UnaryHistory symmetryRead :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementSymmetryRead
+  have compositionReadUnary : UnaryHistory compositionRead :=
+    unary_cont_closed symmetryReadUnary compositionUnary symmetryCompositionRead
+  exact
+    ⟨symmetryReadUnary, compositionReadUnary, diagonalRefinementSymmetryRead,
+      symmetryCompositionRead, compositionReadPkg, namePkg⟩
+
 def UniformSpaceEntouragePacket [AskSetup] [PackageSetup]
     (base entourage diagonal symmetry composition provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -236,29 +262,41 @@ theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [Packa
       diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
       endpointPkg, handoffPkg⟩
 
-theorem UniformSpacePacket_symmetry_composition_obligation [AskSetup] [PackageSetup]
+theorem UniformSpacePacket_entourage_public_export [AskSetup] [PackageSetup]
     {point entourage diagonal refinement symmetry composition transport provenance name
-      compositeRead : BHist}
+      filterbase cauchy completion publicRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
-        name bundle pkg ->
-      Cont transport provenance compositeRead ->
-        PkgSig bundle compositeRead pkg ->
-          UnaryHistory symmetry ∧ UnaryHistory composition ∧ UnaryHistory transport ∧
-            UnaryHistory compositeRead ∧ Cont diagonal refinement symmetry ∧
-              Cont symmetry composition transport ∧ Cont transport provenance compositeRead ∧
-                PkgSig bundle compositeRead pkg ∧ PkgSig bundle name pkg := by
-  intro packet transportProvenanceComposite compositeReadPkg
-  obtain ⟨_pointUnary, _entourageUnary, _diagonalUnary, _refinementUnary, symmetryUnary,
-    compositionUnary, transportUnary, provenanceUnary, _nameUnary, _pointEntourageDiagonal,
-    diagonalRefinementSymmetry, symmetryCompositionTransport, _transportProvenanceName,
-    namePkg⟩ := packet
-  have compositeReadUnary : UnaryHistory compositeRead :=
-    unary_cont_closed transportUnary provenanceUnary transportProvenanceComposite
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+        provenance name bundle pkg ->
+      Cont diagonal refinement filterbase ->
+        Cont filterbase transport cauchy ->
+          Cont cauchy provenance completion ->
+            Cont completion name publicRow ->
+              PkgSig bundle publicRow pkg ->
+                UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory filterbase ∧
+                  UnaryHistory cauchy ∧ UnaryHistory completion ∧ UnaryHistory publicRow ∧
+                    Cont point entourage diagonal ∧ Cont diagonal refinement filterbase ∧
+                      Cont filterbase transport cauchy ∧ Cont cauchy provenance completion ∧
+                        Cont completion name publicRow ∧ PkgSig bundle publicRow pkg := by
+  intro packet diagonalRefinementFilterbase filterbaseTransportCauchy
+  intro cauchyProvenanceCompletion completionNamePublic publicPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterbaseUnary : UnaryHistory filterbase :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterbase
+  have cauchyUnary : UnaryHistory cauchy :=
+    unary_cont_closed filterbaseUnary transportUnary filterbaseTransportCauchy
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed cauchyUnary provenanceUnary cauchyProvenanceCompletion
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed completionUnary nameUnary completionNamePublic
   exact
-    ⟨symmetryUnary, compositionUnary, transportUnary, compositeReadUnary,
-      diagonalRefinementSymmetry, symmetryCompositionTransport, transportProvenanceComposite,
-      compositeReadPkg, namePkg⟩
+    ⟨pointUnary, entourageUnary, filterbaseUnary, cauchyUnary, completionUnary,
+      publicUnary, pointEntourageDiagonal, diagonalRefinementFilterbase,
+      filterbaseTransportCauchy, cauchyProvenanceCompletion, completionNamePublic,
+      publicPkg⟩
 
 theorem UniformSpacePacket_common_refinement_cauchy_handoff [AskSetup] [PackageSetup]
     {point entourage diagonal refinement symmetry composition transport provenance name routeLeft
