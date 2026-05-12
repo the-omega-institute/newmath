@@ -153,4 +153,37 @@ theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
         pkgRow'⟩,
       endpointSame, provenanceSame⟩
 
+def TrieTerminalPacket [AskSetup] [PackageSetup]
+    (key terminal transport route branch provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory key ∧ UnaryHistory terminal ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+    Cont key terminal transport ∧ Cont transport route branch ∧ Cont branch provenance cert ∧
+      PkgSig bundle cert pkg
+
+theorem TrieTerminalPacket_boolean_key_path_ledger_coverage [AskSetup] [PackageSetup]
+    {key terminal transport route branch provenance cert key' terminal' transport' route' branch'
+      provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieTerminalPacket key terminal transport route branch provenance cert bundle pkg ->
+      TrieTerminalPacket key' terminal' transport' route' branch' provenance' cert' bundle pkg ->
+        hsame key key' ->
+          hsame terminal terminal' ->
+            hsame route route' ->
+              hsame provenance provenance' ->
+                hsame transport transport' ∧ hsame branch branch' ∧ hsame cert cert' := by
+  intro packet packet' sameKey sameTerminal sameRoute sameProvenance
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameKey sameTerminal
+      packet.right.right.right.right.left
+      packet'.right.right.right.right.left
+  have sameBranch : hsame branch branch' :=
+    cont_respects_hsame sameTransport sameRoute
+      packet.right.right.right.right.right.left
+      packet'.right.right.right.right.right.left
+  have sameCert : hsame cert cert' :=
+    cont_respects_hsame sameBranch sameProvenance
+      packet.right.right.right.right.right.right.left
+      packet'.right.right.right.right.right.right.left
+  exact ⟨sameTransport, sameBranch, sameCert⟩
+
 end BEDC.Derived.TrieUp
