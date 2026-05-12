@@ -567,6 +567,46 @@ $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, no external metric
 structure or choice data enters the composed handoff.
 \end{proof}
 
+\begin{theorem}[RationalBall nested containment refinement monotonicity]
+\label{thm:rationalball-nested-containment-refinement-monotonicity}
+For any finite chain $B_0,\ldots,B_n$ of accepted $\RationalBallUp$ packets
+whose adjacent $\RationalIntervalUp$ and $\DyadicRatCoreUp$ containment rows
+witness that each displayed ball is contained in the preceding displayed ball,
+every query history accepted by the containment row of $B_n$ is accepted by
+the containment row of every earlier $B_i$.
+
+Every $\RegSeqRatUp$, $\RealUp$, or $\MetricSpaceUp$ consumer receives the
+iterated finite containment ledger assembled from the adjacent packet ledgers,
+displayed $\hsame$ transports, displayed $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\RationalBallUp}$ rows. The finite chain
+exports no host metric, choice-selected point, compactness datum, topology row,
+completed real, or quotient real equality.
+\end{theorem}
+\begin{proof}
+Induct on the finite chain. For the singleton chain, the terminal packet is
+already the initial packet, and the containment read is the packet's displayed
+finite containment row.
+
+For the extension step, assume the statement for a chain ending in $B_n$ and
+append an accepted packet $B_{n+1}$ whose adjacent containment row places it
+inside $B_n$. Apply
+\autoref{thm:rationalball-nested-containment-consumer-composition} to compose
+the accepted read of $B_{n+1}$ with the containment row of $B_n$.
+
+The induction hypothesis then transports the resulting accepted read through
+every earlier containment row. The composed ledger is the finite concatenation
+of the adjacent packet ledgers together with the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows used at each step.
+
+For consumer handoff, use
+\autoref{thm:rationalball-regseqrat-window-obligations},
+\autoref{thm:rationalball-standard-finite-window-bridge}, and
+\autoref{thm:rationalball-metric-positive-containment-transport}. These
+theorems read the same iterated containment ledger for $\RegSeqRatUp$,
+$\RealUp$, and $\MetricSpaceUp$, without adding any host metric, selected
+point, compactness, topology, completed-real, or quotient-equality row.
+\end{proof}
+
 \closureat{RationalBallUp}{seedStr}
 \closureat{RationalBallUp}{obligationStr}
 \closureat{RationalBallUp}{scopedStr}
