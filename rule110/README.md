@@ -1,5 +1,7 @@
 # rule110 — BEDC ground-up minimal-trust kernel (vertical slice)
 
+Status: Level 0 Behavioral Scaffold Complete (per `ROADMAP.md`).
+
 This is a sibling experiment to `lean4/BEDC/` and `papers/bedc/`. It ships a
 5-7 day vertical slice demonstrating that the core finite-kernel theorems
 from `lean4/BEDC/FKernel/Mark.lean` (the four `msame` lemmas) can be encoded
@@ -33,10 +35,28 @@ make clean      # removes all build output
 
 ## Documentation
 
+- `ROADMAP.md` — current master roadmap and level plan
+- `STATUS.md` — citable snapshot for the current behavioral scaffold
 - `docs/trust_chain.md` — per-layer audit checklist
 - `docs/manifest_format.md` — cyclic-tag manifest format spec
 - `docs/theorem_encoding.md` — how 4 msame lemmas map to manifests
 - `docs/cook_construction.md` — Cook encoder scaffold status and trust posture
+
+## Manifest coverage
+
+- `manifests/mark/`
+- `manifests/hist/`
+- `manifests/ext/`
+- `manifests/sig/`
+- `manifests/cont/`
+- `manifests/bundle/`
+- `manifests/unary/`
+- `manifests/ask/`
+- `manifests/external_binary/`
+- `manifests/gap/`
+- `manifests/package/`
+- `manifests/name_cert/`
+- `manifests/settled/`
 
 ## Sources / convention
 
