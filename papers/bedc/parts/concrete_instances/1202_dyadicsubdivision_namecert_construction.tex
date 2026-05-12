@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\DyadicSubdivisionUp$}
+\label{ch:concrete-instances-dyadicsubdivision-namecert}
+\origin{human}
+
+The $\DyadicSubdivisionUp$ interface names a finite subdivision certificate for one rational interval into dyadic mesh cells with validated enclosure rows attached. In the Moore--Kearfott--Cloud interval-analysis reading, subdivision refines an enclosure into finitely many checked sub-enclosures; in BEDC the object is only a finite $\mathsf{BHist}$ ledger over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicMeshUp$, $\ValidatedNumericsUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+\begin{definition}[DyadicSubdivision source]
+\label{def:dyadic-subdivision-source}
+A $\DyadicSubdivisionUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+S=(I,L,C,M,V,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the parent $\RationalIntervalUp$ row whose endpoint and order data are the interval being subdivided;
+\item $L$ is the unary dyadic level row used to read every child cell at one displayed mesh precision;
+\item $C$ is a finite ordered cell-list row, with each entry carrying its displayed position inside the parent interval;
+\item $M$ is the finite family of $\DyadicMeshUp$ cell packets indexed by $C$;
+\item $V$ is the finite family of $\ValidatedNumericsUp$ containment rows attached to the same cells;
+\item $P$ is the $\Pkg$ provenance row naming $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicMeshUp$, $\ValidatedNumericsUp$, and $\RealUp$;
+\item $N$ is the local $\NameCert_{\DyadicSubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted subdivision packets by transporting the parent interval, level row, ordered cell list, mesh cells, containment rows, package provenance, and local name row componentwise. The carrier has no coordinate for a host interval tree, infinite refinement process, solver state, or completed real subset.
+\end{definition}
+
+\begin{theorem}[DyadicSubdivision NameCert obligations]
+\label{thm:dyadic-subdivision-namecert-obligations}
+The seed $\NameCert_{\DyadicSubdivisionUp}$ obligation surface has five rows:
+\begin{enumerate}
+\item carrier: the finite packet of \autoref{def:dyadic-subdivision-source};
+\item classifier: componentwise $\hsame$ transport of the parent interval, dyadic level, ordered cell list, $\DyadicMeshUp$ packets, $\ValidatedNumericsUp$ rows, provenance, and local name;
+\item stability: appending displayed refinement routes to the mesh family preserves the transported parent interval and refines only the finite cell ledger;
+\item exactness: every child boundary and containment read is one of the $\DyadicMeshUp$ or $\ValidatedNumericsUp$ rows indexed by the ordered list $C$;
+\item ledger: the package and local certificate rows record exactly the dependency surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicMeshUp$, $\ValidatedNumericsUp$, and $\RealUp$.
+\end{enumerate}
+These rows are the full seed naming surface for finite dyadic subdivision certificates.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:dyadic-subdivision-source}. The carrier row displays the parent interval, common level, finite ordered list, mesh-cell family, validated containment family, package provenance, and local certificate row.
+
+The classifier is componentwise because the packet contains no hidden geometric object. Transporting a subdivision means transporting exactly those visible rows by $\hsame$ and replaying the stored $\Cont$ routes for the mesh and validated containment reads.
+
+Stability and exactness are then read from the same finite ledger. Refinement appends routes to the mesh-family reads, while every boundary or enclosure claim remains indexed by $C$ and therefore belongs to one of the displayed $\DyadicMeshUp$ or $\ValidatedNumericsUp$ rows.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision refinement stability]
+\label{thm:dyadic-subdivision-refinement-stability}
+Let $S=(I,L,C,M,V,P,N)$ be an accepted $\DyadicSubdivisionUp$ packet. If $S'$ is obtained by replacing each mesh entry in $M$ by a finite displayed $\DyadicMeshUp$ refinement whose rational-interval boundary transports to the same parent row $I$, and by transporting the corresponding containment entries in $V$ along the same routes, then $S'$ is an accepted $\DyadicSubdivisionUp$ packet for the same parent interval.
+\end{theorem}
+\begin{proof}
+Start with the finite subdivision packet. The parent interval row $I$, package provenance $P$, and local name row $N$ are retained, so the outer naming surface is unchanged.
+
+For each entry of the ordered list $C$, use the $\DyadicMeshUp$ refinement route to replace the displayed cell by a finer finite family. The endpoint comparison is still through the transported $\RationalIntervalUp$ boundary rows, so no host interval or completed real subset is introduced.
+
+Transport the validated containment rows through the same cell routes. Repacking the parent row, refined level data, refined ordered cell ledger, refined mesh entries, transported containment entries, provenance, and local certificate gives exactly the carrier of \autoref{def:dyadic-subdivision-source}.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision mesh coverage]
+\label{thm:dyadic-subdivision-mesh-coverage}
+For every accepted $\DyadicSubdivisionUp$ packet $S=(I,L,C,M,V,P,N)$, coverage of the parent interval is represented solely by the finite ordered cell list $C$ together with the $\DyadicMeshUp$ packets in $M$. A consumer may read each child rational interval, dyadic endpoint ledger, and adjacency order through those rows, but it cannot read an infinite mesh, a host subset of $\RealUp$, or a global interval-tree object from $S$.
+\end{theorem}
+\begin{proof}
+Read the parent interval row $I$ and the ordered list $C$. The list is the only row that arranges the children, and it is finite by construction of the packet.
+
+Each child coverage object is then projected from the matching $\DyadicMeshUp$ entry in $M$. Its rational interval and dyadic endpoint ledger are already the finite coverage surface supplied by the mesh certificate.
+
+Since the subdivision carrier contains no further coverage coordinate, the parent coverage surface is exhausted by $C$ and $M$. Infinite meshes, host subsets, and interval-tree data are outside the packet.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision validated enclosure handoff]
+\label{thm:dyadic-subdivision-validated-enclosure-handoff}
+A $\ValidatedNumericsUp$ consumer of an accepted $\DyadicSubdivisionUp$ packet may read exactly the parent $\RationalIntervalUp$ row, common dyadic level row, ordered finite cell ledger, child $\DyadicMeshUp$ packets, attached $\ValidatedNumericsUp$ containment rows, $\hsame$ transports, $\Cont$ routes, package provenance, and local $\NameCert$ row. The handoff supplies a finite enclosure subdivision and does not assert solver correctness, floating-point hardware semantics, classical real completeness, or an infinite refinement theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier. The validated-numerics side first sees the parent interval, the level row, and the ordered cell list; these rows determine which finite child packets can be inspected.
+
+For each child, read the matching $\DyadicMeshUp$ packet and the corresponding $\ValidatedNumericsUp$ containment row. The $\hsame$ transports and $\Cont$ routes ensure that the mesh boundary and containment ledger are read along the same finite cell route.
+
+Thus the handoff is the finite enclosure subdivision formed by these rows. No coordinate supplies solver correctness, hardware semantics, classical completeness, or an infinite refinement principle.
+\end{proof}
+
+\closureat{DyadicSubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicSubdivisionUp}
+  \constructivestory{A $\DyadicSubdivisionUp$ packet is generated from a parent $\RationalIntervalUp$ row, a unary dyadic level row, a finite ordered cell-list row, $\DyadicMeshUp$ cell packets, $\ValidatedNumericsUp$ containment rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier, naming-certificate obligation surface, refinement stability, mesh coverage, and validated-enclosure handoff for dyadic subdivision certificates over rational intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close global interval-tree semantics, solver correctness, floating-point hardware behavior, classical real completeness, infinite refinement, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier transport, mesh-family refinement stability, finite coverage exactness, and validated enclosure handoff for the same displayed packet.}
+\end{closurestatus}
