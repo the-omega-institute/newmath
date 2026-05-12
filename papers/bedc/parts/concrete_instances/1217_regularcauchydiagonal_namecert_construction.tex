@@ -73,6 +73,7 @@ Window coverage is exactly \autoref{thm:regular-cauchy-diagonal-window-coverage}
 \label{thm:regular-cauchy-diagonal-zero-seed}
 For the source row $D=(Q,S,R,L,W,P,N)$ of \autoref{def:regular-cauchy-diagonal-source}, the stationary rational seed with $Q$ the zero $\RatUp$ row, $S$ the constant $\StreamNameUp$ window row, and $R$ the constant $\RegSeqRatUp$ readback inhabits the $\RegularCauchyDiagonalUp$ carrier. Its $\RealUp$ seal row $L$, finite window ledger $W$, package row $P$, and local $\NameCert$ row $N$ are all displayed finite rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_zero\_seed}
 \begin{proof}
 Start with the stationary rational seed. The zero $\RatUp$ row supplies the same displayed rational observation at every requested diagonal precision, and the constant $\StreamNameUp$ row supplies the same finite window witness for each read.
 
@@ -144,6 +145,7 @@ Selector stability is \autoref{thm:regular-cauchy-diagonal-selector-stability}, 
 
 Stationary seal exactness is \autoref{thm:regular-cauchy-diagonal-stationary-seal-exactness}. Completion-consumer routing is \autoref{thm:regular-cauchy-diagonal-completion-consumer-bridge}. Repacking these five projections gives the bridge-facing package, while the source and carrier definitions exclude quotient streams, selected host limits, and ambient completeness rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_bridge\_obligation\_package}
 
 \begin{theorem}[Regular Cauchy diagonal standard bridge source]
 \label{thm:regular-cauchy-diagonal-standard-bridge-source}
@@ -364,6 +366,7 @@ Use root window-ledger exactness to locate the requested observation inside $W$.
 
 The bridge non-escape theorem \autoref{thm:regular-cauchy-diagonal-bridge-non-escape} and mature consumer exhaustion \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion} rule out every remaining completion-side escape coordinate. Thus the seal route is exhausted by the displayed root packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_root\_seal\_route\_exhaustion}
 
 \begin{theorem}[Regular Cauchy diagonal root downstream-unblock package]
 \label{thm:regular-cauchy-diagonal-root-downstream-unblock-package}
@@ -411,6 +414,20 @@ First use \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion}. It s
 Next use \autoref{thm:regular-cauchy-diagonal-downstream-unblock-package}. The downstream package is already the composition of source stability, window-ledger exactness, the public $\NameCert$ surface, and the real-completion handoff package.
 
 The $\DyadicTailBoundUp$, $\RegSeqRatUp$, and $\RealUp$ portions are therefore the selector-fiber route of \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. The $\RealCauchyCompletionUp$ portion is the completion-seal composition of \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}, so every listed downstream route factors through those two routes and no extra object is exposed.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal formal target boundary]
+\label{thm:regular-cauchy-diagonal-formal-target-boundary}
+The formal target for $\RegularCauchyDiagonalUp$ is the finite tuple $D=(Q,S,R,L,W,P,N)$ together with selector-fiber exhaustion, completion-seal composition, downstream route factorization, and bridge non-escape. A Lean target for this chapter should prove only this finite $\BHist$ route over $\RatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and should not prove quotient streams, selected host limits, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with selector-fiber exhaustion from \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. It identifies every classifier-facing read with the displayed tuple $D=(Q,S,R,L,W,P,N)$ and the finite window, dyadic, readback, seal, transport, package, and naming rows attached to it.
+
+Next attach completion-seal composition from \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}. The completion-facing consumer reaches the same $\RealUp$ seal by the displayed diagonal selector route rather than by a host sequence equality or selected limit.
+
+Now use downstream route factorization from \autoref{thm:regular-cauchy-diagonal-downstream-route-factorization}. It says that $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCauchyCompletionUp$ consumers all factor through the selector-fiber and completion-seal routes.
+
+Finally apply bridge non-escape from \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}. Since the bridge exports no quotient stream, selected host limit, host equality, or ambient completeness theorem, the finite tuple and its displayed $\BHist$ route are the precise formal target boundary.
 \end{proof}
 
 \closureat{RegularCauchyDiagonalUp}{seedStr}
