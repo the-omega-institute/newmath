@@ -145,6 +145,34 @@ static void test_msame_no_confusion_algo(void) {
     printf("  msame_no_confusion.algo: 2/2 cases PASS\n");
 }
 
+/* Pipeline smoke test: exercises mr_run_ct_manifest end-to-end on each .ct
+   manifest. Each manifest's productions on its first-case input is expected
+   to reach HALT_EMPTY with empty final tape within 200 steps. This proves
+   the manifest_runner pipeline (parser + cyclic_tag evaluator) works on real
+   .ct files, separately from the decoder-based semantic assertions above. */
+static void pipeline_smoke_test_all_manifests(void) {
+    struct { const char *path; const char *input; } cases[] = {
+        {"manifests/mark/msame_refl.enum.ct",          "011011"},
+        {"manifests/mark/msame_refl.algo.ct",          "011011"},
+        {"manifests/mark/msame_symm.enum.ct",          "011011"},
+        {"manifests/mark/msame_symm.algo.ct",          "011011"},
+        {"manifests/mark/msame_trans.enum.ct",         "011011011"},
+        {"manifests/mark/msame_trans.algo.ct",         "011011011"},
+        {"manifests/mark/msame_no_confusion.enum.ct",  "0111011"},
+        {"manifests/mark/msame_no_confusion.algo.ct",  "0111011"},
+    };
+    size_t n = sizeof(cases) / sizeof(cases[0]);
+    for (size_t i = 0; i < n; i++) {
+        MrResult r = mr_run_ct_manifest(cases[i].path, cases[i].input, "", 200);
+        if (r != MR_PASS) {
+            fprintf(stderr, "pipeline smoke FAIL on %s: result=%d\n",
+                    cases[i].path, (int)r);
+        }
+        assert(r == MR_PASS);
+    }
+    printf("  pipeline_smoke (8 manifests, all halt-empty in <=200 steps): PASS\n");
+}
+
 int main(void) {
     printf("== test_mark ==\n");
     test_msame_refl_enum();
@@ -155,6 +183,7 @@ int main(void) {
     test_msame_trans_algo();
     test_msame_no_confusion_enum();
     test_msame_no_confusion_algo();
-    printf("ALL test_mark assertions passed (32 total: 2+2+4+4+8+8+2+2 across 8 manifests)\n");
+    pipeline_smoke_test_all_manifests();
+    printf("ALL test_mark assertions passed (32 total + 8-manifest pipeline smoke)\n");
     return 0;
 }
