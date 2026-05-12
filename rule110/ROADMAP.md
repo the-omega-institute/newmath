@@ -108,3 +108,18 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   `choices(r) = choices(k) ++ choices(h)`.
 - [x] Add `docs/cont_design.md` documenting the append direction and manifest
   contract.
+
+## Bundle module (beyond original M3 scope)
+
+- [x] Encode `ProbeBundle` as the unary probe-name event list from
+  `sigrel_design.md`, terminated by the reserved bundle-end event `[1,1]`.
+- [x] `manifests/bundle/bundle_length.*.ct` covers append length, nil units,
+  associativity, append/right-left equivalences, and fixed-length split
+  uniqueness representatives.
+- [x] `manifests/bundle/bundle_membership.*.ct` covers nil/cons/singleton
+  membership, append membership flattening, member split, cancellation, and
+  append result inversion representatives.
+- [x] `tests/test_bundle.c` has a local ProbeBundle decoder and semantic
+  checks for the manifest cases.
+- [x] `docs/bundle_design.md` documents the concrete ground fixture and
+  theorem coverage.

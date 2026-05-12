@@ -98,3 +98,17 @@
   constructor-positive triples, and well-formed triples with wrong result
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
+
+## ProbeBundle Encoding
+
+- `ProbeBundle` uses the `sigrel_design.md` fixture: probe names are unary
+  natural-number events, and bundles are event lists terminated by the reserved
+  bundle-end event `[1,1]`.
+- `bundle_length.*.ct` covers append length aliases, nil units, associativity,
+  append equality iff nil, and fixed-length split uniqueness representatives.
+- `bundle_membership.*.ct` covers nil/cons/singleton membership, append
+  membership flattening up to four bundles, member split, cancellation, and
+  append result inversion.
+- `tests/test_bundle.c` owns executable semantics: decoded bundles are
+  arrays of probe numbers, append is array concatenation, length is array
+  length, and membership is array search.

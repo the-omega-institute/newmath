@@ -1,0 +1,26 @@
+# bundle_membership.algo.ct
+# Algorithm framing for ProbeBundle membership, split witnesses, cancellation,
+# and result inversion over decoded bundle streams.
+#
+# The C harness performs the bounded semantic checks. The CT production is
+# vacuous for this phase and keeps the manifest executable through the shared
+# manifest_runner.
+PRODUCTIONS 1
+0
+ASSERTIONS 16
+case nil_elim_probe0:               input=1011101011                                                   ; theorem=inBundle_nil_elim ; conclusion_holds=yes
+case cons_self_probe1:              input=0101101011001011101011                                       ; theorem=inBundle_cons_self ; conclusion_holds=yes
+case singleton_iff_yes:             input=001011001011101011                                           ; theorem=inBundle_singleton_iff ; conclusion_holds=yes
+case singleton_iff_no:              input=00101101011101011                                            ; theorem=inBundle_singleton_iff ; conclusion_holds=yes
+case append_member_left:            input=0101101011101011001011101011                                 ; theorem=inBundle_bundleAppend_iff ; conclusion_holds=yes
+case append_member_right:           input=001011101110101100101101011101011                            ; theorem=inBundle_bundleAppend_iff ; conclusion_holds=yes
+case append_member_absent:          input=00010111011101011001011101011                                ; theorem=inBundle_bundleAppend_iff ; conclusion_holds=yes
+case append_left_of_not_right:      input=0101101011101011001011101011                                 ; theorem=inBundle_bundleAppend_left_of_not_right ; conclusion_holds=yes
+case append_right_of_not_left:      input=001011101110101100101101011101011                            ; theorem=inBundle_bundleAppend_right_of_not_left ; conclusion_holds=yes
+case append_three_middle:           input=001011101110101100101110101101011101011                      ; theorem=inBundle_bundleAppend_three_iff ; conclusion_holds=yes
+case append_four_last:              input=00010111011101011010111010110010111010110001011101011        ; theorem=inBundle_bundleAppend_four_iff ; conclusion_holds=yes
+case member_split_head:             input=10111011001011101011                                         ; theorem=inBundle_member_split_iff ; conclusion_holds=yes
+case member_split_tail:             input=0010111011001011101011                                       ; theorem=inBundle_member_split_iff ; conclusion_holds=yes
+case prefix_suffix_cancel:          input=01011001011101011101110101110111010110001011101011           ; theorem=bundleAppend_cancellation ; conclusion_holds=yes
+case cons_result_inversion_prefnil: input=10101110110010111010111011001011101011                       ; theorem=bundleAppend_cons_result_iff ; conclusion_holds=yes
+case empty_result_inversion:        input=101011101011                                                 ; theorem=bundleAppend_empty_result_inversion ; conclusion_holds=yes
