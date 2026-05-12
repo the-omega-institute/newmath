@@ -188,15 +188,173 @@ the displayed approximation, modulus, regularity, seal, transport, and
 provenance rows.
 \end{proof}
 
+\begin{theorem}[ComputableReal RegSeqRat seal factorization]
+\label{thm:computable-real-regseqrat-seal-factorization}
+Every accepted packet of
+\autoref{def:computable-real-source-packet} factors its real-facing read
+through the displayed $\StreamNameUp$ windows, unary $\CauchyModulusUp$ rows,
+$\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ regularity handoff,
+$\RealUp$ seal-source row, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+provenance.
+
+The factorization exports no completed real, quotient of names, selected
+limit, host equality, or classical completeness row. Its full readable
+surface is the finite $\mathsf{BHist}$ ledger
+$$
+(s,\mu,d,r,\ell,h,c,p,n).
+$$
+\end{theorem}
+\begin{proof}
+Project the nine coordinates of the source packet. The rows $s$, $\mu$, and
+$d$ supply the certified stream windows, unary thresholds, and dyadic
+observations. The row $r$ is the regular-sequence handoff, while $\ell$ is the
+only $\RealUp$ seal-source row.
+
+Apply \autoref{thm:computable-real-realup-handoff} to the real-facing read.
+It identifies the $\RealUp$ surface as a read through the $\RegSeqRatUp$
+handoff and the same finite dyadic windows, with $h$, $c$, $p$, and $n$
+carrying transport, continuation, package, and naming provenance.
+
+Apply \autoref{thm:computable-real-ledger-coverage} to exhaust the consumer
+coordinates. Then apply
+\autoref{thm:computable-real-standard-bridge-boundary} to separate this
+finite effective-real reading from completed reals, quotient names, selected
+limits, host equality, and classical completeness.
+\end{proof}
+
+\begin{theorem}[ComputableReal Real seal refinement coverage]
+\label{thm:computable-real-real-seal-refinement-coverage}
+Restricting or refining a certified finite observation window of an accepted
+$\ComputableRealUp$ packet preserves the same $\RealUp$ seal-source surface.
+The unary modulus row selects the same late-observation comparison boundary,
+and the $\RegSeqRatUp$ handoff is read through the same finite
+$\DyadicRatCoreUp$ ledger.
+
+Consequently every consumer read after the window change remains inside the
+finite BEDC rows
+$$
+(s,\mu,d,r,\ell,h,c,p,n)
+$$
+of \autoref{def:computable-real-source-packet}.
+\end{theorem}
+\begin{proof}
+Compare the original certified window and the restricted or refined window by
+passing to their displayed common refinement. The source packet coordinates
+$s$, $\mu$, $d$, $r$, $\ell$, $h$, $c$, $p$, and $n$ remain the rows being
+read; no new carrier or limiting object is introduced by the window change.
+
+The row $\mu$ names the same late-observation threshold, and the stream row
+$s$ names the finite window through which the relevant dyadic observations in
+$d$ are selected. The regular-sequence handoff $r$ therefore receives the
+same kind of finite comparison data before and after refinement.
+
+Apply
+\autoref{thm:computable-real-regseqrat-seal-factorization} to keep the
+real-facing read factored through $r$ and $\ell$. Apply
+\autoref{thm:computable-real-realup-handoff} and
+\autoref{thm:computable-real-ledger-coverage} to keep the seal read and all
+consumer projections inside the finite BEDC ledger.
+\end{proof}
+
+\begin{theorem}[ComputableReal classifier transport]
+\label{thm:computable-real-classifier-transport}
+For two accepted source packets of
+\autoref{def:computable-real-source-packet}, componentwise $\hsame$ transport
+of the displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\RealUp$, $\Cont$, and $\Pkg$ rows preserves the
+$\ComputableRealUp$ classifier. The comparison remains a finite-window
+regular-sequence comparison and never becomes equality of completed real
+values.
+\end{theorem}
+\begin{proof}
+Project the tuple
+$X=(s,\mu,d,r,\ell,h,c,p,n)$ from
+\autoref{def:computable-real-source-packet}. Each coordinate is a displayed
+BEDC row, and the classifier described there reads only the scheduled finite
+windows and the regular-sequence handoff built from those windows.
+
+Transport $s$, $\mu$, $d$, $r$, $\ell$, $c$, and $p$ componentwise by the
+given $\hsame$ rows. The $\StreamNameUp$ row keeps the same certified window
+shape, the $\CauchyModulusUp$ row keeps the same unary thresholds, and the
+$\DyadicRatCoreUp$ rows keep the same dyadic endpoints after transport.
+
+The $\RegSeqRatUp$ classifier is then applied on the transported finite
+windows. The $\RealUp$ seal row is carried only as the displayed handoff
+target, so completed-real equality, quotient names, and selected limits remain
+outside the ledger.
+\end{proof}
+
+\begin{theorem}[ComputableReal modulus-window stability]
+\label{thm:computable-real-modulus-window-stability}
+Let $X$ be an accepted $\ComputableRealUp$ source packet. Restrict, enlarge,
+or refine a certified finite observation window along the $\StreamNameUp$
+schedule while retaining the same unary $\CauchyModulusUp$ threshold row.
+Then the late-window comparison rows read from the $\DyadicRatCoreUp$ packet
+family and the $\RegSeqRatUp$ handoff remain accepted by the same source
+packet.
+\end{theorem}
+\begin{proof}
+Read the observation schedule $s$ and modulus row $\mu$ from
+\autoref{def:computable-real-source-packet}. A certified window is visible
+only through the $\StreamNameUp$ row and the $\Cont$ routes that read dyadic
+observations from that finite window.
+
+For a restriction, project the retained dyadic rows and the same modulus
+threshold. For an enlargement or refinement, pass through the displayed common
+finite window named by the stream schedule. In each case, the $\Cont$ route
+still reads the dyadic endpoints from $d$, and the unary threshold remains
+the row named by $\mu$.
+
+The $\RegSeqRatUp$ handoff consumes exactly those transported finite-window
+comparisons. Since the packet has no coordinate for a completed real, selected
+limit, or host metric completion, the modulus-window stability claim remains
+inside the displayed ledger.
+\end{proof}
+
+\begin{theorem}[ComputableReal bridge boundary]
+\label{thm:computable-real-bridge-boundary}
+The standard effective-real boundary of an accepted $\ComputableRealUp$
+packet is the finite BEDC surface consisting of the source packet of
+\autoref{def:computable-real-source-packet}, the classifier transport row of
+\autoref{thm:computable-real-classifier-transport}, the modulus-window row of
+\autoref{thm:computable-real-modulus-window-stability}, the $\RealUp$ handoff,
+and the ledger-coverage row. The boundary consumes the
+$\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
+$\RealUp$ dependency certificates together with $\mathsf{BHist}$, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ rows.
+
+It does not assert extensional equality of completed real values, a selected
+limit, a quotient of names, or a classical completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source packet and project its visible dependency rows. The
+stream schedule, modulus row, dyadic packet family, regular-sequence handoff,
+and real seal form the whole carrier surface.
+
+Use \autoref{thm:computable-real-classifier-transport} for componentwise
+transport of the classifier and
+\autoref{thm:computable-real-modulus-window-stability} for certified window
+changes. Then use \autoref{thm:computable-real-realup-handoff} and
+\autoref{thm:computable-real-ledger-coverage} to identify the only
+real-facing read and the exact consumer ledger.
+
+These projections give the standard effective-real reading through finite
+BEDC rows. No displayed coordinate names completed-real equality, selected
+limits, quotient reals, or host completeness, so those objects stay outside
+the bridge boundary.
+\end{proof}
+
 \closureat{ComputableRealUp}{seedStr}
+\closureat{ComputableRealUp}{obligationStr}
+\closureat{ComputableRealUp}{scopedStr}
 
 \begin{closurestatus}{\ComputableRealUp}
   \constructivestory{A computable real source is generated by certified finite stream-observation windows, a unary Cauchy modulus, dyadic approximation packets, a regular-sequence handoff, a RealUp seal source, and visible transport and provenance rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:computable-real-source-packet}, \autoref{thm:computable-real-namecert-obligation-surface}, \autoref{thm:computable-real-realup-handoff}, and \autoref{thm:computable-real-ledger-coverage} bind the seed carrier, obligation rows, real-seal handoff, and finite ledger coverage for constructive effective real names.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:computable-real-source-packet}, \autoref{thm:computable-real-namecert-obligation-surface}, \autoref{thm:computable-real-realup-handoff}, \autoref{thm:computable-real-ledger-coverage}, \autoref{thm:computable-real-classifier-transport}, \autoref{thm:computable-real-modulus-window-stability}, and \autoref{thm:computable-real-bridge-boundary} bind the effective-real source, NameCert obligation surface, classifier transport, modulus window, $\RealUp$ handoff, ledger coverage, and bridge boundary to their $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ dependencies.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close classical real completeness, quotient equality of names, total comparison of completed reals, selected limits, or a machine-checked standard bridge.}
-  \upgradepath{Formal carrier, classifier, modulus-window stability, RealUp handoff, ledger coverage, and bridge-boundary targets are required before the surface can move beyond seed status.}
+  \upgradepath{Public closure next requires a single public effective-real $\NameCert$ export whose consumer surface is independent of the local packet presentation.}
 \end{closurestatus}
