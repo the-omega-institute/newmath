@@ -42,7 +42,6 @@ This fills a real local gap in the BayesianUp chapter: the carrier section is em
 
 ---
 
-
 ### B-697 - Bayesian posterior classifier transport
 
 | field | value |
@@ -66,32 +65,6 @@ Rationale:
 The chapter currently has posterior source and ledger exactness but no reusable transport theorem for the named Bayesian posterior packet rows. The claim is concrete enough for a BOARD entry because it concerns the actual prior, likelihood, evidence, posterior, normalisation, and provenance rows, and it would make the posterior packet stable under the local dependency classifiers without importing host probability semantics.
 
 ---
-
-
-### B-698 - EllipticCurve Weierstrass bridge boundary
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | EllipticCurve Weierstrass bridge boundary |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
-
-Problem:
-If a standard Weierstrass elliptic-curve presentation is admitted only through the FieldUp row, ProjectiveVarUp row, five coefficient rows, cubic incidence row, smooth genus-one row, base-point row, classifier transports, and Pkg provenance of an EllipticCurveUp packet, then it repacks to the same public EllipticCurveUp surface and exports no group law or external curve equality.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/153_ellipticcurve_namecert_construction.tex`
-
-Rationale:
-The EllipticCurveUp chapter has mature field/projective carrier coverage and explicitly leaves the standard Weierstrass bridge outside the current surface. This target is a conservative bridge-boundary theorem over already enumerated BEDC rows, distinct from the existing coefficient ledger and field-projective compatibility theorems because it addresses the standard-presentation admission boundary while still excluding group law and external model equality.
-
----
-
 
 ### B-699 - KKT finite-packet standard bridge
 
@@ -117,7 +90,6 @@ KKTUp already has row obligations, transport, complementarity exactness, downstr
 
 ---
 
-
 ### B-700 - GeomQuantization public-surface standard bridge
 
 | field | value |
@@ -141,4 +113,3 @@ Rationale:
 The GeomQuantizationUp chapter already proves the public certificate handoff but explicitly leaves standard bridges outside the current surface and names a schema-level public-surface bridge as the upgrade path. This candidate is a concrete conservative bridge theorem over the listed packet rows, distinct from the existing handoff because it constrains how a standard geometric-quantization presentation may be admitted without adding ambient quantization or host-space rows.
 
 ---
-
