@@ -124,4 +124,36 @@ theorem CauchyCompletionFunctorPacket_classifier_transport [AskSetup] [PackageSe
       transportUnary', nameCertUnary', endpointUnary, metricRegularSeal, monadUniversalEndpoint,
       classifierTransportNameCert', endpointPkg⟩, nameCertUnary', endpointPkg⟩
 
+theorem CauchyCompletionFunctorPacket_unit_laws [AskSetup] [PackageSetup]
+    {metric regular sealRow monadRow universal classifier transport nameCert endpoint
+      unitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionFunctorPacket metric regular sealRow monadRow universal classifier transport
+        nameCert endpoint bundle pkg ->
+      Cont metric sealRow unitRead ->
+        PkgSig bundle unitRead pkg ->
+          UnaryHistory metric ∧ UnaryHistory regular ∧ UnaryHistory sealRow ∧
+            UnaryHistory monadRow ∧ UnaryHistory universal ∧ UnaryHistory unitRead ∧
+              Cont metric regular sealRow ∧ Cont metric sealRow unitRead ∧
+                Cont monadRow universal endpoint ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle unitRead pkg := by
+  intro packet metricSealUnit unitPkg
+  obtain ⟨metricUnary, regularUnary, sealUnary, monadUnary, universalUnary, _classifierUnary,
+    _transportUnary, _nameCertUnary, _endpointUnary, metricRegularSeal, monadUniversalEndpoint,
+    _classifierTransportNameCert, endpointPkg⟩ := packet
+  have unitUnary : UnaryHistory unitRead :=
+    unary_cont_closed metricUnary sealUnary metricSealUnit
+  exact
+    ⟨metricUnary,
+      regularUnary,
+      sealUnary,
+      monadUnary,
+      universalUnary,
+      unitUnary,
+      metricRegularSeal,
+      metricSealUnit,
+      monadUniversalEndpoint,
+      endpointPkg,
+      unitPkg⟩
+
 end BEDC.Derived.CauchyCompletionFunctorUp
