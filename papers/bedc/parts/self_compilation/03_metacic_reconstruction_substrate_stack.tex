@@ -1,0 +1,125 @@
+\subsection{Substrate Stack}\label{subsec:substrate-stack}
+
+The MetaCIC reconstruction is a layered stack of Lean modules. Each module
+contributes a specific fragment of the represented type theory's substrate.
+The stack is finite, ordered by formal dependency, and audited by the standing
+paper and Lean checks.
+
+\paragraph{Syntax layer.} \texttt{BEDC.MetaCIC.Syntax} provides
+$\mathrm{Term}$ (an inductive with five constructors: $\mathrm{var}$,
+$\mathrm{app}$, $\mathrm{lam}$, $\mathrm{pi}$, $\mathrm{sort}$),
+$\mathrm{shift}$ (de Bruijn lifting at cutoff with explicit amount,
+dispatching on Boolean $\mathrm{Nat.ble}$), and $\mathrm{substitute}$
+(capture-aware substitution at arbitrary depth, dispatching on Boolean
+$\mathrm{Nat.beq}$ and $\mathrm{Nat.blt}$; the Bool-level branching avoids the
+$\mathrm{propext}$ exposure that Prop-level decidable-if would introduce for
+generalized substitute lemmas).
+
+\paragraph{Typing layer.} \texttt{BEDC.MetaCIC.Typing} provides
+$\mathrm{Ctx}$ as a list of represented types, $\mathrm{Ctx.lookup}$ with
+depth-aware $\mathrm{shift}$ on tail-looked-up types, and the inductive
+predicate
+$$
+\begin{aligned}
+\mathrm{HasType} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{Term}
+  \to \mathrm{Prop}.
+\end{aligned}
+$$
+Its formation rules are $\mathrm{sortRule}$, $\mathrm{varRule}$,
+$\mathrm{piRule}$, $\mathrm{lamRule}$, and $\mathrm{appRule}$.
+
+\paragraph{Reduction layer.} \texttt{BEDC.MetaCIC.Beta} provides
+$\mathrm{BetaStep}$ with one base beta rule and congruence rules for
+application heads, application arguments, lambda bodies, lambda domains,
+Pi codomains, and Pi domains.
+
+\paragraph{Well-formedness layer.} \texttt{BEDC.MetaCIC.ContextWF} provides
+$\mathrm{WellFormedCtx}$ with empty and cons formation rules. The cons rule
+requires the head type to be derivable at $\mathrm{Sort}$ in the predecessor
+context. This premise is required for substitution preservation: without it,
+ill-typed contexts admit refutations of preservation.
+
+\paragraph{Substitution-preservation layer.}
+\texttt{BEDC.MetaCIC.Substitution} hosts the substitution-preservation target
+with the $\mathrm{WellFormedCtx}$ premise. Its proof body is the active
+research target.
+
+\paragraph{Subject-reduction layer.}
+\texttt{BEDC.MetaCIC.SubjectReduction} depends on substitution preservation
+and is the next downstream target.
+
+\paragraph{Operational layer.} \texttt{BEDC.MetaCIC.Examples} carries
+concrete $\mathrm{HasType}$ witnesses for representative terms: the base sort
+judgment, the polymorphic identity, and variable lookup.
+\texttt{BEDC.MetaCIC.LeanBridge} carries one worked encoding of a host CIC
+term into MetaCIC with its $\mathrm{HasType}$ derivation.
+
+\paragraph{Decidable layer.} \texttt{BEDC.MetaCIC.Checker} provides
+$\mathrm{Term.beq}$, structural equality on terms, with soundness
+$\mathrm{Term.beq\_eq}$; $\mathrm{infer}$, type inference returning
+$\mathrm{Option}\ \mathrm{Term}$, with soundness $\mathrm{infer\_sound}$; and
+$\mathrm{check}$, decidable typing check, with soundness
+$\mathrm{check\_sound}$.
+
+\paragraph{Display and elaboration layer.}
+\texttt{BEDC.MetaCIC.PrettyPrint} provides a display function
+$\mathrm{Term} \to \mathrm{String}$. \texttt{BEDC.MetaCIC.Elaborator}
+provides $\mathrm{ElabFailure}$, $\mathrm{ElabResult}$,
+$\mathrm{normalizeOneStep}$ for single-step beta reduction, and
+$$
+\begin{aligned}
+\mathrm{elaborate} : \mathrm{Ctx} \to \mathrm{Term} \to \mathrm{ElabResult}.
+\end{aligned}
+$$
+
+\paragraph{Reflection bridge implementation status.}
+$\texttt{BEDC.MetaCIC.HostBridge}.\mathrm{reflectExpr}$ covers eight
+host Lean $\mathrm{Expr}$ constructors: $\mathrm{sort}$,
+$\mathrm{bvar}$, $\mathrm{app}$, $\mathrm{lam}$,
+$\mathrm{forallE}$, $\mathrm{const}$, $\mathrm{fvar}$ returning
+$\mathrm{none}$, and $\mathrm{mdata}$ as a passthrough. Two elaboration
+commands surface the encoding to BEDC automation:
+$\#\mathrm{reflect\_metacic}\ e$ prints the $\mathrm{Term}$ form, and
+$\#\mathrm{metacic\_decide}\ e$ runs $\mathrm{infer}$ on the reflected
+$\mathrm{Term}$ and prints the inferred MetaCIC type. The latter is the
+end-to-end demonstration of the host-MetaCIC pipeline.
+
+\paragraph{Atomic inference and concrete typing gallery.}
+\texttt{BEDC.MetaCIC.AtomInfer} carries a minimal type-inference procedure
+for closed atoms: a sort literal infers to itself, a de Bruijn variable
+infers to its context lookup.
+\leandef{BEDC.MetaCIC.inferAtom}
+\leanchecked{BEDC.MetaCIC.inferAtom\_sort\_sound}
+\leanchecked{BEDC.MetaCIC.inferAtom\_var\_sound}
+\texttt{BEDC.MetaCIC.TypedExamples} carries a gallery of concrete typed
+terms over the shift-aware substrate: sort and Pi types in singleton and
+binary contexts, the dependent identity that exhibits shift-aware binder
+tracking, and a beta-reducible identity application.
+\leanchecked{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.var\_one\_in\_double\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.pi\_var\_sort\_in\_sort\_ctx}
+\leanchecked{BEDC.MetaCIC.lam\_dependent\_identity}
+\leanchecked{BEDC.MetaCIC.pi\_sort\_sort\_in\_empty\_ctx}
+\leanchecked{BEDC.MetaCIC.app\_id\_sort\_in\_empty\_ctx}
+\texttt{BEDC.MetaCIC.Normalization} records that sort and variable atoms
+are reduction-stable: no $\beta$-step starts from a sort or variable
+constructor, so closed atoms typed at sort are normal forms.
+\leanchecked{BEDC.MetaCIC.sort\_no\_beta}
+\leanchecked{BEDC.MetaCIC.closed\_var\_no\_beta}
+
+\paragraph{Audit gating.} Every module in the stack is gated by
+\texttt{check-axioms.py}, which rejects raw \texttt{axiom} declarations;
+\texttt{bedc\_ci.py axiom-purity --strict}, which rejects transitive
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}
+dependencies; \texttt{bedc\_ci.py audit}, which rejects paper-Lean marker
+drift; and \texttt{bedc\_ci.py marker-existence-audit}, which rejects paper
+references to non-existent Lean names. A module that fails any of these
+audits is rejected at PR merge time.
+
+\paragraph{Stack closure.} The substrate stack is open at the
+substitution-preservation layer and closed elsewhere: the remaining layers
+carry definitions and theorems that are axiom-free under
+\texttt{\#print axioms}. Subject reduction depends on substitution
+preservation; closing the substitution layer is the prerequisite for opening
+the subject-reduction layer. No layer is closed by importing unverified
+content from outside the stack.

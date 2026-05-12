@@ -64,4 +64,40 @@ theorem DyadicApproximationCarrier_classifier_transport [AskSetup] [PackageSetup
                 (And.intro windowLedgerProvenance' pkgSig)))))))
     sameWindow
 
+theorem DyadicApproximationCarrier_common_precision_refinement [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance precision₂ endpoint₂ window₂ ledger₂
+      provenance₂ common endpointCommon windowCommon ledgerCommon provenanceCommon : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      DyadicApproximationCarrier precision₂ endpoint₂ window₂ ledger₂ provenance₂ bundle pkg ->
+        hsame precision common ->
+          hsame precision₂ common ->
+            hsame endpoint endpointCommon ->
+              hsame endpoint₂ endpointCommon ->
+                hsame ledger ledgerCommon ->
+                  hsame ledger₂ ledgerCommon ->
+                    hsame provenance provenanceCommon ->
+                      hsame provenance₂ provenanceCommon ->
+                        Cont common endpointCommon windowCommon ->
+                          Cont windowCommon ledgerCommon provenanceCommon ->
+                            DyadicApproximationCarrier common endpointCommon windowCommon
+                                ledgerCommon provenanceCommon bundle pkg ∧
+                              hsame window windowCommon ∧ hsame window₂ windowCommon := by
+  intro leftCarrier rightCarrier samePrecision samePrecision₂ sameEndpoint sameEndpoint₂
+    sameLedger sameLedger₂ sameProvenance sameProvenance₂ commonEndpointWindow
+    commonWindowLedgerProvenance
+  have leftRefined :
+      DyadicApproximationCarrier common endpointCommon windowCommon ledgerCommon
+          provenanceCommon bundle pkg ∧
+        hsame window windowCommon :=
+    DyadicApproximationCarrier_classifier_transport leftCarrier samePrecision sameEndpoint
+      sameLedger sameProvenance commonEndpointWindow commonWindowLedgerProvenance
+  have rightRefined :
+      DyadicApproximationCarrier common endpointCommon windowCommon ledgerCommon
+          provenanceCommon bundle pkg ∧
+        hsame window₂ windowCommon :=
+    DyadicApproximationCarrier_classifier_transport rightCarrier samePrecision₂ sameEndpoint₂
+      sameLedger₂ sameProvenance₂ commonEndpointWindow commonWindowLedgerProvenance
+  exact And.intro leftRefined.left (And.intro leftRefined.right rightRefined.right)
+
 end BEDC.Derived.DyadicApproximationUp
