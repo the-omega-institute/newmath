@@ -222,3 +222,50 @@ vacuous componentwise payload comparison, and the same continuation provenance.
 Therefore both factors are classified with the empty $\FreeMonoidUp$ word under
 the original setup.
 \end{proof}
+
+\begin{theorem}[FreeMonoid singleton concatenation inversion]
+\label{thm:freemonoid-singleton-concat-inversion}
+Fix one payload source row $A:\mathsf{BHist}\to\mathsf{Prop}$ and one
+payload classifier $\sim_A$. Let $u$ and $v$ be accepted $\FreeMonoidUp$ words
+for this same payload, $\ListUp$, $\NatUp$, and $\MonoidUp$ setup, and let
+$u\cdot v$ be their displayed concatenation word. If $u\cdot v$ is classified
+with the singleton $\FreeMonoidUp$ word carrying payload row $a$, then exactly
+one factor is classified with the empty word and the other factor is classified
+with the singleton word carrying $a$, all under the same $\ListUp$, $\NatUp$,
+$\MonoidUp$, $\hsame$, $\Cont$, and $\Pkg$ provenance rows.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:freemonoid-word-carrier}. The two accepted
+factors have finite position spines $s_u$ and $s_v$, length rows $\ell_u$ and
+$\ell_v$, componentwise payload rows over $A$, and the same displayed
+provenance packet. Their concatenation ledger records the output spine as the
+$\ListUp$ append of $s_u$ and $s_v$ and the output length as the $\NatUp$
+addition row $\ell_u+\ell_v$.
+
+The singleton-output hypothesis identifies that same ledger with the displayed
+one-position spine and the $\NatUp$ successor-of-zero length row. By the ledger
+normal form of \autoref{thm:freemonoid-ledger-normal-form}, the concatenation
+case has no further evaluator: the only possible source of that singleton row
+is the append spine and its paired length row.
+
+Apply finite append singleton inversion to the displayed $\ListUp$ spine
+$s_u\cdot s_v$. There are two cases. In the left-empty case, $s_u$ is the empty
+spine and $s_v$ is the singleton spine carrying the unique displayed payload
+position. In the right-empty case, $s_u$ is that singleton spine and $s_v$ is
+the empty spine. The corresponding $\NatUp$ length row is inverted in the same
+case split: the empty factor has zero length, and the singleton factor has the
+one-position length row.
+
+It remains to transport the payload row. In each case the componentwise
+classifier in \autoref{def:freemonoid-word-carrier} has exactly one displayed
+position on the singleton side and no displayed position on the empty side.
+Thus the unique payload comparison for $a$ belongs to the singleton factor,
+while the empty factor has the vacuous payload comparison.
+
+The $\Pkg$ and $\Cont$ rows are unchanged, because the concatenation clause of
+\autoref{def:freemonoid-word-carrier} uses the same payload source, $\ListUp$,
+$\NatUp$, and $\MonoidUp$ packet for both inputs and the result. Repacking the
+classifier clauses gives the two stated alternatives, and the finite spine
+inversion makes them disjoint: the unique singleton position cannot lie in both
+factors.
+\end{proof}
