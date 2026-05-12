@@ -24,6 +24,16 @@ theorem middle_var_in_triple_sort :
   apply HasType.varRule
   rfl
 
+theorem deep_var_in_quad_sort :
+    HasType [Term.sort, Term.sort, Term.sort, Term.sort] (Term.var 3) Term.sort := by
+  apply HasType.varRule
+  rfl
+
+theorem mixed_ctx_vars :
+    HasType [Term.sort, Term.pi Term.sort Term.sort] (Term.var 0) Term.sort := by
+  apply HasType.varRule
+  rfl
+
 theorem two_sort_vars :
     HasType [Term.sort, Term.sort] (Term.pi (Term.var 0) (Term.var 1)) Term.sort := by
   apply HasType.piRule
