@@ -159,6 +159,18 @@ theorem betaStep_to_parallel {t u : Term} :
   | congLamDom d d' b hdd' ih =>
       exact BetaParallel.lam ih (betaParallel_refl b)
 
+theorem betaParallel_sort_unique {t : Term}
+    (h : BetaParallel Term.sort t) :
+    t = Term.sort := by
+  cases h
+  rfl
+
+theorem betaParallel_var_unique {i : Idx} {t : Term}
+    (h : BetaParallel (Term.var i) t) :
+    t = Term.var i := by
+  cases h
+  rfl
+
 theorem betaParallel_join_refl_left {t u : Term} :
     BetaParallel t u →
     Exists (fun v => BetaParallel t v ∧ BetaParallel u v) := by
