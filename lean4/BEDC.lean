@@ -288,12 +288,14 @@ import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
+import BEDC.Derived.RealCauchyCompletionUp.FamilyTailSynchronization
 import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularCauchyDiagonalUp
+import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyNameUp
