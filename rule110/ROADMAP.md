@@ -73,7 +73,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [ ] L2.2: Universal Ext step recognizer.
 - [ ] L2.3: Universal SigRel + sameSig recognizers (ProbeBundle-parameterized; needs hash-like fingerprinting in CT productions).
 - [ ] L2.4: Universal Cont (append) recognizer.
-- [ ] L2.5: Universal Bundle (length + membership) recognizers.
+- [!] L2.5: Bundle length + membership recognizers: bounded positional-certificate CTS for the manifest fixtures; universal parsing and probe-name comparison remain open.
 - [ ] L2.6: Universal Unary classifier.
 - [ ] L2.7: Universal Ask fixture recognizer.
 - [ ] L2.8: Universal ExternalBinary recognizer.
