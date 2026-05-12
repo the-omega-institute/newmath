@@ -180,4 +180,31 @@ theorem OptionalStoppingCarrier_finite_expectation_window [AskSetup] [PackageSet
                     (And.intro provenanceSame
                       (And.intro endpointSame pkgSig))))))))))
 
+theorem OptionalStoppingCarrier_no_escape_boundary [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg ->
+      Cont endpoint namecert publicRead ->
+        UnaryHistory bound ∧ UnaryHistory stoppedValue ∧ UnaryHistory integrability ∧
+          UnaryHistory publicRead ∧ Cont stopping bound stoppedValue ∧
+            Cont process filtration integrability ∧ hsame endpoint (append stoppedValue integrability) ∧
+              hsame namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier publicReadRow
+  obtain ⟨_probUnary, _processUnary, _stoppingUnary, boundUnary, stoppedValueUnary,
+    _filtrationUnary, integrabilityUnary, _sameRowsUnary, _routeUnary, _provenanceUnary,
+    namecertUnary, endpointUnary, stoppedValueRow, integrabilityRow, _sameRows, _routeSame,
+    _provenanceSame, endpointSame, namecertSame, pkgSig⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary namecertUnary publicReadRow
+  exact And.intro boundUnary
+    (And.intro stoppedValueUnary
+      (And.intro integrabilityUnary
+        (And.intro publicReadUnary
+          (And.intro stoppedValueRow
+            (And.intro integrabilityRow
+              (And.intro endpointSame
+                (And.intro namecertSame pkgSig)))))))
+
 end BEDC.Derived.OptionalStoppingUp
