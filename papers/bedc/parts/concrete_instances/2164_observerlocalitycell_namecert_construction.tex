@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\ObserverLocalityCellUp$}
+\label{ch:concrete-instances-observer-locality-cell-namecert}
+\origin{ai}
+
+The $\ObserverLocalityCellUp$ interface packages the finite two-observer cell described in \autoref{def:consciousness-universe-locality-cell}. It is a local naming surface: two observer-history rows, two event-description rows, paired $\Gap$ acknowledgements, componentwise transport, continuation routes, provenance, and a local certificate are visible, while global spacetime, a shared clock, a manifold coordinate chart, and an all-observer frame are not part of the carrier.
+
+\begin{definition}[ObserverLocalityCell carrier]
+\label{def:observer-locality-cell-carrier}
+An $\ObserverLocalityCellUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O_0,O_1,R_0,R_1,G_0,G_1,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O_0$ and $O_1$ are the two observer-history rows being compared;
+\item $R_0$ and $R_1$ are the two local event-description rows recorded inside those histories;
+\item $G_0$ and $G_1$ are paired $\Gap$ acknowledgement rows, each committing its own observer side to the coherence of $R_0$ and $R_1$ as descriptions of one event;
+\item $H$ stores componentwise $\hsame$ transport for the observer histories, event rows, acknowledgement rows, continuation routes, package row, and local name row;
+\item $C$ stores the displayed $\Cont$ routes by which a consumer reads the two observer histories, the two event rows, and the two acknowledgement rows;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistoryIdentityUp$, $\CrossHistCausalUp$, $\FiniteMultiHistPacketUp$, $\Hist$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObserverLocalityCellUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only after transporting these displayed coordinates to a common two-history surface. The carrier has no coordinate for an external event object, global observer frame, synchronized clock, metric geometry, manifold point, or instantaneous remote record.
+\end{definition}
+
+\begin{theorem}[ObserverLocalityCell NameCert obligations]
+\label{thm:observer-locality-cell-namecert-obligations}
+For the carrier of \autoref{def:observer-locality-cell-carrier}, the local $\NameCert_{\ObserverLocalityCellUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $L=(O_0,O_1,R_0,R_1,G_0,G_1,H,C,P,N)$;
+\item classifier transport to a common observer-history and event-row surface;
+\item paired $\Gap$ acknowledgement exactness, requiring both $G_0$ and $G_1$ to name the same transported pair of event rows;
+\item stability under the componentwise $\hsame$ row $H$ and displayed $\Cont$ routes in $C$;
+\item non-escape for global frames, synchronized clocks, manifold coordinates, ambient metric geometry, and instantaneous remote records.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observer-locality-cell-carrier}. The rows $O_0,O_1,R_0,R_1,G_0,G_1,H,C,P,N$ display the two observer histories, the two event records, the paired acknowledgements, transport, routes, provenance, and local name.
+
+Classifier transport uses $H$ to move every displayed coordinate to a common two-history surface. Once transported, the only consumer reads are the routes recorded in $C$.
+
+The acknowledgement exactness row reads $G_0$ and $G_1$ together. Each side commits to the same transported pair $(R_0,R_1)$, so the named cell is the paired commitment surface rather than an external event object.
+
+The non-escape clause follows from the carrier inventory. No row supplies a global frame, synchronized clock, manifold coordinate, ambient metric, or instantaneous remote record.
+\end{proof}
+
+\begin{theorem}[ObserverLocalityCell GAP coherence]
+\label{thm:observer-locality-cell-gap-coherence}
+Let $L=(O_0,O_1,R_0,R_1,G_0,G_1,H,C,P,N)$ be an accepted $\ObserverLocalityCellUp$ carrier. Every coherence read of the cell factors through both acknowledgement rows $G_0$ and $G_1$ after transporting $O_0,O_1,R_0,R_1$ by $H$ and replaying the displayed routes in $C$. A one-sided acknowledgement is not a locality cell.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only rows that assert cross-observer coherence are $G_0$ and $G_1$; the observer histories and event-description rows merely supply the local records being compared.
+
+Transport the two histories and the two event rows through $H$. The routes in $C$ then read the transported event rows before reading the two acknowledgement rows.
+
+Because the carrier requires both $G_0$ and $G_1$, a coherence read that omits one side cannot satisfy the displayed packet. Thus the cell is exactly the paired $\Gap$ commitment over the transported event rows.
+\end{proof}
+
+\begin{theorem}[ObserverLocalityCell consumer boundary]
+\label{thm:observer-locality-cell-consumer-boundary}
+Every $\ObserverHistoryIdentityUp$, $\CrossHistCausalUp$, or $\FiniteMultiHistPacketUp$ consumer of an accepted $\ObserverLocalityCellUp$ packet may read exactly the two observer-history rows, the two event-description rows, the paired $\Gap$ acknowledgement rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row. The packet exports no shared clock, global event object, metric light-cone, manifold coordinate chart, or all-observer synchronization map.
+\end{theorem}
+\begin{proof}
+Start with a consumer route into the accepted packet. The carrier projection exposes the two histories, two event rows, and paired acknowledgement rows as the only observational data.
+
+For an $\ObserverHistoryIdentityUp$ consumer, the relevant read is the identity-preserving history surface $O_0,O_1$ together with the transported event rows. For a $\CrossHistCausalUp$ or $\FiniteMultiHistPacketUp$ consumer, the cross-history access still reaches coherence through the same $G_0,G_1$ pair.
+
+The remaining data are $H,C,P,N$. They transport, route, record provenance, and name the local cell; they do not supply a clock, global event, metric cone, chart, or synchronization map.
+\end{proof}
+
+\begin{theorem}[ObserverLocalityCell finite ledger package]
+\label{thm:observer-locality-cell-finite-ledger-package}
+The carrier, NameCert obligations, paired $\Gap$ coherence, and consumer boundary assemble a finite $\ObserverLocalityCellUp$ package over $\ObserverHistoryIdentityUp$, $\CrossHistCausalUp$, $\FiniteMultiHistPacketUp$, $\Hist$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every locality-cell read factors through this ledger, and no host spacetime, global observer frame, or infinite coherence web is exported.
+\end{theorem}
+\begin{proof}
+The carrier supplies the finite tuple of \autoref{def:observer-locality-cell-carrier}. The NameCert obligations in \autoref{thm:observer-locality-cell-namecert-obligations} bind its carrier, classifier, acknowledgement exactness, stability, and non-escape rows.
+
+The paired $\Gap$ coherence theorem identifies the cell condition as a two-sided acknowledgement after componentwise transport. The consumer boundary theorem identifies the exact rows visible to observer-history, cross-history, and finite multi-history readers.
+
+Repacking these rows gives the stated finite ledger package. Since each cited row belongs to the displayed packet, there is no exported host spacetime, global frame, or infinite coherence structure.
+\end{proof}
+
+\closureat{ObserverLocalityCellUp}{seedStr}
+
+\begin{closurestatus}{\ObserverLocalityCellUp}
+  \constructivestory{An $\ObserverLocalityCellUp$ packet is generated from two observer-history rows, two local event-description rows, paired $\Gap$ acknowledgement rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-locality-cell-carrier}, \autoref{thm:observer-locality-cell-namecert-obligations}, \autoref{thm:observer-locality-cell-gap-coherence}, \autoref{thm:observer-locality-cell-consumer-boundary}, and \autoref{thm:observer-locality-cell-finite-ledger-package} bind the finite two-observer locality-cell packet and its paired acknowledgement boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global spacetime, a shared clock, manifold coordinates, metric light-cones, all-observer synchronization, infinite coherence webs, or a checked Lean theorem for the packet.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed two-observer acknowledgement ledger.}
+\end{closurestatus}
