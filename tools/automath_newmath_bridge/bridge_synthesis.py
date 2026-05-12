@@ -19,6 +19,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+try:
+    from logic_discipline import bridge_payload
+except ModuleNotFoundError:  # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import bridge_payload
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
@@ -325,6 +331,7 @@ def _readiness_for(record: dict[str, Any], snapshot: dict[str, Any]) -> dict[str
         readiness = "blocked_automath_not_ready"
         confidence = "high"
 
+    oracle_mode = "continuation_refill" if "bridge" in rule or "continuation" in source_path.lower() else "candidate_generation"
     can_write_local_packet = readiness in {"ready_for_local_packet", "needs_operator_review", "blocked_automath_not_ready"}
     durable_write_allowed = False
     why_not = (
@@ -350,6 +357,7 @@ def _readiness_for(record: dict[str, Any], snapshot: dict[str, Any]) -> dict[str
             "gate_surfaces": automath_surfaces["gate_surfaces"],
             "has_killo_golden_trace_re": automath_surfaces["has_killo_golden_trace_re"],
         },
+        "logic_discipline": bridge_payload(readiness=readiness, oracle_mode=oracle_mode),
         "synthesis_next_action": next_action,
     }
 
@@ -442,6 +450,10 @@ def render_report(records: list[dict[str, Any]], snapshot: dict[str, Any]) -> st
         "## Boundary",
         "",
         "This synthesis is a gate input, not approval. `blocked_automath_not_ready` means NewMath evidence exists but Automath has not selected a receiving queue or destination audit. `ready_for_local_packet` means a local ignored review packet may be generated after deterministic gates. No result here authorizes push, publication, external send, paper write, Lean write, or automatic acceptance.",
+        "",
+        "## Logic Discipline",
+        "",
+        "Bridge outputs are candidate material until the packet exposes axiom budget, cut/elimination status, witness extraction, equality/interpretation kind, resource/dependency trace, and descent certificate status. Deterministic normalization, schema validation, dependency tracing, and label dedup remain local gate work, not oracle work.",
         "",
     ])
     return "\n".join(lines)
