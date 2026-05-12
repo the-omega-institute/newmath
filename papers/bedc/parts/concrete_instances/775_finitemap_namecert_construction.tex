@@ -125,6 +125,47 @@ readback rows exhausts the public export, with no host finite map and no
 quotient graph equality left to read.
 \end{proof}
 
+\begin{theorem}[FiniteMapUp support lookup consumer determinacy]
+\label{thm:finitemap-support-lookup-consumer-determinacy}
+Let $M$ and $M'$ be accepted $\FiniteMapUp$ source packets whose displayed
+$\ListUp$ spines of $\ProdUp$ key-value rows agree up to the displayed key
+classifier and value classifier, whose $\OptionUp$ first-hit lookup witnesses
+agree for every displayed query, whose $\FinSetUp$ support boundaries expose the
+same projected key positions, and whose duplicate-key ledger rows, $\hsame$
+transports, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance rows agree.
+Then every public lookup/support consumer reads the same finite BEDC surface
+from $M$ and $M'$. In particular, duplicate key rows remain visible as
+support-ledger positions and transport provenance, but only the first displayed
+matching row contributes the $\OptionUp$ value returned to a lookup consumer.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:finitemap-lookup-option-exactness} to both packets.
+The assumed agreement of displayed $\ListUp$ spines and first-hit witnesses
+forces every public lookup query to reach the same $\OptionUp$ read: absent
+queries read $\mathsf{none}$ on both sides, and present queries read the value
+at the first displayed matching row on both sides.
+
+Next apply \autoref{thm:finitemap-displayed-support-readback}. The public
+support consumer sees only the projected key positions through the
+$\FinSetUp$ boundary. Since those projected positions agree, the two support
+surfaces have the same membership readback modulo the displayed key classifier,
+including later positions whose keys match an earlier row.
+
+The duplicate ledger is then transported by
+\autoref{thm:finitemap-ledger-transport}. Agreement of the $\hsame$ rows,
+$\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance means that every duplicate
+position and every package-origin row has the same public transport account in
+the two packets.
+
+Finally use \autoref{thm:finitemap-public-support-lookup-boundary}. That
+boundary exhausts public lookup/support reads by the displayed spine, first-hit
+lookup witness, support readback, duplicate ledger, transport rows, lookup
+routes, and package provenance. All of these rows agree by the preceding
+steps, so no public consumer can distinguish the two packets. Later duplicate
+keys may still be inspected as support-ledger positions, but the lookup value is
+already fixed by the first matching displayed row.
+\end{proof}
+
 \closureat{FiniteMapUp}{seedStr}
 \closureat{FiniteMapUp}{obligationStr}
 \closureat{FiniteMapUp}{scopedStr}
@@ -133,10 +174,10 @@ quotient graph equality left to read.
 \begin{closurestatus}{\FiniteMapUp}
   \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:finitemap-public-support-lookup-boundary} binds the public finite association-list lookup and support export over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \scopeclosed{\autoref{def:finitemap-displayed-support-boundary}, \autoref{thm:finitemap-displayed-support-readback}, and \autoref{thm:finitemap-public-support-lookup-boundary} bind the public finite association-list lookup and support export over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
-  \upgradepath{Bridge closure requires a conservative bridge for public finite-map lookup and support reads.}
+  \upgradepath{Bridge closure requires a standard finite-map bridge connecting the public association-list and support boundary to the external finite-map reading without importing host functions or quotient equality.}
 \end{closurestatus}
