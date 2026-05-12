@@ -305,6 +305,8 @@ def _claim(record: dict[str, Any], packet_rel: str) -> str:
 
 def _specific_board_claim(record: dict[str, Any]) -> str:
     source_path = str(record.get("source_path") or "").lower()
+    refs = _source_refs(record)
+    labels = ", ".join(refs["paper_labels"][:8]) if refs["paper_labels"] else "(no label extracted)"
     if "killogodelcompressionnotfiniterankhomologizable" in source_path:
         return (
             "Add a BEDC-side S1 bridge-obligation target that states: any attempted "
@@ -331,6 +333,41 @@ def _specific_board_claim(record: dict[str, Any]) -> str:
             "bridge evidence, while the BEDC target checks which carrier/readback "
             "rows would be needed before such a host comparison can be admitted."
         )
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_cayley_gate" in source_path:
+        return (
+            "Bridge continuation target for a BEDC-native Cayley chart wrapper. "
+            f"Automath source labels: {labels}. The worker should inspect the "
+            "Automath Cayley coordinate, angular variable, and inverse-map evidence, "
+            "then decide whether BEDC can consume only the minimal native object: a "
+            "name-certificate or proof-obligation row saying that a displayed "
+            "one-dimensional boundary chart transports a unit-circle or projective "
+            "boundary readback without importing analytic Poisson-kernel structure. "
+            "Expected delta is a small BEDC wrapper/proposal seed over the standard "
+            "bridge protocol or an explicit rejection if no BEDC carrier/classifier "
+            "can represent the chart."
+        )
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_doob_phi_entropy" in source_path:
+        return (
+            "Bridge continuation target for a BEDC-native entropy-dissipation "
+            f"obligation. Automath source labels: {labels}. The worker should first "
+            "inspect the Automath Doob-transform and Phi-entropy dissipation theorem, "
+            "then extract only a minimal BEDC-native proof-obligation shortcut: a "
+            "monotone functional, dissipation ledger, or gap-policy target whose "
+            "hypotheses explicitly carry the nonlocal kernel and convexity data. "
+            "Do not re-prove the Automath theorem; either create a bounded BEDC "
+            "wrapper/proposal seed or reject because the analytic carrier is not "
+            "available in BEDC."
+        )
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_appendix" in source_path:
+        return (
+            "Bridge continuation target for BEDC evidence-only integral identities "
+            f"from the Automath Cayley/Chebyshev appendix. Automath source labels: {labels}. "
+            "The worker should inspect the weighted trigonometric integral lemma and "
+            "consume it only as a concrete proof-obligation shortcut for a BEDC "
+            "normalization, quadrature, or boundary-readback row. If no BEDC-native "
+            "finite carrier or classifier can state the integral identity, reject "
+            "with that reason rather than opening broad analytic work."
+        )
     return ""
 
 
@@ -338,6 +375,10 @@ def _landing_inputs(record: dict[str, Any]) -> list[str]:
     source_path = str(record.get("source_path") or "").lower()
     if "circledimension" in source_path or "s4burnside" in source_path:
         return ["papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex"]
+    if "sec_doob_phi_entropy" in source_path:
+        return ["papers/bedc/parts/proof_obligations/gap_policy.tex"]
+    if "sec_cayley_gate" in source_path or "sec_appendix" in source_path:
+        return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
     if str(record.get("source_artifact_kind") or "") == "paper_claim":
         return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
     return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
@@ -394,6 +435,12 @@ def _target_title(record: dict[str, Any]) -> str:
         return "S1 completion-readback injectivity prerequisite"
     if "killos4burnsidekanirosenprymsquare" in source_path:
         return "S1 Prym-square representation ledger bridge target"
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_cayley_gate" in source_path:
+        return "Cayley boundary chart bridge wrapper"
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_doob_phi_entropy" in source_path:
+        return "Doob Phi-entropy dissipation bridge obligation"
+    if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_appendix" in source_path:
+        return "Cayley weighted integral normalization bridge evidence"
     return _title(record)
 
 
