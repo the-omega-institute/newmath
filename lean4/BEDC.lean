@@ -81,7 +81,9 @@ import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BusyBeaverUp
+import BEDC.Derived.BitVectorUp
 import BEDC.Derived.CofibrantReplacementUp
+import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
