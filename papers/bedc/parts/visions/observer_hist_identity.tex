@@ -9,6 +9,8 @@ BEDC was built for mathematical purposes: axiom-purity over a mathlib-free Lean 
 
 Observer history identity records the point where observational sameness and generated-history sameness meet. In BEDC, an observer can inspect a history only through marks, continuations, bundles, signatures, and certified classifiers. Two histories that agree under every licensed observation are therefore not identified by a host equality principle; they are compared through the internal history-sameness and classifier ledgers already present in the kernel.
 
+\concretizedIn{ch:concrete-instances-observerhistoryidentity-namecert}{Observer history identity is realized as a finite NameCert packet over BHist, hsame, Cont, licensed observations, and local ledger provenance.}
+
 \begin{definition}[Observer history identity]
 \label{def:observer-hist-identity}
 An observer identity judgment between histories \(h\) and \(k\) is a certificate-level comparison whose observations are all mediated by BEDC witnesses: mark emission, continuation, probe bundles, signature relations, and derived classifiers. Its intended public reading is that no licensed observer separates \(h\) from \(k\) without producing a classifier witness against \(\hsame(h,k)\).
