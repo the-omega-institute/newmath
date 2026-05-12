@@ -335,6 +335,48 @@ theorem double_lam_const_repeated_app :
     double_lam_const_first_app
     (HasType.sortRule [])
 
+theorem first_arg_proj :
+    HasType []
+      (Term.app
+        (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 1))) Term.sort)
+        Term.sort)
+      (substitute 0 Term.sort Term.sort) := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 1))) Term.sort)
+    Term.sort Term.sort Term.sort
+    (HasType.appRule []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.var 1)))
+      Term.sort Term.sort (Term.pi Term.sort Term.sort)
+      (HasType.lamRule [] Term.sort (Term.lam Term.sort (Term.var 1))
+        (Term.pi Term.sort Term.sort)
+        (HasType.sortRule [])
+        (HasType.lamRule [Term.sort] Term.sort (Term.var 1) Term.sort
+          (HasType.sortRule [Term.sort])
+          (HasType.varRule [Term.sort, Term.sort] 1 Term.sort rfl)))
+      (HasType.sortRule []))
+    (HasType.sortRule [])
+
+theorem second_arg_proj :
+    HasType []
+      (Term.app
+        (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
+        Term.sort)
+      (substitute 0 Term.sort Term.sort) := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
+    Term.sort Term.sort Term.sort
+    (HasType.appRule []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.var 0)))
+      Term.sort Term.sort (Term.pi Term.sort Term.sort)
+      (HasType.lamRule [] Term.sort (Term.lam Term.sort (Term.var 0))
+        (Term.pi Term.sort Term.sort)
+        (HasType.sortRule [])
+        (HasType.lamRule [Term.sort] Term.sort (Term.var 0) Term.sort
+          (HasType.sortRule [Term.sort])
+          (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl)))
+      (HasType.sortRule []))
+    (HasType.sortRule [])
+
 /-- 单 sort ctx 下: app (lam sort (var 0)) (var 0) 类型为 sort. -/
 theorem app_id_var_in_sort_ctx :
     HasType [Term.sort] (Term.app (Term.lam Term.sort (Term.var 0)) (Term.var 0))
