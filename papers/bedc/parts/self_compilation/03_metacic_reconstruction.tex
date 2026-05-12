@@ -160,6 +160,60 @@ outside the host and cannot prove the consistency of the host that checks it.
 It can state and prove fragment metatheory for the represented calculus, but
 it does not create a host-independent consistency proof.
 
+\subsection{Encoding Choice}\label{subsec:reconstruction-encoding-choice}
+
+The reconstruction uses a de Bruijn, shift-aware substrate for binders. Named
+binders are convenient for informal prose, but a checked development must then
+carry freshness side conditions through weakening, substitution, and binder
+descent. Those side conditions are not part of the mathematical point of the
+fragment, so the substrate uses numeric binder positions instead.
+
+Naive de Bruijn encoding is still not sufficient. If a binder simply extends a
+context by placing $\mathrm{dom}$ at the head, as $\mathrm{dom} :: \Gamma$,
+then the body sees $\mathrm{var}\ 0$ both as the binder slot and as an index
+sharing the outer context convention. Under substitution or descent below
+another binder, this creates exactly the capture phenomenon the encoding is
+meant to avoid.
+
+The shift-aware substrate stores the binder slot type as
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom}$. Inside the body, $\mathrm{var}\ 0$
+therefore points strictly to the binder, while the old context has been moved
+under that new slot. This matches the host CIC's internal de Bruijn discipline:
+crossing a binder changes the reference depth, and the represented context
+records that change explicitly.
+
+The price is that some attractive unconditional preservation statements are
+not true at this level of representation. In particular, shift adjustment and
+substitution do not commute freely under an open binder. Substitution
+preservation therefore carries closure hypotheses in the binder cases; those
+hypotheses make the shifted domain stable and let the represented typing
+context line up without capture.
+
+\subsection{Shift Mechanism Detail}\label{subsec:reconstruction-shift-detail}
+
+The operation $\mathrm{shift}\ \mathrm{cutoff}\ \mathrm{amount}\ t$ takes a
+cutoff threshold, an addition amount, and a represented term $t$. On a
+variable $\mathrm{var}\ i$, it compares $i$ with the cutoff. If
+$i \geq \mathrm{cutoff}$, the variable is mapped to
+$\mathrm{var}\ (i+\mathrm{amount})$; if $i < \mathrm{cutoff}$, it is left
+unchanged.
+
+The operation is structural on applications and sorts. Under a lambda or Pi
+binder, the domain is shifted at the same cutoff, while the body is shifted at
+$\mathrm{cutoff}+1$. The extra unit records the binder slot that now occupies
+one de Bruijn index position before the surrounding variables.
+
+This is the mechanism behind capture-aware substitution. When
+$\mathrm{substitute}$ descends below a binder, it raises the substitution
+depth and shifts the incoming term by $\mathrm{shift}\ 0\ 1$, so the incoming
+term passes around the binder slot instead of being captured by it.
+
+The core lemmas state the bookkeeping equalities used downstream:
+\texttt{shift\_closed} says shifting at a closed boundary leaves the term
+unchanged; \texttt{substitute\_shift\_at\_eq} says substitution at depth $n$
+undoes a same-depth one-step shift; and \texttt{substitute\_closed} says
+substitution at a closed boundary leaves the term unchanged.
+
 \subsection{Glossary}\label{subsec:reconstruction-glossary}
 
 The following terms name the local reconstruction conventions used in this
