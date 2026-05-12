@@ -4,7 +4,17 @@ namespace BEDC.Derived.ConvergenceRadiusUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
+
+theorem ConvRadSourceSpec_public_boundary_exactness {a : Nat -> BHist} {z0 R : BHist} :
+    ConvRadSourceSpec a z0 R ->
+      SemanticNameCert (ConvRad a) (ConvRad a) (ConvRad a) hsame ∧
+        ConvRadCheckedRowReduct a z0 R := by
+  intro source
+  exact And.intro
+    (ConvRad_semanticNameCert source.right)
+    (ConvRadSourceSpec_checkedRowReduct_readback source)
 
 theorem ConvRad_public_boundary_exactness {a b : Nat -> BHist} {z0 R R' : BHist} :
     ConvRadCheckedRowReduct a z0 R -> ConvRadRadiusClassifierSpec a b R R' ->
