@@ -449,6 +449,8 @@ with kernel verification.
 
 \input{parts/self_compilation/03_metacic_reconstruction_host_cic_relation.tex}
 
+\input{parts/self_compilation/03_metacic_reconstruction_godel_tarski_boundary.tex}
+
 \subsection{Host Internalization}\label{subsec:reconstruction-host-internalization}
 
 \texttt{BEDC.MetaCIC} is an internalization of the host CIC, not a mock
@@ -763,42 +765,4 @@ with no reliance on Lean's additional axioms beyond CIC. The audit currently
 covers more than 9,000 checked theorems, and the exact count is allowed to
 change with the theorem set.
 
-\subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
-
-The MetaCIC reconstruction has three foundation layers in Lean:
-\texttt{BEDC.MetaCIC.Syntax} defines the de Bruijn term grammar, contexts,
-lookup, shift, and substitution; \texttt{BEDC.MetaCIC.Beta} defines
-one-step beta reduction with congruence constructors; and
-\texttt{BEDC.MetaCIC.ClosedTerm} defines closure at a de Bruijn boundary
-together with the closure lemmas for shift and substitution. On this base,
-\texttt{BEDC.MetaCIC.Typing} exposes the shift-aware typing relation and its
-substitution surface.
-
-Substitution preservation is represented inside
-\texttt{BEDC.MetaCIC.Typing}. The closed binder-domain form,
-$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$,
-gives the binder-domain complete closed variant: when the substituted
-domain, source term, and binder-domain typing surface are closed at the
-relevant boundary, substitution preserves the resulting typing judgment.
-The same module family records the closedness, prefix-removal, and
-$\mathrm{HasType}$ projection lemmas used by that theorem.
-
-Subject reduction is represented by
-\texttt{BEDC.MetaCIC.SubjectReduction}. It contains the beta case, the main
-subject-reduction theorem parameterized by the substitution-preservation and
-stability premises, and the congruence cases for application heads,
-application arguments, lambda bodies, and Pi codomains. The confluence
-surface in \texttt{BEDC.MetaCIC.Confluence} supplies beta-star and parallel
-beta relations, the embedding of one-step beta into parallel beta, and
-diamond components for the variable, sort, application, lambda, and Pi
-cases. The normalization surface in
-\texttt{BEDC.MetaCIC.Normalization} proves the atomic no-step cases for
-sorts and closed variables, including the closed atomic normal-form theorem.
-
-The demonstration layer consists of \texttt{BEDC.MetaCIC.AtomInfer}, which
-infers and proves soundness for sort and variable atoms, and
-\texttt{BEDC.MetaCIC.TypedExamples}, which gives concrete typing derivations
-for variables, Pi terms, lambda identity terms, and applications. The whole
-MetaCIC reconstruction is maintained as axiom-free under
-\texttt{\#print axioms}: the audited theorem dependencies do not include
-\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+\input{parts/self_compilation/03_metacic_reconstruction_summary.tex}
