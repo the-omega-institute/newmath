@@ -126,4 +126,33 @@ theorem RegularCauchyInterleavingPacket_namecert_obligations [AskSetup] [Package
       exact source
   }
 
+theorem RegularCauchyInterleavingPacket_real_seal_non_escape [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont interleavedSeal modulus endpoint' ->
+        PkgSig bundle endpoint' pkg ->
+          UnaryHistory endpoint' ∧ hsame endpoint endpoint' ∧ PkgSig bundle endpoint pkg ∧
+            PkgSig bundle endpoint' pkg := by
+  intro packet endpointRoute' endpointPkg'
+  obtain ⟨_leftNameUnary, _rightNameUnary, _leftScheduleUnary, _rightScheduleUnary,
+    _selectorUnary, modulusUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftSealRoute, _rightSealRoute, interleavedRoute, endpointRoute,
+    endpointPkg⟩ := packet
+  have leftSealUnary : UnaryHistory leftSeal :=
+    unary_cont_closed _selectorUnary _leftScheduleUnary _leftSealRoute
+  have rightSealUnary : UnaryHistory rightSeal :=
+    unary_cont_closed _selectorUnary _rightScheduleUnary _rightSealRoute
+  have interleavedUnary : UnaryHistory interleavedSeal :=
+    unary_cont_closed leftSealUnary rightSealUnary interleavedRoute
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed interleavedUnary modulusUnary endpointRoute'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl interleavedSeal) (hsame_refl modulus) endpointRoute
+      endpointRoute'
+  exact ⟨endpointUnary', sameEndpoint, endpointPkg, endpointPkg'⟩
+
 end BEDC.Derived.RegularCauchyInterleavingUp
