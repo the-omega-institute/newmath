@@ -108,6 +108,53 @@ theorem DyadicTailBoundCarrier_classifier_transport_exactness [AskSetup] [Packag
       sameTransport,
       sameRoute⟩
 
+theorem DyadicTailBoundCarrier_precision_refinement_stability [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance localCert
+      precision' sealRow' transport' route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      hsame precision precision' ->
+        Cont ledger readback sealRow' ->
+          Cont precision' sealRow' transport' ->
+            Cont transport' localCert route' ->
+              Cont route' provenance sealRow' ->
+                PkgSig bundle provenance pkg ->
+                  DyadicTailBoundCarrier precision' schedule tolerance ledger readback sealRow'
+                    transport' route' provenance localCert bundle pkg ∧
+                    hsame sealRow sealRow' ∧ hsame transport transport' ∧
+                      hsame route route' := by
+  intro carrier samePrecision sealCont' transportCont' routeCont' sealRouteCont' pkgSig'
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, readbackUnary, _sealUnary,
+    provenanceUnary, ledgerCont, sealCont, transportCont, routeCont, _sealRouteCont,
+    _pkgSig⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary ledgerCont
+  have sealUnary' : UnaryHistory sealRow' :=
+    unary_cont_closed ledgerUnary readbackUnary sealCont'
+  have sameSeal : hsame sealRow sealRow' :=
+    cont_respects_hsame (hsame_refl ledger) (hsame_refl readback) sealCont sealCont'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame samePrecision sameSeal transportCont transportCont'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameTransport (hsame_refl localCert) routeCont routeCont'
+  have rebuilt :
+      DyadicTailBoundCarrier precision' schedule tolerance ledger readback sealRow'
+          transport' route' provenance localCert bundle pkg :=
+    ⟨unary_transport precisionUnary samePrecision,
+      scheduleUnary,
+      toleranceUnary,
+      readbackUnary,
+      sealUnary',
+      provenanceUnary,
+      ledgerCont,
+      sealCont',
+      transportCont',
+      routeCont',
+      sealRouteCont',
+      pkgSig'⟩
+  exact ⟨rebuilt, sameSeal, sameTransport, sameRoute⟩
+
 theorem DyadicTailBoundCarrier_precision_window_restriction [AskSetup] [PackageSetup]
     {precision schedule tolerance ledger readback sealRow transport route provenance
       localCert : BHist}
@@ -138,8 +185,8 @@ theorem DyadicTailBoundCarrier_precision_window_restriction [AskSetup] [PackageS
       ledgerReadbackSeal,
       precisionSealTransport,
       transportLocalRoute,
-      routeProvenanceSeal,
-      provenancePkg⟩
+        routeProvenanceSeal,
+        provenancePkg⟩
 
 theorem DyadicTailBoundCarrier_budget_composition [AskSetup] [PackageSetup]
     {precision schedule tolerance ledger readback sealRow transport route provenance localCert
