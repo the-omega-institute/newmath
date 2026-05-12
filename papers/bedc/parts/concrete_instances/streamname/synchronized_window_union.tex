@@ -153,6 +153,52 @@ package just constructed, so no additional route-dependent row remains for the
 handoff.
 \end{proof}
 
+\begin{theorem}[StreamName window-union associativity]
+\label{thm:streamname-window-union-associativity}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be three composable
+synchronized finite observation windows over the same accepted
+$\StreamNameUp$ packet. Suppose the displayed common-refinement rows make the
+left pair, the right pair, and the two iterated synchronized windows use the
+same finite observation rows, $\hsame$ transports, $\Cont$ routes, and $\Pkg$
+provenance. Then the carrier package obtained by first unioning
+$\mathcal W_0$ with $\mathcal W_1$ and then unioning the result with
+$\mathcal W_2$ classifies together with the carrier package obtained by first
+unioning $\mathcal W_1$ with $\mathcal W_2$ and then unioning
+$\mathcal W_0$ with the result.
+
+The common classifier is the displayed finite observation package over the
+same $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise $\mathsf{RatHistoryClassifier}$, $\hsame$, $\Cont$, and $\Pkg$ rows;
+neither bracketing contributes an additional route to the
+$\RegSeqRat/\RealUp$ window assembly.
+\end{theorem}
+\begin{proof}
+First project \autoref{thm:streamname-synchronized-window-union-carrier} to the
+left pair and to the right pair. Both binary unions are displayed over the
+same accepted StreamName packet and the same common-refinement source rows, so
+their visible carrier coordinates are the finite observation rows named in the
+statement.
+
+Project the carrier-union theorem again for the two iterated unions. The
+outer union on each bracketing only repacks the already displayed
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise classifier, $\hsame$, $\Cont$, and $\Pkg$ rows.
+
+Next apply
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. The
+classifier on either iterated carrier is exhausted by the same restricted
+finite-window classifier reads together with the same displayed overlap
+agreement rows. Thus the two bracketings classify the identical displayed
+observations.
+
+Finally use
+\autoref{thm:streamname-synchronized-window-tail-subwindow} and
+\autoref{thm:streamname-synchronized-window-terminal-source-exhaustion}. Tail
+restriction preserves the listed finite rows, and the terminal source boundary
+has no coordinate for an extra observation route, quotient stream, completion
+object, host function, or host real equality.
+\end{proof}
+
 \begin{theorem}[StreamName synchronized-window selected-tail exhaustion]
 \label{thm:streamname-synchronized-window-selected-tail-exhaustion}
 Let $\mathcal W_L$ and $\mathcal W_R$ be synchronized finite
@@ -442,4 +488,52 @@ it is the shared finite $\StreamNameUp$ synchronization surface, so the first
 and third terminal reads agree on the endpoint, radius, regularity,
 classifier, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
 $\mathsf{RealLedgerPolicy}$ rows and on no stronger host-level object.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-window chain compaction]
+\label{thm:streamname-regseqrat-finite-window-chain-compaction}
+Let
+$$
+\mathcal S_0,\mathcal S_1,\ldots,\mathcal S_n
+$$
+be a finite chain of synchronized $\StreamNameUp$ windows over one accepted
+rational stream-name schedule. Suppose every adjacent pair
+$\mathcal S_i,\mathcal S_{i+1}$ satisfies the common-window terminal seal
+determinacy hypotheses, and suppose every window feeds the same accepted
+$\RegSeqRat$ handoff. Then all terminal finite-window $\RealUp$ seal reads
+through the chain compact to one seal-facing surface.
+
+The compacted surface has exactly the shared
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, $\mathsf{ProbeBundle}$
+rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, $\DyadicRatCore$ endpoint and radius rows, and the visible $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. It contains
+no quotient stream row, host-index equality row, completion object, standard
+bridge row, or real-completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite chain. In the first nonempty adjacent case,
+\autoref{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
+identifies the two terminal reads through the common synchronized window and
+leaves exactly the stated StreamName, RegSeqRat, DyadicRatCore, transport,
+provenance, and Real ledger rows.
+
+For the induction step, assume the initial segment has already compacted to one
+terminal seal-facing surface. The next adjacent pair satisfies the same
+determinacy hypotheses, so
+\autoref{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
+identifies the last read of the compacted segment with the read of the new
+window.
+
+Apply \autoref{thm:streamname-regseqrat-uniform-tail-seal-confluence} to compose
+the compacted segment, the shared middle window, and the new terminal window.
+The confluence theorem keeps the accepted $\RegSeqRat$ handoff and every
+visible row on the same synchronized schedule, so the enlarged chain again has
+one terminal finite-window $\RealUp$ seal surface.
+
+At no step is there a coordinate from which to read quotient streams,
+host-index equality, completion objects, standard bridge data, or real
+completeness. The induction therefore compacts the whole finite chain to the
+single displayed terminal seal inventory.
 \end{proof}
