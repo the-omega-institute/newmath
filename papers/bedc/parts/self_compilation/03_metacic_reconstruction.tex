@@ -120,6 +120,40 @@ $$
 \end{aligned}
 $$
 
+\subsection{Context Mechanics}\label{subsec:reconstruction-context-mechanics}
+
+A context is the Lean stdlib list $\mathrm{Ctx}=\mathrm{List}\ \mathrm{Term}$.
+Its entries are represented types, stored as a de Bruijn stack: the head is
+the type of variable $0$, the next entry is the type of variable $1$, and so
+on down the list. The operation $\Gamma.\mathrm{lookup}\ i$ returns the
+$i$th entry of $\Gamma$, counted from this top position.
+
+The important invariant is that lookup and binder crossing perform the same
+index accounting. When a fresh binder contributes a top entry $B$, the top
+variable is read directly, while every deeper lookup is raised by
+$\mathrm{shift}\ 0\ 1$:
+
+$$
+\begin{aligned}
+(B :: \Gamma).\mathrm{lookup}\ 0
+  &= \mathrm{some}\ B, \\
+(B :: \Gamma).\mathrm{lookup}\ (i+1)
+  &=
+  \begin{cases}
+    \mathrm{some}\ (\mathrm{shift}\ 0\ 1\ T),
+      & \Gamma.\mathrm{lookup}\ i=\mathrm{some}\ T, \\
+    \mathrm{none},
+      & \Gamma.\mathrm{lookup}\ i=\mathrm{none}.
+  \end{cases}
+\end{aligned}
+$$
+
+\leanchecked{BEDC.MetaCIC.lookup\_cons\_zero}
+\leanchecked{BEDC.MetaCIC.lookup\_cons\_succ}
+Thus the type of a deeper variable automatically accumulates exactly the
+number of binders crossed. This is the context-side companion to the
+shift-aware design of $\mathrm{substitute}$ under binders.
+
 \subsection{Reduction Layer Summary}\label{subsec:reconstruction-reduction-summary}
 
 The reduction layer has three relations. $\mathrm{BetaStep}$ is single-step
