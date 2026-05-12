@@ -140,4 +140,50 @@ theorem MonotoneCauchyCarrier_common_window_classifier [AskSetup] [PackageSetup]
       regularScheduleModulus, scheduleModulusCommonWindow, modulusLedgerInterval,
       intervalRealSealNameRow, nameRowPkg, commonWindowPkg⟩
 
+theorem MonotoneCauchyCarrier_modulus_tail_stability [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      regular' schedule' modulus' ledger' interval' realSeal' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      hsame regular regular' -> hsame schedule schedule' -> hsame modulus modulus' ->
+        hsame ledger ledger' -> hsame realSeal realSeal' ->
+          Cont regular' schedule' modulus' -> Cont modulus' ledger' interval' ->
+            Cont interval' realSeal' nameRow' -> PkgSig bundle nameRow' pkg ->
+              MonotoneCauchyCarrier regular' schedule' modulus' ledger' interval' realSeal'
+                  transportRow route provenance nameRow' bundle pkg ∧
+                hsame interval interval' ∧ hsame realSeal realSeal' ∧
+                  hsame nameRow nameRow' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameRegular sameSchedule sameModulus sameLedger sameRealSeal
+    regularScheduleModulus' modulusLedgerInterval' intervalRealSealNameRow' nameRowPkg'
+  obtain ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary,
+    realSealUnary, transportRowUnary, routeUnary, provenanceUnary, nameRowUnary,
+    regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    transportRouteProvenance, _nameRowPkg⟩ := carrier
+  have sameInterval : hsame interval interval' :=
+    cont_respects_hsame sameModulus sameLedger modulusLedgerInterval modulusLedgerInterval'
+  have sameNameRow : hsame nameRow nameRow' :=
+    cont_respects_hsame sameInterval sameRealSeal intervalRealSealNameRow
+      intervalRealSealNameRow'
+  have transported :
+      MonotoneCauchyCarrier regular' schedule' modulus' ledger' interval' realSeal'
+          transportRow route provenance nameRow' bundle pkg :=
+    ⟨unary_transport regularUnary sameRegular,
+      unary_transport scheduleUnary sameSchedule,
+      unary_transport modulusUnary sameModulus,
+      unary_transport ledgerUnary sameLedger,
+      unary_transport intervalUnary sameInterval,
+      unary_transport realSealUnary sameRealSeal,
+      transportRowUnary,
+      routeUnary,
+      provenanceUnary,
+      unary_transport nameRowUnary sameNameRow,
+      regularScheduleModulus',
+      modulusLedgerInterval',
+      intervalRealSealNameRow',
+      transportRouteProvenance,
+      nameRowPkg'⟩
+  exact ⟨transported, sameInterval, sameRealSeal, sameNameRow⟩
+
 end BEDC.Derived.MonotoneCauchyUp
