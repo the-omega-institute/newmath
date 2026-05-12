@@ -177,6 +177,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
+import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
