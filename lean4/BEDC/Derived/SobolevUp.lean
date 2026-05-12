@@ -114,4 +114,27 @@ theorem SobolevCarrier_weak_derivative_ledger [AskSetup] [PackageSetup]
     ⟨append domain gradient, unary_append_closed domainUnary gradientUnary, hsame_refl _,
       domainBaseCodomain, codomainMagnitudeGradient, provenancePkg⟩
 
+theorem SobolevCarrier_completion_boundary [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      exists publicRead : BHist,
+        UnaryHistory publicRead ∧ hsame publicRead (append (append domain gradient) provenance) ∧
+          Cont domain base codomain ∧ Cont codomain magnitude gradient ∧
+            Cont gradient transports routes ∧ Cont routes provenance localCert ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨domainUnary, _baseUnary, _codomainUnary, _magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have domainGradientUnary : UnaryHistory (append domain gradient) :=
+    unary_append_closed domainUnary gradientUnary
+  exact
+    ⟨append (append domain gradient) provenance,
+      unary_append_closed domainGradientUnary provenanceUnary, hsame_refl _, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+      provenancePkg⟩
+
 end BEDC.Derived.SobolevUp
