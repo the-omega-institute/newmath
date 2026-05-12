@@ -46,6 +46,23 @@ theorem CofinalSubsequenceCarrier_regseqrat_consumer_boundary [AskSetup] [Packag
     unary_cont_closed regseqUnary realSealUnary sealReadRow
   exact ⟨sealReadUnary, routeUnary, sealSame, pkgSig⟩
 
+theorem CofinalSubsequenceCarrier_window_handoff_exactness [AskSetup] [PackageSetup]
+    {source selector window dyadic regseq realSeal transport route provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalSubsequenceCarrier source selector window dyadic regseq realSeal transport route
+        provenance nameCert bundle pkg ->
+      Cont (append source selector) dyadic transport ∧
+        hsame transport (append (append source selector) dyadic) ∧
+          Cont regseq dyadic realSeal ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨_sourceUnary, _selectorUnary, _windowUnary, _dyadicUnary, _regseqUnary,
+    _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    sourceSelectorWindow, windowDyadicTransport, regseqDyadicSeal, _sealProvenanceNameCert,
+    _sealSame, pkgSig⟩ := carrier
+  cases sourceSelectorWindow
+  cases windowDyadicTransport
+  exact ⟨rfl, rfl, regseqDyadicSeal, pkgSig⟩
+
 theorem CofinalSubsequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {source selector window dyadic regseq realSeal transport route provenance nameCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
