@@ -105,6 +105,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
 $$
 be an accepted $\DyadicTailBoundUp$ $\mathsf{BHist}$ carrier. If another displayed packet $T'$ is obtained from $T$ by the componentwise $\hsame$ transports recorded in $H$ and by the displayed $\Cont$ routes recorded in $C$, while preserving the $\Pkg$ row $P$ and the local $\NameCert_{\DyadicTailBoundUp}$ row $N$, then the classifier accepts $T'$ exactly when the transported precision row, schedule row $\mu$, tolerance row $\epsilon$, ledger row $L$, $\RegSeqRatUp$ row $R$, and $\RealUp$ seal row $E$ are the corresponding transported coordinates. In particular, classifier transport preserves accepted carriers and cannot replace the displayed tolerance, ledger, readback, or seal by unrecorded rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_classifier\_transport\_exactness}
 \begin{proof}
 Project the carrier coordinates of \autoref{def:dyadic-tail-bound-carrier}. The classifier reads only the precision row, the $\CauchyModulusUp$ schedule, the $\DyadicRatCoreUp$ tolerance, the tail ledger, the regular-sequence readback, the real seal, and the carried transport and provenance rows.
 
@@ -273,14 +274,15 @@ Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \a
 \closureat{DyadicTailBoundUp}{seedStr}
 \closureat{DyadicTailBoundUp}{obligationStr}
 \closureat{DyadicTailBoundUp}{scopedStr}
+\closureat{DyadicTailBoundUp}{publicStr}
 
 \begin{closurestatus}{\DyadicTailBoundUp}
   \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the carrier, obligation surface, $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, precision refinement, ledger threshold exhaustion, and seal consumer determinacy as one finite tail-budget interface over $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public export is the finite tail-budget interface whose consumer obligation package and budget-composition rows bind the carrier, classifier transport, tolerance ledger exhaustion, $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the obligation rows as a single consumer interface for $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{Bridged closure requires the standard bridge from the public tail-budget interface to the downstream completion schema.}
 \end{closurestatus}
