@@ -121,4 +121,55 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
 
+theorem RationalIntervalPacket_regseqrat_window_coverage [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint window consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint containment window ->
+        Cont window route consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory window ∧ UnaryHistory consumer ∧
+              ∃ direct : BHist,
+                Cont containment route direct ∧ Cont endpoint direct consumer ∧
+                  PkgSig bundle consumer pkg := by
+  intro packet endpointContainmentWindow windowRouteConsumer consumerPkg
+  cases packet with
+  | intro _leftUnary packet =>
+  cases packet with
+  | intro _rightUnary packet =>
+  cases packet with
+  | intro _orderUnary packet =>
+  cases packet with
+  | intro containmentUnary packet =>
+  cases packet with
+  | intro _transportUnary packet =>
+  cases packet with
+  | intro routeUnary packet =>
+  cases packet with
+  | intro _provenanceUnary packet =>
+  cases packet with
+  | intro _nameUnary packet =>
+  cases packet with
+  | intro endpointUnary packet =>
+  cases packet with
+  | intro _leftRightOrder packet =>
+  cases packet with
+  | intro _orderContainmentTransport packet =>
+  cases packet with
+  | intro _transportRouteProvenance packet =>
+  cases packet with
+  | intro _provenanceNameEndpoint _endpointPkg =>
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed endpointUnary containmentUnary endpointContainmentWindow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary routeUnary windowRouteConsumer
+  cases cont_assoc_left_exists endpointContainmentWindow windowRouteConsumer with
+  | intro direct directCoverage =>
+  cases directCoverage with
+  | intro containmentRouteDirect endpointDirectConsumer =>
+  exact
+    ⟨windowUnary, consumerUnary, direct, containmentRouteDirect, endpointDirectConsumer,
+      consumerPkg⟩
+
 end BEDC.Derived.RationalIntervalUp
