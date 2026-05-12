@@ -80,6 +80,7 @@ import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
+import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRoundingUp
@@ -244,6 +245,7 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
+import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
