@@ -414,16 +414,57 @@ compactness, arbitrary subcovers, quotient equality of reals, and host real
 extensionality.
 \end{proof}
 
+\begin{theorem}[DyadicCover scoped package]
+\label{thm:dyadic-cover-scoped-package}
+The local obligation surface of $\DyadicCoverUp$ assembles into a scoped
+package over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$,
+$\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$. The scope is exactly the carrier, naming, finite-window triad,
+mesh transport, finite-window envelope factorization, refined total-bounded
+handoff, and Real envelope exactness supplied by
+\autoref{thm:dyadic-cover-namecert-obligations},
+\autoref{thm:dyadic-cover-finite-window-obligation-triad},
+\autoref{thm:dyadic-cover-mesh-refinement-carrier-transport},
+\autoref{thm:dyadic-cover-finite-window-envelope-factorization},
+\autoref{thm:dyadic-cover-refined-window-total-bounded-package}, and
+\autoref{thm:dyadic-cover-real-envelope-coverage-exactness}.
+\end{theorem}
+\begin{proof}
+First project an accepted $\DyadicCoverUp$ packet to its displayed carrier
+coordinates. The NameCert obligation theorem fixes the finite center,
+radius, interval, mesh, finite-window, history, continuation, package, and
+name rows that may be read from the packet.
+
+Next apply the finite-window obligation triad and mesh-refinement carrier
+transport theorems. They bind the finite window to the dyadic mesh and carry
+the same rows across displayed refinements, so the scoped package has one
+transport surface rather than separate host-side choices.
+
+Now use finite-window envelope factorization and the refined-window
+total-bounded package. These results route every finite-window,
+total-bounded, and completion-facing read through the packet's own center,
+radius, interval, mesh, envelope, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows.
+
+Finally the Real envelope coverage exactness theorem repacks the same finite
+packet for $\RealUp$ and $\FiniteWindowEnvelopeUp$ consumers. The assembled
+package is therefore scoped to the listed BEDC objects, with no open-cover
+compactness, arbitrary subcover choice, quotient equality of names, or host
+real extensionality added.
+\end{proof}
+
 \closureat{DyadicCoverUp}{seedStr}
 \closureat{DyadicCoverUp}{obligationStr}
+\closureat{DyadicCoverUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicCoverUp}
   \constructivestory{A $\DyadicCoverUp$ packet is generated from finite dyadic centers, dyadic radii, rational interval cells, mesh refinement rows, coverage witnesses for a displayed finite window, $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope registers the carrier, classifier, finite refinement, total-bounded handoff, and ledger nonescape over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface is the finite carrier, naming, mesh transport, finite-window envelope, refined total-bounded, and Real envelope package of \autoref{thm:dyadic-cover-scoped-package} over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, metric completeness, compact-metric equivalence, quotient equality of real names, host real extensionality, or bridge checking.}
-  \upgradepath{Scoped closure requires collecting the displayed dyadic, rational, real, finite-window, mesh, refinement, total-bounded handoff, ledger nonescape, and coverage rows into one scoped $\DyadicCoverUp$ package.}
+  \upgradepath{The next paper grade requires a public export theorem for downstream total-bounded and Real-envelope consumers.}
 \end{closurestatus}
