@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\HaltingDistinctionLimitUp$}
+\label{ch:concrete-instances-haltingdistinctionlimit-namecert}
+\origin{ai}
+
+The $\HaltingDistinctionLimitUp$ surface packages the halting fixed-point obstruction as finite BEDC data. It names the program certificate row, the input history row, the visible continuation trace, the diagonal obstruction row, the transport and route ledgers, the package provenance, and the local naming certificate through which the obstruction is read. It does not decide halting and does not introduce a halting oracle.
+
+\begin{definition}[Halting distinction limit carrier]
+\label{def:halting-distinction-limit-carrier}
+A $\HaltingDistinctionLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,h,T,D,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the program and certificate row, naming the candidate program certificate together with the local $\NameCert_P$ row by which the classifier is addressed;
+\item $h$ is the input history row whose continuation behaviour is being inspected;
+\item $T$ is the finite trace row recording the displayed $\Cont_P$ segment from $h$ through the marks and histories visible to the packet;
+\item $D$ is the diagonal obstruction row, naming the self-application read in which the classifier for $(P,h)$ is queried at the same program-history position;
+\item $H$ records the componentwise $\hsame$ transports for program rows, input histories, trace rows, diagonal rows, provenance rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that read the input history, replay the finite trace, enter the diagonal obstruction row, and return the read to the local ledger;
+\item $K$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\hsame$, classifier transport, diagonal rows, and the surrounding certificate rows;
+\item $N$ is the local $\NameCert_{\HaltingDistinctionLimitUp}$ ledger.
+\end{enumerate}
+The packet has no coordinate for a total halting predicate, divergence oracle, global truth predicate, or host evaluator outside $P,h,T,D,H,C,K,N$.
+\end{definition}
+
+\begin{definition}[Halting distinction limit classifier]
+\label{def:halting-distinction-limit-classifier}
+The $\HaltingDistinctionLimitUp$ classifier compares two accepted packets only by the displayed rows of \autoref{def:halting-distinction-limit-carrier}. It relates
+$$
+L=(P,h,T,D,H,C,K,N)
+$$
+and
+$$
+L'=(P',h',T',D',H',C',K',N')
+$$
+when the program-certificate rows, input histories, trace rows, diagonal obstruction rows, transport ledgers, continuation routes, package provenance, and local naming rows are related by the recorded componentwise $\hsame$ and $\Cont$ data. It does not compare hidden machine states, meta-level evaluator results, or truth values for unrecorded program-history pairs.
+\end{definition}
+
+\begin{theorem}[Halting fixed-point boundary]
+\label{thm:halting-distinction-limit-fixed-point-boundary}
+For every accepted $\HaltingDistinctionLimitUp$ packet $L=(P,h,T,D,H,C,K,N)$, any public read of the diagonal obstruction reaches the fixed-point boundary only through the displayed route from the program-certificate row and input history row, through the finite trace row $T$, into the diagonal row $D$, and back through the transport, continuation, package, and local naming ledgers.
+
+The proof source is the BEDC reflection theorem \texttt{BEDC.Reflection.halting\_as\_form\_of\_distinction\_fixed\_point\_proof}: the self-application obstruction is a boundary on total classifier extension, not a construction of a halting decision procedure.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:halting-distinction-limit-carrier}. The only rows that can name the tested computation are $P$, $h$, $T$, and $D$, with $H$, $C$, $K$, and $N$ recording the allowed transports, routes, provenance, and local naming.
+
+Use the classifier of \autoref{def:halting-distinction-limit-classifier}. A transported read can compare only the displayed program-certificate, input-history, trace, diagonal, route, and provenance rows. No hidden evaluator coordinate is available.
+
+At the diagonal row $D$, apply the fixed-point obstruction expressed by \texttt{BEDC.Reflection.halting\_as\_form\_of\_distinction\_fixed\_point\_proof}. The obstruction identifies the boundary where a classifier cannot be extended into a total halting decision over its own input surface.
+
+Therefore the packet realizes the fixed-point boundary as a finite naming certificate. It records the obstruction route and excludes any export of a total halting predicate or divergence oracle.
+\end{proof}
+
+\begin{theorem}[Halting distinction limit NameCert obligations]
+\label{thm:halting-distinction-limit-namecert-obligations}
+The local $\NameCert_{\HaltingDistinctionLimitUp}$ surface has five finite obligations:
+\begin{enumerate}
+\item carrier admission for packets $L=(P,h,T,D,H,C,K,N)$ of \autoref{def:halting-distinction-limit-carrier};
+\item classifier transport through the displayed $\hsame$ rows and $\Cont$ routes of \autoref{def:halting-distinction-limit-classifier};
+\item fixed-point boundary exposure through the diagonal row $D$ and \autoref{thm:halting-distinction-limit-fixed-point-boundary};
+\item non-decision ledger discipline, saying that $T$ records only a finite trace and $D$ records only the diagonal obstruction route;
+\item downstream non-escape, saying that consumers cannot extract a total halting predicate, divergence oracle, global truth predicate, host evaluator, or unrecorded classifier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet of \autoref{def:halting-distinction-limit-carrier}. Each obligation row is one of the displayed coordinates $P,h,T,D,H,C,K,N$.
+
+Classifier transport is supplied by \autoref{def:halting-distinction-limit-classifier}. The only comparisons are componentwise comparisons of named program-certificate rows, histories, traces, diagonal rows, routes, provenance, and local naming ledgers.
+
+The fixed-point boundary is \autoref{thm:halting-distinction-limit-fixed-point-boundary}. It routes the self-application read to $D$ and stops at the obstruction boundary.
+
+The non-decision ledger follows because the trace row is finite and the diagonal row is a boundary row. Neither row supplies a total truth predicate or a divergence oracle.
+
+For downstream consumers, inspect the carrier again. Every exported read is one of $P,h,T,D,H,C,K,N$, so no host evaluator, unrecorded classifier, or global halting decision can leave the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.HaltingDistinctionLimitUp.HaltingDistinctionLimitTasteGate\_single\_carrier\_alignment}
+
+\closureat{HaltingDistinctionLimitUp}{seedStr}
+
+\begin{closurestatus}{\HaltingDistinctionLimitUp}
+  \constructivestory{A $\HaltingDistinctionLimitUp$ packet is generated from a program-certificate row, an input history row, a finite $\Cont_P$ trace row, a diagonal obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-distinction-limit-carrier}, \autoref{def:halting-distinction-limit-classifier}, \autoref{thm:halting-distinction-limit-fixed-point-boundary}, and \autoref{thm:halting-distinction-limit-namecert-obligations} bind the finite carrier, displayed classifier, fixed-point boundary, non-decision ledger, and downstream non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a total halting predicate, a divergence oracle, a global truth predicate, a host evaluator, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier transport, fixed-point boundary exposure, non-decision ledger discipline, and downstream non-escape.}
+\end{closurestatus}

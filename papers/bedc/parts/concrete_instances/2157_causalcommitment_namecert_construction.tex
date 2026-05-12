@@ -1,0 +1,131 @@
+\chapter{A Concrete Naming Certificate for $\CausalCommitmentUp$}
+\label{ch:concrete-instances-causalcommitment-namecert}
+\origin{human}
+
+The $\CausalCommitmentUp$ surface packages the causality reading of \autoref{def:hard-problems-causal-commitment} as finite NameCert data. It records observed regularity rows, the $\mathsf{GAP}$ socket that binds those rows to not-yet-observed continuations, transport evidence for the visible ledger, and the local naming row that prevents the packet from becoming a hidden law of nature, selected future record, or global observer frame.
+
+\begin{definition}[Causal commitment carrier]
+\label{def:causal-commitment-namecert-carrier}
+A $\CausalCommitmentUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,R,G,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite observed-history ledger whose records support the regularity read;
+\item $R$ is the observed regularity ledger, listing the displayed pattern rows read from $O$;
+\item $G$ is the $\mathsf{GAP}$ socket row whose content is that the regularity rows in $R$ remain binding for not-yet-observed continuations;
+\item $F$ is the forward-binding route from the observed ledger to the continuation-facing commitment row;
+\item $H$ records componentwise $\hsame$ transports for $O,R,G,F$, package provenance, and the local naming row;
+\item $C$ records the $\Cont$ routes that read the observed ledger, expose the regularity rows, enter the $\mathsf{GAP}$ socket, and return the commitment row to the finite packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\mathsf{GAP}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CausalCommitmentUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no selected future observation, no universal empirical law, no hidden induction rule, no synchronized global frame, and no ambient causal primitive.
+\end{definition}
+
+\begin{theorem}[CausalCommitment GAP socket]
+\label{thm:causal-commitment-gap-socket}
+Every accepted $\CausalCommitmentUp$ packet reads the causal step through the displayed $\mathsf{GAP}$ socket row $G$. The observed ledger $O$ and regularity ledger $R$ supply only finite records; the forward-looking content is named only by $G$ and cannot be projected as an internally generated universal law.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:causal-commitment-namecert-carrier}. The only row whose content points beyond the observed ledger is $G$.
+
+The rows $O$ and $R$ are finite history and regularity ledgers. They display what has been observed and what pattern has been read, but they do not contain a row for all future continuations.
+
+Therefore any consumer that asks for the causal step must pass through the $\mathsf{GAP}$ socket. Since no other coordinate names future universality, the packet cannot expose an internally generated empirical law.
+\end{proof}
+
+\begin{theorem}[CausalCommitment forward-binding route]
+\label{thm:causal-commitment-forward-binding-route}
+For an accepted $\CausalCommitmentUp$ packet, the route from observed regularity to causal commitment is exactly the displayed forward-binding row $F$ together with the $\Cont$ routes in $C$. The route starts at the finite ledger $O,R$, enters the $\mathsf{GAP}$ socket $G$, and returns only the local commitment row named by $\NameCert_{\CausalCommitmentUp}$.
+\end{theorem}
+\begin{proof}
+Start from the observed side. The packet first exposes $O$ and $R$, so the route has a displayed finite source.
+
+The forward-facing step is then recorded by $F$ and replayed by $C$. These rows send the observed regularity ledger through $G$ rather than through an unrecorded rule of induction.
+
+At the output side the consumer receives the local commitment row $N$ together with the same provenance and transport data. Thus the forward-binding route is finite, named, and confined to the displayed packet.
+\end{proof}
+
+\begin{definition}[CausalCommitment forward-GAP carrier]
+\label{def:causal-commitment-forward-gap-carrier}
+A forward-GAP refinement of the $\CausalCommitmentUp$ carrier is the finite packet
+$$
+K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)
+$$
+where $O,R,G,F,H,C,P,N$ are the rows of \autoref{def:causal-commitment-namecert-carrier}, and $L$ is the locality-cell consumer row. The row $L$ records the consumer-facing handoff to $\LocalityCellUp$ and $\ObserverLocalityCellUp$: it may read the displayed commitment only through the finite locality cell generated from $O,R,G,F,H,C,P,N$, and it contains no selected future observation, no global observer frame, and no ambient causal primitive.
+\end{definition}
+
+\begin{theorem}[CausalCommitment forward-GAP obligations]
+\label{thm:causal-commitment-forward-gap-obligations}
+For an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, the local $\NameCert_{\CausalCommitmentUp}$ surface exposes exactly five consumer-facing obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed rows $O,R,G,F,L,H,C,P,N$;
+\item $\mathsf{GAP}$ accountability, requiring every forward-looking read to pass through $G$;
+\item forward-route stability, requiring $F$ and $C$ to replay the observed-regularity route without adding a hidden induction rule;
+\item locality-cell consumer restriction, requiring every observer-locality consumer to read through $L$;
+\item non-escape for selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:causal-commitment-forward-gap-carrier}. The refinement adds only the locality-cell consumer row $L$ to the rows already displayed by the base carrier.
+
+The $\mathsf{GAP}$ and forward-route obligations use \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. The forward-looking content is named by $G$, while $F$ and $C$ replay the route from observed regularity to local commitment.
+
+The locality-cell restriction then reads the commitment through $L$. Since $L$ is a consumer row rather than a new causal source, it can expose the commitment to observer-locality consumers only by replaying the same finite rows.
+
+The non-escape clauses follow by inventory. The refined packet has no coordinate for a selected future record, global frame, universal law, hidden induction rule, or ambient causal primitive.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality-cell handoff]
+\label{thm:causal-commitment-locality-cell-handoff}
+Every observer-locality consumer of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ reads the causal commitment only through the displayed locality-cell row $L$. The handoff may expose the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, transports, continuations, provenance, and local naming row, but it cannot extract a selected future observation, a global observer frame, or an ambient causal primitive.
+\end{theorem}
+\begin{proof}
+Begin with the consumer side of the refined carrier. The only row addressed to observer-locality consumption is $L$, so any such consumer first enters the finite locality-cell handoff.
+
+Inside that handoff, the available reads are the rows already displayed by $O,R,G,F,H,C,P,N$. The row $L$ does not add a further observation source or a global frame; it routes the same commitment through the locality-cell discipline.
+
+Therefore the consumer receives a local commitment packet and nothing beyond it. A selected future observation, global observer frame, or ambient causal primitive has no carrier coordinate and no read route through $L$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment non-escape boundary]
+\label{thm:causal-commitment-non-escape-boundary}
+No consumer of an accepted $\CausalCommitmentUp$ packet can extract a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. Every consumer read factors through $O,R,G,F,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. Its coordinates are the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, transport rows, continuation rows, package provenance, and local naming row.
+
+The transport row $H$ and the continuation row $C$ preserve exactly those coordinates. They can replay the displayed route, but they do not introduce a new future record or a global frame.
+
+The non-escape claim follows because the forbidden objects have no coordinate in the finite packet. A consumer route seeking one of them therefore has no projection target in $\CausalCommitmentUp$.
+\end{proof}
+
+\begin{theorem}[CausalCommitment NameCert obligations]
+\label{thm:causal-commitment-namecert-obligations}
+The local $\NameCert_{\CausalCommitmentUp}$ surface consists of carrier admission for $K=(O,R,G,F,H,C,P,N)$, observed-ledger exposure, regularity-ledger exposure, $\mathsf{GAP}$ socket accountability, forward-binding route accountability, componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, and the non-escape boundary for future observations, universal empirical laws, hidden induction rules, global frames, and ambient causal primitives.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:causal-commitment-namecert-carrier}. The packet exposes exactly the finite rows $O,R,G,F,H,C,P,N$.
+
+Observed-ledger and regularity-ledger exposure are the first two projections. The $\mathsf{GAP}$ socket theorem then accounts for the only forward-looking coordinate in the carrier.
+
+Forward-binding route accountability follows from \autoref{thm:causal-commitment-forward-binding-route}. The route from observed pattern to commitment is replayed by $F$ and $C$, while $H$ supplies componentwise stability and $P$ records package provenance.
+
+Finally apply the non-escape boundary. Since all consumer reads factor through the displayed rows, the local NameCert row cannot export selected future observations, universal empirical laws, hidden induction, global frames, or ambient causal primitives.
+\end{proof}
+
+\closureat{CausalCommitmentUp}{seedStr}
+\closureat{CausalCommitmentUp}{obligationStr}
+
+\begin{closurestatus}{\CausalCommitmentUp}
+  \constructivestory{A $\CausalCommitmentUp$ packet is generated from a finite observed-history ledger, an observed regularity ledger, a displayed $\mathsf{GAP}$ socket, a forward-binding route, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:causal-commitment-namecert-carrier}, \autoref{thm:causal-commitment-gap-socket}, \autoref{thm:causal-commitment-forward-binding-route}, \autoref{thm:causal-commitment-non-escape-boundary}, and \autoref{thm:causal-commitment-namecert-obligations} bind the finite carrier, GAP socket, forward-binding route, non-escape boundary, and local naming obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, selected future observation, universal empirical law, hidden induction rule, synchronized global frame, or ambient causal primitive.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the GAP socket, forward-binding route, non-escape boundary, and NameCert obligations.}
+\end{closurestatus}
