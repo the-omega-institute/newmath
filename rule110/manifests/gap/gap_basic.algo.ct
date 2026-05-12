@@ -1,0 +1,25 @@
+# gap_basic.algo.ct
+# Algorithm framing for Gap membership and CompGap witness recognition.
+#
+# The current manifest-runner executes a cyclic-tag program against supplied
+# input but does not expose decoded theorem predicates. This production is
+# therefore vacuous, matching the Ext/Cont/SigRel pattern in this milestone.
+# tests/test_gap.c performs the executable semantic checks using the shared
+# GroundCompiler event and BHist decoders.
+PRODUCTIONS 1
+0
+ASSERTIONS 14
+case ingap_empty_domain_empty:        input=011101111111111                ; ingap=yes
+case ingap_domain_depth_one:          input=01101011101111101110111011    ; ingap=yes
+case ingap_two_probe_empty:           input=01100101110110101111110101101011; ingap=yes
+case ingap_domain_too_small:          input=0111011101111101110111011     ; ingap=no
+case ingap_wrong_signature:           input=011010111011111011111011      ; ingap=no
+case ingap_wrong_pkg:                 input=011010111011111011101111      ; ingap=no
+case ingap_trailing_input:            input=0111011111111111011           ; ingap=no
+case comp_all_empty_true:             input=1011111111101011              ; comp=yes
+case comp_chain_true:                 input=10111011101101011101011       ; comp=yes
+case comp_deep_true:                  input=1011010111001110001011101011  ; comp=yes
+case comp_missing_first:              input=1011101110110101101011        ; comp=no
+case comp_missing_second:             input=1011101110110101110011        ; comp=no
+case comp_bad_relation_event:         input=10111111111011                ; comp=no
+case unknown_tag:                     input=001111                        ; reject=yes
