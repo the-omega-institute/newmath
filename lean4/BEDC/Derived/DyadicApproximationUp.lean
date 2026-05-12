@@ -21,6 +21,29 @@ def DyadicApproximationCarrier [AskSetup] [PackageSetup]
     UnaryHistory ledger ∧ UnaryHistory provenance ∧ Cont precision endpoint window ∧
       Cont window ledger provenance ∧ PkgSig bundle provenance pkg
 
+theorem DyadicApproximationCarrier_precision_window_determinacy [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance candidate candidate' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont precision endpoint candidate -> Cont precision endpoint candidate' ->
+        hsame window candidate ∧ hsame window candidate' ∧ UnaryHistory candidate ∧
+          UnaryHistory candidate' ∧ PkgSig bundle provenance pkg := by
+  intro carrier precisionEndpointCandidate precisionEndpointCandidate'
+  rcases carrier with
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      precisionEndpointWindow, windowLedgerProvenance, pkgSig⟩
+  have sameCandidate : hsame window candidate :=
+    cont_deterministic precisionEndpointWindow precisionEndpointCandidate
+  have sameCandidate' : hsame window candidate' :=
+    cont_deterministic precisionEndpointWindow precisionEndpointCandidate'
+  have candidateUnary : UnaryHistory candidate :=
+    unary_cont_closed precisionUnary endpointUnary precisionEndpointCandidate
+  have candidateUnary' : UnaryHistory candidate' :=
+    unary_cont_closed precisionUnary endpointUnary precisionEndpointCandidate'
+  exact And.intro sameCandidate
+    (And.intro sameCandidate'
+      (And.intro candidateUnary (And.intro candidateUnary' pkgSig)))
+
 theorem DyadicApproximationCarrier_classifier_transport [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance precision' endpoint' window' ledger'
       provenance' : BHist}
