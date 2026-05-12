@@ -448,6 +448,60 @@ Now apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. Tra
 Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-handoff} and \autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. Every $\RealUp$ seal read still factors through $I,W,M,Q,T,E$, and in the present boundary this is precisely the displayed route through the empty family ledger and empty tail ledger. Since the packet has no coordinate for a completed family limit, quotient stream family, host real equality, selected limit, or ambient completeness principle, the seal handoff exports none of them.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion single-member restriction exactness]
+\label{thm:uniform-cauchy-criterion-single-member-restriction-exactness}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet, and let $i$ be a displayed member of the finite family ledger $I$. The singleton restriction $U|_{\{i\}}$ reads the same shared rows $W,M,Q,T,E,H,C,P,N$ through the component selected by $i$. Its finite-family ledger is the one-member restriction of $I$, and it adds no pointwise limit, no indexwise modulus, and no endpoint read outside the original tail ledger.
+\end{theorem}
+\begin{proof}
+Project $U$ through \autoref{def:uniform-cauchy-criterion-carrier}. The family-facing rows are $I,W,M,Q,T$, and the singleton request supplies only a displayed member $i$ of $I$.
+
+Apply \autoref{thm:uniform-cauchy-criterion-window-stability}. Restricting to the component named by $i$ keeps the read inside the same shared window family $W$ and transports only the selected component through the existing $\hsame$ rows.
+
+Next use \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness} and \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. The tail comparison for the singleton still passes through the same $M,Q,T$ route, so the restricted packet has no coordinate for an independently chosen pointwise threshold.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-regseqrat-consumer-package} and \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. A downstream consumer sees the same regular-rational and seal handoff rows, specialized to the displayed singleton, and cannot extract a pointwise limit from the restriction.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion paired-family union ledger]
+\label{thm:uniform-cauchy-criterion-paired-family-union-ledger}
+Let $J$ and $K$ be two displayed subfamily ledgers of an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N).
+$$
+Suppose both subfamily ledgers factor through the same $I,W,M,Q,T$ rows. Then the paired-family ledger $J\cup K$ is accepted over the same shared threshold route. Its tail comparisons are exactly the union of the two displayed subfamily tail reads inside $T$, transported by the same $H,C$ rows and sealed through the same $E,P,N$ provenance.
+\end{theorem}
+\begin{proof}
+Read the two subfamily ledgers as displayed restrictions of $I$. Since both factor through the same packet $U$, neither subfamily supplies an additional window family or modulus row.
+
+Use \autoref{thm:uniform-cauchy-criterion-window-stability} to keep both subfamily reads on $W$. Use \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} to keep both threshold requests on the single schedule $M$.
+
+Apply \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. The only accepted tail-comparison entries are the displayed rows of $T$ after the route through $I,W,M,Q$, so the paired ledger is their finite union inside that same ledger.
+
+It remains to package the paired read for consumers. Use \autoref{thm:uniform-cauchy-criterion-regseqrat-consumer-package} and \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}: the union ledger is replayed by the same $H,C$ rows and inherits the same $E,P,N$ seal and provenance surface.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion shared-schedule Real seal inheritance]
+\label{thm:uniform-cauchy-criterion-shared-schedule-real-seal-inheritance}
+Every $\RealUp$-facing consumer of a singleton restriction or paired-family ledger of an accepted $\UniformCauchyCriterionUp$ packet inherits the same shared schedule and seal handoff route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The inherited route may restrict or pair displayed family entries, but it cannot introduce a new Cauchy schedule, selected family limit, quotient stream family, host real equality, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Begin with the real-facing consumer read. By \autoref{thm:uniform-cauchy-criterion-real-seal-handoff}, every such read reaches $E$ only after passing through $I,W,M,Q,T$.
+
+For a singleton restriction, apply \autoref{thm:uniform-cauchy-criterion-single-member-restriction-exactness}. The selected component keeps the same shared schedule and specializes only the finite family ledger.
+
+For a paired-family read, apply \autoref{thm:uniform-cauchy-criterion-paired-family-union-ledger}. The paired ledger is assembled inside the same tail ledger and is replayed by the same transport and continuation rows.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-regseqrat-consumer-package}, \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}, and \autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. These package the inherited seal route and rule out any new schedule, selected limit, quotient stream family, host equality, or completeness principle.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion shared-window threshold meet]
 \label{thm:uniform-cauchy-criterion-shared-window-threshold-meet}
 Let
