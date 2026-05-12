@@ -163,7 +163,7 @@ After all the upgrades, the day-2 loop looks like this:
   <div class="timeline-item ai"><div class="timeline-label">Phase C</div><div class="timeline-content">codex writes Lean proofs. <code>lake build</code> must pass. Paper marker gets registered. Single combined commit.</div></div>
   <div class="timeline-item ai"><div class="timeline-label">Phase D</div><div class="timeline-content">Mechanical lints (arity, parameter-echo, BHist-anchor) run as a final filter. <code>bedc_ci.py audit</code> + <code>axiom-purity</code> verify alignment. Round merges to base.</div></div>
   <div class="timeline-item human"><div class="timeline-label">Human (occasional)</div><div class="timeline-content">Reviews ~10 commits per session, names patterns codex didn't notice (Hom = Cont, S¹ as equation-as-BHist, etc), writes them up as bridge theorems or reflective sections.</div></div>
-  <div class="timeline-item discovery"><div class="timeline-label">Discovery</div><div class="timeline-content">Bridge theorems sit in <code>papers/bedc/parts/capstones/</code> — a directory whose existence is the only structural commitment to "cross-chapter unifications get a home".</div></div>
+  <div class="timeline-item discovery"><div class="timeline-label">Discovery</div><div class="timeline-content">Bridge theorems sit in <code>papers/bedc/parts/visions/</code> — a directory whose existence is the only structural commitment to "cross-chapter unifications get a home".</div></div>
 </div>
 ```
 
@@ -181,7 +181,7 @@ The most recent harness upgrade addresses a question the discovery pattern keeps
 
 Earlier proposals: write it up as paper prose in a meta-commentary chapter. **Rejected.** That is annotation alongside the theory, not theory itself.
 
-Current mechanism: when a `theory_extension` candidate has `cross_chapter_unification = 2` (cites ≥3 leanchecked names from ≥3 chapters AND the conclusion is an equivalence/iff/bridge), it gets absolute priority over ordinary candidates. Its `paper_files[0]` lands in `papers/bedc/parts/capstones/`. The bridge theorem is itself a Lean theorem, not a prose paragraph.
+Current mechanism: when a `theory_extension` candidate has `cross_chapter_unification = 2` (cites ≥3 leanchecked names from ≥3 chapters AND the conclusion is an equivalence/iff/bridge), it gets absolute priority over ordinary candidates. Its `paper_files[0]` lands in `papers/bedc/parts/visions/`. The bridge theorem is itself a Lean theorem, not a prose paragraph.
 
 ```latex
 \section{Continuation as Category Morphism}

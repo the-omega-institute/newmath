@@ -38,6 +38,13 @@ This gate composes with the existing critical_path top[0..2] HARD GATE: a 3-targ
 
 A bridge_candidates round commit message subject MUST be: `R<ROUND_NUM>: bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
 
+Paper-side `parts/visions/` chapters MAY be cited via `\autoref` in
+concrete-instance chapters that Lean rounds back, but Lean rounds
+themselves do not propose `parts/visions/` edits. The visions directory
+is paper-side inspiration only; mature realizations land in
+`papers/bedc/parts/concrete_instances/` and Lean code under
+`lean4/BEDC/Derived/`.
+
 ## Environment
 
 Codex has lean-lsp MCP (20 tools: hover, goto-definition, references, workspace-symbol, document-symbol, diagnostics, type-at-position, etc.) plus full shell access (git, lake, grep, python). When checking whether a candidate target is semantically equivalent to existing code (HARD GATEs in Step 2 below), prefer LSP queries — workspace-symbol, references on the candidate's conclusion type, hover on the existing theorem — over name-grep. LSP resolves through `open` directives, namespace paths, and `def` unfolding, which text grep misses. Use shell tools for build (`lake_gate.py build`), staging diffs (`git diff --cached`), and audit hooks (`tools/check-axioms.py`, `bedc_ci.py audit`). If any lean4 skills are available in the runtime, use them — they encode project conventions (build, proof patterns, dedup checks) better than ad-hoc shell.
