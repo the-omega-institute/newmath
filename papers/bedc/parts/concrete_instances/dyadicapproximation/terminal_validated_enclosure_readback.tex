@@ -1,0 +1,53 @@
+\begin{theorem}[DyadicApproximation terminal validated enclosure readback]
+\label{thm:dyadicapproximation-terminal-validated-enclosure-readback}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. Suppose the prefix projection of the chain has stabilized
+and the overlap refinement chain reads in the displayed overlap normal form. If
+a $\DyadicMeshUp$ finite cell and a $\ValidatedNumericsUp$ enclosure consume
+that same terminal window, then the terminal readback surface is exactly the
+same finite enclosure surface consumed by those two downstream packets.
+
+Componentwise, the common surface consists of the terminal precision row, the
+dyadic endpoint and radius route, the $\RegSeqRatUp$ observation window, the
+$\DyadicMeshUp$ rational-interval cell row, the $\ValidatedNumericsUp$
+containment ledger, the $\RealUp$ readback token, the visible $\hsame$
+transports, the visible $\Cont$ routes, the $\Pkg$ provenance rows, and the
+local $\NameCert$ rows. The readback does not assert solver correctness,
+floating-point semantics, classical real completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+First stabilize the terminal dyadic window. Apply
+\autoref{thm:dyadicapproximation-terminal-window-prefix-projection} to identify
+every prefix read with the corresponding row of $T$: precision, endpoint,
+regular-rational observation, real-seal token, visible transport, continuation,
+provenance, and local certificate rows.
+
+Next stabilize overlap access. Apply
+\autoref{thm:dyadicapproximation-overlap-refinement-chain-normal-form}. The
+overlap read has the same terminal precision row, transported endpoint route,
+rational-interval window, $\RegSeqRatUp$ readback, $\RealUp$ seal boundary,
+visible $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and
+local $\NameCert_{\DyadicApproximationUp}$ rows.
+
+Now pass to the finite cell and enclosure consumers. By
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form},
+the $\DyadicMeshUp$ cell and the $\ValidatedNumericsUp$ enclosure read the
+dyadic terminal window only through the displayed precision row, endpoint row,
+rational-interval cell row, mesh level and cell-index rows, validated
+containment ledger, regular-rational readback, real-seal token, transport
+routes, provenance, and local certificate rows.
+
+The mesh handoff and the enclosure boundary identify the downstream rows.
+Apply \autoref{thm:dyadicmesh-validatednumerics-handoff} for the rational
+interval cell, containment ledger, endpoint readback, and mesh provenance.
+Apply \autoref{thm:validatednumerics-validated-enclosure-bridge-boundary} for
+the validated enclosure row, precision request, containment ledger, real-name
+readback token, transport rows, continuation routes, package provenance, and
+local certificate row.
+
+Repack the identified rows as one finite readback surface. The preceding
+steps account for every component listed in the theorem statement, and the
+cited consumer boundaries contain no coordinate for solver correctness,
+floating-point semantics, classical real completeness, or host real equality.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicApproximationUp.DyadicApproximationCarrier\_terminal\_validated\_enclosure\_readback}

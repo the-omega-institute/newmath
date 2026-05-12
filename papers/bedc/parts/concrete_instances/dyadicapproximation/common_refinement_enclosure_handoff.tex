@@ -1,0 +1,65 @@
+\begin{theorem}[DyadicApproximation common-refinement enclosure handoff]
+\label{thm:dyadicapproximation-common-refinement-enclosure-handoff}
+Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted
+$\DyadicApproximationUp$ finite packets. Suppose they admit a displayed common
+precision refinement $R$ whose endpoint rows, terminal finite windows,
+$\RegSeqRatUp$ observation windows, $\RealUp$ seal tokens, visible $\hsame$
+transports, visible $\Cont$ routes, $\Pkg$ provenance rows, and local
+$\NameCert_{\DyadicApproximationUp}$ rows are the same finite BEDC data.
+
+Let $M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell row and let
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,q,m)$ be an accepted
+$\ValidatedNumericsUp$ enclosure row. Suppose the mesh-cell row and the
+validated-enclosure row consume the same refined window $R$: the displayed
+precision row is shared, the transported dyadic endpoint is contained in the
+rational interval cell $I$, the endpoint-radius-order ledger $E$ is the
+validated containment ledger, and the $\RegSeqRatUp$ observation window and
+$\RealUp$ readback token are the rows read by $V$.
+
+Then the mesh-cell handoff and the validated-enclosure handoff factor through
+one finite $\RealUp$ surface. That surface is exactly the shared precision row,
+transported dyadic endpoint, rational interval cell, endpoint-radius-order
+ledger, $\RegSeqRatUp$ observation window, $\RealUp$ readback token, visible
+$\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance rows, and local
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$, and
+$\NameCert_{\ValidatedNumericsUp}$ rows. The factorization exports no completed
+real equality, host interval equality, solver correctness, floating-point
+semantics, infinite mesh selection, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+First identify the common refined dyadic read. Apply
+\autoref{thm:dyadicapproximation-refined-finite-packet-readback-determinacy} to
+$A$, $A'$, and the displayed refinement $R$. The two accepted finite packets
+therefore expose the same precision, endpoint, terminal-window,
+regular-rational, real-seal, transport, continuation, provenance, and local
+certificate rows.
+
+Next attach the mesh and enclosure rows to that common read. Apply
+\autoref{thm:dyadicapproximation-finite-mesh-enclosure-exactness} to the
+accepted dyadic row selected by $R$, the mesh cell $M$, and the validated
+enclosure $V$. This places the dyadic seal handoff, mesh cell containment,
+rational-interval coverage, validated containment ledger, and $\RealUp$
+readback token on one finite surface.
+
+Now read the terminal enclosure boundary. Apply
+\autoref{thm:dyadicapproximation-terminal-validated-enclosure-readback}. The
+terminal window consumed by $M$ and $V$ has the same precision row, transported
+endpoint, regular-rational observation window, containment ledger, visible
+transport rows, continuation rows, package provenance rows, and local
+certificate rows as the common refinement.
+
+Finally compare the downstream handoff surfaces. Apply
+\autoref{thm:dyadicmesh-validatednumerics-handoff} for the mesh-to-enclosure
+handoff rows, and apply
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary} for the
+validated enclosure boundary. These two boundaries name the same rational
+interval cell, endpoint-radius-order ledger, observation window, real-readback
+token, transport rows, continuation rows, package provenance, and local
+certificate rows already obtained from the dyadic common refinement.
+
+All cited boundaries are finite BEDC readback statements. Repacking their
+shared rows gives the single $\RealUp$ surface listed in the theorem statement,
+and no cited component supplies completed real equality, host interval
+equality, solver correctness, floating-point semantics, infinite mesh
+selection, or choice-selected limit.
+\end{proof}
