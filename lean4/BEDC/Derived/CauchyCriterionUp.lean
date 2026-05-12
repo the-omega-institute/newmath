@@ -243,4 +243,29 @@ theorem CauchyCriterionCarrier_dyadic_tail_ledger_exactness [AskSetup] [PackageS
     ⟨modulusUnary, toleranceUnary, ledgerUnary, tailConsumerUnary, windowModulusTolerance,
       toleranceLedgerRegseq, ledgerProvenanceTailConsumer, endpointPkg, tailConsumerPkg⟩
 
+theorem CauchyCriterionCarrier_regseqrat_handoff_exhaustion [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont regseq realSeal handoff ->
+        PkgSig bundle handoff pkg ->
+          UnaryHistory window ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory ledger ∧ UnaryHistory regseq ∧ UnaryHistory realSeal ∧
+              UnaryHistory handoff ∧ Cont window modulus tolerance ∧
+                Cont tolerance ledger regseq ∧ Cont regseq realSeal handoff ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle handoff pkg := by
+  intro carrier regseqRealSealHandoff handoffPkg
+  obtain ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    windowModulusTolerance, toleranceLedgerRegseq, _regseqRealSealTransport,
+    _transportLocalRoute, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed regseqUnary realSealUnary regseqRealSealHandoff
+  exact
+    ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary, realSealUnary,
+      handoffUnary, windowModulusTolerance, toleranceLedgerRegseq, regseqRealSealHandoff,
+      endpointPkg, handoffPkg⟩
+
 end BEDC.Derived.CauchyCriterionUp
