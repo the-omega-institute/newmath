@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\AnalyticContUp$}
+\label{ch:concrete-instances-analyticcontinuationoperation-namecert}
+\origin{ai}
+
+The $\AnalyticContUp$ surface realizes analytic continuation as a finite operation certificate over holomorphic source rows, explicit overlap witnesses, branch-obstruction ledgers, and local naming. It depends on the $\HolomorphicUp$ carrier for source and target rows, the $\ComplexUp$ carrier for domain endpoints, $\hsame$ for pointwise classifier transport, $\Cont$ for replay of restriction and overlap routes, $\Pkg$ provenance, and the displayed $\NameCert$ row. It does not treat classical analytic continuation as a primitive.
+
+\begin{definition}[Analytic continuation operation packet]
+\label{def:analytic-continuation-operation-packet}
+An $\AnalyticContUp$ packet is a finite $\BHist$ tuple
+$$
+A=(S,D,O,R,T,C,P,B,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the holomorphic source row, carrying two $\HolomorphicUp$ presentations $(f,D_1)$ and $(g,D_2)$ over $\ComplexUp$ domains;
+\item $D$ is the domain row, recording the $\ComplexUp$ endpoints, the displayed union domain $D_1\cup D_2$, and the restriction targets used by the operation;
+\item $O$ is the overlap row, recording a non-empty compatible overlap, its witness disk or cluster data, and the pointwise $\hsame$ agreement of $f$ and $g$ on that overlap;
+\item $R$ is the result row, recording a $\HolomorphicUp$ presentation $(h,D_1\cup D_2)$ together with its two restriction witnesses back to $(f,D_1)$ and $(g,D_2)$;
+\item $T$ records componentwise $\hsame$ transport for source rows, domain rows, overlap witnesses, result rows, replay rows, provenance rows, branch ledgers, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that replay source admission, overlap inspection, restriction readback, result readback, and operation export;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ComplexUp$, $\HolomorphicUp$, overlap witnesses, $\hsame$, $\Cont$, branch ledgers, and the local certificate row;
+\item $B$ is the branch-obstruction ledger, recording every refused passage from this finite continuation packet to path-independent continuation around arbitrary loops or uncarried monodromy data;
+\item $N$ is the local $\NameCert_{\AnalyticContUp}$ row naming the same finite packet.
+\end{enumerate}
+The carrier contains exactly these rows. It has no coordinate for a global analytic-continuation theorem, no hidden branch choice, no host path space, and no unrecorded monodromy classifier.
+\end{definition}
+
+\begin{theorem}[Analytic continuation operation obligations]
+\label{thm:analytic-continuation-operation-obligations}
+For the carrier of \autoref{def:analytic-continuation-operation-packet}, the local $\NameCert_{\AnalyticContUp}$ surface consists exactly of carrier admission for
+$$
+A=(S,D,O,R,T,C,P,B,N),
+$$
+holomorphic source exposure, $\ComplexUp$ domain readback, overlap exactness, result restriction exactness, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, branch-obstruction retention, and NameCert export for the same finite packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:analytic-continuation-operation-packet}. The tuple exposes only the nine displayed rows $S,D,O,R,T,C,P,B,N$.
+
+The source and domain obligations are read from $S$ and $D$. The overlap obligation is read from $O$: it supplies the non-empty compatible overlap and the pointwise $\hsame$ comparison that lets the two holomorphic source rows be spliced without adding a host equality predicate.
+
+The result obligation is read from $R$. It records the holomorphic carrier on $D_1\cup D_2$ and the two restriction witnesses back to the source rows. Transport and replay remain confined to $T$ and $C$, while $P$ records package provenance and $N$ names the same packet.
+
+The branch ledger $B$ supplies the boundary clause. Since no row in the carrier stores a path-independent branch selector, an arbitrary loop continuation theorem, or an external monodromy classifier, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Analytic continuation domain compatibility scope]
+\label{thm:analytic-continuation-domain-compatibility-scope}
+Every accepted $\AnalyticContUp$ packet factors its continuation result through the displayed $\ComplexUp$ domain row $D$ and overlap row $O$. A downstream consumer may recover the union domain, the two restriction domains, the compatible overlap, and the restriction witnesses, but it cannot replace them by an ambient domain theorem or by an unstated equality of open sets.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $A=(S,D,O,R,T,C,P,B,N)$. The only domain coordinates available to the consumer are the displayed row $D$ and the overlap row $O$.
+
+The result row $R$ refers back to those same coordinates: its carrier is the listed union domain $D_1\cup D_2$, and its restriction witnesses target exactly the two source domains stored in $S$ and $D$. Thus the operation result is tied to the concrete domain ledger rather than to an ambient theorem about all open sets.
+
+Transport through $T$ preserves this row identity componentwise, and replay through $C$ only replays the listed source, overlap, restriction, and result routes. The package row $P$ and naming row $N$ export the same finite surface, so no downstream route can substitute a larger domain principle or an unrecorded open-set equality.
+\end{proof}
+
+\begin{theorem}[Analytic continuation branch obstruction non-escape]
+\label{thm:analytic-continuation-branch-obstruction-non-escape}
+For an accepted $\AnalyticContUp$ packet, branch obstruction information remains ledgered in $B$. The packet may record that a continuation route refuses path-independent branch selection, arbitrary-loop continuation, or uncarried monodromy comparison, but it cannot turn that refusal into an exported continuation value or a hidden branch choice.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:analytic-continuation-operation-packet}. Branch-sensitive information appears only in the ledger row $B$.
+
+If a route asks for path-independent branch selection, arbitrary-loop continuation, or comparison of two continuations through an uncarried monodromy classifier, the packet has no source, result, transport, replay, provenance, or naming coordinate that supplies such data. The request can only be recorded as a refusal in $B$.
+
+The transport row $T$ carries this refusal as ledger content, and the replay row $C$ can expose it as a boundary result. Packaging through $P$ and naming through $N$ preserve the same finite packet. Therefore the branch obstruction cannot escape as an exported continuation value, a hidden branch choice, or an unstated monodromy theorem.
+\end{proof}
+
+\closureat{AnalyticContUp}{seedStr}
+
+\begin{closurestatus}{\AnalyticContUp}
+  \constructivestory{An $\AnalyticContUp$ packet is generated from holomorphic source rows, $\ComplexUp$ domain rows, compatible overlap witnesses, result restriction rows, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, branch-obstruction ledgers, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:analytic-continuation-operation-packet}, \autoref{thm:analytic-continuation-operation-obligations}, \autoref{thm:analytic-continuation-domain-compatibility-scope}, and \autoref{thm:analytic-continuation-branch-obstruction-non-escape} bind the finite carrier, operation obligations, domain compatibility surface, branch ledger, and NameCert export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a global analytic-continuation theorem, arbitrary-loop branch selection, monodromy classification, the $\ZetaContUp$ application, or Lean-side verification for $\AnalyticContUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked finite theorems for source exposure, domain compatibility, overlap exactness, restriction exactness, branch-ledger non-escape, provenance, and NameCert export.}
+\end{closurestatus}
