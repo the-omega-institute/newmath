@@ -40,6 +40,7 @@ $$
 I,J,S,T,W,D,M,H,C,P,N.
 $$
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleaveUp.RegularCauchyInterleavePacket\_semantic\_name\_certificate}
 \begin{proof}
 Carrier admission is the projection of the finite packet $K$. The rows $I$, $J$, $S$, $T$, $W$, $D$, and $M$ are stored coordinates, while $H$, $C$, $P$, and $N$ provide transport, continuation, package, and local naming evidence.
 
@@ -90,6 +91,7 @@ Only after these rows have been displayed does the handoff coordinate $M$ become
 \label{thm:regular-cauchy-interleave-window-merge-exactness}
 For every accepted $\RegularCauchyInterleaveUp$ carrier $K=(I,J,S,T,W,D,M,H,C,P,N)$, each retained row of the interleaved $\StreamNameUp$ window table $T$ is obtained by reading exactly one source schedule, selected by the corresponding unary merge row of $S$, and by pairing that selected window with the corresponding $\CauchyModulusUp$ request in $W$ and $\DyadicRatCoreUp$ observation in $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleaveUp.RegularCauchyInterleaveWindowMergeExactness}
 \begin{proof}
 Project the selected slot of $S$. Its unary row has only the displayed left and right alternatives named by the carrier, so it chooses one of the two $\RegSeqRatUp$ member schedules $I$ and $J$.
 
@@ -112,6 +114,49 @@ Use \autoref{thm:regular-cauchy-interleave-window-merge-exactness} to identify t
 Use \autoref{def:regular-cauchy-interleave-classifier} for transport. It allows the consumer route to move these rows componentwise through $H$ and $C$, with the same package provenance $P$ and local naming row $N$.
 
 Thus the read factors through the displayed finite packet. Since the carrier has no field for quotient streams, host equality of completed reals, completeness, or selected limits, none of those objects can be exported at the $\RegSeqRatUp/\RealUp$ boundary.
+\end{proof}
+
+\begin{definition}[Regular Cauchy interleave obligation surface]
+\label{def:regular-cauchy-interleave-obligation-surface}
+For a concrete packet
+$$
+K=(I,J,S,T,W,D,M,H,C,P,N)
+$$
+of \autoref{def:regular-cauchy-interleave-carrier}, the $\RegularCauchyInterleaveUp$ obligation surface consists exactly of carrier admission, classifier transport, finite merge-window exactness, modulus-observation compatibility, and the $\RegSeqRatUp/\RealUp$ handoff boundary. These obligations are read only from the source schedules $I,J$, unary merge schedule $S$, interleaved window table $T$, modulus request ledger $W$, dyadic observation ledger $D$, handoff rows $M$, transport rows $H$, continuation routes $C$, package row $P$, and local naming row $N$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy interleave carrier-classifier obligation package]
+\label{thm:regular-cauchy-interleave-obligation-carrier-classifier-package}
+For every accepted $\RegularCauchyInterleaveUp$ packet $K=(I,J,S,T,W,D,M,H,C,P,N)$, the carrier-admission and classifier-transport obligations of \autoref{def:regular-cauchy-interleave-obligation-surface} are exactly the concrete carrier and classifier obligations of the chapter.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:regular-cauchy-interleave-carrier}. This exposes precisely the rows $I,J,S,T,W,D,M,H,C,P,N$ and no additional analytic coordinate.
+
+The carrier side is the admission statement of \autoref{thm:regular-cauchy-interleave-carrier-admission}. The classifier side is the componentwise transport described by \autoref{def:regular-cauchy-interleave-classifier} and proved in \autoref{thm:regular-cauchy-interleave-classifier-transport-exactness}.
+
+Together these references give the carrier and classifier part of the obligation surface, with the same package row and local naming row retained for downstream reads.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave window-modulus obligation package]
+\label{thm:regular-cauchy-interleave-obligation-window-modulus-package}
+For every accepted $\RegularCauchyInterleaveUp$ packet $K=(I,J,S,T,W,D,M,H,C,P,N)$, the finite merge-window and modulus-observation obligations of \autoref{def:regular-cauchy-interleave-obligation-surface} are witnessed by the displayed rows $S,T,W,D,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-interleave-window-merge-exactness}. It ties each selected merge slot in $S$ to the window table $T$, the request ledger $W$, the dyadic observation row $D$, and the handoff row $M$ before any consumer read is made.
+
+Then apply \autoref{thm:regular-cauchy-interleave-dyadic-observation-handoff}. It keeps the modulus request and dyadic observation in the same finite read path under the displayed transport and continuation rows.
+
+Thus the window and modulus obligations are fulfilled inside the concrete packet, without adding quotient streams, host real equality, or selected limits.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave real-handoff obligation package]
+\label{thm:regular-cauchy-interleave-obligation-real-handoff-package}
+For every accepted $\RegularCauchyInterleaveUp$ packet $K=(I,J,S,T,W,D,M,H,C,P,N)$, the $\RegSeqRatUp/\RealUp$ handoff obligation of \autoref{def:regular-cauchy-interleave-obligation-surface} is exactly the boundary route through $S,T,W,D,M,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-interleave-real-handoff-boundary}. It states that every regular-rational or real-facing consumer read factors through the finite merge schedule, interleaved window table, modulus request ledger, dyadic observation ledger, and handoff row.
+
+The remaining rows $H,C,P,N$ preserve the same route as transport, continuation, package provenance, and local naming. Therefore the real-handoff obligation is a finite BEDC packet obligation, not an appeal to completion, quotient streams, or host equality.
 \end{proof}
 
 \closureat{RegularCauchyInterleaveUp}{seedStr}
