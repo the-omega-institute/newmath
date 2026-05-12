@@ -199,6 +199,89 @@ python3 lean4/scripts/bedc_ci.py axiom-purity     # 传递依赖审计 (禁 Clas
 
 ---
 
+# Codex worker 失败模式 (并行 fan-out 经验)
+
+orchestrator 把任务 fan-out 给 codex CLI worker, 一轮 5-8 个常见. 失败模式按概率排序:
+
+## 1. API 容量满中途 exit (exit code 1)
+
+worker 跑到一半碰到 `ERROR: Selected model is at capacity. Please try a different model.` 直接退出. worker tree 留下半成品文件 (新增 + 修改), 但**没有任何 commit**. `git status` 显示 dirty, `git log` 显示分支只指向 base.
+
+处理: **abandon 整单**. 不要手工捡 worker 写到一半的代码再 commit —— 它没编译过, 通常 elaboration 错或 propext leak. 等 API 恢复重派.
+
+## 2. exit code 0 不等于 build OK
+
+worker 完成回调 (exit 0) 只说明 codex 自己 prompt loop 走完, **不是** lake build 通过. orchestrator 在 merge 前必须独立验证:
+
+```bash
+cd /tmp/wt-X/lean4 && lake build
+```
+
+(注意必须在 `lean4/` 子目录, 不是 worktree 根 — lakefile.lean 在 `lean4/lakefile.lean`. 根目录跑会报 `no configuration file with a supported extension`.)
+
+跑出 `error: build failed` 直接 abandon, 不 merge. 实测案例: fd worker 生成 `Confluence/Diamond.lean` 379 行 commit OK exit 0, 但 build 失败, 弃单.
+
+## 3. propext / Classical.choice / Quot.sound 泄漏
+
+即便 prompt 显式警告 "nested pattern match 会触发 propext", worker 经常仍然写出泄漏代码. axiom-purity --strict 抓住:
+
+```
+[bedc-ci] axiom-purity: theorems=N pure=N-1 impure=1 forbidden=['Classical.choice', 'Quot.sound', 'propext']
+[bedc-ci] axiom-purity FAIL: 1 forbidden dependency(s)
+  BEDC.MetaCIC.normalizeBounded_preserves_closed -> propext
+```
+
+处理: **abandon, 不要手工 "修一下"**. propext leak 通常需要重构 `def` 形态 (拆嵌套 match, 引入辅助 helper), 不是局部 tactic 调整能修的. 重派或自己重写.
+
+## 4. worker branch 名 ≠ worktree 路径
+
+派单时一般 `git worktree add -b feat-X /tmp/wt-X <base>`. merge 时**用 branch 名**, 不是路径:
+
+```bash
+git merge --no-ff feat-X        # 对
+git merge --no-ff /tmp/wt-X     # 错: "not something we can merge"
+```
+
+worker 内部可能改了 branch 名 (codex 偶尔自己重命名), merge 前 `cd /tmp/wt-X && git branch --show-current` 拿真名.
+
+## 5. `git diff origin/auto-dev..HEAD` 显示 "deleted" 文件不是真删
+
+多 worker 并行: worker A 的 branch 基于派单瞬间的 auto-dev tip. 派单后 worker B / C 已 merge 进 auto-dev. 这时 `git diff origin/auto-dev..HEAD` 在 worker A 视角下, 别人加的文件显示 "deleted" (因为 A 的 HEAD 没那些文件).
+
+但 `git merge feat-A` 用 three-way merge 拿 merge-base (= 派单时的 auto-dev tip, 不是当前 origin/auto-dev), 自动并入 B/C 已加的文件, **不会误删**. 看 diff 输出别恐慌, 直接 merge.
+
+## 6. orchestrator merge 后 push reject
+
+派单完成期间 origin/auto-dev 已被别的 worker (常驻 codex_formalize.py) push 新 commit. orchestrator push 被拒. 用 merge 不 rebase (CLAUDE.md Codex pipeline 章节已说明), 不要 `--rebase`.
+
+## 7. worker prompt 必须显式指定 build step
+
+只写 "build + commit" 太模糊. codex 经常省略 build 直接 commit 半成品. 写:
+
+```
+完成步骤:
+1. 写文件
+2. cd lean4 && lake build (必须 exit 0)
+3. cd .. && python3 lean4/scripts/bedc_ci.py axiom-purity --strict (必须 pass, 不带新 impure)
+4. git add ... && git commit -m "..."
+5. 不 push, orchestrator 来 merge
+```
+
+显式 step 4 后不 push, 否则 worker 偶尔会 push 半成品.
+
+## 失败单位的清理
+
+abandon 后 orchestrator 处理:
+
+```bash
+git worktree remove --force /tmp/wt-X
+git branch -D feat-X     # branch 还在但没 merge
+```
+
+记得 worker 写的半成品 prompt log 留 `/tmp/codex-log-X.log` 调试用, 别立即 rm.
+
+---
+
 # The Omega 科研宪章
 
 ## I. 第一性原理优先
