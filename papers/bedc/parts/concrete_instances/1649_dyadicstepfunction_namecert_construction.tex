@@ -1,0 +1,78 @@
+\chapter{DyadicStepFunction NameCert Construction}
+\label{ch:concrete-instances-dyadicstepfunction-namecert}
+\origin{human}
+
+The $\DyadicStepFunctionUp$ packet is the finite Real and Completion approximation object sitting between dyadic spline data and regular Cauchy consumers. It uses Bishop-style finite partitions: every cell, endpoint transport, and carried value is a displayed BEDC row, and no measure completion, quotient representative, selected limit, or ambient equality oracle is part of the carrier.
+
+\begin{definition}[Dyadic step function carrier]
+\label{def:dyadic-step-function-carrier}
+A $\DyadicStepFunctionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(\Pi,I,V,R,M,E,L,C,P,N)
+$$
+whose displayed coordinates are as follows:
+\begin{enumerate}
+\item $\Pi$ is a finite dyadic partition supplied by the $\DyadicMeshUp$ route;
+\item $I$ lists the $\DyadicIntervalUp$ cells of $\Pi$, including displayed endpoints and adjacency witnesses;
+\item $V$ assigns to every cell of $I$ one carried value, read either as a $\DyadicRatCoreUp$ row or as the corresponding $\RealUp$ row;
+\item $R$ records the cellwise $\DyadicRatCoreUp$ and $\RealUp$ classifier reads used to compare carried values;
+\item $M$ is the refinement map from any common dyadic refinement back to the cells of $\Pi$;
+\item $E$ is the endpoint-transport ledger for interval bounds, shared endpoints, and subdivision witnesses;
+\item $L$ is the finite $\mathsf{BHist}$ ledger of cell coverage, value reads, refinement reads, and consumer handoff rows;
+\item $C$ is the componentwise $\hsame$ and $\Cont$ route data used by the classifier;
+\item $P$ is the $\Pkg$ provenance naming the $\DyadicMeshUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\DyadicSplineUp$, $\RegSeqRatUp$, and $\RealUp$ dependencies;
+\item $N$ is the local $\NameCert_{\DyadicStepFunctionUp}$ provenance row.
+\end{enumerate}
+Two accepted carriers are classified together exactly when their partitions refine to a displayed common dyadic partition and, on every refined cell, the transported carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier row. The comparison is finite and cellwise: it is mediated only by $M$, $E$, $L$, and the displayed $\hsame$ and $\Cont$ routes in $C$.
+\end{definition}
+
+\begin{theorem}[Dyadic step function NameCert obligations]
+\label{thm:dyadic-step-function-namecert-obligations}
+The local $\NameCert_{\DyadicStepFunctionUp}$ obligation surface consists of carrier habitation, refinement-stable classification by common dyadic refinement, exact finite cell coverage, stepwise handoff to $\RegSeqRatUp$ and $\RealUp$ consumers, and ledger exactness for partition refinement, endpoint transport, carried values, finite coverage, and absence of hidden quotient data.
+\end{theorem}
+\begin{proof}
+Carrier habitation is the finite packaging operation of \autoref{def:dyadic-step-function-carrier}. The packet displays the dyadic partition, its interval cells, the carried values, the classifier reads, the refinement map, endpoint transport, the finite history ledger, route data, package provenance, and the local certificate row.
+
+The classifier obligation is constructive because two packets are compared by first displaying a common dyadic refinement and then reading finitely many transported cell values. Each read is a $\DyadicRatCoreUp$ or $\RealUp$ classifier read already carried by the packet; the refinement map only selects the parent cell named in $M$.
+
+The consumer obligations are the finite coverage and handoff clauses proved below. Together they show that every point read by a regular Cauchy or real consumer is accounted for by a visible cell, visible endpoints, a visible carried value, and a visible BEDC route.
+\end{proof}
+
+\begin{theorem}[Dyadic step function refinement stability]
+\label{thm:dyadic-step-function-refinement-stability}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ carriers. If their partitions refine to a displayed common dyadic partition and every refined cell transports to parent cells whose carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier, then the $\DyadicStepFunctionUp$ classifier identifies $S$ and $T$. The identification is stable under further $\hsame$ and $\Cont$ transport of the displayed partition, endpoint, value, and ledger rows.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:dyadic-step-function-carrier}. The common dyadic refinement supplies a finite list of refined cells, and the refinement maps of the two packets point each refined cell back to one parent cell in the original partitions.
+
+On each refined cell, the hypothesis gives a displayed value comparison through the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier. Endpoint transport is read from the two $E$ ledgers, while the corresponding history rows are read from the two $L$ ledgers.
+
+Further transport by $\hsame$ and $\Cont$ changes only the displayed route data. Since the classifier is defined by the finite refinement list and the componentwise transported value reads, the same finite comparisons witness the transported identification.
+\end{proof}
+
+\begin{theorem}[Dyadic step function RegSeqRat handoff]
+\label{thm:dyadic-step-function-regseqrat-handoff}
+Every accepted $\DyadicStepFunctionUp$ carrier exports a stepwise constant $\RegSeqRatUp$ handoff and the corresponding $\RealUp$ read by using the carried cell values on the finite dyadic partition. A $\DyadicSplineUp$ or regular Cauchy consumer can inspect the exported stream only through the displayed partition cells, endpoint transport, cell values, classifier reads, and $\mathsf{BHist}$ ledger rows of the carrier.
+\end{theorem}
+\begin{proof}
+For each cell of $\Pi$, choose the carried value already displayed in $V$. The handoff stream is constant on that cell and changes only at endpoints recorded in $E$.
+
+Regularity is witnessed cellwise. A request at a finite precision reads the unique displayed cell covering the request, the transported carried value on that cell, and the corresponding $\DyadicRatCoreUp$ or $\RealUp$ classifier row in $R$.
+
+A $\DyadicSplineUp$ or regular Cauchy consumer therefore receives only a finite stepwise surface. The consumer may refine the partition, but refinement is routed through $M$ and cannot introduce a new cell value, a selected limit, or an unrecorded equality proof.
+\end{proof}
+
+\begin{theorem}[Dyadic step function ledger exactness]
+\label{thm:dyadic-step-function-ledger-exactness}
+For every accepted $\DyadicStepFunctionUp$ carrier, the ledger $L$ accounts for exactly the finite cell coverage of $\Pi$, the endpoint transport recorded in $E$, the refinement-parent relation recorded in $M$, and the carried-value reads recorded in $V$ and $R$. No exported $\RegSeqRatUp$, $\RealUp$, $\DyadicSplineUp$, or completion-facing read factors through a hidden quotient, a measure completion, an unlisted representative, or an ambient choice principle.
+\end{theorem}
+\begin{proof}
+Project the carrier and inspect the finite cell list $I$. Exact coverage means every displayed consumer read names one cell of $I$, and every cell of $I$ has its endpoints, adjacency data, and carried value recorded in the packet.
+
+Endpoint and refinement exactness are the two route checks. Endpoint movement is read from $E$, and refinement movement is read from $M$; both ledgers point back to displayed cells and therefore cannot add an unlisted interval or value.
+
+The exported consumer surfaces are then repacked from the same finite rows. Because the only available reads are $V$, $R$, $M$, $E$, $L$, $C$, $P$, and $N$, every $\RegSeqRatUp$, $\RealUp$, $\DyadicSplineUp$, or completion-facing request remains inside the visible BEDC packet.
+\end{proof}
+
+\closureat{DyadicStepFunctionUp}{seedStr}
+\closureat{DyadicStepFunctionUp}{obligationStr}
