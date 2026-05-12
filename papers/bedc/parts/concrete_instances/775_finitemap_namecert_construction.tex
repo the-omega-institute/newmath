@@ -31,6 +31,7 @@ Transport follows the same finite spine. Move each key and value through its $\h
 \label{thm:finitemap-lookup-option-exactness}
 For every accepted $\FiniteMapUp$ source and every displayed query key, lookup returns exactly one $\OptionUp$ witness. It returns $\mathsf{none}$ precisely when no displayed key row in the finite spine matches the query classifier. It returns $\mathsf{some}(v)$ precisely when the first displayed key row matching the query classifier has value row $v$, and every later matching key row is recorded only in the duplicate-key ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_lookup\_option\_exactness}
 \begin{proof}
 Proceed by induction on the displayed $\ListUp$ spine. For the empty spine, there is no displayed key row, so the lookup classifier is the single $\mathsf{none}$ witness and the ledger is empty.
 
