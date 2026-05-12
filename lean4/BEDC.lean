@@ -124,6 +124,7 @@ import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
+import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicTailBoundUp
 import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
@@ -1343,6 +1344,7 @@ import BEDC.Derived.CategoryUp.StdBridge
 import BEDC.Derived.CategoryUp.MatureHostInterfaceInventory
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.InterHist
+import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
