@@ -56,6 +56,14 @@ theorem pi_sort_sort_in_empty_ctx :
     HasType [] (Term.pi Term.sort Term.sort) Term.sort := by
   exact pi_sort_sort_well_typed
 
+theorem nested_pi_sort_sort :
+    HasType [] (Term.pi Term.sort (Term.pi Term.sort Term.sort)) Term.sort := by
+  apply HasType.piRule
+  · exact HasType.sortRule []
+  · apply HasType.piRule
+    · exact HasType.sortRule [Term.sort]
+    · exact HasType.sortRule [Term.sort, Term.sort]
+
 /-- 空 ctx 下: pi sort (pi (var 0) (var 1)) 类型为 sort. -/
 theorem nested_pi_dep_in_empty :
     HasType [] (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1))) Term.sort := by
@@ -171,7 +179,7 @@ theorem second_of_two :
         rfl
 
 /-- 单 sort ctx 下: pi (var 0) (pi (var 1) sort) 类型为 sort. -/
-theorem nested_pi_dep_in_sort_ctx :
+theorem nested_pi_var_sort :
     HasType [Term.sort] (Term.pi (Term.var 0) (Term.pi (Term.var 1) Term.sort))
       Term.sort := by
   apply HasType.piRule
