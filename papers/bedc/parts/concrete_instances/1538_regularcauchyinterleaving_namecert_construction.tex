@@ -30,6 +30,7 @@ The packet has no coordinate for a quotient real, a selected host limit, or an e
 \label{thm:regular-cauchy-interleaving-classifier}
 Two accepted $\RegularCauchyInterleavingUp$ source packets classify together exactly when their two $\RegSeqRatUp$ source names, two $\StreamNameUp$ schedules, alternating selector rows, combined modulus ledgers, source $\RealUp$ readbacks, interleaved $\RealUp$ seal rows, package provenance, and local naming rows are transported componentwise by the displayed $\hsame$ comparisons and read through the displayed $\Cont$ routes. The classifier compares the selected finite window on the even side with the transported even-side window, and the selected finite window on the odd side with the transported odd-side window, always under the same combined modulus ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_classifier\_transport}
 \begin{proof}
 Project the two accepted source packets. Their carrier rows expose only the two regular names, the two stream schedules, the selector, the modulus ledger, the seal readbacks, and the displayed transport and continuation rows.
 
@@ -57,6 +58,46 @@ Classifier equivalence is \autoref{thm:regular-cauchy-interleaving-classifier}. 
 The $\hsame$ row transports each displayed coordinate componentwise, and the $\Cont$ row records the consumer route through the selected schedule and modulus ledger. The combined modulus row is exact because a request is answered by the common budget together with the component budget named by $\sigma$.
 
 Finally, the real-facing coordinate $E$ is downstream of the selected regular readback and not an independent host real. Since the packet has no field for quotient equality, selected limits, or ambient completeness, the seal cannot escape the displayed interleaving certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving carrier admission]
+\label{thm:regular-cauchy-interleaving-carrier-admission}
+Let
+$$
+I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
+$$
+be a displayed packet satisfying the $\RegSeqRatUp$ rows for $A$ and $B$, the $\StreamNameUp$ rows for $S_A$ and $S_B$, the alternating selector row $\sigma$, the combined modulus ledger $M$, the three $\RealUp$ seal rows $E_A$, $E_B$, and $E$, the displayed $\hsame$ and $\Cont$ rows, the $\Pkg$ provenance row, and the local $\NameCert_{\RegularCauchyInterleavingUp}$ row. Then $I$ is an accepted $\RegularCauchyInterleavingUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the displayed coordinates of $I$. The first two coordinates give the required regular Cauchy names, the next two give their finite stream schedules, and the selector and modulus coordinates give the alternating read policy and its common budget ledger.
+
+The seal coordinates $E_A$, $E_B$, and $E$ are already part of the same finite history row. The rows $H$ and $C$ supply the componentwise transport and consumer routes, while $P$ and $N$ supply the package provenance and local naming certificate.
+
+Repack these projected rows in the order of \autoref{def:regular-cauchy-interleaving-source}. The definition has no further carrier field, so the displayed packet is exactly an admitted carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving selector parity exactness]
+\label{thm:regular-cauchy-interleaving-selector-parity-exactness}
+For every accepted $\RegularCauchyInterleavingUp$ source packet $I$, each even selector read factors through the first regular name $A$, the schedule $S_A$, and the first component of the combined modulus ledger $M$, while each odd selector read factors through the second regular name $B$, the schedule $S_B$, and the second component of $M$. Componentwise $\hsame$ transports and the displayed $\Cont$ routes preserve this even-side and odd-side partition.
+\end{theorem}
+\begin{proof}
+Unpack $I$ as in \autoref{def:regular-cauchy-interleaving-source}. The selector coordinate $\sigma$ is displayed as alternating, so an even selector row exposes the first source side and an odd selector row exposes the second source side.
+
+In the even case, \autoref{thm:regular-cauchy-interleaving-classifier} reads the finite window through $A$ and $S_A$ and checks the corresponding first component of $M$. In the odd case, the same classifier reads through $B$ and $S_B$ and checks the second component of $M$.
+
+The stored row $H$ transports the selector, both schedules, both regular names, and the combined modulus ledger componentwise. The stored row $C$ only routes consumers through the selected schedule and the selected ledger component, so transport preserves the parity partition rather than mixing the two source sides.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving RealUp seal non-escape]
+\label{thm:regular-cauchy-interleaving-real-seal-non-escape}
+Let $I$ be an accepted $\RegularCauchyInterleavingUp$ source packet with interleaved seal $E$. Any $\RealUp$ consumer of $E$ must pass through the selected $\RegSeqRatUp$ readback, the selected $\StreamNameUp$ schedule, the combined modulus ledger, the displayed $\hsame$ transport and $\Cont$ route, and the package and naming rows $P$ and $N$. No consumer of $E$ can read quotient real equality, a host limit, or ambient completeness from the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes only the fields listed in \autoref{def:regular-cauchy-interleaving-source}. Thus the real-facing row $E$ is not a standalone real object; it is a coordinate in the same finite packet as the two regular names, their schedules, the selector, and the ledger.
+
+\autoref{thm:regular-cauchy-interleaving-selector-parity-exactness} identifies the required readback path for each selector parity. The even route passes through $A$, $S_A$, and the first component of $M$, while the odd route passes through $B$, $S_B$, and the second component of $M$.
+
+The NameCert obligations then attach the displayed $\hsame$ transport, $\Cont$ consumer route, package provenance, and local naming row to that selected path. Since the carrier definition contains no quotient-equality coordinate, no host-limit coordinate, and no ambient-completeness coordinate, a $\RealUp$ consumer has no route out of the displayed certificate.
 \end{proof}
 
 \closureat{RegularCauchyInterleavingUp}{seedStr}

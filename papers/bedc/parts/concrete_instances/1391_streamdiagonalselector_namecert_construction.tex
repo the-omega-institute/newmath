@@ -52,6 +52,7 @@ Finally inspect the carrier shape. There is no field for quotient stream equalit
 \label{thm:stream-diagonal-selector-real-handoff}
 For every accepted $\StreamDiagonalSelectorUp$ carrier $D=(S,\mu,W,R,D_H,H,C,P,N)$, every downstream $\RealUp$ read factors through the selected finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ observation ledger $D_H$, and the $\RealDiagonalCompletionUp$ packet $H$. The handoff supplies a finite real-facing observation route and does not export a quotient stream, a choice-selected limit, a host real value, or host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.StreamDiagonalSelectorUp.StreamDiagonalSelectorPacket\_real\_handoff}
 \begin{proof}
 Start from a downstream $\RealUp$ read and project the carrier. The only route from a precision request to a stream observation is the displayed path through $S$, $\mu$, and the selected finite window $W$.
 
@@ -60,6 +61,42 @@ The selected window is then read through the regular rational row $R$. The dyadi
 The $\RealDiagonalCompletionUp$ coordinate $H$ repacks the same $W$, $R$, and $D_H$ rows for the completion-facing boundary. Replaying the routes in $C$ and the provenance in $P$ keeps the downstream $\RealUp$ consumer inside the same local $\NameCert$ packet.
 
 Since the carrier has no further coordinate beyond those rows, no quotient stream, choice-selected limit, host real value, or host real equality can be read from the handoff.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector selector determinacy]
+\label{thm:stream-diagonal-selector-selector-determinacy}
+If two accepted $\StreamDiagonalSelectorUp$ reads pass through the same displayed selector row $\mu$ and the same $\StreamNameUp$ schedule $S$, then they expose the same classifier-facing selected window coordinate. The determinacy is a statement about the visible selector packet and does not compare quotient streams, selected limits, host real values, or host equality.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:stream-diagonal-selector-carrier}. A downstream precision request reaches a selected window only by reading the schedule $S$ and the selector row $\mu$.
+
+The NameCert obligation surface in \autoref{thm:stream-diagonal-selector-namecert-obligations} records selector determinacy as one of the finite rows. Thus two reads through the same transported $S$ and $\mu$ expose the same selected window coordinate to the classifier.
+
+Finally apply \autoref{thm:stream-diagonal-selector-real-handoff}. The handoff has no alternate coordinate for a quotient stream, selected completed value, external real carrier, or host equality test, so no second selector source can alter that coordinate.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector finite-window transport]
+\label{thm:stream-diagonal-selector-window-transport}
+The selected $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ ledger $D_H$, and the $\RealDiagonalCompletionUp$ packet $H$ transport together through the recorded $\hsame$ and $\Cont$ rows of an accepted $\StreamDiagonalSelectorUp$ carrier.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet in \autoref{def:stream-diagonal-selector-carrier}. The rows $W$, $R$, $D_H$, and $H$ are stored as the selected finite observation route, and the row $C$ stores the displayed continuation routes that connect them.
+
+Use \autoref{thm:stream-diagonal-selector-namecert-obligations}. Its finite-window transport row states that the selected stream window, regular-rational readback, and dyadic ledger move together along the componentwise $\hsame$ and $\Cont$ rows.
+
+The RealUp handoff of \autoref{thm:stream-diagonal-selector-real-handoff} consumes the same $W$, $R$, $D_H$, and $H$ rows. Therefore transport cannot detach the readback, ledger, or diagonal packet from the selected window.
+\end{proof}
+
+\begin{theorem}[StreamDiagonalSelector handoff exactness]
+\label{thm:stream-diagonal-selector-handoff-exactness}
+Every $\RealUp$ handoff from an accepted $\StreamDiagonalSelectorUp$ carrier consumes exactly the selected finite window $W$, readback row $R$, dyadic ledger $D_H$, diagonal-completion packet $H$, package row $P$, and local $\NameCert$ row $N$. It consumes no quotient stream, selected limit, host equality, or external completed-real carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-diagonal-selector-carrier}. The real-facing rows after selector evaluation are precisely $W$, $R$, $D_H$, $H$, $P$, and $N$, with the recorded routes in $C$ mediating access to them.
+
+Apply \autoref{thm:stream-diagonal-selector-namecert-obligations}. Its handoff exactness and non-escape rows state that the diagonal packet consumes the selected finite window, readback, dyadic ledger, provenance, and local naming row without adding an external selector.
+
+Finally use \autoref{thm:stream-diagonal-selector-real-handoff}. It identifies the downstream $\RealUp$ route with those same rows, so no quotient stream, selected completed value, host equality, or outside real carrier can be read by the handoff.
 \end{proof}
 
 \closureat{StreamDiagonalSelectorUp}{seedStr}
