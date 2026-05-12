@@ -62,3 +62,7 @@ The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the cur
 ## One-production cyclic-tag encoder observations (C3)
 
 The one-production encoder uses a fixed M2 layout over Cook ether: leader at cell 100, the single ossifier at cell 300, and an optional initial data block at cell 800. The substrate is padded to at least 220 ether periods, with additional trailing ether when a longer tape requires it, so the 1000-step behavioral check has guard space beyond the data block. The C3 test verifies initial perturbations in the leader, ossifier, and data-block regions, preserves ether in the gaps between them, and confirms each populated region still differs from a same-step ether control after 1000 Rule 110 steps. This remains a structural persistence check for the current best-effort templates, not a proof of productive cyclic-tag simulation.
+
+## Documentation boundary notes (E1-E3)
+
+The Layer 6 documentation describes the Cook construction code as a behavioral scaffold. The trust boundary is explicit: ether, gliders, leader, ossifier, data block, collision observation, `.r110` row manifests, and the empty `cook_encode` path are deterministic local Rule 110 artifacts, while phase-exact Cook 2004 transcription and productive cyclic-tag simulation remain outside the checked claim.

@@ -68,11 +68,11 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 ## Phase E: Documentation + ship (1-2 days)
 
-- [ ] E1: Update `rule110/docs/trust_chain.md` to reflect Layer 6 (Cook encoder) now shipped.
+- [x] E1: Update `rule110/docs/trust_chain.md` to reflect Layer 6 (Cook encoder) now shipped.
 
-- [ ] E2: Update `rule110/docs/manifest_format.md` with `.r110` manifest format spec.
+- [x] E2: Update `rule110/docs/manifest_format.md` with `.r110` manifest format spec.
 
-- [ ] E3: Add `rule110/docs/cook_construction.md` describing the encoder's design, ether/glider catalog, and trust posture.
+- [x] E3: Add `rule110/docs/cook_construction.md` describing the encoder's design, ether/glider catalog, and trust posture.
 
 - [ ] E4: Update `rule110/README.md` to remove Layer 6 "(out of scope)" caveat.
 
