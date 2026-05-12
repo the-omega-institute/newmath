@@ -326,6 +326,31 @@ theorem betaParallel_app_shape {f a t : Term}
                 (Exists.intro _
                   (And.intro hb (And.intro ha (And.intro rfl rfl)))))))
 
+theorem betaParallel_app_non_lam {f a t : Term}
+    (h_not_lam : ∀ d b, f ≠ Term.lam d b)
+    (h : BetaParallel (Term.app f a) t) :
+    ∃ f' a', BetaParallel f f' ∧ BetaParallel a a' ∧ t = Term.app f' a' := by
+  have hshape := betaParallel_app_shape h
+  cases hshape with
+  | inl happ =>
+      exact happ
+  | inr hredex =>
+      cases hredex with
+      | intro d hd =>
+          cases hd with
+          | intro body hbody =>
+              cases hbody with
+              | intro body' hbody' =>
+                  cases hbody' with
+                  | intro arg' hpack =>
+                      cases hpack with
+                      | intro _ hrest =>
+                          cases hrest with
+                          | intro _ heq =>
+                              cases heq with
+                              | intro hf _ =>
+                                  exact False.elim (h_not_lam d body hf)
+
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
     (h : BetaParallel t t') :
