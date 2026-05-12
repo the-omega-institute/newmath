@@ -218,18 +218,100 @@ Route the $\RealUp$ seal through \autoref{thm:dyadicapproximation-real-seal-scop
 Finally use \autoref{thm:dyadicapproximation-ledger-exclusion-scope}. Its ledger exclusions give the negative claims: the public export has no row for quotient reals, host equality, completion points, trichotomy, or selected representatives.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation standard finite-approximation bridge]\label{thm:dyadic-approximation-standard-finite-approximation-bridge}
+The public finite-window export of
+\autoref{thm:dyadicapproximation-public-finite-window-export}, together with
+\autoref{thm:dyadic-approximation-real-seal-handoff},
+\autoref{thm:dyadic-approximation-common-precision-refinement}, and
+\autoref{thm:dyadic-approximation-classifier-transport}, determines a
+conservative standard finite dyadic-approximation reading and readback.
+
+The readback recovers exactly the displayed precision, dyadic endpoint,
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger,
+displayed $\hsame$, displayed $\Cont$, package rows, and local $\NameCert$
+evidence. It adds no quotient real, host real equality, completion point,
+trichotomy row, selected representative, or classical approximation
+completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:dyadicapproximation-public-finite-window-export}. The public
+surface is the five-coordinate packet $(n,d,w,l,p)$: precision, dyadic
+endpoint, finite observation window, seal ledger, and provenance. These rows
+already include the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback,
+$\RealUp$ seal boundary, $\hsame$, $\Cont$, package, and certificate data.
+
+Apply \autoref{thm:dyadic-approximation-common-precision-refinement} to place
+the standard finite-precision read and the BEDC readback on the same displayed
+precision row. Then use
+\autoref{thm:dyadic-approximation-classifier-transport} to carry the endpoint
+classifier through the visible $\hsame$ and $\Cont$ data without leaving the
+finite-window packet.
+
+Finally route the seal through
+\autoref{thm:dyadic-approximation-real-seal-handoff} and return to the public
+export. The readback is therefore exactly the displayed precision, dyadic
+endpoint, stream window, regular-sequence readback, seal ledger, transport,
+continuation, package, and certificate surface, with no coordinate for
+quotient reals, host equality, completion points, trichotomy, selected
+representatives, or classical approximation completeness.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation rational interval window handoff]\label{thm:dyadic-approximation-rational-interval-window-handoff}
+Let an accepted $\DyadicApproximationUp$ packet expose its finite
+approximation coordinates, and let an accepted $\RationalIntervalUp$ packet
+expose a finite containment ledger recording the displayed dyadic endpoint at
+the same unary precision. Then every $\RealUp$-facing consumer read factors
+through the common finite surface: the precision row, dyadic endpoint, rational
+endpoint, rational order and containment rows, $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, visible $\hsame$, visible $\Cont$, $\mathsf{Pkg}$,
+and local $\NameCert$ provenance rows.
+
+The handoff supplies no quotient real, selected limit, host real equality,
+located subset, or interval-arithmetic closure. It only identifies the shared
+finite endpoint window already carried by the two accepted packets and their
+displayed containment ledger.
+\end{theorem}
+\begin{proof}
+Project the dyadic packet through
+\autoref{thm:dyadicapproximation-public-finite-window-export}. This gives the
+precision row, dyadic endpoint, stream window, regular-sequence readback,
+$\RealUp$ seal ledger, $\hsame$, $\Cont$, package, and local certificate rows
+available to any public consumer.
+
+Route the seal through
+\autoref{thm:dyadic-approximation-real-seal-handoff}. The seal contributes no
+completed-real coordinate; it is read through the same finite dyadic endpoint
+window and the same $\RegSeqRatUp$ readback boundary.
+
+Project the rational packet through
+\autoref{thm:rational-interval-public-rational-window-handoff}. Its public
+surface exposes the rational endpoint, rational order row, containment row,
+finite window, transport, continuation, package, and certificate provenance.
+
+Use the containment-ledger hypothesis to identify the rational endpoint window
+with the displayed dyadic endpoint at the common unary precision. After this
+identification, every listed consumer coordinate is one of the two carrier
+coordinates already projected above.
+
+The conclusion follows by carrier-coordinate exhaustion. Since neither carrier
+has a row for quotient reals, selected limits, host real equality, located
+subsets, or interval arithmetic, the handoff cannot export those objects.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
 \closureat{DyadicApproximationUp}{publicStr}
+\closureat{DyadicApproximationUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicApproximationUp}
   \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, and \autoref{thm:dyadicapproximation-ledger-exclusion-scope} form the public finite-window export surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, and \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge} form the public finite-window export and standard finite dyadic-approximation readback surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
-  \upgradepath{Bridged closure requires a standard bridge for the same finite dyadic approximation packet.}
+  \upgradepath{Mature closure requires a comprehensive finite-window consumer treatment for the same dyadic approximation packet.}
 \end{closurestatus}
