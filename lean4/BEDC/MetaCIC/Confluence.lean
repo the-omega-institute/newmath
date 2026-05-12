@@ -68,6 +68,21 @@ theorem betaStar_trans {t u v : Term} :
   | step htw hwu ih =>
       exact BetaStarStep.step htw (ih huv)
 
+theorem betaStarStep_concat {t t' t'' : Term}
+    (h1 : BetaStarStep t t') (h2 : BetaStep t' t'') :
+    BetaStarStep t t'' := by
+  exact betaStar_trans h1 (betaStar_one h2)
+
+theorem betaStarStep_cons {t t' t'' : Term}
+    (h1 : BetaStep t t') (h2 : BetaStarStep t' t'') :
+    BetaStarStep t t'' := by
+  exact BetaStarStep.step h1 h2
+
+theorem betaStarStep_of_two_steps {t t' t'' : Term}
+    (h1 : BetaStep t t') (h2 : BetaStep t' t'') :
+    BetaStarStep t t'' := by
+  exact BetaStarStep.step h1 (BetaStarStep.step h2 (BetaStarStep.refl t''))
+
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
   intro h
@@ -136,6 +151,21 @@ theorem betaParallel_refl (t : Term) :
   | sort =>
       exact BetaParallel.sort
 
+theorem betaParallel_app_cong {f f' a a' : Term}
+    (hf : BetaParallel f f') (ha : BetaParallel a a') :
+    BetaParallel (Term.app f a) (Term.app f' a') := by
+  exact BetaParallel.app hf ha
+
+theorem betaParallel_pi_cong {d d' c c' : Term}
+    (hd : BetaParallel d d') (hc : BetaParallel c c') :
+    BetaParallel (Term.pi d c) (Term.pi d' c') := by
+  exact BetaParallel.pi hd hc
+
+theorem betaParallel_lam_cong {d d' b b' : Term}
+    (hd : BetaParallel d d') (hb : BetaParallel b b') :
+    BetaParallel (Term.lam d b) (Term.lam d' b') := by
+  exact BetaParallel.lam hd hb
+
 theorem betaStep_to_parallel {t u : Term} :
     BetaStep t u → BetaParallel t u := by
   intro h
@@ -158,6 +188,11 @@ theorem betaStep_to_parallel {t u : Term} :
       exact BetaParallel.pi ih (betaParallel_refl c)
   | congLamDom d d' b hdd' ih =>
       exact BetaParallel.lam ih (betaParallel_refl b)
+
+theorem betaStep_to_betaParallel {t t' : Term}
+    (h : BetaStep t t') :
+    BetaParallel t t' := by
+  exact betaStep_to_parallel h
 
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
@@ -376,6 +411,11 @@ theorem betaStar_var_target
       rfl
   | step hstep _ =>
       exact False.elim (betaStep_var_absurd i hstep)
+
+theorem betaStarStep_var_refl_only {i : Idx} {t : Term}
+    (h : BetaStarStep (Term.var i) t) :
+    t = Term.var i := by
+  exact betaStar_var_target i h
 
 theorem betaStar_sort_target
     {u : Term}

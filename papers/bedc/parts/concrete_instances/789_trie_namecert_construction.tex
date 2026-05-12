@@ -103,6 +103,74 @@ routes, and $\Pkg$ provenance named in $p$. Since no further coordinate is
 present, every consumer projection is one of these finite rows.
 \end{proof}
 
+\begin{theorem}[Trie key-path exhaustion]\label{thm:trie-key-path-exhaustion}
+Every public key-path read of an accepted $\TrieUp$ packet is exhausted by
+the displayed $\BitVectorUp$ or $\ListUp$ key row, the $\NatUp$ depth ledger,
+the $\hsame$ transports and $\Cont$ routes named by the packet, and the
+$\Pkg$ provenance row. No host string, host ordering, ambient finite map, or
+hidden key predicate contributes an additional public key-path coordinate.
+\end{theorem}
+\begin{proof}
+Project the key coordinate $k$ and depth ledger $l$ from
+\autoref{def:trie-bhist-source}. The definition gives $k$ only as a displayed
+$\BitVectorUp$ path or as a $\ListUp$ spine of branch histories, and it gives
+$l$ as the bound for every public prefix read.
+
+Use \autoref{thm:trie-carrier-stability} to see that transport preserves this
+same finite key presentation along the displayed $\hsame$ and $\Cont$ routes.
+Then apply \autoref{thm:trie-classifier-laws} componentwise to the accepted
+key rows.
+
+Finally apply \autoref{thm:trie-ledger-coverage}. Since every public read is
+a projection from $(k,v,l,b,p)$, the only remaining key-path data is the
+provenance named in $p$, and no host key structure is exported.
+\end{proof}
+
+\begin{theorem}[Trie prefix-branch determinacy]\label{thm:trie-prefix-branch-determinacy}
+At each displayed finite prefix below the $\NatUp$ depth row of an accepted
+$\TrieUp$ packet, the $\BoolUp$ branch tag selects exactly the recorded left
+or right subprefix. No unrecorded branch at that prefix is public.
+\end{theorem}
+\begin{proof}
+Project the branch ledger $b$ and the depth ledger $l$ from
+\autoref{def:trie-bhist-source}. The ledger $l$ bounds the finite prefix
+positions that a consumer may inspect, and $b$ records branch tags only at
+those displayed positions.
+
+For any such prefix, read the branch tag through its $\BoolUp$ row. The two
+displayed boolean cases select the recorded left or right subprefix row, and
+\autoref{thm:trie-classifier-laws} transports equality of branch reads
+componentwise through the same finite coordinates.
+
+The stability theorem \autoref{thm:trie-carrier-stability} preserves the
+branch ledger under $\hsame$ and $\Cont$. Applying
+\autoref{thm:trie-ledger-coverage} then excludes any branch coordinate not
+recorded in $(k,v,l,b,p)$, so no extra branch is public.
+\end{proof}
+
+\begin{theorem}[Trie lookup payload projection]\label{thm:trie-lookup-payload-projection}
+Every lookup payload read of an accepted $\TrieUp$ packet factors through the
+$\OptionUp$ absent-or-present terminal row at the displayed key path. The
+read never factors through a host finite map, host lookup function, or ambient
+function space.
+\end{theorem}
+\begin{proof}
+Project the terminal payload coordinate $v$ from
+\autoref{def:trie-bhist-source}. The coordinate is an $\OptionUp$ row at the
+displayed key path, so a consumer can observe only the absent tag or the
+present tag together with the displayed payload row.
+
+The key path used by the lookup is fixed by
+\autoref{thm:trie-key-path-exhaustion}. The payload row transports along the
+same displayed $\hsame$ and $\Cont$ routes by
+\autoref{thm:trie-carrier-stability}, and the accepted-row comparison is
+componentwise by \autoref{thm:trie-classifier-laws}.
+
+Apply \autoref{thm:trie-ledger-coverage} to close the projection. Since the
+finite tuple exports no host map or function coordinate, lookup payload reads
+can only pass through the displayed $\OptionUp$ terminal row.
+\end{proof}
+
 \begin{theorem}[Trie NameCert obligation surface]\label{thm:trie-namecert-obligation-surface}
 The local $\NameCert_{\TrieUp}$ obligation surface consists of five finite
 rows:
@@ -114,13 +182,20 @@ ledger, and the corresponding $\Pkg$ provenance;
 componentwise from \autoref{thm:trie-classifier-laws};
 \item prefix-branch determinacy: at each displayed finite prefix, a $\BoolUp$
 branch tag selects exactly the recorded left or right subprefix row, and no
-unrecorded branch is public;
+unrecorded branch is public, as witnessed by
+\autoref{thm:trie-key-path-exhaustion} and
+\autoref{thm:trie-prefix-branch-determinacy};
 \item transport under $\hsame$ and $\Cont$: the stability theorem
 \autoref{thm:trie-carrier-stability} repacks transported key, payload, branch,
-ledger, and provenance rows as another accepted packet;
+ledger, and provenance rows as another accepted packet, with lookup payload
+projection fixed by \autoref{thm:trie-lookup-payload-projection};
 \item ledger exactness: downstream consumers may read only finite prefix
 rows, branch rows, optional terminal payload rows, length and depth rows, and
-the displayed provenance rows of \autoref{thm:trie-ledger-coverage}.
+the displayed provenance rows of \autoref{thm:trie-ledger-coverage}, with the
+key-path, branch, and payload projections separated by
+\autoref{thm:trie-key-path-exhaustion},
+\autoref{thm:trie-prefix-branch-determinacy}, and
+\autoref{thm:trie-lookup-payload-projection}.
 \end{enumerate}
 These rows are the complete seed obligation surface for prefix-tree
 NameCert data over finite BEDC rows.
@@ -135,14 +210,16 @@ For the classifier laws, apply \autoref{thm:trie-classifier-laws}. Because the
 classifier is componentwise, the three equivalence laws are inherited from the
 key, option, boolean branch, and natural ledger classifiers.
 
-For prefix-branch determinacy, inspect the branch ledger. Its entries are
-indexed by the finite prefix positions bounded by $l$, and each entry contains
-a displayed $\BoolUp$ tag, so a public branch read can select only the
-recorded left or right subprefix.
+For prefix-branch determinacy, apply
+\autoref{thm:trie-key-path-exhaustion} and
+\autoref{thm:trie-prefix-branch-determinacy}. The key-path theorem fixes the
+finite prefix positions, and the branch theorem fixes the recorded left or
+right subprefix at each displayed position.
 
 For transport, apply \autoref{thm:trie-carrier-stability}. The same $\hsame$
 and $\Cont$ routes move the visible rows without adding host string equality,
-host maps, or unbounded trees.
+host maps, or unbounded trees. Lookup payload reads are then projected through
+\autoref{thm:trie-lookup-payload-projection}.
 
 For ledger exactness, apply \autoref{thm:trie-ledger-coverage}. Every
 downstream read is a projection from the finite tuple $(k,v,l,b,p)$, so the
