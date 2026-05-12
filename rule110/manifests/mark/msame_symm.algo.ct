@@ -1,0 +1,11 @@
+# msame_symm.algo.ct
+# Same as enum but framed as: "if input decodes to two equal events,
+# then swapping them produces an equally-equal pair (trivially)".
+# Vacuous productions; recognition via decoder.
+PRODUCTIONS 1
+0
+ASSERTIONS 4
+case b0_b0: input=011011  ; reflexive_symm_check=yes
+case b0_b1: input=0111011 ; reflexive_symm_check=vacuous
+case b1_b0: input=1011011 ; reflexive_symm_check=vacuous
+case b1_b1: input=10111011; reflexive_symm_check=yes
