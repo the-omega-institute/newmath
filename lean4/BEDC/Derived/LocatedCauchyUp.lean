@@ -89,6 +89,51 @@ theorem LocatedCauchyCarrier_window_stability [AskSetup] [PackageSetup]
                           (And.intro provenanceNameRoutes' pkgSig))))))))))))
     (And.intro sameModulus sameTransport)
 
+theorem LocatedCauchyCarrier_finite_window_bridge_boundary [AskSetup] [PackageSetup]
+    {schedule endpoints modulus witnesses transport routes provenance nameRow schedule' endpoints'
+      modulus' witnesses' transport' routes' provenance' nameRow' bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyCarrier schedule endpoints modulus witnesses transport routes provenance nameRow
+        bundle pkg ->
+      hsame schedule schedule' ->
+        hsame endpoints endpoints' ->
+          hsame witnesses witnesses' ->
+            hsame routes routes' ->
+              hsame provenance provenance' ->
+                hsame nameRow nameRow' ->
+                  Cont schedule' endpoints' modulus' ->
+                    Cont modulus' witnesses' transport' ->
+                      Cont transport' routes' provenance' ->
+                        Cont provenance' nameRow' routes' ->
+                          Cont routes' provenance' bridge ->
+                            PkgSig bundle bridge pkg ->
+                              LocatedCauchyCarrier schedule' endpoints' modulus' witnesses'
+                                  transport' routes' provenance' nameRow' bundle pkg ∧
+                                UnaryHistory bridge ∧ Cont routes' provenance' bridge ∧
+                                  PkgSig bundle bridge pkg ∧ hsame modulus modulus' ∧
+                                    hsame transport transport' := by
+  intro carrier sameSchedule sameEndpoints sameWitnesses sameRoutes sameProvenance sameNameRow
+    scheduleEndpointsModulus' modulusWitnessesTransport' transportRoutesProvenance'
+    provenanceNameRoutes' routesProvenanceBridge bridgePkg
+  have transported :=
+    LocatedCauchyCarrier_window_stability carrier sameSchedule sameEndpoints sameWitnesses
+      sameRoutes sameProvenance sameNameRow scheduleEndpointsModulus' modulusWitnessesTransport'
+      transportRoutesProvenance' provenanceNameRoutes'
+  rcases transported with ⟨carrier', sameModulus, sameTransport⟩
+  rcases carrier' with
+    ⟨scheduleUnary', endpointsUnary', modulusUnary', witnessesUnary', transportUnary',
+      routesUnary', provenanceUnary', nameUnary', scheduleEndpointsModulus'',
+      modulusWitnessesTransport'', transportRoutesProvenance'', provenanceNameRoutes'',
+      provenancePkg'⟩
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed routesUnary' provenanceUnary' routesProvenanceBridge
+  exact
+    ⟨⟨scheduleUnary', endpointsUnary', modulusUnary', witnessesUnary', transportUnary',
+        routesUnary', provenanceUnary', nameUnary', scheduleEndpointsModulus'',
+        modulusWitnessesTransport'', transportRoutesProvenance'', provenanceNameRoutes'',
+        provenancePkg'⟩,
+      bridgeUnary, routesProvenanceBridge, bridgePkg, sameModulus, sameTransport⟩
+
 theorem LocatedCauchyCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
     {schedule endpoints modulus witnesses transport routes provenance nameRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
