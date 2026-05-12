@@ -67,6 +67,26 @@ theorem nested_pi_dep_in_empty :
     · apply HasType.varRule
       rfl
 
+theorem polymorphic_identity :
+    HasType []
+      (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+      (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · exact lam_dependent_identity
+
+theorem id_applied_to_sort_type :
+    HasType []
+      (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))) Term.sort)
+      (substitute 0 Term.sort (Term.pi (Term.var 0) (Term.var 1))) := by
+  exact HasType.appRule []
+    (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+    Term.sort
+    Term.sort
+    (Term.pi (Term.var 0) (Term.var 1))
+    polymorphic_identity
+    (HasType.sortRule [])
+
 /-- 空 ctx 下: lambda 内构造 pi (var 0) (var 1), 外层类型为 pi sort sort. -/
 theorem lam_constructs_dependent_pi :
     HasType [] (Term.lam Term.sort (Term.pi (Term.var 0) (Term.var 1)))
