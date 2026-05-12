@@ -58,4 +58,24 @@ theorem StreamDiagonalSelectorPacket_real_handoff [AskSetup] [PackageSetup]
         nameCertUnary, windowRoute, ledgerRoute, endpointRoute, endpointPkg⟩,
       sameWindow, sameDyadicLedger, sameEndpoint⟩
 
+theorem StreamDiagonalSelectorPacket_selector_determinacy [AskSetup] [PackageSetup]
+    {schedule selector window readback dyadicLedger diagonalPacket routes provenance nameCert
+      endpoint windowPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StreamDiagonalSelectorPacket schedule selector window readback dyadicLedger diagonalPacket routes
+        provenance nameCert endpoint bundle pkg ->
+      Cont schedule selector windowPrime ->
+        UnaryHistory windowPrime ∧ hsame window windowPrime := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet scheduleSelectorWindowPrime
+  obtain ⟨scheduleUnary, selectorUnary, _readbackUnary, _diagonalUnary, _routesUnary,
+    _provenanceUnary, _nameCertUnary, scheduleSelectorWindow, _windowReadbackDyadicLedger,
+    _dyadicLedgerDiagonalEndpoint, _endpointPkg⟩ := packet
+  have windowPrimeUnary : UnaryHistory windowPrime :=
+    unary_cont_closed scheduleUnary selectorUnary scheduleSelectorWindowPrime
+  have sameWindow : hsame window windowPrime :=
+    cont_respects_hsame (hsame_refl schedule) (hsame_refl selector) scheduleSelectorWindow
+      scheduleSelectorWindowPrime
+  exact ⟨windowPrimeUnary, sameWindow⟩
+
 end BEDC.Derived.StreamDiagonalSelectorUp
