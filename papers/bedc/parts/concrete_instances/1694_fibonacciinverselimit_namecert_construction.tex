@@ -73,6 +73,18 @@ By \autoref{thm:fibonacci-inverse-limit-prefix-projection-exactness}, every fini
 Therefore the packet can serve as a concrete BEDC naming certificate for finite inverse-limit projections, but it does not export compactness, inverse-limit topology, Haar measure, quotient completion, choice, or an external profinite-ring theorem.
 \end{proof}
 
+\begin{theorem}[Fibonacci inverse-limit window-extension exhaustion]
+\label{thm:fibonacci-inverse-limit-window-extension-exhaustion}
+Let $Q=(G,F,W,R,H,C,P,N)$ be an accepted $\FibonacciInverseLimitUp$ carrier. Extending its finite prefix window adds only named larger-window rows to $W$ and recorded projection rows to $R$. Every read of an older prefix either factors through the older selected window already present in $W$, or through a newly recorded larger window followed by the displayed projection row in $R$ back to the older prefix. In both cases the provenance rows $G,F,W,H,C,P,N$ remain the same public coordinates of the packet, and no completed inverse-limit point, quotient stream, selected infinite prefix, topology, Haar measure, or external profinite-ring theorem is imported.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple $Q=(G,F,W,R,H,C,P,N)$. A window extension can add rows only to the finite window schedule $W$ and the projection ledger $R$; the admissibility rows, modulus rows, transports, continuations, provenance, and local certificate remain the displayed coordinates of the same packet.
+
+For an older-prefix read, apply \autoref{thm:fibonacci-inverse-limit-prefix-projection-exactness}. If the read uses the old selected window, it is already exact over the old $W$ and $R$ rows. If it uses a larger recorded window, exactness forces the read through the recorded projection row in $R$ before it reaches the older prefix.
+
+The ledger non-escape theorem \autoref{thm:fibonacci-inverse-limit-ledger-non-escape} excludes any hidden source for the older prefix. Thus the extension exhausts public reads by named larger-window rows and recorded projections, with $G,F,W,H,C,P,N$ preserved as the visible provenance surface.
+\end{proof}
+
 \closureat{FibonacciInverseLimitUp}{seedStr}
 
 \begin{closurestatus}{\FibonacciInverseLimitUp}
