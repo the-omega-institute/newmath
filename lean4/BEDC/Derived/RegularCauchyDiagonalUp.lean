@@ -44,4 +44,36 @@ theorem RegularCauchyDiagonalCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       windowSelection, provenancePkg, selectedPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_window_ledger_exactness [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont selectedWindow realSeal sealRead ->
+          hsame sealRead
+              (append ratSeed (append streamWindow (append realSeal (append streamWindow realSeal)))) ∧
+            UnaryHistory selectedWindow ∧ UnaryHistory sealRead := by
+  intro carrier windowSelection sealRoute
+  obtain ⟨ratSeedUnary, streamWindowUnary, _regseqReadUnary, realSealUnary,
+    windowLedgerUnary, _provenanceUnary, _localCertUnary, ratStreamRegseq,
+    regseqSealLedger, _sealLocalProvenance, _provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed selectedWindowUnary realSealUnary sealRoute
+  constructor
+  · cases ratStreamRegseq
+    cases regseqSealLedger
+    cases windowSelection
+    cases sealRoute
+    exact
+      (append_assoc (append (append ratSeed streamWindow) realSeal) streamWindow
+        realSeal).trans
+        ((append_assoc (append ratSeed streamWindow) realSeal
+          (append streamWindow realSeal)).trans
+          (append_assoc ratSeed streamWindow (append realSeal (append streamWindow realSeal))))
+  · exact ⟨selectedWindowUnary, sealReadUnary⟩
+
 end BEDC.Derived.RegularCauchyDiagonalUp
