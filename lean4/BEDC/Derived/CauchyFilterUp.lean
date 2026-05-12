@@ -1,3 +1,4 @@
+import BEDC.Derived.RegSeqRatUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -15,6 +16,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RegSeqRatUp
 
 def CauchyFilterWindowPacket [AskSetup] [PackageSetup]
     (stream window threshold endpoint compatibility transport consumer provenance : BHist)
@@ -167,6 +169,72 @@ theorem CauchyFilterCarrier_finite_window_coverage [AskSetup] [PackageSetup]
                       sealedRow
                   exact ⟨observationWindow, endpointWindow, sealedWindow, observationRow,
                     endpointRow, sealedRow, observationUnary, endpointWindowUnary, sealedUnary⟩
+
+def CauchyFilterFiniteWindowSurface [AskSetup] [PackageSetup]
+    (stream window threshold endpoint compatibility transport consumer provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory stream ∧ UnaryHistory window ∧ UnaryHistory threshold ∧
+    UnaryHistory compatibility ∧ UnaryHistory provenance ∧ Cont stream window transport ∧
+      Cont transport threshold endpoint ∧ Cont endpoint compatibility consumer ∧
+        PkgSig bundle consumer pkg
+
+theorem CauchyFilterFiniteWindowSurface_real_seal_consumer_boundary [AskSetup] [PackageSetup]
+    {stream window threshold endpoint compatibility transport consumer provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterFiniteWindowSurface stream window threshold endpoint compatibility transport
+        consumer provenance bundle pkg ->
+      UnaryHistory transport ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+        hsame transport (append stream window) ∧ hsame endpoint (append transport threshold) ∧
+          hsame consumer (append endpoint compatibility) ∧ PkgSig bundle consumer pkg := by
+  intro surface
+  have streamUnary : UnaryHistory stream :=
+    surface.left
+  have windowUnary : UnaryHistory window :=
+    surface.right.left
+  have thresholdUnary : UnaryHistory threshold :=
+    surface.right.right.left
+  have compatibilityUnary : UnaryHistory compatibility :=
+    surface.right.right.right.left
+  have transportRow : Cont stream window transport :=
+    surface.right.right.right.right.right.left
+  have endpointRow : Cont transport threshold endpoint :=
+    surface.right.right.right.right.right.right.left
+  have consumerRow : Cont endpoint compatibility consumer :=
+    surface.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle consumer pkg :=
+    surface.right.right.right.right.right.right.right.right
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed streamUnary windowUnary transportRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary thresholdUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary compatibilityUnary consumerRow
+  exact And.intro transportUnary
+    (And.intro endpointUnary
+      (And.intro consumerUnary
+        (And.intro transportRow
+          (And.intro endpointRow
+            (And.intro consumerRow pkgSig)))))
+
+theorem CauchyFilterCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {stream directed threshold endpoint regseq transport consumer provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCarrier stream directed threshold endpoint regseq transport consumer provenance
+        nameRow bundle pkg ->
+      PkgSig bundle consumer pkg ->
+        RegSeqRatStreamCarrier stream directed regseq threshold transport endpoint consumer
+            bundle pkg ∧
+          hsame consumer consumer := by
+  intro carrier consumerPackage
+  obtain ⟨streamUnary, directedUnary, thresholdUnary, endpointUnary, regseqUnary,
+    transportUnary, consumerUnary, _provenanceUnary, _nameRowUnary, streamDirectedRegseq,
+    regseqThresholdTransport, transportEndpointConsumer, _consumerProvenanceNameRow,
+    _provenancePackage, _nameCert⟩ := carrier
+  exact
+    ⟨⟨streamUnary, directedUnary, regseqUnary, thresholdUnary, transportUnary, endpointUnary,
+        consumerUnary, streamDirectedRegseq, regseqThresholdTransport, transportEndpointConsumer,
+        consumerPackage⟩,
+      hsame_refl consumer⟩
 
 theorem CauchyFilterPacket_common_refinement_classifier [AskSetup] [PackageSetup]
     {stream directed threshold endpoint compat transport consumer provenance namecert left right
