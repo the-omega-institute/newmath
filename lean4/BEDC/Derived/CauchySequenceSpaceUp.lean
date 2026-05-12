@@ -134,4 +134,58 @@ theorem CauchySequenceSpaceCarrier_completion_handoff [AskSetup] [PackageSetup]
     ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, routeUnary,
       handoffUnary, familyRoute, toleranceRoute, completionRoute, routeToHandoff, routePkg⟩
 
+theorem CauchySequenceSpaceCarrier_completion_handoff_stability [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff family' schedule'
+      window' tolerance' completion' route' handoff' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      hsame family family' ->
+        hsame schedule schedule' ->
+          hsame window window' ->
+            hsame tolerance tolerance' ->
+              hsame completion completion' ->
+                Cont family' schedule' window' ->
+                  Cont window' tolerance' completion' ->
+                    Cont completion' transport route' ->
+                      Cont route name handoff ->
+                        Cont route' name handoff' ->
+                          PkgSig bundle route' pkg ->
+                            CauchySequenceSpaceCarrier family' schedule' window' tolerance'
+                                completion' transport route' name bundle pkg ∧
+                              UnaryHistory handoff ∧ UnaryHistory handoff' ∧
+                                hsame route route' ∧ hsame handoff handoff' ∧
+                                  PkgSig bundle route' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameFamily sameSchedule sameWindow sameTolerance sameCompletion familyRoute'
+    toleranceRoute' completionRoute' handoffRoute handoffRoute' routePkg'
+  obtain ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary,
+    transportUnary, routeUnary, nameUnary, _familyRoute, _toleranceRoute, completionRoute,
+    _routePkg, namePkg⟩ := carrier
+  have familyUnary' : UnaryHistory family' :=
+    unary_transport familyUnary sameFamily
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport windowUnary sameWindow
+  have toleranceUnary' : UnaryHistory tolerance' :=
+    unary_transport toleranceUnary sameTolerance
+  have completionUnary' : UnaryHistory completion' :=
+    unary_transport completionUnary sameCompletion
+  have routeSame : hsame route route' :=
+    cont_respects_hsame sameCompletion (hsame_refl transport) completionRoute completionRoute'
+  have routeUnary' : UnaryHistory route' :=
+    unary_cont_closed completionUnary' transportUnary completionRoute'
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routeUnary nameUnary handoffRoute
+  have handoffUnary' : UnaryHistory handoff' :=
+    unary_cont_closed routeUnary' nameUnary handoffRoute'
+  have handoffSame : hsame handoff handoff' :=
+    cont_respects_hsame routeSame (hsame_refl name) handoffRoute handoffRoute'
+  exact
+    ⟨⟨familyUnary', scheduleUnary', windowUnary', toleranceUnary', completionUnary',
+        transportUnary, routeUnary', nameUnary, familyRoute', toleranceRoute',
+        completionRoute', routePkg', namePkg⟩,
+      handoffUnary, handoffUnary', routeSame, handoffSame, routePkg'⟩
+
 end BEDC.Derived.CauchySequenceSpaceUp
