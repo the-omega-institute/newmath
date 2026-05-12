@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -86,5 +88,73 @@ theorem ValidatedNumericsReadbackPacket_precision_refinement_containment [AskSet
   exact
     ⟨refinedPrecisionUnary, refinedObservationUnary, refinedReadUnary, refinedContainmentUnary,
       modulusPrecisionObservation, observationReadback, intervalContainment, containmentPkg⟩
+
+theorem ValidatedNumericsFiniteEnclosure_exported_bridge [AskSetup] [PackageSetup]
+    {interval endpoint precision modulus observation readback containment transport provenance name
+      bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory interval ->
+      UnaryHistory endpoint ->
+        UnaryHistory precision ->
+          UnaryHistory modulus ->
+            UnaryHistory observation ->
+              UnaryHistory readback ->
+                UnaryHistory containment ->
+                  UnaryHistory transport ->
+                    UnaryHistory provenance ->
+                      UnaryHistory name ->
+                        Cont precision modulus observation ->
+                          Cont observation readback containment ->
+                            Cont containment provenance bridge ->
+                              PkgSig bundle name pkg ->
+                                PkgSig bundle bridge pkg ->
+                                  SemanticNameCert
+                                    (fun row : BHist =>
+                                      hsame row bridge ∧ UnaryHistory row ∧
+                                        PkgSig bundle row pkg)
+                                    (fun row : BHist =>
+                                      UnaryHistory interval ∧ UnaryHistory endpoint ∧
+                                        UnaryHistory precision ∧
+                                          Cont containment provenance row)
+                                    (fun row : BHist =>
+                                      PkgSig bundle row pkg ∧
+                                        Cont observation readback containment)
+                                    (fun row row' : BHist =>
+                                      PkgSig bundle row pkg ∧ hsame row row') := by
+  intro intervalUnary endpointUnary precisionUnary _modulusUnary _observationUnary
+  intro _readbackUnary containmentUnary _transportUnary provenanceUnary _nameUnary
+  intro _precisionModulusObservation observationReadbackContainment containmentProvenanceBridge
+  intro _namePkg bridgePkg
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed containmentUnary provenanceUnary containmentProvenanceBridge
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bridge ⟨hsame_refl bridge, bridgeUnary, bridgePkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨sourceRow.right.right, hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl _⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left,
+          hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact
+        ⟨intervalUnary, endpointUnary, precisionUnary, containmentProvenanceBridge⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, observationReadbackContainment⟩
+  }
 
 end BEDC.Derived.ValidatedNumericsUp
