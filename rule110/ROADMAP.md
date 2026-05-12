@@ -55,11 +55,11 @@ This goal is open-ended. Levels below are the ascending path toward it.
 
 Lock current state as a citable artifact.
 
-- [ ] L1.1: Honestly mark all `[!]` items in `history/ROADMAP-m2-cook-construction.md` and `history/ROADMAP-m3-fkernel-modules.md` (M2 C5+D3 = phase-exact deferred; M3 B3 already done).
-- [ ] L1.2: Update `rule110/README.md` to reflect both milestones merged.
-- [ ] L1.3: Write `rule110/STATUS.md` snapshot (LOC, manifest count, test case count, modules covered, deliberate gaps).
-- [ ] L1.4: Final `make clean && make && make test` confirm exit 0; record output to `STATUS.md`.
-- [ ] L1.5: Tag git release `rule110-v1.0-behavioral-scaffold` on origin.
+- [x] L1.1: Honestly mark all `[!]` items in `history/ROADMAP-m2-cook-construction.md` and `history/ROADMAP-m3-fkernel-modules.md` (M2 C5+D3 = phase-exact deferred; M3 B3 already done).
+- [x] L1.2: Update `rule110/README.md` to reflect both milestones merged.
+- [x] L1.3: Write `rule110/STATUS.md` snapshot (LOC, manifest count, test case count, modules covered, deliberate gaps).
+- [x] L1.4: Final `make clean && make && make test` confirm exit 0; record output to `STATUS.md`.
+- [x] L1.5: Tag git release `rule110-v1.0-behavioral-scaffold` on origin.
 
 ### Level 2: Sharpen algo manifests (3-6 months, hard task)
 
