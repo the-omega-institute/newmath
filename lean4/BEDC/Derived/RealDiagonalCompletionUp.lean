@@ -179,4 +179,59 @@ theorem RealDiagonalCompletionSourcePacket_window_extraction [AskSetup] [Package
     unary_cont_closed selectedWindowUnary readbackUnary readRoute
   exact ⟨precisionUnary, selectedWindowUnary, selectedReadUnary, provenancePkg⟩
 
+theorem RealDiagonalCompletionSourcePacket_namecert_obligation_surface [AskSetup]
+    [PackageSetup]
+    {inputFamily modulus selector schedule readback sealRow provenance localCert stationary
+      rationalRead constantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback sealRow
+        provenance localCert bundle pkg ->
+      Cont selector schedule stationary ->
+        Cont stationary readback rationalRead ->
+          Cont rationalRead sealRow constantSeal ->
+            hsame rationalRead readback ->
+              UnaryHistory stationary ∧ UnaryHistory rationalRead ∧
+                UnaryHistory constantSeal ∧ hsame constantSeal sealRow ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet stationaryRoute rationalReadRoute constantSealRoute sameRationalReadback
+  obtain ⟨inputUnary, modulusUnary, scheduleUnary, sealUnary, _provenanceUnary,
+    selectorRoute, readbackRoute, localCertRoute, sealReturnRoute, provenancePkg⟩ := packet
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed inputUnary modulusUnary selectorRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectorUnary scheduleUnary readbackRoute
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed selectorUnary scheduleUnary stationaryRoute
+  have rationalReadUnary : UnaryHistory rationalRead :=
+    unary_cont_closed stationaryUnary readbackUnary rationalReadRoute
+  have constantSealUnary : UnaryHistory constantSeal :=
+    unary_cont_closed rationalReadUnary sealUnary constantSealRoute
+  have constantSameLocalCert : hsame constantSeal localCert :=
+    cont_respects_hsame sameRationalReadback (hsame_refl sealRow) constantSealRoute
+      localCertRoute
+  have swappedLocalCert :
+      Cont sealRow readback (append sealRow readback) :=
+    cont_intro rfl
+  have localCertSameSwapped : hsame localCert (append sealRow readback) :=
+    unary_cont_comm readbackUnary sealUnary localCertRoute swappedLocalCert
+  have sealReadbackLocalCert : Cont sealRow readback localCert :=
+    cont_result_hsame_transport swappedLocalCert (hsame_symm localCertSameSwapped)
+  have sealCycle : Cont sealRow (append readback provenance) sealRow := by
+    exact sealReturnRoute.trans
+      ((congrArg (fun row => append row provenance) sealReadbackLocalCert).trans
+        (append_assoc sealRow readback provenance))
+  have readbackProvenanceEmpty : hsame (append readback provenance) BHist.Empty :=
+    cont_right_unit_unique sealCycle
+  have readbackEmpty : hsame readback BHist.Empty :=
+    (append_eq_empty_iff.mp readbackProvenanceEmpty).left
+  have localCertSameSeal : hsame localCert sealRow := by
+    cases readbackEmpty
+    exact cont_deterministic sealReadbackLocalCert (cont_right_unit sealRow)
+  have constantSameSeal : hsame constantSeal sealRow :=
+    hsame_trans constantSameLocalCert localCertSameSeal
+  exact
+    ⟨stationaryUnary, rationalReadUnary, constantSealUnary, constantSameSeal,
+      provenancePkg⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
