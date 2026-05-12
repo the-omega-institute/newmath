@@ -44,6 +44,54 @@ theorem RegularCauchyDiagonalCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       windowSelection, provenancePkg, selectedPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_source_stability_obligation [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert ratSeed'
+      streamWindow' regseqRead' realSeal' windowLedger' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      hsame ratSeed ratSeed' ->
+        hsame streamWindow streamWindow' ->
+          hsame realSeal realSeal' ->
+            hsame localCert localCert' ->
+              Cont ratSeed' streamWindow' regseqRead' ->
+                Cont regseqRead' realSeal' windowLedger' ->
+                  Cont realSeal' localCert' provenance' ->
+                    PkgSig bundle provenance' pkg ->
+                      RegularCauchyDiagonalCarrier ratSeed' streamWindow' regseqRead'
+                          realSeal' windowLedger' provenance' localCert' bundle pkg ∧
+                        hsame regseqRead regseqRead' ∧ hsame windowLedger windowLedger' ∧
+                          hsame provenance provenance' := by
+  intro carrier ratSeedSame streamWindowSame realSealSame localCertSame ratStreamRow
+    regseqSealRow sealLocalRow pkgSig
+  obtain ⟨ratSeedUnary, streamWindowUnary, _regseqReadUnary, realSealUnary,
+    _windowLedgerUnary, _provenanceUnary, localCertUnary, carrierRatStreamRow,
+    carrierRegseqSealRow, carrierSealLocalRow, _carrierPkgSig⟩ := carrier
+  have ratSeedUnary' : UnaryHistory ratSeed' :=
+    unary_transport ratSeedUnary ratSeedSame
+  have streamWindowUnary' : UnaryHistory streamWindow' :=
+    unary_transport streamWindowUnary streamWindowSame
+  have regseqReadUnary' : UnaryHistory regseqRead' :=
+    unary_cont_closed ratSeedUnary' streamWindowUnary' ratStreamRow
+  have realSealUnary' : UnaryHistory realSeal' :=
+    unary_transport realSealUnary realSealSame
+  have windowLedgerUnary' : UnaryHistory windowLedger' :=
+    unary_cont_closed regseqReadUnary' realSealUnary' regseqSealRow
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_transport localCertUnary localCertSame
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed realSealUnary' localCertUnary' sealLocalRow
+  have regseqSame : hsame regseqRead regseqRead' :=
+    cont_respects_hsame ratSeedSame streamWindowSame carrierRatStreamRow ratStreamRow
+  have windowLedgerSame : hsame windowLedger windowLedger' :=
+    cont_respects_hsame regseqSame realSealSame carrierRegseqSealRow regseqSealRow
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame realSealSame localCertSame carrierSealLocalRow sealLocalRow
+  exact
+    ⟨⟨ratSeedUnary', streamWindowUnary', regseqReadUnary', realSealUnary',
+      windowLedgerUnary', provenanceUnary', localCertUnary', ratStreamRow, regseqSealRow,
+      sealLocalRow, pkgSig⟩, regseqSame, windowLedgerSame, provenanceSame⟩
+
 theorem RegularCauchyDiagonalCarrier_real_seal_handoff [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
       selectedWindow consumerSeal : BHist}
