@@ -196,6 +196,61 @@ theorem DyadicApproximationCarrier_real_seal_radius_route_certificate [AskSetup]
       exact ⟨sourceRow.right.right.right, sameProvenance, sameEndpoint⟩
   }
 
+theorem DyadicApproximationCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont ledger provenance sealRow ->
+        PkgSig bundle sealRow pkg ->
+          UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+            UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory sealRow ∧
+              Cont precision endpoint window ∧ Cont window ledger provenance ∧
+                Cont ledger provenance sealRow ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle sealRow pkg := by
+  intro carrier ledgerProvenanceSeal sealPkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary, sealUnary,
+      precisionEndpointWindow, windowLedgerProvenance, ledgerProvenanceSeal, provenancePkg,
+      sealPkg⟩
+
+theorem DyadicApproximationCarrier_precision_weakening [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance weaker endpointNew windowNew ledgerNew
+      provenanceNew consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision weaker ->
+        hsame endpoint endpointNew ->
+          hsame ledger ledgerNew ->
+            hsame provenance provenanceNew ->
+              Cont weaker endpointNew windowNew ->
+                Cont windowNew ledgerNew provenanceNew ->
+                  Cont windowNew provenanceNew consumer ->
+                    DyadicApproximationCarrier weaker endpointNew windowNew ledgerNew
+                        provenanceNew bundle pkg ∧
+                      UnaryHistory consumer ∧ hsame window windowNew := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance weakerEndpointWindow
+    windowLedgerProvenance consumerRow
+  have transported :
+      DyadicApproximationCarrier weaker endpointNew windowNew ledgerNew provenanceNew
+          bundle pkg ∧
+        hsame window windowNew :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance weakerEndpointWindow windowLedgerProvenance
+  rcases transported with ⟨targetCarrier, sameWindow⟩
+  rcases targetCarrier with
+    ⟨weakerUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      weakerEndpointWindow', windowLedgerProvenance', pkgSig⟩
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary consumerRow
+  exact And.intro
+    ⟨weakerUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      weakerEndpointWindow', windowLedgerProvenance', pkgSig⟩
+    (And.intro consumerUnary sameWindow)
+
 theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
