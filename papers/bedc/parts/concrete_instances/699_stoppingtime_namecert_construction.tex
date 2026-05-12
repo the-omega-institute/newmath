@@ -151,6 +151,38 @@ filtration, stopped process, optional sampling, or a host stochastic-process
 object lies outside this seed certificate.
 \end{proof}
 
+\begin{theorem}[StoppingTime scoped dependency envelope]
+\label{thm:stoppingtime-scoped-dependency-envelope}
+The source packet of \autoref{def:stoppingtime-source-packet}, the
+$\NameCert_{\StoppingTimeUp}$ obligation surface, filtration-prefix stability,
+ledger coverage, and standard boundary bind every accepted stopping-rule row
+to finite $\mathsf{BHist}$ prefixes, displayed $\hsame$ transport, $\Cont$
+read routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\StoppingTimeUp}$ row. No host filtration, infinite stopping time,
+optional stopping theorem, or selected stochastic-process limit is introduced.
+\end{theorem}
+\begin{proof}
+Project the source tuple
+$S=(\Omega,X,F,n,w,h,c,p)$ from
+\autoref{def:stoppingtime-source-packet}. Its probability source, process
+rows, unary horizon, filtration-prefix ledger, stopping witness, transport,
+read routes, and provenance are all finite rows of one displayed packet.
+
+Apply \autoref{thm:stoppingtime-namecert-obligation-surface} and
+\autoref{thm:stoppingtime-filtration-prefix-stability} to keep habitation,
+classifier transport, and prefix restriction inside the same finite
+$\mathsf{BHist}$ ledger. The accepted stopping-event row $\{w\leq k\}$ is
+therefore read only through the displayed prefix $F_k$, the process prefix up
+to $k$, and the corresponding $\hsame$ and $\Cont$ rows.
+
+Apply \autoref{thm:stoppingtime-ledger-coverage} and
+\autoref{thm:stoppingtime-standard-boundary} to close the consumer boundary.
+Those rows already name the $\mathsf{Pkg}$ provenance and local
+$\NameCert_{\StoppingTimeUp}$ registration, and they explicitly leave host
+filtrations, infinite stopping times, optional stopping, and stochastic-process
+limits outside the packet.
+\end{proof}
+
 \closureat{StoppingTimeUp}{seedStr}
 
 \begin{closurestatus}{\StoppingTimeUp}
