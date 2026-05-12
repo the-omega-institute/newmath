@@ -433,6 +433,43 @@ remaining certificate rows, so no choice-selected branch, host sequence
 equality, completed sequence, or real-completeness row is exported.
 \end{proof}
 
+\begin{theorem}[BaireSpace finite-prefix consumer completeness]
+\label{thm:bairespace-finite-prefix-consumer-completeness}
+Every accepted finite consumer of the public prefix-cylinder bridge factors
+through one displayed finite prefix window. The window consists exactly of the
+$\StreamNameUp$ schedule, $\NatUp$ index rows, unary answer rows, the
+prefix-cylinder classifier, componentwise $\hsame$ rows, prefix-restriction
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and the $\RegSeqRatUp$, $\RealUp$,
+and $\DyadicRatCoreUp$ handoff rows.
+
+This factorization exports no host sequence equality, choice branch, completed
+infinite sequence, apartness row, external topology, or real completeness row.
+\end{theorem}
+\begin{proof}
+Start with the public prefix-cylinder certificate of
+\autoref{thm:bairespace-public-prefix-cylinder-certificate}. Its exposed rows
+are already the finite schedule, prefix index window, displayed unary answers,
+classifier coordinate, componentwise transport, prefix-restriction route,
+package provenance, and downstream handoff surface.
+
+Read the same packet through \autoref{thm:bairespace-prefix-stream-bridge}. This
+identifies every bridge consumer with the stream-name presentation over the
+same finite prefix window, so the consumer has no separate access to a host
+sequence or a choice-selected branch.
+
+The remaining coverage is ledger-local. Apply
+\autoref{thm:baire-space-ledger-coverage} to exhaust the certificate rows and
+\autoref{thm:baire-space-cylinder-tail-coverage} to keep tail information inside
+the displayed finite cylinder. No completed infinite sequence or external
+topological row is produced.
+
+Finally apply \autoref{thm:baire-space-real-name-handoff}. The
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers therefore receive
+only the listed handoff rows, not real completeness, apartness on Baire space,
+or any additional host equality principle. Hence every accepted finite consumer
+factors through the displayed finite prefix window.
+\end{proof}
+
 \closureat{BaireSpaceUp}{obligationStr}
 \closureat{BaireSpaceUp}{scopedStr}
 \closureat{BaireSpaceUp}{publicStr}
