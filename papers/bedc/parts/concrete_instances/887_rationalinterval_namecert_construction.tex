@@ -318,6 +318,7 @@ the endpoint-order coordinate is read against those transported components.
 Consequently endpoint transport cannot introduce a completed $\RealUp$
 equality row or an apartness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_endpoint\_transport\_classifier}
 \begin{proof}
 Read the endpoint coordinates from
 \autoref{def:rational-interval-bhist-carrier}. The carrier separates the lower
@@ -515,6 +516,7 @@ Equivalently, a finite regular rational sequence consumer cannot read outside
 the endpoint, dyadic-width, containment, refinement, and provenance rows
 already displayed by the interval packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_regseqrat\_window\_coverage}
 \begin{proof}
 Take a finite $\RegSeqRatUp$ observation window admitted by the source packet.
 By \autoref{thm:rational-interval-regseqrat-handoff}, that window reaches the
@@ -684,6 +686,49 @@ to the amalgamation.
 \end{proof}
 
 \input{parts/concrete_instances/rationalinterval/refinement_normal_form}
+
+\begin{theorem}[RationalInterval dyadic nested amalgamation normal form]
+\label{thm:rationalinterval-dyadic-nested-amalgamation-normal-form}
+Let $\mathcal{R}$ be a finite family of nested or overlapping
+$\RationalIntervalUp$ consumer reads whose endpoint rows are compatible
+$\DyadicRatCoreUp$ rows over the same rational boundary. Then $\mathcal{R}$ has
+a single displayed rational-window packet carrying endpoint order, containment,
+common-refinement evidence, finite-window handoff, $\mathsf{BHist}$ histories,
+displayed $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert_{\RationalIntervalUp}$ rows.
+
+Every $\RegSeqRatUp$ or $\RealUp$ finite-window consumer of those reads factors
+through that packet. The factorization uses only the displayed dyadic endpoint
+rows and rational-window ledgers; it does not introduce completed $\RealUp$
+equality, quotient Cauchy classes, located subsets, apartness predicates,
+interval arithmetic operations, or host interval data.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rationalinterval-finite-consumer-completeness} to each consumer
+read. Each member of $\mathcal{R}$ is exhausted by endpoint order,
+containment, finite refinement, finite-window handoff, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\RationalIntervalUp}$ rows.
+
+Use \autoref{thm:rationalinterval-window-overlap-consumer-amalgamation} on
+overlapping reads and
+\autoref{thm:rationalinterval-nested-consumer-window-factorization} on nested
+reads. These two reductions place the family inside finite rational-window
+packets with compatible dyadic endpoints.
+
+Apply \autoref{thm:rationalinterval-common-refinement-associativity} to
+associate the resulting refinement witnesses, and use
+\autoref{thm:rationalinterval-bisection-refinement-nesting} to keep all dyadic endpoint
+rows inside the same nested boundary. The finite family condition lets these
+binary amalgamations be iterated until one displayed rational-window packet
+remains.
+
+Finally invoke
+\autoref{thm:rationalinterval-refinement-normal-form}. The normal form is the
+announced packet, and the finite-window handoff rows provide the required
+factorization for every $\RegSeqRatUp$ or $\RealUp$ consumer.
+\end{proof}
 
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}
