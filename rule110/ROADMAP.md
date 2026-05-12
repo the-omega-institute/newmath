@@ -2,192 +2,194 @@
 
 **项目**: BEDC 基于 Rule 110 元胞自动机 + 循环标签系统的最小信任 substrate.
 **分支**: `rule110` (单 trunk; 历史里程碑 m2/m3 已归档到 `history/`).
-**姊妹**: `lean4/BEDC/` (Lean 4 形式化), `papers/bedc/` (LaTeX 论文).
+**姊妹**: `lean4/BEDC/` (Lean 4 形式化, 人类可读 shorthand), `papers/bedc/` (LaTeX 论文).
 **硬约束**: 零外部依赖, ANSI C99, Rule 110 + 循环标签系统作为唯二 substrate 原语.
 
 ---
 
-## 最终目标
+## 核心原则
 
-**FKernel + GroundCompiler 在 Lean 和 rule110 双 substrate 上 CI 强制一致.**
+**BEDC 验证 = 有限 witness, 由计算 substrate 物理算出. Lean kernel 不在 BEDC 信任路径上.**
 
-具体含义:
+BEDC ontology 是有限可观察的: 每个 BEDC closure 由 `rule110/manifests/<module>/*.{enum,algo}.ct` 里的具体 assertion 表达. `lean4/BEDC/FKernel/*` 里的 `∀` 陈述是人类可读 shorthand, 表示"对所有 manifest 列出的具体实例都成立", **不是独立 universal 逻辑陈述**.
 
-- `lean4/BEDC/FKernel/` 13 个模块 (Mark / Hist / Ext / Sig / Cont / Bundle / Unary / Ask / ExternalBinary / Gap / Package / NameCert / Settled) 加 `lean4/BEDC/GroundCompiler/ChannelEncoding.lean` 的所有闭项定理
-- 在 rule110 substrate 上有对应的 `.enum.ct` / `.algo.ct` manifest
-- `lake exe rule110-cross-check` 全部 PASS, 退出 0
-- `python3 tools/check-axioms.py` 全程 0 axiom
-- `pr-gate.yml` CI 强制: 任何 FKernel 或 GroundCompiler 改动必须双 substrate 同步通过才能合并
-
-**不在 scope 内**: `lean4/BEDC/Derived/**`, `lean4/BEDC/BaseReflection/**`, `lean4/BEDC/MetaCIC/**`, `lean4/BEDC/Capstone/**`. 这些可以在 Lean 侧单 substrate 自由演进; rule110 侧若已有的 exploratory mirror 保留, 但不参与 CI gate (见末尾附录).
-
-这个目标是**有界、可达成**的, 不是开放式无限工作.
+任何纯计算 substrate (cyclic tag / Rule 110 / 图灵机) 只能识别 Σ⁰₁. 这不是限制 — BEDC 不需要 Π⁰₁ universal quantifier.
 
 ---
 
-## 当前状态快照
+## 双 Tier 架构
 
-| 模块 | `.enum.ct` (闭项) | `.algo.ct` (通用 recognizer) | Lean cross-check |
-|---|---|---|---|
-| Mark | ✓ done | n/a (recognition 平凡) | ✓ done |
-| Hist | ✓ done | `[!]` bounded (L2.1 defer) | ✓ done |
-| Ext | ✓ done | `[!]` bounded | ✓ done |
-| Sig (SigRel + sameSig) | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Cont | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Bundle | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Unary | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Ask | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| ExternalBinary | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Gap | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Package | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| NameCert | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| Settled | ✓ done | `[!]` bounded | 待 merge (L4.3) |
-| GroundCompiler | 待加 (L5.7 在跑) | n/a (encoding 自身) | 待加 (随 L5.7) |
+### Tier A: cyclic-tag witness (当前 ship 标准)
 
-`[!]` 含义: bounded positional-certificate CTS 覆盖代表性 fixtures + 浅深度 sweep; 通用 CT recognizer 工程量级别大, 已在 `docs/<module>_algo_design.md` 记录所需算法.
+**信任路径**:
 
-**substrate 侧基础设施**: `evaluator/rule110.c` (~50 LOC) + `evaluator/cyclic_tag.c` (~80 LOC) + `encoder/groundcompiler_encoding.c` (~120 LOC) + manifest runner + 14 test 二进制. `make test` 全过.
-
-**Lean 侧基础设施**: `lake exe rule110-cross-check` 已成 Lake exe target, 当前覆盖 3 enum 族 (mark/hist/ext), L4.3 扩展到全 13 族待 merge.
-
-**CI**: `.github/workflows/pr-gate.yml` 已有 `rule110-cross-check` job, 结构化 FAIL 消息 5 类区分, runtime budget 已记录.
-
----
-
-## 主线四轴
-
-新路线图按 4 个正交轴组织, 替代之前的 "Level" 编号.
-
-### 轴 A: rule110 substrate 见证
-
-- A.1: 13 FKernel 模块 + GroundCompiler 各自有 `.enum.ct` (闭项 enumeration)
-  - 状态: 13/14 done; GroundCompiler 待 L5.7 merge
-- A.2: 同一组模块各自有 `.algo.ct` (通用 recognizer 或 bounded CTS + obstruction doc)
-  - 状态: 12/12 FKernel 已 bounded `[!]` ship 状态; L2.1 BHist universal 显式 defer
-  - 任何 `.algo.ct` 要 ship "universal" 需 ~1 月以上 CT 工程量, 不在主线必经路径
-- A.3: `make test` exit 0 不变
-
-### 轴 B: Lean ↔ rule110 cross-check
-
-- B.1: `lean4/scripts/rule110_cross_check.lean` 解析每个 `.enum.ct`, 调用对应 `BEDC.FKernel.<Module>` 闭项定理, 报 PASS/FAIL
-  - 状态: 3 enum 族 done (mark/hist/ext); 10 族 (sig/cont/bundle/unary/ask/extbin/gap/package/namecert/settled) 待 merge (L4.3, conflict 待解)
-- B.2: `lake exe rule110-cross-check` 默认参数覆盖所有 14 个 manifest 族 (含 GroundCompiler)
-  - 状态: `lakefile.lean` 已注册 exe; 默认参数当前 3 族, 随 L4.3 merge 扩到 13, 随 L5.7 merge 扩到 14
-- B.3: 失败消息分类 (C-decode / Lean-decode / semantic-mismatch / missing-target / fixture-incomplete) — done
-- B.4: 0 axiom 全程 — done
-
-### 轴 C: CI ship gate
-
-- C.1: `pr-gate.yml` 在 `rule110/**` 或 `lean4/BEDC/FKernel/**` 或 `lean4/scripts/rule110_cross_check*` 改动时触发
-  - 状态: workflow yaml 已加, 实际触发条件待验证
-- C.2: CI 跑序列: `make -C rule110 test` → `lake build BEDC.FKernel.*` → `lake exe rule110-cross-check` → `python3 tools/check-axioms.py`
-  - 状态: workflow 已有, 待 L4.3 merge 后端到端跑一次确认
-- C.3: 合并条件 (branch protection): 上述全部 PASS 才能 merge 到 rule110 trunk
-  - 状态: 未配置 GitHub branch protection rules (当前是人工纪律 + CI 状态)
-
-### 轴 D: Cook 物理嵌入 (stretch, 阻塞)
-
-**这一轴不是 ship-blocking**. Cook 2004 phase-exact glider B-H catalog 公开二手源不一致, 直接图访问受限. 已尽量推进:
-
-- D.1: Glider A `(f1_1)=111110` phase-exact + 周期-3 / 位移-2 验证 — done
-- D.2: Glider B-H phase-exact — **blocked** 等 Cook 2004 figure 直接访问或可信机读 catalog
-- D.3: Collision lookup table: A-A 验证 done; 其他 heuristic pending D.2
-- D.4: Leader / ossifier / data_block: phase-exact entry points + structural docs done; bodies blocked on D.2
-- D.5: `cook_encode_phase_exact()` interface + composition design — L3.4 worker 在跑
-- D.6: `.r110` manifest 全 44 族 + round-trip 验证 — 全 blocked on D.2
-
-Cook 阻塞**不影响最终目标达成**. 最终目标只需要 substrate manifest + Lean cross-check + CI gate; 物理嵌入是雄心目标, 等外部资源.
-
----
-
-## 阶段划分
-
-按推进顺序排.
-
-### 阶段 0: substrate scaffold + bounded recognizer 全集 + 设计文档
-
-**完成态**. 现在的状态.
-
-### 阶段 1: 闭合 FKernel cross-check
-
-- [ ] 1.1: merge `loop-L4-3-expansion` (10 enum 族扩展; 当前与 L4.4 有 7 处 lean script conflict 待解)
-- [ ] 1.2: 等 `loop-L5-7-groundcompiler` 跑完 + merge (GroundCompiler manifest + cross-check 注册)
-- [ ] 1.3: 本地全套验证: `make -C rule110 test`, `lake build BEDC.FKernel.*`, `lake exe rule110-cross-check`, `python3 tools/check-axioms.py` 全 exit 0
-- [ ] 1.4: push 到 `origin/rule110`
-
-### 阶段 2: CI ship gate 端到端验证
-
-- [ ] 2.1: 在 PR 上故意制造 FKernel 不一致 (临时把某个 enum manifest 的 expected 改错), 确认 `pr-gate.yml` FAIL
-- [ ] 2.2: 还原, 确认 `pr-gate.yml` PASS
-- [ ] 2.3: 配置 GitHub branch protection: `rule110` trunk require pr-gate status check
-- [ ] 2.4: 更新 `rule110/docs/cross_check.md` 写明 CI 强制路径
-
-### 阶段 3: ship signal (释放 tag)
-
-- [ ] 3.1: 更新 `rule110/STATUS.md` 反映 FKernel 双 substrate 闭合状态
-- [ ] 3.2: tag `rule110-v2.0-fkernel-bisubstrate` 到 origin
-- [ ] 3.3: 论文 `papers/bedc/` 引用最终 commit hash + 包含 `rule110-cross-check` 状态作为外部见证
-
-**完成阶段 1 + 2 + 3 即达成最终目标**. 预估总工作量 1-3 天 (主要是 1.1 conflict 解决 + 1.2 等 worker + 2.1-2.4 CI 验证).
-
-### 阶段 4 (可选, 雄心): 提升某些 `[!]` 到 universal
-
-任何一个 `[!]` 模块的 universal CT recognizer 工程量都 ~1 月+. 选择性推进, 不阻塞 ship.
-
-最高 ROI 候选:
-
-- L2.1 BHist universal — 解锁后 Package 也跟着 universal 化 (Package 依赖 hsame)
-- L2.6 Unary universal — 算法相对简单, ~5-10 productions
-
-### 阶段 5 (可选, 雄心): Cook D 轴推进
-
-需要外部资源 (Cook 2004 figure 直接访问或机读 catalog). 不阻塞 ship.
-
----
-
-## 验收标准
-
-```bash
-# 全部 exit 0 即达成最终目标
-cd /Users/auric/newmath/rule110 && make clean && make && make test
-cd /Users/auric/newmath/lean4 && lake build \
-    BEDC.FKernel.Mark BEDC.FKernel.Hist BEDC.FKernel.Ext \
-    BEDC.FKernel.Sig BEDC.FKernel.Cont BEDC.FKernel.Bundle \
-    BEDC.FKernel.Unary BEDC.FKernel.Ask BEDC.FKernel.ExternalBinary \
-    BEDC.FKernel.Gap BEDC.FKernel.Package BEDC.FKernel.NameCert \
-    BEDC.FKernel.Settled BEDC.GroundCompiler.ChannelEncoding
-cd /Users/auric/newmath/lean4 && lake exe rule110-cross-check
-cd /Users/auric/newmath && python3 tools/check-axioms.py
+```
+ANSI C 编译器
+    ↓
+evaluator/rule110.c        (~50 行) — Rule 110 元胞自动机
+evaluator/cyclic_tag.c     (~80 行) — cyclic-tag 计算原语
+encoder/groundcompiler_encoding.c  (~120 行) — bit ↔ tape 编码
+    ↓
+manifest_runner: 解析 .ct → 跑 cyclic_tag → 比对 expected
+    ↓
+manifest assertion PASS/FAIL
 ```
 
-CI 侧: `pr-gate.yml` 对 `rule110/**` 或 `lean4/BEDC/FKernel/**` 或 `lean4/scripts/rule110_cross_check*` 任何 PR 都跑上述序列, 全 PASS 才允许 merge.
+总信任基 ≈ 250 行 C + 文本 manifest. 人眼可审.
+
+**Ship 标准**:
+- 13 FKernel 模块的 `.enum.ct` manifest 全部由 `make -C rule110 test` 验证 (exit 0)
+- 0 外部依赖
+- 跟 Lean 侧 shorthand 一致 (通过 `lake exe rule110-cross-check` 开发期 sanity check)
+
+**当前状态**: 几乎已 ship. 收尾 = 更新 STATUS.md + tag release.
+
+**Tier A 局限**: 信任 `cyclic_tag.c` 作为 primitive. cyclic tag 比 Rule 110 元胞自动机抽象 (有产生式状态机). 严格意义"完全二进制不接受任何假设"要求衬底是 Rule 110 元胞自动机本身, 那是 Tier B.
+
+### Tier B: Rule 110 物理 witness (严格目标)
+
+**信任路径**:
+
+```
+ANSI C 编译器
+    ↓
+evaluator/rule110.c (~50 行)        — 唯一的 substrate primitive
+    ↓
+Rule 110 元胞自动机 evolution on .r110 initial pattern
+    ↓
+decode evolution 结果 → 匹配 .ct 上的 expected
+    ↓
+manifest assertion PASS/FAIL
+```
+
+总信任基 ≈ 50 行 C + Cook 编码协议 + 文本 manifest. `cyclic_tag.c` 退化为 reference implementation, 不在 trust path.
+
+**Ship 标准**:
+- 每个 `.enum.ct` 有对应 `.r110`
+- Rule 110 evolution 在 `.r110` 上跑出来 decode 后 = `.ct` 跑出来
+
+**当前状态**: 部分推进, 关键 blocked.
+
+- L3.1 glider A `(f1_1)=111110` phase-exact ✓
+- L3.2 collision A-A 直接模拟验证 ✓
+- L3.3 leader/ossifier/data_block phase-exact entry points + structural docs ✓ (bodies blocked)
+- L3.4 cook_encode interface + composition design ✓
+- **L3.1 B-H gliders blocked on Cook 2004 figure access**
+- L3.5-L3.7 (.r110 manifest 生成 + round-trip + smoke test) 全 blocked
+
+**ship blocker**: Cook 2004 phase-exact catalog. 公开二手源不一致, 需要直接图访问或可信机读 catalog. 解锁后预估 4-8 周可完成全集.
+
+否则 Tier B **无限期 blocked**, 长期目标方向不变.
 
 ---
 
-## 附录: Beyond-FKernel exploratory mirrors
+## 当前状态快照 (Tier A 接近 ship)
 
-以下 rule110 manifest 目录由历史 dispatch 产生, **不在 FKernel scope, 不参与 CI gate, 不是路线图主线**. 保留作为独立见证 / future research 起点:
-
-| 目录 | 对应 Lean | 状态 | 备注 |
+| FKernel 模块 | `.enum.ct` | `.algo.ct` | C 端测试 |
 |---|---|---|---|
-| `manifests/topology_up/` | `Derived/TopologyUp` | 3 enum manifests + test | exploratory |
-| `manifests/circle_up/` | `Derived/S1Up + ModNUp` | 3 enum manifests + test | exploratory |
-| `manifests/fold_up/` | `Derived/FoldMomentKernelUp` | 3 enum manifests + test | exploratory |
-| `manifests/meta_cic/` | `MetaCIC` | 3 enum manifests + test | exploratory |
-| `docs/base_reflection_design.md` | `BaseReflection` | design-only doc | 研究开放 |
+| Mark | ✓ | n/a | ✓ |
+| Hist | ✓ | ✓ bounded | ✓ |
+| Ext | ✓ | ✓ bounded | ✓ |
+| Sig (SigRel + sameSig) | ✓ | ✓ bounded | ✓ |
+| Cont | ✓ | ✓ bounded | ✓ |
+| Bundle | ✓ | ✓ bounded | ✓ |
+| Unary | ✓ | ✓ bounded | ✓ |
+| Ask | ✓ | ✓ bounded | ✓ |
+| ExternalBinary | ✓ | ✓ bounded | ✓ |
+| Gap | ✓ | ✓ bounded | ✓ |
+| Package | ✓ | ✓ bounded | ✓ |
+| NameCert | ✓ | ✓ bounded | ✓ |
+| Settled | ✓ | ✓ bounded | ✓ |
+| GroundCompiler | ✓ (L5.7) | n/a (本身就是 encoding) | ✓ |
 
-如果未来 BEDC scope 扩展到包含某个 Derived 模块, 这些 mirror 可以从附录上升到主线; 上升时需补 `.algo.ct` + cross-check 注册 + CI gate.
+`.algo.ct` 全部 bounded 状态. 在新框架下, **universal CT recognizer 不在追求范围** (BEDC 不需要 universal). 已有的 bounded recognizer 是 session 早期 dispatch 产物, 保留不维护.
 
-`manifests/real_up/` (L5.2) 和 `manifests/capstones/` (L5.8) 当前为 worker 已 finish 或在跑 但未 merge 状态, 待用户决定纳入附录或放弃.
+`make -C rule110 test` exit 0. CI 在 `pr-gate.yml` 已配置 `Rule110 Cross-Check` job.
+
+---
+
+## Tier A 收尾步骤 (近期 ship 路径)
+
+- [ ] T-A.1: merge `loop-L4-3-expansion` (10 enum 族 cross-check; 当前与 L4.4 有 7 处 lean script conflict, 解 conflict 后 merge). L4 cross-check 是开发期工具, **不是 BEDC trust** — 仍然 merge 但语义降级
+- [ ] T-A.2: merge `loop-L5-7-groundcompiler` (GroundCompiler manifest, in-scope encoding primitive)
+- [ ] T-A.3: merge `loop-L3-4-cook-encoder` (Tier B 推进, `cook_encode_phase_exact()` interface)
+- [ ] T-A.4: 本地全套验证: `make -C rule110 test`, `lake build BEDC.FKernel.*`, `lake exe rule110-cross-check`, `python3 tools/check-axioms.py` 全 exit 0
+- [ ] T-A.5: 更新 `rule110/STATUS.md` 反映 Tier A ship 状态
+- [ ] T-A.6: push 到 `origin/rule110`, 等 CI 全绿
+- [ ] T-A.7: tag `rule110-v2.0-fkernel-tier-a` 到 origin
+- [ ] T-A.8: 在 `papers/bedc/` 引用最终 commit hash 作为 BEDC 引文外部见证
+
+**完成 T-A.* 全部 = Tier A ship 标准达成**. 预估 1-3 天.
+
+---
+
+## Tier B 推进步骤 (严格目标, blocked)
+
+- [ ] T-B.1: 获取 Cook 2004 figure 直接访问 (paper 复印 / 扫描 / 可信二手 catalog)
+- [ ] T-B.2: 验证 glider B-H phase-exact (每个 ~1 天)
+- [ ] T-B.3: 实施 leader / ossifier / data_block phase-exact bodies (依赖 T-B.2)
+- [ ] T-B.4: 实施 `cook_encode_phase_exact()` bodies (依赖 T-B.3)
+- [ ] T-B.5: 为每个 `.enum.ct` 生成对应 `.r110` initial pattern
+- [ ] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` execution
+- [ ] T-B.7: `make test` 扩到 `.r110` smoke test 全 44 族
+- [ ] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
+
+**预估**: 4-8 周 IF T-B.1 解锁; 否则**无限期 blocked**.
+
+---
+
+## Lean / L4 / L5 重新定位
+
+### Lean (`lean4/BEDC/FKernel/*`)
+- 保留, 0-axiom 0-sorry 状态不动
+- **新地位**: 人类可读 shorthand + 论文 bookkeeping
+- **不在信任路径**: 任何 Lean kernel bug 不影响 BEDC trust (BEDC trust = Tier A/B 信任路径, 不含 Lean)
+- ∀ 陈述读作 "对所有 manifest 列出的具体实例都成立" 的紧凑写法
+
+### L4 cross-check (`lean4/scripts/rule110_cross_check.lean`)
+- `lake exe rule110-cross-check` 保留
+- `pr-gate.yml` CI 集成保留
+- **新地位**: implementation-level sanity check (Lean shorthand 和 rule110 witness 是否一致). 不是 BEDC ship gate.
+- L4.3 全 13 enum 族扩展: T-A.1 merge
+
+### L5 Beyond-FKernel mirrors (附录)
+
+已 merge 的 L5.* 产物保留在仓库, 不主动维护, 不参与 ship gate:
+
+| 目录 | 对应 Lean | 状态 |
+|---|---|---|
+| `manifests/topology_up/` | `Derived/TopologyUp` | merged, exploratory |
+| `manifests/circle_up/` | `Derived/S1Up + ModNUp` | merged, exploratory |
+| `manifests/fold_up/` | `Derived/FoldMomentKernelUp` | merged, exploratory |
+| `manifests/meta_cic/` | `MetaCIC` | merged, exploratory |
+| `docs/base_reflection_design.md` | `BaseReflection` | merged, design-only |
+
+未 merge 的 L5.2 RealUp 和 L5.8 Capstones: 决定**不 merge**, worktree 清理.
+
+未来如果 BEDC scope 扩展到某个 Derived 模块, 这些附录可上升到主线 (需要补 .r110 + cross-check + CI gate).
+
+---
+
+## 显式 Out-of-Scope
+
+下列项**不追求**, 不在路线图待办里:
+
+- ❌ Universal CT recognizers (BEDC 不需要 universal — 是 CIC sugar). 已有 12 个 bounded 保留, 不维护
+- ❌ CIC-in-rule110 实现 (会重新引入 CIC 元理论信任, 信任基反而变大)
+- ❌ BaseReflection rule110 manifest implementation (research-open, 不需要)
+- ❌ MetaCIC universal (同上)
+- ❌ Beyond-FKernel modules 的 formal closure 主张 (Derived/* 不在 BEDC kernel)
+- ❌ L2.1 BHist universal CT recognizer (不需要)
 
 ---
 
 ## 历史
 
-- M2 (2026-05): Cook construction 行为脚手架 (ether + 8 gliders + leader/ossifier/data_block + cook_encode 行为版) — 归档至 `history/ROADMAP-m2-cook-construction.md`
-- M3 (2026-05): 13 FKernel 模块的 `.enum.ct` 全套 + bounded `.algo.ct` — 归档至 `history/ROADMAP-m3-fkernel-modules.md`
-- 2026-05-12: master roadmap 第一版 (含 Level 5 + Level 6), 由对话推动, 现已替换为此 FKernel-scoped 版本
-- 2026-05-13: 本路线图. Beyond-FKernel 的 L5.* 工作产物移入附录, 不进 CI gate
+- M2 (2026-05): Cook construction 行为脚手架 — 归档至 `history/ROADMAP-m2-cook-construction.md`
+- M3 (2026-05): 13 FKernel 模块 `.enum.ct` 全套 + bounded `.algo.ct` — 归档至 `history/ROADMAP-m3-fkernel-modules.md`
+- 2026-05-12 早期: master roadmap v1 (含 Level 5/6 整树双 substrate), 由对话推动
+- 2026-05-12 晚期: master roadmap v2 (FKernel + GroundCompiler scope, Tier 概念未引入)
+- 2026-05-13: 本路线图 v3. BEDC 重定位为 "finite witness, Lean kernel 不在 trust path"; 双 tier 架构
 
 ---
 
@@ -195,9 +197,9 @@ CI 侧: `pr-gate.yml` 对 `rule110/**` 或 `lean4/BEDC/FKernel/**` 或 `lean4/sc
 
 任何后续 codex CLI worker 在 rule110 trunk 上推进时:
 
-1. **只关心 scope 内任务**: FKernel 13 模块 + GroundCompiler. Beyond-FKernel 不主动推进 (除非用户显式 scope 扩展)
-2. **优先阶段 1 + 2 + 3**: 闭合 FKernel cross-check → CI 强制 → release tag
-3. **不动 Cook D 轴**: 除非用户明确指示且提供 Cook figure 资料
-4. **每个 commit 自洽**: substrate `make test` PASS + cross-check PASS + 0 axiom
-5. **不动附录 manifests**: `topology_up/` / `circle_up/` / `fold_up/` / `meta_cic/` 是 exploratory, 不主动改
-6. **永远 push 不 force**: merge 不 rebase, 单 commit 原子
+1. **Tier A ship 优先**: T-A.1 ~ T-A.8 是当前 critical path
+2. **Tier B 等外部资源**: 不主动推进 T-B.* 除非用户提供 Cook figure 资料
+3. **不追求 universal / CIC-in-rule110**: 显式 out-of-scope
+4. **附录不动**: `manifests/topology_up|circle_up|fold_up|meta_cic/` 不主动改
+5. **每个 commit 自洽**: `make -C rule110 test` PASS + 0 axiom + cross-check PASS
+6. **merge 不 rebase**: 永远 push 不 force; 单 commit 原子
