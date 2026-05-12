@@ -585,6 +585,8 @@ def run_pi_reflection(config: dict[str, Any]) -> dict[str, Any]:
         str(REPO_ROOT / str(cfg.get("actions_path") or "docs/bridge/automath-newmath-pi-actions.jsonl")),
         "--refinement-queue",
         str(REPO_ROOT / str(cfg.get("refinement_queue_path") or "docs/bridge/automath-newmath-refinement-queue.jsonl")),
+        "--retry-policy",
+        str(REPO_ROOT / str(cfg.get("retry_policy_path") or "docs/bridge/automath-newmath-retry-policy.jsonl")),
         "--no-specific-threshold",
         str(int(cfg.get("no_specific_threshold") or 3)),
     ]

@@ -241,6 +241,14 @@ def _reuse_instruction(mode: str) -> str:
 
 
 def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if mode == "board_continuation" and "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path:
+        if "sec_cayley_gate" in source_path:
+            return "one S1 boundary-readback Cayley coordinate certificate row or a rejected BEDC-fit note"
+        if "sec_doob_phi_entropy" in source_path:
+            return "one gap-policy proof-obligation shortcut naming a monotone functional carrier, or a rejected BEDC-fit note"
+        if "sec_appendix" in source_path:
+            return "evidence-only normalization shortcut note; no theorem work unless a finite BEDC carrier is already named"
     if mode == "board_continuation":
         return "minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet"
     if mode == "proposal_seed_candidate":
@@ -249,6 +257,14 @@ def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
 
 
 def _reject_if(record: dict[str, Any], mode: str) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if mode == "board_continuation" and "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path:
+        if "sec_cayley_gate" in source_path:
+            return "no S1 boundary-readback carrier or name-certificate host can represent the Cayley coordinate"
+        if "sec_doob_phi_entropy" in source_path:
+            return "no BEDC gap-policy carrier can name a monotone functional without importing the Automath analytic theorem"
+        if "sec_appendix" in source_path:
+            return "no finite BEDC normalization/readback carrier can cite the integral identity as evidence only"
     if mode == "board_continuation":
         return "no BEDC-native carrier, classifier, proof-obligation shortcut, name-certificate, obstruction, or public-invariant fit"
     if mode == "proposal_seed_candidate":
@@ -335,38 +351,35 @@ def _specific_board_claim(record: dict[str, Any]) -> str:
         )
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_cayley_gate" in source_path:
         return (
-            "Bridge continuation target for a BEDC-native Cayley chart wrapper. "
+            "Bridge continuation target for exactly one S1 boundary-readback Cayley "
+            "coordinate certificate. "
             f"Automath source labels: {labels}. The worker should inspect the "
-            "Automath Cayley coordinate, angular variable, and inverse-map evidence, "
-            "then decide whether BEDC can consume only the minimal native object: a "
-            "name-certificate or proof-obligation row saying that a displayed "
-            "one-dimensional boundary chart transports a unit-circle or projective "
-            "boundary readback without importing analytic Poisson-kernel structure. "
-            "Expected delta is a small BEDC wrapper/proposal seed over the standard "
-            "bridge protocol or an explicit rejection if no BEDC carrier/classifier "
-            "can represent the chart."
+            "Automath Cayley coordinate and inverse-map evidence first, then write "
+            "only a BEDC-native carrier-readback row if BEDC already has a named S1 "
+            "readback carrier for the coordinate. Do not import Poisson-kernel, "
+            "strip, RKHS, or analytic boundary theory. Expected delta: one "
+            "certificate row over the S1 carrier/readback surface, or an explicit "
+            "rejection naming the missing BEDC carrier."
         )
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_doob_phi_entropy" in source_path:
         return (
-            "Bridge continuation target for a BEDC-native entropy-dissipation "
-            f"obligation. Automath source labels: {labels}. The worker should first "
-            "inspect the Automath Doob-transform and Phi-entropy dissipation theorem, "
-            "then extract only a minimal BEDC-native proof-obligation shortcut: a "
-            "monotone functional, dissipation ledger, or gap-policy target whose "
-            "hypotheses explicitly carry the nonlocal kernel and convexity data. "
-            "Do not re-prove the Automath theorem; either create a bounded BEDC "
-            "wrapper/proposal seed or reject because the analytic carrier is not "
-            "available in BEDC."
+            "Bridge continuation target for exactly one BEDC gap-policy shortcut "
+            f"from Automath Doob/Phi evidence. Automath source labels: {labels}. "
+            "The worker should inspect the Automath Doob-transform and Phi-entropy "
+            "dissipation theorem, then decide whether BEDC can name a monotone "
+            "functional carrier without reproving the theorem. Expected delta: one "
+            "gap-policy ledger row or proposal seed that records Automath as prior "
+            "evidence, or an explicit rejection if BEDC lacks the carrier for the "
+            "functional/kernel hypotheses."
         )
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_appendix" in source_path:
         return (
-            "Bridge continuation target for BEDC evidence-only integral identities "
-            f"from the Automath Cayley/Chebyshev appendix. Automath source labels: {labels}. "
-            "The worker should inspect the weighted trigonometric integral lemma and "
-            "consume it only as a concrete proof-obligation shortcut for a BEDC "
-            "normalization, quadrature, or boundary-readback row. If no BEDC-native "
-            "finite carrier or classifier can state the integral identity, reject "
-            "with that reason rather than opening broad analytic work."
+            "Bridge continuation target for one evidence-only S1 normalization "
+            f"shortcut from the Automath appendix. Automath source labels: {labels}. "
+            "The worker should inspect the weighted integral lemma only as prior "
+            "evidence for an already named BEDC normalization/readback row. Expected "
+            "delta: mark the evidence consumed by a finite carrier, or reject with "
+            "the missing-carrier reason. Do not open new analytic integral work."
         )
     return ""
 
@@ -378,7 +391,7 @@ def _landing_inputs(record: dict[str, Any]) -> list[str]:
     if "sec_doob_phi_entropy" in source_path:
         return ["papers/bedc/parts/proof_obligations/gap_policy.tex"]
     if "sec_cayley_gate" in source_path or "sec_appendix" in source_path:
-        return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
+        return ["papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex"]
     if str(record.get("source_artifact_kind") or "") == "paper_claim":
         return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
     return ["papers/bedc/parts/acceptance/02_standard_bridge_protocol.tex"]
@@ -436,11 +449,11 @@ def _target_title(record: dict[str, Any]) -> str:
     if "killos4burnsidekanirosenprymsquare" in source_path:
         return "S1 Prym-square representation ledger bridge target"
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_cayley_gate" in source_path:
-        return "Cayley boundary chart bridge wrapper"
+        return "S1 boundary-readback Cayley coordinate certificate"
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_doob_phi_entropy" in source_path:
-        return "Doob Phi-entropy dissipation bridge obligation"
+        return "Gap-policy monotone functional evidence from Automath Doob flow"
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_appendix" in source_path:
-        return "Cayley weighted integral normalization bridge evidence"
+        return "Evidence-only S1 normalization shortcut from Automath integral lemma"
     return _title(record)
 
 

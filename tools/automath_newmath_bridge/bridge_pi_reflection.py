@@ -24,6 +24,7 @@ DEFAULT_GATE_RESULTS = SCRIPT_DIR / "out" / "bridge_gate_results.jsonl"
 DEFAULT_REPORT = REPO_ROOT / "docs" / "bridge" / "automath-newmath-pi-reflection.md"
 DEFAULT_ACTIONS = REPO_ROOT / "docs" / "bridge" / "automath-newmath-pi-actions.jsonl"
 DEFAULT_REFINEMENT = REPO_ROOT / "docs" / "bridge" / "automath-newmath-refinement-queue.jsonl"
+DEFAULT_RETRY_POLICY = REPO_ROOT / "docs" / "bridge" / "automath-newmath-retry-policy.jsonl"
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -208,6 +209,62 @@ def build_actions(
     return actions, refinements
 
 
+def build_retry_policy(ack_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    latest: dict[tuple[str, str], dict[str, Any]] = {}
+    attempts: Counter[tuple[str, str, str]] = Counter()
+    for row in ack_rows:
+        source_path = str(row.get("source_path") or "")
+        source_commit = str(row.get("source_commit") or "")
+        if not source_path:
+            continue
+        key = (source_path, source_commit)
+        latest[key] = row
+        attempts[(source_path, source_commit, str(row.get("reason") or "none"))] += 1
+
+    policies: list[dict[str, Any]] = []
+    for (source_path, source_commit), row in sorted(latest.items()):
+        reason = str(row.get("reason") or "none")
+        status = str(row.get("status") or "unknown")
+        if reason == "history_rejected:too_vague":
+            next_action = "shrink_expected_delta_and_change_title"
+            retry_after_change_required = True
+        elif reason == "no_specific_board_claim":
+            next_action = "add_specific_bedc_landing_or_keep_evidence_only"
+            retry_after_change_required = True
+        elif reason == "duplicate_board_title":
+            next_action = "cooldown_until_source_commit_or_landing_changes"
+            retry_after_change_required = True
+        elif status == "evidence_only":
+            next_action = "retain_evidence_only"
+            retry_after_change_required = False
+        elif status == "consumed":
+            next_action = "mark_consumed_and_do_not_resubmit"
+            retry_after_change_required = False
+        else:
+            next_action = "monitor_next_cycle"
+            retry_after_change_required = False
+        policies.append(
+            {
+                "schema_version": "automath-newmath-retry-policy-v1",
+                "bridge_direction": "automath_to_newmath",
+                "source_repo": row.get("source_repo"),
+                "source_branch_or_ref": row.get("source_branch_or_ref"),
+                "source_commit": source_commit,
+                "source_path": source_path,
+                "last_status": status,
+                "last_reason": reason,
+                "attempts_for_reason": attempts[(source_path, source_commit, reason)],
+                "retry_after_change_required": retry_after_change_required,
+                "next_action": next_action,
+                "policy": (
+                    "Retry only when the bridge can emit a narrower evidence-backed continuation target, "
+                    "a different BEDC landing object, or a changed source commit."
+                ),
+            }
+        )
+    return policies
+
+
 def render_report(
     ack_rows: list[dict[str, Any]],
     gate_rows: list[dict[str, Any]],
@@ -274,6 +331,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--report", default=str(DEFAULT_REPORT))
     parser.add_argument("--actions", default=str(DEFAULT_ACTIONS))
     parser.add_argument("--refinement-queue", default=str(DEFAULT_REFINEMENT))
+    parser.add_argument("--retry-policy", default=str(DEFAULT_RETRY_POLICY))
     parser.add_argument("--no-specific-threshold", type=int, default=3)
     args = parser.parse_args(argv)
 
@@ -284,9 +342,11 @@ def main(argv: list[str] | None = None) -> int:
         gate_rows,
         no_specific_threshold=max(1, args.no_specific_threshold),
     )
+    retry_policy = build_retry_policy(ack_rows)
 
     _write_jsonl(Path(args.actions), actions)
     _write_jsonl(Path(args.refinement_queue), refinements)
+    _write_jsonl(Path(args.retry_policy), retry_policy)
     report_path = Path(args.report)
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(render_report(ack_rows, gate_rows, actions, refinements), encoding="utf-8")
@@ -298,9 +358,11 @@ def main(argv: list[str] | None = None) -> int:
                 "gate_rows": len(gate_rows),
                 "actions": len(actions),
                 "refinement_targets": len(refinements),
+                "retry_policy_rows": len(retry_policy),
                 "report": str(report_path),
                 "actions_path": str(Path(args.actions)),
                 "refinement_queue": str(Path(args.refinement_queue)),
+                "retry_policy": str(Path(args.retry_policy)),
             },
             sort_keys=True,
         )
