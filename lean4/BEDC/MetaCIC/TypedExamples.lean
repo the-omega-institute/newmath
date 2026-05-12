@@ -79,6 +79,40 @@ theorem lam_constructs_dependent_pi :
     · apply HasType.varRule
       rfl
 
+theorem first_of_two :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam (Term.var 0) (Term.lam (Term.var 1) (Term.var 1))))
+      (Term.pi Term.sort
+        (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
+
+theorem second_of_two :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam (Term.var 0) (Term.lam (Term.var 1) (Term.var 0))))
+      (Term.pi Term.sort
+        (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
+
 /-- 单 sort ctx 下: pi (var 0) (pi (var 1) sort) 类型为 sort. -/
 theorem nested_pi_dep_in_sort_ctx :
     HasType [Term.sort] (Term.pi (Term.var 0) (Term.pi (Term.var 1) Term.sort))
