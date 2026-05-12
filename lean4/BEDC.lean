@@ -100,6 +100,7 @@ import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.EqtypeUp
@@ -139,6 +140,7 @@ import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
+import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FreeMonoidUp
