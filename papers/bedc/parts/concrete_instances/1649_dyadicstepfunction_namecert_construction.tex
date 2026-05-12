@@ -128,6 +128,54 @@ On each refined cell, use \autoref{thm:dyadic-step-function-endpoint-value-trans
 Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. The assumed $\DyadicRatCoreUp$ or $\RealUp$ sum row is already recorded in the carrier ledger for that refined cell, and the stored $\hsame$ and $\Cont$ routes transport it componentwise. Repacking those finitely many rows gives the accepted $\DyadicStepFunctionUp$ sum packet with no access to host functions, quotient representatives, selected limits, or hidden equalities.
 \end{proof}
 
+\begin{theorem}[Dyadic step function refinement intersection closure]
+\label{thm:dyadic-step-function-refinement-intersection-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets with displayed common dyadic refinements. Suppose the two refined packets expose finite cell lists in $I$, refinement maps in $M$, endpoint transport in $E$, carried-value rows in $V$, classifier rows in $R$, ledger rows in $L$, continuation rows in $C$, provenance rows in $P$, and names in $N$. Then the finite common cell intersection of the displayed refinements repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet is built only from $I$, $M$, $E$, $V$, $R$, $L$, $C$, $P$, and $N$. It carries the inherited $\hsame$ and $\Cont$ routes for each intersected cell and does not call a host step function, quotient representative, selected limit, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:dyadic-step-function-carrier}. The two displayed refinements provide finite cell lists, and their common intersections are therefore enumerated by finite $\mathsf{BHist}$ data.
+
+Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Every consumer-visible comparison first lands on one displayed common-refinement cell, so the intersection packet has a visible cell for each comparison that can be made from $S$ and $T$.
+
+Use \autoref{thm:dyadic-step-function-refinement-stability} to transport each intersected cell back to its parent cells in the two packets. Endpoint transport through $E$ and parent selection through $M$ keep the refined cell attached to the displayed carrier rows.
+
+Finally apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} and \autoref{thm:dyadic-step-function-ledger-exactness}. The carried values and classifier reads are already in $V$, $R$, and $L$, while $C$, $P$, and $N$ replay the same local package. Repacking those finitely many rows gives an accepted intersection packet without adding any external analytic object.
+\end{proof}
+
+\begin{theorem}[Dyadic step function cellwise product closure]
+\label{thm:dyadic-step-function-product-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Suppose they admit a displayed common dyadic refinement whose refined cells are finite $\mathsf{BHist}$ cells, and suppose that on every refined cell the transported carried-value row of $S$, the transported carried-value row of $T$, and the displayed $\DyadicRatCoreUp$ or $\RealUp$ product row are recorded in the carrier ledger. Then the pointwise cellwise product repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet uses only the displayed refined cell list, endpoint transport, carried-value rows, classifier rows, finite ledger rows, and the componentwise $\hsame$ and $\Cont$ route data. It does not introduce a host step function, a quotient representative, a selected limit, or an equality oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ through \autoref{def:dyadic-step-function-carrier}. The carrier exposes the same finite partition, endpoint, value, classifier, ledger, transport, and continuation rows used by the sum packet.
+
+Apply \autoref{thm:dyadic-step-function-refinement-intersection-closure}. The product is read on the displayed common cell intersection, so both factors have visible transported carried-value rows on the cell where multiplication is performed.
+
+On each refined cell, use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. The endpoint route and carried-value route determine the same visible read for each factor before the product row is consumed.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness} together with \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The assumed $\DyadicRatCoreUp$ or $\RealUp$ product row is already a ledger entry for that cell, and the seal-facing read cannot escape the displayed finite window. Repacking these rows gives the accepted product packet without invoking host functions, quotient representatives, selected limits, or hidden equalities.
+\end{proof}
+
+\begin{theorem}[Dyadic step function stepwise order window]
+\label{thm:dyadic-step-function-stepwise-order-window}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Any pointwise order comparison between $S$ and $T$ is witnessed after a displayed common dyadic refinement: on each refined cell, the transported carried-value rows and the displayed $\DyadicRatCoreUp$ or $\RealUp$ order row determine the comparison visible to consumers. The order window is finite-cellwise and is recorded by the same $I$, $M$, $E$, $V$, $R$, $L$, $C$, $P$, and $N$ rows as the packets themselves.
+
+Consequently the comparison cannot use a host function, a quotient representative, a selected limit, trichotomy on hidden real representatives, or an equality oracle outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:dyadic-step-function-refinement-intersection-closure}. It gives a finite common-refinement packet whose cells cover all comparisons available from the two accepted packets.
+
+For a fixed refined cell, apply \autoref{thm:dyadic-step-function-refinement-stability}. The cell is transported back to displayed parent cells in $S$ and $T$, and the endpoint rows remain attached to the refinement maps.
+
+Use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route for both packets. The order row being compared is therefore the displayed $\DyadicRatCoreUp$ or $\RealUp$ row named in the ledger, not a host-side comparison.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The ledger records each finite-cell order read before any seal-facing consumer can use it, so the comparison remains inside the displayed finite window.
+\end{proof}
+
 \closureat{DyadicStepFunctionUp}{seedStr}
 \closureat{DyadicStepFunctionUp}{obligationStr}
 
