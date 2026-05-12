@@ -1,0 +1,27 @@
+\section{StreamName Common-Refinement Public Exactness}
+\label{sec:streamname-common-refinement-public-exactness}
+
+\begin{theorem}[StreamName common-refinement public exactness]
+\label{thm:streamname-common-refinement-public-exactness}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window $\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let $\mathcal R$ be a certified common-refinement package whose generated window restricts to both selected windows. Then every downstream $\RegSeqRat$ handoff and every finite-window $\RealUp$ handoff read from $\mathcal R$ factors through exactly the common-refinement source tuple:
+$$
+(\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R),
+\mathsf{ProbeBundle}_{\mathcal R},
+\mathsf{InBundle}_{\mathcal R},
+\mathsf{UnaryHistory}_{\mathcal R},
+\mathsf{RatHistoryClassifier}_{\mathcal R},
+\hsame_{\mathcal R},
+\Cont_{\mathcal R},
+\Pkg_{\mathcal R}).
+$$
+The public handoff cannot add completion data, quotient rows, host-index equality, metric-completeness rows, or off-ledger $\RealUp$ classifier rows.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-common-refinement-source-determinacy}. It identifies the source tuple read from the left selected window with the source tuple read from the right selected window, because both are restrictions of the same certified common-refinement package $\mathcal R$.
+
+Next apply \autoref{thm:streamname-common-refinement-source-confluence}. The downstream $\RegSeqRat$ route and the finite-window $\RealUp$ route receive the same restricted finite-window classifier, bundle row, membership rows, selected histories, pointwise rational classifiers, and displayed $\hsame/\Cont/\Pkg$ ledger rows.
+
+Now use \autoref{thm:streamname-common-refinement-real-seal-confluence}. The induced $\RealUp$ seal packages have the same visible seal source, so the seal boundary cannot distinguish the two routes by adding an off-ledger classifier row.
+
+Finally apply the RegSeqRat and RealUp handoff separation statements in the StreamName child files, in particular \autoref{thm:streamname-regseqrat-pointwise-handoff} and \autoref{thm:streamname-real-regseq-obligation-separation}. They keep regularity, completion, quotient, metric-completeness, host-index, and seal-classifier data outside the common-refinement source tuple.
+\end{proof}
