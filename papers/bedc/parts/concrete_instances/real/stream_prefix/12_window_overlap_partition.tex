@@ -497,6 +497,46 @@ does not expose additional data and does not lose any scoped row from the
 listed $\RealUp$ boundary.
 \end{proof}
 
+\begin{theorem}[RealUp finite-window partition associative read surface]
+\label{thm:realup-window-partition-associative-read-surface}
+For rational-observation streams $x,y:\mathbb{N}\to\Hist$ over the same
+$\mathsf{RealStreamWindowClassifier}$, let $P$ and $Q$ be certified finite
+partition spines over the same total window $(n,w)$. Suppose $P$ and $Q$ have
+the same ordered leaves $(n_i,r_i)$ and differ only by associative
+rebracketing of the partition spine. Then the two certified presentations
+expose the same consumer read surface for the window.
+
+Concretely, the endpoint $\RatUp$ classifier rows, $\mathsf{DyadicRatCore}$
+observation rows, $\RegSeqRat$ spine rows, $\StreamNameUp$ request names,
+$\mathsf{UnaryHistory}$ witnesses, $\hsame$ transport rows, $\Cont$ routes, and
+finite ledger rows determined from $P$ are exactly the rows determined from
+$Q$. No completion object, quotient, metric-completeness certificate,
+Classical choice row, arithmetic or order primitive, or bridge row is exported
+by either bracketing.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-stream-window-finite-partition-fold} to the certified
+spine $P$. It identifies the total classifier
+$\mathsf{RealStreamWindowClassifier}(x,y,n,w)$ with the finite conjunction of
+the segment classifiers listed by the common ordered leaves.
+
+Apply the same fold theorem to $Q$. Since the leaves are the same and only the
+associative spine bracketing changes, both folds land in the same finite
+conjunction of segment windows.
+
+Now compare the consumer rows through
+\autoref{thm:realup-window-partition-read-surface}. The theorem reads each
+folded presentation as the same endpoint $\RatUp$, $\mathsf{DyadicRatCore}$,
+$\RegSeqRat$, $\StreamNameUp$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, and
+finite ledger boundary attached to the displayed leaves.
+
+Finally use \autoref{thm:realup-window-partition-stability-package}. The
+stability rows transport across the two fold presentations without exposing
+any row outside the displayed $\RealUp$ boundary. Thus associative
+rebracketing of the certified finite partition spine preserves exactly the
+same consumer read surface.
+\end{proof}
+
 \begin{theorem}[Real stream finite-window partition refinement transitivity]
 \label{thm:real-stream-window-partition-refinement-transitivity}
 For rational-observation streams $x,y:\mathbb{N}\to\Hist$, a total anchor $n$,
