@@ -394,6 +394,42 @@ For subsequence and diagonal consumers, use \autoref{thm:regularcauchyname-diago
 For family and completion consumers, apply \autoref{thm:regularcauchyname-bridge-consumer-factorization}. The factorization reaches the $\RealUp$ seal only through the public surface of \autoref{thm:regularcauchyname-public-real-seal-export}, and \autoref{thm:regularcauchyname-bridge-non-escape-boundary} excludes every omitted completion object.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName common-window refinement]
+\label{thm:regularcauchyname-common-window-refinement}
+Let $G=(S,Q,\rho,L,E,P,N)$ and $G'=(S',Q',\rho',L',E',P',N')$ be two completion-facing reads of an accepted $\RegularCauchyNameUp$ packet through one displayed $\StreamNameUp$ window. If the reads share that common window, then they refine to the same displayed $\DyadicRatCoreUp$ observation, dyadic-radius row, pointwise $\RegSeqRatUp$ classifier, $\BHist$ ledger, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$ route. The refinement contains no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First put both reads into the common transport surface. The common-window transport triad of \autoref{thm:regularcauchyname-common-window-transport-triad} identifies the shared $\StreamNameUp$ window as the only window through which the $\DyadicRatCoreUp$ observation row and pointwise $\RegSeqRatUp$ classifier may be read.
+
+Next attach the seal-readback row. By \autoref{thm:regularcauchyname-seal-readback-exhaustion}, any read that reaches the $\RealUp$ side has already passed through the displayed window, observation, radius, classifier, ledger, package, and local certificate rows.
+
+Finally use the public export and consumer coverage rows. The public seal export of \autoref{thm:regularcauchyname-public-real-seal-export} keeps the $\RealUp$ seal on the same displayed packet, and \autoref{thm:regularcauchyname-completion-consumer-coverage} says that the completion-facing consumers receive no additional route outside that packet. Thus the two reads refine to the same listed rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName dyadic-radius readback]
+\label{thm:regularcauchyname-dyadic-radius-readback}
+For every accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$, the dyadic-radius row $\rho$ is the exact finite readback surface consumed by $\RegularCauchySubsequenceUp$, $\RegularCauchyDiagonalUp$, and $\RegularCauchyFamilyUp$ after they enter the common $\StreamNameUp$ window. These consumers read the window $S$, the $\DyadicRatCoreUp$ observation $Q$, the radius row $\rho$, the pointwise $\RegSeqRatUp$ classifier in $L$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes; they do not receive a host sequence, quotient stream, selected limit, independent real carrier, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the common-window transport triad. \autoref{thm:regularcauchyname-common-window-transport-triad} places subsequence, diagonal, and family reads on the same displayed $\StreamNameUp$ window and carries the dyadic observation and pointwise classifier along that window.
+
+The radius row is then forced by the seal-readback route. \autoref{thm:regularcauchyname-seal-readback-exhaustion} exhausts the precision read before the $\RealUp$ seal by the displayed window, observation, radius, classifier, ledger, package, and local certificate rows.
+
+The consumer side is exactly the one recorded by \autoref{thm:regularcauchyname-completion-consumer-coverage}. Combining that coverage with the public seal export of \autoref{thm:regularcauchyname-public-real-seal-export} leaves the dyadic-radius row as the finite readback surface shared by the named completion consumers.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName real seal exactness]
+\label{thm:regularcauchyname-real-seal-exactness}
+For every accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$, the public $\RealUp$ seal $E$ is reached only after the common-window row, $\DyadicRatCoreUp$ observation row, dyadic-radius row, pointwise $\RegSeqRatUp$ classifier row, $\BHist$ ledger, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$ route have been displayed. The seal exports no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First route the packet through its common window. The transport triad of \autoref{thm:regularcauchyname-common-window-transport-triad} supplies the displayed window, dyadic observation, radius-facing readback, and pointwise classifier rows before any seal-facing consumer can proceed.
+
+Next apply \autoref{thm:regularcauchyname-seal-readback-exhaustion}. It says that the seal-facing read is exhausted by those finite rows together with the ledger, package, and local naming routes.
+
+The public export theorem \autoref{thm:regularcauchyname-public-real-seal-export} identifies the $\RealUp$ seal reached by this route, and the completion consumer coverage theorem \autoref{thm:regularcauchyname-completion-consumer-coverage} rules out all extra consumer data. Hence the seal is exact with respect to the displayed rows and has no remaining completion-level coordinate.
+\end{proof}
+
 \begin{theorem}[RegularCauchyName mature boundary package]
 \label{thm:regularcauchyname-mature-boundary-package}
 The $\RegularCauchyNameUp$ mature boundary package is the finite row package obtained by assembling \autoref{thm:regularcauchyname-bridge-source-surface}, \autoref{thm:regularcauchyname-bridge-consumer-factorization}, \autoref{thm:regularcauchyname-bridge-non-escape-boundary}, \autoref{thm:regularcauchyname-public-real-seal-export}, and \autoref{thm:regularcauchyname-completion-consumer-coverage}. It is a completion-facing package over the L10 $\RealUp$ and completion spine, but it exports no quotient streams, host sequences, selected limits, independent real carrier, or ambient completeness.
