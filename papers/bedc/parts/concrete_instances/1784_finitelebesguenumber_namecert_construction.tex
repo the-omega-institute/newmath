@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLebesgueNumberUp$}
+\label{ch:concrete-instances-finite-lebesgue-number-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the finite Lebesgue-number route used here is a displayed dyadic finite-cover modulus. The $\FiniteLebesgueNumberUp$ packet records a finite dyadic cover, a positive rational radius ledger, and the finite-window witnesses needed by total-bounded and compact-metric consumers. It is not an open-cover compactness principle and it does not choose a subcover from an arbitrary family.
+
+\begin{definition}[Finite Lebesgue-number carrier]
+\label{def:finite-lebesgue-number-carrier}
+A $\FiniteLebesgueNumberUp$ carrier over a displayed $\DyadicCoverUp$ row is a finite $\BHist$ packet
+$$
+L=(D,W,\lambda,M,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $D$ is the accepted $\DyadicCoverUp$ row containing the finite list of dyadic centers, rational ball rows, dyadic mesh cells, and finite coverage witnesses;
+\item $W$ is the $\FiniteWindowEnvelopeUp$ row whose inspected points are covered by the dyadic cells of $D$;
+\item $\lambda$ is the positive finite radius ledger, read through $\RationalBallUp$ and bounded by the radii recorded in $D$;
+\item $M$ is the $\DyadicMeshUp$ mesh ledger that records which mesh cells refine into the $\lambda$-balls and into the cover cells of $D$;
+\item $H$ records componentwise $\hsame$ transports for $D$, $W$, $\lambda$, $M$, the $\StreamNameUp$ reads, the $\RegSeqRatUp$ approximation rows, and the $\RealUp$ consumer rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect finite-window membership, rational-ball containment, dyadic-mesh refinement, stream-name reads, regular-rational approximations, and real rows;
+\item $P$ is the $\Pkg$ provenance over $\DyadicCoverUp$, $\FiniteWindowEnvelopeUp$, $\DyadicMeshUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local certificate rows;
+\item $N$ is the local $\NameCert_{\FiniteLebesgueNumberUp}$ row.
+\end{enumerate}
+The carrier accepts only packets whose positive finite radius ledger is displayed beside the finite dyadic cover and whose mesh witnesses keep every admitted finite-window read inside a named cover cell.
+\end{definition}
+
+\begin{theorem}[Finite Lebesgue-number NameCert obligations]
+\label{thm:finite-lebesgue-number-namecert-obligations}
+The local $\NameCert_{\FiniteLebesgueNumberUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the packet of \autoref{def:finite-lebesgue-number-carrier};
+\item classifier: componentwise comparison of the dyadic cover row, finite-window row, positive radius ledger, mesh ledger, transports, continuations, package provenance, and local certificate row;
+\item radius-modulus stability: displayed $\hsame$ and $\Cont$ transport preserves the positive ledger $\lambda$ together with the $\RationalBallUp$ and $\DyadicMeshUp$ rows that witness its refinement into the finite cover;
+\item finite-window coverage exactness: every accepted point read from $W$ factors through a $\StreamNameUp$ row, a $\RegSeqRatUp$ approximation row, a $\RealUp$ row, a mesh cell from $M$, and a named cover cell in $D$;
+\item non-escape: accepted packets export no open-cover compactness theorem, no arbitrary subcover selector, no host compactness principle, and no hidden cover family outside the displayed dyadic finite-cover data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is the displayed tuple $L=(D,W,\lambda,M,H,C,P,N)$. The dyadic cover, finite-window row, radius ledger, mesh ledger, transports, continuations, package provenance, and local certificate are all finite coordinates.
+
+The classifier is componentwise on those coordinates. Radius-modulus stability follows by transporting the positive rational radius ledger and the mesh-refinement rows along $H$, then replaying only the routes stored in $C$.
+
+Coverage exactness is a finite witness read. Each admitted point of $W$ is observed through its stream and regular-rational approximation rows, placed in a real row, assigned to a mesh cell of $M$, and then routed to a named cover cell in $D$.
+
+The carrier has no coordinate for an arbitrary open family, an open-cover compactness theorem, or a subcover selector. Thus every accepted export remains inside the displayed dyadic finite-cover packet.
+\end{proof}
+
+\begin{theorem}[Finite Lebesgue-number dyadic cover handoff]
+\label{thm:finite-lebesgue-number-dyadic-cover-handoff}
+Every $\TotallyBoundedUp$ or $\CompactMetricUp$ consumer of an accepted $\FiniteLebesgueNumberUp$ carrier receives only the displayed $\DyadicCoverUp$ finite cover, the $\FiniteWindowEnvelopeUp$ coverage row, the positive finite radius ledger $\lambda$, the $\DyadicMeshUp$ refinement ledger $M$, and the listed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows. The handoff supplies a finite dyadic-cover modulus and a positive finite radius ledger, not open-cover compactness or subcover choice.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-lebesgue-number-carrier}. The only consumer-facing cover data are $D$, $W$, $\lambda$, $M$, $H$, $C$, $P$, and $N$.
+
+Use \autoref{thm:finite-lebesgue-number-namecert-obligations}. Its classifier, radius-modulus stability, and finite-window coverage exactness rows keep every consumer read on the displayed dyadic cover, finite-window witnesses, rational-ball radius ledger, and mesh-refinement ledger.
+
+A total-bounded or compact-metric consumer therefore receives the finite dyadic cover together with the positive radius ledger and provenance rows. Since the carrier contains no arbitrary open family and no selected subcover coordinate, the handoff cannot assert open-cover compactness.
+\end{proof}
+
+\closureat{FiniteLebesgueNumberUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLebesgueNumberUp}
+  \constructivestory{A $\FiniteLebesgueNumberUp$ packet is generated from an accepted $\DyadicCoverUp$ finite cover, a $\FiniteWindowEnvelopeUp$ row, a positive rational radius ledger, a $\DyadicMeshUp$ refinement ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the carrier, local NameCert obligations, radius-modulus stability, finite-window coverage exactness, and dyadic-cover handoff for explicit finite-cover moduli.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, compact-metric equivalence, host real compactness, total-bounded construction, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier transport, radius-modulus stability, finite-window coverage exactness, and total-bounded or compact-metric handoff over the displayed dyadic cover rows.}
+\end{closurestatus}
