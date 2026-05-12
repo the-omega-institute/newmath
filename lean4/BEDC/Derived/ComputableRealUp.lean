@@ -270,4 +270,29 @@ theorem ComputableRealSourcePacket_classifier_transport [AskSetup] [PackageSetup
                       (And.intro newEndpoint newPkg)))))))))
     sameEndpoint
 
+theorem ComputableRealPacket_realup_handoff [AskSetup] [PackageSetup]
+    {schedule modulus dyadic regular sealRow transport approximationLedger sealLedger provenance
+      nameRow realRead publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealPacket schedule modulus dyadic regular sealRow transport approximationLedger
+        sealLedger provenance nameRow bundle pkg ->
+      Cont regular sealRow realRead ->
+        Cont realRead nameRow publicRow ->
+          PkgSig bundle publicRow pkg ->
+            UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory dyadic ∧
+              UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory realRead ∧
+                UnaryHistory publicRow ∧ Cont regular sealRow realRead ∧
+                  Cont realRead nameRow publicRow ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle publicRow pkg := by
+  intro packet realRoute publicRoute publicPkg
+  obtain ⟨scheduleUnary, modulusUnary, dyadicUnary, regularUnary, sealUnary, nameRowUnary,
+    _transportRow, _approximationRow, _sealLedgerRow, _provenanceRow, provenancePkg⟩ := packet
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed regularUnary sealUnary realRoute
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed realUnary nameRowUnary publicRoute
+  exact
+    ⟨scheduleUnary, modulusUnary, dyadicUnary, regularUnary, sealUnary, realUnary,
+      publicUnary, realRoute, publicRoute, provenancePkg, publicPkg⟩
+
 end BEDC.Derived.ComputableRealUp
