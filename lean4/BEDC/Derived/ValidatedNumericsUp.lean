@@ -27,6 +27,20 @@ def ValidatedNumericsPacket [AskSetup] [PackageSetup]
           Cont observation interval containment ∧ Cont containment provenance name ∧
             PkgSig bundle name pkg
 
+theorem ValidatedNumericsPacket_carrier_classifier_obligations [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+        UnaryHistory observation ∧ UnaryHistory readback ∧ UnaryHistory transport ∧
+          UnaryHistory containment ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont precision modulus observation ∧ Cont observation readback transport ∧
+              Cont observation interval containment ∧ Cont containment provenance name ∧
+                PkgSig bundle name pkg := by
+  intro packet
+  exact packet
+
 theorem ValidatedNumericsPacket_precision_refinement_containment
     [AskSetup] [PackageSetup]
     {interval precision modulus observation readback transport containment provenance name

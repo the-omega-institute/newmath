@@ -28,6 +28,7 @@ The classifier identifies accepted mesh packets by transporting them to a common
 \label{thm:dyadicmesh-cell-containment-obligation}
 Every accepted $\DyadicMeshUp$ packet $M=(\ell,J,I,E,H,C,P,N)$ exposes one finite dyadic cell. Its public containment surface is exactly the unary level row $\ell$, the dyadic cell-index row $J$, the rational interval row $I$, the $\DyadicRatCoreUp$ endpoint and radius reads stored in $E$, the displayed transport rows $H$, the continuation routes $C$, the package provenance $P$, and the local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMeshUp.DyadicMeshCarrier\_cell\_containment\_obligation}
 \leanchecked{BEDC.Derived.DyadicMeshUp.DyadicMeshPacket\_cell\_containment\_obligation}
 \begin{proof}
 Project the carrier of \autoref{def:dyadicmesh-bhist-source}. The selected cell is not reconstructed from an ambient grid object; it is the displayed pair of a level row and a finite cell-index row.
@@ -54,6 +55,7 @@ Repack the refined level, refined cell index, transported interval, dyadic conta
 \label{thm:dyadicmesh-rationalinterval-coverage}
 For every accepted $\DyadicMeshUp$ packet $M=(\ell,J,I,E,H,C,P,N)$, the rational interval row $I$ is the complete coverage object exported by the mesh cell. A $\RationalIntervalUp$ consumer may read the endpoint order, containment ledger, and refinement routes through $I$, $E$, $H$, and $C$, but it cannot read an infinite mesh, a host subset of $\RealUp$, or a global real-completion proof from the mesh packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMeshUp.DyadicMeshPacket\_rational\_interval\_coverage}
 \begin{proof}
 Project the interval coordinate $I$ from the carrier. It is the only coverage row of the packet, and its endpoint and order data are interpreted by the existing $\RationalIntervalUp$ surface.
 
@@ -139,6 +141,7 @@ $\ValidatedNumericsUp$ consumers. Since every row is projected from the finite
 packet, infinite meshes, host subsets, solver correctness, floating-point
 semantics, and classical real completeness remain outside the export.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicMeshUp.DyadicMeshPacket\_public\_export\_boundary}
 
 \begin{theorem}[DyadicMesh standard finite mesh bridge boundary]
 \label{thm:dyadicmesh-standard-finite-mesh-bridge-boundary}
@@ -159,6 +162,7 @@ $\ValidatedNumericsUp$ and $\RealUp$ consumers. It does not export host
 subsets, floating-point hardware semantics, solver correctness,
 completed-real compactness, or infinite mesh refinement.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicMeshUp.DyadicMeshPacket\_standard\_finite\_mesh\_bridge\_boundary}
 \begin{proof}
 Project the carrier rows from \autoref{def:dyadicmesh-bhist-source}. The
 packet supplies the unary level, finite cell index, rational interval row,
@@ -184,24 +188,25 @@ floating-point hardware semantics, solver correctness, completed-real
 compactness, and infinite refinement remain outside the bridge.
 \end{proof}
 
-\begin{theorem}[DyadicMesh common refinement handoff determinacy]
-\label{thm:dyadicmesh-common-refinement-handoff-determinacy}
+\begin{theorem}[DyadicMesh common refinement endpoint determinacy]
+\label{thm:dyadicmesh-common-refinement-endpoint-determinacy}
 Let
 $M=(\ell,J,I,E,H,C,P,N)$ and
 $M'=(\ell',J',I',E',H',C',P',N')$ be accepted $\DyadicMeshUp$
 packets satisfying \autoref{def:dyadicmesh-bhist-source}. Suppose both
 packets are displayed at a common refinement level and, after transport to
 that level, agree on the refined finite cell-index row and on the
-$\RationalIntervalUp$ endpoint rows. Then the $\RealUp$ boundary token,
-the $\DyadicApproximationUp$ endpoint readback, and the
-$\ValidatedNumericsUp$ enclosure handoff are determined by that same finite
-common-refinement packet.
+$\RationalIntervalUp$ endpoint $\hsame$ rows. Then every
+$\DyadicApproximationUp$ endpoint read and every $\RealUp$ boundary token
+exported through the two packets factors through the same finite
+$\RationalIntervalUp$ row, endpoint-radius-order ledger, $\Cont$ route,
+$\Pkg$ provenance row, and local $\NameCert$ row.
 
 Equivalently, the consumer-visible rows for these three handoffs are the
-same finite $\mathsf{BHist}$ rows routed through the common $\hsame$,
-$\Cont$, $\Pkg$, and $\NameCert$ coordinates. The theorem does not assert an
-infinite mesh, solver correctness, floating-point semantics, compactness, or
-real-completeness property.
+same finite $\mathsf{BHist}$ rows routed through the common endpoint
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. The theorem does not
+assert a host subset of $\RealUp$, a completed real cell, solver state,
+floating-point semantics, or an infinite mesh.
 \end{theorem}
 \begin{proof}
 Start from \autoref{def:dyadicmesh-bhist-source}. Each accepted packet is a
@@ -215,23 +220,24 @@ agree fixes the refined cell boundary through the shared $\hsame$ and
 $\Cont$ coordinates.
 
 Next use \autoref{thm:dyadicmesh-rationalinterval-coverage}. Agreement of
-the transported endpoint rows fixes the $\RationalIntervalUp$ coverage row,
-and therefore fixes the endpoint readback seen by the
-$\DyadicApproximationUp$ consumer.
+the transported endpoint $\hsame$ rows fixes the unique exported
+$\RationalIntervalUp$ coverage row and the endpoint-radius-order ledger, and
+therefore fixes each endpoint read seen by the $\DyadicApproximationUp$
+consumer.
 
 Now apply \autoref{thm:dyadicmesh-validatednumerics-handoff}. The enclosure
 handoff reads exactly the finite cell, rational-interval endpoint, dyadic
-ledger, continuation, and package rows already fixed by the common
-refinement packet.
+ledger, continuation, package, and local naming rows already fixed by the
+common refinement packet.
 
 Finally use
 \autoref{thm:dyadicmesh-standard-finite-mesh-bridge-boundary}. Its bridge
-surface names the $\RealUp$ boundary token, the endpoint readback, and the
-$\ValidatedNumericsUp$ enclosure as projections of the same finite
-$\mathsf{BHist}$ packet, so the two accepted packets give the same
-consumer-visible handoff rows. The conclusion is only this finite-row
-determinacy claim and contains no infinite mesh, solver-correctness,
-floating-point, compactness, or real-completeness assertion.
+surface names the $\RealUp$ boundary token and the endpoint readback as
+projections of the same finite $\mathsf{BHist}$ packet, so the two accepted
+packets give the same consumer-visible endpoint and boundary rows. The
+conclusion is only this finite-row determinacy claim and introduces no host
+subset, completed real cell, solver state, floating-point semantics, or
+infinite mesh.
 \end{proof}
 
 \begin{theorem}[DyadicMesh mature finite mesh treatment]
@@ -281,7 +287,7 @@ semantics, completed-real compactness, or a global refinement theorem.
 \begin{closurestatus}{\DyadicMeshUp}
   \constructivestory{A $\DyadicMeshUp$ packet is generated by a unary level row, a finite dyadic cell-index row, a $\RationalIntervalUp$ cell coverage row, a $\DyadicRatCoreUp$ containment ledger, componentwise $\hsame$ transports, displayed $\Cont$ refinement routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:dyadicmesh-bhist-source}, \autoref{thm:dyadicmesh-cell-containment-obligation}, \autoref{thm:dyadicmesh-refinement-stability}, \autoref{thm:dyadicmesh-rationalinterval-coverage}, \autoref{thm:dyadicmesh-namecert-obligation-surface}, \autoref{thm:dyadicmesh-validatednumerics-handoff}, \autoref{thm:dyadicmesh-public-export-boundary}, \autoref{thm:dyadicmesh-standard-finite-mesh-bridge-boundary}, \autoref{thm:dyadicmesh-common-refinement-handoff-determinacy}, and \autoref{thm:dyadicmesh-mature-finite-mesh-treatment} specify the public finite mesh carrier, containment row, refinement route, rational-interval coverage row, $\NameCert$ obligation surface, $\ValidatedNumericsUp$ handoff rows, standard finite mesh bridge boundary, common-refinement handoff determinacy, and mature finite-mesh treatment.}
+  \scopeclosed{\autoref{def:dyadicmesh-bhist-source}, \autoref{thm:dyadicmesh-cell-containment-obligation}, \autoref{thm:dyadicmesh-refinement-stability}, \autoref{thm:dyadicmesh-rationalinterval-coverage}, \autoref{thm:dyadicmesh-namecert-obligation-surface}, \autoref{thm:dyadicmesh-validatednumerics-handoff}, \autoref{thm:dyadicmesh-public-export-boundary}, \autoref{thm:dyadicmesh-standard-finite-mesh-bridge-boundary}, \autoref{thm:dyadicmesh-common-refinement-endpoint-determinacy}, and \autoref{thm:dyadicmesh-mature-finite-mesh-treatment} specify the public finite mesh carrier, containment row, refinement route, rational-interval coverage row, $\NameCert$ obligation surface, $\ValidatedNumericsUp$ handoff rows, standard finite mesh bridge boundary, common-refinement endpoint determinacy, and mature finite-mesh treatment.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
