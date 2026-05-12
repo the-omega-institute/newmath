@@ -64,6 +64,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
+import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
