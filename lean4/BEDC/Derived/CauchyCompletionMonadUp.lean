@@ -134,4 +134,29 @@ theorem CauchyCompletionMonadPacket_diagonal_bind_stability [AskSetup] [PackageS
       sealTransportRoute', routeNameSeal', sealRowPkg'⟩
   exact ⟨targetPacket, sameObservations, sameSealRow, sameRoute⟩
 
+theorem CauchyCompletionMonadPacket_public_real_seal_factorization [AskSetup]
+    [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      UnaryHistory observations ∧ UnaryHistory sealRow ∧ UnaryHistory route ∧
+        hsame observations (append schedule windows) ∧
+          hsame sealRow (append observations diagonal) ∧
+            hsame route (append sealRow transport) ∧ PkgSig bundle sealRow pkg := by
+  intro packet
+  obtain ⟨_sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, transportUnary,
+    _nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow,
+    sealRowTransportRoute, _routeNameSealRow, sealRowPkg⟩ := packet
+  have observationsUnary : UnaryHistory observations :=
+    unary_cont_closed scheduleUnary windowsUnary scheduleWindowsObservations
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed observationsUnary diagonalUnary observationsDiagonalSealRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed sealRowUnary transportUnary sealRowTransportRoute
+  exact
+    ⟨observationsUnary, sealRowUnary, routeUnary, scheduleWindowsObservations,
+      observationsDiagonalSealRow, sealRowTransportRoute, sealRowPkg⟩
+
 end BEDC.Derived.CauchyCompletionMonadUp
