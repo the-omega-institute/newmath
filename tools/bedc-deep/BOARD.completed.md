@@ -3686,7 +3686,7 @@ Problem:
 Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the term stratum, the schematic move 'accept an unwitnessed positive existential and use the accepted value as oracle' is equivalent to AC: ∀i∈I,∃x_i∈A_i ⇒ ∃f:I→⊔A_i with f(i)∈A_i.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Directly fills a known Sketch-proof gap in thm:three-axioms-unification (capstones/three_axioms_one_closure.tex). The infrastructure (def:three-axioms-meta-closure-operation, ex:three-axioms-choice) already exists and the equivalence is currently stated only informally. This is the term-stratum component of a triad with #2 and #3 supporting the unification theorem; once all three exist the Sketch can be replaced with a structured proof. No BOARD entry, no theorem-level paper label covers this. Stepping-stone scope.
@@ -3710,7 +3710,7 @@ Problem:
 Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the type stratum, the schematic move is equivalent to Quot-soundness: from an equivalence R on A, conclude there exists a type A/R with a section A/R→A choosing a canonical representative.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Type-stratum sister of #1; supports the Sketch proof of thm:three-axioms-unification. ex:three-axioms-quot-sound states the equivalence informally; this lemma formalizes it. Connects to def:three-axioms-replacement-quot which uses NameCert/psame-transport as the BEDC replacement, making this the lemma that justifies the replacement at the schema level. No BOARD or paper duplicate. Distinct from #5 which proves the structural soundness of the replacement, not the equivalence schema-side.
@@ -3734,7 +3734,7 @@ Problem:
 Under the meta-closure operation of def:three-axioms-meta-closure-operation read at the proposition stratum, the schematic move is equivalent to propext: from P⇔Q conclude P=Q at the proposition level.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Proposition-stratum third of the equivalence triad behind thm:three-axioms-unification's Sketch proof. ex:three-axioms-propext states the schema informally; formalizing the proposition-level instantiation closes the third gap and makes the unification proof structured rather than sketched. No paper-level theorem label covers this. Belongs in capstones alongside #1 and #2.
@@ -3758,7 +3758,7 @@ Problem:
 Given a family A:N→Type with w:∀n,A(n), there is an explicit f:N→⊔A(n) defined by primitive recursion satisfying f(n)∈A(n), without invoking Classical.choice.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 def:three-axioms-replacement-choice names countable choice as the BEDC replacement for term-stratum meta closure but only states it definitionally — the explicit recursive construction is missing. This is the term-stratum component of thm:three-axioms-replacements-suffice's currently-Sketch proof. Distinct from #1 which proves the equivalence schema; this proves the constructive replacement is realizable. Closes quickly because primitive recursion is already kernel-level.
@@ -3782,7 +3782,7 @@ Problem:
 For any classifier-respecting operation φ:A→B and a,a' with a∼A a', φ(a)∼B φ(a') — without invoking Quot.sound to identify a and a' at the type level.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 - `papers/bedc/parts/core/08_typed_naming_certificates.tex`
 
 Rationale:
@@ -3807,7 +3807,7 @@ Problem:
 For any kernel construction Φ consuming a proposition P, and propositions P,Q with P⇔Q (equivalently an hsame-transport between P and Q), there is a parameterized form Φ[P→Q] consuming Q via the bidirectional implication, without invoking propext.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 def:three-axioms-replacement-propext names hsame/psame transport as the BEDC replacement for proposition-stratum meta closure but no structural lemma states the replacement is sound. Proposition-stratum third of thm:three-axioms-replacements-suffice's Sketch components, completing the triad with #4 (term) and #5 (type). After all three land, the chapter's claim that BEDC's certified content is closed under the three replacements becomes a structured proof.
@@ -3831,7 +3831,7 @@ Problem:
 Under the meta-closure schema of \autoref{def:three-axioms-meta-closure-operation} read at the term stratum, the input data carries a per-index witness family i \mapsto w_i as constructor data, but the output term f : I \to \bigsqcup A_i exposes only f i \in A_i as a property and does not expose the per-index recipe binding i \mapsto w_i.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Belongs in capstones/three_axioms_one_closure.tex. The chapter currently states the meta-closure schema (def:three-axioms-meta-closure-operation) and gives Choice as a term-stratum example (ex:three-axioms-choice) but does not pin down what specifically is lost. This proposition is a single concrete implication-form claim about constructor data dropped at the term stratum, expressible as a `\begin{theorem|lemma}` site with a clear Lean-side obligation about destructured non-exposure of the witness family. No BOARD entry covers meta-closure / three-axioms territory; no paper label of the form thm:/lem:/cor:three-axioms-* appears in coverage. Stepping-stone scope.
@@ -3855,7 +3855,7 @@ Problem:
 Under the meta-closure schema read at the type stratum, the input data carries a kernel-level derivation tree witnessing a \sim_R b under reflexivity / symmetry / transitivity, but the output identification [a] = [b] in A/R exposes only equality at the type level and does not expose the witnessing R-derivation.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Companion to the term-stratum proposition, sited in the same capstones chapter. ex:three-axioms-quot-sound states the schematic move at the type stratum but no lemma pins the dropped derivation tree. The companion def:three-axioms-replacement-quot (NameCert + psame transport) only makes sense as a contrast once the loss is named. Concrete single-implication form, no BOARD overlap, no matching paper label, in scope for capstones. Distinct from candidate 1 because Quot.sound's input data is a derivation tree rather than a per-index witness family — the dropped structure has different shape and so warrants its own loop.
@@ -3879,7 +3879,7 @@ Problem:
 Under the meta-closure schema read at the proposition stratum, the input data is a pair of distinct implications (\pi_1 : P \to Q, \pi_2 : Q \to P) with their internal proof structures, but the output identification P = Q exposes neither which direction was used at any subsequent application site nor the internal structure of \pi_1 or \pi_2.
 
 Local inputs:
-- `papers/bedc/parts/capstones/three_axioms_one_closure.tex`
+- `papers/bedc/parts/visions/three_axioms_one_closure.tex`
 
 Rationale:
 Third stratum-specific loss proposition, sited in capstones/three_axioms_one_closure.tex. ex:three-axioms-propext schematizes propext as proposition-stratum meta-closure but no lemma names what propext drops. The replacement def:three-axioms-replacement-propext parameterizes kernel constructions over the implication pair — that move is only motivated once the directional + structural loss is on record. Concrete single-implication claim, distinct from candidates 1 and 2 because the dropped structure is a directed pair of implications rather than a witness family or derivation tree. No BOARD overlap, no matching paper label.
@@ -12027,13 +12027,13 @@ Definition evidence: the CPTP carrier is defined at papers/bedc/parts/concrete_i
 
 ---
 
-### B-471 - \label{ch:capstones-reasoning-by-contradiction-boundary}
+### B-471 - \label{ch:visions-reasoning-by-contradiction-boundary}
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
 | Source | bedc-deep topic discovery |
-| Object | \label{ch:capstones-reasoning-by-contradiction-boundary} |
+| Object | \label{ch:visions-reasoning-by-contradiction-boundary} |
 | Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
@@ -12041,18 +12041,18 @@ Definition evidence: the CPTP carrier is defined at papers/bedc/parts/concrete_i
 | Novelty | 7/10 |
 
 Problem:
-\label{ch:capstones-reasoning-by-contradiction-boundary}
+\label{ch:visions-reasoning-by-contradiction-boundary}
 
 Local inputs:
-- `papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex`
+- `papers/bedc/parts/visions/reasoning_by_contradiction_boundary.tex`
 
 Rationale:
-Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reasoning_by_contradiction_boundary.tex:4.
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/visions/reasoning_by_contradiction_boundary.tex:4.
 
 Snippet:
-\label{ch:capstones-reasoning-by-contradiction-boundary}
+\label{ch:visions-reasoning-by-contradiction-boundary}
 
-BEDC accepts certain forms of reasoning by contradiction and rejects others, and the boundary is not a stylistic preference but a structural one. The permitted patterns -- proving a negation by deriving falsity from the assumption, eliminating double negation on a decidable proposition, refuting a false existence claim by exhibiting a counterexample to its witness -- all operate within the closed ground loop and never touch the meta level. The forbidden patterns -- proving an existence statement by contradiction, eliminating double negation on an undecidable proposition, splitting on the law of excluded middle for a predicate over the carrier of naming certificates -- all, on inspection, reduce to a single underlying move: closing the meta-level self-reference loop that \autoref{ch:capstones-reflection-and-limits}'s two-loops theorem requires to remain open. This chapter (i) catalogues the permitted refutation patterns as they appear in \autoref{ch:core-relational-extension-and-continuation}'s extension and continuation calculus, (ii) catalogues the forbidden patterns and traces each to its meta-closure consequence via a Tarski-style fragment of the truth predicate, (iii) states the unifying theorem that every forbidden pattern implements meta-closure, and (iv) records that the boundary thus identified is the same boundary that separates the closed ground loop from the open meta loop, with the halting capstone (\autoref{ch:capstones-halting-as-form-of-distinction-limit}) as the canonical sibling instance.
+BEDC accepts certain forms of reasoning by contradiction and rejects others, and the boundary is not a stylistic preference but a structural one. The permitted patterns -- proving a negation by deriving falsity from the assumption, eliminating double negation on a decidable proposition, refuting a false existence claim by exhibiting a counterexample to its witness -- all operate within the closed ground loop and never touch the meta level. The forbidden patterns -- proving an existence statement by contradiction, eliminating double negation on an undecidable proposition, splitting on the law of excluded middle for a predicate over the carrier of naming certificates -- all, on inspection, reduce to a single underlying move: closing the meta-level self-reference loop that \autoref{ch:visions-reflection-and-limits}'s two-loops theorem requires to remain open. This chapter (i) catalogues the permitted refutation patterns as they appear in \autoref{ch:core-relational-extension-and-continuation}'s extension and continuation calculus, (ii) catalogues the forbidden patterns and traces each to its meta-closure consequence via a Tarski-style fragment of the truth predicate, (iii) states the unifying theorem that every forbidden pattern implements meta-closure, and (iv) records that the boundary thus identified is the same boundary that separates the closed ground loop from the open meta loop, with the halting capstone (\autoref{ch:visions-halting-as-form-of-distinction-limit}) as the canonical sibling instance.
 
 \section{Permitted refutation patterns}
 \label{sec:reasoning-by-contradiction-permitted}
@@ -12068,13 +12068,13 @@ The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-an
 
 ---
 
-### B-472 - \label{ch:capstones-reflection-and-limits}
+### B-472 - \label{ch:visions-reflection-and-limits}
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
 | Source | bedc-deep topic discovery |
-| Object | \label{ch:capstones-reflection-and-limits} |
+| Object | \label{ch:visions-reflection-and-limits} |
 | Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
@@ -12082,16 +12082,16 @@ The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-an
 | Novelty | 7/10 |
 
 Problem:
-\label{ch:capstones-reflection-and-limits}
+\label{ch:visions-reflection-and-limits}
 
 Local inputs:
-- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+- `papers/bedc/parts/visions/reflection_and_limits.tex`
 
 Rationale:
-Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:4.
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/visions/reflection_and_limits.tex:4.
 
 Snippet:
-\label{ch:capstones-reflection-and-limits}
+\label{ch:visions-reflection-and-limits}
 
 This chapter answers one question: in what precise senses does BEDC describe itself, and where does each sense fail? The answer is two-fold and the asymmetry between the two halves is the main mathematical content. At the ground, the primitive distinction between two raw marks is \emph{self-instantiating}: stating it is already an act of it. This is a closed loop, and it must close for the rest of BEDC to begin. At the meta-level, the naming-certificate framework can internally describe the structure of any well-founded formal system, the host calculus of inductive constructions included. This second loop must remain open: closing it would, by Tarski undefinability, force inconsistency.
 
@@ -12128,10 +12128,10 @@ Problem:
 The internal $\mathrm{CIC}^{*}$ of \autoref{thm:internal-cic-interpretation} is a \emph{structural} reproduction of the host calculus. It is not the host calculus considered as a runtime: every Lean proof of every theorem appearing in this manuscript is checked by an external Lean kernel, which is itself implemented in a programming language whose semantics is not BEDC-internal. The isomorphism between $\mathrm{CIC}^{*}$ and the host CIC holds at the level of formal structure; it does not hold at t
 
 Local inputs:
-- `papers/bedc/parts/capstones/reflection_and_limits.tex`
+- `papers/bedc/parts/visions/reflection_and_limits.tex`
 
 Rationale:
-Surfaced from paper gap scan: open_prose at papers/bedc/parts/capstones/reflection_and_limits.tex:111.
+Surfaced from paper gap scan: open_prose at papers/bedc/parts/visions/reflection_and_limits.tex:111.
 
 Snippet:
 \begin{remark}[Structure-existence boundary]
@@ -12819,7 +12819,7 @@ Problem:
 If CrossHistCausal(h_a, h_b, k), then max_causal_rate(h_a, h_b, k) > 0.
 
 Local inputs:
-- `papers/bedc/parts/capstones/inter_hist_locality.tex`
+- `papers/bedc/parts/visions/inter_hist_locality.tex`
 
 Rationale:
 The local capstone has schema-only definitions for CrossHistCausal and MaxCausalRate but no closed implication connecting dependence to a strictly positive rate. This is a direct closure target aligned with the multi-Hist causal chain and upgrades the roadmap into a concrete obstruction/coverage theorem rather than prose.
@@ -12843,7 +12843,7 @@ Problem:
 If max_causal_rate(h_a, h_b, k) = 0, then not CrossHistCausal(h_a, h_b, k).
 
 Local inputs:
-- `papers/bedc/parts/capstones/inter_hist_locality.tex`
+- `papers/bedc/parts/visions/inter_hist_locality.tex`
 
 Rationale:
 Although nearby schema-only statements discuss degeneracy/triviality, no formal contrapositive is present as a theorem. This gives a concrete negative-direction lemma useful for contradiction/falsification surfaces and is distinct from mere observer-symmetric constancy claims.
@@ -12987,7 +12987,7 @@ Problem:
 There exists a halting predicate \NameCert_H over the carrier of all naming certificates if and only if there exists a \NameCert-level decision procedure indexed by the certificate-of-certificates carrier.
 
 Local inputs:
-- `papers/bedc/parts/capstones/halting_as_form_of_distinction_limit.tex`
+- `papers/bedc/parts/visions/halting_as_form_of_distinction_limit.tex`
 
 Rationale:
 Genuine missing dual. halting_as_form_of_distinction_limit.tex packages the forward direction (thm:halting-meta-loop-closure) but not the converse, even though the proof sketch already cites the equivalence. Filling the gap aligns the chapter with the parallel iffs in three_axioms_one_closure.tex (Choice/Quot.sound/propext stratum closures), which are all packaged as full equivalences. The chapter is 56 lines, safely below cap, and the converse is a one-step re-interpretation. No BOARD entry covers halting predicate existence dualities. Concrete biconditional, fits capstones-stratum surface, not a parameter echo.
