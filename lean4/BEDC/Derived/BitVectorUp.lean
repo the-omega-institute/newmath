@@ -58,4 +58,37 @@ theorem BitVectorSource_carrier_stability [AskSetup] [PackageSetup]
                           ledgerRow', pkgSig'⟩
                       · exact sameLedger
 
+def BitVectorFiniteLedger [AskSetup] [PackageSetup]
+    (length spine ledger provenance read : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
+  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory provenance ∧
+    Cont length spine ledger ∧ Cont ledger provenance read ∧ PkgSig bundle read pkg
+
+theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
+    {length spine ledger provenance read : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      UnaryHistory ledger ∧ UnaryHistory read ∧ hsame ledger (append length spine) ∧
+        hsame read (append ledger provenance) ∧ PkgSig bundle read pkg := by
+  intro finiteLedger
+  have lengthUnary : UnaryHistory length :=
+    finiteLedger.left
+  have spineUnary : UnaryHistory spine :=
+    finiteLedger.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    finiteLedger.right.right.left
+  have ledgerRow : Cont length spine ledger :=
+    finiteLedger.right.right.right.left
+  have readRow : Cont ledger provenance read :=
+    finiteLedger.right.right.right.right.left
+  have pkgSig : PkgSig bundle read pkg :=
+    finiteLedger.right.right.right.right.right
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed lengthUnary spineUnary ledgerRow
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed ledgerUnary provenanceUnary readRow
+  exact And.intro ledgerUnary
+    (And.intro readUnary
+      (And.intro ledgerRow
+        (And.intro readRow pkgSig)))
+
 end BEDC.Derived.BitVectorUp
