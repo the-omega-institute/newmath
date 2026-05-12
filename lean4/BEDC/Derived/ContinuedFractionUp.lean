@@ -113,4 +113,33 @@ theorem ContinuedFractionPacket_finite_handoff_obligation [AskSetup] [PackageSet
     ⟨scheduleUnary, handoffUnary, ledgerUnary, provenanceUnary, consumerUnary, readbackUnary,
       consumerRow, readbackRow, readbackPkg⟩
 
+theorem ContinuedFractionPacket_real_boundary_scope [AskSetup] [PackageSetup]
+    {digits numer denom radius schedule handoff boundary ledger provenance realRead readback :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      Cont handoff boundary realRead ->
+        Cont realRead ledger readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory digits ∧ UnaryHistory numer ∧ UnaryHistory denom ∧
+              UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory handoff ∧
+                UnaryHistory boundary ∧ UnaryHistory ledger ∧ UnaryHistory realRead ∧
+                  UnaryHistory readback ∧ Cont schedule numer handoff ∧
+                    Cont handoff ledger boundary ∧ Cont handoff boundary realRead ∧
+                      Cont realRead ledger readback ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle readback pkg := by
+  intro packet realReadRow readbackRow readbackPkg
+  obtain ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+    boundaryUnary, ledgerUnary, _provenanceUnary, scheduleNumerRow, boundaryRow,
+    _provenanceRow, packetPkg⟩ := packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffUnary boundaryUnary realReadRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed realReadUnary ledgerUnary readbackRow
+  exact
+    ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+      boundaryUnary, ledgerUnary, realReadUnary, readbackUnary, scheduleNumerRow, boundaryRow,
+      realReadRow, readbackRow, packetPkg, readbackPkg⟩
+
 end BEDC.Derived.ContinuedFractionUp
