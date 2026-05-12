@@ -170,6 +170,16 @@ def FastConvergentSeriesTailBoundPacket [AskSetup] [PackageSetup]
         Cont summand tailLedger transport ∧ Cont transport localCert provenance ∧
           PkgSig bundle provenance pkg
 
+theorem FastConvergentSeriesTailBoundPacket_constant_zero_seed [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle BHist.Empty pkg ->
+      FastConvergentSeriesTailBoundPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg := by
+  intro pkgSig
+  exact ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+    cont_left_unit BHist.Empty, cont_left_unit BHist.Empty, cont_left_unit BHist.Empty,
+    cont_left_unit BHist.Empty, pkgSig⟩
+
 theorem FastConvergentSeriesTailBoundPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     {summand partialSums schedule tailLedger regseqratReadback «seal» transport provenance
       localCert consumerRead : BHist}
