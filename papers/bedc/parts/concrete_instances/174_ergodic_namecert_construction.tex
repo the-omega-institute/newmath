@@ -106,3 +106,20 @@ rows, so it is the concrete $\ErgodicUp$ obligation surface.
 \end{proof}
 \leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_namecert\_obligation\_surface}
 \leanchecked{BEDC.Derived.ErgodicUp.ErgodicMeasurePreservingCarrier\_semantic\_name\_certificate}
+
+\begin{definition}[ErgodicUp invariant-row subledger restriction]
+\label{def:ergodic-invariant-row-subledger-restriction}
+Let $\mathcal E$ be an accepted $\ErgodicUp$ measure-preserving carrier of \autoref{def:ergodic-measure-preserving-carrier}. An invariant-row subledger restriction of $\mathcal E$ is a finite packet $\mathcal E|_I$ formed as follows. It keeps the displayed $\DynSystemUp$ transformation rows, the displayed $\MeasureUp$ measure rows, the $\mathsf{BHist}$ endpoint rows, the measure-preservation row, all $\hsame$ transports for the dynamic and measure endpoints, all finite $\Cont$ routes used by the preservation row, and the same $\Pkg$ provenance. Its invariant-subspace classifier ledger is a displayed finite subledger $I$ of the invariant-subspace classifier rows of $\mathcal E$, with each retained row carrying its original endpoint witnesses and its original transport route. No row outside $I$ is readable as an invariant-subspace row of $\mathcal E|_I$.
+\end{definition}
+
+\begin{theorem}[ErgodicUp invariant subledger restriction stays carried]
+\label{thm:ergodic-invariant-subledger-restriction-stays-carried}
+Let $\mathcal E$ be an accepted $\ErgodicUp$ measure-preserving carrier, and let $\mathcal E|_I$ be an invariant-row subledger restriction in the sense of \autoref{def:ergodic-invariant-row-subledger-restriction}. Then $\mathcal E|_I$ is an accepted $\ErgodicUp$ measure-preserving carrier. Its public decomposition ledger is exactly the retained finite invariant-row subledger $I$ together with the unchanged $\hsame$, $\Cont$, and $\Pkg$ rows; in particular, the restriction adds no host sigma-algebra quotient and no completed invariant-subspace row.
+\end{theorem}
+\begin{proof}
+Project $\mathcal E$ to the source surface of \autoref{def:ergodic-bhist-source-surface}. The restriction keeps the dynamic rows, measure rows, endpoint rows, transport rows, continuation routes, and package provenance unchanged, and replaces the invariant-subspace classifier ledger by the displayed finite subledger $I$. A finite subledger of a finite ledger is again a finite ledger, so these retained rows form an $\ErgodicUp$ BHist source surface.
+
+The measure-preserving carrier condition of \autoref{def:ergodic-measure-preserving-carrier} is read from the displayed $\DynSystemUp$ transformation, the displayed $\MeasureUp$ measure row, and the listed finite $\hsame$, $\Cont$, and $\Pkg$ ledger. None of those rows is removed or altered by \autoref{def:ergodic-invariant-row-subledger-restriction}. The same preservation row therefore witnesses the carrier condition for $\mathcal E|_I$.
+
+It remains to identify the public invariant data exposed by the restricted packet. By \autoref{thm:ergodic-invariant-subspace-classifier}, invariant-subspace comparison for $\mathcal E$ is read only through the displayed invariant rows and their $\hsame$ transports. The restricted packet displays exactly the rows in $I$, with the same endpoint witnesses and transport routes, so its classifier has no additional invariant row to read. By \autoref{thm:ergodic-decomposition-ledger}, every decomposition witness is exhausted by the displayed finite invariant ledger, the $\hsame$ transports, the finite $\Cont$ routes, and $\Pkg$ provenance. After restriction this exhaustion ranges precisely over $I$ and the unchanged route and provenance rows. Since neither the original surface nor the restriction has a coordinate for a host sigma-algebra quotient or completed invariant subspace, acceptance is preserved and no outside decomposition row is introduced.
+\end{proof}
