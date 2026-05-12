@@ -1,4 +1,5 @@
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 
 namespace BEDC.Derived.MeasureUp
 
@@ -37,5 +38,29 @@ theorem MeasureRootCarrierClassifier_public_obligation
     And.intro unionCarrier (And.intro union'Carrier unionSame)
   exact And.intro stableRows.left
     (And.intro diff'Carrier (And.intro unionClassified stableRows.right.right))
+
+theorem MeasureRootSigmaAdditive_public_obligation
+    {event union value sum endpoint tail total : BHist} :
+    MeasureRootPublicObligationBasis event union value sum endpoint ->
+      Cont endpoint BHist.Empty total ->
+        Cont BHist.Empty BHist.Empty tail ->
+          Cont tail BHist.Empty sum ->
+            MeasureEventRowCoverage event union value sum endpoint ∧
+              MeasureZeroBHistCarrier total ∧ MeasureZeroBHistCarrier tail ∧
+                hsame total endpoint ∧ hsame tail BHist.Empty := by
+  intro basis endpointTotal tailCont tailSum
+  have publicRows :
+      MeasureEventRowCoverage event union value sum endpoint ∧ hsame endpoint BHist.Empty :=
+    MeasureRootPublicObligationBasis_event_row_coverage basis
+  have totalEndpoint : hsame total endpoint :=
+    cont_right_unit_result endpointTotal
+  have totalZero : MeasureZeroBHistCarrier total :=
+    hsame_trans totalEndpoint publicRows.right
+  have tailRows : hsame tail BHist.Empty ∧ hsame sum BHist.Empty ∧ hsame sum tail :=
+    MeasureCountableZeroTail_canonical tailCont tailSum
+  exact
+    And.intro publicRows.left
+      (And.intro totalZero
+        (And.intro tailRows.left (And.intro totalEndpoint tailRows.left)))
 
 end BEDC.Derived.MeasureUp

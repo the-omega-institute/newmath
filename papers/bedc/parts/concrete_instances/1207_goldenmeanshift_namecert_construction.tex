@@ -97,6 +97,50 @@ Fold-prefix closure is exactly \autoref{thm:golden-mean-shift-fold-prefix-closur
 Finally, ledger exactness follows by unfolding the five carrier rows of \autoref{def:golden-mean-shift-carrier}. The ledger contains the accepted bit rows, adjacency decisions, prefix and fold provenance, and componentwise $\hsame$ classifier rows, and it contains no Fibonacci counting, Zeckendorf arithmetic, entropy, inverse-limit, or host symbolic-dynamics datum.
 \end{proof}
 
+\begin{theorem}[GoldenMeanShift scoped ledger binding]
+\label{thm:golden-mean-shift-scoped-ledger-binding}
+For an accepted $\GoldenMeanShiftUp$ carrier
+$$
+G=(W,Z,O,P,L),
+$$
+the scoped BEDC ledger is exactly the finite no-adjacent-one $\mathsf{BHist}$ window rows $W$, the all-zero witness $Z$, the zero-zero/zero-one/one-zero adjacency ledger $O$, the displayed fold-prefix $\Cont$ and $\Pkg$ provenance $P$, and the local $\NameCert$ row $L$. Every accepted row in this scope is bound componentwise to the $\hsame$ classifier, the local stability route, the fold-prefix closure route, and the adjacency ledger exhaustion row. No row outside $W,Z,O,P,L$ can contribute acceptance evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:golden-mean-shift-carrier}. The finite bit window, all-zero witness, adjacency decisions, prefix and fold provenance, and local naming ledger are the only displayed coordinates.
+
+Use \autoref{thm:golden-mean-shift-local-stability} for componentwise $\hsame$ transport. The transport route moves exactly the displayed bit rows, all-zero witness, adjacency ledger, provenance row, and local $\NameCert$ row.
+
+Use \autoref{thm:golden-mean-shift-fold-prefix-closure} for finite prefix readbacks. A prefix only restricts $W,Z,O,P,L$, so it remains inside the same scoped ledger.
+
+Finally apply \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion}. The accepted adjacency alternatives are exhausted by the zero-zero, zero-one, and one-zero rows in $O$, leaving no further acceptance coordinate.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift prefix transport scope]
+\label{thm:golden-mean-shift-prefix-transport-scope}
+Let $G=(W,Z,O,P,L)$ be an accepted $\GoldenMeanShiftUp$ carrier, and let $G_{\leq k}$ be any finite prefix or fold readback supplied by the displayed $\Cont$ route and $\Pkg$ provenance. If $G_{\leq k}$ is transported componentwise by the stored $\hsame$ rows and the transported adjacency ledger still lists only zero-zero, zero-one, and one-zero rows, then the transported prefix remains an accepted $\GoldenMeanShiftUp$ carrier over the restricted $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Conversely, every accepted transported prefix of $G$ is obtained by restricting the same five rows $W,Z,O,P,L$ and then applying those displayed transport routes.
+\end{theorem}
+\begin{proof}
+First form the prefix packet with \autoref{thm:golden-mean-shift-fold-prefix-closure}. The theorem restricts the visible bit rows, all-zero witness, adjacency ledger, provenance row, and local certificate row.
+
+Next transport the restricted packet through \autoref{thm:golden-mean-shift-local-stability}. The stability hypothesis is exactly the retained adjacency condition, so the transported prefix remains accepted.
+
+For the converse direction, project an accepted transported prefix back through the carrier coordinates. The prefix has no coordinate other than the restricted $W,Z,O,P,L$ rows, and \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion} identifies the retained adjacency decisions as restrictions of the original local ledger.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift adjacency scope exactness]
+\label{thm:golden-mean-shift-adjacency-scope-exactness}
+For every accepted $\GoldenMeanShiftUp$ carrier, the adjacency scope is exact: an adjacent visible bit-pair is accepted precisely when the carrier ledger records it as zero-zero, zero-one, or one-zero, and the associated $\NameCert$ row records the same decision through the componentwise $\hsame$, $\Cont$, and $\Pkg$ routes. The scoped ledger therefore exports finite no-adjacent-one acceptance over $\mathsf{BHist}$ only, and it exports no Fibonacci count, entropy invariant, inverse-limit object, or host shift-space equality.
+\end{theorem}
+\begin{proof}
+Project the adjacency row $O$ from \autoref{def:golden-mean-shift-carrier}. Its accepted constructors are the three displayed local alternatives.
+
+Apply \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion}. This identifies every accepted neighboring-pair decision with one of those alternatives and rules out a one-one acceptance route.
+
+The fold-prefix case follows by \autoref{thm:golden-mean-shift-fold-prefix-closure}: restriction only deletes rows and never adds another decision source. The transport case follows by \autoref{thm:golden-mean-shift-local-stability}: the $\NameCert$ row follows the same componentwise $\hsame$, $\Cont$, and $\Pkg$ routes as the displayed adjacency ledger.
+\end{proof}
+
 \begin{theorem}[GoldenMeanShift carrier row scope]
 \label{thm:golden-mean-shift-carrier-row-scope}
 The carrier rows $W,Z,O,P,L$ of \autoref{def:golden-mean-shift-carrier} are exactly the finite $\mathsf{BHist}$ bit-window rows, the all-zero witness row, the zero-zero/zero-one/one-zero adjacency ledger, the displayed $\Cont$ and $\mathsf{Pkg}$ provenance rows, and the local $\NameCert$ ledger. No entropy coordinate, inverse-limit coordinate, infinite shift space, or host symbolic-dynamics row belongs to the carrier.
