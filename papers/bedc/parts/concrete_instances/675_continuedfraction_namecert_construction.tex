@@ -222,6 +222,43 @@ the finite handoff rows, the seal boundary, the package provenance, and the
 local name-certificate dependency rows already present in the packet.
 \end{proof}
 
+\begin{theorem}[ContinuedFraction convergent-window standard bridge]
+\label{thm:continued-fraction-convergent-window-standard-bridge}
+A finite $\ContinuedFractionUp$ packet determines a conservative standard
+finite convergent window. Its BEDC readback recovers exactly the $\NatUp$
+partial quotient spine, $\RatUp$ convergent rows, $\DyadicRatCoreUp$ radius
+row, $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary,
+finite ledger, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\ContinuedFractionUp}$ row.
+
+This bridge excludes total expansion, uniqueness of infinite expansions,
+measure-typicality, quotient tails, and completed real equality.
+\end{theorem}
+\begin{proof}
+Project the finite continued-fraction carrier and classifier. The carrier
+coordinates supply the partial quotient spine, rational convergent rows, dyadic
+radius row, observation schedule, handoff row, seal boundary, finite ledger,
+package provenance, and local name-certificate evidence.
+
+Restrict the digit spine to the displayed finite window. The recurrence
+stability and finite handoff obligation identify the same $\RatUp$ convergent
+rows and $\DyadicRatCoreUp$ radius row at every displayed position, so the
+standard window has no additional convergent coordinate.
+
+Compose \autoref{thm:continuedfraction-obligation-finite-handoff} with
+\autoref{thm:continuedfraction-obligation-real-boundary}. The handoff sends the
+finite convergent window through $\RegSeqRatUp$, and the real-boundary
+obligation seals the resulting $\RealUp$ row without adding quotient-tail or
+completed-real equality data.
+
+Reading the conservative standard window back componentwise therefore recovers
+the original BEDC finite ledger, package provenance, and local name-certificate
+row. Since every step stays inside the finite carrier and classifier rows, the
+bridge contains no total expansion theorem, no uniqueness statement for
+infinite expansions, no measure-typicality claim, no quotient tail, and no
+completed real equality.
+\end{proof}
+
 \begin{theorem}[ContinuedFraction scoped boundary]
 \label{thm:continuedfraction-scoped-boundary}
 The carrier of \autoref{def:continuedfraction-carrier}, classifier of
