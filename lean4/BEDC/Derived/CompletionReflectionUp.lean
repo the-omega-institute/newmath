@@ -67,4 +67,31 @@ theorem CompletionReflectionPacket_extension_reflects [AskSetup] [PackageSetup]
     ⟨universalUnary, completionUnary, separatedUnary, diagonalUnary, regularUnary,
       extensionSame, extensionRow, packageRow, certSig⟩
 
+theorem CompletionReflectionPacket_consumer_scope [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              UnaryHistory reflected ∧ UnaryHistory sealRow ∧ UnaryHistory extension ∧
+                UnaryHistory completion ∧ Cont diagonal regular reflected ∧
+                  Cont universal completion extension ∧ PkgSig bundle cert pkg := by
+  intro packet reflectedRow reflectedSame extensionRow extensionSame
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    _packageRow, _provenanceRow, certSig⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_transport reflectedUnary reflectedSame
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  exact
+    ⟨reflectedUnary, sealUnary, extensionUnary, completionUnary, reflectedRow, extensionRow,
+      certSig⟩
+
 end BEDC.Derived.CompletionReflectionUp
