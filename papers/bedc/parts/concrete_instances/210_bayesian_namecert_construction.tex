@@ -106,3 +106,76 @@ These are precisely the acceptance clauses of \autoref{def:bayesian-posterior-pa
 
 Conversely, each row in the displayed source list is a coordinate of the accepted tuple, so the list is not missing any public posterior-source row. Since the carrier definition contains no coordinate for a host probability kernel, an ambient measurable-space quotient, or an external conditional-density equality, no such datum can be read from the accepted packet.
 \end{proof}
+
+\begin{theorem}[Bayesian posterior classifier transport]
+\label{thm:bayesian-posterior-classifier-transport}
+Let $\mathcal{B}$ and $\mathcal{B}'$ be accepted Bayesian update packets over
+$\NameCert_{\DistributionUp}$ and $\NameCert_{\CondExpUp}$. Write the public
+rows of $\mathcal{B}$, with its explicit Bayesian-update witness history $b$, as
+$$
+(\pi,\lambda,e,b,\omega,n,\rho,
+  \hsame(b,\omega),
+  \Cont(\pi,\lambda,e;\omega))
+$$
+and the corresponding public rows of $\mathcal{B}'$, with its explicit
+Bayesian-update witness history $b'$, as
+$$
+(\pi',\lambda',e',b',\omega',n',\rho',
+  \hsame(b',\omega'),
+  \Cont(\pi',\lambda',e';\omega')).
+$$
+Assume the displayed prior, likelihood, evidence, Bayesian-update witness,
+posterior, normalisation, and provenance rows are matched componentwise by
+$\hsame$ rows, with the prior, Bayesian-update witness, and posterior
+comparisons read through the $\DistributionUp$ classifier and the likelihood
+and evidence comparisons read through the $\CondExpUp$ classifier. If the
+$\Cont$ normalisation row and the $\Pkg$ provenance row are transported along
+these displayed comparisons, then the transported rows form an accepted
+$\BayesianUp$ posterior packet, and the transported posterior endpoint
+$\omega'$ is classified with the original posterior endpoint $\omega$. This is
+only a componentwise classifier-transport and row-repackaging statement for the
+Bayesian packet surface; it asserts no concrete closure, inversion, coverage,
+determinacy, uniqueness, bridge, or obstruction claim about $\BayesianUp$.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{B}$ by \autoref{thm:bayesian-posterior-source-obligation}.
+The projected surface consists exactly of the prior distribution row $\pi$, the
+likelihood row $\lambda$, the evidence row $e$, the explicit Bayesian-update
+witness history $b$, the posterior endpoint $\omega$, the classifier comparison
+$\hsame(b,\omega)$, the normalisation row $\Cont(\pi,\lambda,e;\omega)$, and
+the provenance row. By \autoref{thm:bayesian-update-ledger-exactness}, every
+public posterior read of an accepted packet factors through this displayed
+inventory and through no other row.
+
+Use the supplied componentwise $\hsame$ comparisons to move the dependency
+rows. By \autoref{thm:semantic-namecert-pattern-ledger-transport} and
+\autoref{thm:semantic-namecert-classifier-chain-transport}, the
+$\DistributionUp$ classifier transports the prior row, the Bayesian-update
+witness history, and the posterior endpoint, so $\pi'$ remains a
+distribution-side prior row, $b'$ remains the displayed Bayesian-update witness
+history, and $\omega'$ remains a distribution-side posterior endpoint. By
+\autoref{thm:semantic-namecert-pattern-ledger-transport} and
+\autoref{thm:semantic-namecert-classifier-chain-transport}, the $\CondExpUp$
+classifier transports the likelihood and evidence rows, so the conditioning
+ledger that reads $\lambda$ against $e$ is replaced by the displayed ledger that
+reads $\lambda'$ against $e'$. Thus the dependency part of the Bayesian packet
+has the same accepted shape after transport.
+
+It remains to account for the Bayesian-specific rows. The transported
+normalisation row is, by hypothesis, the visible continuation
+$\Cont(\pi',\lambda',e';\omega')$. The transported provenance row is the same
+$\Pkg$-named source row read at the transported endpoint. Since the accepted
+Bayesian carrier exposes no row besides the two dependency certificates, the
+prior, likelihood, evidence, Bayesian-update witness, posterior, classifier,
+normalisation, and provenance rows, these transported coordinates repack as an
+accepted $\BayesianUp$ posterior packet.
+
+Finally compare endpoints. One of the componentwise hypotheses is precisely
+the posterior transport $\hsame(\omega,\omega')$ supplied through the
+$\DistributionUp$ endpoint classifier. By symmetry of the displayed
+history-sameness classifier, the transported endpoint also satisfies
+$\hsame(\omega',\omega)$. Hence the posterior endpoint of the transported
+packet is classified with the original posterior endpoint, and the classifier
+read remains the same visible Bayesian posterior read described by
+\autoref{thm:bayesian-update-ledger-exactness}.
+\end{proof}

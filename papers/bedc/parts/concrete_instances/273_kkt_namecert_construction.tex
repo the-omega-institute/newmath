@@ -178,3 +178,28 @@ The listed finite rows are therefore the whole public packet export.
   \notclaimed{This chapter does not close full nonlinear optimization, Slater existence, analytic differentiability, host real optimization semantics, or a standard bridge.}
   \upgradepath{The next paper obligation is the standard bridge for the finite KKT packet without adding analytic optimization semantics.}
 \end{closurestatus}
+
+\begin{definition}[Standard finite KKT packet presentation]
+\label{def:kkt-standard-finite-packet-presentation}
+A standard finite KKT packet presentation for $\KKTUp$ is a displayed finite table whose entries are exactly a primal variable row, a dual multiplier row, a constraint residual row, a stationarity row, feasibility rows, a complementary-slackness row, componentwise $\hsame$ rows between the displayed entries, $\Cont$ rows for stationarity and slackness readback, $\Pkg$ rows naming $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$, a $\NameCert_{\KKTUp}$ row, and the dependency rows through those five named certificates. Its standard reading is only this finite KKT table: primal data, multipliers, residuals, stationarity, feasibility, and complementary slackness as displayed rows.
+\end{definition}
+
+\begin{theorem}[KKTUp finite-packet standard bridge]
+\label{thm:kkt-finite-packet-standard-bridge}
+Let $S$ be a standard finite KKT packet presentation in the sense of \autoref{def:kkt-standard-finite-packet-presentation}. If $S$ is admitted solely through the primal, multiplier, residual, stationarity, feasibility, complementary-slackness, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and dependency rows exported by $\KKTUp$, then $S$ has a conservative standard bridge through the public $\KKTUp$ finite packet. The forward read sends $S$ to the public export of \autoref{thm:kkt-public-finite-packet-export}. The reverse read sends that public export back to the same displayed finite KKT presentation, up to the componentwise $\hsame$ rows already present in $S$. Both composites preserve the primal, multiplier, residual, stationarity, feasibility, complementary-slackness, continuation, package, naming, and dependency rows.
+
+The bridge adds no Slater condition, differentiability oracle, solver certificate, analytic duality theorem, nonlinear optimizer, host minimization predicate, or host real-valued optimization semantics.
+\end{theorem}
+\begin{proof}
+Read $S$ through \autoref{def:kkt-standard-finite-packet-presentation}. Its entries are exactly the finite KKT rows listed there, together with the dependency rows over $\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$.
+
+By \autoref{def:kkt-bhist-carrier}, these are precisely the visible carrier rows accepted by $\KKTUp$. The classifier therefore admits $S$ only by placing its primal, multiplier, residual, stationarity, feasibility, slackness, comparison, continuation, package, naming, and dependency entries in the corresponding finite $\BHist$ packet positions.
+
+Apply \autoref{thm:kkt-primal-dual-row-obligations}. The primal, multiplier, residual, stationarity, and feasibility entries of $S$ are read through the displayed dependency certificates, and every such entry carries its visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Apply \autoref{thm:kkt-complementarity-ledger-exactness} to the slackness entry. The complementary-slackness row is exactly the finite ledger over the displayed residual, multiplier, scalar slack, comparison, continuation, and package rows.
+
+The forward standard read is now forced: it forgets no row and adds no row, but regards this accepted finite packet as the standard finite KKT table consisting of the displayed primal data, multipliers, residuals, stationarity, feasibility, and complementary slackness. This is the public export described in \autoref{thm:kkt-public-finite-packet-export}, because that theorem identifies the whole public $\KKTUp$ surface with exactly these finite rows and their five dependency reads.
+
+For the reverse read, start from the public export just obtained. \autoref{thm:kkt-public-finite-packet-export} says that the export contains only the listed finite rows of \autoref{def:kkt-bhist-carrier}. Reinsert those rows into the table positions of \autoref{def:kkt-standard-finite-packet-presentation}. The stationarity and feasibility entries are stable under the componentwise comparisons by \autoref{thm:kkt-stationarity-feasibility-hsame-transport}, and the slackness entry is fixed at the ledger boundary by \autoref{thm:kkt-complementarity-ledger-exactness}. Hence the returned table is the same displayed finite KKT presentation, with equality understood through the $\hsame$ rows already carried by $S$.
+
+The two composites therefore preserve every visible row of the presentation: primal, multiplier, residual, stationarity, feasibility, complementary slackness, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the named dependency rows. Finally, \autoref{thm:kkt-downstream-consumer-boundary} rules out every downstream read not present in that finite carrier. Since there is no carrier coordinate for Slater data, differentiability, solver evidence, analytic duality, nonlinear optimization, host minimization, or host real-valued optimizer semantics, the bridge is conservative at exactly the finite packet boundary.
+\end{proof}
