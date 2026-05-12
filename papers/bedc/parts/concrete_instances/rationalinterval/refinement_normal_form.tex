@@ -1,3 +1,49 @@
+\begin{theorem}[RationalInterval common refinement associativity]
+\label{thm:rationalinterval-common-refinement-associativity}
+Let $I$, $J$, and $K$ be three compatible accepted
+$\RationalIntervalUp$ finite packets. Suppose their displayed pairwise
+common-refinement rows share the appropriate middle endpoint windows, so that
+one may first refine $I$ with $J$ and then with $K$, or first refine $J$ with
+$K$ and then with $I$.
+
+The two iterated refinements determine the same consumer-visible finite
+rational-window packet. They expose the same transported $\RatUp$ endpoint
+rows, endpoint-order witnesses, containment and refinement rows, dyadic-width
+row, $\RegSeqRatUp$ finite-window row, $\RealUp$ finite-window handoff row,
+visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ rows. The claim does not assert completed $\RealUp$ equality,
+quotient Cauchy classes, located subsets, apartness, interval arithmetic, or
+host standard interval data.
+\end{theorem}
+\begin{proof}
+Form the two binary common-refinement windows by applying
+\autoref{thm:rational-interval-common-refinement-window} to the compatible
+pairs. The shared middle endpoint hypotheses put both binary windows over the
+same displayed endpoint-order and containment rows.
+
+Compose the refinement rows in the left-associated direction with
+\autoref{thm:rational-interval-refinement-composition}. Apply the same theorem
+in the right-associated direction. Both composites are therefore finite
+$\mathsf{BHist}$ packets whose refinement entries are built from the same
+pairwise rows.
+
+Identify the transported endpoint coordinates componentwise by using
+\autoref{thm:rational-interval-endpoint-transport-classifier}. Lower
+endpoints, upper endpoints, endpoint-order witnesses, containment rows, and
+dyadic-width rows agree at the consumer surface because each coordinate is read
+through the same transported $\RatUp$ classifier data.
+
+Finally apply
+\autoref{thm:rationalinterval-finite-consumer-completeness}. It says every
+finite consumer read of the two composites factors through exactly the
+displayed rational-window rows, the $\RegSeqRatUp$ observation row, the
+$\RealUp$ finite-window handoff row, the visible $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Hence the two iterated
+refinements expose one finite consumer packet and add none of the excluded
+completed-real, quotient, located-subset, apartness, arithmetic, or host
+standard interval structure.
+\end{proof}
+
 \begin{theorem}[RationalInterval midpoint bisection window]
 \label{thm:rationalinterval-midpoint-bisection-window}
 Let $I$ be an accepted $\RationalIntervalUp$ packet with displayed lower
@@ -117,4 +163,53 @@ has the same finite $\RegSeqRatUp$ and $\RealUp$ consumer package up to
 $\hsame$. Since all rows used by the construction are the listed finite BEDC
 rows, no completed-real equality, quotient class, located-subset datum,
 apartness row, interval operation, or host interval structure is exported.
+\end{proof}
+
+\begin{theorem}[RationalInterval refinement normal form]
+\label{thm:rationalinterval-refinement-normal-form}
+Any finite tree of accepted $\RationalIntervalUp$ containment,
+bisection, and common-refinement reads consumed by $\RegSeqRatUp$ or by a
+finite-window $\RealUp$ consumer factors through one left-associated directed
+rational-window basis packet. The packet carries the same displayed $\RatUp$
+lower and upper endpoint rows, dyadic-width rows, containment ledgers,
+$\mathsf{BHist}$ entries, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\RationalIntervalUp}$ rows as the original tree.
+
+Every $\RegSeqRatUp$ or finite-window $\RealUp$ read of the tree is therefore a
+read of this left-associated basis packet, and changing the displayed common
+refinement or bisection witnesses changes only the representative of the same
+finite consumer package. The normal form exports no completed $\RealUp$
+equality, quotient Cauchy class, located subset, apartness row, interval
+arithmetic, or host standard interval.
+\end{theorem}
+\begin{proof}
+Induct on the finite refinement tree. A leaf is already an accepted
+$\RationalIntervalUp$ rational-window packet, so its endpoint, width,
+containment, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows give the required basis packet.
+
+For a binary common-refinement node, apply
+\autoref{thm:rational-interval-common-refinement-window} to place the two child
+packets over a common finite rational window. Then use
+\autoref{thm:rational-interval-directed-refinement-basis} to choose the
+left-associated directed basis for the finite family of endpoint and
+containment rows.
+
+For a nested refinement node, compose the child basis route with the displayed
+outer route by \autoref{thm:rational-interval-refinement-composition}. The
+rebracketing needed to keep the basis left-associated is exactly
+\autoref{thm:rationalinterval-common-refinement-associativity}.
+
+For a bisection node, apply
+\autoref{thm:rationalinterval-midpoint-bisection-window} to expose the two
+half-window packets and then use the induction hypothesis on the selected
+half. The rows remain over the same endpoint, midpoint, dyadic-width,
+containment, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ surface.
+
+Finally apply \autoref{thm:rationalinterval-refinement-choice-neutrality}. It
+identifies all displayed witness choices at the finite $\RegSeqRatUp$ and
+$\RealUp$ consumer surface. Since every step only repacks the listed finite
+rational-window rows, the excluded completed-real, quotient, located-subset,
+apartness, arithmetic, and host-standard structures are not exported.
 \end{proof}
