@@ -113,6 +113,26 @@ theorem TriePacket_carrier_stability [AskSetup] [PackageSetup]
                 (And.intro hBranchRoute (And.intro hEndpoint hPkg))))))
   · exact And.intro keyPayloadSame (And.intro branchRouteSame endpointSame)
 
+theorem TriePrefixExtensionClassifier_stability [AskSetup] [PackageSetup]
+    {pre pre' branch ext ext' prov : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory pre -> UnaryHistory branch -> hsame pre pre' -> Cont pre branch ext ->
+      Cont pre' branch ext' -> PkgSig bundle prov pkg ->
+        UnaryHistory pre' ∧ UnaryHistory ext ∧ UnaryHistory ext' ∧ hsame ext ext' ∧
+          PkgSig bundle prov pkg := by
+  intro preUnary branchUnary samePrefix extRow extRow' pkgSig
+  have preUnary' : UnaryHistory pre' :=
+    unary_transport preUnary samePrefix
+  have extUnary : UnaryHistory ext :=
+    unary_cont_closed preUnary branchUnary extRow
+  have extUnary' : UnaryHistory ext' :=
+    unary_cont_closed preUnary' branchUnary extRow'
+  have sameExt : hsame ext ext' :=
+    cont_respects_hsame samePrefix (hsame_refl branch) extRow extRow'
+  exact And.intro preUnary'
+    (And.intro extUnary
+      (And.intro extUnary'
+        (And.intro sameExt pkgSig)))
+
 def TrieBHistSource [AskSetup] [PackageSetup]
     (key payload depth branch provenance keyBranch payloadRoute endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
