@@ -67,6 +67,52 @@ theorem NestedIntervalIntersectionCarrier_namecert_obligations [AskSetup] [Packa
       exact source
   }
 
+theorem NestedIntervalIntersectionCarrier_finite_diagonal_handoff [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {sourceChain width selector endpoints handoff sealRow transport route name selectedRead : BHist} :
+    NestedIntervalIntersectionCarrier sourceChain width selector endpoints handoff sealRow transport
+        route name bundle pkg ->
+      Cont selector endpoints selectedRead ->
+        UnaryHistory selectedRead ∧ UnaryHistory handoff ∧ Cont selector endpoints selectedRead ∧
+          Cont selector endpoints handoff ∧ PkgSig bundle route pkg := by
+  intro carrier selectedReadRoute
+  cases carrier with
+  | intro sourceChainUnary carrier =>
+      cases carrier with
+      | intro widthUnary carrier =>
+          cases carrier with
+          | intro selectorUnary carrier =>
+              cases carrier with
+              | intro endpointsUnary carrier =>
+                  cases carrier with
+                  | intro handoffUnary carrier =>
+                      cases carrier with
+                      | intro sealRowUnary carrier =>
+                          cases carrier with
+                          | intro transportUnary carrier =>
+                              cases carrier with
+                              | intro routeUnary carrier =>
+                                  cases carrier with
+                                  | intro nameUnary carrier =>
+                                      cases carrier with
+                                      | intro sourceRoute carrier =>
+                                          cases carrier with
+                                          | intro handoffRoute carrier =>
+                                              cases carrier with
+                                              | intro transportRoute carrier =>
+                                                  cases carrier with
+                                                  | intro nameRoute carrier =>
+                                                      cases carrier with
+                                                      | intro routePkg namePkg =>
+                                                          have selectedReadUnary :
+                                                              UnaryHistory selectedRead :=
+                                                            unary_cont_closed selectorUnary
+                                                              endpointsUnary selectedReadRoute
+                                                          exact
+                                                            ⟨selectedReadUnary, handoffUnary,
+                                                              selectedReadRoute, handoffRoute,
+                                                              routePkg⟩
+
 theorem NestedIntervalIntersectionCarrier_selector_transport_determinacy [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {pkg : Pkg}
     {sourceChain width selector endpoints handoff sealRow transport route name sourceChain' width'

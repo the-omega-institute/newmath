@@ -280,6 +280,45 @@ For a $\RealUp$ request, apply the public real seal factorization of \autoref{th
 The non-escape clauses are exactly the absent fields in the $\NameCert$ obligations of \autoref{thm:cauchy-completion-monad-namecert-obligations}. Since the accepted packet contains no coordinate for quotient streams, selected limits, host equality, hidden representatives, or ambient completeness, the finite window route exhausts every listed downstream read.
 \end{proof}
 
+\begin{definition}[CauchyCompletionMonad RealCauchyCompletion handoff packet]
+\label{def:cauchy-completion-monad-realcompletion-handoff-packet}
+A $\CauchyCompletionMonadUp$ to $\RealCauchyCompletionUp$ handoff packet is the finite route
+$$
+(X,\mu,W,D,\Delta,E,L,C,P,N)
+\rightsquigarrow
+\RealCauchyCompletionUp
+$$
+where $X$ is the source regular-Cauchy family row, $\mu$ selects the inspected family member and precision window, $W$ records the finite $\StreamNameUp$ windows, $D$ records the corresponding $\DyadicRatCoreUp$ observations, $\Delta$ is the $\RegSeqRatUp$ diagonal readback, $E$ is the public $\RealUp$ seal, $L$ records the displayed $\BHist$ and $\hsame$ comparisons, $C$ records the displayed $\Cont$ consumer routes, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert_{\CauchyCompletionMonadUp}$ row. A $\RealCauchyCompletionUp$ consumer may read the packet only through this ordered route.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionMonad RealCauchyCompletion input factorization]
+\label{thm:cauchy-completion-monad-realcompletion-input-factorization}
+Every $\RealCauchyCompletionUp$ input read of an accepted $\CauchyCompletionMonadUp$ packet factors through the handoff packet of \autoref{def:cauchy-completion-monad-realcompletion-handoff-packet}. The read starts at a source regular-Cauchy family row, passes through the selected finite $\StreamNameUp$ window and $\DyadicRatCoreUp$ observation, is repacked by the $\RegSeqRatUp$ diagonal readback, reaches the public $\RealUp$ seal, and is transported only by displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with a $\RealCauchyCompletionUp$ input request. The unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary} supplies the boundary case: a constant regular-Cauchy source has stationary finite windows, constant dyadic observations, a diagonal $\RegSeqRatUp$ readback, and the displayed $\RealUp$ seal.
+
+For transported and composed packets, use diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. It keeps the family row, schedule, selected window, dyadic observation, diagonal readback, and seal aligned by componentwise $\hsame$ rows and displayed $\Cont$ routes.
+
+Apply the public real seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. The final consumer-facing row is the $\RealUp$ seal reached after the diagonal readback, not an external real equality or selected limit.
+
+Finally use finite-window exhaustion from \autoref{thm:cauchy-completion-monad-finite-window-exhaustion}. It says every $\RealCauchyCompletionUp$ read is exhausted by the same finite route, so the request factors through the handoff packet and through no other coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad RealCauchyCompletion consumer package]
+\label{thm:cauchy-completion-monad-realcompletion-consumer-package}
+The downstream $\RealCauchyCompletionUp$ consumer package exported by an accepted $\CauchyCompletionMonadUp$ packet is exactly the handoff packet of \autoref{def:cauchy-completion-monad-realcompletion-handoff-packet} together with the unit boundary, diagonal-bind stability, public $\RealUp$ seal factorization, and finite-window exhaustion rows. The package supplies source regular-Cauchy family reads, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ diagonal readback, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates, and it exports no quotient stream, host real equality, selected limit, hidden representative, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Assemble the source side from the handoff packet definition. It gives the ordered consumer route through $X$, $\mu$, $W$, $D$, $\Delta$, $E$, $L$, $C$, $P$, and $N$.
+
+Attach the unit and bind rows. The unit boundary supplies constant input packets, while diagonal-bind stability transports composed packets without changing the displayed read order.
+
+Attach the public seal and exhaustion rows. The public real seal factorization identifies the seal reached after diagonal readback, and finite-window exhaustion identifies the same finite route as the whole $\RealCauchyCompletionUp$ input surface.
+
+Since the assembled package contains only the displayed family, window, dyadic, readback, seal, history, transport, continuation, provenance, and naming rows, it has no coordinate for quotient streams, host real equality, selected limits, hidden representatives, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad regular-family unit]
 \label{thm:cauchy-completion-monad-regular-family-unit}
 Every constant $\RegSeqRatUp$ family row determines the displayed $\CauchyCompletionMonadUp$ unit packet through stationary $\StreamNameUp$ windows, constant $\DyadicRatCoreUp$ observations, the same diagonal $\RegSeqRatUp$ readback, the public $\RealUp$ seal row, finite $\BHist$ coordinates, reflexive $\hsame$ rows, identity $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\CauchyCompletionMonadUp}$ row. The packet exports exactly the unit route already visible in those rows, and it exports no quotient stream, selected limit, host equality, hidden representative, or ambient completeness datum.
