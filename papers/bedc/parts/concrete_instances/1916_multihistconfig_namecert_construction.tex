@@ -1,0 +1,103 @@
+\chapter{MultiHistConfig NameCert Construction}
+\label{ch:concrete-instances-multihistconfig-namecert}
+\origin{ai}
+
+The $\MultiHistConfigUp$ interface records the first concrete BEDC packet in the inter-Hist locality chain of \autoref{rem:next-dependency-chain}. It treats a finite family of independent histories as a local naming surface, with visible membership, pairwise transport rows, continuation read routes, package provenance, and a local naming row. The packet deliberately has no global synchronization coordinate: it names a finite configuration of histories, not a privileged shared frame over them.
+
+\begin{definition}[Multi-Hist configuration carrier]
+\label{def:multi-hist-config-carrier}
+A $\MultiHistConfigUp$ carrier is a finite $\BHist$ packet
+$$
+M=(H,L,T,R,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $H=(h_1,\ldots,h_n)$ is the finite packet of component $\Hist$ rows;
+\item $L$ is the visible membership ledger saying exactly which component histories are present in $H$;
+\item $T$ records the pairwise $\hsame$ transport rows permitted between displayed component histories and their accepted representatives;
+\item $R$ records the $\Cont$ read routes by which each component history is inspected as a local BEDC row;
+\item $P$ is the $\Pkg$ provenance naming $\Hist$, $\BHist$, $\hsame$, $\Cont$, finite membership ledgers, and $\NameCert$ source rows;
+\item $N$ is the local $\NameCert_{\MultiHistConfigUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global synchronization history, global time row, observer-of-observers, or shared clock. Its classifier relates two carriers only by the displayed membership ledger, pairwise $\hsame$ transports, $\Cont$ read routes, provenance row, and local naming row.
+\end{definition}
+
+\begin{theorem}[MultiHistConfig NameCert obligations]
+\label{thm:multi-hist-config-namecert-obligations}
+The $\NameCert_{\MultiHistConfigUp}$ surface has five seed obligations:
+\begin{enumerate}
+\item carrier admission for the finite $\BHist$ packet of \autoref{def:multi-hist-config-carrier};
+\item classifier comparison by exact membership ledger equality together with the displayed pairwise $\hsame$ transport rows;
+\item route stability for every $\Cont$ read of a component history;
+\item ledger exactness, saying that public membership reads expose precisely the histories recorded in $H$ and no additional component;
+\item public boundary, saying that the exported seed is the finite local configuration surface and not a synchronized multi-observer frame.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple formation from the component histories, membership ledger, transport table, continuation routes, provenance row, and local naming row. These are the displayed coordinates of \autoref{def:multi-hist-config-carrier}.
+
+The classifier compares accepted carriers through the same finite inventory. Membership is read from $L$, component comparisons are read from $T$, and every component inspection is replayed through the routes in $R$.
+
+The ledger and public-boundary clauses follow from the absence of any synchronization coordinate. A consumer can project only the listed rows, so it can audit finite membership and local routes but cannot obtain a global time row or shared-frame witness from the packet.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig has no global synchronization scope]
+\label{thm:multi-hist-config-no-global-sync-scope}
+An accepted $\MultiHistConfigUp$ carrier exposes no public coordinate that can serve as a global synchronization history for all component histories. Any synchronization claim over the carrier must be supplied as a separate BEDC object with its own ledger, and is not part of the $\MultiHistConfigUp$ seed.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:multi-hist-config-carrier}. They consist of component histories, membership, pairwise transports, local continuation routes, package provenance, and the local naming row.
+
+None of these coordinates is a distinguished $\Hist$ row indexed as the shared clock of the whole packet. The classifier therefore has no field from which a consumer could read a global synchronization history.
+
+Thus the accepted seed may support later relations between component histories, but it does not itself export a synchronized multi-observer frame.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig $\hsame$ transport]
+\label{thm:multi-hist-config-hsame-transport}
+For accepted $\MultiHistConfigUp$ carriers, componentwise $\hsame$ transport preserves the local configuration surface: the membership ledger, component read routes, package provenance, and local naming row remain the only data available to the classifier.
+\end{theorem}
+\begin{proof}
+Componentwise transport is recorded in the table $T$. Applying a displayed $\hsame$ row replaces a component history only through an accepted representative named by the same finite transport table.
+
+The membership ledger $L$ still determines which component slots are present, and the continuation table $R$ still determines how each slot is read. Since the carrier has no global synchronization coordinate, transport cannot create one.
+
+The package row and local naming row are compared as ordinary displayed coordinates. Hence the transported carrier remains the same kind of local finite configuration surface.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig ledger exactness]
+\label{thm:multi-hist-config-ledger-exactness}
+The public membership ledger of a $\MultiHistConfigUp$ carrier is exact: every exported component history is one of the histories listed in $H$, and every history listed in $H$ has a visible membership row in $L$ and a local read route in $R$.
+\end{theorem}
+\begin{proof}
+Read the public membership surface through the ledger coordinate $L$. By carrier formation, $L$ is paired with the finite component packet $H$ and records exactly its displayed component slots.
+
+For each listed slot, the route table $R$ gives the local $\Cont$ read route used by consumers. Conversely, a public component read must pass through $R$, and the route table only addresses slots named by $L$.
+
+Therefore membership and readability coincide at the displayed finite boundary, with no hidden component and no unledgered public read.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig public seed]
+\label{thm:multi-hist-config-public-seed}
+The public seed exported by $\MultiHistConfigUp$ is precisely a finite $\BHist$ ledger of component histories, exact membership rows, pairwise $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ row. It does not claim cross-Hist causal dependence, maximum causal rate, Lorentz geometry, curved gluing, quantum-state superposition, or any global synchronization witness.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier through \autoref{def:multi-hist-config-carrier}. The projected rows are exactly $H,L,T,R,P,N$.
+
+Use \autoref{thm:multi-hist-config-namecert-obligations} for carrier admission, classifier comparison, route stability, ledger exactness, and public boundary. Use \autoref{thm:multi-hist-config-no-global-sync-scope} to exclude a shared-frame coordinate.
+
+The named later objects in \autoref{rem:next-dependency-chain} require additional predicates and ledgers. Since no such rows occur in $M$, the $\MultiHistConfigUp$ chapter supplies only the finite configuration seed.
+\end{proof}
+
+\closureat{MultiHistConfigUp}{seedStr}
+
+\begin{closurestatus}{\MultiHistConfigUp}
+  \constructivestory{A $\MultiHistConfigUp$ packet is generated from finite component $\Hist$ rows, an exact membership ledger, pairwise $\hsame$ transports, local $\Cont$ read routes, package provenance, and a local $\NameCert$ row, with no global synchronization coordinate.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local classifier, no-global-synchronization boundary, componentwise transport, exact ledger, and public configuration surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close cross-Hist causal dependence, maximum causal rate, Lorentz geometry, curved gluing, quantum-state superposition, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, no-global-synchronization scope, exact membership ledger, and public-seed routing for the Multi-Hist configuration packet.}
+\end{closurestatus}
