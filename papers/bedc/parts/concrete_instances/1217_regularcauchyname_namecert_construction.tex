@@ -104,6 +104,42 @@ The fourth row is \autoref{thm:regularcauchyname-realup-seal-boundary}. The $\Re
 Finally, \autoref{thm:regularcauchyname-namecert-obligation-surface} assembles these rows with the carrier and classifier projections. Since every listed datum is drawn from the displayed packet and its $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, the ledger is exhausted over the named BEDC objects and contains no quotient stream, host sequence, selected-limit, or ambient-completeness row.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName classifier transport stability]
+\label{thm:regularcauchyname-classifier-transport-stability}
+Let $G=(S,Q,\rho,L,E,P,N)$ be the source packet of \autoref{def:regularcauchyname-namecert-source}. Any displayed $\hsame$ comparison and $\Cont$ route that transports the $\StreamNameUp$ schedule $S$, the $\DyadicRatCoreUp$ observation row $Q$, the dyadic-radius row $\rho$, the finite ledger $L$, the $\RealUp$ seal row $E$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ preserves the $\NameCert_{\RegularCauchyNameUp}$ classifier over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the classifier from the source packet. Its only comparison rows are common $\StreamNameUp$ windows, transported $\DyadicRatCoreUp$ observations, dyadic-radius rows, pointwise $\RegSeqRatUp$ reads, seal rows, and provenance.
+
+Apply the dyadic-radius obligation of \autoref{thm:regularcauchyname-dyadic-radius-obligations} to keep each radius bound attached to the same certified unary index and window during transport. Apply the StreamName handoff of \autoref{thm:regularcauchyname-streamname-handoff} to keep the scheduled window and transported rational observation on the same route.
+
+The $\RealUp$ seal boundary in \autoref{thm:regularcauchyname-realup-seal-boundary} is downstream of those rows, so transporting the displayed coordinates also transports the seal-facing classifier row. The package theorem \autoref{thm:regularcauchyname-obligation-closure-package} then repacks the transported rows as the same local $\NameCert$ classifier, with no host sequence, quotient stream, selected limit, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName window ledger exhaustion]
+\label{thm:regularcauchyname-window-ledger-exhaustion}
+For a source packet $G=(S,Q,\rho,L,E,P,N)$, every consumer precision read is exhausted by the displayed finite route through $S$, $Q$, $\rho$, $L$, $E$, $P$, and $N$. The route uses only $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window handoff. By \autoref{thm:regularcauchyname-streamname-handoff}, a precision request first lands in the displayed $\StreamNameUp$ schedule and then reaches the transported dyadic rational observation read through the pointwise $\RegSeqRatUp$ classifier.
+
+The radius row for that same window is supplied by \autoref{thm:regularcauchyname-dyadic-radius-obligations}. Thus the scheduled window, dyadic observation, radius evidence, and regular rational readback are one finite ledger route, not separate hidden data.
+
+The $\RealUp$ seal boundary of \autoref{thm:regularcauchyname-realup-seal-boundary} consumes this route after it has been displayed. Together with the $\Pkg$ and $\NameCert$ provenance rows in \autoref{thm:regularcauchyname-obligation-closure-package}, these entries exhaust the consumer ledger and leave no quotient stream, host sequence, selected limit, or ambient completeness row to read.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName real seal factorization]
+\label{thm:regularcauchyname-real-seal-factorization}
+For every accepted source packet $G=(S,Q,\rho,L,E,P,N)$, the $\RealUp$ seal row $E$ factors through the displayed dyadic-radius row, the $\StreamNameUp$ handoff, and the $\RegSeqRatUp$ readback before it can be consumed as a $\NameCert_{\RegularCauchyNameUp}$ row. The factorization is componentwise over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Read the seal coordinate from the source packet. It is recorded after the stream schedule, dyadic observations, radius bounds, and finite regularity ledger, so it is not an independent real carrier.
+
+Use \autoref{thm:regularcauchyname-streamname-handoff} to expose the scheduled finite window and its transported rational observation. Use \autoref{thm:regularcauchyname-dyadic-radius-obligations} to attach the dyadic-radius row to the same window, and use \autoref{thm:regularcauchyname-realup-seal-boundary} to place the $\RealUp$ seal after that handoff.
+
+Finally apply \autoref{thm:regularcauchyname-obligation-closure-package}. The package theorem names the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, so the seal factorization remains a finite certificate route and exports no quotient equality, selected limit, host real carrier, or ambient completeness theorem.
+\end{proof}
+
 \begin{theorem}[RegularCauchyName common-window classifier scope]
 \label{thm:regularcauchyname-common-window-classifier-scope}
 Two accepted $\RegularCauchyNameUp$ packets can be compared only after choosing a displayed common finite $\StreamNameUp$ window. On that same window, the comparison transports the $\DyadicRatCoreUp$ observation rows and dyadic-radius rows by the recorded $\hsame$ and $\Cont$ routes, then reads the pointwise $\RegSeqRatUp$ classifier for the transported rational observations. No classifier step may compare host sequences, quotient streams, selected limits, or unexhibited real carriers.
