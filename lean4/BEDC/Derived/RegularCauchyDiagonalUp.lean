@@ -46,6 +46,30 @@ theorem RegularCauchyDiagonalCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       windowSelection, provenancePkg, selectedPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_stationary_compatibility [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
+      constantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont ratSeed streamWindow regseqRead ->
+        Cont regseqRead realSeal constantSeal ->
+          PkgSig bundle constantSeal pkg ->
+            UnaryHistory ratSeed ∧ UnaryHistory streamWindow ∧ UnaryHistory regseqRead ∧
+              UnaryHistory realSeal ∧ UnaryHistory constantSeal ∧
+                Cont ratSeed streamWindow regseqRead ∧
+                  Cont regseqRead realSeal constantSeal ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle constantSeal pkg := by
+  intro carrier stationaryRead constantSealRow constantSealPkg
+  obtain ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary,
+    _windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    _regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have constantSealUnary : UnaryHistory constantSeal :=
+    unary_cont_closed regseqReadUnary realSealUnary constantSealRow
+  exact
+    ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary, constantSealUnary,
+      stationaryRead, constantSealRow, provenancePkg, constantSealPkg⟩
+
 theorem RegularCauchyDiagonalCarrier_source_stability_obligation [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert ratSeed'
       streamWindow' regseqRead' realSeal' windowLedger' provenance' localCert' : BHist}
