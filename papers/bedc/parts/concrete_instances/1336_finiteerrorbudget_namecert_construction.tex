@@ -501,17 +501,99 @@ stream, host real equality, selected limit, or ambient completeness principle
 could enter.
 \end{proof}
 
+\begin{theorem}[FiniteErrorBudget dyadic request scope]
+\label{thm:finite-error-budget-dyadic-request-scope}
+Every accepted $\FiniteErrorBudgetUp$ packet routes its precision request
+$n$, dyadic tolerance $\epsilon$, diagonal selector $b$, and tail ledger $d$
+through the displayed $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ rows of
+\autoref{def:finite-error-budget-scoped-dependency-tuple}. No dyadic request
+can be consumed through a row outside the finite carrier and classifier
+surface of the packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:finite-error-budget-carrier} to decompose the accepted packet
+as $E=(n,\epsilon,b,d,t,r,e,P,N)$. The precision request, tolerance, selector,
+and ledger are named coordinates of this carrier, with $P$ and $N$ recording
+the package provenance and local naming evidence.
+
+Apply \autoref{def:finite-error-budget-classifier} and
+\autoref{thm:finite-error-budget-classifier-row-stability}. They restrict
+classifier movement to the displayed $\hsame$ transports and $\Cont$ routes,
+so the dyadic rows cannot be replaced by an ambient tolerance or an unlisted
+tail estimate.
+
+Finally use
+\autoref{thm:finite-error-budget-diagonal-selector-exactness}. The selector
+and tail ledger are exact for the same finite request and dyadic tolerance,
+which binds the request-facing part of the packet to the scoped dependency
+tuple.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget StreamName readback scope]
+\label{thm:finite-error-budget-streamname-readback-scope}
+The $\RegSeqRatUp$ readback of an accepted $\FiniteErrorBudgetUp$ packet can
+be consumed only after the finite window, selector, tail ledger, and dyadic
+observations have been routed through the same finite packet. In particular,
+the $\StreamNameUp$ readback path is downstream of the packet coordinates
+$n,\epsilon,b,d,t,r,e,P,N$ and not of a hidden stream representative.
+\end{theorem}
+\begin{proof}
+Start from
+\autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}. It ties
+the consumer row $t$ to the displayed selector and tail ledger, so a readback
+request has to pass through the finite window and dyadic observations already
+recorded in the packet.
+
+Next apply \autoref{thm:finite-error-budget-diagonal-handoff}. The handoff
+places the readback row $r$ after the tolerance, selector, and ledger rows,
+which makes the $\RegSeqRatUp$ readback a consequence of the same finite
+packet.
+
+The public export theorem,
+\autoref{thm:finite-error-budget-public-export}, repacks exactly this packet
+for downstream use. Hence a $\StreamNameUp$ consumer has no separate readback
+route outside the displayed packet surface.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget real completion seal scope]
+\label{thm:finite-error-budget-real-completion-seal-scope}
+Every $\RealCauchyCompletionUp$ or $\RealUp$ seal-facing read of an accepted
+$\FiniteErrorBudgetUp$ packet factors through the finite request, tolerance,
+selector, tail ledger, budget consumer, readback, seal, transport,
+continuation, package, and naming rows before any consumer can cite it. Thus
+completion use is scoped to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$,
+and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-error-budget-public-export}. It exposes the finite
+packet to $\RegSeqRatUp$, $\RealUp$, and $\RealCauchyCompletionUp$ only through
+the coordinates already listed in the scoped dependency tuple.
+
+Use \autoref{thm:finite-error-budget-completion-consumer-boundary}. This
+boundary forces every completion-facing consumer to pass through the request,
+tolerance, selector, ledger, budget consumer, readback, and seal rows before
+the consumer can cite the real-completion surface.
+
+Finally apply \autoref{thm:finite-error-budget-namecert-obligations}. The
+local $\NameCert$ rows record the package, transport, continuation, and naming
+evidence for the same finite packet, so the seal-facing read has no remaining
+route through quotient streams, host real equality, selected limits, or
+ambient completeness.
+\end{proof}
+
 \closureat{FiniteErrorBudgetUp}{seedStr}
 \closureat{FiniteErrorBudgetUp}{obligationStr}[BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations]
+\closureat{FiniteErrorBudgetUp}{scopedStr}[BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\FiniteErrorBudgetUp}
   \constructivestory{A $\FiniteErrorBudgetUp$ packet is generated from a unary precision request, a dyadic tolerance row, a $\DiagonalModulusUp$ selector, a $\DyadicTailBoundUp$ ledger, a finite $\FastConvergentSeriesUp$ or $\FastSeriesProductUp$ budget consumer, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:finite-error-budget-classifier-row-stability}, \autoref{thm:finite-error-budget-zero-budget-stability}, \autoref{thm:finite-error-budget-public-export}, and \autoref{thm:finite-error-budget-namecert-obligations} bind the finite precision-budget obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:finite-error-budget-dyadic-request-scope}, \autoref{thm:finite-error-budget-streamname-readback-scope}, \autoref{thm:finite-error-budget-real-completion-seal-scope}, and \autoref{thm:finite-error-budget-namecert-obligations} bind the finite precision-budget rows to their dyadic, readback, real-completion, package, continuation, and naming routes.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected limits, ambient real completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding these rows explicitly to $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DiagonalModulusUp$, $\DyadicTailBoundUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{The next paper grade requires a public finite-budget export consumed by $\RealCauchyCompletionUp$ and $\RealUp$.}
 \end{closurestatus}
