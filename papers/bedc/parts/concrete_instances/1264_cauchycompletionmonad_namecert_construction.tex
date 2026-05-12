@@ -48,15 +48,79 @@ For diagonal handoff exactness, project the carrier coordinates $X$, $W$, $D$, $
 The non-escape and public-boundary rows follow from the same projection. Since the packet contains no coordinate for a quotient real, host equality proof, selected limit, or ambient completeness theorem, a public $\RealUp$ read cannot export such data.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad unit boundary]
+\label{thm:cauchy-completion-monad-unit-boundary}
+For every displayed rational row accepted by $\RegSeqRatUp$, the constant regular-rational family determines a $\CauchyCompletionMonadUp$ unit packet. Its $\StreamNameUp$ windows are stationary, its $\DyadicRatCoreUp$ observations are the constant rational observations, its schedule row selects the constant family member, its diagonal readback is the same regular-rational row, and its $\RealUp$ seal row is reached through that constant packet.
+\end{theorem}
+\begin{proof}
+Choose the constant regular-rational family described in the habitation row of \autoref{thm:cauchy-completion-monad-namecert-obligations}. The finite windows and dyadic observations are stationary because every requested precision reads the same rational source row.
+
+The schedule row may select the displayed constant member at each request. The diagonal ledger then repacks the same finite observations as a regular-rational readback, without creating a new limit object.
+
+Finally attach the $\RealUp$ seal row after the diagonal readback. The carrier coordinates of \autoref{def:cauchy-completion-monad-carrier} contain exactly these rows, so the unit packet is a visible finite BEDC packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad diagonal-bind stability]
+\label{thm:cauchy-completion-monad-diagonal-bind-stability}
+Let $M$ and $M'$ be accepted $\CauchyCompletionMonadUp$ packets. If their source-family rows, schedules, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observation rows, diagonal readbacks, and $\RealUp$ seal rows are transported componentwise by displayed $\hsame$ routes and read through the corresponding $\Cont$ routes, then the diagonal-bind classifier is stable: every consumer precision read of $M$ and $M'$ follows matched schedule, window, dyadic-observation, diagonal-readback, and seal coordinates.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:cauchy-completion-monad-carrier}. It compares packets through the finite coordinates $X$, $W$, $D$, $\mu$, $\Delta$, $E$, $L$, $C$, $P$, and $N$ and their displayed transports.
+
+Move the source-family row, schedule, selected windows, dyadic observations, diagonal ledger, and seal row along the stored $\hsame$ comparisons. The $\Cont$ coordinates keep the same read order from a precision request to the schedule, then to the window and observation rows.
+
+Apply the diagonal handoff row of \autoref{thm:cauchy-completion-monad-namecert-obligations}. It forces each real-facing read through the transported schedule, finite window, dyadic observation, and diagonal readback before the seal, so the classifier remains stable under the componentwise transport.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad public Real seal factorization]
+\label{thm:cauchy-completion-monad-public-real-seal-factorization}
+Every public $\RealUp$ read of an accepted $\CauchyCompletionMonadUp$ packet factors through the schedule row, the selected finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ observation row, the $\RegSeqRatUp$ diagonal readback, and the final seal row. The packet exports no quotient real, selected limit, host real equality, ambient completeness theorem, or hidden stream representative.
+\end{theorem}
+\begin{proof}
+Start from a public precision request. The carrier makes the schedule row $\mu$ the first coordinate that can choose a family member and window for that request.
+
+The chosen window is read from $W$, its dyadic observation from $D$, and the corresponding regular-rational readback from $\Delta$. This is exactly the diagonal handoff route stated in \autoref{thm:cauchy-completion-monad-namecert-obligations}.
+
+The $\RealUp$ seal row $E$ is reached only after that route. Since the carrier has no coordinate for quotient reals, selected limits, host equality, completeness, or hidden representatives, the listed finite rows exhaust every public real-seal factorization.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad schedule composition boundary]
+\label{thm:cauchy-completion-monad-schedule-composition-boundary}
+Let $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$ and $M'=(X',W',D',\mu',\Delta',E',L',C',P',N')$ be accepted $\CauchyCompletionMonadUp$ packets whose source-family rows are transported by displayed $\hsame$ rows, whose schedules are compatible on the inspected precision requests, whose finite $\StreamNameUp$ windows and $\DyadicRatCoreUp$ observations match through displayed ledger rows, and whose consumer routes include a displayed $\Cont$ composition from the schedule of $M$ to the transported schedule of $M'$. Then the composed finite completion packet still has every public $\RealUp$ read factor through the composed schedule, the matched window ledger, the matched dyadic observation ledger, the $\RegSeqRatUp$ diagonal readback, and the seal row. The composition exports no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+For constant schedules, apply the unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary}. The composed packet has stationary windows, stationary dyadic observations, the same diagonal readback, and the same seal-facing route.
+
+For transported schedules, use the diagonal-bind stability of \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. The displayed $\hsame$ rows move source families, schedules, windows, observations, diagonal readbacks, and seal rows componentwise, while the displayed $\Cont$ composition preserves the consumer order.
+
+It remains to identify the public route. Apply \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Every public read must pass through schedule, window, dyadic observation, diagonal readback, and seal coordinates, so the composed packet exposes exactly the same finite completion surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad downstream RegSeqRat consumer route]
+\label{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route}
+Every downstream $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer read of an accepted $\CauchyCompletionMonadUp$ packet factors through the source regular-Cauchy family row, the unary schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ diagonal readback, the public $\RealUp$ seal row, $\mathsf{BHist}$ ledger entries, displayed $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ coordinates. The route exports no quotient stream, host real equality, selected limit, hidden representative, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$. A downstream consumer precision request first reads the unary schedule $\mu$, so its source member is selected inside the displayed regular-Cauchy family row $X$ rather than by an external selector.
+
+The selected request then passes through the finite $\StreamNameUp$ window in $W$ and the corresponding $\DyadicRatCoreUp$ observation in $D$. Apply \autoref{thm:cauchy-completion-monad-diagonal-bind-stability} to transport these rows along the stored $\hsame$ comparisons and the displayed $\Cont$ read routes without changing the classifier-facing surface.
+
+Next use \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. It identifies composed consumer reads with the same schedule, window, dyadic-observation, and diagonal-readback route, so the $\RegSeqRatUp$ handoff remains a finite packet route.
+
+Finally apply \autoref{thm:cauchy-completion-monad-unit-boundary} for constant source packets and \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} for public real-seal reads. The carrier rows $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $N$ exhaust the public coordinates, so quotient streams, host real equality, selected limits, hidden representatives, and ambient completeness cannot be exported by the downstream route.
+\end{proof}
+
 \closureat{CauchyCompletionMonadUp}{seedStr}
+\closureat{CauchyCompletionMonadUp}{obligationStr}
+\closureat{CauchyCompletionMonadUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyCompletionMonadUp}
   \constructivestory{A $\CauchyCompletionMonadUp$ packet is generated from source regular-Cauchy family rows over $\RegSeqRatUp$, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a unary schedule, diagonal transport rows, a $\RealUp$ seal row, componentwise $\hsame$, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope fixes the carrier and five-row naming-certificate obligation surface for finite completion reads from regular rational Cauchy data into $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped interface fixes the carrier, unit packet boundary, diagonal-bind stability, schedule composition boundary, public $\RealUp$ seal factorization, and five-row naming-certificate surface for finite completion reads from regular rational Cauchy data into $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient real construction, host real equality, uniqueness of limits, choice-selected limits, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier transport, diagonal handoff exactness, classifier stability, and public $\RealUp$ consumer factorization for the finite completion packet.}
+  \upgradepath{Lean verification requires targets for carrier transport, diagonal handoff exactness, classifier stability, schedule composition, and public $\RealUp$ consumer factorization for the finite completion packet.}
 \end{closurestatus}

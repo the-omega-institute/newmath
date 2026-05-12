@@ -1,4 +1,5 @@
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
 import BEDC.FKernel.Bundle
 
 namespace BEDC.Derived.DyadicApproximationUp
@@ -67,5 +68,76 @@ theorem DyadicApproximationCarrier_refined_finite_packet_readback_determinacy [A
         commonPkg⟩,
       sameWindow, sameWindow2, consumerUnary, consumer2Unary, sameConsumer, consumerPkg,
       consumer2Pkg⟩
+
+theorem DyadicApproximationCarrier_finite_packet_readback_exhaustion
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint
+      terminalWindow terminalLedger terminalProvenance meshCell enclosure validatedRead sealRow
+      reread consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance meshCell ->
+                    Cont meshCell terminalProvenance enclosure ->
+                      Cont enclosure terminalProvenance validatedRead ->
+                        Cont terminalLedger terminalProvenance sealRow ->
+                          Cont terminalWindow terminalProvenance reread ->
+                            Cont terminalWindow terminalProvenance consumer ->
+                              PkgSig bundle meshCell pkg ->
+                                PkgSig bundle enclosure pkg ->
+                                  PkgSig bundle validatedRead pkg ->
+                                    PkgSig bundle sealRow pkg ->
+                                      PkgSig bundle consumer pkg ->
+                                        DyadicApproximationCarrier terminalPrecision
+                                            terminalEndpoint terminalWindow terminalLedger
+                                            terminalProvenance bundle pkg ∧
+                                          UnaryHistory validatedRead ∧
+                                            UnaryHistory sealRow ∧
+                                              UnaryHistory reread ∧
+                                                UnaryHistory consumer ∧
+                                                  hsame reread consumer ∧
+                                                    PkgSig bundle validatedRead pkg ∧
+                                                      PkgSig bundle consumer pkg := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  intro terminalWindowProvenanceMesh meshProvenanceEnclosure enclosureProvenanceValidated
+  intro terminalLedgerProvenanceSeal terminalWindowProvenanceReread
+  intro terminalWindowProvenanceConsumer meshPkg enclosurePkg validatedPkg sealPkg consumerPkg
+  have finiteExact :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        UnaryHistory meshCell ∧ UnaryHistory enclosure ∧ UnaryHistory validatedRead ∧
+          UnaryHistory sealRow ∧ hsame window terminalWindow ∧
+            PkgSig bundle validatedRead pkg :=
+    DyadicApproximationCarrier_finite_mesh_enclosure_exactness carrier samePrecision
+      sameEndpoint sameLedger sameProvenance terminalPrecisionEndpointWindow
+      terminalWindowLedgerProvenance terminalWindowProvenanceMesh meshProvenanceEnclosure
+      enclosureProvenanceValidated terminalLedgerProvenanceSeal meshPkg enclosurePkg
+      validatedPkg sealPkg
+  rcases finiteExact with
+    ⟨terminalCarrier, _meshUnary, _enclosureUnary, validatedUnary, sealUnary, _sameWindow,
+      validatedPkgOut⟩
+  rcases terminalCarrier with
+    ⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary, terminalLedgerUnary,
+      terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+      terminalWindowLedgerProvenance', terminalPkg⟩
+  have rereadUnary : UnaryHistory reread :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceReread
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary
+      terminalWindowProvenanceConsumer
+  have sameReadbacks : hsame reread consumer :=
+    cont_deterministic terminalWindowProvenanceReread terminalWindowProvenanceConsumer
+  exact
+    ⟨⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary,
+        terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+        terminalWindowLedgerProvenance', terminalPkg⟩,
+      validatedUnary, sealUnary, rereadUnary, consumerUnary, sameReadbacks, validatedPkgOut,
+      consumerPkg⟩
 
 end BEDC.Derived.DyadicApproximationUp
