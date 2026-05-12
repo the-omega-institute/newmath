@@ -52,4 +52,35 @@ theorem RealDiagonalCompletionSourcePacket_carrier_habitation [AskSetup] [Packag
         readbackRow, localCertRow, sealRow, provenanceSig⟩,
       selectorUnary, readbackUnary, localCertUnary⟩
 
+theorem RealDiagonalCompletionSourcePacket_ledger_exactness [AskSetup] [PackageSetup]
+    {inputFamily modulus selector schedule readback «seal» provenance localCert consumerRead
+      diagonalRead rationalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback «seal»
+        provenance localCert bundle pkg ->
+      Cont selector schedule diagonalRead ->
+        Cont diagonalRead readback rationalRead ->
+          Cont rationalRead «seal» consumerRead ->
+            UnaryHistory selector ∧ UnaryHistory schedule ∧ UnaryHistory readback ∧
+              UnaryHistory «seal» ∧ UnaryHistory diagonalRead ∧ UnaryHistory rationalRead ∧
+                UnaryHistory consumerRead ∧ Cont selector schedule diagonalRead ∧
+                  Cont diagonalRead readback rationalRead ∧
+                    Cont rationalRead «seal» consumerRead ∧ PkgSig bundle provenance pkg := by
+  intro packet diagonalRow rationalRow consumerRow
+  obtain ⟨inputUnary, modulusUnary, scheduleUnary, sealUnary, _provenanceUnary,
+    _selectorRow, _readbackRow, _localCertRow, _sealRow, pkgSig⟩ := packet
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed inputUnary modulusUnary _selectorRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectorUnary scheduleUnary _readbackRow
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed selectorUnary scheduleUnary diagonalRow
+  have rationalUnary : UnaryHistory rationalRead :=
+    unary_cont_closed diagonalUnary readbackUnary rationalRow
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed rationalUnary sealUnary consumerRow
+  exact
+    ⟨selectorUnary, scheduleUnary, readbackUnary, sealUnary, diagonalUnary,
+      rationalUnary, consumerUnary, diagonalRow, rationalRow, consumerRow, pkgSig⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
