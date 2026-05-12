@@ -54,3 +54,7 @@ The ossifier emitter uses a fixed 30-cell overwrite per production bit. Logical 
 ## Data block observations (B5)
 
 The Cook data-block emitter uses a fixed 50-cell slot per cyclic-tag tape bit. Logical `0` is represented by an 18-cell sparse marker and logical `1` by a 28-cell wider marker, both over pre-filled ether; the unwritten tail of each slot remains ether and supplies separation between adjacent logical symbols. This is a best-effort behavioral tape overlay, not a phase-exact Cook 2004 section 6 data block. The current test verifies fixed-width perturbation bounds and phase-preserving ether outside the block, but it does not certify productive ossifier collisions or tape-tail extension.
+
+## Empty cyclic-tag encoder observations (C2)
+
+The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the current leader marker at cell 100. Because this row is only 700 cells wide, the 500-step check compares against a separately evolved pure-ether row with the same finite zero-boundary evaluator. The observed difference is therefore attributed to the leader marker rather than to boundary phase drift. Non-empty cyclic-tag inputs remain outside the C2 envelope and return zero bytes.
