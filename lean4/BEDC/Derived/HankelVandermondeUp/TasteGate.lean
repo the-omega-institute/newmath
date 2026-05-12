@@ -2,6 +2,10 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
+/-!
+# HankelVandermondeUp TasteGate carrier.
+-/
+
 namespace BEDC.Derived.HankelVandermondeUp
 
 open BEDC.FKernel.Hist
@@ -9,10 +13,11 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
+/-- Finite Hankel-Vandermonde packet with the ten BEDC rows visible to consumers. -/
 inductive HankelVandermondeUp : Type where
   | mk :
-      (atom weight moment determinantLedger pairwiseDifference product transport route provenance
-        name : BHist) →
+      (atom weight moment determinantLedger pairwiseDifference vandermondeSquare transportRow
+        routeRow provenance cert : BHist) →
       HankelVandermondeUp
   deriving DecidableEq
 
@@ -42,8 +47,8 @@ private theorem hankelVandermondeDecode_encode_bhist :
 
 def hankelVandermondeToEventFlow : HankelVandermondeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | HankelVandermondeUp.mk atom weight moment determinantLedger pairwiseDifference product
-      transport route provenance name =>
+  | HankelVandermondeUp.mk atom weight moment determinantLedger pairwiseDifference
+      vandermondeSquare transportRow routeRow provenance cert =>
       [[BMark.b0],
         hankelVandermondeEncodeBHist atom,
         [BMark.b1, BMark.b0],
@@ -55,18 +60,18 @@ def hankelVandermondeToEventFlow : HankelVandermondeUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         hankelVandermondeEncodeBHist pairwiseDifference,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hankelVandermondeEncodeBHist product,
+        hankelVandermondeEncodeBHist vandermondeSquare,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        hankelVandermondeEncodeBHist transport,
+        hankelVandermondeEncodeBHist transportRow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        hankelVandermondeEncodeBHist route,
+        hankelVandermondeEncodeBHist routeRow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
         hankelVandermondeEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        hankelVandermondeEncodeBHist name]
+        hankelVandermondeEncodeBHist cert]
 
 def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -104,19 +109,19 @@ def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | product :: rest11 =>
+                                              | vandermondeSquare :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | transport :: rest13 =>
+                                                      | transportRow :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | route :: rest15 =>
+                                                              | routeRow :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
@@ -128,7 +133,7 @@ def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
                                                                           | _tag9 :: rest18 =>
                                                                               match rest18 with
                                                                               | [] => none
-                                                                              | name :: rest19 =>
+                                                                              | cert :: rest19 =>
                                                                                   match rest19 with
                                                                                   | [] =>
                                                                                       some
@@ -144,15 +149,15 @@ def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
                                                                                           (hankelVandermondeDecodeBHist
                                                                                             pairwiseDifference)
                                                                                           (hankelVandermondeDecodeBHist
-                                                                                            product)
+                                                                                            vandermondeSquare)
                                                                                           (hankelVandermondeDecodeBHist
-                                                                                            transport)
+                                                                                            transportRow)
                                                                                           (hankelVandermondeDecodeBHist
-                                                                                            route)
+                                                                                            routeRow)
                                                                                           (hankelVandermondeDecodeBHist
                                                                                             provenance)
                                                                                           (hankelVandermondeDecodeBHist
-                                                                                            name))
+                                                                                            cert))
                                                                                   | _ :: _ => none
 
 private theorem hankelVandermonde_round_trip :
@@ -161,8 +166,8 @@ private theorem hankelVandermonde_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk atom weight moment determinantLedger pairwiseDifference product transport route provenance
-      name =>
+  | mk atom weight moment determinantLedger pairwiseDifference vandermondeSquare transportRow
+      routeRow provenance cert =>
       change
         some
           (HankelVandermondeUp.mk
@@ -173,24 +178,25 @@ private theorem hankelVandermonde_round_trip :
               (hankelVandermondeEncodeBHist determinantLedger))
             (hankelVandermondeDecodeBHist
               (hankelVandermondeEncodeBHist pairwiseDifference))
-            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist product))
-            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist transport))
-            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist route))
+            (hankelVandermondeDecodeBHist
+              (hankelVandermondeEncodeBHist vandermondeSquare))
+            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist transportRow))
+            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist routeRow))
             (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist provenance))
-            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist name))) =
+            (hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist cert))) =
           some
             (HankelVandermondeUp.mk atom weight moment determinantLedger pairwiseDifference
-              product transport route provenance name)
+              vandermondeSquare transportRow routeRow provenance cert)
       rw [hankelVandermondeDecode_encode_bhist atom,
         hankelVandermondeDecode_encode_bhist weight,
         hankelVandermondeDecode_encode_bhist moment,
         hankelVandermondeDecode_encode_bhist determinantLedger,
         hankelVandermondeDecode_encode_bhist pairwiseDifference,
-        hankelVandermondeDecode_encode_bhist product,
-        hankelVandermondeDecode_encode_bhist transport,
-        hankelVandermondeDecode_encode_bhist route,
+        hankelVandermondeDecode_encode_bhist vandermondeSquare,
+        hankelVandermondeDecode_encode_bhist transportRow,
+        hankelVandermondeDecode_encode_bhist routeRow,
         hankelVandermondeDecode_encode_bhist provenance,
-        hankelVandermondeDecode_encode_bhist name]
+        hankelVandermondeDecode_encode_bhist cert]
 
 private theorem hankelVandermondeToEventFlow_injective {x y : HankelVandermondeUp} :
     hankelVandermondeToEventFlow x = hankelVandermondeToEventFlow y → x = y := by
