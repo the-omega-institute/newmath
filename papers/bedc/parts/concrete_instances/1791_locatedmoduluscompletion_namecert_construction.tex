@@ -96,6 +96,46 @@ Apply the regular-seal theorem to route real and located reads through the same 
 The public scope is exhausted by those finite rows. None of the excluded objects is present as a carrier coordinate, so the seed packet states only the located modulus-controlled completion surface.
 \end{proof}
 
+\begin{theorem}[LocatedModulusCompletion obligation routing package]
+\label{thm:located-modulus-completion-obligation-routing-package}
+The carrier of \autoref{def:located-modulus-completion-carrier}, the regular seal of \autoref{thm:located-modulus-completion-regular-seal}, classifier stability of \autoref{thm:located-modulus-completion-classifier-stability}, ledger exactness of \autoref{thm:located-modulus-completion-ledger-exactness}, and public scope of \autoref{thm:located-modulus-completion-public-scope} assemble the five $\NameCert_{\LocatedModulusCompletionUp}$ obligations for carrier admission, classifier transport, regular-seal routing, modulus ledger exactness, and public non-escape.
+\end{theorem}
+\begin{proof}
+First project the carrier packet $L=(R,Q,M,S,E,H,C,P,N)$. The displayed coordinates provide carrier admission, and the local naming row $N$ names the certificate surface over that same finite packet.
+
+Next attach transport and routing. Classifier stability supplies componentwise transport through the stored $\hsame$ rows, while the regular-seal theorem routes every $\RealUp$ and $\LocatedRealUp$ consumer through $R,M,S$ before it reaches $Q$ or $E$.
+
+Finally attach exactness and scope. Ledger exactness identifies the consumed threshold with the displayed row $M$ for each precision request, and public scope rules out quotient-real construction, selected completed limits, host order completeness, trichotomy, and equality of completed representatives.
+\end{proof}
+
+\begin{theorem}[LocatedModulusCompletion modulus seal ledger scope]
+\label{thm:located-modulus-completion-modulus-seal-ledger-scope}
+For every accepted $\LocatedModulusCompletionUp$ carrier and every displayed precision request, the route to either the $\RealUp$ seal row $Q$ or the $\LocatedRealUp$ evidence row $E$ passes through the same $\CauchyModulusUp$ row $M$ and the same $\CauchyLimitSealUp$ row $S$. Thus the modulus ledger and limit-facing seal are shared by all completion-side reads of the packet.
+\end{theorem}
+\begin{proof}
+Begin with the requested precision. The carrier exposes only one modulus coordinate, namely $M$, and the continuation inventory reads $M$ before any route reaches a real or located consumer row.
+
+After the modulus threshold is read, the same route reaches the limit-facing seal row $S$. The regular source row $R$ and the seal row $S$ are packaged with the same provenance $P$ and local certificate row $N$.
+
+Apply \autoref{thm:located-modulus-completion-ledger-exactness} to identify the threshold used by every downstream read, and apply \autoref{thm:located-modulus-completion-regular-seal} to factor the routes to $Q$ and $E$ through $R,M,S$. Hence both consumer rows share the same modulus and seal ledger.
+\end{proof}
+
+\begin{theorem}[LocatedModulusCompletion located-real handoff]
+\label{thm:located-modulus-completion-located-real-handoff}
+Every $\RealUp$ consumer and every $\LocatedRealUp$ consumer exported by a $\LocatedModulusCompletionUp$ carrier receives the same finite source, modulus, and limit-seal packet
+$$
+(R,M,S)
+$$
+before reading $Q$ or $E$. The located-real handoff therefore adds located evidence to the displayed completion route without changing the source row, replacing the modulus row, or selecting an external completed value.
+\end{theorem}
+\begin{proof}
+Project the two consumer rows from the carrier. The $\RealUp$ row is $Q$ and the $\LocatedRealUp$ evidence row is $E$, and both are downstream of the route inventory stored in $C$.
+
+Use \autoref{thm:located-modulus-completion-modulus-seal-ledger-scope}. It forces any route to either consumer through the same modulus row $M$ and limit-seal row $S$, with the same regular source row $R$ read before the consumer boundary.
+
+The located evidence row $E$ therefore extends the real-seal route by visible located-read data only. Since the carrier has no coordinate for a selected completed value or an alternate source/modulus packet, the handoff preserves the same finite packet $(R,M,S)$ for both consumers.
+\end{proof}
+
 \closureat{LocatedModulusCompletionUp}{seedStr}
 
 \begin{closurestatus}{\LocatedModulusCompletionUp}
