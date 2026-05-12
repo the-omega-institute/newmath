@@ -117,3 +117,11 @@ $(TEST_DIR)/test_cook_collisions: $(TEST_DIR)/test_cook_collisions.c $(EVAL_DIR)
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_glider_B.c \
 	    $(ENCODER_DIR)/cook_glider_C.c $(ENCODER_DIR)/cook_glider_D.c \
 	    $(ENCODER_DIR)/cook_collisions.c
+
+$(TEST_DIR)/test_cook_leader: $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_leader.c
+
+TESTS += $(TEST_DIR)/test_cook_leader
+test: $(TEST_DIR)/test_cook_leader
