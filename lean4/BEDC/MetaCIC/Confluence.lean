@@ -818,6 +818,30 @@ theorem betaStarStep_sort_unique_target {t : Term}
   | step hstep _ =>
       exact False.elim (betaStep_sort_absurd hstep)
 
+theorem betaStarStep_diamond_sort {t1 t2 : Term}
+    (h1 : BetaStarStep Term.sort t1) (h2 : BetaStarStep Term.sort t2) :
+    ∃ v, BetaStarStep t1 v ∧ BetaStarStep t2 v := by
+  cases betaStarStep_sort_unique_target h1
+  cases betaStarStep_sort_unique_target h2
+  exact
+    Exists.intro
+      Term.sort
+      (And.intro
+        (BetaStarStep.refl Term.sort)
+        (BetaStarStep.refl Term.sort))
+
+theorem betaStarStep_diamond_var {i : Idx} {t1 t2 : Term}
+    (h1 : BetaStarStep (Term.var i) t1) (h2 : BetaStarStep (Term.var i) t2) :
+    ∃ v, BetaStarStep t1 v ∧ BetaStarStep t2 v := by
+  cases betaStarStep_var_unique_target h1
+  cases betaStarStep_var_unique_target h2
+  exact
+    Exists.intro
+      (Term.var i)
+      (And.intro
+        (BetaStarStep.refl (Term.var i))
+        (BetaStarStep.refl (Term.var i)))
+
 theorem betaStarStep_atom_refl_only {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
     (h : BetaStarStep t t') :
