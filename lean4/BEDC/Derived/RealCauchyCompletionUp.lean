@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -99,5 +101,86 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
     unary_cont_closed sealUnary localCertUnary consumerRow
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
+
+theorem RealCauchyCompletionCarrier_probe_bundle_window_coverage [AskSetup] [PackageSetup]
+    {familyRow modulusRow diagonalPacket streamWindow regseqRead dyadicLedger realSeal
+      consumerRead bundleSurface localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory familyRow ->
+      UnaryHistory modulusRow ->
+        UnaryHistory localCert ->
+          Cont modulusRow familyRow diagonalPacket ->
+            Cont diagonalPacket modulusRow streamWindow ->
+              Cont streamWindow familyRow regseqRead ->
+                Cont regseqRead streamWindow dyadicLedger ->
+                  Cont dyadicLedger diagonalPacket realSeal ->
+                    Cont realSeal dyadicLedger consumerRead ->
+                      Cont consumerRead localCert bundleSurface ->
+                        PkgSig bundle consumerRead pkg ->
+                          PkgSig bundle bundleSurface pkg ->
+                            UnaryHistory diagonalPacket ∧ UnaryHistory streamWindow ∧
+                              UnaryHistory regseqRead ∧ UnaryHistory dyadicLedger ∧
+                                UnaryHistory realSeal ∧ UnaryHistory consumerRead ∧
+                                  UnaryHistory bundleSurface ∧
+                                    SemanticNameCert
+                                      (fun row : BHist =>
+                                        hsame row bundleSurface ∧ UnaryHistory row ∧
+                                          PkgSig bundle row pkg)
+                                      (fun row : BHist =>
+                                        hsame row bundleSurface ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        PkgSig bundle row pkg ∧ hsame row bundleSurface)
+                                      (fun row row' : BHist => hsame row row') := by
+  intro familyUnary modulusUnary localCertUnary modulusFamilyDiagonal
+  intro diagonalModulusWindow streamFamilyRegseq regseqStreamDyadic
+  intro dyadicDiagonalSeal sealDyadicConsumer consumerLocalSurface _consumerPkg surfacePkg
+  have diagonalUnary : UnaryHistory diagonalPacket :=
+    unary_cont_closed modulusUnary familyUnary modulusFamilyDiagonal
+  have streamUnary : UnaryHistory streamWindow :=
+    unary_cont_closed diagonalUnary modulusUnary diagonalModulusWindow
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed streamUnary familyUnary streamFamilyRegseq
+  have dyadicUnary : UnaryHistory dyadicLedger :=
+    unary_cont_closed regseqUnary streamUnary regseqStreamDyadic
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed dyadicUnary diagonalUnary dyadicDiagonalSeal
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed realSealUnary dyadicUnary sealDyadicConsumer
+  have surfaceUnary : UnaryHistory bundleSurface :=
+    unary_cont_closed consumerUnary localCertUnary consumerLocalSurface
+  have semantic :
+      SemanticNameCert
+        (fun row : BHist => hsame row bundleSurface ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist => hsame row bundleSurface ∧ UnaryHistory row)
+        (fun row : BHist => PkgSig bundle row pkg ∧ hsame row bundleSurface)
+        (fun row row' : BHist => hsame row row') := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bundleSurface ⟨hsame_refl bundleSurface, surfaceUnary, surfacePkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' classified
+        exact hsame_symm classified
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact hsame_trans leftClassified rightClassified
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, sourceRow.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, sourceRow.left⟩
+  }
+  exact
+    ⟨diagonalUnary, streamUnary, regseqUnary, dyadicUnary, realSealUnary, consumerUnary,
+      surfaceUnary, semantic⟩
 
 end BEDC.Derived.RealCauchyCompletionUp
