@@ -67,3 +67,29 @@ Finally, the carrier has no coordinate for quotient streams, selected limits, ho
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, real completeness, or a checked Lean certificate.}
   \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed tail-window, modulus, tolerance, oscillation-ledger, and seal-handoff rows.}
 \end{closurestatus}
+
+\begin{theorem}[CauchyOscillation seal-handoff factorization]
+\label{thm:cauchy-oscillation-seal-handoff-factorization}
+Let
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+be an accepted $\CauchyOscillationUp$ carrier, and suppose that $S$ is the exported $\RealUp$ seal handoff of $O$. Every displayed consumer read in $C$ whose terminal row is $S$ factors through the same finite oscillation surface
+$$
+(W,M,Q,T)
+$$
+of that packet. More explicitly, such a read has a finite prefix reading the tail-window row $W$, the threshold schedule $M$, and the dyadic tolerance row $Q$; it then reads the oscillation ledger $T$ whose comparisons are made exactly from those three rows; only after that ledger prefix is accepted may the terminal projection expose $S$. No consumer read of $S$ may replace this prefix by a quotient stream, a selected limit, host real equality, an ambient completeness principle, or rows taken from a different $\CauchyOscillationUp$ packet.
+\end{theorem}
+\begin{proof}
+By \autoref{def:cauchy-oscillation-carrier}, the carrier has exactly the displayed rows
+$$
+W,M,Q,T,S,H,C,P,N.
+$$
+The row $S$ is not an independent real object: it is the $\RealUp$ seal handoff reached only after the finite oscillation ledger has been accepted. Thus any consumer read whose terminal row is $S$ must be one of the displayed $\Cont$ routes recorded in $C$, and its final step is a projection from the accepted packet rather than an external construction of a real.
+
+It remains to identify the prefix that makes the seal available. The ledger row $T$ is specified as the $\DyadicTailBoundUp$ oscillation ledger comparing the named tail observations in $W$ beyond the threshold supplied by $M$ under the dyadic tolerance supplied by $Q$. Hence a read of $T$ cannot be separated from the same $W$, $M$, and $Q$ coordinates of $O$: the observations, cutoff schedule, and tolerance budget are precisely the data from which the ledger comparisons are recorded.
+
+The NameCert obligations in \autoref{thm:cauchy-oscillation-namecert-obligations} make this dependence stable and exhaustive. Oscillation-bound exactness says that every accepted comparison in $T$ uses the threshold row $M$, the tolerance row $Q$, and the finite tail observations in $W$ from the same packet. Stability under $\hsame$ and $\Cont$ says that transported reads preserve the selected tail window, threshold, tolerance, ledger, and seal handoff as one finite dependency packet. Ledger non-escape says that the accepted carrier exports no quotient stream, selected limit, host real equality, or ambient completeness principle.
+
+Therefore a displayed route to $S$ has no available input other than the accepted packet rows and cannot bypass the accepted ledger. Its terminal seal read factors through the finite prefix $W,M,Q,T$ of the same carrier, with $T$ itself determined by $W$, $M$, and $Q$. This is the asserted handoff factorization.
+\end{proof}
