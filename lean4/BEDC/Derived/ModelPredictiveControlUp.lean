@@ -45,4 +45,35 @@ theorem ModelPredictiveControlPacket_finite_horizon_obligation [AskSetup] [Packa
     ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, rolloutUnary,
       provenanceUnary, rolloutRow, provenanceRow, provenancePkg⟩
 
+theorem ModelPredictiveControlPacket_consumer_boundary [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow exportedControl consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+        bundle pkg ->
+      Cont rollout provenance exportedControl ->
+        Cont exportedControl nameRow consumer ->
+          PkgSig bundle exportedControl pkg ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory horizon ∧
+                UnaryHistory rollout ∧ UnaryHistory exportedControl ∧ UnaryHistory consumer ∧
+                  Cont rollout provenance exportedControl ∧
+                    Cont exportedControl nameRow consumer ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle exportedControl pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet rolloutProvenanceExported exportedNameConsumer exportedPkg consumerPkg
+  obtain ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, _costUnary, nameUnary,
+    stateDynamicsRollout, rolloutHorizonProvenance, provenancePkg⟩ := packet
+  have rolloutUnary : UnaryHistory rollout :=
+    unary_cont_closed stateUnary dynamicsUnary stateDynamicsRollout
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed rolloutUnary horizonUnary rolloutHorizonProvenance
+  have exportedUnary : UnaryHistory exportedControl :=
+    unary_cont_closed rolloutUnary provenanceUnary rolloutProvenanceExported
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed exportedUnary nameUnary exportedNameConsumer
+  exact
+    ⟨stateUnary, inputUnary, horizonUnary, rolloutUnary, exportedUnary, consumerUnary,
+      rolloutProvenanceExported, exportedNameConsumer, provenancePkg, exportedPkg,
+      consumerPkg⟩
+
 end BEDC.Derived.ModelPredictiveControlUp
