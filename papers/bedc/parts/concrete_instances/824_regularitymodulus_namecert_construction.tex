@@ -518,6 +518,53 @@ analytic modulus, host equality, or choice-selected tail, the transported
 scheduled-tail read is closed at the finite regularity-rate boundary.
 \end{proof}
 
+\begin{theorem}[RegularityModulus DyadicMesh window factorization]
+\label{thm:regularitymodulus-dyadicmesh-window-factorization}
+Let an accepted $\RegularityModulusUp$ packet expose a finite regularity-rate
+window, and let a compatible accepted $\DyadicMeshUp$ packet expose a finite
+mesh cell whose endpoint-radius-order ledger is read through the same
+$\DyadicRatCoreUp$ endpoint rows. Then every $\RegSeqRatUp$, $\RealUp$, or
+$\ValidatedNumericsUp$ consumer read that uses both packets factors through
+one finite $\mathsf{BHist}$ packet.
+
+That packet contains exactly the unary precision row, unary modulus row, mesh
+level row, cell-index row, rational-interval coverage row, dyadic endpoint,
+radius, and order ledger, componentwise $\hsame$ rows, displayed $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows of the two
+accepted packets. The factorization exports no quotient stream, selected
+limit, host real equality, solver-correctness witness, floating-point
+semantics, or infinite mesh refinement.
+\end{theorem}
+\begin{proof}
+Start with the scheduled finite regularity window. By
+\autoref{thm:regularitymodulus-scheduled-tail-closure}, the
+$\RegSeqRatUp$ and $\RealUp$ side of the read is already exhausted by the
+precision, modulus, dyadic-window, transport, continuation, package, and local
+name rows.
+
+Next use
+\autoref{thm:regularitymodulus-mature-rate-consumer-completeness}. It identifies
+the same finite-rate rows as the complete rate-window surface available to the
+named completion-facing consumers.
+
+Place the mesh read on the compatible finite cell. Apply
+\autoref{thm:dyadicmesh-refinement-stability} to keep the chosen cell stable
+under displayed mesh refinement, and apply
+\autoref{thm:dyadicmesh-standard-finite-mesh-bridge-boundary} to read the mesh
+level, cell index, rational-interval coverage, dyadic endpoint-radius-order
+ledger, transport, continuation, package, and local name rows as one standard
+finite mesh packet.
+
+Finally align the dyadic endpoint rows through
+\autoref{thm:dyadicratcore-denominator-ledger} and
+\autoref{thm:dyadicratcore-common-exponent-window-exactness}. These theorems
+put denominator ledgers and common-exponent endpoint comparisons into the same
+finite $\DyadicRatCoreUp$ window. Repack the rate rows and mesh rows into the
+shared $\mathsf{BHist}$ packet. Since every cited component is finite packet
+data, the excluded quotient, limit, host-real, solver, floating-point, and
+infinite-refinement structures have no row from which a consumer can read.
+\end{proof}
+
 \closureat{RegularityModulusUp}{seedStr}
 \closureat{RegularityModulusUp}{obligationStr}
 \closureat{RegularityModulusUp}{scopedStr}
@@ -528,7 +575,7 @@ scheduled-tail read is closed at the finite regularity-rate boundary.
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations}, \autoref{thm:regularitymodulus-standard-rate-bridge}, and \autoref{thm:regularitymodulus-mature-rate-consumer-completeness} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, standard finite regularity-rate readback, and mature consumer-completeness rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations}, \autoref{thm:regularitymodulus-standard-rate-bridge}, \autoref{thm:regularitymodulus-mature-rate-consumer-completeness}, and \autoref{thm:regularitymodulus-dyadicmesh-window-factorization} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, standard finite regularity-rate readback, mature consumer-completeness rows, and the finite $\DyadicMeshUp$ handoff to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
