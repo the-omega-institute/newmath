@@ -102,6 +102,87 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
 
+theorem RealCauchyCompletionCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic sealRow provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row provenance ∧
+            RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+              provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory family ∧ UnaryHistory modulus ∧ Cont family modulus diagonal ∧
+            Cont diagonal window readback ∧ Cont readback dyadic sealRow)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame := by
+  intro carrier
+  have carrierData :
+      RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg :=
+    carrier
+  obtain ⟨familyUnary, modulusUnary, _windowUnary, _dyadicUnary, provenanceUnary,
+    familyModulusRow, diagonalWindowRow, readbackDyadicRow, _sealLocalCertRow,
+    provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance ⟨hsame_refl provenance, carrierData⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row _sourceRow
+      exact
+        ⟨familyUnary, modulusUnary, familyModulusRow, diagonalWindowRow,
+          readbackDyadicRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨provenancePkg, unary_transport provenanceUnary (hsame_symm sourceRow.left)⟩
+  }
+
+theorem RealCauchyCompletionCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont «seal» localCert consumer ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont «seal» localCert provenance ∧
+                    Cont «seal» localCert consumer ∧ PkgSig bundle provenance pkg := by
+  intro carrier localCertUnary sealLocalCertConsumer
+  obtain ⟨familyUnary, modulusUnary, windowUnary, dyadicUnary, provenanceUnary,
+    familyModulusRow, diagonalWindowRow, readbackDyadicRow, sealLocalCertProvenance,
+    pkgSig⟩ := carrier
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed familyUnary modulusUnary familyModulusRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed diagonalUnary windowUnary diagonalWindowRow
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  exact
+    ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary, readbackUnary, dyadicUnary,
+      sealUnary, provenanceUnary, consumerUnary, familyModulusRow, diagonalWindowRow,
+      readbackDyadicRow, sealLocalCertProvenance, sealLocalCertConsumer, pkgSig⟩
+
 theorem RealCauchyCompletionCarrier_real_seal_readback_scope [AskSetup] [PackageSetup]
     {family modulus diagonal window readback dyadic «seal» provenance localCert consumerRead
       scopedSurface : BHist}
