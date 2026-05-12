@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -132,5 +134,61 @@ theorem RationalBallPacket_realup_window_handoff [AskSetup] [PackageSetup]
     ⟨centerUnary, radiusUnary, orderUnary, containmentUnary, endpointUnary, consumerUnary,
       centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint, consumerRow,
       endpointPkg, consumerPkg⟩
+
+theorem RationalBallPacket_ledger_exactness_certificate [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint consumer ->
+        Cont consumer provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row ledger ∧ UnaryHistory row ∧ Cont consumer provenance row ∧
+                    PkgSig bundle row pkg)
+                (fun row : BHist =>
+                  UnaryHistory consumer ∧ UnaryHistory provenance ∧ Cont consumer provenance row)
+                (fun row : BHist =>
+                  PkgSig bundle row pkg ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+                    UnaryHistory containment)
+                (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro packet containmentEndpointConsumer consumerProvenanceLedger ledgerPkg
+  obtain ⟨centerUnary, radiusUnary, _orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, _centerRadiusOrder, _orderContainmentTransport,
+    transportProvenanceEndpoint, _endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointConsumer
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceLedger
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledger
+          ⟨hsame_refl ledger, ledgerUnary, consumerProvenanceLedger, ledgerPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨PkgSig_psame_intro sourceRow.right.right.right sourceRow.right.right.right
+          (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨consumerUnary, provenanceUnary, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary⟩
+  }
 
 end BEDC.Derived.RationalBallUp

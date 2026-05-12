@@ -59,6 +59,11 @@ theorem betaStep_to_star {t t' : Term}
     BetaStarStep t t' := by
   exact betaStar_one h
 
+theorem betaStarStep_single {t t' : Term}
+    (h : BetaStep t t') :
+    BetaStarStep t t' := by
+  exact BetaStarStep.step h (BetaStarStep.refl t')
+
 theorem betaStar_trans {t u v : Term} :
     BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
   intro htu huv
@@ -535,6 +540,108 @@ theorem betaStep_app_cases {f a t : Term}
       exact Or.inr (Or.inl (Exists.intro f' (And.intro hff' rfl)))
   | congApp2 f a a' haa' =>
       exact Or.inr (Or.inr (Exists.intro a' (And.intro haa' rfl)))
+
+theorem betaStep_app_non_lam {f a t : Term}
+    (h_not_lam : ∀ d b, f ≠ Term.lam d b)
+    (hbeta : BetaStep (Term.app f a) t) :
+    (∃ f', BetaStep f f' ∧ t = Term.app f' a) ∨
+    (∃ a', BetaStep a a' ∧ t = Term.app f a') := by
+  have hcases := betaStep_app_cases hbeta
+  cases hcases with
+  | inl hredex =>
+      cases hredex with
+      | intro d hd =>
+          cases hd with
+          | intro b hb =>
+              cases hb with
+              | intro hf ht =>
+                  exact False.elim (h_not_lam d b hf)
+  | inr hcong =>
+      exact hcong
+
+theorem betaStarStep_app_non_lam_shape_aux {s t f a : Term}
+    (hs : s = Term.app f a)
+    (h_not_lam : ∀ d b, ¬ BetaStarStep f (Term.lam d b))
+    (h : BetaStarStep s t) :
+    ∃ f' a', t = Term.app f' a' ∧ BetaStarStep f f' ∧ BetaStarStep a a' := by
+  induction h generalizing f a with
+  | refl s =>
+      cases hs
+      exact
+        Exists.intro f
+          (Exists.intro a
+            (And.intro rfl
+              (And.intro (BetaStarStep.refl f) (BetaStarStep.refl a))))
+  | step hstep htail ih =>
+      cases hs
+      have hcases := betaStep_app_cases hstep
+      cases hcases with
+      | inl hredex =>
+          cases hredex with
+          | intro d hd =>
+              cases hd with
+              | intro b hb =>
+                  cases hb with
+                  | intro hf _ =>
+                      cases hf
+                      exact False.elim
+                        (h_not_lam d b (BetaStarStep.refl (Term.lam d b)))
+      | inr hcong =>
+          cases hcong with
+          | inl hfstep =>
+              cases hfstep with
+              | intro f1 hfpack =>
+                  cases hfpack with
+                  | intro hff1 ht =>
+                      cases ht
+                      have h_not_lam_f1 :
+                          ∀ d b, ¬ BetaStarStep f1 (Term.lam d b) := by
+                        intro d b hstar
+                        exact h_not_lam d b (BetaStarStep.step hff1 hstar)
+                      have htail_shape := ih rfl h_not_lam_f1
+                      cases htail_shape with
+                      | intro f2 hf2 =>
+                          cases hf2 with
+                          | intro a2 ha2 =>
+                              cases ha2 with
+                              | intro ht2 hstars =>
+                                  cases hstars with
+                                  | intro hf1f2 ha_a2 =>
+                                      exact
+                                        Exists.intro f2
+                                          (Exists.intro a2
+                                            (And.intro ht2
+                                              (And.intro
+                                                (BetaStarStep.step hff1 hf1f2)
+                                                ha_a2)))
+          | inr hasteps =>
+              cases hasteps with
+              | intro a1 hapack =>
+                  cases hapack with
+                  | intro haa1 ht =>
+                      cases ht
+                      have htail_shape := ih rfl h_not_lam
+                      cases htail_shape with
+                      | intro f2 hf2 =>
+                          cases hf2 with
+                          | intro a2 ha2 =>
+                              cases ha2 with
+                              | intro ht2 hstars =>
+                                  cases hstars with
+                                  | intro hf_f2 ha1a2 =>
+                                      exact
+                                        Exists.intro f2
+                                          (Exists.intro a2
+                                            (And.intro ht2
+                                              (And.intro
+                                                hf_f2
+                                                (BetaStarStep.step haa1 ha1a2))))
+
+theorem betaStarStep_app_non_lam_shape {f a t : Term}
+    (h_not_lam : ∀ d b, ¬ BetaStarStep f (Term.lam d b))
+    (h : BetaStarStep (Term.app f a) t) :
+    ∃ f' a', t = Term.app f' a' ∧ BetaStarStep f f' ∧ BetaStarStep a a' := by
+  exact betaStarStep_app_non_lam_shape_aux rfl h_not_lam h
 
 theorem betaStep_pi_cases {d c t : Term}
     (h : BetaStep (Term.pi d c) t) :
