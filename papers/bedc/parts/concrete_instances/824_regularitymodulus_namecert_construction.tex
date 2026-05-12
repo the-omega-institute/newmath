@@ -213,6 +213,7 @@ surface.
 The common readback surface exports no quotient stream, selected limit, hidden
 modulus selector, host real equality, or choice-based tail.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularityModulusUp.RegularityModulusPacket\_common\_window\_exactness}
 \begin{proof}
 Project both accepted packets through
 \autoref{def:regularitymodulus-dyadic-window-carrier}. The seven carrier
@@ -398,18 +399,62 @@ limit, quotient completion, analytic modulus, host equality, or
 choice-based tail from the packet.
 \end{proof}
 
+\begin{theorem}[RegularityModulus standard finite-rate bridge]
+\label{thm:regularitymodulus-standard-rate-bridge}
+The public packet determined by
+\autoref{thm:regularitymodulus-obligation-completeness},
+\autoref{thm:regularitymodulus-carrier-classifier-obligations},
+\autoref{thm:regularitymodulus-transport-ledger-obligations}, and
+\autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations} has a
+conservative standard finite regularity-rate reading. Its readable rows are
+exactly unary precision, unary modulus, dyadic-window endpoint data, displayed
+$\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ evidence.
+
+Reading the standard finite regularity-rate packet back into
+$\RegularityModulusUp$ recovers the same carrier rows and the same
+$\RegSeqRatUp$ and $\RealUp$ consumer surfaces. The bridge adds no selected
+real limit, quotient completion, analytic modulus, host equality, or
+choice-based tail.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the seven carrier coordinates of
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The obligation and
+classifier theorems identify these coordinates as unary precision, unary
+modulus, dyadic-window endpoint data, displayed transport, continuation
+routes, package provenance, and local naming evidence.
+
+Use \autoref{thm:regularitymodulus-transport-ledger-obligations} to keep a
+standard finite-rate read on the same transported carrier rows. The exactness
+statements cited there ensure that passage to a common dyadic window changes
+only the displayed finite window and does not create a further analytic row.
+
+For downstream consumers, apply
+\autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations}. Both the
+$\RegSeqRatUp$ read and the $\RealUp$ seal read factor through the same unary
+precision, unary modulus, dyadic-window, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ packet.
+
+Reading back from the standard side therefore returns exactly those carrier
+rows. Since none of the cited packet coordinates contains a selected real
+limit, quotient completion, analytic modulus, host equality, or choice-based
+tail, the standard bridge is conservative over the displayed finite
+regularity-rate packet.
+\end{proof}
+
 \closureat{RegularityModulusUp}{seedStr}
 \closureat{RegularityModulusUp}{obligationStr}
 \closureat{RegularityModulusUp}{scopedStr}
 \closureat{RegularityModulusUp}{publicStr}
+\closureat{RegularityModulusUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, and \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, and $\RealUp$ consumer rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations}, and \autoref{thm:regularitymodulus-standard-rate-bridge} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, $\RealUp$, and standard finite regularity-rate readback rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close a checked Lean carrier, real completeness, uniqueness of real representatives, analytic moduli, or a standard bridge.}
-  \upgradepath{A standard bridge is required for the finite regularity-rate packet.}
+  \notclaimed{This chapter does not close a checked Lean carrier, real completeness, uniqueness of real representatives, analytic moduli, or choice-selected tails.}
+  \upgradepath{Mature closure requires a consumer example or completeness statement for the same finite regularity-rate bridge.}
 \end{closurestatus}
