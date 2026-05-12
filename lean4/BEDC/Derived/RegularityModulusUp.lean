@@ -218,6 +218,51 @@ theorem RegularityModulusPacket_shared_rate_consumer_exhaustion [AskSetup] [Pack
       consumerUnary, consumerUnary', precisionWindowTransport, transportModulusLedger,
       ledgerNameProvenance, consumerRow, consumerNameRow, provenancePkg, consumerPkg⟩
 
+theorem RegularityModulusPacket_mature_rate_consumer_completeness [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow consumer consumerTail
+      scheduledTail tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont window provenance consumer ->
+        Cont consumer nameRow consumerTail ->
+          Cont provenance scheduledTail tailRead ->
+            PkgSig bundle consumerTail pkg ->
+              PkgSig bundle tailRead pkg ->
+                UnaryHistory scheduledTail ->
+                  UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+                    UnaryHistory transport ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+                      UnaryHistory consumer ∧ UnaryHistory consumerTail ∧
+                        UnaryHistory tailRead ∧ Cont precision window transport ∧
+                          Cont transport modulus ledger ∧ Cont ledger nameRow provenance ∧
+                            Cont window provenance consumer ∧
+                              Cont consumer nameRow consumerTail ∧
+                                Cont provenance scheduledTail tailRead ∧
+                                  PkgSig bundle provenance pkg ∧
+                                    PkgSig bundle consumerTail pkg ∧
+                                      PkgSig bundle tailRead pkg := by
+  intro packet consumerRow consumerTailRow tailReadRow consumerTailPkg tailReadPkg
+    scheduledTailUnary
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary consumerRow
+  have consumerTailUnary : UnaryHistory consumerTail :=
+    unary_cont_closed consumerUnary nameRowUnary consumerTailRow
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed provenanceUnary scheduledTailUnary tailReadRow
+  exact
+    ⟨precisionUnary, modulusUnary, windowUnary, transportUnary, ledgerUnary, provenanceUnary,
+      consumerUnary, consumerTailUnary, tailReadUnary, precisionWindowTransport,
+      transportModulusLedger, ledgerNameProvenance, consumerRow, consumerTailRow, tailReadRow,
+      provenancePkg, consumerTailPkg, tailReadPkg⟩
+
 theorem RegularityModulusPacket_scheduled_tail_closure [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow scheduledTail tailRead :
       BHist}
