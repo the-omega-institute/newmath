@@ -156,6 +156,7 @@ upper endpoint, order witness, finite containment ledger, $\Cont$ routes,
 $\mathsf{Pkg}$ provenance, and local $\NameCert$ row remain the complete
 interval readback surface after transport.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_endpoint\_containment\_transport}
 \begin{proof}
 Project the packet through
 \autoref{def:rational-interval-bhist-carrier}. The carrier has endpoint
@@ -516,19 +517,61 @@ between the displayed endpoints. The public handoff of
 all remaining consumer reads through the same finite ledger.
 \end{proof}
 
+\begin{theorem}[RationalInterval finite consumer completeness]
+\label{thm:rationalinterval-finite-consumer-completeness}
+For every accepted $\RationalIntervalUp$ packet, every finite consumer read of
+endpoint order, endpoint containment, common refinement, dyadic transport,
+$\RegSeqRatUp$ window coverage, or $\RealUp$ finite-window handoff factors
+through the displayed rational-interval packet rows and the standard boundary
+bridge.
+
+The packet rows available to such a consumer are exactly the displayed
+$\RatUp$ endpoint rows, the dyadic-width row, the finite containment and common
+refinement rows, the $\RegSeqRatUp$ window row, the $\RealUp$ finite-window
+handoff row, the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ rows, and the standard boundary bridge. The completeness claim
+does not assert completed $\RealUp$ equality, quotient Cauchy classes, located
+subsets, or interval arithmetic.
+\end{theorem}
+\begin{proof}
+Start with a finite consumer read accepted by the $\RationalIntervalUp$ packet.
+If the read asks for endpoint order, containment, common refinement, or a
+finite-window handoff, apply
+\autoref{thm:rational-interval-window-consumer-exhaustion} to place it on one
+of the displayed rational-interval rows.
+
+For a boundary-facing read, apply
+\autoref{thm:rational-interval-standard-boundary-bridge}. This routes the same
+finite packet through the standard boundary bridge without adding a completed
+real equality, a quotient Cauchy class, or a located-subset carrier.
+
+For a transported endpoint or width read, apply
+\autoref{thm:rationalinterval-dyadic-transport-stability}. For a regular
+rational sequence observation, apply
+\autoref{thm:rationalinterval-regseqrat-window-coverage}. These two facts keep
+dyadic transport and $\RegSeqRatUp$ windows inside the existing endpoint,
+width, containment, refinement, provenance, and handoff rows.
+
+The listed cases exhaust the finite consumer interfaces named in the
+statement. Interval arithmetic and completed real structure require carriers or
+relations absent from the packet rows, so they are not produced by this
+factorization.
+\end{proof}
+
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}
 \closureat{RationalIntervalUp}{scopedStr}
 \closureat{RationalIntervalUp}{publicStr}
 \closureat{RationalIntervalUp}{bridgedStr}
+\closureat{RationalIntervalUp}{matureStr}
 
 \begin{closurestatus}{\RationalIntervalUp}
   \constructivestory{A rational closed interval is represented by two displayed RatUp endpoint rows, an endpoint-order witness, a finite containment ledger, and visible hsame, Cont, package, and NameCert rows consumed by RegSeqRat and RealUp finite-window arguments.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, \autoref{thm:rational-interval-realup-consumer-exactness}, and \autoref{thm:rational-interval-standard-boundary-bridge} bind the endpoint, order, containment, transport, package, local $\NameCert$ rows, and standard boundary bridge to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, \autoref{thm:rational-interval-realup-consumer-exactness}, \autoref{thm:rational-interval-standard-boundary-bridge}, and \autoref{thm:rationalinterval-finite-consumer-completeness} bind the endpoint, order, containment, transport, package, local $\NameCert$ rows, standard boundary bridge, and finite consumer completeness to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close completed RealUp equality, quotient Cauchy classes, located subsets, interval arithmetic, or completeness-style finite consumer treatment.}
-  \upgradepath{Mature closure requires a completeness-style finite consumer treatment for the same rational-interval packet.}
+  \notclaimed{This chapter does not close completed RealUp equality, quotient Cauchy classes, located subsets, or interval arithmetic.}
+  \upgradepath{No further theory-axis upgrade is available for this chapter; formal upgrades remain on the verification axis.}
 \end{closurestatus}
