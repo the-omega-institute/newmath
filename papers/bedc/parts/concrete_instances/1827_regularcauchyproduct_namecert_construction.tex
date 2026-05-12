@@ -125,6 +125,24 @@ Use \autoref{thm:regular-cauchy-product-source-window-transport} to lock the sou
 Finally apply the RealUp seal boundary of \autoref{thm:regular-cauchy-product-real-seal-boundary}. A real-facing consumer reads only the regular readback and its visible provenance, so neither a quotient stream nor a selected limit nor host real equality nor completed multiplication can enter downstream.
 \end{proof}
 
+\begin{theorem}[RegularCauchyProduct public export certificate]
+\label{thm:regular-cauchy-product-public-export-certificate}
+The carrier, local $\NameCert$ obligations, window budget, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, source-window transport, error-budget exactness, and downstream source lock assemble into one public $\RegularCauchyProductUp$ export packet. Its exported rows are exactly
+$$
+A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N.
+$$
+The packet exports no quotient stream, selected limit, host real equality, ambient completeness witness, or completed-real multiplication law.
+\end{theorem}
+\begin{proof}
+Start with the displayed carrier of \autoref{def:regular-cauchy-product-carrier}. It supplies exactly the two regular source rows, two aligned source-window rows, dyadic endpoint rows, product row, finite error ledger, regular readback, transports, continuations, provenance, and local name.
+
+Add the local acceptance and budget rows. The $\NameCert$ obligations of \autoref{thm:regular-cauchy-product-namecert-obligations} bind the accepted packet, while \autoref{thm:regular-cauchy-product-window-budget} computes the endpoint and product rows from the aligned windows.
+
+Next expose the two consumer boundaries. The $\RegSeqRatUp$ handoff is supplied by \autoref{thm:regular-cauchy-product-regseqrat-handoff}, and the $\RealUp$ seal boundary is supplied by \autoref{thm:regular-cauchy-product-real-seal-boundary}.
+
+Finally use \autoref{thm:regular-cauchy-product-source-window-transport}, \autoref{thm:regular-cauchy-product-error-budget-exactness}, and \autoref{thm:regular-cauchy-product-downstream-source-lock}. These results keep every downstream read on the displayed source windows and finite error ledger, and they exclude quotient streams, selected limits, host real equality, ambient completeness, and completed-real multiplication from the public export.
+\end{proof}
+
 \closureat{RegularCauchyProductUp}{seedStr}
 \closureat{RegularCauchyProductUp}{obligationStr}
 \closureat{RegularCauchyProductUp}{scopedStr}
@@ -132,10 +150,10 @@ Finally apply the RealUp seal boundary of \autoref{thm:regular-cauchy-product-re
 \begin{closurestatus}{\RegularCauchyProductUp}
   \constructivestory{A $\RegularCauchyProductUp$ packet is generated from two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint multiplication rows, a finite $\FiniteErrorBudgetUp$ product ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation scope records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, and real-seal boundary for pointwise products of regular Cauchy names.}
+  \scopeclosed{The scoped public surface records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, downstream source lock, and public export certificate for pointwise products of regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-field multiplication laws, or bridge checking.}
-  \upgradepath{The next paper grade is a public export for the finite regular-Cauchy product packet.}
+  \upgradepath{Public closure next requires registering the finite regular-Cauchy product export packet as the chapter boundary consumed by downstream real algebra.}
 \end{closurestatus}

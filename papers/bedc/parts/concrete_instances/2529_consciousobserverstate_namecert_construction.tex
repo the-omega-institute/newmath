@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\ConsciousObserverStateUp$}
+\label{ch:concrete-instances-consciousobserverstate-namecert}
+\origin{human}
+
+The $\ConsciousObserverStateUp$ interface turns the current-state side of the consciousness, universe, and observer frame into a finite naming surface. It records the present observer state, the self-recognition row attached to that state, the observation ledger visible at that state, a $\Gap$ acknowledgement for what remains unfulfilled, the displayed consumer routes, package provenance, and a local $\NameCert$ row. The packet is local: it depends on observer-history and locality-cell certificates but does not export a global observer, a shared universe, an external time scalar, a spacetime manifold, or a host-level self object.
+
+\begin{definition}[Conscious observer-state carrier]
+\label{def:conscious-observer-state-carrier}
+A $\ConsciousObserverStateUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the observer-history row from which the present state is read;
+\item $s$ is the current-state row inside $O$;
+\item $R$ is the self-recognition row, recording that the observer at $s$ recognizes the same identity carried by the inspected history prefix;
+\item $L$ is the observation ledger row containing the finite records available at $s$;
+\item $G$ is the $\Gap$ acknowledgement row for commitments named at $s$ whose witness rows are not yet present in $L$;
+\item $H$ records componentwise $\hsame$ transport for the observer history, current state, self-recognition row, observation ledger, gap acknowledgement, continuation routes, package row, and local name row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $O$, then $s$, then $R$, $L$, and $G$;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistoryIdentityUp$, $\ObserverLocalityCellUp$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source certificates;
+\item $N$ is the local $\NameCert_{\ConsciousObserverStateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a detached self, a global universe object, an external clock, a manifold point, an all-observer frame, host psychological content, or an instantaneous remote observation.
+\end{definition}
+
+\begin{theorem}[Conscious observer-state NameCert obligations]
+\label{thm:conscious-observer-state-namecert-obligations}
+For the carrier of \autoref{def:conscious-observer-state-carrier}, the local $\NameCert_{\ConsciousObserverStateUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $S=(O,s,R,L,G,H,C,P,N)$;
+\item current-state recognition, requiring $R$ to name the identity read from $O$ at $s$;
+\item observation-ledger exposure, requiring every present observation read to pass through $L$;
+\item $\Gap$ acknowledgement exactness, requiring $G$ to name only commitments attached to $s$ whose witness rows are absent from $L$;
+\item stability and non-escape under the componentwise $\hsame$ row $H$, displayed $\Cont$ routes in $C$, package provenance $P$, and local name row $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:conscious-observer-state-carrier}. The packet displays the observer history, present state, self-recognition row, observation ledger, acknowledgement row, transport, routes, provenance, and local naming row.
+
+The current-state recognition clause reads $O$ before $s$ and reads $R$ only as the recognition row attached to that same state. The observation-ledger clause then exposes exactly the records in $L$ as the universe-for-the-observer at $s$.
+
+The acknowledgement clause reads $G$ after $L$. Thus the gap row can name only commitments not witnessed by the current ledger, while remaining attached to the same present state.
+
+Finally, $H$ transports the displayed rows componentwise and $C$ replays only their listed routes. Since no detached self, global universe, external clock, manifold coordinate, or all-observer frame occurs among the coordinates, the local certificate cannot export one.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state classifier stability]
+\label{thm:conscious-observer-state-classifier-stability}
+Let
+$$
+S=(O,s,R,L,G,H,C,P,N)
+$$
+be an accepted $\ConsciousObserverStateUp$ carrier. Any classifier comparison of $S$ with another accepted carrier is stable only after both packets expose the same finite observer-history surface, current-state row, self-recognition row, observation ledger row, $\Gap$ acknowledgement row, componentwise transport, displayed routes, package provenance, and local naming row. The classifier does not compare detached selves, global universes, host mental states, manifold coordinates, or instantaneous remote records.
+\end{theorem}
+\begin{proof}
+Project the accepted carriers. The classifier can inspect only the rows listed in \autoref{def:conscious-observer-state-carrier}.
+
+Transport by $H$ moves the observer history, current state, self-recognition row, observation ledger, and acknowledgement row together. The routes in $C$ then replay the same finite reads on the transported surface.
+
+The provenance row $P$ and the local name row $N$ bind the compared rows to the same package shape. Because the carrier contains no detached self, global universe, host mental-state, manifold-coordinate, or instantaneous-remote-record coordinate, classifier stability is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state ledger exactness]
+\label{thm:conscious-observer-state-ledger-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet, the ledger visible at the current state is exactly the observation row $L$ together with the $\Gap$ acknowledgement row $G$, read through $O,s,R,H,C,P,N$. A consumer can therefore read the present observer-state surface as
+$$
+O
+\quad\hbox{then}\quad
+s
+\quad\hbox{then}\quad
+R,L,G
+\quad\hbox{then}\quad
+H,C,P,N.
+$$
+No additional row records a hidden universe, a separate self-substance, a global clock, a spacetime point, an all-observer synchronization map, or a remote record available without acknowledgement.
+\end{theorem}
+\begin{proof}
+Read the carrier in order. The history row $O$ supplies the finite observer-history surface, and $s$ selects the present row within that surface.
+
+The self-recognition row $R$ is read at $s$. The observation ledger $L$ then supplies the present records, and the acknowledgement row $G$ supplies the named gaps attached to that same state.
+
+The remaining rows $H,C,P,N$ account for transport, continuation, provenance, and local naming. They do not add observational content. Hence the ledger is exact for the displayed current-state packet and contains no hidden global or host-level coordinate.
+\end{proof}
+
+\closureat{ConsciousObserverStateUp}{seedStr}
+
+\begin{closurestatus}{\ConsciousObserverStateUp}
+  \constructivestory{A $\ConsciousObserverStateUp$ packet is generated from an observer-history row, a current-state row, a self-recognition row, an observation ledger, a $\Gap$ acknowledgement, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:conscious-observer-state-carrier}, \autoref{thm:conscious-observer-state-namecert-obligations}, \autoref{thm:conscious-observer-state-classifier-stability}, and \autoref{thm:conscious-observer-state-ledger-exactness} bind the finite current-state observer packet and its local recognition ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a global observer, a shared universe, external time, manifold spacetime, host psychological content, checked Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, and ledger exactness for the same current-state observer packet.}
+\end{closurestatus}
