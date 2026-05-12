@@ -396,6 +396,52 @@ theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSet
                                       precisionUnary' joinedRow
                                   exact ⟨joined, joinedRow, joinedUnary⟩
 
+theorem ModulusOfConvergenceCarrier_scoped_dependency_packet [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger provenance
+        bundle pkg ->
+      UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+        UnaryHistory schedule ∧ UnaryHistory witness ∧ UnaryHistory ledger ∧
+          UnaryHistory provenance ∧ Cont precision selector modulus ∧
+            Cont modulus schedule witness ∧ Cont witness ledger provenance ∧
+              SemanticNameCert (fun row : BHist => hsame row provenance)
+                (fun row : BHist => hsame row provenance)
+                (fun row : BHist => hsame row provenance) hsame := by
+  intro carrier
+  obtain ⟨precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary,
+    ledgerUnary, provenanceUnary, precisionSelectorRoute, witnessRoute, provenanceRoute,
+    _pkgRoute⟩ := carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (hsame_refl provenance)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary, ledgerUnary,
+      provenanceUnary, precisionSelectorRoute, witnessRoute, provenanceRoute, cert⟩
+
 inductive ModulusOfConvergencePacket
     (precision selector modulus stream witness ledger provenance window : BHist) : Prop where
   | mk :
