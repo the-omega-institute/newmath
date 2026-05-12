@@ -119,4 +119,26 @@ theorem UnitDiskOriginRows_radius_ledger [AskSetup] [PackageSetup]
         routeEndpoint, pkgEndpoint⟩
   · rfl
 
+theorem UnitDiskBHistCarrier_boundary_sone_consumer [AskSetup] [PackageSetup]
+    {x y point origin radius bound boundary sameRows route provenance nameCert endpoint
+      boundaryConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnitDiskBHistCarrier x y point origin radius bound boundary sameRows route provenance
+        nameCert endpoint bundle pkg ->
+      Cont boundary route boundaryConsumer ->
+        PkgSig bundle boundaryConsumer pkg ->
+          UnaryHistory boundary ∧ UnaryHistory route ∧ UnaryHistory boundaryConsumer ∧
+            hsame point (append x y) ∧ hsame radius (append point origin) ∧
+              Cont boundary route boundaryConsumer ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle boundaryConsumer pkg := by
+  intro carrier boundaryRouteConsumer boundaryConsumerPkg
+  obtain ⟨_xUnary, _yUnary, _pointUnary, _originUnary, _radiusUnary, _boundUnary,
+    boundaryUnary, _sameRowsUnary, routeUnary, _provenanceUnary, _nameCertUnary,
+      _endpointUnary, pointRows, radiusRows, _endpointRoute, endpointPkg⟩ := carrier
+  have boundaryConsumerUnary : UnaryHistory boundaryConsumer :=
+    unary_cont_closed boundaryUnary routeUnary boundaryRouteConsumer
+  exact
+    ⟨boundaryUnary, routeUnary, boundaryConsumerUnary, pointRows, radiusRows,
+      boundaryRouteConsumer, endpointPkg, boundaryConsumerPkg⟩
+
 end BEDC.Derived.UnitDiskUp

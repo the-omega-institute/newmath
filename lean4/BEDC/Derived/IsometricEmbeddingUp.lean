@@ -58,4 +58,26 @@ theorem IsometricEmbeddingCarrier_classifier_transport [AskSetup] [PackageSetup]
       transportedReflection
   exact ⟨sameTarget, sameReflection, sourceGraph, distanceReflection, pkgReflection⟩
 
+theorem IsometricEmbeddingCarrier_separated_consumer_route [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont reflection routes consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+            UnaryHistory reflection ∧ UnaryHistory consumer ∧ Cont source graph target ∧
+              Cont sourceDistance targetDistance reflection ∧ Cont reflection routes consumer ∧
+                PkgSig bundle reflection pkg ∧ PkgSig bundle consumer pkg := by
+  intro carrier reflectionRoutesConsumer consumerPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, _sourceDistanceUnary, _targetDistanceUnary,
+    reflectionUnary, _transportsUnary, routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, distanceReflection, pkgReflection, _localSemantic⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesConsumer
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, reflectionUnary, consumerUnary, sourceGraph,
+      distanceReflection, reflectionRoutesConsumer, pkgReflection, consumerPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
