@@ -83,6 +83,7 @@ import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
+import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
