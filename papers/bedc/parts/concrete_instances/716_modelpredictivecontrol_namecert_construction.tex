@@ -67,6 +67,7 @@ of \autoref{def:modelpredictivecontrol-bhist-carrier}. The prediction surface
 exports no host trajectory space, no infinite rollout, and no unlogged model
 semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModelPredictiveControlUp.ModelPredictiveControlPacket\_finite\_horizon\_obligation}
 \begin{proof}
 Project the accepted carrier of
 \autoref{def:modelpredictivecontrol-bhist-carrier}. The only coordinates that
@@ -180,6 +181,7 @@ imported certificate surfaces.
 These rows form the finite seed obligation surface for naming receding-horizon
 model predictive control data in BEDC.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModelPredictiveControlUp.ModelPredictiveControlPacket\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row fixes every coordinate of the packet. Its displayed state,
 horizon, transition, window, cost, terminal, candidate, extraction, transport,
@@ -342,14 +344,15 @@ primitives.
 \closureat{ModelPredictiveControlUp}{scopedStr}
 \closureat{ModelPredictiveControlUp}{publicStr}
 \closureat{ModelPredictiveControlUp}{bridgedStr}
+\closureat{ModelPredictiveControlUp}{matureStr}
 
 \begin{closurestatus}{\ModelPredictiveControlUp}
   \constructivestory{A $\ModelPredictiveControlUp$ packet is seeded by finite $\mathsf{BHist}$ rows for current state, finite prediction horizon, dynamics transition, constraint window, stage-cost ledger, terminal-cost or terminal-region row, optimizer-candidate row, first-control extraction, $\hsame$ transports, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support}, \autoref{thm:modelpredictivecontrol-finite-horizon-prefix-restriction}, and \autoref{thm:modelpredictivecontrol-finite-rollout-bridge-boundary} bind the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, finite-horizon prefix export, and bridge boundary to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon optimality, analytic convergence, stochastic control, host optimizer semantics, recursive feasibility beyond displayed terminal rows, or a standard bridge.}
-  \upgradepath{Mature closure requires finite consumer coverage for the displayed MPC bridge packet.}
+  \upgradepath{The remaining work is formal-axis verification of the displayed finite MPC packet.}
 \end{closurestatus}

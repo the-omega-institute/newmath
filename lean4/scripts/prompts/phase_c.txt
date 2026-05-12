@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.16 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.18 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Environment
 
@@ -131,7 +131,7 @@ Rationale: the outer `codex_formalize.py` process owns the merge → push sequen
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
 - Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
-- Do NOT create or edit theorem-bearing targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a formal target tree.
+- **HARD GATE — Examples/TypedExamples/scaffold paths are read-only (Phase C-side)**: do NOT create OR EDIT any file whose path component contains `Examples`, `TypedExamples`, `Example`, `Scaffold`, `Stub`, `Placeholder`, `Demo` (case-insensitive substring). This applies to the WHOLE diff produced in Phase C, not just the explicit `target_file` from Phase B. If implementing the target_file requires fixing a stale import or adding a missing definition in `lean4/BEDC/MetaCIC/TypedExamples.lean` or any `TypedExamples/<X>.lean`, **do that fix in a non-Examples module instead** (e.g. move the missing definition into `BEDC.MetaCIC.Substitution.*` or `BEDC.MetaCIC.Typing.*` and re-export). The orchestrator's `detect_forbidden_target_paths` gate inspects every changed Lean file's path, not the Phase B target_file list — incidental edits to `BEDC/MetaCIC/TypedExamples.lean` will REJECT the round. Reading these files (for `\autoref` / `open` / theorem citation) is fine; modifying their `.lean` source is the trigger. If a Phase B target literally cannot be implemented without an Examples-side edit, abandon that target in Phase C and pick a different one from the candidate list. (Historical context: observed 2026-05-12, 8 R-round FAIL in 30 min from incidental TypedExamples.lean edits, even when Phase B target_file was a `Derived/<X>Up.lean` chapter.)
 - Do NOT create scaffold/stub/placeholder/demo/example modules or names. Use canonical semantic BEDC modules.
 - Keep every modified or added Lean file at or below 600 lines. If a target would exceed that cap, create or use a focused non-example submodule and import it through the nearest index.
 - Reuse the existing setup layers: `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the theorem belongs to those interfaces.

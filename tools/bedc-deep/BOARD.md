@@ -18,76 +18,50 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-675 - S1 completion-readback injectivity prerequisite
+### B-699 - KKT finite-packet standard bridge
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (both) |
-| Object | S1 completion-readback injectivity prerequisite |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KKT finite-packet standard bridge |
 | Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
-| Fit | 7/10 |
+| Fit | 8/10 |
 | Novelty | 7/10 |
 
 Problem:
-Under the visible S1 carrier/readback setup, if a cancellative additive source map is injective and the bridge reads a displayed completion representative, then source separation is preserved by the completion readback without using host quotient primitives.
+If a standard KKT presentation is admitted solely through the finite primal, multiplier, residual, stationarity, feasibility, complementary-slackness, hsame, Cont, Pkg, NameCert, and dependency rows exported by KKTUp, then it roundtrips through the public KKTUp packet without adding Slater, differentiability, solver, or host minimization semantics.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+- `papers/bedc/parts/concrete_instances/273_kkt_namecert_construction.tex`
 
 Rationale:
-This is a concrete bridge-prerequisite target that lands on the existing S1 carrier/readback surface rather than importing a host completion object. It is distinct from the current S1 transport, determinacy, public readback, and constructor-compatibility rows, and it is not present in the existing BOARD title index or paper labels. The landing file is not a hub and is below the line cap, so the target can be staged safely as a local theorem/proposition about visible representatives and separation.
+KKTUp already has row obligations, transport, complementarity exactness, downstream boundary, and public finite-packet export, while its closure block names the standard bridge as the next paper obligation. The proposed theorem is a bounded bridge target over the displayed finite packet, not a request for nonlinear optimization semantics, and it is not already covered by the public export theorem because it asks for the standard-presentation roundtrip boundary.
 
 ---
 
-### B-676 - S1 finite-rank host homologization obstruction
+### B-700 - GeomQuantization public-surface standard bridge
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | S1 finite-rank host homologization obstruction |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | GeomQuantization public-surface standard bridge |
 | Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
+| Fit | 8/10 |
+| Novelty | 8/10 |
 
 Problem:
-Under the S1 carrier/readback bridge setup, if a finite-rank host homologization certificate is admitted for the visible S1 bridge ledger, then the induced bounded-rank certificate is incompatible with cofinal prime-support evidence, so the finite-rank host homologization is obstructed.
+If a standard geometric-quantization presentation is read only through the SymplecticUp source row, HilbertUp endpoint row, prequantum line-bundle row, polarisation classifier, metaplectic ledger, finite Cont readback, hsame transport family, and Pkg provenance of the public packet, then it conservatively bridges to the GeomQuantizationUp public certificate and cannot expose an ambient quantization functor or host Hilbert construction.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+- `papers/bedc/parts/concrete_instances/248_geomquantization_namecert_construction.tex`
 
 Rationale:
-This is a concrete obstruction target over the existing S1 carrier/readback surface rather than a marker-only or verification-axis task. It is distinct from the active S1 completion-readback injectivity prerequisite: B-675 concerns preservation of source separation through displayed completion readbacks, while this candidate asks for an obstruction to a finite-rank host homologization certificate using bounded-rank versus cofinal-support evidence. The local input is not listed as a hub file or near the 800-line cap, and the claim can be staged as a BEDC-native bridge-obligation theorem without importing Automath runtime state.
+The GeomQuantizationUp chapter already proves the public certificate handoff but explicitly leaves standard bridges outside the current surface and names a schema-level public-surface bridge as the upgrade path. This candidate is a concrete conservative bridge theorem over the listed packet rows, distinct from the existing handoff because it constrains how a standard geometric-quantization presentation may be admitted without adding ambient quantization or host-space rows.
 
 ---
-
-### B-691 - ExactGlobalizeBase subdomain base-change
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | ExactGlobalizeBase subdomain base-change |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If ExactGlobalizeBase(Π,D) holds and D′ is a subdomain of D, then the concrete signature Globalize structure restricted through InGapSig(Π,D′,p,h) satisfies ExactGlobalizeBase(Π,D′).
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
-- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
-
-Rationale:
-This is a concrete proof-obligation theorem on the existing ExactGlobalizeBase surface rather than a marker or verification-status task. It is not present in the BOARD title index or paper labels, and it is not just a field projection: coverage must rebuild a D′ gap from the D coverage witness using the D′ admission premise, while soundness and completeness require pushing D′ gap memberships through the subdomain inclusion before applying the D exactness fields. The proposed landing files are non-hub theorem-bearing files and are below the line cap.
-
----
-
