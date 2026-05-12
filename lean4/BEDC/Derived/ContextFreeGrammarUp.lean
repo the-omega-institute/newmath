@@ -53,4 +53,24 @@ theorem ContextFreeGrammarPacket_production_stability [AskSetup] [PackageSetup]
     unary_transport readbackUnary sameReadback
   exact ⟨productionUnary', yieldUnary', readbackUnary', sameReadback, transportedRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint finalYield : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont derivation readback finalYield ->
+        UnaryHistory start ∧ UnaryHistory production ∧ UnaryHistory derivation ∧
+          UnaryHistory readback ∧ UnaryHistory yield ∧ UnaryHistory finalYield ∧
+            Cont derivation readback finalYield ∧ PkgSig bundle endpoint pkg := by
+  intro packet finalYieldRow
+  obtain ⟨_terminalUnary, _nonterminalUnary, startUnary, productionUnary, yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _startRow, _productionRow, _routeRow, _nameRow,
+    _endpointRow, pkgSig⟩ := packet
+  have finalYieldUnary : UnaryHistory finalYield :=
+    unary_cont_closed derivationUnary readbackUnary finalYieldRow
+  exact ⟨startUnary, productionUnary, derivationUnary, readbackUnary, yieldUnary,
+    finalYieldUnary, finalYieldRow, pkgSig⟩
+
 end BEDC.Derived.ContextFreeGrammarUp
