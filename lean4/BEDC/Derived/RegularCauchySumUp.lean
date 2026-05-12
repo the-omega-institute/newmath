@@ -209,4 +209,34 @@ theorem RegularCauchySumCarrier_realup_seal_nonempty_iff [AskSetup] [PackageSetu
     exact append_nonempty_iff
   exact ⟨realSealUnary, realSealNonempty, pkgSig⟩
 
+theorem RegularCauchySumCarrier_seal_consumer_exhaustion [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont readback provenance realSeal ->
+        Cont realSeal localCert consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory consumer ∧
+              Cont sumEndpoint budget readback ∧ Cont readback provenance realSeal ∧
+                Cont realSeal localCert consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  intro carrier realSealRow consumerRow consumerPkg
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, _routesUnary,
+    provenanceUnary, localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, pkgSig⟩ := carrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary provenanceUnary realSealRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary localCertUnary consumerRow
+  exact
+    ⟨readbackUnary, realSealUnary, consumerUnary, readbackRoute, realSealRow, consumerRow,
+      pkgSig, consumerPkg⟩
+
 end BEDC.Derived.RegularCauchySumUp
