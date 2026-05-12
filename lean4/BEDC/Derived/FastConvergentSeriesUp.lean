@@ -269,4 +269,33 @@ theorem FastConvergentSeriesCarrier_public_tail_budget_export [AskSetup] [Packag
       realSealUnary, consumerUnary, sourceRow, scheduleTailRow, consumerRow, endpointRow,
       tailSame, sealSame, provenancePkg, endpointPkg⟩
 
+theorem FastConvergentSeriesCarrier_bridge_completion_handoff [AskSetup] [PackageSetup]
+    {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
+      nameCert consumerRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+        realSeal transports routes provenance nameCert bundle pkg ->
+      FastConvergentSeriesTailBoundPacket series partialSums schedule tailLedger
+        regReadback realSeal transports provenance nameCert bundle pkg ->
+        Cont tailLedger regReadback consumerRead ->
+          Cont realSeal provenance endpoint ->
+            hsame realSeal consumerRead ∧ UnaryHistory consumerRead ∧
+              UnaryHistory endpoint ∧ Cont tailLedger regReadback consumerRead ∧
+                Cont realSeal provenance endpoint ∧ PkgSig bundle provenance pkg := by
+  intro carrier packet consumerRow endpointRow
+  obtain ⟨_seriesUnary, _seqUnary, _partialUnary, _scheduleUnary, tailLedgerUnary,
+    _regReadbackUnary, realSealUnary, _transportsUnary, _routesUnary, _nameCertUnary,
+    _seriesSeqRow, _scheduleTailRow, realSealRow, _nameCertRow, _tailSame, _sealSame,
+    _carrierPkg⟩ := carrier
+  obtain ⟨_packetSeriesUnary, _packetPartialUnary, _packetScheduleUnary, regReadbackUnary,
+    _packetSealUnary, provenanceUnary, _packetTailRow, _packetSealRow, _packetTransportRow,
+    _packetProvenanceRow, packetPkg⟩ := packet
+  have sameConsumer : hsame realSeal consumerRead :=
+    cont_deterministic realSealRow consumerRow
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed tailLedgerUnary regReadbackUnary consumerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed realSealUnary provenanceUnary endpointRow
+  exact ⟨sameConsumer, consumerUnary, endpointUnary, consumerRow, endpointRow, packetPkg⟩
+
 end BEDC.Derived.FastConvergentSeriesUp
