@@ -75,6 +75,83 @@ theorem DyadicApproximationCarrier_common_refinement_enclosure_handoff
         precisionEndpointWindow, windowLedgerProvenance, pkgSig⟩,
       meshUnary, enclosureUnary, sealUnary, readUnary, sameWindowA, sameWindowB, readPkg⟩
 
+theorem DyadicApproximationCarrier_finite_packet_real_seal_stability
+    [AskSetup] [PackageSetup]
+    {precisionA endpointA windowA ledgerA provenanceA precisionB endpointB windowB ledgerB
+      provenanceB commonPrecision commonEndpoint commonWindow commonLedger commonProvenance
+      meshCell enclosure sealA sealB validatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precisionA endpointA windowA ledgerA provenanceA bundle pkg ->
+      DyadicApproximationCarrier precisionB endpointB windowB ledgerB provenanceB bundle pkg ->
+        hsame precisionA commonPrecision ->
+          hsame precisionB commonPrecision ->
+            hsame endpointA commonEndpoint ->
+              hsame endpointB commonEndpoint ->
+                hsame ledgerA commonLedger ->
+                  hsame ledgerB commonLedger ->
+                    hsame provenanceA commonProvenance ->
+                      hsame provenanceB commonProvenance ->
+                        Cont commonPrecision commonEndpoint commonWindow ->
+                          Cont commonWindow commonLedger commonProvenance ->
+                            Cont commonWindow commonProvenance meshCell ->
+                              Cont meshCell commonProvenance enclosure ->
+                                Cont commonLedger commonProvenance sealA ->
+                                  Cont commonLedger commonProvenance sealB ->
+                                    Cont enclosure sealA validatedRead ->
+                                      PkgSig bundle meshCell pkg ->
+                                        PkgSig bundle enclosure pkg ->
+                                          PkgSig bundle sealA pkg ->
+                                            PkgSig bundle sealB pkg ->
+                                              PkgSig bundle validatedRead pkg ->
+                                                DyadicApproximationCarrier commonPrecision
+                                                    commonEndpoint commonWindow commonLedger
+                                                    commonProvenance bundle pkg ∧
+                                                  UnaryHistory meshCell ∧
+                                                    UnaryHistory enclosure ∧
+                                                      UnaryHistory sealA ∧
+                                                        UnaryHistory sealB ∧
+                                                          UnaryHistory validatedRead ∧
+                                                            hsame windowA commonWindow ∧
+                                                              hsame windowB commonWindow ∧
+                                                                hsame sealA sealB ∧
+                                                                  PkgSig bundle validatedRead
+                                                                    pkg := by
+  intro carrierA carrierB samePrecisionA samePrecisionB sameEndpointA sameEndpointB
+  intro sameLedgerA sameLedgerB sameProvenanceA sameProvenanceB
+  intro commonPrecisionEndpointWindow commonWindowLedgerProvenance
+  intro commonWindowProvenanceMesh meshProvenanceEnclosure commonLedgerProvenanceSealA
+  intro commonLedgerProvenanceSealB enclosureSealValidated
+  intro _meshPkg _enclosurePkg _sealAPkg _sealBPkg validatedPkg
+  have refined :
+      DyadicApproximationCarrier commonPrecision commonEndpoint commonWindow commonLedger
+          commonProvenance bundle pkg ∧
+        hsame windowA commonWindow ∧ hsame windowB commonWindow :=
+    DyadicApproximationCarrier_common_precision_refinement carrierA carrierB
+      samePrecisionA samePrecisionB sameEndpointA sameEndpointB sameLedgerA sameLedgerB
+      sameProvenanceA sameProvenanceB commonPrecisionEndpointWindow
+      commonWindowLedgerProvenance
+  rcases refined with ⟨commonCarrier, sameWindowA, sameWindowB⟩
+  rcases commonCarrier with
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      precisionEndpointWindow, windowLedgerProvenance, pkgSig⟩
+  have meshUnary : UnaryHistory meshCell :=
+    unary_cont_closed windowUnary provenanceUnary commonWindowProvenanceMesh
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed meshUnary provenanceUnary meshProvenanceEnclosure
+  have sealAUnary : UnaryHistory sealA :=
+    unary_cont_closed ledgerUnary provenanceUnary commonLedgerProvenanceSealA
+  have sealBUnary : UnaryHistory sealB :=
+    unary_cont_closed ledgerUnary provenanceUnary commonLedgerProvenanceSealB
+  have validatedUnary : UnaryHistory validatedRead :=
+    unary_cont_closed enclosureUnary sealAUnary enclosureSealValidated
+  have sameSeal : hsame sealA sealB :=
+    cont_deterministic commonLedgerProvenanceSealA commonLedgerProvenanceSealB
+  exact
+    ⟨⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+        precisionEndpointWindow, windowLedgerProvenance, pkgSig⟩,
+      meshUnary, enclosureUnary, sealAUnary, sealBUnary, validatedUnary, sameWindowA,
+      sameWindowB, sameSeal, validatedPkg⟩
+
 theorem DyadicApproximationCarrier_terminal_window_two_stage_factorization
     [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance prefixPrecision prefixEndpoint prefixWindow
