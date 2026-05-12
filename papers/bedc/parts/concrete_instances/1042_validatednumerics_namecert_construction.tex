@@ -233,6 +233,38 @@ continuation route, hence it remains a continuation route after transport and
 preserves the same finite containment claim inside the transported enclosure.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics refined readback containment determinacy]
+\label{thm:validatednumerics-refined-readback-containment-determinacy}
+Let $V$ and $V'$ be accepted $\ValidatedNumericsUp$ packets with the same
+transported interval row, precision request, modulus request, $\RegSeqRatUp$
+observation window, $\RealUp$ readback token, containment ledger, $\hsame$
+transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. After
+any displayed precision refinement of the request, the two packets yield the
+same public finite-enclosure read.
+
+The determinacy is only a finite readback boundary. It does not assert solver
+correctness, hardware semantics, completed-real equality, or classical
+completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:validatednumerics-real-readback-soundness}. The
+common $\RealUp$ token is read through the same $\RegSeqRatUp$ observation
+window and finite modulus request, so both packets expose the same real-name
+readback row.
+
+Next use \autoref{thm:validatednumerics-precision-refinement-containment}. A
+displayed precision refinement narrows the requested finite enclosure by the
+same transported interval row and the same modulus request on both sides.
+
+Finally apply \autoref{thm:validatednumerics-containment-ledger-transport}.
+The containment ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance,
+and local $\NameCert$ row are shared, so the refined containment read is
+transported identically for $V$ and $V'$. Therefore the public finite-enclosure
+read after refinement is the same, while solver correctness, hardware
+semantics, completed-real equality, and classical completeness remain outside
+the packet.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics NameCert obligation surface]
 \label{thm:validatednumerics-namecert-obligation-surface}
 The $\NameCert_{\ValidatedNumericsUp}$ obligation surface is assembled from the
