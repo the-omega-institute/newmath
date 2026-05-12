@@ -1,0 +1,39 @@
+\begin{theorem}[DyadicApproximation terminal selector determinacy]
+\label{thm:dyadicapproximation-finite-packet-terminal-selector-determinacy}
+Let $A$ and $A'$ be accepted terminal $\DyadicApproximationUp$ finite packets.
+Suppose their terminal rows are identified by displayed $\hsame$ comparisons,
+they expose the same $\RationalIntervalUp$ window, the same $\RegSeqRatUp$
+readback, and the same $\RealUp$ seal-facing route through visible $\Cont$,
+$\Pkg$, and local $\NameCert_{\DyadicApproximationUp}$ provenance.
+
+Then the terminal selector reads of $A$ and $A'$ classify together. Equivalently,
+after the terminal finite-window surface is fixed, the selector cannot depend
+on an unlogged mesh endpoint or on any endpoint coordinate outside the accepted
+finite packets.
+\end{theorem}
+\begin{proof}
+First normalize both terminal reads. Apply
+\autoref{thm:dyadicapproximation-terminal-finite-packet-real-readback} to each
+accepted packet. The terminal selector is thereby expressed through the
+terminal precision row, transported endpoint, $\RationalIntervalUp$ window,
+$\RegSeqRatUp$ readback, $\RealUp$ seal ledger, visible transports,
+continuation routes, package provenance, and local certificate rows.
+
+Next place the two packets on a common enclosure surface. Apply
+\autoref{thm:dyadicapproximation-common-refinement-enclosure-handoff}. The
+shared rational interval, regular-rational readback, and real seal route are
+therefore read from one finite $\RealUp$ boundary surface.
+
+Now commute the refinement with the seal route. Apply
+\autoref{thm:dyadicapproximation-refinement-seal-commutation}. This shows that
+reading the terminal selector before the seal and reading through the common
+refinement before the seal expose the same finite coordinates.
+
+Finally use
+\autoref{thm:dyadicapproximation-shared-real-boundary-determinacy}. Since the
+hypotheses identify the terminal rows, interval window, regular readback, real
+seal route, transports, continuations, and provenance, every permitted consumer
+route reads the same boundary. No cited surface contains an unlogged mesh
+endpoint, so the terminal selector has no remaining coordinate on which a
+different classification could depend.
+\end{proof}
