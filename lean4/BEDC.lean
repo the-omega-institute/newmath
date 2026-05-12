@@ -109,6 +109,7 @@ import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DyadicTailBoundUp
+import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
@@ -263,6 +264,7 @@ import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
+import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
