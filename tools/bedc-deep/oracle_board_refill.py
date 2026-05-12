@@ -59,8 +59,10 @@ ORACLE_SERVER = "http://localhost:8767"
 REFILL_TAG = "bedc-deep-board-refill"
 REFILL_TASK_PREFIX = "bedc_board_refill_"
 
-DEFAULT_TIMEOUT = 7200  # 2 hours — oracle can take long on a meta-question
+DEFAULT_TIMEOUT = 14400  # Match oracle server TASK_TIMEOUT; refill prompts can run long.
 DEFAULT_POLL_INTERVAL = 30
+ZERO_EXTRACTION_HANG_SECONDS = 900
+ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
 
 # ---------------------------------------------------------------------------
@@ -117,7 +119,37 @@ def _has_refill_in_server(status: dict) -> bool:
 
 
 def _zero_extraction_hang_agents(status: dict) -> list[str]:
-    return [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+    agents = [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+    if agents:
+        return agents
+    out: list[str] = []
+    active_tasks = {
+        str(agent_id): str((task or {}).get("task_id") or "")
+        for agent_id, task in (status.get("agents") or {}).items()
+    }
+    for agent_id, rec in (status.get("recent_agents") or {}).items():
+        agent_id = str(agent_id)
+        if not active_tasks.get(agent_id):
+            continue
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        if str(metrics.get("task_id") or "") != active_tasks[agent_id]:
+            continue
+        try:
+            elapsed = int(metrics.get("elapsed_seconds") or 0)
+            extracted = int(metrics.get("extracted_chars") or 0)
+            page_chars = int(metrics.get("page_chars") or 0)
+        except (TypeError, ValueError):
+            continue
+        if (
+            metrics.get("generating") is True
+            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            out.append(agent_id)
+    return out
 
 
 def _board_content() -> str:
