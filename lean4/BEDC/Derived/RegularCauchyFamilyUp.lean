@@ -108,6 +108,65 @@ def RegularCauchyFamilyCarrier [AskSetup] [PackageSetup]
           Cont modulus windows dyadicLedger ∧ Cont dyadicLedger diagonalRoute contRoutes ∧
             Cont transports contRoutes provenance ∧ PkgSig bundle provenance pkg
 
+theorem RegularCauchyFamilyCarrier_carrier_transport_stability [AskSetup] [PackageSetup]
+    {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
+      provenance localCert memberLedger' memberRows' modulus' windows' dyadicLedger'
+      diagonalRoute' transports' contRoutes' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows dyadicLedger
+        diagonalRoute transports contRoutes provenance localCert bundle pkg ->
+      hsame memberLedger memberLedger' ->
+        hsame memberRows memberRows' ->
+          hsame windows windows' ->
+            hsame transports transports' ->
+              hsame localCert localCert' ->
+                hsame diagonalRoute diagonalRoute' ->
+                  Cont memberLedger' memberRows' modulus' ->
+                    Cont modulus' windows' dyadicLedger' ->
+                      Cont dyadicLedger' diagonalRoute' contRoutes' ->
+                        Cont transports' contRoutes' provenance' ->
+                          PkgSig bundle provenance' pkg ->
+                            RegularCauchyFamilyCarrier memberLedger' memberRows' modulus' windows'
+                                dyadicLedger' diagonalRoute' transports' contRoutes' provenance'
+                                localCert' bundle pkg ∧
+                              hsame modulus modulus' ∧ hsame dyadicLedger dyadicLedger' ∧
+                                hsame diagonalRoute diagonalRoute' ∧
+                                  hsame contRoutes contRoutes' ∧
+                                    hsame provenance provenance' := by
+  intro carrier sameMemberLedger sameMemberRows sameWindows sameTransports sameLocalCert
+    sameDiagonal memberRoute' windowRoute' diagonalRouteRow' provenanceRoute' provenancePkg'
+  obtain ⟨memberLedgerUnary, memberRowsUnary, modulusUnary, windowsUnary, dyadicLedgerUnary,
+    diagonalRouteUnary, transportsUnary, contRoutesUnary, provenanceUnary, localCertUnary,
+    memberRoute, windowRoute, diagonalRouteRow, provenanceRoute, _provenancePkg⟩ := carrier
+  have sameModulus : hsame modulus modulus' :=
+    cont_respects_hsame sameMemberLedger sameMemberRows memberRoute memberRoute'
+  have sameDyadicLedger : hsame dyadicLedger dyadicLedger' :=
+    cont_respects_hsame sameModulus sameWindows windowRoute windowRoute'
+  have sameContRoutes : hsame contRoutes contRoutes' :=
+    cont_respects_hsame sameDyadicLedger sameDiagonal diagonalRouteRow diagonalRouteRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransports sameContRoutes provenanceRoute provenanceRoute'
+  have transported :
+      RegularCauchyFamilyCarrier memberLedger' memberRows' modulus' windows'
+        dyadicLedger' diagonalRoute' transports' contRoutes' provenance' localCert' bundle pkg :=
+    ⟨unary_transport memberLedgerUnary sameMemberLedger,
+      unary_transport memberRowsUnary sameMemberRows,
+      unary_transport modulusUnary sameModulus,
+      unary_transport windowsUnary sameWindows,
+      unary_transport dyadicLedgerUnary sameDyadicLedger,
+      unary_transport diagonalRouteUnary sameDiagonal,
+      unary_transport transportsUnary sameTransports,
+      unary_transport contRoutesUnary sameContRoutes,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport localCertUnary sameLocalCert,
+      memberRoute',
+      windowRoute',
+      diagonalRouteRow',
+      provenanceRoute',
+      provenancePkg'⟩
+  exact
+    ⟨transported, sameModulus, sameDyadicLedger, sameDiagonal, sameContRoutes, sameProvenance⟩
+
 theorem RegularCauchyFamilyCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
       provenance localCert : BHist}
