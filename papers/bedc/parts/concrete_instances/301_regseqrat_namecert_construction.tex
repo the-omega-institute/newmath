@@ -581,6 +581,44 @@ same finite source surface, with no coordinate for quotient streams, host real
 equality, metric completeness, completion points, or additional seal data.
 \end{proof}
 
+\begin{theorem}[RegSeqRat refined-window chain exhaustion]
+\label{thm:regseqrat-refined-window-chain-exhaustion}
+Let $W_0,W_1,\ldots,W_n$ be a finite chain of accepted $\RegSeqRatUp$
+scheduled windows. Suppose every consecutive overlap agrees on the
+$\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint and radius rows,
+regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes,
+$\Pkg$ provenance, and $\NameCert$ provenance. Then the chain repacks into one
+accepted common finite window, and every terminal $\RealUp$ seal read from the
+chain factors through that common packet.
+
+The common packet exposes only the displayed regular-rational source rows just
+listed. It does not introduce quotient sequence equality, host real equality,
+metric completion, or completeness data.
+\end{theorem}
+\begin{proof}
+Induct on the finite chain of scheduled windows. The first adjacent link is
+handled by \autoref{thm:regseqrat-refined-window-gluing}, which repacks two
+accepted windows into one accepted finite refinement over the shared schedule,
+endpoint, radius, ledger, transport, and provenance rows.
+
+In the step, the induction hypothesis supplies one accepted common packet for
+the initial segment. Apply
+\autoref{thm:regseqrat-common-refinement-classifier-determinacy} on the overlap
+with the next scheduled window. The determinacy row identifies the shared
+$\StreamNameUp$ schedule, $\DyadicRatCoreUp$ endpoint and radius data,
+regularity ledger, classifier ledger, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows as one finite read.
+
+Use \autoref{thm:regseqrat-refined-window-gluing} again to glue the next window
+to the common packet. This preserves acceptedness and produces the next common
+finite window without adding any off-surface sequence, host-real, completion,
+or completeness coordinate.
+
+Finally apply \autoref{thm:regseqrat-real-seal-handoff}. Since the $\RealUp$
+terminal seal consumes only the accepted finite regular-rational packet, every
+seal read from the original chain factors through the repacked common window.
+\end{proof}
+
 \begin{theorem}[RegSeqRat StreamName cover-refinement seal handoff]
 \label{thm:regseqrat-streamname-cover-refinement-seal-handoff}
 Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
@@ -621,6 +659,66 @@ consumes only that finite regular-rational source surface, so the handoff
 factors through the public $\StreamNameUp$ finite-window interface and cannot
 read a quotient stream, host real equality, hidden limit selector, metric
 completion, or $\RealUp$ completeness coordinate.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-stable window cover exhaustion]
+\label{thm:regseqrat-tail-stable-window-cover-exhaustion}
+Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
+over one accepted $\RegSeqRatUp$ packet. If every member of $\mathcal W$ is
+stable under shifted-tail regularity closure and the overlaps of
+$\mathcal W$ glue by refined-window gluing, then every finite-window
+$\RealUp$ seal read over that packet factors through exactly the public
+$\StreamNameUp$ windows, the pointwise $\RatUp$ classifier rows, the
+$\DyadicRatCoreUp$ denominator and radius ledgers, and the displayed
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+The factorization exports no quotient stream, host real equality, hidden
+limit selector, metric-completeness datum, completion point, or additional
+$\RealUp$ seal coordinate beyond the finite tail-stable cover surface.
+\end{theorem}
+\begin{proof}
+Start with the cover-refinement handoff of
+\autoref{thm:regseqrat-streamname-cover-refinement-seal-handoff}. It reads the
+$\RealUp$ seal only through the public $\StreamNameUp$ finite-window
+interface, the displayed $\mathsf{InBundle}$ rows, pointwise $\RatUp$
+classifier rows, dyadic denominator ledger, and the stated provenance rows.
+
+Apply \autoref{thm:regseqrat-shifted-tail-regularity-closure} to each window
+in the cover. Tail stability keeps the scheduled regularity rows inside the
+same accepted $\RegSeqRatUp$ packet after the shifted-tail read, so the seal
+cannot leave the finite public cover.
+
+Use \autoref{thm:regseqrat-refined-window-gluing} on every overlap. The
+overlap rows glue the public windows into one finite source surface while
+preserving the pointwise classifier rows, the dyadic denominator and radius
+ledgers, and the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The $\RealUp$ seal
+handoff consumes only the finite regular-rational packet just assembled, so
+the tail-stable cover exhausts the whole seal-facing source surface and
+leaves no off-table quotient, host-equality, completion, or extra seal row to
+read.
+\end{proof}
+
+\begin{theorem}[RegSeqRat RealUp seal uniqueness boundary]\label{thm:regseqrat-real-seal-uniqueness-boundary}
+Two accepted $\RegSeqRatUp$ packets with the same displayed $\StreamNameUp$
+schedule, dyadic-radius ledger, common refinement window, and $\hsame$ and
+$\Cont$ provenance determine the same finite $\RealUp$ seal read.
+
+This uniqueness is only the finite seal-boundary read. It does not assert
+quotient Cauchy equality, host stream equality, metric-completion equality, or
+completed $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-common-window-real-seal-transitivity} to compare
+the two seal-facing reads through one common finite source surface.
+
+Use \autoref{thm:regseqrat-cofinal-tail-seal-selected-window-uniqueness} to
+identify the selected cofinal window rows, then apply
+\autoref{thm:regseqrat-streamname-cover-refinement-seal-handoff}. The latter
+forces both reads through the same public $\StreamNameUp$ cover-refinement
+boundary and leaves no quotient or completed-real coordinate to distinguish.
 \end{proof}
 
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]

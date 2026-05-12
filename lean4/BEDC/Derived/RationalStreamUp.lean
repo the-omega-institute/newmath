@@ -47,6 +47,34 @@ theorem RationalStreamPacket_common_denominator_window_exhaustion [AskSetup] [Pa
     ⟨windowUnary, classifierRowsUnary, contRowsUnary, nameRowUnary, windowRow,
       classifierRowsRow, contRowsRow, nameRowRow, pkgRow⟩
 
+theorem RationalStreamPacket_public_export [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont nameRow window publicExport ->
+        PkgSig bundle publicExport pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory nameRow ∧
+              UnaryHistory publicExport ∧ Cont nameRow window publicExport ∧
+                PkgSig bundle publicExport pkg := by
+  intro packet exportRow exportPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, windowRow, _classifierRowsRow, contRowsRow, nameRowRow, _pkgRow⟩ :=
+    packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary windowRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary contRowsRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have exportUnary : UnaryHistory publicExport :=
+    unary_cont_closed nameRowUnary windowUnary exportRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary, nameRowUnary,
+      exportUnary, exportRow, exportPkg⟩
+
 def RationalStreamSchedulePacket [AskSetup] [PackageSetup]
     (index schedule rational classifier transport route provenance registration
       scheduleWindow pointWindow packet : BHist)
@@ -140,6 +168,38 @@ theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [Package
     ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
       consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
 
+theorem RationalStreamPacket_regseqrat_obligation_package [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont window nameRow consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory transportRows ∧ UnaryHistory window ∧
+              UnaryHistory contRows ∧ UnaryHistory nameRow ∧ UnaryHistory consumer ∧
+                Cont index schedule window ∧ Cont window pointRows classifierRows ∧
+                  Cont classifierRows transportRows contRows ∧
+                    Cont contRows provenance nameRow ∧ Cont window nameRow consumer ∧
+                      PkgSig bundle nameRow pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, indexScheduleRow, windowPointRow, classifierTransportRow, nameRowRow,
+    namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary nameRowUnary consumerRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+      windowUnary, contRowsUnary, nameRowUnary, consumerUnary, indexScheduleRow,
+      windowPointRow, classifierTransportRow, nameRowRow, consumerRow, namePkg, consumerPkg⟩
+
 theorem RationalStreamPacket_common_window_classifier_stability [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       commonWindow consumer : BHist}
@@ -214,6 +274,40 @@ theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSet
       newPkg⟩
   exact And.intro transported (And.intro sameWindow (And.intro sameContRows sameNameRow))
 
+theorem RationalStreamPacket_real_seal_common_window_normal_form [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      commonWindow readback sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg →
+      UnaryHistory commonWindow →
+        Cont window commonWindow readback →
+          Cont readback nameRow sealRow →
+            PkgSig bundle sealRow pkg →
+              UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+                UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory commonWindow ∧
+                  UnaryHistory readback ∧ UnaryHistory sealRow ∧ Cont index schedule window ∧
+                    Cont window commonWindow readback ∧ Cont readback nameRow sealRow ∧
+                      PkgSig bundle sealRow pkg := by
+  intro packet commonWindowUnary readbackRow sealRowRow sealPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, indexScheduleRow, _windowPointRow, classifierTransportRow, nameRowRow,
+    _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary commonWindowUnary readbackRow
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary nameRowUnary sealRowRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
+      commonWindowUnary, readbackUnary, sealRowUnary, indexScheduleRow, readbackRow, sealRowRow,
+      sealPkg⟩
+
 theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
@@ -241,6 +335,36 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       sameClassifierRows sameTransportRows sameProvenance newIndexSchedule newWindowPoint
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
+
+theorem RationalStreamSealConsumer_boundary [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window sealRow
+      sealRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory sealRow ->
+        Cont window sealRow sealRead ->
+          Cont sealRead provenance consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+                UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory sealRow ∧
+                  UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+                    Cont index schedule window ∧ Cont window sealRow sealRead ∧
+                      Cont sealRead provenance consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet sealUnary windowSealRead sealReadProvenanceConsumer consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    provenanceUnary, indexScheduleWindow, _windowPointRows, _classifierTransportRows,
+    _contRowsProvenanceName, _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary sealUnary windowSealRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary provenanceUnary sealReadProvenanceConsumer
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary, sealUnary,
+      sealReadUnary, consumerUnary, indexScheduleWindow, windowSealRead,
+      sealReadProvenanceConsumer, consumerPkg⟩
 
 theorem RationalStreamPacket_regseqrat_realup_consumer_coverage [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window

@@ -233,6 +233,15 @@ theorem app_id_sort_in_empty_ctx :
     id_sort_well_typed
     (HasType.sortRule [])
 
+theorem id_to_id_in_empty :
+    HasType []
+      (Term.app (Term.lam Term.sort (Term.var 0)) Term.sort)
+      Term.sort := by
+  exact HasType.appRule [] (Term.lam Term.sort (Term.var 0))
+    Term.sort Term.sort Term.sort
+    id_sort_well_typed
+    (HasType.sortRule [])
+
 /-- 空 ctx 下: app (lam sort (pi (var 0) sort)) sort 类型为 sort. -/
 theorem applied_pi_constructor_in_empty :
     HasType []
@@ -570,5 +579,54 @@ theorem apply_function_arg :
     · apply HasType.varRule
       rfl
     · exact apply_function_arg_in_value_ctx
+
+theorem ignore_arg :
+    HasType []
+      (Term.lam Term.sort (Term.lam (Term.var 0) (Term.lam Term.sort (Term.var 0))))
+      (Term.pi Term.sort (Term.pi (Term.var 0) (Term.pi Term.sort Term.sort))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.lamRule
+      · exact HasType.sortRule [Term.var 1, Term.sort]
+      · apply HasType.varRule
+        rfl
+
+theorem triple_lam_pi_construction :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam Term.sort
+          (Term.lam (Term.var 1)
+            (Term.pi (Term.var 1) (Term.var 2)))))
+      (Term.pi Term.sort
+        (Term.pi Term.sort
+          (Term.pi (Term.var 1) Term.sort))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.piRule
+        · apply HasType.varRule
+          rfl
+        · apply HasType.varRule
+          rfl
+
+theorem double_arrow_in_sort :
+    HasType [Term.sort]
+      (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))
+      Term.sort := by
+  apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
 
 end BEDC.MetaCIC

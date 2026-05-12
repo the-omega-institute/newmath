@@ -331,6 +331,7 @@ complete $\RationalStreamUp$ obligation package consumed by $\RegSeqRatUp$ and
 $\RealUp$. The package supplies no quotient stream, selected limit, or
 completed real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_regseqrat\_obligation\_package}
 \begin{proof}
 Assemble the carrier and seed rows from
 \autoref{thm:rational-stream-namecert-seed-obligations}. The schedule boundary
@@ -403,6 +404,7 @@ $\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$. It exports
 no quotient Cauchy class, selected limit, completed $\RealUp$ equality,
 trichotomy, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_public\_export}
 \begin{proof}
 Begin with the carrier and pointwise rational rows. Apply
 \autoref{def:rational-stream-carrier} and
@@ -608,6 +610,7 @@ and local $\NameCert$ row already named by
 classes, a selected limit, completed $\RealUp$ equality, trichotomy, or
 host-level standard real data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamSealConsumer\_boundary}
 \begin{proof}
 Project the carrier from \autoref{def:rational-stream-carrier}. This exposes
 only finite unary index rows, pointwise rational endpoint data, denominator
@@ -644,6 +647,7 @@ $\RealUp$ equality, trichotomy, or host standard stream equality. Any
 $\RealUp$ seal consumer therefore reads the same finite common window consumed
 by the downstream $\RegSeqRatUp$ and $\RealUp$ packet surfaces.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_real\_seal\_common\_window\_normal\_form}
 \begin{proof}
 Project the carried rational stream packet through
 \autoref{def:rational-stream-carrier}. The carrier projection exposes only the
@@ -716,6 +720,29 @@ any $\RegSeqRatUp$ handoff or $\RealUp$ seal read must pass through the carrier
 projection, the common-window classifier stability, the denominator exhaustion
 step, and the seal normal form. Hence each consumer coordinate is one of the
 listed finite rows.
+\end{proof}
+
+\begin{theorem}[RationalStream synchronized seal readback exhaustion]\label{thm:rationalstream-synchronized-seal-readback-exhaustion}
+Any synchronized finite-window read of an accepted $\RationalStreamUp$ packet
+factors through exactly its displayed $\StreamNameUp$ schedule, pointwise $\RatUp$
+rows, common-window classifier rows, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal
+consumer boundary, displayed $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows.
+
+The read exports no quotient stream equality, selected limit, completed
+$\RealUp$ equality, trichotomy row, or host stream equality beyond that finite
+seal boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rational-stream-common-window-classifier-stability} and
+\autoref{thm:rationalstream-common-denominator-window-exhaustion} to place the
+classifier and denominator reads on one displayed finite window.
+
+Then apply \autoref{thm:rational-stream-regseqrat-ledger-completeness},
+\autoref{thm:rational-stream-real-seal-consumer-boundary}, and
+\autoref{thm:rational-stream-finite-window-seal-determinacy}. These theorems
+identify the handoff, seal consumer read, and exclusion boundary with the same
+finite packet rows.
 \end{proof}
 
 \begin{theorem}[RationalStream tail-window determinacy]
