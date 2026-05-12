@@ -90,6 +90,39 @@ containment rows gives the finite readback soundness statement, while no
 carrier coordinate remains for completeness or completed-real equality.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics finite-window Real seal containment]
+\label{thm:validatednumerics-finite-window-real-seal-containment}
+Let $V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$ be an accepted
+$\ValidatedNumericsUp$ packet. Any finite-window $\RealUp$ seal read whose
+source is routed through the displayed $\RegSeqRatUp$ window $\rho$, the
+$\ModulusOfConvergenceUp$ row $\omega$, and the packet $\Cont$ containment
+ledger lands in the same $\RationalIntervalUp$ enclosure row $I$.
+
+The conclusion is a finite enclosure statement over the packet surface. It
+does not assert solver correctness, floating-point semantics, classical real
+completeness, or equality of completed representatives.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. By
+\autoref{thm:validatednumerics-interval-enclosure-obligation}, the only
+enclosure exported by the carrier is $I$, and the only routes from displayed
+$\RegSeqRatUp$ observations into an interval are the $\Cont$ ledger rows
+stored in $c$.
+
+Next read the $\RealUp$ token through
+\autoref{thm:validatednumerics-real-readback-soundness}. The readback is
+available only with the finite window $\rho$ and the modulus row $\omega$,
+so the seal has no independent completed-real interface through which it
+could choose a second enclosure.
+
+The $\StreamNameUp$ finite-window handoff and the $\RegSeqRat$ finite-window
+$\RealUp$ seal interface therefore expose the same consumer rows: the window
+$\rho$, the modulus row $\omega$, the transported $\hsame$ rows, and the
+$\Cont$ ledger. Repacking those rows gives containment in $I$, and the
+packet contains no additional consumer row for solver semantics, hardware
+floating-point interpretation, completeness, or equality of completions.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics precision refinement containment]
 \label{thm:validatednumerics-precision-refinement-containment}
 Let $V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$ be an accepted
@@ -106,6 +139,7 @@ introduces no solver-correctness theorem, no floating-point hardware
 semantics, and no $\RealUp$ completeness datum beyond the readback token
 already carried by $V$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ValidatedNumericsUp.ValidatedNumericsReadbackPacket\_precision\_refinement\_containment}
 \begin{proof}
 Project the packet source using
 \autoref{def:validatednumerics-bhist-source}. The refined request changes only
@@ -235,6 +269,38 @@ continuation route, hence it remains a continuation route after transport and
 preserves the same finite containment claim inside the transported enclosure.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics refined readback containment determinacy]
+\label{thm:validatednumerics-refined-readback-containment-determinacy}
+Let $V$ and $V'$ be accepted $\ValidatedNumericsUp$ packets with the same
+transported interval row, precision request, modulus request, $\RegSeqRatUp$
+observation window, $\RealUp$ readback token, containment ledger, $\hsame$
+transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. After
+any displayed precision refinement of the request, the two packets yield the
+same public finite-enclosure read.
+
+The determinacy is only a finite readback boundary. It does not assert solver
+correctness, hardware semantics, completed-real equality, or classical
+completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:validatednumerics-real-readback-soundness}. The
+common $\RealUp$ token is read through the same $\RegSeqRatUp$ observation
+window and finite modulus request, so both packets expose the same real-name
+readback row.
+
+Next use \autoref{thm:validatednumerics-precision-refinement-containment}. A
+displayed precision refinement narrows the requested finite enclosure by the
+same transported interval row and the same modulus request on both sides.
+
+Finally apply \autoref{thm:validatednumerics-containment-ledger-transport}.
+The containment ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance,
+and local $\NameCert$ row are shared, so the refined containment read is
+transported identically for $V$ and $V'$. Therefore the public finite-enclosure
+read after refinement is the same, while solver correctness, hardware
+semantics, completed-real equality, and classical completeness remain outside
+the packet.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics NameCert obligation surface]
 \label{thm:validatednumerics-namecert-obligation-surface}
 The $\NameCert_{\ValidatedNumericsUp}$ obligation surface is assembled from the
@@ -352,6 +418,7 @@ public bridge boundary. Since each step projects from the displayed finite
 packet, solver correctness, floating-point hardware semantics, host real
 equality, and classical completeness remain outside the bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.ValidatedNumericsUp.ValidatedNumericsFiniteEnclosure\_exported\_bridge}
 
 \begin{theorem}[ValidatedNumerics public finite-enclosure consumer certificate]
 \label{thm:validatednumerics-public-finite-enclosure-consumer-certificate}
@@ -484,7 +551,8 @@ outside the exported surface.
   \constructivestory{A $\ValidatedNumericsUp$ packet is generated by a rational or dyadic interval enclosure, a requested precision row, a finite modulus-of-convergence request, a regular rational observation window, a real-name readback token, containment routes, transport rows, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary} and \autoref{thm:validatednumerics-public-finite-enclosure-consumer-certificate} bind the finite certified-enclosure bridge surface over $\DyadicRatCoreUp$, $\RatUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ValidatedNumericsUp.ValidatedNumericsReadbackPacket\_real\_readback\_soundness}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close general convergence, floating-point hardware semantics, classical real completeness, or solver correctness.}

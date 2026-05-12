@@ -101,4 +101,23 @@ theorem StoppingTimeSourcePacket_filtration_prefix_stability [AskSetup] [Package
     ⟨probUnary, processUnary, filtrationUnary, witnessUnary, prefixUnary,
       prefixRouteUnary, eventReadUnary, prefixRow, eventReadRow, provenanceSig⟩
 
+theorem StoppingTimeSourcePacket_ledger_coverage [AskSetup] [PackageSetup]
+    {prob process filtration horizon witness transport routes provenance eventRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoppingTimeSourcePacket prob process filtration horizon witness transport routes
+        provenance bundle pkg ->
+      Cont filtration witness eventRead ->
+        UnaryHistory prob ∧ UnaryHistory process ∧ UnaryHistory filtration ∧
+          UnaryHistory witness ∧ UnaryHistory eventRead ∧ Cont filtration witness eventRead ∧
+            PkgSig bundle provenance pkg := by
+  intro packet eventReadRow
+  obtain ⟨probUnary, processUnary, filtrationUnary, _horizonUnary, witnessUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _filtrationRow, _witnessRow,
+    _routesRow, _probRow, pkgSig⟩ := packet
+  have eventReadUnary : UnaryHistory eventRead :=
+    unary_cont_closed filtrationUnary witnessUnary eventReadRow
+  exact
+    ⟨probUnary, processUnary, filtrationUnary, witnessUnary, eventReadUnary,
+      eventReadRow, pkgSig⟩
+
 end BEDC.Derived.StoppingTimeUp

@@ -197,6 +197,83 @@ host language quotient, parse-tree infinitary semantics, pumping theorem, or
 recognizer completeness claim.
 \end{proof}
 
+\begin{theorem}[ContextFreeGrammar RegularLanguage--TuringMachine bridge boundary]
+\label{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}
+The public grammar and yield packet of
+\autoref{def:contextfreegrammar-bhist-carrier} exports to
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumers only the terminal
+alphabet, nonterminal carrier, start row, finite production ledger, finite
+derivation ledger, $\ListUp$ terminal yield row, $\hsame$ transports,
+$\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The exported boundary does not include ambiguity, parsing completeness,
+pumping arguments, Chomsky normal form, or recognizer completeness.
+\end{theorem}
+\begin{proof}
+Project the finite grammar packet of
+\autoref{def:contextfreegrammar-bhist-carrier}. The terminal alphabet,
+nonterminal carrier, start row, production ledger, derivation ledger,
+terminal yield row, transport rows, continuation routes, provenance, and
+naming row are exactly the displayed carrier coordinates.
+
+Use \autoref{thm:contextfreegrammar-production-stability} to keep every
+production witness inside the finite ledger under componentwise transport.
+Use \autoref{thm:contextfreegrammar-derivation-concatenation} to compose
+consumer derivation windows without introducing an infinitary derivation
+object.
+
+Apply \autoref{thm:contextfreegrammar-yield-readback} and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These identify the
+consumer-visible yield as the same $\ListUp$ terminal word row read through
+the finite derivation ledger and the stored terminal readback surface.
+
+Finally apply
+\autoref{thm:contextfreegrammar-namecert-obligation-surface} and repack the
+rows named by the consumer boundary. Since the packet has no coordinate for
+ambiguity, parsing completeness, pumping arguments, Chomsky normal form, or a
+complete recognizer, none of those structures is exported to
+$\RegularLanguageUp$ or $\TuringMachineUp$ readers.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar consumer boundary determinacy]
+\label{thm:contextfreegrammar-consumer-boundary-determinacy}
+Let $G$ and $H$ be accepted finite $\ContextFreeGrammarUp$ packets. Suppose
+their terminal alphabet rows, nonterminal carrier rows, start rows, production
+ledgers, derivation ledgers, yield rows, $\hsame$ rows, $\Cont$ rows,
+$\mathsf{Pkg}$ provenance rows, and local $\NameCert$ rows agree
+componentwise. Then $G$ and $H$ induce the same consumer-visible boundary for
+both $\RegularLanguageUp$ and $\TuringMachineUp$ readers.
+
+The common boundary is the finite grammar and yield surface exported by
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+It contains no grammar-equivalence quotient, ambiguity row, parsing-completeness
+row, pumping argument, Chomsky-normal-form witness, or recognizer-completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contextfreegrammar-production-stability} to the equal
+production ledgers. The production witnesses of $G$ and $H$ stay inside the
+same finite terminal and nonterminal rows under the displayed componentwise
+$\hsame$ transports.
+
+Next apply \autoref{thm:contextfreegrammar-derivation-concatenation}. The
+equal derivation ledgers concatenate through the same sentential-form endpoints
+and therefore expose the same finite derivation route to downstream consumers.
+
+Apply \autoref{thm:contextfreegrammar-yield-readback}. Since the terminal yield
+rows agree, both packets read back to the same $\ListUp$ terminal word through
+the same terminal-only surface.
+
+Finally use
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+That boundary is built only from the terminal alphabet, nonterminal carrier,
+start row, production ledger, derivation ledger, yield row, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows. Componentwise equality of exactly
+those rows therefore forces the same $\RegularLanguageUp$ and
+$\TuringMachineUp$ consumer-visible boundary, while the excluded grammar and
+recognizer structures have no exported coordinate.
+\end{proof}
+
 \closureat{ContextFreeGrammarUp}{seedStr}
 \closureat{ContextFreeGrammarUp}{obligationStr}
 \closureat{ContextFreeGrammarUp}{scopedStr}
