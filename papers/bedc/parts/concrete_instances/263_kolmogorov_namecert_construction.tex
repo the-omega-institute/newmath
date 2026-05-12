@@ -104,14 +104,52 @@ information-theoretic bridge; all equalities are inside the finite decoded
 trace ledger.
 \end{proof}
 
+\begin{theorem}[Kolmogorov public NameCert export]
+\label{thm:kolmogorov-public-namecert-export}
+The prefix-free carrier obligation, budget monotonicity obligation, and
+decoded readback exactness assemble the public
+$\NameCert_{\KolmogorovUp}$ export over $\mathsf{BHist}$,
+$\mathsf{UnaryHistory}$, $\NatUp$, $\TuringMachineUp$, $\ComputableUp$, the
+fixed-budget $\hsame$ classification, and the visible prefix-free decoder
+ledger.
+
+The exported public surface consists exactly of the carrier row for accepted
+prefix-free descriptions, the fixed-budget output classifier, the stability
+rows for transporting the same decoded output across displayed unary budget
+extensions, the budget transport row, and the decoded-readback exactness row.
+It does not assert universal-decoder optimality, randomness extraction, an
+invariance theorem, resource-bounded complexity, or an information-theoretic
+standard bridge.
+\end{theorem}
+\begin{proof}
+First project
+\autoref{thm:kolmogorov-prefix-free-carrier-obligation}. This supplies the
+finite carrier: description histories in $\mathsf{BHist}$, displayed
+$\mathsf{UnaryHistory}$ budgets, $\NameCert_{\NatUp}$ length rows,
+$\NameCert_{\TuringMachineUp}$ halted decoder traces, and
+$\NameCert_{\ComputableUp}$ bounded readback rows.
+
+Next use \autoref{thm:kolmogorov-budget-monotonicity-obligation}. The budget
+transport keeps the description, decoder trace, readback row, and
+fixed-budget $\hsame$ classifier stable while only enlarging the visible unary
+admissibility bound.
+
+Finally apply \autoref{thm:kolmogorov-decoded-readback-exactness}. The
+accepted output row is the decoded readback from the displayed halted trace,
+so the public certificate repacks the carrier, classifier, stability, budget
+transport, and exactness rows listed in the statement. No optimal universal
+decoder, randomness row, or standard information-theoretic bridge is added.
+\end{proof}
+
 \closureat{KolmogorovUp}{scopedStr}[BEDC.Derived.KolmogorovUp.KolmogorovPrefixFreeCarrier\_obligation\_surface]
+\closureat{KolmogorovUp}{publicStr}[BEDC.Derived.KolmogorovUp.KolmogorovPrefixFreeCarrier\_obligation\_surface]
 
 \begin{closurestatus}{\KolmogorovUp}
   \constructivestory{A $\KolmogorovUp$ token names a deterministic prefix-free decoder $\TuringMachineUp$ together with a displayed unary length budget $\ell$ and a target output history $h$. The carrier accepts a witness when there is a prefix-free description history $d$ of unary length at most $\ell$ such that running the decoder on $d$, in the sense of $\NameCert_{\ComputableUp}$, halts and reads back $h$. The classifier is $\hsame$ on output histories at fixed unary budget; the source covers unary description lengths, budget values, decoder configurations, prefix-freeness rows, and decoded readback histories; the pattern records prefix-freeness admissibility, budget admissibility, decoded-readback exactness, budget monotonicity, and decoder-determinism rows; the ledger keeps the description $d$, the budget $\ell$, the decoded trace, and the readback row visible. The five name-certificate obligations are supplied by the bounded-simulation certificate plus the prefix-free description structure: the inhabited identity certificate is the empty-description trivial decoder; classifier stability is reflexive, symmetric, and transitive $\hsame$ at fixed budget; transport repacks descriptions through prefix-extension; ledger exactness identifies the accepted row with the decoded readback at the displayed budget; the extension boundary fixes budget monotonicity. A history $h$ lies in the signature gap of a $\KolmogorovUp$ token $p$ when the source-domain accepts the prefix-free decoded readback, the signature relation pairs it with the decoded output, and token introduction names that output as $p$. The chapter registers this prefix-free description-budget surface under the name $\KolmogorovUp$; it is a description-length object with no universal-decoder optimality, no resource-bounded variant ($K^{t}$, $K^{s}$), no randomness extraction, and no information-theoretic standard bridge.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\NatUp$, $\TuringMachineUp$, $\ComputableUp$, prefix-free description rows, bounded decoder traces, budget monotonicity, and fixed-budget $\hsame$ output classification.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface binds $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\NatUp$, $\TuringMachineUp$, $\ComputableUp$, prefix-free description rows, bounded decoder traces, budget monotonicity, fixed-budget $\hsame$ output classification, and the exported $\NameCert_{\KolmogorovUp}$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close universal-decoder optimality, resource-bounded Kolmogorov complexity ($K^{t}$, $K^{s}$), randomness extraction, the invariance theorem, or a standard information-theoretic bridge.}
-  \upgradepath{Public closure requires an exported $\KolmogorovUp$ certificate surface for the scoped prefix-free decoder, budget, readback, classifier, and ledger rows.}
+  \upgradepath{Bridged closure requires a standard information-theoretic bridge theorem for the exported prefix-free decoder, budget, readback, classifier, and ledger surface.}
 \end{closurestatus}
