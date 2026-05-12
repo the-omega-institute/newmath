@@ -16,6 +16,31 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def CauchyConvolutionCarrierSurface [AskSetup] [PackageSetup]
+    (F G K A D R E H C P N endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory F ∧ UnaryHistory G ∧ UnaryHistory K ∧ UnaryHistory A ∧
+    UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ UnaryHistory endpoint ∧
+        Cont F G K ∧ Cont K A D ∧ Cont D R E ∧ Cont E N endpoint ∧
+          PkgSig bundle endpoint pkg
+
+theorem CauchyConvolutionTailBudgetCompatibility [AskSetup] [PackageSetup]
+    {F G K A D R E H C P N endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvolutionCarrierSurface F G K A D R E H C P N endpoint bundle pkg ->
+      UnaryHistory F ∧ UnaryHistory G ∧ UnaryHistory K ∧ UnaryHistory A ∧
+        UnaryHistory D ∧ UnaryHistory R ∧ Cont F G K ∧ Cont K A D ∧
+          Cont D R E ∧ Cont E N endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier
+  obtain ⟨fUnary, gUnary, kUnary, aUnary, dUnary, rUnary, _eUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _endpointUnary, sourceConvolution, convolutionBudget,
+    budgetHandoff, sealEndpoint, pkgSig⟩ := carrier
+  exact
+    ⟨fUnary, gUnary, kUnary, aUnary, dUnary, rUnary, sourceConvolution,
+      convolutionBudget, budgetHandoff, sealEndpoint, pkgSig⟩
+
 def CauchyConvolutionCarrier [AskSetup] [PackageSetup]
     (sourceLeft sourceRight convolutionLedger productPrefix dyadicTail regSeqHandoff realSeal
       transport route name : BHist)
