@@ -191,6 +191,95 @@ theorem RationalBallPacket_ledger_exactness_certificate [AskSetup] [PackageSetup
       exact ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary⟩
   }
 
+theorem RationalBallPacket_regseqrat_window_obligations_certificate [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint regular ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont order endpoint regular ->
+        Cont regular provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row ledger ∧ UnaryHistory row ∧ Cont regular provenance row ∧
+                  PkgSig bundle row pkg)
+              (fun row : BHist =>
+                UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory order ∧
+                  UnaryHistory endpoint ∧ UnaryHistory regular ∧ Cont order endpoint regular ∧
+                    Cont regular provenance row)
+              (fun row : BHist =>
+                PkgSig bundle row pkg ∧ UnaryHistory containment ∧ UnaryHistory provenance ∧
+                  PkgSig bundle endpoint pkg)
+              (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro packet orderEndpointRegular regularProvenanceLedger ledgerPkg
+  obtain ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, _centerRadiusOrder, _orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have regularUnary : UnaryHistory regular :=
+    unary_cont_closed orderUnary endpointUnary orderEndpointRegular
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed regularUnary provenanceUnary regularProvenanceLedger
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledger
+          ⟨hsame_refl ledger, ledgerUnary, regularProvenanceLedger, ledgerPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨PkgSig_psame_intro sourceRow.right.right.right sourceRow.right.right.right
+          (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨centerUnary, radiusUnary, orderUnary, endpointUnary, regularUnary,
+          orderEndpointRegular, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right.right, containmentUnary, provenanceUnary, endpointPkg⟩
+  }
+
+theorem RationalBallPacket_containment_exactness [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint sample ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint sample ->
+        Cont sample provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory order ∧
+              UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory sample ∧
+                UnaryHistory ledger ∧ Cont center radius order ∧
+                  Cont order containment transport ∧ Cont transport provenance endpoint ∧
+                    Cont containment endpoint sample ∧ Cont sample provenance ledger ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle ledger pkg := by
+  intro packet containmentEndpointSample sampleProvenanceLedger ledgerPkg
+  obtain ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have sampleUnary : UnaryHistory sample :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointSample
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed sampleUnary provenanceUnary sampleProvenanceLedger
+  exact
+    ⟨centerUnary, radiusUnary, orderUnary, containmentUnary, endpointUnary, sampleUnary,
+      ledgerUnary, centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
+      containmentEndpointSample, sampleProvenanceLedger, endpointPkg, ledgerPkg⟩
+
 theorem RationalBallPacket_center_transport_obligation [AskSetup] [PackageSetup]
     {center radius order transport containment provenance name endpoint centerNew orderNew
       transportNew endpointNew consumer : BHist}
