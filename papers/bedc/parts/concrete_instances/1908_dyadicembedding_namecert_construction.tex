@@ -35,6 +35,7 @@ For the carrier of \autoref{def:dyadic-embedding-carrier}, the local $\NameCert_
 \item non-escape, which excludes quotient regular streams, chosen limits, host equality of real representatives, trichotomy, and ambient completeness.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicEmbeddingUp.DyadicEmbeddingCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the direct projection of the tuple in \autoref{def:dyadic-embedding-carrier}. The coordinates name the dyadic source, stream schedule, regular readback, real seal, transports, routes, package provenance, and local certificate row in one finite $\mathsf{BHist}$ packet.
 
@@ -91,6 +92,82 @@ Project the public rows of the carrier. They are exactly the dyadic source, cons
 Use \autoref{thm:dyadic-embedding-namecert-obligations} for carrier admission and local classifier transport. Use \autoref{thm:dyadic-embedding-constant-stream-readback} for the stationary readback and \autoref{thm:dyadic-embedding-real-seal-handoff} for the real-name consumer route.
 
 Finally apply \autoref{thm:dyadic-embedding-ledger-non-escape}. The ledger admits only the displayed dependency rows, so the public scope is exactly the constant dyadic real-name interface and none of the excluded completion or host-real structure.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding constant schedule transport]
+\label{thm:dyadic-embedding-constant-schedule-transport}
+For an accepted $\DyadicEmbeddingUp$ carrier
+$$
+D=(d,S,R,Q,H,C,P,N),
+$$
+componentwise $\hsame$ transport preserving the dyadic source row $d$ preserves the constant $\StreamNameUp$ schedule $S$: every admitted transported stream window still reads the same $\DyadicRatCoreUp$ row and uses only the displayed route from $d$ to $S$.
+\end{theorem}
+\begin{proof}
+Project the transport coordinate $H$ from \autoref{def:dyadic-embedding-carrier}. Its entries compare the dyadic source, constant stream schedule, stationary readback, real seal, package row, and local naming row componentwise.
+
+The constant-stream readback theorem identifies $S$ as a schedule whose admitted windows all return the same dyadic source row $d$. Transport of $d$ along $H$ therefore transports the single source read used by every stream window.
+
+The continuation coordinate $C$ contains the displayed route from $d$ to $S$. Replaying that route after the componentwise transport gives the same constant schedule shape and adds no separate stream or convergence witness.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding stationary readback exactness]
+\label{thm:dyadic-embedding-stationary-readback-exactness}
+The $\RegSeqRatUp$ readback row $R$ of an accepted $\DyadicEmbeddingUp$ carrier is exactly the stationary diagonal over the displayed $\DyadicRatCoreUp$ row $d$. Its exactness is witnessed by the route $d \to S \to R$ and by the $\StationaryRationalDiagonalUp$ provenance row in $P$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dyadic-embedding-constant-schedule-transport} to keep the stream coordinate $S$ constant under the allowed componentwise transports. Thus every read entering the regular rational row starts from the same dyadic source $d$.
+
+Apply the constant-stream readback theorem. It identifies $R$ with the stationary readback produced from $S$ and names $\StationaryRationalDiagonalUp$ as the readback shape.
+
+The package row $P$ records that stationary diagonal provenance, while $C$ records the route $d \to S \to R$. Hence the readback is exact for the displayed dyadic row and is not an arbitrary regular sequence chosen outside the carrier.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding Real seal consumer non-escape]
+\label{thm:dyadic-embedding-real-seal-consumer-nonescape}
+Every $\RealUp$ consumer of an accepted $\DyadicEmbeddingUp$ carrier factors through the rows $d,S,R,Q,H,C,P,N$. It may read the dyadic source, constant stream schedule, stationary readback, real seal, transports, continuations, package provenance, and local naming row, but it has no quotient stream, selected limit, host equality, trichotomy, or completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the real-seal handoff theorem. It already factors any $\RealUp$ read through $d$, then $S$, then $R$, and finally the real seal row $Q$.
+
+Use stationary readback exactness to identify the regular rational row consumed by the seal with the stationary diagonal over $d$. The only transport and continuation data available for that route are the displayed rows $H$ and $C$.
+
+Finally apply the ledger non-escape theorem. The package and local naming rows $P,N$ exhaust the dependency list, so a consumer cannot obtain quotient streams, selected limits, host real equality, trichotomy, or ambient completeness from the carrier.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding stationary source obligation]
+\label{thm:dyadic-embedding-stationary-source-obligation}
+Every accepted $\DyadicEmbeddingUp$ packet reads the same $\DyadicRatCoreUp$ row $d$ through the constant $\StreamNameUp$ schedule and the stationary $\RegSeqRatUp$ readback. No accepted read may replace that source by a varying stream coordinate or by a regular sequence selected outside the carrier.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:dyadic-embedding-carrier}. Its source row is $d$, its stream schedule is $S$, and its regular rational readback is $R$.
+
+Apply \autoref{thm:dyadic-embedding-constant-stream-readback}. It identifies every admitted stream window with the same dyadic source row and reads the resulting regular rational row as the stationary diagonal named by $\StationaryRationalDiagonalUp$.
+
+Use \autoref{thm:dyadic-embedding-constant-schedule-transport} and \autoref{thm:dyadic-embedding-stationary-readback-exactness}. Transport preserves the constant schedule, and exactness identifies $R$ with the stationary readback over $d$, so no varying or externally selected source remains available.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding Real seal obligation]
+\label{thm:dyadic-embedding-real-seal-obligation}
+Every $\RealUp$ consumer of an accepted $\DyadicEmbeddingUp$ packet factors through the rows $d,S,R,Q,H,C,P,N$ and receives only the constant dyadic real-name route. The consumer cannot bypass the stationary readback or obtain a selected real limit outside the displayed seal row.
+\end{theorem}
+\begin{proof}
+Start from a consumer route to the real seal row $Q$. By \autoref{thm:dyadic-embedding-real-seal-handoff}, the route first reads $d$, then $S$, then $R$, and only then reaches $Q$.
+
+Apply \autoref{thm:dyadic-embedding-stationary-source-obligation}. The source and readback are the stationary route through the same dyadic row, so the real seal is the constant dyadic real-name route.
+
+Finally use \autoref{thm:dyadic-embedding-real-seal-consumer-nonescape}. The remaining rows $H,C,P,N$ record transport, continuation, package provenance, and local naming, and they do not contain a bypass to a selected host real limit.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding ledger exactness obligation]
+\label{thm:dyadic-embedding-ledger-exactness-obligation}
+The visible ledger of an accepted $\DyadicEmbeddingUp$ packet is exhausted by $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\StationaryRationalDiagonalUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It excludes quotient streams, selected limits, host equality, trichotomy, and completeness as available dependencies.
+\end{theorem}
+\begin{proof}
+Project the package row $P$ and local naming row $N$ from \autoref{def:dyadic-embedding-carrier}. They list the dyadic source, constant stream schedule, stationary regular readback, real seal, history, transport, continuation, package, and naming dependencies.
+
+Use \autoref{thm:dyadic-embedding-ledger-non-escape} for the base dependency boundary. Then apply \autoref{thm:dyadic-embedding-public-scope} to identify that boundary as the public constant dyadic real-name surface.
+
+The stationary-source and real-seal obligations show that every consumer route remains inside $d,S,R,Q,H,C,P,N$. Therefore quotient streams, selected limits, host equality, trichotomy, and completeness would require extra rows not present in the accepted packet.
 \end{proof}
 
 \closureat{DyadicEmbeddingUp}{seedStr}

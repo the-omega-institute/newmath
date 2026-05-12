@@ -153,4 +153,37 @@ theorem CompactUniformContinuityPacket_finite_net_handoff [AskSetup] [PackageSet
       modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionNetHandoff,
       handoffTargetRead, precisionPkg, targetReadPkg⟩
 
+theorem CompactUniformContinuityPacket_root_uniform_modulus_row [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont precision tolerance uniformRead ->
+        PkgSig bundle uniformRead pkg ->
+          UnaryHistory tolerance ∧ UnaryHistory precision ∧ UnaryHistory uniformRead ∧
+            Cont net coverage modulusRows ∧ Cont modulusRows radiusRows fold ∧
+              Cont fold transport route ∧ Cont route nameRow precision ∧
+                Cont precision tolerance uniformRead ∧ PkgSig bundle precision pkg ∧
+                  PkgSig bundle uniformRead pkg := by
+  intro packet precisionToleranceUniform uniformReadPkg
+  obtain ⟨_sourceUnary, _targetUnary, _graphUnary, toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, transportUnary, nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed foldUnary transportUnary foldTransportRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed routeUnary nameRowUnary routeNamePrecision
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed precisionUnary toleranceUnary precisionToleranceUniform
+  exact
+    ⟨toleranceUnary, precisionUnary, uniformReadUnary, netCoverageModulusRows,
+      modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision,
+      precisionToleranceUniform, precisionPkg, uniformReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
