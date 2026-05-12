@@ -214,4 +214,26 @@ theorem CauchyErrorCertificatePacket_readback_route_uniqueness [AskSetup] [Packa
     ⟨sameReadback, modulusTailBudget, readbackBudgetProvenance, readbackBudgetProvenance',
       readbackPkg, readbackPkg'⟩
 
+theorem CauchyErrorCertificatePacket_non_escape_boundary [AskSetup] [PackageSetup]
+    {readback modulus tail budget provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      Cont budget provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory readback ∧ UnaryHistory modulus ∧ UnaryHistory tail ∧
+            UnaryHistory budget ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+              Cont modulus tail budget ∧ Cont readback budget provenance ∧
+                Cont budget provenance consumer ∧ PkgSig bundle readback pkg ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet budgetProvenanceConsumer consumerPkg
+  obtain ⟨readbackUnary, modulusUnary, tailUnary, budgetUnary, provenanceUnary,
+    _nameCertUnary, modulusTailBudget, readbackBudgetProvenance, readbackPkg,
+    provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed budgetUnary provenanceUnary budgetProvenanceConsumer
+  exact
+    ⟨readbackUnary, modulusUnary, tailUnary, budgetUnary, provenanceUnary, consumerUnary,
+      modulusTailBudget, readbackBudgetProvenance, budgetProvenanceConsumer, readbackPkg,
+      provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.CauchyErrorCertificateUp
