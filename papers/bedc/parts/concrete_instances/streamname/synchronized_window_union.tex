@@ -242,6 +242,48 @@ regularity witnesses, completion objects, standard bridge rows, and
 real-completeness principles from the consumer boundary.
 \end{proof}
 
+\begin{theorem}[StreamName synchronized-window tail-subwindow stability]
+\label{thm:streamname-synchronized-window-tail-subwindow}
+Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose carrier and
+classifier coverage are the rows of
+\autoref{thm:streamname-synchronized-window-union-carrier} and
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. For
+any certified finite tail subwindow of $\mathcal S$, restriction preserves the
+same $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise $\mathsf{RatHistoryClassifier}$, $\DyadicRatCore$, $\RegSeqRat$,
+$\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows visible at the
+terminal consumer.
+
+The restricted terminal consumer has no added coordinate for quotient streams,
+host-index equality, completion objects, host functions, Classical data, or
+host real equality.
+\end{theorem}
+\begin{proof}
+Project the synchronized carrier row given by
+\autoref{thm:streamname-synchronized-window-union-carrier}. Its finite carrier
+coordinates are the displayed probe-bundle membership, unary observation,
+classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so a certified
+tail subwindow is obtained by restricting those visible finite coordinates.
+
+Apply the classifier coverage of
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. The
+pointwise rational-history rows remain attached to the restricted unary
+observations because coverage is stated over the synchronized finite rows and
+their overlap agreement, not over a host stream quotient.
+
+Use selected-tail exhaustion through
+\autoref{thm:streamname-synchronized-window-regseqrat-seal}. The accepted
+$\RegSeqRat$ handoff reads only the selected endpoint, radius, regularity,
+readback, and $\DyadicRatCore$ endpoint rows, all of which are already among
+the restricted finite coordinates.
+
+Finally apply
+\autoref{thm:streamname-synchronized-window-terminal-source-exhaustion}. The
+terminal $\RegSeqRat/\RealUp$ consumer sees only the listed source rows, so the
+tail subwindow exposes no quotient stream, host-index equality, completion
+object, host function, Classical datum, or host real equality.
+\end{proof}
+
 \begin{theorem}[StreamName finite-observation classifier exhaustion]
 \label{thm:streamname-finite-observation-classifier-exhaustion}
 Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose
