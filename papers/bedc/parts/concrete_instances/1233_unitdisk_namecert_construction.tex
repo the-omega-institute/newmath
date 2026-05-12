@@ -117,6 +117,41 @@ For a boundary request, apply \autoref{thm:unitdisk-boundary-sone-consumer}. If 
 The non-escape clauses follow by inspection of the carrier coordinates and by \autoref{thm:unitdisk-carrier-stability}, which preserves the same displayed metric and boundary rows under transport.
 \end{proof}
 
+\begin{theorem}[UnitDisk product metric boundary package]
+\label{thm:unitdisk-product-metric-boundary-package}
+For every accepted $\UnitDiskUp$ packet, the two $\RealUp$ coordinate rows, the
+$\ProdUp$ pair row, the origin row, the $\MetricUp$ radius witness, the
+$\IntervalUp$ or $\RealAlgOrderUp$ bound row, the optional $\SOneUp$ boundary
+row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance
+form the exact product-metric boundary package for $\UnitDiskUp$.
+
+The package exposes the product pairing, the metric radius comparison with the
+real unit row, and the optional circle-boundary consumer row as a single finite
+certificate. It exports no host Euclidean subset, open-cover compactness,
+quotient boundary identification, or unrecorded topology.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:unitdisk-bhist-carrier}. It lists the two real
+coordinates, their product row, the origin row, the metric radius witness, the
+unit-bound row, the optional boundary row, and the transport and provenance
+rows as coordinates of one finite packet.
+
+Apply \autoref{thm:unitdisk-carrier-stability} to keep the product point,
+origin, radius, bound, boundary, and provenance rows stable under the displayed
+$\hsame$ and $\Cont$ transports. The classifier therefore remains
+componentwise on the same product-metric rows.
+
+Use \autoref{thm:unitdisk-boundary-sone-consumer} for the optional $\SOneUp$
+handoff and \autoref{thm:unitdisk-namecert-obligation-surface} for the local
+carrier, classifier, transport, exact-ledger, and consumer obligations.
+
+Finally combine \autoref{thm:unitdisk-classifier-law-package} with
+\autoref{thm:unitdisk-radius-boundary-exactness}. The resulting package is
+precisely the finite product-metric disk certificate with its boundary consumer
+row when present, and no host subset, compactness, quotient boundary, or
+unrecorded topological coordinate is introduced.
+\end{proof}
+
 \closureat{UnitDiskUp}{seedStr}
 
 \begin{closurestatus}{\UnitDiskUp}
