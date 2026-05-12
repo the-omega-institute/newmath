@@ -68,29 +68,3 @@ Rationale:
 The candidate is a single implication about a concrete finite-family tail-bound surface already present in the UniformCauchyCriterion chapter. Existing theorems cover window stability, RealUp seal handoff, non-escape, tail-ledger exactness, shared-threshold transport, RegSeqRat tail equivalence, obligation assembly, and finite-family window exhaustion, but they do not name the empty-index and empty-tail-ledger boundary as its own base case. The theorem would make the tail-bound and seal-export discipline smaller and easier to cite without adding host completeness, selected limits, or quotient stream equality, and the file is safe for direct landing.
 
 ---
-
-### B-706 - DomainPolicy finite Boolean closure
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | DomainPolicy finite Boolean closure |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 7/10 |
-
-Problem:
-Under DomainPolicy(D0) and DomainPolicy(D1), if the compound domains define InDom(D_and,h) as InDom(D0,h) and InDom(D1,h), and InDom(D_or,h) as InDom(D0,h) or InDom(D1,h), then both D_and and D_or satisfy DomainPolicy.
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/domain_policy.tex`
-
-Rationale:
-This is a concrete closure theorem for the existing DomainPolicy transport surface, not a marker or verification-axis task. The current paper records DomainPolicy, transport, invariance, three-history transport, and the UnarySource instance, but does not appear to record finite meet/join closure for compound domains. It is distinct from the existing ExactGlobalizeBase subdomain base-change target because it concerns preservation of the domain-policy obligation under Boolean domain constructors rather than restricting an already-globalized base. The landing file is not a hub and is well below the line cap.
-
----
-
->>>>>>> Stashed changes
