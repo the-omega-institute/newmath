@@ -238,6 +238,53 @@ theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSet
                                       precisionUnary' joinedRow
                                   exact ⟨joined, joinedRow, joinedUnary⟩
 
+theorem ModulusOfConvergenceCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger provenance
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row provenance ∧
+            ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger row
+              bundle pkg)
+        (fun row : BHist => UnaryHistory row ∧ Cont witness ledger row)
+        (fun row : BHist =>
+          PkgSig bundle row pkg ∧ Cont precision selector modulus ∧
+            Cont modulus schedule witness)
+        (fun row row' : BHist => hsame row row') := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance ⟨hsame_refl provenance, carrier⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨_precisionUnary, _selectorUnary, _modulusUnary, _scheduleUnary,
+        _witnessUnary, _ledgerUnary, rowUnary, _precisionSelectorRow,
+        _modulusScheduleRow, witnessLedgerRow, _pkgRow⟩ := sourceRow.right
+      exact ⟨rowUnary, witnessLedgerRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_precisionUnary, _selectorUnary, _modulusUnary, _scheduleUnary,
+        _witnessUnary, _ledgerUnary, _rowUnary, precisionSelectorRow, modulusScheduleRow,
+        _witnessLedgerRow, pkgRow⟩ := sourceRow.right
+      exact ⟨pkgRow, precisionSelectorRow, modulusScheduleRow⟩
+  }
+
 def ModulusOfConvergencePacket
     (precision threshold modulus schedule late ledger provenance : BHist) : Prop :=
   UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory schedule ∧
