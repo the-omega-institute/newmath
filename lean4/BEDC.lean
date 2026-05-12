@@ -86,10 +86,14 @@ import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
 import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
+import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
+import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
+import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
+import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
@@ -103,6 +107,7 @@ import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.EqtypeUp
@@ -326,7 +331,6 @@ import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyRegularizationUp
-import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -1073,6 +1077,7 @@ import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
+import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
