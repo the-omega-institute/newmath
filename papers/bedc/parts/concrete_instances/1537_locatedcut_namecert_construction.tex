@@ -94,6 +94,79 @@ $$
 Since the carrier has no quotient, host equality, supremum selector, or classical choice coordinate, the listed rows give the complete seal boundary.
 \end{proof}
 
+\begin{theorem}[LocatedCut classifier transport]
+\label{thm:located-cut-classifier-transport}
+Let $L=(D^{-},D^{+},W,R,S,H,C,P,N)$ and
+$L'=(D'^{-},D'^{+},W',R',S',H',C',P',N')$ be accepted
+$\LocatedCutUp$ packets. Classifier transport is componentwise over the lower
+ledger, upper ledger, stream-window row, $\RegSeqRatUp$ handoff, $\RealUp$
+seal, displayed $\hsame$ rows, displayed $\Cont$ routes, package provenance,
+and local $\NameCert_{\LocatedCutUp}$ row. It transports no quotient cut,
+host real equality, selected supremum, or ambient order-completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:located-cut-carrier}. Its visible
+coordinates are exactly the two dyadic ledgers, window row, handoff row, seal
+row, transport rows, continuation rows, provenance, and local naming row.
+
+Apply the finite-row clauses of
+\autoref{thm:located-cut-namecert-obligations}. The lower and upper ledgers
+move along the stored $\hsame$ transports, while the displayed $\Cont$ routes
+replay the same window, handoff, and seal reads.
+
+The non-escape part is immediate from the carrier shape. None of the
+transported coordinates stores a quotient cut, host real equality proof,
+supremum selector, or order-completeness object.
+\end{proof}
+
+\begin{theorem}[LocatedCut located-window exactness]
+\label{thm:located-cut-located-window-exactness}
+For every accepted packet $L=(D^{-},D^{+},W,R,S,H,C,P,N)$ and every visible
+unary precision row, the stream-window row $W$ reads a finite lower dyadic
+entry from $D^{-}$ and a finite upper dyadic entry from $D^{+}$. The
+corresponding $\RegSeqRatUp$ handoff is computed from that same displayed
+window and not from a quotient cut or selected supremum.
+\end{theorem}
+\begin{proof}
+Use the locatedness row of
+\autoref{thm:located-cut-namecert-obligations}. For each visible precision it
+requires a finite lower witness and a finite upper witness in the same
+$\StreamNameUp$ window row.
+
+Apply \autoref{thm:located-cut-dyadic-interval-exhaustion}. The dyadic
+endpoints and the precision row remain attached to the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Finally apply \autoref{thm:located-cut-regular-cauchy-handoff}. The handoff
+row $R$ reads the located window supplied by $W$, so the visible precision is
+answered by finite dyadic data rather than by an ambient cut object.
+\end{proof}
+
+\begin{theorem}[LocatedCut seal-boundary exactness]
+\label{thm:located-cut-seal-boundary-exactness}
+Every $\RealUp$ seal read exported by an accepted
+$\LocatedCutUp$ packet factors through the displayed chain
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S.
+$$
+The seal boundary exposes no quotient cut, host real equality, selected
+supremum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the packet $L=(D^{-},D^{+},W,R,S,H,C,P,N)$ of
+\autoref{def:located-cut-carrier}. The only seal-facing row is $S$, and its
+only regular handoff input is $R$.
+
+Use \autoref{thm:located-cut-located-window-exactness} to identify the window
+read feeding $R$. Each visible precision reaches a finite lower and upper
+dyadic pair in $W$.
+
+Apply \autoref{thm:located-cut-real-seal-non-escape}. It gives the same
+factorization from the dyadic ledgers through $W$ and $R$ to $S$, and its
+non-escape clause excludes quotient cuts, host equality, selected suprema, and
+ambient completeness.
+\end{proof}
+
 \closureat{LocatedCutUp}{seedStr}
 
 \begin{closurestatus}{\LocatedCutUp}

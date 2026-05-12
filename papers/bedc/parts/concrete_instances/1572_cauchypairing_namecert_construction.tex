@@ -48,6 +48,42 @@ For synchronized-window exactness, a precision request must pass through $\mu$ b
 The modulus compatibility and seal rows use the same finite route. Because the packet has no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, the paired $\RealUp$ seal cannot export data outside the displayed certificate surface.
 \end{proof}
 
+\begin{theorem}[Cauchy pairing carrier admission]
+\label{thm:cauchy-pairing-carrier-admission}
+An accepted $\CauchyPairingUp$ carrier is admitted as the finite $\mathsf{BHist}$ packet
+$$
+K=(A,B,W_A,W_B,L_A,L_B,\mu_A,\mu_B,\mu,E_A,E_B,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-pairing-namecert-source}. Admission projects the two $\RegSeqRatUp$ names, side windows, dyadic ledgers, side and synchronized modulus schedules, source and paired $\RealUp$ seals, and the transport, continuation, package, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. Every coordinate named in the statement is stored in the same finite $\mathsf{BHist}$ row, so the carrier witness is obtained by repacking those projections as the local $\NameCert_{\CauchyPairingUp}$ source.
+
+No separate host object is admitted. The packet contains no quotient equality of reals, no selected host limit, no host real equality proof, and no ambient completeness field.
+\end{proof}
+
+\begin{theorem}[Cauchy pairing classifier transport exactness]
+\label{thm:cauchy-pairing-classifier-transport-exactness}
+Let $K$ and $K'$ be accepted $\CauchyPairingUp$ packets. If the two $\RegSeqRatUp$ names, the synchronized $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ ledgers, the $\CauchyModulusUp$ schedules, and the source and paired $\RealUp$ seal rows are matched by displayed $\hsame$ rows and read through the displayed $\Cont$ routes, then the classifier transports exactly those packet rows.
+\end{theorem}
+\begin{proof}
+Apply the classifier surface described by \autoref{thm:cauchy-pairing-namecert-obligations}. The classifier reads the two regular names, window schedules, dyadic ledgers, modulus rows, seal rows, package provenance, and local naming row.
+
+The $\hsame$ rows provide the componentwise replacements, and the $\Cont$ rows preserve the order in which consumer requests reach the synchronized schedule, side windows, ledgers, and paired seal. Since no other comparison coordinate is present, classifier transport is exact for the displayed rows and cannot compare completed reals or selected limits.
+\end{proof}
+
+\begin{theorem}[Cauchy pairing paired-seal non-escape]
+\label{thm:cauchy-pairing-paired-seal-non-escape}
+For every accepted $\CauchyPairingUp$ carrier, the paired $\RealUp$ seal $E$ is consumable only after both finite side windows $W_A,W_B$ and both dyadic ledgers $L_A,L_B$ have been displayed along the synchronized modulus route $\mu$. The seal does not escape through quotient real equality, selected host limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for the paired seal. The route first reads the synchronized modulus schedule $\mu$, which fixes a common finite request before either side window is inspected.
+
+The request then reads the two side windows $W_A$ and $W_B$ and the corresponding dyadic ledgers $L_A$ and $L_B$. The side schedules $\mu_A$ and $\mu_B$ remain attached to this synchronized route through the stored transport and continuation rows.
+
+Only after both finite windows and both dyadic ledgers are displayed can the row $E$ be consumed. Thus the paired seal is a finite certificate endpoint, not a route to quotient equality, a selected host limit, host real equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Cauchy pairing synchronized-window stability]
 \label{thm:cauchy-pairing-synchronized-window-stability}
 Let $K$ and $K'$ be accepted $\CauchyPairingUp$ source packets. If their two $\RegSeqRatUp$ names, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\CauchyModulusUp$ schedules, $\RealUp$ seal rows, $\Pkg$ provenance, and local $\NameCert$ rows are transported componentwise by displayed $\hsame$ rows and read through the displayed $\Cont$ routes, then every finite consumer request follows matched synchronized windows on both sides and reaches matched paired $\RealUp$ seal rows.
