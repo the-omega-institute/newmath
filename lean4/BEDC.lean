@@ -179,6 +179,7 @@ import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
@@ -188,6 +189,7 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
+import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
