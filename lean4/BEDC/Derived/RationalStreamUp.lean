@@ -217,4 +217,26 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
 
+theorem RationalStreamPacket_streamname_schedule_boundary [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      scheduleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont schedule window scheduleRead ->
+        UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory window ∧
+          UnaryHistory scheduleRead ∧ Cont index schedule window ∧
+            Cont schedule window scheduleRead ∧ PkgSig bundle nameRow pkg := by
+  intro packet scheduleReadRow
+  obtain ⟨indexUnary, scheduleUnary, _pointRowsUnary, _classifierRowsUnary,
+    _transportRowsUnary, _provenanceUnary, indexScheduleRow, _windowPointRow,
+    _classifierTransportRow, _nameRowRow, pkgSig⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have scheduleReadUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed scheduleUnary windowUnary scheduleReadRow
+  exact
+    ⟨indexUnary, scheduleUnary, windowUnary, scheduleReadUnary, indexScheduleRow,
+      scheduleReadRow, pkgSig⟩
+
 end BEDC.Derived.RationalStreamUp
