@@ -98,3 +98,16 @@
   constructor-positive triples, and well-formed triples with wrong result
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
+
+## ExternalBinary Encoding
+
+- `ExternalBinary.lean` aliases `BWord` and `Mbin` to `BHist`, so the rule110
+  representation reuses `BHistEncoding` directly: one GroundCompiler event
+  whose payload is the outermost-first constructor-choice list.
+- ExternalBinary `append` is `Cont.append`; executable append triples use
+  `EventEncoding(a) ++ EventEncoding(b) ++ EventEncoding(r)` and require
+  `choices(r) = choices(b) ++ choices(a)`.
+- `external_binary_basic.enum.ct` and `.algo.ct` cover unit laws, mixed
+  constructors, and negative wrong-result triples. `tests/test_external_binary.c`
+  also checks representative model reuse, constructor-result inversion,
+  cross-bit impossibility, cancellation, and congruence cases.

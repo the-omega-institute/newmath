@@ -1,0 +1,29 @@
+# external_binary_basic.enum.ct
+# Theorem family: BEDC.FKernel.ExternalBinary over BWord/Mbin.
+#
+# Encoding:
+#   BWordEncoding(w) = BHistEncoding(w) = EventEncoding(choices(w))
+#   append triple input = BWord(a) ++ BWord(b) ++ BWord(r)
+#
+# Lean ExternalBinary aliases BWord and Mbin to BHist and reuses
+# BEDC.FKernel.Cont.append. With choices listed outermost first:
+#   choices(append a b) = choices(b) ++ choices(a)
+#
+# Positive cases cover model reuse, append unit laws, mixed constructors,
+# constructor-result inversion, cancellation, and congruence representatives.
+# Negative cases are well-formed triples whose decoded result does not match
+# append.
+PRODUCTIONS 0
+ASSERTIONS 12
+case empty_empty_empty:        input=111111                 ; external_append_holds=yes
+case e0_empty_e0:              input=01111011               ; external_append_holds=yes
+case empty_e1_e1:              input=1110111011             ; external_append_holds=yes
+case e0_e1_e1_e0:              input=011101110011           ; external_append_holds=yes
+case e1_e0__e0_e1__e0_e1_e1_e0: input=100110101101010011    ; external_append_holds=yes
+case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011    ; external_append_holds=yes
+case empty_empty_e0:           input=1111011                ; external_append_holds=no
+case empty_e0_empty:           input=1101111                ; external_append_holds=no
+case e0_e1_wrong_order:        input=011101101011           ; external_append_holds=no
+case e1_e0_wrong_outer:        input=10011011101011         ; external_append_holds=no
+case e0_e1_missing_prefix:     input=010111001011           ; external_append_holds=no
+case e1_empty_e0:              input=101111011              ; external_append_holds=no
