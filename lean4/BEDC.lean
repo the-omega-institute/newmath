@@ -120,7 +120,9 @@ import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
+import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
@@ -168,7 +170,6 @@ import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteVectorUp
-import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FreeMonoidUp
@@ -220,6 +221,7 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModulusOfConvergenceUp
+import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
@@ -234,6 +236,7 @@ import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
+import BEDC.Derived.TrieUp.PrefixBranchExactness
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TrieUp.PrefixSubledger
@@ -286,7 +289,6 @@ import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
-import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.SpectralMeasureUp
@@ -393,6 +395,7 @@ import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
 import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DiagonalModulusUp
+import BEDC.Derived.DiagonalLimitUp
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
@@ -926,6 +929,7 @@ import BEDC.Derived.NumFieldUp.StandardBridgeBoundary
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.GraphUp
 import BEDC.Derived.HashUp
+import BEDC.Derived.HausdorffCompletionUp
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.QuantumChannelUp
@@ -1279,6 +1283,7 @@ import BEDC.MetaCIC.TypedExamples.BasicApplications
 import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
+import BEDC.HostBridge.ChurchNatRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
