@@ -10,5 +10,6 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.TypedExamples
+import BEDC.MetaCIC.TypedExamples.ChurchGallery
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
