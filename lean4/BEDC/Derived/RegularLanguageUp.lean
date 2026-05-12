@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -180,6 +182,32 @@ theorem RegularLanguageAutomatonPacket_public_accepted_word_export [AskSetup] [P
       runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, publicUnary,
         runRow, endpointRow, routesRow, exportRow, publicSig⟩
 
+theorem RegularLanguageAutomatonPacket_standard_automaton_bridge_boundary [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont routes accept boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+            UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+              UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory transport ∧
+                UnaryHistory routes ∧ UnaryHistory boundary ∧ Cont start word run ∧
+                  Cont run transition endpoint ∧ Cont endpoint transport routes ∧
+                    Cont routes accept boundary ∧ PkgSig bundle boundary pkg := by
+  intro packet routesAcceptBoundary boundaryPkg
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, routesUnary, _provenanceUnary, runRow,
+    endpointRow, routesRow, _provenancePkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed routesUnary acceptUnary routesAcceptBoundary
+  exact
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary, endpointUnary, transportUnary, routesUnary, boundaryUnary, runRow,
+      endpointRow, routesRow, routesAcceptBoundary, boundaryPkg⟩
+
 theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskSetup]
     [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance
@@ -203,36 +231,82 @@ theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskS
     ⟨runUnary, endpointUnary, routesUnary, provenanceUnary, boundaryUnary, runRow, endpointRow,
       routesRow, boundaryRow, boundarySig⟩
 
-theorem RegularLanguageAutomatonPacket_scoped_dependency_envelope [AskSetup] [PackageSetup]
-    {alphabet states start accept transition word run endpoint transport routes provenance run'
-      transition' endpoint' routes' scopedRead : BHist}
+theorem RegularLanguageAutomatonPacket_finite_bridge_consumer_completeness
+    [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      publicExport bridgeRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
         transport routes provenance bundle pkg ->
-      hsame run run' ->
-        hsame transition transition' ->
-          Cont run' transition' endpoint' ->
-            Cont endpoint' transport routes' ->
-              Cont routes' provenance scopedRead ->
-                PkgSig bundle scopedRead pkg ->
-                  UnaryHistory run' ∧ UnaryHistory transition' ∧ UnaryHistory endpoint' ∧
-                    UnaryHistory routes' ∧ UnaryHistory scopedRead ∧ hsame endpoint endpoint' ∧
-                      Cont endpoint' transport routes' ∧
-                        Cont routes' provenance scopedRead ∧ PkgSig bundle scopedRead pkg := by
-  intro packet sameRun sameTransition endpointRow' routesRow' scopedRow scopedSig
-  obtain ⟨runUnary', transitionUnary', endpointUnary', sameEndpoint, _endpointRow',
-    _pkgSig⟩ :=
-    RegularLanguageAutomatonPacket_classified_word_transport packet sameRun sameTransition
-      endpointRow'
-  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
-    _wordUnary, _runUnary, _endpointUnary, transportUnary, _routesUnary, provenanceUnary,
-    _runRow, _endpointRow, _routesRow, _packetSig⟩ := packet
-  have routesUnary' : UnaryHistory routes' :=
-    unary_cont_closed endpointUnary' transportUnary routesRow'
-  have scopedUnary : UnaryHistory scopedRead :=
-    unary_cont_closed routesUnary' provenanceUnary scopedRow
+      Cont routes provenance publicExport ->
+        Cont publicExport transport bridgeRead ->
+          PkgSig bundle publicExport pkg ->
+            PkgSig bundle bridgeRead pkg ->
+              UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+                UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+                  UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory publicExport ∧
+                    UnaryHistory bridgeRead ∧ Cont routes provenance publicExport ∧
+                      Cont publicExport transport bridgeRead ∧ PkgSig bundle bridgeRead pkg := by
+  intro packet publicRow bridgeRow _publicSig bridgeSig
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, _runRow,
+    _endpointRow, _routesRow, _pkgSig⟩ := packet
+  have publicUnary : UnaryHistory publicExport :=
+    unary_cont_closed routesUnary provenanceUnary publicRow
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicUnary transportUnary bridgeRow
   exact
-    ⟨runUnary', transitionUnary', endpointUnary', routesUnary', scopedUnary, sameEndpoint,
-      routesRow', scopedRow, scopedSig⟩
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary, endpointUnary, publicUnary, bridgeUnary, publicRow, bridgeRow, bridgeSig⟩
+
+theorem RegularLanguageAutomatonPacket_scoped_kernel_dependency_envelope
+    [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      envelope : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont provenance routes envelope ->
+        PkgSig bundle envelope pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row envelope ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+            (fun row : BHist => UnaryHistory row ∧ Cont provenance routes row)
+            (fun row : BHist => PkgSig bundle row pkg ∧ UnaryHistory provenance ∧
+              UnaryHistory routes)
+            (fun row row' : BHist => hsame row row') := by
+  intro packet envelopeRow envelopeSig
+  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
+    _wordUnary, _runUnary, _endpointUnary, _transportUnary, routesUnary, provenanceUnary,
+    _runRow, _endpointRow, _routesRow, _pkgSig⟩ := packet
+  have envelopeUnary : UnaryHistory envelope :=
+    unary_cont_closed provenanceUnary routesUnary envelopeRow
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro envelope ⟨hsame_refl envelope, envelopeUnary, envelopeSig⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRow
+        exact hsame_symm sameRow
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨sameEnvelope, rowUnary, _rowSig⟩ := sourceRow
+      cases sameEnvelope
+      exact ⟨rowUnary, envelopeRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_sameEnvelope, _rowUnary, rowSig⟩ := sourceRow
+      exact ⟨rowSig, provenanceUnary, routesUnary⟩
+  }
 
 end BEDC.Derived.RegularLanguageUp
