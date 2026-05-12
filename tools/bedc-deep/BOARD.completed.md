@@ -17567,3 +17567,75 @@ Rationale:
 This is a concrete core signature-classification theorem rather than a verification marker or closure-status task. Existing core coverage includes singleton bundle grammar, empty-bundle sameSig, cons signature inversion/determinacy, sameSig append closure/cancellation/exact split, and duplicate-probe obstruction, but no paper label or BOARD title states the one-probe exact iff reducing singleton signature sameness precisely to the two head Ask events and mark sameness. It is close to the signature-generation surface yet distinct from append residual and cons determinacy results, and the proposed landing files are not hub-only and remain below the line cap for a short theorem insertion.
 
 ---
+
+### B-698 - EllipticCurve Weierstrass bridge boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | EllipticCurve Weierstrass bridge boundary |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a standard Weierstrass elliptic-curve presentation is admitted only through the FieldUp row, ProjectiveVarUp row, five coefficient rows, cubic incidence row, smooth genus-one row, base-point row, classifier transports, and Pkg provenance of an EllipticCurveUp packet, then it repacks to the same public EllipticCurveUp surface and exports no group law or external curve equality.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/153_ellipticcurve_namecert_construction.tex`
+
+Rationale:
+The EllipticCurveUp chapter has mature field/projective carrier coverage and explicitly leaves the standard Weierstrass bridge outside the current surface. This target is a conservative bridge-boundary theorem over already enumerated BEDC rows, distinct from the existing coefficient ledger and field-projective compatibility theorems because it addresses the standard-presentation admission boundary while still excluding group law and external model equality.
+
+---
+
+### B-696 - Bayesian posterior packet carrier introduction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Bayesian posterior packet carrier introduction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If DistributionUp prior and posterior rows, a CondExpUp likelihood/evidence row, a Bayes-to-posterior hsame comparison, a normalisation Cont row, and Pkg provenance are supplied under the BayesianUp setup, then they assemble an accepted Bayesian update packet whose public posterior source is exactly those rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/210_bayesian_namecert_construction.tex`
+
+Rationale:
+This fills a real local gap in the BayesianUp chapter: the carrier section is empty while the existing source-obligation and ledger-exactness theorems already quantify over Bayesian update packets and accepted packets. The proposed target is a concrete carrier/introduction theorem over named DistributionUp, CondExpUp, hsame, Cont, and Pkg rows, not a marker or verification-status change, and the landing file is short enough to be safe.
+
+---
+
+### B-697 - Bayesian posterior classifier transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Bayesian posterior classifier transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted Bayesian update packets have hsame-related prior, likelihood, evidence, posterior, normalisation, and provenance rows under the DistributionUp and CondExpUp dependency classifiers, then the transported packet is accepted and its posterior endpoint is classified with the original posterior endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/210_bayesian_namecert_construction.tex`
+
+Rationale:
+The chapter currently has posterior source and ledger exactness but no reusable transport theorem for the named Bayesian posterior packet rows. The claim is concrete enough for a BOARD entry because it concerns the actual prior, likelihood, evidence, posterior, normalisation, and provenance rows, and it would make the posterior packet stable under the local dependency classifiers without importing host probability semantics.
+
+---
