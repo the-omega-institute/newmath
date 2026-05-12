@@ -65,6 +65,54 @@ The diagonal selector $\Delta$ chooses only recorded stages and observations. Th
 The convergence-facing part is controlled by $\mu$. Since all consumer routes are stored in $H$, $C$, $P$, and $N$, the exported candidate is exactly the finite diagonal-limit surface seen by $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Real completeness carrier transport]
+\label{thm:real-completeness-carrier-transport}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ carrier. Any componentwise displayed $\hsame$ transport of the concrete packet rows $X,\mu,\Delta,D,W,Q,S,H,C,P,N$ that preserves the $\Cont$ routes in $C$, the $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$ yields another accepted $\RealCompletenessUp$ carrier with the same public diagonal-limit surface.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to read every coordinate of $R$. The transported packet has the same row shape: regular sequence family, modulus row, diagonal selector, dyadic ledger, stream windows, readback row, $\RealUp$ seal, transport rows, continuation routes, package provenance, and local naming row.
+
+Apply \autoref{thm:real-completeness-namecert-obligations}. Its classifier-stability clause transports $X,\mu,\Delta,D,W,Q,S$ componentwise by $\hsame$, while its package-closure clause keeps $H,C,P,N$ attached to the same public routes.
+
+The conclusion is therefore a repacking of the displayed rows. No ambient completeness theorem is invoked, because acceptance is checked by the finite carrier and the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Real completeness modulus diagonal exactness]
+\label{thm:real-completeness-modulus-diagonal-exactness}
+For every accepted packet
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N),
+$$
+each diagonal observation exported by $\RealCompletenessUp$ is selected by $\Delta$, bounded by the explicit modulus row $\mu$, read through the $\BHist$ ledgers $D,W,Q$, transported by $\hsame$ rows in $H$, routed through $\Cont$ rows in $C$, and packaged by $P$ and $N$. No exported diagonal read may use a modulus or rational observation absent from the concrete packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completeness-diagonal-limit-candidate}. It identifies the exported $\RealUp$ candidate with the seal row $S$ obtained from $\Delta$ through $W$, $Q$, and $D$.
+
+Apply \autoref{thm:real-completeness-namecert-obligations}. Its modulus exactness clause binds every convergence bound to $\mu$, and its diagonal readback exactness clause binds every selected rational observation to the displayed stream, readback, and dyadic rows.
+
+The remaining rows $H,C,P,N$ record transport, continuation, package, and naming discipline. Hence exactness is a finite ledger property of $R$, not a claim about host completeness.
+\end{proof}
+
+\begin{theorem}[RealUp seal ledger discipline]
+\label{thm:real-completeness-realup-seal-ledger}
+For every accepted $\RealCompletenessUp$ carrier
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N),
+$$
+the $\RealUp$ seal row $S$ is the only completion-facing export. Its reads must pass through the displayed $\BHist$ packet rows $X,\mu,\Delta,D,W,Q$, the $\hsame$ transport row $H$, the $\Cont$ route row $C$, the $\Pkg$ row $P$, and the $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:real-completeness-carrier}. The only row typed as the candidate limit name is $S$, and the preceding rows record the family, modulus, selector, dyadic observations, stream windows, and regular-sequence readbacks that form it.
+
+Use \autoref{thm:real-completeness-namecert-obligations} to keep the seal attached to the same classifier-stable rows. The package-closure clause says the public routes are exactly the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply \autoref{thm:real-completeness-diagonal-limit-candidate}. It identifies the seal with the finite diagonal observations, so the $\RealUp$ boundary contains no selected external limit, quotient real, host equality, or host completeness proof.
+\end{proof}
+
 \begin{theorem}[Real completeness no-escape boundary]
 \label{thm:real-completeness-nonescape-boundary}
 The public boundary of $\RealCompletenessUp$ exports only the finite diagonal-limit candidate over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no quotient real, no host equality on real numbers, no selected external limit, no countable-choice principle, and no host completeness theorem.
@@ -77,15 +125,15 @@ Apply \autoref{thm:real-completeness-diagonal-limit-candidate}. Every candidate-
 The excluded objects are absent from the tuple. Therefore the boundary cannot export a quotient real, host real equality, external selected limit, choice principle, or host completeness theorem.
 \end{proof}
 
-\closureat{RealCompletenessUp}{seedStr}
+\closureat{RealCompletenessUp}{obligationStr}
 
 \begin{closurestatus}{\RealCompletenessUp}
   \constructivestory{A $\RealCompletenessUp$ packet is generated by a displayed regular Cauchy family, explicit modulus row, diagonal selector, dyadic observation ledger, stream windows, regular-sequence readback, RealUp seal, transport routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite diagonal-limit carrier over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:real-completeness-namecert-obligations}, \autoref{thm:real-completeness-carrier-transport}, \autoref{thm:real-completeness-modulus-diagonal-exactness}, and \autoref{thm:real-completeness-realup-seal-ledger} bind the finite diagonal-limit carrier, transport, modulus exactness, diagonal readback, and seal discipline over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or a checked Lean target.}
-  \upgradepath{The next paper grade is an obligation theorem for carrier transport, modulus exactness, diagonal readback exactness, RealUp seal discipline, and ledger exactness over the same displayed rows.}
+  \upgradepath{Scoped closure requires Lean checking of carrier transport, modulus diagonal exactness, RealUp seal discipline, and ledger non-escape over the same displayed rows.}
 \end{closurestatus}
