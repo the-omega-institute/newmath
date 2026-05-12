@@ -62,6 +62,7 @@ The $\BitVectorUp$ classifier is reflexive, symmetric, and transitive on
 accepted packets by componentwise use of the $\NatUp$ length classifier, the
 $\ListUp$ spine classifier, and the $\BoolUp$ entry classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.BitVectorUp.BitVectorSourceClassifier\_laws}
 \begin{proof}
 For reflexivity, take the reflexive $\hsame$ row on the displayed unary length
 and the reflexive $\ListUp$ comparison of the list spine. Each entry read is a
@@ -324,6 +325,31 @@ Finally \autoref{thm:bitvector-standard-bridge-boundary} identifies the same
 surface with the standard finite boolean-vector boundary. Therefore every
 finite-data consumer read is determined by the displayed fixed-width BEDC
 rows, with numeric binary primitives and host equality still excluded.
+\end{proof}
+
+\begin{theorem}[BitVector fixed-length consumer determinacy]
+\label{thm:bitvector-fixed-length-consumer-determinacy}
+Any downstream consumer that factors through the $\BitVectorUp$ public export,
+in particular a $\TrieUp$ key read, is determined by the unary $\NatUp$ length
+row, the $\ListUp$ spine of $\BoolUp$ entries, the length ledger,
+componentwise classifier rows, $\hsame$ transports, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance.
+
+No padding, overflow, hash, or host bit-string equality can alter the read.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bitvector-ledger-coverage}. It fixes the displayed positions
+of the finite boolean list by the unary length row and the length ledger.
+
+Next use \autoref{thm:bitvector-public-finite-algebra-export}. The public
+export exposes exactly the $\NatUp$ length, $\ListUp$ spine, $\BoolUp$
+component rows, classifier rows, transport, continuation, and provenance data
+available to downstream finite-data consumers.
+
+Finally apply \autoref{thm:bitvector-standard-bridge-boundary}. The standard
+finite boolean-vector boundary reads the same public surface, so a $\TrieUp$
+key read or any other consumer through the export has no coordinate from which
+padding, overflow, hashing, or host bit-string equality could change the result.
 \end{proof}
 
 \closureat{BitVectorUp}{seedStr}
