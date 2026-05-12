@@ -162,6 +162,7 @@ import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
@@ -281,6 +282,8 @@ import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.StateSpaceModelUp
+import BEDC.Derived.StationaryPartitionDiagonalUp
+import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.SpectralMeasureUp
