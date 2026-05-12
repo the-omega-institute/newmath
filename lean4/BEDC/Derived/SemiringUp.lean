@@ -73,6 +73,21 @@ theorem SemiringLedger_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem SemiringLedger_additive_multiplicative_obligation_surface [AskSetup]
+    [PackageSetup]
+    {additive multiplicative shared distributive annihilation transport route endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SemiringLedger additive multiplicative shared distributive annihilation transport route
+        endpoint bundle pkg ->
+      UnaryHistory additive ∧ UnaryHistory multiplicative ∧ UnaryHistory shared ∧
+        hsame shared (append additive multiplicative) ∧ Cont additive multiplicative shared ∧
+          PkgSig bundle endpoint pkg := by
+  intro ledger
+  obtain ⟨additiveUnary, multiplicativeUnary, sharedUnary, _distributiveUnary,
+    _annihilationUnary, _transportUnary, _routeUnary, _endpointUnary, sharedRow,
+    _transportRow, _routeRow, _endpointRow, pkgRow⟩ := ledger
+  exact ⟨additiveUnary, multiplicativeUnary, sharedUnary, sharedRow, sharedRow, pkgRow⟩
+
 def SemiringDistributiveLedger (add mul left right dist : BHist) : Prop :=
   UnaryHistory add ∧
     UnaryHistory mul ∧
