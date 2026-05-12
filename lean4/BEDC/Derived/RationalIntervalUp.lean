@@ -320,6 +320,24 @@ theorem RationalIntervalPacket_regseqrat_window_coverage [AskSetup] [PackageSetu
     ⟨windowUnary, consumerUnary, direct, containmentRouteDirect, endpointDirectConsumer,
       consumerPkg⟩
 
+theorem RationalIntervalPacket_endpoint_width_ledger [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint width : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont left right width ->
+        UnaryHistory width ∧ hsame width order ∧ UnaryHistory containment ∧
+          Cont order containment transport ∧ PkgSig bundle endpoint pkg := by
+  intro packet widthRow
+  obtain ⟨leftUnary, rightUnary, _orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, orderRow, containmentRow,
+    _provenanceRow, _endpointRow, endpointPkg⟩ := packet
+  have widthUnary : UnaryHistory width :=
+    unary_cont_closed leftUnary rightUnary widthRow
+  have sameWidthOrder : hsame width order :=
+    cont_deterministic widthRow orderRow
+  exact ⟨widthUnary, sameWidthOrder, containmentUnary, containmentRow, endpointPkg⟩
+
 theorem RationalIntervalPacket_containment_ledger_exactness [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint read : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
