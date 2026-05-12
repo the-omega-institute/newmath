@@ -118,7 +118,10 @@ import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
+import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
+import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyConvolutionUp
@@ -172,6 +175,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
@@ -274,6 +278,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyNameUp
@@ -290,6 +295,7 @@ import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
+import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
