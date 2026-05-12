@@ -88,4 +88,29 @@ theorem ContinuedFractionPacket_regseqrat_handoff [AskSetup] [PackageSetup]
   exact ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary, handoffUnary,
     consumerUnary, scheduleNumeratorRow, consumerRow, pkgRow⟩
 
+theorem ContinuedFractionPacket_finite_handoff_obligation [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance consumer
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont schedule handoff consumer ->
+        Cont consumer provenance readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory schedule ∧ UnaryHistory handoff ∧ UnaryHistory ledger ∧
+              UnaryHistory provenance ∧ UnaryHistory consumer ∧ UnaryHistory readback ∧
+                Cont schedule handoff consumer ∧ Cont consumer provenance readback ∧
+                  PkgSig bundle readback pkg := by
+  intro packet consumerRow readbackRow readbackPkg
+  obtain ⟨_digitsUnary, _numeratorUnary, _denominatorUnary, _radiusUnary, scheduleUnary,
+    handoffUnary, _boundaryUnary, ledgerUnary, provenanceUnary, _scheduleNumeratorRow,
+    _boundaryRow, _provenanceRow, _packetPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed scheduleUnary handoffUnary consumerRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed consumerUnary provenanceUnary readbackRow
+  exact
+    ⟨scheduleUnary, handoffUnary, ledgerUnary, provenanceUnary, consumerUnary, readbackUnary,
+      consumerRow, readbackRow, readbackPkg⟩
+
 end BEDC.Derived.ContinuedFractionUp
