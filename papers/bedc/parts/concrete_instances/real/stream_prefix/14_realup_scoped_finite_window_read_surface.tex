@@ -313,6 +313,46 @@ again without quotient, completion, metric-completeness, Classical, or
 standard-bridge data.
 \end{proof}
 
+\begin{theorem}[StreamName Real seal factorization diamond]
+\label{thm:streamname-real-seal-factorization-diamond}
+Let $W \subseteq W'$ be finite public $\StreamNameUp$ rational observation
+windows with displayed prefix refinement. Suppose the windows carry accepted
+$\RegSeqRat$ spine rows, a shared DyadicRatCore endpoint ledger,
+$\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, $\mathsf{UnaryHistory}$
+rows, a finite $\Cont$ ledger, displayed $\hsame$ endpoint transports, and
+$\mathsf{Pkg}$ provenance. Then restricting the $W'$ $\RealUp$ seal
+factorization to $W$ and factoring the $W$ seal read through the
+StreamName--$\RegSeqRat$ source produce the same visible $\mathsf{BHist}$
+source tuple.
+
+That tuple is exactly the StreamName finite-window row, accepted
+$\RegSeqRat$ seal row, dyadic endpoint rows, bundle rows, unary-history rows,
+finite continuation rows, displayed endpoint transports, and provenance rows.
+It contains no completion row, quotient representative, host index equality,
+Classical choice row, metric-completeness datum, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-real-seal-factorization-refinement-stability} to the
+displayed inclusion $W \subseteq W'$. It identifies the restricted larger
+factorization with the direct smaller-window factorization over the same
+bundle, history, transport, continuation, and provenance rows.
+
+Next use
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy}. The two
+routes have the same public StreamName row, accepted $\RegSeqRat$ spine,
+dyadic endpoint ledger, bundle membership, unary observations, $\Cont$ ledger,
+$\hsame$ endpoint transports, and $\Pkg$ provenance, so their visible seal
+source is fixed to one $\mathsf{BHist}$ tuple.
+
+Finally, \autoref{thm:streamname-regseqrat-realup-seal-source-minimality}
+rules out any additional source row beyond that tuple, and
+\autoref{thm:realup-finite-window-constant-stream-seal-factorization} repacks
+it as the selected finite $\RealUp$ seal surface, without adding completion,
+quotient, host-equality, Classical, metric-completeness, or standard-bridge
+data.
+\end{proof}
+
 \begin{theorem}[RealUp finite-window StreamName readback package]
 \label{thm:realup-finite-window-streamname-readback-package}
 Let $W$ be a certified finite $\mathsf{ProbeBundle}$ window and let a public
