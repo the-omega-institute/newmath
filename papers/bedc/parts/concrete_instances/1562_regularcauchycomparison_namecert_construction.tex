@@ -74,6 +74,7 @@ $\Cont$ routes. A classified read of either $X$ or $Y$ must inspect the same
 transported $\StreamNameUp$ schedule before reading $D$ and $\tau$, and no read
 may split the two regular names across unrelated windows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_common\_window\_stability}
 \begin{proof}
 Project the carrier of
 \autoref{def:regular-cauchy-comparison-carrier}. It contains one shared
@@ -212,6 +213,24 @@ Project both packets to the classifier-facing rows. The shared $W,D,\tau,L,H,C,P
 Apply \autoref{thm:regular-cauchy-comparison-classifier-transport} to carry the agreed rows across the accepted packet boundary. Then apply \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization}; a seal consumer can reach $E$ only through that factored route.
 
 Thus the two consumers see the same $\RealUp$ seal row at the classifier interface. The proof never introduces a host equality test or a selected completion limit, because neither is a coordinate of the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison symmetric window swap]
+\label{thm:regular-cauchy-comparison-symmetric-window-swap}
+Let
+$$
+K=(X,Y,W,D,\tau,L,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyComparisonUp$ packet. Swapping the two $\RegSeqRatUp$ names $X$ and $Y$ preserves the shared $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ observation row $D$, the tolerance row $\tau$, the ledger $L$, the seal row $E$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The swapped packet therefore exposes the same $\RealUp$ classifier handoff through the same finite common-window comparison surface.
+\end{theorem}
+\begin{proof}
+First isolate the common window. By \autoref{thm:regular-cauchy-comparison-common-window-stability}, both regular names are read through the single displayed schedule $W$, so exchanging the order of $X$ and $Y$ does not create a second window row.
+
+Next keep the numerical comparison rows fixed. Apply \autoref{thm:regular-cauchy-comparison-tolerance-row-stability}: the dyadic observations in $D$ are compared against exactly the recorded tolerance row $\tau$ and ledger $L$, and classified transport cannot substitute an unrecorded tolerance.
+
+Now use \autoref{thm:regular-cauchy-comparison-classifier-transport}. The displayed $\hsame$ and $\Cont$ components move the two name coordinates componentwise while preserving the shared window, observation row, tolerance row, ledger, seal row, package provenance, and local certificate.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The $\RealUp$ handoff reads only the same finite comparison surface, so the swapped presentation exposes the same classifier-facing handoff without importing host equality of regular streams.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy comparison completion consumer surface]

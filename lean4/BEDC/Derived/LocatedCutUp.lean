@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.LocatedCutUp
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 def LocatedCutCarrier [AskSetup] [PackageSetup]
     (lower upper window handoff sealRow transportRow route provenance localCert : BHist)
@@ -126,5 +128,36 @@ theorem LocatedCutCarrier_classifier_transport [AskSetup] [PackageSetup]
     ⟨lowerUpperWindow', windowHandoffTransport', transportRouteProvenance',
       provenanceLocalCertSeal', provenancePkg', sameSealHandoff', sameSealProvenance'⟩
   exact ⟨transported, sameWindow, sameTransportRow, sameProvenance, sameSealRow⟩
+
+theorem LocatedCutCarrier_located_window_exactness [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      UnaryHistory lower ->
+        UnaryHistory upper ->
+          UnaryHistory handoff ->
+            UnaryHistory route ->
+              UnaryHistory localCert ->
+                UnaryHistory window ∧ UnaryHistory transportRow ∧ UnaryHistory provenance ∧
+                  UnaryHistory sealRow ∧ Cont lower upper window ∧
+                    Cont window handoff transportRow ∧
+                      Cont transportRow route provenance ∧
+                        Cont provenance localCert sealRow ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier lowerUnary upperUnary handoffUnary routeUnary localCertUnary
+  obtain ⟨lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
+    provenanceLocalCertSeal, provenancePkg, _sameSealHandoff, _sameSealProvenance⟩ :=
+    carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed lowerUnary upperUnary lowerUpperWindow
+  have transportUnary : UnaryHistory transportRow :=
+    unary_cont_closed windowUnary handoffUnary windowHandoffTransport
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed transportUnary routeUnary transportRouteProvenance
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed provenanceUnary localCertUnary provenanceLocalCertSeal
+  exact ⟨windowUnary, transportUnary, provenanceUnary, sealUnary, lowerUpperWindow,
+    windowHandoffTransport, transportRouteProvenance, provenanceLocalCertSeal, provenancePkg⟩
 
 end BEDC.Derived.LocatedCutUp
