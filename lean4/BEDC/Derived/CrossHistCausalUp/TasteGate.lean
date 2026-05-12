@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CrossHistCausalUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.CrossHistCausalUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -282,5 +284,38 @@ theorem CrossHistCausalUp_slot_witness_route_transport
         CrossHistCausalUp_taste_gate_boundary_round_trip
           (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes
             provenance localName)⟩
+
+theorem CrossHistCausalUp_slot_locality
+    {anchorA anchorB slot witness transports probes routes provenance localName consumer : BHist} :
+    UnaryHistory slot →
+      UnaryHistory witness →
+        Cont slot witness consumer →
+          UnaryHistory consumer ∧
+            ∃ e : EventFlow,
+              BHistCarrier.fromEventFlow e =
+                some
+                  (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes
+                    provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont BHistCarrier
+  intro slotUnary witnessUnary slotWitnessConsumer
+  constructor
+  · exact unary_cont_closed slotUnary witnessUnary slotWitnessConsumer
+  · exact
+      ⟨CrossHistCausalUp_taste_gate_boundary_toEventFlow
+          (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes provenance
+            localName),
+        by
+          change
+            CrossHistCausalUp_taste_gate_boundary_fromEventFlow
+                (CrossHistCausalUp_taste_gate_boundary_toEventFlow
+                  (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes
+                    provenance localName)) =
+              some
+                (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes
+                  provenance localName)
+          exact
+            CrossHistCausalUp_taste_gate_boundary_round_trip
+              (CrossHistCausalUp.mk anchorA anchorB slot witness transports probes routes
+                provenance localName)⟩
 
 end BEDC.Derived.CrossHistCausalUp
