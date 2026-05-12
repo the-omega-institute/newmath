@@ -413,6 +413,20 @@ Next use \autoref{thm:regular-cauchy-diagonal-downstream-unblock-package}. The d
 The $\DyadicTailBoundUp$, $\RegSeqRatUp$, and $\RealUp$ portions are therefore the selector-fiber route of \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. The $\RealCauchyCompletionUp$ portion is the completion-seal composition of \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}, so every listed downstream route factors through those two routes and no extra object is exposed.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy diagonal formal target boundary]
+\label{thm:regular-cauchy-diagonal-formal-target-boundary}
+The formal target for $\RegularCauchyDiagonalUp$ is the finite tuple $D=(Q,S,R,L,W,P,N)$ together with selector-fiber exhaustion, completion-seal composition, downstream route factorization, and bridge non-escape. A Lean target for this chapter should prove only this finite $\BHist$ route over $\RatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and should not prove quotient streams, selected host limits, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with selector-fiber exhaustion from \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. It identifies every classifier-facing read with the displayed tuple $D=(Q,S,R,L,W,P,N)$ and the finite window, dyadic, readback, seal, transport, package, and naming rows attached to it.
+
+Next attach completion-seal composition from \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}. The completion-facing consumer reaches the same $\RealUp$ seal by the displayed diagonal selector route rather than by a host sequence equality or selected limit.
+
+Now use downstream route factorization from \autoref{thm:regular-cauchy-diagonal-downstream-route-factorization}. It says that $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealCauchyCompletionUp$ consumers all factor through the selector-fiber and completion-seal routes.
+
+Finally apply bridge non-escape from \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}. Since the bridge exports no quotient stream, selected host limit, host equality, or ambient completeness theorem, the finite tuple and its displayed $\BHist$ route are the precise formal target boundary.
+\end{proof}
+
 \closureat{RegularCauchyDiagonalUp}{seedStr}
 \closureat{RegularCauchyDiagonalUp}{obligationStr}
 \closureat{RegularCauchyDiagonalUp}{scopedStr}
