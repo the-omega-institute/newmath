@@ -77,6 +77,8 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
+import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
