@@ -533,6 +533,25 @@ four standing audits at PR merge time:
 The current state is coherent. Formal targets without full proof terms are
 reported as such, and the audit guarantees make this distinction enforceable.
 
+\subsection{Open Targets}\label{subsec:reconstruction-open-targets}
+
+The reconstruction does not yet close the following metatheoretic targets:
+\begin{itemize}
+  \item Substitute preservation for open binder domains. The checked theorem
+    covers closed binder-domain hypotheses; open domains still require a
+    general binder-shift and substitution transport argument.
+  \item Subject reduction without body-shape restrictions. The closed body
+    cases are represented, while arbitrary lambda and Pi bodies still require
+    binder-drop handling that commutes with typing projections.
+  \item Confluence as a full diamond property for parallel reduction across
+    all term shapes. The atom cases are closed; Pi, lambda, and application
+    cases still depend on general join assemblers for their components.
+  \item Strong normalization for closed sort-typed terms.
+  \item Decidable type checking for arbitrary Pi, lambda, and application
+    terms. The checked $\mathrm{AtomInfer}$ surface covers only sort and
+    variable atoms.
+\end{itemize}
+
 \subsection{Results Overview}\label{subsec:reconstruction-results-overview}
 
 The formalized MetaCIC result set covers the main closed reconstruction
