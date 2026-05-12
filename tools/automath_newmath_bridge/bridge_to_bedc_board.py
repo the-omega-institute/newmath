@@ -28,6 +28,7 @@ BEDC_DEEP_DIR = REPO_ROOT / "tools" / "bedc-deep"
 BEDC_INBOX = BEDC_DEEP_DIR / "state" / "candidate_inbox.jsonl"
 DEFAULT_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-board-continuation-ledger.md"
 DEFAULT_ACK_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-newmath-ack.jsonl"
+DEFAULT_STATUS_REPORT = REPO_ROOT / "docs" / "bridge" / "automath-newmath-production-status.md"
 LEAN_DECL_RE = re.compile(r"^\s*(?:noncomputable\s+)?(?:def|theorem|lemma|abbrev)\s+([A-Za-z0-9_'.]+)", re.M)
 LATEX_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 
@@ -404,25 +405,30 @@ def _existing_board_titles() -> set[str]:
 
 
 def _eligible(record: dict[str, Any]) -> bool:
+    return _eligibility_skip_reason(record) == ""
+
+
+def _eligibility_skip_reason(record: dict[str, Any]) -> str:
     if record.get("bridge_direction") != "automath_to_newmath":
-        return False
+        return "not_automath_to_newmath"
     if record.get("gate_status") != "gate_passed":
-        return False
+        return str(record.get("gate_status") or "gate_not_passed")
     if record.get("readiness") not in {"ready_for_local_packet", "needs_operator_review"}:
-        return False
+        return f"readiness:{record.get('readiness')}"
     if record.get("destination_repo") != "the-omega-institute/newmath":
-        return False
-    if record.get("source_artifact_kind") not in {
+        return "wrong_destination_repo"
+    source_kind = str(record.get("source_artifact_kind") or "")
+    if source_kind not in {
         "lean_theorem",
         "paper_claim",
         "writeback_packet",
         "candidate_mechanism",
         "audit_failure",
     }:
-        return False
-    if record.get("source_artifact_kind") == "paper_claim" and not _specific_board_claim(record):
-        return False
-    return True
+        return f"evidence_only:{source_kind or 'unknown_kind'}"
+    if source_kind == "paper_claim" and not _specific_board_claim(record):
+        return "no_specific_board_claim"
+    return ""
 
 
 def build_candidates(
@@ -618,6 +624,33 @@ def _append_ack_ledger(path: Path, records: list[dict[str, Any]]) -> None:
             existing.add(key)
 
 
+def _screening_ack_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    ack_records: list[dict[str, Any]] = []
+    for record in records:
+        if record.get("bridge_direction") != "automath_to_newmath":
+            continue
+        reason = _eligibility_skip_reason(record)
+        if not reason:
+            continue
+        if reason.startswith("evidence_only:"):
+            status = "evidence_only"
+            next_action = "Retain as bridge evidence only; do not spawn BEDC theorem work automatically."
+        else:
+            status = "blocked"
+            next_action = "Tighten the Automath evidence packet with a concrete BEDC landing object before retry."
+        ack_records.append(
+            _ack_record(
+                record,
+                None,
+                status=status,
+                reason=reason,
+                target_id="",
+            )
+            | {"next_action": next_action}
+        )
+    return ack_records
+
+
 def _ack_records_from_result(result: Any, candidates: list[dict[str, Any]], source_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     by_title = {str(candidate.get("title") or "").strip().lower(): (candidate, source_records[idx]) for idx, candidate in enumerate(candidates)}
     ack_records: list[dict[str, Any]] = []
@@ -639,6 +672,81 @@ def _ack_records_from_result(result: Any, candidates: list[dict[str, Any]], sour
         reason = str(item.get("reason") or item.get("verdict_reason") or "bedc_board_rejected")
         ack_records.append(_ack_record(source_record, candidate, status="blocked", reason=reason, target_id=""))
     return ack_records
+
+
+def _render_status_report(
+    summary: dict[str, Any],
+    ack_records: list[dict[str, Any]],
+) -> str:
+    status_counts: dict[str, int] = {}
+    reason_counts: dict[str, int] = {}
+    source_commits: dict[str, int] = {}
+    for record in ack_records:
+        status = str(record.get("status") or "unknown")
+        reason = str(record.get("reason") or "none")
+        source_commit = str(record.get("source_commit") or "unknown")
+        status_counts[status] = status_counts.get(status, 0) + 1
+        reason_counts[reason] = reason_counts.get(reason, 0) + 1
+        source_commits[source_commit] = source_commits.get(source_commit, 0) + 1
+
+    if int(summary.get("eligible_candidates") or 0) > 0:
+        production_reason = "candidate_output_available"
+    elif int(summary.get("skipped_duplicate_title_count") or 0) > 0:
+        production_reason = "all_specific_board_candidates_duplicate_or_history_rejected"
+    elif any(str(record.get("reason") or "") == "no_specific_board_claim" for record in ack_records):
+        production_reason = "automath_evidence_lacks_specific_bedc_continuation_claim"
+    elif ack_records:
+        production_reason = "screened_to_ack_or_evidence_only"
+    else:
+        production_reason = "no_automath_to_newmath_gate_rows"
+
+    lines = [
+        "# Automath-NewMath Production Status",
+        "",
+        "This durable status explains why the bridge did or did not produce new BEDC BOARD continuation output.",
+        "Runtime inbox, state, raw gate output, and logs remain untracked.",
+        "",
+        "| Metric | Value |",
+        "| --- | --- |",
+        f"| Production reason | `{production_reason}` |",
+        f"| Apply BOARD ingest | `{summary.get('apply')}` |",
+        f"| Eligible BOARD candidates this pass | `{summary.get('eligible_candidates')}` |",
+        f"| Duplicate/history-skipped titles | `{summary.get('skipped_duplicate_title_count', 0)}` |",
+        f"| Accepted into BOARD | `{summary.get('accepted_count', 0)}` |",
+        f"| Rejected by BOARD | `{summary.get('rejected_count', 0)}` |",
+        f"| ACK rows emitted this pass | `{len(ack_records)}` |",
+        "",
+        "## Status Counts",
+        "",
+        "| Status | Count |",
+        "| --- | ---: |",
+    ]
+    for status, count in sorted(status_counts.items()):
+        lines.append(f"| `{status}` | {count} |")
+    lines.extend(["", "## Reason Counts", "", "| Reason | Count |", "| --- | ---: |"])
+    for reason, count in sorted(reason_counts.items()):
+        lines.append(f"| `{reason}` | {count} |")
+    lines.extend(["", "## Source Commits", "", "| Commit | Rows |", "| --- | ---: |"])
+    for source_commit, count in sorted(source_commits.items()):
+        lines.append(f"| `{source_commit}` | {count} |")
+    lines.extend(
+        [
+            "",
+            "## Production Discipline",
+            "",
+            "- BOARD entries must be evidence-backed continuation targets, not vague requests to research Automath again.",
+            "- `evidence_only` rows are acknowledged for Automath feedback but do not spawn BEDC theorem work.",
+            "- `blocked` rows tell Automath why a candidate did not become a BEDC continuation target.",
+            "- New production requires either a new source commit, a sharper source-specific BEDC landing object, or a BEDC ACK that changes the retry priority.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _write_status_report(path: Path, summary: dict[str, Any], ack_records: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(_render_status_report(summary, ack_records), encoding="utf-8")
 
 
 def _cleanup_unaccepted_packets(packet_paths: list[Path], accepted_rels: set[str]) -> list[str]:
@@ -674,8 +782,10 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="Durable continuation ledger path")
     parser.add_argument("--ack-ledger", default=str(DEFAULT_ACK_LEDGER), help="Durable ACK/NACK JSONL ledger path")
+    parser.add_argument("--status-report", default=str(DEFAULT_STATUS_REPORT), help="Durable production status Markdown path")
     parser.add_argument("--no-ledger", action="store_true", help="Do not write durable continuation ledger")
     parser.add_argument("--no-ack-ledger", action="store_true", help="Do not write durable ACK/NACK JSONL")
+    parser.add_argument("--no-status-report", action="store_true", help="Do not write durable production status Markdown")
     args = parser.parse_args(argv)
 
     records = _read_jsonl(Path(args.gate_results))
@@ -694,10 +804,14 @@ def main(argv: list[str] | None = None) -> int:
         "ack_ledger": str(Path(args.ack_ledger).relative_to(REPO_ROOT)) if Path(args.ack_ledger).is_relative_to(REPO_ROOT) else str(args.ack_ledger),
     }
     if not candidates:
+        ack_records = skipped_ack_records + _screening_ack_records(records)
+        summary["ack_count"] = len(ack_records)
         if not args.no_ledger:
             _write_ledger(Path(args.ledger), summary, candidates)
         if not args.no_ack_ledger:
-            _append_ack_ledger(Path(args.ack_ledger), skipped_ack_records)
+            _append_ack_ledger(Path(args.ack_ledger), ack_records)
+        if not args.no_status_report:
+            _write_status_report(Path(args.status_report), summary, ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     if args.apply:
@@ -724,17 +838,23 @@ def main(argv: list[str] | None = None) -> int:
         )
         accepted_rels = _accepted_packet_rels(result)
         summary["removed_unaccepted_packets"] = _cleanup_unaccepted_packets(packets, accepted_rels)
-        ack_records = skipped_ack_records + _ack_records_from_result(result, candidates, candidate_source_records)
+        ack_records = skipped_ack_records + _ack_records_from_result(result, candidates, candidate_source_records) + _screening_ack_records(records)
         summary["ack_count"] = len(ack_records)
         if not args.no_ledger:
             _write_ledger(Path(args.ledger), summary, candidates)
         if not args.no_ack_ledger:
             _append_ack_ledger(Path(args.ack_ledger), ack_records)
+        if not args.no_status_report:
+            _write_status_report(Path(args.status_report), summary, ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0 if getattr(result, "ok", False) else 1
     summary["dry_run_candidates"] = candidates
+    ack_records = skipped_ack_records + _screening_ack_records(records)
+    summary["ack_count"] = len(ack_records)
     if not args.no_ledger:
         _write_ledger(Path(args.ledger), summary, candidates)
+    if not args.no_status_report:
+        _write_status_report(Path(args.status_report), summary, ack_records)
     print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 
