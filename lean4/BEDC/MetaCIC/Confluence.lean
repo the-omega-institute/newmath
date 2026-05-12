@@ -78,6 +78,11 @@ theorem betaStarStep_cons {t t' t'' : Term}
     BetaStarStep t t'' := by
   exact BetaStarStep.step h1 h2
 
+theorem betaStarStep_of_two_steps {t t' t'' : Term}
+    (h1 : BetaStep t t') (h2 : BetaStep t' t'') :
+    BetaStarStep t t'' := by
+  exact BetaStarStep.step h1 (BetaStarStep.step h2 (BetaStarStep.refl t''))
+
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
   intro h
@@ -407,6 +412,20 @@ theorem betaStar_var_target
   | step hstep _ =>
       exact False.elim (betaStep_var_absurd i hstep)
 
+theorem betaStarStep_var_refl_only {i : Idx} {t : Term}
+    (h : BetaStarStep (Term.var i) t) :
+    t = Term.var i := by
+  exact betaStar_var_target i h
+
+theorem betaStarStep_var_unique_target {i : Idx} {t : Term}
+    (h : BetaStarStep (Term.var i) t) :
+    t = Term.var i := by
+  cases h with
+  | refl t =>
+      rfl
+  | step hstep _ =>
+      exact False.elim (betaStep_var_absurd i hstep)
+
 theorem betaStar_sort_target
     {u : Term}
     (h : BetaStarStep Term.sort u) :
@@ -421,6 +440,15 @@ theorem betaStarStep_sort_unique {t : Term}
     (h : BetaStarStep Term.sort t) :
     t = Term.sort := by
   exact betaStar_sort_target h
+
+theorem betaStarStep_sort_unique_target {t : Term}
+    (h : BetaStarStep Term.sort t) :
+    t = Term.sort := by
+  cases h with
+  | refl t =>
+      rfl
+  | step hstep _ =>
+      exact False.elim (betaStep_sort_absurd hstep)
 
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}
