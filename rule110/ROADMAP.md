@@ -32,11 +32,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 - [ ] B1: Read `lean4/BEDC/FKernel/Hist.lean` for `hsame` definition + theorems (refl, symm, trans, empty inversion, constructor distinctness). List target theorems to encode.
 
-- [ ] B2: Design CT manifest format for BHist pairs (analogous to BMark pairs in vertical slice). New directory `rule110/manifests/hist/`. Create `hsame_refl.enum.ct` with representative cases (Empty/Empty, e0(Empty)/e0(Empty), e1(Empty)/e1(Empty), and a deep case like e0(e1(e0(Empty)))/itself). Enum is documentary only — runtime check via decoder.
+- [x] B2: Design CT manifest format for BHist pairs (analogous to BMark pairs in vertical slice). New directory `rule110/manifests/hist/`. Create `hsame_refl.enum.ct` with representative cases (Empty/Empty, e0(Empty)/e0(Empty), e1(Empty)/e1(Empty), and a deep case like e0(e1(e0(Empty)))/itself). Enum is documentary only — runtime check via decoder.
 
 - [ ] B3: **Real algorithm-form P_eq for BHist** (the honest task that BMark vertical slice deferred). Design a cyclic-tag program that recognizes "two BHist payloads are bit-by-bit equal". This may require 10-30 productions and careful tape engineering. Document the design in `docs/bhist_algo_design.md` before implementing. Write the productions into `hsame_refl.algo.ct`.
 
-- [ ] B4: Add `test_hsame_refl_*` functions to a new `tests/test_hist.c` (mirror of `tests/test_mark.c` for BHist). Add `enum_assert_reflexive_hist` and `decode_two_bhist_equal` helpers leveraging the BHist decoder from Phase A. Make sure `make tests/test_hist && ./tests/test_hist` passes.
+- [x] B4: Add `test_hsame_refl_*` functions to a new `tests/test_hist.c` (mirror of `tests/test_mark.c` for BHist). Add `enum_assert_reflexive_hist` and `decode_two_bhist_equal` helpers leveraging the BHist decoder from Phase A. Make sure `make tests/test_hist && ./tests/test_hist` passes.
 
 - [ ] B5: hsame_symm: 4+ cases (reflexive + vacuous mismatches). Both `.enum.ct` and `.algo.ct`.
 
