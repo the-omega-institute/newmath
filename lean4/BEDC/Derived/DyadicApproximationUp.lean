@@ -369,6 +369,50 @@ theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
       consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
       windowProvenanceConsumer, provenancePkg, consumerPkg⟩
 
+theorem DyadicApproximationCarrier_dyadicmesh_validatednumerics_consumer_normal_form
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance meshLevel meshCell interval meshLedger
+      meshRoutes validatedContainment validatedRead consumerSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont endpoint interval meshCell ->
+        Cont meshLevel meshCell interval ->
+          Cont interval meshLedger meshRoutes ->
+            Cont interval validatedContainment validatedRead ->
+              Cont window validatedRead consumerSurface ->
+                PkgSig bundle provenance pkg ->
+                  PkgSig bundle consumerSurface pkg ->
+                    UnaryHistory interval ->
+                      UnaryHistory meshLedger ->
+                        UnaryHistory validatedContainment ->
+                          UnaryHistory meshCell ∧ UnaryHistory interval ∧
+                            UnaryHistory meshRoutes ∧ UnaryHistory validatedRead ∧
+                              UnaryHistory consumerSurface ∧ Cont precision endpoint window ∧
+                                Cont endpoint interval meshCell ∧ Cont meshLevel meshCell interval ∧
+                                  Cont interval meshLedger meshRoutes ∧
+                                    Cont interval validatedContainment validatedRead ∧
+                                      Cont window validatedRead consumerSurface ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle consumerSurface pkg := by
+  intro carrier endpointIntervalMeshCell meshLevelMeshCellInterval intervalMeshLedgerRoutes
+    intervalValidatedRead windowValidatedReadConsumer provenancePkg consumerPkg intervalUnary
+    meshLedgerUnary validatedContainmentUnary
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, _ledgerUnary, _provenanceUnary,
+    precisionEndpointWindow, _windowLedgerProvenance, _carrierPkg⟩ := carrier
+  have meshCellUnary : UnaryHistory meshCell :=
+    unary_cont_closed endpointUnary intervalUnary endpointIntervalMeshCell
+  have meshRoutesUnary : UnaryHistory meshRoutes :=
+    unary_cont_closed intervalUnary meshLedgerUnary intervalMeshLedgerRoutes
+  have validatedReadUnary : UnaryHistory validatedRead :=
+    unary_cont_closed intervalUnary validatedContainmentUnary intervalValidatedRead
+  have consumerSurfaceUnary : UnaryHistory consumerSurface :=
+    unary_cont_closed windowUnary validatedReadUnary windowValidatedReadConsumer
+  exact
+    ⟨meshCellUnary, intervalUnary, meshRoutesUnary, validatedReadUnary, consumerSurfaceUnary,
+      precisionEndpointWindow, endpointIntervalMeshCell, meshLevelMeshCellInterval,
+      intervalMeshLedgerRoutes, intervalValidatedRead, windowValidatedReadConsumer, provenancePkg,
+      consumerPkg⟩
+
 theorem DyadicApproximationCarrier_ledger_exclusion_scope [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance consumer sealRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
