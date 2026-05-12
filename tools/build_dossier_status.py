@@ -343,14 +343,13 @@ REGION_ALIASES: dict[str, str] = {
     "criticalstrip":        "critstrip",
     "zetacontinuation":     "zetacont",
     "complexdifferentiability": "complexdiff",
-    # `52_real_analytic_namecert_construction.tex` lives under the real region
-    "realanalytic": "real",
-    # `54_complex_analytic` is the analytic-continuation operation specialized
-    "complexanalytic": "anacont",
-    # `55_complex_topology` extends the complex namecert
-    "complextopology": "complex",
-    # `53_gamma_function` is the schema-only Gamma block inside zeta-continuation
-    "gammafunction": "zetacont",
+    # No more concept-folding aliases below this line. Past entries like
+    # complextopology→complex, realanalytic→real, complexanalytic→anacont,
+    # gammafunction→zetacont merged distinct mathematical objects into one
+    # node and caused (or risked causing) Lean cycles. Each chapter that
+    # introduces a genuinely new namecert now gets its own node, even if
+    # conceptually adjacent to an existing region. Renames above this line
+    # are pure naming normalization, not concept folding.
 }
 
 
@@ -625,9 +624,15 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
     # Always include kernel even if FKernel scan finds no .lean (defensive)
     regions.add("kernel")
 
-    deps: dict[str, set[str]] = defaultdict(set)
+    # Lean imports are precise structural dependencies (no false reverse
+    # pairs by construction). Paper TeX cross-refs (autoref, namecert, bare
+    # up-macros) are looser: a "see also" or comparison reference looks the
+    # same as a real dep, which generates spurious A→B when the true edge
+    # is B→A. Build the two graphs separately so paper-side edges that
+    # contradict Lean can be filtered out below.
+    lean_deps: dict[str, set[str]] = defaultdict(set)
+    paper_deps: dict[str, set[str]] = defaultdict(set)
 
-    # Phase 2: collect edges between known regions only
     for f in LEAN_DIR.rglob("*.lean"):
         my_region = lean_file_to_region(f)
         if not my_region or my_region not in regions:
@@ -635,7 +640,7 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
         for imp in parse_lean_imports(f):
             dep = lean_module_to_region(imp)
             if dep and dep in regions and dep != my_region:
-                deps[my_region].add(dep)
+                lean_deps[my_region].add(dep)
 
     # Build the label -> region reverse index once across all paper files
     # so cross-chapter `\autoref{thm:...}` / `\autoref{def:...}` resolve to
@@ -647,53 +652,136 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
         all_paper_files.extend(visions_dir.rglob("*.tex"))
     label_index = build_paper_label_index(all_paper_files)
 
+    def collect_paper_edges(f: Path, my_region: str) -> None:
+        for parser in (
+            parse_paper_autorefs,
+            lambda g: parse_paper_refs_via_index(g, label_index),
+            lambda g: parse_paper_namecerts(g, regions),
+            lambda g: parse_paper_bare_up_macros(g, regions),
+        ):
+            for r in parser(f):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    paper_deps[my_region].add(rc)
+
     if PAPER_INSTANCES.exists():
         for f in PAPER_INSTANCES.rglob("*.tex"):
-            my_region = canonical(paper_chapter_to_region(f))
-            if not my_region or my_region not in regions:
-                continue
-            for r in parse_paper_autorefs(f):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_refs_via_index(f, label_index):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_namecerts(f, regions):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_bare_up_macros(f, regions):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
+            mr = canonical(paper_chapter_to_region(f))
+            if mr and mr in regions:
+                collect_paper_edges(f, mr)
 
+    visions_dir = PAPER_INSTANCES.parent / "visions"
     if visions_dir.exists():
         for f in visions_dir.rglob("*.tex"):
-            my_region = VISION_FILE_TO_REGION.get(f.stem)
-            if not my_region:
-                continue
-            for r in parse_paper_autorefs(f):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_refs_via_index(f, label_index):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_namecerts(f, regions):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
-            for r in parse_paper_bare_up_macros(f, regions):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
+            mr = VISION_FILE_TO_REGION.get(f.stem)
+            if mr:
+                collect_paper_edges(f, mr)
+
+    # Reverse-pair pruning. Two rules:
+    #   1. Paper `A → B` contradicts Lean `B → A` → drop the paper edge
+    #      (Lean is the precise source of truth).
+    #   2. Paper `A → B` AND paper `B → A` (no Lean evidence either way)
+    #      → drop both (can't disambiguate which is the real dependency).
+    # Lean-only reverse pairs do not occur in practice (Lean imports are
+    # acyclic by construction), so no rule is needed for them.
+    deps: dict[str, set[str]] = defaultdict(set)
+    for r, ds in lean_deps.items():
+        deps[r] |= ds
+
+    paper_pairs = {(r, t) for r, ts in paper_deps.items() for t in ts}
+    dropped_vs_lean = 0
+    dropped_paper_pairs = 0
+    for r, t in paper_pairs:
+        if r in lean_deps.get(t, ()):
+            dropped_vs_lean += 1
+            continue
+        if (t, r) in paper_pairs:
+            dropped_paper_pairs += 1
+            continue
+        deps[r].add(t)
+    if dropped_vs_lean or dropped_paper_pairs:
+        print(
+            f"[derive_dependency_edges] pruned reverse-pair noise: "
+            f"{dropped_vs_lean} paper edges contradicting Lean, "
+            f"{dropped_paper_pairs} mutual paper↔paper edges with no Lean evidence",
+            file=sys.stderr,
+        )
+
+    # Cycle-breaking pass. Lean imports alone are acyclic (verified at the
+    # top of this function). Any remaining cycle is therefore a paper-only
+    # back-edge: chapter A `\autoref{thm:b-foo}` plus chapter B
+    # `\autoref{thm:c-foo}` plus chapter C `\autoref{thm:a-foo}`, none of
+    # which is a real dependency. For each cycle, drop the paper edge with
+    # the lexicographically smallest (source, target) — deterministic and
+    # never touches Lean.
+    lean_edge_set = {(s, t) for s, ts in lean_deps.items() for t in ts}
+    dropped_cycle_edges = 0
+    while True:
+        adj: dict[str, set[str]] = {n: set(deps.get(n, set())) for n in deps}
+        cycle = _find_cycle(adj)
+        if not cycle:
+            break
+        edges_in_cycle = [
+            (cycle[i], cycle[(i + 1) % len(cycle)]) for i in range(len(cycle))
+        ]
+        # only paper-only edges are candidates (never break a Lean edge)
+        candidates = [e for e in edges_in_cycle if e not in lean_edge_set]
+        if not candidates:
+            # shouldn't happen because Lean is acyclic, but bail out safely
+            print(
+                f"[derive_dependency_edges] cycle {cycle} contains only Lean "
+                f"edges; refusing to break",
+                file=sys.stderr,
+            )
+            break
+        victim = min(candidates)
+        deps[victim[0]].discard(victim[1])
+        dropped_cycle_edges += 1
+    if dropped_cycle_edges:
+        print(
+            f"[derive_dependency_edges] broke {dropped_cycle_edges} paper-only "
+            f"cycles by dropping the lex-smallest non-Lean edge in each",
+            file=sys.stderr,
+        )
 
     for r in regions:
         deps.setdefault(r, set())
     return dict(deps), regions
+
+
+def _find_cycle(adj: dict[str, set[str]]) -> list[str] | None:
+    """Return one cycle as a list of nodes [v0, v1, ..., vk] where there is
+    an edge from each v_i to v_(i+1) and from v_k back to v_0. None if the
+    graph is acyclic. Uses iterative DFS to handle deep graphs without
+    blowing the stack."""
+    color: dict[str, int] = {n: 0 for n in adj}  # 0=white, 1=gray, 2=black
+    parent: dict[str, str | None] = {n: None for n in adj}
+    for root in adj:
+        if color[root] != 0:
+            continue
+        stack: list[tuple[str, iter]] = [(root, iter(sorted(adj[root])))]
+        color[root] = 1
+        while stack:
+            node, it = stack[-1]
+            nxt = next(it, None)
+            if nxt is None:
+                color[node] = 2
+                stack.pop()
+                continue
+            if color.get(nxt, 2) == 1:
+                # found back-edge node -> nxt; reconstruct cycle
+                cyc = [nxt]
+                cur = node
+                while cur != nxt:
+                    cyc.append(cur)
+                    cur = parent[cur]  # type: ignore[assignment]
+                cyc.reverse()
+                return cyc
+            if color.get(nxt, 2) == 0:
+                color[nxt] = 1
+                parent[nxt] = node
+                stack.append((nxt, iter(sorted(adj[nxt]))))
+    return None
 
 
 def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
