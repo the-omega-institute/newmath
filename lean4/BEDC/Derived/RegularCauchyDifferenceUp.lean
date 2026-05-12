@@ -63,4 +63,26 @@ theorem RegularCauchyDifferenceCarrier_regularity_closure [AskSetup] [PackageSet
             (And.intro sourceSchedule
               (And.intro differenceRead provenancePkg))))))
 
+theorem RegularCauchyDifferenceCarrier_tolerance_ledger_exactness [AskSetup] [PackageSetup]
+    {left right schedule tolerance nullConsumer transport route provenance localCert
+      toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDifferenceCarrier left right schedule tolerance nullConsumer transport route
+        provenance localCert bundle pkg ->
+      Cont schedule tolerance toleranceRead ->
+        UnaryHistory toleranceRead ∧ Cont schedule tolerance toleranceRead ∧
+          PkgSig bundle provenance pkg ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row localCert)
+              (fun row : BHist => hsame row localCert)
+              (fun row : BHist => hsame row localCert)
+              hsame := by
+  intro carrier toleranceReadRow
+  obtain ⟨_leftUnary, _rightUnary, scheduleUnary, toleranceUnary, _nullConsumerUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _storedSchedule,
+    _storedConsumer, _storedRoute, _storedProvenance, pkgSig, nameCert⟩ := carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed scheduleUnary toleranceUnary toleranceReadRow
+  exact ⟨toleranceReadUnary, toleranceReadRow, pkgSig, nameCert⟩
+
 end BEDC.Derived.RegularCauchyDifferenceUp
