@@ -15,75 +15,80 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def RegularLanguageAutomatonPacket [AskSetup] [PackageSetup]
-    (alphabet states start accept transition word run endpoint transport route provenance : BHist)
+    (alphabet states start accept transition word run endpoint transport routes provenance :
+      BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
-    UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
-      UnaryHistory route ∧ Cont start word run ∧ Cont run accept endpoint ∧
-        Cont transition endpoint transport ∧ Cont transport route provenance ∧
-          PkgSig bundle provenance pkg
+  UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧ UnaryHistory accept ∧
+    UnaryHistory transition ∧ UnaryHistory word ∧ UnaryHistory run ∧
+      UnaryHistory endpoint ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+        UnaryHistory provenance ∧ Cont start word run ∧ Cont run transition endpoint ∧
+          Cont endpoint transport routes ∧ PkgSig bundle provenance pkg
+
+theorem RegularLanguageAutomatonPacket_run_ledger_deterministic [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance run'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont start word run' -> Cont run' transition endpoint' ->
+        hsame run run' ∧ hsame endpoint endpoint' := by
+  intro packet runRow' endpointRow'
+  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
+    _wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, _pkgSig⟩ := packet
+  have sameRun : hsame run run' :=
+    cont_deterministic runRow runRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRun (hsame_refl transition) endpointRow endpointRow'
+  exact ⟨sameRun, sameEndpoint⟩
 
 theorem RegularLanguageAutomatonPacket_deterministic_run_ledger [AskSetup] [PackageSetup]
-    {alphabet states start accept transition word run endpoint transport route provenance
+    {alphabet states start accept transition word run endpoint transport routes provenance
       run' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
-        transport route provenance bundle pkg ->
+        transport routes provenance bundle pkg ->
       Cont start word run' ->
         UnaryHistory start ∧ UnaryHistory word ∧ UnaryHistory run' ∧ hsame run run' ∧
           Cont start word run' ∧ PkgSig bundle provenance pkg := by
   intro packet runRow'
-  have startUnary : UnaryHistory start :=
-    packet.right.right.left
-  have wordUnary : UnaryHistory word :=
-    packet.right.right.right.right.right.left
-  have runRow : Cont start word run :=
-    packet.right.right.right.right.right.right.right.left
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, _transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, _endpointRow, _routesRow, pkgSig⟩ := packet
   have sameRun : hsame run run' :=
-    cont_respects_hsame (hsame_refl start) (hsame_refl word) runRow runRow'
+    cont_deterministic runRow runRow'
   have runUnary' : UnaryHistory run' :=
     unary_cont_closed startUnary wordUnary runRow'
-  have pkgSig : PkgSig bundle provenance pkg :=
-    packet.right.right.right.right.right.right.right.right.right.right.right
   exact
     ⟨startUnary, wordUnary, runUnary', sameRun, runRow', pkgSig⟩
 
 theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [PackageSetup]
-    {alphabet states start accept transition word run endpoint transport route provenance run'
-      accept' endpoint' : BHist}
+    {alphabet states start accept transition word run endpoint transport routes provenance run'
+      transition' endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
-        transport route provenance bundle pkg ->
+        transport routes provenance bundle pkg ->
       hsame run run' ->
-        hsame accept accept' ->
-          Cont run' accept' endpoint' ->
-            UnaryHistory run' ∧ UnaryHistory accept' ∧ UnaryHistory endpoint' ∧
-              hsame endpoint endpoint' ∧ Cont run' accept' endpoint' ∧
+        hsame transition transition' ->
+          Cont run' transition' endpoint' ->
+            UnaryHistory run' ∧ UnaryHistory transition' ∧ UnaryHistory endpoint' ∧
+              hsame endpoint endpoint' ∧ Cont run' transition' endpoint' ∧
                 PkgSig bundle provenance pkg := by
-  intro packet sameRun sameAccept endpointRow'
-  have startUnary : UnaryHistory start :=
-    packet.right.right.left
-  have acceptUnary : UnaryHistory accept :=
-    packet.right.right.right.left
-  have wordUnary : UnaryHistory word :=
-    packet.right.right.right.right.right.left
-  have runRow : Cont start word run :=
-    packet.right.right.right.right.right.right.right.left
-  have endpointRow : Cont run accept endpoint :=
-    packet.right.right.right.right.right.right.right.right.left
+  intro packet sameRun sameTransition endpointRow'
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, pkgSig⟩ := packet
   have runUnary : UnaryHistory run :=
     unary_cont_closed startUnary wordUnary runRow
   have runUnary' : UnaryHistory run' :=
     unary_transport runUnary sameRun
-  have acceptUnary' : UnaryHistory accept' :=
-    unary_transport acceptUnary sameAccept
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
   have endpointUnary' : UnaryHistory endpoint' :=
-    unary_cont_closed runUnary' acceptUnary' endpointRow'
+    unary_cont_closed runUnary' transitionUnary' endpointRow'
   have sameEndpoint : hsame endpoint endpoint' :=
-    cont_respects_hsame sameRun sameAccept endpointRow endpointRow'
-  have pkgSig : PkgSig bundle provenance pkg :=
-    packet.right.right.right.right.right.right.right.right.right.right.right
+    cont_respects_hsame sameRun sameTransition endpointRow endpointRow'
   exact
-    ⟨runUnary', acceptUnary', endpointUnary', sameEndpoint, endpointRow', pkgSig⟩
+    ⟨runUnary', transitionUnary', endpointUnary', sameEndpoint, endpointRow', pkgSig⟩
 
 end BEDC.Derived.RegularLanguageUp
