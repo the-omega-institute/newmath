@@ -96,7 +96,7 @@ first packet transports to a rational sample accepted by the second packet
 through the same $\Cont$ route surface. The transport introduces no completed
 metric point, no total real equality, and no open-cover refinement principle.
 \end{theorem}
-\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_refinement\_transport}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_radius\_refinement\_transport}
 \begin{proof}
 Use \autoref{thm:rational-ball-containment-exactness} to identify the sample
 read as one displayed ledger row of the first packet. The hypotheses provide
@@ -111,6 +111,40 @@ Apply the reverse direction of
 \autoref{thm:rational-ball-containment-exactness}. The transported row has
 exactly the coordinates required by the second packet, so it is accepted
 there and no external metric completion datum is introduced.
+\end{proof}
+
+\begin{theorem}[RationalBall full packet refinement transport]
+\label{thm:rationalball-full-packet-refinement-transport}
+Let an accepted $\RationalBallUp$ packet be given by center, radius,
+containment ledger, provenance, local name row, generated order row, transport
+row, endpoint row, a probe bundle, and a package row. If componentwise
+$\hsame$ transport is supplied for the center, radius, containment ledger,
+provenance, and local name row, and if the target side regenerates the
+$\Cont$ rows from center to radius to order, from order to containment to
+transport, and from transport to provenance to endpoint together with the
+matching $\Pkg$ row, then the transported data form an accepted
+$\RationalBallUp$ packet. The same construction also produces the derived
+order sameness, transport sameness, and endpoint sameness rows.
+
+The construction is internal to the displayed rational-ball packet: it
+introduces no completed metric point, compactness principle, open-cover
+refinement, or quotient-real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_refinement\_transport}
+\begin{proof}
+Project the accepted packet into its unary rows, three $\Cont$ routes, and
+package endpoint row. The displayed $\hsame$ hypotheses move the center,
+radius, containment ledger, provenance, and local name row componentwise.
+
+Rebuild the generated order, transport, and endpoint rows using the target
+$\Cont$ routes. The BEDC kernel rule that $\Cont$ respects displayed sameness
+then gives the order sameness, transport sameness, and endpoint sameness rows.
+
+Finally repack the transported unary rows, regenerated $\Cont$ routes, and
+target $\Pkg$ row into the accepted packet. Every object used in the
+construction is already one of the displayed packet coordinates or a
+regenerated route between them, so no completed metric point, compactness,
+open-cover, or quotient-real equality datum is introduced.
 \end{proof}
 
 \begin{theorem}[RationalBall RealUp window handoff]
