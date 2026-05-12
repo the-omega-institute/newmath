@@ -68,6 +68,28 @@ theorem HausdorffCompletionCarrier_classifier_transport [AskSetup] [PackageSetup
         provenancePkg'⟩,
       sameRoute⟩
 
+theorem HausdorffCompletionCarrier_uniform_entourage_cauchy_handoff [AskSetup]
+    [PackageSetup]
+    {source entourage separated handoff transport route provenance consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont entourage handoff consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory source ∧ UnaryHistory entourage ∧ UnaryHistory handoff ∧
+            UnaryHistory consumer ∧ Cont source entourage transport ∧
+              Cont entourage handoff consumer ∧ Cont transport route provenance ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro carrier entourageHandoffConsumer consumerPkg
+  obtain ⟨sourceUnary, entourageUnary, _separatedUnary, handoffUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, sourceEntourageTransport, _separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed entourageUnary handoffUnary entourageHandoffConsumer
+  exact
+    ⟨sourceUnary, entourageUnary, handoffUnary, consumerUnary, sourceEntourageTransport,
+      entourageHandoffConsumer, transportRouteProvenance, provenancePkg, consumerPkg⟩
+
 def HausdorffCompletionPacket [AskSetup] [PackageSetup]
     (source entourage sealRow handoff transports routes provenance nameRow exported : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
