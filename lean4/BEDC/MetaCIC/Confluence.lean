@@ -146,6 +146,21 @@ theorem betaParallel_refl (t : Term) :
   | sort =>
       exact BetaParallel.sort
 
+theorem betaParallel_app_cong {f f' a a' : Term}
+    (hf : BetaParallel f f') (ha : BetaParallel a a') :
+    BetaParallel (Term.app f a) (Term.app f' a') := by
+  exact BetaParallel.app hf ha
+
+theorem betaParallel_pi_cong {d d' c c' : Term}
+    (hd : BetaParallel d d') (hc : BetaParallel c c') :
+    BetaParallel (Term.pi d c) (Term.pi d' c') := by
+  exact BetaParallel.pi hd hc
+
+theorem betaParallel_lam_cong {d d' b b' : Term}
+    (hd : BetaParallel d d') (hb : BetaParallel b b') :
+    BetaParallel (Term.lam d b) (Term.lam d' b') := by
+  exact BetaParallel.lam hd hb
+
 theorem betaStep_to_parallel {t u : Term} :
     BetaStep t u → BetaParallel t u := by
   intro h
