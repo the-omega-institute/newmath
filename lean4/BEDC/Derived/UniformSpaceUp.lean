@@ -236,4 +236,28 @@ theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [Packa
       diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
       endpointPkg, handoffPkg⟩
 
+theorem UniformSpacePacket_symmetry_composition_obligation [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      compositeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont transport provenance compositeRead ->
+        PkgSig bundle compositeRead pkg ->
+          UnaryHistory symmetry ∧ UnaryHistory composition ∧ UnaryHistory transport ∧
+            UnaryHistory compositeRead ∧ Cont diagonal refinement symmetry ∧
+              Cont symmetry composition transport ∧ Cont transport provenance compositeRead ∧
+                PkgSig bundle compositeRead pkg ∧ PkgSig bundle name pkg := by
+  intro packet transportProvenanceComposite compositeReadPkg
+  obtain ⟨_pointUnary, _entourageUnary, _diagonalUnary, _refinementUnary, symmetryUnary,
+    compositionUnary, transportUnary, provenanceUnary, _nameUnary, _pointEntourageDiagonal,
+    diagonalRefinementSymmetry, symmetryCompositionTransport, _transportProvenanceName,
+    namePkg⟩ := packet
+  have compositeReadUnary : UnaryHistory compositeRead :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceComposite
+  exact
+    ⟨symmetryUnary, compositionUnary, transportUnary, compositeReadUnary,
+      diagonalRefinementSymmetry, symmetryCompositionTransport, transportProvenanceComposite,
+      compositeReadPkg, namePkg⟩
+
 end BEDC.Derived.UniformSpaceUp
