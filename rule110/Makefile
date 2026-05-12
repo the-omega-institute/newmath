@@ -88,11 +88,13 @@ clean:
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
-         $(TEST_DIR)/test_cook_glider_D
+         $(TEST_DIR)/test_cook_glider_D \
+         $(TEST_DIR)/test_cook_collisions
 
 test: $(TEST_DIR)/test_cook_glider_B \
       $(TEST_DIR)/test_cook_glider_C \
-      $(TEST_DIR)/test_cook_glider_D
+      $(TEST_DIR)/test_cook_glider_D \
+      $(TEST_DIR)/test_cook_collisions
 
 $(TEST_DIR)/test_cook_glider_B: $(TEST_DIR)/test_cook_glider_B.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_glider_B.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
@@ -108,3 +110,10 @@ $(TEST_DIR)/test_cook_glider_D: $(TEST_DIR)/test_cook_glider_D.c $(EVAL_DIR)/rul
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_glider_D.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_glider_D.c
+
+$(TEST_DIR)/test_cook_collisions: $(TEST_DIR)/test_cook_collisions.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_collisions.h $(ENCODER_DIR)/cook_glider_B.h $(ENCODER_DIR)/cook_glider_C.h $(ENCODER_DIR)/cook_glider_D.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_collisions.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_glider_B.c \
+	    $(ENCODER_DIR)/cook_glider_C.c $(ENCODER_DIR)/cook_glider_D.c \
+	    $(ENCODER_DIR)/cook_collisions.c
