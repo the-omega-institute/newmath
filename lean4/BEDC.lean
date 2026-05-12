@@ -105,6 +105,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetExhaustion
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
+import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.ObserverRegularUp.Carrier
@@ -217,6 +218,7 @@ import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
+import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
