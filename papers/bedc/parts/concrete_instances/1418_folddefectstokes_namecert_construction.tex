@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\FoldDefectStokesUp$}
+\label{ch:concrete-instances-folddefectstokes-namecert}
+\origin{human}
+
+Inspired by Omega Project: \texttt{automath/README.md/Defect Algebra and Discrete Calculus}; here re-expressed in the BEDC mathlib-free substrate.
+
+The $\FoldDefectStokesUp$ interface names a finite fold-defect ledger whose boundary row accounts for the visible difference between a fold input and its projected fold output. It is a $\mathsf{BHist}$ packet, not an import of Automath algebra, a chain complex, a topological Stokes theorem, or an ambient quotient calculus. The packet is meant to sit between finite fold consumers such as $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\AxisAddUp$, and $\FoldMomentKernelUp$ while exporting only displayed rows, routes, provenance, and local $\NameCert$ evidence.
+
+\begin{definition}[FoldDefectStokes carrier]
+\label{def:fold-defect-stokes-carrier}
+A $\FoldDefectStokesUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(I,O,B,L,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the fold-input row naming the displayed finite source segment and its local fold order;
+\item $O$ is the projected fold-output row read from $I$ through the displayed fold projection;
+\item $B$ is the boundary-defect row recording the visible mismatch left at the endpoints of the projection;
+\item $L$ is the interior ledger whose entries pair each internal fold step with the local defect contribution that cancels inside the segment;
+\item $H$ records componentwise $\hsame$ transports for the input, output, boundary-defect, and interior-ledger rows;
+\item $C$ records the $\Cont$ routes by which a consumer reads $I$, then $O$, then the boundary row $B$, and finally the interior ledger $L$;
+\item $P$ is the $\Pkg$ provenance naming the finite BEDC packets that own the fold source, projection rule, boundary read, and ledger read;
+\item $N$ is the local $\NameCert_{\FoldDefectStokesUp}$ row.
+\end{enumerate}
+The carrier contains no infinite cochain object, no ambient differential operator, no quotient by invisible cancellations, no host summation law, and no external Automath object.
+\end{definition}
+
+\begin{theorem}[FoldDefectStokes NameCert obligations]
+\label{thm:fold-defect-stokes-namecert-obligations}
+Every accepted $\FoldDefectStokesUp$ packet with carrier \autoref{def:fold-defect-stokes-carrier} carries five local naming-certificate obligations:
+\begin{enumerate}
+\item carrier habitation by the empty fold input, empty projected output, empty boundary-defect row, and empty interior ledger;
+\item classifier laws inherited componentwise from $\hsame$ on the displayed rows $I$, $O$, $B$, $L$, $H$, $C$, $P$, and $N$;
+\item projection stability under the displayed $\Cont$ route from fold input $I$ to projected output $O$;
+\item boundary-ledger exactness: every internal defect contribution listed in $L$ is paired with a displayed cancellation route, and the unpaired residue is exactly the boundary row $B$;
+\item non-escape: every public read of the packet factors through $I$, $O$, $B$, $L$, $H$, $C$, $P$, and $N$ before it can be consumed by another concrete instance.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For habitation, use the empty $\mathsf{BHist}$ row for $I$, $O$, $B$, and $L$. The identity $\hsame$ rows, trivial $\Cont$ routes, empty provenance, and local certificate row repack this as the empty fold-defect carrier.
+
+The classifier laws are componentwise. Reflexivity, symmetry, and transitivity never inspect hidden fold semantics; they compare only the displayed input, output, boundary, ledger, transport, continuation, provenance, and certificate rows.
+
+Projection stability is the stored route from $I$ to $O$. Transporting the input row through $\hsame$ also transports the projected-output row through the corresponding component of $H$.
+
+Boundary-ledger exactness is read from $L$ and $B$. The ledger lists the internal defect contributions together with their displayed cancellation partners, while the boundary row records exactly the remaining endpoint contribution.
+
+The non-escape obligation follows because those rows exhaust the carrier coordinates. A downstream consumer can reach no chain complex, host summation, quotient cancellation, or external calculus datum outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[FoldDefectStokes boundary-ledger factorization]
+\label{thm:fold-defect-stokes-boundary-ledger}
+Let $S=(I,O,B,L,H,C,P,N)$ be an accepted $\FoldDefectStokesUp$ carrier. Any public defect read from the projected fold output factors through the displayed route
+$$
+I \xrightarrow{C} O \xrightarrow{C} B \xleftarrow{C} L
+$$
+together with the componentwise transport row $H$, package provenance $P$, and local certificate row $N$. In particular, an interior contribution affects the public boundary only by appearing in $L$ with its displayed cancellation partner or by being recorded as part of the boundary row $B$.
+\end{theorem}
+\begin{proof}
+Start with a public request for a fold-defect read. The carrier first exposes the fold input row $I$ and the projected fold-output row $O$ through the stored continuation route.
+
+The same route then reaches the boundary row $B$. No consumer can read a defect value before passing through the boundary row, because the carrier has no separate defect coordinate.
+
+It remains to account for the interior ledger. Each internal contribution is listed in $L$ together with the displayed cancellation route that removes it from the endpoint read. Contributions without such an internal cancellation are precisely the entries represented by $B$.
+
+Transport row $H$, provenance $P$, and certificate row $N$ make this factorization stable under accepted row movement. Thus the public defect read is a boundary-ledger read over the finite carrier and not an appeal to host algebra.
+\end{proof}
+
+\begin{theorem}[FoldDefectStokes non-escape boundary]
+\label{thm:fold-defect-stokes-non-escape}
+The $\FoldDefectStokesUp$ public boundary exports only the fold-input row, projected fold-output row, boundary-defect row, interior cancellation ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence. It exports no Automath import, no infinite complex, no ambient differential, no quotient of defects, no host telescoping sum, and no standard Stokes bridge.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:fold-defect-stokes-carrier}. The only exported rows are $I$, $O$, $B$, $L$, $H$, $C$, $P$, and $N$.
+
+By \autoref{thm:fold-defect-stokes-boundary-ledger}, every public defect read factors through the boundary and ledger rows. The factorization has no coordinate for an external differential, quotient, infinite object, or host summation operation.
+
+Therefore the public boundary can feed finite BEDC consumers that already understand fold inputs, boundary rows, and ledgers, but it cannot export any stronger calculus or bridge statement.
+\end{proof}
+
+\closureat{FoldDefectStokesUp}{seedStr}
+
+\begin{closurestatus}{\FoldDefectStokesUp}
+  \constructivestory{A $\FoldDefectStokesUp$ packet is generated from a finite fold-input row, projected fold-output row, boundary-defect row, interior cancellation ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier, five NameCert obligations, boundary-ledger factorization, and no-escape boundary for fold-defect packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Automath imports, infinite complexes, ambient differentials, quotient defect algebra, host telescoping sums, standard Stokes bridges, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean targets for carrier habitation, classifier laws, projection stability, boundary-ledger exactness, and the finite no-escape boundary under \texttt{BEDC.Derived.FoldDefectStokesUp}.}
+\end{closurestatus}
