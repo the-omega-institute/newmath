@@ -257,6 +257,37 @@ selected recognizer semantics, or hidden automaton state, the public packet
 exports no such object.
 \end{proof}
 
+\begin{theorem}[RegularLanguage standard finite-automaton bridge boundary]
+\label{thm:regularlanguage-standard-automaton-bridge-boundary}
+The standard finite-automaton reading of the public $\RegularLanguageUp$ packet
+consumes exactly the finite state row, start row, accepting row, transition
+ledger, input-word $\ListUp$ rows, deterministic run ledger, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ surface already
+exported by \autoref{thm:regularlanguage-public-accepted-word-export}.
+
+The bridge boundary supplies no minimization theorem, Kleene algebra surface,
+pumping-lemma witness, language-complement closure, or machine-checked bridge
+evidence.
+\end{theorem}
+\begin{proof}
+Read the automaton rows from
+\autoref{def:regularlanguage-finite-automaton-carrier}. The finite state row,
+start row, accepting row, transition table, and input-word $\ListUp$ spine are
+all displayed fields of the carrier.
+
+Use \autoref{def:regularlanguage-classifier} to bind accepted-word reads to the
+componentwise $\hsame$ transport, then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger}. This supplies the
+finite deterministic run ledger over exactly the displayed transition and word
+rows.
+
+Finally apply \autoref{thm:regularlanguage-public-accepted-word-export}. It
+repackages those rows with the $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ surface, while the excluded minimization, algebraic, pumping,
+complement, and machine-checking objects have no coordinate in the public
+packet.
+\end{proof}
+
 \closureat{RegularLanguageUp}{seedStr}
 \closureat{RegularLanguageUp}{obligationStr}
 \closureat{RegularLanguageUp}{scopedStr}
