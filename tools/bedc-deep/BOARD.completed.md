@@ -17615,3 +17615,27 @@ Rationale:
 This fills a real local gap in the BayesianUp chapter: the carrier section is empty while the existing source-obligation and ledger-exactness theorems already quantify over Bayesian update packets and accepted packets. The proposed target is a concrete carrier/introduction theorem over named DistributionUp, CondExpUp, hsame, Cont, and Pkg rows, not a marker or verification-status change, and the landing file is short enough to be safe.
 
 ---
+
+### B-697 - Bayesian posterior classifier transport
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Bayesian posterior classifier transport |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If two accepted Bayesian update packets have hsame-related prior, likelihood, evidence, posterior, normalisation, and provenance rows under the DistributionUp and CondExpUp dependency classifiers, then the transported packet is accepted and its posterior endpoint is classified with the original posterior endpoint.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/210_bayesian_namecert_construction.tex`
+
+Rationale:
+The chapter currently has posterior source and ledger exactness but no reusable transport theorem for the named Bayesian posterior packet rows. The claim is concrete enough for a BOARD entry because it concerns the actual prior, likelihood, evidence, posterior, normalisation, and provenance rows, and it would make the posterior packet stable under the local dependency classifiers without importing host probability semantics.
+
+---
