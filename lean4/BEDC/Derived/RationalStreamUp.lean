@@ -270,4 +270,126 @@ theorem RationalStreamPacket_pointwise_classifier_laws [AskSetup] [PackageSetup]
     ⟨classifierRowsUnary, classifierRowsUnary', classifierRowsUnary'', hsame_refl classifierRows,
       sameClassifierRowsSymm, sameClassifierRowsTrans, nameRowPkg⟩
 
+theorem RationalStreamPacket_regseqrat_handoff_transport [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
+      window' consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+      nameRow window bundle pkg ->
+      hsame index index' ->
+      hsame schedule schedule' ->
+      hsame pointRows pointRows' ->
+      hsame classifierRows classifierRows' ->
+      hsame transportRows transportRows' ->
+      hsame provenance provenance' ->
+      Cont index' schedule' window' ->
+      Cont window' pointRows' classifierRows' ->
+      Cont classifierRows' transportRows' contRows' ->
+      Cont contRows' provenance' nameRow' ->
+      Cont window' nameRow' consumer ->
+      PkgSig bundle nameRow' pkg ->
+      PkgSig bundle consumer pkg ->
+      RationalStreamPacket index' schedule' pointRows' classifierRows' transportRows' contRows'
+          provenance' nameRow' window' bundle pkg ∧
+        UnaryHistory window' ∧ UnaryHistory nameRow' ∧ UnaryHistory consumer ∧
+          hsame window window' ∧ hsame nameRow nameRow' ∧
+            Cont window' nameRow' consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet sameIndex sameSchedule samePointRows sameClassifierRows sameTransportRows
+    sameProvenance newIndexSchedule newWindowPoint newClassifierTransport newNameCont
+    consumerCont newPkg consumerPkg
+  cases packet with
+  | intro indexUnary packetTail =>
+      cases packetTail with
+      | intro scheduleUnary packetTail =>
+          cases packetTail with
+          | intro pointRowsUnary packetTail =>
+              cases packetTail with
+              | intro classifierRowsUnary packetTail =>
+                  cases packetTail with
+                  | intro transportRowsUnary packetTail =>
+                      cases packetTail with
+                      | intro provenanceUnary packetTail =>
+                          cases packetTail with
+                          | intro oldIndexSchedule packetTail =>
+                              cases packetTail with
+                              | intro _oldWindowPoint packetTail =>
+                                  cases packetTail with
+                                  | intro oldClassifierTransport packetTail =>
+                                      cases packetTail with
+                                      | intro oldNameCont _oldPkg =>
+                                          have sameWindow : hsame window window' :=
+                                            cont_respects_hsame sameIndex sameSchedule
+                                              oldIndexSchedule newIndexSchedule
+                                          have sameContRows : hsame contRows contRows' :=
+                                            cont_respects_hsame sameClassifierRows
+                                              sameTransportRows oldClassifierTransport
+                                              newClassifierTransport
+                                          have sameNameRow : hsame nameRow nameRow' :=
+                                            cont_respects_hsame sameContRows sameProvenance
+                                              oldNameCont newNameCont
+                                          have indexUnary' : UnaryHistory index' :=
+                                            unary_transport indexUnary sameIndex
+                                          have scheduleUnary' : UnaryHistory schedule' :=
+                                            unary_transport scheduleUnary sameSchedule
+                                          have pointRowsUnary' : UnaryHistory pointRows' :=
+                                            unary_transport pointRowsUnary samePointRows
+                                          have classifierRowsUnary' :
+                                              UnaryHistory classifierRows' :=
+                                            unary_transport classifierRowsUnary
+                                              sameClassifierRows
+                                          have transportRowsUnary' :
+                                              UnaryHistory transportRows' :=
+                                            unary_transport transportRowsUnary
+                                              sameTransportRows
+                                          have provenanceUnary' : UnaryHistory provenance' :=
+                                            unary_transport provenanceUnary sameProvenance
+                                          have transported :
+                                              RationalStreamPacket index' schedule' pointRows'
+                                                classifierRows' transportRows' contRows'
+                                                provenance' nameRow' window' bundle pkg :=
+                                            ⟨indexUnary', scheduleUnary', pointRowsUnary',
+                                              classifierRowsUnary', transportRowsUnary',
+                                              provenanceUnary', newIndexSchedule,
+                                              newWindowPoint, newClassifierTransport,
+                                              newNameCont, newPkg⟩
+                                          have windowUnary' : UnaryHistory window' :=
+                                            unary_cont_closed indexUnary' scheduleUnary'
+                                              newIndexSchedule
+                                          have contRowsUnary' : UnaryHistory contRows' :=
+                                            unary_cont_closed classifierRowsUnary'
+                                              transportRowsUnary' newClassifierTransport
+                                          have nameRowUnary' : UnaryHistory nameRow' :=
+                                            unary_cont_closed contRowsUnary' provenanceUnary'
+                                              newNameCont
+                                          have consumerUnary : UnaryHistory consumer :=
+                                            unary_cont_closed windowUnary' nameRowUnary'
+                                              consumerCont
+                                          exact
+                                            ⟨transported, windowUnary', nameRowUnary',
+                                              consumerUnary, sameWindow, sameNameRow,
+                                              consumerCont, consumerPkg⟩
+
+theorem RationalStreamPacket_streamname_schedule_boundary [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      scheduleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont schedule window scheduleRead ->
+        UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory window ∧
+          UnaryHistory scheduleRead ∧ Cont index schedule window ∧
+            Cont schedule window scheduleRead ∧ PkgSig bundle nameRow pkg := by
+  intro packet scheduleReadRow
+  obtain ⟨indexUnary, scheduleUnary, _pointRowsUnary, _classifierRowsUnary,
+    _transportRowsUnary, _provenanceUnary, indexScheduleRow, _windowPointRow,
+    _classifierTransportRow, _nameRowRow, pkgSig⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have scheduleReadUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed scheduleUnary windowUnary scheduleReadRow
+  exact
+    ⟨indexUnary, scheduleUnary, windowUnary, scheduleReadUnary, indexScheduleRow,
+      scheduleReadRow, pkgSig⟩
+
 end BEDC.Derived.RationalStreamUp
