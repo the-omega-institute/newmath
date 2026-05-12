@@ -50,6 +50,7 @@ import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 import BEDC.GroundCompiler
 import BEDC.Meta
+import BEDC.MetaCIC.TypedExamplesMore
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp

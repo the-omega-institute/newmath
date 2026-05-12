@@ -272,4 +272,38 @@ theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
       consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
       windowProvenanceConsumer, provenancePkg, consumerPkg⟩
 
+theorem DyadicApproximationCarrier_terminal_refinement_subchain_absorption
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance subPrecision subEndpoint subWindow subLedger
+      subProvenance terminal terminalLedger terminalProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      DyadicApproximationCarrier subPrecision subEndpoint subWindow subLedger subProvenance
+          bundle pkg ->
+        hsame window terminal ->
+          hsame subWindow terminal ->
+            hsame subProvenance terminalProvenance ->
+              Cont terminal terminalLedger terminalProvenance ->
+                PkgSig bundle terminalProvenance pkg ->
+                  hsame window subWindow ∧ UnaryHistory terminal ∧
+                    UnaryHistory terminalProvenance ∧
+                      Cont terminal terminalLedger terminalProvenance ∧
+                        PkgSig bundle terminalProvenance pkg := by
+  intro carrier subCarrier sameWindowTerminal sameSubWindowTerminal sameSubProvenanceTerminal
+    terminalRoute terminalPkg
+  obtain ⟨_precisionUnary, _endpointUnary, windowUnary, _ledgerUnary, _provenanceUnary,
+    _precisionEndpointWindow, _windowLedgerProvenance, _pkgSig⟩ := carrier
+  obtain ⟨_subPrecisionUnary, _subEndpointUnary, _subWindowUnary, _subLedgerUnary,
+    subProvenanceUnary, _subPrecisionEndpointWindow, _subWindowLedgerProvenance,
+    _subPkgSig⟩ := subCarrier
+  have sameWindowSubWindow : hsame window subWindow :=
+    hsame_trans sameWindowTerminal (hsame_symm sameSubWindowTerminal)
+  have terminalUnary : UnaryHistory terminal :=
+    unary_transport windowUnary sameWindowTerminal
+  have terminalProvenanceUnary : UnaryHistory terminalProvenance :=
+    unary_transport subProvenanceUnary sameSubProvenanceTerminal
+  exact
+    ⟨sameWindowSubWindow, terminalUnary, terminalProvenanceUnary, terminalRoute,
+      terminalPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp
