@@ -1,5 +1,6 @@
 import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.ClosedTerm
+import BEDC.MetaCIC.ClosedTerm.Helpers
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
