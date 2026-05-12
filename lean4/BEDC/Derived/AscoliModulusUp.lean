@@ -1,0 +1,80 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.AscoliModulusUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def AscoliModulusPacket [AskSetup] [PackageSetup]
+    (source target family tolerance radius probe stability equicontinuity uniformRows
+      transport routes provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory family ∧
+    UnaryHistory tolerance ∧ UnaryHistory radius ∧ UnaryHistory probe ∧
+      UnaryHistory stability ∧ UnaryHistory equicontinuity ∧ UnaryHistory uniformRows ∧
+        UnaryHistory nameRow ∧ Cont tolerance radius equicontinuity ∧
+          Cont family radius uniformRows ∧ Cont equicontinuity uniformRows transport ∧
+            Cont transport routes provenance ∧ PkgSig bundle provenance pkg
+
+theorem AscoliModulusPacket_equicontinuity_ledger [AskSetup] [PackageSetup]
+    {source target family tolerance radius probe stability equicontinuity uniformRows
+      transport routes provenance nameRow source' target' family' tolerance' radius'
+      equicontinuity' uniformRows' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AscoliModulusPacket source target family tolerance radius probe stability
+        equicontinuity uniformRows transport routes provenance nameRow bundle pkg ->
+      hsame source source' ->
+        hsame target target' ->
+          hsame family family' ->
+            hsame tolerance tolerance' ->
+              hsame radius radius' ->
+                Cont tolerance' radius' equicontinuity' ->
+                  Cont family' radius' uniformRows' ->
+                    AscoliModulusPacket source' target' family' tolerance' radius' probe
+                        stability equicontinuity' uniformRows' transport routes provenance
+                        nameRow bundle pkg ∧
+                      hsame equicontinuity equicontinuity' ∧
+                        hsame uniformRows uniformRows' := by
+  intro packet sameSource sameTarget sameFamily sameTolerance sameRadius
+    equicontinuityCont' uniformRowsCont'
+  obtain ⟨sourceUnary, targetUnary, familyUnary, toleranceUnary, radiusUnary, probeUnary,
+    stabilityUnary, _equicontinuityUnary, _uniformRowsUnary, nameUnary, equicontinuityCont,
+    uniformRowsCont, transportCont, provenanceCont, pkgSig⟩ := packet
+  have sourceUnary' : UnaryHistory source' :=
+    unary_transport sourceUnary sameSource
+  have targetUnary' : UnaryHistory target' :=
+    unary_transport targetUnary sameTarget
+  have familyUnary' : UnaryHistory family' :=
+    unary_transport familyUnary sameFamily
+  have toleranceUnary' : UnaryHistory tolerance' :=
+    unary_transport toleranceUnary sameTolerance
+  have radiusUnary' : UnaryHistory radius' :=
+    unary_transport radiusUnary sameRadius
+  have equicontinuityUnary' : UnaryHistory equicontinuity' :=
+    unary_cont_closed toleranceUnary' radiusUnary' equicontinuityCont'
+  have uniformRowsUnary' : UnaryHistory uniformRows' :=
+    unary_cont_closed familyUnary' radiusUnary' uniformRowsCont'
+  have sameEquicontinuity : hsame equicontinuity equicontinuity' :=
+    cont_respects_hsame sameTolerance sameRadius equicontinuityCont equicontinuityCont'
+  have sameUniformRows : hsame uniformRows uniformRows' :=
+    cont_respects_hsame sameFamily sameRadius uniformRowsCont uniformRowsCont'
+  have transportCont' : Cont equicontinuity' uniformRows' transport := by
+    cases sameEquicontinuity
+    cases sameUniformRows
+    exact transportCont
+  exact
+    ⟨⟨sourceUnary', targetUnary', familyUnary', toleranceUnary', radiusUnary', probeUnary,
+      stabilityUnary, equicontinuityUnary', uniformRowsUnary', nameUnary, equicontinuityCont',
+      uniformRowsCont', transportCont', provenanceCont, pkgSig⟩, sameEquicontinuity,
+      sameUniformRows⟩
+
+end BEDC.Derived.AscoliModulusUp
