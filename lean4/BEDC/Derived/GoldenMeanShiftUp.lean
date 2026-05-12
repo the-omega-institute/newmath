@@ -24,6 +24,41 @@ def GoldenMeanShiftCarrier [AskSetup] [PackageSetup]
       Cont adjacencyLedger provenance ledger ∧ Cont ledger zeroWitness endpoint ∧
         PkgSig bundle endpoint pkg
 
+theorem GoldenMeanShiftCarrier_local_stability [AskSetup] [PackageSetup]
+    {window zeroWitness adjacencyLedger provenance ledger endpoint window' zeroWitness'
+      adjacencyLedger' provenance' ledger' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GoldenMeanShiftCarrier window zeroWitness adjacencyLedger provenance ledger endpoint
+        bundle pkg ->
+      hsame window window' ->
+        hsame zeroWitness zeroWitness' ->
+          hsame adjacencyLedger adjacencyLedger' ->
+            hsame provenance provenance' ->
+              hsame ledger ledger' ->
+                hsame endpoint endpoint' ->
+                  Cont window' zeroWitness' adjacencyLedger' ->
+                    Cont adjacencyLedger' provenance' ledger' ->
+                      Cont ledger' zeroWitness' endpoint' ->
+                        PkgSig bundle endpoint' pkg ->
+                          GoldenMeanShiftCarrier window' zeroWitness' adjacencyLedger'
+                              provenance' ledger' endpoint' bundle pkg ∧
+                            hsame endpoint endpoint' := by
+  intro carrier sameWindow sameZero sameAdjacency sameProvenance sameLedger sameEndpoint
+    transportedFirst transportedSecond transportedEndpoint transportedPkg
+  obtain ⟨windowUnary, zeroUnary, adjacencyUnary, provenanceUnary, ledgerUnary,
+    _firstCont, _secondCont, _endpointCont, _endpointPkg⟩ := carrier
+  exact
+    ⟨⟨unary_transport windowUnary sameWindow,
+        unary_transport zeroUnary sameZero,
+        unary_transport adjacencyUnary sameAdjacency,
+        unary_transport provenanceUnary sameProvenance,
+        unary_transport ledgerUnary sameLedger,
+        transportedFirst,
+        transportedSecond,
+        transportedEndpoint,
+        transportedPkg⟩,
+      sameEndpoint⟩
+
 theorem GoldenMeanShiftCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
     {window zeroWitness adjacencyLedger provenance ledger endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
