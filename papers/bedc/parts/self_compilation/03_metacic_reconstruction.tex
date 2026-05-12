@@ -109,6 +109,25 @@ inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
 inductive types or definitions, use no axioms, and have exactly the strength of
 the host CIC that checks them.
 
+\subsection{Representation vs Mockup}\label{subsec:reconstruction-rep-vs-mockup}
+
+A mockup form places a host program in front of a separate syntax. For example,
+one may write a Lean tactic that runs a BNF parser, builds an external abstract
+syntax tree, and then reports whether the parsed expression satisfies a
+hand-coded relation. Such a program may be useful as tooling, but its behavior
+is not thereby formally tied to the host's actual type checker. The host checks
+the tactic implementation and any theorem it finally emits; it does not make
+the parser's accepted syntax into the host's own typing judgment.
+
+\texttt{BEDC.MetaCIC} uses a representation form instead. \texttt{Term} is a
+host data type, and \texttt{HasType} is a host inductive proposition. When the
+host kernel elaborates BEDC theorems about \texttt{HasType}, it is at the same
+time verifying the represented typing claims and their proof consequences.
+
+Thus \texttt{BEDC.MetaCIC} is not about mimicking the host from outside. It
+directly specifies the grammar and typing rules of a host-CIC fragment, and
+lets the host kernel check the consequences of those specifications.
+
 \subsection{Positioning Within BEDC}\label{subsec:reconstruction-positioning}
 
 The \texttt{BEDC.MetaCIC} namespace occupies a calculus-reconstruction
