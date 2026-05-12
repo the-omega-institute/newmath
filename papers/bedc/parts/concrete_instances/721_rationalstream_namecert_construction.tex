@@ -496,6 +496,54 @@ ledger, which gives conservativity and excludes quotient sequences, selected
 limits, host stream equality, and hidden completion coordinates.
 \end{proof}
 
+\begin{theorem}[RationalStream standard bridge common-window readback]\label{thm:rational-stream-standard-bridge-common-window-readback}
+For an accepted $\RationalStreamUp$ packet over unary $\StreamNameUp$
+observations and $\RatUp$ endpoint classifiers, the standard bridge readback
+of \autoref{thm:rational-stream-standard-bridge} factors through one displayed
+finite unary common window. The rows of that window are exactly the
+$\StreamNameUp$ schedule, pointwise $\RatUp$ carrier rows, pointwise $\RatUp$
+classifier rows, $\RegSeqRatUp$ ledger rows, displayed $\hsame$ transports,
+displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$
+evidence.
+
+The readback exports no quotient Cauchy class, selected limit, completed
+$\RealUp$ equality, trichotomy, or host stream equality. Hence the same finite
+common window is the readback surface consumed by both $\RegSeqRatUp$ and
+$\RealUp$.
+\end{theorem}
+\begin{proof}
+First put the endpoint classifiers on a single finite comparison surface.
+Apply \autoref{thm:rational-stream-common-window-classifier-stability} to align
+the carried pointwise classifier rows, and then apply
+\autoref{thm:rationalstream-common-denominator-window-exhaustion} to read the
+denominator comparisons inside that same displayed unary window.
+
+Next transport the carrier rows without changing the readback surface. Use
+\autoref{thm:rational-stream-finite-window-carrier-transport} to keep the
+schedule, pointwise rational carriers, pointwise classifiers, $\hsame$ rows,
+$\Cont$ routes, package provenance, and local naming rows on the chosen window.
+
+Then exhaust the regular-sequence consumer ledger with
+\autoref{thm:rational-stream-regseqrat-ledger-completeness}. This identifies
+the $\RegSeqRatUp$ rows consumed downstream with the same schedule,
+classifier, carrier, transport, route, package, and certificate rows already
+displayed by the finite window.
+
+Finally apply \autoref{thm:rational-stream-standard-bridge}. The standard
+bridge reads back only the finite rational sequence prefix, so the readback
+has no coordinate for quotient Cauchy classes, selected limits, completed
+$\RealUp$ equality, trichotomy, or host stream equality.
+
+The Phase Real and Completion fit is the following: traditional target,
+finite rational stream readback; BEDC source, $\RatUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$; carrier, the displayed $\RationalStreamUp$
+packet; classifier, the common finite-window classifier; stability, the
+$\hsame$ and $\Cont$ transport; ledger, the finite window rows; core theorem,
+\autoref{thm:rational-stream-standard-bridge-common-window-readback};
+exactness, readback equality of rows; standard bridge, finite rational
+sequence prefix; status, proof target.
+\end{proof}
+
 \begin{theorem}[RationalStream RealUp finite-window consumer example]\label{thm:rational-stream-realup-finite-window-consumer-example}
 For a carried $\RationalStreamUp$ packet over unary $\StreamNameUp$
 observations and $\RatUp$ endpoint classifiers, the public export of
