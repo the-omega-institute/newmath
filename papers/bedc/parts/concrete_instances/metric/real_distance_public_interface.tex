@@ -1,0 +1,97 @@
+\begin{definition}[MetricSpace real-distance carrier]
+\label{def:metricspace-real-distance-carrier}
+The $\MetricSpaceUp$ real-distance carrier for the open Real Algebra and
+Geometry phase is the finite unary endpoint packet
+$$
+(x,y,d,r;\ w,b,c,p,a)
+$$
+where $x$ and $y$ are unary $\mathsf{BHist}$ endpoint histories, $w$ is the
+displayed row $\mathsf{MetricDistanceWitness}(x,y,d)$, $b$ is the closed
+ball-budget row $\mathsf{MetricBallBudget}_d(x,y;r)$, $c$ is the classifier
+row $\hsame$ on endpoint and result histories, $p$ is the visible $\Cont$
+provenance for the distance witness, and $a$ is the $\RealAlgOrder$ budget
+packet consisting of the constant-rational endpoint rows, positive
+$\DyadicRatCoreUp$ or apartness row, ordered-real comparison, addition,
+transitivity, and addition-monotonicity rows used by the budget predicate.
+
+The carrier exposes exactly these rows. It does not contain an ambient host
+metric space, a quotient-real equality, a completeness principle, an
+open-cover compactness principle, or a topology generator separate from the
+displayed distance packet.
+\end{definition}
+
+\begin{theorem}[MetricSpace public law package]
+\label{thm:metricspace-public-law-package}
+The real-distance carrier of
+\autoref{def:metricspace-real-distance-carrier} supports the public
+$\MetricSpaceUp$ distance laws needed by the open phase:
+\begin{enumerate}
+  \item symmetry, by transporting the endpoint order through
+  $\mathsf{MetricDistanceWitness}$ symmetry and the RealAlgOrder apartness
+  symmetric-separation row;
+  \item identity boundary, by the empty-distance row and the empty-boundary
+  visible-context rows;
+  \item triangle-budget composition, by the visible-context triangle boundary
+  and the $\mathsf{MetricBallBudget}$ composition row;
+  \item carrier transport, by $\hsame$ transport of endpoints and result
+  histories together with the displayed $\Cont$ provenance.
+\end{enumerate}
+
+These laws are public laws of the finite BEDC packet only. They do not assert
+an arbitrary host metric, completeness, compactness, or a hidden equality on
+real distances.
+\end{theorem}
+\begin{proof}
+For symmetry, read the distance row through
+\autoref{thm:metric-distance-witness-symmetric-classifier}. The positive
+real-distance side is kept in the same packet by
+\autoref{thm:realalgorder-apartness-metric-symmetric-separation}, so swapping
+the endpoints changes only the orientation of the unary endpoint histories.
+
+For the identity boundary, apply
+\autoref{thm:metric-distance-witness-empty-distance-iff}. The visible-context
+empty-boundary rows then show that a zero public distance read is exactly the
+empty endpoint boundary up to $\hsame$, with no quotient-real equality added.
+
+For triangle-budget composition, use
+\autoref{thm:metricspace-visible-context-triangle-boundary} to form the
+composite witness over the same endpoint and continuation rows. Then apply
+\autoref{thm:metric-ball-budget-composition} to compose the two displayed
+budget rows.
+
+For carrier transport, use the endpoint and result $\hsame$ rows already
+contained in \autoref{def:metricspace-real-distance-carrier}. The visible
+$\Cont$ provenance identifies the transported witness with the same public
+distance packet, so every exported law remains inside the carrier.
+\end{proof}
+
+\begin{theorem}[MetricSpace open-phase consumer interface]
+\label{thm:metricspace-open-phase-consumer-interface}
+Every $\SOneUp$ consumer and every later L10 consumer in the open Real
+Algebra and Geometry phase reads $\MetricSpaceUp$ real-distance data only
+through the carrier of \autoref{def:metricspace-real-distance-carrier} and the
+law package of \autoref{thm:metricspace-public-law-package}. The consumer
+surface is the RealAlgOrder apartness distance scope together with the existing
+visible-context consumer surface; it exposes no additional host metric-space
+coordinate, no completion row, and no open-cover compactness row.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:metric-realalgorder-apartness-distance-scope}. It identifies the
+constant-rational endpoint histories, positive apartness or dyadic radius, and
+visible $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance available
+to a metric-facing real-distance consumer.
+
+Next apply
+\autoref{thm:metricspace-visible-context-distance-consumer-surface}. That
+consumer theorem restricts $\SOneUp$ and the named downstream metric consumers
+to the visible-context distance witness, ball-budget, classifier, and finite
+provenance rows.
+
+The L10 consumers in the open phase can only compose with the same
+RealAlgOrder apartness scope and the same visible-context public surface.
+Therefore their readable interface is exactly
+\autoref{def:metricspace-real-distance-carrier} equipped with
+\autoref{thm:metricspace-public-law-package}, and no host metric,
+completion, or open-cover compactness coordinate is exported.
+\end{proof}
