@@ -269,4 +269,67 @@ theorem FastConvergentSeriesCarrier_public_tail_budget_export [AskSetup] [Packag
       realSealUnary, consumerUnary, sourceRow, scheduleTailRow, consumerRow, endpointRow,
       tailSame, sealSame, provenancePkg, endpointPkg⟩
 
+theorem FastConvergentSeriesCarrier_bridge_boundary_package [AskSetup] [PackageSetup]
+    {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
+      nameCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+        realSeal transports routes provenance nameCert bundle pkg ->
+      Cont realSeal provenance endpoint ->
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row endpoint ∧ Cont realSeal provenance row ∧
+              FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+                realSeal transports routes provenance nameCert bundle pkg)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle provenance pkg)
+          hsame := by
+  intro carrier endpointCont
+  have carrierProof := carrier
+  obtain ⟨_seriesUnary, _seqUnary, _partialSumsUnary, _scheduleUnary, _tailLedgerUnary,
+    _regReadbackUnary, _realSealUnary, _transportsUnary, _routesUnary, _nameCertUnary,
+    _seriesSeqPartial, _schedulePartialTail, _tailReadbackSeal, _sealProvenanceName,
+    _tailSame, _sealSame, pkgSig⟩ := carrier
+  have sourceEndpoint :
+      (fun row : BHist =>
+        hsame row endpoint ∧ Cont realSeal provenance row ∧
+          FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+            realSeal transports routes provenance nameCert bundle pkg) endpoint := by
+    exact ⟨hsame_refl endpoint, endpointCont, carrierProof⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧ Cont realSeal provenance row ∧
+            FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+              realSeal transports routes provenance nameCert bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro endpoint sourceEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other same source
+        have otherEndpoint : hsame other endpoint :=
+          hsame_trans (hsame_symm same) source.left
+        have otherCont : Cont realSeal provenance other :=
+          cont_result_hsame_transport source.right.left same
+        exact ⟨otherEndpoint, otherCont, source.right.right⟩
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro row source
+      exact source.left
+    ledger_sound := by
+      intro row source
+      exact ⟨source.left, pkgSig⟩
+  }
+
 end BEDC.Derived.FastConvergentSeriesUp
