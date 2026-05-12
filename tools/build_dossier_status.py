@@ -261,14 +261,14 @@ def detect_schema_only_regions() -> set[str]:
     schema-only horizon. Returns a set of region ids. Combined with
     SCHEMA_ONLY_REGIONS hardcoded list."""
     detected: set[str] = set()
-    capstones_dir = PAPER_INSTANCES.parent / "capstones"
-    for f in capstones_dir.rglob("*.tex") if capstones_dir.exists() else []:
+    visions_dir = PAPER_INSTANCES.parent / "visions"
+    for f in visions_dir.rglob("*.tex") if visions_dir.exists() else []:
         text = f.read_text(encoding="utf-8", errors="ignore")
-        # only flag a capstone as schema-only when it ALSO has zero \leanchecked
+        # only flag a vision as schema-only when it ALSO has zero \leanchecked
         # markers (lots of "schema-only" mentions inside a normal proof chapter
         # would be a false positive otherwise)
         if SCHEMA_HORIZON_HINT.search(text) and "\\leanchecked{" not in text:
-            region = CAPSTONE_FILE_TO_REGION.get(f.stem)
+            region = VISION_FILE_TO_REGION.get(f.stem)
             if region:
                 detected.add(region)
     return detected | SCHEMA_ONLY_REGIONS
@@ -297,9 +297,9 @@ def critical_path_targets() -> dict:
         return {"top": [], "error": str(e)}
 
 
-# Capstone files don't follow the concrete_instances naming convention; map them
+# Vision files don't follow the concrete_instances naming convention; map them
 # to region ids so they show up as nodes in the graph alongside namecert regions.
-CAPSTONE_FILE_TO_REGION: dict[str, str] = {
+VISION_FILE_TO_REGION: dict[str, str] = {
     "observer_hist_identity": "observer",
     "inter_hist_locality": "interhist",
 }
@@ -311,7 +311,7 @@ SCHEMA_ONLY_REGIONS: set[str] = {"interhist", "observer"}
 
 LEAN_IMPORT_RE = re.compile(r"^\s*import\s+([A-Za-z0-9_.]+)", re.MULTILINE)
 PAPER_AUTOREF_RE = re.compile(r"\\autoref\{ch:concrete-instances-([a-z][a-z0-9\-]*?)(?:-namecert)?\}")
-PAPER_CAPSTONE_AUTOREF_RE = re.compile(r"\\autoref\{ch:capstones-([a-z][a-z0-9\-]*?)\}")
+PAPER_VISION_AUTOREF_RE = re.compile(r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}")
 # Any cross-reference. Resolved against a paper-wide label->region index so
 # `\autoref{thm:foo}` / `\autoref{def:bar}` from one chapter to another
 # contribute real dependency edges, not just the rare `\autoref{ch:...}` form.
@@ -461,7 +461,7 @@ def paper_chapter_to_region(f: Path) -> str | None:
       1. Chapter's Lean targets (canonical via `lean_target_to_region`)
       2. Chapter's self-declared `\\label{ch:concrete-instances-<region>-namecert}`
          (preserves roadmap chapters whose Lean code doesn't exist yet)
-      3. Capstone whitelist for `parts/capstones/*.tex` (declarative chapters
+      3. Vision whitelist for `parts/visions/*.tex` (declarative chapters
          with no Lean refs and no concrete-instances label)
 
     Hub files / framework chapters with none of the above return None.
@@ -478,8 +478,8 @@ def paper_chapter_to_region(f: Path) -> str | None:
         rel = f.relative_to(PAPER_INSTANCES.parent)
     except ValueError:
         return None
-    if rel.parts[0] == "capstones":
-        return CAPSTONE_FILE_TO_REGION.get(f.stem)
+    if rel.parts[0] == "visions":
+        return VISION_FILE_TO_REGION.get(f.stem)
     return None
 
 
@@ -493,10 +493,10 @@ def parse_paper_autorefs(f: Path) -> list[str]:
     refs = []
     for m in PAPER_AUTOREF_RE.finditer(text):
         refs.append(paper_label_to_region(m.group(1)))
-    for m in PAPER_CAPSTONE_AUTOREF_RE.finditer(text):
+    for m in PAPER_VISION_AUTOREF_RE.finditer(text):
         cap = m.group(1).replace("-", "_")
-        if cap in CAPSTONE_FILE_TO_REGION:
-            refs.append(CAPSTONE_FILE_TO_REGION[cap])
+        if cap in VISION_FILE_TO_REGION:
+            refs.append(VISION_FILE_TO_REGION[cap])
     return refs
 
 
@@ -615,10 +615,10 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
             r = paper_chapter_to_region(f)
             if r:
                 regions.add(canonical(r) or r)
-    capstones_dir = PAPER_INSTANCES.parent / "capstones"
-    if capstones_dir.exists():
-        for f in capstones_dir.rglob("*.tex"):
-            r = CAPSTONE_FILE_TO_REGION.get(f.stem)
+    visions_dir = PAPER_INSTANCES.parent / "visions"
+    if visions_dir.exists():
+        for f in visions_dir.rglob("*.tex"):
+            r = VISION_FILE_TO_REGION.get(f.stem)
             if r:
                 regions.add(r)
 
@@ -643,8 +643,8 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
     all_paper_files: list[Path] = []
     if PAPER_INSTANCES.exists():
         all_paper_files.extend(PAPER_INSTANCES.rglob("*.tex"))
-    if capstones_dir.exists():
-        all_paper_files.extend(capstones_dir.rglob("*.tex"))
+    if visions_dir.exists():
+        all_paper_files.extend(visions_dir.rglob("*.tex"))
     label_index = build_paper_label_index(all_paper_files)
 
     if PAPER_INSTANCES.exists():
@@ -669,9 +669,9 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
                 if rc and rc in regions and rc != my_region:
                     deps[my_region].add(rc)
 
-    if capstones_dir.exists():
-        for f in capstones_dir.rglob("*.tex"):
-            my_region = CAPSTONE_FILE_TO_REGION.get(f.stem)
+    if visions_dir.exists():
+        for f in visions_dir.rglob("*.tex"):
+            my_region = VISION_FILE_TO_REGION.get(f.stem)
             if not my_region:
                 continue
             for r in parse_paper_autorefs(f):
