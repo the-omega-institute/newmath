@@ -179,6 +179,53 @@ Use \autoref{thm:regular-cauchy-comparison-tolerance-row-stability} for the next
 Finally apply \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. Its handoff route consumes the common-window comparison rows, the tolerance row, the finite ledger, and the local certificate coordinates before it reaches the $\RealUp$ seal row.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison two-stage handoff]
+\label{thm:regular-cauchy-comparison-two-stage-handoff}
+For every accepted $\RegularCauchyComparisonUp$ packet
+$$
+K=(X,Y,W,D,\tau,L,E,H,C,P,N),
+$$
+every consumer-facing comparison first routes both $\RegSeqRatUp$ names $X$ and $Y$ through the shared $\StreamNameUp$ window schedule $W$. Only after that common-window read may the packet expose the $\DyadicRatCoreUp$ observation row $D$, the rational tolerance row $\tau$, the finite ledger $L$, the $\RealUp$ seal row $E$, the displayed transports $H$, the displayed continuations $C$, the package provenance $P$, and the local naming row $N$.
+\end{theorem}
+
+\begin{proof}
+Begin with the common window. Apply \autoref{thm:regular-cauchy-comparison-common-window-stability} to force the two regular names through the same displayed schedule $W$ before any dyadic observation is read.
+
+Next bind the numerical comparison layer. Apply \autoref{thm:regular-cauchy-comparison-tolerance-row-stability}: the observation row $D$ can be inspected only against the recorded rational tolerance $\tau$ and its finite ledger $L$.
+
+Finally use \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The real-facing route consumes the common-window and tolerance rows before reaching $E,H,C,P,N$, so the handoff is a two-stage finite packet route rather than a direct real-completion read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison seal uniqueness boundary]
+\label{thm:regular-cauchy-comparison-seal-uniqueness-boundary}
+Let $K$ and $K'$ be accepted $\RegularCauchyComparisonUp$ packets whose displayed rows agree on $W,D,\tau,L,H,C,P,N$. If two seal consumers read the packets through those same rows, then they obtain the same classifier-facing $\RealUp$ seal row. This uniqueness is a boundary statement about the displayed comparison certificate; it does not assert host real equality, select a limit, or identify quotient representatives of the two regular names.
+\end{theorem}
+
+\begin{proof}
+Project both packets to the classifier-facing rows. The shared $W,D,\tau,L,H,C,P,N$ coordinates give the same common-window schedule, dyadic observation layer, tolerance ledger, transport routes, continuation reads, package provenance, and local naming surface.
+
+Apply \autoref{thm:regular-cauchy-comparison-classifier-transport} to carry the agreed rows across the accepted packet boundary. Then apply \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization}; a seal consumer can reach $E$ only through that factored route.
+
+Thus the two consumers see the same $\RealUp$ seal row at the classifier interface. The proof never introduces a host equality test or a selected completion limit, because neither is a coordinate of the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison completion consumer surface]
+\label{thm:regular-cauchy-comparison-completion-consumer-surface}
+Every $\RealUp$-completion consumer of an accepted $\RegularCauchyComparisonUp$ packet can cite exactly the finite comparison surface
+$$
+X,Y,W,D,\tau,L,E,H,C,P,N
+$$
+as its packet evidence. The surface supplies the two regular names, the shared window schedule, the dyadic observations, the tolerance ledger, the seal row, transport and continuation evidence, package provenance, and local naming; it supplies no additional completion principle, host real equality, quotient representative, or chosen limit.
+\end{theorem}
+
+\begin{proof}
+First package the route from the two regular names to the displayed comparison rows. Use \autoref{thm:regular-cauchy-comparison-two-stage-handoff} to expose $X,Y,W,D,\tau,L,H,C,P,N$ in the required order.
+
+Next package the seal boundary. Use \autoref{thm:regular-cauchy-comparison-seal-uniqueness-boundary} to identify what a seal consumer can read when the comparison rows are fixed.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. Its consumer route is exactly the displayed packet surface, and the carrier has no coordinate for any further completion object.
+\end{proof}
+
 \closureat{RegularCauchyComparisonUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyComparisonUp}
