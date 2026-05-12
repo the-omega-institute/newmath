@@ -5,6 +5,16 @@ Status: Level 0 Behavioral Scaffold Complete.
 This snapshot records the current citable state of the `rule110/` artifact.
 The master plan is `ROADMAP.md`.
 
+## 框架 (2026-05-13 路线图 v3 之后)
+
+详细见 `ROADMAP.md`. 简要:
+
+- **当前状态**: Tier A (cyclic-tag witness) 接近 ship. 信任基 ≈ 250 行 C + 文本 manifest, Lean kernel 不在 trust path.
+- **下一步**: T-A.1~T-A.8 收尾, 预估 1-3 天.
+- **严格目标 (Tier B)**: Rule 110 物理 witness via Cook construction, blocked on Cook 2004 figure access.
+
+L4 cross-check / L5 Beyond-FKernel mirrors 重新定位为开发工具 / 附录, 见 ROADMAP §"Lean / L4 / L5 重新定位".
+
 ## Size
 
 Command:
