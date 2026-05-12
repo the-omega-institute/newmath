@@ -1,0 +1,18 @@
+\subsection{Pure CIC Fragment}\label{subsec:reconstruction-pure-cic-fragment}
+
+\texttt{BEDC.MetaCIC} represents a pure CIC fragment. It does not depend on
+any axiom introduced by the Lean standard library, including
+\verb|Classical.choice|, \verb|Quot.sound|, and \verb|propext|. This premise
+is audited by \verb|bedc_ci.py axiom-purity --strict|, which checks each
+theorem's transitive dependencies against the forbidden axiom set.
+
+The PCIC fragment has the following concrete features:
+
+\begin{itemize}
+\item no quotient types and no propositional-extensionality strengthening of
+propositional equality;
+\item no law of excluded middle and no dependent choice;
+\item no universe polymorphism;
+\item \texttt{pi}, \texttt{lam}, \texttt{app}, \texttt{sort}, and
+\texttt{var} as the only represented term constructors.
+\end{itemize}
