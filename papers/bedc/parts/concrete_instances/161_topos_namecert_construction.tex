@@ -138,18 +138,50 @@ Apply \autoref{thm:topos-subobject-classifier-ledger-exactness} and \autoref{thm
 Finally apply \autoref{thm:topos-certificate-boundary}. It exhausts downstream internal-logic reads by the listed certificate rows, leaving no coordinate for host set semantics, an ambient universe, unlogged predicates, or an external internal language.
 \end{proof}
 
+\begin{theorem}[Topos public certificate export]
+\label{thm:topos-public-certificate-export}
+Downstream internal-logic and sheaf consumers of $\ToposUp$ may read exactly
+the finite $\mathsf{BHist}$ packet rows listed in
+\autoref{thm:topos-namecert-obligation-surface}: the $\CategoryUp$ row, the
+$\SheafUp$ row, finite-limit rows, exponential rows, subobject-classifier row,
+componentwise $\hsame$, finite $\Cont$, $\mathsf{Pkg}$ provenance, and the
+displayed provenance rows.
+
+The public certificate exports no host set semantics, ambient universe,
+unlogged predicate, or external internal-language object.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:topos-carrier-obligation}. It places every consumer
+read inside the displayed finite $\mathsf{BHist}$ packet with the category,
+sheaf, finite-limit, exponential, subobject-classifier, classifier, continuation,
+and package rows.
+
+Apply \autoref{thm:topos-finite-limit-exponential-scope} for the structural
+rows, and apply \autoref{thm:topos-subobject-classifier-ledger-exactness} for
+the predicate-like row. The pullback boundary of
+\autoref{thm:topos-subobject-classifier-pullback-boundary} keeps classifier
+access on the same finite ledger.
+
+Finally use \autoref{thm:topos-certificate-boundary} and
+\autoref{thm:topos-namecert-obligation-surface}. Together they repack the
+obligation surface as the public certificate export and leave no coordinate for
+host set semantics, an ambient universe, an unlogged predicate, or an external
+internal-language object.
+\end{proof}
+
 \closureat{ToposUp}{seedStr}
 \closureat{ToposUp}{obligationStr}[BEDC.Derived.ToposUp.ToposFiniteCarrier\_obligation\_surface]
 \closureat{ToposUp}{scopedStr}[BEDC.Derived.ToposUp.ToposFiniteCarrier\_namecert\_obligation\_surface]
+\closureat{ToposUp}{publicStr}[BEDC.Derived.ToposUp.ToposFiniteCarrier\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\ToposUp}
   \constructivestory{The topos packet is a finite $\mathsf{BHist}$ carrier over displayed $\CategoryUp$, $\SheafUp$, finite-limit, exponential, subobject-classifier, classifier, continuation, and package rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface closes the displayed $\CategoryUp$, $\SheafUp$, finite-limit, exponential, subobject-classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and consumer-boundary rows of the topos packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface closes the displayed $\CategoryUp$, $\SheafUp$, finite-limit, exponential, subobject-classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, provenance, and consumer-boundary rows of the topos packet.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ToposUp.ToposFiniteCarrier\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host set semantics, full internal-language semantics, ambient universe assumptions, or a standard bridge.}
-  \upgradepath{Public closure requires a consumer-facing export theorem for the scoped topos certificate boundary.}
+  \upgradepath{Bridged closure requires a bridge theorem from the public topos export to the abstract $\ToposUp$ interface.}
 \end{closurestatus}
