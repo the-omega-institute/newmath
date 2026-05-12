@@ -248,6 +248,24 @@ Now fix the readback boundary. Theorem~\ref{thm:cauchy-error-certificate-readbac
 Finally apply Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package}. It repacks the displayed rows as the finite seal budget package, while its boundary clause leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the scoped surface.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate public export]
+\label{thm:cauchy-error-certificate-public-export}
+For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, the carrier, the $\NameCert_{\CauchyErrorCertificateUp}$ obligations, modulus soundness, budget-window exhaustion, shared modulus transport, readback route uniqueness, Real consumer unblock, seal budget package, and scoped budget-window package assemble the public $\NameCert_{\CauchyErrorCertificateUp}$ export for $\RealUp$ completion-facing readers.
+
+The exported consumer receives exactly $R,M,T,E,P,N$ together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It receives no quotient stream, selected host limit, ambient completeness row, host real equality, or bridge checking.
+\end{theorem}
+\begin{proof}
+First bind the displayed packet. The carrier of \autoref{def:cauchy-error-certificate-carrier} supplies $R,M,T,E,P,N$, and \autoref{thm:cauchy-error-certificate-namecert-obligations} fixes the local $\NameCert_{\CauchyErrorCertificateUp}$ obligation surface over those rows.
+
+Next bind the error-budget route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} sends each tolerance request through $M$ and $T$ into $E$, while Theorem~\ref{thm:cauchy-error-certificate-budget-window-exhaustion} ensures that the budget route is exhausted before the readback boundary is available.
+
+Now bind transport and readback. Theorem~\ref{thm:cauchy-error-certificate-shared-modulus-transport} preserves the shared modulus route under the displayed $\hsame$ and $\Cont$ rows, and Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed $M,T,E,P$ rows.
+
+Finally repack the public export. Theorem~\ref{thm:cauchy-error-certificate-real-consumer-unblock} states the consumer-facing package, Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package} gathers it for completion-facing readers, and Theorem~\ref{thm:cauchy-error-certificate-scoped-budget-window-package} supplies the scoped $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The result is a public export because it exposes only the finite certificate surface already displayed by the packet. The non-escape boundary of \autoref{thm:cauchy-error-certificate-non-escape-boundary} leaves quotient streams, selected host limits, ambient completeness, host real equality, and bridge checking outside the export, so the theorem does not assert a new host real fact.
+\end{proof}
+
 \closureat{CauchyErrorCertificateUp}{seedStr}
 \closureat{CauchyErrorCertificateUp}{obligationStr}
 \closureat{CauchyErrorCertificateUp}{scopedStr}
