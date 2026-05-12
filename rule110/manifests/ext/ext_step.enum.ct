@@ -1,0 +1,27 @@
+# ext_step.enum.ct
+# Theorem family: Ext.e0 and Ext.e1 constructors for
+# Ext : BHist -> BMark -> BHist -> Prop.
+#
+# Encoding:
+#   input = EventEncoding(source) ++ EventEncoding(mark) ++ EventEncoding(result)
+# where source/result are BHist choice payloads and mark is a one-byte event:
+#   b0 = EventEncoding([0]) = "011"
+#   b1 = EventEncoding([1]) = "1011"
+#
+# Ext holds exactly when result is one constructor layer above source:
+#   mark b0: result choices = [0] ++ source choices
+#   mark b1: result choices = [1] ++ source choices
+#
+# Positive cases cover both constructors at depths 0, 1, and 2. Negative cases
+# are representative implication-vacuous triples where the decoded stream is
+# well-formed but the Ext relation does not hold.
+PRODUCTIONS 0
+ASSERTIONS 8
+case empty_b0_e0_empty:       input=11011011          ; ext_holds=yes
+case empty_b1_e1_empty:       input=1110111011        ; ext_holds=yes
+case e0_empty_b0_e0_e0_empty: input=0110110011        ; ext_holds=yes
+case e1_empty_b1_e1_e1_empty: input=10111011101011    ; ext_holds=yes
+case e0_e1_b0_e0_e0_e1:       input=01011011001011    ; ext_holds=yes
+case empty_b0_empty:          input=1101111           ; ext_holds=no
+case e0_empty_b0_e1_e0_empty: input=01101110011       ; ext_holds=no
+case e1_empty_b1_e0_e1_empty: input=1011101101011     ; ext_holds=no

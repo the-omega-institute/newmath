@@ -1,0 +1,19 @@
+# hsame_constructor_distinct.algo.ct
+# Algo framing: decode two BHist events and check their outermost constructors
+# are one of Empty/e0, Empty/e1, e0/Empty, e1/Empty, e0/e1, or e1/e0.
+# Productions are vacuous here; semantic rejection is checked by the C harness.
+PRODUCTIONS 1
+0
+ASSERTIONS 12
+case d1_e0_e1:       input=0111011        ; rejection_check=yes
+case d1_e1_e0:       input=1011011        ; rejection_check=yes
+case d1_e0_empty:    input=01111          ; rejection_check=yes
+case d1_e1_empty:    input=101111         ; rejection_check=yes
+case d1_empty_e0:    input=11011          ; rejection_check=yes
+case d1_empty_e1:    input=111011         ; rejection_check=yes
+case d3_e0_e1:       input=0100111001011  ; rejection_check=yes
+case d3_e1_e0:       input=1001011010011  ; rejection_check=yes
+case d3_e0_empty:    input=01001111       ; rejection_check=yes
+case d3_e1_empty:    input=100101111      ; rejection_check=yes
+case d3_empty_e0:    input=11010011       ; rejection_check=yes
+case d3_empty_e1:    input=111001011      ; rejection_check=yes
