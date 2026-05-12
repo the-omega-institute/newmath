@@ -378,6 +378,18 @@ theorem betaParallel_sort_diamond
       Term.sort
       (And.intro BetaParallel.sort BetaParallel.sort)
 
+theorem betaParallel_diamond_var {i : Idx} {t1 t2 : Term}
+    (h1 : BetaParallel (Term.var i) t1)
+    (h2 : BetaParallel (Term.var i) t2) :
+    Exists (fun v => BetaParallel t1 v ∧ BetaParallel t2 v) := by
+  exact betaParallel_var_diamond i h1 h2
+
+theorem betaParallel_diamond_sort {t1 t2 : Term}
+    (h1 : BetaParallel Term.sort t1)
+    (h2 : BetaParallel Term.sort t2) :
+    Exists (fun v => BetaParallel t1 v ∧ BetaParallel t2 v) := by
+  exact betaParallel_sort_diamond h1 h2
+
 theorem betaParallel_app_diamond_of_components
     {f1 f2 a1 a2 : Term}
     (hf :
