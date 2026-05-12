@@ -162,6 +162,7 @@ import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
@@ -571,6 +572,7 @@ import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootConsumer
+import BEDC.Derived.WeierstrassMTestUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.IntegralUp
