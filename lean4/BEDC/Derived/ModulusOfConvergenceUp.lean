@@ -436,4 +436,29 @@ theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [Pa
   exact And.intro restrictedPacket
     (And.intro restrictedScheduleRow restrictedLedgerRow)
 
+theorem ModulusOfConvergenceFiniteRateBridge_rows [AskSetup] [PackageSetup]
+    {precision threshold modulus schedule witness ledger prov out : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory precision -> UnaryHistory threshold -> UnaryHistory schedule ->
+      UnaryHistory witness -> UnaryHistory prov -> Cont precision threshold modulus ->
+        Cont schedule witness ledger -> Cont modulus ledger out -> PkgSig bundle out pkg ->
+          UnaryHistory modulus ∧ UnaryHistory ledger ∧ UnaryHistory out ∧
+            hsame modulus (append precision threshold) ∧
+              hsame ledger (append schedule witness) ∧ hsame out (append modulus ledger) ∧
+                PkgSig bundle out pkg := by
+  intro precisionUnary thresholdUnary scheduleUnary witnessUnary _provUnary modulusRow ledgerRow
+    outRow pkgSig
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed precisionUnary thresholdUnary modulusRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary witnessUnary ledgerRow
+  have outUnary : UnaryHistory out :=
+    unary_cont_closed modulusUnary ledgerUnary outRow
+  exact And.intro modulusUnary
+    (And.intro ledgerUnary
+      (And.intro outUnary
+        (And.intro modulusRow
+          (And.intro ledgerRow
+            (And.intro outRow pkgSig)))))
+
 end BEDC.Derived.ModulusOfConvergenceUp
