@@ -150,3 +150,30 @@ symplectic geometry.
   \notclaimed{This chapter does not close ambient quantization functors, host Hilbert construction, uncarried symplectic geometry, or standard bridges.}
   \upgradepath{A standard bridge requires a schema-level bridge theorem for the public certificate surface without ambient quantization or host-space rows.}
 \end{closurestatus}
+
+\begin{definition}[GeomQuantization public-surface standard presentation]
+\label{def:geomquantization-public-surface-standard-presentation}
+A standard geometric-quantization presentation is public-surface over a $\GeomQuantizationUp$ source packet $\mathcal{G}$ when its admitted BEDC readback is a tuple
+$$
+\mathcal{R}=(S,H,L,\Pi,\mu,\lambda,\tau,\rho)
+$$
+whose entries are, respectively, the $\NameCert_{\SymplecticUp}$ source row, the $\NameCert_{\HilbertUp}$ endpoint row, the prequantum line-bundle row, the polarisation classifier row, the metaplectic-correction ledger row, the finite $\Cont$ readback, the carried $\hsame$ transport family, and the $\Pkg$ provenance row projected from $\mathcal{G}$ in the sense of \autoref{def:geomquantization-bhist-source-packet}.
+
+The readback is conservative when every consumer-visible row factors through those eight projections and their public certificate handoff in \autoref{thm:geomquantization-public-certificate-handoff}. In particular, the presentation may name the ordinary geometric-quantization words attached to $S$, $H$, $L$, $\Pi$, and $\mu$, but it has no separate coordinate for an ambient quantization functor, no separate coordinate for a host Hilbert construction, and no separate coordinate for uncarried symplectic geometry.
+\end{definition}
+
+\begin{theorem}[GeomQuantization public-surface standard bridge]
+\label{thm:geomquantization-public-surface-standard-bridge}
+Every public-surface standard presentation over a $\GeomQuantizationUp$ source packet conservatively bridges to the public $\NameCert_{\GeomQuantizationUp}$ certificate. More explicitly, if a standard geometric-quantization presentation is read only through the $\NameCert_{\SymplecticUp}$ source row, the $\NameCert_{\HilbertUp}$ endpoint row, the prequantum line-bundle row, the polarisation classifier row, the metaplectic-correction ledger row, the finite $\Cont$ readback, the carried $\hsame$ transport family, and the $\Pkg$ provenance row of \autoref{def:geomquantization-public-surface-standard-presentation}, then its BEDC export is exactly the public handoff of \autoref{thm:geomquantization-public-certificate-handoff}. Consequently the bridge cannot expose an ambient quantization functor, a host Hilbert construction, or uncarried symplectic geometry.
+\end{theorem}
+\begin{proof}
+Let $\mathcal{R}=(S,H,L,\Pi,\mu,\lambda,\tau,\rho)$ be the admitted readback of a public-surface standard presentation over a source packet $\mathcal{G}$. By the definition of the public-surface presentation, each coordinate of $\mathcal{R}$ is a projection from the same packet named in \autoref{def:geomquantization-bhist-source-packet}.
+
+The source and endpoint rows are not independent standard data. By \autoref{thm:geomquantization-source-dependency-surface}, $S$ and $H$ are rows of the same finite $\BHist$ package, with the same displayed $\Pkg$ provenance row $\rho$. The line-bundle, polarisation, metaplectic, continuation, and transport entries are therefore shared dependency data rather than a second certificate.
+
+The classifier part is stable under the carried history transport. By \autoref{thm:geomquantization-polarisation-classifier-stability}, transporting the polarisation classifier keeps the line-bundle and polarisation rows attached to the transported source and sends the finite $\Cont$ readback to the transported $\NameCert_{\HilbertUp}$ endpoint row. Thus the standard presentation has no additional route from the symplectic row to the Hilbert row beyond the displayed public transport and continuation rows.
+
+It remains to identify the public export. By \autoref{thm:geomquantization-ledger-exactness}, the ledger of $\GeomQuantizationUp$ is exact for precisely the listed rows. By \autoref{thm:geomquantization-namecert-obligation-surface}, those rows are the local $\NameCert_{\GeomQuantizationUp}$ obligation surface. Finally, \autoref{thm:geomquantization-public-certificate-handoff} says that a public consumer may read exactly those eight rows and nothing stronger.
+
+Repacking $\mathcal{R}$ through that handoff gives the public $\NameCert_{\GeomQuantizationUp}$ certificate. Since the public-surface presentation has no coordinate outside $S$, $H$, $L$, $\Pi$, $\mu$, $\lambda$, $\tau$, and $\rho$, there is no BEDC projection from which to read an ambient quantization functor, a host Hilbert construction, or uncarried symplectic geometry. This is exactly the claimed conservative bridge.
+\end{proof}
