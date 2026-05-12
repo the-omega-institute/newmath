@@ -115,4 +115,45 @@ theorem FreeMonoidWordCarrier_namecert_obligation_surface [AskSetup] [PackageSet
       exact sourceRow.left
   }
 
+theorem FreeMonoidWordCarrier_singleton_concat_inversion [AskSetup] [PackageSetup]
+    {u v routeU routeV provenanceU provenanceV : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier u routeU provenanceU bundle pkg ->
+      FreeMonoidWordCarrier v routeV provenanceV bundle pkg ->
+        Cont u v (BHist.e1 BHist.Empty) ->
+          (((hsame v BHist.Empty ∧ hsame u (BHist.e1 BHist.Empty)) ∨
+              (hsame u BHist.Empty ∧ hsame v (BHist.e1 BHist.Empty))) ∧
+            PkgSig bundle provenanceU pkg ∧ PkgSig bundle provenanceV pkg) := by
+  intro uCarrier vCarrier uvSingleton
+  rcases uCarrier with ⟨_uUnary, _routeUUnary, _provenanceUUnary, _uRoute, uPkg⟩
+  rcases vCarrier with ⟨_vUnary, _routeVUnary, _provenanceVUnary, _vRoute, vPkg⟩
+  constructor
+  · cases cont_e1_result_inversion uvSingleton with
+    | inl base =>
+        exact Or.inl ⟨base.left, base.right⟩
+    | inr step =>
+        rcases step with ⟨vTail, vShape, uTailEmpty⟩
+        cases vShape
+        have tailsEmpty : u = BHist.Empty ∧ vTail = BHist.Empty :=
+          cont_empty_result_inversion uTailEmpty
+        cases tailsEmpty.left
+        cases tailsEmpty.right
+        exact Or.inr ⟨hsame_refl BHist.Empty, hsame_refl (BHist.e1 BHist.Empty)⟩
+  · exact ⟨uPkg, vPkg⟩
+
+theorem FreeMonoidWordCarrier_empty_concat_inversion [AskSetup] [PackageSetup]
+    {u v uv route provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier u route provenance bundle pkg ->
+      FreeMonoidWordCarrier v route provenance bundle pkg ->
+        Cont u v uv -> hsame uv BHist.Empty ->
+          hsame u BHist.Empty ∧ hsame v BHist.Empty ∧
+            UnaryHistory u ∧ UnaryHistory v ∧ PkgSig bundle provenance pkg := by
+  intro uCarrier vCarrier uvRow uvEmpty
+  obtain ⟨uUnary, _routeUnary, _provenanceUnary, _uRouteProvenance, uPkg⟩ := uCarrier
+  obtain ⟨vUnary, _routeUnary', _provenanceUnary', _vRouteProvenance, _vPkg⟩ := vCarrier
+  have uvEmptyRow : Cont u v BHist.Empty :=
+    cont_result_hsame_transport uvRow uvEmpty
+  have factorsEmpty := cont_empty_result_inversion uvEmptyRow
+  exact ⟨factorsEmpty.left, factorsEmpty.right, uUnary, vUnary, uPkg⟩
+
 end BEDC.Derived.FreeMonoidUp
