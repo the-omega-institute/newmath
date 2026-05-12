@@ -61,6 +61,7 @@ Q=(X,Y,\mu,W,T,R,P,N)
 $$
 and every displayed precision request, any transported consumer read that preserves $\mu$, $W$, $T$, and $R$ compares the two late regular-name windows through the same finite $\StreamNameUp$ window ledger and the same $\DyadicRatCoreUp$ endpoint-comparison ledger. No transported read may replace the common tail threshold by an unrecorded selector or split the two names across different windows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyTailComparisonUp.CauchyTailComparisonCommonWindowCarrier\_semantic\_name\_certificate}
 \begin{proof}
 Project the modulus coordinate $\mu$. For the requested precision it supplies the only threshold row that the carrier exposes to a consumer.
 
@@ -70,6 +71,7 @@ Project the endpoint ledger $T$ and readback row $R$. The comparison rows in $R$
 
 Transport can change the displayed representatives only along the stored $\hsame$ and $\Cont$ routes. Because the carrier has no second threshold coordinate and no second window coordinate, a transported read cannot introduce an unrecorded selector or split the comparison across different windows.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyTailComparisonUp.CauchyTailComparisonCarrier\_tail\_stability}
 
 \begin{theorem}[CauchyTailComparison real-completion handoff]
 \label{thm:cauchy-tail-comparison-real-completion-handoff}
@@ -161,6 +163,82 @@ The carrier and classifier rows give the finite packet and its visible transport
 The tail-window rows identify the common modulus and stream-window ledger used by both compared regular-name reads. The common refinement theorem repacks the same information for paired $\RegSeqRatUp$ and $\RealUp$ consumers.
 
 The handoff and seal-stability rows route comparison evidence into the real-completion-facing interface. The non-escape boundary then states that the package exports no quotient stream, selected limit, host real equality, or ambient completeness object.
+\end{proof}
+
+\begin{theorem}[CauchyTailComparison classifier transport]
+\label{thm:cauchy-tail-comparison-classifier-transport}
+Let $Q=(X,Y,\mu,W,T,R,P,N)$ and
+$Q'=(X',Y',\mu',W',T',R',P',N')$ be accepted
+$\CauchyTailComparisonUp$ carriers. If
+$\mathsf{CauchyTailComparisonClassifier}(Q,Q')$ holds, then classifier
+transport preserves exactly the two regular-name rows $X,Y$, the unary
+modulus $\mu$, the common window $W$, the dyadic endpoint ledger $T$, the
+readback row $R$, package provenance $P$, and local
+$\NameCert_{\CauchyTailComparisonUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows by
+\autoref{def:cauchy-tail-comparison-carrier}. The displayed tuple has exactly
+the rows $X,Y,\mu,W,T,R,P,N$.
+
+Apply the classifier definition of
+\autoref{def:cauchy-tail-comparison-classifier}. Its comparison is
+componentwise by displayed $\hsame$ transport and displayed $\Cont$ read
+routes for the same rows.
+
+Use \autoref{thm:cauchy-tail-comparison-tail-stability} and
+\autoref{thm:cauchy-tail-comparison-real-completion-handoff} to identify the
+consumer-facing uses of the transported rows. The classifier therefore moves
+the finite common-tail packet and nothing outside it.
+\end{proof}
+
+\begin{theorem}[CauchyTailComparison dyadic endpoint exactness]
+\label{thm:cauchy-tail-comparison-dyadic-endpoint-exactness}
+Every endpoint comparison exported by an accepted
+$\CauchyTailComparisonUp$ packet is read from the displayed
+$\DyadicRatCoreUp$ ledger $T$ after the common threshold $\mu$ and common
+window $W$ have been selected. The comparison cannot replace $T$ by an
+unrecorded dyadic ledger, quotient-stream equality, selected limit, or host
+real comparison.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple of
+\autoref{def:cauchy-tail-comparison-carrier}. The only endpoint-comparison
+coordinate is $T$, and it is reached after the modulus row $\mu$ and common
+window $W$.
+
+Apply \autoref{thm:cauchy-tail-comparison-tail-stability}. Any precision read
+of the two regular names passes through the same threshold and same finite
+window.
+
+Then use \autoref{thm:cauchy-tail-comparison-common-tail-window}. The common
+refinement keeps the endpoint rows attached to the displayed dyadic ledger,
+so an endpoint comparison has no route to an unrecorded ledger or host-level
+comparison.
+\end{proof}
+
+\begin{theorem}[CauchyTailComparison scoped export]
+\label{thm:cauchy-tail-comparison-scoped-export}
+The scoped consumer surface of $\CauchyTailComparisonUp$ is the finite package
+consisting of tail-window stability, dyadic endpoint exactness,
+$\RealUp$ seal stability, and the non-escape boundary over the displayed rows
+$X,Y,\mu,W,T,R,P,N$. Every $\RealCauchyCompletionUp$ or $\RealUp$ consumer of
+the package receives that surface and no quotient stream, selected limit, host
+real equality, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:cauchy-tail-comparison-tail-stability}. It fixes the
+common threshold and window through which both regular-name rows are read.
+
+Next apply
+\autoref{thm:cauchy-tail-comparison-dyadic-endpoint-exactness}. The endpoint
+comparisons are exactly the dyadic rows in $T$ after that common tail window.
+
+Use \autoref{thm:cauchy-tail-comparison-real-seal-stability} for the
+real-facing boundary. Seal reads transport only along the displayed rows, and
+\autoref{thm:cauchy-tail-comparison-non-escape-boundary} excludes quotient
+streams, selected limits, host equality, and ambient completeness from the
+export.
 \end{proof}
 
 \closureat{CauchyTailComparisonUp}{seedStr}

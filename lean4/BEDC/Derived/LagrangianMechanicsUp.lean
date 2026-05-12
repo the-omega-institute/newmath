@@ -217,4 +217,122 @@ theorem LagrangianMechanicsPacket_euler_boundary_scope [AskSetup] [PackageSetup]
       actionVariationEndpoint, residualReadRow, sameEndpointResidualRead, boundaryRow,
       certificatePkg, boundaryPkg⟩
 
+theorem LagrangianMechanicsPacket_public_namecert_boundary [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont certificate endpoint boundary ->
+        PkgSig bundle boundary pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row boundary ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+            (fun row : BHist => Cont certificate endpoint row ∧ UnaryHistory action ∧
+              UnaryHistory current)
+            (fun row : BHist => PkgSig bundle row pkg ∧ Cont route provenance certificate)
+            (fun row row' : BHist => hsame row row') := by
+  intro packet certificateEndpointBoundary boundaryPkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+    transportUnary, provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
+    residualSymplecticCurrent, currentTransportRoute, routeProvenanceCertificate,
+    _certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
+  have currentUnary : UnaryHistory current :=
+    unary_cont_closed residualUnary symplecticUnary residualSymplecticCurrent
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed currentUnary transportUnary currentTransportRoute
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceCertificate
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary actionVariationEndpoint
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed certificateUnary endpointUnary certificateEndpointBoundary
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro boundary ⟨hsame_refl boundary, boundaryUnary, boundaryPkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' classified
+        exact hsame_symm classified
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact hsame_trans leftClassified rightClassified
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨cont_result_hsame_transport certificateEndpointBoundary
+          (hsame_symm sourceRow.left), actionUnary, currentUnary⟩
+    ledger_sound := by
+      intro row sourceRow
+      exact ⟨sourceRow.right.right, routeProvenanceCertificate⟩
+  }
+
+theorem LagrangianMechanicsPacket_finite_standard_bridge_surface [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont certificate endpoint bridge ->
+        PkgSig bundle bridge pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row bridge ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+            (fun row : BHist => Cont certificate endpoint row ∧
+              Cont residual symplectic current ∧ Cont current transport route)
+            (fun row : BHist => PkgSig bundle row pkg ∧ Cont route provenance certificate)
+            hsame := by
+  intro packet certificateEndpointBridge bridgePkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+    transportUnary, provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
+    residualSymplecticCurrent, currentTransportRoute, routeProvenanceCertificate,
+    _certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary actionVariationEndpoint
+  have currentUnary : UnaryHistory current :=
+    unary_cont_closed residualUnary symplecticUnary residualSymplecticCurrent
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed currentUnary transportUnary currentTransportRoute
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceCertificate
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed certificateUnary endpointUnary certificateEndpointBridge
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bridge ⟨hsame_refl bridge, bridgeUnary, bridgePkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' classified
+        exact hsame_symm classified
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact hsame_trans leftClassified rightClassified
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨cont_result_hsame_transport certificateEndpointBridge
+          (hsame_symm sourceRow.left), residualSymplecticCurrent, currentTransportRoute⟩
+    ledger_sound := by
+      intro row sourceRow
+      exact ⟨sourceRow.right.right, routeProvenanceCertificate⟩
+  }
+
 end BEDC.Derived.LagrangianMechanicsUp
