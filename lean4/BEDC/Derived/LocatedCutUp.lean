@@ -79,4 +79,52 @@ theorem LocatedCutCarrier_seal_boundary_exactness [AskSetup] [PackageSetup]
     hsame_trans (hsame_symm sameSealHandoff) sameSealProvenance
   exact ⟨sameHandoffProvenance, handoffRoute, sealRoute, packageSig⟩
 
+theorem LocatedCutCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert lower' upper'
+      window' handoff' sealRow' transportRow' route' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance
+        localCert bundle pkg ->
+      hsame lower lower' ->
+        hsame upper upper' ->
+          hsame handoff handoff' ->
+            hsame route route' ->
+              hsame localCert localCert' ->
+                Cont lower' upper' window' ->
+                  Cont window' handoff' transportRow' ->
+                    Cont transportRow' route' provenance' ->
+                      Cont provenance' localCert' sealRow' ->
+                        PkgSig bundle provenance' pkg ->
+                          LocatedCutCarrier lower' upper' window' handoff' sealRow'
+                              transportRow' route' provenance' localCert' bundle pkg ∧
+                            hsame window window' ∧ hsame transportRow transportRow' ∧
+                              hsame provenance provenance' ∧ hsame sealRow sealRow' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameLower sameUpper sameHandoff sameRoute sameLocalCert lowerUpperWindow'
+    windowHandoffTransport' transportRouteProvenance' provenanceLocalCertSeal'
+    provenancePkg'
+  obtain ⟨lowerUpperWindow, windowHandoffTransport, transportRouteProvenance,
+    provenanceLocalCertSeal, _provenancePkg, sameSealHandoff, sameSealProvenance⟩ :=
+    carrier
+  have sameWindow : hsame window window' :=
+    cont_respects_hsame sameLower sameUpper lowerUpperWindow lowerUpperWindow'
+  have sameTransportRow : hsame transportRow transportRow' :=
+    cont_respects_hsame sameWindow sameHandoff windowHandoffTransport windowHandoffTransport'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransportRow sameRoute transportRouteProvenance
+      transportRouteProvenance'
+  have sameSealRow : hsame sealRow sealRow' :=
+    cont_respects_hsame sameProvenance sameLocalCert provenanceLocalCertSeal
+      provenanceLocalCertSeal'
+  have sameSealHandoff' : hsame sealRow' handoff' :=
+    hsame_trans (hsame_symm sameSealRow) (hsame_trans sameSealHandoff sameHandoff)
+  have sameSealProvenance' : hsame sealRow' provenance' :=
+    hsame_trans (hsame_symm sameSealRow) (hsame_trans sameSealProvenance sameProvenance)
+  have transported :
+      LocatedCutCarrier lower' upper' window' handoff' sealRow' transportRow' route'
+          provenance' localCert' bundle pkg :=
+    ⟨lowerUpperWindow', windowHandoffTransport', transportRouteProvenance',
+      provenanceLocalCertSeal', provenancePkg', sameSealHandoff', sameSealProvenance'⟩
+  exact ⟨transported, sameWindow, sameTransportRow, sameProvenance, sameSealRow⟩
+
 end BEDC.Derived.LocatedCutUp

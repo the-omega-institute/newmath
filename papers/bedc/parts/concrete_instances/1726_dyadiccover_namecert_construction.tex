@@ -414,6 +414,35 @@ compactness, arbitrary subcovers, quotient equality of reals, and host real
 extensionality.
 \end{proof}
 
+\begin{theorem}[DyadicCover finite-subcover exhaustion]
+\label{thm:dyadic-cover-finite-subcover-exhaustion}
+Any downstream total-bounded or Real-envelope consumer of an accepted
+$\DyadicCoverUp$ packet can only read the displayed finite center list,
+dyadic radius rows, rational interval cells, mesh-refinement rows,
+finite-window envelope, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row. In particular, the consumer receives a
+finite subcover already present in the packet and cannot replace it by an
+ambient open-cover family, an arbitrary subcover choice, quotient equality of
+real names, or host real extensionality.
+\end{theorem}
+\begin{proof}
+First apply finite refinement. The displayed center, radius, interval, and
+mesh rows are refined only by the finite dyadic subcells recorded in the
+packet, so every downstream cover read starts from the same finite list.
+
+Next use refinement witness exhaustion. It identifies each refined witness
+with the packet's own center, radius, cell, transport, continuation, package,
+and naming rows, leaving no independent cover-family coordinate.
+
+Now attach the refined-window total-bounded package. The total-bounded
+consumer therefore receives the transported finite window and the same
+bounded-radius ledger rather than a separate compactness principle.
+
+Finally use Real envelope coverage exactness. It repacks the finite-window
+and total-bounded rows for $\RealUp$ and $\FiniteWindowEnvelopeUp$ consumers,
+so the displayed finite subcover exhausts the exported coverage surface.
+\end{proof}
+
 \begin{theorem}[DyadicCover scoped package]
 \label{thm:dyadic-cover-scoped-package}
 The local obligation surface of $\DyadicCoverUp$ assembles into a scoped
