@@ -201,3 +201,75 @@ through such a row.
   \notclaimed{It does not close analytic regulator values, determinant evaluation, host logarithms, Beilinson regulator data, or standard bridges.}
   \upgradepath{No further paper theory-axis upgrade is recorded for this chapter; bridge verification remains a separate verification-axis obligation.}
 \end{closurestatus}
+
+\begin{definition}[Regulator rank-zero displayed layout]
+\label{def:regulator-rank-zero-displayed-layout}
+Let
+$$
+\mathcal{R}=(\mathcal{D},\mathcal{N},u,\iota,\nu,\beta,\delta,\rho)
+$$
+be a $\RegulatorUp$ root input packet in the sense of
+\autoref{def:regulator-root-input-packet}. The packet is rank-zero displayed
+when the unary rank witness is the empty unary row,
+$$
+\nu\hsame\emp,
+$$
+and the determinant-layout row $\delta$ is read only as the finite displayed
+layout indexed by positions licensed by $\nu$, the Dirichlet-unit ledger
+$\beta$, and the public $\NumFieldUp$ source ledger of $\mathcal{N}$.
+\end{definition}
+
+\begin{theorem}[Regulator rank-zero layout degeneracy]
+\label{thm:regulator-rank-zero-layout-degeneracy}
+Let
+$$
+\mathcal{R}=(\mathcal{D},\mathcal{N},u,\iota,\nu,\beta,\delta,\rho)
+$$
+be an accepted $\RegulatorUp$ root input packet. If $\mathcal{R}$ is rank-zero
+displayed in the sense of
+\autoref{def:regulator-rank-zero-displayed-layout}, then the determinant-layout
+ledger $\delta$ is the empty finite layout over the
+$\DirichletUnitUp$ and $\NumFieldUp$ projections. Consequently the rank-zero
+packet exports no analytic regulator value, no host determinant evaluation,
+and no host logarithm equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:regulator-root-input-packet}. Its determinant-facing entries are
+only the unary rank witness $\nu$, the finite Dirichlet-unit basis and
+logarithmic ledger $\beta$, the $\NumFieldUp$ source ledger read from
+$\mathcal{N}$, and the displayed determinant-layout ledger $\delta$ linking
+those rows.
+
+Apply \autoref{thm:regulator-dirichletunit-input-boundary}. The
+$\DirichletUnitUp$ side available to the regulator consists of visible unit
+rows, inverse and unit-product rows, the unary rank witness, the finite
+basis/logarithmic ledger, finite $\Cont$ readbacks, and package provenance. In
+particular, the Dirichlet-unit dependency contributes no determinant row, no
+analytic regulator value, and no host logarithm equality.
+
+Apply \autoref{thm:regulator-numfield-carrier-boundary} to the source
+$\mathcal{N}$. The $\NumFieldUp$ side contributes the RatUp reflexive carrier,
+classifier, identity finite-extension row, singleton-basis row, scalar-action
+row, exactness row, and ledger provenance. It contributes no ambient host
+number field, quotient of embeddings, analytic place map, determinant
+evaluation, or logarithm equality.
+
+It remains to identify the determinant-layout row under the rank-zero
+hypothesis. By \autoref{def:regulator-rank-zero-displayed-layout}, the rank
+row satisfies $\nu\hsame\emp$, and $\delta$ is indexed only by positions
+licensed by $\nu$ together with the displayed $\DirichletUnitUp$ ledger
+$\beta$ and the displayed $\NumFieldUp$ source ledger. The empty unary row has
+no positive basis position to license. Hence there is no row at which a
+logarithmic column, determinant minor, or host evaluation entry can be placed.
+The only finite determinant-layout compatible with the displayed index set is
+therefore the empty layout over the two dependency projections.
+
+Finally use \autoref{thm:regulator-ledger-exactness}. It says that all
+regulator determinant and logarithm data visible at the packet boundary are
+finite displayed ledger rows shaping the input matrix, not analytic values.
+Since the rank-zero layout is empty and the packet definition contains no
+field for an analytic regulator value, host determinant evaluation, host
+logarithm equality, or bridge row, none of those rows can be exported from
+$\mathcal{R}$.
+\end{proof}
