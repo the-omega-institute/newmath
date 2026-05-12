@@ -1,0 +1,61 @@
+\begin{theorem}[DyadicApproximation mesh validated Real boundary]
+\label{thm:dyadicapproximation-mesh-validated-real-boundary}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. Let
+$M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell whose
+$\RationalIntervalUp$ cell $I$ contains the transported dyadic endpoint $d$ at
+the displayed precision $n$. Let
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p',n')$ be an accepted
+$\ValidatedNumericsUp$ enclosure over the same rational-interval cell and the
+same containment ledger.
+
+Suppose the displayed precision row, dyadic endpoint row,
+rational-interval cell, containment ledger, regular-rational window, mesh level
+and index, real-readback token, visible $\hsame$ transports, visible $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows are shared by the
+three accepted packets. Then the DyadicApproximation terminal finite-window
+route, the DyadicMesh cell-containment route, and the ValidatedNumerics
+real-readback route expose exactly one finite $\RegSeqRatUp/\RealUp$ consumer
+surface.
+
+The shared surface is precisely the precision row, endpoint row,
+rational-interval cell, mesh level and index, regular-rational window,
+validated containment ledger, real readback token, visible $\hsame$ transports,
+visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+It exports no solver correctness, floating-point semantics, host real equality,
+quotient reals, or classical completeness.
+\end{theorem}
+\begin{proof}
+First expose the DyadicApproximation terminal route. Apply
+\autoref{thm:dyadicapproximation-finite-packet-readback-exhaustion} to account
+for every public read of $A$, and apply
+\autoref{thm:dyadicapproximation-terminal-validated-enclosure-readback} to tie
+the terminal finite window to the validated enclosure readback rows.
+
+Next identify the common three-packet normal form. Apply
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form}
+to the accepted dyadic packet, the mesh cell containing its transported
+endpoint, and the validated enclosure over the same cell and containment
+ledger. This produces one finite surface over the listed precision, endpoint,
+mesh, regular-rational, real-readback, transport, continuation, provenance, and
+local naming rows.
+
+Now compare the routes. Apply
+\autoref{thm:dyadicapproximation-validated-enclosure-route-commutation} to
+identify the route that reads the terminal DyadicApproximation finite window
+and then the $\RealUp$ seal with the route that passes through the DyadicMesh
+cell and the ValidatedNumerics enclosure.
+
+Finally attach the neighboring consumer boundaries. Apply
+\autoref{thm:dyadicmesh-cell-containment-obligation} for the mesh level,
+cell-index, rational-interval, containment-ledger, transport, continuation,
+provenance, and local name rows. Apply
+\autoref{thm:dyadicmesh-validatednumerics-handoff} and
+\autoref{thm:validatednumerics-real-readback-soundness} to read the validated
+enclosure as the same finite real-readback surface.
+
+The carrier-exhaustion, normal-form, route-commutation, mesh-containment, and
+validated-readback boundaries leave no coordinate for solver correctness,
+floating-point semantics, host real equality, quotient reals, or classical
+completeness. The three routes therefore expose exactly the single finite
+$\RegSeqRatUp/\RealUp$ consumer surface stated above.
+\end{proof}

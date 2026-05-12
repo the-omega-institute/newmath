@@ -165,15 +165,42 @@ since the carrier has no additional stability coordinate.
 \end{proof}
 \leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_stability\_transport}
 
+\begin{theorem}[Lyapunov public export]
+\label{thm:lyapunov-public-export}
+The decrease ledger, $\NameCert_{\LyapunovUp}$ obligation surface, consumer
+boundary, and stability transport export exactly the finite state, transition,
+positivity, decrease, transport, continuation, provenance, and naming rows of
+$\LyapunovUp$.
+
+The public export contains no minimizer-existence principle, no global
+asymptotic completeness theorem, no analytic regularity assertion, and no
+standard-model dynamics claim.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:lyapunov-bhist-carrier}. The only
+state and transition data are the rows $X$ and $T$, and the only certificate
+data are the quadratic row, the positivity witness, and the decrease ledger.
+
+Apply \autoref{thm:lyapunov-decrease-ledger} and
+\autoref{thm:lyapunov-namecert-obligation-surface}. These identify the
+decrease row and the local naming surface over the displayed finite packet.
+
+Use \autoref{thm:lyapunov-consumer-boundary} and
+\autoref{thm:lyapunov-stability-transport} to expose the consumer-facing
+rows and their displayed transport behavior. Since all cited rows are
+projections from the same finite carrier, the excluded analytic and
+standard-model claims have no coordinate in the public export.
+\end{proof}
+
 \closureat{LyapunovUp}{seedStr}
 \closureat{LyapunovUp}{obligationStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
 \closureat{LyapunovUp}{scopedStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
-\closureat{LyapunovUp}{publicStr}[BEDC.Derived.LyapunovUp.LyapunovPacket\_consumer\_boundary]
+\closureat{LyapunovUp}{publicStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\LyapunovUp}
   \constructivestory{A Lyapunov stability row is seeded by a finite $\mathsf{BHist}$ packet of state rows, transition rows, a quadratic certificate row, a positive-definite witness row, a one-step decrease ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The seed surface binds only the finite state, transition, quadratic, positivity, one-step decrease, transport, continuation, provenance, and name rows listed in \autoref{def:lyapunov-bhist-carrier}.}
+  \scopeclosed{\autoref{thm:lyapunov-public-export} binds only the finite state, transition, quadratic, positivity, one-step decrease, transport, continuation, provenance, and name rows listed in \autoref{def:lyapunov-bhist-carrier}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
   \bridgestatus{none}

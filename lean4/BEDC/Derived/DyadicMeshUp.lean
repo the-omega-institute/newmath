@@ -117,4 +117,56 @@ theorem DyadicMeshPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
       exact ⟨sourceRow.right.right, levelCellInterval⟩
   }
 
+theorem DyadicMeshPacket_refinement_stability [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert level' cell'
+      interval' endpoint' radius' order' transport' refinement' provenance' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      hsame level level' ->
+        hsame cell cell' ->
+          hsame endpoint endpoint' ->
+            hsame radius radius' ->
+              hsame order order' ->
+                hsame transport transport' ->
+                  hsame refinement refinement' ->
+                    hsame provenance provenance' ->
+                      hsame nameCert nameCert' ->
+                        Cont level' cell' interval' ->
+                          Cont interval' endpoint' radius' ->
+                            PkgSig bundle provenance' pkg ->
+                              DyadicMeshPacket level' cell' interval' endpoint' radius' order'
+                                  transport' refinement' provenance' nameCert' bundle pkg ∧
+                                hsame interval interval' := by
+  intro packet sameLevel sameCell sameEndpoint sameRadius sameOrder sameTransport
+    sameRefinement sameProvenance sameNameCert levelCellInterval' intervalEndpointRadius'
+    provenancePkg'
+  rcases packet with
+    ⟨levelUnary, cellUnary, intervalUnary, endpointUnary, radiusUnary, orderUnary,
+      transportUnary, refinementUnary, provenanceUnary, nameCertUnary, levelCellInterval,
+      intervalEndpointRadius, _provenancePkg⟩
+  have sameInterval : hsame interval interval' :=
+    cont_respects_hsame sameLevel sameCell levelCellInterval levelCellInterval'
+  have levelUnary' : UnaryHistory level' := unary_transport levelUnary sameLevel
+  have cellUnary' : UnaryHistory cell' := unary_transport cellUnary sameCell
+  have intervalUnary' : UnaryHistory interval' :=
+    unary_cont_closed levelUnary' cellUnary' levelCellInterval'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have radiusUnary' : UnaryHistory radius' := unary_transport radiusUnary sameRadius
+  have orderUnary' : UnaryHistory order' := unary_transport orderUnary sameOrder
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have refinementUnary' : UnaryHistory refinement' :=
+    unary_transport refinementUnary sameRefinement
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_transport nameCertUnary sameNameCert
+  exact
+    ⟨⟨levelUnary', cellUnary', intervalUnary', endpointUnary', radiusUnary', orderUnary',
+        transportUnary', refinementUnary', provenanceUnary', nameCertUnary',
+        levelCellInterval', intervalEndpointRadius', provenancePkg'⟩,
+      sameInterval⟩
+
 end BEDC.Derived.DyadicMeshUp
