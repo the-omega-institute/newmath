@@ -60,7 +60,7 @@ class DerivedFromTraceabilityTests(unittest.TestCase):
 
     def _write_capstone(self, name: str) -> None:
         (self.repo / "papers" / "bedc" / "parts" / "capstones" / f"{name}.tex").write_text(
-            rf"\chapter{{Test}}\label{{ch:capstones-{name}}}"
+            rf"\chapter{{Test}}\label{{ch:visions-{name}}}"
         )
 
     def _msg_with_implemented(self, name: str, derivedfrom: str | None = None) -> str:
@@ -84,11 +84,11 @@ class DerivedFromTraceabilityTests(unittest.TestCase):
 
     def test_passes_when_derivedfrom_resolves(self) -> None:
         self._write_capstone("real-completeness")
-        msg = self._msg_with_implemented("FooUp", "ch:capstones-real-completeness")
+        msg = self._msg_with_implemented("FooUp", "ch:visions-real-completeness")
         self.assertEqual(audit_derived_from_traceability(msg, self.repo), [])
 
     def test_fails_when_capstone_missing(self) -> None:
-        msg = self._msg_with_implemented("FooUp", "ch:capstones-nonexistent")
+        msg = self._msg_with_implemented("FooUp", "ch:visions-nonexistent")
         issues = audit_derived_from_traceability(msg, self.repo)
         self.assertEqual(len(issues), 1)
         self.assertIn("nonexistent", issues[0])
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 在 `lean4/scripts/bedc_ci.py` 中合适位置 (类似 `audit_closurestatus_blocks` 附近) 添加:
 
 ```python
-DERIVED_FROM_LABEL_RE = re.compile(r"^ch:capstones-[a-z0-9-]+$")
+DERIVED_FROM_LABEL_RE = re.compile(r"^ch:visions-[a-z0-9-]+$")
 
 
 def audit_derived_from_traceability(commit_message: str, repo_root: Path) -> list[str]:
@@ -148,10 +148,10 @@ def audit_derived_from_traceability(commit_message: str, repo_root: Path) -> lis
         if not DERIVED_FROM_LABEL_RE.match(derivedfrom):
             issues.append(
                 f"implemented_target '{name}': derivedfrom '{derivedfrom}' is malformed "
-                f"(expected 'ch:capstones-<theme>')"
+                f"(expected 'ch:visions-<theme>')"
             )
             continue
-        theme = derivedfrom[len("ch:capstones-"):]
+        theme = derivedfrom[len("ch:visions-"):]
         capstone_path = cap_root / f"{theme}.tex"
         if not capstone_path.exists():
             issues.append(
@@ -306,7 +306,7 @@ class TransparencyBlockParserTests(unittest.TestCase):
             proposed_candidates:
               - name: RegSeqRatUp
                 source_capstone: real-completeness
-                source_location: papers/bedc/parts/capstones/real_completeness.tex:L40-L60
+                source_location: papers/bedc/parts/visions/real_completeness.tex:L40-L60
                 taste_gate_feasibility:
                   bhist_carrier_sketch: "Bishop-style regular Cauchy stream"
                   conservativity_argument: "Adds carrier predicate over BHist"
@@ -318,7 +318,7 @@ class TransparencyBlockParserTests(unittest.TestCase):
             implemented_targets:
               - name: RegSeqRatUp
                 file: papers/bedc/parts/concrete_instances/301_regseqrat_namecert_construction.tex
-                derivedfrom: ch:capstones-real-completeness
+                derivedfrom: ch:visions-real-completeness
             ```
         """)
         from bedc_ci import parse_transparency_block
@@ -330,7 +330,7 @@ class TransparencyBlockParserTests(unittest.TestCase):
         feas = result["proposed_candidates"][0]["taste_gate_feasibility"]
         self.assertEqual(feas["bhist_carrier_sketch"], "Bishop-style regular Cauchy stream")
         self.assertEqual(result["implemented_targets"][0]["derivedfrom"],
-                         "ch:capstones-real-completeness")
+                         "ch:visions-real-completeness")
 
     def test_returns_none_when_no_block(self) -> None:
         from bedc_ci import parse_transparency_block
@@ -495,7 +495,7 @@ class CapstoneStopRespectAuditTests(unittest.TestCase):
             deferred_candidates:
               - concept: {name}
                 source_capstone: inter-hist-locality
-                source_location: papers/bedc/parts/capstones/inter-hist-locality.tex:{line_range}
+                source_location: papers/bedc/parts/visions/inter-hist-locality.tex:{line_range}
                 stop_marker_text: "SCHEMA-ONLY"
             proposed_candidates: []""")
         else:
@@ -503,7 +503,7 @@ class CapstoneStopRespectAuditTests(unittest.TestCase):
             proposed_candidates:
               - name: {name}
                 source_capstone: inter-hist-locality
-                source_location: papers/bedc/parts/capstones/inter-hist-locality.tex:{line_range}
+                source_location: papers/bedc/parts/visions/inter-hist-locality.tex:{line_range}
                 taste_gate_feasibility:
                   bhist_carrier_sketch: "ok"
                   conservativity_argument: "ok"
@@ -1424,7 +1424,7 @@ Every P-round commit message body MUST include a fenced YAML block opened with `
 proposed_candidates:
   - name: <X>Up
     source_capstone: <theme-slug-or-null>
-    source_location: papers/bedc/parts/capstones/<theme>.tex:L<start>-L<end>
+    source_location: papers/bedc/parts/visions/<theme>.tex:L<start>-L<end>
     taste_gate_feasibility:
       bhist_carrier_sketch: "<text>"
       conservativity_argument: "<text>"
@@ -1448,10 +1448,10 @@ deferred_candidates:
 implemented_targets:
   - name: <X>Up
     file: papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex
-    derivedfrom: ch:capstones-<theme>   # optional, only when capstone-derived
+    derivedfrom: ch:visions-<theme>   # optional, only when capstone-derived
 ```
 
-`implemented_targets[].derivedfrom` 是可选字段. 当 chapter 由 capstone narrative 触发时填 `ch:capstones-<theme>` (该 theme 必须真存在); audit `G_derived_from_traceability` 验证. 独立 horizon (与 capstone 无关) 省略此字段.
+`implemented_targets[].derivedfrom` 是可选字段. 当 chapter 由 capstone narrative 触发时填 `ch:visions-<theme>` (该 theme 必须真存在); audit `G_derived_from_traceability` 验证. 独立 horizon (与 capstone 无关) 省略此字段.
 
 Missing transparency block: G_capstone_stop_respect 和 G_taste_gate_feasibility 无法 audit, 但 G_derived_from_traceability 也 skip — 这是可见性损失, 非 invariant 违反.
 ```
@@ -1495,7 +1495,7 @@ Every P-round commit message body MUST contain a `` ```transparency `` fenced YA
 1. `proposed_candidates` — each candidate you considered AND proposed this round. Include full 5-field `taste_gate_feasibility`. `source_location` is the exact line range in the capstone where the concept was identified.
 2. `rejected_candidates` — each candidate considered AND dropped due to TasteGate failure. Include `failed_obligation` and 1-sentence `rationale`.
 3. `deferred_candidates` — each candidate skipped because the capstone region contains a STOP marker. Quote the exact `stop_marker_text` observed.
-4. `implemented_targets` — each target actually committed this round. Include `file` path. Add optional `derivedfrom: ch:capstones-<theme>` ONLY when the chapter was created in response to that capstone's narrative — the theme must reference a real `parts/capstones/<theme>.tex`. Omit `derivedfrom` for independent horizons.
+4. `implemented_targets` — each target actually committed this round. Include `file` path. Add optional `derivedfrom: ch:visions-<theme>` ONLY when the chapter was created in response to that capstone's narrative — the theme must reference a real `parts/visions/<theme>.tex`. Omit `derivedfrom` for independent horizons.
 
 Example:
 
@@ -1511,7 +1511,7 @@ deferred_candidates: []
 implemented_targets:
   - name: ExampleUp
     file: papers/bedc/parts/concrete_instances/<NN>_example_namecert_construction.tex
-    derivedfrom: ch:capstones-some-theme
+    derivedfrom: ch:visions-some-theme
 ```
 
 prompts: vN.M
@@ -1546,7 +1546,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 - [ ] **Step 1: 确认 inter_hist_locality.tex 保留 SCHEMA-ONLY 标注**
 
-运行: `cd /Users/auric/newmath && grep -cE "SCHEMA-ONLY|deferred to future" papers/bedc/parts/capstones/inter_hist_locality.tex`
+运行: `cd /Users/auric/newmath && grep -cE "SCHEMA-ONLY|deferred to future" papers/bedc/parts/visions/inter_hist_locality.tex`
 预期: ≥ 6 (匹配 spec §11.5 fixture).
 
 - [ ] **Step 2: 跑 P-round**
@@ -1606,7 +1606,7 @@ python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 ## 成功标准
 
 - [ ] 至少 1 个 deferred_candidates 来自 inter_hist_locality 的 SCHEMA-ONLY 区域
-- [ ] 若有 chapter 被创建, 含 implemented_targets[].derivedfrom 指向 ch:capstones-inter-hist-locality
+- [ ] 若有 chapter 被创建, 含 implemented_targets[].derivedfrom 指向 ch:visions-inter-hist-locality
 - [ ] 所有 7 gate PASS (无 false positive / false negative) 或记录 failure mode
 
 ## 发现的问题 (若有)
