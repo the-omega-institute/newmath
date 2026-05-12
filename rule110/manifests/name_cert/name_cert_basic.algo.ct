@@ -1,0 +1,38 @@
+# name_cert_basic.algo.ct
+# Algorithm framing for the NameCert finite ground fixture.
+#
+# The manifest runner executes cyclic-tag productions but leaves theorem
+# predicate decoding to the C harness. This production is inert; the executable
+# semantics are checked in tests/test_name_cert.c.
+PRODUCTIONS 1
+0
+ASSERTIONS 29
+case core_empty_chain:                  input=1011101111111110101011           ; name_cert=yes
+case core_depth_one_chain:              input=101101011011101101110101011      ; name_cert=yes
+case core_vacuous_relation:             input=10111011011101111100011          ; name_cert=yes
+case core_transport_reject:             input=10111011111011101110101011       ; name_cert=no
+case core_bad_source_bit:               input=10111011011101101110101011       ; name_cert=no
+case semantic_empty_transport:          input=01011101111111110101011          ; name_cert=yes
+case semantic_chain_depth_two:          input=0101100101101011101011001110101011; name_cert=yes
+case semantic_source_outside_vacuous:   input=01011101101110110111010011       ; name_cert=yes
+case semantic_bad_classifier:           input=01011001011011101011001110101011 ; name_cert=no
+case semantic_bad_source_bit:           input=010111011011101101110101011      ; name_cert=no
+case seal_thread0_bound0:               input=00101110111011                   ; name_cert=yes
+case seal_thread2_bound1:               input=00101100101101011                ; name_cert=yes
+case seal_trailing_reject:              input=0010111011101111                 ; name_cert=no
+case seal_bad_thread:                   input=001011111011                     ; name_cert=no
+case stable_empty:                      input=00010111111101011                ; name_cert=yes
+case stable_depth_one:                  input=00010110111011101011             ; name_cert=yes
+case stable_not_same_vacuous:           input=000101111101101011               ; name_cert=yes
+case stable_bad_same_bit:               input=0001011111011101011              ; name_cert=no
+case stable_no_ledger:                  input=0001011011101110011              ; name_cert=no
+case composition_empty:                 input=00001011111110101011             ; name_cert=yes
+case composition_depth_two:             input=00001011010111001110101011       ; name_cert=yes
+case composition_not_same_vacuous:      input=000010111110110101011            ; name_cert=yes
+case composition_bad_same:              input=0000101111101110101011           ; name_cert=no
+case composition_missing_right_ledger:  input=0000101101110111010011           ; name_cert=no
+case mode_closure_reuse:                input=000001011101101011              ; name_cert=yes
+case mode_descent_composition:          input=0000010110010110001011          ; name_cert=yes
+case mode_composition_seal:             input=000001011000101100001011        ; name_cert=yes
+case mode_same_reject:                  input=00000101110111011               ; name_cert=no
+case mode_invalid_reject:               input=00000101100001011000001011      ; name_cert=no
