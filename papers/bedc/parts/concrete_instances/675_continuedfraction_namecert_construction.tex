@@ -392,6 +392,40 @@ completed real, quotient tail, total expansion theorem, or interval arithmetic
 law is exported.
 \end{proof}
 
+\begin{theorem}[ContinuedFraction nested cylinder boundary]
+\label{thm:continuedfraction-nested-cylinder-boundary}
+Let an accepted $\ContinuedFractionUp$ packet display two finite prefix windows
+whose smaller prefix is obtained by restricting the larger finite
+partial-quotient spine. Then the smaller $\RegSeqRatUp$ handoff and
+$\RationalIntervalUp$ endpoint window are exactly the restriction of the larger
+packet's finite partial-quotient spine, recurrence ledger, dyadic radius row,
+$\StreamNameUp$ schedule, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\ContinuedFractionUp}$ rows.
+
+The boundary exports no completed real, quotient tail, total expansion theorem,
+or interval arithmetic law.
+\end{theorem}
+\begin{proof}
+First compare the two displayed prefix windows. Apply
+\autoref{thm:continuedfraction-digit-tail-stability} to see that restricting
+the larger finite prefix preserves exactly the digit, tail, scheduled
+observation, $\hsame$, $\Cont$, package, and local name-certificate rows already
+visible in the smaller prefix.
+
+Next read both prefixes through
+\autoref{thm:continuedfraction-prefix-convergent-window}. The convergent
+numerator and denominator rows, recurrence ledger, dyadic radius row, and
+$\RegSeqRatUp$ handoff for the smaller window are therefore the restricted rows
+of the larger packet, with no extra host equality or quotient-tail coordinate.
+
+Finally apply
+\autoref{thm:continuedfraction-rational-interval-window-handoff} and
+\autoref{thm:continuedfraction-obligation-real-boundary}. These identify the
+rational-interval endpoint window and real-facing boundary as consumer views of
+the same finite handoff, so the nested cylinder boundary is precisely the
+finite restriction stated above and exports nothing beyond that surface.
+\end{proof}
+
 \closureat{ContinuedFractionUp}{seedStr}
 \closureat{ContinuedFractionUp}{obligationStr}
 \closureat{ContinuedFractionUp}{scopedStr}
