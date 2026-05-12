@@ -134,6 +134,46 @@ Add the naming-certificate obligations and sandwich exactness. These rows show t
 Finally add transport stability, dyadic-tail exhaustion, and shared tail ledger determinacy. The resulting package is stable under the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and supplies exactly the finite consumer surface needed by $\RegSeqRatUp$, $\RealUp$, and completion certificates. Since all rows have been exhausted, no quotient regular name, host equality, selected limit, or ambient order-completeness coordinate is present.
 \end{proof}
 
+\begin{theorem}[SqueezeReal scoped dependency packet]
+\label{thm:squeeze-real-scoped-dependency-packet}
+For an accepted $\SqueezeRealUp$ packet $Q=(l,x,u,\epsilon,L,U,S,E,P,N)$, the carrier row, classifier row, sandwich exactness row, transport-stability row, and dyadic-tail exhaustion row factor through exactly the displayed dependencies
+$$
+\DyadicTailBoundUp,\quad \RegularCauchyNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \mathsf{BHist},\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+The packet has no further dependency coordinate for quotient regular-name equality, host real equality, selected limits, or ambient order completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier of \autoref{def:squeeze-real-carrier} and \autoref{def:squeeze-real-classifier}. They expose only the three regular-name rows, the shared dyadic tail row, both sandwich ledgers, the real seal, transport data, continuation routes, package provenance, and local naming row.
+
+The naming obligations of \autoref{thm:squeeze-real-namecert-obligations} identify those same rows as the local $\NameCert_{\SqueezeRealUp}$ surface. Sandwich exactness in \autoref{thm:squeeze-real-sandwich-exactness} and dyadic-tail exhaustion in \autoref{thm:squeeze-real-dyadic-tail-exhaustion} consume the shared tolerance row before any ledger or seal read is exported.
+
+Transport stability in \autoref{thm:squeeze-real-transport-stability} preserves precisely the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. The completion consumer package of \autoref{thm:squeeze-real-completion-consumer-package} then repacks the rows for $\RegSeqRatUp$ and $\RealUp$ without adding a coordinate outside the listed dependencies.
+\end{proof}
+
+\begin{theorem}[SqueezeReal shared-tail real-seal factorization]
+\label{thm:squeeze-real-shared-tail-real-seal-factorization}
+Every $\RealUp$ seal read exported by an accepted $\SqueezeRealUp$ packet factors through the shared $\DyadicTailBoundUp$ row together with both sandwich ledgers. In particular, the lower and upper ledger reads are forced to consume the same tail request before the seal row $S$ can be read by a $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer.
+\end{theorem}
+\begin{proof}
+Start from the real-facing boundary of \autoref{thm:squeeze-real-realup-boundary}. It states that a seal-facing consumer can see only the regular-name rows, the shared tolerance row, both ledger rows, the displayed transport and continuation data, provenance, and the local naming row.
+
+Apply sandwich exactness from \autoref{thm:squeeze-real-sandwich-exactness}. The lower and upper ledger reads are tied to the same middle regular-name row and to the same width-bound route, so neither side can supply an independent seal coordinate.
+
+Use dyadic-tail exhaustion from \autoref{thm:squeeze-real-dyadic-tail-exhaustion} and shared tail ledger determinacy from \autoref{thm:squeeze-real-shared-tail-ledger-determinacy}. These rows force every precision read to pass through $\epsilon$ before reading $L$, $U$, and $S$, and transport stability preserves that factorization under the displayed classifier route.
+\end{proof}
+
+\begin{theorem}[SqueezeReal completion handoff scope]
+\label{thm:squeeze-real-completion-handoff-scope}
+The scoped completion-facing handoff for $\SqueezeRealUp$ is exactly the packet assembled from the scoped dependency packet of \autoref{thm:squeeze-real-scoped-dependency-packet}, the shared-tail seal factorization of \autoref{thm:squeeze-real-shared-tail-real-seal-factorization}, and the completion consumer package of \autoref{thm:squeeze-real-completion-consumer-package}. It exports the finite dyadic sandwich handoff to $\RegSeqRatUp$, $\RealUp$, and completion certificates, while excluding quotient regular names, host real equality, selected limits, and ambient order completeness.
+\end{theorem}
+\begin{proof}
+First assemble the dependency surface. The carrier, classifier, local naming obligations, transport stability, and dyadic-tail exhaustion rows give the finite $\mathsf{BHist}$ packet over $\DyadicTailBoundUp$, $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next attach the seal factorization. The shared tolerance row and both sandwich ledgers determine every $\RealUp$ seal read, so the completion-facing consumer cannot replace the finite ledger by a host equality or a selected limit.
+
+Finally use \autoref{thm:squeeze-real-completion-consumer-package}. It repacks the dependency and seal rows as the completion-facing handoff, and the boundary rows already rule out every coordinate not displayed in the accepted $\SqueezeRealUp$ carrier.
+\end{proof}
+
 \closureat{SqueezeRealUp}{seedStr}
 \closureat{SqueezeRealUp}{obligationStr}
 
