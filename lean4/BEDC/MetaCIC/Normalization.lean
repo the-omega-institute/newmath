@@ -1,6 +1,8 @@
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.Normalization.PiAdequacy
+import BEDC.MetaCIC.Normalization.ClosedSN
 
 namespace BEDC.MetaCIC
 
