@@ -57,9 +57,11 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ArzelaAscoliUp
+import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
+import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
@@ -78,8 +80,10 @@ import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
+import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
+import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
@@ -98,6 +102,7 @@ import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.NestedIntervalIntersectionUp
+import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
@@ -132,6 +137,8 @@ import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
+import BEDC.Derived.CollisionKernelUp
+import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
@@ -240,6 +247,7 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
+import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
@@ -1137,6 +1145,7 @@ import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
 import BEDC.Derived.RealUp.FiniteWindowDyadicObservationCoverage
+import BEDC.Derived.RealUp.TailClassifierPullback
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
