@@ -69,4 +69,16 @@ theorem FiniteMapCarrier_ledger_transport [AskSetup] [PackageSetup]
                   (And.intro lookupDuplicateResult' pkgSig))))))))
     (And.intro sameLookup sameResult)
 
+theorem FiniteMapCarrier_lookup_option_exactness [AskSetup] [PackageSetup]
+    {spine query lookupRoute result duplicateLedger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteMapCarrier spine query lookupRoute result duplicateLedger provenance bundle pkg ->
+      Cont lookupRoute (BHist.e0 duplicateLedger) result -> False := by
+  intro carrier extendedDuplicateLedger
+  rcases carrier with
+    ⟨_, _, _, _, _, _, _, lookupDuplicateResult, _⟩
+  have sameDuplicateLedger : hsame duplicateLedger (BHist.e0 duplicateLedger) :=
+    cont_left_cancel lookupDuplicateResult extendedDuplicateLedger
+  exact hsame_extension_self_absurd.left duplicateLedger (hsame_symm sameDuplicateLedger)
+
 end BEDC.Derived.FiniteMapUp
