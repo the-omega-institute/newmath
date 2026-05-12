@@ -74,6 +74,29 @@ theorem CompletionFunctorCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem CompletionFunctorCarrier_public_extension_interface [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name extensionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont denseMap extension extensionRead ->
+        hsame extensionRead functorLedger ->
+          UnaryHistory denseMap ∧ UnaryHistory extension ∧ UnaryHistory functorLedger ∧
+            UnaryHistory extensionRead ∧ Cont denseMap extension functorLedger ∧
+              Cont denseMap extension extensionRead ∧ hsame extensionRead functorLedger ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  intro carrier extensionReadRow sameExtensionRead
+  obtain ⟨_monadUnary, _universalUnary, _realCompletionUnary, _sourceUnary, _targetUnary,
+    denseMapUnary, extensionUnary, functorLedgerUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _nameUnary, _monadicCompletion, _denseMapRow, functorLedgerRow,
+    _functorTransportRow, _transportProvenanceRow, provenanceSig, nameSig⟩ := carrier
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed denseMapUnary extensionUnary extensionReadRow
+  exact
+    ⟨denseMapUnary, extensionUnary, functorLedgerUnary, extensionReadUnary, functorLedgerRow,
+      extensionReadRow, sameExtensionRead, provenanceSig, nameSig⟩
+
 theorem CompletionFunctorCarrier_extension_ledger_exactness [AskSetup] [PackageSetup]
     {monad universal realCompletion source target denseMap extension functorLedger transport
       routes provenance name extensionRead : BHist}
