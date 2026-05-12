@@ -1,0 +1,153 @@
+\chapter{A Concrete Naming Certificate for $\ValidatedNumericsUp$}
+\label{ch:concrete-instances-validatednumerics-namecert}
+
+The $\ValidatedNumericsUp$ interface names certified finite real enclosures in
+the interval-analysis tradition of Moore, but only through BEDC-visible
+finite data. A packet carries displayed rational or dyadic endpoints, a
+requested precision row, a regular rational observation window, a real-name
+readback token, and a containment ledger whose reads are routed by $\Cont$.
+It is therefore a consumer of $\DyadicRatCoreUp$, $\RationalIntervalUp$,
+$\RegSeqRatUp$, $\RealUp$, and $\ModulusOfConvergenceUp$, not a theorem about
+host floating-point arithmetic or external numerical solvers.
+
+\begin{definition}[ValidatedNumerics BHist source]
+\label{def:validatednumerics-bhist-source}
+A $\ValidatedNumericsUp$ packet is a finite $\mathsf{BHist}$ tuple
+$$
+V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is a $\RationalIntervalUp$ enclosure row whose endpoints are read
+  through $\RatUp$ or $\DyadicRatCoreUp$;
+\item $\varepsilon$ is the requested precision row;
+\item $\omega$ is a $\ModulusOfConvergenceUp$ row supplying the finite
+  precision-to-window request used by the packet;
+\item $\rho$ is a $\RegSeqRatUp$ observation window containing the displayed
+  rational approximants inspected at that request;
+\item $\lambda$ is a $\RealUp$ readback token for the real name being
+  observed through the finite window;
+\item $h$ records the componentwise $\hsame$ transports for the enclosure,
+  precision, modulus, observation, readback, and containment rows;
+\item $c$ records the $\Cont$ routes by which each displayed approximation is
+  read inside the enclosure row $I$;
+\item $p$ is the package provenance naming $\DyadicRatCoreUp$,
+  $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, and
+  $\ModulusOfConvergenceUp$;
+\item $n$ is the local $\NameCert_{\ValidatedNumericsUp}$ registration row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{ValidatedNumericsPacket}(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$.
+Its classifier compares two accepted packets only by transporting these
+displayed rows and replaying the finite containment routes.
+\end{definition}
+
+\begin{theorem}[ValidatedNumerics interval enclosure obligation]
+\label{thm:validatednumerics-interval-enclosure-obligation}
+Every accepted $\ValidatedNumericsUp$ packet exposes one finite
+$\RationalIntervalUp$ enclosure row $I$ and a containment ledger saying that
+each displayed approximation read from the $\RegSeqRatUp$ window $\rho$
+remains inside $I$ along a named $\Cont$ route. The obligation surface is the
+enclosure row, endpoint provenance through $\DyadicRatCoreUp$ or $\RatUp$,
+the precision request, the modulus row, the observation window, and the
+containment ledger routed by $c$ and transported by $h$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:validatednumerics-bhist-source}. The only interval coordinate is
+$I$, and the only routes from displayed approximations to interval
+containment are the $\Cont$ rows stored in $c$.
+
+The endpoint source is read from the package provenance $p$, while
+$\varepsilon$, $\omega$, and $\rho$ give the precision request, modulus row,
+and regular rational observation window. Transporting the packet uses $h$ on
+exactly those rows, so the accepted enclosure obligation is exhausted by the
+finite packet coordinates.
+\end{proof}
+
+\begin{theorem}[ValidatedNumerics real readback soundness]
+\label{thm:validatednumerics-real-readback-soundness}
+For an accepted $\ValidatedNumericsUp$ packet
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$, the $\RealUp$ readback token
+$\lambda$ is sound only through the displayed $\RegSeqRatUp$ window $\rho$ and
+the precision row supplied by $\ModulusOfConvergenceUp$. A consumer may read
+the real name as a finite validated enclosure at the requested precision, but
+the packet exports no general convergence proof, no classical real
+completeness, and no equality of completed real representatives.
+\end{theorem}
+\begin{proof}
+Read $\lambda$ together with $\rho$ and $\omega$ from the same carrier. The
+token is not interpreted in isolation: the only available precision request
+is $\varepsilon$, and the only finite observations attached to that request
+are the displayed rows of $\rho$.
+
+The containment routes from
+\autoref{thm:validatednumerics-interval-enclosure-obligation} then place each
+displayed approximation inside $I$. Repacking $\lambda$ with these window and
+containment rows gives the finite readback soundness statement, while no
+carrier coordinate remains for completeness or completed-real equality.
+\end{proof}
+
+\begin{theorem}[ValidatedNumerics five-row NameCert sketch]
+\label{thm:validatednumerics-five-row-namecert-sketch}
+The seed $\NameCert_{\ValidatedNumericsUp}$ surface is assembled from five
+visible dependency rows:
+\begin{enumerate}
+\item a $\DyadicRatCoreUp$ endpoint or precision budget row;
+\item a $\RationalIntervalUp$ enclosure row;
+\item a $\ModulusOfConvergenceUp$ precision-to-window row;
+\item a $\RegSeqRatUp$ observation-window row;
+\item a $\RealUp$ readback row.
+\end{enumerate}
+Together with the containment ledger, $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance, and local name row, these rows form the finite validated
+numerics naming certificate.
+\end{theorem}
+\begin{proof}
+Start from the packet coordinates in
+\autoref{def:validatednumerics-bhist-source}. The five listed rows are exactly
+the dependency-bearing coordinates: endpoints or precision budget from $I$
+and $p$, the interval row $I$, the modulus row $\omega$, the observation row
+$\rho$, and the readback token $\lambda$.
+
+The remaining coordinates are structural. The transport row $h$ preserves the
+displayed rows under classifier movement, $c$ routes containment reads, $p$
+records the package provenance, and $n$ registers the local name. Repacking
+these coordinates gives the seed naming-certificate surface without adding a
+host numerical-analysis theorem.
+\end{proof}
+
+\begin{theorem}[ValidatedNumerics dependency boundary]
+\label{thm:validatednumerics-dependency-boundary}
+The dependency boundary of $\ValidatedNumericsUp$ is precisely
+$\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, and
+$\ModulusOfConvergenceUp$, together with the BEDC kernel rows
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The packet does not
+depend on floating-point hardware semantics, a solver-correctness theorem, a
+classical completeness principle for real numbers, or a global convergence
+claim beyond the displayed finite modulus request.
+\end{theorem}
+\begin{proof}
+Inspect the package row $p$ of
+\autoref{def:validatednumerics-bhist-source}. It names exactly the five
+concrete dependency surfaces listed in the statement, and every consumer read
+passes through the kernel rows $h$, $c$, $p$, and $n$.
+
+The interval enclosure obligation and real readback soundness theorems use no
+other coordinate. Since floating-point execution, solver correctness,
+classical completeness, and global convergence are not rows of the finite
+packet, they are outside the dependency boundary.
+\end{proof}
+
+\closureat{ValidatedNumericsUp}{seedStr}
+
+\begin{closurestatus}{\ValidatedNumericsUp}
+  \constructivestory{A $\ValidatedNumericsUp$ packet is generated by a rational or dyadic interval enclosure, a requested precision row, a finite modulus-of-convergence request, a regular rational observation window, a real-name readback token, containment routes, transport rows, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:validatednumerics-bhist-source}, \autoref{thm:validatednumerics-interval-enclosure-obligation}, \autoref{thm:validatednumerics-real-readback-soundness}, \autoref{thm:validatednumerics-five-row-namecert-sketch}, and \autoref{thm:validatednumerics-dependency-boundary} declare the finite certified-enclosure seed over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close general convergence, floating-point hardware semantics, classical real completeness, or solver correctness.}
+  \upgradepath{A Lean carrier and semantic naming-certificate theorem for the finite enclosure packet are required before the verification axis can leave the unformalized grade.}
+\end{closurestatus}
