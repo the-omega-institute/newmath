@@ -76,6 +76,42 @@ theorem CauchyTailComparisonCarrier_tail_stability [AskSetup] [PackageSetup]
                                                         (And.intro endpointReadback
                                                           (And.intro endpointSame pkgSig))
 
+theorem CauchyTailComparisonCarrier_real_completion_handoff [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+        provenance namecert endpoint bundle pkg →
+      UnaryHistory leftName ∧
+        UnaryHistory rightName ∧
+          UnaryHistory modulus ∧
+            UnaryHistory window ∧
+              UnaryHistory endpointLedger ∧
+                UnaryHistory readback ∧
+                  UnaryHistory provenance ∧
+                    UnaryHistory namecert ∧
+                      Cont (append leftName rightName) modulus window ∧
+                        Cont window endpointLedger readback ∧
+                          hsame endpoint (append readback provenance) ∧
+                            hsame namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  obtain ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary,
+    readbackUnary, provenanceUnary, namecertUnary, _endpointUnary, commonWindow,
+    endpointReadback, endpointSame, namecertSame, pkgSig⟩ := carrier
+  exact And.intro leftUnary
+    (And.intro rightUnary
+      (And.intro modulusUnary
+        (And.intro windowUnary
+          (And.intro endpointLedgerUnary
+            (And.intro readbackUnary
+              (And.intro provenanceUnary
+                (And.intro namecertUnary
+                  (And.intro commonWindow
+                    (And.intro endpointReadback
+                      (And.intro endpointSame
+                        (And.intro namecertSame pkgSig)))))))))))
+
 def CauchyTailComparisonCommonWindowCarrier [AskSetup] [PackageSetup]
     (leftName rightName modulus window endpointLedger readback provenance nameRow endpoint :
       BHist)
