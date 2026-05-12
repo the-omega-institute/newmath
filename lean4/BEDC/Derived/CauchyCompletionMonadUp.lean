@@ -210,4 +210,20 @@ theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [Pa
     ⟨targetPacket, composedScheduleUnary, composedObservationsUnary, composedSealUnary,
       composedRouteUnary, composedSealPkg⟩
 
+theorem CauchyCompletionMonadPacket_unit_boundary [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle BHist.Empty pkg ->
+      CauchyCompletionMonadPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg ∧
+        UnaryHistory BHist.Empty ∧ Cont BHist.Empty BHist.Empty BHist.Empty ∧
+          PkgSig bundle BHist.Empty pkg := by
+  intro emptyPkg
+  have emptyPacket :
+      CauchyCompletionMonadPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg :=
+    ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+      cont_left_unit BHist.Empty, cont_left_unit BHist.Empty, cont_left_unit BHist.Empty,
+      cont_left_unit BHist.Empty, emptyPkg⟩
+  exact ⟨emptyPacket, unary_empty, cont_left_unit BHist.Empty, emptyPkg⟩
+
 end BEDC.Derived.CauchyCompletionMonadUp
