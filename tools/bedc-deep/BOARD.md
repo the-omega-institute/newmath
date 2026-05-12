@@ -18,26 +18,3 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-701 - ThetaFunction coefficient-prefix restriction carrier
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | ThetaFunction coefficient-prefix restriction carrier |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-
-Problem:
-If a ThetaFunctionUp packet has a finite q-expansion coefficient window and a displayed prefix window accepted by the same ComplexSeriesUp coefficient classifier, then replacing the window by that prefix while keeping the same period, holomorphic-chart, package, and continuation rows yields another accepted ThetaFunctionUp carrier source.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex`
-
-Rationale:
-ThetaFunctionUp has no matching completed state target in the scanned state files and remains only public-closed with no bridge at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:139-154. The carrier source is explicitly a finite packet with period ledger, holomorphic local-function row, finite q-expansion coefficient window, package provenance, and continuation readbacks at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:9-19. Ledger exactness says exactly those finite rows are exposed and no infinite coefficient object or completed modular form is exported at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:58-82. The existing modular-shift theorem handles transport by period shift at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:113-124, but the simpler finite-prefix restriction companion is absent and would exercise the finite-window side rather than another transport boundary.
-
----
