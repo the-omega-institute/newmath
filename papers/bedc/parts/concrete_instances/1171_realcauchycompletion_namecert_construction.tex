@@ -106,11 +106,74 @@ The $\Cont$ routes record how those rows are read without leaving the displayed 
 Thus the exported seal has a restricted readback scope: it is a real-facing boundary for the named diagonal packet, not an independent host real, quotient class, or ambient completion object.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion ProbeBundle window coverage]
+\label{thm:real-cauchy-completion-probebundle-window-coverage}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests. For every request $n$ bundled in $Q$, the consumer read factors through the displayed row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the corresponding $\DyadicRatCoreUp$ observation ledger.
+
+Moreover, the whole bundled family repacks as a single finite consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This surface contains no quotient stream, no selected host limit, no host real equality, and no ambient completeness object.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:real-cauchy-completion-carrier}. For each bundled precision request $n$, apply \autoref{thm:real-cauchy-completion-diagonal-handoff} to obtain the route through $\mu(n)$, the diagonal packet $D$, the finite stream window, the regular-sequence readback row, and the dyadic observation ledger.
+
+The selected row is the same row identified by \autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}. Thus the bundled requests do not create separate hidden completion data; they reuse the displayed diagonal rows attached to the unary modulus.
+
+Finally, apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope} to the family of reads. Since $Q$ is finite, the pointwise routes assemble into one finite $\mathsf{BHist}$ consumer surface with the recorded $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and the same non-escape boundary is preserved for the bundle.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion obligation closure package]
+\label{thm:real-cauchy-completion-obligation-closure-package}
+The carrier of \autoref{def:real-cauchy-completion-carrier}, the
+$\NameCert_{\RealCauchyCompletionUp}$ obligation surface, the diagonal handoff,
+the non-escape boundary, and the Bishop reading jointly supply the full
+paper-side obligation surface for $\RealCauchyCompletionUp$ over
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealDiagonalCompletionUp$, and $\RealUp$.
+
+The package preserves the exclusions on quotient streams, host real equality,
+selected limits, and ambient completeness: every exported completion read is
+mediated by the displayed regular family row, unary modulus row, diagonal
+packet, finite stream window, regular-rational readback, dyadic observation
+ledger, $\RealUp$ seal row, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:real-cauchy-completion-carrier}. It lists the
+regular Cauchy family, modulus, diagonal packet, real seal, package provenance,
+and local certificate as finite packet coordinates.
+
+The obligation surface is \autoref{thm:real-cauchy-completion-namecert-obligations}.
+It binds carrier habitation, classifier stability, diagonal handoff,
+non-escape, and Bishop-style reading as the five rows consumed by the local
+certificate.
+
+The diagonal and real-facing readback rows are
+\autoref{thm:real-cauchy-completion-diagonal-handoff},
+\autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}, and
+\autoref{thm:real-cauchy-completion-real-seal-readback-scope}, with finite
+bundle coverage supplied by
+\autoref{thm:real-cauchy-completion-probebundle-window-coverage}. They force every
+consumer read through the modulus-selected diagonal packet, finite
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, dyadic observation ledger, and
+$\RealUp$ seal.
+
+The boundary and interpretation rows are
+\autoref{thm:real-cauchy-completion-non-escape-boundary} and
+\autoref{thm:real-cauchy-completion-standard-bishop-reading}. They record that
+the packet is a constructive regular-Cauchy completion interface while
+withholding quotient stream equality, host real equality, choice-selected
+limits, and ambient completeness.
+
+Assembling these five displayed rows gives the stated paper-side obligation
+closure package. No extra coordinate is introduced, so the exclusions are
+preserved componentwise.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
+\closureat{RealCauchyCompletionUp}{obligationStr}
 
 \begin{closurestatus}{\RealCauchyCompletionUp}
   \constructivestory{A $\RealCauchyCompletionUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy family, an explicit unary modulus, a $\RealDiagonalCompletionUp$ diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope registers the carrier, five-row naming-certificate obligation surface, diagonal handoff, non-escape boundary, and Bishop-style reading for regular Cauchy completion over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealDiagonalCompletionUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
