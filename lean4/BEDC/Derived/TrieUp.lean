@@ -64,6 +64,31 @@ theorem TrieSourcePacket_lookup_ledger_exhaustion [AskSetup] [PackageSetup]
     ⟨keyUnary, payloadUnary, depthUnary, branchUnary, payloadRouteUnary,
       lookupReadUnary, payloadRouteRow, lookupRow, lookupPkg⟩
 
+theorem TrieSourcePacket_finite_branch_consumer_boundary [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute terminalRead
+      branchRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont payload provenance terminalRead ->
+        Cont branch provenance branchRead ->
+          PkgSig bundle terminalRead pkg ->
+            PkgSig bundle branchRead pkg ->
+              UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory branch ∧
+                UnaryHistory terminalRead ∧ UnaryHistory branchRead ∧
+                  Cont payload provenance terminalRead ∧ Cont branch provenance branchRead ∧
+                    PkgSig bundle terminalRead pkg ∧ PkgSig bundle branchRead pkg := by
+  intro packet terminalRow branchRow terminalPkg branchPkg
+  obtain ⟨keyUnary, payloadUnary, _depthUnary, branchUnary, provenanceUnary,
+    _routeRow, _provenanceRow, _payloadRouteRow, _branchRouteRow, _packetPkg⟩ := packet
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed payloadUnary provenanceUnary terminalRow
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchUnary provenanceUnary branchRow
+  exact
+    ⟨keyUnary, payloadUnary, branchUnary, terminalUnary, branchReadUnary, terminalRow,
+      branchRow, terminalPkg, branchPkg⟩
+
 theorem TrieSourcePacket_carrier_stability [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute key' payload' depth'
       branch' provenance' route' payloadRoute' branchRoute' : BHist}
