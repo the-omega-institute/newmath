@@ -331,6 +331,36 @@ theorem AbelRuffiniPublicCertificate_radical_tower_bridge_boundary
       publicData.right.right.right.right.right.right.right.right.right,
       bridgeRow⟩
 
+theorem AbelRuffiniFiniteConsumer_completeness
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface consumer
+      readback : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> UnaryHistory consumer ->
+          Cont polynomial base coefficientLedger ->
+            Cont splittingField galoisRow galoisLedger ->
+              Cont coefficientLedger galoisLedger sourceSurface ->
+                Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                  Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                    Cont boundary s5Row publicSurface -> Cont publicSurface consumer readback ->
+                      UnaryHistory publicSurface ∧ UnaryHistory readback ∧
+                        hsame publicSurface (append boundary s5Row) ∧
+                          hsame readback (append publicSurface consumer) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary consumerUnary coefficientRow galoisLedgerRow
+  intro sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow readbackRow
+  have publicRows :=
+    AbelRuffiniPublicCertificateExport_namecert_surface polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary s5RowUnary commutatorUnary obstructionUnary
+      coefficientRow galoisLedgerRow sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow
+      publicSurfaceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed publicRows.right.right.right.right.right.left consumerUnary readbackRow
+  exact
+    ⟨publicRows.right.right.right.right.right.left, readbackUnary,
+      publicRows.right.right.right.right.right.right.right.right.right, readbackRow⟩
+
 theorem AbelRuffiniRadicalTowerBridge_standard_boundary
     {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
       sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface
@@ -360,5 +390,47 @@ theorem AbelRuffiniRadicalTowerBridge_standard_boundary
   exact
     ⟨exportRows.right.right.right.right.right.left, standardReadUnary,
       exportRows.right.right.right.right.right.right.right.right.right, standardReadRow⟩
+
+theorem AbelRuffiniRadicalTowerBridge_reassociation_witness
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger seed
+      publicSurface read folded bridge : BHist}
+    {derivedRows : List BHist} :
+    UnaryHistory polynomial ->
+      UnaryHistory base ->
+        UnaryHistory splittingField ->
+          UnaryHistory galoisRow ->
+            UnaryHistory s5Row ->
+              UnaryHistory seed ->
+                (forall row : BHist, List.Mem row derivedRows -> UnaryHistory row) ->
+                  UnaryHistory read ->
+                    Cont polynomial base coefficientLedger ->
+                      Cont splittingField galoisRow galoisLedger ->
+                        Cont coefficientLedger galoisLedger seed ->
+                          Cont (List.foldl append seed derivedRows) s5Row publicSurface ->
+                            Cont publicSurface read folded ->
+                              Cont folded s5Row bridge ->
+                                exists tail : BHist, exists bridge' : BHist,
+                                  Cont read s5Row tail ∧ Cont publicSurface tail bridge' ∧
+                                    hsame bridge bridge' ∧ UnaryHistory tail ∧
+                                      UnaryHistory bridge' := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary seedUnary
+  intro derivedUnary readUnary coefficientRow galoisLedgerRow seedRow publicSurfaceRow
+  intro publicReadRow foldedS5Row
+  have publicData :=
+    AbelRuffiniPublicCertificate_export polynomialUnary baseUnary splittingFieldUnary
+      galoisRowUnary s5RowUnary seedUnary derivedUnary coefficientRow galoisLedgerRow seedRow
+      publicSurfaceRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    publicData.right.right.right.left
+  cases cont_assoc_left_exists publicReadRow foldedS5Row with
+  | intro tail reassociated =>
+      have tailUnary : UnaryHistory tail :=
+        unary_cont_closed readUnary s5RowUnary reassociated.left
+      have bridgeUnary : UnaryHistory bridge :=
+        unary_cont_closed
+          (unary_cont_closed publicSurfaceUnary readUnary publicReadRow) s5RowUnary foldedS5Row
+      exact
+        ⟨tail, bridge, reassociated.left, reassociated.right, hsame_refl bridge, tailUnary,
+          bridgeUnary⟩
 
 end BEDC.Derived.AbelRuffiniUp
