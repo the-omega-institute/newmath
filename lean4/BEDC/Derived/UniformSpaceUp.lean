@@ -174,4 +174,66 @@ theorem UniformSpacePacket_classifier_transport_obligation [AskSetup] [PackageSe
         diagonalRefinementLedger', symmetryCompositionEndpoint', endpointPkg'⟩,
       samePointRoute, sameLedger, sameEndpoint⟩
 
+theorem UniformSpacePacket_scoped_entourage_package [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name filterbase
+      cauchy completion : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement filterbase ->
+        Cont filterbase transport cauchy ->
+          Cont cauchy provenance completion ->
+            PkgSig bundle completion pkg ->
+              UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory filterbase ∧
+                UnaryHistory cauchy ∧ UnaryHistory completion ∧ Cont point entourage diagonal ∧
+                  Cont diagonal refinement filterbase ∧ Cont filterbase transport cauchy ∧
+                    Cont cauchy provenance completion ∧ PkgSig bundle completion pkg := by
+  intro packet diagonalRefinementFilterbase filterbaseTransportCauchy
+    cauchyProvenanceCompletion completionPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, _nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterbaseUnary : UnaryHistory filterbase :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterbase
+  have cauchyUnary : UnaryHistory cauchy :=
+    unary_cont_closed filterbaseUnary transportUnary filterbaseTransportCauchy
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed cauchyUnary provenanceUnary cauchyProvenanceCompletion
+  exact
+    ⟨pointUnary, entourageUnary, filterbaseUnary, cauchyUnary, completionUnary,
+      pointEntourageDiagonal, diagonalRefinementFilterbase, filterbaseTransportCauchy,
+      cauchyProvenanceCompletion, completionPkg⟩
+
+theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition provenance name pointRoute ledger
+      endpoint handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpaceClassifierPacket point entourage diagonal refinement symmetry composition provenance
+        name pointRoute ledger endpoint bundle pkg ->
+      Cont endpoint provenance handoff ->
+        PkgSig bundle handoff pkg ->
+          UnaryHistory pointRoute ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory handoff ∧ Cont point entourage pointRoute ∧
+              Cont diagonal refinement ledger ∧ Cont symmetry composition endpoint ∧
+                Cont endpoint provenance handoff ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle handoff pkg := by
+  intro packet endpointProvenanceHandoff handoffPkg
+  rcases packet with
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, symmetryUnary,
+      compositionUnary, provenanceUnary, _nameUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointPkg⟩
+  have pointRouteUnary : UnaryHistory pointRoute :=
+    unary_cont_closed pointUnary entourageUnary pointEntouragePointRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed symmetryUnary compositionUnary symmetryCompositionEndpoint
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceHandoff
+  exact
+    ⟨pointRouteUnary, ledgerUnary, endpointUnary, handoffUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
+      endpointPkg, handoffPkg⟩
+
 end BEDC.Derived.UniformSpaceUp
