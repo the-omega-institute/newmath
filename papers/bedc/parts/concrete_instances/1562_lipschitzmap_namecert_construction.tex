@@ -1,0 +1,170 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzMapUp$}
+\label{ch:concrete-instances-lipschitzmap-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, a metric
+Lipschitz map is useful only when its bound is carried as explicit data. The
+$\LipschitzMapUp$ interface records that data as a finite BEDC packet: source
+and target $\MetricSpaceUp$ rows, a $\RealUp$-valued rational Lipschitz-bound
+ledger, a $\ContinuousMapUp$ graph row, a $\UniformModulusUp$ row induced by the
+bound, componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$
+provenance, and a local $\NameCert$ row. The packet is a connector for
+$\UniformModulusUp$, $\PicardContractionUp$, $\BanachFixedPointUp$, and
+$\ContinuousMapUp$ consumers; it is not a Banach fixed-point theorem, a
+completeness claim, differentiability data, or host function extensionality.
+
+\begin{definition}[LipschitzMap carrier]
+\label{def:lipschitz-map-carrier}
+A $\LipschitzMapUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row;
+\item $Y$ is the target $\MetricSpaceUp$ row;
+\item $B$ is a rational Lipschitz-bound ledger, read as a $\RealUp$-valued
+nonnegative bound row for target distances;
+\item $G$ is the $\ContinuousMapUp$ graph row for the carried map;
+\item $M$ is the $\UniformModulusUp$ modulus row induced by the displayed bound
+ledger;
+\item $H$ records componentwise $\hsame$ transports for source points, target
+points, distance rows, the bound ledger, graph rows, and modulus rows;
+\item $C$ records the $\Cont$ routes by which consumers read source distances,
+target distances, the Lipschitz-bound comparison, the graph row, and the
+uniform-modulus row;
+\item $P$ records $\Pkg$ provenance for $\MetricSpaceUp$, $\RealUp$,
+$\ContinuousMapUp$, $\UniformModulusUp$, $\PicardContractionUp$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\LipschitzMapUp}$ provenance row.
+\end{enumerate}
+The carrier accepts exactly those packets whose displayed graph reads and
+metric-distance rows are bounded by the ledger $B$ and whose modulus row $M$ is
+the finite uniform-modulus route induced by that same bound.
+\end{definition}
+
+\begin{definition}[LipschitzMap classifier]
+\label{def:lipschitz-map-classifier}
+For accepted $\LipschitzMapUp$ carriers
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+\quad\text{and}\quad
+L'=(X',Y',B',G',M',H',C',P',N'),
+$$
+the classifier compares source and target metric-space rows, rational
+bound-ledger rows, graph rows, induced uniform-modulus rows, transport rows,
+continuation routes, package provenance, and local certificate rows
+componentwise through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+surface.
+
+It does not compare host functions extensionally, form a quotient of maps,
+choose representatives, assert completeness of either metric space, or infer
+differentiability.
+\end{definition}
+
+\begin{theorem}[LipschitzMap NameCert obligations]
+\label{thm:lipschitz-map-namecert-obligations}
+The local $\NameCert_{\LipschitzMapUp}$ seed surface consists of five finite
+obligations:
+\begin{enumerate}
+\item carrier: the packet of \autoref{def:lipschitz-map-carrier};
+\item classifier: the componentwise comparison of
+\autoref{def:lipschitz-map-classifier};
+\item stability: $\hsame$ and $\Cont$ transport preserve the source and target
+metric rows, bound ledger, graph row, and induced modulus row;
+\item exactness: every target-distance read factors through the source-distance
+read, the displayed rational bound ledger, and the graph row;
+\item ledger policy: $\Pkg$ and $\NameCert$ expose only the listed metric,
+real-bound, continuous-map, uniform-modulus, transport, and continuation rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier. The source and target metric rows, rational bound ledger,
+graph row, induced modulus row, transport rows, continuation routes, package
+provenance, and local certificate row are exactly the visible coordinates.
+
+The classifier is componentwise by definition, so stability is obtained by
+moving each displayed coordinate through the stored $\hsame$ rows and then
+following the stored $\Cont$ routes. This preserves the order from source
+distance to graph read to target distance and bound comparison.
+
+Exactness follows because the target-distance row has no source except the
+graph row applied to source points and the bound ledger read against the
+source-distance row. The package and local certificate rows list no host
+function equality, completeness principle, differentiability datum, or chosen
+representative, so the ledger policy is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[LipschitzMap composition boundary]
+\label{thm:lipschitz-map-composition-boundary}
+Let $L$ and $L'$ be accepted $\LipschitzMapUp$ carriers whose target
+$\MetricSpaceUp$ row of $L$ is classifier-compatible with the source
+$\MetricSpaceUp$ row of $L'$. The composite consumer route is bounded by the
+displayed product of the two rational Lipschitz ledgers, reads the composite
+graph through the two $\ContinuousMapUp$ rows, and induces the composite
+$\UniformModulusUp$ row through the two visible modulus routes.
+
+The boundary is a finite consumer boundary: it does not assert completeness,
+fixed points, differentiability, or host-level equality of composite functions.
+\end{theorem}
+\begin{proof}
+Read the first carrier through its source metric row, graph row, target metric
+row, and rational bound ledger. The target row is classifier-compatible with the
+source row of the second carrier, so the intermediate metric observation is a
+visible carried row rather than a host equality.
+
+Read the second carrier through its graph row and bound ledger. The target
+distance of the second read is bounded by the second ledger applied to the
+intermediate distance, while the intermediate distance is bounded by the first
+ledger applied to the original source distance.
+
+Repack the two bound reads as the displayed product ledger and route the graph
+reads through the two $\ContinuousMapUp$ rows. The induced modulus route is the
+sequential use of the two $\UniformModulusUp$ rows, and the exclusions follow
+because neither carrier contains completeness, fixed-point, differentiability,
+or host function-extensionality coordinates.
+\end{proof}
+
+\begin{theorem}[LipschitzMap ledger nonescape]
+\label{thm:lipschitz-map-ledger-nonescape}
+Every $\UniformModulusUp$, $\PicardContractionUp$, $\BanachFixedPointUp$, or
+$\ContinuousMapUp$ consumer of an accepted $\LipschitzMapUp$ carrier factors
+through the displayed source and target $\MetricSpaceUp$ rows, rational
+$\RealUp$ bound ledger, $\ContinuousMapUp$ graph row, $\UniformModulusUp$ row,
+componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance,
+and local $\NameCert$ row.
+
+No consumer can obtain a Banach fixed-point conclusion, completeness witness,
+differentiability row, quotient of maps, selected representative, or host
+function extensionality from the Lipschitz ledger alone.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of
+\autoref{thm:lipschitz-map-namecert-obligations}. It lists the carrier,
+classifier, stability, exactness, and ledger rows available to every local
+certificate consumer.
+
+For a $\UniformModulusUp$ consumer, read the modulus row $M$ induced by the
+bound ledger $B$. For $\ContinuousMapUp$ consumers, read the graph row $G$ and
+the same transport routes. For $\PicardContractionUp$ and
+$\BanachFixedPointUp$ consumers, the only available contraction-relevant datum
+is the rational bound ledger together with the metric rows and graph route.
+
+Thus every consumer route stays inside the displayed finite packet. The
+excluded conclusions require coordinates not present in
+\autoref{def:lipschitz-map-carrier}, so they cannot escape from the local
+ledger.
+\end{proof}
+
+\closureat{LipschitzMapUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzMapUp}
+  \constructivestory{A $\LipschitzMapUp$ packet is generated from source and target $\MetricSpaceUp$ rows, a rational $\RealUp$ Lipschitz-bound ledger, a $\ContinuousMapUp$ graph row, a $\UniformModulusUp$ modulus row induced by the bound, componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, classifier, NameCert obligations, composition boundary, and ledger nonescape over $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\PicardContractionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Banach fixed point, completeness of the metric spaces, differentiability, quotient equality of maps, selected representatives, host function extensionality, or bridge checking.}
+  \upgradepath{Obligation closure requires formal transport of the bound ledger, exact target-distance readback, composite-bound routing, and consumer nonescape over the displayed metric, graph, modulus, and seal rows.}
+\end{closurestatus}
