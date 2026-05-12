@@ -102,6 +102,34 @@ theorem UniformSpacePacket_symmetry_composition_obligation [AskSetup] [PackageSe
     ⟨symmetryReadUnary, compositionReadUnary, diagonalRefinementSymmetryRead,
       symmetryCompositionRead, compositionReadPkg, namePkg⟩
 
+theorem UniformSpacePacket_entourage_ledger_exactness [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement ledger ->
+        Cont ledger composition endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+              UnaryHistory refinement ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+                Cont point entourage diagonal ∧ Cont diagonal refinement ledger ∧
+                  Cont ledger composition endpoint ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle name pkg := by
+  intro packet diagonalRefinementLedger ledgerCompositionEndpoint endpointPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    compositionUnary, _transportUnary, _provenanceUnary, _nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    namePkg⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary compositionUnary ledgerCompositionEndpoint
+  exact
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, ledgerUnary,
+      endpointUnary, pointEntourageDiagonal, diagonalRefinementLedger,
+      ledgerCompositionEndpoint, endpointPkg, namePkg⟩
+
 def UniformSpaceEntouragePacket [AskSetup] [PackageSetup]
     (base entourage diagonal symmetry composition provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
