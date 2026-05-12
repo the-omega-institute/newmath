@@ -108,4 +108,29 @@ theorem CauchyFilterCarrier_finite_window_coverage [AskSetup] [PackageSetup]
                   exact ⟨observationWindow, endpointWindow, sealedWindow, observationRow,
                     endpointRow, sealedRow, observationUnary, endpointWindowUnary, sealedUnary⟩
 
+theorem CauchyFilterPacket_common_refinement_classifier [AskSetup] [PackageSetup]
+    {stream directed threshold endpoint compat transport consumer provenance namecert left right
+      common : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterPacket stream directed threshold endpoint compat transport consumer provenance
+        namecert bundle pkg →
+      Cont directed threshold left →
+        Cont endpoint compat right →
+          Cont left right common →
+            UnaryHistory stream ∧ UnaryHistory directed ∧ UnaryHistory threshold ∧
+              UnaryHistory endpoint ∧ UnaryHistory compat ∧ UnaryHistory transport ∧
+                UnaryHistory consumer ∧ UnaryHistory provenance ∧ UnaryHistory namecert ∧
+                  Cont directed threshold left ∧ Cont endpoint compat right ∧
+                    Cont left right common ∧ hsame common (append left right) ∧
+                      PkgSig bundle provenance pkg := by
+  intro packet leftRow rightRow commonRow
+  obtain ⟨streamUnary, directedUnary, thresholdUnary, endpointUnary, compatUnary,
+    transportUnary, consumerUnary, provenanceUnary, namecertUnary, _streamDirectedRow,
+    _thresholdEndpointRow, _compatTransportRow, _endpointCompatRow, _transportConsumerRow,
+    _provenanceNamecertRow, pkgRow⟩ := packet
+  exact
+    ⟨streamUnary, directedUnary, thresholdUnary, endpointUnary, compatUnary, transportUnary,
+      consumerUnary, provenanceUnary, namecertUnary, leftRow, rightRow, commonRow, commonRow,
+      pkgRow⟩
+
 end BEDC.Derived.CauchyFilterUp
