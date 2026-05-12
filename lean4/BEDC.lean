@@ -91,6 +91,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalSelector
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
+import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalReadbackComposition
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
@@ -108,6 +109,7 @@ import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DyadicTailBoundUp
+import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
@@ -160,15 +162,15 @@ import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteVectorUp
+import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FoldDefectStokesUp
-import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
-import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -179,7 +181,6 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GradedAlgebraUp
-import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
@@ -191,7 +192,6 @@ import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KoszulDualityUp
-import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
@@ -262,6 +262,7 @@ import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
+import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
@@ -272,7 +273,6 @@ import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyInterleavingUp
-import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
@@ -282,6 +282,7 @@ import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.StateSpaceModelUp
+import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StreamDiagonalSelectorUp
@@ -359,7 +360,6 @@ import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
-import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
@@ -390,7 +390,6 @@ import BEDC.Derived.DyadicRatCoreUp.NameCertObligationSurface
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
 import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DiagonalModulusUp
-import BEDC.Derived.DyadicSplineUp
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.JonesPolynomialUp
@@ -864,6 +863,7 @@ import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
+import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
@@ -1047,6 +1047,7 @@ import BEDC.Derived.FpsUp.MultiplicativeMonoid
 import BEDC.Derived.FpsUp.PointwiseAdditiveMonoid
 import BEDC.Derived.FpsUp.PublicAlgebraInterface
 import BEDC.Derived.FpsUp.RingUpTailAlgebra
+import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
@@ -1109,6 +1110,7 @@ import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
 import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
+import BEDC.Derived.RealUp.FiniteWindowDyadicObservationCoverage
 import BEDC.Derived.InnerProductUp
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.AdeleUp
