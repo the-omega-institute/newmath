@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationTraceUp$}
+\label{ch:concrete-instances-continuationtrace-namecert}
+\origin{human}
+
+The $\ContinuationTraceUp$ packet gives the computation-as-continuation reading of \autoref{ch:visions-computation-as-continuation} a concrete finite carrier. It treats a displayed small-step computation as a $\mathsf{BHist}$ trace: each row records a source history, a mark-and-tail route, a target history, the $\hsame$ transports needed to compare displayed histories, the $\Cont$ route that witnesses the step, package provenance, and a local naming row. The packet does not introduce a host evaluator, a host termination predicate, quotient behaviour, or big-step semantic object.
+
+\begin{definition}[ContinuationTrace carrier]
+\label{def:continuation-trace-carrier}
+A $\ContinuationTraceUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+T=(S,M,R,Q,H,C,P,N)
+$$
+whose displayed coordinates are as follows:
+\begin{enumerate}
+\item $S$ is the source-history row being inspected by the small-step read;
+\item $M$ is the mark row and displayed tail route by which the step is named;
+\item $R$ is the target-history row reached by the displayed route;
+\item $Q$ is the finite trace ledger containing the ordered source, mark, tail, and target reads for each displayed step row;
+\item $H$ is the componentwise $\hsame$ transport row comparing source histories, tail histories, and target histories across accepted trace packets;
+\item $C$ is the $\Cont$ route witnessing that the displayed tail carries the source row to the target row;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{BHist}$, $\mathsf{BMark}$, $\hsame$, $\Cont$, and the continuation-reading dependencies;
+\item $N$ is the local $\NameCert_{\ContinuationTraceUp}$ row.
+\end{enumerate}
+Two accepted traces classify together only when the source histories, mark-and-tail route, target histories, finite trace ledger, $\hsame$ transport, $\Cont$ route, package row, and local certificate row are transported componentwise by the displayed rows.
+\end{definition}
+
+\begin{theorem}[ContinuationTrace NameCert obligations]
+\label{thm:continuation-trace-namecert-obligations}
+The local $\NameCert_{\ContinuationTraceUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: an accepted trace is exactly the finite packet of \autoref{def:continuation-trace-carrier};
+\item classifier: two accepted traces compare only by componentwise $\hsame$ transport of $S$, $M$, $R$, $Q$, $H$, $C$, $P$, and $N$;
+\item step readback: every displayed small-step row is read from the $\Cont$ route $C$ together with the mark-and-tail coordinate $M$ and the source and target rows $S$ and $R$;
+\item non-escape: the trace exports no host function, host termination object, quotient behaviour, or big-step semantic value;
+\item public export: the packet handed to later formalization is the same finite $\mathsf{BHist}$ trace carrier with its classifier, readback, non-escape, and provenance rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packaging operation of \autoref{def:continuation-trace-carrier}. Every coordinate in the accepted object is one of the displayed trace rows.
+
+Classifier stability is componentwise. A transport of accepted traces may compare source histories, target histories, route rows, and provenance rows, but it can only do so through the listed $\hsame$ and $\Cont$ fields.
+
+The final three rows are supplied by the readback, non-escape, and public export theorems below. Together they account for every consumer-facing trace read and keep the packet inside the BEDC history, mark, sameness, continuation, package, and naming primitives.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace small-step readback]
+\label{thm:continuation-trace-small-step-readback}
+Let $T=(S,M,R,Q,H,C,P,N)$ be an accepted $\ContinuationTraceUp$ carrier. Every displayed small-step transition read from $T$ factors through the source-history row $S$, the mark-and-tail row $M$, the target-history row $R$, the finite trace ledger $Q$, and the $\Cont$ route $C$. Conversely, any displayed $\Cont$ tail in $C$ whose source, mark, tail, and target rows are listed in $Q$ is read back as a step of the same trace classifier.
+\end{theorem}
+\begin{proof}
+Project the accepted trace through \autoref{def:continuation-trace-carrier}. A step read has no coordinates available except the source row, the mark-and-tail row, the target row, the trace ledger, and the displayed continuation route.
+
+For the forward direction, inspect the row of $Q$ named by the consumer. It records the same source, mark, tail, and target rows, and the route coordinate $C$ supplies the displayed $\Cont$ witness that the tail carries the source to the target.
+
+For the reverse direction, begin with such a displayed $\Cont$ tail in $C$. Since its source, mark, tail, and target rows are listed in $Q$, the classifier of the carrier reads it through the same local packet and returns the corresponding trace step. The transport row $H$ accounts only for $\hsame$ comparisons among displayed histories and does not alter the trace boundary.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace non-escape boundary]
+\label{thm:continuation-trace-non-escape-boundary}
+An accepted $\ContinuationTraceUp$ packet exposes no host function graph, host termination predicate, quotient behaviour relation, selected evaluator, or big-step semantic object. Its visible computational content is exactly the finite source, mark-and-tail, target, trace-ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of \autoref{def:continuation-trace-carrier}.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. None of $S$, $M$, $R$, $Q$, $H$, $C$, $P$, or $N$ is a host function, a host termination object, a quotient of behaviours, or a big-step value.
+
+The only operational row is $C$, and it is a BEDC continuation route. By \autoref{thm:continuation-trace-small-step-readback}, consumer-facing steps are recovered from that route together with the finite trace ledger $Q$ and the displayed source, mark, and target rows.
+
+Thus every exported computation read remains in the finite continuation trace packet. There is no coordinate through which a host evaluator, host termination principle, quotient behaviour, or big-step semantics can enter the public surface.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace public export]
+\label{thm:continuation-trace-public-export}
+The public $\ContinuationTraceUp$ export surface is the finite carrier of \autoref{def:continuation-trace-carrier} together with the five NameCert rows of \autoref{thm:continuation-trace-namecert-obligations}, the readback equivalence of \autoref{thm:continuation-trace-small-step-readback}, and the boundary statement of \autoref{thm:continuation-trace-non-escape-boundary}. This is the canonical finite packet for future Lean formalization of continuation traces.
+\end{theorem}
+\begin{proof}
+The carrier exposes exactly the rows $S,M,R,Q,H,C,P,N$. The NameCert theorem identifies the accepted carrier, its classifier, the step readback row, non-escape, and the public export obligation over those rows.
+
+The readback theorem accounts for the computation-facing use: displayed small-step reads are precisely reads through the source, mark-and-tail, target, trace ledger, and continuation route. The non-escape theorem accounts for the boundary by excluding host functions, host termination, quotient behaviours, selected evaluators, and big-step semantic objects.
+
+Repacking these clauses gives the public finite certificate. Since every clause points back to the same displayed carrier coordinates, the export is a concrete BEDC packet and not an external operational semantics.
+\end{proof}
+
+\closureat{ContinuationTraceUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationTraceUp}
+  \constructivestory{A $\ContinuationTraceUp$ packet is generated from finite source-history rows, mark-and-tail route rows, target-history rows, trace ledgers, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter specifies the finite continuation-trace carrier, its NameCert obligations, small-step readback, non-escape boundary, and public export over displayed BEDC rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean formalization, bridge checking, host evaluator semantics, host termination, quotient behaviours, or big-step semantics.}
+  \upgradepath{Scoped closure requires a Lean carrier and checked readback theorem for the finite $\ContinuationTraceUp$ trace packet.}
+\end{closurestatus}
