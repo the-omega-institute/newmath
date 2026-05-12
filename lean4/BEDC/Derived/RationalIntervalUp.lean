@@ -77,4 +77,10 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalRefinement_composition {left mid right lm lmr mr lmr' : BHist} :
+    Cont left mid lm -> Cont lm right lmr -> Cont mid right mr -> Cont left mr lmr' ->
+      hsame lmr lmr' := by
+  intro leftMid leftMidRight midRight leftMidRight'
+  exact cont_assoc_hsame leftMid leftMidRight midRight leftMidRight'
+
 end BEDC.Derived.RationalIntervalUp
