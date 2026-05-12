@@ -370,6 +370,43 @@ interface available from the public certificate, and the excluded graph-theory
 objects have no coordinate in the packet.
 \end{proof}
 
+\begin{theorem}[Matching alternating-cover consumer example]
+\label{thm:matching-alternating-cover-consumer-example}
+Let $G$ be a displayed $\GraphUp$ carrier, and let $M$ be a finite
+$\FinSetUp$ edge predicate satisfying $\mathsf{MatchingEdgeSet}_G(M)$. An
+alternating finite edge path together with a bipartite-cover side row consumes
+only the selected edge predicate, the displayed incidence rows, the edge
+classifier, the augmentation toggle rows, and the $\Pkg/\NameCert$ provenance
+already exposed by the public matching certificate.
+
+The resulting consumer packet is again a finite $\mathsf{BHist}$ surface. It
+records the selected path edges, incidence witnesses, membership-side rows,
+classifier comparisons, toggle ledger, cover-side rows, and provenance rows.
+It does not claim maximum matching optimality or vertex-cover duality.
+\end{theorem}
+\begin{proof}
+First bind the selected edge predicate to the public finite carrier. Apply
+\autoref{thm:matching-finite-subset-closure}. Every edge read by the
+alternating path is therefore a carried $\GraphUp$ edge with a finite
+$\FinSetUp$ provenance row.
+
+Next expose the alternating path ledger. Use
+\autoref{thm:matching-augmentation-symmetric-difference-decomposition} to
+split the path steps into selected and unselected membership-side reads, and
+then apply \autoref{thm:matching-augmenting-edge-toggle-closure} to keep the
+toggle surface inside the same matching predicate and edge classifier.
+
+Now add the cover-side consumer. Apply
+\autoref{thm:matching-bipartite-cover-consumer-boundary}. It restricts the
+cover read to selected edges, incidence rows, no-shared-vertex classifier
+comparisons, carried graph rows, and finite ledger provenance.
+
+Finally apply \autoref{thm:matching-standard-finite-edge-bridge}. The bridge
+packages the alternating path, toggle, and cover-side reads as one finite
+$\mathsf{BHist}$ consumer surface. Since the packet contains no coordinate for
+an optimality theorem or a duality theorem, neither conclusion is exported.
+\end{proof}
+
 \closureat{MatchingUp}{scopedStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
 \closureat{MatchingUp}{publicStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
 \closureat{MatchingUp}{bridgedStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
