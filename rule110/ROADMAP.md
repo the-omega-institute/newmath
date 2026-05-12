@@ -88,7 +88,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 
 Make `cook_encode` produce correct Rule 110 initial patterns.
 
-- [ ] L3.1: Derive exact glider A-H phase encodings (multi-row patterns, not single-row approximations) by direct Rule 110 simulation against Cook 2004 figures.
+- [!] L3.1: Glider A phase word `A(f1_1)=111110` is emitted and verified as a period-3, displacement-2 Rule 110 orbit. B-H and full Cook Figure 4 multi-row masks remain blocked pending direct figure access or a trusted machine-readable phase catalog; see `docs/cook_glider_phases.md`.
 - [ ] L3.2: Build collision lookup table by direct simulation (current `cook_collisions.c` simulator is heuristic; sharpen to track outgoing particle identities + velocities).
 - [ ] L3.3: Implement productive leader/ossifier/data-block patterns (current best-effort scaffolds replaced with phase-exact transcriptions).
 - [ ] L3.4: Cook encoder for arbitrary cyclic-tag programs: given (productions, tape), emit Rule 110 initial pattern whose evolution simulates the CT.
