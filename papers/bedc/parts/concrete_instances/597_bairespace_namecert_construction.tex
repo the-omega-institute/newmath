@@ -248,6 +248,44 @@ surface is exactly the finite window classifier, with no host sequence equality,
 choice-selected branch, or classical topology.
 \end{proof}
 
+\begin{theorem}[BaireSpace finite cylinder stream boundary]
+\label{thm:baire-space-finite-cylinder-stream-boundary}
+Every accepted $\BaireSpaceUp$ packet consumed by $\StreamNameUp$,
+$\RegSeqRatUp$, or $\RealUp$ is exhausted by the finite schedule, $\NatUp$
+index rows, displayed $\UnaryHistory$ answers, prefix-cylinder classifier,
+componentwise $\hsame$ rows, $\Cont$ restriction routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\BaireSpaceUp}$ ledger. These rows are the
+exact finite-cylinder boundary for stream-name, regular-sequence, and
+real-facing consumers.
+
+The boundary excludes host sequence equality, infinite tails, classical
+topology, choice-selected branches, and completed reals.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:baire-space-stream-carrier}. The carrier exposes the finite
+$\StreamNameUp$ schedule, $\NatUp$ index rows, displayed unary answers,
+prefix-cylinder classifier, transport routes, package provenance, and local
+certificate ledger.
+
+Apply \autoref{thm:baire-space-real-name-handoff} to identify the
+$\RegSeqRatUp$ and $\RealUp$ consumer rows reached from that schedule. The
+handoff uses the same finite prefix-cylinder coordinates and introduces no
+completed real or host stream equality.
+
+Use \autoref{thm:baire-space-ledger-coverage} for the remaining package and
+certificate rows, and use
+\autoref{thm:baire-space-cylinder-tail-coverage} to rule out any read from an
+undisplayed infinite tail. The obligation window classifier of
+\autoref{thm:bairespace-obligation-window-classifier} then pins the classifier
+surface to the same finite window.
+
+Thus every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer read is one
+of the projected finite-cylinder rows. Since those rows contain no host
+sequence equality, infinite tail object, classical topological principle,
+choice-selected branch, or completed real, none can appear at the boundary.
+\end{proof}
+
 \begin{theorem}[BaireSpace scoped finite-consumer boundary]
 \label{thm:bairespace-scoped-finite-consumer-boundary}
 Every $\BaireSpaceUp$ consumer read factors through the finite $\StreamNameUp$
