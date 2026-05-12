@@ -540,6 +540,36 @@ theorem DyadicApproximationCarrier_terminal_window_prefix_projection [AskSetup] 
         terminalWindowLedgerProvenance', terminalPkgSig⟩
       (And.intro rereadUnary samePrefixTerminalWindow))
 
+theorem DyadicApproximationCarrier_mesh_cell_consumer_boundary [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance meshCell enclosure consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      UnaryHistory meshCell ->
+        Cont window provenance consumer ->
+          Cont endpoint meshCell enclosure ->
+            PkgSig bundle consumer pkg ->
+              PkgSig bundle enclosure pkg ->
+                UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+                  UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory meshCell ∧
+                    UnaryHistory enclosure ∧ UnaryHistory consumer ∧
+                      Cont precision endpoint window ∧ Cont window ledger provenance ∧
+                        Cont window provenance consumer ∧ Cont endpoint meshCell enclosure ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg ∧
+                            PkgSig bundle enclosure pkg := by
+  intro carrier meshCellUnary windowProvenanceConsumer endpointMeshCellEnclosure
+    consumerPkg enclosurePkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed endpointUnary meshCellUnary endpointMeshCellEnclosure
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      meshCellUnary, enclosureUnary, consumerUnary, precisionEndpointWindow,
+      windowLedgerProvenance, windowProvenanceConsumer, endpointMeshCellEnclosure,
+      provenancePkg, consumerPkg, enclosurePkg⟩
+
 theorem DyadicApproximationCarrier_standard_finite_approximation_bridge
     [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance realSeal consumer : BHist}
