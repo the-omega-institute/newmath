@@ -167,4 +167,38 @@ theorem SignedDigitRealPacket_namecert_obligation_surface [AskSetup] [PackageSet
       exact source
   }
 
+theorem SignedDigitRealPacket_obligation_transport_package [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert streamT windowT
+      enclosureT locatedT sealRowT : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      hsame stream streamT ->
+        hsame window windowT ->
+          hsame enclosure enclosureT ->
+            hsame located locatedT ->
+              hsame sealRow sealRowT ->
+                Cont enclosureT locatedT sealRowT ->
+                  UnaryHistory streamT ∧ UnaryHistory windowT ∧ UnaryHistory enclosureT ∧
+                    UnaryHistory locatedT ∧ UnaryHistory sealRowT ∧
+                      Cont enclosureT locatedT sealRowT ∧ hsame sealRow sealRowT ∧
+                        PkgSig bundle cert pkg := by
+  intro packet sameStream sameWindow sameEnclosure sameLocated sameSeal transportSeal
+  obtain ⟨streamUnary, windowUnary, enclosureUnary, locatedUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _certUnary, _sealRoute,
+    _provenanceRoute, certSig⟩ := packet
+  have streamTUnary : UnaryHistory streamT :=
+    unary_transport streamUnary sameStream
+  have windowTUnary : UnaryHistory windowT :=
+    unary_transport windowUnary sameWindow
+  have enclosureTUnary : UnaryHistory enclosureT :=
+    unary_transport enclosureUnary sameEnclosure
+  have locatedTUnary : UnaryHistory locatedT :=
+    unary_transport locatedUnary sameLocated
+  have sealRowTUnary : UnaryHistory sealRowT :=
+    unary_transport sealUnary sameSeal
+  exact
+    ⟨streamTUnary, windowTUnary, enclosureTUnary, locatedTUnary, sealRowTUnary,
+      transportSeal, sameSeal, certSig⟩
+
 end BEDC.Derived.SignedDigitRealUp
