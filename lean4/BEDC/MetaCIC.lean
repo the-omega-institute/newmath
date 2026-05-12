@@ -8,6 +8,7 @@ import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Confluence.Diamond
 import BEDC.MetaCIC.Confluence.ClosedUnconditional
+import BEDC.MetaCIC.Confluence.ClosedGeneral
 import BEDC.MetaCIC.Beta.Conversion
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.Substitution.ClosedComposition
@@ -28,6 +29,7 @@ import BEDC.MetaCIC.TypedExamples.Polymorphic
 import BEDC.MetaCIC.TypedExamples.ChurchGallery
 import BEDC.MetaCIC.TypedExamples.ChurchAlgebra
 import BEDC.MetaCIC.TypedExamples.ChurchNatRec
+import BEDC.MetaCIC.TypedExamples.ChurchNatArith
 import BEDC.MetaCIC.TypedExamples.BetaRedex
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate

@@ -8,7 +8,7 @@ Runtime inbox, state, raw gate output, and logs remain untracked.
 | Production reason | `all_specific_board_candidates_duplicate_or_history_rejected` |
 | Apply BOARD ingest | `True` |
 | Eligible BOARD candidates this pass | `0` |
-| Duplicate/history-skipped titles | `3` |
+| Duplicate/history-skipped titles | `6` |
 | Accepted into BOARD | `0` |
 | Rejected by BOARD | `0` |
 | ACK rows emitted this pass | `9` |
@@ -27,8 +27,7 @@ Runtime inbox, state, raw gate output, and logs remain untracked.
 | --- | ---: |
 | `duplicate_board_title` | 2 |
 | `evidence_only:pipeline_status` | 3 |
-| `history_rejected:too_vague` | 1 |
-| `no_specific_board_claim` | 3 |
+| `history_rejected:too_vague` | 4 |
 
 ## Source Commits
 
