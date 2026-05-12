@@ -49,4 +49,25 @@ theorem RegularCauchyLimitClassifierCarrier_stability [AskSetup] [PackageSetup]
     ⟨readbackUnary, ledgerUnary, sealUnary, certUnary, diagonalWindowsReadback,
       readbackLedgerSeal, sameCert, certPkg⟩
 
+theorem RegularCauchyLimitClassifierCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
+      sealConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      hsame sealConsumer sealRow ->
+        UnaryHistory sealConsumer ∧ UnaryHistory readback ∧ UnaryHistory ledger ∧
+          UnaryHistory sealRow ∧ Cont diagonal windows readback ∧ Cont readback ledger sealRow ∧
+            hsame cert (append provenance sealRow) ∧ PkgSig bundle cert pkg := by
+  intro carrier sameConsumer
+  have stable :=
+    RegularCauchyLimitClassifierCarrier_stability carrier
+  obtain ⟨readbackUnary, ledgerUnary, sealUnary, _certUnary, diagonalWindowsReadback,
+    readbackLedgerSeal, sameCert, certPkg⟩ := stable
+  have consumerUnary : UnaryHistory sealConsumer :=
+    unary_transport_symm sealUnary sameConsumer
+  exact
+    ⟨consumerUnary, readbackUnary, ledgerUnary, sealUnary, diagonalWindowsReadback,
+      readbackLedgerSeal, sameCert, certPkg⟩
+
 end BEDC.Derived.RegularCauchyLimitClassifierUp
