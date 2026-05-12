@@ -77,6 +77,40 @@ For a $\RegularCauchyDifferenceUp$ consumer, the same rows supply the unary sign
 The carrier inventory exhausts both algebraic handoffs. Since no coordinate of $G$ is a quotient stream, host sequence equality proof, selected limit, or ambient completeness theorem, neither algebraic route can export such data.
 \end{proof}
 
+\begin{theorem}[RegularCauchyNegation carrier transport]
+\label{thm:regular-cauchy-negation-carrier-transport}
+Let
+$$
+G=(X,W,D,R,F,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyNegationUp$ carrier. Displayed $\hsame$ transport of the $\RegSeqRatUp$ source classifier row $R$, the sign-flipped window row $F$, the dyadic tolerance ledger $D$, and the $\RealUp$ seal row $E$, together with the stored source, schedule, route, package, and local naming rows, preserves the $\RegularCauchyNegationUp$ carrier predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-negation-carrier}. The source row, window schedule, dyadic observation row, classifier row, sign-flipped ledger, seal row, transports, routes, provenance, and local name are all coordinates of the same finite packet.
+
+Apply the classifier transport clause in \autoref{thm:regular-cauchy-negation-namecert-obligations}. It transports $X,W,D,R,F,E$ componentwise through the stored $H$ and $C$ rows. The diagonal compatibility theorem keeps the transported finite windows attached to the same dyadic observations, and the algebraic handoff theorem keeps the seal handoff routed through the same $F,R,E$ rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyNegation sign-flip ledger stability]
+\label{thm:regular-cauchy-negation-sign-flip-ledger}
+For an accepted $\RegularCauchyNegationUp$ carrier, the sign-flip route records no hidden host negation. Every negated observation is obtained from the displayed $\DyadicRatCoreUp$ row through the $\RegSeqRatUp$ finite-window ledger and is then recorded in the sign-flipped ledger $F$ before any $\RealUp$ seal handoff.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window transport obligation in \autoref{thm:regular-cauchy-negation-namecert-obligations}. It requires each negated observation to read the window schedule $W$ and dyadic row $D$ before the sign-flipped ledger $F$ is consumed.
+
+The diagonal compatibility theorem shows that changing the consumer route does not change these rows: the diagonal and limit-classifier reads both expose $X,W,D,R,F,E,H,C,P,N$. The algebraic handoff theorem then confirms that sum and difference consumers also factor through $F$, $R$, and $E$. Thus the sign flip is a finite ledger operation and not a hidden host-level negation.
+\end{proof}
+
+\begin{theorem}[RegularCauchyNegation limit-classifier compatibility]
+\label{thm:regular-cauchy-negation-limit-classifier-compatibility}
+The negated $\RegularCauchyNegationUp$ packet respects the limit classifier inherited from $\RegSeqRatUp$ and hands off to the same $\RealUp$ seal row $E$. A $\RegularCauchyLimitClassifierUp$ consumer may inspect the pointwise classifier row $R$ and the sign-flipped ledger $F$, but it receives the real-name boundary only through the displayed seal handoff $E$.
+\end{theorem}
+\begin{proof}
+Use the $\RealUp$ seal handoff clause of \autoref{thm:regular-cauchy-negation-namecert-obligations}. It forces every real-name consumer to read the source, window, dyadic, classifier, sign-flipped, seal, transport, route, package, and naming rows.
+
+Now apply diagonal compatibility. Its limit-classifier route exposes $R$ before reaching $E$, and it reaches $E$ only through $R$ and the sign-flipped ledger $F$. The algebraic handoff theorem preserves this same boundary when the negated row is consumed by sum or difference packets, so the inherited limit classifier and the $\RealUp$ seal remain compatible.
+\end{proof}
+
 \closureat{RegularCauchyNegationUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyNegationUp}
