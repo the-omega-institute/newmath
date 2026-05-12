@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -165,5 +166,37 @@ theorem DiagonalModulusWindowCarrier_selector_total [AskSetup] [PackageSetup]
   have sealUnary : UnaryHistory «seal» :=
     unary_cont_closed windowUnary readbackUnary sealRow
   exact ⟨windowUnary, sealUnary, windowRow, sealRow, sealPkg⟩
+
+theorem DiagonalModulusWindowCarrier_completion_classifier_transport [AskSetup] [PackageSetup]
+    {precision modulus window readback dyadic sealRow provenance nameCert precision' modulus'
+      window' readback' dyadic' sealRow' provenance' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusWindowCarrier precision modulus window readback dyadic sealRow provenance
+        nameCert bundle pkg ->
+      hsame precision precision' ->
+        hsame modulus modulus' ->
+          hsame window window' ->
+            hsame readback readback' ->
+              hsame dyadic dyadic' ->
+                hsame sealRow sealRow' ->
+                  hsame provenance provenance' ->
+                    hsame nameCert nameCert' ->
+                      PkgSig bundle sealRow' pkg ->
+                        DiagonalModulusWindowCarrier precision' modulus' window' readback'
+                          dyadic' sealRow' provenance' nameCert' bundle pkg := by
+  intro carrier samePrecision sameModulus sameWindow sameReadback sameDyadic sameSeal
+    sameProvenance sameNameCert sealPkg'
+  obtain ⟨precisionUnary, modulusUnary, readbackUnary, dyadicUnary, nameCertUnary,
+    precisionModulusWindow, windowReadbackSeal, readbackDyadicProvenance, _sealPkg⟩ := carrier
+  exact
+    ⟨unary_transport precisionUnary samePrecision,
+      unary_transport modulusUnary sameModulus,
+      unary_transport readbackUnary sameReadback,
+      unary_transport dyadicUnary sameDyadic,
+      unary_transport nameCertUnary sameNameCert,
+      cont_hsame_transport samePrecision sameModulus sameWindow precisionModulusWindow,
+      cont_hsame_transport sameWindow sameReadback sameSeal windowReadbackSeal,
+      cont_hsame_transport sameReadback sameDyadic sameProvenance readbackDyadicProvenance,
+      sealPkg'⟩
 
 end BEDC.Derived.DiagonalModulusUp
