@@ -121,4 +121,22 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
 
+theorem RationalIntervalPacket_endpoint_width_ledger [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint width : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont left right width ->
+        UnaryHistory width ∧ hsame width order ∧ UnaryHistory containment ∧
+          Cont order containment transport ∧ PkgSig bundle endpoint pkg := by
+  intro packet widthRow
+  obtain ⟨leftUnary, rightUnary, _orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, orderRow, containmentRow,
+    _provenanceRow, _endpointRow, endpointPkg⟩ := packet
+  have widthUnary : UnaryHistory width :=
+    unary_cont_closed leftUnary rightUnary widthRow
+  have sameWidthOrder : hsame width order :=
+    cont_deterministic widthRow orderRow
+  exact ⟨widthUnary, sameWidthOrder, containmentUnary, containmentRow, endpointPkg⟩
+
 end BEDC.Derived.RationalIntervalUp

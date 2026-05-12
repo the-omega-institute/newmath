@@ -64,6 +64,26 @@ theorem TrieSourcePacket_lookup_ledger_exhaustion [AskSetup] [PackageSetup]
     ⟨keyUnary, payloadUnary, depthUnary, branchUnary, payloadRouteUnary,
       lookupReadUnary, payloadRouteRow, lookupRow, lookupPkg⟩
 
+theorem TrieFiniteBranchConsumer_boundary [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute branchConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute bundle
+        pkg ->
+      Cont branch payloadRoute branchConsumer ->
+        UnaryHistory branchConsumer ∧ hsame branchConsumer (append branch payloadRoute) ∧
+          UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+            UnaryHistory branch ∧ PkgSig bundle provenance pkg := by
+  intro packet branchConsumerRow
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, _provenanceUnary, _routeRow,
+    _provenanceRow, payloadRouteRow, _branchRouteRow, pkgRow⟩ := packet
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed payloadUnary depthUnary payloadRouteRow
+  have branchConsumerUnary : UnaryHistory branchConsumer :=
+    unary_cont_closed branchUnary payloadRouteUnary branchConsumerRow
+  exact
+    ⟨branchConsumerUnary, branchConsumerRow, keyUnary, payloadUnary, depthUnary, branchUnary,
+      pkgRow⟩
+
 theorem TrieSourcePacket_carrier_stability [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute key' payload' depth'
       branch' provenance' route' payloadRoute' branchRoute' : BHist}
