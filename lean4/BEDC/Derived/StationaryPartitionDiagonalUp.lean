@@ -99,4 +99,30 @@ theorem StationaryPartitionDiagonalCarrier_window_exactness [AskSetup] [PackageS
   exact ⟨windowUnary, refinedWindowUnary, readbackUnary, partitionLedgerWindow,
     refinedWindowReadback, sameWindow, pkgSig⟩
 
+theorem StationaryPartitionDiagonalCarrier_seal_boundary [AskSetup] [PackageSetup]
+    {rat partition diagonal constantStream dyadic realSeal ledger transport provenance localCert
+      endpoint sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryPartitionDiagonalCarrier rat partition diagonal constantStream dyadic realSeal ledger
+        transport provenance localCert endpoint bundle pkg ->
+      UnaryHistory localCert ->
+        Cont realSeal localCert sealRead ->
+          UnaryHistory rat ∧ UnaryHistory partition ∧ UnaryHistory diagonal ∧
+            UnaryHistory constantStream ∧ UnaryHistory dyadic ∧ UnaryHistory realSeal ∧
+              UnaryHistory ledger ∧ UnaryHistory sealRead ∧ Cont rat partition diagonal ∧
+                Cont diagonal constantStream dyadic ∧ Cont dyadic realSeal ledger ∧
+                  Cont realSeal localCert sealRead ∧ PkgSig bundle endpoint pkg := by
+  intro carrier localCertUnary realSealLocalCert
+  obtain ⟨ratUnary, partitionUnary, diagonalUnary, constantStreamUnary, dyadicUnary,
+    realSealUnary, ledgerUnary, _transportUnary, _provenanceUnary, _carrierLocalCertUnary,
+    _endpointUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
+    _ledgerTransportProvenance, _provenanceLocalEndpoint, _endpointReadback, pkgSig⟩ :=
+    carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed realSealUnary localCertUnary realSealLocalCert
+  exact
+    ⟨ratUnary, partitionUnary, diagonalUnary, constantStreamUnary, dyadicUnary, realSealUnary,
+      ledgerUnary, sealReadUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
+      realSealLocalCert, pkgSig⟩
+
 end BEDC.Derived.StationaryPartitionDiagonalUp
