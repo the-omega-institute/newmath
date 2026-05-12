@@ -50,6 +50,42 @@ Transport the first component through the first $\MetricSpaceUp$ classifier and 
 The two distance witness rows transport with their source component rows, and the product-distance ledger transports after those two witnesses are matched. Thus the classifier is stable exactly on the displayed BEDC packet, with no appeal to host pair equality or quotient product equality.
 \end{proof}
 
+\begin{theorem}[ProductMetric component distance transport]
+\label{thm:productmetric-component-distance-transport}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. Componentwise classifier transport of the two $\MetricSpaceUp$ rows transports the two $\RealUp$ distance witness rows $d_X$ and $d_Y$ along the displayed $\hsame$ rows in $H$ and the component distance reads in $C$. The product-distance ledger $\delta$ then reads exactly those transported component distances.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:productmetric-bhist-carrier}. The first component route contains $X$ and $d_X$, while the second component route contains $Y$ and $d_Y$.
+
+Apply \autoref{thm:productmetric-classifier-stability}. Transport in the first component moves the first metric carrier, its classifier, and its distance witness together; transport in the second component moves the corresponding second rows.
+
+The product-distance ledger is read only after both component distances have been displayed. Thus $\delta$ consumes the transported $d_X$ and $d_Y$ rows and not a host-level product metric or quotient equality.
+\end{proof}
+
+\begin{theorem}[ProductMetric projection route exactness]
+\label{thm:productmetric-projection-route-exactness}
+For every accepted $\ProductMetricUp$ packet $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$, each projection consumer route is exactly one of the two displayed $\ProdUp$ projection routes in $\Pi$. The first route reads $X$ and $d_X$; the second route reads $Y$ and $d_Y$; both routes carry only the corresponding $\MetricSpaceUp$ row, $\RealUp$ distance witness, $\hsame$ transport, $\Cont$ read, package row, and local naming row.
+\end{theorem}
+\begin{proof}
+Begin with a projection consumer. By \autoref{def:productmetric-bhist-carrier}, the only product coordinate is $\Pi$, and $\Pi$ exposes only the first and second projection reads.
+
+The exact first route is the first half of \autoref{thm:productmetric-projection-non-escape}; it reaches $X$ and $d_X$ through the stored continuation row. The exact second route is the second half of the same theorem; it reaches $Y$ and $d_Y$ through its stored continuation row.
+
+Component transport is already accounted for by \autoref{thm:productmetric-component-distance-transport}. Therefore no projection consumer can bypass $\Pi$ to read host pair equality, a quotient product, a selected real limit, or classical choice data.
+\end{proof}
+
+\begin{theorem}[ProductMetric MetricSpace obligation package]
+\label{thm:productmetric-metricspace-obligation-package}
+The downstream $\MetricSpaceUp$ obligation package exposed by an accepted $\ProductMetricUp$ packet $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ consists of component classifier transport, component distance transport, exact projection routes through $\Pi$, product-distance ledger exactness for $\delta$, and the non-escape boundary for quotient products, host pair equality, selected real limits, and classical choice data.
+\end{theorem}
+\begin{proof}
+First collect the component obligations. Classifier transport is \autoref{thm:productmetric-classifier-stability}, and component distance transport is \autoref{thm:productmetric-component-distance-transport}.
+
+Next collect the product-facing routes. Projection route exactness is \autoref{thm:productmetric-projection-route-exactness}, and the product-distance ledger is the $\delta$ row identified by \autoref{thm:productmetric-namecert-obligations}.
+
+Finally apply \autoref{thm:productmetric-metricspace-anchor}. The downstream metric-space consumer is anchored exactly at $\Pi$, the two component metric certificates, and $\delta$, while the finite carrier excludes all non-displayed product or choice data.
+\end{proof}
+
 \begin{theorem}[ProductMetric projection non-escape]
 \label{thm:productmetric-projection-non-escape}
 Every projection consumer of an accepted $\ProductMetricUp$ packet factors through the displayed $\ProdUp$ row $\Pi$, the corresponding $\MetricSpaceUp$ component carrier and classifier row, the matching $\RealUp$ distance witness, the stored $\hsame$ transport, the stored $\Cont$ projection route, the $\Pkg$ provenance row, and the local $\NameCert$ row. No projection consumer can read a quotient product, host pair equality, selected real limit, or classical choice data from the packet.
