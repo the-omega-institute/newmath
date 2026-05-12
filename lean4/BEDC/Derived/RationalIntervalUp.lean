@@ -290,6 +290,26 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
 
+theorem RationalIntervalPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint consumer handoff ->
+        UnaryHistory consumer ->
+          PkgSig bundle handoff pkg ->
+            UnaryHistory handoff ∧ hsame handoff (append endpoint consumer) ∧
+              PkgSig bundle handoff pkg := by
+  intro packet endpointConsumerHandoff consumerUnary handoffPkg
+  rcases packet with
+    ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+      _routeUnary, _provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder,
+      _orderContainmentTransport, _transportRouteProvenance, _provenanceNameEndpoint,
+      _endpointPkg⟩
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary consumerUnary endpointConsumerHandoff
+  exact ⟨handoffUnary, endpointConsumerHandoff, handoffPkg⟩
+
 theorem RationalIntervalPacket_regseqrat_window_coverage [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint window consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
