@@ -74,7 +74,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [ ] L2.3: Universal SigRel + sameSig recognizers (ProbeBundle-parameterized; needs hash-like fingerprinting in CT productions).
 - [!] L2.4: Universal Cont (append) recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` Cont corpus; the unbounded queue-copy/compare machine is specified, but not implemented, in `docs/cont_algo_design.md`.
 - [!] L2.5: Bundle length + membership recognizers: bounded positional-certificate CTS for the manifest fixtures; universal parsing and probe-name comparison remain open.
-- [ ] L2.6: Universal Unary classifier.
+- [!] L2.6: Universal Unary classifier. `manifests/unary/unary_basic.algo.ct` contains an eight-production CT scan certificate; the binary CTS runner lacks a complete unbounded accept/reject convention for negative Unary inputs.
 - [ ] L2.7: Universal Ask fixture recognizer.
 - [!] L2.8: Universal ExternalBinary recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` ExternalBinary corpus; because ExternalBinary append is definitionally Cont append, the universal queue-copy/compare recognizer is the same deferred unbounded problem as L2.4.
 - [ ] L2.9: Universal Gap (InGapSig + CompGap) recognizer.
