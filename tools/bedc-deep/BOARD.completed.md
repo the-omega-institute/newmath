@@ -17687,3 +17687,75 @@ Rationale:
 The GeomQuantizationUp chapter already proves the public certificate handoff but explicitly leaves standard bridges outside the current surface and names a schema-level public-surface bridge as the upgrade path. This candidate is a concrete conservative bridge theorem over the listed packet rows, distinct from the existing handoff because it constrains how a standard geometric-quantization presentation may be admitted without adding ambient quantization or host-space rows.
 
 ---
+
+### B-702 - Regulator rank-zero layout degeneracy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Regulator rank-zero layout degeneracy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+
+Problem:
+If a RegulatorUp root input packet carries an empty unary rank witness, then its determinant-layout ledger is the empty finite layout over the DirichletUnitUp and NumFieldUp projections and the packet exports no analytic regulator value, host determinant evaluation, or host logarithm equality.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/237_regulator_namecert_construction.tex`
+
+Rationale:
+RegulatorUp has no matching completed state target in the scanned state files and its chapter is arithmetic/K-theory flavored rather than the heavily explored algebraic append/transport core. The root packet stores DirichletUnitUp and NumFieldUp dependencies, visible unit rows, a unary rank witness, finite basis/logarithmic ledger, determinant-layout ledger, and package provenance at papers/bedc/parts/concrete_instances/237_regulator_namecert_construction.tex:9-24. It explicitly contains no analytic regulator value, host logarithm map, determinant evaluation, or bridge row at papers/bedc/parts/concrete_instances/237_regulator_namecert_construction.tex:26-31. Ledger exactness identifies the determinant/logarithm data as finite displayed ledger rows shaping the input matrix, not analytic values, at papers/bedc/parts/concrete_instances/237_regulator_namecert_construction.tex:90-117. A rank-zero layout theorem is a concrete boundary case that is not just restating the public threshold at papers/bedc/parts/concrete_instances/237_regulator_namecert_construction.tex:122-190.
+
+---
+
+### B-701 - ThetaFunction coefficient-prefix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ThetaFunction coefficient-prefix restriction carrier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a ThetaFunctionUp packet has a finite q-expansion coefficient window and a displayed prefix window accepted by the same ComplexSeriesUp coefficient classifier, then replacing the window by that prefix while keeping the same period, holomorphic-chart, package, and continuation rows yields another accepted ThetaFunctionUp carrier source.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex`
+
+Rationale:
+ThetaFunctionUp has no matching completed state target in the scanned state files and remains only public-closed with no bridge at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:139-154. The carrier source is explicitly a finite packet with period ledger, holomorphic local-function row, finite q-expansion coefficient window, package provenance, and continuation readbacks at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:9-19. Ledger exactness says exactly those finite rows are exposed and no infinite coefficient object or completed modular form is exported at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:58-82. The existing modular-shift theorem handles transport by period shift at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:113-124, but the simpler finite-prefix restriction companion is absent and would exercise the finite-window side rather than another transport boundary.
+
+---
+
+### B-703 - FoldMomentKernel finite-window restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FoldMomentKernel finite-window restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted FoldMomentKernel packet is restricted to a displayed finite subwindow and the fold-source, fiber-ledger, moment-index, collision-count, transport, continuation, provenance, and local NameCert rows restrict coherently, then the restricted packet is again an accepted FoldMomentKernel carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1289_foldmomentkernel_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete closure theorem over an existing concrete-instance surface, not a marker, closurestatus, verification-axis item, or abstract parameter echo. It has a single implication form, lands naturally in the FoldMomentKernel NameCert construction, and the proposed input is not identified as a hub file or near the 800-line cap. Existing BOARD entries contain many analogous finite-prefix, finite-suffix, and finite-window carrier restrictions for other instances, but no FoldMomentKernel-specific target, so this is familiar in shape while still novel as a concrete object-level closure target.
+
+---
