@@ -104,6 +104,7 @@ import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.NestedIntervalIntersectionUp
+import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
@@ -180,6 +181,7 @@ import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastConvergentSeriesUp
+import BEDC.Derived.FastConvergentSeriesUp.Classifier
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FenchelDualityUp
@@ -236,6 +238,7 @@ import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SqueezeRealUp
+import BEDC.Derived.SobolevUp
 import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
@@ -302,9 +305,11 @@ import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyDiagonalUp.CompletionSealComposition
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
+import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyComparisonUp
+import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
@@ -980,6 +985,7 @@ import BEDC.Derived.IdealUp.PrincipalGenerated
 import BEDC.Derived.IdealUp.PredicateRows
 import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
+import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
