@@ -159,6 +159,37 @@ surface and leaves no coordinate for a quotient representative, selected
 limit, or choice-based tail.
 \end{proof}
 
+\begin{theorem}[RegularityModulus dyadic-window exactness]
+\label{thm:regularitymodulus-dyadic-window-exactness}
+For an accepted $\RegularityModulusUp$ packet
+$R=(k,m,w,h,c,p,n)$, every consumer-visible dyadic window read is exactly the
+endpoint, radius, comparison, precision, modulus, transport, continuation,
+package, and name row displayed by $w,h,c,p,n$. Conversely, every displayed
+row of this form is accepted as a $\RegularityModulusUp$ consumer read.
+\end{theorem}
+\begin{proof}
+Project $R$ through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The carrier stores the
+unary precision and modulus rows together with the dyadic window data, so the
+endpoint, radius, comparison, precision, and modulus coordinates are precisely
+the displayed rows.
+
+For refined precision requests, apply
+\autoref{thm:regularitymodulus-window-monotonicity}. This transports the same
+window data through the recorded $\hsame$ and $\Cont$ rows without creating a
+new endpoint or comparison coordinate.
+
+The downstream direction is fixed by the existing handoffs. Use
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary} for the
+$\RegSeqRatUp$ read and
+\autoref{thm:regularitymodulus-realup-seal-handoff} for the $\RealUp$ seal.
+Both consume only the package and name rows already shown by $p$ and $n$.
+
+Thus every accepted read is one of the displayed dyadic-window rows, and every
+displayed row is accepted because it is a coordinate of the carrier together
+with its transport, continuation, package, and local naming evidence.
+\end{proof}
+
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
   \theoryclosure{\seedClosure}
