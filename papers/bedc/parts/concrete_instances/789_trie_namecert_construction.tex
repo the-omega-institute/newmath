@@ -226,6 +226,166 @@ downstream read is a projection from the finite tuple $(k,v,l,b,p)$, so the
 NameCert obligation surface is exhausted by the listed rows.
 \end{proof}
 
+\begin{definition}[Trie terminal value packet]\label{def:trie-terminal-value-packet}
+For a finite Boolean-key path, the visible terminal-value row is the
+$\mathsf{BHist}$ packet
+$$
+\mathsf{TrieTerminal}(q,t,r,c,e,g,n)
+$$
+whose coordinates are as follows:
+\begin{enumerate}
+\item $q$ is the finite key spine, presented as a $\ListUp$ row of $\BoolUp$
+branch histories;
+\item $t$ is the terminal $\OptionUp$ value row, with the absent case carrying
+no payload and the present case exposing only the displayed value packet;
+\item $r$ is the displayed $\hsame$ transport row for the key spine and the
+terminal option row;
+\item $c$ is the $\Cont$ route taking each accepted prefix row to its extended
+prefix row and taking the terminal option row to the lookup-facing read;
+\item $e$ is the $\mathsf{BHist}$ branch ledger recording the visible
+left-or-right decision at each position of $q$;
+\item $g$ is the $\Pkg$ provenance naming the consumed $\BoolUp$, $\ListUp$,
+$\OptionUp$, $\hsame$, and $\Cont$ rows;
+\item $n$ is the local $\NameCert$ row certifying that these displayed rows are
+the public terminal packet for the Boolean-key lookup.
+\end{enumerate}
+The packet contains no host map entry, host string key, ambient lookup
+function, or hidden node object.
+\end{definition}
+
+\begin{theorem}[Trie prefix-extension classifier stability]\label{thm:trie-prefix-extension-classifier-stability}
+Let $p$ and $p'$ be displayed Boolean-key prefixes classified by the
+$\TrieUp$ classifier, and let $b$ be a visible $\BoolUp$ branch row. If $p$ is
+extended by $b$ along the $\ListUp$ key spine and the extension is transported
+through the displayed $\hsame$ row and $\Cont$ route of the packet, then the
+transported extension of $p'$ is classified under the same branch label $b$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\ListUp$ key spine. In the empty-spine case, the
+extension exposes only the first $\BoolUp$ branch row, and classifier
+reflexivity for that branch row supplies the transported label.
+
+For the cons-spine step, apply the induction hypothesis to the tail prefix.
+The head branch row is transported by the same $\hsame$ route, and
+\autoref{thm:trie-classifier-laws} composes the head comparison with the
+classified tail comparison.
+
+The $\Cont$ route then repacks the extended prefix as a public trie row.
+\autoref{thm:trie-carrier-stability} keeps the transported record accepted,
+so the resulting extension remains classified under the same visible branch
+label and no hidden host key coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[Trie Boolean-key path ledger coverage]\label{thm:trie-boolean-key-path-ledger-coverage}
+Every admitted finite Boolean-key lookup path in a $\TrieUp$ packet carries a
+ledger entry for each displayed branch decision and one terminal
+$\OptionUp$ value packet at the final prefix. These entries are precisely the
+visible $\BoolUp$ branch rows, the $\ListUp$ key-spine rows, the transported
+$\hsame$ and $\Cont$ rows, the $\Pkg$ provenance, and the terminal packet of
+\autoref{def:trie-terminal-value-packet}.
+\end{theorem}
+\begin{proof}
+Induct on the displayed $\ListUp$ key spine. For the empty spine, the lookup
+path is already at the terminal prefix, so the ledger contains the single
+$\OptionUp$ terminal packet and the provenance rows named by
+\autoref{def:trie-terminal-value-packet}.
+
+For a cons spine, the head is a visible $\BoolUp$ branch decision. Record that
+branch row in the ledger and apply the induction hypothesis to the remaining
+spine, transporting the tail ledger by the displayed $\hsame$ row.
+
+Finally compose the $\Cont$ routes along the finite spine. The composed route
+preserves the branch entries and delivers the terminal $\OptionUp$ packet at
+the final prefix, while \autoref{thm:trie-ledger-coverage} excludes any
+additional host lookup, hidden key ordering, or infinite-tree coordinate.
+\end{proof}
+
+\begin{theorem}[Trie branch read exactness]\label{thm:trie-branch-read-exactness}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet. Every public
+branch read of $T$ factors through a displayed finite prefix position bounded
+by the $\NatUp$ depth ledger, a $\BoolUp$ branch tag, the corresponding
+$\ListUp$ or $\BitVectorUp$ key-path row, the displayed $\hsame$ and $\Cont$
+route, and the $\Pkg$ provenance named by $p$.
+
+Conversely, every displayed branch row of that form is an accepted public
+branch read of $T$. No host string, host finite map, ambient lookup function,
+or hidden key-order coordinate contributes an additional public branch read.
+\end{theorem}
+\begin{proof}
+Project the five coordinates of \autoref{def:trie-bhist-source}. The branch
+ledger $b$ records only boolean branch tags at finite prefix positions, and the
+depth ledger $l$ bounds the positions visible to public reads.
+
+Apply \autoref{thm:trie-ledger-coverage} to obtain the available coordinates.
+The key row is read through the displayed $\ListUp$ or $\BitVectorUp$ path, and
+the branch selector is read through its $\BoolUp$ row.
+
+Use \autoref{thm:trie-classifier-laws} to transport the key-path, branch, and
+ledger coordinates componentwise along the named $\hsame$ and $\Cont$ routes.
+The provenance coordinate $p$ supplies exactly the consumed certificate rows.
+
+For the converse direction, start from a displayed prefix position, branch tag,
+key-path row, transport route, and provenance row named in the packet. These
+are precisely coordinates of $(k,v,l,b,p)$, so they assemble to a public branch
+read accepted by the carrier.
+
+The exclusions follow from absence of coordinates in
+\autoref{def:trie-bhist-source}: host strings, host maps, ambient lookup
+functions, and key-order data cannot be projected from the packet.
+\end{proof}
+
+\begin{theorem}[Trie key-prefix transport]\label{thm:trie-key-prefix-transport}
+For accepted $\TrieUp$ packets transported along the displayed $\hsame$ and
+$\Cont$ routes, key-path rows preserve finite prefix positions, $\NatUp$ depth
+bounds, and $\BoolUp$ branch selectors. Thus a transported branch read remains
+on the same displayed finite prefix surface, with only the corresponding
+$\ListUp$ or $\BitVectorUp$ key row, branch tag, ledger row, and $\Pkg$
+provenance transported.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:trie-carrier-stability}. Transporting the accepted
+packet repacks the key, payload, branch, ledger, and provenance coordinates as
+another accepted $\TrieUp$ packet.
+
+The component laws in \autoref{thm:trie-classifier-laws} transport the key row
+through its displayed $\ListUp$ or $\BitVectorUp$ presentation and transport
+each branch selector through its $\BoolUp$ classifier row. The $\NatUp$ ledger
+travels componentwise with those same finite positions.
+
+Finally, return to the source packet of \autoref{def:trie-bhist-source}. The
+only key-path coordinates present there are the displayed key row, finite depth
+bound, branch selector, named $\hsame$ and $\Cont$ route, and $\Pkg$
+provenance. Hence transport preserves exactly those prefix coordinates and no
+additional key structure.
+\end{proof}
+
+\begin{theorem}[Trie lookup ledger exhaustion]\label{thm:trie-lookup-ledger-exhaustion}
+Every lookup-facing consumer of an accepted $\TrieUp$ packet is exhausted by
+the displayed key path, $\OptionUp$ terminal payload, $\BoolUp$ branch rows,
+$\NatUp$ depth ledger, $\hsame$ rows, $\Cont$ routes, and $\Pkg$ provenance
+already present in the packet. The packet exports no host finite-map lookup,
+string equality, function extensionality, infinite tree, or key ordering.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:trie-branch-read-exactness} for branch-facing reads. Each such
+read is a displayed finite prefix position, boolean selector, key-path row,
+transport route, and provenance row from the packet.
+
+Use \autoref{thm:trie-key-prefix-transport} for transported key-facing reads.
+It preserves the finite prefix positions, ledger bounds, and branch selectors
+under the displayed $\hsame$ and $\Cont$ routes.
+
+The remaining lookup payload coordinate is the $\OptionUp$ row already recorded
+in \autoref{def:trie-bhist-source}. Apply \autoref{thm:trie-ledger-coverage}
+and \autoref{thm:trie-namecert-obligation-surface} to collect the full packet
+surface.
+
+Since the collected surface is exactly $(k,v,l,b,p)$, every lookup-facing
+consumer projection is one of the displayed rows. Host finite maps, string
+equality, function extensionality, infinite trees, and key orderings are not
+coordinates of that packet, so they are not exported.
+\end{proof}
+
 \closureat{TrieUp}{seedStr}
 
 \begin{closurestatus}{\TrieUp}
