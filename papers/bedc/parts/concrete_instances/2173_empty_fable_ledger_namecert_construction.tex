@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EmptyFableLedgerUp$}
+\label{ch:concrete-instances-empty-fable-ledger-namecert}
+\origin{human}
+
+The $\EmptyFableLedgerUp$ interface is the concrete NameCert landing surface for the Empty Fable Machine of \autoref{ch:visions-empty-fable-machine}. It packages the generated $\Hist$ row, the trace read from that history, the realized selector-step witnesses, the fable-ledger row, and the local naming boundary that prevents the ledger from being read as a global chooser.
+
+\begin{definition}[EmptyFableLedger carrier]
+\label{def:empty-fable-ledger-carrier}
+An $\EmptyFableLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+E=(H,T,S,F,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $H$ is the $\Hist$ source row generated from $\emp$ by finitely many $\Ext$ steps;
+\item $T$ is the $\mathsf{Trace}$ row read from the constructor spine of $H$;
+\item $S$ is the finite witness list of $\mathsf{SelStep}$ rows, one for each non-empty trace edge, each exposing the enacted mark, the $\Ext$ step, and the local branch certificate;
+\item $F$ is the $\mathsf{FableLedger}$ row identifying the same finite selector ledger with the Empty-fable reading of $H$;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $H$, $T$, each selector witness in $S$, and the fable-ledger row $F$;
+\item $P$ is the $\Pkg$ provenance naming the $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\mathsf{FableLedger}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source surfaces;
+\item $N$ is the local $\NameCert_{\EmptyFableLedgerUp}$ row.
+\end{enumerate}
+The classifier compares two accepted carriers only by the displayed history row, trace row, selector-witness list, fable-ledger row, continuation routes, package provenance, local naming row, and the componentwise $\hsame$ transports attached to those rows. It contains no coordinate for host sequence equality, global branch selection, a truth oracle, or an undisplayed selector.
+\end{definition}
+
+\begin{theorem}[EmptyFableLedger NameCert obligations]
+\label{thm:empty-fable-ledger-namecert-obligations}
+The local $\NameCert_{\EmptyFableLedgerUp}$ surface for the carrier of \autoref{def:empty-fable-ledger-carrier} consists exactly of carrier admission for $E$, trace admission for $T$, selector-step admission for every row of $S$, fable-ledger admission for $F$, continuation reads through $C$, package provenance through $P$, the local naming row $N$, and componentwise $\hsame$ transport for the displayed rows.
+
+Every obligation is read from the Empty Fable Machine definitions of $\mathsf{Trace}$, $\mathsf{SelStep}$, and $\mathsf{FableLedger}$, together with the core $\Hist$, $\hsame$, $\Ext$, $\Cont$, $\Pkg$, and $\NameCert$ chapters. No obligation introduces a hidden branch selector.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $E$. The history row, trace row, selector-witness list, fable-ledger row, continuation routes, package provenance, and local naming row are all displayed coordinates of the carrier.
+
+Trace admission uses the Empty Fable Machine trace definition, so the row $T$ is read from the $\emp$, $\Ezero$, and $\Eone$ constructor spine of $H$. Selector admission uses the $\mathsf{SelStep}$ definition: each row of $S$ exposes a mark, an $\Ext$ step, and a local branch certificate.
+
+The fable-ledger row $F$ is the same trace surface read under the fable-machine name. The $\Cont$ routes in $C$ and the provenance row $P$ keep these reads inside the cited kernel and naming surfaces, while $N$ records the local certificate. Since the packet has no further selector coordinate, no hidden branch chooser can be exported.
+\end{proof}
+
+\begin{theorem}[EmptyFableLedger selector exactness]
+\label{thm:empty-fable-ledger-selector-exactness}
+Let $E=(H,T,S,F,C,P,N)$ be an accepted $\EmptyFableLedgerUp$ carrier. Every selector read exported from $E$ is exact: the selected mark for a non-empty trace edge is read from a displayed $\mathsf{SelStep}$ row in $S$, that row contains the corresponding $\Ext$ step, and the accumulated trace agrees with the fable-ledger row $F$ up to the $\hsame$ transports recorded for $H$.
+
+Thus a downstream consumer receives the concrete Empty-fable selector ledger as a finite packet over $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\mathsf{FableLedger}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the selector-witness list $S$. For the empty trace there is no non-empty edge and the ledger read is the empty constructor spine above $\emp$.
+
+For a non-empty trace edge, the corresponding $\mathsf{SelStep}$ row exposes the enacted mark, the $\Ext$ step from the previous history to the next history, and the local branch certificate. This is exactly the selector data used by the Empty Fable Machine chapter.
+
+The trace row $T$ and fable-ledger row $F$ are then compared through the displayed $\hsame$ transport attached to $H$ and read through $C$. Package provenance and the local $\NameCert$ row repack the same route for downstream consumers, so the exported selector is the displayed witness, not an external function.
+\end{proof}
+
+\begin{theorem}[EmptyFableLedger non-chooser boundary]
+\label{thm:empty-fable-ledger-non-chooser-boundary}
+Every consumer read of an accepted $\EmptyFableLedgerUp$ carrier factors through the displayed tuple $H,T,S,F,C,P,N$ and the componentwise $\hsame$ transports for those rows. In particular, the packet exports no $\mathsf{Classical.choice}$ instance, no host sequence equality for traces, no truth oracle, and no hidden branch selector.
+
+The only branch-facing data are the finite $\mathsf{SelStep}$ witnesses already present in $S$; the only sequence-facing data are the $\mathsf{Trace}$ and $\mathsf{FableLedger}$ rows already present in $T$ and $F$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. Branch information appears only in $S$, and each row of $S$ is a visible selector-step witness rather than a function that chooses among all admissible branches.
+
+Sequence information appears only in $T$ and $F$. These rows are transported through $\hsame$ and read through the continuation routes in $C$, so a consumer never receives host sequence equality as an additional principle.
+
+The package row $P$ and certificate row $N$ record the same local dependency surface. Since no carrier coordinate names $\mathsf{Classical.choice}$, a truth oracle, host sequence equality, or an undisplayed branch selector, no such datum is exported by the NameCert boundary.
+\end{proof}
+
+\closureat{EmptyFableLedgerUp}{seedStr}
+
+\begin{closurestatus}{\EmptyFableLedgerUp}
+  \constructivestory{An $\EmptyFableLedgerUp$ packet is generated from a displayed $\Hist$ row, its $\mathsf{Trace}$ row, finite $\mathsf{SelStep}$ witnesses, a $\mathsf{FableLedger}$ row, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier, selector exactness route, and non-chooser boundary for Empty-fable ledgers over $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\mathsf{FableLedger}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean implementation, bridge checking, global branch selection, host sequence equality, truth oracles, or choice principles.}
+  \upgradepath{Scoped closure requires checked carrier admission, selector exactness, trace-to-fable transport, continuation routing, package provenance, and non-chooser rows for the displayed finite packet.}
+\end{closurestatus}
