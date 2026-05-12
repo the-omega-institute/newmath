@@ -118,4 +118,39 @@ theorem CompactUniformContinuityPacket_realup_consumer_boundary [AskSetup] [Pack
       realUnary, netCoverageModulusRows, modulusRowsRadiusRowsFold, foldTransportRoute,
       routeNamePrecision, precisionNameMetric, metricTransportReal, precisionPkg, realReadPkg⟩
 
+theorem CompactUniformContinuityPacket_finite_net_handoff [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow handoff targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont precision net handoff ->
+        Cont handoff target targetRead ->
+          PkgSig bundle targetRead pkg ->
+            UnaryHistory precision ∧ UnaryHistory handoff ∧ UnaryHistory targetRead ∧
+              Cont net coverage modulusRows ∧ Cont modulusRows radiusRows fold ∧
+                Cont fold transport route ∧ Cont route nameRow precision ∧
+                  Cont precision net handoff ∧ Cont handoff target targetRead ∧
+                    PkgSig bundle precision pkg ∧ PkgSig bundle targetRead pkg := by
+  intro packet precisionNetHandoff handoffTargetRead targetReadPkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, transportUnary, nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionPkg⟩ := packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed foldUnary transportUnary foldTransportRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed routeUnary nameRowUnary routeNamePrecision
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed precisionUnary netUnary precisionNetHandoff
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed handoffUnary targetUnary handoffTargetRead
+  exact
+    ⟨precisionUnary, handoffUnary, targetReadUnary, netCoverageModulusRows,
+      modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionNetHandoff,
+      handoffTargetRead, precisionPkg, targetReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
