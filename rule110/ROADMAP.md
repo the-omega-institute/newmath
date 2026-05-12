@@ -176,3 +176,17 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   and check domain, token, and composition witness predicates.
 - [x] Add `docs/gap_design.md` documenting the concrete fixtures and manifest
   contract.
+
+## Package module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Package.lean`,
+  `Package/Core.lean`, `Package/Minimal.lean`, `Package/Policy.lean`, and
+  `Package/TokenPolicy.lean`.
+- [x] Add `rule110/manifests/package/package_basic.enum.ct` and
+  `package_basic.algo.ct` for token introduction, `psame`, token-policy
+  classification, and two-step package-sameness chains.
+- [x] Add `tests/test_package.c` to decode Package inputs under the
+  `Pkg := BHist` signature-package fixture and check reflexivity, symmetry,
+  transitivity, soundness, and reflection representatives.
+- [x] Add `docs/package_design.md` documenting the concrete fixture and tagged
+  manifest contract.

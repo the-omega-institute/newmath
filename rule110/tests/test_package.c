@@ -1,0 +1,367 @@
+#include "manifest_runner.h"
+#include "groundcompiler_encoding.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+
+typedef struct {
+    size_t *names;
+    size_t len;
+} ProbeBundleFixture;
+
+static int bits_to_bytes(const char *input_bits, uint8_t **out, size_t *out_len) {
+    size_t in_len = strlen(input_bits);
+    uint8_t *in_bytes = (uint8_t *)malloc(in_len ? in_len : 1);
+    if (in_bytes == NULL) return 0;
+    for (size_t i = 0; i < in_len; i++) {
+        if (input_bits[i] != '0' && input_bits[i] != '1') {
+            free(in_bytes);
+            return 0;
+        }
+        in_bytes[i] = (uint8_t)(input_bits[i] - '0');
+    }
+    *out = in_bytes;
+    *out_len = in_len;
+    return 1;
+}
+
+static void free_bundle(ProbeBundleFixture *bundle) {
+    free(bundle->names);
+    bundle->names = NULL;
+    bundle->len = 0;
+}
+
+static void free_bhist(BHist *h) {
+    free(h->choices);
+    h->choices = NULL;
+    h->depth = 0;
+}
+
+static int bhist_equal(const BHist *a, const BHist *b) {
+    return (a->depth == b->depth) &&
+           (a->depth == 0 || memcmp(a->choices, b->choices, a->depth) == 0);
+}
+
+static int decode_unary_event_as_nat(const uint8_t *event, size_t event_len,
+                                     size_t *value_out) {
+    if (event_len == 0) return 0;
+    for (size_t i = 0; i + 1 < event_len; i++) {
+        if (event[i] != 0) return 0;
+    }
+    if (event[event_len - 1] != 1) return 0;
+    *value_out = event_len - 1;
+    return 1;
+}
+
+static int decode_tag_at(const uint8_t *input, size_t input_len,
+                         size_t *off, size_t *tag_out) {
+    GcDecResult event = gc_dec_event(input + *off, input_len - *off, 8192);
+    if (event.status != GC_OK) {
+        free(event.event);
+        return 0;
+    }
+    int ok = decode_unary_event_as_nat(event.event, event.event_len, tag_out);
+    if (ok) *off += event.bytes_consumed;
+    free(event.event);
+    return ok;
+}
+
+static int decode_probe_bundle_at(const uint8_t *input, size_t input_len,
+                                  size_t *off, ProbeBundleFixture *bundle) {
+    bundle->names = NULL;
+    bundle->len = 0;
+    size_t cap = 0;
+
+    while (*off < input_len) {
+        GcDecResult event = gc_dec_event(input + *off, input_len - *off, 8192);
+        if (event.status != GC_OK) {
+            free(event.event);
+            free_bundle(bundle);
+            return 0;
+        }
+        *off += event.bytes_consumed;
+
+        if (event.event_len == 2 && event.event[0] == 1 && event.event[1] == 1) {
+            free(event.event);
+            return 1;
+        }
+
+        size_t name = 0;
+        if (!decode_unary_event_as_nat(event.event, event.event_len, &name)) {
+            free(event.event);
+            free_bundle(bundle);
+            return 0;
+        }
+        free(event.event);
+
+        if (bundle->len == cap) {
+            size_t next_cap = cap == 0 ? 4 : cap * 2;
+            size_t *next = (size_t *)realloc(bundle->names, next_cap * sizeof(size_t));
+            if (next == NULL) {
+                free_bundle(bundle);
+                return 0;
+            }
+            bundle->names = next;
+            cap = next_cap;
+        }
+        bundle->names[bundle->len++] = name;
+    }
+
+    free_bundle(bundle);
+    return 0;
+}
+
+static int decode_bhist_at(const uint8_t *input, size_t input_len,
+                           size_t *off, BHist *out) {
+    GcBhistDecResult decoded = gc_bhist_decode(input + *off, input_len - *off, 8192);
+    if (decoded.status != GC_OK) {
+        free(decoded.bhist.choices);
+        return 0;
+    }
+    *off += decoded.bytes_consumed;
+    *out = decoded.bhist;
+    return 1;
+}
+
+static int decode_claim_bits_at(const uint8_t *input, size_t input_len,
+                                size_t *off, int *claimed_psame,
+                                int *claimed_hsame) {
+    GcDecResult event = gc_dec_event(input + *off, input_len - *off, 8192);
+    if (event.status != GC_OK) {
+        free(event.event);
+        return 0;
+    }
+    int ok = event.event_len == 2 &&
+             (event.event[0] == 0 || event.event[0] == 1) &&
+             (event.event[1] == 0 || event.event[1] == 1);
+    if (ok) {
+        *claimed_psame = event.event[0] == 1;
+        *claimed_hsame = event.event[1] == 1;
+        *off += event.bytes_consumed;
+    }
+    free(event.event);
+    return ok;
+}
+
+static int tok_intro_holds(const BHist *source, const BHist *pkg) {
+    return bhist_equal(source, pkg);
+}
+
+static int psame_holds(const BHist *s, const BHist *t,
+                       const BHist *p, const BHist *q) {
+    return tok_intro_holds(s, p) && tok_intro_holds(t, q) && bhist_equal(s, t);
+}
+
+static int decode_token_holds_bytes(const uint8_t *bytes, size_t len, size_t off) {
+    ProbeBundleFixture bundle;
+    BHist source = {NULL, 0};
+    BHist pkg = {NULL, 0};
+    int ok = decode_probe_bundle_at(bytes, len, &off, &bundle);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &source);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &pkg);
+    if (ok) ok = (off == len);
+
+    int holds = ok && tok_intro_holds(&source, &pkg);
+    free_bundle(&bundle);
+    free_bhist(&source);
+    free_bhist(&pkg);
+    return holds;
+}
+
+static int decode_psame_holds_bytes(const uint8_t *bytes, size_t len, size_t off) {
+    ProbeBundleFixture bundle;
+    BHist s = {NULL, 0};
+    BHist t = {NULL, 0};
+    BHist p = {NULL, 0};
+    BHist q = {NULL, 0};
+    int ok = decode_probe_bundle_at(bytes, len, &off, &bundle);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &s);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &t);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &p);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &q);
+    if (ok) ok = (off == len);
+
+    int holds = ok && psame_holds(&s, &t, &p, &q);
+    free_bundle(&bundle);
+    free_bhist(&s);
+    free_bhist(&t);
+    free_bhist(&p);
+    free_bhist(&q);
+    return holds;
+}
+
+static int decode_classification_holds_bytes(const uint8_t *bytes, size_t len,
+                                             size_t off) {
+    ProbeBundleFixture bundle;
+    BHist s = {NULL, 0};
+    BHist t = {NULL, 0};
+    BHist p = {NULL, 0};
+    BHist q = {NULL, 0};
+    int claimed_psame = 0;
+    int claimed_hsame = 0;
+    int ok = decode_probe_bundle_at(bytes, len, &off, &bundle);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &s);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &t);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &p);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &q);
+    if (ok) ok = decode_claim_bits_at(bytes, len, &off, &claimed_psame, &claimed_hsame);
+    if (ok) ok = (off == len);
+
+    int introduced = ok && tok_intro_holds(&s, &p) && tok_intro_holds(&t, &q);
+    int actual_hsame = introduced && bhist_equal(&s, &t);
+    int actual_psame = introduced && psame_holds(&s, &t, &p, &q);
+    int holds = introduced &&
+                claimed_psame == actual_psame &&
+                claimed_hsame == actual_hsame;
+
+    free_bundle(&bundle);
+    free_bhist(&s);
+    free_bhist(&t);
+    free_bhist(&p);
+    free_bhist(&q);
+    return holds;
+}
+
+static int decode_chain_holds_bytes(const uint8_t *bytes, size_t len, size_t off) {
+    ProbeBundleFixture bundle;
+    BHist a = {NULL, 0};
+    BHist b = {NULL, 0};
+    BHist c = {NULL, 0};
+    BHist p = {NULL, 0};
+    BHist q = {NULL, 0};
+    BHist r = {NULL, 0};
+    int ok = decode_probe_bundle_at(bytes, len, &off, &bundle);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &a);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &b);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &c);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &p);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &q);
+    if (ok) ok = decode_bhist_at(bytes, len, &off, &r);
+    if (ok) ok = (off == len);
+
+    int left = ok && psame_holds(&a, &b, &p, &q);
+    int right = ok && psame_holds(&b, &c, &q, &r);
+    int outer = ok && psame_holds(&a, &c, &p, &r);
+    int holds = left && right && outer;
+
+    free_bundle(&bundle);
+    free_bhist(&a);
+    free_bhist(&b);
+    free_bhist(&c);
+    free_bhist(&p);
+    free_bhist(&q);
+    free_bhist(&r);
+    return holds;
+}
+
+static int decode_package_holds(const char *input_bits) {
+    uint8_t *bytes = NULL;
+    size_t len = 0;
+    if (!bits_to_bytes(input_bits, &bytes, &len)) return 0;
+
+    size_t off = 0;
+    size_t tag = 0;
+    int ok = decode_tag_at(bytes, len, &off, &tag);
+    int holds = 0;
+    if (ok && tag == 0) {
+        holds = decode_token_holds_bytes(bytes, len, off);
+    } else if (ok && tag == 1) {
+        holds = decode_psame_holds_bytes(bytes, len, off);
+    } else if (ok && tag == 2) {
+        holds = decode_classification_holds_bytes(bytes, len, off);
+    } else if (ok && tag == 3) {
+        holds = decode_chain_holds_bytes(bytes, len, off);
+    }
+
+    free(bytes);
+    return holds;
+}
+
+static void assert_manifest_smoke(const char *path, const char *input_bits) {
+    MrResult r = mr_run_ct_manifest(path, input_bits, "", 200);
+    if (r != MR_PASS) {
+        fprintf(stderr, "pipeline smoke FAIL on %s: result=%d\n", path, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+static void test_package_basic_enum(void) {
+    assert(decode_package_holds("10111010111111"));
+    assert(decode_package_holds("101110110010111010110101101011"));
+    assert(!decode_package_holds("10111010110111011"));
+    assert(!decode_package_holds("1011111111"));
+    assert(!decode_package_holds("101110101111111011"));
+
+    assert(decode_package_holds("0101110101111111111"));
+    assert(decode_package_holds("010110101110101101011010110101101011"));
+    assert(decode_package_holds("010110101110101101011010110101101011"));
+    assert(!decode_package_holds("0101110101101110110111011"));
+    assert(!decode_package_holds("010111010110110110111011"));
+    assert(!decode_package_holds("0101110101111111111011"));
+
+    assert(decode_package_holds("00101110101111111111101011"));
+    assert(decode_package_holds("0010111011101011011101101110110011"));
+    assert(!decode_package_holds("0010111010111111111101011"));
+    assert(!decode_package_holds("0010111010110111011011101101011"));
+    assert(!decode_package_holds("0010111010110110110111011101011"));
+
+    assert(decode_package_holds("0001011101011100111001110011100111001110011"));
+    assert(!decode_package_holds("000101110101101101110110110111011"));
+    assert(!decode_package_holds("00001011101011"));
+
+    assert_manifest_smoke("manifests/package/package_basic.enum.ct",
+                          "10111010111111");
+    printf("  package_basic.enum: 19/19 cases PASS\n");
+}
+
+static void test_package_basic_algo(void) {
+    assert(decode_package_holds("10111010111111"));
+    assert(decode_package_holds("101110110010111010110101101011"));
+    assert(!decode_package_holds("10111010110111011"));
+    assert(!decode_package_holds("1011111111"));
+    assert(!decode_package_holds("101110101111111011"));
+
+    assert(decode_package_holds("0101110101111111111"));
+    assert(decode_package_holds("010110101110101101011010110101101011"));
+    assert(decode_package_holds("010110101110101101011010110101101011"));
+    assert(!decode_package_holds("0101110101101110110111011"));
+    assert(!decode_package_holds("010111010110110110111011"));
+    assert(!decode_package_holds("0101110101111111111011"));
+
+    assert(decode_package_holds("00101110101111111111101011"));
+    assert(decode_package_holds("0010111011101011011101101110110011"));
+    assert(!decode_package_holds("0010111010111111111101011"));
+    assert(!decode_package_holds("0010111010110111011011101101011"));
+    assert(!decode_package_holds("0010111010110110110111011101011"));
+
+    assert(decode_package_holds("0001011101011100111001110011100111001110011"));
+    assert(!decode_package_holds("000101110101101101110110110111011"));
+    assert(!decode_package_holds("00001011101011"));
+
+    assert_manifest_smoke("manifests/package/package_basic.algo.ct",
+                          "10111010111111");
+    printf("  package_basic.algo: 19/19 cases PASS\n");
+}
+
+static void pipeline_smoke_test_package_manifests(void) {
+    struct { const char *path; const char *input; } cases[] = {
+        {"manifests/package/package_basic.enum.ct", "10111010111111"},
+        {"manifests/package/package_basic.algo.ct", "10111010111111"},
+    };
+    size_t n = sizeof(cases) / sizeof(cases[0]);
+    for (size_t i = 0; i < n; i++) {
+        assert_manifest_smoke(cases[i].path, cases[i].input);
+    }
+    printf("  pipeline_smoke (2 package manifests, all halt-empty in <=200 steps): PASS\n");
+}
+
+int main(void) {
+    printf("== test_package ==\n");
+    test_package_basic_enum();
+    test_package_basic_algo();
+    pipeline_smoke_test_package_manifests();
+    printf("ALL test_package assertions passed (38 Package cases + 2-manifest pipeline smoke)\n");
+    return 0;
+}
