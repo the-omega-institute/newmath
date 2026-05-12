@@ -209,6 +209,39 @@ theorem TrieSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
     ⟨keyUnary, payloadUnary, depthUnary, branchUnary, branchRouteUnary, exportUnary, exportRow,
       exportPkg⟩
 
+theorem TrieSourcePacket_public_export_route_decomposition [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute publicExport terminalRead
+      branchRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont branchRoute provenance publicExport ->
+        Cont key payload terminalRead ->
+          Cont branch payloadRoute branchRead ->
+            PkgSig bundle publicExport pkg ->
+              UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+                UnaryHistory branch ∧ UnaryHistory terminalRead ∧ UnaryHistory branchRead ∧
+                  UnaryHistory publicExport ∧ Cont key payload terminalRead ∧
+                    Cont branch payloadRoute branchRead ∧
+                      Cont branchRoute provenance publicExport ∧
+                        PkgSig bundle publicExport pkg := by
+  intro packet publicExportRow terminalReadRow branchReadRow exportPkg
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, _routeRow,
+    _provenanceRow, payloadRouteRow, branchRouteRow, _packetPkg⟩ := packet
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed payloadUnary depthUnary payloadRouteRow
+  have branchRouteUnary : UnaryHistory branchRoute :=
+    unary_cont_closed branchUnary payloadRouteUnary branchRouteRow
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed keyUnary payloadUnary terminalReadRow
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchUnary payloadRouteUnary branchReadRow
+  have publicExportUnary : UnaryHistory publicExport :=
+    unary_cont_closed branchRouteUnary provenanceUnary publicExportRow
+  exact
+    ⟨keyUnary, payloadUnary, depthUnary, branchUnary, terminalReadUnary, branchReadUnary,
+      publicExportUnary, terminalReadRow, branchReadRow, publicExportRow, exportPkg⟩
+
 def TriePacket [AskSetup] [PackageSetup]
     (key payload depth branch provenance keyPayloadRoute branchRoute endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

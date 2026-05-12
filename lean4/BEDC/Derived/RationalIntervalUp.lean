@@ -460,4 +460,85 @@ theorem RationalIntervalPacket_standard_boundary_bridge [AskSetup] [PackageSetup
     unary_cont_closed endpointUnary widthUnary boundaryRow
   exact ⟨widthUnary, containmentReadUnary, boundaryUnary, sameWidthOrder, boundaryRow, boundaryPkg⟩
 
+theorem RationalIntervalPacket_regseqrat_window_coverage [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer handoff
+      containmentRead boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint consumer handoff ->
+        UnaryHistory consumer ->
+          Cont containment route containmentRead ->
+            Cont handoff containmentRead boundary ->
+              PkgSig bundle boundary pkg ->
+                UnaryHistory handoff ∧ UnaryHistory containmentRead ∧ UnaryHistory boundary ∧
+                  hsame handoff (append endpoint consumer) ∧
+                    Cont containment route containmentRead ∧
+                      Cont handoff containmentRead boundary ∧ PkgSig bundle boundary pkg := by
+  intro packet endpointConsumerHandoff consumerUnary containmentReadRow boundaryRow boundaryPkg
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, containmentUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder, _containmentRow,
+    _provenanceRow, _endpointRow, _endpointPkg⟩ := packet
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary consumerUnary endpointConsumerHandoff
+  have containmentReadUnary : UnaryHistory containmentRead :=
+    unary_cont_closed containmentUnary routeUnary containmentReadRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed handoffUnary containmentReadUnary boundaryRow
+  exact
+    ⟨handoffUnary, containmentReadUnary, boundaryUnary, endpointConsumerHandoff,
+      containmentReadRow, boundaryRow, boundaryPkg⟩
+
+theorem RationalIntervalPacket_midpoint_bisection_window [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint midpoint leftOrder
+      leftTransport leftProvenance leftEndpoint rightOrder rightTransport rightProvenance
+      rightEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory midpoint ->
+        Cont left midpoint leftOrder ->
+          Cont leftOrder containment leftTransport ->
+            Cont leftTransport route leftProvenance ->
+              Cont leftProvenance name leftEndpoint ->
+                PkgSig bundle leftEndpoint pkg ->
+                  Cont midpoint right rightOrder ->
+                    Cont rightOrder containment rightTransport ->
+                      Cont rightTransport route rightProvenance ->
+                        Cont rightProvenance name rightEndpoint ->
+                          PkgSig bundle rightEndpoint pkg ->
+                            RationalIntervalPacket left midpoint leftOrder containment
+                                leftTransport route leftProvenance name leftEndpoint bundle pkg ∧
+                              RationalIntervalPacket midpoint right rightOrder containment
+                                  rightTransport route rightProvenance name rightEndpoint bundle
+                                  pkg := by
+  intro packet midpointUnary leftOrderRow leftTransportRow leftProvenanceRow leftEndpointRow
+    leftPkg rightOrderRow rightTransportRow rightProvenanceRow rightEndpointRow rightPkg
+  obtain ⟨leftUnary, rightUnary, _orderUnary, containmentUnary, _transportUnary, routeUnary,
+    _provenanceUnary, nameUnary, _endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩ := packet
+  have leftOrderUnary : UnaryHistory leftOrder :=
+    unary_cont_closed leftUnary midpointUnary leftOrderRow
+  have leftTransportUnary : UnaryHistory leftTransport :=
+    unary_cont_closed leftOrderUnary containmentUnary leftTransportRow
+  have leftProvenanceUnary : UnaryHistory leftProvenance :=
+    unary_cont_closed leftTransportUnary routeUnary leftProvenanceRow
+  have leftEndpointUnary : UnaryHistory leftEndpoint :=
+    unary_cont_closed leftProvenanceUnary nameUnary leftEndpointRow
+  have rightOrderUnary : UnaryHistory rightOrder :=
+    unary_cont_closed midpointUnary rightUnary rightOrderRow
+  have rightTransportUnary : UnaryHistory rightTransport :=
+    unary_cont_closed rightOrderUnary containmentUnary rightTransportRow
+  have rightProvenanceUnary : UnaryHistory rightProvenance :=
+    unary_cont_closed rightTransportUnary routeUnary rightProvenanceRow
+  have rightEndpointUnary : UnaryHistory rightEndpoint :=
+    unary_cont_closed rightProvenanceUnary nameUnary rightEndpointRow
+  exact
+    ⟨⟨leftUnary, midpointUnary, leftOrderUnary, containmentUnary, leftTransportUnary,
+        routeUnary, leftProvenanceUnary, nameUnary, leftEndpointUnary, leftOrderRow,
+        leftTransportRow, leftProvenanceRow, leftEndpointRow, leftPkg⟩,
+      ⟨midpointUnary, rightUnary, rightOrderUnary, containmentUnary, rightTransportUnary,
+        routeUnary, rightProvenanceUnary, nameUnary, rightEndpointUnary, rightOrderRow,
+        rightTransportRow, rightProvenanceRow, rightEndpointRow, rightPkg⟩⟩
+
 end BEDC.Derived.RationalIntervalUp
