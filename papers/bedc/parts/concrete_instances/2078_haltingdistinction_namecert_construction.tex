@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\HaltingDistinctionUp$}
+\label{ch:concrete-instances-haltingdistinction-namecert}
+\origin{human}
+
+The $\HaltingDistinctionUp$ surface turns the halting-as-distinction interface of \autoref{ch:visions-halting-as-form-of-distinction-limit} into a finite naming packet. It does not decide halting. It records the visible certificate-history pair, the finite continuation trace being tested, the diagonal self-reference row, the transports, routes, provenance, and local naming rows through which the fixed-point obstruction can be read.
+
+\begin{definition}[HaltingDistinction carrier]
+\label{def:halting-distinction-carrier}
+A $\HaltingDistinctionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Q,T,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the certificate-history pair row, naming a candidate program certificate $\NameCert_P$ together with the history $h$ whose $\Cont_P$ chain is being inspected;
+\item $T$ is the finite trace row recording the visible $\Cont_P$ chain segment from $h$ through its displayed marks and intermediate histories;
+\item $Z$ is the diagonal self-reference row, naming the self-application read in which the classifier for $Q$ is asked about the same certificate-history pair it is currently classifying;
+\item $H$ records the componentwise $\hsame$ transports for certificate-history pair rows, trace rows, diagonal rows, package rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes for reading the input pair, replaying the finite trace, entering the diagonal row, and returning the result to the local ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, the diagonal read, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HaltingDistinctionUp}$ ledger.
+\end{enumerate}
+The carrier contains no global truth predicate, no classical decidability assumption for termination, no oracle for divergence, and no meta-level evaluator outside the displayed $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, and local $\NameCert$ rows.
+\end{definition}
+
+\begin{theorem}[HaltingDistinction NameCert obligations]
+\label{thm:halting-distinction-namecert-obligations}
+The local $\NameCert_{\HaltingDistinctionUp}$ surface for \autoref{def:halting-distinction-carrier} consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $D=(Q,T,Z,H,C,P,N)$;
+\item certificate-history classifier transport, saying that pair rows classify only through the displayed $\hsame$ transport recorded in $H$;
+\item trace readability, saying that a public termination-facing read factors through the finite $\Cont_P$ chain segment $T$ and the read routes in $C$;
+\item diagonal boundary exactness, saying that the self-reference row $Z$ records the classifier's self-application point without supplying an external halting decision;
+\item non-escape from global truth predicates, classical decidability, divergence oracles, host evaluators, or classifiers not named by $Q$, $T$, $Z$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:halting-distinction-carrier}. The packet names exactly the pair, trace, diagonal, transport, continuation, package, and local naming rows.
+
+Classifier transport is componentwise in $H$. Since $Q$ is the only row naming the certificate-history input, any transported public comparison must return to the same visible pair data and its local ledger.
+
+Trace readability is controlled by $T$ and $C$. A consumer may replay the finite $\Cont_P$ segment displayed by $T$, but the carrier has no coordinate that upgrades this finite trace into a total halting predicate.
+
+The diagonal boundary is the row $Z$. It records the self-application read needed by the fixed-point obstruction, while $P$ and $N$ record only provenance and local naming. Thus the packet exhibits the obstruction surface without importing a global decision principle.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction diagonal boundary]
+\label{thm:halting-distinction-diagonal-boundary}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Any public read that reaches the diagonal self-reference point reaches it only through the displayed route
+$$
+Q \longmapsto T \longmapsto Z \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The row $Z$ may identify the classifier question with its own certificate-history input under the recorded $\hsame$ transports, but it does not produce a truth value for all certificate-history pairs and does not decide divergence outside the displayed finite packet.
+\end{theorem}
+\begin{proof}
+Start from a public diagonal read. Carrier projection gives the input pair row $Q$, the finite trace row $T$, and the self-reference row $Z$ as the only rows that can name the read.
+
+Use the routes in $C$ to move from $Q$ through $T$ to $Z$. The permitted renamings are exactly the componentwise transports stored in $H$, and the dependency record is exactly $P$ together with the local ledger $N$.
+
+Since no coordinate of $D$ is a total truth predicate, a classical halting decision, or a divergence oracle, the read stops at the displayed diagonal boundary. It exposes where the self-reference pressure occurs without converting that pressure into a global classifier.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction consumer non-escape]
+\label{thm:halting-distinction-consumer-non-escape}
+Every consumer of an accepted $\HaltingDistinctionUp$ packet receives only the finite certificate-history pair row $Q$, the finite $\Cont_P$ trace row $T$, the diagonal self-reference row $Z$, the componentwise $\hsame$ transports $H$, the displayed read routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\HaltingDistinctionUp}$ ledger $N$. No consumer can extract from the packet a total halting predicate, a global truth predicate over certificates, a classical decidability principle for termination, or a host-level evaluator.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The exported rows are exactly $Q,T,Z,H,C,P,N$, and each row is finite BEDC data.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations} to ordinary trace consumers and \autoref{thm:halting-distinction-diagonal-boundary} to self-reference consumers. Both routes remain inside the displayed packet.
+
+Therefore every public read factors through the named rows. The carrier has no channel through which a total halting predicate, global truth predicate, classical decision principle, or host evaluator can enter the consumer surface.
+\end{proof}
+
+\closureat{HaltingDistinctionUp}{seedStr}
+
+\begin{closurestatus}{\HaltingDistinctionUp}
+  \constructivestory{A $\HaltingDistinctionUp$ packet is generated from a certificate-history pair row, a finite $\Cont_P$ trace row, a diagonal self-reference row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:halting-distinction-namecert-obligations} binds the finite carrier, trace readability, diagonal boundary, provenance, and consumer non-escape surface for halting-as-distinction packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a total halting predicate, a global truth predicate over certificates, classical decidability of termination, divergence detection, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier transport, trace readability, diagonal boundary exactness, and consumer non-escape.}
+\end{closurestatus}
