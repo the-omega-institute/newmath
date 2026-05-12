@@ -142,6 +142,50 @@ coordinate for a completed real, an open cover, or compactness data, none can
 be exported at the handoff.
 \end{proof}
 
+\begin{theorem}[RationalBall interval center containment]
+\label{thm:rationalball-interval-center-containment}
+Let $B=(c,r,o,h,k,p,n)$ be an accepted $\RationalBallUp$ packet, and let
+$I=(l,u,o_I,\kappa,h_I,c_I,p_I,n_I)$ be a displayed
+$\RationalIntervalUp$ window whose center row is the same $\RatUp$ row $c$ and
+whose endpoint rows are the rational-radius endpoints determined by $c$ and
+$r$. For every rational sample row $q$ carried by the same finite
+$\mathsf{BHist}$ surface, $q$ is accepted by the $\RationalBallUp$ containment
+ledger $k$ exactly when its transported row is accepted by the
+$\RationalIntervalUp$ endpoint-containment ledger $\kappa$ under the same
+displayed $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance.
+
+The correspondence supplies only finite rational-radius containment data for
+the displayed center window. It does not assert metric completeness,
+compactness of balls, or any open-cover topology principle.
+\end{theorem}
+\begin{proof}
+For the ball-to-interval direction, apply
+\autoref{thm:rational-ball-containment-exactness}. A containment read of $q$
+is one row of $k$ interpreted against the center $c$, radius $r$, order witness
+$o$, transport rows $h$, continuation routes, package provenance, and local
+name row.
+
+Transport that displayed row through the endpoint window. The shared
+$\RatUp$ center and radius endpoints identify the transported sample with the
+endpoint-containment row of $I$. Apply
+\autoref{thm:rational-ball-refinement-transport},
+\autoref{thm:rational-interval-endpoint-order-witness}, and
+\autoref{thm:rational-interval-containment-ledger-exactness} to read the row as
+one accepted $\RationalIntervalUp$ containment fact.
+
+For the interval-to-ball direction, start with the endpoint-containment row in
+$\kappa$. The same endpoint theorem and containment-ledger exactness identify
+it as a finite row over the displayed center, radius endpoints, order witness,
+$\hsame$, $\Cont$, and $\Pkg$ data. Repack that row through
+\autoref{thm:rational-ball-containment-exactness}; the carrier coordinates are
+exactly $c$, $r$, $o$, $h$, $k$, $p$, and $n$.
+
+Finally use the RationalInterval consumer theorems named by the package
+provenance to keep the transported read inside the finite endpoint-window
+surface. No proof step introduces a completed metric point, a compact ball, or
+an open-cover datum.
+\end{proof}
+
 \begin{theorem}[RationalBall carrier-radius obligation]
 \label{thm:rationalball-carrier-radius-obligation}
 Every admitted $\RationalBallUp$ packet consists of a $\RatUp$ center history,
