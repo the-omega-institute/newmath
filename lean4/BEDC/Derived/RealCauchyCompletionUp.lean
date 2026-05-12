@@ -100,4 +100,33 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
 
+theorem RealCauchyCompletionCarrier_real_seal_readback_scope [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert consumerRead
+      scopedSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont «seal» localCert consumerRead ->
+          Cont consumerRead provenance scopedSurface ->
+            PkgSig bundle scopedSurface pkg ->
+              UnaryHistory «seal» ∧ UnaryHistory consumerRead ∧
+                UnaryHistory scopedSurface ∧ Cont readback dyadic «seal» ∧
+                  Cont «seal» localCert consumerRead ∧
+                    Cont consumerRead provenance scopedSurface ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle scopedSurface pkg := by
+  intro carrier localCertUnary consumerRow scopedRow scopedPkg
+  have handoff :=
+    RealCauchyCompletionCarrier_diagonal_handoff carrier localCertUnary consumerRow
+  obtain ⟨_familyUnary, _modulusUnary, _windowUnary, _dyadicUnary, provenanceUnary,
+    _familyModulusRow, _diagonalWindowRow, _carrierReadbackRow, _carrierProvenanceRow,
+    provenancePkg⟩ := carrier
+  obtain ⟨_diagonalUnary, _handoffWindowUnary, _readbackUnary, _handoffDyadicUnary,
+    sealUnary, consumerUnary, _handoffFamilyRow, _handoffDiagonalRow, readbackRow,
+    _handoffPkg⟩ := handoff
+  have scopedUnary : UnaryHistory scopedSurface :=
+    unary_cont_closed consumerUnary provenanceUnary scopedRow
+  exact ⟨sealUnary, consumerUnary, scopedUnary, readbackRow, consumerRow, scopedRow,
+    provenancePkg, scopedPkg⟩
+
 end BEDC.Derived.RealCauchyCompletionUp
