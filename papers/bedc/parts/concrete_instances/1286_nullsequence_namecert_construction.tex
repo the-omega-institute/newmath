@@ -125,6 +125,22 @@ The witnessing side is the finite window and bound row. For each tolerance reque
 The output side is the $\RealUp$ seal-consumption row. It reads the finite zero-convergence ledger as equality evidence for regular rational names while withholding Dedekind cuts, quotient streams, host real equality, trichotomy, and real completeness.
 \end{proof}
 
+\begin{theorem}[NullSequence zero-tail criterion]
+\label{thm:null-sequence-zero-tail-criterion}
+Let $Z=(D,T,W,M,E,H,C,P,N)$ be an accepted $\NullSequenceUp$ packet over a displayed $\RegSeqRatUp$ difference stream. A $\RealUp$ equality-classifier consumer read is admitted by $Z$ exactly when the read factors through the tolerance schedule $T$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ bound row read by $M$, the $\Cont$ routes in $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\NullSequenceUp}$ row recorded by the tolerance-window package of \autoref{def:null-sequence-tolerance-window-exactness-package}.
+
+Thus the classifier-facing zero-tail read for regular rational names is the same finite tolerance-window packet, transported through $H$ and sealed by $E$, and not an additional real-limit datum.
+\end{theorem}
+\begin{proof}
+First project the accepted tolerance request. By \autoref{thm:null-sequence-window-threshold-exactness}, the request must pass through the displayed dyadic schedule $T$, the observation window $W$, and the threshold row $M$ before it reaches any $\RealUp$ seal row.
+
+Next apply \autoref{thm:null-sequence-real-seal-factorization}. The real equality classifier can consume the zero-tail evidence only after that same stream, tolerance, window, threshold, seal, transport, continuation, package, and local certificate package has been read.
+
+For the converse direction, suppose the consumer read already factors through these displayed rows. The tolerance-window package supplies the bound row and window for the requested tolerance, and the factorization theorem routes the resulting null-difference evidence into the seal row $E$.
+
+Finally use \autoref{thm:null-sequence-non-escape-boundary}. Since no host limit, quotient stream, hidden tail estimate, trichotomy, or completeness object is exported by the packet, an admitted $\RealUp$ zero-tail read is exactly the finite route just described.
+\end{proof}
+
 \closureat{NullSequenceUp}{seedStr}
 
 \begin{closurestatus}{\NullSequenceUp}
