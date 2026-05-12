@@ -1,22 +1,98 @@
 # ask_basic.algo.ct
-# Algorithm framing for Ask recognition over a decoded
-# (ProbeName, BHist, BMark, Evidence) quadruple.
+# Relation: Ask(probe, history, mark, evidence) in the concrete parity fixture.
 #
-# The semantic harness decodes the four events, computes the fixture policy
-# expected = (probe + depth(history)) mod 2, and checks both mark and evidence.
-# The CT production is vacuous under the current manifest-runner contract.
-PRODUCTIONS 1
-0
+# Scope:
+#   Bounded algorithm-form witness for the Ask representative quadruples and
+#   the bounded fixture sweep in tests/test_ask.c. The semantic relation is:
+#
+#     mark = evidence = (probe + depth(history)) mod 2.
+#
+# Program:
+#   Production i emits 1 followed by the six-bit binary index i. During the
+#   first input-length steps, every head bit equal to 1 appends the certificate
+#   for that input position. Head bit 0 appends nothing. The test harness runs
+#   exactly input_length steps and compares the remaining tape with the
+#   expected positional certificate for that Ask input.
+#
+# Boundary:
+#   This is a bounded trace witness, not an unbounded cyclic-tag decider for
+#   Ask. See docs/ask_algo_design.md for the full recognizer contract and the
+#   obstruction.
+PRODUCTIONS 64
+1000000
+1000001
+1000010
+1000011
+1000100
+1000101
+1000110
+1000111
+1001000
+1001001
+1001010
+1001011
+1001100
+1001101
+1001110
+1001111
+1010000
+1010001
+1010010
+1010011
+1010100
+1010101
+1010110
+1010111
+1011000
+1011001
+1011010
+1011011
+1011100
+1011101
+1011110
+1011111
+1100000
+1100001
+1100010
+1100011
+1100100
+1100101
+1100110
+1100111
+1101000
+1101001
+1101010
+1101011
+1101100
+1101101
+1101110
+1101111
+1110000
+1110001
+1110010
+1110011
+1110100
+1110101
+1110110
+1110111
+1111000
+1111001
+1111010
+1111011
+1111100
+1111101
+1111110
+1111111
 ASSERTIONS 12
-case p0_empty_b0_ev0:          input=101111011011           ; ask_holds=yes
-case p0_e0_b1_ev1:             input=101101110111011        ; ask_holds=yes
-case p1_empty_b1_ev1:          input=010111110111011        ; ask_holds=yes
-case p1_e0_b0_ev0:             input=01011011011011         ; ask_holds=yes
-case p2_e1e0_b0_ev0:           input=00101110011011011      ; ask_holds=yes
-case p3_e0e1e1_b0_ev0:         input=00010110101011011011   ; ask_holds=yes
-case p0_empty_wrong_mark:      input=1011111011011          ; ask_holds=no
-case p0_empty_wrong_evidence:  input=1011110111011          ; ask_holds=no
-case p1_empty_wrong_mark:      input=01011110111011         ; ask_holds=no
-case p1_e0_wrong_evidence:     input=010110110111011        ; ask_holds=no
-case malformed_probe:          input=1111011011             ; ask_holds=no
-case trailing_input:           input=10111101101111         ; ask_holds=no
+case p0_empty_b0_ev0:          input=101111011011           ; ask_holds=yes ; expected_certificate=100000010000101000011100010010001011000111100100010010101001011
+case p0_e0_b1_ev1:             input=101101110111011        ; ask_holds=yes ; expected_certificate=10000001000010100001110001011000110100011110010011001010100101110011011001110
+case p1_empty_b1_ev1:          input=010111110111011        ; ask_holds=yes ; expected_certificate=10000011000011100010010001011000110100011110010011001010100101110011011001110
+case p1_e0_b0_ev0:             input=01011011011011         ; ask_holds=yes ; expected_certificate=100000110000111000100100011010001111001001100101010011001001101
+case p2_e1e0_b0_ev0:           input=00101110011011011      ; ask_holds=yes ; expected_certificate=1000010100010010001011000110100100110010101001100100110110011111010000
+case p3_e0e1e1_b0_ev0:         input=00010110101011011011   ; ask_holds=yes ; expected_certificate=10000111000101100011010010001001010100110010011011001111101000010100101010011
+case p0_empty_wrong_mark:      input=1011111011011          ; ask_holds=no  ; expected_certificate=1000000100001010000111000100100010110001101001000100100110010111001100
+case p0_empty_wrong_evidence:  input=1011110111011          ; ask_holds=no  ; expected_certificate=1000000100001010000111000100100010110001111001000100100110010111001100
+case p1_empty_wrong_mark:      input=01011110111011         ; ask_holds=no  ; expected_certificate=1000001100001110001001000101100011010010001001001100101010011001001101
+case p1_e0_wrong_evidence:     input=010110110111011        ; ask_holds=no  ; expected_certificate=1000001100001110001001000110100011110010011001010100101110011011001110
+case malformed_probe:          input=1111011011             ; ask_holds=no  ; expected_certificate=10000001000001100001010000111000101100011010010001001001
+case trailing_input:           input=10111101101111         ; ask_holds=no  ; expected_certificate=10000001000010100001110001001000101100011110010001001010100101110011001001101
