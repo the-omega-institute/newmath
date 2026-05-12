@@ -17,3 +17,28 @@ The glider gun emitter is represented by a 518-cell source band made from separa
 Cook's construction makes the existence and high-level role of the productive collision families clear: leader, ossifier, and data-block packages interact so that a consumed `0` appends nothing and a consumed `1` appends the active cyclic-tag production. The exact low-level `A`-through-`H` all-pairs collision outcomes are not firmly established from accessible prose summaries alone. They should be treated as conjectural until direct local Rule 110 simulation verifies phase, spacing, transient cleanup, and outgoing products.
 
 Before Phase B and C implementation can be trusted, the project still needs primary-diagram or simulation-derived templates for the leader package, each ossifier package, and the data-block encodings for logical `0` and `1`. The encoder design should therefore keep those structures behind named emitters and expose phase/separation metadata in collision tests rather than hard-coding a phase-free glider-pair table.
+
+## Cook collision simulation observations
+
+The current collision simulator uses a pure ether control row evolved for the same number of Rule 110 steps, then classifies the perturbed row by counting islands that differ from that control. The exploratory table below uses positions `420` and `560` with `220` evolution steps. These rows are deterministic observations for the current row-0 `A`/`B`/`C`/`D` emitters and this spacing; they are not phase-exact Cook 2004 collision products.
+
+| Left | Right | Outcome | Interpretation |
+| --- | --- | --- | --- |
+| `A` | `A` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `A` | `B` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `A` | `C` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `A` | `D` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `B` | `A` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `B` | `B` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `B` | `C` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `B` | `D` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `C` | `A` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `C` | `B` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `C` | `C` | `annihilation` | The final row matches the evolved ether control row in the full simulated window. |
+| `C` | `D` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `D` | `A` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `D` | `B` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `D` | `C` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+| `D` | `D` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
+
+Classification remains intentionally coarse. A `passthrough` row means only that the post-window island count is approximately conserved by this heuristic. It does not certify outgoing particle identities, exact velocities, or phase restoration. A row classified as `annihilation` means the simulated row is equal to the separately evolved ether row at the end of the chosen window.
