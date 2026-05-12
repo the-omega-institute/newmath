@@ -228,6 +228,7 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModulusOfConvergenceUp
+import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
@@ -511,6 +512,7 @@ import BEDC.Derived.ProjectiveVarUp
 import BEDC.Derived.QuantumStateUp
 import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.ModelTheoryUp
+import BEDC.Derived.ProductMetricUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.ProdUp.SourceMonotonicity
