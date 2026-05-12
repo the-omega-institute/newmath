@@ -41,7 +41,7 @@ A \emph{naming certificate} is a substrate-internal artefact that promotes a sta
 
 \begin{definition}[Generator-closure classifier]
 \label{def:certificate-closure-generator-closure-classifier}
-A \emph{generator-closure classifier} is the audit-side companion of a naming certificate: it states which closure rules the certificate is contingent on (the constructor list of the underlying generator) and rejects continuations of the named pattern that would lie outside that generator's closure. Generator-closure classifiers are the substrate's way of saying "the naming certificate ranges over this generator, no more, no less".
+A \emph{generator-closure classifier} is the audit-side companion of a naming certificate: it states which closure rules the certificate is contingent on (the constructor list of the underlying generator) and rejects continuations of the named pattern that would lie outside that generator's closure. Generator-closure classifiers are the substrate's way of saying "the naming certificate ranges over this generator, no more, no less". On the formal side, BEDC.MetaCIC encodes this as a \texttt{structure GeneratorClosureClassifier} carrying a single closure field $\forall x\,y,\, \text{Generator}(x, y) \to \text{Classifier}(x) \to \text{Classifier}(y)$, with concrete instantiations for the substrate's shift and substitute generators on closed-term carriers \leanchecked{BEDC.MetaCIC.GeneratorClosureClassifier} \leanvariant{BEDC.MetaCIC.closed\_under\_shift\_classifier} \leanvariant{BEDC.MetaCIC.closed\_under\_substitute\_classifier}.
 \end{definition}
 
 \begin{principle}[Structural induction is internal; the move to ``all'' is external]
