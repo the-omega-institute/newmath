@@ -714,80 +714,17 @@ and ledger fields are the identity implications on the Bool history carrier.
 \end{proof}
 \leanchecked{BEDC.Derived.BoolUp.bool\_history\_semantic\_name\_certificate}
 
-\begin{definition}[Bool public endpoint constructors]
-\label{def:bool-public-endpoint-constructors}
-The public false constructor is $\mathsf{BoolEndpoint}(\bzero)=\emp$, and the
-public true constructor is $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Public boolean
-operations are finite endpoint tables whose input and output rows are drawn
-only from these two constructor rows. No row in this public surface is a host
-proposition, a decidable predicate, or an eliminator.
-\end{definition}
+\input{parts/concrete_instances/07_bool_public_endpoint_surface}
 
-\begin{theorem}[Bool public constructor case readback]
-\label{thm:bool-public-constructor-case-readback}
-Every public Bool endpoint read is classified by exactly one of the displayed false
-and true endpoint rows of \autoref{def:bool-public-endpoint-constructors}. Two
-public constructor readbacks agree exactly when their underlying marks are
-related by $\msame$.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:bool-history-carrier-endpoint-coverage} to the public read.
-It supplies a displayed mark $v:\mathsf{BMark}$ and a witness that the read
-history is the endpoint $\mathsf{BoolEndpoint}(v)$.
+\closureat{BoolUp}{publicStr}[BEDC.Derived.BoolUp.bool\_history\_semantic\_name\_certificate]
 
-Case analysis on $v$ gives the two public rows
-$\mathsf{BoolEndpoint}(\bzero)=\emp$ and $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$.
-Theorem~\ref{thm:bool-endpoint-readback-determinism}
-gives uniqueness of the readback mark, and
-\autoref{thm:bool-endpoint-bridge-exactness} identifies agreement of endpoint
-rows with $\msame$ of the underlying marks.
-\end{proof}
-
-\begin{theorem}[Bool public surface no-hidden leakage]
-\label{thm:bool-public-surface-no-hidden-leakage}
-A consumer of the public Bool surface can read only the two constructor endpoint rows,
-endpoint-table operation rows over those constructors, the mark and history
-classifier rows, and the semantic certificate ledger. It cannot read a host
-proposition, a decidable predicate, an eliminator, or truth-table completeness.
-\end{theorem}
-\begin{proof}
-The public constructors are exactly the two endpoint rows in
-\autoref{def:bool-public-endpoint-constructors}. The endpoint coverage and
-constructor case readback statements show that public reads return one of these rows,
-with agreement controlled by $\msame$ and endpoint exactness rather than by host logic.
-
-The semantic certificate in \autoref{thm:bool-concrete-semantic-namecert}
-records the carrier, classifier, and ledger discipline. Since the displayed
-public rows contain no host proposition, decidable predicate, eliminator, or
-truth-table-completeness row, those objects are not available to a surface
-consumer.
-\end{proof}
-
-The endpoint coverage, endpoint bridge classifier completeness, and endpoint
-readback theorems justify the Bool public-object readback and bridge promised
-by the roadmap template; they are not internal fields of the
-$\mathsf{SemanticNameCert}$ constructor.
-
-\begin{corollary}[\(\BoolUp\) certificate scope]
-\label{cor:bool-certificate-scope}
-Theorem~\ref{thm:concrete-bool-namecert} cites the checked core history
-$\NameCert$ for $\mathsf{BoolHistoryCarrier}$ and
-$\mathsf{BoolHistoryClassifier}$, namely the $BEDC.Derived.BoolUp$ Lean target
-$\mathsf{bool\_history\_name\_certificate}$. The public-object
-$\mathsf{SemanticNameCert}$ scope is checked separately at
-Theorem~\ref{thm:bool-concrete-semantic-namecert} by the $BEDC.Derived.BoolUp$
-Lean target $\mathsf{bool\_history\_semantic\_name\_certificate}$. Thus the core
-certificate, the mark-level ledger definition, the generic carrier-as-ledger
-implication, and the closed semantic certificate occupy separate roles. In each
-case $\BoolUp$ is derived from mark and history sameness, and is not primitive.
-\end{corollary}
 \begin{closurestatus}{\BoolUp}
   \constructivestory{A Boolean here is a single mark from the kernel's two-element mark type --- b0 or b1 --- with no further structure layered on top. Whichever mark you start from, you stay there: equality on this tiny type is literal identity, and the four basic facts about it (each mark equals itself, and b0 differs from b1, in either reading order) form the entire distinguishing pattern, with every visible mark being just the raw mark itself. Because the type has only two elements and identity on it is automatically an equivalence, the five name-certificate obligations --- that the carrier admits at least one element, and that the classifier is reflexive, symmetric, transitive, and respected by the carrier --- fall out together without further work. The signature gap of a Boolean token $p$ collects those marks $m$ for which the source-domain admits $m$, the signature relation pairs $m$ with an answer mark and an evidence ledger, and the token-introduction relation maps that answer to $p$; once the trivial pattern and ledger machinery is chased away, this becomes just $m = p$. The chapter registers all of this under the name $\BoolUp$; nothing beyond the kernel's mark type and its equality enters, and full Boolean algebra --- operations, eliminators, decidable predicates --- stays explicitly outside this closure level.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The two-endpoint boolean history semantic certificate over $\emp$ and $\Eone(\emp)$, with mark/history classifiers, endpoint readback, and the displayed ledger discipline.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public Bool surface covers the false and true endpoint constructors, constructor case readback, semantic certificate ledger, and no-hidden-leakage statement over the displayed mark and history classifiers.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.BoolUp.bool\_history\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{Full boolean algebra or proposition theory: boolean operations, eliminators, decidable predicates, truth-table completeness, and logic connectives as BEDC primitives.}
-  \upgradepath{$\publicClosure$ requires public false/true constructors, case readback, boolean operations with endpoint exactness, and a no-hidden-leakage statement for the public surface.}
+  \upgradepath{Bridged closure requires a standard finite-data bridge for the displayed Bool public surface.}
 \end{closurestatus}
