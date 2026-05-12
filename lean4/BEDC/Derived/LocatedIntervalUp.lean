@@ -111,4 +111,23 @@ theorem LocatedIntervalPacket_semantic_name_certificate [AskSetup] [PackageSetup
       exact source
   }
 
+theorem LocatedIntervalPacket_dyadic_refinement_handoff [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont rationalCells dyadicRefinements endpoint' ->
+        UnaryHistory endpoint' ∧ hsame endpoint endpoint' := by
+  intro packet endpointRoute
+  obtain ⟨_lowerUnary, _upperUnary, rationalCellsUnary, dyadicUnary, _windowsUnary,
+    _readbacksUnary, _sealsUnary, _nameCertUnary, _rationalCellsRoute, endpointOld,
+    _transportRoute, _routesRoute, _provenanceRoute, _endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointRoute
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame (hsame_refl rationalCells) (hsame_refl dyadicRefinements) endpointOld
+      endpointRoute
+  exact ⟨endpointUnary, sameEndpoint⟩
+
 end BEDC.Derived.LocatedIntervalUp

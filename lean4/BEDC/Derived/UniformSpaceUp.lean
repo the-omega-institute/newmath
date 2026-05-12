@@ -458,4 +458,36 @@ theorem UniformSpacePacket_standard_bridge [AskSetup] [PackageSetup]
       diagonalRefinementFilterbase, filterbaseTransportCauchy, cauchyProvenanceCompletion,
       completionNamePublic, publicPkg⟩
 
+theorem UniformSpacePacket_entourage_filter_metric_comparison [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      filterNeighborhood metricWitness comparison : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+        provenance name bundle pkg ->
+      Cont diagonal refinement filterNeighborhood ->
+        Cont filterNeighborhood transport metricWitness ->
+          Cont metricWitness provenance comparison ->
+            PkgSig bundle comparison pkg ->
+              UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory filterNeighborhood ∧
+                UnaryHistory metricWitness ∧ UnaryHistory comparison ∧
+                  Cont point entourage diagonal ∧ Cont diagonal refinement filterNeighborhood ∧
+                    Cont filterNeighborhood transport metricWitness ∧
+                      Cont metricWitness provenance comparison ∧ PkgSig bundle comparison pkg := by
+  intro packet diagonalRefinementFilterNeighborhood filterNeighborhoodTransportMetric
+    metricProvenanceComparison comparisonPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, _nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterNeighborhoodUnary : UnaryHistory filterNeighborhood :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterNeighborhood
+  have metricWitnessUnary : UnaryHistory metricWitness :=
+    unary_cont_closed filterNeighborhoodUnary transportUnary filterNeighborhoodTransportMetric
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed metricWitnessUnary provenanceUnary metricProvenanceComparison
+  exact
+    ⟨pointUnary, entourageUnary, filterNeighborhoodUnary, metricWitnessUnary, comparisonUnary,
+      pointEntourageDiagonal, diagonalRefinementFilterNeighborhood,
+      filterNeighborhoodTransportMetric, metricProvenanceComparison, comparisonPkg⟩
+
 end BEDC.Derived.UniformSpaceUp
