@@ -272,15 +272,103 @@ modulus function, selected real limit, quotient completion, or global window
 choice is part of the public surface.
 \end{proof}
 
+\begin{theorem}[RegularityModulus carrier and classifier obligations]
+\label{thm:regularitymodulus-carrier-classifier-obligations}
+An accepted $\RegularityModulusUp$ packet whose seven displayed
+$\mathsf{BHist}$ rows are those of
+\autoref{def:regularitymodulus-dyadic-window-carrier} supplies carrier
+habitation and componentwise classifier laws for unary precision, unary
+modulus, dyadic window endpoints, displayed $\hsame$ transport, $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and the local $\NameCert$ row.
+
+No additional carrier coordinate is required for a host modulus function,
+selected limit, quotient stream, or global choice of observation windows.
+\end{theorem}
+\begin{proof}
+Read the packet through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The seven coordinates
+are inhabited exactly when the precision row, modulus row, dyadic window row,
+transport row, continuation row, package row, and local name row are present.
+
+The classifier laws are componentwise because each consumer-facing predicate
+is read from one of these displayed rows. The seed obligation surface of
+\autoref{thm:regularitymodulus-namecert-seed-obligation-surface} identifies
+the $\NameCert$ coordinate with the same finite carrier, so the classifier
+surface is not allowed to introduce a separate host-side witness.
+
+Window compatibility is controlled by
+\autoref{thm:regularitymodulus-window-monotonicity}. It keeps refined
+precision and modulus observations on the same carrier coordinates, and the
+dyadic exactness of
+\autoref{thm:regularitymodulus-dyadic-window-exactness} exhausts the visible
+endpoint rows.
+\end{proof}
+
+\begin{theorem}[RegularityModulus transport and ledger obligations]
+\label{thm:regularitymodulus-transport-ledger-obligations}
+For two accepted $\RegularityModulusUp$ packets connected by the displayed
+$\hsame$ and $\Cont$ rows, transport preserves the precision request, unary
+modulus row, dyadic observation window, and finite ledger readback recorded by
+the carrier. The transported packet has exactly the same consumer-visible
+regularity-rate rows after passage to a common dyadic window.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows of
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The $\hsame$ row
+transports the precision, modulus, and dyadic endpoint classifiers, while the
+$\Cont$ row records the finite observation route used by downstream readers.
+
+Apply \autoref{thm:regularitymodulus-window-monotonicity} to move both
+precision requests to the common requested rate. The transported rows remain
+rows of the same finite packet, because refinement only changes the displayed
+window index and does not add a new carrier coordinate.
+
+Finally use \autoref{thm:regularitymodulus-dyadic-window-exactness} for each
+single packet and \autoref{thm:regularitymodulus-common-window-exactness} for
+the paired packet. These exactness statements say that the ledger visible
+after transport is precisely the precision, modulus, dyadic-window,
+transport, continuation, package, and naming surface.
+\end{proof}
+
+\begin{theorem}[RegularityModulus RegSeqRat and Real consumers]
+\label{thm:regularitymodulus-regseqrat-real-consumer-obligations}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted
+$\RegularityModulusUp$ packet reads only the finite regularity-rate packet:
+unary precision, unary modulus, dyadic-window endpoints, componentwise
+$\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ evidence.
+
+The consumer boundary contains no selected real limit, quotient completion,
+analytic modulus, host equality, or choice-based tail.
+\end{theorem}
+\begin{proof}
+For the rational-sequence side, apply
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary}. It presents
+the $\RegSeqRatUp$ read as a finite regularity-rate packet rather than as a
+completed stream object.
+
+For the real-seal side, apply
+\autoref{thm:regularitymodulus-realup-seal-handoff}. The $\RealUp$ consumer
+receives the same precision, modulus, dyadic-window, transport,
+continuation, package, and name rows.
+
+The exactness theorems
+\autoref{thm:regularitymodulus-dyadic-window-exactness} and
+\autoref{thm:regularitymodulus-common-window-exactness} exhaust the single
+and paired readback surfaces. Hence neither consumer can read a selected
+limit, quotient completion, analytic modulus, host equality, or
+choice-based tail from the packet.
+\end{proof}
+
 \closureat{RegularityModulusUp}{obligationStr}
 
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regularitymodulus-dyadic-window-carrier}, \autoref{thm:regularitymodulus-namecert-seed-obligation-surface}, \autoref{thm:regularitymodulus-window-monotonicity}, \autoref{thm:regularitymodulus-regseqrat-consumption-boundary}, and \autoref{thm:regularitymodulus-realup-seal-handoff} seed the dyadic regularity-rate carrier, NameCert obligation surface, monotone precision transport, RegSeqRat consumption boundary, and RealUp seal handoff.}
+  \scopeclosed{\autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, and \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations} enumerate the carrier habitation, classifier, transport, ledger, and downstream consumer obligations over the finite regularity-rate packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a checked Lean carrier, real completeness, uniqueness of real representatives, analytic moduli, or a standard bridge.}
-  \upgradepath{Scoped closure requires packaging the listed obligations over the shared $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ scope.}
+  \upgradepath{Scoped closure requires binding these obligation rows to the exact BEDC primitives and the downstream $\RegSeqRatUp$ and $\RealUp$ handoff scope.}
 \end{closurestatus}
