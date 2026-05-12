@@ -670,3 +670,64 @@ intersection exhaustions export none of the excluded regularity, completion,
 quotient, limit-selection, or host-equality data, the common refinement cover
 exports none of those rows.
 \end{proof}
+
+\begin{theorem}[StreamNameUp RegSeqRat cover-refinement transitivity]
+\label{thm:streamname-regseqrat-cover-refinement-transitivity}
+Let $\mathcal{U}=\{B_i\}_{i\in I}$ be a finite cover family of public
+$\StreamNameUp$ windows over a common observation map, and suppose the cover is
+exhausted by
+\autoref{thm:streamname-regseqrat-cover-refinement-exhaustion}. Let
+$\mathcal{R}$ be a certified refinement cover whose downstream
+$\RegSeqRatUp$ or finite-window $\RealUp$ read is exhausted by the same public
+rows, and let $\mathcal{S}$ be a second certified refinement cover refining
+$\mathcal{R}$. Then every downstream $\RegSeqRatUp$ or finite-window
+$\RealUp$ read over $\mathcal{S}$ is exhausted by the original public
+StreamName finite-window interface, the displayed memberships
+$$
+\begin{gathered}
+\mathsf{InBundle}(-,B_i),\\
+\mathsf{InBundle}(-,\mathcal{R}),\\
+\mathsf{InBundle}(-,\mathcal{S}),
+\end{gathered}
+$$
+the pointwise $\RatUp$ classifier rows, the $\DyadicRatCoreUp$ denominator
+ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+This transitive refinement read exports no $\RegSeqRatUp$ regularity witness,
+no $\RealUp$ completion row, no quotient representative, no hidden limit
+selector, and no host index equality.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-cover-refinement-exhaustion} to the
+$\mathcal{R}$ cover. The result identifies every read over $\mathcal{R}$ with
+the public $\StreamNameUp$ finite-window interface, the member
+$\mathsf{InBundle}(-,B_i)$ rows, the refinement-membership rows for
+$\mathcal{R}$, the pointwise classifier rows, and the displayed denominator,
+transport, continuation, and provenance ledger.
+
+Next compose the membership route for the second refinement. Use
+\autoref{thm:streamname-finite-window-refinement-transitivity} to send each
+$\mathcal{S}$ row through its certified $\mathcal{R}$ row and then through the
+containing public window $B_i$. This gives a single public route
+$$
+\mathcal{S}\to\mathcal{R}\to\mathcal{U}
+$$
+for the displayed $\mathsf{InBundle}$ evidence at all three cover levels.
+
+Now transport the endpoint rows along that route. Apply
+\autoref{thm:streamname-cover-refinement-transport-closure}. The transported
+endpoint rows remain the same public observation rows, pointwise $\RatUp$
+classifier rows, $\DyadicRatCoreUp$ denominator rows, $\hsame$ comparisons,
+$\Cont$ continuations, and $\mathsf{Pkg}$ provenance rows already named by the
+first refinement read.
+
+Finally compare overlapping reads in the composed cover. Use
+\autoref{thm:streamname-regseqrat-window-union-exhaustion} to combine the
+visible inventories and
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion} to identify
+rows that enter through two cover members. These exhaustion results preserve
+the same exclusion clauses as the first refinement, so the downstream
+$\mathcal{S}$ read contains no regularity witness, completion row, quotient
+representative, hidden limit selector, or host index equality.
+\end{proof}
