@@ -100,4 +100,35 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
 
+theorem RealCauchyCompletionCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont «seal» localCert consumer ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont «seal» localCert provenance ∧
+                    Cont «seal» localCert consumer ∧ PkgSig bundle provenance pkg := by
+  intro carrier localCertUnary sealLocalCertConsumer
+  obtain ⟨familyUnary, modulusUnary, windowUnary, dyadicUnary, provenanceUnary,
+    familyModulusRow, diagonalWindowRow, readbackDyadicRow, sealLocalCertProvenance,
+    pkgSig⟩ := carrier
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed familyUnary modulusUnary familyModulusRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed diagonalUnary windowUnary diagonalWindowRow
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  exact
+    ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary, readbackUnary, dyadicUnary,
+      sealUnary, provenanceUnary, consumerUnary, familyModulusRow, diagonalWindowRow,
+      readbackDyadicRow, sealLocalCertProvenance, sealLocalCertConsumer, pkgSig⟩
+
 end BEDC.Derived.RealCauchyCompletionUp
