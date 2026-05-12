@@ -19,6 +19,19 @@ def FreeMonoidWordCarrier [AskSetup] [PackageSetup]
   UnaryHistory word ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
     Cont word route provenance ∧ PkgSig bundle provenance pkg
 
+theorem FreeMonoidWordCarrier_empty_word_unit [AskSetup] [PackageSetup]
+    {word route provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier word route provenance bundle pkg ->
+      UnaryHistory BHist.Empty ∧ UnaryHistory word ∧ Cont BHist.Empty word word ∧
+        Cont word BHist.Empty word ∧ hsame (append BHist.Empty word) word ∧
+          hsame (append word BHist.Empty) word ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨wordUnary, _routeUnary, _provenanceUnary, _wordRouteProvenance, pkgSig⟩
+  exact
+    ⟨unary_empty, wordUnary, cont_left_unit word, cont_right_unit word,
+      append_empty_left word, append_empty_right word, pkgSig⟩
+
 theorem FreeMonoidWordCarrier_concat_associativity [AskSetup] [PackageSetup]
     {u v w uv left vw right route provenance : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
