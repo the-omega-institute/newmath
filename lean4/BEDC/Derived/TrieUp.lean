@@ -22,6 +22,26 @@ def TrieSourcePacket [AskSetup] [PackageSetup]
       Cont payload depth payloadRoute ∧ Cont branch payloadRoute branchRoute ∧
         PkgSig bundle provenance pkg
 
+theorem TrieSourcePacket_key_path_route_exhaustion [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute bundle pkg →
+      UnaryHistory route ∧ UnaryHistory payloadRoute ∧ UnaryHistory branchRoute ∧
+        UnaryHistory provenance ∧ Cont key depth route ∧ Cont route branch provenance ∧
+          PkgSig bundle provenance pkg := by
+  intro packet
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, routeRow,
+    provenanceRow, payloadRouteRow, branchRouteRow, pkgRow⟩ := packet
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed keyUnary depthUnary routeRow
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed payloadUnary depthUnary payloadRouteRow
+  have branchRouteUnary : UnaryHistory branchRoute :=
+    unary_cont_closed branchUnary payloadRouteUnary branchRouteRow
+  exact
+    ⟨routeUnary, payloadRouteUnary, branchRouteUnary, provenanceUnary, routeRow,
+      provenanceRow, pkgRow⟩
+
 theorem TrieSourcePacket_carrier_stability [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute key' payload' depth'
       branch' provenance' route' payloadRoute' branchRoute' : BHist}
