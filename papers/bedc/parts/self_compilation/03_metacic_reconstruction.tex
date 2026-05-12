@@ -109,6 +109,8 @@ inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
 inductive types or definitions, use no axioms, and have exactly the strength of
 the host CIC that checks them.
 
+\input{parts/self_compilation/03_metacic_reconstruction_syntax_table.tex}
+
 \subsection{Paper vs Mechanization}\label{subsec:reconstruction-paper-vs-mechanization}
 
 The paper and the mechanized Lean module describe the same reconstruction
@@ -308,6 +310,8 @@ $$
 \end{aligned}
 $$
 
+\input{parts/self_compilation/03_metacic_reconstruction_typing_rules_table.tex}
+
 \input{parts/self_compilation/03_metacic_reconstruction_typing_vs_host.tex}
 
 \subsection{Context Mechanics}\label{subsec:reconstruction-context-mechanics}
@@ -368,6 +372,8 @@ The checked containment spine records reflexivity, $\mathrm{BetaStep}
 \leanchecked{BEDC.MetaCIC.betaParallel\_refl}
 \leanchecked{BEDC.MetaCIC.betaStep\_to\_parallel}
 \leanchecked{BEDC.MetaCIC.betaParallel\_to\_betaStar}
+
+\input{parts/self_compilation/03_metacic_reconstruction_reduction_table.tex}
 
 The normalization facts are deliberately atomic. $\mathrm{sort\_no\_beta}$
 and $\mathrm{closed\_var\_no\_beta}$ say that the sort constructor and a
@@ -737,6 +743,25 @@ closedness on closed binder domains.
 \input{parts/self_compilation/03_metacic_reconstruction_results_overview.tex}
 
 \input{parts/self_compilation/03_metacic_reconstruction_build_audit_process.tex}
+
+\subsection{Axiom-Free Claim}\label{subsec:reconstruction-axiom-free-claim}
+
+The axiom-free claim for \texttt{BEDC.MetaCIC} has two distinct parts. First,
+no \texttt{BEDC.MetaCIC} module declares a host axiom. This is a project-wide
+hard invariant: \texttt{tools/check-axioms.py} exits with failure if an axiom
+declaration appears in the BEDC Lean sources.
+
+Second, the checked \texttt{BEDC.MetaCIC} theorems do not depend on Lean
+stdlib axioms such as \texttt{Classical.choice}, \texttt{Quot.sound}, or
+\texttt{propext}. This dependency claim is audited by
+\texttt{bedc\_ci.py axiom-purity --strict}, which queries Lean through
+\texttt{\#print axioms} and rejects those extra axiom dependencies.
+
+Thus the commitment is stronger than the absence of local axiom declarations:
+the reconstructed MetaCIC layer is a pure constructive fragment inside CIC,
+with no reliance on Lean's additional axioms beyond CIC. The audit currently
+covers more than 9,000 checked theorems, and the exact count is allowed to
+change with the theorem set.
 
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
