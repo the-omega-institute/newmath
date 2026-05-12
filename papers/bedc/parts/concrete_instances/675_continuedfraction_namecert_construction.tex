@@ -258,6 +258,38 @@ package, and local certificate dependencies account for every row used by the
 packet, so no convergence theorem for arbitrary continued fractions is claimed.
 \end{proof}
 
+\begin{theorem}[ContinuedFraction finite-packet standard bridge]
+\label{thm:continuedfraction-finite-packet-standard-bridge}
+The finite partial-quotient spine, rational convergent rows, dyadic radius
+rows, scheduled observation windows, $\RegSeqRatUp$ handoff, $\RealUp$
+boundary, displayed $\hsame$ rows, $\Cont$ read routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\ContinuedFractionUp}$ row of an accepted
+$\ContinuedFractionUp$ packet assemble the standard finite continued-fraction
+packet boundary for $\ContinuedFractionUp$. The assembled boundary is exactly
+the finite packet surface; it excludes total expansion of every real,
+uniqueness of infinite tails, quotient equality, and measure-theoretic claims.
+\end{theorem}
+\begin{proof}
+First build the finite handoff surface. Apply
+\autoref{thm:continuedfraction-regseqrat-handoff} to the scheduled convergent
+windows, rational numerator and denominator rows, dyadic radius rows,
+recurrence ledger, $\hsame$ transport, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance.
+
+Next attach the real-facing seal. Apply
+\autoref{thm:continuedfraction-real-boundary} and
+\autoref{thm:continuedfraction-obligation-real-boundary}; both read the same
+$\RegSeqRatUp$ handoff and boundary coordinate, so the real row contributes no
+separate completed real, quotient-tail equality, or host equality principle.
+
+Finally repack the displayed rows through
+\autoref{thm:continuedfraction-scoped-boundary}. The scoped packet already
+contains the finite spine, convergent rows, radius rows, schedule, handoff,
+boundary, transport, continuation, package, and local name-certificate rows,
+so it is the standard finite continued-fraction packet boundary and nothing
+stronger.
+\end{proof}
+
 \closureat{ContinuedFractionUp}{seedStr}
 \closureat{ContinuedFractionUp}{obligationStr}
 \closureat{ContinuedFractionUp}{scopedStr}
