@@ -259,3 +259,43 @@ still does not recover a closed finite phase tube for them within the completed
 bounds. Those classes likely need either multi-glider context, a catalogued
 phase origin from Cook's diagram, or a finite two-dimensional mask that is not
 derivable from one arbitrary spatial row.
+
+## Attempt 5 -- Ebar hunt
+
+Ebar was searched as the Cook moving-data carrier with visual width 7 and
+period `(30,-8)`. The primary command was:
+
+```bash
+/tmp/glider_search Ebar 7 30 -8 --max-extended-width 13 --try-periods 1,2,3,4 --try-both-dx
+```
+
+This run covered widths 7 through 17 completely and entered width 18 before
+the brute-force pass was stopped after about 86 minutes. It found 2487
+readable-window candidates, but no strict candidate:
+
+| Search | Width coverage | Exact mask | Exact tube | Best window-only candidate |
+|---|---|---:|---:|---|
+| `(30,-8)`, multipliers `1,2,3,4`, both dx signs | `W=7..17` complete, `W=18` partial | 0 | 0 | width 11 seed `11111000111`, phase 8, period `(30,-8)`, `diff_count=10` |
+
+The auxiliary period-family run used base period `(15,-4)` with multipliers
+`1,2,3,4` and both dx signs. It covered through width 16 and entered width 17.
+This includes the visible alternatives `(15,-4)`, `(30,-8)`, `(45,-12)`, and
+`(60,-16)` in one pass. It found no exact mask or tube candidates; the best
+window-only candidate was width 9 seed `011001100`, phase 12, period
+`(15,-4)`, with `diff_count=9`.
+
+Neighbor checks were also run for `(30,-10)`, `(30,-6)`, `(28,-8)`, and
+`(32,-8)` through width 15 where feasible. The `(30,-10)`, `(28,-8)`, and
+`(32,-8)` searches produced no candidates. The `(30,-6)` search produced 1232
+window candidates under the reversed displacement sign `(30,6)`, but no exact
+candidate; its best window-only seed was width 7 `0111010`, phase 11, with
+`diff_count=6`.
+
+No phase-exact single-row Ebar seed was recovered. The obstruction is not a
+lack of readable row windows: the search found many near recurrences, including
+several low-difference windows, but every one failed both the perturbation-mask
+and space-time tube periodicity tests. The likely remaining issue is that
+Cook's Ebar carrier is not represented by an isolated one-row ether-backed
+seed in this verifier. The next viable routes are a full bitmap parse of Cook's
+Figure 4 at higher fidelity, or obtaining a catalogued phase bitmap from Cook
+or Martinez.
