@@ -36,6 +36,7 @@ import BEDC.MetaCIC.TypedExamples.ChurchNatArith
 import BEDC.MetaCIC.TypedExamples.ChurchNatPred
 import BEDC.MetaCIC.TypedExamples.ChurchEquality
 import BEDC.MetaCIC.TypedExamples.ChurchList
+import BEDC.MetaCIC.TypedExamples.ChurchSum
 import BEDC.MetaCIC.TypedExamples.BetaRedex
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
