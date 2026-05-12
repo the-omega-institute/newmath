@@ -14,6 +14,152 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BitVectorSourceClassifier
+    (length spine ledger provenance length' spine' ledger' provenance' : BHist) : Prop :=
+  hsame length length' ∧ hsame spine spine' ∧ hsame ledger ledger' ∧
+    hsame provenance provenance'
+
+theorem BitVectorSourceClassifier_laws :
+    (∀ {n s l p : BHist}, Cont n s l → hsame p p →
+      BitVectorSourceClassifier n s l p n s l p) ∧
+      (∀ {n s l p n' s' l' p' : BHist},
+        BitVectorSourceClassifier n s l p n' s' l' p' →
+          BitVectorSourceClassifier n' s' l' p' n s l p) ∧
+        (∀ {n s l p n' s' l' p' n'' s'' l'' p'' : BHist},
+          BitVectorSourceClassifier n s l p n' s' l' p' →
+            BitVectorSourceClassifier n' s' l' p' n'' s'' l'' p'' →
+              BitVectorSourceClassifier n s l p n'' s'' l'' p'') := by
+  constructor
+  · intro n s l p _route sameProvenance
+    constructor
+    · exact hsame_refl n
+    · constructor
+      · exact hsame_refl s
+      · constructor
+        · exact hsame_refl l
+        · exact sameProvenance
+  · constructor
+    · intro n s l p n' s' l' p' classified
+      cases classified with
+      | intro sameLength rest =>
+          cases rest with
+          | intro sameSpine rest =>
+              cases rest with
+              | intro sameLedger sameProvenance =>
+                  constructor
+                  · exact hsame_symm sameLength
+                  · constructor
+                    · exact hsame_symm sameSpine
+                    · constructor
+                      · exact hsame_symm sameLedger
+                      · exact hsame_symm sameProvenance
+    · intro n s l p n' s' l' p' n'' s'' l'' p'' left right
+      cases left with
+      | intro sameLengthLeft leftRest =>
+          cases leftRest with
+          | intro sameSpineLeft leftRest =>
+              cases leftRest with
+              | intro sameLedgerLeft sameProvenanceLeft =>
+                  cases right with
+                  | intro sameLengthRight rightRest =>
+                      cases rightRest with
+                      | intro sameSpineRight rightRest =>
+                          cases rightRest with
+                          | intro sameLedgerRight sameProvenanceRight =>
+                              constructor
+                              · exact hsame_trans sameLengthLeft sameLengthRight
+                              · constructor
+                                · exact hsame_trans sameSpineLeft sameSpineRight
+                                · constructor
+                                  · exact hsame_trans sameLedgerLeft sameLedgerRight
+                                  · exact hsame_trans sameProvenanceLeft sameProvenanceRight
+
+def BitVectorBHistSource [AskSetup] [PackageSetup]
+    (length spine ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+    Cont length spine endpoint ∧ Cont endpoint ledger provenance ∧ PkgSig bundle provenance pkg
+
+theorem BitVectorBHistSource_carrier_stability [AskSetup] [PackageSetup]
+    {length spine ledger provenance endpoint length' spine' ledger' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorBHistSource length spine ledger provenance endpoint bundle pkg ->
+      hsame length length' ->
+        hsame spine spine' ->
+          hsame ledger ledger' ->
+            hsame provenance provenance' ->
+              Cont length' spine' endpoint' ->
+                Cont endpoint' ledger' provenance' ->
+                  PkgSig bundle provenance' pkg ->
+                    BitVectorBHistSource length' spine' ledger' provenance' endpoint' bundle pkg ∧
+                      hsame endpoint endpoint' ∧ hsame provenance provenance' := by
+  intro source sameLength sameSpine sameLedger sameProvenance endpointRoute provenanceRoute pkgRoute
+  obtain ⟨lengthUnary, spineUnary, ledgerUnary, provenanceUnary, endpointSource,
+    provenanceSource, _pkgSource⟩ := source
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLength sameSpine endpointSource endpointRoute
+  have provenanceSameFromRoutes : hsame provenance provenance' :=
+    cont_respects_hsame endpointSame sameLedger provenanceSource provenanceRoute
+  have lengthUnary' : UnaryHistory length' :=
+    unary_transport lengthUnary sameLength
+  have spineUnary' : UnaryHistory spine' :=
+    unary_transport spineUnary sameSpine
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport ledgerUnary sameLedger
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  exact
+    ⟨⟨lengthUnary', spineUnary', ledgerUnary', provenanceUnary', endpointRoute, provenanceRoute,
+        pkgRoute⟩,
+      endpointSame, provenanceSameFromRoutes⟩
+
+def BitVectorCarrier [AskSetup] [PackageSetup]
+    (length spine ledger provenance payload : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
+  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧
+    Cont length spine payload ∧ Cont payload ledger provenance ∧ PkgSig bundle provenance pkg
+
+theorem BitVectorCarrier_hsame_stability [AskSetup] [PackageSetup]
+    {length spine ledger provenance payload length' spine' ledger' provenance' payload' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorCarrier length spine ledger provenance payload bundle pkg ->
+      hsame length length' ->
+        hsame spine spine' ->
+          hsame ledger ledger' ->
+            Cont length' spine' payload' ->
+              Cont payload' ledger' provenance' ->
+                PkgSig bundle provenance' pkg ->
+                  BitVectorCarrier length' spine' ledger' provenance' payload' bundle pkg ∧
+                    hsame payload payload' ∧ hsame provenance provenance' := by
+  intro carrier sameLength sameSpine sameLedger payloadRow' provenanceRow' pkgSig'
+  have lengthUnary : UnaryHistory length :=
+    carrier.left
+  have spineUnary : UnaryHistory spine :=
+    carrier.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    carrier.right.right.left
+  have payloadRow : Cont length spine payload :=
+    carrier.right.right.right.left
+  have provenanceRow : Cont payload ledger provenance :=
+    carrier.right.right.right.right.left
+  have lengthUnary' : UnaryHistory length' :=
+    unary_transport lengthUnary sameLength
+  have spineUnary' : UnaryHistory spine' :=
+    unary_transport spineUnary sameSpine
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport ledgerUnary sameLedger
+  have samePayload : hsame payload payload' :=
+    cont_respects_hsame sameLength sameSpine payloadRow payloadRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame samePayload sameLedger provenanceRow provenanceRow'
+  exact And.intro
+    (And.intro lengthUnary'
+      (And.intro spineUnary'
+        (And.intro ledgerUnary'
+          (And.intro payloadRow'
+            (And.intro provenanceRow' pkgSig')))))
+    (And.intro samePayload sameProvenance)
+
 def BitVectorCarrierPacket [AskSetup] [PackageSetup]
     (length spine ledger provenance lengthSpineRoute : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -97,6 +243,39 @@ theorem BitVectorSource_carrier_stability [AskSetup] [PackageSetup]
                       · exact ⟨lengthUnary', spineUnary', ledgerUnary', provenanceUnary',
                           ledgerRow', pkgSig'⟩
                       · exact sameLedger
+
+def BitVectorFiniteLedger [AskSetup] [PackageSetup]
+    (length spine ledger provenance read : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
+  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory provenance ∧
+    Cont length spine ledger ∧ Cont ledger provenance read ∧ PkgSig bundle read pkg
+
+theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
+    {length spine ledger provenance read : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      UnaryHistory ledger ∧ UnaryHistory read ∧ hsame ledger (append length spine) ∧
+        hsame read (append ledger provenance) ∧ PkgSig bundle read pkg := by
+  intro finiteLedger
+  have lengthUnary : UnaryHistory length :=
+    finiteLedger.left
+  have spineUnary : UnaryHistory spine :=
+    finiteLedger.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    finiteLedger.right.right.left
+  have ledgerRow : Cont length spine ledger :=
+    finiteLedger.right.right.right.left
+  have readRow : Cont ledger provenance read :=
+    finiteLedger.right.right.right.right.left
+  have pkgSig : PkgSig bundle read pkg :=
+    finiteLedger.right.right.right.right.right
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed lengthUnary spineUnary ledgerRow
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed ledgerUnary provenanceUnary readRow
+  exact And.intro ledgerUnary
+    (And.intro readUnary
+      (And.intro ledgerRow
+        (And.intro readRow pkgSig)))
 
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)

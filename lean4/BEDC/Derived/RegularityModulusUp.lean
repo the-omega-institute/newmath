@@ -64,4 +64,20 @@ theorem RegularityModulusPacket_window_monotonicity [AskSetup] [PackageSetup]
     (And.intro sameTransport
       (And.intro sameLedger sameProvenance))
 
+theorem RegularityModulusDyadicWindowCarrier_window_monotonicity [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow precision' modulus' window'
+      transport' ledger' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      hsame precision precision' -> hsame modulus modulus' -> hsame window window' ->
+        hsame nameRow nameRow' -> Cont precision' window' transport' ->
+          Cont transport' modulus' ledger' -> Cont ledger' nameRow' provenance' ->
+            PkgSig bundle provenance' pkg ->
+              RegularityModulusPacket precision' modulus' window' transport' ledger'
+                  provenance' nameRow' bundle pkg ∧
+                hsame transport transport' ∧ hsame ledger ledger' ∧
+                  hsame provenance provenance' :=
+  RegularityModulusPacket_window_monotonicity
+
 end BEDC.Derived.RegularityModulusUp
