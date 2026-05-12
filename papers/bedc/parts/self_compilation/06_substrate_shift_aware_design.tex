@@ -1,0 +1,225 @@
+\section{Shift-Aware Substrate Design}\label{sec:self-comp-substrate-shift-aware-design}
+
+The substrate for \texttt{BEDC.MetaCIC} is part of the formal claim, not only a
+notation choice. The represented calculus needs binders, substitution, beta
+contraction, typing under contexts, and induction over syntax while preserving
+the project-wide axiom-free discipline. The chosen substrate is therefore a
+pure de Bruijn representation with explicit shift and substitution. It is
+small enough to be defined from first principles, but explicit enough to expose
+the binder-index invariant needed by beta reduction and typing.
+
+\subsection{Substrate Alternatives Surveyed}
+\label{subsec:substrate-alternatives-surveyed}
+
+Several binder substrates are mathematically standard. They do not have the
+same fit for an axiom-free, self-contained Lean reconstruction.
+
+\paragraph{Literal binders.}
+A literal-binder encoding stores a variable name at each binder and each
+occurrence. It is close to ordinary mathematical notation: lambda terms carry
+names, and alpha-renaming is treated as irrelevant. The formal cost is that the
+syntax quotient by alpha-equivalence becomes part of the substrate. Equality of
+terms is no longer the constructor equality of an inductive type; it is a
+quotient-respecting equality. In Lean this pulls the representation toward
+quotient reasoning or proposition extensionality for the equality of
+alpha-equivalence classes. That cost conflicts with the BEDC invariant that the
+MetaCIC layer remains axiom-free and uses no hidden quotient axiom.
+
+\paragraph{Nominal sets.}
+A nominal substrate treats names, freshness, and finite supports as primitive
+structure. It can express alpha-equivalence elegantly, but it requires a
+fresh-name mechanism and finite-support reasoning. Those mechanisms introduce
+additional infrastructure around finite sets, name permutation, and support
+transport before the calculus itself appears. For BEDC this is the wrong
+dependency direction: the calculus substrate should be a closed inductive
+object, not an object whose well-formedness rests on a separate freshness
+algebra.
+
+\paragraph{HOAS.}
+A higher-order abstract syntax substrate represents object binders by host
+binders. This removes many manual substitution lemmas, but it moves binder
+behavior into the host. BEDC.MetaCIC needs the opposite direction: object
+terms, object binders, and object reductions must be ordinary data and
+relations over which BEDC can quantify. A HOAS body has host function type, so
+its substitution behavior is supplied by the host binder rather than
+internalized as a represented operation. That makes full self-reflection of the
+object binder mechanics unavailable at the MetaCIC layer.
+
+\paragraph{Shift-aware de Bruijn.}
+The chosen substrate uses natural-number indices and explicit operations:
+\texttt{shift} raises free indices at or above a cutoff, and
+\texttt{substitute} replaces the variable at a given depth while shifting the
+substituted value under binders.
+\leandef{BEDC.MetaCIC.shift}
+\leandef{BEDC.MetaCIC.substitute}
+The term grammar remains an ordinary inductive type, and all binder behavior is
+visible as recursive functions on that type. No quotient, freshness oracle, or
+host-level binder semantics is needed.
+
+This representation is less pleasant for informal notation because every binder
+movement must account for indices. That inconvenience is also its advantage:
+the object-language bookkeeping becomes part of the checked substrate rather
+than an implicit convention outside the formal surface.
+
+\subsection{Why De Bruijn Alone Is Insufficient}
+\label{subsec:why-de-bruijn-alone-insufficient}
+
+Bare de Bruijn indices solve alpha-equivalence by construction, but they do not
+by themselves solve binder transport. A variable index is depth-relative: the
+same numeral denotes a different surrounding binder after descent below a
+lambda or Pi. Any operation that crosses a binder must record this change in
+depth.
+
+Substitution without shift loses that invariant. Consider a body under a binder
+and an argument inserted below another binder. If the argument is copied under
+the inner binder without raising its free indices, its free variable zero is
+captured by the inner binder. Conversely, when a substituted variable is
+removed, variables above the removed depth must decrease by one. The operation
+therefore has two distinct duties: insert the replacement at the selected
+depth, and maintain the de Bruijn coordinate system around the removed binder.
+
+In \texttt{BEDC.MetaCIC.Syntax}, these duties are encoded directly. For a
+variable, \texttt{substitute} replaces exactly the matching depth, lowers
+indices above that depth, and leaves lower indices unchanged. For binders, it
+recurses at depth $d+1$ and replaces the inserted value by
+$\texttt{shift}\ 0\ 1\ v$. This is the explicit form of the depth-relative
+invariant: when the operation enters a binder, the object-language environment
+has one more bound variable, so free variables of the inserted value must be
+raised away from capture.
+
+The typing rules use the same invariant. The lambda and Pi body premises are
+checked in a context headed by $\texttt{shift}\ 0\ 1\ \mathrm{dom}$ rather than
+by the unshifted domain. The domain was defined outside the binder body; when it
+is placed into the body context, its free indices must be read one binder
+deeper. Thus shift is not an auxiliary convenience. It is the operation that
+makes the context-extension rule match the de Bruijn meaning of binder descent.
+
+\subsection{Mechanized Properties}
+\label{subsec:substrate-mechanized-properties}
+
+The substrate is represented by three layers of checked facts.
+
+\paragraph{Closed terms are stable at their boundary.}
+\texttt{ClosedAt n t} says that every free variable of $t$ is below $n$.
+Shifting at the closure boundary does not change the syntax, and substituting
+at the closure boundary is inert:
+\leanchecked{BEDC.MetaCIC.shift\_closed}
+\texttt{BEDC.MetaCIC.substitute\_closed} is marked at the reconstruction
+substrate site.
+These facts are the base sanity checks for the substrate. They say that
+operations aimed outside the free-variable support of a term have no effect.
+
+\paragraph{Shift and substitution commute in the closed anchor cases.}
+The one-step cancellation law
+\texttt{substitute\_shift\_at\_eq} records that substituting at the same depth
+undoes a single shift at that depth; its primary marker is also at the
+reconstruction substrate site.
+The closed-source commuting law
+\texttt{shift\_substitute\_zero\_zero\_closed} records the binder-head
+transport shape used by typing preservation:
+\leanchecked{BEDC.MetaCIC.shift\_substitute\_zero\_zero\_closed}
+This is the algebraic reason the substituted binder domain can be moved into a
+shifted context without changing its represented meaning.
+
+\paragraph{Closedness is preserved by substitution and beta reduction.}
+Substitution preserves closure when the replacement is closed at the target
+boundary and the source term is closed one boundary higher:
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_closed\_at}
+Since beta contraction is implemented by substitution, this feeds directly into
+the closure preservation theorem for one beta step and then for beta-star:
+\leanchecked{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanchecked{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+
+\paragraph{Typing preservation exposes the same binder transport.}
+The typing surface contains constructor-local substitution results for Pi,
+lambda, and application terms, together with the main case analysis over the
+represented syntax. The broad term-induction surface states that, under the
+closedness and shape hypotheses required by the fragment, typing is preserved
+after substitution:
+\leanchecked{BEDC.MetaCIC.substitute\_preserves\_typing\_via\_term\_induction}
+The subject-reduction assembly then uses substitution preservation as an
+explicit hypothesis and proves that a represented beta step preserves the same
+represented type. The main subject-reduction theorem is marked at the
+case-level metatheory site in this chapter.
+
+\subsection{Open Algebraic Gap}
+\label{subsec:substrate-open-algebraic-gap}
+
+The substrate deliberately does not assume that every familiar textbook
+substitution law transfers in its most direct form. A naive composition law for
+zero-depth substitution is false for the represented operations.
+
+Take $d=0$, $v=\mathrm{sort}$, $u=\mathrm{sort}$, and $t=\mathrm{var}\ 1$ in
+the naive law
+
+$$
+\begin{aligned}
+\mathrm{substitute}\ d\ v\,
+  (\mathrm{substitute}\ d\ u\ t)
+&=
+\mathrm{substitute}\ d\,
+  (\mathrm{substitute}\ d\ v\ u)\ t.
+\end{aligned}
+$$
+
+The left side first lowers $\mathrm{var}\ 1$ to $\mathrm{var}\ 0$ and then
+replaces it by $\mathrm{sort}$. The right side simplifies
+$\mathrm{substitute}\ 0\ \mathrm{sort}\ \mathrm{sort}$ to $\mathrm{sort}$ and
+then substitutes at depth zero in $\mathrm{var}\ 1$, which lowers to
+$\mathrm{var}\ 0$. Thus the left side is $\mathrm{sort}$ and the right side is
+$\mathrm{var}\ 0$.
+
+The checked counterexample in the Lean substrate records the same obstruction
+using an unclosed zero-depth anchor. With
+
+$$
+\begin{aligned}
+s &= \mathrm{var}\ 0,\\
+a &= \mathrm{sort},\\
+t &= \mathrm{var}\ 1,
+\end{aligned}
+$$
+
+the checked counterexample is
+
+$$
+\begin{aligned}
+&\mathrm{substitute}\ 0\ s\,
+    (\mathrm{substitute}\ 0\ a\ t)
+\neq
+\mathrm{substitute}\ 0\,
+    (\mathrm{substitute}\ 0\ s\ a)\,
+    (\mathrm{substitute}\ 1\ s\ t).
+\end{aligned}
+$$
+
+\leanchecked{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_unclosed\_counterexample}
+
+Here the left side is $\mathrm{var}\ 0$, while the right side is
+$\mathrm{sort}$. The point is not that substitution composition is unavailable
+in all forms. The point is that the exact law must account for closure,
+shifting, and binder depth. BEDC therefore derives the composition shapes it
+uses, instead of importing a nominal-looking lemma whose hypotheses do not
+match this substrate.
+
+\subsection{Comparison to the Host CIC}
+\label{subsec:substrate-host-cic-comparison}
+
+Lean 4's kernel and elaborator expose a richer implementation environment than
+the MetaCIC fragment. The host surface accepts named binders in user syntax,
+elaborates them through local constants and internal binder representations,
+and manages levels, metavariables, definitional unfolding, and kernel
+conversion. BEDC.MetaCIC does not mirror that implementation.
+
+The MetaCIC substrate is intentionally smaller. It has one sort constructor,
+variables, application, lambda, Pi, beta contraction, and a shift-aware typing
+relation over explicit contexts. Names are absent from the object syntax, and
+there is no attempt to reproduce Lean's elaboration pipeline or the exact
+locally nameless machinery used by host internals.
+
+This separation keeps the claim precise. The host kernel checks the Lean files
+that define the MetaCIC syntax and prove its lemmas. The object calculus inside
+\texttt{BEDC.MetaCIC} is a represented fragment with its own explicit binder
+mechanics. Its substrate is not a reimplementation of the host kernel; it is a
+small inductive calculus whose shift and substitution rules can be inspected,
+proved about, and audited inside the project.
