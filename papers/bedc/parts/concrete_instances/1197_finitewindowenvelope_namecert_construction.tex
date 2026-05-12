@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowEnvelopeUp$}
+\label{ch:concrete-instances-finitewindowenvelope-namecert}
+\origin{human}
+
+The $\FiniteWindowEnvelopeUp$ interface is the concrete finite observation boundary for the Real and Completion phase. It packages a selected $\StreamNameUp$ window, its $\DyadicRatCoreUp$ observation ledger, the $\RegSeqRatUp$ seal row that reads the same rational window, and the $\RealUp$ endpoint classifier row that exposes the window to real-number consumers. The envelope is deliberately finite: it certifies exactly the inspected anchor, window, and scale rows, and it exports no diagonal limit, quotient of streams, host real equality, or completeness theorem.
+
+\begin{definition}[FiniteWindowEnvelope carrier]
+\label{def:finite-window-envelope-carrier}
+A $\FiniteWindowEnvelopeUp$ carrier is a finite $\mathsf{BHist}$ package
+$$
+W=(S,A,B,L,Q,G,E,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is the $\RatUp$ stream source named by the surrounding $\StreamNameUp$ certificate;
+\item $A$ is the selected finite anchor row, recording the inspected source point and the continuation route that reaches it;
+\item $B$ is the finite window row, recording the requested length, scale, and local subwindow bounds;
+\item $L$ is the $\DyadicRatCoreUp$ observation ledger for every rational read made inside $B$;
+\item $Q$ is the $\StreamNameUp$ window classifier row for the same source, anchor, and window;
+\item $G$ is the $\RegSeqRatUp$ seal row that reads the dyadic ledger as a regular rational sequence window;
+\item $E$ is the $\RealUp$ endpoint classifier row for the same finite window;
+\item $P$ is the $\Pkg$ provenance naming the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, and $\NameCert$ source certificates;
+\item $N$ is the local $\NameCert_{\FiniteWindowEnvelopeUp}$ provenance row.
+\end{enumerate}
+The local classifier relates two carriers exactly when their selected finite windows agree by the $\StreamNameUp$ window classifier, their $\DyadicRatCoreUp$ ledgers are equal row by row, their $\RegSeqRatUp$ seal rows classify the same regular rational window, and their $\RealUp$ finite-window endpoint classifiers agree after the displayed $\hsame$ and $\Cont$ transports.
+\end{definition}
+
+\begin{theorem}[FiniteWindowEnvelope NameCert obligations]
+\label{thm:finite-window-envelope-namecert-obligations}
+The local $\NameCert_{\FiniteWindowEnvelopeUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier formation from the finite $\mathsf{BHist}$ package of \autoref{def:finite-window-envelope-carrier};
+\item classifier reflexivity, symmetry, and transitivity for the combined $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows;
+\item carrier transport under displayed $\hsame$ comparisons and finite window refinement routes;
+\item seal handoff from the selected $\StreamNameUp$ window and $\DyadicRatCoreUp$ ledger to the $\RegSeqRatUp$ row;
+\item ledger exhaustion for the hidden anchor, selected window, scale, subwindow bound, dyadic readback, and endpoint classifier rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is immediate from the displayed finite package: every coordinate is a visible row, and the package provenance names exactly the certificates that own those rows.
+
+For the classifier laws, apply the component laws already required by the four dependency certificates. Reflexivity uses the same source, anchor, window, dyadic ledger, regular-sequence seal, and endpoint row. Symmetry reverses each displayed classifier row. Transitivity composes the four component comparisons while keeping the anchor and window coordinates synchronized by the common $\StreamNameUp$ row.
+
+Transport under $\hsame$ and $\Cont$ is componentwise. A transported anchor transports its finite window, the dyadic ledger follows the same requested readbacks, and the $\RegSeqRatUp$ and $\RealUp$ rows are repacked against those transported finite reads.
+
+The seal handoff and ledger exhaustion are the remaining two rows. The seal row consumes the same ledger recorded by the carrier, and the exhaustion row says that every finite observation has already appeared as one of the displayed anchor, window, scale, dyadic, regular-sequence, or endpoint coordinates.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope RegSeqRat seal handoff]
+\label{thm:finite-window-envelope-regseqrat-seal-handoff}
+For every accepted $\FiniteWindowEnvelopeUp$ carrier, the $\RegSeqRatUp$ seal row is determined by the selected $\StreamNameUp$ window together with the displayed $\DyadicRatCoreUp$ ledger. If two carriers have the same selected window and equal dyadic ledgers after the displayed transports, then their $\RegSeqRatUp$ seal rows classify the same regular rational finite observation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The row $Q$ names the finite $\StreamNameUp$ window, while $L$ records every dyadic rational read performed inside that window.
+
+The $\RegSeqRatUp$ seal row $G$ is attached to those same readbacks. Therefore a second carrier with the same selected window and the same dyadic ledger presents the same regular rational finite observation to the seal interface.
+
+Transport only changes the displayed route used to reach the rows. Since the classifier compares the transported window and ledger before reading the seal row, the $\RegSeqRatUp$ handoff is invariant under the permitted $\hsame$ and $\Cont$ transports.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope RealUp window exactness]
+\label{thm:finite-window-envelope-realup-window-exactness}
+For every accepted $\FiniteWindowEnvelopeUp$ carrier, a $\RealUp$ finite-window endpoint read factors through exactly one selected $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation ledger, and one $\RegSeqRatUp$ seal row. No endpoint read bypasses the carrier by appealing to a host real value, a quotient representative, a diagonal limit, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ endpoint read of the carrier. The endpoint row $E$ is one of the visible coordinates of the source package, so the read first exposes the anchor and finite window rows to which $E$ is attached.
+
+The window row is classified by $Q$, and every rational observation inside it is recorded in $L$. By \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}, the regular rational view of the same finite observation is exactly the seal row $G$.
+
+Thus the endpoint read has no independent source of data. It reaches the $\RealUp$ classifier only through the selected stream window, the dyadic ledger, and the regular-sequence seal, leaving no host value or completion object available to consumers.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope ledger exhaustion]
+\label{thm:finite-window-envelope-ledger-exhaustion}
+Every accepted $\FiniteWindowEnvelopeUp$ carrier exhausts the hidden finite observation data: the anchor, window length, scale, subwindow bounds, selected offsets, dyadic readbacks, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\Pkg$ provenance, and local $\NameCert$ row all occur as displayed coordinates of the carrier or as displayed component rows of those coordinates.
+\end{theorem}
+\begin{proof}
+Inspect the finite package $W$ of \autoref{def:finite-window-envelope-carrier}. The anchor coordinate records the selected source point and its continuation route, while the window coordinate records the length, scale, local bounds, and offsets.
+
+The dyadic ledger coordinate records the rational readbacks. The $\StreamNameUp$ classifier, $\RegSeqRatUp$ seal, and $\RealUp$ endpoint classifier then consume those same rows rather than introducing additional finite observations.
+
+The provenance coordinates $P$ and $N$ account for the package and local naming rows. Since every finite observation field is present in these coordinates or in their displayed component ledgers, the carrier leaves no hidden anchor, window, scale, or endpoint row outside the certificate.
+\end{proof}
+
+\closureat{FiniteWindowEnvelopeUp}{seedStr}
+\closureat{FiniteWindowEnvelopeUp}{obligationStr}
