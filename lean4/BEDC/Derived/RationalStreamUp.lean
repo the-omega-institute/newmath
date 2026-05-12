@@ -15,6 +15,15 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def RationalStreamPacket [AskSetup] [PackageSetup]
+    (index schedule pointRows classifierRows transportRows contRows provenance nameRow window :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+    UnaryHistory classifierRows ∧ UnaryHistory transportRows ∧ Cont index schedule window ∧
+      Cont window pointRows classifierRows ∧ Cont classifierRows transportRows contRows ∧
+        Cont contRows provenance nameRow ∧ PkgSig bundle nameRow pkg
+
+def RationalStreamSchedulePacket [AskSetup] [PackageSetup]
     (index schedule rational classifier transport route provenance registration
       scheduleWindow pointWindow packet : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -29,13 +38,13 @@ theorem RationalStreamSchedule_transport_exactness [AskSetup] [PackageSetup]
       pointWindow packet index' schedule' rational' classifier' scheduleWindow' pointWindow'
       packet' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RationalStreamPacket index schedule rational classifier transport route provenance
+    RationalStreamSchedulePacket index schedule rational classifier transport route provenance
         registration scheduleWindow pointWindow packet bundle pkg ->
       hsame index index' -> hsame schedule schedule' -> hsame rational rational' ->
         hsame classifier classifier' -> Cont index' schedule' scheduleWindow' ->
           Cont rational' classifier' pointWindow' ->
             Cont scheduleWindow' pointWindow' packet' -> PkgSig bundle packet' pkg ->
-              RationalStreamPacket index' schedule' rational' classifier' transport route
+              RationalStreamSchedulePacket index' schedule' rational' classifier' transport route
                   provenance registration scheduleWindow' pointWindow' packet' bundle pkg ∧
                 hsame scheduleWindow scheduleWindow' ∧ hsame pointWindow pointWindow' ∧
                   hsame packet packet' := by
@@ -51,8 +60,8 @@ theorem RationalStreamSchedule_transport_exactness [AskSetup] [PackageSetup]
   have samePacket : hsame packet packet' :=
     cont_respects_hsame sameScheduleWindow samePointWindow packetRow packetRow'
   have transported :
-      RationalStreamPacket index' schedule' rational' classifier' transport route provenance
-          registration scheduleWindow' pointWindow' packet' bundle pkg :=
+      RationalStreamSchedulePacket index' schedule' rational' classifier' transport route
+          provenance registration scheduleWindow' pointWindow' packet' bundle pkg :=
     ⟨unary_transport indexUnary sameIndex,
       unary_transport scheduleUnary sameSchedule,
       unary_transport rationalUnary sameRational,
@@ -66,5 +75,139 @@ theorem RationalStreamSchedule_transport_exactness [AskSetup] [PackageSetup]
       packetRow',
       packetSig'⟩
   exact ⟨transported, sameScheduleWindow, samePointWindow, samePacket⟩
+
+theorem RationalStreamPacket_pointwise_rat_obligations [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory index ∧ UnaryHistory pointRows ∧ UnaryHistory classifierRows ∧
+        Cont window pointRows classifierRows ∧
+          Cont contRows provenance nameRow ∧ PkgSig bundle nameRow pkg := by
+  intro packet
+  obtain ⟨indexUnary, _scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    _indexScheduleRow, windowPointRow, _classifierTransportRow, nameRowRow, pkgSig⟩ := packet
+  exact ⟨indexUnary, pointRowsUnary, classifierRowsUnary, windowPointRow, nameRowRow, pkgSig⟩
+
+theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory nameRow ->
+      Cont window nameRow consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory consumer ∧
+              Cont index schedule window ∧ Cont window nameRow consumer ∧
+                PkgSig bundle consumer pkg := by
+  intro packet nameRowUnary consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    indexScheduleRow, _windowPointRow, _classifierTransportRow, _nameRow, _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary nameRowUnary consumerRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
+      consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
+
+theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
+      window' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+      nameRow window bundle pkg →
+      hsame index index' →
+      hsame schedule schedule' →
+      hsame pointRows pointRows' →
+      hsame classifierRows classifierRows' →
+      hsame transportRows transportRows' →
+      hsame provenance provenance' →
+      Cont index' schedule' window' →
+      Cont window' pointRows' classifierRows' →
+      Cont classifierRows' transportRows' contRows' →
+      Cont contRows' provenance' nameRow' →
+      PkgSig bundle nameRow' pkg →
+      RationalStreamPacket index' schedule' pointRows' classifierRows' transportRows' contRows'
+        provenance' nameRow' window' bundle pkg ∧
+        hsame window window' ∧ hsame contRows contRows' ∧ hsame nameRow nameRow' := by
+  intro packet sameIndex sameSchedule samePointRows sameClassifierRows sameTransportRows
+    sameProvenance newIndexSchedule newWindowPoint newClassifierTransport newNameCont newPkg
+  cases packet with
+  | intro indexUnary rest =>
+      cases rest with
+      | intro scheduleUnary rest =>
+          cases rest with
+          | intro pointRowsUnary rest =>
+              cases rest with
+              | intro classifierRowsUnary rest =>
+                  cases rest with
+                  | intro transportRowsUnary rest =>
+                      cases rest with
+                      | intro oldIndexSchedule rest =>
+                          cases rest with
+                          | intro oldWindowPoint rest =>
+                              cases rest with
+                              | intro oldClassifierTransport rest =>
+                                  cases rest with
+                                  | intro oldNameCont _oldPkg =>
+                                      have sameWindow : hsame window window' :=
+                                        cont_respects_hsame sameIndex sameSchedule
+                                          oldIndexSchedule newIndexSchedule
+                                      have sameContRows : hsame contRows contRows' :=
+                                        cont_respects_hsame sameClassifierRows sameTransportRows
+                                          oldClassifierTransport newClassifierTransport
+                                      have sameNameRow : hsame nameRow nameRow' :=
+                                        cont_respects_hsame sameContRows sameProvenance oldNameCont
+                                          newNameCont
+                                      have transported :
+                                          RationalStreamPacket index' schedule' pointRows'
+                                            classifierRows' transportRows' contRows' provenance'
+                                            nameRow' window' bundle pkg :=
+                                        ⟨unary_transport indexUnary sameIndex,
+                                          unary_transport scheduleUnary sameSchedule,
+                                          unary_transport pointRowsUnary samePointRows,
+                                          unary_transport classifierRowsUnary sameClassifierRows,
+                                          unary_transport transportRowsUnary sameTransportRows,
+                                          newIndexSchedule,
+                                          newWindowPoint,
+                                          newClassifierTransport,
+                                          newNameCont,
+                                          newPkg⟩
+                                      exact And.intro transported
+                                        (And.intro sameWindow
+                                          (And.intro sameContRows sameNameRow))
+
+theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
+      window' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+      nameRow window bundle pkg →
+      hsame index index' →
+      hsame schedule schedule' →
+      hsame pointRows pointRows' →
+      hsame classifierRows classifierRows' →
+      hsame transportRows transportRows' →
+      hsame provenance provenance' →
+      Cont index' schedule' window' →
+      Cont window' pointRows' classifierRows' →
+      Cont classifierRows' transportRows' contRows' →
+      Cont contRows' provenance' nameRow' →
+      PkgSig bundle nameRow' pkg →
+      RationalStreamPacket index' schedule' pointRows' classifierRows' transportRows' contRows'
+        provenance' nameRow' window' bundle pkg ∧ hsame nameRow nameRow' := by
+  intro packet sameIndex sameSchedule samePointRows sameClassifierRows sameTransportRows
+    sameProvenance newIndexSchedule newWindowPoint newClassifierTransport newNameCont newPkg
+  have transported :=
+    RationalStreamPacket_schedule_transport_exactness packet sameIndex sameSchedule samePointRows
+      sameClassifierRows sameTransportRows sameProvenance newIndexSchedule newWindowPoint
+      newClassifierTransport newNameCont newPkg
+  exact And.intro transported.left transported.right.right.right
 
 end BEDC.Derived.RationalStreamUp
