@@ -721,33 +721,31 @@ The reconstruction does not yet close the following metatheoretic targets:
     variable atoms.
 \end{itemize}
 
-\subsection{Results Overview}\label{subsec:reconstruction-results-overview}
+\input{parts/self_compilation/03_metacic_reconstruction_results_overview.tex}
 
-The formalized MetaCIC result set covers the main closed reconstruction
-claims needed by this chapter. Closed binder-domain substitute preservation is
-proved by
-$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$, giving the
-complete closed theorem over the shift-aware typing substrate. Subject
-reduction is represented by the main theorem
-$\mathrm{subject\_reduction}$ together with the beta case, the application
-congruence cases such as $\mathrm{subject\_reduction\_congApp1}$, and the
-closed body cases for lambda and Pi constructors.
+\subsection{Build and Audit Process}\label{subsec:reconstruction-build-audit-process}
 
-The confluence layer supplies the parallel reduction framework
-$\mathrm{BetaParallel}$, beta-star transport lemmas
-$\mathrm{betaStarStep\_*}$, and atom-shape diamond components for variables
-and sorts. The normalization layer proves that atoms do not reduce:
-$\mathrm{sort\_no\_beta}$, $\mathrm{closed\_var\_no\_beta}$, and
-$\mathrm{closed\_atom\_normal\_form}$ close the represented normal-form facts
-for the atomic fragment.
+The complete local verification gate for \texttt{BEDC.MetaCIC} is the Lean
+build followed by the paper and axiom audits:
 
-The executable demonstration layer contains the closed-atom inference
-theorems $\mathrm{inferAtom\_sort\_sound}$ and
-$\mathrm{inferAtom\_var\_sound}$, plus a concrete typed-term gallery with
-roughly fifteen examples spanning variables, Pi terms, dependent identity
-terms, and applications. All listed results are axiom-free under
-\texttt{\#print axioms}; the audited dependency sets contain no
-\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+\begin{verbatim}
+cd lean4 && lake build
+python3 tools/check-axioms.py
+python3 lean4/scripts/bedc_ci.py audit
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+python3 lean4/scripts/bedc_ci.py conservativity-audit
+\end{verbatim}
+
+The first command checks that the Lean modules build with no accepted
+\texttt{sorry} terms and no project axioms. The axiom audit enforces the
+source-level ban on \texttt{axiom}. The drift audit resolves the paper's Lean
+markers against the actual \texttt{lean4/BEDC/} namespace. The strict
+axiom-purity audit checks transitive theorem dependencies, excluding
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The
+conservativity audit is the metalogical gate for the reconstruction surface.
+Each command must exit with status $0$. The chain passes only when the paper
+invariant and the mechanized state agree, and that agreement is the local
+shipping condition for the MetaCIC reconstruction.
 
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
