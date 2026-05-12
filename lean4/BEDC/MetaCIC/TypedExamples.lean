@@ -1045,4 +1045,36 @@ theorem function_of_function :
       · exact HasType.sortRule [Term.sort, Term.pi Term.sort Term.sort]
     · exact HasType.sortRule [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
 
+theorem nested_shifted_pi_in_sort :
+    HasType [Term.sort]
+      (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))
+      Term.sort := by
+  apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
+
+theorem second_proj :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam (Term.var 0)
+          (Term.lam (Term.var 1) (Term.var 0))))
+      (Term.pi Term.sort
+        (Term.pi (Term.var 0)
+          (Term.pi (Term.var 1) (Term.var 2)))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
+
 end BEDC.MetaCIC
