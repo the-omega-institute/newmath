@@ -403,4 +403,34 @@ theorem RealCauchyCompletionCarrier_regular_family_input_interface [AskSetup] [P
       sealRowUnary, completionSurfaceUnary, familyModulusDiagonal, selectedMemberRoute,
       selectedReadbackRoute, completionSurfaceRoute, provenancePkg, completionSurfacePkg⟩
 
+theorem RealCauchyCompletionCarrier_modulus_diagonal_exactness
+    [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic sealRow provenance localCert
+      selectedDiagonal selectedReadback selectedDyadic : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg ->
+      Cont modulus family selectedDiagonal ->
+        Cont selectedDiagonal window selectedReadback ->
+          Cont selectedReadback dyadic selectedDyadic ->
+            UnaryHistory selectedDiagonal ∧ UnaryHistory selectedReadback ∧
+              UnaryHistory selectedDyadic ∧ Cont modulus family selectedDiagonal ∧
+                Cont selectedDiagonal window selectedReadback ∧
+                  Cont selectedReadback dyadic selectedDyadic ∧ PkgSig bundle provenance pkg := by
+  intro carrier modulusFamilySelectedDiagonal selectedDiagonalWindowReadback
+    selectedReadbackDyadic
+  obtain ⟨familyUnary, modulusUnary, windowUnary, dyadicUnary, _provenanceUnary,
+    _familyModulusDiagonal, _diagonalWindowReadback, _readbackDyadicSeal,
+    _sealLocalCertProvenance, pkgSig⟩ := carrier
+  have selectedDiagonalUnary : UnaryHistory selectedDiagonal :=
+    unary_cont_closed modulusUnary familyUnary modulusFamilySelectedDiagonal
+  have selectedReadbackUnary : UnaryHistory selectedReadback :=
+    unary_cont_closed selectedDiagonalUnary windowUnary selectedDiagonalWindowReadback
+  have selectedDyadicUnary : UnaryHistory selectedDyadic :=
+    unary_cont_closed selectedReadbackUnary dyadicUnary selectedReadbackDyadic
+  exact
+    ⟨selectedDiagonalUnary, selectedReadbackUnary, selectedDyadicUnary,
+      modulusFamilySelectedDiagonal, selectedDiagonalWindowReadback, selectedReadbackDyadic,
+      pkgSig⟩
+
 end BEDC.Derived.RealCauchyCompletionUp
