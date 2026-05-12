@@ -222,6 +222,7 @@ consumer read of the basis is one of the displayed rational-window rows. It
 exports no completed $\RealUp$ equality, located subset, apartness witness,
 interval arithmetic law, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_directed\_refinement\_basis}
 \begin{proof}
 Start with two compatible accepted packets. Apply
 \autoref{thm:rational-interval-common-refinement-window} to obtain their common
@@ -374,6 +375,7 @@ The boundary is conservative. It excludes completed $\RealUp$ equality,
 quotient Cauchy classes, located subsets, interval arithmetic laws, and host
 standard interval data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_standard\_boundary\_bridge}
 \begin{proof}
 Project the accepted packet through
 \autoref{def:rational-interval-bhist-carrier}. The visible coordinates are the
@@ -482,6 +484,7 @@ $\Cont$ continuation routes.
 The transported packet remains a finite rational-window interval packet over
 the same endpoint, width, containment, and package rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_dyadic\_transport\_stability}
 \begin{proof}
 Start with the displayed lower and upper endpoint histories. By
 \autoref{thm:rational-interval-endpoint-order-witness}, their order relation is
@@ -573,7 +576,6 @@ and $\NameCert$ rows, and the standard boundary bridge. The completeness claim
 does not assert completed $\RealUp$ equality, quotient Cauchy classes, located
 subsets, or interval arithmetic.
 \end{theorem}
-\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalFiniteConsumer\_completeness}
 \begin{proof}
 Start with a finite consumer read accepted by the $\RationalIntervalUp$ packet.
 If the read asks for endpoint order, containment, common refinement, or a
@@ -682,85 +684,7 @@ completed-real, quotient, located-subset, apartness, arithmetic, or host
 standard interval structure.
 \end{proof}
 
-\begin{theorem}[RationalInterval midpoint bisection window]
-\label{thm:rationalinterval-midpoint-bisection-window}
-Let $I$ be an accepted $\RationalIntervalUp$ packet with displayed lower
-endpoint, upper endpoint, dyadic-width witness, containment ledger, visible
-$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
-$\NameCert_{\RationalIntervalUp}$ rows. Suppose a midpoint row $m$ is displayed
-on the same $\RatUp$ and $\DyadicRatCoreUp$ endpoint surface, and suppose two
-containment subledgers display the left window from the lower endpoint to $m$
-and the right window from $m$ to the upper endpoint.
-
-Then the two half-windows are accepted $\RationalIntervalUp$ finite packets.
-They share the midpoint boundary row, their endpoint and dyadic-width rows are
-read from the same displayed surface, and every $\RegSeqRatUp$ or finite-window
-$\RealUp$ consumer read of either half-window is one of the original endpoint,
-width, containment, refinement, $\mathsf{BHist}$, $\hsame$, $\Cont$,
-$\mathsf{Pkg}$, or local $\NameCert$ rows. Conversely, every original finite
-consumer read whose endpoint and containment rows lie in one half factors
-through the corresponding half-window packet.
-
-The bisection window exports no completed $\RealUp$ equality, located subset
-datum, open cover, quotient Cauchy class, apartness row, interval arithmetic
-operation, or standard bridge datum.
-\end{theorem}
-\begin{proof}
-Use \autoref{thm:rationalinterval-endpoint-width-ledger} to read the lower
-endpoint, upper endpoint, midpoint row, and dyadic-width witnesses from the
-same $\RatUp$ and $\DyadicRatCoreUp$ surface. Apply
-\autoref{thm:rational-interval-endpoint-order-witness} to obtain the displayed
-endpoint order for the left and right half-windows.
-
-Next construct the two finite packets. Apply
-\autoref{thm:rational-interval-common-refinement-window} to the parent window
-and the midpoint row, and compose the resulting refinement routes with
-\autoref{thm:rational-interval-refinement-composition}. This gives accepted
-left and right $\RationalIntervalUp$ packets whose common endpoint is exactly
-the displayed midpoint boundary.
-
-The order in which the parent containment ledger, midpoint row, and two
-subledgers are grouped does not affect the consumer-visible packet. This is
-\autoref{thm:rationalinterval-common-refinement-associativity}, applied to the
-two ways of parenthesizing the same finite refinement data.
-
-Finally apply \autoref{thm:rationalinterval-finite-consumer-completeness}.
-Every $\RegSeqRatUp$ or finite-window $\RealUp$ read of a half-window is
-exhausted by the listed endpoint, width, containment, refinement,
-$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$
-rows, and the same exhaustion gives the converse factorization for parent
-consumer reads restricted to either half.
-\end{proof}
-
-\begin{theorem}[RationalInterval refinement choice neutrality]
-\label{thm:rationalinterval-refinement-choice-neutrality}
-Fix a $\RationalIntervalUp$ endpoint packet over $\mathsf{BHist}$. For any
-two common-refinement windows whose endpoint, containment, dyadic-transport,
-$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows satisfy the
-directed-refinement and associativity hypotheses, the resulting finite consumer
-packages for $\RegSeqRatUp$ and $\RealUp$ are $\hsame$-equivalent.
-
-Thus a finite $\RegSeqRatUp$ or $\RealUp$ consumer may use any displayed
-common-refinement witness for the fixed endpoint packet without selecting
-completed real equality, quotient Cauchy classes, located subsets, apartness,
-interval arithmetic, or host standard interval data.
-\end{theorem}
-\begin{proof}
-Use \autoref{thm:rational-interval-common-refinement-window} to put both
-refinement choices over explicit finite endpoint and containment windows, and
-use \autoref{thm:rational-interval-directed-refinement-basis} to compare their
-directed basis rows inside one displayed finite $\mathsf{BHist}$ packet.
-
-Compose the comparison routes with
-\autoref{thm:rational-interval-refinement-composition}. Then
-\autoref{thm:rational-interval-endpoint-transport-classifier} identifies the
-endpoint, containment, dyadic-width, $\Cont$, $\mathsf{Pkg}$, and local
-$\NameCert$ rows seen after the displayed $\hsame$ transport.
-
-Finally apply \autoref{thm:rationalinterval-common-refinement-associativity}.
-It identifies the two readings at the finite $\RegSeqRatUp$ and $\RealUp$
-consumer surface exposed by the fixed endpoint packet.
-\end{proof}
+\input{parts/concrete_instances/887_rationalinterval_bisection_refinement_nesting}
 
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}

@@ -150,6 +150,7 @@ import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizon
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
+import BEDC.Derived.LagrangianMechanicsUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
@@ -178,6 +179,7 @@ import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp
+import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
@@ -197,6 +199,7 @@ import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport

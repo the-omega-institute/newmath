@@ -295,4 +295,33 @@ theorem ComputableRealPacket_realup_handoff [AskSetup] [PackageSetup]
     ⟨scheduleUnary, modulusUnary, dyadicUnary, regularUnary, sealUnary, realUnary,
       publicUnary, realRoute, publicRoute, provenancePkg, publicPkg⟩
 
+theorem ComputableRealSourcePacket_regseqrat_seal_factorization [AskSetup] [PackageSetup]
+    {stream modulus dyadic regseq sealRow transport routes provenance name endpoint sealRead
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSourcePacket stream modulus dyadic regseq sealRow transport routes provenance
+        name endpoint bundle pkg ->
+      UnaryHistory name ->
+        Cont regseq sealRow sealRead ->
+          Cont sealRead name consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory dyadic ∧
+                UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory name ∧
+                  UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+                    Cont stream modulus transport ∧ Cont dyadic regseq routes ∧
+                      Cont transport routes provenance ∧ Cont provenance name endpoint ∧
+                        Cont regseq sealRow sealRead ∧ Cont sealRead name consumer ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet nameUnary sealReadRow consumerRow consumerPkg
+  obtain ⟨streamUnary, modulusUnary, dyadicUnary, regseqUnary, sealUnary, streamModulusRow,
+    dyadicRegseqRow, transportRoutesRow, provenanceNameEndpoint, endpointPkg⟩ := packet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary sealUnary sealReadRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary nameUnary consumerRow
+  exact
+    ⟨streamUnary, modulusUnary, dyadicUnary, regseqUnary, sealUnary, nameUnary,
+      sealReadUnary, consumerUnary, streamModulusRow, dyadicRegseqRow, transportRoutesRow,
+      provenanceNameEndpoint, sealReadRow, consumerRow, endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.ComputableRealUp
