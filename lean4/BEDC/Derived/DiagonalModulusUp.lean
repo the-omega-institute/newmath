@@ -203,6 +203,53 @@ theorem DiagonalModulusPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     ⟨windowUnary, ledgerUnary, rationalEvidenceUnary, windowReadbackLedger,
       readbackDyadicEvidence, ledgerSealProvenance, provenancePkg, evidencePkg⟩
 
+theorem DiagonalModulusPacket_bridge_source_package [AskSetup] [PackageSetup]
+    {precision threshold window readback ledger sealRow provenance nameCert selector regseqRead
+      dyadic rationalEvidence bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusPacket precision threshold window readback ledger sealRow provenance nameCert
+        bundle pkg ->
+      Cont precision threshold selector ->
+        Cont selector window regseqRead ->
+          UnaryHistory readback ->
+            UnaryHistory dyadic ->
+              Cont readback dyadic rationalEvidence ->
+                Cont sealRow provenance bridgeRead ->
+                  PkgSig bundle regseqRead pkg ->
+                    PkgSig bundle rationalEvidence pkg ->
+                      UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory window ∧
+                        UnaryHistory selector ∧ UnaryHistory regseqRead ∧
+                          UnaryHistory ledger ∧ UnaryHistory rationalEvidence ∧
+                            Cont precision threshold selector ∧
+                              Cont selector window regseqRead ∧ Cont window readback ledger ∧
+                                Cont readback dyadic rationalEvidence ∧
+                                  Cont ledger sealRow provenance ∧
+                                    Cont sealRow provenance bridgeRead ∧
+                                      hsame window (append precision threshold) ∧
+                                        hsame provenance (append ledger sealRow) ∧
+                                          hsame bridgeRead (append sealRow provenance) ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle regseqRead pkg ∧
+                                                PkgSig bundle rationalEvidence pkg := by
+  intro packet precisionThresholdSelector selectorWindowRead readbackUnary dyadicUnary
+    readbackDyadicEvidence sealProvenanceBridge regseqPkg evidencePkg
+  obtain ⟨precisionUnary, thresholdUnary, windowUnary, precisionThresholdWindow,
+    windowReadbackLedger, ledgerSealProvenance, provenancePkg, _nameCertUnary⟩ := packet
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed precisionUnary thresholdUnary precisionThresholdSelector
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed selectorUnary windowUnary selectorWindowRead
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackLedger
+  have rationalEvidenceUnary : UnaryHistory rationalEvidence :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicEvidence
+  exact
+    ⟨precisionUnary, thresholdUnary, windowUnary, selectorUnary, regseqUnary, ledgerUnary,
+      rationalEvidenceUnary, precisionThresholdSelector, selectorWindowRead,
+      windowReadbackLedger, readbackDyadicEvidence, ledgerSealProvenance,
+      sealProvenanceBridge, precisionThresholdWindow, ledgerSealProvenance,
+      sealProvenanceBridge, provenancePkg, regseqPkg, evidencePkg⟩
+
 def DiagonalModulusWindowCarrier [AskSetup] [PackageSetup]
     (precision modulus window readback dyadic «seal» provenance nameCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
