@@ -318,13 +318,7 @@ theorem betaParallel_app_shape {f a t : Term}
   | app hf ha =>
       exact Or.inl (Exists.intro _ (Exists.intro _ (And.intro hf (And.intro ha rfl))))
   | beta hd hb ha =>
-      exact
-        Or.inr
-          (Exists.intro _
-            (Exists.intro _
-              (Exists.intro _
-                (Exists.intro _
-                  (And.intro hb (And.intro ha (And.intro rfl rfl)))))))
+      exact Or.inr ⟨_, _, _, _, hb, ha, rfl, rfl⟩
 
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
@@ -361,10 +355,7 @@ theorem betaParallel_var_diamond
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
   cases h1
   cases h2
-  exact
-    Exists.intro
-      (Term.var i)
-      (And.intro (BetaParallel.var i) (BetaParallel.var i))
+  exact ⟨Term.var i, BetaParallel.var i, BetaParallel.var i⟩
 
 theorem betaParallel_sort_diamond
     {u1 u2 : Term}
@@ -373,10 +364,7 @@ theorem betaParallel_sort_diamond
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
   cases h1
   cases h2
-  exact
-    Exists.intro
-      Term.sort
-      (And.intro BetaParallel.sort BetaParallel.sort)
+  exact ⟨Term.sort, BetaParallel.sort, BetaParallel.sort⟩
 
 theorem betaParallel_app_diamond_of_components
     {f1 f2 a1 a2 : Term}
@@ -390,18 +378,10 @@ theorem betaParallel_app_diamond_of_components
           BetaParallel (Term.app f2 a2) v) := by
   cases hf with
   | intro g hg =>
-      cases hg with
-      | intro hf1g hf2g =>
-          cases ha with
-          | intro b hb =>
-              cases hb with
-              | intro ha1b ha2b =>
-                  exact
-                    Exists.intro
-                      (Term.app g b)
-                      (And.intro
-                        (BetaParallel.app hf1g ha1b)
-                        (BetaParallel.app hf2g ha2b))
+      cases ha with
+      | intro b hb =>
+          exact ⟨Term.app g b, BetaParallel.app hg.left hb.left,
+            BetaParallel.app hg.right hb.right⟩
 
 theorem betaParallel_lam_diamond_of_components
     {d1 d2 b1 b2 : Term}
@@ -415,18 +395,10 @@ theorem betaParallel_lam_diamond_of_components
           BetaParallel (Term.lam d2 b2) v) := by
   cases hd with
   | intro e he =>
-      cases he with
-      | intro hd1e hd2e =>
-          cases hb with
-          | intro c hc =>
-              cases hc with
-              | intro hb1c hb2c =>
-                  exact
-                    Exists.intro
-                      (Term.lam e c)
-                      (And.intro
-                        (BetaParallel.lam hd1e hb1c)
-                        (BetaParallel.lam hd2e hb2c))
+      cases hb with
+      | intro c hc =>
+          exact ⟨Term.lam e c, BetaParallel.lam he.left hc.left,
+            BetaParallel.lam he.right hc.right⟩
 
 theorem betaParallel_pi_diamond_of_components
     {d1 d2 c1 c2 : Term}
@@ -440,18 +412,10 @@ theorem betaParallel_pi_diamond_of_components
           BetaParallel (Term.pi d2 c2) v) := by
   cases hd with
   | intro e he =>
-      cases he with
-      | intro hd1e hd2e =>
-          cases hc with
-          | intro r hr =>
-              cases hr with
-              | intro hc1r hc2r =>
-                  exact
-                    Exists.intro
-                      (Term.pi e r)
-                      (And.intro
-                        (BetaParallel.pi hd1e hc1r)
-                        (BetaParallel.pi hd2e hc2r))
+      cases hc with
+      | intro r hr =>
+          exact ⟨Term.pi e r, BetaParallel.pi he.left hr.left,
+            BetaParallel.pi he.right hr.right⟩
 
 theorem betaParallel_app_independent_diamond
     {f a f1 f2 a1 a2 : Term}
@@ -577,11 +541,7 @@ theorem betaStarStep_app_non_lam_shape_aux {s t f a : Term}
   induction h generalizing f a with
   | refl s =>
       cases hs
-      exact
-        Exists.intro f
-          (Exists.intro a
-            (And.intro rfl
-              (And.intro (BetaStarStep.refl f) (BetaStarStep.refl a))))
+      exact ⟨f, a, rfl, BetaStarStep.refl f, BetaStarStep.refl a⟩
   | step hstep htail ih =>
       cases hs
       have hcases := betaStep_app_cases hstep
@@ -613,17 +573,9 @@ theorem betaStarStep_app_non_lam_shape_aux {s t f a : Term}
                       | intro f2 hf2 =>
                           cases hf2 with
                           | intro a2 ha2 =>
-                              cases ha2 with
-                              | intro ht2 hstars =>
-                                  cases hstars with
-                                  | intro hf1f2 ha_a2 =>
-                                      exact
-                                        Exists.intro f2
-                                          (Exists.intro a2
-                                            (And.intro ht2
-                                              (And.intro
-                                                (BetaStarStep.step hff1 hf1f2)
-                                                ha_a2)))
+                              exact
+                                ⟨f2, a2, ha2.left, BetaStarStep.step hff1 ha2.right.left,
+                                  ha2.right.right⟩
           | inr hasteps =>
               cases hasteps with
               | intro a1 hapack =>
@@ -635,17 +587,9 @@ theorem betaStarStep_app_non_lam_shape_aux {s t f a : Term}
                       | intro f2 hf2 =>
                           cases hf2 with
                           | intro a2 ha2 =>
-                              cases ha2 with
-                              | intro ht2 hstars =>
-                                  cases hstars with
-                                  | intro hf_f2 ha1a2 =>
-                                      exact
-                                        Exists.intro f2
-                                          (Exists.intro a2
-                                            (And.intro ht2
-                                              (And.intro
-                                                hf_f2
-                                                (BetaStarStep.step haa1 ha1a2))))
+                              exact
+                                ⟨f2, a2, ha2.left, ha2.right.left,
+                                  BetaStarStep.step haa1 ha2.right.right⟩
 
 theorem betaStarStep_app_non_lam_shape {f a t : Term}
     (h_not_lam : ∀ d b, ¬ BetaStarStep f (Term.lam d b))
@@ -835,12 +779,7 @@ theorem betaStar_var_join
     Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
   cases betaStar_var_target i h1
   cases betaStar_var_target i h2
-  exact
-    Exists.intro
-      (Term.var i)
-      (And.intro
-        (BetaStarStep.refl (Term.var i))
-        (BetaStarStep.refl (Term.var i)))
+  exact ⟨Term.var i, BetaStarStep.refl (Term.var i), BetaStarStep.refl (Term.var i)⟩
 
 theorem betaStar_sort_join
     {u1 u2 : Term}
@@ -849,11 +788,6 @@ theorem betaStar_sort_join
     Exists (fun v => BetaStarStep u1 v ∧ BetaStarStep u2 v) := by
   cases betaStar_sort_target h1
   cases betaStar_sort_target h2
-  exact
-    Exists.intro
-      Term.sort
-      (And.intro
-        (BetaStarStep.refl Term.sort)
-        (BetaStarStep.refl Term.sort))
+  exact ⟨Term.sort, BetaStarStep.refl Term.sort, BetaStarStep.refl Term.sort⟩
 
 end BEDC.MetaCIC
