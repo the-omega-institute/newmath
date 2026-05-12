@@ -4,7 +4,9 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.CriticalStripZetaZeroWitnessUp
 
@@ -45,7 +47,6 @@ theorem CriticalStripZetaZeroWitnessPacket_namecert_obligations [AskSetup] [Pack
               name endpoint bundle pkg ∧
             hsame row endpoint)
         hsame := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
   intro packet
   exact {
     core := {
@@ -69,6 +70,78 @@ theorem CriticalStripZetaZeroWitnessPacket_namecert_obligations [AskSetup] [Pack
     ledger_sound := by
       intro _row sourceRow
       exact sourceRow
+  }
+
+def CriticalStripZetaZeroWitnessCarrier [AskSetup] [PackageSetup]
+    (strip zero line boundary transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory line ∧ UnaryHistory boundary ∧
+    UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+      Cont strip route provenance ∧ Cont zero route provenance ∧ PkgSig bundle provenance pkg
+
+theorem CriticalStripZetaZeroWitnessCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessCarrier strip zero line boundary transport route provenance name
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CriticalStripZetaZeroWitnessCarrier strip zero line boundary transport route provenance
+            name bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          Cont strip route row ∧ Cont zero route row ∧ PkgSig bundle row pkg)
+        (fun _row : BHist =>
+          UnaryHistory strip ∧ UnaryHistory zero ∧ UnaryHistory line ∧
+            UnaryHistory boundary ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+              UnaryHistory provenance ∧ UnaryHistory name)
+        hsame := by
+  intro carrier
+  have stripUnary : UnaryHistory strip := carrier.left
+  have zeroUnary : UnaryHistory zero := carrier.right.left
+  have lineUnary : UnaryHistory line := carrier.right.right.left
+  have boundaryUnary : UnaryHistory boundary := carrier.right.right.right.left
+  have transportUnary : UnaryHistory transport := carrier.right.right.right.right.left
+  have routeUnary : UnaryHistory route := carrier.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance := carrier.right.right.right.right.right.right.left
+  have nameUnary : UnaryHistory name := carrier.right.right.right.right.right.right.right.left
+  have stripRoute : Cont strip route provenance :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have zeroRoute : Cont zero route provenance :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance (And.intro carrier (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _left _right same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _left _right same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro row source
+      have same : hsame row provenance := source.right
+      cases same
+      exact And.intro stripRoute (And.intro zeroRoute provenancePkg)
+    ledger_sound := by
+      intro _row _source
+      exact
+        And.intro stripUnary
+          (And.intro zeroUnary
+            (And.intro lineUnary
+              (And.intro boundaryUnary
+                (And.intro transportUnary
+                  (And.intro routeUnary
+                    (And.intro provenanceUnary nameUnary))))))
   }
 
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp
