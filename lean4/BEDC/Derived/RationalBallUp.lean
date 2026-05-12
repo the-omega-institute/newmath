@@ -191,6 +191,35 @@ theorem RationalBallPacket_ledger_exactness_certificate [AskSetup] [PackageSetup
       exact ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary⟩
   }
 
+theorem RationalBallPacket_containment_exactness [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint sample ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint sample ->
+        Cont sample provenance ledger ->
+          PkgSig bundle ledger pkg ->
+            UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory order ∧
+              UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory sample ∧
+                UnaryHistory ledger ∧ Cont center radius order ∧
+                  Cont order containment transport ∧ Cont transport provenance endpoint ∧
+                    Cont containment endpoint sample ∧ Cont sample provenance ledger ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle ledger pkg := by
+  intro packet containmentEndpointSample sampleProvenanceLedger ledgerPkg
+  obtain ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have sampleUnary : UnaryHistory sample :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointSample
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed sampleUnary provenanceUnary sampleProvenanceLedger
+  exact
+    ⟨centerUnary, radiusUnary, orderUnary, containmentUnary, endpointUnary, sampleUnary,
+      ledgerUnary, centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
+      containmentEndpointSample, sampleProvenanceLedger, endpointPkg, ledgerPkg⟩
+
 theorem RationalBallPacket_center_transport_obligation [AskSetup] [PackageSetup]
     {center radius order transport containment provenance name endpoint centerNew orderNew
       transportNew endpointNew consumer : BHist}
