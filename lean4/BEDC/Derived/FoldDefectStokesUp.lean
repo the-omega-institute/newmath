@@ -129,4 +129,33 @@ theorem FoldDefectStokesPacket_namecert_obligation_surface [AskSetup] [PackageSe
     ⟨cert, inputUnary, outputUnary, boundaryUnary, ledgerUnary, nameUnary, routesCont,
       transportCont, provenanceCont, pkgSig⟩
 
+theorem FoldDefectStokesPacket_projection_stability [AskSetup] [PackageSetup]
+    {input output boundary ledger transport routes provenance nameRow input' output' boundary' ledger'
+      transport' routes' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FoldDefectStokesPacket input output boundary ledger transport routes provenance nameRow bundle pkg ->
+      hsame input input' -> hsame output output' -> hsame boundary boundary' -> hsame ledger ledger' ->
+        hsame transport transport' -> hsame routes routes' -> hsame provenance provenance' ->
+          Cont input' output' routes' -> Cont boundary' ledger' transport' ->
+            Cont routes' transport' provenance' -> PkgSig bundle provenance' pkg ->
+              FoldDefectStokesPacket input' output' boundary' ledger' transport' routes'
+                  provenance' nameRow bundle pkg ∧
+                hsame output output' ∧ hsame boundary boundary' ∧ hsame ledger ledger' := by
+  intro packet sameInput sameOutput sameBoundary sameLedger _sameTransport _sameRoutes
+    _sameProvenance inputOutputRoutes boundaryLedgerTransport routesTransportProvenance
+    provenancePkg
+  obtain ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, nameUnary, _inputOutputRoutes,
+    _boundaryLedgerTransport, _routesTransportProvenance, _provenancePkg⟩ := packet
+  exact
+    ⟨⟨unary_transport inputUnary sameInput,
+        unary_transport outputUnary sameOutput,
+        unary_transport boundaryUnary sameBoundary,
+        unary_transport ledgerUnary sameLedger,
+        nameUnary,
+        inputOutputRoutes,
+        boundaryLedgerTransport,
+        routesTransportProvenance,
+        provenancePkg⟩,
+      sameOutput, sameBoundary, sameLedger⟩
+
 end BEDC.Derived.FoldDefectStokesUp
