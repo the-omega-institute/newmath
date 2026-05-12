@@ -238,16 +238,17 @@ feasibility data.
 
 \closureat{ModelPredictiveControlUp}{seedStr}
 \closureat{ModelPredictiveControlUp}{scopedStr}
+\closureat{ModelPredictiveControlUp}{publicStr}
 
 \begin{closurestatus}{\ModelPredictiveControlUp}
   \constructivestory{A $\ModelPredictiveControlUp$ packet is seeded by finite $\mathsf{BHist}$ rows for current state, finite prediction horizon, dynamics transition, constraint window, stage-cost ledger, terminal-cost or terminal-region row, optimizer-candidate row, first-control extraction, $\hsame$ transports, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support} binds the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, and NameCert surface to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support} and \autoref{thm:modelpredictivecontrol-finite-horizon-prefix-restriction} bind the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, finite-horizon prefix export, and NameCert surface to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon optimality, analytic convergence, stochastic control, host optimizer semantics, recursive feasibility beyond displayed terminal rows, or a standard bridge.}
-  \upgradepath{Formal verification requires a Lean target for the scoped kernel support and later bridge checking for the finite MPC carrier.}
+  \upgradepath{The next paper-axis step is a finite MPC bridge boundary over the same displayed carrier, rollout, constraint, prefix, package, and NameCert rows.}
 \end{closurestatus}
 
 \begin{theorem}[Model predictive control finite-horizon prefix restriction]
