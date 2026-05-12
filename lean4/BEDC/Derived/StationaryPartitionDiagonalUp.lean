@@ -149,4 +149,35 @@ theorem StationaryPartitionDiagonalCarrier_seal_boundary [AskSetup] [PackageSetu
       ledgerUnary, sealReadUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
       realSealLocalCert, pkgSig⟩
 
+theorem StationaryPartitionDiagonalCarrier_bridge_readback_exactness [AskSetup] [PackageSetup]
+    {rat partition diagonal constantStream dyadic realSeal ledger transport provenance localCert
+      endpoint bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryPartitionDiagonalCarrier rat partition diagonal constantStream dyadic realSeal ledger
+        transport provenance localCert endpoint bundle pkg ->
+      Cont endpoint localCert bridgeRead ->
+        hsame bridgeRead (append endpoint localCert) ->
+          UnaryHistory rat ∧ UnaryHistory partition ∧ UnaryHistory diagonal ∧
+            UnaryHistory constantStream ∧ UnaryHistory dyadic ∧ UnaryHistory realSeal ∧
+              UnaryHistory ledger ∧ UnaryHistory transport ∧ UnaryHistory provenance ∧
+                UnaryHistory localCert ∧ UnaryHistory endpoint ∧ UnaryHistory bridgeRead ∧
+                  Cont rat partition diagonal ∧ Cont diagonal constantStream dyadic ∧
+                    Cont dyadic realSeal ledger ∧ Cont ledger transport provenance ∧
+                      Cont provenance localCert endpoint ∧ Cont endpoint localCert bridgeRead ∧
+                        hsame bridgeRead (append endpoint localCert) ∧
+                          PkgSig bundle endpoint pkg := by
+  intro carrier endpointLocalBridge bridgeReadSame
+  obtain ⟨ratUnary, partitionUnary, diagonalUnary, constantStreamUnary, dyadicUnary,
+    realSealUnary, ledgerUnary, transportUnary, provenanceUnary, localCertUnary,
+    endpointUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
+    ledgerTransportProvenance, provenanceLocalEndpoint, _endpointSame, pkgSig⟩ := carrier
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed endpointUnary localCertUnary endpointLocalBridge
+  exact
+    ⟨ratUnary, partitionUnary, diagonalUnary, constantStreamUnary, dyadicUnary, realSealUnary,
+      ledgerUnary, transportUnary, provenanceUnary, localCertUnary, endpointUnary,
+      bridgeReadUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
+      ledgerTransportProvenance, provenanceLocalEndpoint, endpointLocalBridge, bridgeReadSame,
+      pkgSig⟩
+
 end BEDC.Derived.StationaryPartitionDiagonalUp
