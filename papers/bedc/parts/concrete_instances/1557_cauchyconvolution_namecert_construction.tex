@@ -164,12 +164,49 @@ Then use \autoref{thm:cauchy-convolution-real-seal-handoff}. It identifies the e
 The transport, continuation, package, and naming rows preserve that route and do not introduce host real multiplication, quotient equality, selected infinite summation, or completeness.
 \end{proof}
 
+\begin{theorem}[CauchyConvolution carrier classifier admission]
+\label{thm:cauchy-convolution-carrier-classifier-admission}
+For every accepted $\CauchyConvolutionUp$ packet $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the tuple $Q$ supplies carrier admission for the source fast-series rows $F,G$, the finite convolution row $K$, the product-prefix ledger $A$, the dyadic tail budget $D$, the regular rational handoff $R$, the real seal row $E$, and the transport, continuation, package, and naming rows $H,C,P,N$. Its componentwise classifier transport is confined to $\FastConvergentSeriesUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-convolution-carrier-admission}. It displays the accepted carrier coordinates and binds $F,G,K,A,D,R,E,H,C,P,N$ into one finite packet.
+
+The classifier part is componentwise. Source classifiers are read from the two $\FastConvergentSeriesUp$ rows, tail-budget classifiers from the $\DyadicTailBoundUp$ row, handoff classifiers from $R$, and seal classifiers from $E$.
+
+The history, sameness, continuation, package, and naming coordinates $H,C,P,N$ transport these readings without adding any object outside the displayed rows. Hence the carrier and the classifier route are admitted by the same finite tuple.
+\end{proof}
+
+\begin{theorem}[CauchyConvolution tail handoff obligation]
+\label{thm:cauchy-convolution-tail-handoff-obligation}
+For every accepted $\CauchyConvolutionUp$ packet $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the finite convolution ledger $K$, the product-prefix ledger $A$, and the dyadic budget $D$ are exactly the tail handoff consumed by the regular rational row $R$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-convolution-tail-budget-compatibility} to bind the source fast-tail data to the dyadic budget row $D$.
+
+Next apply \autoref{thm:cauchy-convolution-finite-tail-ledger}. It identifies the finite coefficient window $K$ and the product-prefix ledger $A$ as the concrete finite evidence that feeds the tail budget.
+
+The handoff row $R$ consumes this data as regular rational evidence. No additional infinite sum, quotient stream, host real product, or completeness principle is part of the handoff route.
+\end{proof}
+
+\begin{theorem}[CauchyConvolution real seal non-escape obligation]
+\label{thm:cauchy-convolution-seal-nonescape-obligation}
+For every accepted $\CauchyConvolutionUp$ packet $Q=(F,G,K,A,D,R,E,H,C,P,N)$, every $\RealUp$ seal read factors through $R,E,H,C,P,N$ together with the finite data $F,G,K,A,D$. Such a read cannot expose host multiplication, quotient streams, selected sums, or completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-convolution-real-seal-factorization-boundary}. It routes the real-facing coordinate through the regular rational handoff and the finite convolution ledger.
+
+Then apply \autoref{thm:cauchy-convolution-real-seal-handoff}. The exported seal is a read of $E$ over $R$, and $R$ is supported by $A$ and $D$ over $K$ with source provenance in $F$ and $G$.
+
+The remaining coordinates $H,C,P,N$ only preserve history, continuation, package provenance, and local naming. Therefore the seal read has no route to host multiplication, quotient streams, selected sums, or completeness.
+\end{proof}
+
 \closureat{CauchyConvolutionUp}{seedStr}
+\closureat{CauchyConvolutionUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyConvolutionUp}
   \constructivestory{A $\CauchyConvolutionUp$ packet is generated from two accepted $\FastConvergentSeriesUp$ source rows, a finite convolution ledger, finite product-prefix rows, dyadic tail-budget rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise transport, continuation readback, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, the five local naming obligations, the finite convolution tail ledger, and the regular-rational-to-$\RealUp$ seal route for Cauchy-product data.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope separates carrier classifier admission, finite tail handoff, and real-seal non-escape for Cauchy-product data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
