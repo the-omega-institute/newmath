@@ -202,3 +202,17 @@
 - `StabilityMode` uses unary mode codes `0..4` for `closure`, `reuse`,
   `descent`, `composition`, and `seal`, with representative no-confusion cases
   rejecting equal or out-of-range modes.
+## Settled Module Encoding
+
+- `Settled.lean` is encoded as a tagged proof-boundary aggregator rather than a
+  new primitive relation. Each input begins with `tag(family) ++ tag(case)` and
+  then reuses the concrete fixture payload for the relevant sibling module.
+- Covered families are history kernel, Ext/Cont, signature kernel,
+  package/gap, globalize exactness, composite gap, unary name certificates,
+  function-like descent, and bundle generation.
+- `settled_basic.enum.ct` and `settled_basic.algo.ct` contain 38 representative
+  cases. The algo manifest keeps the current vacuous cyclic-tag production
+  pattern for abstract-boundary modules; executable checking is in
+  `tests/test_settled.c`.
+- The semantic harness checks each case through the enum and algo paths, giving
+  76 Settled assertions plus two manifest pipeline smoke checks.
