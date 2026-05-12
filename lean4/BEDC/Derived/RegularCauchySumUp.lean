@@ -157,4 +157,25 @@ theorem RegularCauchySumCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
                                                                       consumerRoute,
                                                                       pkgSig⟩
 
+theorem RegularCauchySumCarrier_symmetric_input_handoff [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert swappedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont rightEndpoint leftEndpoint swappedEndpoint ->
+        UnaryHistory swappedEndpoint ∧ hsame sumEndpoint swappedEndpoint ∧
+          Cont leftEndpoint rightEndpoint sumEndpoint ∧
+            Cont rightEndpoint leftEndpoint swappedEndpoint ∧ PkgSig bundle provenance pkg := by
+  intro carrier swappedRoute
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, _budgetUnary, _transportsUnary, _routesUnary,
+    _provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    _readbackRoute, _provenanceRoute, pkgSig⟩ := carrier
+  have swappedUnary : UnaryHistory swappedEndpoint :=
+    unary_cont_closed rightEndpointUnary leftEndpointUnary swappedRoute
+  have sameSumSwapped : hsame sumEndpoint swappedEndpoint :=
+    unary_cont_comm leftEndpointUnary rightEndpointUnary sumEndpointRoute swappedRoute
+  exact ⟨swappedUnary, sameSumSwapped, sumEndpointRoute, swappedRoute, pkgSig⟩
+
 end BEDC.Derived.RegularCauchySumUp
