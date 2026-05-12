@@ -27,13 +27,13 @@ def hankelVandermondeEncodeBHist : BHist → RawEvent
   | BHist.e0 h => BMark.b0 :: hankelVandermondeEncodeBHist h
   | BHist.e1 h => BMark.b1 :: hankelVandermondeEncodeBHist h
 
-private def hankelVandermondeDecodeBHist : RawEvent → BHist
+def hankelVandermondeDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (hankelVandermondeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (hankelVandermondeDecodeBHist tail)
 
-private theorem hankelVandermondeDecodeEncodeBHist :
+private theorem hankelVandermondeDecode_encode_bhist :
     ∀ h : BHist, hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -45,7 +45,7 @@ private theorem hankelVandermondeDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def hankelVandermondeToEventFlow : HankelVandermondeUp → EventFlow
+def hankelVandermondeToEventFlow : HankelVandermondeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | HankelVandermondeUp.mk atom weight moment determinantLedger pairwiseDifference
       vandermondeSquare transportRow routeRow provenance cert =>
@@ -73,24 +73,92 @@ private def hankelVandermondeToEventFlow : HankelVandermondeUp → EventFlow
           BMark.b1, BMark.b1, BMark.b0],
         hankelVandermondeEncodeBHist cert]
 
-private def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
+def hankelVandermondeFromEventFlow : EventFlow → Option HankelVandermondeUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag0, atom, _tag1, weight, _tag2, moment, _tag3, determinantLedger, _tag4,
-      pairwiseDifference, _tag5, vandermondeSquare, _tag6, transportRow, _tag7, routeRow,
-      _tag8, provenance, _tag9, cert] =>
-      some
-        (HankelVandermondeUp.mk
-          (hankelVandermondeDecodeBHist atom)
-          (hankelVandermondeDecodeBHist weight)
-          (hankelVandermondeDecodeBHist moment)
-          (hankelVandermondeDecodeBHist determinantLedger)
-          (hankelVandermondeDecodeBHist pairwiseDifference)
-          (hankelVandermondeDecodeBHist vandermondeSquare)
-          (hankelVandermondeDecodeBHist transportRow)
-          (hankelVandermondeDecodeBHist routeRow)
-          (hankelVandermondeDecodeBHist provenance)
-          (hankelVandermondeDecodeBHist cert))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | atom :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | weight :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | moment :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | determinantLedger :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | pairwiseDifference :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | vandermondeSquare :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transportRow :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | routeRow :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | provenance :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | cert :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (HankelVandermondeUp.mk
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            atom)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            weight)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            moment)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            determinantLedger)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            pairwiseDifference)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            vandermondeSquare)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            transportRow)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            routeRow)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            provenance)
+                                                                                          (hankelVandermondeDecodeBHist
+                                                                                            cert))
+                                                                                  | _ :: _ => none
 
 private theorem hankelVandermonde_round_trip :
     ∀ x : HankelVandermondeUp,
@@ -119,16 +187,16 @@ private theorem hankelVandermonde_round_trip :
           some
             (HankelVandermondeUp.mk atom weight moment determinantLedger pairwiseDifference
               vandermondeSquare transportRow routeRow provenance cert)
-      rw [hankelVandermondeDecodeEncodeBHist atom,
-        hankelVandermondeDecodeEncodeBHist weight,
-        hankelVandermondeDecodeEncodeBHist moment,
-        hankelVandermondeDecodeEncodeBHist determinantLedger,
-        hankelVandermondeDecodeEncodeBHist pairwiseDifference,
-        hankelVandermondeDecodeEncodeBHist vandermondeSquare,
-        hankelVandermondeDecodeEncodeBHist transportRow,
-        hankelVandermondeDecodeEncodeBHist routeRow,
-        hankelVandermondeDecodeEncodeBHist provenance,
-        hankelVandermondeDecodeEncodeBHist cert]
+      rw [hankelVandermondeDecode_encode_bhist atom,
+        hankelVandermondeDecode_encode_bhist weight,
+        hankelVandermondeDecode_encode_bhist moment,
+        hankelVandermondeDecode_encode_bhist determinantLedger,
+        hankelVandermondeDecode_encode_bhist pairwiseDifference,
+        hankelVandermondeDecode_encode_bhist vandermondeSquare,
+        hankelVandermondeDecode_encode_bhist transportRow,
+        hankelVandermondeDecode_encode_bhist routeRow,
+        hankelVandermondeDecode_encode_bhist provenance,
+        hankelVandermondeDecode_encode_bhist cert]
 
 private theorem hankelVandermondeToEventFlow_injective {x y : HankelVandermondeUp} :
     hankelVandermondeToEventFlow x = hankelVandermondeToEventFlow y → x = y := by
@@ -160,5 +228,22 @@ instance hankelVandermondeChapterTasteGate : ChapterTasteGate HankelVandermondeU
 def taste_gate : ChapterTasteGate HankelVandermondeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hankelVandermondeChapterTasteGate
+
+theorem HankelVandermondeTasteGate_single_carrier_alignment :
+    (∀ h : BHist, hankelVandermondeDecodeBHist (hankelVandermondeEncodeBHist h) = h) ∧
+      (∀ x : HankelVandermondeUp,
+        hankelVandermondeFromEventFlow (hankelVandermondeToEventFlow x) = some x) ∧
+        (∀ x y : HankelVandermondeUp,
+          hankelVandermondeToEventFlow x = hankelVandermondeToEventFlow y → x = y) ∧
+          hankelVandermondeEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact hankelVandermondeDecode_encode_bhist
+  · constructor
+    · exact hankelVandermonde_round_trip
+    · constructor
+      · intro x y heq
+        exact hankelVandermondeToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.HankelVandermondeUp

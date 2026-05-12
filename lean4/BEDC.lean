@@ -142,6 +142,7 @@ import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
+import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CollisionKernelUp
@@ -233,6 +234,7 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.ObserverRegularUp.TasteGate
+import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
@@ -256,6 +258,7 @@ import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
+import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
