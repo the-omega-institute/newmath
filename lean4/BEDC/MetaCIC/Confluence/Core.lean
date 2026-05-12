@@ -38,6 +38,10 @@ inductive BetaParallel : Term → Term → Prop
       BetaParallel b b' →
       BetaParallel a a' →
       BetaParallel (Term.app (Term.lam d b) a) (substitute 0 a' b')
+  | appBeta {f a a' d b : Term} :
+      BetaParallel f (Term.lam d b) →
+      BetaParallel a a' →
+      BetaParallel (Term.app f a) (substitute 0 a' b)
 
 def BetaParallelDiamond : Prop :=
   ∀ {t u1 u2 : Term},
@@ -186,6 +190,16 @@ theorem betaParallel_app_cong {f f' a a' : Term}
     BetaParallel (Term.app f a) (Term.app f' a') := by
   exact BetaParallel.app hf ha
 
+theorem betaParallel_pi_strong_cong {d d' c c' : Term}
+    (hd : BetaParallel d d') (hc : BetaParallel c c') :
+    BetaParallel (Term.pi d c) (Term.pi d' c') := by
+  exact BetaParallel.pi hd hc
+
+theorem betaParallel_lam_strong_cong {d d' b b' : Term}
+    (hd : BetaParallel d d') (hb : BetaParallel b b') :
+    BetaParallel (Term.lam d b) (Term.lam d' b') := by
+  exact BetaParallel.lam hd hb
+
 theorem betaParallel_pi_cong {d d' c c' : Term}
     (hd : BetaParallel d d') (hc : BetaParallel c c') :
     BetaParallel (Term.pi d c) (Term.pi d' c') := by
@@ -195,6 +209,12 @@ theorem betaParallel_lam_cong {d d' b b' : Term}
     (hd : BetaParallel d d') (hb : BetaParallel b b') :
     BetaParallel (Term.lam d b) (Term.lam d' b') := by
   exact BetaParallel.lam hd hb
+
+theorem betaParallel_app_beta_redex {f a _f' a' d b : Term}
+    (hf : BetaParallel f (Term.lam d b))
+    (ha : BetaParallel a a') :
+    BetaParallel (Term.app f a) (substitute 0 a' b) := by
+  exact BetaParallel.appBeta hf ha
 
 theorem betaStep_to_parallel {t u : Term} :
     BetaStep t u → BetaParallel t u := by
@@ -257,6 +277,13 @@ theorem betaParallel_to_betaStar {t u : Term} :
             (betaStar_trans
               (betaStarStep_app_right iha)
               (betaStar_one (BetaStep.beta _ _ _))))
+  | appBeta hf ha ihf iha =>
+      exact
+        betaStar_trans
+          (betaStarStep_app_left ihf)
+          (betaStar_trans
+            (betaStarStep_app_right iha)
+            (betaStar_one (BetaStep.beta _ _ _)))
 
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
@@ -311,9 +338,9 @@ theorem betaParallel_lam_shape {d b t : Term}
 theorem betaParallel_app_shape {f a t : Term}
     (h : BetaParallel (Term.app f a) t) :
     (∃ f' a', BetaParallel f f' ∧ BetaParallel a a' ∧ t = Term.app f' a') ∨
-    (∃ d body body' a',
-      BetaParallel body body' ∧ BetaParallel a a' ∧
-        f = Term.lam d body ∧ t = substitute 0 a' body') := by
+    (∃ d body a',
+      BetaParallel f (Term.lam d body) ∧ BetaParallel a a' ∧
+        t = substitute 0 a' body) := by
   cases h with
   | app hf ha =>
       exact Or.inl (Exists.intro _ (Exists.intro _ (And.intro hf (And.intro ha rfl))))
@@ -323,11 +350,17 @@ theorem betaParallel_app_shape {f a t : Term}
           (Exists.intro _
             (Exists.intro _
               (Exists.intro _
-                (Exists.intro _
-                  (And.intro hb (And.intro ha (And.intro rfl rfl)))))))
+                (And.intro (BetaParallel.lam hd hb) (And.intro ha rfl)))))
+  | appBeta hf ha =>
+      exact
+        Or.inr
+          (Exists.intro _
+            (Exists.intro _
+              (Exists.intro _
+                (And.intro hf (And.intro ha rfl)))))
 
 theorem betaParallel_app_non_lam {f a t : Term}
-    (h_not_lam : ∀ d b, f ≠ Term.lam d b)
+    (h_not_lam : ∀ d b, ¬ BetaParallel f (Term.lam d b))
     (h : BetaParallel (Term.app f a) t) :
     ∃ f' a', BetaParallel f f' ∧ BetaParallel a a' ∧ t = Term.app f' a' := by
   have hshape := betaParallel_app_shape h
@@ -340,16 +373,10 @@ theorem betaParallel_app_non_lam {f a t : Term}
           cases hd with
           | intro body hbody =>
               cases hbody with
-              | intro body' hbody' =>
-                  cases hbody' with
-                  | intro arg' hpack =>
-                      cases hpack with
-                      | intro _ hrest =>
-                          cases hrest with
-                          | intro _ heq =>
-                              cases heq with
-                              | intro hf _ =>
-                                  exact False.elim (h_not_lam d body hf)
+              | intro arg' hpack =>
+                  cases hpack with
+                  | intro hf _ =>
+                      exact False.elim (h_not_lam d body hf)
 
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
