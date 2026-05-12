@@ -191,6 +191,57 @@ theorem RationalBallPacket_ledger_exactness_certificate [AskSetup] [PackageSetup
       exact ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary⟩
   }
 
+theorem RationalBallPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧ UnaryHistory row ∧ Cont transport provenance row ∧
+            PkgSig bundle row pkg)
+        (fun row : BHist =>
+          UnaryHistory transport ∧ UnaryHistory provenance ∧ Cont transport provenance row)
+        (fun row : BHist =>
+          PkgSig bundle row pkg ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+            UnaryHistory containment ∧ UnaryHistory name)
+        (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, _orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, nameUnary, _centerRadiusOrder, _orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint
+          ⟨hsame_refl endpoint, endpointUnary, transportProvenanceEndpoint, endpointPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨PkgSig_psame_intro sourceRow.right.right.right sourceRow.right.right.right
+          (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨transportUnary, provenanceUnary, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary,
+          nameUnary⟩
+  }
+
 theorem RationalBallPacket_metric_positive_containment_transport [AskSetup] [PackageSetup]
     {center radius order transport containment provenance name endpoint consumer metric : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
