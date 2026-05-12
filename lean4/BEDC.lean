@@ -200,6 +200,7 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.TranscendenceUp
+import BEDC.Derived.TrieUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VermaModuleUp
