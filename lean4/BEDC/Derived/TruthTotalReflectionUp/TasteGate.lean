@@ -4,33 +4,31 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TruthTotalReflectionUp
 
-open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Hist
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive TruthTotalReflectionUp : Type where
   | mk :
-      (sentences attempts diagonal transports routes provenance localName : BHist) →
-        TruthTotalReflectionUp
+      (sentenceCodes extensionAttempt diagonal transport route provenance name : BHist) →
+      TruthTotalReflectionUp
   deriving DecidableEq
 
-private def TruthTotalReflectionUp_taste_gate_boundary_encodeBHist : BHist → RawEvent
+private def truthTotalReflectionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: TruthTotalReflectionUp_taste_gate_boundary_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: TruthTotalReflectionUp_taste_gate_boundary_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: truthTotalReflectionEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: truthTotalReflectionEncodeBHist h
 
-private def TruthTotalReflectionUp_taste_gate_boundary_decodeBHist : RawEvent → BHist
+private def truthTotalReflectionDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (truthTotalReflectionDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (truthTotalReflectionDecodeBHist tail)
 
-private theorem TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist :
-    ∀ h : BHist,
-      TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-        (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist h) = h := by
+private theorem truthTotalReflection_decode_encode_bhist :
+    ∀ h : BHist, truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,39 +39,38 @@ private theorem TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def TruthTotalReflectionUp_taste_gate_boundary_toEventFlow :
-    TruthTotalReflectionUp → EventFlow
+private def truthTotalReflectionToEventFlow : TruthTotalReflectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | TruthTotalReflectionUp.mk sentences attempts diagonal transports routes provenance localName =>
+  | TruthTotalReflectionUp.mk sentenceCodes extensionAttempt diagonal transport route
+      provenance name =>
       [[BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist sentences,
+        truthTotalReflectionEncodeBHist sentenceCodes,
         [BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist attempts,
+        truthTotalReflectionEncodeBHist extensionAttempt,
         [BMark.b1, BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist diagonal,
+        truthTotalReflectionEncodeBHist diagonal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist transports,
+        truthTotalReflectionEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist routes,
+        truthTotalReflectionEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist provenance,
+        truthTotalReflectionEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        TruthTotalReflectionUp_taste_gate_boundary_encodeBHist localName]
+        truthTotalReflectionEncodeBHist name]
 
-private def TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow :
-    EventFlow → Option TruthTotalReflectionUp
+private def truthTotalReflectionFromEventFlow : EventFlow → Option TruthTotalReflectionUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | sentences :: rest1 =>
+      | sentenceCodes :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | attempts :: rest3 =>
+              | extensionAttempt :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
@@ -85,13 +82,13 @@ private def TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow :
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | transports :: rest7 =>
+                              | transport :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | routes :: rest9 =>
+                                      | route :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -103,95 +100,98 @@ private def TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow :
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | localName :: rest13 =>
+                                                      | name :: rest13 =>
                                                           match rest13 with
                                                           | [] =>
                                                               some
                                                                 (TruthTotalReflectionUp.mk
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-                                                                    sentences)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-                                                                    attempts)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
+                                                                  (truthTotalReflectionDecodeBHist
+                                                                    sentenceCodes)
+                                                                  (truthTotalReflectionDecodeBHist
+                                                                    extensionAttempt)
+                                                                  (truthTotalReflectionDecodeBHist
                                                                     diagonal)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-                                                                    transports)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-                                                                    routes)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
+                                                                  (truthTotalReflectionDecodeBHist
+                                                                    transport)
+                                                                  (truthTotalReflectionDecodeBHist
+                                                                    route)
+                                                                  (truthTotalReflectionDecodeBHist
                                                                     provenance)
-                                                                  (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-                                                                    localName))
+                                                                  (truthTotalReflectionDecodeBHist
+                                                                    name))
                                                           | _ :: _ => none
 
-private theorem TruthTotalReflectionUp_taste_gate_boundary_round_trip :
+private theorem truthTotalReflection_round_trip :
     ∀ x : TruthTotalReflectionUp,
-      TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow
-        (TruthTotalReflectionUp_taste_gate_boundary_toEventFlow x) = some x := by
+      truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk sentences attempts diagonal transports routes provenance localName =>
+  | mk sentenceCodes extensionAttempt diagonal transport route provenance name =>
       change
         some
           (TruthTotalReflectionUp.mk
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist sentences))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist attempts))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist diagonal))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist transports))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist routes))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist provenance))
-            (TruthTotalReflectionUp_taste_gate_boundary_decodeBHist
-              (TruthTotalReflectionUp_taste_gate_boundary_encodeBHist localName))) =
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist sentenceCodes))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist extensionAttempt))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist diagonal))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist transport))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist route))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist provenance))
+            (truthTotalReflectionDecodeBHist (truthTotalReflectionEncodeBHist name))) =
           some
-            (TruthTotalReflectionUp.mk sentences attempts diagonal transports routes provenance
-              localName)
-      rw [TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist sentences,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist attempts,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist diagonal,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist transports,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist routes,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist provenance,
-        TruthTotalReflectionUp_taste_gate_boundary_decode_encode_bhist localName]
+            (TruthTotalReflectionUp.mk sentenceCodes extensionAttempt diagonal transport route
+              provenance name)
+      rw [truthTotalReflection_decode_encode_bhist sentenceCodes,
+        truthTotalReflection_decode_encode_bhist extensionAttempt,
+        truthTotalReflection_decode_encode_bhist diagonal,
+        truthTotalReflection_decode_encode_bhist transport,
+        truthTotalReflection_decode_encode_bhist route,
+        truthTotalReflection_decode_encode_bhist provenance,
+        truthTotalReflection_decode_encode_bhist name]
 
-private theorem TruthTotalReflectionUp_taste_gate_boundary_toEventFlow_injective
-    {x y : TruthTotalReflectionUp} :
-    TruthTotalReflectionUp_taste_gate_boundary_toEventFlow x =
-      TruthTotalReflectionUp_taste_gate_boundary_toEventFlow y → x = y := by
+private theorem truthTotalReflectionToEventFlow_injective {x y : TruthTotalReflectionUp} :
+    truthTotalReflectionToEventFlow x = truthTotalReflectionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow
-          (TruthTotalReflectionUp_taste_gate_boundary_toEventFlow x) =
-        TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow
-          (TruthTotalReflectionUp_taste_gate_boundary_toEventFlow y) :=
-    congrArg TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow heq
+      truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow x) =
+        truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow y) :=
+    congrArg truthTotalReflectionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (TruthTotalReflectionUp_taste_gate_boundary_round_trip x).symm
-      (Eq.trans hread (TruthTotalReflectionUp_taste_gate_boundary_round_trip y)))
+    (Eq.trans (truthTotalReflection_round_trip x).symm
+      (Eq.trans hread (truthTotalReflection_round_trip y)))
 
 instance truthTotalReflectionBHistCarrier : BHistCarrier TruthTotalReflectionUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := TruthTotalReflectionUp_taste_gate_boundary_toEventFlow
-  fromEventFlow := TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow
+  toEventFlow := truthTotalReflectionToEventFlow
+  fromEventFlow := truthTotalReflectionFromEventFlow
 
 instance truthTotalReflectionChapterTasteGate : ChapterTasteGate TruthTotalReflectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      TruthTotalReflectionUp_taste_gate_boundary_fromEventFlow
-        (TruthTotalReflectionUp_taste_gate_boundary_toEventFlow x) = some x
-    exact TruthTotalReflectionUp_taste_gate_boundary_round_trip x
+    change truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow x) = some x
+    exact truthTotalReflection_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (TruthTotalReflectionUp_taste_gate_boundary_toEventFlow_injective heq)
+    exact hxy (truthTotalReflectionToEventFlow_injective heq)
+
+theorem TruthTotalReflectionTasteGate_single_carrier_alignment :
+    (∀ x : TruthTotalReflectionUp,
+      truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow x) = some x) ∧
+      (∀ x y : TruthTotalReflectionUp,
+        truthTotalReflectionToEventFlow x = truthTotalReflectionToEventFlow y → x = y) ∧
+        (∀ (x : TruthTotalReflectionUp) w m,
+          List.Mem w (truthTotalReflectionToEventFlow x) →
+            List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact truthTotalReflection_round_trip
+  · constructor
+    · intro x y heq
+      exact truthTotalReflectionToEventFlow_injective heq
+    · intro x w m hw hm
+      exact event_flow_conservativity (S := truthTotalReflectionToEventFlow x) hw hm
 
 theorem TruthTotalReflectionUp_taste_gate_boundary :
     (∀ x : TruthTotalReflectionUp, ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
@@ -201,9 +201,7 @@ theorem TruthTotalReflectionUp_taste_gate_boundary :
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · intro x
-    exact
-      ⟨TruthTotalReflectionUp_taste_gate_boundary_toEventFlow x,
-        TruthTotalReflectionUp_taste_gate_boundary_round_trip x⟩
+    exact ⟨truthTotalReflectionToEventFlow x, truthTotalReflection_round_trip x⟩
   · intro x w m hw hm
     exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 

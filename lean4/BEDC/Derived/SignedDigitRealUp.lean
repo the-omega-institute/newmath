@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -123,5 +125,46 @@ theorem SignedDigitRealPacket_seal_ledger_exactness [AskSetup] [PackageSetup]
   exact
     ⟨enclosureUnary, locatedUnary, sealRowUnary, sealReadUnary, sealRoute, sealReadRoute,
       sealReadSame, certSig⟩
+
+theorem SignedDigitRealPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          SignedDigitRealPacket stream window enclosure located sealRow transport route provenance
+            cert bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          SignedDigitRealPacket stream window enclosure located sealRow transport route provenance
+            cert bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          SignedDigitRealPacket stream window enclosure located sealRow transport route provenance
+            cert bundle pkg ∧ hsame row provenance)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance (And.intro packet (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.SignedDigitRealUp
