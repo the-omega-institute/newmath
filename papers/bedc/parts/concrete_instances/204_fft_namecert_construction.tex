@@ -160,19 +160,52 @@ bounds, asymptotic runtime claims, and bridge rows remain unavailable.
 \end{proof}
 \leanchecked{BEDC.Derived.FftUp.FftBHistSourcePacket\_public\_namecert\_export}
 
+\begin{theorem}[FFT standard schema bridge boundary]
+\label{thm:fft-standard-schema-bridge-boundary}
+The public finite FFT schedule interface of
+\autoref{thm:fft-schedule-public-namecert-export} supplies the standard FFT
+schema bridge boundary exactly through the $\ComplexUp$ and $\FourierUp$
+dependency rows, the finite $\mathsf{ProbeBundle}$ schedule,
+$\mathsf{InBundle}$ stage witnesses, butterfly continuation rows,
+factorization ledger, and $\hsame/\Cont$ transport rows.
+
+The bridge boundary exports no analytic error estimate, floating-point bound,
+asymptotic runtime claim, or operation-optimality claim.
+\end{theorem}
+\begin{proof}
+Project the public schedule interface through
+\autoref{thm:fft-schedule-public-namecert-export}. The consumer-visible rows
+are the two dependency certificates, the finite schedule, stage witnesses,
+butterfly continuations, factorization ledger, and transport evidence.
+
+Apply \autoref{thm:fft-carrier-butterfly-obligation} to read every scheduled
+stage as a finite $\mathsf{ProbeBundle}$ member with an $\mathsf{InBundle}$
+witness. Then use
+\autoref{thm:fft-factorization-classifier-stability-obligation} to transport
+the split-length ledger and butterfly rows along the displayed $\hsame$ and
+$\Cont$ surface.
+
+Finally apply \autoref{thm:fft-ledger-exactness-obligation} and
+\autoref{thm:fft-root-threshold-unblock-surface}. These rows exhaust the
+standard FFT schema boundary supplied by the packet, while analytic error
+estimates, floating-point bounds, asymptotic runtime claims, and
+operation-optimality claims remain outside the bridge boundary.
+\end{proof}
+
 \closureat{FftUp}{seedStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation]
 \closureat{FftUp}{obligationStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_carrier\_butterfly\_obligation]
 \closureat{FftUp}{publicStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_public\_namecert\_export]
+\closureat{FftUp}{bridgedStr}[BEDC.Derived.FftUp.FftBHistSourcePacket\_public\_namecert\_export]
 
 \begin{closurestatus}{\FftUp}
   \constructivestory{An FFT packet is presented by the ComplexUp and FourierUp dependency certificates, a finite probe-bundle schedule, displayed stage membership witnesses, butterfly continuation rows, factorization ledger rows, and the transport rows that make those finite rows readable as the public $\NameCert_{\FftUp}$ surface.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface is the finite FFT schedule, public $\NameCert_{\FftUp}$ export rows, factorization classifier, ledger exactness rows, and transport determinacy rows over the ComplexUp and FourierUp dependencies.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged surface is the finite FFT schedule, public $\NameCert_{\FftUp}$ export rows, standard schema bridge boundary, factorization classifier, ledger exactness rows, and transport determinacy rows over the ComplexUp and FourierUp dependencies.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.FftUp.FftBHistSourcePacket\_public\_namecert\_export}
-  \bridgestatus{none}
-  \notclaimed{The chapter does not close analytic error bounds, floating-point bounds, asymptotic runtime claims, operation-optimality claims, or standard bridge rows.}
-  \upgradepath{Bridged closure requires the standard FFT schema bridge for the public certificate surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{The chapter does not close analytic error bounds, floating-point bounds, asymptotic runtime claims, operation-optimality claims, or schedule completeness beyond the displayed finite bridge.}
+  \upgradepath{Mature closure requires finite consumer examples or completeness of the displayed finite schedule bridge.}
 \end{closurestatus}
 
 \begin{definition}[FFT length-one identity surface]
