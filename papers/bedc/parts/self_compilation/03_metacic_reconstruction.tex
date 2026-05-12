@@ -160,6 +160,35 @@ outside the host and cannot prove the consistency of the host that checks it.
 It can state and prove fragment metatheory for the represented calculus, but
 it does not create a host-independent consistency proof.
 
+\subsection{Encoding Choice}\label{subsec:reconstruction-encoding-choice}
+
+The reconstruction uses a de Bruijn, shift-aware substrate for binders. Named
+binders are convenient for informal prose, but a checked development must then
+carry freshness side conditions through weakening, substitution, and binder
+descent. Those side conditions are not part of the mathematical point of the
+fragment, so the substrate uses numeric binder positions instead.
+
+Naive de Bruijn encoding is still not sufficient. If a binder simply extends a
+context by placing $\mathrm{dom}$ at the head, as $\mathrm{dom} :: \Gamma$,
+then the body sees $\mathrm{var}\ 0$ both as the binder slot and as an index
+sharing the outer context convention. Under substitution or descent below
+another binder, this creates exactly the capture phenomenon the encoding is
+meant to avoid.
+
+The shift-aware substrate stores the binder slot type as
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom}$. Inside the body, $\mathrm{var}\ 0$
+therefore points strictly to the binder, while the old context has been moved
+under that new slot. This matches the host CIC's internal de Bruijn discipline:
+crossing a binder changes the reference depth, and the represented context
+records that change explicitly.
+
+The price is that some attractive unconditional preservation statements are
+not true at this level of representation. In particular, shift adjustment and
+substitution do not commute freely under an open binder. Substitution
+preservation therefore carries closure hypotheses in the binder cases; those
+hypotheses make the shifted domain stable and let the represented typing
+context line up without capture.
+
 \subsection{Glossary}\label{subsec:reconstruction-glossary}
 
 The following terms name the local reconstruction conventions used in this
