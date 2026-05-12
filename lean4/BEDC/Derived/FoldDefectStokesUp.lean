@@ -42,4 +42,29 @@ theorem FoldDefectStokesPacket_boundary_ledger [AskSetup] [PackageSetup]
     ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, publicUnary, routesRoute,
       boundaryRoute, provenancePkg, publicPkg⟩
 
+theorem FoldDefectStokesPacket_non_escape_boundary [AskSetup] [PackageSetup]
+    {input output boundary ledger transportRow routes provenance nameRow publicBoundary
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FoldDefectStokesPacket input output boundary ledger transportRow routes provenance nameRow
+        bundle pkg ->
+      Cont output boundary publicBoundary ->
+        Cont boundary ledger ledgerRead ->
+          PkgSig bundle publicBoundary pkg ->
+            UnaryHistory input ∧ UnaryHistory output ∧ UnaryHistory boundary ∧
+              UnaryHistory ledger ∧ UnaryHistory publicBoundary ∧ UnaryHistory ledgerRead ∧
+                Cont input output routes ∧ Cont output boundary publicBoundary ∧
+                  Cont boundary ledger ledgerRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle publicBoundary pkg := by
+  intro packet boundaryRoute ledgerRoute publicPkg
+  obtain ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, _nameRowUnary, routesRoute,
+    _transportRoute, _provenanceRoute, provenancePkg⟩ := packet
+  have publicBoundaryUnary : UnaryHistory publicBoundary :=
+    unary_cont_closed outputUnary boundaryUnary boundaryRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed boundaryUnary ledgerUnary ledgerRoute
+  exact
+    ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, publicBoundaryUnary, ledgerReadUnary,
+      routesRoute, boundaryRoute, ledgerRoute, provenancePkg, publicPkg⟩
+
 end BEDC.Derived.FoldDefectStokesUp
