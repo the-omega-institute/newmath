@@ -229,18 +229,58 @@ completeness remain outside the export because none is present in the carrier
 or ledger surface.
 \end{proof}
 
+\begin{theorem}[BishopReal standard finite-packet bridge]
+\label{thm:bishopreal-standard-finite-packet-bridge}
+\autoref{thm:bishopreal-public-namecert-export},
+\autoref{thm:bishopreal-regseqrat-readback}, and
+\autoref{thm:bishopreal-readback-ledger-exhaustion-obligation} determine the
+standard Bishop-style finite packet bridge for $\BishopRealUp$ over
+$\RegSeqRatUp$, $\LocatedRealUp$, $\ApartnessRealUp$,
+$\ModulusOfConvergenceUp$, and $\RealUp$. The bridge packet consists only of
+the regular rational name, locatedness row, apartness row, modulus row,
+$\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and $\NameCert$ ledger rows displayed by the BEDC carrier.
+
+Consequently the standard constructive-real packet exported by
+$\BishopRealUp$ has no Dedekind cut, quotient real, trichotomy, selected limit,
+or classical completeness coordinate.
+\end{theorem}
+\begin{proof}
+First project the public export from
+\autoref{thm:bishopreal-public-namecert-export}. It supplies the finite
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$,
+$\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows of the accepted
+constructive-real packet.
+
+Next identify the regular rational name and the visible $\RealUp$ seal through
+\autoref{thm:bishopreal-regseqrat-readback}. The readback passes only through
+the certified $\RegSeqRatUp$ name, scheduled finite windows, dyadic endpoint
+packets, and explicit modulus row.
+
+Finally apply \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation}.
+It says every standard field of the readback is one of the displayed finite
+BEDC rows over $\RegSeqRatUp$, $\LocatedRealUp$, $\ApartnessRealUp$,
+$\ModulusOfConvergenceUp$, and $\RealUp$.
+
+The excluded real principles are not present in the public export, not present
+in the readback, and not present in the exhausted ledger. The resulting packet
+is therefore exactly the standard finite-packet bridge claimed in the
+statement.
+\end{proof}
+
 \closureat{BishopRealUp}{seedStr}
 \closureat{BishopRealUp}{obligationStr}
 \closureat{BishopRealUp}{scopedStr}
 \closureat{BishopRealUp}{publicStr}
+\closureat{BishopRealUp}{bridgedStr}
 
 \begin{closurestatus}{\BishopRealUp}
   \constructivestory{A $\BishopRealUp$ packet is generated from a certified $\RegSeqRatUp$ name, finite stream windows, dyadic endpoint packets, an explicit convergence modulus, locatedness evidence, apartness evidence, componentwise transport rows, continuation routes, package provenance, and the visible $\RealUp$ seal.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, \autoref{thm:bishopreal-carrier-construction-obligation}, \autoref{thm:bishopreal-classifier-stability-obligation}, \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation}, and \autoref{thm:bishopreal-public-namecert-export} name the finite public constructive real-neighbor certificate surface over regular rational names, locatedness, apartness, explicit modulus rows, and the $\RealUp$ seal.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, \autoref{thm:bishopreal-carrier-construction-obligation}, \autoref{thm:bishopreal-classifier-stability-obligation}, \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation}, \autoref{thm:bishopreal-public-namecert-export}, and \autoref{thm:bishopreal-standard-finite-packet-bridge} name the finite constructive real-neighbor certificate surface and its standard bridge over regular rational names, locatedness, apartness, explicit modulus rows, the $\RealUp$ seal, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close Dedekind-cut reals, quotient reals, trichotomy, selected limits, classical completeness, or a standard bridge.}
-  \upgradepath{Standard bridge closure requires a bridge over the same finite constructive-real packet, regular rational names, locatedness, apartness, explicit modulus rows, the $\RealUp$ seal, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \notclaimed{This chapter does not close Dedekind-cut reals, quotient reals, trichotomy, selected limits, classical completeness, or machine verification of the bridge theorem.}
+  \upgradepath{Machine verification requires a Lean theorem for the same finite constructive-real bridge packet.}
 \end{closurestatus}
