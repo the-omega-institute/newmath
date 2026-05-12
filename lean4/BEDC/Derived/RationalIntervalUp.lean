@@ -357,6 +357,52 @@ theorem RationalIntervalPacket_directed_refinement_basis [AskSetup] [PackageSetu
     ⟨commonPacket, readbackUnary, sameEndpoint1, sameEndpoint2, endpointConsumerReadback,
       readbackPkg⟩
 
+theorem RationalIntervalPacket_bisection_refinement_nesting [AskSetup] [PackageSetup]
+    {left mid right parentOrder containment transport route provenance name parentEndpoint
+      halfOrder halfTransport halfEndpoint nestedConsumer nestedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right parentOrder containment transport route provenance name
+        parentEndpoint bundle pkg ->
+      UnaryHistory mid ->
+        Cont left mid halfOrder ->
+          Cont halfOrder containment halfTransport ->
+            Cont halfTransport route provenance ->
+              Cont provenance name halfEndpoint ->
+                PkgSig bundle halfEndpoint pkg ->
+                  UnaryHistory nestedConsumer ->
+                    Cont halfEndpoint nestedConsumer nestedRead ->
+                      PkgSig bundle nestedRead pkg ->
+                        RationalIntervalPacket left mid halfOrder containment halfTransport route
+                            provenance name halfEndpoint bundle pkg ∧
+                          UnaryHistory nestedRead ∧ Cont halfEndpoint nestedConsumer nestedRead ∧
+                            PkgSig bundle nestedRead pkg ∧ hsame parentOrder (append left right) ∧
+                              hsame halfOrder (append left mid) := by
+  intro packet midUnary leftMidHalfOrder halfOrderContainmentHalfTransport
+    halfTransportRouteProvenance provenanceNameHalfEndpoint halfEndpointPkg nestedConsumerUnary
+    halfEndpointNestedConsumerNestedRead nestedReadPkg
+  rcases packet with
+    ⟨leftUnary, _rightUnary, _parentOrderUnary, containmentUnary, _transportUnary, routeUnary,
+      _provenanceUnary, nameUnary, _parentEndpointUnary, parentOrderRow,
+      _orderContainmentTransport, _transportRouteProvenance, _provenanceNameParentEndpoint,
+      _parentEndpointPkg⟩
+  have halfOrderUnary : UnaryHistory halfOrder :=
+    unary_cont_closed leftUnary midUnary leftMidHalfOrder
+  have halfTransportUnary : UnaryHistory halfTransport :=
+    unary_cont_closed halfOrderUnary containmentUnary halfOrderContainmentHalfTransport
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed halfTransportUnary routeUnary halfTransportRouteProvenance
+  have halfEndpointUnary : UnaryHistory halfEndpoint :=
+    unary_cont_closed provenanceUnary nameUnary provenanceNameHalfEndpoint
+  have nestedReadUnary : UnaryHistory nestedRead :=
+    unary_cont_closed halfEndpointUnary nestedConsumerUnary halfEndpointNestedConsumerNestedRead
+  exact
+    ⟨⟨leftUnary, midUnary, halfOrderUnary, containmentUnary, halfTransportUnary, routeUnary,
+        provenanceUnary, nameUnary, halfEndpointUnary, leftMidHalfOrder,
+        halfOrderContainmentHalfTransport, halfTransportRouteProvenance,
+        provenanceNameHalfEndpoint, halfEndpointPkg⟩,
+      nestedReadUnary, halfEndpointNestedConsumerNestedRead, nestedReadPkg, parentOrderRow,
+      leftMidHalfOrder⟩
+
 theorem RationalIntervalRefinement_composition {left mid right lm lmr mr lmr' : BHist} :
     Cont left mid lm -> Cont lm right lmr -> Cont mid right mr -> Cont left mr lmr' ->
       hsame lmr lmr' := by
