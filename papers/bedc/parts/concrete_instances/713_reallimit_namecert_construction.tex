@@ -503,6 +503,7 @@ name. Every standard finite observation of such a candidate factors through
 The boundary introduces no quotient stream equality, selected limit object, or
 $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealLimitUp.RealLimitPacket\_standard\_bridge\_boundary}
 \begin{proof}
 Start with the obligation surface of
 \autoref{thm:reallimit-namecert-obligation-surface}. Its rows are the
@@ -560,6 +561,85 @@ the displayed rows are also sufficient in the reverse direction to repack the
 finite real-seal consumer surface.
 \end{proof}
 
+\begin{theorem}[RealLimit finite-seal readback transport determinacy]
+\label{thm:reallimit-finite-seal-readback-transport-determinacy}
+Let $p$ and $p'$ be accepted $\RealLimitUp$ packets. Suppose the displayed
+rows connect their schedule, $\RegSeqRatUp$ stream, $\RealUp$ endpoint, and
+$\DyadicRatCoreUp$ tolerance coordinates by componentwise $\hsame$ transport.
+Suppose also that the readback rows are
+$\Cont(\mathsf{endpoint},\mathsf{tolerance},\mathsf{readback})$ and
+$\Cont(\mathsf{endpoint}',\mathsf{tolerance}',\mathsf{readback}')$.
+
+Then every finite real-seal consumer read through $p$ transports to the
+corresponding read through $p'$ on the same BEDC consumer surface: the
+scheduled $\StreamNameUp$ row, $\RegSeqRatUp$ stream row, $\RealUp$ endpoint
+row, $\DyadicRatCoreUp$ tolerance row, finite handoff row, visible $\Cont$
+route, local readback row, $\mathsf{Pkg}$ provenance row, and
+$\NameCert_{\RealLimitUp}$ ledger row. The determinacy claim does not assert
+$\RealUp$ completeness, quotient stream equality, a selected limit object, or
+host completion.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:reallimit-regseqrat-streamname-handoff}. It places
+the consumer read on the displayed schedule and $\RegSeqRatUp$ source stream
+before any endpoint interpretation is used.
+
+Apply \autoref{thm:reallimit-transport-stability-boundary}. The assumed
+componentwise $\hsame$ rows carry the schedule, stream, endpoint, and
+tolerance coordinates from $p$ to $p'$ while keeping the handoff and visible
+$\Cont$ route inside the same finite packet surface.
+
+Use \autoref{thm:reallimit-readback-obligation}. The two displayed readback
+rows are therefore read as the same local BEDC obligation row over the
+transported endpoint and tolerance coordinates, with the $\mathsf{Pkg}$
+provenance and $\NameCert_{\RealLimitUp}$ ledger still visible.
+
+Finally apply
+\autoref{thm:reallimit-finite-real-seal-consumer-completeness}. Since that
+surface is exactly the schedule, stream, endpoint, tolerance, handoff, route,
+ledger, readback, package, and name-certificate rows, the transported readback
+has no additional coordinate on which a second consumer interpretation could
+depend. The excluded completion, quotient, selected-limit, and host-completion
+principles are not present in any cited row.
+\end{proof}
+
+\begin{theorem}[RealLimit stream-tail window normal form]
+\label{thm:reallimit-stream-tail-window-normal-form}
+For accepted $\RealLimitUp$ packets whose scheduled $\StreamNameUp$ rows refine
+to the same displayed finite tail window, every $\RealUp$-facing readback
+factors through exactly the same $\RegSeqRatUp$ source row, the same
+$\DyadicRatCoreUp$ tolerance rows, the displayed $\hsame$ transports, the
+visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RealLimitUp}$ ledger. The tail-window normal form is determined
+entirely by those finite rows.
+
+The normal form exports no completed real equality, quotient stream, selected
+limit, host completion witness, or choice data.
+\end{theorem}
+\begin{proof}
+Project each accepted packet to the finite carrier of
+\autoref{def:reallimit-bhist-carrier}. The projected rows are the scheduled
+stream-name coordinate, the regular rational source coordinate, the dyadic
+tolerance coordinates, componentwise $\hsame$ transport, visible $\Cont$
+routes, package provenance, and the local naming ledger.
+
+Apply \autoref{thm:reallimit-common-refinement-classifier} to the two scheduled
+$\StreamNameUp$ rows. The common finite tail window fixes the classifier
+surface on which the readback rows are compared, so later tail data cannot
+change the displayed source or tolerance coordinates.
+
+Use \autoref{thm:reallimit-readback-ledger-exhaustion} and
+\autoref{thm:reallimit-public-real-window-export}. These identify every
+$\RealUp$-facing readback row with the same regular rational source row,
+dyadic tolerance rows, componentwise transports, continuation routes, package
+provenance, and naming ledger on the common window.
+
+Finally invoke \autoref{thm:reallimit-standard-bridge-boundary}. The boundary
+contains no coordinate for completed real equality, quotient stream formation,
+selected limits, host completion, or choice data. Carrier exhaustion therefore
+leaves exactly the stated finite tail-window normal form.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 \closureat{RealLimitUp}{scopedStr}
@@ -570,7 +650,7 @@ finite real-seal consumer surface.
 \begin{closurestatus}{\RealLimitUp}
   \constructivestory{A finite limit-name packet records a stream schedule, regular rational source stream, proposed real seal endpoint, dyadic tolerance windows, transport rows, continuation routes, package provenance, and local naming ledger.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:reallimit-scoped-kernel-interface}, \autoref{thm:reallimit-readback-ledger-exhaustion}, \autoref{thm:reallimit-regseqrat-streamname-handoff}, \autoref{thm:reallimit-public-real-window-export}, \autoref{thm:reallimit-standard-finite-seal-bridge}, \autoref{thm:reallimit-standard-bridge-boundary}, and \autoref{thm:reallimit-finite-real-seal-consumer-completeness} bind the classifier, stability, readback, ledger, public real-window export, standard finite-seal bridge, standard bridge boundary, and finite real-seal consumer surface to the finite carrier of \autoref{def:reallimit-bhist-carrier}, componentwise $\hsame$ transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance, the $\NameCert$ ledger, and the downstream $\RealUp$ endpoint row.}
+  \scopeclosed{\autoref{thm:reallimit-scoped-kernel-interface}, \autoref{thm:reallimit-readback-ledger-exhaustion}, \autoref{thm:reallimit-regseqrat-streamname-handoff}, \autoref{thm:reallimit-public-real-window-export}, \autoref{thm:reallimit-standard-finite-seal-bridge}, \autoref{thm:reallimit-standard-bridge-boundary}, \autoref{thm:reallimit-finite-real-seal-consumer-completeness}, and \autoref{thm:reallimit-finite-seal-readback-transport-determinacy} bind the classifier, stability, readback, ledger, public real-window export, standard finite-seal bridge, standard bridge boundary, finite real-seal consumer surface, and transported readback determinacy to the finite carrier of \autoref{def:reallimit-bhist-carrier}, componentwise $\hsame$ transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance, the $\NameCert$ ledger, and the downstream $\RealUp$ endpoint row.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealLimitUp.RealLimitPacket\_readback\_obligation}
   \bridgestatus{paperBridge}
