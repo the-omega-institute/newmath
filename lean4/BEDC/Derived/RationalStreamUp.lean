@@ -242,6 +242,68 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
 
+theorem RationalStreamPacket_regseqrat_realup_consumer_coverage [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory consumer ->
+        Cont nameRow consumer readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+              UnaryHistory classifierRows ∧ UnaryHistory transportRows ∧
+                UnaryHistory provenance ∧ UnaryHistory window ∧ UnaryHistory contRows ∧
+                  UnaryHistory nameRow ∧ UnaryHistory readback ∧ Cont index schedule window ∧
+                    Cont window pointRows classifierRows ∧
+                      Cont classifierRows transportRows contRows ∧
+                        Cont contRows provenance nameRow ∧ Cont nameRow consumer readback ∧
+                          PkgSig bundle readback pkg := by
+  intro packet consumerUnary readbackRow readbackPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, windowRow, classifierRowsRow, contRowsRow, nameRowRow, _namePkg⟩ :=
+    packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary windowRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary contRowsRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed nameRowUnary consumerUnary readbackRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+      provenanceUnary, windowUnary, contRowsUnary, nameRowUnary, readbackUnary, windowRow,
+      classifierRowsRow, contRowsRow, nameRowRow, readbackRow, readbackPkg⟩
+
+theorem RationalStreamPacket_pointwise_classifier_laws [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows classifierRows' classifierRows'' transportRows
+      contRows provenance nameRow window : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      hsame classifierRows classifierRows' ->
+        hsame classifierRows' classifierRows'' ->
+          UnaryHistory classifierRows ∧ UnaryHistory classifierRows' ∧
+            UnaryHistory classifierRows'' ∧ hsame classifierRows classifierRows ∧
+              hsame classifierRows' classifierRows ∧ hsame classifierRows classifierRows'' ∧
+                PkgSig bundle nameRow pkg := by
+  intro packet sameClassifierRows sameClassifierRows'
+  obtain ⟨_indexUnary, _scheduleUnary, _pointRowsUnary, classifierRowsUnary,
+    _transportRowsUnary, _provenanceUnary, _windowRow, _classifierRowsRow, _contRowsRow,
+    _nameRowRow, nameRowPkg⟩ := packet
+  have classifierRowsUnary' : UnaryHistory classifierRows' :=
+    unary_transport classifierRowsUnary sameClassifierRows
+  have sameClassifierRowsSymm : hsame classifierRows' classifierRows :=
+    hsame_symm sameClassifierRows
+  have classifierRowsUnary'' : UnaryHistory classifierRows'' :=
+    unary_transport classifierRowsUnary' sameClassifierRows'
+  have sameClassifierRowsTrans : hsame classifierRows classifierRows'' :=
+    hsame_trans sameClassifierRows sameClassifierRows'
+  exact
+    ⟨classifierRowsUnary, classifierRowsUnary', classifierRowsUnary'', hsame_refl classifierRows,
+      sameClassifierRowsSymm, sameClassifierRowsTrans, nameRowPkg⟩
+
 theorem RationalStreamPacket_regseqrat_handoff_transport [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
