@@ -201,11 +201,8 @@ theorem betaStep_to_parallel {t u : Term} :
   intro h
   induction h with
   | beta dom body arg =>
-      exact
-        BetaParallel.beta
-          (betaParallel_refl dom)
-          (betaParallel_refl body)
-          (betaParallel_refl arg)
+      exact BetaParallel.beta (betaParallel_refl dom) (betaParallel_refl body)
+        (betaParallel_refl arg)
   | congApp1 f f' a hff' ih =>
       exact BetaParallel.app ih (betaParallel_refl a)
   | congApp2 f a a' haa' ih =>
@@ -316,15 +313,9 @@ theorem betaParallel_app_shape {f a t : Term}
         f = Term.lam d body ∧ t = substitute 0 a' body') := by
   cases h with
   | app hf ha =>
-      exact Or.inl (Exists.intro _ (Exists.intro _ (And.intro hf (And.intro ha rfl))))
+      exact Or.inl ⟨_, _, hf, ha, rfl⟩
   | beta hd hb ha =>
-      exact
-        Or.inr
-          (Exists.intro _
-            (Exists.intro _
-              (Exists.intro _
-                (Exists.intro _
-                  (And.intro hb (And.intro ha (And.intro rfl rfl)))))))
+      exact Or.inr ⟨_, _, _, _, hb, ha, rfl, rfl⟩
 
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
@@ -361,10 +352,7 @@ theorem betaParallel_var_diamond
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
   cases h1
   cases h2
-  exact
-    Exists.intro
-      (Term.var i)
-      (And.intro (BetaParallel.var i) (BetaParallel.var i))
+  exact ⟨Term.var i, BetaParallel.var i, BetaParallel.var i⟩
 
 theorem betaParallel_diamond_var {i : Idx} {t1 t2 : Term}
     (h1 : BetaParallel (Term.var i) t1) (h2 : BetaParallel (Term.var i) t2) :
@@ -383,10 +371,7 @@ theorem betaParallel_sort_diamond
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
   cases h1
   cases h2
-  exact
-    Exists.intro
-      Term.sort
-      (And.intro BetaParallel.sort BetaParallel.sort)
+  exact ⟨Term.sort, BetaParallel.sort, BetaParallel.sort⟩
 
 theorem betaParallel_diamond_sort {t1 t2 : Term}
     (h1 : BetaParallel Term.sort t1) (h2 : BetaParallel Term.sort t2) :
@@ -410,18 +395,10 @@ theorem betaParallel_app_diamond_of_components
           BetaParallel (Term.app f2 a2) v) := by
   cases hf with
   | intro g hg =>
-      cases hg with
-      | intro hf1g hf2g =>
-          cases ha with
-          | intro b hb =>
-              cases hb with
-              | intro ha1b ha2b =>
-                  exact
-                    Exists.intro
-                      (Term.app g b)
-                      (And.intro
-                        (BetaParallel.app hf1g ha1b)
-                        (BetaParallel.app hf2g ha2b))
+      cases ha with
+      | intro b hb =>
+          exact ⟨Term.app g b, BetaParallel.app hg.left hb.left,
+            BetaParallel.app hg.right hb.right⟩
 
 theorem betaParallel_lam_diamond_of_components
     {d1 d2 b1 b2 : Term}
@@ -435,18 +412,10 @@ theorem betaParallel_lam_diamond_of_components
           BetaParallel (Term.lam d2 b2) v) := by
   cases hd with
   | intro e he =>
-      cases he with
-      | intro hd1e hd2e =>
-          cases hb with
-          | intro c hc =>
-              cases hc with
-              | intro hb1c hb2c =>
-                  exact
-                    Exists.intro
-                      (Term.lam e c)
-                      (And.intro
-                        (BetaParallel.lam hd1e hb1c)
-                        (BetaParallel.lam hd2e hb2c))
+      cases hb with
+      | intro c hc =>
+          exact ⟨Term.lam e c, BetaParallel.lam he.left hc.left,
+            BetaParallel.lam he.right hc.right⟩
 
 theorem betaParallel_pi_diamond_of_components
     {d1 d2 c1 c2 : Term}
@@ -460,18 +429,10 @@ theorem betaParallel_pi_diamond_of_components
           BetaParallel (Term.pi d2 c2) v) := by
   cases hd with
   | intro e he =>
-      cases he with
-      | intro hd1e hd2e =>
-          cases hc with
-          | intro r hr =>
-              cases hr with
-              | intro hc1r hc2r =>
-                  exact
-                    Exists.intro
-                      (Term.pi e r)
-                      (And.intro
-                        (BetaParallel.pi hd1e hc1r)
-                        (BetaParallel.pi hd2e hc2r))
+      cases hc with
+      | intro r hr =>
+          exact ⟨Term.pi e r, BetaParallel.pi he.left hr.left,
+            BetaParallel.pi he.right hr.right⟩
 
 theorem betaParallel_app_independent_diamond
     {f a f1 f2 a1 a2 : Term}
