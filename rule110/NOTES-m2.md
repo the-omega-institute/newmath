@@ -8,6 +8,10 @@ Glider C is emitted as the row-0 best-effort perturbation `1001` over phase-0 et
 
 Glider D is emitted as the row-0 best-effort perturbation `11010` over phase-0 ether. In direct simulation it contracts to a compact left-moving defect and preserves far-field ether in the tested window. As with B and C, this is a behavioral placeholder pending primary-source phase data.
 
+Gliders E, F, G, and H use single-row visual-catalog approximations cross-checked against Cook 2004 section 3 and secondary Rule 110 glider catalogs. The selected rows are respectively `111001`, `1100101`, `111000100111`, and `10110100101110` over the Cook ether phase. The tests assert localized motion after 100 Rule 110 steps and ether preservation outside the perturbation light cone.
+
+The glider gun emitter is represented by a 518-cell source band made from separated E/F/G/H row approximations at 168-cell ether-compatible spacing. It is not a phase-exact Cook source oscillator; the test records that the band produces multiple separated mobile perturbations after 500 Rule 110 steps while leaving far-field ether unchanged.
+
 ## Design phase observations
 
 Cook's construction makes the existence and high-level role of the productive collision families clear: leader, ossifier, and data-block packages interact so that a consumed `0` appends nothing and a consumed `1` appends the active cyclic-tag production. The exact low-level `A`-through-`H` all-pairs collision outcomes are not firmly established from accessible prose summaries alone. They should be treated as conjectural until direct local Rule 110 simulation verifies phase, spacing, transient cleanup, and outgoing products.
