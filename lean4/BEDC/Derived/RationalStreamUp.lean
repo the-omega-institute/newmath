@@ -47,6 +47,34 @@ theorem RationalStreamPacket_common_denominator_window_exhaustion [AskSetup] [Pa
     ⟨windowUnary, classifierRowsUnary, contRowsUnary, nameRowUnary, windowRow,
       classifierRowsRow, contRowsRow, nameRowRow, pkgRow⟩
 
+theorem RationalStreamPacket_public_export [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont nameRow window publicExport ->
+        PkgSig bundle publicExport pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory nameRow ∧
+              UnaryHistory publicExport ∧ Cont nameRow window publicExport ∧
+                PkgSig bundle publicExport pkg := by
+  intro packet exportRow exportPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, windowRow, _classifierRowsRow, contRowsRow, nameRowRow, _pkgRow⟩ :=
+    packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary windowRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary contRowsRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have exportUnary : UnaryHistory publicExport :=
+    unary_cont_closed nameRowUnary windowUnary exportRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary, nameRowUnary,
+      exportUnary, exportRow, exportPkg⟩
+
 def RationalStreamSchedulePacket [AskSetup] [PackageSetup]
     (index schedule rational classifier transport route provenance registration
       scheduleWindow pointWindow packet : BHist)
