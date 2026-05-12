@@ -84,6 +84,17 @@ static void test_non_AA_rows_remain_phase_pending(void) {
     printf("  non_AA_rows_remain_phase_pending: PASS\n");
 }
 
+static void test_martinez_table_lookup(void) {
+    const char *result =
+        cook_collision_lookup("F(A,f1_1)", "Ebar(A,f1_1)", 1);
+
+    assert(result != NULL);
+    assert(result[0] == '{');
+    assert(cook_collision_lookup("F(A,f1_1)", "Ebar(A,f1_1)", 2) == NULL);
+
+    printf("  martinez_table_lookup: PASS\n");
+}
+
 int main(void) {
     static const char gliders[] = {'A', 'B', 'C', 'D'};
     const size_t pos1 = 420;
@@ -93,6 +104,7 @@ int main(void) {
     printf("== test_cook_collisions ==\n");
     test_AA_direct_simulation_entry();
     test_non_AA_rows_remain_phase_pending();
+    test_martinez_table_lookup();
     printf("left right pos1 pos2 steps outcome evidence final_diff\n");
 
     for (size_t i = 0; i < sizeof(gliders) / sizeof(gliders[0]); i++) {

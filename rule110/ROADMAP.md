@@ -68,18 +68,17 @@ manifest assertion PASS/FAIL
 - 每个 `.enum.ct` 有对应 `.r110`
 - Rule 110 evolution 在 `.r110` 上跑出来 decode 后 = `.ct` 跑出来
 
-**当前状态**: 部分推进, 关键 blocked.
+**当前状态**: 部分推进, 数据基础已具备.
 
 - L3.1 glider A `(f1_1)=111110` phase-exact ✓
 - L3.2 collision A-A 直接模拟验证 ✓
-- L3.3 leader/ossifier/data_block phase-exact entry points + structural docs ✓ (bodies blocked)
+- L3.3 leader/ossifier/data_block phase-exact entry points + structural docs ✓
 - L3.4 cook_encode interface + composition design ✓
-- **L3.1 B-H gliders blocked on Cook 2004 figure access**
-- L3.5-L3.7 (.r110 manifest 生成 + round-trip + smoke test) 全 blocked
+- Martinez 2001/2004 phase catalog 已进入 `encoder/glider_phases.c/h`
+- Martinez 2012 collision / soliton table 已进入 `cook_collision_lookup`
+- L3.5-L3.7 (.r110 manifest 生成 + round-trip + smoke test) 仍待工程实现
 
-**ship blocker**: Cook 2004 phase-exact catalog. 公开二手源不一致, 需要直接图访问或可信机读 catalog. 解锁后预估 4-8 周可完成全集.
-
-否则 Tier B **无限期 blocked**, 长期目标方向不变.
+**ship gap**: leader / ossifier / data block 的完整 Cook packet composition 仍需按 phase catalog 和 collision table 对齐并经 Rule 110 直接模拟验证. 外部资料不再是主风险; 剩余工作主要是工程、布局和回归测试.
 
 ---
 
@@ -117,18 +116,26 @@ manifest assertion PASS/FAIL
 
 ---
 
-## Tier B 推进步骤 (严格目标, blocked)
+## 数据基础
 
-- [ ] T-B.1: 获取 Cook 2004 figure 直接访问 (paper 复印 / 扫描 / 可信二手 catalog)
-- [ ] T-B.2: 验证 glider B-H phase-exact (每个 ~1 天)
-- [ ] T-B.3: 实施 leader / ossifier / data_block phase-exact bodies (依赖 T-B.2)
-- [ ] T-B.4: 实施 `cook_encode_phase_exact()` bodies (依赖 T-B.3)
+- `encoder/listPhasesR110.txt`: Martinez 2001 / 2004 Rule 110 phase catalog, 包含 ether、A、B、C1、C2、C3、Ebar、F、G、H 和 glider gun 的 phase strings.
+- `encoder/martinez_2012_collisions.txt`: Martinez 2012 Complex Systems 21.2.2 collision / soliton table, 包含 18 个 binary soliton 和 F/Bbar/B collision rows.
+- `encoder/glider_phases.c/h`: C99 static const lookup, 当前覆盖 Cook construction 核心使用的 phase strings.
+- 参考: Cook 2004; Martinez 2007 arXiv:0706.3348; Martinez, Adamatzky, Chen, Chua 2012, Complex Systems 21.2.2.
+
+## Tier B 推进步骤 (严格目标)
+
+- [x] T-B.1.a: 接入 Martinez 2001/2004 phase catalog 和 Martinez 2012 collision / soliton table
+- [ ] T-B.1.b: 用 Rule 110 直接模拟验证核心 phase rows 与 collision rows
+- [~] T-B.2: 验证 glider B-H phase-exact; B/C/Ebar/F/G/H 已有 canonical lookup, D1/D2 与通用 D 映射需单独定案
+- [~] T-B.3: 实施 leader / ossifier / data_block phase-exact bodies; 数据已具备, packet composition 待完成
+- [~] T-B.4: 实施 `cook_encode_phase_exact()` bodies; 当前输出 phase-exact ether + A + Ebar(A,f1_1) 的保守组合
 - [ ] T-B.5: 为每个 `.enum.ct` 生成对应 `.r110` initial pattern
 - [ ] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` execution
 - [ ] T-B.7: `make test` 扩到 `.r110` smoke test 全 44 族
 - [ ] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
 
-**预估**: 4-8 周 IF T-B.1 解锁; 否则**无限期 blocked**.
+**预估**: 外部数据等待已移除. 剩余为 phase-row simulation、packet layout、decoder round-trip 和 test expansion; 约 2-4 周工程工作, 具体取决于 D1/D2 与 leader / ossifier packet 对齐难度.
 
 ---
 
@@ -192,7 +199,7 @@ manifest assertion PASS/FAIL
 任何后续 codex CLI worker 在 rule110 trunk 上推进时:
 
 1. **Tier A ship 优先**: T-A.1 ~ T-A.8 是当前 critical path
-2. **Tier B 等外部资源**: 不主动推进 T-B.* 除非用户提供 Cook figure 资料
+2. **Tier B 工程推进**: 使用 Martinez catalog 和 collision table 推进 T-B.*, 每步需保留直接模拟验证
 3. **不追求 universal / CIC-in-rule110**: 显式 out-of-scope
 4. **附录不动**: `manifests/topology_up|circle_up|fold_up|meta_cic/` 不主动改
 5. **每个 commit 自洽**: `make -C rule110 test` PASS + 0 axiom + cross-check PASS

@@ -18,6 +18,49 @@ typedef struct {
     size_t end;
 } DiffIsland;
 
+typedef struct {
+    const char *left;
+    const char *right;
+    int gap;
+    const char *result;
+} CollisionLookupRecord;
+
+static const CollisionLookupRecord COLLISION_LOOKUPS[] = {
+    {"A(f1_1)", "G(C,f1_1)", 6, "{G, A}"},
+    {"C1(A,f1_1)", "Ebar(B,f1_1)", 3, "{Ebar, C1}"},
+    {"C1(A,f1_1)", "Ebar(C,f1_1)", 3, "{Ebar, C1}"},
+    {"F(A,f1_1)", "B(f4_1)", 3, "{B, F}"},
+    {"C2(A,f1_1)", "Ebar(C,f1_1)", 3, "{Ebar, C2}"},
+    {"C1(A,f1_1)", "F(B,f1_1)", 2, "{F, C1}"},
+    {"C2(A,f1_1)", "F(A,f1_1)", 2, "{F, C2}"},
+    {"A(f1_1)", "Ebar(A,f1_1)", 4, "{Ebar, A}"},
+    {"A(f1_1)", "Ebar(B,f1_1)", 4, "{Ebar, A}"},
+    {"A(f1_1)", "Ebar(C,f1_1)", 4, "{Ebar, A}"},
+    {"A(f1_1)", "Ebar(H,f1_1)", 4, "{Ebar, A}"},
+    {"F(A,f1_1)", "Ebar(A,f1_1)", 1, "{Ebar, F}"},
+    {"F(A,f1_1)", "Ebar(C,f1_1)", 1, "{Ebar, F}"},
+    {"F(A,f1_1)", "Ebar(D,f1_1)", 1, "{Ebar, F}"},
+    {"F(A,f1_1)", "Ebar(E,f1_1)", 1, "{Ebar, F}"},
+    {"F(G,f1_1)", "Ebar(A,f1_1)", 1, "{Ebar, F}"},
+    {"F(G,f1_1)", "Ebar(B,f1_1)", 1, "{Ebar, F}"},
+    {"F(G,f1_1)", "Ebar(H,f1_1)", 1, "{Ebar, F}"},
+    {"F(A,f1_1)", "Bbar(A,f1_1)", 1, "{A, B, Bbar, F}"},
+    {"F(A,f1_1)", "Bbar(B,f1_1)", 1, "{A, 2 C3, C1}"},
+    {"F(A,f1_1)", "Bbar(C,f1_1)", 1, "{A, C2}"},
+    {"F(G,f1_1)", "Bbar(A,f1_1)", 1, "{C2, A^2}"},
+    {"F(G,f1_1)", "Bbar(B,f1_1)", 1, "{A, A^3, A, Ebar}"},
+    {"F(G,f1_1)", "Bbar(C,f1_1)", 1, "{B, F} *"},
+    {"F(H,f1_1)", "Bbar(A,f1_1)", 1, "{A, C2}"},
+    {"F(H,f1_1)", "Bbar(B,f1_1)", 1, "{Ebar, A^5}"},
+    {"F(H,f1_1)", "Bbar(C,f1_1)", 1, "{Ebar, A^3}"},
+    {"F(A2,f1_1)", "Bbar(A,f1_1)", 1, "{C1}"},
+    {"F(A2,f1_1)", "Bbar(B,f1_1)", 1, "{A, B^3, Ebar}"},
+    {"F(A,f1_1)", "B(f1_1)", 1, "{Bbar, F} *"},
+    {"F(G,f1_1)", "B(f1_1)", 1, "{Bbar, F} *"},
+    {"F(H,f1_1)", "B(f1_1)", 1, "{D2, A^2}"},
+    {"F(A2)", "B", 1, "{B, F} (soliton)"}
+};
+
 static const uint8_t GLIDER_A_PHASE_0[6] = {1, 1, 1, 1, 1, 0};
 
 static const CookGliderPattern GLIDER_A_PATTERN = {
@@ -399,4 +442,22 @@ CollisionResult cook_simulate_collision(char left,
     free(ether);
 
     return result;
+}
+
+const char *cook_collision_lookup(const char *glider_left,
+                                  const char *glider_right,
+                                  int ether_gap) {
+    if (glider_left == NULL || glider_right == NULL) return NULL;
+
+    for (size_t i = 0;
+         i < sizeof(COLLISION_LOOKUPS) / sizeof(COLLISION_LOOKUPS[0]);
+         i++) {
+        if (ether_gap == COLLISION_LOOKUPS[i].gap &&
+            strcmp(glider_left, COLLISION_LOOKUPS[i].left) == 0 &&
+            strcmp(glider_right, COLLISION_LOOKUPS[i].right) == 0) {
+            return COLLISION_LOOKUPS[i].result;
+        }
+    }
+
+    return NULL;
 }
