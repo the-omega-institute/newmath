@@ -629,6 +629,46 @@ The downstream completion consumer exactness is the consumer side of \autoref{th
 Finally use the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. Since the transported bind composition and each downstream consumer read the same displayed rows and no external coordinate, the finite route received by each consumer is natural in the accepted packet.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad Kleisli source triangle]
+\label{thm:cauchy-completion-monad-kleisli-source-triangle}
+For every accepted $\CauchyCompletionMonadUp$ packet, the route that first reads a unit packet, then reads a bind packet, and then passes to a downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ completion consumer has the same displayed source triangle as the flattened consumer route. The source-family row, unary schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, diagonal $\RegSeqRatUp$ readback, public $\RealUp$ seal, $\BHist$, $\hsame$, displayed $\Cont$ route, $\Pkg$, and local $\NameCert$ row are read in the same finite order, with no additional completion source inserted between bind and consumer.
+\end{theorem}
+\begin{proof}
+Start with the unit boundary and the left-unit law, \autoref{thm:cauchy-completion-monad-unit-boundary} and \autoref{thm:cauchy-completion-monad-left-unit-law}. They identify the unit packet with the displayed constant source-family, schedule, dyadic-observation, diagonal-readback, and seal rows.
+
+Next attach the bind side using finite bind-domain coverage from \autoref{thm:cauchy-completion-monad-finite-bind-domain-coverage}. The bind packet can read only the source-family, schedule, finite-window, dyadic-observation, readback, seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Now compare the resulting route with the flattened completion source of \autoref{thm:cauchycompletionmonad-flattened-completion-source}. It presents the same rows before any completion consumer is allowed to inspect a seal-facing coordinate.
+
+Finally apply completion-consumer naturality from \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. Since the downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumers receive exactly the displayed finite route, the unit-bind-consumer path and the flattened consumer path have the same source triangle.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad Kleisli seal coherence]
+\label{thm:cauchy-completion-monad-kleisli-seal-coherence}
+In every accepted $\CauchyCompletionMonadUp$ packet, the left-unit route, the right-unit route, and the associative-bind route reach the same public $\RealUp$ seal route after componentwise $\hsame$ transport of the source-family, schedule, finite-window, dyadic-observation, diagonal-readback, $\Cont$, $\Pkg$, and local $\NameCert$ rows. Thus the Kleisli consumer boundary has one seal-facing route for unit, bind, and reassociated bind reads.
+\end{theorem}
+\begin{proof}
+First read the unit laws. Apply \autoref{thm:cauchy-completion-monad-left-unit-law} for the source-side unit route and \autoref{thm:cauchy-completion-monad-right-unit-law} for the consumer-side unit route.
+
+Next read reassociation through \autoref{thm:cauchy-completion-monad-associative-bind-law}. It keeps the bind route on the same source families, schedules, finite windows, dyadic observations, diagonal readbacks, and seal rows after componentwise $\hsame$ transport.
+
+The common seal route is supplied by the flattened seal route of \autoref{thm:cauchycompletionmonad-flattened-seal-route}. Real seal functoriality from \autoref{thm:cauchy-completion-monad-real-seal-functoriality} then transports this route through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finish with completion-consumer naturality from \autoref{thm:cauchy-completion-monad-completion-consumer-naturality}. Each downstream completion consumer reads the same transported finite route, so left-unit, right-unit, and associative-bind presentations reach one public $\RealUp$ seal route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad Kleisli non-escape]
+\label{thm:cauchy-completion-monad-kleisli-non-escape}
+The assembled Kleisli consumer route for an accepted $\CauchyCompletionMonadUp$ packet exports no quotient stream, selected limit, host real equality, hidden representative, or ambient completeness coordinate. Its only exported completion-facing data are the displayed source-family row, unary schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, diagonal $\RegSeqRatUp$ readback, public $\RealUp$ seal route, $\BHist$, $\hsame$, displayed $\Cont$ route, $\Pkg$, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the Kleisli source triangle from \autoref{thm:cauchy-completion-monad-kleisli-source-triangle}. It ties the unit packet, bind packet, and downstream completion consumer to the same displayed finite source route.
+
+Use Kleisli seal coherence from \autoref{thm:cauchy-completion-monad-kleisli-seal-coherence} to identify the seal-facing side. The left-unit, right-unit, and associative-bind presentations all reach the same public $\RealUp$ seal route under componentwise transport.
+
+Finally apply the flattened non-escape package of \autoref{thm:cauchycompletionmonad-flattened-non-escape-package}. That package excludes quotient streams, selected limits, host real equality, hidden representatives, and ambient completeness coordinates from the flattened completion route, and the Kleisli consumer route has just been identified with that route on both source and seal sides.
+\end{proof}
+
 \closureat{CauchyCompletionMonadUp}{seedStr}
 \closureat{CauchyCompletionMonadUp}{obligationStr}
 \closureat{CauchyCompletionMonadUp}{scopedStr}
