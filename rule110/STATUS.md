@@ -11,7 +11,7 @@ The master plan is `ROADMAP.md`.
 
 - **当前状态**: Tier A (cyclic-tag witness) 接近 ship. 信任基 ≈ 250 行 C + 文本 manifest, Lean kernel 不在 trust path.
 - **下一步**: T-A.1~T-A.8 收尾, 预估 1-3 天.
-- **严格目标 (Tier B)**: Rule 110 物理 witness via Cook construction. Martinez phase / collision catalogs 已接入, 外部资料阻塞解除; 剩余为 phase 验证、packet composition 和 `.r110` round-trip 工程工作.
+- **严格目标 (Tier B)**: Rule 110 物理 witness via Cook construction. FKernel `.r110` direct-carrier manifests 已接入 `make test`; Martinez phase / collision catalogs 已接入, 剩余为 phase 验证和 packet composition.
 
 L4 cross-check / L5 Beyond-FKernel mirrors 重新定位为开发工具 / 附录, 见 ROADMAP §"Lean / L4 / L5 重新定位".
 
@@ -106,7 +106,8 @@ The visible manifest and semantic assertion totals from `make test` are:
 
 ## Module Coverage
 
-The current cyclic-tag manifest surface covers 13 FKernel modules:
+The current cyclic-tag manifest surface covers 13 FKernel modules plus
+GroundCompiler:
 
 - Mark
 - Hist
@@ -121,6 +122,16 @@ The current cyclic-tag manifest surface covers 13 FKernel modules:
 - Package
 - NameCert
 - Settled
+- GroundCompiler
+
+The current Rule 110 direct-carrier surface covers 25 FKernel `.r110.ct`
+manifests: Mark 4, Hist 5, Ext 1, Sig 2, Cont 1, Bundle 2, Unary 1, Ask 1,
+ExternalBinary 1, Gap 1, Package 1, NameCert 1, Settled 1, and GroundCompiler
+3. All source `.enum.ct` files have `PRODUCTIONS 0`. The generated carrier
+cases cover every binary `input=` assertion; `ground_compiler/reject_reasons`
+has two non-binary/display-only assertions outside direct carrier encoding.
+The Beyond-FKernel appendix directories `circle_up`, `fold_up`, `meta_cic`,
+and `topology_up` intentionally have no `.r110.ct` manifests in this scope.
 
 ## Deliberate Gaps
 

@@ -1,0 +1,11 @@
+R110_MANIFEST 1
+SOURCE_CT rule110/manifests/ground_compiler/reject_reasons.enum.ct
+CONSTRUCTION direct_initial_payload
+INITIAL_LENGTH 48
+ASSERTIONS 4
+case dangling_one: input=1 ; rule110_initial=000000000000000010000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=1 ; expected_payload=1 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case unfinished_event: input=010 ; rule110_initial=000000000000000001000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=3 ; expected_payload=010 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+skip nonbinary_character: reason=nonbinary_input
+case empty_input_policy: input= ; rule110_initial=000000000000000000000000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=0 ; expected_payload= ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case resource_bound_excess: input=00011 ; rule110_initial=000000000000000000011000000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=5 ; expected_payload=00011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+skip noncanonical_display: reason=no_input_field

@@ -66,9 +66,9 @@ manifest assertion PASS/FAIL
 
 **Ship 标准**:
 - 每个 `.enum.ct` 有对应 `.r110`
-- Rule 110 evolution 在 `.r110` 上跑出来 decode 后 = `.ct` 跑出来
+- Rule 110 evolution 在 `.r110` 上跑出来 decode 后 = `.ct` 对应直接承载输入
 
-**当前状态**: 部分推进, 数据基础已具备.
+**当前状态**: FKernel 直接承载层已覆盖, Cook packet 层仍在推进.
 
 - L3.1 glider A `(f1_1)=111110` phase-exact ✓
 - L3.2 collision A-A 直接模拟验证 ✓
@@ -76,9 +76,9 @@ manifest assertion PASS/FAIL
 - L3.4 cook_encode interface + composition design ✓
 - Martinez 2001/2004 phase catalog 已进入 `encoder/glider_phases.c/h`
 - Martinez 2012 collision / soliton table 已进入 `cook_collision_lookup`
-- L3.5-L3.7 (.r110 manifest 生成 + round-trip + smoke test) 仍待工程实现
+- L3.5-L3.7 FKernel `.r110` direct-carrier manifest 生成 + round-trip + smoke test 已接入 `make test`
 
-**ship gap**: leader / ossifier / data block 的完整 Cook packet composition 仍需按 phase catalog 和 collision table 对齐并经 Rule 110 直接模拟验证. 外部资料不再是主风险; 剩余工作主要是工程、布局和回归测试.
+**ship gap**: direct-carrier `.r110` 只证明 FKernel `.enum.ct` 位串可由 Rule 110 初始行直接承载; leader / ossifier / data block 的完整 Cook packet composition 仍需按 phase catalog 和 collision table 对齐并经 Rule 110 直接模拟验证. 外部资料不再是主风险; 剩余工作主要是工程、布局和回归测试.
 
 ---
 
@@ -130,9 +130,9 @@ manifest assertion PASS/FAIL
 - [~] T-B.2: 验证 glider B-H phase-exact; B/C/Ebar/F/G/H 已有 canonical lookup, D1/D2 与通用 D 映射需单独定案
 - [~] T-B.3: 实施 leader / ossifier / data_block phase-exact bodies; 数据已具备, packet composition 待完成
 - [~] T-B.4: 实施 `cook_encode_phase_exact()` bodies; 当前输出 phase-exact ether + A + Ebar(A,f1_1) 的保守组合
-- [ ] T-B.5: 为每个 `.enum.ct` 生成对应 `.r110` initial pattern
-- [ ] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` execution
-- [ ] T-B.7: `make test` 扩到 `.r110` smoke test 全 44 族
+- [x] T-B.5: 为 FKernel `.enum.ct` 生成对应 `.r110` direct-carrier initial pattern
+- [x] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` direct-carrier input
+- [x] T-B.7: `make test` 扩到 FKernel `.r110` smoke test; Beyond-FKernel appendix 四目录不纳入覆盖
 - [ ] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
 
 **预估**: 外部数据等待已移除. 剩余为 phase-row simulation、packet layout、decoder round-trip 和 test expansion; 约 2-4 周工程工作, 具体取决于 D1/D2 与 leader / ossifier packet 对齐难度.

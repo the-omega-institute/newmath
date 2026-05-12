@@ -1,0 +1,17 @@
+R110_MANIFEST 1
+SOURCE_CT rule110/manifests/ask/ask_basic.enum.ct
+CONSTRUCTION direct_initial_payload
+INITIAL_LENGTH 52
+ASSERTIONS 12
+case p0_empty_b0_ev0: input=101111011011 ; rule110_initial=0000000000000000101111011011000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=12 ; expected_payload=101111011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p0_e0_b1_ev1: input=101101110111011 ; rule110_initial=0000000000000000101101110111011000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=15 ; expected_payload=101101110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p1_empty_b1_ev1: input=010111110111011 ; rule110_initial=0000000000000000010111110111011000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=15 ; expected_payload=010111110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p1_e0_b0_ev0: input=01011011011011 ; rule110_initial=0000000000000000010110110110110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=14 ; expected_payload=01011011011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p2_e1e0_b0_ev0: input=00101110011011011 ; rule110_initial=0000000000000000001011100110110110000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=17 ; expected_payload=00101110011011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p3_e0e1e1_b0_ev0: input=00010110101011011011 ; rule110_initial=0000000000000000000101101010110110110000000000000000 ; steps=0 ; payload_start=16 ; payload_len=20 ; expected_payload=00010110101011011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p0_empty_wrong_mark: input=1011111011011 ; rule110_initial=0000000000000000101111101101100000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=13 ; expected_payload=1011111011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p0_empty_wrong_evidence: input=1011110111011 ; rule110_initial=0000000000000000101111011101100000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=13 ; expected_payload=1011110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p1_empty_wrong_mark: input=01011110111011 ; rule110_initial=0000000000000000010111101110110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=14 ; expected_payload=01011110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case p1_e0_wrong_evidence: input=010110110111011 ; rule110_initial=0000000000000000010110110111011000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=15 ; expected_payload=010110110111011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case malformed_probe: input=1111011011 ; rule110_initial=0000000000000000111101101100000000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=10 ; expected_payload=1111011011 ; encoding=direct_bit_payload ; construction=direct_initial_payload
+case trailing_input: input=10111101101111 ; rule110_initial=0000000000000000101111011011110000000000000000000000 ; steps=0 ; payload_start=16 ; payload_len=14 ; expected_payload=10111101101111 ; encoding=direct_bit_payload ; construction=direct_initial_payload
