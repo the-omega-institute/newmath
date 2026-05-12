@@ -168,6 +168,7 @@ endpoint, radius, comparison, precision, modulus, transport, continuation,
 package, and name row displayed by $w,h,c,p,n$. Conversely, every displayed
 row of this form is accepted as a $\RegularityModulusUp$ consumer read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularityModulusUp.RegularityModulusPacket\_dyadic\_window\_exactness}
 \begin{proof}
 Project $R$ through
 \autoref{def:regularitymodulus-dyadic-window-carrier}. The carrier stores the
@@ -235,6 +236,43 @@ Carrier-coordinate exhaustion gives the conclusion. Since neither packet has
 a coordinate for quotient streams, selected limits, hidden modulus selection,
 host real equality, or choice-based tails, none of those objects can be
 exported by the common window.
+\end{proof}
+
+\begin{theorem}[RegularityModulus shared-rate consumer exhaustion]
+\label{thm:regularitymodulus-shared-rate-consumer-exhaustion}
+For compatible accepted $\RegularityModulusUp$ packets
+$$
+R=(k,m,w,h,c,p,n)
+\quad\text{and}\quad
+R'=(k',m',w',h',c',p',n'),
+$$
+any $\RegSeqRatUp$ or $\RealUp$ consumer read factors through the common
+finite $\mathsf{BHist}$ window carrying the shared precision row, modulus row,
+dyadic endpoint rows, transported window, $\hsame$ rows, $\Cont$ routes,
+$\Pkg$ provenance, and $\NameCert$ surface. The consumer read has no quotient
+stream, selected limit, hidden modulus selector, host real equality, or
+choice-based tail.
+\end{theorem}
+\begin{proof}
+Project both packets through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The carrier exposes
+only precision, modulus, dyadic-window, transport, continuation, package, and
+local naming rows.
+
+Apply \autoref{thm:regularitymodulus-common-window-exactness}. It supplies the
+common finite readback window carrying the shared precision row, modulus row,
+transported dyadic endpoint rows, $\hsame$ witnesses, $\Cont$ routes,
+provenance, and local certificate surface.
+
+For a $\RegSeqRatUp$ consumer, use
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary}. For a
+$\RealUp$ consumer, use
+\autoref{thm:regularitymodulus-realup-seal-handoff}. Both handoffs consume
+only the finite rows already present in the common window.
+
+Since neither packet carries a quotient stream, selected limit, hidden modulus
+selector, host real equality, or choice-based tail, no consumer read can
+export any of those objects.
 \end{proof}
 
 \begin{theorem}[RegularityModulus obligation completeness]
@@ -367,7 +405,7 @@ choice-based tail from the packet.
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness} records the obligation catalogue over the dyadic-window carrier, monotonicity, $\RegSeqRatUp$ consumption, $\RealUp$ seal handoff, dyadic-window exactness, and common-window exactness.}
+  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, and \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, and $\RealUp$ consumer rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
