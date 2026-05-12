@@ -434,4 +434,28 @@ theorem PicardContractionPacket_public_banach_cauchyrate_factorization
       iteratesModulusRateSource, banachRateSourceRead, namePkg, rateSourcePkg,
       banachReadPkg⟩
 
+theorem PicardContractionPacket_finite_modulus_obligation_triad [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont endpoint transport sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory banach /\ UnaryHistory lipschitz /\ UnaryHistory modulus /\
+            UnaryHistory sealRead /\ Cont banach contraction lipschitz /\
+              Cont iterates modulus endpoint /\ Cont endpoint transport sealRead /\
+                PkgSig bundle name pkg /\ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet endpointTransportSealRead sealReadPkg
+  obtain ⟨banachUnary, _contractionUnary, lipschitzUnary, _iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportSealRead
+  exact
+    ⟨banachUnary, lipschitzUnary, modulusUnary, sealReadUnary, banachContractionLipschitz,
+      iteratesModulusEndpoint, endpointTransportSealRead, namePkg, sealReadPkg⟩
+
 end BEDC.Derived.PicardContractionUp
