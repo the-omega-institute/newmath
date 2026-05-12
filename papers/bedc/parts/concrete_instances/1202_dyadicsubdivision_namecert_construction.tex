@@ -35,6 +35,7 @@ The seed $\NameCert_{\DyadicSubdivisionUp}$ obligation surface has five rows:
 \end{enumerate}
 These rows are the full seed naming surface for finite dyadic subdivision certificates.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionSource\_namecert\_obligations}
 \begin{proof}
 Project the packet of \autoref{def:dyadic-subdivision-source}. The carrier row displays the parent interval, common level, finite ordered list, mesh-cell family, validated containment family, package provenance, and local certificate row.
 
@@ -47,6 +48,7 @@ Stability and exactness are then read from the same finite ledger. Refinement ap
 \label{thm:dyadic-subdivision-refinement-stability}
 Let $S=(I,L,C,M,V,P,N)$ be an accepted $\DyadicSubdivisionUp$ packet. If $S'$ is obtained by replacing each mesh entry in $M$ by a finite displayed $\DyadicMeshUp$ refinement whose rational-interval boundary transports to the same parent row $I$, and by transporting the corresponding containment entries in $V$ along the same routes, then $S'$ is an accepted $\DyadicSubdivisionUp$ packet for the same parent interval.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionPacket\_refinement\_stability}
 \begin{proof}
 Start with the finite subdivision packet. The parent interval row $I$, package provenance $P$, and local name row $N$ are retained, so the outer naming surface is unchanged.
 
@@ -66,6 +68,7 @@ Each child coverage object is then projected from the matching $\DyadicMeshUp$ e
 
 Since the subdivision carrier contains no further coverage coordinate, the parent coverage surface is exhausted by $C$ and $M$. Infinite meshes, host subsets, and interval-tree data are outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionSource\_mesh\_coverage}
 
 \begin{theorem}[DyadicSubdivision validated enclosure handoff]
 \label{thm:dyadic-subdivision-validated-enclosure-handoff}
@@ -77,6 +80,20 @@ Project the carrier. The validated-numerics side first sees the parent interval,
 For each child, read the matching $\DyadicMeshUp$ packet and the corresponding $\ValidatedNumericsUp$ containment row. The $\hsame$ transports and $\Cont$ routes ensure that the mesh boundary and containment ledger are read along the same finite cell route.
 
 Thus the handoff is the finite enclosure subdivision formed by these rows. No coordinate supplies solver correctness, hardware semantics, classical completeness, or an infinite refinement principle.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision refinement composition]
+\label{thm:dyadic-subdivision-refinement-composition}
+Let $S=(I,L,C,M,V,P,N)$ be an accepted $\DyadicSubdivisionUp$ packet. Suppose $S'$ is obtained from $S$ by displayed finite $\DyadicMeshUp$ refinement routes over the same parent $\RationalIntervalUp$ row $I$, and suppose $S''$ is obtained from $S'$ by a second displayed finite family of $\DyadicMeshUp$ refinement routes over the same parent row. Then $S''$ is an accepted $\DyadicSubdivisionUp$ packet for $I$.
+
+The mesh coverage and validated enclosure handoff exported by $S''$ are the composed finite ledger: first the refined child rows from $S$ to $S'$, then the refined child rows from $S'$ to $S''$, together with the transported $\ValidatedNumericsUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The composition asserts no interval-tree semantics, infinite refinement process, host real subset, or solver-correctness theorem.
+\end{theorem}
+\begin{proof}
+Apply refinement stability to the first displayed refinement family. The result is the accepted packet $S'$ over the same parent interval row $I$, with only its finite cell ledger, mesh rows, and validated containment rows refined.
+
+Apply refinement stability again to the second displayed refinement family. Since its routes are also over the same parent row, the second application yields an accepted packet $S''$ whose parent interval and provenance surface remain the displayed rows of the original packet.
+
+It remains to identify the consumer surface. Mesh coverage reads only the finite ordered cell list and the $\DyadicMeshUp$ packets; validated enclosure handoff reads the matching $\ValidatedNumericsUp$ rows along the same routes. Chaining those two finite ledgers gives the composed mesh and enclosure surface named in the statement, with no additional infinite or host-level object.
 \end{proof}
 
 \closureat{DyadicSubdivisionUp}{seedStr}

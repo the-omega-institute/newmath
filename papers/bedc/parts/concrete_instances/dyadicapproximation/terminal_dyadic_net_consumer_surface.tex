@@ -1,0 +1,74 @@
+\begin{definition}[DyadicApproximation terminal dyadic-net consumer surface]
+\label{def:dyadicapproximation-terminal-dyadic-net-consumer-surface}
+Let $T$ be an accepted terminal $\DyadicApproximationUp$ finite packet and let
+$D$ be an accepted $\RealDiagonalCompletionUp$ packet matched to $T$ by the
+displayed terminal diagonal handoff. The terminal dyadic-net consumer surface
+of $(T,D)$ is the finite $\mathsf{BHist}$ surface consisting exactly of the
+terminal precision row, the transported dyadic endpoint row, the
+$\RationalIntervalUp$ cell, the $\DyadicMeshUp$ selector row, the
+$\ValidatedNumericsUp$ enclosure row, the scheduled $\StreamNameUp$ window,
+the $\RegSeqRatUp$ readback row, the $\RealUp$ seal row, the
+$\RealDiagonalCompletionUp$ selector row, the visible $\hsame$ rows, the
+visible $\Cont$ routes, the $\Pkg$ provenance rows, and the visible
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$,
+$\NameCert_{\ValidatedNumericsUp}$, $\NameCert_{\RealUp}$, and
+$\NameCert_{\RealDiagonalCompletionUp}$ rows.
+\end{definition}
+
+\begin{theorem}[DyadicApproximation terminal dyadic-net consumption]
+\label{thm:dyadicapproximation-terminal-dyadic-net-consumption}
+Let $T$ be an accepted terminal $\DyadicApproximationUp$ finite packet and let
+$D$ be an accepted $\RealDiagonalCompletionUp$ packet matched to $T$ by the
+displayed terminal diagonal handoff. Suppose a terminal dyadic-net consumer
+reads $T$ through any displayed route built from the terminal finite-packet
+$\RealUp$ readback, the interval-mesh readback, the terminal diagonal
+readback, and the $\StreamNameUp$ real-seal factorization rows.
+
+Then the consumer factors through the terminal dyadic-net consumer surface of
+\autoref{def:dyadicapproximation-terminal-dyadic-net-consumer-surface}. Its
+observable coordinates are exactly the terminal precision, dyadic endpoint,
+rational interval cell, $\DyadicMeshUp$ selector, $\ValidatedNumericsUp$
+enclosure, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal,
+$\RealDiagonalCompletionUp$ selector, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows listed there. The factorization exports no quotient streams,
+selected host limits, solver correctness, metric completeness, or host real
+equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicApproximationUp.DyadicApproximationCarrier\_terminal\_dyadic\_net\_consumption}
+\begin{proof}
+First normalize the terminal real readback. Apply
+\autoref{thm:dyadicapproximation-terminal-finite-packet-real-readback} to the
+accepted terminal packet $T$. This exposes the terminal precision, transported
+endpoint, scheduled stream window, regular-rational readback, $\RealUp$ seal
+ledger, transport rows, continuation routes, package provenance, and local
+dyadic certificate row.
+
+Next attach the interval net. Apply
+\autoref{thm:dyadicapproximation-terminal-interval-mesh-readback-totality}.
+The terminal read is total over the displayed rational interval cell, the
+$\DyadicMeshUp$ selector, the $\ValidatedNumericsUp$ enclosure row, and the
+same terminal finite-packet real boundary.
+
+Now compose with the diagonal consumer. Apply
+\autoref{thm:dyadicapproximation-terminal-diagonal-readback-composition} to
+the matched pair $(T,D)$. The diagonal route contributes the
+$\RealDiagonalCompletionUp$ selector and keeps the same precision, endpoint,
+stream window, regular-rational readback, real seal, transports,
+continuations, package rows, and local certificate rows.
+
+Finally identify the stream seal source. Apply
+\autoref{thm:dyadicapproximation-finite-packet-streamname-real-seal-factorization}.
+It identifies the scheduled $\StreamNameUp$ finite-window row,
+$\RegSeqRatUp$ readback, dyadic endpoint rows, terminal precision row,
+$\RealUp$ seal token, diagonal selector row, transport rows, continuation
+rows, package provenance, and local dyadic certificate provenance as one
+finite packet surface.
+
+The four normal forms list the same terminal coordinates and no additional
+coordinate. Repacking those coordinates gives exactly the surface of
+\autoref{def:dyadicapproximation-terminal-dyadic-net-consumer-surface}. Since
+the cited rows contain no quotient-stream representative, selected host
+limit, solver-correctness proof, metric-completeness witness, or host
+real-equality field, the resulting consumer surface exports none of those
+data.
+\end{proof}

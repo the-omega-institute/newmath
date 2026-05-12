@@ -49,6 +49,58 @@ The modulus coordinate $M$ chooses the finite window $W$ where the relevant tail
 Conversely, a $\RealUp$ equality read that is certified by this packet can project only the difference stream, tolerance schedule, window, bound, seal, continuation, and provenance rows. Those are exactly the coordinates of \autoref{def:null-sequence-namecert-carrier}, so the classifier consumption is neither stronger nor weaker than the displayed null-difference packet.
 \end{proof}
 
+\begin{definition}[NullSequence tolerance-window exactness package]
+\label{def:null-sequence-tolerance-window-exactness-package}
+For an accepted $\NullSequenceUp$ packet
+$$
+Z=(D,T,W,M,E,H,C,P,N),
+$$
+the tolerance-window exactness package is the same finite tuple, read with the following obligation-level roles:
+\begin{enumerate}
+\item $D$ is the displayed $\RegSeqRatUp$ difference row whose zero-convergence is being consumed;
+\item $T$ is the accepted dyadic tolerance request row;
+\item $W$ is the $\StreamNameUp$ window selected for that tolerance request;
+\item $M$ is the $\CauchyModulusUp$ or $\RegularityModulusUp$ threshold row binding the request in $T$ to the window in $W$;
+\item $E$ is the $\RealUp$ seal row that reads the resulting null-difference evidence;
+\item $H$ records the componentwise $\hsame$ transports for difference rows, tolerance rows, windows, thresholds, and seal rows;
+\item $C$ records the $\Cont$ routes from the consumer request to $T$, from $T$ to $W$ and $M$, and from the certified difference row to $E$;
+\item $P$ and $N$ record the dependency package and local $\NameCert_{\NullSequenceUp}$ provenance.
+\end{enumerate}
+The package is exact when every accepted tolerance request reaches the displayed threshold row $M$ and window $W$ before the $\RealUp$ seal reads the row $E$. No coordinate of the package is a host limit, an unrecorded tail estimate, or a quotient of difference streams.
+\end{definition}
+
+\begin{theorem}[NullSequence window threshold exactness]
+\label{thm:null-sequence-window-threshold-exactness}
+Let $Z=(D,T,W,M,E,H,C,P,N)$ be an accepted $\NullSequenceUp$ packet equipped with the tolerance-window exactness package of \autoref{def:null-sequence-tolerance-window-exactness-package}. Every accepted tolerance request consumed by $Z$ is routed through the displayed tolerance row $T$, the displayed observation window $W$, and the displayed bound row $M$ before it reaches any $\RealUp$ seal read.
+
+Thus the zero-convergence evidence exported by $Z$ is exhausted by the $\RegSeqRatUp$ difference row, the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ window, the $\CauchyModulusUp$ or $\RegularityModulusUp$ threshold, and the recorded $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. It contains no unrecorded tail estimate and no host limit.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates of $Z$. The tolerance request is the coordinate $T$, so any consumer read first lands in the displayed dyadic tolerance schedule rather than in an ambient metric statement.
+
+The window coordinate $W$ and threshold coordinate $M$ are then selected by the recorded $\Cont$ route. The bound row says that the inspected tail of the displayed difference stream $D$ is below the tolerance named by $T$ on precisely that finite window.
+
+Transport between equivalent presentations is componentwise. The rows in $H$ move the difference row, tolerance row, window, threshold, and seal row, while $C$ preserves the order in which the consumer reaches them.
+
+Finally, $P$ and $N$ certify the same dependency and local naming provenance after transport. Since the only outgoing seal read is the row $E$, every accepted tolerance request has passed through $T$, $W$, and $M$, and there is no remaining coordinate from which an unrecorded tail estimate or host limit could be exported.
+\end{proof}
+
+\begin{theorem}[NullSequence Real seal factorization]
+\label{thm:null-sequence-real-seal-factorization}
+For two $\RealUp$ seal rows presented by regular rational names, any $\RealUp$ classifier consumption certified by a $\NullSequenceUp$ packet factors through the same $\RegSeqRatUp$ difference row $D$, dyadic tolerance schedule $T$, observation window $W$, threshold row $M$, seal row $E$, and provenance package $(H,C,P,N)$ of \autoref{def:null-sequence-tolerance-window-exactness-package}.
+
+Equivalently, the $\RealUp$ equality read cannot bypass the displayed null-difference package by using an unstated stream representative, a host real limit, a hidden tail estimate, trichotomy, or choice.
+\end{theorem}
+\begin{proof}
+Start with the $\RealUp$ classifier consumption theorem \autoref{thm:null-sequence-real-classifier-consumption}. It identifies a $\NullSequenceUp$ packet as the finite witness that the real equality classifier may consume for the displayed regular-rational difference row.
+
+Apply \autoref{thm:null-sequence-window-threshold-exactness} to that packet. The theorem forces each tolerance read to pass through the tolerance schedule $T$, the window $W$, and the threshold $M$ before reaching the seal row $E$.
+
+The remaining coordinates are provenance rather than extra analytic data. The $\hsame$ rows in $H$, the $\Cont$ routes in $C$, and the package and local naming rows $P,N$ record how the same difference, tolerance, window, threshold, and seal rows are transported.
+
+Therefore the real-seal consumption factors through exactly the displayed package. Any route using a different stream representative, host limit, hidden tail estimate, trichotomy, or choice would require a coordinate absent from the carrier of \autoref{def:null-sequence-namecert-carrier}.
+\end{proof}
+
 \begin{theorem}[NullSequence non-escape boundary]
 \label{thm:null-sequence-non-escape-boundary}
 An accepted $\NullSequenceUp$ packet exports no Dedekind cut, no quotient of streams, no host real equality, no trichotomy principle, and no real-completeness theorem. Every public zero-convergence read factors through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$ or $\RegularityModulusUp$, and $\RealUp$ rows.
@@ -71,6 +123,22 @@ The input side is the displayed $\RegSeqRatUp$ difference stream together with t
 The witnessing side is the finite window and bound row. For each tolerance request, the packet records the window after which the displayed difference observations are below the requested dyadic bound.
 
 The output side is the $\RealUp$ seal-consumption row. It reads the finite zero-convergence ledger as equality evidence for regular rational names while withholding Dedekind cuts, quotient streams, host real equality, trichotomy, and real completeness.
+\end{proof}
+
+\begin{theorem}[NullSequence zero-tail criterion]
+\label{thm:null-sequence-zero-tail-criterion}
+Let $Z=(D,T,W,M,E,H,C,P,N)$ be an accepted $\NullSequenceUp$ packet over a displayed $\RegSeqRatUp$ difference stream. A $\RealUp$ equality-classifier consumer read is admitted by $Z$ exactly when the read factors through the tolerance schedule $T$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ bound row read by $M$, the $\Cont$ routes in $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\NullSequenceUp}$ row recorded by the tolerance-window package of \autoref{def:null-sequence-tolerance-window-exactness-package}.
+
+Thus the classifier-facing zero-tail read for regular rational names is the same finite tolerance-window packet, transported through $H$ and sealed by $E$, and not an additional real-limit datum.
+\end{theorem}
+\begin{proof}
+First project the accepted tolerance request. By \autoref{thm:null-sequence-window-threshold-exactness}, the request must pass through the displayed dyadic schedule $T$, the observation window $W$, and the threshold row $M$ before it reaches any $\RealUp$ seal row.
+
+Next apply \autoref{thm:null-sequence-real-seal-factorization}. The real equality classifier can consume the zero-tail evidence only after that same stream, tolerance, window, threshold, seal, transport, continuation, package, and local certificate package has been read.
+
+For the converse direction, suppose the consumer read already factors through these displayed rows. The tolerance-window package supplies the bound row and window for the requested tolerance, and the factorization theorem routes the resulting null-difference evidence into the seal row $E$.
+
+Finally use \autoref{thm:null-sequence-non-escape-boundary}. Since no host limit, quotient stream, hidden tail estimate, trichotomy, or completeness object is exported by the packet, an admitted $\RealUp$ zero-tail read is exactly the finite route just described.
 \end{proof}
 
 \closureat{NullSequenceUp}{seedStr}
