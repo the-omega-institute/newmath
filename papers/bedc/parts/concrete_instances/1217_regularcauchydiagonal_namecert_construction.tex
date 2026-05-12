@@ -136,6 +136,42 @@ Selector stability is \autoref{thm:regular-cauchy-diagonal-selector-stability}, 
 Stationary seal exactness is \autoref{thm:regular-cauchy-diagonal-stationary-seal-exactness}. Completion-consumer routing is \autoref{thm:regular-cauchy-diagonal-completion-consumer-bridge}. Repacking these five projections gives the bridge-facing package, while the source and carrier definitions exclude quotient streams, selected host limits, and ambient completeness rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy diagonal standard bridge source]
+\label{thm:regular-cauchy-diagonal-standard-bridge-source}
+For every accepted source row $D=(Q,S,R,L,W,P,N)$, the $\RegularCauchyDiagonalUp$ bridge source is the finite tuple consisting of the $\RatUp$ seed $Q$, the $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ diagonal readback $R$, the $\RealUp$ seal $L$, the diagonal-window ledger $W$, the package row $P$, and the local $\NameCert$ row $N$, together with the displayed $\mathsf{BHist}$ carrier, $\hsame$ classifier, $\Cont$ routes, selector-stability proof, window-coverage proof, stationary-compatibility proof, and seal handoff to $\RealUp$. This tuple is a standard BEDC bridge source from the diagonal selector package to the real-completion consumer surface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:regular-cauchy-diagonal-source} and \autoref{def:regular-cauchy-diagonal-carrier}. These definitions supply exactly the visible carrier coordinates $Q$, $S$, $R$, $L$, $W$, $P$, and $N$, and they identify the classifier as componentwise $\hsame$ transport with displayed $\Cont$ routes.
+
+The consumer-facing coverage row is \autoref{thm:regular-cauchy-diagonal-window-coverage}. Selector stability is \autoref{thm:regular-cauchy-diagonal-selector-stability}, and stationary rational compatibility is \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}. These three rows keep every selected diagonal read inside the displayed $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ surface.
+
+Finally apply the local NameCert obligation surface of \autoref{thm:regular-cauchy-diagonal-namecert-obligations} and the $\RealUp$ seal handoff of \autoref{thm:regular-cauchy-diagonal-real-seal-handoff}. Repacking these rows gives the standard bridge source; no additional host completion object is needed to form the source.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal bridge readback exactness]
+\label{thm:regular-cauchy-diagonal-bridge-readback-exactness}
+Reading the $\RegularCauchyDiagonalUp$ bridge source of \autoref{thm:regular-cauchy-diagonal-standard-bridge-source} back through its public surface recovers exactly the displayed tuple $D=(Q,S,R,L,W,P,N)$. The readback preserves the selector classifier because the only inspected rows are the $\RatUp$ seed, $\StreamNameUp$ window row, $\RegSeqRatUp$ diagonal readback, $\RealUp$ seal, finite window ledger, package provenance, and local $\NameCert$ provenance transported componentwise by $\hsame$ and $\Cont$.
+\end{theorem}
+\begin{proof}
+Read the bridge source by projecting its carrier coordinate. By \autoref{def:regular-cauchy-diagonal-source}, the carrier contains the seven displayed coordinates $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ and no further completion coordinate.
+
+The bridge readback route is the same route used for diagonal-window coverage. Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} to identify the selected window and the matching $\StreamNameUp$ and $\RegSeqRatUp$ rows, then apply \autoref{thm:regular-cauchy-diagonal-real-seal-handoff} to identify the exported seal row as $L$.
+
+It remains to check the selector classifier. This is exactly \autoref{thm:regular-cauchy-diagonal-selector-stability}: componentwise $\hsame$ and $\Cont$ transport preserves the selected diagonal row and hence preserves the public readback tuple.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal bridge non-escape]
+\label{thm:regular-cauchy-diagonal-bridge-non-escape}
+The $\RegularCauchyDiagonalUp$ standard bridge source exports no quotient stream, no selected host limit, no ambient completeness theorem, and no host equality. Every bridge consumer read factors through the displayed tuple $D=(Q,S,R,L,W,P,N)$, the finite window ledger, the $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows, and the local $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Inspect the source coordinates in \autoref{def:regular-cauchy-diagonal-source}. The tuple lists rational seed data, stream-window data, regular rational readback data, one real-seal row, finite windows, package provenance, and local certificate provenance.
+
+The carrier definition in \autoref{def:regular-cauchy-diagonal-carrier} adds only the displayed acceptance and classifier conditions. It does not add a quotient stream, a chosen host limit, an ambient completeness theorem, or host equality.
+
+The bridge source of \autoref{thm:regular-cauchy-diagonal-standard-bridge-source} is assembled from this same carrier together with window coverage, selector stability, stationary compatibility, NameCert obligations, and the RealUp seal handoff. Therefore every bridge read remains inside those named rows, and the listed host-level objects cannot be exported by the bridge.
+\end{proof}
+
 \closureat{RegularCauchyDiagonalUp}{seedStr}
 \closureat{RegularCauchyDiagonalUp}{obligationStr}
 \closureat{RegularCauchyDiagonalUp}{scopedStr}
