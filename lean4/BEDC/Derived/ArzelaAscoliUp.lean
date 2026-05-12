@@ -50,4 +50,37 @@ theorem ArzelaAscoliPacket_equicontinuity_net_handoff [AskSetup] [PackageSetup]
     ⟨sourceUnary, targetUnary, probesUnary, equicontUnary, imageUnary, finiteUnary,
       targetReadUnary, finiteRow, targetRow, finitePkg, targetPkg⟩
 
+theorem ArzelaAscoliPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {source target family probes equicont image modulus selections transport route provenance
+      nameCert finiteNet completionRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArzelaAscoliPacket source target family probes equicont image modulus selections transport
+        route provenance nameCert bundle pkg ->
+      Cont probes equicont finiteNet ->
+        Cont target selections completionRead ->
+          Cont finiteNet completionRead ledgerRead ->
+            PkgSig bundle ledgerRead pkg ->
+              UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory family ∧
+                UnaryHistory probes ∧ UnaryHistory equicont ∧ UnaryHistory image ∧
+                  UnaryHistory finiteNet ∧ UnaryHistory completionRead ∧
+                    UnaryHistory ledgerRead ∧ Cont probes equicont finiteNet ∧
+                      Cont target selections completionRead ∧
+                        Cont finiteNet completionRead ledgerRead ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle ledgerRead pkg := by
+  intro packet finiteRow completionRow ledgerRow ledgerPkg
+  obtain ⟨sourceUnary, targetUnary, familyUnary, probesUnary, equicontUnary, imageUnary,
+    _modulusUnary, selectionsUnary, _familyRow, _modulusRow, _provenanceRow,
+    provenancePkg⟩ := packet
+  have finiteUnary : UnaryHistory finiteNet :=
+    unary_cont_closed probesUnary equicontUnary finiteRow
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed targetUnary selectionsUnary completionRow
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed finiteUnary completionUnary ledgerRow
+  exact
+    ⟨sourceUnary, targetUnary, familyUnary, probesUnary, equicontUnary, imageUnary,
+      finiteUnary, completionUnary, ledgerUnary, finiteRow, completionRow, ledgerRow,
+      provenancePkg, ledgerPkg⟩
+
 end BEDC.Derived.ArzelaAscoliUp
