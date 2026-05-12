@@ -236,4 +236,33 @@ theorem PolicyActionLedgerCarrier_public_export_surface [AskSetup] [PackageSetup
       dependencySurface.right.right.right.right.right.right.right.right.right.right.left,
       dependencySurface.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem PolicyActionLedgerCarrier_finite_consumer_coverage [AskSetup] [PackageSetup]
+    {belief markov randomvar estimator decision ledger provenance endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolicyActionLedgerCarrier belief markov randomvar estimator decision ledger provenance
+        endpoint bundle pkg ->
+      Cont endpoint decision consumer ->
+        PkgSig bundle consumer pkg ->
+          ChapterTasteGate PolicyUp ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+            UnaryHistory endpoint ∧ UnaryHistory consumer ∧ Cont endpoint decision consumer ∧
+              hsame endpoint (append provenance decision) ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle consumer pkg := by
+  intro carrier consumerRow consumerPkg
+  have exportSurface :=
+    PolicyActionLedgerCarrier_public_export_surface (bundle := bundle) (pkg := pkg) carrier
+  have decisionUnary : UnaryHistory decision :=
+    carrier.right.right.right.right.left
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed exportSurface.right.right.right.right.left decisionUnary consumerRow
+  exact
+    ⟨exportSurface.left,
+      exportSurface.right.right.left,
+      exportSurface.right.right.right.left,
+      exportSurface.right.right.right.right.left,
+      consumerUnary,
+      consumerRow,
+      exportSurface.right.right.right.right.right.right.right.left,
+      exportSurface.right.right.right.right.right.right.right.right,
+      consumerPkg⟩
+
 end BEDC.Derived.PolicyUp
