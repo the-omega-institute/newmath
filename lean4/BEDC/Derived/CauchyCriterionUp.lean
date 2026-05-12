@@ -220,6 +220,35 @@ theorem CauchyCriterionCarrier_tail_bound_real_seal [AskSetup] [PackageSetup]
       windowModulusTolerance, toleranceLedgerRegseq, ledgerRealSealConsumer, endpointPkg,
       consumerPkg⟩
 
+theorem CauchyCriterionCarrier_scoped_tail_seal_transport [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont endpoint localCert scopedRead ->
+        PkgSig bundle scopedRead pkg ->
+          UnaryHistory window ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory ledger ∧ UnaryHistory regseq ∧ UnaryHistory realSeal ∧
+              UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory endpoint ∧
+                UnaryHistory scopedRead ∧ Cont window modulus tolerance ∧
+                  Cont tolerance ledger regseq ∧ Cont regseq realSeal transport ∧
+                    Cont transport localCert route ∧ Cont route provenance endpoint ∧
+                      Cont endpoint localCert scopedRead ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle scopedRead pkg := by
+  intro carrier endpointLocalCertScopedRead scopedReadPkg
+  obtain ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary,
+    realSealUnary, transportUnary, routeUnary, _provenanceUnary, localCertUnary,
+    endpointUnary, windowModulusTolerance, toleranceLedgerRegseq, regseqRealSealTransport,
+    transportLocalCertRoute, routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed endpointUnary localCertUnary endpointLocalCertScopedRead
+  exact
+    ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary, realSealUnary,
+      transportUnary, routeUnary, endpointUnary, scopedReadUnary, windowModulusTolerance,
+      toleranceLedgerRegseq, regseqRealSealTransport, transportLocalCertRoute,
+      routeProvenanceEndpoint, endpointLocalCertScopedRead, endpointPkg, scopedReadPkg⟩
+
 theorem CauchyCriterionCarrier_dyadic_tail_ledger_exactness [AskSetup] [PackageSetup]
     {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
       tailConsumer : BHist}
@@ -267,5 +296,31 @@ theorem CauchyCriterionCarrier_regseqrat_handoff_exhaustion [AskSetup] [PackageS
     ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary, realSealUnary,
       handoffUnary, windowModulusTolerance, toleranceLedgerRegseq, regseqRealSealHandoff,
       endpointPkg, handoffPkg⟩
+
+theorem CauchyCriterionCarrier_real_seal_scope [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      sealRead scopedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont ledger realSeal sealRead ->
+        Cont sealRead provenance scopedSeal ->
+          PkgSig bundle scopedSeal pkg ->
+            UnaryHistory sealRead ∧ UnaryHistory scopedSeal ∧ Cont window modulus tolerance ∧
+              Cont tolerance ledger regseq ∧ Cont ledger realSeal sealRead ∧
+                Cont sealRead provenance scopedSeal ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle scopedSeal pkg := by
+  intro carrier ledgerRealSealSealRead sealReadProvenanceScopedSeal scopedSealPkg
+  obtain ⟨_windowUnary, _modulusUnary, _toleranceUnary, ledgerUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, provenanceUnary, _localCertUnary,
+    _endpointUnary, windowModulusTolerance, toleranceLedgerRegseq, _regseqRealSealTransport,
+    _transportLocalCertRoute, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealSealRead
+  have scopedSealUnary : UnaryHistory scopedSeal :=
+    unary_cont_closed sealReadUnary provenanceUnary sealReadProvenanceScopedSeal
+  exact
+    ⟨sealReadUnary, scopedSealUnary, windowModulusTolerance, toleranceLedgerRegseq,
+      ledgerRealSealSealRead, sealReadProvenanceScopedSeal, endpointPkg, scopedSealPkg⟩
 
 end BEDC.Derived.CauchyCriterionUp
