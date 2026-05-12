@@ -17444,3 +17444,28 @@ Rationale:
 The LocatedCauchyUp carrier is the finite packet L=(S,D,M,W,H,C,P,N), with schedule S, dyadic endpoint family D, Cauchy modulus M, located-ball witnesses W, transport H, and Cont readback routes C at papers/bedc/parts/concrete_instances/809_locatedcauchy_namecert_construction.tex:11-41. The definition says a constant dyadic stream inhabits the carrier by repeating one scheduled dyadic endpoint and using degenerate located balls at each requested window at lines 37-40, and the window-stability theorem only handles refined requested windows generally at lines 61-70. The NameCert theorem uses constant-stream habitation at lines 86-103 but does not isolate the per-window degenerate readback as a theorem. Focused rg for `locatedcauchy.*degenerate|locatedcauchy.*constant.*window|constant dyadic.*window` returned no LocatedCauchy theorem label; the only nonlocal hit was a LocatedReal proof sentence. This is a boundary exactness theorem about a concrete existing carrier, and the target file has 200 lines with 4 theorem-like blocks.
 
 ---
+
+### B-691 - ExactGlobalizeBase subdomain base-change
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | ExactGlobalizeBase subdomain base-change |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If ExactGlobalizeBase(Π,D) holds and D′ is a subdomain of D, then the concrete signature Globalize structure restricted through InGapSig(Π,D′,p,h) satisfies ExactGlobalizeBase(Π,D′).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
+
+Rationale:
+This is a concrete proof-obligation theorem on the existing ExactGlobalizeBase surface rather than a marker or verification-status task. It is not present in the BOARD title index or paper labels, and it is not just a field projection: coverage must rebuild a D′ gap from the D coverage witness using the D′ admission premise, while soundness and completeness require pushing D′ gap memberships through the subdomain inclusion before applying the D exactness fields. The proposed landing files are non-hub theorem-bearing files and are below the line cap.
+
+---
