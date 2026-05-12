@@ -517,6 +517,46 @@ excluded completion, quotient, trichotomy, selection, located-subset, or choice
 coordinates, the nested chain exports none of them.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation terminal window idempotence]
+\label{thm:dyadicapproximation-terminal-window-idempotence}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. If $T$ is adjoined as one further compatible refinement,
+then the extended chain has the same terminal precision row, dyadic endpoint
+row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger,
+optional $\RationalIntervalUp$ containment row, visible $\hsame$ transports,
+visible $\Cont$ transports, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ ledger as the original chain.
+
+Thus repeating a terminal displayed window contributes no consumer-visible row.
+The extended read exports no quotient-real equality, host equality, completed
+real, choice principle, or selected representative coordinate beyond the rows
+already present in $T$.
+\end{theorem}
+\begin{proof}
+Start with the original finite chain. Apply
+\autoref{thm:dyadicapproximation-terminal-refinement-window} to obtain its
+terminal displayed window $T$ and the listed precision, endpoint, observation,
+seal, transport, package, containment, and local certificate rows.
+
+Now append $T$ as a compatible refinement packet. Applying
+\autoref{thm:dyadicapproximation-terminal-refinement-window} again produces a
+terminal row for the extended chain, but the new binary refinement step uses the
+same displayed terminal precision row as both the accumulated window and the
+adjoined packet.
+
+Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to compare the bracketing that first forms $T$ with the bracketing that first
+forms $T$ and then appends $T$. Associativity identifies the consumer-visible
+precision, endpoint, stream, regular-sequence, seal, containment, transport,
+package, and local ledger rows in the two bracketings.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Since
+all finite consumer reads factor through those identified rows, the appended
+terminal window has no additional quotient-real, host-equality, completion,
+choice, or selected-representative coordinate to export.
+\end{proof}
+
 \begin{theorem}[DyadicApproximation window RegSeqRat source exhaustion]
 \label{thm:dyadicapproximation-window-regseqrat-source-exhaustion}
 Every accepted $\DyadicApproximationUp$ packet together with a finite
