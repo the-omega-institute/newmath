@@ -139,10 +139,11 @@ $(TEST_DIR)/test_cook_leader: $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110
 TESTS += $(TEST_DIR)/test_cook_leader
 test: $(TEST_DIR)/test_cook_leader
 
-$(TEST_DIR)/test_cook_encode_empty: $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_encode.h
+$(TEST_DIR)/test_cook_encode_empty: $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_ossifier.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_encode.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/cook_encode.c
 
 TESTS += $(TEST_DIR)/test_cook_encode_empty
@@ -155,3 +156,13 @@ $(TEST_DIR)/test_manifest_runner_r110: $(TEST_DIR)/test_manifest_runner_r110.c $
 
 TESTS += $(TEST_DIR)/test_manifest_runner_r110
 test: $(TEST_DIR)/test_manifest_runner_r110
+
+$(TEST_DIR)/test_cook_encode_one: $(TEST_DIR)/test_cook_encode_one.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_ossifier.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_encode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_encode_one.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
+	    $(ENCODER_DIR)/cook_encode.c
+
+TESTS += $(TEST_DIR)/test_cook_encode_one
+test: $(TEST_DIR)/test_cook_encode_one
