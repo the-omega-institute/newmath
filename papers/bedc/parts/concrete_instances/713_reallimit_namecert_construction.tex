@@ -203,6 +203,42 @@ equality, or a selected limiting object. Those objects therefore cannot appear
 in the $\RealUp$-facing readback ledger.
 \end{proof}
 
+\begin{theorem}[RealLimit scoped window boundary]
+\label{thm:reallimit-scoped-window-boundary}
+The carrier, scheduled $\RegSeqRatUp$ handoff, common-refinement classifier,
+transport-stability boundary, and readback ledger exhaustion assemble a scoped
+finite $\RealLimitUp$ packet over $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$.
+
+The packet is finite and real-facing. It excludes $\RealUp$ completeness,
+quotient-stream equality, selected limits, and choice data.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $R=(S,Q,E,D,H,C,P,N)$ from
+\autoref{def:reallimit-bhist-carrier}. The coordinates are the schedule,
+regular rational source, real seal endpoint, dyadic tolerance rows,
+componentwise transport, continuation routes, package provenance, and local
+name-certificate ledger.
+
+Apply \autoref{thm:reallimit-regseqrat-streamname-handoff} before any seal
+read. This routes the real-facing coordinate $E$ through the finite
+$\StreamNameUp$ schedule, $\RegSeqRatUp$ source, $\DyadicRatCoreUp$ tolerance
+row, and the displayed $H,C,P,N$ rows.
+
+For paired packets, use
+\autoref{thm:reallimit-common-refinement-classifier}. Common finite
+refinements are the only classifier surface available to compare scheduled
+source reads. For replacement of rows, use
+\autoref{thm:reallimit-transport-stability-boundary}; the transported packet
+remains on the same displayed finite coordinates.
+
+Finally close by \autoref{thm:reallimit-readback-ledger-exhaustion}. The
+readback ledger is exhausted by $S,Q,E,D,H,C,P,N$, so the scoped boundary adds
+no completeness principle, quotient-stream equality, selected limit, or choice
+object beyond the finite packet.
+\end{proof}
+
 \begin{theorem}[RealLimit classifier obligation]
 \label{thm:reallimit-classifier-obligation}
 For accepted $\RealLimitUp$ packets
