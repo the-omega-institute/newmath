@@ -272,6 +272,76 @@ theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
       consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
       windowProvenanceConsumer, provenancePkg, consumerPkg⟩
 
+theorem DyadicApproximationCarrier_ledger_exclusion_scope [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance consumer sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont window provenance consumer ->
+        Cont ledger provenance sealRow ->
+          PkgSig bundle consumer pkg ->
+            PkgSig bundle sealRow pkg ->
+              SemanticNameCert
+                (fun row : BHist => (hsame row consumer ∨ hsame row sealRow) ∧
+                  UnaryHistory row)
+                (fun row : BHist => Cont window provenance row ∨ Cont ledger provenance row)
+                (fun row : BHist =>
+                  PkgSig bundle row pkg ∧ UnaryHistory precision ∧ UnaryHistory endpoint ∧
+                    UnaryHistory window ∧ UnaryHistory ledger ∧ UnaryHistory provenance)
+                (fun row row' : BHist => hsame row row') := by
+  intro carrier windowProvenanceConsumer ledgerProvenanceSeal consumerPkg sealPkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    _precisionEndpointWindow, _windowLedgerProvenance, _provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumer ⟨Or.inl (hsame_refl consumer), consumerUnary⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' classified
+        exact hsame_symm classified
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact hsame_trans leftClassified rightClassified
+      carrier_respects_equiv := by
+        intro row row' classified sourceRow
+        exact And.intro
+          (Or.elim sourceRow.left
+            (fun sameConsumer =>
+              Or.inl (hsame_trans (hsame_symm classified) sameConsumer))
+            (fun sameSeal =>
+              Or.inr (hsame_trans (hsame_symm classified) sameSeal)))
+          (unary_transport sourceRow.right classified)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact Or.elim sourceRow.left
+        (fun sameConsumer => by
+          cases sameConsumer
+          exact Or.inl windowProvenanceConsumer)
+        (fun sameSeal => by
+          cases sameSeal
+          exact Or.inr ledgerProvenanceSeal)
+    ledger_sound := by
+      intro row sourceRow
+      exact Or.elim sourceRow.left
+        (fun sameConsumer => by
+          cases sameConsumer
+          exact
+            ⟨consumerPkg, precisionUnary, endpointUnary, windowUnary, ledgerUnary,
+              provenanceUnary⟩)
+        (fun sameSeal => by
+          cases sameSeal
+          exact
+            ⟨sealPkg, precisionUnary, endpointUnary, windowUnary, ledgerUnary,
+              provenanceUnary⟩)
+  }
+
 theorem DyadicApproximationCarrier_terminal_window_prefix_projection [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance prefixPrecision prefixEndpoint prefixWindow
       prefixLedger prefixProvenance terminalPrecision terminalEndpoint terminalWindow
