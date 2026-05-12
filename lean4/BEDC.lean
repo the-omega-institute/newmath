@@ -86,6 +86,7 @@ import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.StableNegationBoundaryUp
+import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
@@ -138,8 +139,10 @@ import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
+import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -257,6 +260,7 @@ import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SignedDigitStreamUp.Core
