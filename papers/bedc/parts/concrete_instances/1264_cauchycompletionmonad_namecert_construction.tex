@@ -97,6 +97,48 @@ For transported schedules, use the diagonal-bind stability of \autoref{thm:cauch
 It remains to identify the public route. Apply \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Every public read must pass through schedule, window, dyadic observation, diagonal readback, and seal coordinates, so the composed packet exposes exactly the same finite completion surface.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad left-unit factorization]
+\label{thm:cauchy-completion-monad-left-unit-factorization}
+Let $r$ be a displayed rational row accepted by $\RegSeqRatUp$, and let $M$ be the $\CauchyCompletionMonadUp$ packet obtained by first forming the unit packet for $r$ and then composing it through an accepted finite completion packet by the schedule composition boundary. Every public $\RealUp$ read of the composite factors through the original constant regular-rational row, stationary $\StreamNameUp$ windows, constant $\DyadicRatCoreUp$ observations, the same $\RegSeqRatUp$ diagonal readback, and the same seal row. The left-unit route exports no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the unit packet supplied by \autoref{thm:cauchy-completion-monad-unit-boundary}. Its source family is constant, its finite windows are stationary, its dyadic observations are constant rational observations, and its diagonal readback is the original regular-rational row.
+
+Use \autoref{thm:cauchy-completion-monad-schedule-composition-boundary} to compose this unit packet with the next accepted packet. The unit schedule selects the same source row at every precision, so the composed schedule has no additional consumer-visible choice before the stationary window and dyadic-observation rows.
+
+Transport the diagonal and seal-facing rows with \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. The componentwise $\hsame$ rows and displayed $\Cont$ routes preserve the original regular-rational readback and its seal-facing coordinate.
+
+Finally apply \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. The only public route runs through the constant row, stationary windows, constant dyadic observations, diagonal readback, and seal row, and the carrier contains no coordinate for a quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad right-unit factorization]
+\label{thm:cauchy-completion-monad-right-unit-factorization}
+Let $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$ be an accepted $\CauchyCompletionMonadUp$ packet. If $M$ is composed on the seal-facing side with the unit boundary for its displayed $\RegSeqRatUp$ diagonal readback, then every public consumer read preserves the packet's schedule row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ diagonal readback, and public seal factorization. The right-unit route exports no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the accepted packet $M$ and its diagonal readback $\Delta$. The public factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} already routes every real-facing read through $\mu$, $W$, $D$, $\Delta$, and the seal row $E$.
+
+Attach the unit packet of \autoref{thm:cauchy-completion-monad-unit-boundary} to the displayed diagonal readback. Since that unit has stationary windows and constant dyadic observations over the same readback, it contributes no new schedule choice beyond the existing seal-facing read route.
+
+Apply \autoref{thm:cauchy-completion-monad-diagonal-bind-stability} to compare the original packet with the packet followed by this unit. The stored $\hsame$ and $\Cont$ rows identify the schedule, window, observation, diagonal, and seal coordinates componentwise.
+
+The schedule composition boundary of \autoref{thm:cauchy-completion-monad-schedule-composition-boundary} then identifies the composed consumer route with the original route. Thus the right-unit composite preserves the same packet ledger, and no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row is introduced.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad bind associativity ledger]
+\label{thm:cauchy-completion-monad-bind-associativity-ledger}
+Let $M$, $M'$, and $M''$ be accepted $\CauchyCompletionMonadUp$ packets whose two successive finite bind compositions are defined by displayed schedule, window, dyadic-observation, diagonal, and seal ledger rows. The two associations of the bind composition have the same consumer-visible route through the composed schedule, selected finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, $\RegSeqRatUp$ diagonal readback, $\RealUp$ seal, $\mathsf{BHist}$ entries, displayed $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows. Neither association exports a quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First compare each single bind step with \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. Both associations must expose the same kind of finite route: schedule, selected window, dyadic observation, diagonal readback, and seal row.
+
+Next apply \autoref{thm:cauchy-completion-monad-diagonal-bind-stability} to the intermediate packets. The componentwise $\hsame$ rows identify source-family rows, schedules, selected windows, dyadic observations, diagonal readbacks, and seal coordinates, while the displayed $\Cont$ rows keep the consumer order fixed.
+
+The unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary} supplies the neutral constant packets at the ends of the ledger. These packets use stationary windows and constant dyadic observations, so they do not alter the visible $\mathsf{BHist}$, $\Pkg$, or local $\NameCert$ rows of the two associations.
+
+Finally use \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} for the public readout. Since every route passes through the same finite schedule, window, observation, readback, seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates, associating the two bind steps in either order exposes the same ledger and no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness row.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad downstream RegSeqRat consumer route]
 \label{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route}
 Every downstream $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer read of an accepted $\CauchyCompletionMonadUp$ packet factors through the source regular-Cauchy family row, the unary schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ diagonal readback, the public $\RealUp$ seal row, $\mathsf{BHist}$ ledger entries, displayed $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ coordinates. The route exports no quotient stream, host real equality, selected limit, hidden representative, or ambient completeness principle.
