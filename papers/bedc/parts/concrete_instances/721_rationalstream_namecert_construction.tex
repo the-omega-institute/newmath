@@ -69,6 +69,7 @@ consumer may ask which finite rational observation is read at a displayed
 index, but the packet supplies no unbounded stream object outside those
 scheduled finite reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_streamname\_schedule\_boundary}
 \begin{proof}
 Read the schedule coordinate $s$ from the carrier. Its domain of visible reads
 is the unary index row $u$, and each consumer route is one of the continuation
@@ -88,6 +89,7 @@ $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The handoff records a
 regularity request surface for rational finite windows; it does not assert
 Cauchy completeness, selected limits, or equality of completed real values.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_regseqrat\_handoff\_transport}
 \begin{proof}
 Start with the accepted packet and project the coordinates read by a regular
 sequence consumer. The schedule $s$ chooses the finite observations, $u$
@@ -212,7 +214,7 @@ surface, and the transport introduces no unbounded stream, quotient Cauchy
 class, selected limit, or completed $\RealUp$ equality.
 \end{theorem}
 \leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamSchedule\_transport\_exactness}
-\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_schedule\_transport\_exactness}
+\leanvariant{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_schedule\_transport\_exactness}
 \begin{proof}
 Start from the carrier tuple
 $(u,s,q,\rho,h,c,p,n)$ in \autoref{def:rational-stream-carrier}. The transport
@@ -725,7 +727,8 @@ listed finite rows.
   \constructivestory{A rational stream packet is represented by finite unary index rows, a StreamName schedule, pointwise RatUp carrier and classifier rows, and visible transport, continuation, package, and NameCert provenance on the path to RegSeqRat and the RealUp seal.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:rational-stream-scoped-boundary}, \autoref{thm:rational-stream-standard-bridge}, and \autoref{thm:rational-stream-real-seal-consumer-boundary} bind the finite carrier, pointwise classifier laws, finite-window transport, schedule boundary, finite ledger, regular-sequence handoff, standard bridge, RealUp seal consumer boundary, and displayed $\mathsf{BHist}$, $\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies consumed by $\RegSeqRatUp$ and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RationalStreamUp.RationalStreamSchedule\_transport\_exactness}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close quotient Cauchy classes, selected limits, RealUp completeness, trichotomy, or a machine-checked standard bridge.}

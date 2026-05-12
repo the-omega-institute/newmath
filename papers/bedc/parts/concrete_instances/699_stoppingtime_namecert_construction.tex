@@ -183,6 +183,38 @@ filtrations, infinite stopping times, optional stopping, and stochastic-process
 limits outside the packet.
 \end{proof}
 
+\begin{theorem}[StoppingTime public consumer export]\label{thm:stoppingtime-public-consumer-export}
+The scoped packet of \autoref{thm:stoppingtime-scoped-dependency-envelope}
+exports a public finite-prefix stopping-rule certificate to $\ProbSpaceUp$,
+$\RandomVarUp$, $\MartingaleUp$, and $\MarkovChainUp$ consumers. The exported
+certificate consists exactly of the probability source row, process rows, unary
+horizon, finite filtration-prefix ledger, stopping-event witness rows, $\hsame$
+transport, $\Cont$ read routes, and $\mathsf{Pkg}$ provenance.
+
+It exports no host filtration, infinite stopping time, optional stopping
+theorem, stopped martingale construction, or selected stochastic-process limit.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:stoppingtime-namecert-obligation-surface}. It binds the
+probability source, process rows, unary horizon, stopping-event witness rows,
+transport, read routes, and package provenance to the local accepted packet.
+
+Apply \autoref{thm:stoppingtime-filtration-prefix-stability} to keep the
+filtration read finite at every displayed horizon. Then use
+\autoref{thm:stoppingtime-ledger-coverage} to identify the stopping-event
+witness rows as ledger entries over the same prefix.
+
+Next apply \autoref{thm:stoppingtime-standard-boundary}; it is the public
+probability-process boundary through which $\ProbSpaceUp$, $\RandomVarUp$,
+$\MartingaleUp$, and $\MarkovChainUp$ consumers read the packet.
+
+Finally compose these rows with
+\autoref{thm:stoppingtime-scoped-dependency-envelope}. The envelope contains no
+host filtration, infinite stopping time, optional stopping theorem, stopped
+martingale construction, or selected limit, so the public certificate exports
+none of them.
+\end{proof}
+
 \closureat{StoppingTimeUp}{seedStr}
 \closureat{StoppingTimeUp}{obligationStr}
 \closureat{StoppingTimeUp}{scopedStr}
