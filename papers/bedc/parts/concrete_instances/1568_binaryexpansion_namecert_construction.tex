@@ -146,6 +146,22 @@ Now apply \autoref{thm:binary-expansion-window-prefix-stability} to transport co
 Since the carrier of \autoref{def:binary-expansion-carrier} has no coordinate for host streams, quotient equality, endpoint conventions, selected representatives, or ambient completeness, the seal read is coherent exactly with the displayed finite prefix ledger.
 \end{proof}
 
+\begin{theorem}[BinaryExpansion endpoint ambiguity ledger boundary]
+\label{thm:binary-expansion-endpoint-ambiguity-ledger-boundary}
+Any downstream endpoint convention resolver for dual binary expansions must enter as a separate ledger or socket row outside the accepted $\BinaryExpansionUp$ packet. The packet of \autoref{def:binary-expansion-carrier} exports only finite digit rows, prefix windows, dyadic partial sums, tail-radius rows, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+
+Consequently no accepted $\BinaryExpansionUp$ carrier exports a host infinite stream, quotient equality of binary expansions, selected representative, or base-two endpoint convention. Such a convention can be consumed only after it is named by an additional finite BEDC row not present in $D,W,A,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use prefix-window stability, \autoref{thm:binary-expansion-window-prefix-stability}. It keeps every comparison of binary data on finite digit rows, finite prefix windows, and their displayed $\hsame$ and $\Cont$ routes.
+
+Apply dyadic-ledger exhaustion, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}. The only dyadic facts available to later readers are the digit rows in $D$, the prefix-window rows in $W$, the partial-sum and tail-radius rows in $A$, the regular handoff $R$, and the real-seal row $E$.
+
+The regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff-factorization}, then shows that a $\RegSeqRatUp$ consumer cannot receive an independent infinite bitstream or a second representative selector. The $\RealUp$ seal prefix coherence theorem, \autoref{thm:binary-expansion-real-seal-prefix-coherence}, gives the same boundary for real-facing consumers.
+
+Therefore endpoint ambiguity is not resolved by the accepted packet. A base-two convention resolver must be represented by a separate ledger or socket row, because no coordinate of $D,W,A,R,E,H,C,P,N$ contains such a convention.
+\end{proof}
+
 \begin{theorem}[BinaryExpansion scoped dependency factorization]
 \label{thm:binary-expansion-scoped-dependency-factorization}
 Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. Every scoped obligation exported by $\BinaryExpansionUp$ factors through exactly the displayed packet rows: the $\DyadicRatCoreUp$ binary digit rows in $D$, the $\StreamNameUp$ prefix-window rows in $W$, the $\DyadicApproximationUp$ partial-sum and tail-radius rows in $A$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal row $E$, and the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes $H$, $C$, $P$, and $N$.

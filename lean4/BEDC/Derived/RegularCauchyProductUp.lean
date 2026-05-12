@@ -49,4 +49,25 @@ theorem RegularCauchyProductCarrier_namecert_obligations [AskSetup] [PackageSetu
       readbackUnary, windowTransportRow, endpointProductRow, productBudgetRow,
       provenanceTransportName, namePkg⟩
 
+theorem RegularCauchyProductCarrier_window_budget [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      UnaryHistory windowA /\ UnaryHistory windowB /\ UnaryHistory endpointA /\
+        UnaryHistory endpointB /\ UnaryHistory product /\ UnaryHistory budget /\
+          Cont windowA windowB transport /\ Cont endpointA endpointB product /\
+            Cont product budget readback := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier
+  obtain ⟨_sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, _provenanceUnary, windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, _namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  exact
+    ⟨windowAUnary, windowBUnary, endpointAUnary, endpointBUnary, productUnary, budgetUnary,
+      windowTransportRow, endpointProductRow, productBudgetRow⟩
+
 end BEDC.Derived.RegularCauchyProductUp
