@@ -193,4 +193,30 @@ theorem ArchimedeanRealCarrier_transported_bound_stability [AskSetup] [PackageSe
       regseqLedgerTransport', transportRoutesProvenance', provenancePkg', localCertPkg'⟩,
       regseqSame, boundLedgerSame, transportSame⟩
 
+theorem ArchimedeanRealCarrier_bound_ledger_nonescape [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert zRatBound zDyadicBound zBoundLedger zProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      (hsame ratBound (BHist.e0 zRatBound) -> False) ∧
+        (hsame dyadicBound (BHist.e0 zDyadicBound) -> False) ∧
+          (hsame boundLedger (BHist.e0 zBoundLedger) -> False) ∧
+            (hsame provenance (BHist.e0 zProvenance) -> False) := by
+  intro carrier
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, _streamWindowUnary,
+    _regseqHandoffUnary, boundLedgerUnary, _transportUnary, _routesUnary, provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, _ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  exact
+    ⟨fun sameRatBound =>
+        unary_no_zero_extension (unary_transport ratBoundUnary sameRatBound),
+      fun sameDyadicBound =>
+        unary_no_zero_extension (unary_transport dyadicBoundUnary sameDyadicBound),
+      fun sameBoundLedger =>
+        unary_no_zero_extension (unary_transport boundLedgerUnary sameBoundLedger),
+      fun sameProvenance =>
+        unary_no_zero_extension (unary_transport provenanceUnary sameProvenance)⟩
+
 end BEDC.Derived.ArchimedeanRealUp
