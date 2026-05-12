@@ -62,7 +62,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] D1: Add `mr_run_r110_manifest(const char *path, ...)` to `tests/manifest_runner.c`. Loads `.r110` file, evolves Rule 110 for the documented step count, compares result to expected pattern.
 
-- [ ] D2: Add round-trip test: for each Mark manifest, run cyclic_tag evaluator → record observable tape behavior → run Rule 110 evaluator on `.r110` → extract observable tape behavior via Cook decoder → assert match.
+- [x] D2: Add round-trip test: for each Mark manifest, run cyclic_tag evaluator → record observable tape behavior → run Rule 110 evaluator on `.r110` → extract observable tape behavior via Cook decoder → assert match.
 
 - [ ] D3: Update `tests/test_mark.c` `pipeline_smoke_test_all_manifests` to also exercise `.r110` versions via `mr_run_r110_manifest`. All 16 manifests (8 .ct + 8 .r110) should pass.
 

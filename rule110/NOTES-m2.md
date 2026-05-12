@@ -66,3 +66,9 @@ The one-production encoder uses a fixed M2 layout over Cook ether: leader at cel
 ## Documentation boundary notes (E1-E3)
 
 The Layer 6 documentation describes the Cook construction code as a behavioral scaffold. The trust boundary is explicit: ether, gliders, leader, ossifier, data block, collision observation, `.r110` row manifests, and the empty `cook_encode` path are deterministic local Rule 110 artifacts, while phase-exact Cook 2004 transcription and productive cyclic-tag simulation remain outside the checked claim.
+
+## Round-trip scaffold observations (D2)
+
+The round-trip test exercises the current pipeline on `manifests/mark/msame_refl.enum.ct`: it parses the cyclic-tag manifest, extracts the first assertion input as the tape, calls `cook_encode`, writes a temporary `.r110` manifest with the locally simulated Rule 110 final row, and verifies that both `mr_run_ct_manifest` and `mr_run_r110_manifest` complete successfully.
+
+This is a scaffold only. The generated Rule 110 row is deterministic and evaluable by the manifest runner, but no Cook decoder exists here and the row is not a phase-exact simulation of the cyclic-tag tape. Correct CT-to-Rule-110 equivalence still requires productive leader, ossifier, and data-block collisions plus an observable decoder from evolved Rule 110 particles back to cyclic-tag state.

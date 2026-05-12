@@ -166,3 +166,14 @@ $(TEST_DIR)/test_cook_encode_one: $(TEST_DIR)/test_cook_encode_one.c $(EVAL_DIR)
 
 TESTS += $(TEST_DIR)/test_cook_encode_one
 test: $(TEST_DIR)/test_cook_encode_one
+
+$(TEST_DIR)/test_round_trip: $(TEST_DIR)/test_round_trip.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_ossifier.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_round_trip.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
+	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_construction.c \
+	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_data_block.c \
+	    $(ENCODER_DIR)/cook_ossifier.c
+
+TESTS += $(TEST_DIR)/test_round_trip
+test: $(TEST_DIR)/test_round_trip
