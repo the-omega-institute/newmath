@@ -117,4 +117,29 @@ theorem WeierstrassMTestCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
   exact
     ⟨handoffUnary, tailRegseqHandoff, regseqRealSealTransport, routePkg, namePkg⟩
 
+theorem WeierstrassMTestCarrier_uniform_tail_budget_scope [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name
+      handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg →
+      Cont tail regseq handoff →
+        UnaryHistory handoff ∧ Cont domination tail regseq ∧ Cont tail regseq handoff ∧
+          Cont regseq realSeal transport ∧ Cont transport route provenance ∧
+            PkgSig bundle route pkg ∧ PkgSig bundle name pkg := by
+  intro carrier tailRegseqHandoff
+  have handoffFacts :
+      UnaryHistory handoff ∧ Cont tail regseq handoff ∧ Cont regseq realSeal transport ∧
+        PkgSig bundle route pkg ∧ PkgSig bundle name pkg :=
+    WeierstrassMTestCarrier_regseqrat_handoff carrier tailRegseqHandoff
+  obtain ⟨handoffUnary, tailRegseqRoute, regseqRealSealTransport, routePkg, namePkg⟩ :=
+    handoffFacts
+  obtain ⟨_familyUnary, _majorantUnary, _dominationUnary, _tailUnary, _regseqUnary,
+    _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _familyMajorantDomination, dominationTailRegseq, _regseqRealSealTransport,
+    transportRouteProvenance, _routePkg, _namePkg⟩ := carrier
+  exact
+    ⟨handoffUnary, dominationTailRegseq, tailRegseqRoute, regseqRealSealTransport,
+      transportRouteProvenance, routePkg, namePkg⟩
+
 end BEDC.Derived.WeierstrassMTestUp
