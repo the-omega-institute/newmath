@@ -84,7 +84,10 @@ For each candidate, run the following audit:
     carrier / classifier / proof-obligation / obstruction / planning fit.
     If accepted, preserve the source provenance, reuse instruction, expected
     NewMath delta, and reject-if condition in the returned `claim` or
-    `rationale`; do not collapse it to a generic open problem. Drop
+    `rationale`; do not collapse it to a generic open problem. This preserved
+    provenance is BOARD metadata only: downstream LaTeX must be BEDC-native and
+    must not carry Automath paths, discovery JSON paths, bridge packet paths, or
+    the word "Automath" / "Inspired by Omega Project" into paper body. Drop
     `bridge_consumption_mode=evidence_only` candidates from BOARD intake.
 
 Acceptance thresholds:
