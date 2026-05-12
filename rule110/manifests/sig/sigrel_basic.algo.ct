@@ -1,17 +1,89 @@
 # sigrel_basic.algo.ct
-# Algorithm framing for representative SigRel cases.
-# The manifest productions are vacuous; tests/test_sig.c performs the
-# decoder-based relation check using the deterministic Ask fixture documented
-# in sigrel_basic.enum.ct.
-PRODUCTIONS 1
-0
+# Theorem family: SigRel bundle h result under the parity Ask fixture.
+#
+# Scope:
+#   Bounded algorithm-form witness for the representative SigRel triples used
+#   by sigrel_basic.enum.ct and for the bounded probe/history/result sweep in
+#   tests/test_sig.c.
+#
+# Program:
+#   Production i emits 1 followed by the six-bit binary index i. During the
+#   first input-length steps, every head bit equal to 1 appends the certificate
+#   for that input position. Head bit 0 appends nothing. The test harness runs
+#   exactly input_length steps and compares the remaining tape with the
+#   expected positional certificate for that SigRel input.
+PRODUCTIONS 64
+1000000
+1000001
+1000010
+1000011
+1000100
+1000101
+1000110
+1000111
+1001000
+1001001
+1001010
+1001011
+1001100
+1001101
+1001110
+1001111
+1010000
+1010001
+1010010
+1010011
+1010100
+1010101
+1010110
+1010111
+1011000
+1011001
+1011010
+1011011
+1011100
+1011101
+1011110
+1011111
+1100000
+1100001
+1100010
+1100011
+1100100
+1100101
+1100110
+1100111
+1101000
+1101001
+1101010
+1101011
+1101100
+1101101
+1101110
+1101111
+1110000
+1110001
+1110010
+1110011
+1110100
+1110101
+1110110
+1110111
+1111000
+1111001
+1111010
+1111011
+1111100
+1111101
+1111110
+1111111
 ASSERTIONS 9
-case empty_empty_to_empty:      input=111111             ; sigrel=yes
-case empty_e1_to_empty:         input=11101111           ; sigrel=yes
-case empty_wrong_result:        input=1111011            ; sigrel=no
-case p0_empty_to_e0:            input=10111111011        ; sigrel=yes
-case p0_e0_to_e1:               input=1011110111011      ; sigrel=yes
-case p0_empty_wrong_mark:       input=101111111011       ; sigrel=no
-case p1_empty_to_e1:            input=0101111111011      ; sigrel=yes
-case p0p1_empty_to_e0e1:        input=101101011111101011 ; sigrel=yes
-case p0p1_empty_wrong_tail:     input=10110101111110011  ; sigrel=no
+case empty_empty_to_empty:      input=111111             ; sigrel=yes ; expected_certificate=100000010000011000010100001110001001000101
+case empty_e1_to_empty:         input=11101111           ; sigrel=yes ; expected_certificate=1000000100000110000101000100100010110001101000111
+case empty_wrong_result:        input=1111011            ; sigrel=no  ; expected_certificate=100000010000011000010100001110001011000110
+case p0_empty_to_e0:            input=10111111011        ; sigrel=yes ; expected_certificate=100000010000101000011100010010001011000110100011110010011001010
+case p0_e0_to_e1:               input=1011110111011      ; sigrel=yes ; expected_certificate=1000000100001010000111000100100010110001111001000100100110010111001100
+case p0_empty_wrong_mark:       input=101111111011       ; sigrel=no  ; expected_certificate=1000000100001010000111000100100010110001101000111100100010010101001011
+case p1_empty_to_e1:            input=0101111111011      ; sigrel=yes ; expected_certificate=1000001100001110001001000101100011010001111001000100100110010111001100
+case p0p1_empty_to_e0e1:        input=101101011111101011 ; sigrel=yes ; expected_certificate=1000000100001010000111000101100011110010001001001100101010010111001100100111010100001010001
+case p0p1_empty_wrong_tail:     input=10110101111110011  ; sigrel=no  ; expected_certificate=100000010000101000011100010110001111001000100100110010101001011100110010011111010000
