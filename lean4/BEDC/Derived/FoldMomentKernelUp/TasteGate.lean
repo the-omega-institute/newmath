@@ -1,32 +1,40 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
+
+/-!
+# FoldMomentKernelUp TasteGate carrier.
+-/
 
 namespace BEDC.Derived.FoldMomentKernelUp
 
-open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
+open BEDC.GroundCompiler.MainTheorems
 open BEDC.Meta.TasteGate
 
+/-- Finite collision-moment kernel packet with the nine visible BEDC rows. -/
 inductive FoldMomentKernelUp : Type where
   | mk :
-      (window foldSource fiberLedger momentIndex collisionCount transport route provenance
-        nameCert : BHist) →
+      (window foldSource fiberLedger momentIndex collisionCount transport continuation
+        provenance nameCert : BHist) →
       FoldMomentKernelUp
+  deriving DecidableEq
 
-def foldMomentKernelEncodeBHist : BHist → RawEvent
+private def foldMomentKernelEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: foldMomentKernelEncodeBHist h
   | BHist.e1 h => BMark.b1 :: foldMomentKernelEncodeBHist h
 
-def foldMomentKernelDecodeBHist : RawEvent → BHist
+private def foldMomentKernelDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (foldMomentKernelDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (foldMomentKernelDecodeBHist tail)
 
-private theorem foldMomentKernelDecode_encode :
+private theorem foldMomentKernelDecodeEncodeBHist :
     ∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,27 +46,30 @@ private theorem foldMomentKernelDecode_encode :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
+private def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount transport
-      route provenance nameCert =>
-      [[BMark.b0], foldMomentKernelEncodeBHist window,
-        [BMark.b1, BMark.b0], foldMomentKernelEncodeBHist foldSource,
-        [BMark.b1, BMark.b1, BMark.b0], foldMomentKernelEncodeBHist fiberLedger,
+  | FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
+      transport continuation provenance nameCert =>
+      [[BMark.b0],
+        foldMomentKernelEncodeBHist window,
+        [BMark.b1, BMark.b0],
+        foldMomentKernelEncodeBHist foldSource,
+        [BMark.b1, BMark.b1, BMark.b0],
+        foldMomentKernelEncodeBHist fiberLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-          foldMomentKernelEncodeBHist momentIndex,
+        foldMomentKernelEncodeBHist momentIndex,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-          foldMomentKernelEncodeBHist collisionCount,
+        foldMomentKernelEncodeBHist collisionCount,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-          foldMomentKernelEncodeBHist transport,
+        foldMomentKernelEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-          foldMomentKernelEncodeBHist route,
+        foldMomentKernelEncodeBHist continuation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-          foldMomentKernelEncodeBHist provenance,
+        foldMomentKernelEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-          foldMomentKernelEncodeBHist nameCert]
+        foldMomentKernelEncodeBHist nameCert]
 
 def foldMomentKernelFromEventFlow : EventFlow → Option FoldMomentKernelUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -102,7 +113,7 @@ def foldMomentKernelFromEventFlow : EventFlow → Option FoldMomentKernelUp
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | route :: rest13 =>
+                                                      | continuation :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -119,15 +130,24 @@ def foldMomentKernelFromEventFlow : EventFlow → Option FoldMomentKernelUp
                                                                           | [] =>
                                                                               some
                                                                                 (FoldMomentKernelUp.mk
-                                                                                  (foldMomentKernelDecodeBHist window)
-                                                                                  (foldMomentKernelDecodeBHist foldSource)
-                                                                                  (foldMomentKernelDecodeBHist fiberLedger)
-                                                                                  (foldMomentKernelDecodeBHist momentIndex)
-                                                                                  (foldMomentKernelDecodeBHist collisionCount)
-                                                                                  (foldMomentKernelDecodeBHist transport)
-                                                                                  (foldMomentKernelDecodeBHist route)
-                                                                                  (foldMomentKernelDecodeBHist provenance)
-                                                                                  (foldMomentKernelDecodeBHist nameCert))
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    window)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    foldSource)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    fiberLedger)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    momentIndex)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    collisionCount)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    transport)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    continuation)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    provenance)
+                                                                                  (foldMomentKernelDecodeBHist
+                                                                                    nameCert))
                                                                           | _ :: _ => none
 
 private theorem foldMomentKernel_round_trip :
@@ -136,8 +156,8 @@ private theorem foldMomentKernel_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk window foldSource fiberLedger momentIndex collisionCount transport route provenance
-      nameCert =>
+  | mk window foldSource fiberLedger momentIndex collisionCount transport continuation
+      provenance nameCert =>
       change
         some
           (FoldMomentKernelUp.mk
@@ -147,47 +167,32 @@ private theorem foldMomentKernel_round_trip :
             (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist momentIndex))
             (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist collisionCount))
             (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist transport))
-            (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist route))
+            (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist continuation))
             (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist provenance))
             (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist nameCert))) =
           some
             (FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
-              transport route provenance nameCert)
-      rw [foldMomentKernelDecode_encode window, foldMomentKernelDecode_encode foldSource,
-        foldMomentKernelDecode_encode fiberLedger, foldMomentKernelDecode_encode momentIndex,
-        foldMomentKernelDecode_encode collisionCount, foldMomentKernelDecode_encode transport,
-        foldMomentKernelDecode_encode route, foldMomentKernelDecode_encode provenance,
-        foldMomentKernelDecode_encode nameCert]
+              transport continuation provenance nameCert)
+      rw [foldMomentKernelDecodeEncodeBHist window, foldMomentKernelDecodeEncodeBHist foldSource,
+        foldMomentKernelDecodeEncodeBHist fiberLedger,
+        foldMomentKernelDecodeEncodeBHist momentIndex,
+        foldMomentKernelDecodeEncodeBHist collisionCount,
+        foldMomentKernelDecodeEncodeBHist transport,
+        foldMomentKernelDecodeEncodeBHist continuation,
+        foldMomentKernelDecodeEncodeBHist provenance,
+        foldMomentKernelDecodeEncodeBHist nameCert]
 
 private theorem foldMomentKernelToEventFlow_injective {x y : FoldMomentKernelUp} :
     foldMomentKernelToEventFlow x = foldMomentKernelToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  cases x with
-  | mk window foldSource fiberLedger momentIndex collisionCount transport route provenance
-      nameCert =>
-      cases y with
-      | mk window' foldSource' fiberLedger' momentIndex' collisionCount' transport' route'
-          provenance' nameCert' =>
-          have hread :
-              foldMomentKernelFromEventFlow
-                  (foldMomentKernelToEventFlow
-                    (FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex
-                      collisionCount transport route provenance nameCert)) =
-                foldMomentKernelFromEventFlow
-                  (foldMomentKernelToEventFlow
-                    (FoldMomentKernelUp.mk window' foldSource' fiberLedger' momentIndex'
-                      collisionCount' transport' route' provenance' nameCert')) :=
-            congrArg foldMomentKernelFromEventFlow heq
-          exact Option.some.inj
-            (Eq.trans
-              (foldMomentKernel_round_trip
-                (FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
-                  transport route provenance nameCert)).symm
-              (Eq.trans hread
-                (foldMomentKernel_round_trip
-                  (FoldMomentKernelUp.mk window' foldSource' fiberLedger' momentIndex'
-                    collisionCount' transport' route' provenance' nameCert'))))
+  have hread :
+      foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) =
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow y) :=
+    congrArg foldMomentKernelFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (foldMomentKernel_round_trip x).symm
+      (Eq.trans hread (foldMomentKernel_round_trip y)))
 
 instance foldMomentKernelBHistCarrier : BHistCarrier FoldMomentKernelUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -204,67 +209,71 @@ instance foldMomentKernelChapterTasteGate : ChapterTasteGate FoldMomentKernelUp 
     intro x y hxy heq
     exact hxy (foldMomentKernelToEventFlow_injective heq)
 
+theorem FoldMomentKernelUp_zero_window_packet :
+    ∃ x : FoldMomentKernelUp,
+      x =
+          FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x :=
+    FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
+/-- Public gate object for the finite fold-moment-kernel carrier. -/
+def taste_gate : ChapterTasteGate FoldMomentKernelUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  foldMomentKernelChapterTasteGate
+
 theorem FoldMomentKernelTasteGate_single_carrier_alignment :
-    (forall h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h) /\
-      (forall x : FoldMomentKernelUp,
-        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x) /\
-      (forall x y : FoldMomentKernelUp,
-        foldMomentKernelToEventFlow x = foldMomentKernelToEventFlow y -> x = y) /\
+    (∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h) ∧
+      (∀ x : FoldMomentKernelUp,
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x) ∧
+      (∀ x y : FoldMomentKernelUp,
+        foldMomentKernelToEventFlow x = foldMomentKernelToEventFlow y → x = y) ∧
       foldMomentKernelEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  have decodeEncode :
-      ∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h := by
-    intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
-  have roundTrip :
-      ∀ x : FoldMomentKernelUp,
-        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x := by
-    intro x
-    cases x with
-    | mk window foldSource fiberLedger momentIndex collisionCount transport route provenance
-        nameCert =>
-        change
-          some
-            (FoldMomentKernelUp.mk
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist window))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist foldSource))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist fiberLedger))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist momentIndex))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist collisionCount))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist transport))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist route))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist provenance))
-              (foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist nameCert))) =
-            some
-              (FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
-                transport route provenance nameCert)
-        rw [decodeEncode window, decodeEncode foldSource, decodeEncode fiberLedger,
-          decodeEncode momentIndex, decodeEncode collisionCount, decodeEncode transport,
-          decodeEncode route, decodeEncode provenance, decodeEncode nameCert]
-  have injective :
-      ∀ x y : FoldMomentKernelUp,
-        foldMomentKernelToEventFlow x = foldMomentKernelToEventFlow y → x = y := by
-    intro x y heq
-    have hread :
-        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) =
-          foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow y) :=
-      congrArg foldMomentKernelFromEventFlow heq
-    exact Option.some.inj
-      (Eq.trans (roundTrip x).symm (Eq.trans hread (roundTrip y)))
   constructor
-  · exact decodeEncode
+  · exact foldMomentKernelDecodeEncodeBHist
   · constructor
-    · intro x
-      exact roundTrip x
+    · exact foldMomentKernel_round_trip
     · constructor
       · intro x y heq
-        exact injective x y heq
+        exact foldMomentKernelToEventFlow_injective heq
       · rfl
+
+theorem FoldMomentKernelZeroWindowPacket :
+    exists x : FoldMomentKernelUp,
+      x =
+          FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty /\
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine
+    Exists.intro
+      (FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ?_
+  constructor
+  · rfl
+  · rfl
+
+theorem FoldMomentKernelTasteGate_visible_rows :
+    (forall x : FoldMomentKernelUp,
+      foldMomentKernelFromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+      (forall x y : FoldMomentKernelUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) ∧
+        (forall (x : FoldMomentKernelUp) w m, List.Mem w (BHistCarrier.toEventFlow x) ->
+          List.Mem m w -> m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    change foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x
+    exact foldMomentKernel_round_trip x
+  · constructor
+    · intro x y heq
+      exact foldMomentKernelToEventFlow_injective heq
+    · intro x w m hw hm
+      exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 
 end BEDC.Derived.FoldMomentKernelUp
