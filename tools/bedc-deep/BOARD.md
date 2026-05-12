@@ -42,7 +42,6 @@ The local carrier explicitly presents a FreeMonoidUp word as a finite BHist spin
 
 ---
 
-
 ### B-688 - Trie prefix subledger restriction carrier
 
 | field | value |
@@ -67,32 +66,6 @@ TrieUp is locally defined as the finite packet T=(k,v,l,b,p), with key-path, opt
 
 ---
 
-
-### B-689 - MPC finite-horizon prefix restriction
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | MPC finite-horizon prefix restriction |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-
-Problem:
-If an accepted ModelPredictiveControlUp packet over horizon N is restricted to a certified prefix horizon m≤N while retaining the first m prediction, constraint, cost, terminal, first-control, hsame, Cont, Pkg, and NameCert rows, then the restricted packet is accepted as a ModelPredictiveControlUp packet over m.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex`
-
-Rationale:
-The MPC carrier is a finite BHist packet M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C), where N is the unary prediction horizon, W is a constraint-window row indexed by horizon entries, O is a finite control-sequence candidate, and R records finite rollout routes at papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex:18-58. The existing finite-horizon obligation exposes the prediction ledger as finite rows at lines 60-68, and the constraint theorem exposes admissibility rows indexed by the same finite horizon at lines 86-94. Focused rg for `modelpredictivecontrol.*restriction|model predictive control.*restriction|modelpredictivecontrol.*prefix|model predictive control.*prefix` returned 0 hits across papers and BOARD, while the adjacent Riccati chapter already has a finite horizon tail restriction theorem, showing this is a missing local finite-ledger closure rather than a broad control-theory claim. The target file has 211 lines with 5 theorem-like blocks.
-
----
-
-
 ### B-690 - LocatedCauchy constant window degeneracy
 
 | field | value |
@@ -116,4 +89,3 @@ Rationale:
 The LocatedCauchyUp carrier is the finite packet L=(S,D,M,W,H,C,P,N), with schedule S, dyadic endpoint family D, Cauchy modulus M, located-ball witnesses W, transport H, and Cont readback routes C at papers/bedc/parts/concrete_instances/809_locatedcauchy_namecert_construction.tex:11-41. The definition says a constant dyadic stream inhabits the carrier by repeating one scheduled dyadic endpoint and using degenerate located balls at each requested window at lines 37-40, and the window-stability theorem only handles refined requested windows generally at lines 61-70. The NameCert theorem uses constant-stream habitation at lines 86-103 but does not isolate the per-window degenerate readback as a theorem. Focused rg for `locatedcauchy.*degenerate|locatedcauchy.*constant.*window|constant dyadic.*window` returned no LocatedCauchy theorem label; the only nonlocal hit was a LocatedReal proof sentence. This is a boundary exactness theorem about a concrete existing carrier, and the target file has 200 lines with 4 theorem-like blocks.
 
 ---
-
