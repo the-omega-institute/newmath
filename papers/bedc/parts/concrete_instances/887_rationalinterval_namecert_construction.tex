@@ -80,6 +80,7 @@ endpoints and for $o$. Repacking those transported rows preserves the same
 ordered endpoint surface and leaves no coordinate for completed real order
 or a selected external endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalEndpointRows\_order\_witness}
 
 \begin{theorem}[RationalInterval containment ledger exactness]
 \label{thm:rational-interval-containment-ledger-exactness}
@@ -280,6 +281,7 @@ from the first window to the last. The composed row replays the shared
 endpoint classifier rows, concatenates the two finite $\Cont$ routes, and
 repackages exactly the same containment-ledger coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalRefinement\_composition}
 \begin{proof}
 Project the two refinement packets through
 \autoref{def:rational-interval-bhist-carrier}. Their visible coordinates are
@@ -516,6 +518,35 @@ corresponding containment entry, and use
 between the displayed endpoints. The public handoff of
 \autoref{thm:rational-interval-public-rational-window-handoff} then exhausts
 all remaining consumer reads through the same finite ledger.
+\end{proof}
+
+\begin{theorem}[RationalInterval regular-window dyadic endpoints]
+\label{thm:rationalinterval-regular-window-dyadic-endpoints}
+Every finite $\RegSeqRatUp$ observation window admitted by a certified
+$\RationalIntervalUp$ packet is bounded by the displayed lower endpoint, upper
+endpoint, and dyadic-width rows.
+
+Any refinement or containment witness consumed by $\RealUp$ factors through
+those same endpoint, width, containment, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows, with no quotient real or completed
+equality coordinate.
+\end{theorem}
+\begin{proof}
+First expose the visible endpoint and width surface by applying
+\autoref{thm:rationalinterval-endpoint-width-ledger}. This gives the lower
+endpoint row, upper endpoint row, dyadic-width witness, containment row, and
+package provenance read by the finite interval packet.
+
+Next transport the endpoint and width data along classifier reads. Apply
+\autoref{thm:rationalinterval-dyadic-transport-stability}; the transported
+packet remains over the same endpoint, width, containment, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, package, and local certificate rows.
+
+Finally use \autoref{thm:rationalinterval-regseqrat-window-coverage}. It
+exhausts every finite $\RegSeqRatUp$ consumer read by a containment or
+refinement entry in the displayed ledger, so the $\RealUp$ consumer boundary
+factors through the same finite rows and adds no quotient real or completed
+equality coordinate.
 \end{proof}
 
 \begin{theorem}[RationalInterval finite consumer completeness]
