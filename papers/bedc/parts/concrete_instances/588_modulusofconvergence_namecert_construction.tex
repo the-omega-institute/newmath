@@ -291,6 +291,78 @@ acceptance, so the repacked object is the original public
 $\ModulusOfConvergenceUp$ packet.
 \end{proof}
 
+\begin{theorem}[ModulusOfConvergence threshold-ledger completeness]
+\label{thm:modulusofconvergence-threshold-ledger-completeness}
+Every convergence-rate consumer of the $\ModulusOfConvergenceUp$ packet is
+completely determined by the precision request, selected unary threshold,
+modulus row, $\StreamNameUp$ schedule, $\RegSeqRatUp$ late-window witness,
+$\hsame$ transports, $\Cont$ windows, $\mathsf{Pkg}$ provenance, dependency
+ledger, and $\NameCert$ row.
+
+The export contains no quotient completion, selected real limit, global
+threshold choice outside the finite ledger, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier of
+\autoref{def:modulusofconvergence-bhist-carrier}. It presents the precision
+request, selected unary threshold, modulus row, stream schedule,
+late-window witness, dependency ledger, package provenance, and local naming
+evidence as the only rows in the accepted packet.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} and
+\autoref{thm:modulusofconvergence-composition-stability}. These identify the
+classifier, stability, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates and show that composition keeps consumer reads on the displayed
+finite threshold-ledger surface.
+
+Tail restriction is handled by
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. Ledger exactness
+then follows from \autoref{thm:modulusofconvergence-ledger-exactness}, so a
+consumer can inspect only the finite request, threshold, schedule,
+late-window, transport, continuation, provenance, and ledger rows.
+
+The public export and standard bridge are exactly
+\autoref{thm:modulusofconvergence-realup-public-export},
+\autoref{thm:modulusofconvergence-finite-rate-bridge-packet}, and
+\autoref{thm:modulusofconvergence-standard-bridge}. Together they show that
+the $\RegSeqRatUp$/$\RealUp$ read and the standard explicit-modulus schema use
+the same finite rows and do not export quotient completion, selected real
+limits, global threshold choice outside the finite ledger, or host real
+equality.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence mature tail consumer example]
+\label{thm:modulusofconvergence-mature-tail-consumer-example}
+A $\RegSeqRatUp$ or $\RealUp$ consumer that narrows to a later displayed tail
+reads the same finite convergence-rate package: the precision request, unary
+threshold selector, modulus row, $\StreamNameUp$ observations,
+$\RegSeqRatUp$ late-window witness, $\DyadicRatCoreUp$ endpoint ledger,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, dependency ledger, and local $\NameCert$
+row.
+
+The tail read contains no quotient completion, selected real limit, global
+threshold choice outside the finite ledger, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:modulusofconvergence-tail-restriction-stability}. It
+keeps a later displayed tail on the same precision request, unary threshold
+selector, modulus row, observation schedule, and late-window witness.
+
+Apply \autoref{thm:modulusofconvergence-ledger-exactness}. The endpoint and
+dependency ledgers exhaust the finite coordinates that the tail consumer can
+inspect.
+
+Next use \autoref{thm:modulusofconvergence-realup-public-export}. This gives
+the $\RegSeqRatUp$ and $\RealUp$ consumer surface over the same finite
+convergence-rate rows, together with $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+local $\NameCert$ evidence.
+
+Finally apply \autoref{thm:modulusofconvergence-standard-bridge}. The standard
+explicit-modulus bridge reads exactly the displayed BEDC rows, so narrowing to
+a later tail cannot introduce quotient completion, a selected real limit, a
+global threshold choice outside the ledger, or host real equality.
+\end{proof}
+
 \closureat{ModulusOfConvergenceUp}{obligationStr}
 \closureat{ModulusOfConvergenceUp}{scopedStr}
 \closureat{ModulusOfConvergenceUp}{publicStr}
