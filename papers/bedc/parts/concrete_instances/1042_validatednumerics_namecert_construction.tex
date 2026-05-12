@@ -314,6 +314,42 @@ solver correctness, floating-point hardware semantics, classical completeness,
 and global convergence remain outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics exported enclosure bridge]
+\label{thm:validatednumerics-exported-enclosure-bridge}
+The public $\ValidatedNumericsUp$ export bridges a finite validated enclosure
+packet to exactly the displayed boundary consisting of the
+$\RationalIntervalUp$ enclosure, the dyadic or rational endpoint row, the
+finite modulus request, the $\RegSeqRatUp$ observation window, the $\RealUp$
+readback token, the containment ledger, $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance, and the local $\NameCert$ row.
+
+The bridge does not export solver correctness, floating-point hardware
+semantics, host real equality, or classical completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite enclosure obligation. Apply
+\autoref{thm:validatednumerics-interval-enclosure-obligation}; this fixes the
+$\RationalIntervalUp$ enclosure, endpoint row, finite modulus request, and
+continuation ledger as the carrier side of the public packet.
+
+Next attach the real readback boundary. Apply
+\autoref{thm:validatednumerics-real-readback-soundness}; the $\RealUp$ token is
+read only through the $\RegSeqRatUp$ observation window and finite modulus
+request, so no host real equality is introduced.
+
+The exported packet must remain stable under sharper finite requests. Apply
+\autoref{thm:validatednumerics-precision-refinement-containment} and
+\autoref{thm:validatednumerics-containment-ledger-transport}; refinement
+narrows the interval while the hidden containment ledger is carried by the
+displayed $\hsame$ transports and $\Cont$ routes.
+
+Finally apply \autoref{thm:validatednumerics-namecert-obligation-surface}. The
+local $\NameCert$ row and $\Pkg$ provenance repack the preceding rows as the
+public bridge boundary. Since each step projects from the displayed finite
+packet, solver correctness, floating-point hardware semantics, host real
+equality, and classical completeness remain outside the bridge.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics public finite-enclosure consumer certificate]
 \label{thm:validatednumerics-public-finite-enclosure-consumer-certificate}
 A scoped $\ValidatedNumericsUp$ packet exports a public finite-enclosure
@@ -350,18 +386,60 @@ solver correctness, floating-point semantics, and classical real completeness
 remaining outside the exported packet.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics finite-enclosure standard bridge]
+\label{thm:validatednumerics-finite-enclosure-standard-bridge}
+The public finite-enclosure consumer certificate for $\ValidatedNumericsUp$,
+the interval enclosure obligation, precision-refinement containment, real
+readback soundness, containment ledger transport, and the dependency boundary
+assemble the standard finite validated-enclosure bridge over
+$\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$,
+$\ModulusOfConvergenceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+The bridge exports only the BEDC finite-enclosure surface. It excludes solver
+correctness, floating-point hardware semantics, host real equality, and
+classical real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the consumer-side certificate from
+\autoref{thm:validatednumerics-public-finite-enclosure-consumer-certificate}.
+It supplies the public packet whose rows are available to downstream
+$\RealUp$ and $\RegSeqRatUp$ consumers without a host real-number primitive.
+
+The carrier side is fixed by
+\autoref{thm:validatednumerics-interval-enclosure-obligation}. The endpoint
+and interval rows give the displayed $\DyadicRatCoreUp$,
+$\RationalIntervalUp$, and finite modulus request surface.
+
+Next attach the two stability rows used by the bridge. Apply
+\autoref{thm:validatednumerics-real-readback-soundness} for the $\RealUp$
+readback through the $\RegSeqRatUp$ observation window, and apply
+\autoref{thm:validatednumerics-precision-refinement-containment} for monotone
+narrowing under sharper finite precision requests.
+
+Finally apply
+\autoref{thm:validatednumerics-containment-ledger-transport} and
+\autoref{thm:validatednumerics-dependency-boundary}. The containment ledger is
+transported by the displayed $\mathsf{BHist}$, $\hsame$, and $\Cont$ rows, and
+the dependency boundary repacks the result through $\Pkg$ and $\NameCert$.
+Because every row is projected from these displayed packet components, solver
+correctness, floating-point hardware semantics, host real equality, and
+classical real completeness remain outside the bridge.
+\end{proof}
+
 \closureat{ValidatedNumericsUp}{seedStr}
 \closureat{ValidatedNumericsUp}{obligationStr}
 \closureat{ValidatedNumericsUp}{scopedStr}
 \closureat{ValidatedNumericsUp}{publicStr}
+\closureat{ValidatedNumericsUp}{bridgedStr}
 
 \begin{closurestatus}{\ValidatedNumericsUp}
   \constructivestory{A $\ValidatedNumericsUp$ packet is generated by a rational or dyadic interval enclosure, a requested precision row, a finite modulus-of-convergence request, a regular rational observation window, a real-name readback token, containment routes, transport rows, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:validatednumerics-carrier-classifier-obligations}, \autoref{thm:validatednumerics-containment-ledger-transport}, and \autoref{thm:validatednumerics-namecert-obligation-surface} bind the finite certified-enclosure obligation surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:validatednumerics-finite-enclosure-standard-bridge} binds the finite certified-enclosure bridge surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close general convergence, floating-point hardware semantics, classical real completeness, or solver correctness.}
-  \upgradepath{The next paper-axis step is a bridge theorem for the exported validated-enclosure boundary.}
+  \upgradepath{Mature closure requires finite consumer examples or completeness of the displayed bridge surface.}
 \end{closurestatus}
