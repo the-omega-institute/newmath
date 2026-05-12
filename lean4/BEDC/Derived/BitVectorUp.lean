@@ -14,44 +14,48 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def BitVectorPacket [AskSetup] [PackageSetup]
-    (length spine ledger provenance packet : BHist)
+def BitVectorSource [AskSetup] [PackageSetup]
+    (length spine ledger provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory provenance ∧
-    Cont length spine ledger ∧ Cont ledger provenance packet ∧ PkgSig bundle packet pkg
+  UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧
+    UnaryHistory provenance ∧ Cont length spine ledger ∧ PkgSig bundle provenance pkg
 
-theorem BitVectorPacket_carrier_stability [AskSetup] [PackageSetup]
-    {length spine ledger provenance packet length' spine' ledger' provenance'
-      packet' : BHist}
+theorem BitVectorSource_carrier_stability [AskSetup] [PackageSetup]
+    {length spine ledger provenance length' spine' ledger' provenance' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BitVectorPacket length spine ledger provenance packet bundle pkg ->
+    BitVectorSource length spine ledger provenance bundle pkg ->
       hsame length length' ->
         hsame spine spine' ->
           hsame provenance provenance' ->
             Cont length' spine' ledger' ->
-              Cont ledger' provenance' packet' ->
-                PkgSig bundle packet' pkg ->
-                  BitVectorPacket length' spine' ledger' provenance' packet' bundle pkg ∧
-                    hsame ledger ledger' ∧ hsame packet packet' := by
-  intro packetSource sameLength sameSpine sameProvenance ledgerRow' packetRow' packetSig'
-  obtain ⟨lengthUnary, spineUnary, provenanceUnary, ledgerRow, packetRow, _packetSig⟩ :=
-    packetSource
-  have lengthUnary' : UnaryHistory length' :=
-    unary_transport lengthUnary sameLength
-  have spineUnary' : UnaryHistory spine' :=
-    unary_transport spineUnary sameSpine
-  have provenanceUnary' : UnaryHistory provenance' :=
-    unary_transport provenanceUnary sameProvenance
-  have ledgerUnary' : UnaryHistory ledger' :=
-    unary_cont_closed lengthUnary' spineUnary' ledgerRow'
-  have sameLedger : hsame ledger ledger' :=
-    cont_respects_hsame sameLength sameSpine ledgerRow ledgerRow'
-  have samePacket : hsame packet packet' :=
-    cont_respects_hsame sameLedger sameProvenance packetRow packetRow'
-  exact And.intro
-    (And.intro lengthUnary'
-      (And.intro spineUnary'
-        (And.intro provenanceUnary' (And.intro ledgerRow' (And.intro packetRow' packetSig')))))
-    (And.intro sameLedger samePacket)
+              PkgSig bundle provenance' pkg ->
+                BitVectorSource length' spine' ledger' provenance' bundle pkg ∧
+                  hsame ledger ledger' := by
+  intro source sameLength sameSpine sameProvenance ledgerRow' pkgSig'
+  cases source with
+  | intro lengthUnary sourceRest =>
+      cases sourceRest with
+      | intro spineUnary sourceRest =>
+          cases sourceRest with
+          | intro _ledgerUnary sourceRest =>
+              cases sourceRest with
+              | intro provenanceUnary sourceRest =>
+                  cases sourceRest with
+                  | intro ledgerRow _pkgSig =>
+                      have lengthUnary' : UnaryHistory length' :=
+                        unary_transport lengthUnary sameLength
+                      have spineUnary' : UnaryHistory spine' :=
+                        unary_transport spineUnary sameSpine
+                      have provenanceUnary' : UnaryHistory provenance' :=
+                        unary_transport provenanceUnary sameProvenance
+                      have ledgerUnary' : UnaryHistory ledger' :=
+                        unary_repetition_closed_under_continuation lengthUnary' spineUnary'
+                          ledgerRow'
+                      have sameLedger : hsame ledger ledger' :=
+                        cont_respects_hsame sameLength sameSpine ledgerRow ledgerRow'
+                      constructor
+                      · exact ⟨lengthUnary', spineUnary', ledgerUnary', provenanceUnary',
+                          ledgerRow', pkgSig'⟩
+                      · exact sameLedger
 
 end BEDC.Derived.BitVectorUp
