@@ -348,6 +348,47 @@ located subset, or classical completeness principle. These objects therefore
 cannot be exported by the complete consumer surface.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation directed precision refinement associativity]\label{thm:dyadicapproximation-directed-precision-refinement-associativity}
+Let three accepted $\DyadicApproximationUp$ packets carry compatible displayed
+common unary precision refinements. Suppose the left-associated read first
+refines the first two packets to their displayed common precision and then
+refines that visible packet with the third, while the right-associated read
+first refines the last two packets and then refines the first packet with that
+visible packet. Then the two reads expose the same consumer-visible finite
+packet: the transported precision row, dyadic endpoint, $\StreamNameUp$
+window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger, visible $\hsame$,
+visible $\Cont$, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+
+No quotient real, host real equality, completion point, selected
+representative, trichotomy row, or choice principle is used to identify the
+two associated reads.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-approximation-common-precision-refinement} to the
+left pair, obtaining the displayed common precision packet for the first two
+accepted reads. Apply the same theorem to the right pair, obtaining the
+displayed common precision packet for the last two accepted reads.
+
+Apply \autoref{thm:dyadic-approximation-common-precision-refinement} again to
+the left-associated packet and the third packet. Apply it once more to the
+first packet and the right-associated packet. Compatibility of the two
+displayed common unary precision refinements makes these two terminal
+precision rows the same displayed row.
+
+Use \autoref{thm:dyadic-approximation-classifier-transport} on the two
+terminal refinements. The transported classifier rows identify the dyadic
+endpoint, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal
+ledger, visible $\hsame$, visible $\Cont$, package provenance, and local
+certificate rows carried by the two associated packets.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Every
+finite consumer coordinate is exhausted by the listed rows, and the converse
+packing direction shows that these rows determine the same finite
+dyadic-approximation consumer surface. Since the completeness theorem exports
+no quotient-real or choice-selected coordinate, the associativity law is
+entirely a finite displayed-packet statement.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
@@ -358,7 +399,7 @@ cannot be exported by the complete consumer surface.
 \begin{closurestatus}{\DyadicApproximationUp}
   \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge}, \autoref{thm:dyadic-approximation-rational-interval-window-handoff}, and \autoref{thm:dyadicapproximation-consumer-completeness} form the public finite-window export, standard finite dyadic-approximation readback, rational interval handoff, and finite consumer surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RationalIntervalUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge}, \autoref{thm:dyadic-approximation-rational-interval-window-handoff}, \autoref{thm:dyadicapproximation-consumer-completeness}, and \autoref{thm:dyadicapproximation-directed-precision-refinement-associativity} form the public finite-window export, standard finite dyadic-approximation readback, rational interval handoff, finite consumer surface, and directed refinement associativity for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RationalIntervalUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
