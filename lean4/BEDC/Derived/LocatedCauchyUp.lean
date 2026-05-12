@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -86,6 +88,57 @@ theorem LocatedCauchyCarrier_window_stability [AskSetup] [PackageSetup]
                         (And.intro transportRoutesProvenance'
                           (And.intro provenanceNameRoutes' pkgSig))))))))))))
     (And.intro sameModulus sameTransport)
+
+theorem LocatedCauchyCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {schedule endpoints modulus witnesses transport routes provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyCarrier schedule endpoints modulus witnesses transport routes provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          (fun row : BHist => hsame row provenance)
+          hsame ∧
+        UnaryHistory schedule ∧ UnaryHistory endpoints ∧ UnaryHistory modulus ∧
+          UnaryHistory witnesses ∧ Cont schedule endpoints modulus ∧
+            Cont modulus witnesses transport ∧ Cont transport routes provenance ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier
+  rcases carrier with
+    ⟨scheduleUnary, endpointsUnary, modulusUnary, witnessesUnary, _transportUnary, _routesUnary,
+      _provenanceUnary, _nameUnary, scheduleEndpointsModulus, modulusWitnessesTransport,
+      transportRoutesProvenance, _provenanceNameRoutes, pkgSig⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (hsame_refl provenance)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, scheduleUnary, endpointsUnary, modulusUnary, witnessesUnary,
+      scheduleEndpointsModulus, modulusWitnessesTransport, transportRoutesProvenance, pkgSig⟩
 
 theorem LocatedCauchyCarrier_real_seal_boundary [AskSetup] [PackageSetup]
     {schedule endpoints modulus witnesses transport routes provenance nameRow : BHist}

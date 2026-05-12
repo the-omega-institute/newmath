@@ -103,6 +103,7 @@ the left and right instances of BEDC history equality transitivity.
 
 \begin{theorem}[Sum ledger raw-visible branch exactness]
 \label{thm:sum-ledger-raw-visible-branch-exactness}
+\label{thm:sum-ledger-branch-exactness-iff}
 Let $Left,Right:\mathsf{BHist}\to\mathsf{Prop}$ be source carriers and let
 $raw,visible:\mathsf{BHist}$ be histories. Then
 $$
@@ -717,13 +718,53 @@ For mixed tags, \autoref{thm:sum-ledger-visible-tag-separation} applies to the v
 Finally, \autoref{thm:sum-ledger-visible-payload-readback} recovers the displayed source payload from each visible endpoint, and \autoref{thm:sum-ledger-chain-endpoint-exactness} states that the endpoint readback is exact along the public chain. These rows are exactly the finite two-injection interface described above, so the tagged-payload certificate is a paper bridge to the standard disjoint-sum reading.
 \end{proof}
 
+\begin{theorem}[Sum mature finite consumer boundary]
+\label{thm:sum-mature-finite-consumer-boundary}
+Every finite consumer of the public $\SumUp$ package factors through the tagged
+payload carrier, visible tag separation, branch exactness, payload readback,
+endpoint chain exactness, and the public tagged-payload standard bridge. Such a
+consumer can inspect only whether the exposed endpoint is an $\Ezero$-tagged
+left payload or an $\Eone$-tagged right payload, can read the corresponding
+source evidence through the ledger rows, and can compare same-tag payloads only
+through the branch classifier exactness already exported by the certificate.
+
+This finite boundary excludes eliminators into arbitrary certified targets,
+dependent sums, and categorical coproduct universal properties. Those structures
+are not consequences of the tagged-payload package surface; they require
+additional consumer principles beyond the public $\SumUp$ certificate.
+\end{theorem}
+\begin{proof}
+Start with the public tagged-payload bridge in
+Theorem~\ref{thm:sum-public-tagged-payload-standard-bridge}. It identifies the
+public surface with the two visible injections and rules out any hidden carrier
+coordinate outside the tagged history endpoint.
+
+The finite consumer's branch observation is then forced by
+Theorem~\ref{thm:sum-ledger-visible-tag-separation}; mixed visible tags cannot be
+read as the same public branch. Same-branch comparisons are governed by
+Theorem~\ref{thm:sum-ledger-branch-exactness-iff}, which is the raw-visible
+branch exactness row for the ledger.
+
+Payload access is supplied by
+Theorem~\ref{thm:sum-ledger-visible-payload-readback}. Chain-level endpoint
+soundness is supplied by
+Theorem~\ref{thm:sum-ledger-chain-endpoint-exactness}, so repeated finite
+ledger reads still factor through the same tagged endpoint and its source
+payload evidence.
+
+Combining these rows leaves exactly the finite tagged-payload consumer surface.
+Since none of the cited rows constructs an arbitrary-target eliminator,
+dependent sum, or coproduct universal arrow, those stronger interfaces remain
+outside the mature finite boundary stated here.
+\end{proof}
+
 \begin{closurestatus}{\SumUp}
   \constructivestory{A sum value is made by choosing one side and marking that choice directly on the payload: a left payload $l$ from $L$ becomes $\Ezero(l)$, while a right payload $r$ from $R$ becomes $\Eone(r)$. Those two tags are part of the history itself, so the classifier first checks that the tags land on the same branch and only then compares the payloads by the left or right source classifier; a b0-tagged left value and a b1-tagged right value never meet. The same tagged-history predicate is the source, the pattern records the left-versus-right split, the two tag forms, and the no-confusion rows, and the ledger keeps each visible sum history aligned with the raw tagged payload that produced it. Because history-equality and the two source-side classifiers are equivalences, the injected witnesses supply the carrier, the branchwise classifier is reflexive, symmetric, and transitive, and classifier-recognized representatives stay inside the same tagged carrier. A history $h$ lies in the signature gap of a $\SumUp$ token $p$ when the source-domain accepts the tagged history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; after the tags are inspected, $h$ is either a left injection whose payload matches the left side encoded by $p$, or a right injection whose payload matches the right side encoded by $p$. The chapter registers this tagged-payload construction under the name $\SumUp$; disjoint union is the same b0/b1 choice used at the kernel level, now carrying a payload, with no separate coproduct type, eliminator, or host disjoint-union construct introduced.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public paper scope binds the tagged sum semantic certificate, selected injection tag, left and right branch classifier exactness, source ledger, visible-history descent, and licensed public surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public paper scope binds the tagged sum semantic certificate, selected injection tag, left and right branch classifier exactness, source ledger, visible-history descent, licensed public surface, and mature finite consumer boundary in \autoref{thm:sum-mature-finite-consumer-boundary}.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SumUp.sum\_history\_semantic\_name\_certificate}
   \bridgestatus{paperBridge}
   \notclaimed{Full sum or coproduct theory: eliminators into arbitrary certified targets, dependent sums, categorical coproduct universal property, distributivity laws, or generic case recursion.}
-  \upgradepath{Bridge-checked status requires a Lean standard-bridge theorem for the same public tagged-payload surface.}
+  \upgradepath{No further paper-axis theory upgrade is required for this finite tagged-payload surface.}
 \end{closurestatus}

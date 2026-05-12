@@ -194,6 +194,40 @@ theorem betaStep_to_betaParallel {t t' : Term}
     BetaParallel t t' := by
   exact betaStep_to_parallel h
 
+theorem betaParallel_of_betaStep {t t' : Term}
+    (h : BetaStep t t') :
+    BetaParallel t t' := by
+  exact betaStep_to_parallel h
+
+theorem betaParallel_app_cong_step {f f' a : Term}
+    (h : BetaStep f f') :
+    BetaParallel (Term.app f a) (Term.app f' a) := by
+  exact BetaParallel.app (betaParallel_of_betaStep h) (betaParallel_refl a)
+
+theorem betaParallel_to_betaStar {t u : Term} :
+    BetaParallel t u → BetaStarStep t u := by
+  intro h
+  induction h with
+  | var i =>
+      exact BetaStarStep.refl (Term.var i)
+  | sort =>
+      exact BetaStarStep.refl Term.sort
+  | app hf ha ihf iha =>
+      exact betaStar_trans (betaStarStep_app_left ihf) (betaStarStep_app_right iha)
+  | lam hd hb ihd ihb =>
+      exact betaStar_trans (betaStarStep_lam_dom _ ihd) (betaStarStep_lam_cong ihb)
+  | pi hd hc ihd ihc =>
+      exact betaStar_trans (betaStarStep_pi_dom _ ihd) (betaStarStep_pi_cod _ ihc)
+  | beta hd hb ha ihd ihb iha =>
+      exact
+        betaStar_trans
+          (betaStarStep_app_left (betaStarStep_lam_dom _ ihd))
+          (betaStar_trans
+            (betaStarStep_app_left (betaStarStep_lam_cong ihb))
+            (betaStar_trans
+              (betaStarStep_app_right iha)
+              (betaStar_one (BetaStep.beta _ _ _))))
+
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
     t = Term.sort := by
@@ -217,6 +251,36 @@ theorem betaParallel_var_unique_target {i : Idx} {t : Term}
     t = Term.var i := by
   cases h
   rfl
+
+theorem betaParallel_pi_shape {d c t : Term}
+    (h : BetaParallel (Term.pi d c) t) :
+    ∃ d' c', t = Term.pi d' c' ∧ BetaParallel d d' ∧ BetaParallel c c' := by
+  cases h with
+  | pi hd hc =>
+      exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro hd hc)))
+
+theorem betaParallel_lam_shape {d b t : Term}
+    (h : BetaParallel (Term.lam d b) t) :
+    ∃ d' b', t = Term.lam d' b' ∧ BetaParallel d d' ∧ BetaParallel b b' := by
+  cases h with
+  | lam hd hb =>
+      exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro hd hb)))
+
+theorem betaStarStep_of_betaParallel_atom {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaParallel t t') :
+    BetaStarStep t t' := by
+  cases hatom with
+  | inl hsort =>
+      cases hsort
+      cases betaParallel_sort_unique h
+      exact BetaStarStep.refl Term.sort
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          cases betaParallel_var_unique h
+          exact BetaStarStep.refl (Term.var i)
 
 theorem betaParallel_join_refl_left {t u : Term} :
     BetaParallel t u →

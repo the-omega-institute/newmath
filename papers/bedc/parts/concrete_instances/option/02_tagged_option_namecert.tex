@@ -709,17 +709,51 @@ The core $\NameCert$ field is reused unchanged. For the pattern and ledger sound
 Apply Theorem~\ref{thm:tagged-option-history-semantic-certificate} with source classifier $\hsame$. The required compatibility input is exactly Theorem~\ref{thm:tagged-option-source-hsame-compatibility-hsame}.
 \end{proof}
 
+\begin{theorem}[Option standard bridge finite constructor surface]
+\label{thm:option-standard-bridge-finite-constructor-surface}
+The public $\OptionUp$ constructor surface consists exactly of the empty
+endpoint, the one-tag present endpoint, payload classifier transport,
+carrier-pattern-ledger equivalence, and the source $\hsame$ compatibility rows.
+In this surface, absence is represented only by histories presented as $\emp$,
+presence is represented only by histories presented as $\Eone(a)$ for a
+source-admitted payload $a$, and the payload comparison exposed to a public
+consumer is precisely the transported source classifier row.
+
+No additional host option value, eliminator, recursion principle, or hidden
+branch coordinate is part of the public bridge. The absent and present rows are
+separated by constructor no-confusion, and the carrier, pattern, and ledger
+readings name the same finite two-branch history surface.
+\end{theorem}
+\begin{proof}
+The tagged option semantic certificate is
+Corollary~\ref{cor:tagged-option-history-semantic-certificate-hsame}; it supplies
+the public carrier, pattern, ledger, and classifier over $\hsame$.
+
+Source compatibility is exactly
+Theorem~\ref{thm:tagged-option-source-hsame-compatibility-hsame}. The
+carrier-pattern-ledger equivalence is
+Theorem~\ref{thm:tagged-option-history-carrier-pattern-ledger-equivalence}, so a
+public endpoint has the same visible reading in all three rows.
+
+The empty endpoint and one-tag present endpoint are isolated by the absent and
+present readback rows, while mixed presentations are excluded by
+Theorem~\ref{lem:tagged-option-history-carrier-constructor-separation} and
+Theorem~\ref{thm:tagged-option-history-carrier-mixed-tag-separation}. These
+no-confusion rows leave exactly the finite constructor surface stated above.
+\end{proof}
+
 \input{parts/concrete_instances/option/public_endpoint_semantic_scope}
 
 \closureat{OptionUp}{publicStr}[BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate]
+\closureat{OptionUp}{bridgedStr}[BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\OptionUp}
   \constructivestory{An optional value is made by leaving the history at $\emp$ for absence, or by taking a source-admitted payload $a$ and placing one b1-mark above it as $\Eone(a)$ for presence. The classifier follows that split instead of inventing a new datatype: two absent histories agree because both are the empty endpoint, and two present histories agree only when their payloads are recognized by the source-side classifier, while an absent endpoint and a present tag never coincide. The same predicate supplies the certificate's source, the pattern is the absent-versus-present no-confusion table together with the b1-tagged present form, and the ledger exposes the option history itself rather than a hidden host value. Once the source classifier is an equivalence and history-equality is identity, the carrier has its empty witness, the classifier is reflexive, symmetric, and transitive on the two branches, and carrier membership is preserved whenever the classifier recognizes another representative. A history $h$ lies in the signature gap of an $\OptionUp$ token $p$ when the source-domain admits $h$, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; in concrete terms, $h$ is either the absent endpoint matching the absent token or a present b1-tag whose payload is identified with the payload encoded by $p$. The chapter registers this presence-or-absence construction under the name $\OptionUp$; the b1-mark is reused as the present tag, and no independent option type, eliminator, monad API, or host-language `Maybe` is introduced.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The tagged option history semantic certificate over a source carrier, with empty none endpoint, one-tag present endpoint, payload transport, and carrier-pattern-ledger equivalence.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The tagged option history semantic certificate over a source carrier, with empty none endpoint, one-tag present endpoint, payload transport, carrier-pattern-ledger equivalence, source $\hsame$ compatibility, and the finite constructor surface in \autoref{thm:option-standard-bridge-finite-constructor-surface}.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{Full option type theory: eliminators and recursion for arbitrary targets, map/bind APIs, functor or monad laws, applicative structure, or generic pointed-type theory.}
-  \upgradepath{Bridged closure requires a standard bridge for the public none/present constructor surface and payload classifier exactness.}
+  \upgradepath{Mature closure requires finite consumer examples for the same none/present constructor surface.}
 \end{closurestatus}
