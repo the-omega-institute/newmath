@@ -96,6 +96,20 @@ For transported schedules, use the diagonal-bind stability of \autoref{thm:cauch
 It remains to identify the public route. Apply \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Every public read must pass through schedule, window, dyadic observation, diagonal readback, and seal coordinates, so the composed packet exposes exactly the same finite completion surface.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad downstream RegSeqRat consumer route]
+\label{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route}
+Every downstream $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer read of an accepted $\CauchyCompletionMonadUp$ packet factors through the source regular-Cauchy family row, the unary schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ diagonal readback, the public $\RealUp$ seal row, $\mathsf{BHist}$ ledger entries, displayed $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ coordinates. The route exports no quotient stream, host real equality, selected limit, hidden representative, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$. A downstream consumer precision request first reads the unary schedule $\mu$, so its source member is selected inside the displayed regular-Cauchy family row $X$ rather than by an external selector.
+
+The selected request then passes through the finite $\StreamNameUp$ window in $W$ and the corresponding $\DyadicRatCoreUp$ observation in $D$. Apply \autoref{thm:cauchy-completion-monad-diagonal-bind-stability} to transport these rows along the stored $\hsame$ comparisons and the displayed $\Cont$ read routes without changing the classifier-facing surface.
+
+Next use \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. It identifies composed consumer reads with the same schedule, window, dyadic-observation, and diagonal-readback route, so the $\RegSeqRatUp$ handoff remains a finite packet route.
+
+Finally apply \autoref{thm:cauchy-completion-monad-unit-boundary} for constant source packets and \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} for public real-seal reads. The carrier rows $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $N$ exhaust the public coordinates, so quotient streams, host real equality, selected limits, hidden representatives, and ambient completeness cannot be exported by the downstream route.
+\end{proof}
+
 \closureat{CauchyCompletionMonadUp}{seedStr}
 \closureat{CauchyCompletionMonadUp}{obligationStr}
 \closureat{CauchyCompletionMonadUp}{scopedStr}
