@@ -108,3 +108,15 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   `choices(r) = choices(k) ++ choices(h)`.
 - [x] Add `docs/cont_design.md` documenting the append direction and manifest
   contract.
+
+## Gap module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Gap/Core.lean`, `Gap/InGapSig.lean`,
+  `Gap/Comp.lean`, and `Gap/Policy.lean`.
+- [x] Add `rule110/manifests/gap/gap_basic.enum.ct` and
+  `gap_basic.algo.ct` for signature-gap membership and composition-gap
+  witnesses.
+- [x] Add `tests/test_gap.c` to decode Gap inputs, reuse the SigRel fixture,
+  and check domain, token, and composition witness predicates.
+- [x] Add `docs/gap_design.md` documenting the concrete fixtures and manifest
+  contract.
