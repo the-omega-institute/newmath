@@ -54,7 +54,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] C3: Implement encoder for CT with 1 production. Verify by running Cook's example or constructing a minimal example.
 
-- [ ] C4: Implement encoder for arbitrary CT. Test on the 8 Mark manifests' productions.
+- [x] C4: Implement encoder for arbitrary CT. Test on the 8 Mark manifests' productions.
 
 - [ ] C5: Generate `.r110` versions of all 8 Mark manifests: `manifests/mark/msame_*.{enum,algo}.r110`. These are large bit patterns (potentially MB-scale). Document expected sizes in headers.
 
