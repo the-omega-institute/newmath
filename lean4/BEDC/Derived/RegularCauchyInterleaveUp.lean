@@ -94,4 +94,20 @@ theorem RegularCauchyInterleaveWindowMergeExactness [AskSetup] [PackageSetup]
     ⟨iUnary, jUnary, sUnary, tUnary, wUnary, dUnary, sourceWindow, windowDyadic,
       dyadicHandoff, pkgSig⟩
 
+theorem RegularCauchyInterleaveCarrier_selected_slot_exhaustion [AskSetup] [PackageSetup]
+    {I J S T W D M H C P N endpoint selectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleaveCarrier I J S T W D M H C P N endpoint bundle pkg ->
+      Cont endpoint N selectedRead ->
+        UnaryHistory selectedRead ∧ Cont I S T ∧ Cont T W D ∧ Cont D M endpoint ∧
+          Cont endpoint N selectedRead ∧ PkgSig bundle endpoint pkg := by
+  intro carrier selectedSlot
+  obtain ⟨_iUnary, _jUnary, _sUnary, _tUnary, _wUnary, _dUnary, _mUnary, _hUnary,
+    _cUnary, _pUnary, nUnary, endpointUnary, sourceWindow, windowDyadic,
+    dyadicEndpoint, pkgSig⟩ := carrier
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed endpointUnary nUnary selectedSlot
+  exact
+    ⟨selectedReadUnary, sourceWindow, windowDyadic, dyadicEndpoint, selectedSlot, pkgSig⟩
+
 end BEDC.Derived.RegularCauchyInterleaveUp
