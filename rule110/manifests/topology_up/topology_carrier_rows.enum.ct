@@ -1,0 +1,18 @@
+# topology_carrier_rows.enum.ct
+# Theorem family:
+#   BHistFiniteBaseNeighborhoodCarrier_scope_rows
+#   BHistFiniteBaseNeighborhoodCarrier_indexed_open_laws
+#   BHistFiniteBaseNeighborhoodCarrier_singleton_row
+#
+# Input shape:
+#   Bundle(BHist) left ++ Bundle(BHist) right ++ BHist ledger
+#
+# The runtime harness checks exact Bundle(BHist) decoding, meet =
+# bundleAppend, and that the ledger fixture is a unary BHist accepted by the
+# finite row tests.
+PRODUCTIONS 0
+ASSERTIONS 4
+case left_empty_right_empty_ledger_empty:       input=10101110101111                       ; theorem=finite_base_carrier_meet_scope ; left_len=0 ; right_len=0 ; ledger=empty ; conclusion_holds=yes
+case left_singleton_right_empty_ledger_e1:      input=0111010111010111011                  ; theorem=finite_base_indexed_open_laws ; left_len=1 ; right_len=0 ; ledger=e1_empty ; conclusion_holds=yes
+case left_empty_right_pair_ledger_e1:           input=1010111011010111010111011            ; theorem=finite_base_carrier_meet_scope ; left_len=0 ; right_len=2 ; ledger=e1_empty ; conclusion_holds=yes
+case left_pair_right_singleton_ledger_e1_e1:    input=0111011101011011101011101011         ; theorem=finite_base_indexed_open_laws ; left_len=2 ; right_len=1 ; ledger=e1_e1_empty ; conclusion_holds=yes
