@@ -594,4 +594,39 @@ theorem ignore_arg :
       · apply HasType.varRule
         rfl
 
+theorem triple_lam_pi_construction :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam Term.sort
+          (Term.lam (Term.var 1)
+            (Term.pi (Term.var 1) (Term.var 2)))))
+      (Term.pi Term.sort
+        (Term.pi Term.sort
+          (Term.pi (Term.var 1) Term.sort))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.piRule
+        · apply HasType.varRule
+          rfl
+        · apply HasType.varRule
+          rfl
+
+theorem double_arrow_in_sort :
+    HasType [Term.sort]
+      (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))
+      Term.sort := by
+  apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
+
 end BEDC.MetaCIC
