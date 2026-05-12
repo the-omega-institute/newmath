@@ -9,6 +9,7 @@ import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Confluence.Diamond
 import BEDC.MetaCIC.Confluence.ClosedUnconditional
 import BEDC.MetaCIC.Substitution
+import BEDC.MetaCIC.Substitution.ClosedComposition
 import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.Typing.ClosedInversion

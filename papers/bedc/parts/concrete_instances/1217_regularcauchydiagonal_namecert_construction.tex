@@ -64,16 +64,53 @@ Classifier transport is componentwise. Each accepted replacement is an $\hsame$ 
 Window coverage is exactly \autoref{thm:regular-cauchy-diagonal-window-coverage}, and stationary rational compatibility is exactly \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}. The ledger non-escape claim follows by inspecting the listed source coordinates: none is a quotient carrier, host-limit selector, ambient completeness theorem, or hidden real endpoint.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy diagonal zero seed]
+\label{thm:regular-cauchy-diagonal-zero-seed}
+For the source row $D=(Q,S,R,L,W,P,N)$ of \autoref{def:regular-cauchy-diagonal-source}, the stationary rational seed with $Q$ the zero $\RatUp$ row, $S$ the constant $\StreamNameUp$ window row, and $R$ the constant $\RegSeqRatUp$ readback inhabits the $\RegularCauchyDiagonalUp$ carrier. Its $\RealUp$ seal row $L$, finite window ledger $W$, package row $P$, and local $\NameCert$ row $N$ are all displayed finite rows.
+\end{theorem}
+\begin{proof}
+Start with the stationary rational seed. The zero $\RatUp$ row supplies the same displayed rational observation at every requested diagonal precision, and the constant $\StreamNameUp$ row supplies the same finite window witness for each read.
+
+The $\RegSeqRatUp$ readback is therefore the constant regular rational row. By \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}, the resulting $\RealUp$ seal is classified with the constant rational embedding of the same seed.
+
+Finally package the constant window routes with $P$ and $N$. The carrier definition in \autoref{def:regular-cauchy-diagonal-carrier} requires no quotient stream, selected host limit, or ambient completeness field, so these displayed rows inhabit the diagonal carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal selector stability]
+\label{thm:regular-cauchy-diagonal-selector-stability}
+Let $D=(Q,S,R,L,W,P,N)$ be an accepted $\RegularCauchyDiagonalUp$ source row. Transporting $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ componentwise by the displayed $\hsame$ comparisons and $\Cont$ routes preserves the diagonal selector classifier through the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.
+\end{theorem}
+\begin{proof}
+Project the classifier from \autoref{def:regular-cauchy-diagonal-carrier}. It compares only visible rational seeds, stream windows, regular-sequence readbacks, real-seal rows, finite diagonal-window routes, and provenance.
+
+The selector uses the window list $W$ to choose a displayed window inside the inspected regular Cauchy family. Componentwise $\hsame$ comparisons and $\Cont$ routes move exactly those displayed windows and readback rows, so the selected diagonal row remains inside the same finite packet.
+
+Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} for the consumer-facing route and \autoref{thm:regular-cauchy-diagonal-namecert-obligations} for the local certificate surface. Together they show that the transported packet preserves the selector classifier without adding quotient streams, host limits, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal RealUp seal handoff]
+\label{thm:regular-cauchy-diagonal-real-seal-handoff}
+For every accepted source row $D=(Q,S,R,L,W,P,N)$, the $\RealUp$ seal row $L$ is reached only through the displayed $\RatUp$ seed row, $\StreamNameUp$ window row, and $\RegSeqRatUp$ diagonal readback row. This handoff is the $\NameCert_{\RegularCauchyDiagonalUp}$ seal-facing route consumed by downstream $\RealDiagonalCompletionUp$ and $\RealCauchyCompletionUp$ packets.
+\end{theorem}
+\begin{proof}
+Read a consumer request through \autoref{thm:regular-cauchy-diagonal-window-coverage}. The request first selects a displayed diagonal window, then reads the corresponding $\StreamNameUp$ window row and $\RegSeqRatUp$ regular rational row.
+
+In the stationary case, \autoref{thm:regular-cauchy-diagonal-stationary-compatibility} identifies the same route with the $\RatUp$ seed and its constant rational $\RealUp$ embedding. In the general accepted packet, the same coordinates are carried by $Q$, $S$, $R$, and $W$.
+
+The obligation surface of \autoref{thm:regular-cauchy-diagonal-namecert-obligations} records the seal row $L$ only after those displayed rows and the provenance rows $P$ and $N$. Hence the seal handoff is finite and visible, and no host limit, quotient stream, or ambient completeness theorem is exported to downstream completion packets.
+\end{proof}
+
 \closureat{RegularCauchyDiagonalUp}{seedStr}
 \closureat{RegularCauchyDiagonalUp}{obligationStr}
+\closureat{RegularCauchyDiagonalUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyDiagonalUp}
   \constructivestory{A $\RegularCauchyDiagonalUp$ packet is generated from a stationary $\RatUp$ seed row, a $\StreamNameUp$ window row, a $\RegSeqRatUp$ diagonal readback, a $\RealUp$ seal row, finite diagonal-window $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The seed scope records the $\RegularCauchyDiagonalUp$ carrier over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, including window coverage, stationary compatibility, and the local naming-certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected host limits, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding carrier transport, seal factorization, and diagonal-window exactness to $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{Public closure requires a single exported diagonal-interface theorem usable by $\RealDiagonalCompletionUp$ and $\RealUp$ seal consumers.}
 \end{closurestatus}
