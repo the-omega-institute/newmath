@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionMonadUp$}
+\label{ch:concrete-instances-cauchycompletionmonad-namecert}
+\origin{human}
+
+The $\CauchyCompletionMonadUp$ interface names the finite completion transformer that reads regular rational Cauchy data and returns a $\RealUp$ seal route. It consumes the visible real-and-completion primitives $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ without forming quotient reals, selecting limits by choice, or appealing to host completeness.
+
+\begin{definition}[CauchyCompletionMonad carrier]
+\label{def:cauchy-completion-monad-carrier}
+A $\CauchyCompletionMonadUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+M=(X,W,D,\mu,\Delta,E,L,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source regular-Cauchy family over $\RegSeqRatUp$;
+\item $W$ records the finite $\StreamNameUp$ windows inspected from the members of $X$;
+\item $D$ records the $\DyadicRatCoreUp$ observations read through the windows in $W$;
+\item $\mu$ is a unary modulus and schedule row naming which family member and which window answer each requested precision;
+\item $\Delta$ is the diagonal transport ledger that repacks the scheduled observations as a regular rational readback;
+\item $E$ is the $\RealUp$ seal-facing row attached to that diagonal readback;
+\item $L$ records the componentwise $\hsame$ comparisons for source-family rows, windows, dyadic observations, schedule rows, diagonal rows, and seal rows;
+\item $C$ records the displayed $\Cont$ routes through which consumers reach the schedule, window, observation, diagonal, and real-seal coordinates;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the local dependency certificates;
+\item $N$ is the local $\NameCert_{\CauchyCompletionMonadUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite coordinates and their displayed transports.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionMonad NameCert obligations]
+\label{thm:cauchy-completion-monad-namecert-obligations}
+The local $\NameCert_{\CauchyCompletionMonadUp}$ obligation surface consists of five rows:
+\begin{enumerate}
+\item carrier habitation by constant regular rational data, using constant $\RegSeqRatUp$ rows, stationary $\StreamNameUp$ windows, constant $\DyadicRatCoreUp$ observations, the zero schedule, the diagonal readback of that stationary packet, and the corresponding $\RealUp$ seal row;
+\item classifier transport for schedule rows, window rows, dyadic observation rows, diagonal rows, and seal rows by componentwise $\hsame$ and the displayed $\Cont$ routes;
+\item diagonal handoff exactness: each real-facing precision read factors through the schedule row, the selected finite window, the displayed dyadic observation, and the diagonal readback row before reaching the $\RealUp$ seal;
+\item non-escape of quotient reals, host real equality, choice-selected limits, ambient completeness principles, or hidden stream representatives;
+\item public consumer boundary for $\RealUp$ completion reads, exposing only $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+\end{enumerate}
+These obligations specify the finite completion-interface surface and do not assert that $\RealUp$ is complete as an ambient real object.
+\end{theorem}
+\begin{proof}
+For habitation, take a constant regular rational family. Its displayed stream windows are stationary, every dyadic observation is the same rational row, the unary schedule may select the initial member for each precision request, and the diagonal ledger repacks the same rows as the real-facing readback.
+
+Classifier transport is coordinatewise. Transport the schedule, selected windows, dyadic observations, diagonal ledger, and real-seal row along the stored $\hsame$ comparisons, then compose with the displayed $\Cont$ read routes for the same coordinates.
+
+For diagonal handoff exactness, project the carrier coordinates $X$, $W$, $D$, $\mu$, $\Delta$, and $E$. A consumer precision request first reads $\mu$, then the chosen window in $W$, then the dyadic observation in $D$, and only then the diagonal readback $\Delta$ and seal row $E$.
+
+The non-escape and public-boundary rows follow from the same projection. Since the packet contains no coordinate for a quotient real, host equality proof, selected limit, or ambient completeness theorem, a public $\RealUp$ read cannot export such data.
+\end{proof}
+
+\closureat{CauchyCompletionMonadUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionMonadUp}
+  \constructivestory{A $\CauchyCompletionMonadUp$ packet is generated from source regular-Cauchy family rows over $\RegSeqRatUp$, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a unary schedule, diagonal transport rows, a $\RealUp$ seal row, componentwise $\hsame$, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the carrier and five-row naming-certificate obligation surface for finite completion reads from regular rational Cauchy data into $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient real construction, host real equality, uniqueness of limits, choice-selected limits, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier transport, diagonal handoff exactness, classifier stability, and public $\RealUp$ consumer factorization for the finite completion packet.}
+\end{closurestatus}

@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\DyadicTailBoundUp$}
+\label{ch:concrete-instances-dyadictailbound-namecert}
+\origin{human}
+
+The $\DyadicTailBoundUp$ interface records the finite tail-budget certificate used by Bishop--Bridges constructive analysis when a real-facing construction presents explicit rational tail control. It sits between $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$: the packet names the displayed precision row, the modulus row that selects the inspected tail, the dyadic tolerance used for the comparison, the finite ledger of tail estimates, and the seal-facing readback route. It does not form quotient streams, select limits, identify host real equality, or assume ambient completeness.
+
+\begin{definition}[DyadicTailBound BHist carrier]
+\label{def:dyadic-tail-bound-carrier}
+A $\DyadicTailBoundUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $p$ is a unary precision row naming the displayed request;
+\item $\mu$ is the $\CauchyModulusUp$ schedule row that assigns the finite tail threshold used for $p$;
+\item $\epsilon$ is the $\DyadicRatCoreUp$ tolerance row whose dyadic value is the comparison budget attached to $p$;
+\item $L$ is the finite tail comparison ledger: every inspected tail entry is paired with the threshold supplied by $\mu$, the tolerance supplied by $\epsilon$, and the displayed rational comparison row;
+\item $R$ is the $\RegSeqRatUp$ readback route obtained by reading the same finite tail ledger as regular rational sequence evidence;
+\item $E$ is the $\RealUp$ seal-facing row reached through $R$ and through no other real-facing coordinate;
+\item $H$ records the componentwise $\hsame$ transports for precision, schedule, tolerance, tail-ledger, readback, and seal rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers reach the schedule, tolerance, ledger, regular-sequence readback, and real seal;
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and the rational source rows used by the ledger;
+\item $N$ is the local $\NameCert_{\DyadicTailBoundUp}$ provenance row.
+\end{enumerate}
+The classifier compares two accepted carriers only by these displayed rows, their componentwise $\hsame$ transports, their $\Cont$ read routes, their $\Pkg$ provenance, and their local $\NameCert$ rows.
+\end{definition}
+
+\begin{theorem}[DyadicTailBound NameCert obligations]
+\label{thm:dyadic-tail-bound-namecert-obligations}
+The local $\NameCert_{\DyadicTailBoundUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier habitation by the zero-tail packet, where the precision row is arbitrary, the schedule threshold is the displayed zero threshold, the dyadic tolerance is the zero-compatible $\DyadicRatCoreUp$ budget, the tail ledger records only zero comparisons, the $\RegSeqRatUp$ readback is the constant zero row, and the $\RealUp$ seal-facing row is the corresponding zero seal;
+\item classifier transport under componentwise $\hsame$ and displayed $\Cont$ routes for the precision, $\CauchyModulusUp$ schedule, $\DyadicRatCoreUp$ tolerance, finite tail ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\Pkg$, and local $\NameCert$ rows;
+\item dyadic tolerance exactness: every accepted tail comparison uses exactly the tolerance row $\epsilon$ displayed in the carrier and cannot substitute an unrecorded rational radius;
+\item regular-sequence handoff: the finite ledger $L$ repacks as the visible $\RegSeqRatUp$ readback row $R$ without dropping the schedule or tolerance rows that justify the tail budget;
+\item $\RealUp$ seal non-escape: the seal-facing row $E$ reads only through $R$, $L$, $\mu$, $\epsilon$, $H$, $C$, $P$, and $N$, and exports no quotient stream, selected limit, host real equality, or ambient completeness object.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is witnessed by the zero-tail packet. The schedule row supplies the zero threshold, the dyadic tolerance row is the displayed zero-compatible budget, and every ledger entry is the visible zero comparison. Repacking those rows gives the constant zero $\RegSeqRatUp$ readback and the matching $\RealUp$ seal-facing row.
+
+Classifier transport is componentwise. Transport the precision request, schedule threshold, dyadic tolerance, ledger entry, readback row, and seal row along the stored $\hsame$ comparisons, then replay the recorded $\Cont$ routes. Since the classifier reads only the listed packet coordinates, the transported carrier is accepted by the same finite shape.
+
+Dyadic tolerance exactness follows by projecting the ledger coordinate $L$. Each accepted comparison names the tolerance coordinate $\epsilon$ of the same carrier, so a consumer cannot replace it with an unrecorded rational radius or an ambient metric estimate.
+
+The regular-sequence handoff is the projection to $R$. It keeps the finite ledger together with the schedule and tolerance evidence needed by $\RegSeqRatUp$, so no tail choice or quotient of streams is introduced during readback.
+
+Finally the $\RealUp$ seal-facing row is reached only after the regular-sequence handoff. The carrier has no coordinate for selected limits, host real equality, quotient streams, or completeness principles, and therefore none of those objects can be exported by the local certificate.
+\end{proof}
+
+\closureat{DyadicTailBoundUp}{seedStr}
+
+\begin{closurestatus}{\DyadicTailBoundUp}
+  \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier and the five-row naming-certificate surface for reusable dyadic tail budgets consumed by $\FastConvergentSeriesUp$, $\RegSeqRatUp$ handoffs, and $\RealUp$ seal boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, dyadic tolerance exactness, regular-sequence handoff exactness, and $\RealUp$ seal factorization for the same finite packet.}
+\end{closurestatus}
