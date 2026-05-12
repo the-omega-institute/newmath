@@ -72,4 +72,31 @@ theorem StationaryPartitionDiagonalCarrier_namecert_obligations [AskSetup] [Pack
       exact sourceRow
   }
 
+theorem StationaryPartitionDiagonalCarrier_window_exactness [AskSetup] [PackageSetup]
+    {rat partition diagonal constantStream dyadic realSeal ledger transport provenance localCert
+      endpoint window refinedWindow readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryPartitionDiagonalCarrier rat partition diagonal constantStream dyadic realSeal ledger
+        transport provenance localCert endpoint bundle pkg ->
+      Cont partition ledger window ->
+        hsame window refinedWindow ->
+          Cont refinedWindow constantStream readback ->
+            UnaryHistory window ∧ UnaryHistory refinedWindow ∧ UnaryHistory readback ∧
+              Cont partition ledger window ∧ Cont refinedWindow constantStream readback ∧
+                hsame window refinedWindow ∧ PkgSig bundle endpoint pkg := by
+  intro carrier partitionLedgerWindow sameWindow refinedWindowReadback
+  obtain ⟨_ratUnary, partitionUnary, _diagonalUnary, constantStreamUnary, _dyadicUnary,
+    _realSealUnary, ledgerUnary, _transportUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, _ratPartitionDiagonal, _diagonalConstantDyadic, _dyadicRealLedger,
+    _ledgerTransportProvenance, _provenanceLocalEndpoint, _endpointReadback, pkgSig⟩ :=
+    carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed partitionUnary ledgerUnary partitionLedgerWindow
+  have refinedWindowUnary : UnaryHistory refinedWindow :=
+    unary_transport windowUnary sameWindow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed refinedWindowUnary constantStreamUnary refinedWindowReadback
+  exact ⟨windowUnary, refinedWindowUnary, readbackUnary, partitionLedgerWindow,
+    refinedWindowReadback, sameWindow, pkgSig⟩
+
 end BEDC.Derived.StationaryPartitionDiagonalUp
