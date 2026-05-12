@@ -121,6 +121,7 @@ import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
