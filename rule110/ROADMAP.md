@@ -137,3 +137,15 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   classification.
 - [x] Add `docs/unary_design.md` documenting the all-one event-payload
   predicate and manifest contract.
+
+## Ask module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Ask.lean` and identify the abstract typeclass
+  boundary: `ProbeName`, `Evidence`, and `Ask`.
+- [x] Add `rule110/manifests/ask/ask_basic.enum.ct` and
+  `ask_basic.algo.ct` with representative positive and negative Ask
+  quadruples.
+- [x] Add `tests/test_ask.c` to decode probe, history, mark, and evidence
+  events under the parity Ask fixture.
+- [x] Add `docs/ask_design.md` documenting the concrete fixture instance and
+  its relationship to SigRel.
