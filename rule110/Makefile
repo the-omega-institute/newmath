@@ -283,6 +283,16 @@ $(TEST_DIR)/test_cook_encode_arbitrary: $(TEST_DIR)/test_cook_encode_arbitrary.c
 TESTS += $(TEST_DIR)/test_cook_encode_arbitrary
 test: $(TEST_DIR)/test_cook_encode_arbitrary
 
+$(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_ossifier.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_encode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
+	    $(ENCODER_DIR)/cook_encode.c
+
+TESTS += $(TEST_DIR)/test_cook_packet_phase_exact
+test: $(TEST_DIR)/test_cook_packet_phase_exact
+
 $(TEST_DIR)/test_meta_cic: $(TEST_DIR)/test_meta_cic.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
 	    $(TEST_DIR)/test_meta_cic.c $(TEST_DIR)/manifest_runner.c \
