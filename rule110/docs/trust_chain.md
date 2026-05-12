@@ -48,6 +48,33 @@ Audit checklist:
 - Pipeline smoke test additionally exercises Layer 2 (CT evaluator) end-to-end on all 8 manifests, verifying the manifest_runner pipeline works (separate from semantic assertions).
 - No external oracle (no cross-check against Lean) — this is the deliberate ground-up posture documented in spec §3.2.
 
-## Layer 6 (out of scope)
+## Layer 6: Cook construction scaffold (`encoder/cook_*.c`)
 
-Cook construction encoder. See spec §12.M2 (4+ week project) for milestone-2 plan.
+Trust: experimental. This layer is present as a behavioral Rule 110 encoder
+scaffold, not as a phase-exact transcription of Cook 2004.
+
+Audit checklist:
+- Ether: `cook_ether_emit` emits the working width-14 ether word
+  `00010011011111`; tests compare evolved ether against the local Rule 110
+  evaluator.
+- Glider catalog: `A` through `H` plus the glider gun have best-effort emitters.
+  The tests check localized motion, persistent disturbance, and far-field ether
+  preservation. They do not certify Cook-catalog phase identity.
+- Leader, ossifier, and data block: the emitted structures are behavioral
+  encodings over ether. They provide deterministic substrate regions for the
+  encoder pipeline, but they are not certified as Cook section 5-6 packages.
+- Collisions: the current simulator covers 16 ordered pairs from `A` through
+  `D` under one chosen spacing. All currently observed outcomes classify as
+  `passthrough` or `annihilation`; no productive collision construction is
+  certified.
+- `cook_encode`: empty cyclic tag inputs emit ether plus the current leader.
+  Non-empty inputs remain limited; the one-production case is the next active
+  construction boundary.
+- Manifests: `.r110` is a documented substrate format for Rule 110 rows and
+  expected final rows. It is suitable for behavioral manifest-runner checks
+  once the runner and generated rows are present.
+
+Caveat: Layer 6 is suitable for demonstrating the shape of the encoder
+pipeline and for testing local Rule 110 substrate behavior. It is not a
+production universality claim and must not be cited as a completed
+phase-exact Cook 2004 construction.
