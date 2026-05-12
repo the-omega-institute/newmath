@@ -38,4 +38,19 @@ theorem FastSeriesProductCarrier_tail_bound_convolution [AskSetup] [PackageSetup
       carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem FastSeriesProductCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {f g k w m t r e l c p n endpoint handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastSeriesProductCarrier f g k w m t r e l c p n endpoint bundle pkg ->
+      Cont w m handoff ->
+        UnaryHistory r ∧ UnaryHistory handoff ∧ Cont m t r ∧ Cont w m handoff ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier handoffRow
+  obtain ⟨_fUnary, _gUnary, _kUnary, wUnary, mUnary, _tUnary, rUnary, _eUnary,
+    _lUnary, _cUnary, _pUnary, _nUnary, _endpointUnary, _fgRow, _kwRow, mtRow,
+    _reRow, endpointPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed wUnary mUnary handoffRow
+  exact ⟨rUnary, handoffUnary, mtRow, handoffRow, endpointPkg⟩
+
 end BEDC.Derived.FastSeriesProductUp
