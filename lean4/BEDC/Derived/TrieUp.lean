@@ -244,4 +244,63 @@ theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
         pkgRow'⟩,
       endpointSame, provenanceSame⟩
 
+def TrieTerminalPacket [AskSetup] [PackageSetup]
+    (key terminal transport route branch provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory key ∧ UnaryHistory terminal ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+    Cont key terminal transport ∧ Cont transport route branch ∧ Cont branch provenance cert ∧
+      PkgSig bundle cert pkg
+
+theorem TrieTerminalPacket_boolean_key_path_ledger_coverage [AskSetup] [PackageSetup]
+    {key terminal transport route branch provenance cert key' terminal' transport' route' branch'
+      provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieTerminalPacket key terminal transport route branch provenance cert bundle pkg ->
+      TrieTerminalPacket key' terminal' transport' route' branch' provenance' cert' bundle pkg ->
+        hsame key key' ->
+          hsame terminal terminal' ->
+            hsame route route' ->
+              hsame provenance provenance' ->
+                  hsame transport transport' ∧ hsame branch branch' ∧ hsame cert cert' := by
+    intro packet packet' sameKey sameTerminal sameRoute sameProvenance
+    obtain ⟨_keyUnary, _terminalUnary, _routeUnary, _provenanceUnary, transportRow,
+      branchRow, certRow, _pkgSig⟩ := packet
+    obtain ⟨_keyUnary', _terminalUnary', _routeUnary', _provenanceUnary', transportRow',
+      branchRow', certRow', _pkgSig'⟩ := packet'
+    have sameTransport : hsame transport transport' :=
+      cont_respects_hsame sameKey sameTerminal transportRow transportRow'
+    have sameBranch : hsame branch branch' :=
+      cont_respects_hsame sameTransport sameRoute branchRow branchRow'
+    have sameCert : hsame cert cert' :=
+      cont_respects_hsame sameBranch sameProvenance certRow certRow'
+    exact ⟨sameTransport, sameBranch, sameCert⟩
+
+theorem TrieBranchRead_exactness [AskSetup] [PackageSetup]
+    {key payload depth branch provenance branchRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory key ->
+      UnaryHistory depth ->
+        UnaryHistory payload ->
+          UnaryHistory provenance ->
+            Cont key depth branch ->
+              Cont branch payload branchRead ->
+                Cont branchRead provenance consumerRead ->
+                  PkgSig bundle consumerRead pkg ->
+                    UnaryHistory branch ∧ UnaryHistory branchRead ∧ UnaryHistory consumerRead ∧
+                      hsame branch (append key depth) ∧
+                        hsame branchRead (append branch payload) ∧
+                          hsame consumerRead (append branchRead provenance) ∧
+                            PkgSig bundle consumerRead pkg := by
+  intro keyUnary depthUnary payloadUnary provenanceUnary branchRow branchReadRow consumerReadRow
+    pkgSig
+  have branchUnary : UnaryHistory branch :=
+    unary_cont_closed keyUnary depthUnary branchRow
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchUnary payloadUnary branchReadRow
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed branchReadUnary provenanceUnary consumerReadRow
+  exact
+    ⟨branchUnary, branchReadUnary, consumerReadUnary, branchRow, branchReadRow, consumerReadRow,
+      pkgSig⟩
+
 end BEDC.Derived.TrieUp
