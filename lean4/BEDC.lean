@@ -367,6 +367,8 @@ import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.ReachabilityGramianUp
+import BEDC.Derived.RefutationBoundaryUp
+import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
