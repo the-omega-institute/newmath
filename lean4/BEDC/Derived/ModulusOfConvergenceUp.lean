@@ -257,6 +257,23 @@ theorem ModulusOfConvergencePacket_tail_restriction_stability [AskSetup] [Packag
                         (And.intro restrictedProvenance restrictedPkg)))))))))
   · exact And.intro sameWitness sameProvenance
 
+theorem ModulusOfConvergenceCarrier_tail_restriction_stability [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance schedule' witness'
+      provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger provenance
+        bundle pkg ->
+      hsame schedule schedule' ->
+        hsame witness witness' ->
+          hsame provenance provenance' ->
+            Cont modulus schedule' witness' ->
+              Cont witness' ledger provenance' ->
+                PkgSig bundle provenance' pkg ->
+                  ModulusOfConvergenceCarrier precision selector modulus schedule' witness'
+                      ledger provenance' bundle pkg ∧
+                    hsame witness witness' ∧ hsame provenance provenance' :=
+  ModulusOfConvergencePacket_tail_restriction_stability
+
 theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSetup]
     {precision selector modulus schedule witness ledger provenance precision' selector' modulus'
       schedule' witness' ledger' provenance' : BHist}
