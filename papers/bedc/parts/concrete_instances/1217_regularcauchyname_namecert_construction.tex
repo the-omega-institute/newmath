@@ -334,6 +334,42 @@ Exact readback preserves that boundary. By \autoref{thm:regularcauchyname-finite
 Finally, \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion} and \autoref{thm:regularcauchyname-real-seal-consumer-scope} exhaust the $\RealUp$ side of the route through the displayed ledger and seal rows. Since the packet has no remaining exported coordinate, the bridge-facing boundary cannot escape to any of the excluded objects.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName schedule-radius lock]
+\label{thm:regularcauchyname-schedule-radius-lock}
+For every accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$, a common displayed $\StreamNameUp$ window locks together the schedule row $S$, the dyadic-radius row $\rho$, the transported $\DyadicRatCoreUp$ observation row $Q$, and the pointwise $\RegSeqRatUp$ readback carried by $L$. The lock is witnessed only by the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and has no coordinate for quotient streams, host sequences, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First place the packet into the common $\StreamNameUp$ window supplied by \autoref{thm:regularcauchyname-streamname-handoff}. This fixes the schedule row $S$ as the window that every downstream read must inspect.
+
+Next apply the dyadic-radius obligations of \autoref{thm:regularcauchyname-dyadic-radius-obligations}. They attach the radius row $\rho$ to the same displayed window and keep the tolerance request inside the finite BEDC packet.
+
+Finally use the transport triad of \autoref{thm:regularcauchyname-common-window-transport-triad}. It carries the $\DyadicRatCoreUp$ observation row $Q$ and the pointwise $\RegSeqRatUp$ readback along the already fixed window. Repacking these projections gives the lock over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no remaining route to any excluded completion object.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName constant seal embedding]
+\label{thm:regularcauchyname-constant-seal-embedding}
+If an accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$ is stationary rational, then its downstream $\RealUp$ seal factors through the displayed schedule-radius-seal route and the stationary rational exactness row. The factorization uses the constant $\DyadicRatCoreUp$ observation, the trivial dyadic-radius ledger, the pointwise $\RegSeqRatUp$ readback, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and it does not select a limit or invoke ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the displayed schedule-radius-seal package of \autoref{thm:regularcauchyname-window-radius-seal-scoped-package}. In the stationary rational case, the schedule row repeatedly reads the same rational observation, while the radius and regularity ledgers are the visible constant rows of the packet.
+
+The stationary rational compatibility theorem \autoref{thm:regularcauchyname-stationary-rational-seal-compatibility} identifies this constant readback with the existing rational exactness route. Thus the seal is reached through the displayed packet rows rather than through a selected completion limit.
+
+Repack the constant observation, radius ledger, pointwise readback, seal row, package row, and local certificate row. The resulting embedding is a projection of the accepted packet, so it remains over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ and has no host sequence, quotient stream, selected limit, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName finite consumer choice-free totality]
+\label{thm:regularcauchyname-finite-consumer-choice-free-totality}
+Every downstream completion-facing consumer read of an accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$ is exhausted by the displayed rows $S$, $Q$, $\rho$, $L$, $E$, $P$, and $N$, together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The consumer route is total over this finite packet and choice-free: it never needs a quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the consumer through the bridge source surface of \autoref{thm:regularcauchyname-bridge-source-surface}. This exposes exactly the scheduled stream window, dyadic observation, radius row, finite regularity ledger, seal row, package provenance, local certificate, and ambient transport rows.
+
+Next apply the bridge consumer factorization of \autoref{thm:regularcauchyname-bridge-consumer-factorization}. Any $\RealCauchyCompletionUp$ or $\RegularCauchyFamilyUp$ read factors through those displayed rows before it can consume the $\RealUp$ seal.
+
+The non-escape boundary of \autoref{thm:regularcauchyname-bridge-non-escape-boundary} then rules out every excluded completion object. Since each consumer read projects one of the displayed rows or one of their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ witnesses, the route is total over the finite packet and requires no choice principle.
+\end{proof}
+
 \closureat{RegularCauchyNameUp}{seedStr}
 \closureat{RegularCauchyNameUp}{obligationStr}
 \closureat{RegularCauchyNameUp}{scopedStr}
