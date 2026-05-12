@@ -83,6 +83,46 @@ The remaining consumer-visible data are exactly the provenance rows attached to 
 The carrier has no independent $\RealUp$ equality field and no completion witness outside the readback. Therefore the real seal can consume only the displayed regular readback and its visible provenance.
 \end{proof}
 
+\begin{theorem}[RegularCauchyProduct source-window transport]
+\label{thm:regular-cauchy-product-source-window-transport}
+For an accepted $\RegularCauchyProductUp$ packet $M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$, classifier transport preserves the two $\RegSeqRatUp$ source rows $A,B$ and the aligned $\StreamNameUp$ windows $W_A,W_B$ through the displayed $\hsame$ and $\Cont$ routes. Consequently any transported packet reads the same two regular sources and the same aligned source windows before forming the dyadic product row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-product-carrier}. The two source rows and the two aligned stream windows are explicit coordinates of the same finite packet.
+
+Apply the classifier-transport obligation of \autoref{thm:regular-cauchy-product-namecert-obligations}. It transports the source rows and aligned windows componentwise through the stored $\hsame$ and $\Cont$ rows.
+
+The product endpoint rows $D_A,D_B,D$ are downstream of these transported windows. Since the transport first fixes $A,B,W_A,W_B$, the dyadic product row can only be read after the same two source rows and the same aligned window positions have been displayed.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct error-budget exactness]
+\label{thm:regular-cauchy-product-error-budget-exactness}
+For an accepted $\RegularCauchyProductUp$ packet, the output tolerance assigned to the readback row $R$ is exactly the finite product-error ledger $E$ computed from the two input tolerances, the endpoint magnitude bounds for $D_A$ and $D_B$, and the cross-error terms recorded in the packet. No additional tolerance rule is read from a quotient stream, a selected limit, or a completed real multiplication object.
+\end{theorem}
+\begin{proof}
+Use the window budget theorem \autoref{thm:regular-cauchy-product-window-budget}. It displays $D_A$ and $D_B$ from the aligned source windows and forms the dyadic endpoint product row $D$.
+
+Read the ledger row $E$. By the NameCert obligations, $E$ records the two input tolerances, the endpoint magnitude bounds, the cross-error terms, and the output tolerance before $R$ is exposed.
+
+Apply the $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-regseqrat-handoff}. The readback row $R$ is repacked from $D$ with the tolerance budget already recorded in $E$, so the output tolerance is exactly that finite ledger and nothing outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct downstream source lock]
+\label{thm:regular-cauchy-product-downstream-source-lock}
+Every downstream $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyProductUp$ packet factors through
+$$
+(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N).
+$$
+Such a consumer can read the two source rows, aligned windows, dyadic endpoint rows, finite product-error ledger, regular readback, transport rows, continuation routes, package provenance, and local naming row, but cannot read quotient streams, selected limits, host real equality, or completed real multiplication.
+\end{theorem}
+\begin{proof}
+Start with the regular handoff. By \autoref{thm:regular-cauchy-product-regseqrat-handoff}, every $\RegSeqRatUp$ readback factors through the aligned input windows, dyadic endpoint multiplication row, finite product-error ledger, transports, continuations, package row, and local naming row.
+
+Use \autoref{thm:regular-cauchy-product-source-window-transport} to lock the source rows. The aligned windows available to any transported consumer are still the windows attached to $A$ and $B$.
+
+Finally apply the RealUp seal boundary of \autoref{thm:regular-cauchy-product-real-seal-boundary}. A real-facing consumer reads only the regular readback and its visible provenance, so neither a quotient stream nor a selected limit nor host real equality nor completed multiplication can enter downstream.
+\end{proof}
+
 \closureat{RegularCauchyProductUp}{seedStr}
 \closureat{RegularCauchyProductUp}{obligationStr}
 
