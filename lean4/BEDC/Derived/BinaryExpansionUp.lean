@@ -61,4 +61,25 @@ theorem BinaryExpansionPacket_prefix_window_stability [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.right.right.right⟩
   exact ⟨transported, sameApproximation, sameRealSeal⟩
 
+theorem BinaryExpansionPacket_regular_handoff_factorization [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      handoffRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      hsame handoffRoute (append windows realSeal) →
+        hsame handoffRoute (append windows (append approximation regular)) ∧
+          Cont windows digits approximation ∧
+            Cont approximation regular realSeal ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet handoffWindowsSeal
+  obtain ⟨_digitsUnary, _windowsUnary, _approximationUnary, _regularUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigits,
+    approximationRegular, _transportRoute, pkgSig⟩ := packet
+  have realSealSame : hsame realSeal (append approximation regular) := approximationRegular
+  have handoffSame :
+      hsame (append windows realSeal) (append windows (append approximation regular)) :=
+    congrArg (fun row => append windows row) realSealSame
+  exact ⟨hsame_trans handoffWindowsSeal handoffSame, windowsDigits, approximationRegular, pkgSig⟩
+
 end BEDC.Derived.BinaryExpansionUp
