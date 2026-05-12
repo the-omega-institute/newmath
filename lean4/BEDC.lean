@@ -132,6 +132,7 @@ import BEDC.Derived.FastCauchyUp.WindowSynchronization
 import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
 import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchySeqUp
+import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteVectorUp
