@@ -110,4 +110,29 @@ theorem DedekindCutCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
       embeddingUnary, transportUnary, routesUnary, provenanceUnary, nameCertUnary, lowerUpper,
       inhabitedRounded, locatedDisjoint, embeddingTransport, routesNameCert, provenancePkg⟩
 
+theorem DedekindCutCarrier_rational_embedding_boundary [AskSetup] [PackageSetup]
+    {lower upper inhabited rounded located disjoint embedding transport routes provenance nameCert
+      lowerBoundary upperBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DedekindCutCarrier lower upper inhabited rounded located disjoint embedding transport routes provenance
+        nameCert bundle pkg ->
+      Cont embedding lower lowerBoundary -> Cont embedding upper upperBoundary ->
+        PkgSig bundle provenance pkg ->
+          UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory embedding ∧
+            UnaryHistory lowerBoundary ∧ UnaryHistory upperBoundary ∧
+              Cont embedding lower lowerBoundary ∧ Cont embedding upper upperBoundary ∧
+                PkgSig bundle provenance pkg := by
+  intro carrier lowerBoundaryCont upperBoundaryCont provenancePkg
+  obtain ⟨lowerUnary, upperUnary, _inhabitedUnary, _roundedUnary, _locatedUnary,
+    _disjointUnary, embeddingUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _lowerUpper, _inhabitedRounded, _locatedDisjoint, _embeddingTransport,
+    _routesNameCert, _carrierPkg⟩ := carrier
+  have lowerBoundaryUnary : UnaryHistory lowerBoundary :=
+    unary_cont_closed embeddingUnary lowerUnary lowerBoundaryCont
+  have upperBoundaryUnary : UnaryHistory upperBoundary :=
+    unary_cont_closed embeddingUnary upperUnary upperBoundaryCont
+  exact
+    ⟨lowerUnary, upperUnary, embeddingUnary, lowerBoundaryUnary, upperBoundaryUnary,
+      lowerBoundaryCont, upperBoundaryCont, provenancePkg⟩
+
 end BEDC.Derived.DedekindCutUp
