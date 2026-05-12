@@ -162,6 +162,59 @@ $\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
 metric-completeness, host-index, or seal-classifier row added to that surface.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement successor projection]
+\label{thm:streamname-common-refinement-successor-projection}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated
+$\mathsf{ProbeBundle}$ restricts to both selected windows. Let
+$n:\mathsf{BHist}$ be a certified unary observation such that
+$\mathsf{BHist.e1}(n)$ is an $\mathsf{InBundle}$ member of the refinement
+bundle of $\mathcal R$.
+
+Project $\mathcal R$ to the singleton successor window
+$$
+\mathsf{ProbeBundle.Bcons}(\mathsf{BHist.e1}(n),\mathsf{ProbeBundle.Bnil}).
+$$
+Reading this singleton through either selected window determines the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the same pointwise
+$\mathsf{RatHistoryClassifier}$ row at $\mathsf{BHist.e1}(n)$, and the same
+downstream source tuple consumed by the $\RegSeqRat$ handoff and by the
+finite-window $\RealUp$ handoff.
+
+The determined source tuple is the successor singleton classifier, the
+singleton $\mathsf{ProbeBundle}$ membership row, the selected
+$\mathsf{UnaryHistory}$ row for $n$, the pointwise rational history classifier,
+and the displayed $\hsame/\Cont/\Pkg$ ledger rows inherited from
+$\mathcal R$. It contains no host index equality, quotient representative,
+completion data, metric row, $\RegSeqRat$ regularity row, or $\RealUp$
+completeness or seal classifier.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-common-refinement-source-confluence}. The left route
+through $\mathcal W_L$ and the right route through $\mathcal W_R$ expose one
+common StreamName source tuple over $\mathcal R$, so the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row and the
+pointwise $\mathsf{RatHistoryClassifier}$ rows are route independent before
+projection.
+
+Next apply
+\autoref{thm:streamname-successor-window-projection-determinacy} to the
+$\mathsf{InBundle}$ membership row for $\mathsf{BHist.e1}(n)$. The theorem
+restricts the common finite-window classifier to the singleton successor bundle
+and keeps exactly the pointwise rational row indexed by that successor
+observation.
+
+Finally read the downstream boundary through
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and
+\autoref{thm:streamname-real-regseq-obligation-separation}. These rows consume
+the same successor pointwise classifier and the same displayed
+$\hsame/\Cont/\Pkg$ provenance rows from either selected window, while the
+$\RegSeqRat$ regularity obligation and the finite-window $\RealUp$ seal
+obligation remain outside the StreamName source packet.
+\end{proof}
+
 \begin{theorem}[StreamName common-refinement source triple confluence]
 \label{thm:streamname-common-refinement-source-triple-confluence}
 Let $\mathcal W_1$, $\mathcal W_2$, and $\mathcal W_3$ be public
