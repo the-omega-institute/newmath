@@ -545,6 +545,29 @@ theorem app_pi_var_to_sort :
       (Term.pi Term.sort Term.sort) rfl)
     (HasType.sortRule [Term.pi Term.sort Term.sort])
 
+theorem app_pi_ctx_to_sort :
+    HasType [Term.pi Term.sort Term.sort]
+      (Term.app (Term.var 0) Term.sort)
+      (substitute 0 Term.sort Term.sort) := by
+  exact HasType.appRule [Term.pi Term.sort Term.sort]
+    (Term.var 0)
+    Term.sort
+    Term.sort
+    Term.sort
+    (HasType.varRule [Term.pi Term.sort Term.sort] 0
+      (Term.pi Term.sort Term.sort) rfl)
+    (HasType.sortRule [Term.pi Term.sort Term.sort])
+
+theorem apply_function_arg_in_empty :
+    HasType []
+      (Term.lam (Term.pi Term.sort Term.sort) (Term.app (Term.var 0) Term.sort))
+      (Term.pi (Term.pi Term.sort Term.sort) (substitute 0 Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · apply HasType.piRule
+    · exact HasType.sortRule []
+    · exact HasType.sortRule [Term.sort]
+  · exact app_pi_ctx_to_sort
+
 /-- 单 sort ctx 下: app (lam sort (var 0)) (pi (var 0) sort) 类型为 sort. -/
 theorem app_id_pi_var_sort_in_sort_ctx :
     HasType [Term.sort]
@@ -661,5 +684,58 @@ theorem double_arrow_in_sort :
       rfl
     · apply HasType.varRule
       rfl
+
+theorem applied_poly_id :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam (Term.var 0)
+          (Term.app
+            (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+              (Term.var 1))
+            (Term.var 0))))
+      (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · exact HasType.appRule
+        [Term.var 1, Term.sort]
+        (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+          (Term.var 1))
+        (Term.var 0)
+        (Term.var 1)
+        (Term.var 2)
+        (HasType.appRule
+          [Term.var 1, Term.sort]
+          (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+          (Term.var 1)
+          Term.sort
+          (Term.pi (Term.var 0) (Term.var 1))
+          (HasType.lamRule
+            [Term.var 1, Term.sort]
+            Term.sort
+            (Term.lam (Term.var 0) (Term.var 0))
+            (Term.pi (Term.var 0) (Term.var 1))
+            (HasType.sortRule [Term.var 1, Term.sort])
+            (HasType.lamRule
+              [Term.sort, Term.var 1, Term.sort]
+              (Term.var 0)
+              (Term.var 0)
+              (Term.var 1)
+              (HasType.varRule [Term.sort, Term.var 1, Term.sort]
+                0 Term.sort rfl)
+              (HasType.varRule [Term.var 1, Term.sort, Term.var 1, Term.sort]
+                0 (Term.var 1) rfl)))
+          (HasType.varRule [Term.var 1, Term.sort] 1 Term.sort rfl))
+        (HasType.varRule [Term.var 1, Term.sort] 0 (Term.var 1) rfl)
+
+theorem pi_function_to_sort_in_empty :
+    HasType []
+      (Term.pi (Term.pi Term.sort Term.sort) Term.sort)
+      Term.sort := by
+  apply HasType.piRule
+  · exact pi_sort_sort_in_empty_ctx
+  · exact HasType.sortRule [Term.pi Term.sort Term.sort]
 
 end BEDC.MetaCIC
