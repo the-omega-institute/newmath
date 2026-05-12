@@ -1,10 +1,12 @@
 import BEDC.MetaCIC.Syntax
+import BEDC.MetaCIC.Syntax.Size
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.ClosedTerm.Helpers
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
+import BEDC.MetaCIC.Confluence.Diamond
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
@@ -13,6 +15,9 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.TypedExamples
+import BEDC.MetaCIC.TypedExamples.Projections
+import BEDC.MetaCIC.TypedExamples.BasicApplications
+import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.MetaCIC.TypedExamples.Polymorphic
 import BEDC.MetaCIC.TypedExamples.ChurchGallery
 import BEDC.MetaCIC.TypedExamples.BetaRedex
