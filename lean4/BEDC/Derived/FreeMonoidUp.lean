@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -70,5 +72,47 @@ theorem FreeMonoidWordCarrier_ledger_normal_form [AskSetup] [PackageSetup]
   exact
     ⟨wordUnary, routeUnary, provenanceUnary, endpointUnary, provenanceRow, endpointRow,
       sameProvenanceEndpoint, provenanceSig, endpointSig⟩
+
+theorem FreeMonoidWordCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {word route provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier word route provenance bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FreeMonoidWordCarrier word route provenance bundle pkg ∧ hsame row provenance)
+        (fun row : BHist => Cont word route row ∧ PkgSig bundle row pkg)
+        (fun _row : BHist =>
+          UnaryHistory word ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+            Cont word route provenance ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance ⟨carrier, hsame_refl provenance⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      rcases sourceRow with ⟨carrierRow, sameRow⟩
+      rcases carrierRow with
+        ⟨_wordUnary, _routeUnary, _provenanceUnary, provenanceRow, provenanceSig⟩
+      cases sameRow
+      exact ⟨provenanceRow, provenanceSig⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow.left
+  }
 
 end BEDC.Derived.FreeMonoidUp
