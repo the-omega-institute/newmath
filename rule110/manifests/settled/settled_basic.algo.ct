@@ -1,0 +1,49 @@
+# settled_basic.algo.ct
+# Algorithm framing for the Settled proof-boundary aggregator.
+#
+# The manifest runner currently executes cyclic-tag productions as tape
+# programs and leaves theorem-predicate decoding to the C harness. This file
+# therefore uses the same vacuous production pattern as the abstract-boundary
+# Gap, Ask, Unary, Bundle, and SigRel manifests. tests/test_settled.c owns the
+# executable fixture checks for every projection family listed below.
+PRODUCTIONS 1
+0
+ASSERTIONS 38
+case history_mark_refl_b0:           input=10111011011                         ; settled=yes
+case history_mark_no_confusion:      input=1011010110111011                    ; settled=yes
+case history_refl_e10:               input=101100101110011                     ; settled=yes
+case history_e0_inversion:           input=10110001011101101011                ; settled=yes
+case history_e1_not_e0:              input=1011000010110111011                 ; settled=yes
+case history_bad_mark_refl:          input=1011101101011                       ; settled=no
+case ext_det_empty_b1:               input=01011101111101110111011             ; settled=yes
+case cont_det_e0_e1:                 input=010110101101110111001110011         ; settled=yes
+case cont_unit_left_e10:             input=010110010111001110011               ; settled=yes
+case cont_unit_right_e01:            input=0101100010110101101011              ; settled=yes
+case cont_assoc_mixed:               input=01011000010110111011010110101001101010011; settled=yes
+case ext_det_wrong_result:           input=0101110111110111011011              ; settled=no
+case sig_det_p0_empty:               input=001011101110111111011011            ; settled=yes
+case sig_symm_p0_depths:             input=001011010111011110111011            ; settled=yes
+case sig_trans_p0p1:                 input=001011001011101101011111101011101011; settled=yes
+case sig_det_vacuous_wrong_s:        input=0010111011101111111011011           ; settled=yes
+case ingap_empty:                    input=00010111011101111111111             ; settled=yes
+case ingap_single_depth:             input=000101110110101110111101110111011   ; settled=yes
+case pkg_token_transport:            input=00010110101101011010110101101011    ; settled=yes
+case pkg_psame_witness:              input=00010110010111001110011             ; settled=yes
+case ingap_wrong_pkg:                input=00010111011010111011110111011011    ; settled=no
+case globalize_exact_empty:          input=00001011101110111111111111          ; settled=yes
+case globalize_exact_same_sig:       input=00001011101100101110111111101011011011; settled=yes
+case coverage_domain_ok:             input=00001011010110010111011010111110011 ; settled=yes
+case coverage_domain_fail:           input=0000101101011010111011010111110011  ; settled=no
+case composite_true:                 input=0000010111011011101110011101011     ; settled=yes
+case composite_missing_second:       input=000001011101101110111001110011      ; settled=no
+case namecert_nat_empty:             input=000000101110111111                  ; settled=yes
+case namecert_nat_e1:                input=0000001011101110111011              ; settled=yes
+case namecert_nat_e0_reject:         input=00000010111011011011                ; settled=no
+case namecert_transport:             input=000000101101011101011101011         ; settled=yes
+case namecert_add_classifier:        input=00000010110010111001110011          ; settled=yes
+case namecert_witness:               input=00000010110001011                   ; settled=yes
+case descent_equal:                  input=0000000101110111001110011           ; settled=yes
+case descent_vacuous:                input=000000010111011101110011            ; settled=yes
+case bundle_nil:                     input=000000001011101111                  ; settled=yes
+case bundle_cons:                    input=000000001011101110110101111         ; settled=yes
+case bundle_bad:                     input=0000000010111011011                 ; settled=no
