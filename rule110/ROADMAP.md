@@ -76,7 +76,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [!] L2.5: Bundle length + membership recognizers: bounded positional-certificate CTS for the manifest fixtures; universal parsing and probe-name comparison remain open.
 - [ ] L2.6: Universal Unary classifier.
 - [ ] L2.7: Universal Ask fixture recognizer.
-- [ ] L2.8: Universal ExternalBinary recognizer.
+- [!] L2.8: Universal ExternalBinary recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` ExternalBinary corpus; because ExternalBinary append is definitionally Cont append, the universal queue-copy/compare recognizer is the same deferred unbounded problem as L2.4.
 - [ ] L2.9: Universal Gap (InGapSig + CompGap) recognizer.
 - [ ] L2.10: Universal Package (psame + TokenPolicy) recognizer.
 - [ ] L2.11: Universal NameCert (Carrier + Equiv + descent + composition + stability mode) recognizer.

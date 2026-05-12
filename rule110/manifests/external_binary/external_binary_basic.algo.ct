@@ -1,23 +1,60 @@
 # external_binary_basic.algo.ct
-# Algorithm framing for BEDC.FKernel.ExternalBinary over decoded BWord values.
+# Theorem family: BEDC.FKernel.ExternalBinary append over BWord/Mbin.
 #
-# The current executable check is decoder-based: tests/test_external_binary.c
-# decodes BWord streams with the shared BHist decoder and checks model reuse,
-# append, inversion, cancellation, and congruence by direct choice-buffer
-# comparison. The CT production is vacuous for this phase and keeps the
-# manifest executable under the existing manifest_runner contract.
-PRODUCTIONS 1
-0
+# Scope:
+#   Bounded algorithm-form witness for the representative ExternalBinary
+#   triples used by external_binary_basic.enum.ct and for the depth <= 2 sweep
+#   in tests/test_external_binary.c.
+#
+# Program:
+#   Production i emits 1 followed by the five-bit binary index i. During the
+#   first input-length steps, every head bit equal to 1 appends the certificate
+#   for that input position. Head bit 0 appends nothing. The test harness runs
+#   exactly input_length steps and compares the remaining tape with the
+#   expected positional certificate for that ExternalBinary input.
+PRODUCTIONS 32
+100000
+100001
+100010
+100011
+100100
+100101
+100110
+100111
+101000
+101001
+101010
+101011
+101100
+101101
+101110
+101111
+110000
+110001
+110010
+110011
+110100
+110101
+110110
+110111
+111000
+111001
+111010
+111011
+111100
+111101
+111110
+111111
 ASSERTIONS 12
-case empty_empty_empty:        input=111111                 ; external_append_holds=yes
-case e0_empty_e0:              input=01111011               ; external_append_holds=yes
-case empty_e1_e1:              input=1110111011             ; external_append_holds=yes
-case e0_e1_e1_e0:              input=011101110011           ; external_append_holds=yes
-case e1_e0__e0_e1__e0_e1_e1_e0: input=100110101101010011    ; external_append_holds=yes
-case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011    ; external_append_holds=yes
-case empty_empty_e0:           input=1111011                ; external_append_holds=no
-case empty_e0_empty:           input=1101111                ; external_append_holds=no
-case e0_e1_wrong_order:        input=011101101011           ; external_append_holds=no
-case e1_e0_wrong_outer:        input=10011011101011         ; external_append_holds=no
-case e0_e1_missing_prefix:     input=010111001011           ; external_append_holds=no
-case e1_empty_e0:              input=101111011              ; external_append_holds=no
+case empty_empty_empty:        input=111111                 ; external_append_holds=yes ; expected_certificate=100000100001100010100011100100100101
+case e0_empty_e0:              input=01111011               ; external_append_holds=yes ; expected_certificate=100001100010100011100100100110100111
+case empty_e1_e1:              input=1110111011             ; external_append_holds=yes ; expected_certificate=100000100001100010100100100101100110101000101001
+case e0_e1_e1_e0:              input=011101110011           ; external_append_holds=yes ; expected_certificate=100001100010100011100101100110100111101010101011
+case e1_e0__e0_e1__e0_e1_e1_e0: input=100110101101010011    ; external_append_holds=yes ; expected_certificate=100000100011100100100110101000101001101011101101110000110001
+case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011    ; external_append_holds=yes ; expected_certificate=100001100011100100100101101000101001101010101110110000110001
+case empty_empty_e0:           input=1111011                ; external_append_holds=no  ; expected_certificate=100000100001100010100011100101100110
+case empty_e0_empty:           input=1101111                ; external_append_holds=no  ; expected_certificate=100000100001100011100100100101100110
+case e0_e1_wrong_order:        input=011101101011           ; external_append_holds=no  ; expected_certificate=100001100010100011100101100110101000101010101011
+case e1_e0_wrong_outer:        input=10011011101011         ; external_append_holds=no  ; expected_certificate=100000100011100100100110100111101000101010101100101101
+case e0_e1_missing_prefix:     input=010111001011           ; external_append_holds=no  ; expected_certificate=100001100011100100100101101000101010101011
+case e1_empty_e0:              input=101111011              ; external_append_holds=no  ; expected_certificate=100000100010100011100100100101100111101000
