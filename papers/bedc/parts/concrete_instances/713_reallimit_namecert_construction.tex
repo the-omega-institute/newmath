@@ -640,6 +640,39 @@ selected limits, host completion, or choice data. Carrier exhaustion therefore
 leaves exactly the stated finite tail-window normal form.
 \end{proof}
 
+\begin{theorem}[RealLimit shifted-schedule readback boundary]
+\label{thm:reallimit-shifted-schedule-readback-boundary}
+Let $P$ be a displayed $\RealLimitUp$ packet whose
+$\RegSeqRatUp$--$\StreamNameUp$ schedule is transported by a certified unary
+successor row or by a certified finite tail selector. Then every finite
+$\RealUp$ seal readback of the transported packet exposes the same displayed
+endpoint, readback ledger, $\hsame$ rows, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance rows as the original packet after schedule transport.
+
+The boundary exports only that finite schedule-transport surface. It does not
+export a completeness theorem, selected limit, quotient representative, or
+host-index equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:reallimit-regseqrat-streamname-handoff}. The certified
+successor or finite tail selector changes only the displayed schedule route and
+keeps the $\RegSeqRatUp$ source stream and $\StreamNameUp$ row visible.
+
+Next use
+\autoref{thm:reallimit-transported-readback-ledger-stability}. The transported
+readback ledger remains attached to the same endpoint row through the displayed
+$\hsame$ and $\Cont$ transport rows, with the $\mathsf{Pkg}$ provenance still
+part of the finite packet.
+
+Finally apply \autoref{thm:reallimit-public-real-window-export} and
+\autoref{thm:reallimit-finite-real-seal-consumer-completeness}. These identify
+the finite $\RealUp$ seal consumer surface with exactly the transported
+schedule, source stream, endpoint, readback ledger, $\hsame$, $\Cont$, and
+package rows. Since none of those rows contains completeness, a selected limit,
+a quotient representative, or host-index equality, the shifted-schedule readback
+cannot export such data.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 \closureat{RealLimitUp}{scopedStr}
