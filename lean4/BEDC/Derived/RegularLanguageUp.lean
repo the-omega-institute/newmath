@@ -42,4 +42,53 @@ theorem RegularLanguageAutomatonPacket_run_ledger_deterministic [AskSetup] [Pack
     cont_respects_hsame sameRun (hsame_refl transition) endpointRow endpointRow'
   exact ⟨sameRun, sameEndpoint⟩
 
+theorem RegularLanguageAutomatonPacket_deterministic_run_ledger [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      run' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont start word run' ->
+        UnaryHistory start ∧ UnaryHistory word ∧ UnaryHistory run' ∧ hsame run run' ∧
+          Cont start word run' ∧ PkgSig bundle provenance pkg := by
+  intro packet runRow'
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, _transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, _endpointRow, _routesRow, pkgSig⟩ := packet
+  have sameRun : hsame run run' :=
+    cont_deterministic runRow runRow'
+  have runUnary' : UnaryHistory run' :=
+    unary_cont_closed startUnary wordUnary runRow'
+  exact
+    ⟨startUnary, wordUnary, runUnary', sameRun, runRow', pkgSig⟩
+
+theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance run'
+      transition' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      hsame run run' ->
+        hsame transition transition' ->
+          Cont run' transition' endpoint' ->
+            UnaryHistory run' ∧ UnaryHistory transition' ∧ UnaryHistory endpoint' ∧
+              hsame endpoint endpoint' ∧ Cont run' transition' endpoint' ∧
+                PkgSig bundle provenance pkg := by
+  intro packet sameRun sameTransition endpointRow'
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, pkgSig⟩ := packet
+  have runUnary : UnaryHistory run :=
+    unary_cont_closed startUnary wordUnary runRow
+  have runUnary' : UnaryHistory run' :=
+    unary_transport runUnary sameRun
+  have transitionUnary' : UnaryHistory transition' :=
+    unary_transport transitionUnary sameTransition
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed runUnary' transitionUnary' endpointRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRun sameTransition endpointRow endpointRow'
+  exact
+    ⟨runUnary', transitionUnary', endpointUnary', sameEndpoint, endpointRow', pkgSig⟩
+
 end BEDC.Derived.RegularLanguageUp
