@@ -1,0 +1,18 @@
+# circle_modn_operations.enum.ct
+# Theorem family:
+#   ModNQuotientCarrier_singleton_operation_descent_rows
+#   ModNQuotient_singleton_operation_descent_rows
+#   ModNQuotient_singleton_add_neg_empty_classifier
+#
+# Input shape:
+#   BHist modulus ++ BHist h ++ BHist k ++ BHist expectedAdd ++ BHist expectedMul
+#
+# RingSingletonAdd, RingSingletonMul, and RingSingletonNeg are closed-form
+# Empty on the Lean side.  The harness checks that expectedAdd and expectedMul
+# decode as Empty and that non-carrier examples are implication-vacuous rows.
+PRODUCTIONS 0
+ASSERTIONS 4
+case empty_mod_add_mul_empty:      input=1111111111             ; theorem=modn_singleton_operation_descent ; row=add_mul ; modulus=empty ; h=empty ; k=empty ; expected_add=empty ; expected_mul=empty ; carrier_premise=true ; conclusion_holds=yes
+case unary_mod_add_mul_empty:      input=101111111111           ; theorem=modn_singleton_operation_descent ; row=add_mul ; modulus=e1_empty ; h=empty ; k=empty ; expected_add=empty ; expected_mul=empty ; carrier_premise=true ; conclusion_holds=yes
+case two_mod_neg_empty:            input=10101111111111         ; theorem=modn_singleton_operation_descent ; row=neg ; modulus=e1_e1_empty ; h=empty ; k=empty ; expected_add=empty ; expected_mul=empty ; carrier_premise=true ; conclusion_holds=yes
+case add_neg_noncarrier_vacuous:   input=1011011111111          ; theorem=modn_add_neg_empty_classifier ; row=add_neg ; modulus=e1_empty ; h=e0_empty ; k=empty ; expected_add=empty ; expected_mul=empty ; carrier_premise=false ; conclusion_holds=yes
