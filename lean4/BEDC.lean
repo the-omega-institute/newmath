@@ -77,6 +77,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
@@ -1196,6 +1197,9 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution.Core
+import BEDC.MetaCIC.TypedExamples.Projections
+import BEDC.MetaCIC.TypedExamples.BasicApplications
+import BEDC.MetaCIC.TypedExamples.Applications
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
