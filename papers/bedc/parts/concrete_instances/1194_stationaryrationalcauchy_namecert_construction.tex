@@ -42,6 +42,7 @@ The export obligation is ledger exactness. The $\Pkg$ and $\NameCert$ rows name 
 \label{thm:stationary-rational-cauchy-diagonal-handoff}
 For every accepted $\StationaryRationalCauchyUp$ carrier $S$ and every unary precision request $n$, the diagonal read used by the $\RealUp$ handoff factors through the stationary $\RegSeqRatUp$ member of $S$, one finite constant $\StreamNameUp$ window, the $\RatUp$ seed row, the matching $\DyadicRatCoreUp$ observation ledger, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by $S$.
 \end{theorem}
+\leanchecked{BEDC.Derived.StationaryRationalCauchyUp.StationaryRationalCauchyBHistCarrier\_diagonal\_handoff}
 \begin{proof}
 Project the packet of \autoref{def:stationary-rational-cauchy-carrier}. The requested precision $n$ reaches the stationary regular-sequence member $R$, and $R$ returns the same stream row at every index.
 
@@ -90,4 +91,16 @@ Begin with the diagonal handoff of \autoref{thm:stationary-rational-cauchy-diago
 The window read returns the hidden $\RatUp$ seed and the matching $\DyadicRatCoreUp$ observation. The $\RealUp$ seal row is attached to that same constant rational readback.
 
 The remaining carrier coordinates are provenance: $\BHist$ supplies the finite packet, $\hsame$ and $\Cont$ supply the visible transports, and $\Pkg$ and $\NameCert$ name the certificate rows. These fields exhaust the exported ledger, so no further equality principle, host-real endpoint, non-stationary family, or completeness theorem is available from the carrier.
+\end{proof}
+
+\begin{theorem}[StationaryRationalCauchy RegSeqRat handoff scope]
+\label{thm:stationary-rational-cauchy-regseqrat-handoff-scope}
+The constant rational embedding carried by $\StationaryRationalCauchyUp$ into $\RegSeqRatUp$ and $\RealUp$ is scoped entirely by the displayed $\RatUp$ seed, constant $\StreamNameUp$ schedule, stationary $\RegSeqRatUp$ member, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not require quotient stream equality, selected host limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:stationary-rational-cauchy-carrier}. Its finite packet exposes the seed $q$, constant schedule $A$, stationary member $R$, dyadic ledger $D$, real seal $E$, package row $P$, and local certificate row $N$.
+
+The diagonal handoff of \autoref{thm:stationary-rational-cauchy-diagonal-handoff} sends each precision request through $R$ and then through a finite window of $A$ back to $q$ and $D$. The finite-prefix uniformity of \autoref{thm:stationary-rational-cauchy-finite-prefix-uniformity} shows that repeating the read across any finite request list introduces no new stream schedule, regular-sequence member, or ledger.
+
+Classifier correspondence in \autoref{thm:stationary-rational-cauchy-classifier-correspondence} transports exactly the displayed seed, stream, regular-sequence, dyadic, real, package, and certificate rows. Ledger exactness from \autoref{thm:stationary-rational-cauchy-ledger-exactness} then exhausts the exported $\RealUp$ read, excluding quotient stream equality, selected host limits, and ambient completeness from the handoff scope.
 \end{proof}
