@@ -105,6 +105,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetExhaustion
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
+import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.ObserverRegularUp.Carrier
@@ -217,6 +218,7 @@ import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
+import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
@@ -331,8 +333,10 @@ import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
+import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
