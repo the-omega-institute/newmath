@@ -99,6 +99,150 @@ static int bit_matches(uint8_t bit, int truth) {
     return (bit == 1) == (truth != 0);
 }
 
+static void expected_positional_certificate(const char *input_bits,
+                                            char *out,
+                                            size_t out_cap) {
+    size_t out_pos = 0;
+    size_t len = strlen(input_bits);
+
+    assert(len < 64);
+    for (size_t i = 0; i < len; i++) {
+        if (input_bits[i] != '1') continue;
+        assert(out_pos + 7 < out_cap);
+        out[out_pos++] = '1';
+        for (int bit = 5; bit >= 0; bit--) {
+            out[out_pos++] = ((i >> (size_t)bit) & 1u) ? '1' : '0';
+        }
+    }
+    assert(out_pos < out_cap);
+    out[out_pos] = '\0';
+}
+
+static int append_encoded_event_chars(const uint8_t *event,
+                                      size_t event_len,
+                                      char *out,
+                                      size_t out_cap,
+                                      size_t *out_pos) {
+    uint8_t encoded[128];
+    size_t encoded_len;
+
+    if (event_len * 2 + 2 > sizeof(encoded)) return 0;
+    encoded_len = gc_event_encode(event, event_len, encoded, sizeof(encoded));
+    if (encoded_len == 0) return 0;
+    if (*out_pos + encoded_len >= out_cap) return 0;
+
+    for (size_t i = 0; i < encoded_len; i++) {
+        out[(*out_pos)++] = encoded[i] ? '1' : '0';
+    }
+    out[*out_pos] = '\0';
+    return 1;
+}
+
+static int append_unary_nat_event_chars(size_t value,
+                                        char *out,
+                                        size_t out_cap,
+                                        size_t *out_pos) {
+    uint8_t event[16];
+
+    if (value + 1 > sizeof(event)) return 0;
+    for (size_t i = 0; i < value; i++) event[i] = 0;
+    event[value] = 1;
+    return append_encoded_event_chars(event, value + 1, out, out_cap, out_pos);
+}
+
+static void make_bhist_choices(unsigned value,
+                               size_t depth,
+                               uint8_t *choices) {
+    for (size_t i = 0; i < depth; i++) {
+        size_t shift = depth - i - 1;
+        choices[i] = (uint8_t)((value >> shift) & 1u);
+    }
+}
+
+static int append_bhist_chars(unsigned value,
+                              size_t depth,
+                              char *out,
+                              size_t out_cap,
+                              size_t *out_pos) {
+    uint8_t choices[8];
+
+    if (depth > sizeof(choices)) return 0;
+    make_bhist_choices(value, depth, choices);
+    return append_encoded_event_chars(choices, depth, out, out_cap, out_pos);
+}
+
+static int append_bit_event_chars(const uint8_t *bits,
+                                  size_t bit_len,
+                                  char *out,
+                                  size_t out_cap,
+                                  size_t *out_pos) {
+    return append_encoded_event_chars(bits, bit_len, out, out_cap, out_pos);
+}
+
+static int build_core_or_semantic_input(size_t tag,
+                                        size_t bound,
+                                        unsigned h_value,
+                                        size_t h_depth,
+                                        unsigned k_value,
+                                        size_t k_depth,
+                                        unsigned r_value,
+                                        size_t r_depth,
+                                        const uint8_t rel[3],
+                                        char *out,
+                                        size_t out_cap) {
+    size_t out_pos = 0;
+
+    out[0] = '\0';
+    return append_unary_nat_event_chars(tag, out, out_cap, &out_pos) &&
+           append_unary_nat_event_chars(bound, out, out_cap, &out_pos) &&
+           append_bhist_chars(h_value, h_depth, out, out_cap, &out_pos) &&
+           append_bhist_chars(k_value, k_depth, out, out_cap, &out_pos) &&
+           append_bhist_chars(r_value, r_depth, out, out_cap, &out_pos) &&
+           append_bit_event_chars(rel, 3, out, out_cap, &out_pos);
+}
+
+static int build_seal_input(size_t thread,
+                            size_t bound,
+                            char *out,
+                            size_t out_cap) {
+    size_t out_pos = 0;
+
+    out[0] = '\0';
+    return append_unary_nat_event_chars(2, out, out_cap, &out_pos) &&
+           append_unary_nat_event_chars(thread, out, out_cap, &out_pos) &&
+           append_unary_nat_event_chars(bound, out, out_cap, &out_pos);
+}
+
+static int build_stable_or_composition_input(size_t tag,
+                                             unsigned source_value,
+                                             size_t source_depth,
+                                             unsigned target_value,
+                                             size_t target_depth,
+                                             const uint8_t *rel,
+                                             size_t rel_len,
+                                             char *out,
+                                             size_t out_cap) {
+    size_t out_pos = 0;
+
+    out[0] = '\0';
+    return append_unary_nat_event_chars(tag, out, out_cap, &out_pos) &&
+           append_bhist_chars(source_value, source_depth, out, out_cap, &out_pos) &&
+           append_bhist_chars(target_value, target_depth, out, out_cap, &out_pos) &&
+           append_bit_event_chars(rel, rel_len, out, out_cap, &out_pos);
+}
+
+static int build_mode_input(size_t left,
+                            size_t right,
+                            char *out,
+                            size_t out_cap) {
+    size_t out_pos = 0;
+
+    out[0] = '\0';
+    return append_unary_nat_event_chars(5, out, out_cap, &out_pos) &&
+           append_unary_nat_event_chars(left, out, out_cap, &out_pos) &&
+           append_unary_nat_event_chars(right, out, out_cap, &out_pos);
+}
+
 static int check_core(const uint8_t *bytes, size_t len, size_t off) {
     size_t bound = 0;
     BHist h = {NULL, 0};
@@ -260,6 +404,26 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static void assert_name_cert_algo_ct_case(const char *input_bits,
+                                          int expected_holds) {
+    char expected_marker[1024];
+    MrResult r;
+
+    assert(decode_name_cert_holds(input_bits) == expected_holds);
+    expected_positional_certificate(input_bits,
+                                    expected_marker,
+                                    sizeof(expected_marker));
+    r = mr_run_ct_manifest("manifests/name_cert/name_cert_basic.algo.ct",
+                           input_bits,
+                           expected_marker,
+                           strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "name_cert_basic.algo CT FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
 static void assert_name_cert_cases(void) {
     assert(decode_name_cert_holds("1011101111111110101011"));
     assert(decode_name_cert_holds("101101011011101101110101011"));
@@ -306,28 +470,171 @@ static void test_name_cert_basic_enum(void) {
 
 static void test_name_cert_basic_algo(void) {
     assert_name_cert_cases();
-    assert_manifest_smoke("manifests/name_cert/name_cert_basic.algo.ct",
-                          "1011101111111110101011");
-    printf("  name_cert_basic.algo: 29/29 cases PASS\n");
+    assert_name_cert_algo_ct_case("1011101111111110101011", 1);
+    printf("  name_cert_basic.algo: 29/29 decoder cases + CT smoke PASS\n");
+}
+
+static void test_name_cert_algo_via_ct_runner(void) {
+    const struct NameCertManifestCase {
+        const char *input;
+        int holds;
+    } manifest_cases[] = {
+        {"1011101111111110101011", 1},
+        {"101101011011101101110101011", 1},
+        {"10111011011101111100011", 1},
+        {"10111011111011101110101011", 0},
+        {"10111011011101101110101011", 0},
+        {"01011101111111110101011", 1},
+        {"0101100101101011101011001110101011", 1},
+        {"01011101101110110111010011", 1},
+        {"01011001011011101011001110101011", 0},
+        {"010111011011101101110101011", 0},
+        {"00101110111011", 1},
+        {"00101100101101011", 1},
+        {"0010111011101111", 0},
+        {"001011111011", 0},
+        {"00010111111101011", 1},
+        {"00010110111011101011", 1},
+        {"000101111101101011", 1},
+        {"0001011111011101011", 0},
+        {"0001011011101110011", 0},
+        {"00001011111110101011", 1},
+        {"00001011010111001110101011", 1},
+        {"000010111110110101011", 1},
+        {"0000101111101110101011", 0},
+        {"0000101101110111010011", 0},
+        {"000001011101101011", 1},
+        {"0000010110010110001011", 1},
+        {"000001011000101100001011", 1},
+        {"00000101110111011", 0},
+        {"00000101100001011000001011", 0}
+    };
+    char input[128];
+    size_t checked = 0;
+
+    for (size_t i = 0; i < sizeof(manifest_cases) / sizeof(manifest_cases[0]); i++) {
+        assert_name_cert_algo_ct_case(manifest_cases[i].input,
+                                      manifest_cases[i].holds);
+    }
+
+    for (size_t tag = 0; tag <= 1; tag++) {
+        for (size_t bound = 0; bound <= 3; bound++) {
+            for (size_t h_depth = 0; h_depth <= 2; h_depth++) {
+                for (size_t k_depth = 0; k_depth <= 2; k_depth++) {
+                    for (size_t r_depth = 0; r_depth <= 2; r_depth++) {
+                        for (unsigned rel_mask = 0; rel_mask < 8; rel_mask++) {
+                            uint8_t rel[3] = {
+                                (uint8_t)((rel_mask >> 2) & 1u),
+                                (uint8_t)((rel_mask >> 1) & 1u),
+                                (uint8_t)(rel_mask & 1u)
+                            };
+                            unsigned h_value = h_depth == 0 ? 0u : ((1u << h_depth) - 1u);
+                            unsigned k_value = k_depth == 0 ? 0u : (1u << (k_depth - 1));
+                            unsigned r_value = r_depth == 0 ? 0u : ((1u << r_depth) - 1u);
+                            assert(build_core_or_semantic_input(tag,
+                                                                bound,
+                                                                h_value,
+                                                                h_depth,
+                                                                k_value,
+                                                                k_depth,
+                                                                r_value,
+                                                                r_depth,
+                                                                rel,
+                                                                input,
+                                                                sizeof(input)));
+                            assert_name_cert_algo_ct_case(input,
+                                                          decode_name_cert_holds(input));
+                            checked++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (size_t thread = 0; thread <= 5; thread++) {
+        for (size_t bound = 0; bound <= 3; bound++) {
+            assert(build_seal_input(thread, bound, input, sizeof(input)));
+            assert_name_cert_algo_ct_case(input, decode_name_cert_holds(input));
+            checked++;
+        }
+    }
+
+    for (size_t source_depth = 0; source_depth <= 3; source_depth++) {
+        for (size_t target_depth = 0; target_depth <= 3; target_depth++) {
+            for (uint8_t same = 0; same <= 1; same++) {
+                for (uint8_t ledger = 0; ledger <= 1; ledger++) {
+                    uint8_t rel[2] = {same, ledger};
+                    unsigned source_value = source_depth == 0 ? 0u : ((1u << source_depth) - 1u);
+                    unsigned target_value = target_depth == 0 ? 0u : (1u << (target_depth - 1));
+                    assert(build_stable_or_composition_input(3,
+                                                             source_value,
+                                                             source_depth,
+                                                             target_value,
+                                                             target_depth,
+                                                             rel,
+                                                             2,
+                                                             input,
+                                                             sizeof(input)));
+                    assert_name_cert_algo_ct_case(input,
+                                                  decode_name_cert_holds(input));
+                    checked++;
+                }
+            }
+        }
+    }
+
+    for (size_t source_depth = 0; source_depth <= 3; source_depth++) {
+        for (size_t target_depth = 0; target_depth <= 3; target_depth++) {
+            for (uint8_t same = 0; same <= 1; same++) {
+                for (uint8_t left_ledger = 0; left_ledger <= 1; left_ledger++) {
+                    for (uint8_t right_ledger = 0; right_ledger <= 1; right_ledger++) {
+                        uint8_t rel[3] = {same, left_ledger, right_ledger};
+                        unsigned source_value = source_depth == 0 ? 0u : ((1u << source_depth) - 1u);
+                        unsigned target_value = target_depth == 0 ? 0u : (1u << (target_depth - 1));
+                        assert(build_stable_or_composition_input(4,
+                                                                 source_value,
+                                                                 source_depth,
+                                                                 target_value,
+                                                                 target_depth,
+                                                                 rel,
+                                                                 3,
+                                                                 input,
+                                                                 sizeof(input)));
+                        assert_name_cert_algo_ct_case(input,
+                                                      decode_name_cert_holds(input));
+                        checked++;
+                    }
+                }
+            }
+        }
+    }
+
+    for (size_t left = 0; left <= 6; left++) {
+        for (size_t right = 0; right <= 6; right++) {
+            assert(build_mode_input(left, right, input, sizeof(input)));
+            assert_name_cert_algo_ct_case(input, decode_name_cert_holds(input));
+            checked++;
+        }
+    }
+
+    printf("  name_cert_basic.algo CT runner: %zu bounded cases PASS\n",
+           checked + sizeof(manifest_cases) / sizeof(manifest_cases[0]));
 }
 
 static void pipeline_smoke_test_name_cert_manifests(void) {
-    struct { const char *path; const char *input; } cases[] = {
-        {"manifests/name_cert/name_cert_basic.enum.ct", "1011101111111110101011"},
-        {"manifests/name_cert/name_cert_basic.algo.ct", "1011101111111110101011"},
-    };
-    size_t n = sizeof(cases) / sizeof(cases[0]);
-    for (size_t i = 0; i < n; i++) {
-        assert_manifest_smoke(cases[i].path, cases[i].input);
-    }
-    printf("  pipeline_smoke (2 name_cert manifests, all halt-empty in <=200 steps): PASS\n");
+    assert_manifest_smoke("manifests/name_cert/name_cert_basic.enum.ct",
+                          "1011101111111110101011");
+    assert_name_cert_algo_ct_case("1011101111111110101011", 1);
+    printf("  pipeline_smoke (enum halt-empty + algo certificate): PASS\n");
 }
 
 int main(void) {
     printf("== test_name_cert ==\n");
     test_name_cert_basic_enum();
     test_name_cert_basic_algo();
+    test_name_cert_algo_via_ct_runner();
     pipeline_smoke_test_name_cert_manifests();
-    printf("ALL test_name_cert assertions passed (58 NameCert cases + 2-manifest pipeline smoke)\n");
+    printf("ALL test_name_cert assertions passed (bounded NameCert CT runner + decoder cross-check)\n");
     return 0;
 }
