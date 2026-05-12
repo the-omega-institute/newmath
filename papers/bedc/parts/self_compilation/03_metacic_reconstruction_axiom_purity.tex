@@ -1,0 +1,23 @@
+\subsection{Axiom Purity Guarantee}\label{subsec:reconstruction-axiom-purity}
+
+The axiom-purity guarantee for \texttt{BEDC.MetaCIC} is the same guarantee
+applied to the rest of the BEDC formalization. At the source level, the
+project has zero tolerance for the raw \texttt{axiom} keyword in
+\texttt{lean4/BEDC/}: \texttt{tools/check-axioms.py} scans the BEDC Lean
+tree for any \texttt{axiom} declaration and exits with status $1$ when one is
+found.
+
+At the theorem-dependency level, \texttt{BEDC.MetaCIC} is audited together
+with the other BEDC modules by
+\texttt{python3 lean4/scripts/bedc\_ci.py axiom-purity --strict}. The audit
+uses Lean's \texttt{\#print axioms} output to inspect the transitive
+dependencies of each checked theorem. The forbidden dependency set is
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}: excluded
+respectively as excluded-middle or choice dependence, quotient-type axiom
+dependence, and propositional-extensionality dependence.
+
+More than $9000$ BEDC theorem declarations pass this strict audit with zero
+forbidden dependencies. The formal content used by the MetaCIC reconstruction
+therefore remains inside the pure CIC fragment checked by Lean's kernel, rather
+than importing additional Lean stdlib axioms through either declarations or
+transitive proof dependencies.
