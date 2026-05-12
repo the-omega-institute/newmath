@@ -131,20 +131,48 @@ Therefore the boundary exports the stated BEDC classifier correspondence and
 nothing beyond the displayed rows.
 \end{proof}
 
+\begin{theorem}[KoszulDuality standard derived-tensor bridge]
+\label{thm:koszulduality-standard-derived-tensor-bridge}
+Any standard bridge for the public $\KoszulDualityUp$ packet is restricted to
+the displayed $\DerivedCatUp$ source row, the $\TensorProductUp$ graded tensor
+row, the $\mathrm{Ext}$-classifier row, the variance ledger, the $\hsame$
+transport, the $\Cont$ routes, the $\mathsf{Pkg}$ provenance, and the
+$\NameCert$ surface already isolated by the public certificate. It does not
+supply a full derived equivalence, a triangulated enhancement, a
+model-category localization, or a host quotient.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:koszulduality-namecert-obligation-surface} with
+\autoref{thm:koszulduality-bridge-boundary-exclusions}. The obligation surface
+lists the carrier, classifier, stability, ledger exactness, and source coverage
+rows, while the exclusions identify which host structures are absent from that
+public packet.
+
+Repack the same finite $\mathsf{BHist}$ and $\mathrm{Ext}$ rows as the standard
+bridge boundary. The bridge has no independent coordinate beyond the displayed
+derived-category row, tensor row, classifier row, variance ledger, transports,
+routes, provenance, and naming surface.
+
+Therefore a full derived equivalence, a triangulated enhancement, a
+model-category localization, and a host quotient remain outside the exported
+bridge boundary.
+\end{proof}
+
 \section{The certificate}
 \label{sec:koszulduality-certificate}
 
 \closureat{KoszulDualityUp}{obligationStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate]
 \closureat{KoszulDualityUp}{scopedStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate]
 \closureat{KoszulDualityUp}{publicStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate]
+\closureat{KoszulDualityUp}{bridgedStr}[BEDC.Derived.KoszulDualityUp.KoszulDualityBHistExtCarrier\_bridge\_boundary\_exclusions]
 
 \begin{closurestatus}{\KoszulDualityUp}
-  \constructivestory{A $\KoszulDualityUp$ seed packet is generated from a displayed $\DerivedCatUp$ source row, a displayed $\TensorProductUp$ graded tensor row, an $\mathrm{Ext}$-classifier row tying those dependencies together, and a variance ledger recording contravariant source-target reversal. The carrier reads only this finite $\mathsf{BHist}$ packet; classifier stability, ledger exactness, and source coverage are paper-side obligations over the same rows, while quotient derived categories, host equivalences, triangulated enhancements, model-category localizations, and standard bridge data are absent from the exported surface.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public semantic $\NameCert$ surface of \autoref{thm:koszulduality-namecert-obligation-surface} binds the $\mathsf{BHist}/\mathrm{Ext}$ carrier, classifier stability, derived tensor ledger exactness, source coverage, and bridge-boundary exclusions over the displayed $\DerivedCatUp$ and $\TensorProductUp$ rows.}
+  \constructivestory{A $\KoszulDualityUp$ seed packet is generated from a displayed $\DerivedCatUp$ source row, a displayed $\TensorProductUp$ graded tensor row, an $\mathrm{Ext}$-classifier row tying those dependencies together, and a variance ledger recording contravariant source-target reversal. The carrier reads only this finite $\mathsf{BHist}$ packet; classifier stability, ledger exactness, source coverage, and the standard derived-tensor bridge boundary are paper-side obligations over the same rows, while quotient derived categories, host equivalences, triangulated enhancements, and model-category localizations are absent from the exported surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged semantic $\NameCert$ surface of \autoref{thm:koszulduality-namecert-obligation-surface} and the standard derived-tensor bridge of \autoref{thm:koszulduality-standard-derived-tensor-bridge} bind the $\mathsf{BHist}/\mathrm{Ext}$ carrier, classifier stability, derived tensor ledger exactness, source coverage, and bridge-boundary exclusions over the displayed $\DerivedCatUp$ and $\TensorProductUp$ rows.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.KoszulDualityUp.KoszulDualityExtCarrier\_semantic\_name\_certificate}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not claim a full derived equivalence, a triangulated or model-category presentation, a standard bridge, or mature finite consumer coverage for $\KoszulDualityUp$.}
-  \upgradepath{Bridged closure requires a standard bridge for the displayed $\DerivedCatUp$, $\TensorProductUp$, and $\mathrm{Ext}$ carrier surface.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not claim a full derived equivalence, a triangulated or model-category presentation, host quotient data, machine-checked bridge evidence, or mature finite consumer coverage for $\KoszulDualityUp$.}
+  \upgradepath{Mature closure requires finite consumer coverage for the displayed $\DerivedCatUp$, $\TensorProductUp$, and $\mathrm{Ext}$ packet.}
 \end{closurestatus}
