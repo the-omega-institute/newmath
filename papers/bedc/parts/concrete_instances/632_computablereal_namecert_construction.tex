@@ -382,6 +382,42 @@ consumer packet for later Real and modulus chapters, not a Real completeness
 theorem and not a standard bridge.
 \end{proof}
 
+\begin{theorem}[ComputableReal effective-window determinacy]
+\label{thm:computable-real-effective-window-determinacy}
+Let $(s,\mu,d,r,\ell,h,c,p,n)$ and
+$(s',\mu',d',r',\ell',h',c',p',n')$ be accepted
+$\ComputableRealUp$ source packets. Suppose their consumer reads display the
+same $\StreamNameUp$ finite windows, unary $\CauchyModulusUp$ thresholds,
+transported $\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ handoff row,
+$\RealUp$ seal-source row, $\hsame$ transports, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance. Then the two
+reads expose one consumer surface for every effective-window coordinate.
+
+This determinacy is only a statement about the displayed finite BEDC surface.
+It does not assert completed real equality, identify quotient names, select a
+limit, or invoke classical completeness.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through
+\autoref{def:computable-real-source-packet}. The common display fixes the
+stream windows, modulus thresholds, dyadic endpoints, regular-sequence
+handoff, real seal-source row, and all transport and provenance coordinates.
+
+Apply \autoref{thm:computable-real-regseqrat-seal-factorization} to identify
+the $\RegSeqRatUp$ handoff coordinate in both reads. Apply
+\autoref{thm:computable-real-real-seal-refinement-coverage} to place the
+$\RealUp$ seal-source row over the same refinement surface.
+
+The bridge boundary of \autoref{thm:computable-real-bridge-boundary} removes
+any additional completed-real coordinate from the consumer read. It leaves
+only the finite rows listed in the ledger.
+
+Finally use \autoref{thm:computable-real-ledger-coverage}. Since the ledger
+exhausts the consumer coordinates and every ledger row agrees by hypothesis,
+the two reads present the same effective-window consumer surface, with no
+extra channel for quotient names, selected limits, or classical completeness.
+\end{proof}
+
 \closureat{ComputableRealUp}{seedStr}
 \closureat{ComputableRealUp}{obligationStr}
 \closureat{ComputableRealUp}{scopedStr}

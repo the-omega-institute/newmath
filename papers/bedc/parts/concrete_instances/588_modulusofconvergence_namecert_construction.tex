@@ -49,6 +49,7 @@ $\hsame$ transport rows for precision and threshold histories, the $\Cont$
 extension rows for finite observation windows, and the exactness ledger naming
 $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_namecert\_obligation\_surface}
 \begin{proof}
 Project an accepted packet to the seven carrier coordinates. The precision row,
 unary selector, modulus row, observation schedule, late-observation witness,
@@ -99,6 +100,7 @@ again accepted. Its classifier keeps the same precision request, modulus row,
 late-observation witness, and dependency ledger, while the $\Cont$ window is
 restricted to the displayed tail.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_tail\_restriction\_stability}
 \begin{proof}
 Start with the selected threshold bound in the unary index selector. A tail
 whose first index is $\hsame$-above that bound remains inside the late window
@@ -208,6 +210,41 @@ then the scope of \autoref{thm:modulusofconvergence-scoped-dependency-packet}:
 the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
 $\RealUp$ anchors are retained, and no completion coordinate, quotient
 equality, selected limit, or global threshold choice is available.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence finite-rate bridge packet]\label{thm:modulusofconvergence-finite-rate-bridge-packet}
+Any standard bridge for the displayed convergence-rate package may read exactly
+the precision request, unary threshold selector, modulus row,
+$\StreamNameUp$ observation schedule, $\RegSeqRatUp$ late-observation witness,
+$\DyadicRatCoreUp$ endpoint ledger, $\hsame$ transports, $\Cont$ windows, and
+$\mathsf{Pkg}$ provenance isolated by
+\autoref{thm:modulusofconvergence-realup-public-export}. It may not read
+quotient completion, selected real limits, global threshold choice, or host real
+equality.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:modulusofconvergence-bhist-carrier}.
+The visible rows are the finite precision request, unary threshold selector,
+modulus row, scheduled observations, late-observation witness, endpoint ledger,
+and package/name provenance.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} to bind
+these rows to the accepted $\NameCert_{\ModulusOfConvergenceUp}$ surface. Tail
+restriction through
+\autoref{thm:modulusofconvergence-tail-restriction-stability} keeps the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ coordinates when a
+consumer narrows the visible observation window.
+
+Ledger exactness is supplied by
+\autoref{thm:modulusofconvergence-ledger-exactness}. The dependency boundary is
+the packet of \autoref{thm:modulusofconvergence-scoped-dependency-packet}, and
+the public $\RegSeqRatUp$/$\RealUp$ read is exactly
+\autoref{thm:modulusofconvergence-realup-public-export}.
+
+The excluded data are not coordinates of the carrier. A bridge that reads a
+quotient completion, a selected real limit, a global threshold choice, or host
+real equality would therefore leave the displayed finite-rate package rather
+than using the boundary proved here.
 \end{proof}
 
 \begin{theorem}[ModulusOfConvergence standard bridge]\label{thm:modulusofconvergence-standard-bridge}
