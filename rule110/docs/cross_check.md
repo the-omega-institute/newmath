@@ -15,12 +15,12 @@ The checker reads assertion tables from registered rule110 manifests, decodes ea
 Run from the repository root.  On a clean worktree, compile the Lean library once before running the script:
 
 ```bash
-cd lean4
-lake build
-lake env lean --run scripts/rule110_cross_check.lean \
-  ../rule110/manifests/mark/msame_refl.enum.ct \
-  ../rule110/manifests/hist/hsame_refl.enum.ct \
-  ../rule110/manifests/ext/ext_step.enum.ct
+cd rule110/lean-side
+lake build rule110-cross-check
+lake exe rule110-cross-check \
+  ../manifests/mark/msame_refl.enum.ct \
+  ../manifests/hist/hsame_refl.enum.ct \
+  ../manifests/ext/ext_step.enum.ct
 ```
 
 Expected output:
@@ -47,7 +47,7 @@ The script exits `0` only when every registered manifest parses, every assertion
 
 ## Acceptance criteria
 
-- `cd lean4 && lake env lean --run scripts/rule110_cross_check.lean ...` exits `0` for the three registered manifests above.
+- `cd rule110/lean-side && lake exe rule110-cross-check ...` exits `0` for the registered manifests above.
 - Every emitted assertion line begins with `PASS`.
 - The axiom audit passes from the repository root with `python3 tools/check-axioms.py`.
 - The axiom audit reports `Axiom audit: 0 axioms in lean4/BEDC/.`.

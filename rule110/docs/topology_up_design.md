@@ -105,7 +105,7 @@ non-equality for representative no-confusion rows.
 
 ## Cross-Check Extension
 
-`lean4/scripts/rule110_cross_check.lean` should register a new
+`rule110/lean-side/Rule110CrossCheck/**` should register a new
 `topology_up` manifest family with these decoders:
 
 ```text
