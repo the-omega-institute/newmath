@@ -1,0 +1,52 @@
+\begin{theorem}[DyadicApproximation refinement-seal commutation]
+\label{thm:dyadicapproximation-refinement-seal-commutation}
+Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted
+$\DyadicApproximationUp$ finite packets admitting a displayed common
+precision refinement $R$. Let $M=(\ell,J,I,E,H,C,P,N)$ be an accepted
+$\DyadicMeshUp$ cell row, and let
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,q,m)$ be an accepted
+$\ValidatedNumericsUp$ enclosure row consuming the same refined endpoint
+selected by $R$.
+
+Then the route that first takes the common refinement and then reads the
+$\RealUp$ seal, and the route that first reads the mesh enclosure and then
+performs validated readback, expose one finite $\RealUp$ surface. That
+surface is exactly the displayed precision row, transported dyadic endpoint,
+rational interval cell, endpoint-radius ledger, $\RegSeqRatUp$ observation
+window, $\RealUp$ seal token, visible $\hsame$ transports, visible $\Cont$
+routes, $\mathsf{Pkg}$ provenance rows, and local
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$, and
+$\NameCert_{\ValidatedNumericsUp}$ rows.
+
+The commutation is only this finite consumer-surface equality. It does not
+assert completed real equality, solver correctness, floating-point semantics,
+infinite mesh selection, or choice-selected limits.
+\end{theorem}
+\begin{proof}
+Begin with the shared refinement endpoint. Apply
+\autoref{thm:dyadicapproximation-common-refinement-enclosure-handoff} to the
+accepted packets $A$ and $A'$, the displayed refinement $R$, the accepted mesh
+cell $M$, and the accepted validated enclosure $V$. This places the precision
+row, transported endpoint, rational interval cell, endpoint-radius ledger,
+regular-rational window, real seal token, transport rows, continuation rows,
+package rows, and local certificate rows on one finite handoff surface.
+
+Next compare the two consumer routes through that surface. Apply
+\autoref{thm:dyadicapproximation-validated-enclosure-route-commutation}. It
+identifies the terminal dyadic-window route with the mesh-enclosure and
+validated-readback route without adding any coordinate beyond the displayed
+finite rows.
+
+Now seal the terminal endpoint against the mesh enclosure. Use
+\autoref{thm:dyadicapproximation-terminal-mesh-enclosure-compatibility} to
+transport the terminal $\RegSeqRatUp$ window and the $\RealUp$ seal token
+through the same rational interval cell and endpoint-radius ledger.
+
+Finally apply
+\autoref{thm:dyadicapproximation-finite-mesh-enclosure-exactness}. This
+restricts every mesh-cell and validated-enclosure read to the finite packet
+boundary already produced by the common-refinement handoff. Repacking the
+shared rows gives the stated single $\RealUp$ surface, and the cited finite
+boundaries provide no completed real equality, solver correctness,
+floating-point semantics, infinite mesh selection, or choice-selected limit.
+\end{proof}
