@@ -1,0 +1,20 @@
+# ext_step.algo.ct
+# Algorithm framing for Ext constructor recognition over a decoded
+# (BHist source, BMark mark, BHist result) triple.
+#
+# The C harness performs the bounded semantic check by decoding three events
+# and comparing the result's outer constructor and tail to source/mark. The CT
+# production is vacuous for this phase; it keeps the manifest executable under
+# the existing manifest_runner contract while the semantic assertions live in
+# tests/test_ext.c.
+PRODUCTIONS 1
+0
+ASSERTIONS 8
+case empty_b0_e0_empty:       input=11011011          ; ext_holds=yes
+case empty_b1_e1_empty:       input=1110111011        ; ext_holds=yes
+case e0_empty_b0_e0_e0_empty: input=0110110011        ; ext_holds=yes
+case e1_empty_b1_e1_e1_empty: input=10111011101011    ; ext_holds=yes
+case e0_e1_b0_e0_e0_e1:       input=01011011001011    ; ext_holds=yes
+case empty_b0_empty:          input=1101111           ; ext_holds=no
+case e0_empty_b0_e1_e0_empty: input=01101110011       ; ext_holds=no
+case e1_empty_b1_e0_e1_empty: input=1011101101011     ; ext_holds=no
