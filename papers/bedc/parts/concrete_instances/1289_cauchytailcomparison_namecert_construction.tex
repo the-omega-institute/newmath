@@ -242,6 +242,36 @@ streams, selected limits, host equality, and ambient completeness from the
 export.
 \end{proof}
 
+\begin{theorem}[CauchyTailComparison window-composition seal exhaustion]
+\label{thm:cauchy-tail-comparison-window-composition-seal-exhaustion}
+Let
+$$
+Q_{XY}=(X,Y,\mu_{XY},W_{XY},T_{XY},R_{XY},P_{XY},N_{XY})
+$$
+and
+$$
+Q_{YZ}=(Y,Z,\mu_{YZ},W_{YZ},T_{YZ},R_{YZ},P_{YZ},N_{YZ})
+$$
+be accepted $\CauchyTailComparisonUp$ packets composed along the shared regular-name row $Y$. Suppose their common-window ledgers are related by a displayed $\Cont$ route that composes the inspected windows and endpoint ledgers into rows
+$$
+\mu,W,T,R,P,N
+$$
+for the comparison from $X$ to $Z$.
+
+Then every resulting $\RealUp$ seal read factors through the composed rows $X$, $Z$, $\mu$, $W$, $T$, $R$, $P$, and $N$. No quotient stream, host real equality, selected limit, or ambient completeness coordinate appears in the composed seal surface.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The first packet exposes only $X$, $Y$, $\mu_{XY}$, $W_{XY}$, $T_{XY}$, $R_{XY}$, $P_{XY}$, and $N_{XY}$; the second exposes only $Y$, $Z$, $\mu_{YZ}$, $W_{YZ}$, $T_{YZ}$, $R_{YZ}$, $P_{YZ}$, and $N_{YZ}$.
+
+Apply \autoref{thm:cauchy-tail-comparison-tail-stability} to both packets. Each accepted precision read passes through its displayed threshold and finite common window, so the shared row $Y$ is read through visible late-window data on both sides.
+
+Use \autoref{thm:cauchy-tail-comparison-common-tail-window} with the displayed $\Cont$ route. The common-window refinement supplies the composed rows $\mu$, $W$, $T$, and $R$ for the $X$ to $Z$ comparison without introducing a second threshold or an unrecorded endpoint ledger.
+
+Now apply \autoref{thm:cauchy-tail-comparison-real-completion-handoff} and \autoref{thm:cauchy-tail-comparison-real-seal-stability}. The $\RealUp$ seal read is routed through the composed regular-name endpoints, common window, dyadic endpoint ledger, readback row, package provenance, and local naming row.
+
+Finally use \autoref{thm:cauchy-tail-comparison-non-escape-boundary}. The composed carrier inventory has no coordinate for quotient streams, host real equality, selected limits, or ambient completeness, so the seal read is exhausted by $X$, $Z$, $\mu$, $W$, $T$, $R$, $P$, and $N$.
+\end{proof}
+
 \closureat{CauchyTailComparisonUp}{seedStr}
 \closureat{CauchyTailComparisonUp}{obligationStr}
 \closureat{CauchyTailComparisonUp}{scopedStr}
