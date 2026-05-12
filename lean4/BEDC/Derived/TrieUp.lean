@@ -209,6 +209,34 @@ theorem TrieSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
     ⟨keyUnary, payloadUnary, depthUnary, branchUnary, branchRouteUnary, exportUnary, exportRow,
       exportPkg⟩
 
+theorem TrieSourcePacket_classifier_laws [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute key' payload' depth'
+      branch' key'' payload'' depth'' branch'' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      hsame key key' ->
+        hsame payload payload' ->
+          hsame depth depth' ->
+            hsame branch branch' ->
+              hsame key' key'' ->
+                hsame payload' payload'' ->
+                  hsame depth' depth'' ->
+                    hsame branch' branch'' ->
+                      (hsame key key ∧ hsame payload payload ∧ hsame depth depth ∧
+                          hsame branch branch) ∧
+                        (hsame key' key ∧ hsame payload' payload ∧ hsame depth' depth ∧
+                          hsame branch' branch) ∧
+                          (hsame key key'' ∧ hsame payload payload'' ∧
+                            hsame depth depth'' ∧ hsame branch branch'') := by
+  intro _packet sameKey samePayload sameDepth sameBranch sameKey' samePayload' sameDepth'
+    sameBranch'
+  exact
+    ⟨⟨hsame_refl key, hsame_refl payload, hsame_refl depth, hsame_refl branch⟩,
+      ⟨hsame_symm sameKey, hsame_symm samePayload, hsame_symm sameDepth, hsame_symm sameBranch⟩,
+      ⟨hsame_trans sameKey sameKey', hsame_trans samePayload samePayload',
+        hsame_trans sameDepth sameDepth', hsame_trans sameBranch sameBranch'⟩⟩
+
 def TriePacket [AskSetup] [PackageSetup]
     (key payload depth branch provenance keyPayloadRoute branchRoute endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
