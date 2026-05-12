@@ -235,6 +235,43 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static char *bundle_algo_certificate(const char *input_bits) {
+    size_t input_len = strlen(input_bits);
+    size_t ones = 0;
+    char *out;
+    size_t o = 0;
+
+    assert(input_len <= 128);
+    for (size_t i = 0; i < input_len; i++) {
+        assert(input_bits[i] == '0' || input_bits[i] == '1');
+        if (input_bits[i] == '1') ones++;
+    }
+
+    out = (char *)malloc(ones * 8 + 1);
+    assert(out != NULL);
+    for (size_t i = 0; i < input_len; i++) {
+        if (input_bits[i] == '1') {
+            out[o++] = '1';
+            for (int bit = 6; bit >= 0; bit--) {
+                out[o++] = ((i >> (size_t)bit) & 1u) ? '1' : '0';
+            }
+        }
+    }
+    out[o] = '\0';
+    return out;
+}
+
+static void assert_bundle_algo_ct_case(const char *path, const char *input_bits) {
+    char *expected = bundle_algo_certificate(input_bits);
+    MrResult r = mr_run_ct_manifest(path, input_bits, expected, strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "bundle algo CT FAIL on %s input=%s expected=%s result=%d\n",
+                path, input_bits, expected, (int)r);
+    }
+    free(expected);
+    assert(r == MR_PASS);
+}
+
 static void check_length_append_case(const char *input_bits) {
     Bundle b[2];
     assert(decode_exact_bundles(input_bits, b, 2));
@@ -516,6 +553,36 @@ static void test_bundle_length_enum(void) {
     printf("  bundle_length.enum: 14/14 cases PASS\n");
 }
 
+static void test_bundle_length_algo_via_ct_runner(void) {
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               LENGTH_APPEND_EMPTY_EMPTY);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               LENGTH_APPEND_EMPTY_TWO);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               LENGTH_APPEND_TWO_ONE);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               NIL_RIGHT_EMPTY);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               NIL_RIGHT_THREE);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               ASSOC_EMPTY_LEFT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               ASSOC_NONEMPTY);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               EQ_RIGHT_LEFT_NIL);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               EQ_RIGHT_NONEMPTY_LEFT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               EQ_LEFT_RIGHT_NIL);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               EQ_LEFT_NONEMPTY_RIGHT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               SPLIT_UNIQUE_FIXED);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_length.algo.ct",
+                               THREE_SPLIT_UNIQUE);
+    printf("  bundle_length.algo.ct_runner: 13/13 cases PASS\n");
+}
+
 static void test_bundle_length_algo(void) {
     check_length_append_case(LENGTH_APPEND_EMPTY_EMPTY);
     check_length_append_case(LENGTH_APPEND_EMPTY_TWO);
@@ -531,7 +598,7 @@ static void test_bundle_length_algo(void) {
     check_split_unique_fixed_lengths(SPLIT_UNIQUE_FIXED);
     check_split_unique_fixed_lengths(SPLIT_UNIQUE_FIXED);
     check_three_split_unique_fixed_lengths(THREE_SPLIT_UNIQUE);
-    assert_manifest_smoke("manifests/bundle/bundle_length.algo.ct", LENGTH_APPEND_EMPTY_EMPTY);
+    test_bundle_length_algo_via_ct_runner();
     printf("  bundle_length.algo: 14/14 cases PASS\n");
 }
 
@@ -556,6 +623,38 @@ static void test_bundle_membership_enum(void) {
     printf("  bundle_membership.enum: 16/16 cases PASS\n");
 }
 
+static void test_bundle_membership_algo_via_ct_runner(void) {
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               NIL_ELIM_PROBE0);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               CONS_SELF_PROBE1);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               SINGLETON_IFF_YES);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               SINGLETON_IFF_NO);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               APPEND_MEMBER_LEFT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               APPEND_MEMBER_RIGHT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               APPEND_MEMBER_ABSENT);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               APPEND_THREE_MIDDLE);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               APPEND_FOUR_LAST);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               MEMBER_SPLIT_HEAD);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               MEMBER_SPLIT_TAIL);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               PREFIX_SUFFIX_CANCEL);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               CONS_RESULT_INVERSION_PREFNIL);
+    assert_bundle_algo_ct_case("manifests/bundle/bundle_membership.algo.ct",
+                               EMPTY_RESULT_INVERSION);
+    printf("  bundle_membership.algo.ct_runner: 14/14 cases PASS\n");
+}
+
 static void test_bundle_membership_algo(void) {
     check_nil_membership_case(NIL_ELIM_PROBE0);
     check_cons_self_case(CONS_SELF_PROBE1);
@@ -573,7 +672,7 @@ static void test_bundle_membership_algo(void) {
     check_cancellation_case(PREFIX_SUFFIX_CANCEL);
     check_cons_result_inversion_case(CONS_RESULT_INVERSION_PREFNIL);
     check_empty_result_inversion_case(EMPTY_RESULT_INVERSION);
-    assert_manifest_smoke("manifests/bundle/bundle_membership.algo.ct", NIL_ELIM_PROBE0);
+    test_bundle_membership_algo_via_ct_runner();
     printf("  bundle_membership.algo: 16/16 cases PASS\n");
 }
 
@@ -583,6 +682,6 @@ int main(void) {
     test_bundle_length_algo();
     test_bundle_membership_enum();
     test_bundle_membership_algo();
-    printf("ALL test_bundle assertions passed (60 ProbeBundle cases + 4-manifest pipeline smoke)\n");
+    printf("ALL test_bundle assertions passed (60 ProbeBundle cases + 2 enum-manifest smoke checks + 27 bounded CT certificates)\n");
     return 0;
 }
