@@ -131,6 +131,35 @@ which such checking is meaningful. Together they explain why ``BEDC compiles
 itself'' has a legitimate L4-mid reading and no legitimate L4a or replacement
 reading.
 
+\subsection{Host CIC Relation}\label{subsec:reconstruction-host-cic-relation}
+
+MetaCIC is represented inside the host Lean calculus, not beside it. The
+objects named \texttt{BEDC.MetaCIC.Term}, \texttt{BEDC.MetaCIC.HasType}, and
+\texttt{BEDC.MetaCIC.BetaStep} are implemented as inductive types or
+inductive predicates in the host CIC. They are therefore first-order objects
+for the host: Lean can quantify over represented terms, represented typing
+derivations, and represented beta steps exactly as it quantifies over any
+other inductively generated data.
+
+The important boundary is axiomatic. The host Lean environment has available
+constants such as \texttt{propext}, \texttt{Quot.sound}, and
+\texttt{Classical.choice} when developments choose to depend on them.
+\texttt{BEDC.MetaCIC} does not use those constants. Its syntax, reduction,
+typing, and checked metatheory are built in the pure CIC fragment by
+inductive definitions and structural proofs.
+
+The verification relation is one-way. The host CIC kernel type-checks each
+BEDC theorem. Within that checked development, a MetaCIC typing derivation is
+an inhabitant of the inductive predicate \texttt{HasType}, and reasoning about
+typing inference is ordinary induction over that predicate. There is no
+circular dependence: the host checks BEDC, while BEDC encodes a CIC fragment
+as data and judgments.
+
+This also fixes the Godel-Tarski boundary. \texttt{BEDC.MetaCIC} is not
+outside the host and cannot prove the consistency of the host that checks it.
+It can state and prove fragment metatheory for the represented calculus, but
+it does not create a host-independent consistency proof.
+
 \subsection{Glossary}\label{subsec:reconstruction-glossary}
 
 The following terms name the local reconstruction conventions used in this
@@ -147,6 +176,53 @@ section:
   \item An atom shape is a term whose shape is either $\mathrm{sort}$ or
     $\mathrm{var}\ i$.
 \end{itemize}
+
+\subsection{Construction Style}\label{subsec:reconstruction-construction-style}
+
+The MetaCIC layer is built in the first instance from pure inductive
+objects. $\mathrm{Term}$ is an inductive syntax type, while
+$\mathrm{HasType}$, $\mathrm{BetaStep}$, $\mathrm{BetaStarStep}$,
+$\mathrm{BetaParallel}$, and $\mathrm{ClosedAt}$ are inductive predicates.
+No constructor in this surface depends on an additional axiom.
+
+Binders are represented by de Bruijn indices. Variables have the form
+$\mathrm{Term.var}\ i$ for an index $i$, and substitution is the explicit
+operation $\mathrm{substitute}\ \mathrm{depth}\ v\ t$. Lambda and Pi binders
+are handled by the same shift-aware discipline used by the typing judgment:
+crossing a binder raises the depth and shifts the incoming term so that
+capture is not introduced by representation.
+
+The main substitution-preservation statements are conditioned by closure.
+They work under hypotheses such as $\mathrm{ClosedAt}\ 0\ \mathrm{dom}$,
+because a closed binder domain is stable under the binder shift:
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom} = \mathrm{dom}$. This is the local fact
+that lets the represented binder context and the substituted context line up.
+
+Many checked lemmas are intentionally statement-shape lemmas. Names such as
+\texttt{betaSubstitutionPreservation\_sort\_var},
+\texttt{betaSubstitutionPreservation\_pi\_body},
+\texttt{betaSubstitutionPreservation\_lam\_body}, and
+\texttt{betaSubstitutionPreservation\_app\_body} isolate the term shape under
+which substitution preservation is proved. The full picture is assembled from
+these shape-local facts rather than from an opaque global argument.
+
+\subsection{Namespace Rationale}\label{subsec:reconstruction-namespace-rationale}
+
+The \texttt{BEDC.MetaCIC} namespace is divided by proof responsibility rather
+than by presentation order. \texttt{BEDC.MetaCIC.Syntax} contains the
+syntactic core: $\mathrm{Term}$, shift, substitution, and contexts.
+\texttt{BEDC.MetaCIC.Beta} contains one-step $\beta$ reduction, while
+\texttt{BEDC.MetaCIC.Typing} contains the typing relation over that syntax.
+\texttt{BEDC.MetaCIC.SubjectReduction} names the subject-reduction theorem
+suite, so that preservation claims remain downstream of both reduction and
+typing. \texttt{BEDC.MetaCIC.Confluence} contains multi-step reduction and
+parallel reduction, because join arguments use a different induction shape
+from one-step contraction. \texttt{BEDC.MetaCIC.Normalization} records the
+atom normal-form facts. \texttt{BEDC.MetaCIC.AtomInfer} and
+\texttt{BEDC.MetaCIC.TypedExamples} are demonstration and inference surfaces,
+kept outside the metatheory namespaces so that examples do not determine the
+core proof interfaces. Each sub-namespace is axiom-free under the strict
+\texttt{bedc\_ci.py axiom-purity --strict} audit.
 
 \subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
 
@@ -532,6 +608,53 @@ four standing audits at PR merge time:
 \end{itemize}
 The current state is coherent. Formal targets without full proof terms are
 reported as such, and the audit guarantees make this distinction enforceable.
+
+\subsection{Open Targets}\label{subsec:reconstruction-open-targets}
+
+The reconstruction does not yet close the following metatheoretic targets:
+\begin{itemize}
+  \item Substitute preservation for open binder domains. The checked theorem
+    covers closed binder-domain hypotheses; open domains still require a
+    general binder-shift and substitution transport argument.
+  \item Subject reduction without body-shape restrictions. The closed body
+    cases are represented, while arbitrary lambda and Pi bodies still require
+    binder-drop handling that commutes with typing projections.
+  \item Confluence as a full diamond property for parallel reduction across
+    all term shapes. The atom cases are closed; Pi, lambda, and application
+    cases still depend on general join assemblers for their components.
+  \item Strong normalization for closed sort-typed terms.
+  \item Decidable type checking for arbitrary Pi, lambda, and application
+    terms. The checked $\mathrm{AtomInfer}$ surface covers only sort and
+    variable atoms.
+\end{itemize}
+
+\subsection{Results Overview}\label{subsec:reconstruction-results-overview}
+
+The formalized MetaCIC result set covers the main closed reconstruction
+claims needed by this chapter. Closed binder-domain substitute preservation is
+proved by
+$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$, giving the
+complete closed theorem over the shift-aware typing substrate. Subject
+reduction is represented by the main theorem
+$\mathrm{subject\_reduction}$ together with the beta case, the application
+congruence cases such as $\mathrm{subject\_reduction\_congApp1}$, and the
+closed body cases for lambda and Pi constructors.
+
+The confluence layer supplies the parallel reduction framework
+$\mathrm{BetaParallel}$, beta-star transport lemmas
+$\mathrm{betaStarStep\_*}$, and atom-shape diamond components for variables
+and sorts. The normalization layer proves that atoms do not reduce:
+$\mathrm{sort\_no\_beta}$, $\mathrm{closed\_var\_no\_beta}$, and
+$\mathrm{closed\_atom\_normal\_form}$ close the represented normal-form facts
+for the atomic fragment.
+
+The executable demonstration layer contains the closed-atom inference
+theorems $\mathrm{inferAtom\_sort\_sound}$ and
+$\mathrm{inferAtom\_var\_sound}$, plus a concrete typed-term gallery with
+roughly fifteen examples spanning variables, Pi terms, dependent identity
+terms, and applications. All listed results are axiom-free under
+\texttt{\#print axioms}; the audited dependency sets contain no
+\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
 
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
