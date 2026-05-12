@@ -418,6 +418,42 @@ completed real, quotient stream equality, analytic convergence theorem, or
 selected limit.
 \end{proof}
 
+\begin{theorem}[RealLimit standard bridge boundary]
+\label{thm:reallimit-standard-bridge-boundary}
+The displayed $\RegSeqRatUp$, $\StreamNameUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, $\NameCert$, and downstream $\RealUp$ finite-window
+rows determine the standard bridge boundary for a candidate $\RealLimitUp$
+name. Every standard finite observation of such a candidate factors through
+\autoref{thm:reallimit-public-real-window-export}.
+
+The boundary introduces no quotient stream equality, selected limit object, or
+$\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of
+\autoref{thm:reallimit-namecert-obligation-surface}. Its rows are the
+finite $\mathsf{BHist}$ carrier, componentwise $\hsame$ routes, $\Cont$
+schedule refinements, package provenance, and local $\NameCert$ ledger.
+
+Use \autoref{thm:reallimit-regseqrat-streamname-handoff} to route the
+candidate stream observation through the displayed $\RegSeqRatUp$ and
+$\StreamNameUp$ rows. Then apply
+\autoref{thm:reallimit-common-refinement-classifier} and
+\autoref{thm:reallimit-transport-stability-boundary} to keep classifier and
+transport reads inside the same finite-window surface.
+
+Next apply \autoref{thm:reallimit-readback-ledger-exhaustion}. It accounts for
+the readback and ledger rows used by every finite consumer of the candidate
+name.
+
+Finally use \autoref{thm:reallimit-scoped-kernel-interface} and
+\autoref{thm:reallimit-public-real-window-export}. These package the exhausted
+rows as the public real-window export, so every standard finite observation
+factors through that export. None of the cited rows contains a quotient stream
+equality, selected limit object, or $\RealUp$ completeness witness, hence the
+standard boundary cannot introduce one.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 \closureat{RealLimitUp}{scopedStr}
