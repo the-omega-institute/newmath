@@ -220,6 +220,52 @@ The separated boundary and classifier transport theorems, \autoref{thm:hausdorff
 Finally apply \autoref{thm:hausdorff-completion-ledger-exactness}. The package and local certificate exhaust the exported surface, so every downstream consumer receives exactly the carrier coordinates and no outside completion data.
 \end{proof}
 
+\begin{theorem}[HausdorffCompletion entourage-filter coherence]
+\label{thm:hausdorff-completion-entourage-filter-coherence}
+For every accepted $\HausdorffCompletionUp$ carrier
+$$
+H=(S,U,A,M,L,C,P,N),
+$$
+each accepted carrier handoff reads the source row $S$, then the displayed $\UniformSpaceUp$ entourage route $U$, then the $\CauchyCompletionMonadUp$ handoff row $M$ before any separated $\RealUp$ seal is consumed. No separated seal can be read directly from $S$, from a quotient Cauchy class, from a host completion equality, from a selected representative, or from an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-completion-carrier}. The only source-facing route begins at $S$, the only uniform-control route is $U$, and the only completion handoff route is $M$.
+
+Apply the Cauchy-filter handoff and seal non-escape rows of \autoref{thm:hausdorff-completion-namecert-obligations}. These rows force a source read to pass through the displayed entourage route before the completion handoff can be presented to a separated consumer.
+
+Use \autoref{thm:hausdorff-completion-classifier-transport} to check that changing the separated classifier moves only along the displayed $L$ and $C$ rows. Then apply \autoref{thm:hausdorff-completion-ledger-exactness}. The ledger has no quotient, representative, host-equality, uniqueness-of-limit, or ambient-completeness coordinate, so the handoff route is exactly $S$ through $U$ through $M$ before the seal is consumed.
+\end{proof}
+
+\begin{theorem}[HausdorffCompletion separated transport certificate]
+\label{thm:hausdorff-completion-separated-transport-certificate}
+For every accepted $\HausdorffCompletionUp$ carrier, any classified replacement of the separated row preserves the separated classifier coordinate $A$ and the completion handoff coordinate $M$ only through the displayed $\hsame$ transport rows $L$ and the displayed $\Cont$ continuation rows $C$. The certificate does not preserve $A$ or $M$ by quotient equality, selected representatives, host completion equality, uniqueness of limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier in \autoref{def:hausdorff-completion-carrier}. The separated classifier row $A$ and handoff row $M$ occur in the packet together with the displayed transport row $L$ and continuation row $C$.
+
+The NameCert obligation surface in \autoref{thm:hausdorff-completion-namecert-obligations} binds classifier stability and completion handoff to those displayed rows. It gives no separate preservation principle outside the packet.
+
+Apply \autoref{thm:hausdorff-completion-classifier-transport}. Classified replacement transports the relevant separated and handoff reads componentwise along $L$ and routes their public consumption through $C$.
+
+Finally use \autoref{thm:hausdorff-completion-ledger-exactness}. Since the ledger exports only the displayed carrier rows and package provenance, there is no hidden quotient, representative, host-completion, limit-uniqueness, or ambient-completeness source from which a stronger preservation claim could be read.
+\end{proof}
+
+\begin{theorem}[HausdorffCompletion consumer handoff exhaustion]
+\label{thm:hausdorff-completion-consumer-handoff-exhaustion}
+Every downstream $\UniformSpaceUp$, $\CauchyCompletionMonadUp$, and $\RealUp$ consumer of an accepted $\HausdorffCompletionUp$ carrier receives exactly the rows
+$$
+S,U,A,M,L,C,P,N
+$$
+from the displayed packet. The handoff exports no quotient completion class, selected representative, host equality, uniqueness-of-limit witness, ambient-completeness principle, or unlisted completion datum.
+\end{theorem}
+\begin{proof}
+Read the consumer packet from \autoref{def:hausdorff-completion-carrier}. Its public rows are precisely the source row, entourage route, separated classifier row, completion handoff, displayed transport, displayed continuation, package provenance, and local naming row.
+
+Apply \autoref{thm:hausdorff-completion-namecert-obligations}. The obligation rows attach carrier habitation, classifier stability, source handoff, separated non-escape, and ledger exactness to the same displayed packet.
+
+Use \autoref{thm:hausdorff-completion-classifier-transport} for the separated replacement route and \autoref{thm:hausdorff-completion-ledger-exactness} for the exported ledger. Together they show that the three downstream consumers can consume exactly $S$, $U$, $A$, $M$, $L$, $C$, $P$, and $N$, with no further completion-side coordinate.
+\end{proof}
+
 \begin{theorem}[HausdorffCompletion scoped kernel interface]
 \label{thm:hausdorff-completion-scoped-kernel-interface}
 The separated reflection, Cauchy-filter seal route, uniform consumer package, classifier transport, and ledger exactness rows of an accepted $\HausdorffCompletionUp$ carrier are scoped exactly by the displayed $\UniformSpaceUp$, $\CauchyFilterUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Within that scope the carrier exposes only the finite packet
