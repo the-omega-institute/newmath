@@ -9,35 +9,41 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem RationalIntervalPacket_normal_form_terminal_seal_compatibility
-    [AskSetup] [PackageSetup]
-    {left right order containment transport route provenance name endpoint terminal
-      normalTerminal containmentRead terminalSeal : BHist}
+theorem RationalIntervalPacket_normal_form_terminal_seal_compatibility [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint terminalConsumer
+      terminalRead normalSeal terminalSeal : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RationalIntervalPacket left right order containment transport route provenance name endpoint
         bundle pkg ->
-      UnaryHistory terminal ->
-        Cont endpoint terminal normalTerminal ->
-          Cont containment route containmentRead ->
-            Cont normalTerminal containmentRead terminalSeal ->
-              PkgSig bundle terminalSeal pkg ->
-                UnaryHistory normalTerminal ∧ UnaryHistory containmentRead ∧
-                  UnaryHistory terminalSeal ∧ Cont endpoint terminal normalTerminal ∧
-                    Cont containment route containmentRead ∧
-                      Cont normalTerminal containmentRead terminalSeal ∧
-                        PkgSig bundle terminalSeal pkg := by
-  intro packet terminalUnary normalTerminalRow containmentReadRow sealRow sealPkg
-  obtain ⟨_leftUnary, _rightUnary, _orderUnary, containmentUnary, _transportUnary, routeUnary,
-    _provenanceUnary, _nameUnary, endpointUnary, _orderRow, _containmentRow, _provenanceRow,
-    _endpointRow, _endpointPkg⟩ := packet
-  have normalTerminalUnary : UnaryHistory normalTerminal :=
-    unary_cont_closed endpointUnary terminalUnary normalTerminalRow
-  have containmentReadUnary : UnaryHistory containmentRead :=
-    unary_cont_closed containmentUnary routeUnary containmentReadRow
+      UnaryHistory terminalConsumer ->
+        Cont endpoint terminalConsumer terminalRead ->
+          Cont endpoint terminalRead normalSeal ->
+            Cont normalSeal provenance terminalSeal ->
+              PkgSig bundle normalSeal pkg ->
+                PkgSig bundle terminalSeal pkg ->
+                  UnaryHistory terminalRead ∧ UnaryHistory normalSeal ∧
+                    UnaryHistory terminalSeal ∧ hsame normalSeal (append endpoint terminalRead) ∧
+                      Cont endpoint terminalConsumer terminalRead ∧
+                        Cont endpoint terminalRead normalSeal ∧
+                          Cont normalSeal provenance terminalSeal ∧
+                            PkgSig bundle normalSeal pkg ∧
+                              PkgSig bundle terminalSeal pkg := by
+  intro packet terminalConsumerUnary endpointConsumerRead endpointReadSeal sealProvenanceTerminal
+    normalSealPkg terminalSealPkg
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+    _routeUnary, provenanceUnary, _nameUnary, endpointUnary, _orderRow, _containmentRow,
+    _provenanceRow, _endpointRow, _endpointPkg⟩ := packet
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed endpointUnary terminalConsumerUnary endpointConsumerRead
+  have normalSealUnary : UnaryHistory normalSeal :=
+    unary_cont_closed endpointUnary terminalReadUnary endpointReadSeal
   have terminalSealUnary : UnaryHistory terminalSeal :=
-    unary_cont_closed normalTerminalUnary containmentReadUnary sealRow
+    unary_cont_closed normalSealUnary provenanceUnary sealProvenanceTerminal
+  have normalSealAppend : hsame normalSeal (append endpoint terminalRead) :=
+    endpointReadSeal
   exact
-    ⟨normalTerminalUnary, containmentReadUnary, terminalSealUnary, normalTerminalRow,
-      containmentReadRow, sealRow, sealPkg⟩
+    ⟨terminalReadUnary, normalSealUnary, terminalSealUnary, normalSealAppend,
+      endpointConsumerRead, endpointReadSeal, sealProvenanceTerminal, normalSealPkg,
+      terminalSealPkg⟩
 
 end BEDC.Derived.RationalIntervalUp
