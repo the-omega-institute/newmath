@@ -126,7 +126,37 @@ theorem DyadicBisectionCarrier_branch_nested_window_scope [AskSetup] [PackageSet
   have realSealUnary : UnaryHistory realSeal :=
     unary_cont_closed selectedUnary endpointUnary realSealRow
   exact And.intro selectedUnary
-    (And.intro realSealUnary
-      (And.intro selectedRow (And.intro realSealRow routeSig)))
+      (And.intro realSealUnary
+        (And.intro selectedRow (And.intro realSealRow routeSig)))
+
+theorem DyadicBisectionCarrier_retained_interval_nonempty_iff [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      selected retained : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont branch nested selected ->
+        Cont selected endpoint retained ->
+          UnaryHistory retained ∧
+            (((hsame retained BHist.Empty -> False) ↔
+                (hsame selected BHist.Empty -> False) ∨
+                  (hsame endpoint BHist.Empty -> False))) ∧
+              PkgSig bundle route pkg := by
+  intro carrier selectedRow retainedRow
+  obtain ⟨_initialUnary, _precisionUnary, _midpointUnary, branchUnary, nestedUnary,
+    endpointUnary, _regseqUnary, _streamUnary, _realUnary, _transportUnary, _routeUnary,
+    _nameUnary, _initialPrecision, _midpointBranch, _nestedEndpoint, _regseqStream,
+    _realTransport, routePkg, _namePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed branchUnary nestedUnary selectedRow
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed selectedUnary endpointUnary retainedRow
+  have retainedNonempty :
+      ((hsame retained BHist.Empty -> False) ↔
+        (hsame selected BHist.Empty -> False) ∨
+          (hsame endpoint BHist.Empty -> False)) := by
+    cases retainedRow
+    exact append_nonempty_iff
+  exact ⟨retainedUnary, retainedNonempty, routePkg⟩
 
 end BEDC.Derived.DyadicBisectionUp

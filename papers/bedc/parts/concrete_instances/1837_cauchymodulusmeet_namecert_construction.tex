@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusMeetUp$}
+\label{ch:concrete-instances-cauchymodulusmeet-namecert}
+\origin{human}
+
+The $\CauchyModulusMeetUp$ interface packages the finite rows needed when two regular rational stream names must be read through one shared Cauchy bound. It is a naming certificate for the shared-modulus packet used by diagonal-limit and uniform Cauchy consumers; it does not assert that a quotient stream, a selected limit, or an ambient completeness principle has already been constructed.
+
+\begin{definition}[CauchyModulusMeet carrier]\label{def:cauchy-modulus-meet-carrier}
+A $\CauchyModulusMeetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ rows whose rational windows are read as $\RegSeqRatUp$ data;
+\item $\mu_0$ and $\mu_1$ are the two source $\CauchyModulusUp$ rows attached to those regular rational names;
+\item $\mu$ is the shared $\CauchyModulusUp$ meet row, displayed with a $\DyadicRatCoreUp$ tolerance ledger sufficient for both source rows;
+\item $H$ stores componentwise $\hsame$ transports for the two stream names, two source moduli, shared meet modulus, dyadic tolerance rows, real-facing reads, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes by which consumers inspect stream windows, regular rational rows, source modulus rows, the shared meet bound, and the real-facing handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyModulusMeetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only after transporting these displayed coordinates to a common stream-name, modulus, and dyadic tolerance surface. The carrier has no coordinate for quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyModulusMeet NameCert obligations]\label{thm:cauchy-modulus-meet-namecert-obligations}
+The local $\NameCert_{\CauchyModulusMeetUp}$ surface for the carrier of \autoref{def:cauchy-modulus-meet-carrier} consists exactly of five rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)$;
+\item classifier transport to a common displayed $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, and $\DyadicRatCoreUp$ surface;
+\item stability of both source modulus projections and of the shared meet row under componentwise $\hsame$ transport;
+\item exactness of the shared dyadic tolerance ledger as a bound readable by both source modulus rows;
+\item ledger rows for $\Cont$ routes, $\Pkg$ provenance, $\RealUp$ handoff reads, and the local naming certificate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-modulus-meet-carrier}. The displayed coordinates provide the two source stream names, two source moduli, shared meet modulus, transport rows, continuation rows, provenance, and local name.
+
+Classifier transport uses $H$ to move every coordinate to a common finite surface. Once transported, the routes in $C$ are the only ways to read stream windows, regular rational rows, source moduli, the shared meet bound, and the real-facing handoff.
+
+The dyadic tolerance ledger is stored inside the shared row $\mu$ and its associated $\DyadicRatCoreUp$ read. Since no carrier coordinate stores quotient streams, selected limits, host real equality, or an ambient completeness proof, the NameCert obligations are exhausted by the five displayed rows.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet projection stability]\label{thm:cauchy-modulus-meet-projection-stability}
+Let $M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)$ and $M'=(S'_0,S'_1,\mu'_0,\mu'_1,\mu',H',C',P',N')$ be accepted $\CauchyModulusMeetUp$ carriers whose displayed coordinates are related componentwise by the transport rows in $H$ and $H'$. Then the projected source modulus reads $\mu_0,\mu_1$ and the shared meet read $\mu$ remain readable through the transported packet, and their $\DyadicRatCoreUp$ tolerance ledger is the same displayed ledger seen by both $\RegSeqRatUp$ stream-name projections.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers and read the componentwise transport rows. The only modulus coordinates in either packet are the two source rows and the shared meet row.
+
+Use the displayed $\hsame$ entries in $H$ and $H'$ to transport $S_0,S_1,\mu_0,\mu_1,\mu$ to the common surface. The continuation rows then read the transported stream windows and regular rational rows before reading the transported source moduli.
+
+It remains to compare the shared bound. The dyadic tolerance ledger is part of the displayed meet row and is routed by $C$ rather than by an external real-completeness object. Hence each projected source modulus remains readable through the meet packet after transport, and both projections see the same displayed shared bound.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet Real handoff boundary]\label{thm:cauchy-modulus-meet-real-handoff-boundary}
+Every $\RealUp$ diagonal consumer of an accepted $\CauchyModulusMeetUp$ carrier may read the shared bound only through the displayed $\StreamNameUp$ rows $S_0,S_1$, the $\RegSeqRatUp$ rational readbacks of those rows, the $\DyadicRatCoreUp$ tolerance ledger carried by $\mu$, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance row, and the local $\NameCert_{\CauchyModulusMeetUp}$ row.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ diagonal consumer route. The carrier has no real-facing coordinate other than the handoff reads reached through the stream-name, regular rational, and shared modulus routes.
+
+The consumer first reads $S_0$ and $S_1$, then their regular rational windows, and then the shared dyadic tolerance ledger inside $\mu$. The two source moduli $\mu_0$ and $\mu_1$ are available only as displayed projections through the same finite packet.
+
+All remaining movement is supplied by the rows $H,C,P,N$. These rows transport, route, record provenance, and name the packet; they do not add quotient streams, selected limits, ambient completeness, or host real equality. Therefore the real-facing handoff is bounded by the displayed certificate surface.
+\end{proof}
+
+\closureat{CauchyModulusMeetUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusMeetUp}
+  \constructivestory{A $\CauchyModulusMeetUp$ packet is generated from two $\StreamNameUp$ rows, their $\RegSeqRatUp$ rational readbacks, two source $\CauchyModulusUp$ rows, one shared $\CauchyModulusUp$ meet row with a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, and \autoref{thm:cauchy-modulus-meet-real-handoff-boundary} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real handoff boundary, transport rows, continuation routes, package provenance, and local naming row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, or a public standard bridge.}
+  \upgradepath{Obligation closure requires a checked carrier surface and checked projection, shared-bound, and Real handoff rows for the same finite meet packet.}
+\end{closurestatus}
