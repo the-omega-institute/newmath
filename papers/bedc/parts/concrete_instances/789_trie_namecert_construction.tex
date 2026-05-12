@@ -43,6 +43,7 @@ transported by displayed $\hsame$ along the $\Cont$ routes named by $p$, then
 the transported packet $T'=(k',v',l',b',p')$ is again an accepted $\TrieUp$
 source packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TriePacket\_carrier\_stability}
 \begin{proof}
 Project the five coordinates of \autoref{def:trie-bhist-source}. The
 $\NatUp$ ledger transports first, so every later prefix and branch read is
@@ -414,6 +415,43 @@ Since the collected surface is exactly $(k,v,l,b,p)$, every lookup-facing
 consumer projection is one of the displayed rows. Host finite maps, string
 equality, function extensionality, infinite trees, and key orderings are not
 coordinates of that packet, so they are not exported.
+\end{proof}
+
+\begin{theorem}[Trie finite branch consumer boundary]\label{thm:trie-finite-branch-consumer-boundary}
+Let $T=(k,v,l,b,p)$ be a concrete $\TrieUp$ $\mathsf{BHist}$ source packet
+from \autoref{def:trie-bhist-source}, with displayed key path $k$, optional
+terminal payload $v$, unary depth ledger $l$, boolean branch rows $b$, and
+$\Pkg$ provenance $p$ over $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, and
+$\BitVectorUp$ certificates. Every finite branch consumer read of $T$ factors
+through exactly one of two visible projections: either the terminal payload
+projection of \autoref{thm:trie-lookup-payload-projection}, or the branch
+route determined by \autoref{thm:trie-prefix-branch-determinacy}.
+
+These two projections exhaust the public consumer surface. No host string,
+host finite map, infinite tree, ambient lookup function, or key-order
+semantics is introduced by a finite branch read.
+\end{theorem}
+\begin{proof}
+Unfold the source packet of \autoref{def:trie-bhist-source}. Its public
+coordinates are the key path, optional payload, depth ledger, branch ledger,
+and provenance rows named in the theorem.
+
+Split on the displayed optional terminal branch. In the absent case, there is
+no terminal payload coordinate to read, so the consumer must remain on the
+finite branch route. In the present case, the only terminal read is the
+$\OptionUp$ payload row, and
+\autoref{thm:trie-lookup-payload-projection} supplies that projection.
+
+For the branch route, use \autoref{thm:trie-key-path-exhaustion} to cover the
+finite key positions. At each covered prefix,
+\autoref{thm:trie-prefix-branch-determinacy} fixes the unique displayed
+$\BoolUp$ branch row selected by the packet.
+
+Finally apply \autoref{thm:trie-ledger-coverage} to account for provenance.
+The ledger contains only the displayed $\BoolUp$, $\ListUp$, $\OptionUp$,
+$\NatUp$, $\BitVectorUp$, $\hsame$, $\Cont$, and $\Pkg$ rows, so no host
+string, host map, infinite-tree coordinate, ambient lookup function, or
+key-order semantics can be projected by the consumer.
 \end{proof}
 
 \closureat{TrieUp}{seedStr}
