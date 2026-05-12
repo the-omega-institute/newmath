@@ -162,6 +162,56 @@ $\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
 metric-completeness, host-index, or seal-classifier row added to that surface.
 \end{proof}
 
+\begin{theorem}[StreamName common-refinement RealUp seal confluence]
+\label{thm:streamname-common-refinement-real-seal-confluence}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated window
+restricts to both selected windows. Let $\mathcal E_L$ and $\mathcal E_R$ be
+finite-window $\RealUp$ seal packages induced from $\mathcal R$ through the
+left and right $\RegSeqRat$ routes
+$$
+\mathcal R\longrightarrow \mathcal W_L\longrightarrow \RegSeqRat
+\quad\text{and}\quad
+\mathcal R\longrightarrow \mathcal W_R\longrightarrow \RegSeqRat.
+$$
+Then $\mathcal E_L$ and $\mathcal E_R$ expose the same visible seal source.
+That source is the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row, the
+displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership rows,
+the selected $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the induced $\DyadicRatCore$ endpoint
+rows, and the displayed $\hsame/\Cont/\Pkg$ ledger rows carried by the common
+refinement.
+
+No completion row, quotient row, host-index equality, metric-completeness row,
+or off-ledger $\RealUp$ classifier is part of this visible finite-window seal
+source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-common-refinement-source-confluence}. The certified
+common-refinement packet gives one StreamName source tuple for the left and
+right selected windows, including the restricted finite-window classifier,
+bundle membership, selected unary histories, pointwise rational classifiers,
+and displayed $\hsame/\Cont/\Pkg$ provenance.
+
+Next read both induced seal packages through
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy}. The two
+$\RegSeqRat$ routes consume the same StreamName tuple and therefore present the
+same accepted finite-window spine, DyadicRatCore endpoint rows, transport
+ledger, and provenance to the $\RealUp$ seal boundary.
+
+Finally use
+\autoref{thm:streamname-regseqrat-realup-seal-source-minimality} for each
+induced package. Minimality says that every visible source row of either seal
+package is one of the displayed finite-window StreamName, $\RegSeqRat$,
+DyadicRatCore, bundle, history, continuation, transport, or provenance rows.
+Since the common-refinement confluence already identifies those rows, no
+completion, quotient, host-index, metric-completeness, or off-ledger
+$\RealUp$ classifier row can distinguish the two seal sources.
+\end{proof}
+
 \begin{theorem}[StreamName common-refinement successor projection]
 \label{thm:streamname-common-refinement-successor-projection}
 Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
