@@ -1,8 +1,98 @@
 #include "cook_leader.h"
+#include "cook_construction.h"
+#include "glider_phases.h"
 #include <string.h>
 
 const size_t COOK_LEADER_WIDTH = 20;
 const size_t COOK_LEADER_STABILITY_STEPS = 500;
+
+#define COOK_LEADER_EBAR_COUNT 8
+#define COOK_LEADER_C2_COUNT 4
+#define COOK_LEADER_EBAR_SPACING_TILES 3
+#define COOK_LEADER_EBAR_TO_C2_TILES 3
+#define COOK_LEADER_C2_SPACING_TILES 3
+
+static int cook_leader_add_size(size_t left, size_t right, size_t *out) {
+    if (left > ((size_t)-1) - right) return 0;
+    *out = left + right;
+    return 1;
+}
+
+static int cook_leader_mul_size(size_t left, size_t right, size_t *out) {
+    if (left != 0 && right > ((size_t)-1) / left) return 0;
+    *out = left * right;
+    return 1;
+}
+
+static int cook_leader_step_width(int spacing_tiles,
+                                  size_t glider_len,
+                                  size_t *width_out) {
+    size_t gap_width = 0;
+
+    if (spacing_tiles < 0 || width_out == NULL) return 0;
+    if (!cook_leader_mul_size((size_t)spacing_tiles,
+                              (size_t)COOK_ETHER_WIDTH,
+                              &gap_width)) {
+        return 0;
+    }
+    return cook_leader_add_size(glider_len, gap_width, width_out);
+}
+
+static int cook_leader_packet_width(size_t *width_out) {
+    size_t ebar_len = 0;
+    size_t c2_len = 0;
+    size_t width = 0;
+    size_t step = 0;
+
+    if (width_out == NULL) return 0;
+    if (glider_phase("Ebar", "A", 1, &ebar_len) == NULL) return 0;
+    if (glider_phase("C2", "A", 1, &c2_len) == NULL) return 0;
+
+    width = ebar_len;
+    for (size_t i = 1; i < COOK_LEADER_EBAR_COUNT; i++) {
+        if (!cook_leader_step_width(COOK_LEADER_EBAR_SPACING_TILES,
+                                    ebar_len,
+                                    &step)) {
+            return 0;
+        }
+        if (!cook_leader_add_size(width, step, &width)) return 0;
+    }
+
+    if (!cook_leader_step_width(COOK_LEADER_EBAR_TO_C2_TILES,
+                                ebar_len,
+                                &step)) {
+        return 0;
+    }
+    if (!cook_leader_add_size(width, step, &width)) return 0;
+    if (c2_len > ebar_len &&
+        !cook_leader_add_size(width, c2_len - ebar_len, &width)) {
+        return 0;
+    }
+
+    for (size_t i = 1; i < COOK_LEADER_C2_COUNT; i++) {
+        if (!cook_leader_step_width(COOK_LEADER_C2_SPACING_TILES,
+                                    c2_len,
+                                    &step)) {
+            return 0;
+        }
+        if (!cook_leader_add_size(width, step, &width)) return 0;
+    }
+
+    *width_out = width;
+    return 1;
+}
+
+static int cook_leader_row_is_writable(const uint8_t *out,
+                                       size_t pos,
+                                       size_t buf_len,
+                                       size_t width) {
+    if (out == NULL) return 0;
+    if (pos > buf_len || width > buf_len - pos) return 0;
+    for (size_t i = 0; i < width; i++) {
+        if (out[pos + i] != 0 && out[pos + i] != 1) return 0;
+    }
+    return 1;
+}
 
 void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len) {
     static const uint8_t LEADER_ROW0[20] =
@@ -24,18 +114,80 @@ void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len) {
 }
 
 int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len) {
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
-    /*
-       TODO(L3.1 B-H): replace this sentinel with the Cook leader packet once
-       the B/C/D/E/F/H phase catalog includes verified masks, ether phase,
-       and legal spacings. The leader is a clock/synchronizer package, not the
-       20-cell behavioral marker above; it must place its A-bearing head and
-       B-H support particles so that the first ossifier interaction restores
-       the cyclic-tag production phase.
-    */
-#endif
-    (void)out;
-    (void)pos;
-    (void)buf_len;
-    return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    size_t width = 0;
+    size_t ebar_len = 0;
+    size_t c2_len = 0;
+    size_t cursor = pos;
+    static const int ebar_phases[COOK_LEADER_EBAR_COUNT] =
+        {1, 2, 3, 4, 1, 2, 3, 4};
+    static const int c2_phases[COOK_LEADER_C2_COUNT] =
+        {1, 2, 3, 4};
+
+    if (!cook_leader_packet_width(&width)) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
+    if (!cook_leader_row_is_writable(out, pos, buf_len, width)) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
+    if (glider_phase("Ebar", "A", 1, &ebar_len) == NULL ||
+        glider_phase("C2", "A", 1, &c2_len) == NULL) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
+
+    for (size_t i = 0; i < COOK_LEADER_EBAR_COUNT; i++) {
+        size_t step = 0;
+
+        if (glider_phase_emit(out,
+                              cursor,
+                              buf_len,
+                              "Ebar",
+                              "A",
+                              ebar_phases[i],
+                              NULL) != 0) {
+            return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+        }
+        if (i + 1 < COOK_LEADER_EBAR_COUNT) {
+            if (!cook_leader_step_width(COOK_LEADER_EBAR_SPACING_TILES,
+                                        ebar_len,
+                                        &step)) {
+                return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+            }
+            cursor += step;
+        }
+    }
+
+    {
+        size_t step = 0;
+
+        if (!cook_leader_step_width(COOK_LEADER_EBAR_TO_C2_TILES,
+                                    ebar_len,
+                                    &step)) {
+            return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+        }
+        cursor += step;
+    }
+
+    for (size_t i = 0; i < COOK_LEADER_C2_COUNT; i++) {
+        size_t step = 0;
+
+        if (glider_phase_emit(out,
+                              cursor,
+                              buf_len,
+                              "C2",
+                              "A",
+                              c2_phases[i],
+                              NULL) != 0) {
+            return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+        }
+        if (i + 1 < COOK_LEADER_C2_COUNT) {
+            if (!cook_leader_step_width(COOK_LEADER_C2_SPACING_TILES,
+                                        c2_len,
+                                        &step)) {
+                return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+            }
+            cursor += step;
+        }
+    }
+
+    return COOK_LEADER_PHASE_EXACT_OK;
 }

@@ -80,7 +80,37 @@ static void test_data_block_empty(void) {
     printf("  data_block_empty: PASS\n");
 }
 
-static void test_data_block_phase_exact_missing_catalog(void) {
+static void test_data_block_phase_exact_emits_y_and_n(void) {
+    uint8_t cells[4096];
+    uint8_t ether[4096];
+    const uint8_t y[1] = {1};
+    const uint8_t n[1] = {0};
+    int rc = 0;
+    int y_changed = 0;
+    int n_changed = 0;
+
+    cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
+    memcpy(ether, cells, sizeof(cells));
+
+    rc = cook_data_block_emit_phase_exact(cells, 280, sizeof(cells), y, 1);
+    assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);
+    rc = cook_data_block_emit_phase_exact(cells, 1680, sizeof(cells), n, 1);
+    assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);
+
+    for (size_t i = 280; i < 1147; i++) {
+        if (cells[i] != ether[i]) y_changed = 1;
+    }
+    for (size_t i = 1680; i < sizeof(cells); i++) {
+        if (cells[i] != ether[i]) n_changed = 1;
+    }
+    assert(y_changed);
+    assert(n_changed);
+    assert_ether_range(cells, 0, 280);
+
+    printf("  data_block_phase_exact_emits_y_and_n: PASS\n");
+}
+
+static void test_data_block_phase_exact_unwritable_buffer(void) {
     uint8_t cells[160];
     uint8_t before[160];
     const uint8_t tape_bits[4] = {1, 0, 0, 1};
@@ -95,14 +125,15 @@ static void test_data_block_phase_exact_missing_catalog(void) {
     assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_CATALOG_MISSING);
     assert(memcmp(cells, before, sizeof(cells)) == 0);
 
-    printf("  data_block_phase_exact_missing_catalog: PASS\n");
+    printf("  data_block_phase_exact_unwritable_buffer: PASS\n");
 }
 
 int main(void) {
     printf("== test_cook_data_block ==\n");
     test_data_block_5bit_tape();
     test_data_block_empty();
-    test_data_block_phase_exact_missing_catalog();
+    test_data_block_phase_exact_emits_y_and_n();
+    test_data_block_phase_exact_unwritable_buffer();
     printf("ALL test_cook_data_block tests passed\n");
     return 0;
 }

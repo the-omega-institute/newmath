@@ -334,10 +334,10 @@ static void test_phase_exact_partial_composition(void) {
     assert(rc == COOK_ENCODE_PHASE_EXACT_OK);
     assert(written > 0);
     assert(written <= sizeof(cells));
-    assert(cells[100] == 1);
-    assert(cells[105] == 0);
-    assert(cells[140] == 1);
-    assert(cells[160] == 0);
+    assert(cells[896] == 1);
+    assert(cells[901] == 0);
+    assert(cells[1666] == 0);
+    assert(cells[1669] == 1);
 
     printf("  phase_exact_partial_composition: PASS\n");
 }
