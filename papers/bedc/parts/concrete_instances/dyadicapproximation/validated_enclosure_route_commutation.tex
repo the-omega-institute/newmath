@@ -1,0 +1,56 @@
+\begin{theorem}[DyadicApproximation validated enclosure route commutation]
+\label{thm:dyadicapproximation-validated-enclosure-route-commutation}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. Let
+$M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell whose
+$\RationalIntervalUp$ row $I$ contains the transported dyadic endpoint $d$ at
+the displayed precision $n$. Let $V$ be an accepted $\ValidatedNumericsUp$
+enclosure over that same cell and containment ledger.
+
+The route that first reads $A$ through
+\autoref{thm:dyadicapproximation-public-finite-window-export} and then exposes
+the $\RealUp$ seal boundary reads exactly the same finite
+$\RegSeqRatUp/\RealUp$ consumer surface as the route that first reads $M$
+through \autoref{thm:dyadicmesh-validatednumerics-handoff} and then exposes
+$V$ through
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary}. The common
+surface consists precisely of the precision row, transported dyadic endpoint,
+rational-interval cell, mesh level and cell index, regular rational
+observation window, validated containment ledger, real readback token, visible
+$\hsame$ transports, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert$ rows.
+
+This correspondence does not assert solver correctness, floating-point
+semantics, quotient-real equality, host real equality, or classical
+completeness.
+\end{theorem}
+\begin{proof}
+First normalize the three packets together. Apply
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form}
+to the accepted dyadic approximation packet, the mesh cell containing its
+transported endpoint, and the validated enclosure over the same cell. This
+produces one finite consumer surface over the listed precision, endpoint,
+mesh, regular-rational, real-seal, transport, continuation, provenance, and
+local certificate rows.
+
+Next identify the dyadic route. Apply
+\autoref{thm:dyadicapproximation-terminal-window-prefix-projection} to replace
+every finite prefix read of $A$ by the terminal displayed window, and apply
+\autoref{thm:dyadicapproximation-public-finite-window-export} to read the
+public packet through that finite window. The $\RealUp$ seal therefore remains
+attached to the same $\RegSeqRatUp$ observation window and dyadic endpoint row.
+
+Now identify the mesh and enclosure route. Apply
+\autoref{thm:dyadicmesh-rationalinterval-coverage} to read the mesh cell as
+the rational interval containing the transported endpoint, and apply
+\autoref{thm:dyadicmesh-validatednumerics-handoff} to pass that cell to the
+validated enclosure surface.
+
+Finally apply
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary} and
+\autoref{thm:validatednumerics-finite-consumer-example-completeness}. These
+theorems say that the validated route exposes exactly the same finite
+rational-interval, regular-rational, real-readback, containment, transport,
+continuation, provenance, and local certificate rows. Repacking those rows
+gives the claimed route commutation, while the excluded semantic obligations
+remain outside every cited boundary.
+\end{proof}
