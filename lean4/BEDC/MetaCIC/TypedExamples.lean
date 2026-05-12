@@ -51,6 +51,12 @@ theorem lam_dependent_identity :
       (Term.pi (Term.var 0) (Term.var 1)) := by
   exact dependent_id_outer_tracking
 
+theorem carrier_identity_in_sort_ctx :
+    HasType [Term.sort]
+      (Term.lam (Term.var 0) (Term.var 0))
+      (Term.pi (Term.var 0) (Term.var 1)) := by
+  exact dependent_id_outer_tracking
+
 /-- 双 sort ctx 下, body 的 var 1 指向外层 ctx 的 var 0, 其类型为 sort。 -/
 theorem lam_inner_to_outer_in_double_sort :
     HasType [Term.sort, Term.sort]
@@ -77,6 +83,13 @@ theorem triple_sort_lam :
 theorem pi_sort_sort_in_empty_ctx :
     HasType [] (Term.pi Term.sort Term.sort) Term.sort := by
   exact pi_sort_sort_well_typed
+
+theorem pi_sort_dependent :
+    HasType [Term.sort] (Term.pi Term.sort (Term.var 1)) Term.sort := by
+  apply HasType.piRule
+  · exact HasType.sortRule [Term.sort]
+  · apply HasType.varRule
+    rfl
 
 theorem nested_pi_sort_sort :
     HasType [] (Term.pi Term.sort (Term.pi Term.sort Term.sort)) Term.sort := by

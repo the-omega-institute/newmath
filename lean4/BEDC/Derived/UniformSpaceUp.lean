@@ -47,6 +47,36 @@ theorem UniformSpacePacket_filterbase_diagonal_obligation [AskSetup] [PackageSet
     ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, filterbaseUnary,
       pointEntourageDiagonal, diagonalRefinementFilterbase, filterbasePkg⟩
 
+def UniformSpaceEntouragePacket [AskSetup] [PackageSetup]
+    (base entourage diagonal symmetry composition provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory base ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+    UnaryHistory symmetry ∧ UnaryHistory composition ∧ Cont base entourage diagonal ∧
+      Cont diagonal symmetry composition ∧ Cont composition provenance endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem UniformSpaceEntouragePacket_diagonal_refinement_obligation [AskSetup] [PackageSetup]
+    {base entourage diagonal symmetry composition provenance endpoint refinement refinedEndpoint :
+      BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpaceEntouragePacket base entourage diagonal symmetry composition provenance endpoint
+        bundle pkg ->
+      UnaryHistory refinement ->
+        Cont diagonal refinement refinedEndpoint ->
+          PkgSig bundle refinedEndpoint pkg ->
+            UnaryHistory base ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+              UnaryHistory refinement ∧ UnaryHistory refinedEndpoint ∧
+                Cont base entourage diagonal ∧ Cont diagonal refinement refinedEndpoint ∧
+                  PkgSig bundle refinedEndpoint pkg := by
+  intro packet refinementUnary diagonalRefinement refinedPkg
+  obtain ⟨baseUnary, entourageUnary, diagonalUnary, _symmetryUnary, _compositionUnary,
+    baseEntourageDiagonal, _diagonalSymmetryComposition, _compositionProvenanceEndpoint,
+    _endpointPkg⟩ := packet
+  have refinedEndpointUnary : UnaryHistory refinedEndpoint :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinement
+  exact
+    ⟨baseUnary, entourageUnary, diagonalUnary, refinementUnary, refinedEndpointUnary,
+      baseEntourageDiagonal, diagonalRefinement, refinedPkg⟩
+
 def UniformSpaceClassifierPacket [AskSetup] [PackageSetup]
     (point entourage diagonal refinement symmetry composition provenance name pointRoute ledger
       endpoint : BHist)
