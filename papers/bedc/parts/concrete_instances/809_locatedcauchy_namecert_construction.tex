@@ -274,21 +274,70 @@ cannot introduce Dedekind cuts, host real equality, trichotomy, selected
 representatives, choice data, quotient coordinates, or open-cover compactness.
 \end{proof}
 
+\begin{theorem}[LocatedCauchy consumer-completeness package]
+\label{thm:locatedcauchy-consumer-completeness-package}
+Every public $\RealUp$-facing consumer of the standard finite-packet bridge of
+\autoref{thm:locatedcauchy-standard-finite-packet-bridge} factors through
+exactly the rows named by
+\autoref{thm:locatedcauchy-public-real-consumer-export},
+\autoref{thm:locatedcauchy-finite-window-bridge-boundary}, and
+\autoref{thm:locatedcauchy-standard-finite-packet-bridge}: the displayed
+$\StreamNameUp$ schedule, $\DyadicRatCoreUp$ endpoint rows,
+$\CauchyModulusUp$ precision row, located dyadic-ball witnesses, componentwise
+$\hsame$, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ rows over the scoped dependency package of
+\autoref{thm:locatedcauchy-scoped-dependency-package}.
+
+Conversely, every accepted finite packet row in that displayed carrier is
+exported to the same public $\RealUp$ consumer surface. The package exports no
+Dedekind cut, quotient stream, host real equality, trichotomy, selected
+representative, choice datum, or open-cover compactness witness.
+\end{theorem}
+\begin{proof}
+Start with the scoped dependency package of
+\autoref{thm:locatedcauchy-scoped-dependency-package}. It fixes the only BEDC
+components available to the construction: $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$, together with the carrier,
+classifier, transport, continuation, package, and name-certificate rows visible
+in the finite located-Cauchy packet.
+
+For the forward direction, apply
+\autoref{thm:locatedcauchy-public-real-consumer-export} to restrict each
+$\RealUp$-facing read to the public packet surface. Then apply
+\autoref{thm:locatedcauchy-finite-window-bridge-boundary} and
+\autoref{thm:locatedcauchy-standard-finite-packet-bridge}; together they say
+that the standard bridge reads exactly the displayed finite schedule, endpoint,
+modulus, located-ball, transport, continuation, package, and certificate rows.
+
+For the reverse direction, take an accepted row of the displayed finite packet.
+The finite-window boundary already identifies it as a public packet row, and the
+public export sends precisely those rows to the $\RealUp$ consumer surface. The
+standard finite-packet bridge does not add a second consumer surface; it only
+repackages the same accepted rows under the standard reading.
+
+All exclusions are inherited from the same three results. Since none of their
+carriers contains a Dedekind cut, quotient stream, host real equality,
+trichotomy witness, selected representative, choice datum, or open-cover
+compactness witness, the consumer-completeness package has no coordinate from
+which such data could be read.
+\end{proof}
+
 \closureat{LocatedCauchyUp}{seedStr}
 \closureat{LocatedCauchyUp}{obligationStr}
 \closureat{LocatedCauchyUp}{scopedStr}
 \closureat{LocatedCauchyUp}{publicStr}
 \closureat{LocatedCauchyUp}{bridgedStr}
+\closureat{LocatedCauchyUp}{matureStr}
 
 \begin{closurestatus}{\LocatedCauchyUp}
   \constructivestory{A $\LocatedCauchyUp$ packet is generated from a finite StreamName schedule, DyadicRatCore endpoint rows, a CauchyModulus precision row, located dyadic-ball witnesses, componentwise transport rows, continuation readback routes, package provenance for DyadicRatCoreUp, StreamNameUp, CauchyModulusUp, RegSeqRatUp, and RealUp, and a local NameCert provenance row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:locatedcauchy-scoped-dependency-package}, \autoref{thm:locatedcauchy-public-real-consumer-export}, \autoref{thm:locatedcauchy-finite-window-bridge-boundary}, and \autoref{thm:locatedcauchy-standard-finite-packet-bridge} bind the scoped package, public $\RealUp$ consumer export, finite-window boundary, and standard finite-packet bridge over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:locatedcauchy-scoped-dependency-package}, \autoref{thm:locatedcauchy-public-real-consumer-export}, \autoref{thm:locatedcauchy-finite-window-bridge-boundary}, \autoref{thm:locatedcauchy-standard-finite-packet-bridge}, and \autoref{thm:locatedcauchy-consumer-completeness-package} bind the scoped package, public $\RealUp$ consumer export, finite-window boundary, standard finite-packet bridge, and complete public consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close Dedekind cuts, quotient streams, host real equality, trichotomy, choice, open-cover compactness, or mature consumer-completeness packaging.}
-  \upgradepath{Mature closure requires consumer-completeness packaging for the standard finite-packet bridge.}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient streams, host real equality, trichotomy, choice, or open-cover compactness.}
+  \upgradepath{No further theory-axis grade is available for this package; remaining work belongs to the verification axis.}
 \end{closurestatus}
 
 \begin{theorem}[LocatedCauchy constant window degeneracy]
