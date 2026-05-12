@@ -69,4 +69,38 @@ theorem SignedDigitRealPacket_dyadic_seal_compatibility [AskSetup] [PackageSetup
     cont_respects_hsame sameEnclosure sameLocated sealCont sealCont'
   exact ⟨sameSeal, sealUnary, sealUnary', sealCont, sealCont', certSig, certSig'⟩
 
+theorem SignedDigitRealPacket_window_classifier_stability [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert normalized
+      stream' window' enclosure' located' sealRow' transport' route' provenance' cert'
+      normalized' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      SignedDigitRealPacket stream' window' enclosure' located' sealRow' transport' route'
+          provenance' cert' bundle' pkg' ->
+        Cont stream window normalized ->
+          Cont stream' window' normalized' ->
+            hsame stream stream' ->
+              hsame window window' ->
+                hsame normalized enclosure ->
+                  hsame normalized' enclosure' ->
+                    hsame located located' ->
+                      hsame normalized normalized' ∧ hsame enclosure enclosure' ∧
+                        hsame sealRow sealRow' ∧ Cont enclosure located sealRow ∧
+                          Cont enclosure' located' sealRow' ∧ PkgSig bundle cert pkg ∧
+                            PkgSig bundle' cert' pkg' := by
+  intro packet packet' normalizationRow normalizationRow' sameStream sameWindow
+    sameNormalizedEnclosure sameNormalizedEnclosure' sameLocated
+  have sameNormalized : hsame normalized normalized' :=
+    cont_respects_hsame sameStream sameWindow normalizationRow normalizationRow'
+  have sameEnclosure : hsame enclosure enclosure' :=
+    hsame_trans (hsame_trans (hsame_symm sameNormalizedEnclosure) sameNormalized)
+      sameNormalizedEnclosure'
+  have sealRows :=
+    SignedDigitRealPacket_dyadic_seal_compatibility packet packet' sameEnclosure sameLocated
+  exact
+    ⟨sameNormalized, sameEnclosure, sealRows.left, sealRows.right.right.right.left,
+      sealRows.right.right.right.right.left, sealRows.right.right.right.right.right.left,
+      sealRows.right.right.right.right.right.right⟩
+
 end BEDC.Derived.SignedDigitRealUp
