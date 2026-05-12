@@ -99,6 +99,7 @@
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
 
+<<<<<<< HEAD
 ## ProbeBundle Encoding
 
 - `ProbeBundle` uses the `sigrel_design.md` fixture: probe names are unary
@@ -155,3 +156,16 @@
   constructors, and negative wrong-result triples. `tests/test_external_binary.c`
   also checks representative model reuse, constructor-result inversion,
   cross-bit impossibility, cancellation, and congruence cases.
+
+## Gap Module Encoding
+
+- `InGapSig bundle D p h` is executed as domain membership plus an explicit
+  signature/token witness. The ground fixture uses `Domain := Nat` with
+  `depth(h) <= D`, and `Pkg := BHist` with token introduction by BHist equality
+  to the witness signature.
+- The Gap harness reuses the SigRel deterministic Ask fixture:
+  `Ask(n, h) = parity(n + depth(h))`. This preserves the abstract Lean
+  interface while making representative manifests executable.
+- `CompGap` is represented by an explicit source/intermediate/final ledger and
+  a two-bit event for the two supplied relation facts. This directly mirrors
+  the Lean existential middle-witness shape.
