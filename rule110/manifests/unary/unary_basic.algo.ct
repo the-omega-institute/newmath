@@ -1,11 +1,24 @@
 # unary_basic.algo.ct
-# Algorithm framing for unary BHist checks.
+# Algorithm-form positional certificate for unary BHist checks.
 #
-# The executable C harness decodes BHist events and checks the semantic
-# predicates directly. The CT production is vacuous for this manifest phase and
-# keeps the file runnable by manifest_runner.
-PRODUCTIONS 1
-0
+# The production list is a cyclic eight-position tracer:
+#
+#   P_i = 1 ++ binary3(i)
+#
+# The C harness runs exactly input_length steps. The remaining tape is the
+# concatenation of P_i for each source position i whose bit is 1. That output is
+# an executable CT certificate of the scanned bitstream and is checked before
+# the decoder-level Unary predicate. The manifest-runner interface does not
+# provide an unbounded accept/reject convention for negative Unary inputs.
+PRODUCTIONS 8
+1000
+1001
+1010
+1011
+1100
+1101
+1110
+1111
 ASSERTIONS 14
 case empty_unary:              input=11                       ; unary=yes
 case one_unary:                input=1011                     ; unary=yes
