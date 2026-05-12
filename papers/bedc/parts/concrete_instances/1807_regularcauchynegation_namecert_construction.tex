@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyNegationUp$}
+\label{ch:concrete-instances-regularcauchynegation-namecert}
+\origin{human}
+
+The $\RegularCauchyNegationUp$ interface names the finite sign-flip surface for a regular rational Cauchy name. Following Bishop and Bridges, \emph{Constructive Analysis}, the construction treats negation as a displayed transformation of dyadic observations and tolerance ledgers: a consumer may inspect the source name, the scheduled windows, the sign-flipped dyadic rows, and the $\RealUp$ seal handoff, but it cannot form a quotient stream, compare host sequence equality, select a limit, or appeal to ambient real completeness.
+
+\begin{definition}[RegularCauchyNegation carrier]
+\label{def:regular-cauchy-negation-carrier}
+A $\RegularCauchyNegationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+G=(X,W,D,R,F,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ is the $\RegularCauchyNameUp$ source row whose regular rational observations are to be sign-flipped;
+\item $W$ is the $\StreamNameUp$ window schedule naming the finite source reads for each requested precision;
+\item $D$ is the $\DyadicRatCoreUp$ observation row read from $X$ through $W$;
+\item $R$ is the $\RegSeqRatUp$ pointwise classifier row for the source regular Cauchy name and its scheduled rational observations;
+\item $F$ is the sign-flipped dyadic observation ledger, recording for each displayed row of $D$ the dyadic row with the same precision data and the opposite signed endpoint;
+\item $E$ is the $\RealUp$ seal handoff row through which downstream real-name consumers receive the sign-flipped regular sequence;
+\item $H$ stores componentwise $\hsame$ transports for the source row, window schedule, dyadic observation row, classifier row, sign-flipped ledger, and seal row;
+\item $C$ stores the displayed $\Cont$ routes for reading the source window, forming the sign-flipped dyadic row, transporting the classifier, and exposing the seal handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyNegationUp}$ row.
+\end{enumerate}
+The packet is a finite naming certificate for the negated regular Cauchy name. It stores no quotient stream, no host sequence equality proof, no selected limit, and no ambient real-completeness object.
+\end{definition}
+
+\begin{theorem}[RegularCauchyNegation NameCert obligations]
+\label{thm:regular-cauchy-negation-namecert-obligations}
+The local $\NameCert_{\RegularCauchyNegationUp}$ surface for the carrier of \autoref{def:regular-cauchy-negation-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed packet $G$ with a $\RegularCauchyNameUp$ source row, $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ observation row, $\RegSeqRatUp$ classifier row, sign-flipped ledger, $\RealUp$ seal handoff, transport rows, continuation rows, provenance, and local naming data;
+\item classifier transport: classification transports $X,W,D,R,F,E$ componentwise through the stored $\hsame$ and $\Cont$ rows;
+\item sign-flip stability: replacing the source by a classified regular Cauchy name preserves the finite window schedule and recomputes the same kind of sign-flipped dyadic observation ledger;
+\item finite-window transport: every negated observation is obtained by reading the finite window named by $W$ and then applying the displayed sign flip in $\DyadicRatCoreUp$;
+\item $\RealUp$ seal handoff: every real-name consumer of the negated row first reads $X,W,D,R,F,E,H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:regular-cauchy-negation-carrier}. The source name, window schedule, dyadic observation row, classifier row, sign-flipped ledger, seal handoff, transport routes, continuation routes, package row, and local naming row are explicit coordinates of $G$.
+
+Classifier transport is componentwise. The $\RegularCauchyNameUp$ row transports its scheduled observations, the $\StreamNameUp$ windows transport the finite reads, the $\DyadicRatCoreUp$ row transports the observed endpoint data, and the $\RegSeqRatUp$ classifier transports the pointwise regular rational readback.
+
+The sign-flip and seal clauses are finite. The ledger $F$ is formed from the displayed dyadic row $D$ without choosing a completed value, and the $\RealUp$ handoff $E$ consumes that ledger only after the source window and classifier have been exposed. Thus no quotient stream, host sequence equality proof, selected limit, or ambient completeness principle is available to the consumer.
+\end{proof}
+
+\begin{theorem}[RegularCauchyNegation diagonal compatibility]
+\label{thm:regular-cauchy-negation-diagonal-compatibility}
+For every accepted $\RegularCauchyNegationUp$ carrier
+$$
+G=(X,W,D,R,F,E,H,C,P,N),
+$$
+the sign-flipped packet commutes with the two standard regular-Cauchy consumer routes: a $\RegularCauchyDiagonalUp$ consumer may first diagonalize the displayed source windows and then read the sign-flipped dyadic ledger, while a $\RegularCauchyLimitClassifierUp$ consumer may first read the pointwise classifier row and then consume the same $\RealUp$ seal handoff. Both routes expose the same finite rows $X,W,D,R,F,E,H,C,P,N$ and no quotient stream, host sequence equality, selected limit, or ambient real-completeness object.
+\end{theorem}
+\begin{proof}
+For the diagonal route, read the source row through the $\RegularCauchyNameUp$ surface and its $\StreamNameUp$ schedule. The $\RegularCauchyDiagonalUp$ consumer selects only finite displayed windows, so the dyadic row $D$ remains the observation row named by the carrier.
+
+Apply the sign-flip ledger after the diagonal read. Since $F$ is computed pointwise from the displayed $\DyadicRatCoreUp$ rows of $D$, the diagonal consumer receives the same finite sign-flipped observations and the same transported $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+For the limit-classifier route, first expose the $\RegSeqRatUp$ pointwise classifier row $R$. The $\RegularCauchyLimitClassifierUp$ consumer then reaches the $\RealUp$ seal row $E$ only through $R$ and the sign-flipped ledger $F$.
+
+The two routes therefore differ only in the order in which finite rows are read. The compatibility uses the same source windows, dyadic observations, classifier row, sign-flip ledger, and seal handoff, and it does not introduce quotient streams, host sequence equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyNegation algebraic handoff]
+\label{thm:regular-cauchy-negation-algebraic-handoff}
+Every consumer that combines $\RegularCauchyNegationUp$ with $\RegularCauchySumUp$ or $\RegularCauchyDifferenceUp$ factors through the displayed sign-flipped ledger $F$, the source classifier row $R$, and the $\RealUp$ seal handoff $E$. The sum route reads the negated row as one finite summand; the difference route reads it as the displayed unary part of pointwise subtraction. Neither route may bypass $X,W,D,R,F,E,H,C,P,N$ to obtain a quotient stream, host sequence equality, selected limit, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Begin with the local obligations of \autoref{thm:regular-cauchy-negation-namecert-obligations}. They force every sign-flipped observation through the source window $W$, dyadic row $D$, and ledger $F$ before any algebraic consumer sees the row.
+
+For a $\RegularCauchySumUp$ consumer, $F$ is simply the displayed dyadic observation row supplied for one summand, and $R$ supplies the regular rational classifier needed by the sum readback. The consumer therefore reads the negated name as a finite summand rather than as an equality class of completed streams.
+
+For a $\RegularCauchyDifferenceUp$ consumer, the same rows supply the unary sign-flip surface that pointwise subtraction may inspect. The difference packet can read the displayed opposite endpoint and its tolerance data from $F$, then route the result through the same $\RealUp$ seal handoff $E$.
+
+The carrier inventory exhausts both algebraic handoffs. Since no coordinate of $G$ is a quotient stream, host sequence equality proof, selected limit, or ambient completeness theorem, neither algebraic route can export such data.
+\end{proof}
+
+\closureat{RegularCauchyNegationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyNegationUp}
+  \constructivestory{A $\RegularCauchyNegationUp$ packet is generated from a $\RegularCauchyNameUp$ source row, a $\StreamNameUp$ window schedule, a $\DyadicRatCoreUp$ observation row, a $\RegSeqRatUp$ pointwise classifier row, a sign-flipped dyadic ledger, a $\RealUp$ seal handoff, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, five local naming obligations, diagonal and limit-classifier compatibility, and algebraic handoff for sign-flips of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, host sequence equality, selected limits, ambient real completeness, additive inverse laws for completed real names, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, sign-flip ledger stability, finite-window transport, diagonal compatibility, limit-classifier compatibility, and $\RealUp$ seal handoff for the same packet.}
+\end{closurestatus}
