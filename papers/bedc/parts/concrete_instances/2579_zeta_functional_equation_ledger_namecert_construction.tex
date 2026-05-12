@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ZetaFunctionalEquationLedgerUp$}
+\label{ch:concrete-instances-zeta-functional-equation-ledger-namecert}
+\origin{human}
+
+The $\ZetaFunctionalEquationLedgerUp$ packet gives the functional-equation part of \autoref{ch:concrete-instances-zeta-continuation} a concrete finite NameCert surface. It records eta continuation, the displayed functional-equation factor row, the $\GammaUp$ boundary, contour-integral provenance, and the trivial-zero witness as rows that downstream zeta and Gamma chapters can inspect without claiming a closed Gamma proof, Riemann-hypothesis consequence, or host complex-equality theorem.
+
+\begin{definition}[Zeta functional-equation ledger carrier]
+\label{def:zeta-functional-equation-ledger-carrier}
+A $\ZetaFunctionalEquationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Z,A,E,F,G,K,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the $\ZetaBasicUp$ source row on the half-plane $\Re(s)>1$;
+\item $A$ is the $\AnalyticContUp$ handoff row that reads the eta-extension step and the positive-half-plane continuation;
+\item $E$ is the eta-extension row, including the displayed denominator boundary for $1-2^{1-s}$ and the overlap agreement with $Z$;
+\item $F$ is the functional-equation factor row containing $2^s$, $\pi^{s-1}$, $\sin(\pi s/2)$, the $\Gamma(1-s)$ slot, and the reflected $\zeta(1-s)$ slot;
+\item $G$ is the $\GammaUp$ boundary row, recording exactly the input domain, pole boundary, and nonzero-at-positive-integer reads consumed by the functional-equation ledger;
+\item $K$ is the $\mathsf{ContourIntegral}^{\uparrow}$ provenance row for the contour reorganization used to justify the displayed factor row;
+\item $T$ is the trivial-zero witness row for $s=-2n$ with unary $n\geq \Eone(\emp)$, storing the sine-zero row and the finiteness reads for the remaining factors;
+\item $H$ stores componentwise $\hsame$ transports for $Z,A,E,F,G,K,T$ and the local naming rows;
+\item $C$ stores the finite $\Cont$ routes by which consumers read eta continuation, factor decomposition, Gamma boundary, contour provenance, trivial-zero consumption, package provenance, and local naming;
+\item $P$ is the $\Pkg$ provenance over the same finite ledger packet;
+\item $N$ is the local $\NameCert_{\ZetaFunctionalEquationLedgerUp}$ row.
+\end{enumerate}
+The carrier exposes only this ledger packet. It contains no closed proof of the Gamma factor, no full meromorphic continuation theorem, no quotient of germs, and no host equality principle for complex functions.
+\end{definition}
+
+\begin{definition}[Zeta functional-equation ledger classifier]
+\label{def:zeta-functional-equation-ledger-classifier}
+Two $\ZetaFunctionalEquationLedgerUp$ carriers are classified by componentwise $\hsame$ on the displayed analytic rows $Z,A,E,F,G,K,T$, exact agreement of the finite $\Cont$ routes in $C$, and the same $\Pkg$ and local $\NameCert$ rows. The classifier treats the $\GammaUp$ coordinate as a boundary row: it may transport the displayed domain and consumption reads, but it does not identify two host Gamma functions or close the missing meromorphic proof.
+\end{definition}
+
+\begin{theorem}[Zeta functional-equation ledger NameCert obligations]
+\label{thm:zeta-functional-equation-ledger-namecert-obligations}
+The local $\NameCert_{\ZetaFunctionalEquationLedgerUp}$ surface for \autoref{def:zeta-functional-equation-ledger-carrier} consists of five finite rows: carrier admission for $L$; classifier stability for the zeta source, eta continuation, functional-equation factor, Gamma boundary, contour provenance, and trivial-zero witness rows; ledger exactness for reads exported through $C$; $\Pkg$ provenance over $Z,A,E,F,G,K,T,H,C$; and local naming exactness for $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the tuple $L$. Each zeta, continuation, eta, factor, Gamma-boundary, contour, trivial-zero, transport, continuation, package, and naming coordinate is a displayed row of the same finite $\BHist$ packet.
+
+Classifier stability is componentwise. Transport through $H$ preserves the source row $Z$, the eta-extension row $E$, the analytic-continuation handoff $A$, the factor row $F$, the Gamma boundary $G$, the contour provenance $K$, and the trivial-zero witness $T$ under their stated classifiers.
+
+Ledger exactness is read through $C$. Every exported consumer fact lands in one of the displayed coordinates, and any request for a closed Gamma theorem, a global meromorphic-continuation theorem, or host complex equality has no row in $L$.
+
+The package and local naming rows repack the same finite coordinates. Thus the obligation surface is exactly the five rows stated in the theorem.
+\end{proof}
+
+\begin{theorem}[Gamma boundary for the zeta functional-equation ledger]
+\label{thm:zeta-functional-equation-ledger-gamma-boundary}
+For an accepted $\ZetaFunctionalEquationLedgerUp$ carrier $L=(Z,A,E,F,G,K,T,H,C,P,N)$, every exported use of $\Gamma(1-s)$ factors through the displayed $\GammaUp$ boundary row $G$ and the functional-equation factor row $F$. The ledger exports the domain and consumption reads needed by the factor row and the trivial-zero witness, but it does not export a closed Gamma construction or a host meromorphic equality proof.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the Gamma slot in the functional-equation row. The route must pass through $C$, so it lands either in the factor row $F$ or in the boundary row $G$.
+
+If it lands in $F$, the read sees only the formal factor slot $\Gamma(1-s)$ as part of the displayed product. If it lands in $G$, the read sees the boundary information: the input-domain row, the pole-exclusion row, and the finite nonzero reads used at positive integers.
+
+No other coordinate of $L$ carries a Gamma construction. The classifier of \autoref{def:zeta-functional-equation-ledger-classifier} therefore keeps Gamma use at the boundary level and prevents the ledger from exporting a closed Gamma proof.
+\end{proof}
+
+\begin{theorem}[Trivial-zero seal for the zeta functional-equation ledger]
+\label{thm:zeta-functional-equation-ledger-trivial-zero-seal}
+For an accepted $\ZetaFunctionalEquationLedgerUp$ carrier, the trivial-zero witness row $T$ consumes exactly the sine-zero coordinate at $s=-2n$ with unary $n\geq \Eone(\emp)$, the finite Gamma-boundary reads from $G$, the reflected zeta read from $Z$ through $A$ and $E$, and the factor decomposition in $F$. It seals only the displayed negative even zero rows and does not assert any zero-location statement in the critical strip.
+\end{theorem}
+\begin{proof}
+Read the witness row $T$. Its sine-zero coordinate is the constructive row for $\sin(\pi(-2n)/2)=0$, and this coordinate is already part of the factor decomposition $F$.
+
+The remaining factor reads are routed through the displayed ledger. Gamma finiteness and nonzero consumption pass through $G$, while the reflected zeta input is read through the zeta source and eta-continuation rows $Z,A,E$.
+
+The row $T$ has no coordinate for the critical strip and no classifier row for Riemann-hypothesis strength. Hence the seal closes only the displayed negative even zero witnesses consumed by this ledger.
+\end{proof}
+
+\closureat{ZetaFunctionalEquationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ZetaFunctionalEquationLedgerUp}
+  \constructivestory{A $\ZetaFunctionalEquationLedgerUp$ packet is generated from $\ZetaBasicUp$, $\AnalyticContUp$, eta-extension, functional-equation factor, $\GammaUp$ boundary, $\mathsf{ContourIntegral}^{\uparrow}$ provenance, trivial-zero witness, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeta-functional-equation-ledger-carrier}, \autoref{def:zeta-functional-equation-ledger-classifier}, \autoref{thm:zeta-functional-equation-ledger-namecert-obligations}, \autoref{thm:zeta-functional-equation-ledger-gamma-boundary}, and \autoref{thm:zeta-functional-equation-ledger-trivial-zero-seal} define the local ledger carrier, classifier, obligation rows, Gamma boundary, and trivial-zero seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Gamma proof, RH, full meromorphic continuation, host complex equality, Quot, Classical choice, propext, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, Gamma-boundary exactness, trivial-zero consumption, package provenance, and local naming for the same finite ledger packet.}
+\end{closurestatus}
