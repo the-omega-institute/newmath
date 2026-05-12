@@ -183,6 +183,7 @@ import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
+import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
