@@ -110,4 +110,23 @@ theorem CauchyLimitSealCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem CauchyLimitSealCarrier_realup_consumer_boundary [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
+      realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg ->
+      Cont endpoint sealRow realRead ->
+        UnaryHistory realRead ∧ Cont endpoint sealRow realRead ∧
+          hsame endpoint (append provenance localCert) ∧ PkgSig bundle endpoint pkg := by
+  intro carrier endpointSealRead
+  rcases carrier with
+    ⟨_sourceUnary, _scheduleUnary, _dyadicUnary, _diagonalUnary, sealUnary,
+      _transportUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+      _sourceScheduleDyadic, _dyadicDiagonalSeal, _sealTransportProvenance,
+      _provenanceLocalEndpoint, sameEndpoint, endpointPkg⟩
+  exact
+    ⟨unary_cont_closed endpointUnary sealUnary endpointSealRead, endpointSealRead,
+      sameEndpoint, endpointPkg⟩
+
 end BEDC.Derived.CauchyLimitSealUp
