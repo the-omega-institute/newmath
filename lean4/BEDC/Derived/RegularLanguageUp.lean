@@ -240,6 +240,35 @@ theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskS
     ⟨runUnary, endpointUnary, routesUnary, provenanceUnary, boundaryUnary, runRow, endpointRow,
       routesRow, boundaryRow, boundarySig⟩
 
+theorem RegularLanguageAutomatonPacket_scoped_dependency_reassociation_witness
+    [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance read
+      folded scopedRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      UnaryHistory read ->
+        Cont endpoint read folded ->
+          Cont folded provenance scopedRow ->
+            exists tail : BHist, exists scoped' : BHist,
+              Cont read provenance tail ∧ Cont endpoint tail scoped' ∧
+                hsame scopedRow scoped' ∧ UnaryHistory tail ∧ UnaryHistory scoped' := by
+  intro packet readUnary endpointReadRow foldedProvenanceRow
+  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
+    _wordUnary, _runUnary, endpointUnary, _transportUnary, _routesUnary, provenanceUnary,
+    _runRow, _endpointRow, _routesRow, _pkgSig⟩ := packet
+  cases cont_assoc_left_exists endpointReadRow foldedProvenanceRow with
+  | intro tail reassociated =>
+      have tailUnary : UnaryHistory tail :=
+        unary_cont_closed readUnary provenanceUnary reassociated.left
+      have scopedUnary : UnaryHistory scopedRow :=
+        unary_cont_closed
+          (unary_cont_closed endpointUnary readUnary endpointReadRow) provenanceUnary
+          foldedProvenanceRow
+      exact
+        ⟨tail, scopedRow, reassociated.left, reassociated.right, hsame_refl scopedRow,
+          tailUnary, scopedUnary⟩
+
 theorem RegularLanguageAutomatonPacket_finite_bridge_consumer_completeness
     [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance
