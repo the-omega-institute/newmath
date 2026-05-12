@@ -576,6 +576,80 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static void expected_positional_certificate(const char *input_bits,
+                                            char *out,
+                                            size_t out_cap) {
+    size_t off = 0;
+    size_t len = strlen(input_bits);
+
+    assert(len <= 64);
+    for (size_t i = 0; i < len; i++) {
+        if (input_bits[i] == '1') {
+            assert(off + 7 < out_cap);
+            out[off++] = '1';
+            for (int bit = 5; bit >= 0; bit--) {
+                out[off++] = ((i >> (size_t)bit) & 1u) ? '1' : '0';
+            }
+        }
+    }
+    out[off] = '\0';
+}
+
+static void assert_settled_algo_ct_case(const char *input_bits,
+                                        int expected_holds) {
+    char expected_marker[512];
+    MrResult r;
+
+    assert(decode_settled_holds(input_bits) == expected_holds);
+    expected_positional_certificate(input_bits,
+                                    expected_marker,
+                                    sizeof(expected_marker));
+    r = mr_run_ct_manifest("manifests/settled/settled_basic.algo.ct",
+                           input_bits,
+                           expected_marker,
+                           strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "settled_basic.algo CT FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+static void assert_settled_algo_ct_certificate_only(const char *input_bits) {
+    char expected_marker[512];
+    MrResult r;
+
+    expected_positional_certificate(input_bits,
+                                    expected_marker,
+                                    sizeof(expected_marker));
+    r = mr_run_ct_manifest("manifests/settled/settled_basic.algo.ct",
+                           input_bits,
+                           expected_marker,
+                           strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "settled_basic.algo short-sweep CT FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+static void sweep_settled_algo_short_inputs(void) {
+    char bits[9];
+
+    for (size_t len = 0; len <= 8; len++) {
+        size_t count = (size_t)1u << len;
+        for (size_t value = 0; value < count; value++) {
+            for (size_t i = 0; i < len; i++) {
+                size_t shift = len - 1 - i;
+                bits[i] = ((value >> shift) & 1u) ? '1' : '0';
+            }
+            bits[len] = '\0';
+            assert_settled_algo_ct_certificate_only(bits);
+            assert(!decode_settled_holds(bits));
+        }
+    }
+}
+
 static void assert_settled_cases(void) {
     assert(decode_settled_holds("10111011011"));
     assert(decode_settled_holds("1011010110111011"));
@@ -633,14 +707,60 @@ static void test_settled_basic_enum(void) {
 
 static void test_settled_basic_algo(void) {
     assert_settled_cases();
-    assert_manifest_smoke("manifests/settled/settled_basic.algo.ct", "10111011011");
-    printf("  settled_basic.algo: 38/38 cases PASS\n");
+    assert_settled_algo_ct_case("10111011011", 1);
+    assert_settled_algo_ct_case("1011010110111011", 1);
+    assert_settled_algo_ct_case("101100101110011", 1);
+    assert_settled_algo_ct_case("10110001011101101011", 1);
+    assert_settled_algo_ct_case("1011000010110111011", 1);
+    assert_settled_algo_ct_case("1011101101011", 0);
+
+    assert_settled_algo_ct_case("01011101111101110111011", 1);
+    assert_settled_algo_ct_case("010110101101110111001110011", 1);
+    assert_settled_algo_ct_case("010110010111001110011", 1);
+    assert_settled_algo_ct_case("0101100010110101101011", 1);
+    assert_settled_algo_ct_case("01011000010110111011010110101001101010011", 1);
+    assert_settled_algo_ct_case("0101110111110111011011", 0);
+
+    assert_settled_algo_ct_case("001011101110111111011011", 1);
+    assert_settled_algo_ct_case("001011010111011110111011", 1);
+    assert_settled_algo_ct_case("001011001011101101011111101011101011", 1);
+    assert_settled_algo_ct_case("0010111011101111111011011", 1);
+
+    assert_settled_algo_ct_case("00010111011101111111111", 1);
+    assert_settled_algo_ct_case("000101110110101110111101110111011", 1);
+    assert_settled_algo_ct_case("00010110101101011010110101101011", 1);
+    assert_settled_algo_ct_case("00010110010111001110011", 1);
+    assert_settled_algo_ct_case("00010111011010111011110111011011", 0);
+
+    assert_settled_algo_ct_case("00001011101110111111111111", 1);
+    assert_settled_algo_ct_case("00001011101100101110111111101011011011", 1);
+    assert_settled_algo_ct_case("00001011010110010111011010111110011", 1);
+    assert_settled_algo_ct_case("0000101101011010111011010111110011", 0);
+
+    assert_settled_algo_ct_case("0000010111011011101110011101011", 1);
+    assert_settled_algo_ct_case("000001011101101110111001110011", 0);
+
+    assert_settled_algo_ct_case("000000101110111111", 1);
+    assert_settled_algo_ct_case("0000001011101110111011", 1);
+    assert_settled_algo_ct_case("00000010111011011011", 0);
+    assert_settled_algo_ct_case("000000101101011101011101011", 1);
+    assert_settled_algo_ct_case("00000010110010111001110011", 1);
+    assert_settled_algo_ct_case("00000010110001011", 1);
+
+    assert_settled_algo_ct_case("0000000101110111001110011", 1);
+    assert_settled_algo_ct_case("000000010111011101110011", 1);
+
+    assert_settled_algo_ct_case("000000001011101111", 1);
+    assert_settled_algo_ct_case("000000001011101110110101111", 1);
+    assert_settled_algo_ct_case("0000000010111011011", 0);
+    sweep_settled_algo_short_inputs();
+    printf("  settled_basic.algo CT runner: 38 bounded cases + short sweep PASS\n");
 }
 
 int main(void) {
     printf("== test_settled ==\n");
     test_settled_basic_enum();
     test_settled_basic_algo();
-    printf("ALL test_settled assertions passed (76 Settled cases + 2-manifest pipeline smoke)\n");
+    printf("ALL test_settled assertions passed (76 Settled cases + enum smoke + 38 bounded CT certificates + short sweep)\n");
     return 0;
 }

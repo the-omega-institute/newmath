@@ -80,7 +80,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [ ] L2.9: Universal Gap (InGapSig + CompGap) recognizer.
 - [ ] L2.10: Universal Package (psame + TokenPolicy) recognizer.
 - [ ] L2.11: Universal NameCert (Carrier + Equiv + descent + composition + stability mode) recognizer.
-- [ ] L2.12: Universal Settled (aggregator) recognizer.
+- [!] L2.12: Universal Settled (aggregator) recognizer. Bounded positional-certificate CTS covers the 38 Settled aggregate fixtures plus short malformed sweep; universal dispatch remains blocked on lower-family universal recognizers and a shared CT accept/reject protocol, as specified in `docs/settled_algo_design.md`.
 
 **Risk register**: each item is comparable to "designing a string-rewriting decision procedure" — 1-4 weeks median per module, much more if novel encoding tricks needed. Some relations may be Π⁰₁-hard and not admit Σ⁰₁ CT recognition; in that case mark `[!]` with explicit "halts iff" reformulation.
 
