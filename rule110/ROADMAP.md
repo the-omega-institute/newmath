@@ -109,7 +109,6 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 - [x] Add `docs/cont_design.md` documenting the append direction and manifest
   contract.
 
-<<<<<<< HEAD
 ## Bundle module (beyond original M3 scope)
 
 - [x] Encode `ProbeBundle` as the unary probe-name event list from
