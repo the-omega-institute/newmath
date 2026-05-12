@@ -381,17 +381,55 @@ coordinates contain no quotient Cauchy class, selected limit, $\RealUp$
 completeness row, trichotomy, or bridge, none is exported by the handoff surface.
 \end{proof}
 
+\begin{theorem}[RationalStream public export]\label{thm:rational-stream-public-export}
+The carrier of \autoref{def:rational-stream-carrier}, pointwise $\RatUp$
+obligations, $\StreamNameUp$ schedule boundary, $\RegSeqRatUp$ handoff,
+common-window classifier stability, schedule transport exactness, ledger
+completeness, and scoped boundary form the public $\RationalStreamUp$ export
+consumed by $\RegSeqRatUp$ and $\RealUp$.
+
+This public export is a finite BEDC packet over $\mathsf{BHist}$,
+$\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$. It exports
+no quotient Cauchy class, selected limit, completed $\RealUp$ equality,
+trichotomy, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and pointwise rational rows. Apply
+\autoref{def:rational-stream-carrier} and
+\autoref{thm:rational-stream-pointwise-rat-obligations} to project the visible
+$\mathsf{BHist}$, $\UnaryHistory$, and $\RatUp$ coordinates.
+
+Next build the finite schedule surface. Use
+\autoref{thm:rational-stream-streamname-schedule-boundary} for the
+$\StreamNameUp$ boundary and
+\autoref{thm:rational-stream-finite-window-carrier-transport} for exact
+transport of the displayed $\hsame$ and $\Cont$ rows.
+
+Now attach the downstream handoff rows. Apply
+\autoref{thm:rational-stream-pointwise-classifier-laws},
+\autoref{thm:rational-stream-regseqrat-ledger-completeness}, and
+\autoref{thm:rational-stream-regseqrat-handoff} to obtain classifier
+stability, ledger completeness, and the $\RegSeqRatUp$ consumer surface.
+
+Finally repack the result through \autoref{thm:rational-stream-scoped-boundary}.
+The package and naming rows are exactly the displayed $\mathsf{Pkg}$ and
+$\NameCert$ provenance. Since the scoped boundary has no coordinate for a
+quotient Cauchy class, selected limit, completed $\RealUp$ equality,
+trichotomy, or standard bridge, the public export exposes none of those rows.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
 \closureat{RationalStreamUp}{obligationStr}
 \closureat{RationalStreamUp}{scopedStr}
+\closureat{RationalStreamUp}{publicStr}
 
 \begin{closurestatus}{\RationalStreamUp}
   \constructivestory{A rational stream packet is represented by finite unary index rows, a StreamName schedule, pointwise RatUp carrier and classifier rows, and visible transport, continuation, package, and NameCert provenance on the path to RegSeqRat and the RealUp seal.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:rational-stream-scoped-boundary} binds the finite carrier, pointwise classifier laws, finite-window transport, schedule boundary, finite ledger, regular-sequence handoff, and displayed $\mathsf{BHist}$, $\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies consumed by $\RegSeqRatUp$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient Cauchy classes, selected limits, RealUp completeness, trichotomy, or standard bridges.}
-  \upgradepath{Public closure requires a consumer-facing export theorem for the same finite rational-stream handoff packet.}
+  \upgradepath{Bridged closure requires a standard bridge for this finite rational-stream handoff packet.}
 \end{closurestatus}
