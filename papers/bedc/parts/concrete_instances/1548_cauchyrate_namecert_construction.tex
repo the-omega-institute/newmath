@@ -46,6 +46,7 @@ The local $\NameCert_{\CauchyRateUp}$ surface for the packet of \autoref{def:cau
 \item ledger exhaustion: every rate-facing dependency is named by $P$ and $N$, with no row for real completeness, quotient stream equality, selected limits, or host real equality.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_namecert\_obligations}
 \begin{proof}
 Project the packet $K$ of \autoref{def:cauchy-rate-bhist-source}. Its carrier coordinates list precisely the rows used by the certificate, so carrier exposure is immediate from the finite $\mathsf{BHist}$ shape.
 
@@ -96,6 +97,7 @@ The packet contains no coordinate for a quotient of streams, a selected limiting
 \label{thm:cauchy-rate-ledger-exactness}
 Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be an accepted $\CauchyRateUp$ source packet. The ledger named by $P$ and $N$ is exact over the rows $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$: every accepted rate read is accounted for by one of those displayed coordinates, and no hidden carrier may be used as an additional premise.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_ledger\_exactness}
 \begin{proof}
 Start from the finite carrier of \autoref{def:cauchy-rate-bhist-source}. The rows $p,\mu,\tau,F,Q,E,H,C,P,N$ are the full list of data available to the local classifier.
 
@@ -108,6 +110,7 @@ It remains only to inspect provenance. The row $P$ names the dependency package 
 \label{thm:cauchy-rate-transport-stability}
 Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be an accepted $\CauchyRateUp$ packet. Any componentwise $\hsame$ transport recorded in $H$, together with the displayed $\Cont$ routes recorded in $C$, preserves the $\NameCert_{\CauchyRateUp}$ classifier on the transported precision, schedule, tolerance, regular-family source, regular rational readback, completion consumer, package, and local certificate rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_transport\_stability}
 \begin{proof}
 Project the classifier from \autoref{def:cauchy-rate-bhist-source}. It compares only the precision, schedule, tolerance, family, readback, consumer, transport, route, package, and local naming coordinates.
 
@@ -233,6 +236,7 @@ The classifier described in \autoref{def:cauchy-rate-bhist-source} compares pack
 \label{thm:cauchy-rate-tail-bound-routing}
 For every scoped $\CauchyRateUp$ package $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, every read of the $\RegSeqRatUp$ row $Q$ must first pass through the scheduled $\CauchyModulusUp$ row $\mu$, the $\DyadicTailBoundUp$ row $\tau$, and the $\RegularCauchyFamilyUp$ row $F$. In particular, no $Q$-consumer can inspect a regular rational readback before the tail-bound route through $\tau$ has been displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_tail\_bound\_routing}
 \begin{proof}
 Read the route inventory from the scoped package. The route into $Q$ is $\Cont((F,\tau),Q)$, and the row $F$ is itself reached only after the schedule and tolerance rows have been exposed through the displayed route chain.
 
@@ -277,10 +281,10 @@ It remains to inspect the excluded objects. The package has no coordinate for Re
 \begin{closurestatus}{\CauchyRateUp}
   \constructivestory{A $\CauchyRateUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ tolerance row, a $\RegularCauchyFamilyUp$ source, a $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped dependency rows fix exactly the $p,\mu,\tau,F,Q,E,H,C,P,N$ packet over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
+  \scopeclosed{The public effective-rate route fixes exactly the $p,\mu,\tau,F,Q,E,H,C,P,N$ packet over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular streams, selected limits, host real equality, or bridge checking.}
-  \upgradepath{Bridged closure requires a standard bridge over the same effective-rate rows.}
+  \upgradepath{Bridged closure requires the concrete bridge from this public certificate to the standard effective Cauchy-rate reading.}
 \end{closurestatus}
