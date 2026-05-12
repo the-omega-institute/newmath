@@ -65,6 +65,24 @@ Transport the endpoint coefficient rows along $H$. The refined segment ledger $L
 Route the rational readback row $Q'$ and real seal row $R'$ through the refined continuation routes in $C'$. Repacking these rows gives exactly the carrier coordinates, so the refined packet is accepted and exposes the same piecewise-linear data on the finer displayed mesh.
 \end{proof}
 
+\begin{theorem}[DyadicSpline endpoint mesh transport stability]
+\label{thm:dyadic-spline-endpoint-mesh-transport-stability}
+Let $S=(K,A,L,I,Q,R,H,C,P,N)$ be an accepted $\DyadicSplineUp$ packet, and let $K'$ be a displayed refinement of the mesh row $K$. When the endpoint coefficient rows in $A$, the rational cell rows in $I$, and the segment ledger rows in $L$ are transported componentwise along the displayed $\hsame$ witnesses in $H$, the refined rows assemble with the transported $\RegSeqRatUp$ readbacks and $\RealUp$ seals into one classifier-facing packet
+$$
+S'=(K',A',L',I',Q',R',H',C',P,N).
+$$
+The accepted comparison between $S$ and $S'$ is exhausted by the displayed knot, endpoint, cell, ledger, readback, and seal transports together with the $\Cont$ routes for refined-cell inspection. No host function, graph, quotient real, infinite knot sequence, or selected limit is introduced by the handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-spline-finite-carrier}. The knot row, endpoint coefficient family, segment ledger, rational cell ledger, readback row, seal row, transport row, continuation row, provenance row, and local name row are all explicit coordinates of $S$.
+
+Use the displayed $\hsame$ entries in $H$ to move the knot row to $K'$ and to move each endpoint coefficient row to the refined endpoint ledger. The rational cell rows move by the same componentwise transport, and each refined segment in $L'$ records the transported endpoints and the corresponding cell row.
+
+Route every refined rational observation through the displayed $\Cont$ entries in $C$. The $\RegSeqRatUp$ readback row $Q'$ and $\RealUp$ seal row $R'$ are therefore read only after the refined segment and rational cell rows have been selected.
+
+Repacking these transported coordinates gives the packet $S'$ named in the statement. Since every inspected coordinate is a carrier projection or a displayed continuation route, there is no remaining place for a host function, graph, quotient real, infinite knot sequence, or selected limit to enter the classifier.
+\end{proof}
+
 \begin{theorem}[DyadicSpline RegSeqRat Real boundary]
 \label{thm:dyadic-spline-regseqrat-real-boundary}
 For every accepted $\DyadicSplineUp$ carrier $S=(K,A,L,I,Q,R,H,C,P,N)$ and every finite consumer window, the $\RegSeqRatUp$ readback and $\RealUp$ seal are reached only by first selecting a displayed segment from $L$, reading its $\RationalIntervalUp$ cell from $I$, reading its endpoint coefficients from $A$, and routing the resulting finite rational observation through $Q$ and $R$.
