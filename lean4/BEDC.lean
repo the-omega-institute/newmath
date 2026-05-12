@@ -143,6 +143,7 @@ import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
+import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
