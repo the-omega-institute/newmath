@@ -96,6 +96,20 @@ theorem CauchyConvolutionTailBudgetCompatibility [AskSetup] [PackageSetup]
     ⟨fUnary, gUnary, kUnary, aUnary, dUnary, rUnary, sourceConvolution,
       convolutionBudget, budgetHandoff, sealEndpoint, pkgSig⟩
 
+theorem CauchyConvolutionCarrierSurface_source_tail_seal_factorization
+    [AskSetup] [PackageSetup]
+    {F G K A D R E H C P N endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvolutionCarrierSurface F G K A D R E H C P N endpoint bundle pkg ->
+      Cont (append (append F G) A) R E ∧ Cont E N endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨_fUnary, _gUnary, _kUnary, _aUnary, _dUnary, _rUnary, _eUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _endpointUnary, sourceConvolution, convolutionBudget,
+    budgetHandoff, sealEndpoint, pkgSig⟩ := carrier
+  cases sourceConvolution
+  cases convolutionBudget
+  exact ⟨budgetHandoff, sealEndpoint, pkgSig⟩
+
 def CauchyConvolutionCarrier [AskSetup] [PackageSetup]
     (sourceLeft sourceRight convolutionLedger productPrefix dyadicTail regSeqHandoff realSeal
       transport route name : BHist)

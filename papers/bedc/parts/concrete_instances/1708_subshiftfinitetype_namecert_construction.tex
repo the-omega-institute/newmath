@@ -66,15 +66,53 @@ The remaining adjacent binary pairs are zero-zero, zero-one, and one-zero. These
 The NameCert obligations restrict along the same finite ledgers. Habitation is witnessed by the empty word, one-letter words, and the all-zero word; local transport preserves acceptance by transporting the singleton forbidden row; prefix restriction deletes neighboring checks without adding any; and non-escape is inherited from the absence of any coordinate beyond the finite $\mathsf{BHist}$ word and ledger rows.
 \end{proof}
 
+\begin{theorem}[Subshift finite type adjacency carrier transport]
+\label{thm:subshift-finite-type-adjacency-carrier-transport}
+For accepted $\SubshiftOfFiniteTypeUp$ carriers, componentwise $\hsame$ transport of the visible alphabet row, finite word row, forbidden-adjacency ledger, acceptance ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row preserves the finite adjacency carrier whenever the forbidden-pair ledger is transported with the same rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subshift-finite-type-carrier}. The carrier predicate is stated only in terms of the displayed alphabet, word, forbidden-ledger, acceptance-ledger, provenance, and local certificate rows.
+
+Transport the forbidden-pair ledger and the acceptance ledger along the same componentwise $\hsame$ routes. Every neighboring pair in the transported word is the image of a neighboring pair already inspected by the original finite ledger.
+
+The $\Cont$ routes and $\Pkg$ provenance then repack the transported rows into the same carrier shape. Since no further coordinate participates in the predicate, the transported packet remains an accepted finite adjacency carrier.
+\end{proof}
+
+\begin{theorem}[Subshift finite type forbidden-word ledger exhaustion]
+\label{thm:subshift-finite-type-forbidden-word-ledger-exhaustion}
+Every accepted neighboring-pair decision in a $\SubshiftOfFiniteTypeUp$ carrier is read from the displayed allowed and forbidden adjacency ledgers. No decision is supplied by entropy, inverse limits, quotient shift spaces, automath imports, or an ambient symbolic-dynamics theorem.
+\end{theorem}
+\begin{proof}
+Take a neighboring-pair decision in an accepted word row. By the carrier definition, acceptance is recorded by the finite acceptance ledger and by absence from the finite forbidden-adjacency ledger.
+
+The provenance row records only $\Cont$ and $\Pkg$ routes between the displayed rows. These routes name how the finite rows are read; they do not introduce any entropy value, inverse-limit object, quotient carrier, or host symbolic-dynamics theorem.
+
+Thus the decision is exhausted by the local adjacency ledgers. A downstream consumer can recover the decision by projecting the word, forbidden-ledger, acceptance-ledger, provenance, and local $\NameCert$ coordinates.
+\end{proof}
+
+\begin{theorem}[Subshift finite type golden-mean scope]
+\label{thm:subshift-finite-type-golden-mean-scope}
+The singleton forbidden one-one row recovers the existing $\GoldenMeanShiftUp$ instance as a scoped $\SubshiftOfFiniteTypeUp$ packet: its accepted neighboring pairs are exactly zero-zero, zero-one, and one-zero, and its rejected neighboring pair is exactly one-one.
+\end{theorem}
+\begin{proof}
+Specialize the visible alphabet row to zero and one, and specialize the forbidden-adjacency ledger to the single row one-one. The acceptance ledger inspects each neighboring pair of the displayed finite word against that singleton row.
+
+If the pair is zero-zero, zero-one, or one-zero, it is absent from the forbidden ledger and is accepted by the displayed finite decision row. If the pair is one-one, it is present in the forbidden ledger and is rejected.
+
+This is exactly the finite-window $\GoldenMeanShiftUp$ classifier used in \autoref{thm:subshift-finite-type-golden-mean-instance}. The $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row repack the same scoped packet without adding an infinite shift carrier.
+\end{proof}
+
 \closureat{SubshiftOfFiniteTypeUp}{seedStr}
+\closureat{SubshiftOfFiniteTypeUp}{obligationStr}[BEDC.Derived.SubshiftfinitetypeUp.SubshiftFiniteTypeCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\SubshiftOfFiniteTypeUp}
   \constructivestory{A $\SubshiftOfFiniteTypeUp$ packet is generated from a visible binary alphabet row, a finite $\mathsf{BHist}$ word row, a finite forbidden-adjacency ledger, an acceptance ledger for neighboring pairs, componentwise $\hsame$ transport, $\Cont$ and $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed surface names the finite adjacency-window carrier, its five local NameCert obligations, and the $\GoldenMeanShiftUp$ singleton-forbidden-ledger instance.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface names the finite adjacency-window carrier, its five local NameCert obligations, adjacency-carrier transport, forbidden-ledger exhaustion, and the $\GoldenMeanShiftUp$ singleton-forbidden-ledger scope.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SubshiftfinitetypeUp.SubshiftFiniteTypeCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close entropy, inverse limits, quotient presentations, infinite shift spaces, automath import, or a checked Lean certificate.}
-  \upgradepath{Scoped closure requires machine-checked carrier habitation, classifier laws, adjacency-ledger transport, finite-prefix restriction, non-escape, and the singleton-forbidden-row $\GoldenMeanShiftUp$ instance.}
+  \notclaimed{This chapter does not close entropy, inverse limits, quotient presentations, infinite shift spaces, automath import, or a public standard bridge.}
+  \upgradepath{Scoped closure requires complete Lean coverage of adjacency-carrier transport, forbidden-ledger exhaustion, and the singleton-forbidden-row $\GoldenMeanShiftUp$ scope.}
 \end{closurestatus}
