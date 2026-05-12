@@ -86,6 +86,29 @@ sort or variable has the same endpoint.
 \leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
 \leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
 
+\subsection{Encoding Overview}\label{subsec:reconstruction-encoding-overview}
+
+The encoding in \texttt{BEDC.MetaCIC} is a direct Lean representation of the
+fragment. \texttt{Term} is an inductive syntax type with five constructors:
+\texttt{var}, \texttt{app}, \texttt{lam}, \texttt{pi}, and \texttt{sort}.
+Contexts are the abbreviation \texttt{Ctx := List Term}, and
+\texttt{Ctx.lookup} synchronizes lookup with de Bruijn shifting across binder
+slots.
+
+The substitution and shift operations are the standard de Bruijn operations:
+descent below a binder raises the depth by one, and the substituted value is
+shifted by \texttt{shift 0 1}. The typing predicate \texttt{HasType} is
+inductive and uses a shift-aware binder slot, namely
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom}$, when checking lambda and Pi bodies.
+
+Reduction is split into three inductive relations. \texttt{BetaStep} gives
+single-step $\beta$ contraction with congruence rules; \texttt{BetaStarStep}
+gives the multi-step closure; and \texttt{BetaParallel} gives the
+Tait--Martin-L\"of parallel relation. Closure is represented by the indexed
+inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
+inductive types or definitions, use no axioms, and have exactly the strength of
+the host CIC that checks them.
+
 \subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
 
 The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
