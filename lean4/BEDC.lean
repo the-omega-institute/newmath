@@ -333,6 +333,7 @@ import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -939,6 +940,7 @@ import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.ContinuationAutomatonUp.TasteGate
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
