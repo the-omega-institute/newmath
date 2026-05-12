@@ -11,6 +11,11 @@ typedef struct {
     size_t len;
 } ProbeBundleFixture;
 
+typedef struct {
+    unsigned value;
+    size_t depth;
+} HistFixture;
+
 static int bits_to_bytes(const char *input_bits, uint8_t **out, size_t *out_len) {
     size_t in_len = strlen(input_bits);
     uint8_t *in_bytes = (uint8_t *)malloc(in_len ? in_len : 1);
@@ -25,6 +30,193 @@ static int bits_to_bytes(const char *input_bits, uint8_t **out, size_t *out_len)
     *out = in_bytes;
     *out_len = in_len;
     return 1;
+}
+
+static size_t append_bit_chars(char *dst, size_t off, const char *bits, size_t len) {
+    for (size_t i = 0; i < len; i++) {
+        dst[off++] = bits[i];
+    }
+    dst[off] = '\0';
+    return off;
+}
+
+static size_t append_unary_tag(char *dst, size_t off, size_t tag) {
+    for (size_t i = 0; i < tag; i++) {
+        dst[off++] = '0';
+    }
+    return append_bit_chars(dst, off, "1011", 4);
+}
+
+static size_t encode_bhist_bits(const uint8_t *choices,
+                                size_t depth,
+                                char *out,
+                                size_t out_cap) {
+    size_t off = 0;
+
+    for (size_t i = 0; i < depth; i++) {
+        if (choices[i] == 0) {
+            if (off + 1 >= out_cap) return 0;
+            out[off++] = '0';
+        } else {
+            if (off + 2 >= out_cap) return 0;
+            out[off++] = '1';
+            out[off++] = '0';
+        }
+    }
+
+    if (off + 2 >= out_cap) return 0;
+    out[off++] = '1';
+    out[off++] = '1';
+    out[off] = '\0';
+    return off;
+}
+
+static void make_bhist_choices(unsigned value,
+                               size_t depth,
+                               uint8_t *choices) {
+    for (size_t i = 0; i < depth; i++) {
+        size_t shift = depth - i - 1;
+        choices[i] = (uint8_t)((value >> shift) & 1u);
+    }
+}
+
+static size_t append_bhist_fixture(char *out,
+                                   size_t off,
+                                   size_t out_cap,
+                                   HistFixture h) {
+    uint8_t choices[4];
+    char bits[16];
+    size_t len;
+
+    make_bhist_choices(h.value, h.depth, choices);
+    len = encode_bhist_bits(choices, h.depth, bits, sizeof(bits));
+    if (len == 0 || off + len + 1 > out_cap) return 0;
+    return append_bit_chars(out, off, bits, len);
+}
+
+static size_t append_empty_bundle(char *out, size_t off, size_t out_cap) {
+    if (off + 6 + 1 > out_cap) return 0;
+    return append_bit_chars(out, off, "101011", 6);
+}
+
+static size_t append_claim_bits(char *out,
+                                size_t off,
+                                size_t out_cap,
+                                int claimed_psame,
+                                int claimed_hsame) {
+    const char *p = claimed_psame ? "10" : "0";
+    const char *h = claimed_hsame ? "10" : "0";
+
+    if (off + strlen(p) + strlen(h) + 2 + 1 > out_cap) return 0;
+    off = append_bit_chars(out, off, p, strlen(p));
+    off = append_bit_chars(out, off, h, strlen(h));
+    return append_bit_chars(out, off, "11", 2);
+}
+
+static int build_token_input(HistFixture s,
+                             HistFixture p,
+                             char *out,
+                             size_t out_cap) {
+    size_t off = append_unary_tag(out, 0, 0);
+    off = append_empty_bundle(out, off, out_cap);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, s);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, p);
+    return off != 0;
+}
+
+static int build_psame_input(HistFixture s,
+                             HistFixture t,
+                             HistFixture p,
+                             HistFixture q,
+                             char *out,
+                             size_t out_cap) {
+    size_t off = append_unary_tag(out, 0, 1);
+    off = append_empty_bundle(out, off, out_cap);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, s);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, t);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, p);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, q);
+    return off != 0;
+}
+
+static int build_classification_input(HistFixture s,
+                                      HistFixture t,
+                                      HistFixture p,
+                                      HistFixture q,
+                                      int claimed_psame,
+                                      int claimed_hsame,
+                                      char *out,
+                                      size_t out_cap) {
+    size_t off = append_unary_tag(out, 0, 2);
+    off = append_empty_bundle(out, off, out_cap);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, s);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, t);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, p);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, q);
+    if (off == 0) return 0;
+    off = append_claim_bits(out, off, out_cap, claimed_psame, claimed_hsame);
+    return off != 0;
+}
+
+static int build_chain_input(HistFixture a,
+                             HistFixture b,
+                             HistFixture c,
+                             HistFixture p,
+                             HistFixture q,
+                             HistFixture r,
+                             char *out,
+                             size_t out_cap) {
+    size_t off = append_unary_tag(out, 0, 3);
+    off = append_empty_bundle(out, off, out_cap);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, a);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, b);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, c);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, p);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, q);
+    if (off == 0) return 0;
+    off = append_bhist_fixture(out, off, out_cap, r);
+    return off != 0;
+}
+
+static char *package_algo_certificate(const char *input_bits) {
+    size_t input_len = strlen(input_bits);
+    size_t ones = 0;
+    char *out;
+    size_t o = 0;
+
+    assert(input_len <= 128);
+    for (size_t i = 0; i < input_len; i++) {
+        assert(input_bits[i] == '0' || input_bits[i] == '1');
+        if (input_bits[i] == '1') ones++;
+    }
+
+    out = (char *)malloc(ones * 8 + 1);
+    assert(out != NULL);
+    for (size_t i = 0; i < input_len; i++) {
+        if (input_bits[i] == '1') {
+            out[o++] = '1';
+            for (int bit = 6; bit >= 0; bit--) {
+                out[o++] = ((i >> (size_t)bit) & 1u) ? '1' : '0';
+            }
+        }
+    }
+    out[o] = '\0';
+    return out;
 }
 
 static void free_bundle(ProbeBundleFixture *bundle) {
@@ -287,6 +479,137 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static void assert_package_algo_ct_case(const char *input_bits, int expected_holds) {
+    char *expected = package_algo_certificate(input_bits);
+    MrResult r;
+
+    assert(decode_package_holds(input_bits) == expected_holds);
+    r = mr_run_ct_manifest("manifests/package/package_basic.algo.ct",
+                           input_bits,
+                           expected,
+                           strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "package_basic.algo CT FAIL on input=%s expected=%s result=%d\n",
+                input_bits, expected, (int)r);
+    }
+    free(expected);
+    assert(r == MR_PASS);
+}
+
+static int hist_fixture_equal(HistFixture a, HistFixture b) {
+    return a.depth == b.depth && a.value == b.value;
+}
+
+static int expected_token_fixture(HistFixture s, HistFixture p) {
+    return hist_fixture_equal(s, p);
+}
+
+static int expected_psame_fixture(HistFixture s,
+                                  HistFixture t,
+                                  HistFixture p,
+                                  HistFixture q) {
+    return hist_fixture_equal(s, p) &&
+           hist_fixture_equal(t, q) &&
+           hist_fixture_equal(s, t);
+}
+
+static void test_package_algo_ct_runner_cases(void) {
+    struct { const char *input; int holds; } cases[] = {
+        {"10111010111111", 1},
+        {"101110110010111010110101101011", 1},
+        {"10111010110111011", 0},
+        {"1011111111", 0},
+        {"101110101111111011", 0},
+        {"0101110101111111111", 1},
+        {"010110101110101101011010110101101011", 1},
+        {"010110101110101101011010110101101011", 1},
+        {"0101110101101110110111011", 0},
+        {"010111010110110110111011", 0},
+        {"0101110101111111111011", 0},
+        {"00101110101111111111101011", 1},
+        {"0010111011101011011101101110110011", 1},
+        {"0010111010111111111101011", 0},
+        {"0010111010110111011011101101011", 0},
+        {"0010111010110110110111011101011", 0},
+        {"0001011101011100111001110011100111001110011", 1},
+        {"000101110101101101110110110111011", 0},
+        {"00001011101011", 0},
+    };
+    size_t n = sizeof(cases) / sizeof(cases[0]);
+
+    for (size_t i = 0; i < n; i++) {
+        assert_package_algo_ct_case(cases[i].input, cases[i].holds);
+    }
+    printf("  package_basic.algo.ct_runner: 19/19 cases PASS\n");
+}
+
+static void test_package_algo_small_sweep(void) {
+    HistFixture hist[] = {
+        {0, 0},
+        {0, 1},
+        {1, 1},
+        {0, 2},
+        {1, 2},
+        {2, 2},
+        {3, 2},
+    };
+    size_t hist_n = sizeof(hist) / sizeof(hist[0]);
+    char input[128];
+    size_t checked = 0;
+
+    for (size_t s = 0; s < hist_n; s++) {
+        for (size_t p = 0; p < hist_n; p++) {
+            assert(build_token_input(hist[s], hist[p], input, sizeof(input)));
+            assert_package_algo_ct_case(input, expected_token_fixture(hist[s], hist[p]));
+            checked++;
+        }
+    }
+
+    for (size_t s = 0; s < hist_n; s++) {
+        for (size_t t = 0; t < hist_n; t++) {
+            for (size_t p = 0; p < hist_n; p++) {
+                size_t q = (s + t + p) % hist_n;
+                int expected = expected_psame_fixture(hist[s], hist[t], hist[p], hist[q]);
+                assert(build_psame_input(hist[s], hist[t], hist[p], hist[q],
+                                         input, sizeof(input)));
+                assert_package_algo_ct_case(input, expected);
+                checked++;
+            }
+        }
+    }
+
+    for (size_t s = 0; s < hist_n; s++) {
+        for (size_t t = 0; t < hist_n; t++) {
+            size_t p = s;
+            size_t q = t;
+            int actual = expected_psame_fixture(hist[s], hist[t], hist[p], hist[q]);
+            assert(build_classification_input(hist[s], hist[t], hist[p], hist[q],
+                                              actual, actual, input, sizeof(input)));
+            assert_package_algo_ct_case(input, 1);
+            checked++;
+        }
+    }
+
+    for (size_t a = 0; a < hist_n; a++) {
+        size_t b = a;
+        size_t c = a;
+        assert(build_chain_input(hist[a], hist[b], hist[c],
+                                 hist[a], hist[b], hist[c],
+                                 input, sizeof(input)));
+        assert_package_algo_ct_case(input, 1);
+        checked++;
+
+        c = (a + 1) % hist_n;
+        assert(build_chain_input(hist[a], hist[b], hist[c],
+                                 hist[a], hist[b], hist[c],
+                                 input, sizeof(input)));
+        assert_package_algo_ct_case(input, 0);
+        checked++;
+    }
+
+    printf("  package_basic.algo.small_sweep: %zu bounded CT cases PASS\n", checked);
+}
+
 static void test_package_basic_enum(void) {
     assert(decode_package_holds("10111010111111"));
     assert(decode_package_holds("101110110010111010110101101011"));
@@ -340,21 +663,16 @@ static void test_package_basic_algo(void) {
     assert(!decode_package_holds("000101110101101101110110110111011"));
     assert(!decode_package_holds("00001011101011"));
 
-    assert_manifest_smoke("manifests/package/package_basic.algo.ct",
-                          "10111010111111");
+    test_package_algo_ct_runner_cases();
+    test_package_algo_small_sweep();
     printf("  package_basic.algo: 19/19 cases PASS\n");
 }
 
 static void pipeline_smoke_test_package_manifests(void) {
-    struct { const char *path; const char *input; } cases[] = {
-        {"manifests/package/package_basic.enum.ct", "10111010111111"},
-        {"manifests/package/package_basic.algo.ct", "10111010111111"},
-    };
-    size_t n = sizeof(cases) / sizeof(cases[0]);
-    for (size_t i = 0; i < n; i++) {
-        assert_manifest_smoke(cases[i].path, cases[i].input);
-    }
-    printf("  pipeline_smoke (2 package manifests, all halt-empty in <=200 steps): PASS\n");
+    assert_manifest_smoke("manifests/package/package_basic.enum.ct",
+                          "10111010111111");
+    assert_package_algo_ct_case("10111010111111", 1);
+    printf("  pipeline_smoke (2 package manifests): PASS\n");
 }
 
 int main(void) {
@@ -362,6 +680,6 @@ int main(void) {
     test_package_basic_enum();
     test_package_basic_algo();
     pipeline_smoke_test_package_manifests();
-    printf("ALL test_package assertions passed (38 Package cases + 2-manifest pipeline smoke)\n");
+    printf("ALL test_package assertions passed (38 Package cases + bounded CT certificates)\n");
     return 0;
 }
