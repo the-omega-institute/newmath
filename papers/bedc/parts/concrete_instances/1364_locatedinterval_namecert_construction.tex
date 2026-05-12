@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalUp$}
+\label{ch:concrete-instances-locatedinterval-namecert}
+\origin{human}
+
+The $\LocatedIntervalUp$ packet names a finite interval surface whose endpoints are carried as located real names while its inspection ledgers remain rational and dyadic. In the Bishop--Bridges constructive-analysis setting, an interval is read through explicit endpoint names, rational cells, dyadic refinements, and finite real-name windows; it is not a host interval primitive and does not choose completed endpoint values.
+
+\begin{definition}[LocatedInterval carrier]
+\label{def:located-interval-carrier}
+A $\LocatedIntervalUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is the lower endpoint row, a $\LocatedRealUp$ packet displayed in the same history;
+\item $U$ is the upper endpoint row, a $\LocatedRealUp$ packet displayed in the same history;
+\item $I$ is a $\RationalIntervalUp$ cell ledger whose endpoint and containment rows give the rational windows currently enclosing the endpoint reads;
+\item $D$ is the optional finite family of $\DyadicIntervalUp$ refinement rows attached to selected rational cells;
+\item $S$ is the $\StreamNameUp$ window ledger naming the finite endpoint observations inspected from $L$ and $U$;
+\item $R$ records the $\RegSeqRatUp$ readbacks used by those endpoint windows;
+\item $E$ records the $\RealUp$ seal-facing rows for the lower and upper endpoint names;
+\item $H$ records the componentwise $\hsame$ transports for located endpoints, rational cells, dyadic refinements, stream windows, readbacks, and seal rows;
+\item $C$ records the displayed $\Cont$ read routes by which a finite consumer reaches exactly those endpoint, interval, refinement, window, readback, and seal rows;
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the local rational source rows;
+\item $N$ is the local $\NameCert_{\LocatedIntervalUp}$ provenance row.
+\end{enumerate}
+The carrier predicate is the assertion that these rows form one finite located interval packet. It has no coordinate for a host real interval, an endpoint choice functional, a quotient of real names, or an ambient order-completeness theorem.
+\end{definition}
+
+\begin{theorem}[LocatedInterval NameCert obligations]
+\label{thm:located-interval-namecert-obligations}
+The local $\NameCert_{\LocatedIntervalUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation, given by any displayed pair of $\LocatedRealUp$ endpoint rows together with a rational cell ledger enclosing the inspected endpoint windows;
+\item endpoint transport, which moves the lower and upper $\LocatedRealUp$ rows componentwise through the stored $\hsame$ and $\Cont$ witnesses;
+\item interval containment exactness, which says that every containment read is one of the rational cells in $I$ or one of the dyadic refinements in $D$ routed by the packet;
+\item refinement handoff, which permits a $\DyadicIntervalUp$ refinement row only as a finite refinement of a displayed $\RationalIntervalUp$ cell;
+\item non-escape of host real intervals, which forces every endpoint, containment, and seal read through $L$, $U$, $I$, $D$, $S$, $R$, $E$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+These rows are exactly the naming-certificate surface for located real endpoint data bound to rational and dyadic interval ledgers.
+\end{theorem}
+\begin{proof}
+Carrier habitation is obtained by packaging the two displayed endpoint names with one rational cell ledger and the finite observation windows used to read them. The packet stores those rows directly, so no external interval carrier is needed.
+
+Endpoint transport is componentwise. The lower endpoint row and the upper endpoint row each move along their own $\hsame$ comparison and the displayed $\Cont$ route that reads the corresponding finite window.
+
+Containment exactness is a projection from the carrier. A rational containment read must come from $I$, and a dyadic containment read must come from one of the refinement rows in $D$; both are routed by the same history and package provenance.
+
+For the refinement handoff, read a dyadic row only together with the rational cell it refines. Repacking that pair preserves the interval surface because the consumer still sees the same endpoints, window routes, and readback rows.
+
+The non-escape row follows by inspecting the coordinates of \autoref{def:located-interval-carrier}. There is no field from which a host interval, chosen endpoint value, quotient real, or ambient completeness principle could be exported.
+\end{proof}
+
+\begin{theorem}[LocatedInterval endpoint transport]
+\label{thm:located-interval-endpoint-transport}
+Let two accepted $\LocatedIntervalUp$ packets be related by the displayed componentwise transport rows. Then the lower $\LocatedRealUp$ endpoint, the upper $\LocatedRealUp$ endpoint, the $\RationalIntervalUp$ cell ledger, every present $\DyadicIntervalUp$ refinement row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, and the $\RealUp$ seal rows transport together as one located interval packet.
+
+Consequently a consumer of the transported packet can read only the transported endpoint rows and the transported interval ledgers carried by the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:located-interval-carrier}. The hypotheses give separate transport rows for the lower endpoint, upper endpoint, rational cell ledger, dyadic refinements, stream windows, readbacks, and seal rows.
+
+Transport the two endpoint names first. Their $\LocatedRealUp$ windows and $\RealUp$ seal-facing rows move by the stated componentwise $\hsame$ witnesses and keep the same finite read routes.
+
+Next transport the interval ledger. The rational cells in $I$ and the dyadic refinement rows in $D$ are carried by their own displayed comparisons, so each transported containment row remains attached to the transported endpoint windows.
+
+Finally repack the transported rows with the transported package and local naming provenance. Since the carrier admits only these projected rows, the transported packet has no additional consumer route beyond the displayed endpoint and interval data.
+\end{proof}
+
+\closureat{LocatedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalUp}
+  \constructivestory{A $\LocatedIntervalUp$ packet is generated from lower and upper $\LocatedRealUp$ endpoint rows, a $\RationalIntervalUp$ cell ledger, optional $\DyadicIntervalUp$ refinements, $\StreamNameUp$ endpoint windows, $\RegSeqRatUp$ readbacks, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the carrier, local obligation surface, and endpoint-transport rule for finite located interval packets over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host interval primitives, selected endpoint values, quotient real equality, ambient order completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier habitation, endpoint transport, rational containment exactness, dyadic refinement handoff, and real-seal non-escape for the displayed packet.}
+\end{closurestatus}
