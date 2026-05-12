@@ -138,6 +138,7 @@ import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -334,6 +335,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyDiagonalUp.CompletionSealComposition
 import BEDC.Derived.RegularCauchyDiagonalUp.DownstreamRoute
+import BEDC.Derived.RegularCauchyDiagonalUp.FormalTargetBoundary
 import BEDC.Derived.RegularCauchyDiagonalUp.MatureConsumerExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
 import BEDC.Derived.RegularCauchyDiagonalUp.ReadbackExactness
@@ -346,6 +348,7 @@ import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularCauchyNameUp
+import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
