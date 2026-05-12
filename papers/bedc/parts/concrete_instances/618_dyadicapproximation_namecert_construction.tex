@@ -218,17 +218,51 @@ Route the $\RealUp$ seal through \autoref{thm:dyadicapproximation-real-seal-scop
 Finally use \autoref{thm:dyadicapproximation-ledger-exclusion-scope}. Its ledger exclusions give the negative claims: the public export has no row for quotient reals, host equality, completion points, trichotomy, or selected representatives.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation standard bridge]\label{thm:dyadicapproximation-standard-bridge}
+The public finite-window export of
+\autoref{thm:dyadicapproximation-public-finite-window-export} has a
+conservative standard dyadic-approximation reading. Reading that standard
+finite-precision packet back into $\DyadicApproximationUp$ recovers the same
+finite precision row, dyadic endpoint rows, classifier transport, $\RealUp$
+seal handoff, displayed $\hsame$ rows, displayed $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+
+The bridge adds no completed $\RealUp$ equality, quotient real, host real
+equality, trichotomy, selected representative, or classical approximation
+completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:dyadicapproximation-public-finite-window-export}. The public
+surface is the finite precision row together with the dyadic endpoint,
+finite-window schedule, regular-sequence readback, seal ledger, transport,
+route, package, and certificate rows.
+
+Apply \autoref{thm:dyadic-approximation-common-precision-refinement} to place
+the standard finite-precision read and the BEDC readback on the same displayed
+precision row. Then use
+\autoref{thm:dyadic-approximation-classifier-transport} to carry the endpoint
+classifier through the visible $\hsame$ and $\Cont$ data.
+
+Finally route the seal through \autoref{thm:dyadicapproximation-real-seal-scope}
+and return to the public export. These cited surfaces supply exactly the rows
+listed in the statement and no coordinate for completed real equality, quotient
+reals, host equality, trichotomy, selected representatives, or classical
+approximation completeness.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
+\closureat{DyadicApproximationUp}{publicStr}
 
 \begin{closurestatus}{\DyadicApproximationUp}
   \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:dyadic-approximation-kernel-scope-package}, together with \autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, and \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, binds the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions to the displayed $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, and \autoref{thm:dyadicapproximation-public-finite-window-export} form the public finite-window export surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
-  \upgradepath{Public closure requires a consumer-facing export theorem for the same finite dyadic approximation packet.}
+  \upgradepath{Bridged closure requires a standard bridge theorem for the same finite dyadic approximation packet.}
 \end{closurestatus}
