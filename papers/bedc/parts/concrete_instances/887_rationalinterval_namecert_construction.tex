@@ -200,6 +200,47 @@ exports one finite rational observation window and no completed $\RealUp$
 object.
 \end{proof}
 
+\begin{theorem}[RationalInterval directed refinement basis]
+\label{thm:rational-interval-directed-refinement-basis}
+Any finite family of compatible accepted $\RationalIntervalUp$ packets admits
+one displayed finite rational-window basis packet. Its rows are exactly the
+transported $\RatUp$ lower and upper endpoints, endpoint-order witnesses,
+containment ledgers, displayed $\hsame$ transports, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert_{\RationalIntervalUp}$
+evidence needed by the family.
+
+This basis is directed for $\RegSeqRatUp$ and finite-window $\RealUp$
+consumers: every member packet maps to it by finite refinement rows, and every
+consumer read of the basis is one of the displayed rational-window rows. It
+exports no completed $\RealUp$ equality, located subset, apartness witness,
+interval arithmetic law, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with two compatible accepted packets. Apply
+\autoref{thm:rational-interval-common-refinement-window} to obtain their common
+finite rational observation window. The resulting packet already contains only
+transported endpoint rows, the order witness, containment ledger, displayed
+transport, continuation, package, and local naming evidence.
+
+Extend from two packets to a finite family by iterating the binary construction
+along the displayed finite list of packets. At each step, use
+\autoref{thm:rational-interval-refinement-composition} to compose the previous
+basis row with the next common-refinement row, so the accumulated packet remains
+a single finite rational window.
+
+The endpoint rows of the accumulated basis are controlled by
+\autoref{thm:rational-interval-endpoint-transport-classifier}. Lower endpoints
+transport only along lower $\RatUp$ coordinates, upper endpoints transport only
+along upper $\RatUp$ coordinates, and the order witness is replayed over those
+transported rows.
+
+Finally apply
+\autoref{thm:rational-interval-window-consumer-exhaustion}. It accounts for all
+$\RegSeqRatUp$ and finite-window $\RealUp$ reads of the basis, so no completed
+real equality, located subset, apartness witness, interval arithmetic law, or
+standard bridge can be projected from the directed finite-window packet.
+\end{proof}
+
 \begin{theorem}[RationalInterval RealUp consumer exactness]
 \label{thm:rational-interval-realup-consumer-exactness}
 Every finite-window $\RealUp$ consumer of an accepted $\RationalIntervalUp$
