@@ -67,9 +67,9 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
-import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
@@ -79,9 +79,9 @@ import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
-import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
+import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
@@ -158,6 +158,7 @@ import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
@@ -182,6 +183,7 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
@@ -219,7 +221,6 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.ComplexityClassUp
-import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.CurvatureUp
@@ -258,7 +259,6 @@ import BEDC.Derived.DyadicBallUp.RadiusWindowMonotonicity
 import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp
-import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
@@ -268,7 +268,6 @@ import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
 import BEDC.Derived.DirichletUnitUp
-import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.RegulatorUp
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DyadicIntervalUp
