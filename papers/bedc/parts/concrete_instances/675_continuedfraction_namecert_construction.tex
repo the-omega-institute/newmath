@@ -222,6 +222,35 @@ the finite handoff rows, the seal boundary, the package provenance, and the
 local name-certificate dependency rows already present in the packet.
 \end{proof}
 
+\begin{theorem}[ContinuedFraction scoped dependency binding]
+\label{thm:continuedfraction-scoped-dependency-binding}
+The carrier and classifier rows, recurrence ledger, finite handoff,
+$\RegSeqRatUp$ handoff, and $\RealUp$ boundary of an accepted
+$\ContinuedFractionUp$ packet are all bound to the existing $\NatUp$, $\RatUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ source rows through
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+dependencies.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:continuedfraction-carrier} and
+\autoref{def:continuedfraction-classifier} to identify the visible carrier and
+classifier rows. The obligation surface is recorded by
+\autoref{thm:continuedfraction-namecert-obligations}.
+
+The recurrence and finite handoff rows are supplied by
+\autoref{thm:continuedfraction-obligation-recurrence-ledger} and
+\autoref{thm:continuedfraction-obligation-finite-handoff}. The external
+handoff and boundary are supplied by
+\autoref{thm:continuedfraction-regseqrat-handoff},
+\autoref{thm:continuedfraction-real-boundary}, and
+\autoref{thm:continuedfraction-obligation-real-boundary}.
+
+Together these rows bind the packet to the listed source chapters through the
+displayed history, equality, continuation, package, and local certificate
+dependencies. No convergence theorem for arbitrary continued fractions is
+claimed.
+\end{proof}
+
 \closureat{ContinuedFractionUp}{seedStr}
 \closureat{ContinuedFractionUp}{obligationStr}
 
