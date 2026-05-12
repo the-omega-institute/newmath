@@ -108,4 +108,58 @@ theorem FiniteMapCarrier_public_support_lookup_boundary [AskSetup] [PackageSetup
       supportBoundaryUnary, supportReadUnary, spineQueryLookup, lookupDuplicateResult,
       spineDuplicateSupport, supportProvenanceRead, provenancePkg, supportReadPkg⟩
 
+theorem FiniteMapCarrier_support_lookup_consumer_determinacy [AskSetup] [PackageSetup]
+    {spine query lookupRoute result duplicateLedger provenance spine' query' lookupRoute' result'
+      duplicateLedger' provenance' supportBoundary supportBoundary' supportRead supportRead' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteMapCarrier spine query lookupRoute result duplicateLedger provenance bundle pkg ->
+      FiniteMapCarrier spine' query' lookupRoute' result' duplicateLedger' provenance'
+          bundle pkg ->
+        hsame spine spine' ->
+          hsame query query' ->
+            hsame duplicateLedger duplicateLedger' ->
+              hsame provenance provenance' ->
+                Cont spine duplicateLedger supportBoundary ->
+                  Cont spine' duplicateLedger' supportBoundary' ->
+                    Cont supportBoundary provenance supportRead ->
+                      Cont supportBoundary' provenance' supportRead' ->
+                        PkgSig bundle supportRead pkg ->
+                          PkgSig bundle supportRead' pkg ->
+                            hsame lookupRoute lookupRoute' ∧ hsame result result' ∧
+                              hsame supportBoundary supportBoundary' ∧
+                                hsame supportRead supportRead' ∧ UnaryHistory supportRead ∧
+                                  UnaryHistory supportRead' := by
+  intro carrier carrier' sameSpine sameQuery sameDuplicateLedger sameProvenance
+    spineDuplicateSupport spineDuplicateSupport' supportProvenanceRead supportProvenanceRead'
+    _supportReadPkg _supportReadPkg'
+  rcases carrier with
+    ⟨spineUnary, _queryUnary, _lookupUnary, _resultUnary, duplicateUnary, provenanceUnary,
+      spineQueryLookup, lookupDuplicateResult, _provenancePkg⟩
+  rcases carrier' with
+    ⟨spineUnary', _queryUnary', _lookupUnary', _resultUnary', duplicateUnary',
+      provenanceUnary', spineQueryLookup', lookupDuplicateResult', _provenancePkg'⟩
+  have sameLookup : hsame lookupRoute lookupRoute' :=
+    cont_respects_hsame sameSpine sameQuery spineQueryLookup spineQueryLookup'
+  have sameResult : hsame result result' :=
+    cont_respects_hsame sameLookup sameDuplicateLedger lookupDuplicateResult
+      lookupDuplicateResult'
+  have sameSupportBoundary : hsame supportBoundary supportBoundary' :=
+    cont_respects_hsame sameSpine sameDuplicateLedger spineDuplicateSupport
+      spineDuplicateSupport'
+  have sameSupportRead : hsame supportRead supportRead' :=
+    cont_respects_hsame sameSupportBoundary sameProvenance supportProvenanceRead
+      supportProvenanceRead'
+  have supportBoundaryUnary : UnaryHistory supportBoundary :=
+    unary_cont_closed spineUnary duplicateUnary spineDuplicateSupport
+  have supportBoundaryUnary' : UnaryHistory supportBoundary' :=
+    unary_cont_closed spineUnary' duplicateUnary' spineDuplicateSupport'
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed supportBoundaryUnary provenanceUnary supportProvenanceRead
+  have supportReadUnary' : UnaryHistory supportRead' :=
+    unary_cont_closed supportBoundaryUnary' provenanceUnary' supportProvenanceRead'
+  exact
+    ⟨sameLookup, sameResult, sameSupportBoundary, sameSupportRead, supportReadUnary,
+      supportReadUnary'⟩
+
 end BEDC.Derived.FiniteMapUp
