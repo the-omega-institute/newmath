@@ -257,6 +257,40 @@ selected recognizer semantics, or hidden automaton state, the public packet
 exports no such object.
 \end{proof}
 
+\begin{theorem}[RegularLanguage transition-ledger standard boundary]
+\label{thm:regularlanguage-transition-ledger-standard-boundary}
+The standard finite-automaton reading of a public
+$\NameCert_{\RegularLanguageUp}$ packet may consume exactly the finite alphabet
+row, finite state row, start row, accepting-state row, transition table,
+$\ListUp$ word spine, deterministic run ledger, accepted endpoint, displayed
+$\hsame$ transport rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance.
+
+It cannot read a host language quotient, regular-expression equivalence,
+minimization result, infinite automaton, or hidden recognizer state.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from
+\autoref{def:regularlanguage-finite-automaton-carrier}. These are precisely
+the finite alphabet, finite state, start, accepting-state, transition-table,
+word-spine, deterministic-run, and accepted-endpoint rows available to the
+standard finite-automaton reading.
+
+Use \autoref{def:regularlanguage-classifier} to bind classifier reads to the
+displayed $\hsame$ comparisons. Then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger}; the run is reconstructed
+from the displayed start row, transition table, and $\ListUp$ word spine.
+
+Next apply \autoref{thm:regularlanguage-classified-word-transport}. It carries
+the accepted endpoint through the displayed transport rows and does not add a
+host-language coordinate.
+
+Finally apply \autoref{thm:regularlanguage-public-accepted-word-export}. The
+public export repacks the carrier, classifier, run-ledger, endpoint,
+continuation, and package rows as the visible certificate surface, while the
+excluded quotient, equivalence, minimization, infinite-automaton, and hidden
+recognizer objects are not rows of that surface.
+\end{proof}
+
 \begin{theorem}[RegularLanguage standard finite-automaton bridge boundary]
 \label{thm:regularlanguage-standard-automaton-bridge-boundary}
 The standard finite-automaton reading of the public $\RegularLanguageUp$ packet
