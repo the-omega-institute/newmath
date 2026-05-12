@@ -52,4 +52,23 @@ theorem FreeMonoidWordCarrier_concat_associativity [AskSetup] [PackageSetup]
   cases rightRow
   exact append_assoc u v w
 
+theorem FreeMonoidWordCarrier_ledger_normal_form [AskSetup] [PackageSetup]
+    {word route provenance endpoint : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier word route provenance bundle pkg -> Cont word route endpoint ->
+      PkgSig bundle endpoint pkg ->
+        UnaryHistory word ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+          UnaryHistory endpoint ∧ Cont word route provenance ∧ Cont word route endpoint ∧
+            hsame provenance endpoint ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier endpointRow endpointSig
+  rcases carrier with
+    ⟨wordUnary, routeUnary, provenanceUnary, provenanceRow, provenanceSig⟩
+  have sameProvenanceEndpoint : hsame provenance endpoint :=
+    cont_deterministic provenanceRow endpointRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport provenanceUnary sameProvenanceEndpoint
+  exact
+    ⟨wordUnary, routeUnary, provenanceUnary, endpointUnary, provenanceRow, endpointRow,
+      sameProvenanceEndpoint, provenanceSig, endpointSig⟩
+
 end BEDC.Derived.FreeMonoidUp
