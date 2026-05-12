@@ -179,6 +179,21 @@ instance finiteMultiHistPacketChapterTasteGate : ChapterTasteGate FiniteMultiHis
     intro x y hxy heq
     exact hxy (finiteMultiHistPacketToEventFlow_injective heq)
 
+theorem FiniteMultiHistPacketUp_taste_gate_boundary :
+    ChapterTasteGate FiniteMultiHistPacketUp ∧
+      ∃ x : FiniteMultiHistPacketUp,
+        x =
+          FiniteMultiHistPacketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x : FiniteMultiHistPacketUp :=
+    FiniteMultiHistPacketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty
+  constructor
+  · exact finiteMultiHistPacketChapterTasteGate
+  · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
 theorem FiniteMultiHistPacketTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h) ∧

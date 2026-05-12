@@ -206,16 +206,50 @@ Apply \autoref{thm:regular-limit-uniqueness-obligation-closure-package}. It repa
 Finally apply \autoref{thm:regular-limit-uniqueness-choice-free-ledger-exhaustion}. Since every exported route is already exhausted by the displayed coordinates, no unlisted host or quotient object can enter the scoped uniqueness packet.
 \end{proof}
 
+\begin{theorem}[RegularLimitUniqueness scoped handoff]
+\label{thm:regular-limit-uniqueness-scoped-handoff}
+The shared-family scope of \autoref{thm:regular-limit-uniqueness-shared-family-scope}, the separated-comparison scope of \autoref{thm:regular-limit-uniqueness-separated-comparison-scope}, and the ledger non-escape scope of \autoref{thm:regular-limit-uniqueness-ledger-non-escape-scope} jointly bind every $\RegularLimitUniquenessUp$ consumer route to $\RegularCauchyFamilyUp$, $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Within this scoped handoff, no consumer may replace the displayed rows by a quotient stream, selected host limit, host equality, ambient completeness principle, or choice witness.
+\end{theorem}
+\begin{proof}
+Begin with the shared-family scope. It fixes the common $\RegularCauchyFamilyUp$ input, both $\RealDiagonalCompletionUp$ candidates, their $\RegSeqRatUp$ and $\StreamNameUp$ readbacks, the two $\RealUp$ seal rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Next use the separated-comparison scope. It binds the uniqueness comparison to the route from the shared family through diagonal completion and regular-rational readback into the two real seals, with the row $S$ as the only separated comparison.
+
+Finally apply the ledger non-escape scope together with the NameCert obligation package of \autoref{thm:regular-limit-uniqueness-namecert-obligations}. The non-escape row excludes quotient streams, selected host limits, host equality, ambient completeness, and choice, so the three scoped rows hand off exactly the displayed consumer surface and nothing outside it.
+\end{proof}
+
+\begin{theorem}[RegularLimitUniqueness public completion export]
+\label{thm:regular-limit-uniqueness-public-completion-export}
+The carrier of \autoref{def:regular-limit-uniqueness-carrier}, the NameCert obligations of \autoref{thm:regular-limit-uniqueness-namecert-obligations}, the separated-limit certificate of \autoref{thm:regular-limit-uniqueness-separated-limit-certificate}, classifier determinacy from \autoref{thm:regular-limit-uniqueness-classifier-determinacy}, readback seal exactness from \autoref{thm:regular-limit-uniqueness-readback-seal-exactness}, the shared-family scope of \autoref{thm:regular-limit-uniqueness-shared-family-scope}, the separated-comparison scope of \autoref{thm:regular-limit-uniqueness-separated-comparison-scope}, the scoped handoff of \autoref{thm:regular-limit-uniqueness-scoped-handoff}, and the ledger non-escape row of \autoref{thm:regular-limit-uniqueness-ledger-non-escape-scope} assemble a single public completion-consumer export for two diagonal completion candidates over one regular-Cauchy family.
+
+The exported route is exactly
+$$
+\RegularCauchyFamilyUp \longrightarrow \RealDiagonalCompletionUp \longrightarrow \RegSeqRatUp,\StreamNameUp \longrightarrow \RealUp
+$$
+through the separated row $S$. It exports no quotient stream comparison, selected host limit, host equality, ambient completeness principle, or choice witness.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligation package. They provide the shared family row, the two diagonal completion candidates, the shared threshold, the two readbacks, the two real seals, the separated row $S$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Next apply the separated-limit certificate, classifier determinacy, and readback seal exactness. These rows identify the only equality-facing comparison as the path from the two diagonal candidates through their $\RegSeqRatUp$ and $\StreamNameUp$ readbacks into the two $\RealUp$ seals, with $S$ as the separated comparison row.
+
+Finally use the shared-family scope, separated-comparison scope, scoped handoff, and ledger non-escape scope. Together they make the route public for completion consumers while excluding quotient streams, selected host limits, host equality, ambient completeness, and choice from the exported surface.
+\end{proof}
+
 \closureat{RegularLimitUniquenessUp}{seedStr}
 \closureat{RegularLimitUniquenessUp}{obligationStr}
+\closureat{RegularLimitUniquenessUp}{scopedStr}
+\closureat{RegularLimitUniquenessUp}{publicStr}
 
 \begin{closurestatus}{\RegularLimitUniquenessUp}
   \constructivestory{A $\RegularLimitUniquenessUp$ packet is generated from one regular-Cauchy family, two diagonal completion candidates, a shared Cauchy threshold, two regular-rational readbacks, two real seal rows, one separated comparison row, displayed transport and continuation rows, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the carrier, classifier transport, readback-to-seal exactness, separated comparison exactness, and ledger non-escape rows for two regular-Cauchy completion candidates over the same displayed input and boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface records the carrier, classifier transport, shared-family route, readback-to-seal exactness, separated comparison exactness, ledger non-escape rows, and completion-consumer export for two regular-Cauchy completion candidates over the same displayed input and boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, selected host limits, host real equality, ambient completeness, bridge checking, or a Lean implementation.}
-  \upgradepath{Scoped closure requires paper-level discharge of the same displayed carrier transport, separated seal exactness, and ledger non-escape rows.}
+  \upgradepath{Bridged closure requires a standard bridge for the displayed route from $\RegularCauchyFamilyUp$ through $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, and $\StreamNameUp$ to $\RealUp$.}
 \end{closurestatus}
