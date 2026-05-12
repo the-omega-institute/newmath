@@ -462,4 +462,37 @@ theorem RegularCauchyDiagonalCarrier_namecert_obligations [AskSetup] [PackageSet
     ⟨cert, ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary, windowLedgerUnary,
       provenancePkg⟩
 
+theorem RegularCauchyDiagonalCarrier_selector_fiber_exhaustion [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      fiberRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont selectedWindow regseqRead fiberRead ->
+          Cont regseqRead realSeal sealRead ->
+            PkgSig bundle fiberRead pkg ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory selectedWindow ∧ UnaryHistory fiberRead ∧
+                  UnaryHistory sealRead ∧ Cont windowLedger streamWindow selectedWindow ∧
+                    Cont selectedWindow regseqRead fiberRead ∧
+                      Cont regseqRead realSeal sealRead ∧ hsame windowLedger sealRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle fiberRead pkg ∧
+                          PkgSig bundle sealRead pkg := by
+  intro carrier windowSelection fiberRoute sealRoute fiberPkg sealPkg
+  obtain ⟨_ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary,
+    windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have fiberUnary : UnaryHistory fiberRead :=
+    unary_cont_closed selectedWindowUnary regseqReadUnary fiberRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqReadUnary realSealUnary sealRoute
+  have ledgerSameSeal : hsame windowLedger sealRead :=
+    cont_deterministic regseqSealLedger sealRoute
+  exact
+    ⟨selectedWindowUnary, fiberUnary, sealUnary, windowSelection, fiberRoute, sealRoute,
+      ledgerSameSeal, provenancePkg, fiberPkg, sealPkg⟩
+
 end BEDC.Derived.RegularCauchyDiagonalUp
