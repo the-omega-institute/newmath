@@ -108,4 +108,29 @@ theorem RationalBallPacket_radius_refinement_transport [AskSetup] [PackageSetup]
         transportProvenanceEndpoint', endpointPkg'⟩,
       sameOrder, sameTransport, sameEndpoint⟩
 
+theorem RationalBallPacket_realup_window_handoff [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory order ∧
+            UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+              Cont center radius order ∧ Cont order containment transport ∧
+                Cont transport provenance endpoint ∧ Cont containment endpoint consumer ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerPkg
+  obtain ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary consumerRow
+  exact
+    ⟨centerUnary, radiusUnary, orderUnary, containmentUnary, endpointUnary, consumerUnary,
+      centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint, consumerRow,
+      endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.RationalBallUp
