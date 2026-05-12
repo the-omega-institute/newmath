@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -22,6 +24,76 @@ def CompletionUniversalPropertyPacket [AskSetup] [PackageSetup]
     UnaryHistory realSeal ∧ UnaryHistory nameRow ∧
       Cont completion diagonal extensionLedger ∧ Cont regular realSeal denseMap ∧
         Cont extensionLedger uniquenessLedger provenance ∧ PkgSig bundle provenance pkg
+
+theorem CompletionUniversalPropertyPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {completion diagonal regular realSeal denseMap extensionLedger uniquenessLedger provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+        extensionLedger uniquenessLedger provenance nameRow bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row nameRow ∧
+              CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+                extensionLedger uniquenessLedger provenance nameRow bundle pkg)
+          (fun row : BHist => hsame row nameRow)
+          (fun row : BHist => hsame row nameRow ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory completion ∧ UnaryHistory diagonal ∧ UnaryHistory regular ∧
+          UnaryHistory realSeal ∧ UnaryHistory nameRow ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have packetWitness := packet
+  obtain ⟨completionUnary, diagonalUnary, regularUnary, realSealUnary, nameRowUnary,
+    _extensionRoute, _denseRoute, _provenanceRoute, provenancePkg⟩ := packet
+  have sourceNameRow :
+      (fun row : BHist =>
+        hsame row nameRow ∧
+          CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+            extensionLedger uniquenessLedger provenance nameRow bundle pkg) nameRow := by
+    exact ⟨hsame_refl nameRow, packetWitness⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row nameRow ∧
+            CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+              extensionLedger uniquenessLedger provenance nameRow bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro nameRow sourceNameRow
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _other _third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+    }
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row nameRow ∧
+              CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+                extensionLedger uniquenessLedger provenance nameRow bundle pkg)
+          (fun row : BHist => hsame row nameRow)
+          (fun row : BHist => hsame row nameRow ∧ PkgSig bundle provenance pkg)
+          hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg⟩
+    }
+  exact
+    ⟨cert, completionUnary, diagonalUnary, regularUnary, realSealUnary, nameRowUnary,
+      provenancePkg⟩
 
 theorem CompletionUniversalPropertyPacket_extension_obligations [AskSetup] [PackageSetup]
     {completion diagonal regular realSeal denseMap extensionLedger uniquenessLedger provenance
