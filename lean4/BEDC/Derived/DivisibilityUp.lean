@@ -116,6 +116,39 @@ theorem DivisibilityFiniteHistoryCarrier_order_bounded_ledger
     ledgerUnary, _provenanceUnary, _productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
   exact ⟨boundUnary, ledgerUnary, ledgerRow, provenanceRow, pkgRow⟩
 
+theorem DivisibilityFiniteHistoryCarrier_public_prime_modular_consumer_boundary
+    [AskSetup] [PackageSetup]
+    {dividend divisor multiplier product bound ledger provenance consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityFiniteHistoryCarrier dividend divisor multiplier product bound ledger
+        provenance bundle pkg ->
+      Cont provenance product consumer ->
+        UnaryHistory consumer ∧ hsame consumer (append provenance product) ∧
+          hsame product (append divisor multiplier) ∧ hsame ledger (append product bound) ∧
+            hsame provenance (append ledger provenance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier consumerRow
+  obtain ⟨_dividendUnary, _divisorUnary, _multiplierUnary, productUnary, _boundUnary,
+    _ledgerUnary, provenanceUnary, productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary productUnary consumerRow
+  exact ⟨consumerUnary, consumerRow, productRow, ledgerRow, provenanceRow, pkgRow⟩
+
+theorem DivisibilityFiniteHistoryCarrier_prime_modular_boundary
+    [AskSetup] [PackageSetup]
+    {dividend divisor multiplier product bound ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DivisibilityFiniteHistoryCarrier dividend divisor multiplier product bound ledger
+        provenance bundle pkg ->
+      UnaryHistory divisor ∧ UnaryHistory multiplier ∧ UnaryHistory product ∧
+        hsame product (append divisor multiplier) ∧ UnaryHistory bound ∧
+          hsame ledger (append product bound) ∧ hsame provenance (append ledger provenance) ∧
+            PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨_dividendUnary, divisorUnary, multiplierUnary, productUnary, boundUnary,
+    _ledgerUnary, _provenanceUnary, productRow, ledgerRow, provenanceRow, pkgRow⟩ := carrier
+  exact ⟨divisorUnary, multiplierUnary, productUnary, productRow, boundUnary,
+    ledgerRow, provenanceRow, pkgRow⟩
+
 theorem DivisibilityFiniteHistoryCarrier_mul_witness_transport_closure
     [AskSetup] [PackageSetup]
     {dividend divisor divisor' multiplier multiplier' product product' bound ledger
