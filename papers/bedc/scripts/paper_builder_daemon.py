@@ -153,7 +153,7 @@ def run_full_build() -> tuple[bool, str, float]:
         r = subprocess.run(
             ["make"],  # full main.pdf double-pass via slot-gated pdflatex
             cwd=str(paper_dir),
-            capture_output=True, text=True,
+            capture_output=True, text=True, errors="replace",
             timeout=BUILD_TIMEOUT_S,
         )
         elapsed = time.time() - start
