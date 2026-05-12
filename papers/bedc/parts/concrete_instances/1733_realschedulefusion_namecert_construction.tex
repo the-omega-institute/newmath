@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RealScheduleFusionUp$}
+\label{ch:concrete-instances-realschedulefusion-namecert}
+\origin{ai}
+
+The $\RealScheduleFusionUp$ chapter packages the finite schedule rows used by $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CompletionUp$ into one displayed $\NameCert$ surface. It keeps the window envelope, regular Cauchy readback, observer regularity, real seal, and completion handoff in a single finite packet, so downstream consumers read one row rather than reconstructing the same schedule from several neighboring certificates.
+
+The dependency anchors are $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$.
+
+\begin{definition}[Real schedule fusion carrier]
+\label{def:realschedulefusion-carrier}
+A $\RealScheduleFusionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row, naming the intended finite stream windows and the consumer-facing schedule identity;
+\item $W$ is the finite window ledger, recording the $\FiniteWindowEnvelopeUp$ windows, local window indices, and displayed window inclusions used by schedule consumers;
+\item $R$ is the $\RegSeqRatUp$ readback row, pairing each displayed window with the regular-rational readback supplied by the $\RegularCauchyNameUp$ side;
+\item $E$ is the $\RealUp$ and $\CompletionUp$ seal row, recording the real-name seal and the completion-handoff seal reached from the same readback row;
+\item $H$ stores componentwise $\hsame$ transports for schedule rows, finite windows, regular-rational readbacks, seal rows, provenance, and the local naming row;
+\item $C$ stores the displayed $\Cont$ routes for schedule inspection, window selection, regular-rational readback, real sealing, completion handoff, and local NameCert comparison;
+\item $P$ is the $\Pkg$ provenance row naming $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, $\ObserverRegularUp$, and the consumed local source certificates;
+\item $N$ is the local $\NameCert_{\RealScheduleFusionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets by transporting them to a common schedule row, then comparing the finite window ledger, regular-rational readback row, real and completion seal row, provenance row, and local name. The carrier exports no quotient stream, selected limit, ambient completeness principle, host real equality, or completion object beyond the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[Real schedule fusion NameCert obligations]
+\label{thm:realschedulefusion-namecert-obligations}
+The seed $\NameCert_{\RealScheduleFusionUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier habitation: finite schedule rows, window ledgers, regular-rational readbacks, real and completion seals, transports, continuations, provenance, and local naming inhabit the carrier of \autoref{def:realschedulefusion-carrier};
+\item classifier transport: accepted packets are compared only after componentwise transport to a common displayed schedule and window surface;
+\item schedule-readback lock: the $\StreamNameUp$ schedule row and $\RegSeqRatUp$ readback row remain paired through every consumer route;
+\item real-completion handoff: $\RealUp$ and $\CompletionUp$ consumers receive the same finite readback and seal data;
+\item ledger boundary: no consumer route escapes to quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is exactly the finite packet displayed in \autoref{def:realschedulefusion-carrier}. The rows name the schedule, window ledger, readback, real and completion seals, transports, continuations, provenance, and local certificate.
+
+Classifier transport uses the row $H$ to move every displayed coordinate to a common schedule surface. The continuation row $C$ then supplies the visible routes by which a consumer reads the finite window, the $\RegSeqRatUp$ readback, and the seal row.
+
+The dependency anchors $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$ account for the source rows consumed by this packet. Since the carrier has no coordinate for quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness, every obligation stays inside the finite schedule-fusion ledger.
+\end{proof}
+
+\begin{theorem}[StreamName and RegSeqRat schedule lock]
+\label{thm:realschedulefusion-streamname-regseqrat-lock}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\StreamNameUp$ schedule read of $S$ determines the same finite window ledger $W$ and the same $\RegSeqRatUp$ readback row $R$ used by downstream $\RealUp$ and $\CompletionUp$ consumers. The schedule row names the route; it does not create an independent tolerance, readback, quotient stream, or selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:realschedulefusion-carrier}. The only schedule-facing coordinate is $S$, and the only displayed windows are the finite entries of $W$.
+
+The route from $S$ to $W$ and then to $R$ is stored in $C$ and transported componentwise by $H$. Thus a $\StreamNameUp$ read cannot bypass the finite ledger or select a different $\RegSeqRatUp$ readback.
+
+The anchors $\FiniteWindowEnvelopeUp$ and $\RegularCauchyNameUp$ identify the finite window and regular Cauchy readback sources, while $\ObserverRegularUp$ supplies the observer-style consumer discipline. None of these anchors adds a carrier coordinate for quotient streams, selected limits, or host equality.
+\end{proof}
+
+\begin{theorem}[Real and completion handoff]
+\label{thm:realschedulefusion-real-completion-handoff}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\RealUp$ seal and every $\CompletionUp$ handoff in $E$ is read from the same $S$, $W$, and $R$ rows through the stored $\hsame$ transports and $\Cont$ routes. The completion-facing consumer receives no data beyond the finite schedule, window, readback, seal, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with a real or completion consumer route. The only seal coordinate is $E$, so the route must reach $E$ through the displayed schedule, window, and readback rows described in \autoref{def:realschedulefusion-carrier}.
+
+The $\RealUp$ seal is tied to the $\RegSeqRatUp$ readback row by the continuation routes in $C$. The $\CompletionUp$ handoff uses the same route and the same transported rows, so it cannot introduce a separate completion witness.
+
+The anchors $\RealUp$ and $\CompletionUp$ specify the consumer side, and $\RegularCauchyNameUp$ supplies the readback source. Because the carrier omits selected limits, ambient completeness, quotient streams, and host real equality, the handoff remains finite.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion ledger non-escape]
+\label{thm:realschedulefusion-ledger-non-escape}
+Every consumer-facing route out of an accepted $\RealScheduleFusionUp$ carrier factors through the finite schedule row $S$, window ledger $W$, regular-rational readback row $R$, real and completion seal row $E$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. No route exports a quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness.
+\end{theorem}
+\begin{proof}
+Take any consumer-facing route and project the finite carrier. The available coordinates are exactly $S$, $W$, $R$, $E$, $H$, $C$, $P$, and $N$.
+
+The schedule, window, readback, and seal rows are the only rows that carry mathematical content to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$. The remaining rows transport, route, record provenance, and name the packet.
+
+Therefore the route is exhausted by the displayed finite ledger. Since the carrier has no coordinate for quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness, none can be exported.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion standard boundary]
+\label{thm:realschedulefusion-standard-boundary}
+The standard boundary of $\RealScheduleFusionUp$ is the finite packet $F=(S,W,R,E,H,C,P,N)$ and the dependency anchors $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$. Any public comparison between accepted packets is a comparison of those displayed rows after $\hsame$ transport; it is not a comparison of quotient streams, selected host limits, ambient completeness objects, or host real equality.
+\end{theorem}
+\begin{proof}
+The public boundary is read from the carrier definition. A comparison between accepted packets first transports the schedule, window, readback, seal, provenance, and naming rows by $H$.
+
+After transport, the comparison uses the routes in $C$ to inspect the finite rows named by the dependency anchors. The anchors identify the source certificates, but the packet does not expose their host interpretations or any completion object outside the finite ledger.
+
+Thus the standard boundary is precisely the displayed row comparison. Quotient streams, selected host limits, ambient completeness objects, and host real equality are absent from the carrier and cannot appear in the public comparison.
+\end{proof}
+
+\closureat{RealScheduleFusionUp}{seedStr}
+
+\begin{closurestatus}{\RealScheduleFusionUp}
+  \constructivestory{A $\RealScheduleFusionUp$ packet is generated by a $\StreamNameUp$ schedule row, a finite window ledger, a $\RegSeqRatUp$ readback row, a $\RealUp$ and $\CompletionUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local NameCert obligations, StreamName and RegSeqRat lock, real and completion handoff, ledger non-escape, and standard boundary for schedule-fusion packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, host completion witnesses, or Lean verification.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked finite-ledger theorems for schedule lock, real and completion handoff, non-escape, and the standard boundary.}
+\end{closurestatus}
