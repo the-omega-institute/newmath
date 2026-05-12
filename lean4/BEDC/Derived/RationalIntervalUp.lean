@@ -23,6 +23,28 @@ def RationalIntervalPacket [AskSetup] [PackageSetup]
         Cont order containment transport ∧ Cont transport route provenance ∧
           Cont provenance name endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem RationalIntervalPacket_endpoint_order_classifier [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint left' right' order' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          Cont left' right' order' ->
+            UnaryHistory left' ∧ UnaryHistory right' ∧ UnaryHistory order' ∧
+              Cont left' right' order' ∧ hsame order order' := by
+  intro packet sameLeft sameRight leftRightOrder'
+  rcases packet with
+    ⟨leftUnary, rightUnary, orderUnary, _containmentUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, _endpointUnary, leftRightOrder, _orderContainmentTransport,
+      _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩
+  have sameOrder : hsame order order' :=
+    cont_respects_hsame sameLeft sameRight leftRightOrder leftRightOrder'
+  exact
+    ⟨unary_transport leftUnary sameLeft, unary_transport rightUnary sameRight,
+      unary_transport orderUnary sameOrder, leftRightOrder', sameOrder⟩
+
 theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint left' right' order'
       containment' transport' route' provenance' name' endpoint' : BHist}
@@ -76,6 +98,49 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         orderContainmentTransport', transportRouteProvenance', provenanceNameEndpoint',
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
+
+theorem RationalIntervalPacket_realup_consumer_exactness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint containment consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+            UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+              Cont left right order ∧ Cont endpoint containment consumer ∧
+                PkgSig bundle consumer pkg := by
+  intro packet endpointContainmentConsumer consumerPkg
+  rcases packet with
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, endpointUnary, leftRightOrder, _orderContainmentTransport,
+      _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary containmentUnary endpointContainmentConsumer
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, consumerUnary,
+      leftRightOrder, endpointContainmentConsumer, consumerPkg⟩
+theorem RationalIntervalPacket_endpoint_order_transport [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint left' right' order' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          Cont left' right' order' ->
+            UnaryHistory left' ∧ UnaryHistory right' ∧ UnaryHistory order' ∧
+              hsame order order' ∧ Cont left' right' order' := by
+  intro packet sameLeft sameRight leftRightOrder'
+  rcases packet with
+    ⟨leftUnary, rightUnary, orderUnary, _containmentUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, _endpointUnary, leftRightOrder, _orderContainmentTransport,
+      _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩
+  have sameOrder : hsame order order' :=
+    cont_respects_hsame sameLeft sameRight leftRightOrder leftRightOrder'
+  exact
+    ⟨unary_transport leftUnary sameLeft, unary_transport rightUnary sameRight,
+      unary_transport orderUnary sameOrder, sameOrder, leftRightOrder'⟩
 
 theorem RationalIntervalPacket_common_refinement_window [AskSetup] [PackageSetup]
     {left1 right1 order1 containment1 transport1 route1 provenance1 name1 endpoint1 left2
@@ -175,5 +240,21 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
   exact
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
+
+theorem RationalIntervalPacket_containment_ledger_exactness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont containment route read ->
+        UnaryHistory containment ∧ UnaryHistory route ∧ UnaryHistory read ∧
+          Cont containment route read ∧ PkgSig bundle endpoint pkg := by
+  intro packet containmentRouteRead
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, containmentUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, endpointPkg⟩ := packet
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed containmentUnary routeUnary containmentRouteRead
+  exact ⟨containmentUnary, routeUnary, readUnary, containmentRouteRead, endpointPkg⟩
 
 end BEDC.Derived.RationalIntervalUp
