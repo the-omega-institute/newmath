@@ -48,6 +48,44 @@ The exactness obligation is local to the finite convolution ledger: at each insp
 Finally, the seal row $E$ is attached only after the regular rational handoff has been displayed. Since the carrier has no coordinate for quotient streams, selected infinite sums, host multiplication, or completeness, every real-facing read remains inside the finite certificate packet.
 \end{proof}
 
+\begin{theorem}[CauchyConvolution carrier admission]
+\label{thm:cauchy-convolution-carrier-admission}
+An accepted $\CauchyConvolutionUp$ carrier is admitted as the finite $\BHist$ packet
+$$
+Q=(F,G,K,A,D,R,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-convolution-carrier}. Admission projects the two $\FastConvergentSeriesUp$ source rows $F,G$, the finite convolution ledger $K$, the product-prefix ledger $A$, the $\DyadicTailBoundUp$ budget ledger $D$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal row $E$, and the transport, continuation, package, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coordinates $F,G,K,A,D,R,E,H,C,P,N$ are all rows of one finite packet, so the local $\NameCert_{\CauchyConvolutionUp}$ carrier is inhabited by those projections.
+
+The construction does not add a host product, a quotient stream, a selected infinite sum, or a completeness witness. Those objects are absent from the carrier, so admission remains a finite Cauchy-product packet over the displayed BEDC rows.
+\end{proof}
+
+\begin{theorem}[CauchyConvolution tail-budget compatibility]
+\label{thm:cauchy-convolution-tail-budget-compatibility}
+For every accepted $\CauchyConvolutionUp$ carrier $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the source fast-tail schedules and finite source-window bounds in $F$ and $G$, together with the product-prefix rows in $A$ over the inspected coefficients of $K$, determine exactly the $\DyadicTailBoundUp$ ledger $D$ consumed by the $\RegSeqRatUp$ handoff row $R$.
+\end{theorem}
+\begin{proof}
+Read the two source packets $F$ and $G$. Their fast-tail schedules and finite source-window bounds are part of the displayed source rows, so they can be transported only through the componentwise rows in $H$ and consumed only through the routes in $C$.
+
+Next read the finite convolution ledger $K$ and the product-prefix ledger $A$. The prefix rows inspect only finitely many Cauchy-product coefficients, and $D$ records the pasted dyadic tail budget built from those finite inspections and the two source tail schedules.
+
+The handoff row $R$ consumes that same ledger $D$. Hence compatibility is a row-projection statement about $F,G,K,A,D,R,H,C,P,N$, with no appeal to host real multiplication or equality of quotient streams.
+\end{proof}
+
+\begin{theorem}[CauchyConvolution Real seal factorization boundary]
+\label{thm:cauchy-convolution-real-seal-factorization-boundary}
+Every $\RealUp$ seal read from an accepted $\CauchyConvolutionUp$ carrier factors through the regular handoff row $R$ and the finite Cauchy-product provenance consisting of $F,G,K,A,D,H,C,P,N$. The seal boundary does not expose host real multiplication, quotient stream equality, a selected infinite convolution sum, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the seal row $E$. By the carrier shape, $E$ is attached to the regular handoff $R$ and has no independent route to an external real-valued multiplication operation.
+
+Use \autoref{thm:cauchy-convolution-tail-budget-compatibility} to identify the evidence consumed by $R$. It is the finite product-prefix ledger $A$ over $K$ together with the dyadic budget $D$ assembled from the displayed source rows $F$ and $G$.
+
+The remaining rows $H,C,P,N$ preserve transport, consumer access, package provenance, and local naming. Therefore the real-facing seal factors through the finite Cauchy-product packet and cannot export any object outside that packet.
+\end{proof}
+
 \begin{theorem}[CauchyConvolution finite tail ledger]
 \label{thm:cauchy-convolution-finite-tail-ledger}
 For every accepted $\CauchyConvolutionUp$ carrier
