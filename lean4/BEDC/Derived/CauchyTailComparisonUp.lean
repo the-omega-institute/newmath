@@ -1,4 +1,8 @@
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -13,56 +17,63 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def CauchyTailComparisonCarrier [AskSetup] [PackageSetup]
-    (x y modulus window endpoint readback provenance namecert : BHist)
+    (leftName rightName modulus window endpointLedger readback provenance namecert endpoint :
+      BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory x ∧
-    UnaryHistory y ∧
-      UnaryHistory modulus ∧
-        UnaryHistory window ∧
-          UnaryHistory endpoint ∧
-            UnaryHistory readback ∧
-              Cont x y modulus ∧
-                Cont modulus window endpoint ∧
-                  Cont endpoint readback provenance ∧
-                    PkgSig bundle provenance pkg ∧ hsame namecert provenance
+  UnaryHistory leftName ∧
+    UnaryHistory rightName ∧
+    UnaryHistory modulus ∧
+    UnaryHistory window ∧
+    UnaryHistory endpointLedger ∧
+    UnaryHistory readback ∧
+    UnaryHistory provenance ∧
+    UnaryHistory namecert ∧
+    UnaryHistory endpoint ∧
+    Cont (append leftName rightName) modulus window ∧
+    Cont window endpointLedger readback ∧
+    hsame endpoint (append readback provenance) ∧
+    hsame namecert endpoint ∧
+    PkgSig bundle endpoint pkg
 
-theorem CauchyTailComparisonCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
-    {x y modulus window endpoint readback provenance namecert : BHist}
+theorem CauchyTailComparisonCarrier_tail_stability [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint :
+      BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    CauchyTailComparisonCarrier x y modulus window endpoint readback provenance namecert
-      bundle pkg ->
-    SemanticNameCert
-      (fun row : BHist =>
-        CauchyTailComparisonCarrier x y modulus window endpoint readback provenance
-          namecert bundle pkg ∧ hsame row provenance)
-      (fun row : BHist =>
-        CauchyTailComparisonCarrier x y modulus window endpoint readback provenance
-          namecert bundle pkg ∧ hsame row provenance)
-      (fun row : BHist =>
-        CauchyTailComparisonCarrier x y modulus window endpoint readback provenance
-          namecert bundle pkg ∧ hsame row provenance)
-      hsame := by
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+      provenance namecert endpoint bundle pkg →
+      Cont (append leftName rightName) modulus window ∧
+        Cont window endpointLedger readback ∧
+          hsame endpoint (append readback provenance) ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
   intro carrier
-  exact
-    { core :=
-        { carrier_inhabited := Exists.intro provenance (And.intro carrier (hsame_refl provenance))
-          equiv_refl := by
-            intro h _source
-            exact hsame_refl h
-          equiv_symm := by
-            intro h k same
-            exact hsame_symm same
-          equiv_trans := by
-            intro h k r sameHK sameKR
-            exact hsame_trans sameHK sameKR
-          carrier_respects_equiv := by
-            intro h k same sourceH
-            exact And.intro sourceH.left (hsame_trans (hsame_symm same) sourceH.right) }
-      pattern_sound := by
-        intro _h source
-        exact source
-      ledger_sound := by
-        intro _h source
-        exact source }
+  cases carrier with
+  | intro _leftUnary rest =>
+      cases rest with
+      | intro _rightUnary rest =>
+          cases rest with
+          | intro _modulusUnary rest =>
+              cases rest with
+              | intro _windowUnary rest =>
+                  cases rest with
+                  | intro _endpointLedgerUnary rest =>
+                      cases rest with
+                      | intro _readbackUnary rest =>
+                          cases rest with
+                          | intro _provenanceUnary rest =>
+                              cases rest with
+                              | intro _namecertUnary rest =>
+                                  cases rest with
+                                  | intro _endpointUnary rest =>
+                                      cases rest with
+                                      | intro commonWindow rest =>
+                                          cases rest with
+                                          | intro endpointReadback rest =>
+                                              cases rest with
+                                              | intro endpointSame rest =>
+                                                  cases rest with
+                                                  | intro _namecertSame pkgSig =>
+                                                      exact And.intro commonWindow
+                                                        (And.intro endpointReadback
+                                                          (And.intro endpointSame pkgSig))
 
 end BEDC.Derived.CauchyTailComparisonUp
