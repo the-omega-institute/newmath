@@ -202,6 +202,46 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static char *unary_algo_certificate(const char *input_bits) {
+    size_t input_len = strlen(input_bits);
+    size_t ones = 0;
+    char *out;
+    size_t o = 0;
+
+    for (size_t i = 0; i < input_len; i++) {
+        assert(input_bits[i] == '0' || input_bits[i] == '1');
+        if (input_bits[i] == '1') ones++;
+    }
+
+    out = (char *)malloc(ones * 4 + 1);
+    assert(out != NULL);
+    for (size_t i = 0; i < input_len; i++) {
+        if (input_bits[i] == '1') {
+            size_t pos = i % 8;
+            out[o++] = '1';
+            out[o++] = ((pos >> 2) & 1u) ? '1' : '0';
+            out[o++] = ((pos >> 1) & 1u) ? '1' : '0';
+            out[o++] = (pos & 1u) ? '1' : '0';
+        }
+    }
+    out[o] = '\0';
+    return out;
+}
+
+static void assert_unary_algo_ct_case(const char *input_bits) {
+    char *expected = unary_algo_certificate(input_bits);
+    MrResult r = mr_run_ct_manifest("manifests/unary/unary_basic.algo.ct",
+                                    input_bits,
+                                    expected,
+                                    strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "unary algo CT FAIL input=%s expected=%s result=%d\n",
+                input_bits, expected, (int)r);
+    }
+    free(expected);
+    assert(r == MR_PASS);
+}
+
 static void assert_unary_single_cases(void) {
     assert(decode_unary_holds("11"));
     assert(decode_unary_holds("1011"));
@@ -246,7 +286,20 @@ static void test_unary_basic_algo(void) {
     assert_unary_single_cases();
     assert_unary_classifier_cases();
     assert_unary_cont_cases();
-    assert_manifest_smoke("manifests/unary/unary_basic.algo.ct", "11");
+    assert_unary_algo_ct_case("11");
+    assert_unary_algo_ct_case("1011");
+    assert_unary_algo_ct_case("101011");
+    assert_unary_algo_ct_case("1010101011");
+    assert_unary_algo_ct_case("011");
+    assert_unary_algo_ct_case("10011");
+    assert_unary_algo_ct_case("01011");
+    assert_unary_algo_ct_case("1010011011");
+    assert_unary_algo_ct_case("111111");
+    assert_unary_algo_ct_case("1110111011");
+    assert_unary_algo_ct_case("1011111011");
+    assert_unary_algo_ct_case("101110101110101011");
+    assert_unary_algo_ct_case("011101101011");
+    assert_unary_algo_ct_case("101110101110011");
     printf("  unary_basic.algo: semantic cases PASS\n");
 }
 
