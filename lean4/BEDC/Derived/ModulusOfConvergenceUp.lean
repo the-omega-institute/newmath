@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -15,6 +16,53 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+def ModulusOfConvergenceSemanticPacket [AskSetup] [PackageSetup]
+    (precision selector modulus schedule witness ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont precision selector modulus ∧
+    Cont modulus schedule witness ∧
+      Cont witness ledger provenance ∧
+        Cont provenance BHist.Empty endpoint ∧
+          PkgSig bundle endpoint pkg
+
+theorem ModulusOfConvergencePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceSemanticPacket precision selector modulus schedule witness ledger provenance
+      endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧
+            ModulusOfConvergenceSemanticPacket precision selector modulus schedule witness ledger
+              provenance endpoint bundle pkg)
+        (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro (hsame_refl endpoint) packet)
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro _h _k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _h _k _r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k same source
+        exact And.intro (hsame_trans (hsame_symm same) source.left) source.right
+    }
+    pattern_sound := by
+      intro _h source
+      exact source.left
+    ledger_sound := by
+      intro _h source
+      exact And.intro source.left source.right.right.right.right.right
+  }
 
 def ModulusOfConvergenceBHistCarrier [AskSetup] [PackageSetup]
     (precision selector modulus schedule witness ledger provenance endpoint : BHist)
@@ -134,7 +182,6 @@ theorem ModulusOfConvergencePacket_composition_stability [AskSetup] [PackageSetu
                 (And.intro witnessRow'
                   (And.intro provenanceRow' pkgSig'))))))))
     (And.intro sameModulus (And.intro sameWitness sameProvenance))
-
 
 def ModulusOfConvergenceNameCertPacket [AskSetup] [PackageSetup]
     (precision threshold requestWindow modulus schedule witnessWindow witness exportWindow ledger
@@ -307,6 +354,52 @@ theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSet
                                     unary_repetition_closed_under_continuation provenanceUnary
                                       precisionUnary' joinedRow
                                   exact ⟨joined, joinedRow, joinedUnary⟩
+
+theorem ModulusOfConvergenceCarrier_scoped_dependency_packet [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger provenance
+        bundle pkg ->
+      UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+        UnaryHistory schedule ∧ UnaryHistory witness ∧ UnaryHistory ledger ∧
+          UnaryHistory provenance ∧ Cont precision selector modulus ∧
+            Cont modulus schedule witness ∧ Cont witness ledger provenance ∧
+              SemanticNameCert (fun row : BHist => hsame row provenance)
+                (fun row : BHist => hsame row provenance)
+                (fun row : BHist => hsame row provenance) hsame := by
+  intro carrier
+  obtain ⟨precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary,
+    ledgerUnary, provenanceUnary, precisionSelectorRoute, witnessRoute, provenanceRoute,
+    _pkgRoute⟩ := carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance (hsame_refl provenance)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary, ledgerUnary,
+      provenanceUnary, precisionSelectorRoute, witnessRoute, provenanceRoute, cert⟩
 
 inductive ModulusOfConvergencePacket
     (precision selector modulus stream witness ledger provenance window : BHist) : Prop where
