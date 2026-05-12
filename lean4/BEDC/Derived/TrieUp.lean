@@ -160,6 +160,33 @@ theorem TrieSourcePacket_branch_read_exactness [AskSetup] [PackageSetup]
     ⟨prefSplit, readbackUnary, keyUnary, branchUnary, depthUnary, branchRead,
       provenancePkg⟩
 
+theorem TrieSourcePacket_prefix_branch_determinacy [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute pref branchTag readback
+      readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont pref branchTag readback ->
+        Cont pref branchTag readback' ->
+          UnaryHistory pref ->
+            UnaryHistory branchTag ->
+              PkgSig bundle provenance pkg ->
+                hsame readback readback' ∧ UnaryHistory readback ∧ UnaryHistory readback' ∧
+                  (pref = BHist.Empty ∨
+                    ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail) ∧
+                    PkgSig bundle provenance pkg := by
+  intro _packet branchRead branchRead' prefUnary branchTagUnary provenancePkg
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame (hsame_refl pref) (hsame_refl branchTag) branchRead branchRead'
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed prefUnary branchTagUnary branchRead
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed prefUnary branchTagUnary branchRead'
+  have prefSplit :
+      pref = BHist.Empty ∨ ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail :=
+    unary_history_empty_or_e1_tail prefUnary
+  exact ⟨sameReadback, readbackUnary, readbackUnary', prefSplit, provenancePkg⟩
+
 theorem TriePrefixExtensionClassifier_stability [AskSetup] [PackageSetup]
     {pre pre' branch ext ext' prov : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory pre -> UnaryHistory branch -> hsame pre pre' -> Cont pre branch ext ->
