@@ -161,6 +161,7 @@ Cauchy object, a selected limiting real, or completed $\RealUp$ equality, so
 the common-window classifier stability is exhausted by the displayed finite
 packet rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalStreamUp.RationalStreamPacket\_common\_window\_classifier\_stability}
 
 \begin{theorem}[RationalStream common-denominator window exhaustion]
 \label{thm:rationalstream-common-denominator-window-exhaustion}
@@ -664,6 +665,54 @@ read outside the displayed rows. Repacking those rows gives the claimed common
 finite-window normal form and excludes quotient Cauchy classes, selected
 limits, completed $\RealUp$ equality, trichotomy, and host standard stream
 equality.
+\end{proof}
+
+\begin{theorem}[RationalStream finite-window seal determinacy]\label{thm:rational-stream-finite-window-seal-determinacy}
+For accepted $\RationalStreamUp$ packets, agreement of the displayed
+$\UnaryHistory$ index row, $\StreamNameUp$ schedule, pointwise $\RatUp$
+carrier rows, pointwise $\RatUp$ classifier rows, common-window ledger,
+displayed $\hsame$ transports, displayed $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert$ row determines exactly the
+$\RegSeqRatUp$ handoff and the $\RealUp$ seal consumer reads.
+
+Conversely, every $\RegSeqRatUp$ handoff read and every $\RealUp$ seal
+consumer read of an accepted $\RationalStreamUp$ packet is one of those finite
+rows. No quotient Cauchy class, selected limit, completed $\RealUp$ equality,
+trichotomy row, or host standard stream equality is determined or exported by
+the finite-window seal.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:rational-stream-carrier}.
+This exposes the finite unary index row, schedule row, pointwise rational
+carrier and classifier rows, denominator data, displayed transport and route
+rows, package provenance, and local naming evidence.
+
+Use the schedule boundary and the pointwise $\RatUp$ obligations to identify
+which displayed rows may be read at each finite index. Then apply
+\autoref{thm:rational-stream-common-window-classifier-stability} to place the
+classifier rows on the same common window.
+
+Apply \autoref{thm:rationalstream-common-denominator-window-exhaustion}. The
+denominator rows needed by the pointwise rational classifiers are exhausted by
+that common finite window, so no further denominator coordinate remains for a
+downstream consumer.
+
+Next use \autoref{thm:rational-stream-regseqrat-ledger-completeness}. It
+turns the displayed schedule, pointwise rational rows, classifier rows,
+transports, routes, package provenance, and naming row into exactly the
+$\RegSeqRatUp$ handoff surface.
+
+For the $\RealUp$ seal direction, invoke
+\autoref{thm:rational-stream-real-seal-consumer-boundary} and
+\autoref{thm:rational-stream-real-seal-common-window-normal-form}. The seal
+consumer boundary admits only finite packet rows, and the normal form places
+all such reads on the same common window.
+
+The converse follows by reading the same projections in the opposite order:
+any $\RegSeqRatUp$ handoff or $\RealUp$ seal read must pass through the carrier
+projection, the common-window classifier stability, the denominator exhaustion
+step, and the seal normal form. Hence each consumer coordinate is one of the
+listed finite rows.
 \end{proof}
 
 \closureat{RationalStreamUp}{seedStr}
