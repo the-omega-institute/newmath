@@ -48,6 +48,48 @@ The forward-facing step is then recorded by $F$ and replayed by $C$. These rows 
 At the output side the consumer receives the local commitment row $N$ together with the same provenance and transport data. Thus the forward-binding route is finite, named, and confined to the displayed packet.
 \end{proof}
 
+\begin{definition}[CausalCommitment forward-GAP carrier]
+\label{def:causal-commitment-forward-gap-carrier}
+A forward-GAP refinement of the $\CausalCommitmentUp$ carrier is the finite packet
+$$
+K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)
+$$
+where $O,R,G,F,H,C,P,N$ are the rows of \autoref{def:causal-commitment-namecert-carrier}, and $L$ is the locality-cell consumer row. The row $L$ records the consumer-facing handoff to $\LocalityCellUp$ and $\ObserverLocalityCellUp$: it may read the displayed commitment only through the finite locality cell generated from $O,R,G,F,H,C,P,N$, and it contains no selected future observation, no global observer frame, and no ambient causal primitive.
+\end{definition}
+
+\begin{theorem}[CausalCommitment forward-GAP obligations]
+\label{thm:causal-commitment-forward-gap-obligations}
+For an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$, the local $\NameCert_{\CausalCommitmentUp}$ surface exposes exactly five consumer-facing obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed rows $O,R,G,F,L,H,C,P,N$;
+\item $\mathsf{GAP}$ accountability, requiring every forward-looking read to pass through $G$;
+\item forward-route stability, requiring $F$ and $C$ to replay the observed-regularity route without adding a hidden induction rule;
+\item locality-cell consumer restriction, requiring every observer-locality consumer to read through $L$;
+\item non-escape for selected future observations, global observer frames, universal empirical laws, hidden induction rules, and ambient causal primitives.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:causal-commitment-forward-gap-carrier}. The refinement adds only the locality-cell consumer row $L$ to the rows already displayed by the base carrier.
+
+The $\mathsf{GAP}$ and forward-route obligations use \autoref{thm:causal-commitment-gap-socket} and \autoref{thm:causal-commitment-forward-binding-route}. The forward-looking content is named by $G$, while $F$ and $C$ replay the route from observed regularity to local commitment.
+
+The locality-cell restriction then reads the commitment through $L$. Since $L$ is a consumer row rather than a new causal source, it can expose the commitment to observer-locality consumers only by replaying the same finite rows.
+
+The non-escape clauses follow by inventory. The refined packet has no coordinate for a selected future record, global frame, universal law, hidden induction rule, or ambient causal primitive.
+\end{proof}
+
+\begin{theorem}[CausalCommitment locality-cell handoff]
+\label{thm:causal-commitment-locality-cell-handoff}
+Every observer-locality consumer of an accepted forward-GAP carrier $K_{\mathrm{fg}}=(O,R,G,F,L,H,C,P,N)$ reads the causal commitment only through the displayed locality-cell row $L$. The handoff may expose the observed ledger, regularity ledger, $\mathsf{GAP}$ socket, forward-binding route, transports, continuations, provenance, and local naming row, but it cannot extract a selected future observation, a global observer frame, or an ambient causal primitive.
+\end{theorem}
+\begin{proof}
+Begin with the consumer side of the refined carrier. The only row addressed to observer-locality consumption is $L$, so any such consumer first enters the finite locality-cell handoff.
+
+Inside that handoff, the available reads are the rows already displayed by $O,R,G,F,H,C,P,N$. The row $L$ does not add a further observation source or a global frame; it routes the same commitment through the locality-cell discipline.
+
+Therefore the consumer receives a local commitment packet and nothing beyond it. A selected future observation, global observer frame, or ambient causal primitive has no carrier coordinate and no read route through $L$.
+\end{proof}
+
 \begin{theorem}[CausalCommitment non-escape boundary]
 \label{thm:causal-commitment-non-escape-boundary}
 No consumer of an accepted $\CausalCommitmentUp$ packet can extract a selected future observation, a universal empirical law, a hidden induction rule, a synchronized global frame, or an ambient causal primitive. Every consumer read factors through $O,R,G,F,H,C,P,N$.
