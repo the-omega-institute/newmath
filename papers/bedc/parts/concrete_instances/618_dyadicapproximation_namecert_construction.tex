@@ -517,6 +517,48 @@ excluded completion, quotient, trichotomy, selection, located-subset, or choice
 coordinates, the nested chain exports none of them.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation window RegSeqRat source exhaustion]
+\label{thm:dyadicapproximation-window-regseqrat-source-exhaustion}
+Every accepted $\DyadicApproximationUp$ packet together with a finite
+compatible refinement chain determines exactly one displayed
+$\RegSeqRatUp$-facing source surface. The surface consists of the unary
+precision row, the $\DyadicRatCoreUp$ endpoint row, the $\StreamNameUp$
+schedule, the $\RegSeqRatUp$ observation window, the $\RealUp$ seal ledger,
+the visible $\hsame$ transports, the visible $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance row, and the local
+$\NameCert_{\DyadicApproximationUp}$ row.
+
+If the same packet is read through the $\RationalIntervalUp$ handoff or the
+$\RealUp$ seal boundary, those consumers read that same source surface and no
+other row. The exhaustion exports no quotient real equality, selected limit,
+trichotomy row, located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with the finite refinement chain and apply
+\autoref{thm:dyadicapproximation-nested-window-exhaustion}. This gives one
+terminal displayed window containing the precision, endpoint, stream,
+regular-sequence, transport, continuation, package, and local certificate rows
+seen by every consumer read in the chain.
+
+Next apply \autoref{thm:dyadicapproximation-real-seal-scope}. The
+$\RealUp$ seal ledger is a finite boundary row attached to the same terminal
+window, so it does not contribute a completed real or a selected limit outside
+the displayed packet surface.
+
+Use \autoref{thm:dyadic-approximation-real-seal-handoff} to read the terminal
+window as a real-seal source for $\RegSeqRatUp$. The handoff identifies the
+regular rational observation row, seal ledger, visible $\hsame$ route, visible
+$\Cont$ route, and package provenance as the only real-facing source data.
+
+Finally apply
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff}. It shows
+that any rational-interval consumer sees the same endpoint and observation
+rows, so the terminal window is the unique displayed source surface for all
+the named consumers. Since all cited surfaces are finite packet rows, quotient
+real equality, selected limits, trichotomy, located subsets, and choice
+principles are not exported.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
