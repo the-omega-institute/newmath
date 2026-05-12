@@ -1,0 +1,83 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.RegularityModulusUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def RegularityModulusPacket [AskSetup] [PackageSetup]
+    (precision modulus window transport ledger provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+    UnaryHistory nameRow ∧ Cont precision window transport ∧ Cont transport modulus ledger ∧
+      Cont ledger nameRow provenance ∧ PkgSig bundle provenance pkg
+
+theorem RegularityModulusPacket_window_monotonicity [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow precision' modulus' window'
+      transport' ledger' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      hsame precision precision' -> hsame modulus modulus' -> hsame window window' ->
+        hsame nameRow nameRow' -> Cont precision' window' transport' ->
+          Cont transport' modulus' ledger' -> Cont ledger' nameRow' provenance' ->
+            PkgSig bundle provenance' pkg ->
+              RegularityModulusPacket precision' modulus' window' transport' ledger'
+                  provenance' nameRow' bundle pkg ∧
+                hsame transport transport' ∧ hsame ledger ledger' ∧
+                  hsame provenance provenance' := by
+  intro packet samePrecision sameModulus sameWindow sameNameRow transportRow' ledgerRow'
+    provenanceRow' pkgSig'
+  have transportRow : Cont precision window transport :=
+    packet.right.right.right.right.left
+  have ledgerRow : Cont transport modulus ledger :=
+    packet.right.right.right.right.right.left
+  have provenanceRow : Cont ledger nameRow provenance :=
+    packet.right.right.right.right.right.right.left
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame samePrecision sameWindow transportRow transportRow'
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTransport sameModulus ledgerRow ledgerRow'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameNameRow provenanceRow provenanceRow'
+  have transported :
+      RegularityModulusPacket precision' modulus' window' transport' ledger' provenance'
+          nameRow' bundle pkg :=
+    ⟨unary_transport packet.left samePrecision,
+      unary_transport packet.right.left sameModulus,
+      unary_transport packet.right.right.left sameWindow,
+      unary_transport packet.right.right.right.left sameNameRow,
+      transportRow',
+      ledgerRow',
+      provenanceRow',
+      pkgSig'⟩
+  exact And.intro transported
+    (And.intro sameTransport
+      (And.intro sameLedger sameProvenance))
+
+theorem RegularityModulusDyadicWindowCarrier_window_monotonicity [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow precision' modulus' window'
+      transport' ledger' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      hsame precision precision' -> hsame modulus modulus' -> hsame window window' ->
+        hsame nameRow nameRow' -> Cont precision' window' transport' ->
+          Cont transport' modulus' ledger' -> Cont ledger' nameRow' provenance' ->
+            PkgSig bundle provenance' pkg ->
+              RegularityModulusPacket precision' modulus' window' transport' ledger'
+                  provenance' nameRow' bundle pkg ∧
+                hsame transport transport' ∧ hsame ledger ledger' ∧
+                  hsame provenance provenance' :=
+  RegularityModulusPacket_window_monotonicity
+
+end BEDC.Derived.RegularityModulusUp
