@@ -676,6 +676,36 @@ completed-real, quotient, located-subset, apartness, arithmetic, or host
 standard interval structure.
 \end{proof}
 
+\begin{theorem}[RationalInterval refinement choice neutrality]
+\label{thm:rationalinterval-refinement-choice-neutrality}
+Fix a $\RationalIntervalUp$ endpoint packet over $\mathsf{BHist}$. For any
+two common-refinement windows whose endpoint, containment, dyadic-transport,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows satisfy the
+directed-refinement and associativity hypotheses, the resulting finite consumer
+packages for $\RegSeqRatUp$ and $\RealUp$ are $\hsame$-equivalent.
+
+Thus a finite $\RegSeqRatUp$ or $\RealUp$ consumer may use any displayed
+common-refinement witness for the fixed endpoint packet without selecting
+completed real equality, quotient Cauchy classes, located subsets, apartness,
+interval arithmetic, or host standard interval data.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rational-interval-common-refinement-window} to put both
+refinement choices over explicit finite endpoint and containment windows, and
+use \autoref{thm:rational-interval-directed-refinement-basis} to compare their
+directed basis rows inside one displayed finite $\mathsf{BHist}$ packet.
+
+Compose the comparison routes with
+\autoref{thm:rational-interval-refinement-composition}. Then
+\autoref{thm:rational-interval-endpoint-transport-classifier} identifies the
+endpoint, containment, dyadic-width, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ rows seen after the displayed $\hsame$ transport.
+
+Finally apply \autoref{thm:rationalinterval-common-refinement-associativity}.
+It identifies the two readings at the finite $\RegSeqRatUp$ and $\RealUp$
+consumer surface exposed by the fixed endpoint packet.
+\end{proof}
+
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}
 \closureat{RationalIntervalUp}{scopedStr}
