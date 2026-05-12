@@ -303,6 +303,50 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFiniteLedger_semantic_name_certificate [AskSetup] [PackageSetup]
+    {length spine ledger provenance read : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row read ∧
+          BitVectorFiniteLedger length spine ledger provenance row bundle pkg)
+        (fun row : BHist => UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧
+          UnaryHistory row ∧ hsame ledger (append length spine))
+        (fun row : BHist => PkgSig bundle row pkg ∧ hsame row (append ledger provenance))
+        hsame := by
+  intro finiteLedger
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro read ⟨hsame_refl read, finiteLedger⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨lengthUnary, spineUnary, provenanceUnary, ledgerRow, readRow, _pkgSig⟩ :=
+        sourceRow.right
+      have ledgerUnary : UnaryHistory ledger :=
+        unary_cont_closed lengthUnary spineUnary ledgerRow
+      have rowUnary : UnaryHistory _row :=
+        unary_cont_closed ledgerUnary provenanceUnary readRow
+      exact ⟨lengthUnary, spineUnary, ledgerUnary, rowUnary, ledgerRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_lengthUnary, _spineUnary, _provenanceUnary, _ledgerRow, readRow, pkgSig⟩ :=
+        sourceRow.right
+      exact ⟨pkgSig, readRow⟩
+  }
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=

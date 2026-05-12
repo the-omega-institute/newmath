@@ -436,4 +436,52 @@ theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [Pa
   exact And.intro restrictedPacket
     (And.intro restrictedScheduleRow restrictedLedgerRow)
 
+theorem ModulusOfConvergenceRatePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row endpoint ∧
+          ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger
+            provenance row bundle pkg)
+        (fun row : BHist => UnaryHistory row ∧ hsame row (append modulus ledger))
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont modulus ledger row)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint ⟨hsame_refl endpoint, packet⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨precisionUnary, selectorUnary, scheduleUnary, witnessUnary, _provenanceUnary,
+        modulusRow, ledgerRow, endpointRow, _pkgSig⟩ := sourceRow.right
+      have modulusUnary : UnaryHistory modulus :=
+        unary_cont_closed precisionUnary selectorUnary modulusRow
+      have ledgerUnary : UnaryHistory ledger :=
+        unary_cont_closed scheduleUnary witnessUnary ledgerRow
+      have rowUnary : UnaryHistory _row :=
+        unary_cont_closed modulusUnary ledgerUnary endpointRow
+      exact ⟨rowUnary, endpointRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_precisionUnary, _selectorUnary, _scheduleUnary, _witnessUnary,
+        _provenanceUnary, _modulusRow, _ledgerRow, endpointRow, pkgSig⟩ := sourceRow.right
+      exact ⟨pkgSig, endpointRow⟩
+  }
+
 end BEDC.Derived.ModulusOfConvergenceUp
