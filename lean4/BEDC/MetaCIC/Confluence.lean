@@ -252,6 +252,20 @@ theorem betaParallel_var_unique_target {i : Idx} {t : Term}
   cases h
   rfl
 
+theorem betaParallel_pi_shape {d c t : Term}
+    (h : BetaParallel (Term.pi d c) t) :
+    ∃ d' c', t = Term.pi d' c' ∧ BetaParallel d d' ∧ BetaParallel c c' := by
+  cases h with
+  | pi hd hc =>
+      exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro hd hc)))
+
+theorem betaParallel_lam_shape {d b t : Term}
+    (h : BetaParallel (Term.lam d b) t) :
+    ∃ d' b', t = Term.lam d' b' ∧ BetaParallel d d' ∧ BetaParallel b b' := by
+  cases h with
+  | lam hd hb =>
+      exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro hd hb)))
+
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
     (h : BetaParallel t t') :
