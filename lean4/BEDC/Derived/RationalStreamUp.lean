@@ -87,6 +87,31 @@ theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [Package
     ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
       consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
 
+theorem RationalStreamPacket_common_window_classifier_stability [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      commonWindow consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory commonWindow ->
+        Cont window commonWindow consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+              UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory commonWindow ∧
+                UnaryHistory consumer ∧ Cont index schedule window ∧
+                  Cont window commonWindow consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet commonWindowUnary consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    _provenanceUnary, indexScheduleRow, _windowPointRow, _classifierTransportRow, _nameRow,
+    _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary commonWindowUnary consumerRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
+      commonWindowUnary, consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
+
 theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
