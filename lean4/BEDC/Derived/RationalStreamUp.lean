@@ -23,6 +23,20 @@ def RationalStreamPacket [AskSetup] [PackageSetup]
       Cont window pointRows classifierRows ∧ Cont classifierRows transportRows contRows ∧
         Cont contRows provenance nameRow ∧ PkgSig bundle nameRow pkg
 
+theorem RationalStreamPacket_pointwise_rat_obligations [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory index ∧ UnaryHistory pointRows ∧ UnaryHistory classifierRows ∧
+        Cont window pointRows classifierRows ∧
+          Cont contRows provenance nameRow ∧ PkgSig bundle nameRow pkg := by
+  intro packet
+  obtain ⟨indexUnary, _scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    _indexScheduleRow, windowPointRow, _classifierTransportRow, nameRowRow, pkgSig⟩ := packet
+  exact ⟨indexUnary, pointRowsUnary, classifierRowsUnary, windowPointRow, nameRowRow, pkgSig⟩
+
 theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       consumer : BHist}
@@ -91,10 +105,6 @@ theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSet
                                       have sameWindow : hsame window window' :=
                                         cont_respects_hsame sameIndex sameSchedule
                                           oldIndexSchedule newIndexSchedule
-                                      have sameClassifierRowsFromWindow :
-                                          hsame classifierRows classifierRows' :=
-                                        cont_respects_hsame sameWindow samePointRows oldWindowPoint
-                                          newWindowPoint
                                       have sameContRows : hsame contRows contRows' :=
                                         cont_respects_hsame sameClassifierRows sameTransportRows
                                           oldClassifierTransport newClassifierTransport
