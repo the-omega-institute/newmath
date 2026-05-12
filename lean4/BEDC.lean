@@ -206,6 +206,7 @@ import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InterpolationUp
+import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KolmogorovUp
