@@ -559,6 +559,49 @@ Inside that packet, the order of access is fixed. The normalized window readback
 The Real seal is therefore reached only after the regular-sequence seal route. The real-completion consumer triangle supplies the downstream consumer row, while normalized readback seal stability preserves the same $\BHist$-anchored transport and package provenance. Hence each named downstream read factors through the StreamName window and RegSeqRat seal before it can read the Real seal.
 \end{proof}
 
+\begin{definition}[RegularCauchyName root dependency manifest]
+\label{def:regularcauchyname-root-dependency-manifest}
+For an accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$ whose visible source is admitted from $\RationalStreamUp$, the root dependency manifest of $G$ is the finite BEDC packet
+$$
+\mathsf{RootDep}_{\RegularCauchyNameUp}(G)
+=
+(U,R,S,F,L,W,B,D,A,E,C)
+$$
+whose rows are, respectively, the $\UnaryHistoryUp$ schedule row $U$, the $\RationalStreamUp$ source row $R$, the $\StreamNameUp$ finite-window row $S$, the $\DyadicRatCoreUp$ observation and radius row $F$, the $\RegSeqRatUp$ regularity and seal row $L$, the $\FiniteWindowEnvelopeUp$ handoff row $W$, the $\RegularCauchySubsequenceUp$ consumer row $B$, the $\RegularCauchyDiagonalUp$ consumer row $D$, the $\RegularCauchyFamilyUp$ consumer row $A$, the $\RealUp$ seal row $E$, and the $\RealCauchyCompletionUp$ consumer row $C$.
+
+Its provenance is the displayed finite route
+$$
+\mathsf{Prov}\bigl(\mathsf{RootDep}_{\RegularCauchyNameUp}(G)\bigr)
+=
+(\BHist_G,\hsame_G,\Cont_G,\Pkg_G,\NameCert_{\RegularCauchyNameUp,G})
+$$
+where $\BHist_G$ records the finite ledger, $\hsame_G$ records classifier transport on the listed rows, $\Cont_G$ records the continuation routes between consumer reads, $\Pkg_G$ records the package provenance, and $\NameCert_{\RegularCauchyNameUp,G}$ records the local naming certificate. The manifest contains no row outside this displayed dependency list.
+\end{definition}
+
+\begin{theorem}[RegularCauchyName root dependency manifest exhaustion]
+\label{thm:regularcauchyname-root-dependency-manifest-exhaustion}
+Every downstream read of an accepted $\RegularCauchyNameUp$ packet by $\RegularCauchySubsequenceUp$, $\RegularCauchyDiagonalUp$, $\RegularCauchyFamilyUp$, or $\RealCauchyCompletionUp$ factors through the root dependency manifest of \autoref{def:regularcauchyname-root-dependency-manifest}. In particular, the read reaches its source, finite-window handoff, normalized readback, $\RealUp$ seal, and completion consumer row only through the displayed $\UnaryHistoryUp$, $\RationalStreamUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchySubsequenceUp$, $\RegularCauchyDiagonalUp$, $\RegularCauchyFamilyUp$, $\RealUp$, $\RealCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of that manifest.
+\end{theorem}
+\begin{proof}
+Begin with the source side. The RationalStream source admission theorem \autoref{thm:regularcauchyname-rationalstream-source-admission} forces the visible source read through the $\UnaryHistoryUp$, $\RationalStreamUp$, $\StreamNameUp$, rational-observation, transport, package, and certificate rows recorded in the manifest.
+
+Next attach the finite readback side. The FiniteWindowEnvelope handoff theorem \autoref{thm:regularcauchyname-finitewindow-envelope-handoff} routes each selected precision request through the finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal route, $\RealUp$ endpoint row, and the same provenance rows.
+
+Finally add the completion side. The real-completion consumer triangle \autoref{thm:regularcauchyname-real-cauchy-completion-consumer-triangle} supplies the $\RealCauchyCompletionUp$ consumer row, and the root-unblock normalization package \autoref{thm:regularcauchyname-root-unblock-normalization-package} supplies the downstream $\RegularCauchySubsequenceUp$, $\RegularCauchyDiagonalUp$, and $\RegularCauchyFamilyUp$ consumer rows. These four results cover every named downstream read, so each read factors through the manifest.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName root dependency manifest non-escape]
+\label{thm:regularcauchyname-root-dependency-manifest-non-escape}
+The root dependency manifest of \autoref{def:regularcauchyname-root-dependency-manifest} exports no quotient stream, host sequence, selected limit, independent real carrier, ambient completeness row, or classical choice row. Any downstream consumer of the manifest reads only the displayed finite rows and provenance routes named in the manifest.
+\end{theorem}
+\begin{proof}
+The source admission theorem \autoref{thm:regularcauchyname-rationalstream-source-admission} already excludes quotient streams, selected limits, host completion objects, independent real carriers, and ambient completeness data from the RationalStream source side.
+
+The finite-window handoff theorem \autoref{thm:regularcauchyname-finitewindow-envelope-handoff} repeats the same exclusion for selected precision requests and keeps them on the displayed finite-window and seal rows.
+
+The real-completion consumer triangle \autoref{thm:regularcauchyname-real-cauchy-completion-consumer-triangle} and the root-unblock normalization package \autoref{thm:regularcauchyname-root-unblock-normalization-package} extend that boundary to the completion and downstream rows. Since none of the cited packets contains a coordinate for a quotient stream, host sequence, selected limit, independent real carrier, ambient completeness, or classical choice, the assembled manifest has no such export.
+\end{proof}
+
 \closureat{RegularCauchyNameUp}{seedStr}
 \closureat{RegularCauchyNameUp}{obligationStr}
 \closureat{RegularCauchyNameUp}{scopedStr}
