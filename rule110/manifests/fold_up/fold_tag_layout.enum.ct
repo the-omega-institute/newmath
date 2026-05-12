@@ -1,0 +1,16 @@
+# fold_tag_layout.enum.ct
+# Theorem family:
+#   foldMomentKernelToEventFlow tag/event layout
+#   FoldMomentKernelTasteGate_visible_rows
+#
+# Input shape:
+#   Full FoldMomentKernelUp event flow.
+#
+# Runtime harness checks the even event positions against the canonical
+# tag(n) = n copies of b1 followed by b0 schedule and verifies that all odd
+# event positions are BHist field payloads.
+PRODUCTIONS 0
+ASSERTIONS 3
+case canonical_all_empty:      input=011111001111101001111101010011111010101001111101010101001111101010101010011111010101010101001111101010101010101001111 ; theorem=fold_tag_layout ; fields=9 ; events=18 ; tag_layout=canonical ; conservative_marks=yes ; conclusion_holds=yes
+case canonical_mixed_fields:   input=011011100111011101001101011101010011100111010101001111101010101001110101110101010101001100111010101010101001110111010101010101010011011 ; theorem=fold_tag_layout ; fields=9 ; events=18 ; tag_layout=canonical ; conservative_marks=yes ; conclusion_holds=yes
+case canonical_unary_ladder:   input=01111100111011101001110101110101001110101011101010100111110101010100111011101010101010011101011101010101010100111010101110101010101010100111010101011 ; theorem=fold_tag_layout ; fields=9 ; events=18 ; tag_layout=canonical ; conservative_marks=yes ; conclusion_holds=yes
