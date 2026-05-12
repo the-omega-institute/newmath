@@ -15,6 +15,7 @@ import json
 import re
 import subprocess
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,7 @@ BEDC_INBOX = BEDC_DEEP_DIR / "state" / "candidate_inbox.jsonl"
 DEFAULT_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-board-continuation-ledger.md"
 DEFAULT_ACK_LEDGER = REPO_ROOT / "docs" / "bridge" / "automath-newmath-ack.jsonl"
 DEFAULT_STATUS_REPORT = REPO_ROOT / "docs" / "bridge" / "automath-newmath-production-status.md"
+DEFAULT_INTAKE_DIGEST = REPO_ROOT / "docs" / "bridge" / "automath-newmath-intake-digest.json"
 LEAN_DECL_RE = re.compile(r"^\s*(?:noncomputable\s+)?(?:def|theorem|lemma|abbrev)\s+([A-Za-z0-9_'.]+)", re.M)
 LATEX_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 
@@ -256,6 +258,36 @@ def _expected_newmath_delta(record: dict[str, Any], mode: str) -> str:
     return "notes or manifest-consumed status only"
 
 
+def _expected_newmath_delta_kind(record: dict[str, Any], mode: str) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if mode != "board_continuation":
+        return "evidence_only" if mode == "evidence_only" else "proposal_seed"
+    if "killogodelcompressionnotfiniterankhomologizable" in source_path:
+        return "obstruction_note"
+    if "killogrothendieckcompletionpreservesinjection" in source_path:
+        return "proof_obligation_shortcut"
+    if "sec_cayley_gate" in source_path:
+        return "theorem_row"
+    return "audit_task"
+
+
+def _bridge_binder(record: dict[str, Any]) -> str:
+    source_path = str(record.get("source_path") or "").lower()
+    if "killogodelcompressionnotfiniterankhomologizable" in source_path:
+        return "obstruction"
+    if "killogrothendieckcompletionpreservesinjection" in source_path:
+        return "bridge"
+    if "sec_cayley_gate" in source_path:
+        return "bridge"
+    if "sec_doob_phi_entropy" in source_path:
+        return "proof_obligation"
+    if "sec_appendix" in source_path:
+        return "coverage"
+    if "circledimension" in source_path:
+        return "obstruction"
+    return "bridge"
+
+
 def _reject_if(record: dict[str, Any], mode: str) -> str:
     source_path = str(record.get("source_path") or "").lower()
     if mode == "board_continuation" and "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path:
@@ -283,28 +315,9 @@ def _title(record: dict[str, Any]) -> str:
 
 def _claim(record: dict[str, Any], packet_rel: str) -> str:
     mode = _bridge_consumption_mode(record)
-    refs = _source_refs(record)
     specific = _specific_board_claim(record)
-    source = f"{record.get('source_repo')}@{record.get('source_branch_or_ref')}:{record.get('source_path')}"
-    theorem_text = ", ".join(refs["theorem_names"]) if refs["theorem_names"] else "(none extracted)"
-    label_text = ", ".join(refs["paper_labels"]) if refs["paper_labels"] else "(none extracted)"
     if mode == "board_continuation":
-        body = specific or "Determine the minimal BEDC-native object that can consume this Automath evidence."
-        return (
-            "Bridge continuation target. Automath already supplies prior evidence; "
-            "do not restart discovery from scratch.\n\n"
-            f"Automath source: `{source}`.\n"
-            f"Source commit: `{record.get('source_commit')}`.\n"
-            f"Evidence packet: `{packet_rel}`.\n"
-            f"Source theorem names: {theorem_text}.\n"
-            f"Source paper labels: {label_text}.\n\n"
-            f"Continuation task: {body}\n\n"
-            "Consume this as one of: existing theorem evidence, candidate mechanism, "
-            "proof-obligation shortcut, paper planning source, or reject/blocked because "
-            "it is not BEDC-fit. The worker should inspect the Automath theorem/paper "
-            "evidence first, then write only the minimal BEDC wrapper/proposal/audit "
-            "task needed by NewMath."
-        )
+        return specific or "If Automath evidence has a named BEDC carrier under the cited setup, then add only the minimal BEDC-native continuation object."
     if specific:
         return specific
     evidence = record.get("evidence_summary")
@@ -325,62 +338,25 @@ def _specific_board_claim(record: dict[str, Any]) -> str:
     labels = ", ".join(refs["paper_labels"][:8]) if refs["paper_labels"] else "(no label extracted)"
     if "killogodelcompressionnotfiniterankhomologizable" in source_path:
         return (
-            "Add a BEDC-side S1 bridge-obligation target that states: any attempted "
-            "finite-rank host homologization of the S1 bridge ledger must expose a "
-            "bounded-rank certificate, and cofinal prime-support evidence rules out "
-            "such a certificate. The target should be phrased as a NewMath/BEDC "
-            "obstruction over `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`, "
-            "not as an import of the Automath theorem."
+            "If a BEDC S1 carrier-readback bridge admits only finite-rank host certificates, "
+            "then Automath cofinal prime-support evidence yields a BEDC obstruction row against that host homologization setup."
         )
     if "killogrothendieckcompletionpreservesinjection" in source_path:
         return (
-            "Add a BEDC-side S1 bridge prerequisite target for cancellation in a "
-            "Grothendieck-style completion: an injective cancellative additive "
-            "source map should remain separated after the displayed completion "
-            "representative is used by bridge readback. The target should connect "
-            "this to the existing S1 carrier/readback transport rows without using "
-            "host quotient primitives as BEDC inputs."
+            "If a BEDC S1 bridge readback uses a cancellative additive source map, "
+            "then Automath completion-injectivity evidence gives a native prerequisite for separated completion representatives."
         )
     if "killos4burnsidekanirosenprymsquare" in source_path:
-        return (
-            "Add a BEDC-side S1 adjacent target asking for a finite representation-ledger "
-            "obligation surface for a Prym-square style bridge: explicit induced "
-            "representation equalities should be recorded only as paper-level "
-            "bridge evidence, while the BEDC target checks which carrier/readback "
-            "rows would be needed before such a host comparison can be admitted."
-        )
+        return ""
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_cayley_gate" in source_path:
         return (
-            "Bridge continuation target for exactly one S1 boundary-readback Cayley "
-            "coordinate certificate. "
-            f"Automath source labels: {labels}. The worker should inspect the "
-            "Automath Cayley coordinate and inverse-map evidence first, then write "
-            "only a BEDC-native carrier-readback row if BEDC already has a named S1 "
-            "readback carrier for the coordinate. Do not import Poisson-kernel, "
-            "strip, RKHS, or analytic boundary theory. Expected delta: one "
-            "certificate row over the S1 carrier/readback surface, or an explicit "
-            "rejection naming the missing BEDC carrier."
+            "If BEDC already has an S1 carrier-readback slot for the Cayley boundary coordinate, "
+            f"then Automath labels {labels} justify one native Cayley coordinate certificate row without importing analytic theory."
         )
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_doob_phi_entropy" in source_path:
-        return (
-            "Bridge continuation target for exactly one BEDC gap-policy shortcut "
-            f"from Automath Doob/Phi evidence. Automath source labels: {labels}. "
-            "The worker should inspect the Automath Doob-transform and Phi-entropy "
-            "dissipation theorem, then decide whether BEDC can name a monotone "
-            "functional carrier without reproving the theorem. Expected delta: one "
-            "gap-policy ledger row or proposal seed that records Automath as prior "
-            "evidence, or an explicit rejection if BEDC lacks the carrier for the "
-            "functional/kernel hypotheses."
-        )
+        return ""
     if "2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa" in source_path and "sec_appendix" in source_path:
-        return (
-            "Bridge continuation target for one evidence-only S1 normalization "
-            f"shortcut from the Automath appendix. Automath source labels: {labels}. "
-            "The worker should inspect the weighted integral lemma only as prior "
-            "evidence for an already named BEDC normalization/readback row. Expected "
-            "delta: mark the evidence consumed by a finite carrier, or reject with "
-            "the missing-carrier reason. Do not open new analytic integral work."
-        )
+        return ""
     return ""
 
 
@@ -410,6 +386,8 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
         "relation": mode,
         "source": "automath_newmath_bridge",
         "local_inputs": _landing_inputs(record),
+        "bridge_binder": _bridge_binder(record),
+        "minimal_claim": _claim(record, packet_rel),
         "source_repo": record.get("source_repo"),
         "source_branch_or_ref": record.get("source_branch_or_ref"),
         "bridge_direction": record.get("bridge_direction"),
@@ -420,6 +398,7 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
         "source_commit": record.get("source_commit"),
         "source_paths": [record.get("source_path")],
         "reuse_instruction": _reuse_instruction(mode),
+        "expected_newmath_delta_kind": _expected_newmath_delta_kind(record, mode),
         "expected_newmath_delta": _expected_newmath_delta(record, mode),
         "reject_if": _reject_if(record, mode),
         "rationale": (
@@ -431,7 +410,10 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
             f"source_commit={record.get('source_commit')}; "
             f"bridge_direction={record.get('bridge_direction')}; "
             f"bridge_consumption_mode={mode}. "
+            f"bridge_binder={_bridge_binder(record)}. "
+            f"minimal_claim={_claim(record, packet_rel)} "
             f"The bridge evidence packet is {packet_rel}. "
+            f"Source theorem names={refs['theorem_names']}; source paper labels={refs['paper_labels']}. "
             f"Expected NewMath delta: {_expected_newmath_delta(record, mode)}. "
             f"Reject if: {_reject_if(record, mode)}."
         ),
@@ -486,7 +468,7 @@ def _eligibility_skip_reason(record: dict[str, Any]) -> str:
         "audit_failure",
     }:
         return f"evidence_only:{source_kind or 'unknown_kind'}"
-    if source_kind == "paper_claim" and not _specific_board_claim(record):
+    if source_kind in {"lean_theorem", "paper_claim"} and not _specific_board_claim(record):
         return "no_specific_board_claim"
     return ""
 
@@ -809,6 +791,71 @@ def _write_status_report(path: Path, summary: dict[str, Any], ack_records: list[
     path.write_text(_render_status_report(summary, ack_records), encoding="utf-8")
 
 
+def _minimal_next_action(summary: dict[str, Any], ack_records: list[dict[str, Any]]) -> str:
+    if int(summary.get("accepted_count") or 0) > 0:
+        return "wait_for_bedc_worker_consumption_and_record_feedback"
+    if int(summary.get("eligible_candidates") or 0) > 0:
+        return "wait_for_bedc_board_judge_or_rewrite_rejected_candidate"
+    reasons = Counter(str(record.get("reason") or "none") for record in ack_records)
+    if reasons.get("no_specific_board_claim", 0):
+        return "keep_sources_evidence_only_until_a_named_bedc_carrier_or_obligation_exists"
+    if reasons.get("history_rejected:too_vague", 0) or reasons.get("history_rejected:too_weak", 0):
+        return "cooldown_unchanged_targets_and_require_a_single_implication_claim_before_retry"
+    if reasons.get("duplicate_board_title", 0):
+        return "do_not_resubmit_duplicates_until_source_commit_or_landing_object_changes"
+    if any(reason.startswith("evidence_only:") for reason in reasons):
+        return "retain_context_as_evidence_only_and_scan_for_new_source_commits"
+    return "monitor_next_cycle"
+
+
+def _intake_digest(summary: dict[str, Any], ack_records: list[dict[str, Any]]) -> dict[str, Any]:
+    status_counts = Counter(str(record.get("status") or "unknown") for record in ack_records)
+    reason_counts = Counter(str(record.get("reason") or "none") for record in ack_records)
+    source_commits = Counter(str(record.get("source_commit") or "unknown") for record in ack_records)
+    candidate_surface: list[dict[str, Any]] = []
+    for record in ack_records[:20]:
+        mode = str(record.get("bridge_consumption_mode") or "evidence_only")
+        source_path = str(record.get("source_path") or "")
+        pseudo = {"source_path": source_path}
+        candidate_surface.append(
+            {
+                "source_path": source_path,
+                "source_commit": record.get("source_commit"),
+                "status": record.get("status"),
+                "reason": record.get("reason"),
+                "bridge_consumption_mode": mode,
+                "bridge_binder": _bridge_binder(pseudo),
+                "expected_newmath_delta_kind": _expected_newmath_delta_kind(pseudo, mode),
+                "next_action": record.get("next_action"),
+            }
+        )
+    digest = {
+        "schema_version": "automath-newmath-intake-digest-v1",
+        "bridge_direction": "automath_to_newmath",
+        "bedc_target_branch": "bedc-claim-packet-pipeline",
+        "board_intake_policy": "minimal_evidence_backed_continuation_targets_only",
+        "eligible_candidates": int(summary.get("eligible_candidates") or 0),
+        "accepted_count": int(summary.get("accepted_count") or 0),
+        "rejected_count": int(summary.get("rejected_count") or 0),
+        "skipped_duplicate_title_count": int(summary.get("skipped_duplicate_title_count") or 0),
+        "appended_ids": list(summary.get("appended_ids") or []),
+        "reason_counts": dict(sorted(reason_counts.items())),
+        "status_counts": dict(sorted(status_counts.items())),
+        "source_commits": dict(sorted(source_commits.items())),
+        "minimal_next_action": _minimal_next_action(summary, ack_records),
+        "candidate_surface": candidate_surface,
+    }
+    event_payload = json.dumps(digest, sort_keys=True, ensure_ascii=True)
+    digest["event_id"] = hashlib.sha1(event_payload.encode("utf-8")).hexdigest()[:16]
+    return digest
+
+
+def _write_intake_digest(path: Path, summary: dict[str, Any], ack_records: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    digest = _intake_digest(summary, ack_records)
+    path.write_text(json.dumps(digest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def _cleanup_unaccepted_packets(packet_paths: list[Path], accepted_rels: set[str]) -> list[str]:
     removed: list[str] = []
     for path in packet_paths:
@@ -843,9 +890,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="Durable continuation ledger path")
     parser.add_argument("--ack-ledger", default=str(DEFAULT_ACK_LEDGER), help="Durable ACK/NACK JSONL ledger path")
     parser.add_argument("--status-report", default=str(DEFAULT_STATUS_REPORT), help="Durable production status Markdown path")
+    parser.add_argument("--intake-digest", default=str(DEFAULT_INTAKE_DIGEST), help="Durable minimal intake digest JSON path")
     parser.add_argument("--no-ledger", action="store_true", help="Do not write durable continuation ledger")
     parser.add_argument("--no-ack-ledger", action="store_true", help="Do not write durable ACK/NACK JSONL")
     parser.add_argument("--no-status-report", action="store_true", help="Do not write durable production status Markdown")
+    parser.add_argument("--no-intake-digest", action="store_true", help="Do not write durable minimal intake digest JSON")
     args = parser.parse_args(argv)
 
     records = _read_jsonl(Path(args.gate_results))
@@ -872,6 +921,8 @@ def main(argv: list[str] | None = None) -> int:
             _append_ack_ledger(Path(args.ack_ledger), ack_records)
         if not args.no_status_report:
             _write_status_report(Path(args.status_report), summary, ack_records)
+        if not args.no_intake_digest:
+            _write_intake_digest(Path(args.intake_digest), summary, ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     if args.apply:
@@ -906,6 +957,8 @@ def main(argv: list[str] | None = None) -> int:
             _append_ack_ledger(Path(args.ack_ledger), ack_records)
         if not args.no_status_report:
             _write_status_report(Path(args.status_report), summary, ack_records)
+        if not args.no_intake_digest:
+            _write_intake_digest(Path(args.intake_digest), summary, ack_records)
         print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
         return 0 if getattr(result, "ok", False) else 1
     summary["dry_run_candidates"] = candidates
@@ -915,6 +968,8 @@ def main(argv: list[str] | None = None) -> int:
         _write_ledger(Path(args.ledger), summary, candidates)
     if not args.no_status_report:
         _write_status_report(Path(args.status_report), summary, ack_records)
+    if not args.no_intake_digest:
+        _write_intake_digest(Path(args.intake_digest), summary, ack_records)
     print(json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 

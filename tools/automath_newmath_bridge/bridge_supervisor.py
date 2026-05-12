@@ -522,6 +522,8 @@ def ingest_to_bedc_board(config: dict[str, Any], *, apply: bool) -> dict[str, An
         cmd.extend(["--ack-ledger", str(REPO_ROOT / str(cfg.get("ack_ledger_path")))])
     if cfg.get("status_report_path"):
         cmd.extend(["--status-report", str(REPO_ROOT / str(cfg.get("status_report_path")))])
+    if cfg.get("intake_digest_path"):
+        cmd.extend(["--intake-digest", str(REPO_ROOT / str(cfg.get("intake_digest_path")))])
     if apply:
         cmd.append("--apply")
     result = run_command(cmd, timeout=900 if apply else 120)
