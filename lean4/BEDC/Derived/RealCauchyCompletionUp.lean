@@ -175,6 +175,58 @@ theorem RealCauchyCompletionCarrier_public_real_name_export [AskSetup] [PackageS
           regseqReadUnary, dyadicLedgerUnary, realSealUnary, provenancePkg, localCertPkg⟩
   }
 
+theorem RealCauchyCompletionCarrier_modulus_diagonal_exactness [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert selectedRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      Cont modulus diagonal selectedRead ->
+        PkgSig bundle selectedRead pkg ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory selectedRead ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont modulus diagonal selectedRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle selectedRead pkg := by
+  intro carrier modulusDiagonalRead selectedPkg
+  cases carrier with
+  | intro familyUnary rest =>
+      cases rest with
+      | intro modulusUnary rest =>
+          cases rest with
+          | intro windowUnary rest =>
+              cases rest with
+              | intro dyadicUnary rest =>
+                  cases rest with
+                  | intro _provenanceUnary rest =>
+                      cases rest with
+                      | intro familyModulusDiagonal rest =>
+                          cases rest with
+                          | intro diagonalWindowReadback rest =>
+                              cases rest with
+                              | intro readbackDyadicSeal rest =>
+                                  cases rest with
+                                  | intro _sealLocalCertProvenance provenancePkg =>
+                                      have diagonalUnary : UnaryHistory diagonal :=
+                                        unary_cont_closed familyUnary modulusUnary
+                                          familyModulusDiagonal
+                                      have readbackUnary : UnaryHistory readback :=
+                                        unary_cont_closed diagonalUnary windowUnary
+                                          diagonalWindowReadback
+                                      have sealUnary : UnaryHistory «seal» :=
+                                        unary_cont_closed readbackUnary dyadicUnary
+                                          readbackDyadicSeal
+                                      have selectedUnary : UnaryHistory selectedRead :=
+                                        unary_cont_closed modulusUnary diagonalUnary
+                                          modulusDiagonalRead
+                                      exact
+                                        ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary,
+                                          readbackUnary, dyadicUnary, sealUnary, selectedUnary,
+                                          familyModulusDiagonal, diagonalWindowReadback,
+                                          readbackDyadicSeal, modulusDiagonalRead, provenancePkg,
+                                          selectedPkg⟩
+
 theorem RealCauchyCompletionCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {family modulus diagonal window readback dyadic sealRow provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -365,5 +417,42 @@ theorem RealCauchyCompletionCarrier_probe_bundle_window_coverage [AskSetup] [Pac
   exact
     ⟨diagonalUnary, streamUnary, regseqUnary, dyadicUnary, realSealUnary, consumerUnary,
       surfaceUnary, semantic⟩
+
+theorem RealCauchyCompletionCarrier_regular_family_input_interface [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic sealRow provenance localCert
+      selectedMember completionSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont family modulus selectedMember ->
+          Cont selectedMember window readback ->
+            Cont sealRow localCert completionSurface ->
+              PkgSig bundle completionSurface pkg ->
+                UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory selectedMember ∧
+                  UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                    UnaryHistory completionSurface ∧ Cont family modulus diagonal ∧
+                      Cont family modulus selectedMember ∧
+                        Cont selectedMember window readback ∧
+                          Cont sealRow localCert completionSurface ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle completionSurface pkg := by
+  intro carrier localCertUnary selectedMemberRoute selectedReadbackRoute
+    completionSurfaceRoute completionSurfacePkg
+  obtain ⟨familyUnary, modulusUnary, windowUnary, dyadicUnary, _provenanceUnary,
+    familyModulusDiagonal, _diagonalWindowReadback, readbackDyadicSeal,
+    _sealLocalCertProvenance, provenancePkg⟩ := carrier
+  have selectedMemberUnary : UnaryHistory selectedMember :=
+    unary_cont_closed familyUnary modulusUnary selectedMemberRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectedMemberUnary windowUnary selectedReadbackRoute
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicSeal
+  have completionSurfaceUnary : UnaryHistory completionSurface :=
+    unary_cont_closed sealRowUnary localCertUnary completionSurfaceRoute
+  exact
+    ⟨familyUnary, modulusUnary, selectedMemberUnary, windowUnary, readbackUnary,
+      sealRowUnary, completionSurfaceUnary, familyModulusDiagonal, selectedMemberRoute,
+      selectedReadbackRoute, completionSurfaceRoute, provenancePkg, completionSurfacePkg⟩
 
 end BEDC.Derived.RealCauchyCompletionUp
