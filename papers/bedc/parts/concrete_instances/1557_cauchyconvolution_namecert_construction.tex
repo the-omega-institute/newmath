@@ -38,6 +38,7 @@ Every accepted $\CauchyConvolutionUp$ packet with carrier \autoref{def:cauchy-co
 \end{enumerate}
 These obligations are the complete local certificate surface for the finite Cauchy-product route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvolutionUp.CauchyConvolutionCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier habitation is witnessed by the displayed zero source rows. Their finite convolution coefficients are zero, the product-prefix ledger is zero, and the dyadic tail budget is the zero budget. Repacking those rows gives the zero regular rational handoff and its real-seal-facing row.
 
@@ -66,6 +67,7 @@ The construction does not add a host product, a quotient stream, a selected infi
 \label{thm:cauchy-convolution-tail-budget-compatibility}
 For every accepted $\CauchyConvolutionUp$ carrier $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the source fast-tail schedules and finite source-window bounds in $F$ and $G$, together with the product-prefix rows in $A$ over the inspected coefficients of $K$, determine exactly the $\DyadicTailBoundUp$ ledger $D$ consumed by the $\RegSeqRatUp$ handoff row $R$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvolutionUp.CauchyConvolutionTailBudgetCompatibility}
 \begin{proof}
 Read the two source packets $F$ and $G$. Their fast-tail schedules and finite source-window bounds are part of the displayed source rows, so they can be transported only through the componentwise rows in $H$ and consumed only through the routes in $C$.
 
@@ -112,6 +114,39 @@ Start from the seal coordinate $E$ of the accepted carrier. By the carrier defin
 Apply \autoref{thm:cauchy-convolution-finite-tail-ledger}. It identifies the regularity evidence for $R$ with the finite product-prefix ledger $A$ and dyadic tail budget $D$, both built over the inspected convolution coefficients in $K$ and the displayed source rows $F$ and $G$.
 
 The remaining coordinates $H$, $C$, $P$, and $N$ record transport, continuation, package provenance, and local naming. They preserve the displayed route but do not add quotient streams, selected sums, host real multiplication, or completeness. Hence every exported seal read factors through the finite Cauchy-convolution packet alone.
+\end{proof}
+
+\begin{definition}[CauchyConvolution obligation surface]
+\label{def:cauchy-convolution-obligation-surface}
+For an accepted $\CauchyConvolutionUp$ packet
+$$
+Q=(F,G,K,A,D,R,E,H,C,P,N),
+$$
+the obligation surface consists of source-series admission, finite convolution coefficient ledger, dyadic tail-budget compatibility, $\RegSeqRatUp$ handoff, and $\RealUp$ seal non-escape. The surface is confined to $\FastConvergentSeriesUp$, $\FastSeriesProductUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{definition}
+
+\begin{theorem}[CauchyConvolution obligation ledger exactness]
+\label{thm:cauchy-convolution-obligation-ledger-exactness}
+For every accepted $\CauchyConvolutionUp$ packet $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the source-series, finite coefficient, and dyadic tail-budget obligations of \autoref{def:cauchy-convolution-obligation-surface} are witnessed by the concrete rows $F,G,K,A,D,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-convolution-carrier-admission}. It admits the source series rows, finite convolution row, product-prefix ledger, dyadic tail-budget row, and provenance rows as one finite carrier.
+
+Apply \autoref{thm:cauchy-convolution-tail-budget-compatibility}. This binds the source fast-tail schedules and finite source-window bounds to the dyadic tail budget consumed by the regular handoff.
+
+Finally apply \autoref{thm:cauchy-convolution-finite-tail-ledger}. The convolution coefficient ledger remains finite and tied to $K,A,D$ before the handoff row $R$ is read.
+\end{proof}
+
+\begin{theorem}[CauchyConvolution obligation real handoff package]
+\label{thm:cauchy-convolution-obligation-real-handoff-package}
+For every accepted $\CauchyConvolutionUp$ packet $Q=(F,G,K,A,D,R,E,H,C,P,N)$, the $\RegSeqRatUp$ handoff and $\RealUp$ seal non-escape obligations of \autoref{def:cauchy-convolution-obligation-surface} are exactly the displayed route through $R,E,H,C,P,N$ together with the finite convolution ledger $F,G,K,A,D$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-convolution-real-seal-factorization-boundary}. It factors the real-facing route through the regular rational handoff row and the finite convolution ledger.
+
+Then use \autoref{thm:cauchy-convolution-real-seal-handoff}. It identifies the exported seal as a read of $R$ supported by $A$ and $D$ over $K$, with source rows $F$ and $G$ retained as finite provenance.
+
+The transport, continuation, package, and naming rows preserve that route and do not introduce host real multiplication, quotient equality, selected infinite summation, or completeness.
 \end{proof}
 
 \closureat{CauchyConvolutionUp}{seedStr}
