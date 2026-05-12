@@ -327,6 +327,38 @@ so it is the standard finite continued-fraction packet boundary and nothing
 stronger.
 \end{proof}
 
+\begin{theorem}[ContinuedFraction rational-interval window handoff]
+\label{thm:continuedfraction-rational-interval-window-handoff}
+Every accepted $\ContinuedFractionUp$ packet whose convergent window is read as
+a $\RationalIntervalUp$ endpoint window exposes exactly the finite
+partial-quotient spine, the $\RatUp$ numerator and denominator rows, the
+$\DyadicRatCoreUp$ radius row, the $\StreamNameUp$ schedule, the
+$\RegSeqRatUp$ handoff, the $\RealUp$ seal boundary, displayed $\hsame$
+transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\ContinuedFractionUp}$ row.
+
+The handoff exports no completed real, quotient tail, total expansion theorem,
+or interval arithmetic law.
+\end{theorem}
+\begin{proof}
+First read the scheduled convergent rows through
+\autoref{thm:continuedfraction-regseqrat-handoff}. This identifies the finite
+partial-quotient spine, rational numerator and denominator rows, dyadic radius
+row, stream schedule, $\hsame$ transports, $\Cont$ routes, and package
+provenance as the regular rational source seen by the consumer.
+
+Next apply \autoref{thm:continuedfraction-obligation-finite-handoff}. The
+finite handoff exhaustion accounts for the displayed recurrence and endpoint
+window rows, so the $\RationalIntervalUp$ consumer can only read the finite
+endpoint shape already present in the packet.
+
+Finally use \autoref{thm:continuedfraction-real-boundary}. The real-facing seal
+is the boundary row of the same finite handoff, while the rational-interval
+endpoint and containment rows are only its finite consumer shape. Thus no
+completed real, quotient tail, total expansion theorem, or interval arithmetic
+law is exported.
+\end{proof}
+
 \closureat{ContinuedFractionUp}{seedStr}
 \closureat{ContinuedFractionUp}{obligationStr}
 \closureat{ContinuedFractionUp}{scopedStr}
