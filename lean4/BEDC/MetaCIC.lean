@@ -19,6 +19,7 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.Normalization
+import BEDC.MetaCIC.Consistency
 import BEDC.MetaCIC.Evaluation.EvalClosed
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.Decidable
@@ -32,6 +33,7 @@ import BEDC.MetaCIC.TypedExamples.ChurchAlgebra
 import BEDC.MetaCIC.TypedExamples.ChurchBoolLogic
 import BEDC.MetaCIC.TypedExamples.ChurchNatRec
 import BEDC.MetaCIC.TypedExamples.ChurchNatArith
+import BEDC.MetaCIC.TypedExamples.ChurchNatPred
 import BEDC.MetaCIC.TypedExamples.BetaRedex
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
