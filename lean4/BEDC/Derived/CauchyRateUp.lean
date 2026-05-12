@@ -49,6 +49,38 @@ theorem CauchyRateCarrier_regular_family_handoff [AskSetup] [PackageSetup]
     unary_cont_closed scheduleUnary handoffReadUnary rateReadRow
   exact ⟨handoffReadUnary, rateReadUnary, regseqSame, pkgSig⟩
 
+theorem CauchyRateCarrier_scheduled_window_totality [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance nameCert
+      scheduledWindow downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont precision schedule scheduledWindow ->
+        Cont scheduledWindow tolerance downstreamRead ->
+          PkgSig bundle downstreamRead pkg ->
+            UnaryHistory precision ∧ UnaryHistory schedule ∧ UnaryHistory tolerance ∧
+              UnaryHistory scheduledWindow ∧ UnaryHistory downstreamRead ∧
+                Cont precision schedule scheduledWindow ∧
+                  Cont scheduledWindow tolerance downstreamRead ∧
+                    hsame tolerance scheduledWindow ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle downstreamRead pkg := by
+  intro carrier scheduledWindowRow downstreamReadRow downstreamPkg
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, _familyUnary, _regseqUnary,
+    _completionUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    precisionScheduleTolerance, _familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, _regseqSame, provenancePkg⟩ :=
+    carrier
+  have scheduledWindowUnary : UnaryHistory scheduledWindow :=
+    unary_cont_closed precisionUnary scheduleUnary scheduledWindowRow
+  have downstreamReadUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed scheduledWindowUnary toleranceUnary downstreamReadRow
+  have toleranceSameScheduledWindow : hsame tolerance scheduledWindow :=
+    cont_deterministic precisionScheduleTolerance scheduledWindowRow
+  exact
+    ⟨precisionUnary, scheduleUnary, toleranceUnary, scheduledWindowUnary, downstreamReadUnary,
+      scheduledWindowRow, downstreamReadRow, toleranceSameScheduledWindow, provenancePkg,
+      downstreamPkg⟩
+
 theorem CauchyRateCarrier_real_cauchy_consumer_boundary [AskSetup] [PackageSetup]
     {precision schedule tolerance family regseq completion transport route provenance
       nameCert : BHist}
@@ -223,6 +255,37 @@ theorem CauchyRateCarrier_namecert_obligations [AskSetup] [PackageSetup]
           (And.intro familyUnary
             (And.intro regseqUnary
               (And.intro completionUnary (And.intro regseqSame pkgSig)))))))
+
+theorem CauchyRateCarrier_effective_route_scope [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance nameCert
+      scheduledFamily directRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont tolerance family scheduledFamily ->
+        Cont precision (append schedule family) directRead ->
+          hsame scheduledFamily directRead ∧ UnaryHistory scheduledFamily ∧
+            UnaryHistory directRead ∧ PkgSig bundle provenance pkg := by
+  intro carrier toleranceFamilyRow directReadRow
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, familyUnary, _regseqUnary,
+    _completionUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    precisionScheduleTolerance, _familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, _regseqSame, provenancePkg⟩ :=
+    carrier
+  have scheduledFamilyUnary : UnaryHistory scheduledFamily :=
+    unary_cont_closed toleranceUnary familyUnary toleranceFamilyRow
+  have scheduleFamilyUnary : UnaryHistory (append schedule family) :=
+    unary_cont_closed scheduleUnary familyUnary (cont_intro rfl)
+  have directReadUnary : UnaryHistory directRead :=
+    unary_cont_closed precisionUnary scheduleFamilyUnary directReadRow
+  have scheduledFamilyDirectRow :
+      Cont precision (append schedule family) scheduledFamily := by
+    cases precisionScheduleTolerance
+    cases toleranceFamilyRow
+    exact append_assoc precision schedule family
+  have scheduledSameDirect : hsame scheduledFamily directRead :=
+    cont_deterministic scheduledFamilyDirectRow directReadRow
+  exact ⟨scheduledSameDirect, scheduledFamilyUnary, directReadUnary, provenancePkg⟩
 
 theorem CauchyRateCarrier_ledger_exactness [AskSetup] [PackageSetup]
     {precision schedule tolerance family regseq completion transport route provenance nameCert

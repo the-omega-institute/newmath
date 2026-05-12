@@ -115,4 +115,19 @@ theorem FreeMonoidWordCarrier_namecert_obligation_surface [AskSetup] [PackageSet
       exact sourceRow.left
   }
 
+theorem FreeMonoidWordCarrier_empty_concat_inversion [AskSetup] [PackageSetup]
+    {u v uv route provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier u route provenance bundle pkg ->
+      FreeMonoidWordCarrier v route provenance bundle pkg ->
+        Cont u v uv -> hsame uv BHist.Empty ->
+          hsame u BHist.Empty ∧ hsame v BHist.Empty ∧
+            UnaryHistory u ∧ UnaryHistory v ∧ PkgSig bundle provenance pkg := by
+  intro uCarrier vCarrier uvRow uvEmpty
+  obtain ⟨uUnary, _routeUnary, _provenanceUnary, _uRouteProvenance, uPkg⟩ := uCarrier
+  obtain ⟨vUnary, _routeUnary', _provenanceUnary', _vRouteProvenance, _vPkg⟩ := vCarrier
+  have uvEmptyRow : Cont u v BHist.Empty :=
+    cont_result_hsame_transport uvRow uvEmpty
+  have factorsEmpty := cont_empty_result_inversion uvEmptyRow
+  exact ⟨factorsEmpty.left, factorsEmpty.right, uUnary, vUnary, uPkg⟩
+
 end BEDC.Derived.FreeMonoidUp
