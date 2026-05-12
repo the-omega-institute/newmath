@@ -317,12 +317,37 @@ static void test_mark_manifest_productions(void) {
     printf("  mark_manifest_productions: PASS\n");
 }
 
+static void test_phase_exact_catalog_missing(void) {
+    uint8_t p0[2] = {1, 0};
+    uint8_t p1[1] = {1};
+    uint8_t *productions[2] = {p0, p1};
+    size_t prod_lens[2] = {2, 1};
+    uint8_t tape[3] = {1, 0, 1};
+    CyclicTagInput ct = {productions, prod_lens, 2, tape, 3};
+    uint8_t cells[8192];
+    size_t written = 0;
+    int rc = 0;
+
+    memset(cells, 0x5a, sizeof(cells));
+    rc = cook_encode_phase_exact(&ct, cells, sizeof(cells), &written);
+
+    assert(rc == COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING);
+    assert(written > 0);
+    assert(written <= sizeof(cells));
+    for (size_t i = 0; i < sizeof(cells); i++) {
+        assert(cells[i] == 0x5a);
+    }
+
+    printf("  phase_exact_catalog_missing: PASS\n");
+}
+
 int main(void) {
     printf("== test_cook_encode_arbitrary ==\n");
     test_two_productions_empty_tape();
     test_two_productions_five_bit_tape();
     test_four_productions_three_bit_tape();
     test_mark_manifest_productions();
+    test_phase_exact_catalog_missing();
     printf("ALL test_cook_encode_arbitrary tests passed\n");
     return 0;
 }
