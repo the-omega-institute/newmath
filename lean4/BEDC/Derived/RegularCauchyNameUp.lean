@@ -101,6 +101,38 @@ theorem RegularCauchyNamePacket_handoff_nonempty_iff [AskSetup] [PackageSetup]
     exact append_nonempty_iff
   exact ⟨handoffUnary, handoffNonempty, provenancePkg, handoffPkg⟩
 
+theorem RegularCauchyNamePacket_common_window_classifier_scope [AskSetup] [PackageSetup]
+    {schedule observation radius ledger sealRow provenance name window window' point point' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNamePacket schedule observation radius ledger sealRow provenance name bundle
+        pkg ->
+      Cont schedule observation window ->
+        Cont schedule observation window' ->
+          Cont window radius point ->
+            Cont window' radius point' ->
+              hsame window window' ∧ hsame point point' ∧ UnaryHistory window ∧
+                UnaryHistory window' ∧ UnaryHistory point ∧ UnaryHistory point' ∧
+                  PkgSig bundle provenance pkg := by
+  intro packet windowRow windowRow' pointRow pointRow'
+  obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
+    _provenanceUnary, _nameUnary, provenancePkg⟩ := packet
+  have sameWindow : hsame window window' :=
+    cont_deterministic windowRow windowRow'
+  have samePoint : hsame point point' :=
+    cont_respects_hsame sameWindow (hsame_refl radius) pointRow pointRow'
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary observationUnary windowRow
+  have windowUnary' : UnaryHistory window' :=
+    unary_cont_closed scheduleUnary observationUnary windowRow'
+  have pointUnary : UnaryHistory point :=
+    unary_cont_closed windowUnary radiusUnary pointRow
+  have pointUnary' : UnaryHistory point' :=
+    unary_cont_closed windowUnary' radiusUnary pointRow'
+  exact
+    ⟨sameWindow, samePoint, windowUnary, windowUnary', pointUnary, pointUnary',
+      provenancePkg⟩
+
 def RegularCauchyNameCarrier [AskSetup] [PackageSetup]
     (schedule observation radius ledger sealRow provenance namecert endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
