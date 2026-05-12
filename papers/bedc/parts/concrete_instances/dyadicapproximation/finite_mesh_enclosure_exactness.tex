@@ -1,0 +1,95 @@
+\begin{definition}[DyadicApproximation mesh-enclosure exactness packet]
+\label{def:dyadicapproximation-mesh-enclosure-exactness-packet}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ row, let
+$M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell row, and let
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p',n')$ be an accepted
+$\ValidatedNumericsUp$ enclosure row. A DyadicApproximation mesh-enclosure
+exactness packet is the finite BEDC packet consisting of these three rows
+together with the following shared coordinates:
+\begin{enumerate}
+\item a shared displayed precision row identifying $n$, $\ell$, and
+$\varepsilon$ as the same finite request through visible $\hsame$ rows;
+\item the rational interval cell $I$ and its dyadic endpoint-radius-order
+ledger $E$, with $d$ read as the transported endpoint contained in $I$;
+\item the $\RealUp$ finite-window seal read from $w$, $l$, $\rho$, and
+$\lambda$, with no completed real coordinate added to the packet;
+\item the visible $\hsame$ transports that identify the dyadic endpoint,
+regular-rational observation window, mesh cell, and enclosure readback rows;
+\item the visible $\Cont$ routes by which the dyadic finite window, mesh cell
+containment, rational-interval coverage, validated readback, and precision
+refinement are inspected by consumers;
+\item the $\Pkg$ provenance rows $p$, $P$, and $p'$ naming the
+$\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$,
+$\DyadicMeshUp$, and $\ValidatedNumericsUp$ dependency surface;
+\item the local $\NameCert_{\DyadicApproximationUp}$,
+$\NameCert_{\DyadicMeshUp}$, and $\NameCert_{\ValidatedNumericsUp}$
+provenance rows.
+\end{enumerate}
+The packet is finite: its carrier is only the accepted rows and the displayed
+transport, continuation, provenance, and local naming evidence listed above.
+\end{definition}
+
+\begin{theorem}[DyadicApproximation finite mesh-enclosure exactness]
+\label{thm:dyadicapproximation-finite-mesh-enclosure-exactness}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ row, let
+$M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell row whose
+$\RationalIntervalUp$ cell $I$ contains the transported endpoint $d$ at the
+displayed precision, and let
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p',n')$ be an accepted
+$\ValidatedNumericsUp$ enclosure row over the same cell and containment ledger.
+Assume the visible $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows
+identify the precision request, rational interval cell, $\RealUp$ finite
+window seal, and enclosure readback rows as in
+\autoref{def:dyadicapproximation-mesh-enclosure-exactness-packet}.
+
+Then every accepted mesh-cell or validated-enclosure consumer read through
+that packet factors through one finite $\RealUp$ surface. The factorization is
+exactly the DyadicApproximation $\RealUp$ seal handoff and finite-window
+scope, the DyadicMesh cell-containment and rational-interval coverage rows,
+the DyadicMesh handoff to ValidatedNumerics, and the ValidatedNumerics real
+readback and precision-refinement containment rows.
+
+Consequently the mesh-cell consumer and the validated-enclosure consumer read
+the same finite surface: the shared precision row, transported dyadic endpoint,
+rational interval cell, endpoint-radius-order ledger, regular-rational
+observation window, $\RealUp$ readback token, visible $\hsame$ transports,
+visible $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ provenance.
+The statement does not assert completed real equality, infinite mesh
+refinement, solver correctness, floating-point semantics, or choice-selected
+limits.
+\end{theorem}
+\begin{proof}
+First project the accepted dyadic row. Apply
+\autoref{thm:dyadic-approximation-real-seal-handoff} to expose the only
+$\RealUp$ handoff surface carried by $A$, and apply
+\autoref{thm:dyadicapproximation-window-scope} to restrict all dyadic reads to
+the displayed finite window. This produces the precision row, transported
+endpoint, regular-rational observation window, seal ledger, visible
+transports, continuation routes, package provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ row.
+
+Next project the mesh rows. Apply
+\autoref{thm:dyadicmesh-cell-containment-obligation} for the level, cell index,
+rational interval cell, dyadic containment ledger, transport, continuation,
+provenance, and local naming rows. Apply
+\autoref{thm:dyadicmesh-rationalinterval-coverage} to read $I$ as the complete
+finite coverage object, and apply
+\autoref{thm:dyadicmesh-validatednumerics-handoff} to identify the mesh
+handoff rows consumed by the enclosure.
+
+Now project the validated enclosure rows. Apply
+\autoref{thm:validatednumerics-real-readback-soundness} to tie the
+$\RealUp$ readback token to the displayed $\RegSeqRatUp$ window and precision
+request. Apply
+\autoref{thm:validatednumerics-precision-refinement-containment} to keep every
+refined finite read inside the same rational interval cell and containment
+ledger.
+
+Finally repack the projected rows into the exactness packet of
+\autoref{def:dyadicapproximation-mesh-enclosure-exactness-packet}. The
+identifications in the hypotheses make the dyadic seal handoff, mesh cell
+coverage, and validated enclosure readback one shared finite BEDC surface.
+Every cited boundary is a finite packet boundary, so no completed real
+equality, infinite mesh refinement, solver correctness, floating-point
+semantics, or choice-selected limit is exported.
+\end{proof}
