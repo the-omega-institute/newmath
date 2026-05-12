@@ -22,6 +22,101 @@ static int bits_to_bytes(const char *input_bits, uint8_t **out, size_t *out_len)
     return 1;
 }
 
+static size_t append_bit_chars(char *dst, size_t off, const char *bits, size_t len) {
+    for (size_t i = 0; i < len; i++) {
+        dst[off++] = bits[i];
+    }
+    dst[off] = '\0';
+    return off;
+}
+
+static size_t encode_bhist_bits(const uint8_t *choices,
+                                size_t depth,
+                                char *out,
+                                size_t out_cap) {
+    size_t off = 0;
+
+    for (size_t i = 0; i < depth; i++) {
+        if (choices[i] == 0) {
+            if (off + 1 >= out_cap) return 0;
+            out[off++] = '0';
+        } else {
+            if (off + 2 >= out_cap) return 0;
+            out[off++] = '1';
+            out[off++] = '0';
+        }
+    }
+
+    if (off + 2 >= out_cap) return 0;
+    out[off++] = '1';
+    out[off++] = '1';
+    out[off] = '\0';
+    return off;
+}
+
+static void make_bhist_choices(unsigned value,
+                               size_t depth,
+                               uint8_t *choices) {
+    for (size_t i = 0; i < depth; i++) {
+        size_t shift = depth - i - 1;
+        choices[i] = (uint8_t)((value >> shift) & 1u);
+    }
+}
+
+static int build_external_input(unsigned a_value,
+                                size_t a_depth,
+                                unsigned b_value,
+                                size_t b_depth,
+                                unsigned r_value,
+                                size_t r_depth,
+                                char *out,
+                                size_t out_cap) {
+    uint8_t a_choices[4];
+    uint8_t b_choices[4];
+    uint8_t r_choices[4];
+    char a_bits[16];
+    char b_bits[16];
+    char r_bits[16];
+    size_t a_len;
+    size_t b_len;
+    size_t r_len;
+    size_t off = 0;
+
+    make_bhist_choices(a_value, a_depth, a_choices);
+    make_bhist_choices(b_value, b_depth, b_choices);
+    make_bhist_choices(r_value, r_depth, r_choices);
+
+    a_len = encode_bhist_bits(a_choices, a_depth, a_bits, sizeof(a_bits));
+    b_len = encode_bhist_bits(b_choices, b_depth, b_bits, sizeof(b_bits));
+    r_len = encode_bhist_bits(r_choices, r_depth, r_bits, sizeof(r_bits));
+    if (a_len == 0 || b_len == 0 || r_len == 0) return 0;
+    if (a_len + b_len + r_len + 1 > out_cap) return 0;
+
+    off = append_bit_chars(out, off, a_bits, a_len);
+    off = append_bit_chars(out, off, b_bits, b_len);
+    append_bit_chars(out, off, r_bits, r_len);
+    return 1;
+}
+
+static void expected_positional_certificate(const char *input_bits,
+                                            char *out,
+                                            size_t out_cap) {
+    size_t off = 0;
+    size_t len = strlen(input_bits);
+
+    assert(len <= 32);
+    for (size_t i = 0; i < len; i++) {
+        if (input_bits[i] == '1') {
+            assert(off + 6 < out_cap);
+            out[off++] = '1';
+            for (int bit = 4; bit >= 0; bit--) {
+                out[off++] = ((i >> (size_t)bit) & 1u) ? '1' : '0';
+            }
+        }
+    }
+    out[off] = '\0';
+}
+
 static void free_bhist(BHist *h) {
     free(h->choices);
     h->choices = NULL;
@@ -291,6 +386,34 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
+static void assert_external_algo_ct_case_with_marker(const char *input_bits,
+                                                     int expected_holds,
+                                                     const char *expected_marker) {
+    MrResult r;
+
+    assert(decode_external_append_holds(input_bits) == expected_holds);
+    r = mr_run_ct_manifest("manifests/external_binary/external_binary_basic.algo.ct",
+                           input_bits,
+                           expected_marker,
+                           strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "external_binary_basic.algo CT FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+static void assert_external_algo_ct_case(const char *input_bits, int expected_holds) {
+    char expected_marker[256];
+
+    expected_positional_certificate(input_bits,
+                                    expected_marker,
+                                    sizeof(expected_marker));
+    assert_external_algo_ct_case_with_marker(input_bits,
+                                             expected_holds,
+                                             expected_marker);
+}
+
 static void test_model_reuse(void) {
     BHist empty = {NULL, 0};
     BHist e0 = {NULL, 0};
@@ -330,8 +453,66 @@ static void test_external_basic_enum(void) {
 
 static void test_external_basic_algo(void) {
     assert_external_basic_cases();
-    assert_manifest_smoke("manifests/external_binary/external_binary_basic.algo.ct", "111111");
-    printf("  external_binary_basic.algo: 12/12 cases PASS\n");
+    assert_external_algo_ct_case_with_marker("111111",
+                                             1,
+                                             "100000100001100010100011100100100101");
+    printf("  external_binary_basic.algo: 12/12 decoder cases + CT smoke PASS\n");
+}
+
+static void test_external_algo_via_ct_runner(void) {
+    struct ExternalAlgoCase {
+        const char *input;
+        int holds;
+        const char *marker;
+    };
+    const struct ExternalAlgoCase manifest_cases[] = {
+        {"111111", 1, "100000100001100010100011100100100101"},
+        {"01111011", 1, "100001100010100011100100100110100111"},
+        {"1110111011", 1, "100000100001100010100100100101100110101000101001"},
+        {"011101110011", 1, "100001100010100011100101100110100111101010101011"},
+        {"100110101101010011", 1, "100000100011100100100110101000101001101011101101110000110001"},
+        {"010111001110001011", 1, "100001100011100100100101101000101001101010101110110000110001"},
+        {"1111011", 0, "100000100001100010100011100101100110"},
+        {"1101111", 0, "100000100001100011100100100101100110"},
+        {"011101101011", 0, "100001100010100011100101100110101000101010101011"},
+        {"10011011101011", 0, "100000100011100100100110100111101000101010101100101101"},
+        {"010111001011", 0, "100001100011100100100101101000101010101011"},
+        {"101111011", 0, "100000100010100011100100100101100111101000"}
+    };
+    char input[64];
+    size_t checked = 0;
+
+    for (size_t i = 0; i < sizeof(manifest_cases) / sizeof(manifest_cases[0]); i++) {
+        assert_external_algo_ct_case_with_marker(manifest_cases[i].input,
+                                                 manifest_cases[i].holds,
+                                                 manifest_cases[i].marker);
+    }
+
+    for (size_t a_depth = 0; a_depth <= 2; a_depth++) {
+        unsigned a_limit = 1u << a_depth;
+        for (unsigned a_value = 0; a_value < a_limit; a_value++) {
+            for (size_t b_depth = 0; b_depth <= 2; b_depth++) {
+                unsigned b_limit = 1u << b_depth;
+                for (unsigned b_value = 0; b_value < b_limit; b_value++) {
+                    for (size_t r_depth = 0; r_depth <= 2; r_depth++) {
+                        unsigned r_limit = 1u << r_depth;
+                        for (unsigned r_value = 0; r_value < r_limit; r_value++) {
+                            assert(build_external_input(a_value, a_depth,
+                                                        b_value, b_depth,
+                                                        r_value, r_depth,
+                                                        input, sizeof(input)));
+                            assert_external_algo_ct_case(input,
+                                                         decode_external_append_holds(input));
+                            checked++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    printf("  external_binary_basic.algo CT runner: %zu bounded cases PASS\n",
+           checked + 12);
 }
 
 static void test_external_inversion(void) {
@@ -363,8 +544,9 @@ int main(void) {
     test_model_reuse();
     test_external_basic_enum();
     test_external_basic_algo();
+    test_external_algo_via_ct_runner();
     test_external_inversion();
     test_external_cancellation_and_congruence();
-    printf("ALL test_external_binary assertions passed (43 ExternalBinary cases + 2-manifest pipeline smoke)\n");
+    printf("ALL test_external_binary assertions passed (bounded ExternalBinary CT runner + decoder cross-check)\n");
     return 0;
 }
