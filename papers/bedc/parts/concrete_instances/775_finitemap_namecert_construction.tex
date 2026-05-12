@@ -79,3 +79,36 @@ These five rows are closed under consumer readback because every consumer-visibl
   \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
   \upgradepath{Public closure requires a single exported finite-map boundary over the same $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
 \end{closurestatus}
+
+\begin{definition}[FiniteMapUp displayed support boundary]
+\label{def:finitemap-displayed-support-boundary}
+Let $M$ be an accepted $\FiniteMapUp$ source in the sense of \autoref{def:finitemap-namecert-source}, presented by a finite $\ListUp$ spine $xs$ of $\ProdUp$ key-value rows. Define $\mathsf{KeyRows}(xs):\mathsf{HistSpine}$ by structural readback from the displayed spine: the empty spine maps to $\mathsf{nil}$, and a cons row whose $\ProdUp$ first component is the displayed key history $k$ maps to the cons spine with head $k$ and tail $\mathsf{KeyRows}(xs')$.
+
+The displayed support boundary of $M$ is the $\FinSetUp$ enumeration row
+$$
+\mathsf{FiniteMapSupport}_{A,\sim_A}(M)(z)
+\Longleftrightarrow
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(\mathsf{KeyRows}(xs))(z),
+$$
+where $A$ and $\sim_A$ are the key-side carrier and classifier consumed by the finite-support read. Its ledger contains, for every position of the original $\ListUp$ spine, the corresponding projected key position in $\mathsf{KeyRows}(xs)$, the $\mathsf{BHist}$ provenance of the original key-value row, and the first-hit or suppressed-duplicate status recorded by the finite-map duplicate-key ledger.
+\end{definition}
+
+\begin{theorem}[FiniteMapUp displayed support readback]
+\label{thm:finitemap-displayed-support-readback}
+Let $M$ be an accepted $\FiniteMapUp$ source with displayed $\ListUp$ spine $xs$ of $\ProdUp$ key-value rows. Reading $M$ through the $\FinSetUp$ support boundary of \autoref{def:finitemap-displayed-support-boundary} exposes exactly the displayed key rows of $xs$:
+$$
+\mathsf{FiniteMapSupport}_{A,\sim_A}(M)(z)
+\Longleftrightarrow
+\exists k:\mathsf{BHist}.\;\mathsf{SpineMember}(k,\mathsf{KeyRows}(xs))\land z\sim_A k.
+$$
+Moreover, if two positions of $xs$ display keys in the same $\sim_A$-class, both projected key positions remain in the support ledger, while the $\OptionUp$ lookup read of \autoref{thm:finitemap-lookup-option-exactness} returns only the value at the first matching position and records the later matching positions as suppressed duplicate-key ledger entries.
+\end{theorem}
+\begin{proof}
+Unfold the support boundary definition. Its carrier is the finite-set enumeration carrier $\mathsf{FinSetEnumCarrier}_{A,\sim_A}(\mathsf{KeyRows}(xs))$. By \autoref{thm:finset-enumeration-membership-exactness}, membership in that carrier is equivalent to finite-spine occurrence in $\mathsf{KeyRows}(xs)$ modulo the key classifier. This gives the displayed equivalence.
+
+It remains to identify the ledger and the duplicate behavior. The map $\mathsf{KeyRows}$ is defined by structural readback from the $\ListUp$ spine. In the empty case, both the finite-map source and the support spine are empty, so there is no support position and no lookup output. In a cons case, the head $\ProdUp$ row exposes one displayed key history $k$ and one displayed value history $v$. The support projection adds exactly the key row $k$ at the corresponding head position and then applies the same projection to the tail. Induction on the finite spine therefore gives a position-preserving ledger from rows of $xs$ to rows of $\mathsf{KeyRows}(xs)$, with no added key row and no omitted displayed key row.
+
+Now suppose a later row of $xs$ has a key in the same $\sim_A$-class as an earlier displayed key. The projected key row is still present as a position of $\mathsf{KeyRows}(xs)$, hence it remains visible in the support ledger. At the carrier level, \autoref{thm:finset-duplicate-insertion-invariant} says that inserting a source-carried key already represented in the finite spine does not change the induced $\FinSetUp$ classifier. Thus duplicate key positions are ledger entries for the same finite-support membership class rather than additional support classes.
+
+Finally apply \autoref{thm:finitemap-lookup-option-exactness}. Lookup scans the original displayed $\ListUp$ spine from left to right, so the first key row matching the query supplies the unique $\mathsf{some}$ value witness, and every later matching key row is recorded only in the duplicate-key ledger. The support boundary and the lookup boundary therefore read the same displayed key positions, but they use them differently: $\FinSetUp$ records finite support by projected key occurrence modulo the key classifier, while $\OptionUp$ lookup emits only the first-hit value and keeps duplicate keys as ledger provenance.
+\end{proof}
