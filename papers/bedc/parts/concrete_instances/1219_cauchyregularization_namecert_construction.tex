@@ -106,6 +106,7 @@ rows $P$ and $N$ account for package and local naming provenance. Since every
 consumer-visible coordinate is listed in the carrier, there is no extra host
 limit, quotient, hidden selector, or ambient completeness object to export.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationCarrier\_namecert\_obligation\_surface}
 \leanchecked{BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationFiniteCarrier\_namecert\_obligation\_surface}
 
 \begin{theorem}[CauchyRegularization regular-sequence handoff]
@@ -134,6 +135,7 @@ changes only the displayed routes in $H$ and $C$; it does not add a hidden tail
 selector or a quotient stream coordinate. Hence every regular-sequence read
 factors through the stated finite rows.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationFiniteCarrier\_regular\_sequence\_handoff}
 
 \begin{theorem}[CauchyRegularization RealUp seal boundary]
 \label{thm:cauchyregularization-real-seal-boundary}
@@ -145,6 +147,7 @@ the $\Pkg/\NameCert$ provenance. The packet exports no classical
 completeness claim, no host real equality, no selected limit, and no quotient
 of Cauchy streams.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRegularizationUp.CauchyRegularizationSealRoute\_semantic\_name\_certificate}
 \begin{proof}
 Begin with a real-facing read. The only $\RealUp$ coordinate in the carrier is
 the seal-provenance row $E$, and $E$ is attached to the regular rational
@@ -162,6 +165,22 @@ an ambient completeness theorem. Thus the seal boundary is exactly the
 finite BEDC surface stated above.
 \end{proof}
 
+\begin{theorem}[CauchyRegularization public real-regularization export]
+\label{thm:cauchyregularization-public-real-regularization-export}
+The finite carrier, modulus classifier, regular-sequence handoff, and $\RealUp$ seal boundary assemble a public $\CauchyRegularizationUp$ export over $\RationalStreamUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The export exposes only displayed rational-stream windows, modulus thresholds, dyadic comparison rows, regularized approximants, the regular-sequence handoff, the real-seal provenance, and the named transport and package rows.
+
+It exposes no quotient stream, host real equality, selected limit, hidden tail selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. The carrier of \autoref{def:cauchyregularization-finite-carrier} lists exactly the finite rows available to a consumer, and the classifier of \autoref{def:cauchyregularization-modulus-classifier} transports only those rows.
+
+Apply \autoref{thm:cauchyregularization-namecert-obligation-surface} to bind carrier admission, classifier stability, regular-sequence handoff, real-seal compatibility, and ledger exactness into the local naming surface.
+
+Next use \autoref{thm:cauchyregularization-regular-sequence-handoff}. It routes every $\RegSeqRatUp$ read through a displayed rational window, a displayed modulus threshold, the dyadic ledger, and the finite approximant row.
+
+Finally use \autoref{thm:cauchyregularization-real-seal-boundary}. The $\RealUp$ read is mediated by the same handoff, transport, continuation, package, and local naming provenance. The finite-row assembly therefore gives a public real-regularization export without quotient streams, host equality, selected limits, hidden tail selectors, or ambient completeness.
+\end{proof}
+
 \closureat{CauchyRegularizationUp}{seedStr}
 \closureat{CauchyRegularizationUp}{obligationStr}
 \closureat{CauchyRegularizationUp}{scopedStr}
@@ -174,5 +193,5 @@ finite BEDC surface stated above.
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close classical real completeness, quotient equality of Cauchy streams, uniqueness of limits, selected host real values, or bridge checking.}
-  \upgradepath{The next paper grade is a public $\CauchyRegularizationUp$ export theorem over the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{The next paper grade records the public $\CauchyRegularizationUp$ export surface as a closure commitment and then supplies checked Lean coverage for the same finite rows.}
 \end{closurestatus}

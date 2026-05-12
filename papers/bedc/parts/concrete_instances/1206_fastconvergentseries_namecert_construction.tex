@@ -84,6 +84,7 @@ The local $\NameCert_{\FastConvergentSeriesUp}$ obligation surface consists of f
 \end{enumerate}
 These rows are exactly the finite naming-certificate surface for fast convergent series.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastConvergentSeriesUp.FastConvergentSeriesCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 The first row is the explicit zero-series inhabitant. It provides summand observations, partial sums, tail bounds, regular readbacks, and the real seal without importing any completion object.
 
@@ -142,18 +143,77 @@ Next identify the consumer route. By \autoref{thm:fastconvergentseries-tail-sum-
 Finally bind the certificate rows. The local obligation surface in \autoref{thm:fastconvergentseries-namecert-obligation-surface} supplies the $\NameCert_{\FastConvergentSeriesUp}$ rows, and \autoref{thm:fastconvergentseries-scoped-kernel-factorization} exhausts the kernel route. The public tail-budget export of \autoref{thm:fastconvergentseries-public-tail-budget-export} is therefore the same finite route presented as a public consumer object, with no hidden summability, quotient, selected sum, completeness, or bridge coordinate.
 \end{proof}
 
+\begin{theorem}[FastConvergentSeries bridge tail-budget schedule]
+\label{thm:fastconvergentseries-bridge-tail-budget-schedule}
+For every accepted $\FastConvergentSeriesUp$ packet and every displayed precision request, the public tail-budget export supplies a bridge-facing schedule row, a finite partial-sum ledger, and a tail-bound ledger. The schedule row is the $\CauchyModulusUp$ threshold read for the request, the partial-sum ledger is the displayed $\SeriesUp$ and $\SeqUp$ prefix surface past that threshold, and the tail-bound ledger is the finite comparison surface consumed by the $\RegSeqRatUp$ readback.
+
+The exported schedule is finite and displayed at the requested precision. It contains no quotient of summand streams, no host infinite-sum object, and no ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fastconvergentseries-bhist-carrier}. The precision request reads the row $\mu$, and that row supplies the displayed threshold used by the tail-budget ledger.
+
+Apply \autoref{thm:fastconvergentseries-tail-sum-boundary} to force the consumer route through the partial-sum rows past the threshold. Apply \autoref{thm:fastconvergentseries-regseqrat-tail-bound-obligations} to identify the same rows as the finite comparison ledger used by the $\RegSeqRatUp$ handoff.
+
+Finally use \autoref{thm:fastconvergentseries-public-export}. The public export names exactly those schedule, partial-sum, and tail-bound rows, so the bridge-facing schedule is a displayed finite ledger rather than an external convergence object.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries bridge real-seal consumer]
+\label{thm:fastconvergentseries-bridge-real-seal-consumer}
+Every $\RealUp$ seal read exported by an accepted $\FastConvergentSeriesUp$ packet factors through the $\RegSeqRatUp$ handoff and the displayed tail-budget schedule of \autoref{thm:fastconvergentseries-bridge-tail-budget-schedule}. The seal consumer receives the $\SeriesUp$ source row, $\SeqUp$ observation surface, $\CauchyModulusUp$ schedule, finite tail-bound ledger, $\RegSeqRatUp$ readback, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row before it reaches the seal.
+
+No seal read factors through quotient stream equality, a selected host sum, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the schedule handoff in \autoref{thm:fastconvergentseries-bridge-tail-budget-schedule}. It supplies the displayed threshold, the partial-sum ledger, and the finite tail-bound ledger for the requested precision.
+
+Use \autoref{thm:fastconvergentseries-regseqrat-tail-bound-obligations} to repack those rows as the $\RegSeqRatUp$ handoff. Then apply \autoref{thm:fastconvergentseries-scoped-kernel-factorization} to place the $\RealUp$ seal after that handoff and after the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The carrier has no coordinate for a quotient stream, selected host sum, or completeness theorem. The seal read is therefore exhausted by the finite route named in the statement.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries bridge completion handoff]
+\label{thm:fastconvergentseries-bridge-completion-handoff}
+The public export of \autoref{thm:fastconvergentseries-public-export}, together with the bridge tail-budget schedule of \autoref{thm:fastconvergentseries-bridge-tail-budget-schedule} and the real-seal consumer factorization of \autoref{thm:fastconvergentseries-bridge-real-seal-consumer}, assembles the bridge-facing completion handoff for $\FastConvergentSeriesUp$.
+
+The handoff offered to completion consumers is the finite route through $\SeriesUp$, $\SeqUp$, $\CauchyModulusUp$, displayed partial sums, finite tail bounds, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It explicitly excludes quotient streams, host sums, and ambient completeness.
+\end{theorem}
+\begin{proof}
+First take the public export from \autoref{thm:fastconvergentseries-public-export}. It fixes the consumer-visible surface over the series source, sequence observation row, fast tail schedule, regular rational readback, real seal, transports, read routes, provenance, and local certificate.
+
+Next attach the finite schedule. The bridge tail-budget schedule theorem supplies the requested precision row, the partial-sum ledger, and the tail-bound ledger. The tail-sum boundary and regular rational handoff theorems identify those rows as the only data used by the precision read.
+
+Finally attach the seal. The real-seal consumer theorem and the scoped kernel factorization place the $\RealUp$ seal downstream of the $\RegSeqRatUp$ handoff and the displayed certificate rows. Repacking these rows gives the completion-facing handoff while leaving no coordinate for quotient streams, host sums, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries bridge boundary package]
+\label{thm:fast-convergent-series-bridge-boundary-package}
+The public export of \autoref{thm:fastconvergentseries-public-export} factors into the standard bridge-facing boundary consisting of the $\SeriesUp$ source row, $\SeqUp$ observation surface, $\CauchyModulusUp$ fast tail schedule, finite tail-bound ledger, $\RegSeqRatUp$ partial-sum handoff, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, $\Pkg$ provenance, and local $\NameCert$ row.
+
+This boundary is the finite tail-budget surface consumed by downstream $\RealUp$ and $\RegSeqRatUp$ readers. It introduces no quotient stream, selected infinite sum, host summability predicate, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First take the public handoff from \autoref{thm:fastconvergentseries-public-export}. Its statement already names the finite route through the series source, sequence observation surface, fast modulus, regular rational handoff, real seal, transports, read routes, provenance, and local certificate.
+
+Next isolate the tail-budget component. By \autoref{thm:fastconvergentseries-public-tail-budget-export}, the public object exported to consumers is exactly the finite-history route through the displayed partial-sum rows, tail schedule, tail-bound ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal row.
+
+The scoped kernel factorization of \autoref{thm:fastconvergentseries-scoped-kernel-factorization} accounts for the remaining $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while \autoref{thm:fastconvergentseries-tail-sum-boundary} supplies the checked tail-sum boundary used by the precision read. Repacking these rows gives the bridge-facing boundary named in the theorem.
+
+Because every cited row is a displayed finite carrier coordinate or a displayed transport route, the package has no coordinate for quotient streams, selected infinite sums, host summability predicates, or ambient completeness theorems.
+\end{proof}
+
 \closureat{FastConvergentSeriesUp}{seedStr}
 \closureat{FastConvergentSeriesUp}{obligationStr}
 \closureat{FastConvergentSeriesUp}{scopedStr}
 \closureat{FastConvergentSeriesUp}{publicStr}
+\closureat{FastConvergentSeriesUp}{bridgedStr}
 
 \begin{closurestatus}{\FastConvergentSeriesUp}
   \constructivestory{A $\FastConvergentSeriesUp$ packet is generated from displayed $\SeriesUp$ summand and partial-sum rows, the underlying $\SeqUp$ observation surface, a $\CauchyModulusUp$ fast tail schedule, finite tail-bound rows, $\RegSeqRatUp$ partial-sum readbacks, $\RealUp$ seal-facing rows, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The chapter fixes the carrier, classifier, constant-zero inhabitant, tail-sum boundary, $\RegSeqRatUp$ handoff, $\RealUp$ seal non-escape, and scoped kernel factorization rows for the fast convergent series certificate surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The chapter fixes the carrier, classifier, constant-zero inhabitant, tail-sum boundary, $\RegSeqRatUp$ handoff, $\RealUp$ seal non-escape, scoped kernel factorization, public tail-budget export, and bridge boundary package of \autoref{thm:fast-convergent-series-bridge-boundary-package} for the fast convergent series certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close a public $\RealUp$ completeness theorem, quotient equality of streams, uniqueness of sums, host summability, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard-bridge boundary tying the public finite tail-budget handoff to downstream series and real-name consumers.}
+  \notclaimed{This chapter does not close a public $\RealUp$ completeness theorem, quotient equality of streams, uniqueness of sums, host summability, or checked bridge schema.}
+  \upgradepath{Mature closure requires downstream examples and completeness-boundary coverage for the finite tail-budget surface.}
 \end{closurestatus}
