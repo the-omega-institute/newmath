@@ -471,4 +471,47 @@ theorem pi_var_sort_then_sort_id_app_in_sort_ctx :
       (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl))
     hpi
 
+theorem apply_function_arg_in_value_ctx :
+    HasType [Term.var 1, Term.sort]
+      (Term.lam (Term.pi (Term.var 1) Term.sort)
+        (Term.app (Term.var 0) (Term.var 1)))
+      (Term.pi (Term.pi (Term.var 1) Term.sort) Term.sort) := by
+  apply HasType.lamRule
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · exact HasType.sortRule _
+  · exact HasType.appRule
+      [Term.pi (Term.var 2) Term.sort, Term.var 1, Term.sort]
+      (Term.var 0)
+      (Term.var 1)
+      (Term.var 2)
+      Term.sort
+      (HasType.varRule
+        [Term.pi (Term.var 2) Term.sort, Term.var 1, Term.sort]
+        0
+        (Term.pi (Term.var 2) Term.sort)
+        rfl)
+      (HasType.varRule
+        [Term.pi (Term.var 2) Term.sort, Term.var 1, Term.sort]
+        1
+        (Term.var 2)
+        rfl)
+
+theorem apply_function_arg :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam (Term.var 0)
+          (Term.lam (Term.pi (Term.var 1) Term.sort)
+            (Term.app (Term.var 0) (Term.var 1)))))
+      (Term.pi Term.sort
+        (Term.pi (Term.var 0)
+          (Term.pi (Term.pi (Term.var 1) Term.sort) Term.sort))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · apply HasType.varRule
+      rfl
+    · exact apply_function_arg_in_value_ctx
+
 end BEDC.MetaCIC
