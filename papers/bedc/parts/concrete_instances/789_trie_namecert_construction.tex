@@ -569,6 +569,41 @@ strings, host maps, hidden infinite trees, key orderings, or ambient lookup
 functions, none is exported by the bridge.
 \end{proof}
 
+\begin{theorem}[Trie terminal-prefix readback coverage]\label{thm:trie-terminal-prefix-readback-coverage}
+Every terminal read of a finite $\TrieUp$ packet factors through the displayed
+finite key prefix, optional terminal payload row, $\BoolUp$ branch row, unary
+depth ledger, $\hsame$ transport, $\Cont$ route, $\mathsf{Pkg}$ provenance,
+and local $\NameCert_{\TrieUp}$ row.
+
+Conversely, any finite read assembled from exactly those rows repacks as a
+terminal-prefix read of the same finite packet. The readback surface contains
+no host string, host map, infinite tree, key-order semantics, ambient lookup
+function, or balancing invariant.
+\end{theorem}
+\begin{proof}
+For a prefix-facing read, apply
+\autoref{thm:trie-prefix-branch-consumer-exhaustion}. It keeps the consumer
+inside the displayed key prefix, unary depth ledger, branch rows, transport
+routes, continuation routes, provenance, and local naming evidence.
+
+For a terminal key-path read, apply
+\autoref{thm:trie-boolean-key-path-ledger-coverage}. The terminal payload is
+read at the displayed prefix endpoint, and every branch decision is one of the
+recorded $\BoolUp$ rows below the unary depth ledger.
+
+Use \autoref{thm:trie-branch-read-exactness} to identify the branch route
+used by the terminal read. Then apply
+\autoref{thm:trie-standard-finite-packet-bridge} to repack the same rows as a
+finite prefix-tree reading.
+
+The converse direction reverses this packaging: a read built from the key
+prefix, optional payload, branch, depth, transport, continuation, provenance,
+and local certificate rows is exactly a terminal-prefix read of the displayed
+finite packet. Since no cited row names host strings, host maps, infinite
+trees, key-order semantics, lookup functions, or balancing invariants, none is
+available to the readback.
+\end{proof}
+
 \begin{theorem}[Trie finite consumer completeness]\label{thm:trie-finite-consumer-completeness}
 Every finite consumer of the $\TrieUp$ bridge factors through the key-path
 row, the optional terminal payload row, the unary length and depth ledger, the

@@ -589,6 +589,43 @@ relations absent from the packet rows, so they are not produced by this
 factorization.
 \end{proof}
 
+\begin{theorem}[RationalInterval nested consumer window factorization]
+\label{thm:rationalinterval-nested-consumer-window-factorization}
+Let $I$ be an accepted $\RationalIntervalUp$ $\mathsf{BHist}$ packet. Suppose
+two finite consumers read only endpoint containment, common refinement,
+$\RegSeqRatUp$ window coverage, or $\RealUp$ finite-window handoff rows, and
+suppose the second read is displayed under the first by a finite $\Cont$ route.
+Then the nested pair factors through one displayed finite rational-window
+packet over the same $\RatUp$ endpoints, endpoint-order row, containment
+ledger, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert_{\RationalIntervalUp}$ row.
+
+The factor packet is purely finite. It contains no completed $\RealUp$
+equality, quotient Cauchy class, located subset datum, host interval object,
+apartness row, or interval arithmetic operation.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rationalinterval-finite-consumer-completeness} to each
+consumer read. Both reads land on displayed finite interval rows: endpoints,
+order, containment, refinement, regular-window, finite-window handoff,
+transport, continuation, provenance, and local naming evidence.
+
+Next place the two readback windows on a common finite rational packet. Use
+\autoref{thm:rational-interval-common-refinement-window} for the binary common
+window, and use \autoref{thm:rational-interval-directed-refinement-basis} to
+choose it as a basis for the finite nested family of reads.
+
+The displayed nesting route is then composed with the refinement routes by
+\autoref{thm:rational-interval-refinement-composition}. The composite route
+still reads the same endpoint, order, containment, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+Finally apply \autoref{thm:rational-interval-standard-boundary-bridge}. The
+standard reading is conservative over the finite rational-window packet, so
+completed real equality, quotient Cauchy classes, located subsets, and host
+interval objects remain outside the factorization.
+\end{proof}
+
 \begin{theorem}[RationalInterval common refinement associativity]
 \label{thm:rationalinterval-common-refinement-associativity}
 Let $I$, $J$, and $K$ be three compatible accepted
