@@ -9,24 +9,18 @@ EVAL_DIR    := evaluator
 ENCODER_DIR := encoder
 TEST_DIR    := tests
 
-EVALUATORS := $(EVAL_DIR)/rule110 $(EVAL_DIR)/cyclic_tag
-ENCODER    := $(ENCODER_DIR)/gc_encode
-TESTS      := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
-              $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark
+# Only rule110 evaluator ships as a standalone binary (with STANDALONE_MAIN).
+# cyclic_tag and groundcompiler_encoding are libraries compiled into test binaries.
+STANDALONE_BINS := $(EVAL_DIR)/rule110
+TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
+                   $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark
 
 .PHONY: all test clean
-all: $(EVALUATORS) $(ENCODER)
+all: $(STANDALONE_BINS)
 
 # Evaluators
 $(EVAL_DIR)/rule110: $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
 	$(CC) $(CFLAGS) -DRULE110_STANDALONE_MAIN -o $@ $<
-
-$(EVAL_DIR)/cyclic_tag: $(EVAL_DIR)/cyclic_tag.c $(EVAL_DIR)/cyclic_tag.h
-	$(CC) $(CFLAGS) -o $@ $<
-
-# Encoder
-$(ENCODER_DIR)/gc_encode: $(ENCODER_DIR)/groundcompiler_encoding.c $(ENCODER_DIR)/groundcompiler_encoding.h
-	$(CC) $(CFLAGS) -o $@ $<
 
 # Tests
 $(TEST_DIR)/test_rule110: $(TEST_DIR)/test_rule110.c $(EVAL_DIR)/rule110.h
@@ -51,4 +45,4 @@ test: $(TESTS)
 	@echo "ALL TESTS PASSED"
 
 clean:
-	rm -f $(EVALUATORS) $(ENCODER) $(TESTS)
+	rm -f $(STANDALONE_BINS) $(TESTS)
