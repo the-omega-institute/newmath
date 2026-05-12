@@ -1,10 +1,6 @@
 #include "cook_encode.h"
 #include "cook_construction.h"
 #include "cook_data_block.h"
-#include "glider_phases.h"
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
-#include "cook_glider_gun.h"
-#endif
 #include "cook_leader.h"
 #include "cook_ossifier.h"
 
@@ -47,16 +43,14 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_ENCODE_PHASE_MIN_OSSIFIER_STRIDE_PERIODS 64
 #define COOK_ENCODE_PHASE_OSSIFIER_TO_DATA_PERIODS 96
 #define COOK_ENCODE_PHASE_SYMBOL_STRIDE_PERIODS 64
-#define COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS 128
+#define COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS 64
 
-#define COOK_ENCODE_PHASE_A_POS 100
-#define COOK_ENCODE_PHASE_EBAR_POS 140
+#define COOK_ENCODE_PHASE_LEADER_WIDTH 704
+#define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 234
+#define COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH 867
 
 typedef struct {
     size_t total_cells;
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
-    size_t gun_pos;
-#endif
     size_t leader_pos;
     size_t first_ossifier_pos;
     size_t ossifier_stride;
@@ -114,21 +108,6 @@ static int cook_phase_round_up_ether_width(size_t in, size_t *out) {
     return round_up_ether_width(in, out) == 0;
 }
 
-static int cook_phase_write_catalog(uint8_t *out,
-                                    size_t pos,
-                                    size_t buf_len,
-                                    const char *glider_name,
-                                    const char *neighbor,
-                                    int phase) {
-    return glider_phase_emit(out,
-                             pos,
-                             buf_len,
-                             glider_name,
-                             neighbor,
-                             phase,
-                             NULL) == 0;
-}
-
 static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
                                           CookPhaseExactLayout *layout) {
     size_t leading_guard = 0;
@@ -176,11 +155,8 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
     for (size_t i = 0; i < ct->num_productions; i++) {
         size_t production_width = 0;
 
-        if (!cook_encode_mul_size(ct->prod_lens[i],
-                                  COOK_OSSIFIER_WIDTH_PER_BIT,
-                                  &production_width)) {
-            return 0;
-        }
+        (void)ct->prod_lens[i];
+        production_width = COOK_ENCODE_PHASE_OSSIFIER_WIDTH;
         if (production_region_width < production_width) {
             production_region_width = production_width;
         }
@@ -198,7 +174,9 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
         }
     }
 
-    if (!cook_encode_add_size(leading_guard, COOK_LEADER_WIDTH, &leader_end)) {
+    if (!cook_encode_add_size(leading_guard,
+                              COOK_ENCODE_PHASE_LEADER_WIDTH,
+                              &leader_end)) {
         return 0;
     }
     if (!cook_encode_add_size(leader_end, leader_gap, &first_ossifier_pos)) {
@@ -250,7 +228,7 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
             return 0;
         }
         if (!cook_encode_add_size(symbol_span,
-                                  COOK_DATA_BLOCK_WIDTH_PER_BIT,
+                                  COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH,
                                   &data_width)) {
             return 0;
         }
@@ -267,11 +245,6 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
     if (!cook_phase_round_up_ether_width(required, &required)) return 0;
 
     layout->total_cells = required;
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
-    layout->gun_pos = leading_guard >= COOK_GLIDER_GUN_WIDTH
-        ? leading_guard - COOK_GLIDER_GUN_WIDTH
-        : 0;
-#endif
     layout->leader_pos = leading_guard;
     layout->first_ossifier_pos = first_ossifier_pos;
     layout->ossifier_stride = ossifier_stride;
@@ -280,14 +253,12 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
     return 1;
 }
 
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
 static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
                                            const CookPhaseExactLayout *layout,
                                            uint8_t *out) {
     int rc = COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
 
     cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
-    cook_glider_gun_emit(out, layout->gun_pos, layout->total_cells);
 
     rc = cook_leader_emit_phase_exact(out,
                                       layout->leader_pos,
@@ -325,7 +296,6 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
 
     return COOK_ENCODE_PHASE_EXACT_OK;
 }
-#endif
 
 static int cook_encode_arbitrary_layout(const CyclicTagInput *ct,
                                         size_t *required_out,
@@ -551,7 +521,6 @@ int cook_encode_phase_exact(const CyclicTagInput *ct,
         return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
     }
 
-#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
     {
         int rc = cook_encode_phase_exact_compose(ct, &layout, out);
 
@@ -562,27 +531,4 @@ int cook_encode_phase_exact(const CyclicTagInput *ct,
         }
         return rc;
     }
-#else
-    cook_ether_emit(out, layout.total_cells / (size_t)COOK_ETHER_WIDTH);
-    if (!cook_phase_write_catalog(out,
-                                  COOK_ENCODE_PHASE_A_POS,
-                                  layout.total_cells,
-                                  "A",
-                                  NULL,
-                                  1)) {
-        *written_out = 0;
-        return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
-    }
-    if (!cook_phase_write_catalog(out,
-                                  COOK_ENCODE_PHASE_EBAR_POS,
-                                  layout.total_cells,
-                                  "Ebar",
-                                  "A",
-                                  1)) {
-        *written_out = 0;
-        return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
-    }
-    *written_out = layout.total_cells;
-    return COOK_ENCODE_PHASE_EXACT_OK;
-#endif
 }

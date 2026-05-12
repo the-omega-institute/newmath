@@ -95,7 +95,33 @@ static void test_ossifier_empty_production(void) {
     printf("  ossifier_empty_production: PASS\n");
 }
 
-static void test_ossifier_phase_exact_missing_catalog(void) {
+static void test_ossifier_phase_exact_emits_packet(void) {
+    uint8_t cells[512];
+    uint8_t ether[512];
+    const uint8_t production[1] = {1};
+    int rc = 0;
+    size_t changed = 0;
+    size_t first = 0;
+    size_t last = 0;
+
+    cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
+    memcpy(ether, cells, sizeof(cells));
+
+    rc = cook_ossifier_emit_phase_exact(cells, 42, sizeof(cells),
+                                        production, 1);
+
+    assert(rc == COOK_OSSIFIER_PHASE_EXACT_OK);
+    changed = perturbation_span(cells, 42, sizeof(cells), &first, &last);
+    assert(changed > 0);
+    assert(first >= 42);
+    assert(first < 42 + 10);
+    assert(last >= 42 + 39);
+    assert(memcmp(cells, ether, 42) == 0);
+
+    printf("  ossifier_phase_exact_emits_packet: PASS\n");
+}
+
+static void test_ossifier_phase_exact_unwritable_buffer(void) {
     uint8_t cells[128];
     uint8_t before[128];
     const uint8_t production[3] = {1, 0, 1};
@@ -110,14 +136,15 @@ static void test_ossifier_phase_exact_missing_catalog(void) {
     assert(rc == COOK_OSSIFIER_PHASE_EXACT_CATALOG_MISSING);
     assert(memcmp(cells, before, sizeof(cells)) == 0);
 
-    printf("  ossifier_phase_exact_missing_catalog: PASS\n");
+    printf("  ossifier_phase_exact_unwritable_buffer: PASS\n");
 }
 
 int main(void) {
     printf("== test_cook_ossifier ==\n");
     test_ossifier_3bit_production();
     test_ossifier_empty_production();
-    test_ossifier_phase_exact_missing_catalog();
+    test_ossifier_phase_exact_emits_packet();
+    test_ossifier_phase_exact_unwritable_buffer();
     printf("ALL test_cook_ossifier tests passed\n");
     return 0;
 }

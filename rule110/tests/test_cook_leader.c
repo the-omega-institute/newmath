@@ -25,6 +25,13 @@ static size_t count_perturbed(const uint8_t *cells,
     return count;
 }
 
+static int differs_from_ether(const uint8_t *cells, size_t start, size_t end) {
+    for (size_t i = start; i < end; i++) {
+        if (cells[i] != COOK_ETHER_PATTERN[i % COOK_ETHER_WIDTH]) return 1;
+    }
+    return 0;
+}
+
 static void test_leader_stable(void) {
     const size_t period_count = 260;
     const size_t len = COOK_ETHER_WIDTH * period_count;
@@ -69,7 +76,24 @@ static void test_leader_does_not_destroy_ether_outside(void) {
     printf("  leader_does_not_destroy_ether_outside: PASS\n");
 }
 
-static void test_leader_phase_exact_missing_catalog(void) {
+static void test_leader_phase_exact_emits_packet(void) {
+    uint8_t cells[1024];
+    uint8_t ether[1024];
+    int rc = 0;
+
+    cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
+    memcpy(ether, cells, sizeof(cells));
+
+    rc = cook_leader_emit_phase_exact(cells, 154, sizeof(cells));
+
+    assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+    assert(differs_from_ether(cells, 154, 858));
+    assert(memcmp(cells, ether, 154) == 0);
+
+    printf("  leader_phase_exact_emits_packet: PASS\n");
+}
+
+static void test_leader_phase_exact_unwritable_buffer(void) {
     uint8_t cells[96];
     uint8_t before[96];
     int rc = 0;
@@ -82,14 +106,15 @@ static void test_leader_phase_exact_missing_catalog(void) {
     assert(rc == COOK_LEADER_PHASE_EXACT_CATALOG_MISSING);
     assert(memcmp(cells, before, sizeof(cells)) == 0);
 
-    printf("  leader_phase_exact_missing_catalog: PASS\n");
+    printf("  leader_phase_exact_unwritable_buffer: PASS\n");
 }
 
 int main(void) {
     printf("== test_cook_leader ==\n");
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
-    test_leader_phase_exact_missing_catalog();
+    test_leader_phase_exact_emits_packet();
+    test_leader_phase_exact_unwritable_buffer();
     printf("ALL test_cook_leader tests passed\n");
     return 0;
 }
