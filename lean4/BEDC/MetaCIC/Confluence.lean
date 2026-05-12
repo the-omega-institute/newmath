@@ -200,7 +200,19 @@ theorem betaParallel_sort_unique {t : Term}
   cases h
   rfl
 
+theorem betaParallel_sort_unique_target {t : Term}
+    (h : BetaParallel Term.sort t) :
+    t = Term.sort := by
+  cases h
+  rfl
+
 theorem betaParallel_var_unique {i : Idx} {t : Term}
+    (h : BetaParallel (Term.var i) t) :
+    t = Term.var i := by
+  cases h
+  rfl
+
+theorem betaParallel_var_unique_target {i : Idx} {t : Term}
     (h : BetaParallel (Term.var i) t) :
     t = Term.var i := by
   cases h
@@ -401,6 +413,27 @@ theorem betaStep_sort_absurd
     BetaStep Term.sort u → False := by
   intro h
   cases h
+
+theorem betaStep_source_not_sort {t : Term} :
+    ¬ BetaStep Term.sort t := by
+  exact betaStep_sort_absurd
+
+theorem betaStep_source_not_var {i : Idx} {t : Term} :
+    ¬ BetaStep (Term.var i) t := by
+  exact betaStep_var_absurd i
+
+theorem betaParallel_refl_self_atom {t : Term}
+    (h : t = Term.sort ∨ ∃ i, t = Term.var i) :
+    BetaParallel t t := by
+  cases h with
+  | inl hsort =>
+      cases hsort
+      exact BetaParallel.sort
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          exact BetaParallel.var i
 
 theorem betaStar_var_target
     (i : Idx) {u : Term}
