@@ -747,3 +747,45 @@ a completion point, quotient representative, host-index equality, hidden
 selector, host function, or extra regularity witness, so both terminal routes
 produce one glued consumer-facing finite-window seal package.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal tail subwindow factorization]
+\label{thm:streamname-regseqrat-terminal-tail-subwindow-factorization}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows.
+Let a terminal common-window route for $s$ and $t$ determine the glued
+consumer-facing $\RealUp$ finite-window seal package of
+\autoref{thm:streamname-regseqrat-glued-real-seal-uniqueness}. Let a
+certified tail subwindow of that route preserve the displayed $\UnaryHistory$
+rows, $\mathsf{InBundle}$ rows,
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, accepted $\RegSeqRat$
+spine rows, DyadicRatCore endpoint and radius rows, $\hsame$ transports,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the certified tail subwindow factors through the same consumer-facing
+$\RealUp$ finite-window seal package as the terminal common-window route. The
+factorization exports exactly the displayed StreamName source rows, selected
+unary observations, bundle-membership rows, rational-history classifier rows,
+accepted $\RegSeqRat$ spine rows, DyadicRatCore endpoint and radius rows,
+ledger entries, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and $\mathsf{RealLedgerPolicy}$ rows. It exports no quotient row,
+completion row, host-index row, hidden selector row, arithmetic row, order row,
+or bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-common-window-tail-stability}. The certified
+tail subwindow has the same displayed unary, bundle, classifier, accepted
+spine, endpoint-radius, transport, continuation, provenance, and ledger-policy
+surface as the terminal route.
+
+Next use \autoref{thm:streamname-regseqrat-tail-stable-real-seal}. The tail
+surface therefore presents the same finite ledger boundary to the $\RealUp$
+seal consumer and contributes no coordinate outside the displayed
+finite-window package.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-glued-real-seal-uniqueness}. Since the
+terminal route and its certified tail now read the same public rows, uniqueness
+identifies their consumer-facing $\RealUp$ seal packages and yields the stated
+factorization.
+\end{proof}
