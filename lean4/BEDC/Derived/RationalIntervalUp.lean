@@ -246,6 +246,59 @@ theorem RationalIntervalPacket_common_refinement_window [AskSetup] [PackageSetup
       firstTransport.right.right.right.right,
       secondTransport.right.right.right.right⟩
 
+theorem RationalIntervalPacket_directed_refinement_basis [AskSetup] [PackageSetup]
+    {left1 right1 order1 containment1 transport1 route1 provenance1 name1 endpoint1 left2
+      right2 order2 containment2 transport2 route2 provenance2 name2 endpoint2 left right order
+      containment transport route provenance name endpoint consumer readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left1 right1 order1 containment1 transport1 route1 provenance1 name1
+        endpoint1 bundle pkg ->
+      RationalIntervalPacket left2 right2 order2 containment2 transport2 route2 provenance2 name2
+          endpoint2 bundle pkg ->
+        hsame left1 left ->
+          hsame right1 right ->
+            hsame containment1 containment ->
+              hsame route1 route ->
+                hsame name1 name ->
+                  hsame left2 left ->
+                    hsame right2 right ->
+                      hsame containment2 containment ->
+                        hsame route2 route ->
+                          hsame name2 name ->
+                            Cont left right order ->
+                              Cont order containment transport ->
+                                Cont transport route provenance ->
+                                  Cont provenance name endpoint ->
+                                    PkgSig bundle endpoint pkg ->
+                                      UnaryHistory consumer ->
+                                        Cont endpoint consumer readback ->
+                                          PkgSig bundle readback pkg ->
+                                            RationalIntervalPacket left right order containment
+                                                transport route provenance name endpoint bundle pkg ∧
+                                              UnaryHistory readback ∧ hsame endpoint1 endpoint ∧
+                                                hsame endpoint2 endpoint ∧
+                                                  Cont endpoint consumer readback ∧
+                                                    PkgSig bundle readback pkg := by
+  intro packet1 packet2 sameLeft1 sameRight1 sameContainment1 sameRoute1 sameName1 sameLeft2
+    sameRight2 sameContainment2 sameRoute2 sameName2 leftRightOrder orderContainmentTransport
+    transportRouteProvenance provenanceNameEndpoint endpointPkg consumerUnary endpointConsumerReadback
+    readbackPkg
+  have common :=
+    RationalIntervalPacket_common_refinement_window packet1 packet2 sameLeft1 sameRight1
+      sameContainment1 sameRoute1 sameName1 sameLeft2 sameRight2 sameContainment2 sameRoute2
+      sameName2 leftRightOrder orderContainmentTransport transportRouteProvenance
+      provenanceNameEndpoint endpointPkg
+  rcases common with
+    ⟨commonPacket, _sameOrder1, _sameOrder2, _sameTransport1, _sameTransport2,
+      _sameProvenance1, _sameProvenance2, sameEndpoint1, sameEndpoint2⟩
+  have endpointUnary : UnaryHistory endpoint :=
+    commonPacket.right.right.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed endpointUnary consumerUnary endpointConsumerReadback
+  exact
+    ⟨commonPacket, readbackUnary, sameEndpoint1, sameEndpoint2, endpointConsumerReadback,
+      readbackPkg⟩
+
 theorem RationalIntervalRefinement_composition {left mid right lm lmr mr lmr' : BHist} :
     Cont left mid lm -> Cont lm right lmr -> Cont mid right mr -> Cont left mr lmr' ->
       hsame lmr lmr' := by
