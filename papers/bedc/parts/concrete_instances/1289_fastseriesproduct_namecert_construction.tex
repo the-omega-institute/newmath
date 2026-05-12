@@ -1,0 +1,158 @@
+\chapter{A Concrete Naming Certificate for $\FastSeriesProductUp$}
+\label{ch:concrete-instances-fastseriesproduct-namecert}
+\origin{human}
+
+The $\FastSeriesProductUp$ interface names the finite certificate surface for the Cauchy product of two already accepted $\FastConvergentSeriesUp$ packets. Following Bishop and Bridges, \emph{Constructive Analysis}, where products of absolutely or effectively convergent series are controlled by explicit tail data and finite convolution estimates, the packet records only finite summand windows, finite convolution rows, pasted tail schedules, rational regular-sequence readbacks, real-seal rows, transport routes, package provenance, and local naming provenance. It does not form quotient streams, choose a host infinite sum, or appeal to ambient completeness of real numbers.
+
+\begin{definition}[FastSeriesProduct carrier]
+\label{def:fast-series-product-carrier}
+A $\FastSeriesProductUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ and $G$ are accepted $\FastConvergentSeriesUp$ source packets, carrying displayed summand rows, partial-sum rows, fast tail schedules, $\RegSeqRatUp$ readbacks, $\RealUp$ seal-facing rows, $\hsame$ transports, $\Cont$ read routes, package provenance, and local certificate rows;
+\item $K$ is the finite convolution row whose inspected output coefficient at a displayed index $n$ is the finite sum of displayed source summands $a_i b_{n-i}$ over the inspected range $0 \leq i \leq n$;
+\item $W$ is the finite partial-sum window ledger for the convolution rows, recording only displayed source windows and displayed product-prefix sums;
+\item $M$ is the pasted tail schedule, obtained by reading the fast tail schedules of $F$ and $G$ together with the finite source-window bounds needed for the bilinear tail estimate;
+\item $T$ is the tail-bound convolution ledger comparing displayed product-prefix sums past the threshold named by $M$;
+\item $R$ is the $\RegSeqRatUp$ handoff row for the displayed product partial sums and their pasted tail schedule;
+\item $E$ is the $\RealUp$ seal row attached to the same regular rational handoff;
+\item $L$ records the componentwise $\hsame$ transports for the two source packets, convolution rows, pasted schedule rows, tail-bound rows, regular handoff rows, and seal-facing rows;
+\item $C$ records the displayed $\Cont$ read routes by which consumers reach the source series, convolution window, pasted schedule, tail ledger, regular handoff, and real seal;
+\item $P$ is the $\Pkg$ provenance over $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, the finite rational arithmetic rows used by the convolution, and the source certificate rows;
+\item $N$ is the local $\NameCert_{\FastSeriesProductUp}$ provenance row.
+\end{enumerate}
+The carrier is a finite product certificate. It contains no quotient of streams, no host-level series multiplication, and no completeness theorem for real numbers.
+\end{definition}
+
+\begin{definition}[FastSeriesProduct classifier]
+\label{def:fast-series-product-classifier}
+For accepted $\FastSeriesProductUp$ packets $H$ and $H'$, the classifier $\mathsf{FastSeriesProductClassifier}(H,H')$ compares only the two accepted $\FastConvergentSeriesUp$ source packets, their displayed finite convolution rows, product partial-sum windows, pasted tail schedules, tail-bound convolution ledgers, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ provenance.
+
+In particular, classifier transport is a finite-row comparison. It does not compare host sums, quotient representatives of streams, unbounded convolution functions, or a classical completeness proof for the product series.
+\end{definition}
+
+\begin{theorem}[FastSeriesProduct tail-bound convolution]
+\label{thm:fast-series-product-tail-bound-convolution}
+Let $F$ and $G$ be accepted $\FastConvergentSeriesUp$ packets displayed inside a $\FastSeriesProductUp$ carrier. For every displayed product precision request, the pasted schedule row $M$ supplies a finite threshold after which any two displayed product partial sums are compared by a finite convolution estimate using only:
+\begin{enumerate}
+\item the source tail schedules of $F$ and $G$;
+\item the finite source-window bounds recorded beside those schedules;
+\item the displayed convolution rows $K$;
+\item the product-prefix ledger $W$.
+\end{enumerate}
+The resulting tail-bound row in $T$ is therefore a finite BEDC witness for the Cauchy-product tail at that precision, with no appeal to an infinite summation object.
+\end{theorem}
+\begin{proof}
+Read the two source packets through \autoref{def:fast-series-product-carrier}. Each source supplies a displayed fast tail schedule and the finite windows on which the requested bounds are inspected.
+
+The convolution row $K$ computes each inspected product coefficient from finitely many displayed source summands. The product-prefix ledger $W$ therefore compares two late product prefixes by splitting the difference into the finite head-window contribution and the two source-tail contributions named by the pasted schedule.
+
+The head-window contribution is a finite rational arithmetic row, while the two tail contributions are bounded by the source schedules of $F$ and $G$ together with the displayed source-window bounds. Repacking these rows gives the tail-bound convolution ledger $T$.
+
+Since every row used in the estimate is a coordinate of the carrier, the argument never calls a host Cauchy-product theorem, a quotient of streams, or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct RegSeqRat handoff]
+\label{thm:fast-series-product-regseqrat-handoff}
+For every accepted $\FastSeriesProductUp$ packet and every displayed precision request, the $\RegSeqRatUp$ row $R$ is obtained by repacking the finite convolution partial sums in $W$ together with the pasted schedule $M$ and the tail-bound convolution ledger $T$. A $\RegSeqRatUp$ consumer can read the product name only through those three displayed rows and the recorded $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Project the carrier
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N).
+$$
+The partial-sum data offered to $\RegSeqRatUp$ is exactly the product-prefix ledger $W$, whose entries are built from finite convolution rows in $K$.
+
+The regularity witness is the pasted schedule $M$ together with the tail-bound ledger $T$. By \autoref{thm:fast-series-product-tail-bound-convolution}, those rows already contain the finite estimate needed for the requested precision.
+
+The transport and continuation coordinates $L$ and $C$ identify how a consumer reaches the source windows, convolution windows, schedule rows, and tail ledger. Hence the handoff row $R$ exports a regular rational sequence surface, not a hidden product series or a quotient stream.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct NameCert obligation surface]
+\label{thm:fast-series-product-namecert-obligation-surface}
+The local $\NameCert_{\FastSeriesProductUp}$ obligation surface consists of six rows:
+\begin{enumerate}
+\item carrier admission: an accepted packet is the finite $\mathsf{BHist}$ carrier of \autoref{def:fast-series-product-carrier};
+\item classifier transport: \autoref{def:fast-series-product-classifier} compares only source packets, finite convolution rows, product-prefix windows, pasted schedule rows, tail ledgers, regular handoffs, real seals, transports, continuations, and provenance;
+\item finite convolution exactness: each displayed product coefficient is read as the finite row $\sum_{0 \leq i \leq n} a_i b_{n-i}$ over inspected source summands;
+\item tail-bound convolution: \autoref{thm:fast-series-product-tail-bound-convolution} supplies the finite pasted tail estimate for product prefixes;
+\item $\RegSeqRatUp$ handoff: \autoref{thm:fast-series-product-regseqrat-handoff} repacks the product partial sums, pasted schedule, and tail-bound ledger as the visible regular rational readback row;
+\item $\RealUp$ seal compatibility: the seal row $E$ may read only the $\RegSeqRatUp$ handoff and the finite source, convolution, schedule, tail, transport, continuation, package, and local naming rows carried by the packet.
+\end{enumerate}
+These rows are the concrete naming-certificate surface for Cauchy products of fast convergent series over the finite $\RealUp$ seal path.
+\end{theorem}
+\begin{proof}
+Carrier admission and classifier transport are projections of the two definitions. They list exactly the rows that an accepted product packet stores and the rows that an accepted transport may compare.
+
+Finite convolution exactness is built into the row $K$: each inspected output coefficient is a finite sum over displayed source summands, so no unbounded convolution function is exported to a consumer.
+
+The tail-bound row is \autoref{thm:fast-series-product-tail-bound-convolution}. It explains how the pasted source schedules and finite source-window bounds control late product-prefix comparisons.
+
+The regular handoff row is \autoref{thm:fast-series-product-regseqrat-handoff}. The $\RealUp$ seal row then reads only that handoff together with the visible transport, continuation, package, and local provenance rows.
+
+Thus the obligation surface closes around the finite certificate packet. It leaves no coordinate for host sums, stream quotients, selected limits, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct classifier transport exactness]
+\label{thm:fast-series-product-classifier-transport-exactness}
+Let
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N)
+$$
+be an accepted $\FastSeriesProductUp$ carrier. If a displayed packet $H'$ is obtained by transporting the two source packets, finite convolution row, product-window ledger, pasted schedule, tail-bound ledger, regular handoff, and real-seal row along the componentwise $\hsame$ data in $L$ and the displayed $\Cont$ routes in $C$, while preserving the $\Pkg$ row $P$ and local $\NameCert_{\FastSeriesProductUp}$ row $N$, then the classifier accepts $H'$ exactly as the transported product carrier. It cannot compare host products, quotient streams, unbounded convolution functions, or ambient completeness evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:fast-series-product-carrier}. The classifier of \autoref{def:fast-series-product-classifier} reads precisely the two source packets, $K$, $W$, $M$, $T$, $R$, $E$, and the transport, continuation, package, and local certificate rows.
+
+Transport each displayed coordinate using the corresponding $\hsame$ witness in $L$, and read the transported row only through the continuation routes recorded in $C$. The package and local certificate rows keep the transported packet inside the same finite naming surface.
+
+Because the classifier definition has no projection for a host product, stream quotient, unbounded convolution object, or completeness theorem, acceptance is preserved exactly by those componentwise transported carrier rows.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct convolution row exactness]
+\label{thm:fast-series-product-convolution-row-exactness}
+For every accepted $\FastSeriesProductUp$ carrier
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N),
+$$
+the convolution row $K$ supplies each inspected product coefficient as the finite displayed row $\sum_{0 \leq i \leq n} a_i b_{n-i}$ over the source summands read from $F$ and $G$. The product-window ledger $W$ and pasted tail ledger $T$ may consume $K$ only through those finite coefficient rows, together with the schedule row $M$, the $\RegSeqRatUp$ handoff $R$, and the provenance rows $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Read $F$ and $G$ as accepted $\FastConvergentSeriesUp$ source packets. Their summand observations are already displayed finite rows, so the inspected coefficient at a fixed $n$ is obtained by the finite rational sum named in the carrier.
+
+The product-window ledger $W$ records prefix sums built from those inspected coefficients. The pasted schedule $M$ and tail-bound ledger $T$ then use \autoref{thm:fast-series-product-tail-bound-convolution} to compare late product prefixes through finite source windows and source tail schedules.
+
+Finally \autoref{thm:fast-series-product-regseqrat-handoff} repacks $W$, $M$, and $T$ as the regular rational row $R$. Thus the convolution row is exact at the finite coefficient surface and is never replaced by a host-level Cauchy product.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct real-seal factorization]
+\label{thm:fast-series-product-real-seal-factorization}
+For an accepted $\FastSeriesProductUp$ carrier
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N),
+$$
+the $\RealUp$ seal row $E$ factors through the $\RegSeqRatUp$ handoff row $R$, which in turn is determined by the product-window ledger $W$, the pasted schedule row $M$, and the tail-bound ledger $T$ built from the finite convolution row $K$. The rows $L$, $C$, $P$, and $N$ certify componentwise transport, continuation readback, package provenance, and local naming, but add no quotient stream, selected product sum, host multiplication theorem, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the seal row $E$ and project the regular handoff $R$ from the same carrier. The carrier definition makes $R$ the only regular rational route that the seal may read.
+
+Use \autoref{thm:fast-series-product-regseqrat-handoff} to identify $R$ with the repacking of $W$, $M$, and $T$. Then use \autoref{thm:fast-series-product-convolution-row-exactness} and \autoref{thm:fast-series-product-tail-bound-convolution} to bind those rows to the finite convolution coefficients, pasted source schedules, and tail estimates.
+
+The remaining coordinates $L$, $C$, $P$, and $N$ only certify transport, readback, provenance, and naming for the displayed packet. Since the carrier has no field for quotient streams, a chosen product sum, host multiplication, or completeness, the real seal factors through the finite product certificate alone.
+\end{proof}
+
+\closureat{FastSeriesProductUp}{seedStr}
+
+\begin{closurestatus}{\FastSeriesProductUp}
+  \constructivestory{A $\FastSeriesProductUp$ packet is generated from two accepted $\FastConvergentSeriesUp$ packets, finite convolution rows, product partial-sum windows, pasted fast tail schedules, tail-bound convolution ledgers, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier, classifier, convolution tail-bound estimate, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, and naming-certificate obligation surface for Cauchy products of fast convergent series.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, uniqueness of product sums, host real multiplication, absolute convergence outside the displayed source packets, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier transport, finite convolution exactness, pasted tail-bound exactness, $\RegSeqRatUp$ handoff, and $\RealUp$ seal compatibility for the same finite packet.}
+\end{closurestatus}

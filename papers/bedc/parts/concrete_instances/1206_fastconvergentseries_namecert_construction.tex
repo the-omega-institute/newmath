@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\FastConvergentSeriesUp$}
+\label{ch:concrete-instances-fastconvergentseries-namecert}
+\origin{human}
+
+The $\FastConvergentSeriesUp$ interface names the finite certificate surface for a constructive series whose partial sums come with an explicit fast tail schedule. Following Bishop and Bridges, \emph{Constructive Analysis}, where convergence of series is carried by effective Cauchy information, the packet records only displayed summand observations, partial-sum readbacks, tail bounds, real-seal rows, transport routes, and provenance. It does not form a quotient of streams, select an infinite sum, or import host completeness for real numbers.
+
+\begin{definition}[FastConvergentSeries BHist carrier]
+\label{def:fastconvergentseries-bhist-carrier}
+A $\FastConvergentSeriesUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(A,S,Q,\mu,T,R,E,L,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the $\SeriesUp$ source row naming the summand stream and its finite partial-sum ledger;
+\item $S$ is the $\SeqUp$ observation surface through which displayed summand rows and prefix rows are read;
+\item $Q$ is the finite family of partial-sum observations displayed at requested unary indices;
+\item $\mu$ is a $\CauchyModulusUp$ fast tail schedule assigning each precision row a finite threshold after which tails are bounded by the requested tolerance;
+\item $T$ is the tail-bound ledger comparing displayed partial sums past $\mu$ and recording the resulting rational tolerance rows;
+\item $R$ is the $\RegSeqRatUp$ partial-sum readback surface obtained from $Q$, $\mu$, and $T$;
+\item $E$ is the $\RealUp$ seal-facing ledger for the real name represented by the partial-sum readbacks;
+\item $L$ records the componentwise $\hsame$ transports for summand observations, partial sums, tail bounds, schedules, and seal-facing rows;
+\item $C$ records the displayed $\Cont$ read routes through which finite consumers reach the summand, partial-sum, tail-bound, readback, and seal rows;
+\item $P$ is the $\Pkg$ provenance over $\SeriesUp$, $\SeqUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, and the rational source rows;
+\item $N$ is the local $\NameCert_{\FastConvergentSeriesUp}$ provenance row.
+\end{enumerate}
+The carrier is a finite fast-convergence series packet. It contains no quotient stream, no chosen infinite sum, and no ambient completeness proof.
+\end{definition}
+
+\begin{definition}[FastConvergentSeries classifier]
+\label{def:fastconvergentseries-classifier}
+For accepted $\FastConvergentSeriesUp$ packets $F$ and $F'$, the classifier $\mathsf{FastConvergentSeriesClassifier}(F,F')$ compares only the displayed partial-sum rows, tail-bound ledgers, fast tail schedules, $\RegSeqRatUp$ readbacks, $\RealUp$ seal-facing rows, componentwise $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+It does not compare hidden summability predicates, host real endpoints, infinite stream quotients, or choice-selected sums. Any accepted transport must therefore preserve the finite rows listed in \autoref{def:fastconvergentseries-bhist-carrier}.
+\end{definition}
+
+\begin{theorem}[FastConvergentSeries constant zero seed]
+\label{thm:fastconvergentseries-constant-zero-seed}
+The stationary zero summand stream determines an accepted $\FastConvergentSeriesUp$ carrier. Its $\SeriesUp$ and $\SeqUp$ rows display only zero summand observations, every displayed partial sum is the zero row, the fast tail schedule may use the zero threshold for every precision request, the tail-bound ledger records zero tails, the $\RegSeqRatUp$ readback is the constant zero regular sequence, and the $\RealUp$ seal-facing row is the constant zero real name.
+\end{theorem}
+\begin{proof}
+Start with the zero summand row in the source carrier and read it through the $\SeqUp$ observation surface. Every finite prefix has the same zero partial-sum row, so the $\SeriesUp$ partial-sum ledger is inhabited by the displayed zero rows.
+
+Choose the fast tail schedule that assigns the zero threshold to every precision request. Since every later partial sum is again zero, the tail-bound ledger compares identical displayed rows and records the requested tolerance as satisfied.
+
+Repack the same zero rows as the $\RegSeqRatUp$ readback and the $\RealUp$ seal-facing ledger. The $\hsame$ transports and $\Cont$ routes are componentwise identities on the displayed finite rows, and the package provenance names only the source certificates and the local $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries tail-sum boundary]
+\label{thm:fastconvergentseries-tail-sum-boundary}
+For every accepted $\FastConvergentSeriesUp$ packet and every displayed precision request, any $\RealUp$ consumer read of the represented sum factors through one fast tail schedule row, the displayed partial-sum rows past that threshold, the tail-bound ledger comparing those rows, the resulting $\RegSeqRatUp$ partial-sum readback, and the seal-facing $\RealUp$ row. The consumer receives no coordinate for a host infinite sum, quotient equality of streams, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates of \autoref{def:fastconvergentseries-bhist-carrier}. A precision request first reads the schedule row $\mu$, which supplies the finite threshold used by the tail-bound ledger.
+
+The consumer then reaches the displayed partial sums through the $\SeqUp$ and $\SeriesUp$ rows. The tail-bound ledger compares only those finite partial-sum rows past the threshold and records the rational tolerance evidence visible at that precision.
+
+The $\RegSeqRatUp$ handoff reads the same partial-sum ledger as a regular rational sequence, and the $\RealUp$ seal-facing row is attached to that handoff. Since the carrier has no coordinate for a host sum, quotient stream, or completeness proof, none can be exported by the read.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries regular rational tail-bound handoff]
+\label{thm:fastconvergentseries-regseqrat-tail-bound-obligations}
+For an accepted $\FastConvergentSeriesUp$ packet, the displayed partial-sum rows, fast tail schedule, and finite tail-bound ledger determine the $\RegSeqRatUp$ handoff row used by the real-seal ledger. Classifier transport of the schedule rows and tail-bound rows transports that handoff row componentwise.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $Q$, $\mu$, $T$, $R$, and $E$ from \autoref{def:fastconvergentseries-bhist-carrier}. The partial-sum rows $Q$ supply the displayed rational approximants, the schedule $\mu$ supplies the finite threshold for each requested precision, and the tail-bound ledger $T$ records the comparison rows past that threshold.
+
+Use \autoref{thm:fastconvergentseries-tail-sum-boundary} to factor every real-facing read through the same schedule and finite comparison ledger. Thus the regular rational readback row $R$ is the repacking of $Q$, $\mu$, and $T$ that the seal-facing row $E$ is allowed to consume.
+
+Under classifier transport, the schedule rows and tail-bound rows move by the stored componentwise $\hsame$ comparisons. Repack the transported finite rows as the transported $\RegSeqRatUp$ handoff row. No host infinite sum, quotient stream, or ambient completeness object is introduced in this repacking.
+\end{proof}
+
+\begin{theorem}[FastConvergentSeries NameCert obligation surface]
+\label{thm:fastconvergentseries-namecert-obligation-surface}
+The local $\NameCert_{\FastConvergentSeriesUp}$ obligation surface consists of five rows:
+\begin{enumerate}
+\item carrier inhabitation: \autoref{thm:fastconvergentseries-constant-zero-seed} supplies a concrete accepted packet for the stationary zero series;
+\item classifier transport: \autoref{def:fastconvergentseries-classifier} transports displayed partial sums, tail-bound rows, schedules, readbacks, seal-facing rows, $\hsame$ routes, $\Cont$ routes, package provenance, and local provenance componentwise;
+\item tail-sum boundary: \autoref{thm:fastconvergentseries-tail-sum-boundary} forces every real-facing read through the displayed fast tail schedule and finite partial-sum comparison ledger;
+\item $\RegSeqRatUp$ handoff: the partial-sum rows, schedule rows, and tail-bound ledger repack as the visible regular rational readback row $R$ of \autoref{def:fastconvergentseries-bhist-carrier};
+\item $\RealUp$ seal non-escape: the seal-facing ledger $E$ may read only the $\SeriesUp$, $\SeqUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows displayed by the packet.
+\end{enumerate}
+These rows are exactly the finite naming-certificate surface for fast convergent series.
+\end{theorem}
+\begin{proof}
+The first row is the explicit zero-series inhabitant. It provides summand observations, partial sums, tail bounds, regular readbacks, and the real seal without importing any completion object.
+
+The classifier row is componentwise by definition. Each permitted transport is one of the displayed $\hsame$ comparisons or $\Cont$ read routes, so transported packets preserve the same partial-sum, tail-bound, schedule, readback, and seal-facing coordinates.
+
+The boundary row is \autoref{thm:fastconvergentseries-tail-sum-boundary}. It shows that every real-facing read must pass through the finite schedule and partial-sum ledger before reaching the $\RegSeqRatUp$ and $\RealUp$ rows.
+
+The final two rows are projections of the same carrier. The regular readback forgets no tail evidence needed by $\RegSeqRatUp$, and the real seal has no field from which a quotient stream, selected sum, or ambient completeness principle could be read.
+\end{proof}
+
+\closureat{FastConvergentSeriesUp}{seedStr}
+\closureat{FastConvergentSeriesUp}{obligationStr}
+
+\begin{closurestatus}{\FastConvergentSeriesUp}
+  \constructivestory{A $\FastConvergentSeriesUp$ packet is generated from displayed $\SeriesUp$ summand and partial-sum rows, the underlying $\SeqUp$ observation surface, a $\CauchyModulusUp$ fast tail schedule, finite tail-bound rows, $\RegSeqRatUp$ partial-sum readbacks, $\RealUp$ seal-facing rows, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter fixes the carrier, classifier, constant-zero inhabitant, tail-sum boundary, $\RegSeqRatUp$ handoff, and $\RealUp$ seal non-escape rows for the fast convergent series certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a public $\RealUp$ completeness theorem, quotient equality of streams, uniqueness of sums, host summability, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier transport, tail-bound exactness, $\RegSeqRatUp$ handoff, and $\RealUp$ seal factorization for the same finite packet.}
+\end{closurestatus}

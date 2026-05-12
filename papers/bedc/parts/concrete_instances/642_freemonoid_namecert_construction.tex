@@ -125,6 +125,7 @@ provenance, the $\ListUp$ position spine, the $\NatUp$ length row, the
 $\MonoidUp$ append route when present, and the componentwise payload
 $\hsame$ rows. It exports no separate evaluator for words.
 \end{theorem}
+\leanchecked{BEDC.Derived.FreeMonoidUp.FreeMonoidWordCarrier\_ledger\_normal\_form}
 \begin{proof}
 Inspect the carrier row of
 \autoref{def:freemonoid-word-carrier}. The only constructors recorded in the
@@ -165,16 +166,17 @@ word-history certificate.
 \end{proof}
 
 \closureat{FreeMonoidUp}{bridgedStr}
+\closureat{FreeMonoidUp}{matureStr}
 
 \begin{closurestatus}{\FreeMonoidUp}
   \constructivestory{A free-monoid word is generated as a finite $\mathsf{BHist}$ spine whose positions are licensed by $\ListUp$, whose length row is licensed by $\NatUp$, whose concatenation route is the $\MonoidUp$ append surface, and whose payload positions compare componentwise by $\hsame$ under the displayed $\Pkg$ provenance.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:freemonoid-public-seal} binds the finite word-history packet with empty word, singleton insertion, concatenation, length addition, componentwise payload transport, and source provenance.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:freemonoid-public-seal} binds the finite word-history packet with empty word, singleton insertion, concatenation, length addition, componentwise payload transport, source provenance, empty concatenation inversion from \autoref{thm:freemonoid-empty-concat-inversion}, singleton concatenation inversion from \autoref{thm:freemonoid-singleton-concat-inversion}, and the concrete $\ListUp$ continuation monoid instance of \autoref{thm:freemonoid-list-cont-concrete-instance}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close host free-monoid quotients, infinite words, formal-language recognizers, automata semantics, or a standard bridge.}
-  \upgradepath{Mature closure requires finite word-history consumer coverage over the displayed $\ListUp$, $\NatUp$, $\MonoidUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and payload-source rows.}
+  \upgradepath{Remaining work is formal verification of the displayed finite word-history consumer package and standard-bridge checking.}
 \end{closurestatus}
 
 \begin{theorem}[FreeMonoid empty concatenation inversion]
