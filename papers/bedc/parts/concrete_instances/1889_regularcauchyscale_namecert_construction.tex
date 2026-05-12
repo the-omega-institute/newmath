@@ -49,6 +49,54 @@ Classifier transport is componentwise. The $\RatUp$ scalar row transports the ra
 The finite ledger records the scalar endpoint, the source tolerance, the scalar magnitude bound, the scaled endpoint error, and the output tolerance before the readback is exposed. Since the downstream handoff is the readback row $R$ and its displayed provenance, no omitted coordinate can add quotient streams, selected limits, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RegularCauchyScale source factorization]
+\label{thm:regular-cauchy-scale-source-factorization}
+For an accepted $\RegularCauchyScaleUp$ carrier $S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)$, every scale read factors through the $\RatUp$ scalar row $Q$, the $\RegSeqRatUp$ source row $A$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ endpoint rows $D_Q$, $D_A$, and $D$, and the $\FiniteErrorBudgetUp$ row $E$ before the readback row $R$ is exposed.
+
+Thus the packet presents rational scaling as a finite source factorization: scalar, source schedule, window, endpoint calculation, and budget row are all visible before any $\RegSeqRatUp$ or $\RealUp$ consumer reads the scaled name.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-scale-carrier}. The scalar row $Q$, source row $A$, stream window $W$, endpoint rows $D_Q,D_A,D$, and ledger row $E$ are explicit coordinates of the finite packet.
+
+Read a scale request through those coordinates in order. The scalar endpoint is supplied by $Q$ through $D_Q$, the source observation is supplied by $A$ through $W$ and $D_A$, and the scaled endpoint is the displayed dyadic row $D$.
+
+The budget row $E$ then records the scalar endpoint, source tolerance, scalar magnitude bound, scaled endpoint error, and output tolerance. Only after this finite ledger is present does the packet expose the regular readback row $R$.
+
+Consequently every consumer-facing scale read is factored through the displayed rational source data and finite budget rows rather than through a completed real scalar action or a quotient stream.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale classifier route exhaustion]
+\label{thm:regular-cauchy-scale-classifier-route-exhaustion}
+Classifier transport for $\RegularCauchyScaleUp$ is exhausted by componentwise $\hsame$ transport and $\Cont$ replay over the displayed tuple
+$$
+(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N).
+$$
+There is no classifier route for a hidden scalar, an unrecorded source stream, a quotient representative, a selected limit, or an ambient completion object.
+\end{theorem}
+\begin{proof}
+Start with the tuple in \autoref{def:regular-cauchy-scale-carrier}. The visible classifier inputs are the scalar, source, window, endpoint rows, ledger, readback, transport row, continuation row, provenance row, and local naming row.
+
+Apply the classifier transport clause of \autoref{thm:regular-cauchy-scale-namecert-obligations}. It moves those rows componentwise through the stored $\hsame$ data and replays consumer access only through the displayed $\Cont$ routes.
+
+The source factorization of \autoref{thm:regular-cauchy-scale-source-factorization} leaves no remaining coordinate to classify. Every scale read has already passed through $Q,A,W,D_Q,D_A,D,E$ before reaching $R$.
+
+Thus classifier routing is exhausted by componentwise transport and continuation replay over the displayed tuple, with no hidden stream, selected limit, quotient representative, or completion object available to inspect.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale RealUp scalar non-escape]
+\label{thm:regular-cauchy-scale-real-scalar-non-escape}
+Every $\RealUp$ scalar consumer of an accepted $\RegularCauchyScaleUp$ packet sees only the $\RegSeqRatUp$ readback row $R$ and the finite scale ledger $E$ together with the visible scalar, source, window, endpoint, transport, continuation, provenance, and naming rows. It does not receive a completed real scalar multiplication, a quotient stream equality, a selected limit, or an ambient vector-space operation.
+\end{theorem}
+\begin{proof}
+Factor the real-facing read through \autoref{thm:regular-cauchy-scale-source-factorization}. Before $R$ is exposed, the packet displays the rational scalar, source row, aligned window, dyadic endpoint rows, and finite budget ledger.
+
+Use \autoref{thm:regular-cauchy-scale-classifier-route-exhaustion} to control transport. A classified replacement can replay only the displayed $\hsame$ and $\Cont$ routes over the same tuple.
+
+Finally apply the existing real seal boundary in \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. A $\RealUp$ consumer reads the regular rational sequence surface and its visible provenance, not a separate completed-real scalar field.
+
+Therefore the scalar operation does not escape the finite $\RegSeqRatUp$ readback and budget ledger into quotient equality, selected limits, ambient completeness, or a host vector-space operation.
+\end{proof}
+
 \begin{theorem}[RegularCauchyScale carrier admission obligation]
 \label{thm:regularcauchyscale-scale-carrier-obligation}
 For an accepted $\RegularCauchyScaleUp$ carrier $S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)$, carrier admission is exactly the displayed finite $\BHist$ packet of \autoref{def:regular-cauchy-scale-carrier}. The admitted rows are the $\RatUp$ scalar row $Q$, the $\RegSeqRatUp$ source $A$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ scalar endpoint $D_Q$, source endpoint $D_A$, and scaled endpoint $D$, the $\FiniteErrorBudgetUp$ scale ledger $E$, the $\RegSeqRatUp$ readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
