@@ -313,6 +313,49 @@ carrier, classifier, stability obligations, ledger, exactness predicate, and dow
 bridge slots into one $\CompletionUp$ certificate boundary.
 \end{proof}
 
+\begin{theorem}[Completion carrier obligation]\label{thm:completion-carrier-obligation}
+The $\CompletionUp$ carrier obligation is the BEDC finite-prefix regular-Cauchy point-name packet over $\mathsf{BHist}$, $\mathsf{RealStreamPrefixClassifier}$, $\mathsf{MetricDistanceWitness}$, Cauchy modulus data, visible-context transport, and $\mathsf{Pkg}$ provenance. Its carrier row consists only of displayed point-name streams, selected prefix indices, finite distance-readback rows, visible left and right contexts, modulus rows, limit-candidate ledger rows, and package provenance.
+
+The obligation contains no quotient real, no host real equality, no choice-selected limit, and no representative selected outside the displayed finite-prefix packet.
+\end{theorem}
+\begin{proof}
+Read the carrier and ledger fields of \autoref{thm:concrete-completion-namecert}. The source is $\mathsf{BHist}$ equipped with the real-prefix classifier, metric-distance witness rows, Cauchy modulus data, visible contexts, and package provenance. These are exactly the finite coordinates named in the carrier statement.
+
+The readback rows are supplied by \autoref{thm:completion-metric-distance-e1-tail-real-prefix-readback} and \autoref{thm:completion-empty-distance-real-prefix-readback}. The visible-context coordinates are transported by \autoref{thm:completion-metric-distance-witness-e1-tail-hsame-transport}, \autoref{thm:completion-metric-distance-visible-context-e1-tail-hsame-transport}, and \autoref{thm:completion-visible-context-empty-distance-hsame-transport}.
+
+The deterministic and prefix-independent rows of \autoref{thm:concrete-completion-namecert} show that the carrier is exhausted by those finite-prefix coordinates. Since no cited row introduces a quotient type, host real equality, or choice-selected limit, none is part of the carrier obligation.
+\end{proof}
+
+\begin{theorem}[Completion classifier stability obligation]\label{thm:completion-classifier-stability-obligation}
+The $\CompletionUp$ classifier is stable under displayed $\hsame$ and $\Cont$ transport of the selected prefix, visible left and right contexts, metric-distance witness, Cauchy modulus, and limit-candidate ledger. After transport, the classifier still reads only the transported real-prefix distance result, the transported visible-context rows, the transported modulus row, the transported limit-candidate row, and the transported $\mathsf{Pkg}$ provenance.
+
+The stability obligation introduces no quotient real equality, no host real equality, no completion point outside the packet, and no choice-selected representative.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows named in \autoref{thm:completion-carrier-obligation}. A displayed $\hsame$ route moves the selected prefix and the visible contexts, while the displayed $\Cont$ routes preserve the finite readback boundary consumed by the classifier.
+
+Apply \autoref{thm:completion-metric-distance-witness-e1-tail-hsame-transport} to the ordinary visible tail and \autoref{thm:completion-metric-distance-visible-context-e1-tail-hsame-transport} to the contextualized visible tail. For the empty contextual distance row, apply \autoref{thm:completion-visible-context-empty-distance-hsame-transport}.
+
+The transported classifier remains deterministic by \autoref{thm:completion-metric-distance-witness-e1-result-tail-deterministic} and \autoref{thm:completion-metric-distance-visible-context-e1-tail-deterministic}. Prefix-independent visible-context readback is supplied by \autoref{thm:completion-metric-distance-visible-context-e1-prefix-independent-tail-deterministic} and \autoref{thm:completion-metric-distance-visible-context-e1-prefix-independent-symmetric-tail-readback}.
+
+Thus the transported classifier has the same finite-prefix inventory as the original packet. The proof never passes through a quotient type, host real equality, an external completion point, or a choice-selected representative.
+\end{proof}
+
+\begin{theorem}[Completion ledger exactness obligation]\label{thm:completion-ledger-exactness-obligation}
+Every public $\CompletionUp$ consumer read factors through the selected prefix index, real-prefix readback, metric-distance witness, visible-context transport, Cauchy modulus, limit-candidate row, and $\mathsf{Pkg}$ provenance displayed in the $\CompletionUp$ packet. The exactness ledger has no further public coordinate.
+
+In particular, a consumer cannot read a quotient real, host real equality, choice-selected limit, or representative outside the finite-prefix regular-Cauchy point-name packet.
+\end{theorem}
+\begin{proof}
+Project a public consumer read through the ten-field boundary of \autoref{thm:concrete-completion-namecert}. The carrier field supplies the selected prefix and point-name packet, while the classifier field supplies the real-prefix distance readback through $\mathsf{MetricDistanceWitness}$.
+
+The visible-context rows are exactly the rows transported by \autoref{thm:completion-metric-distance-visible-context-e1-tail-hsame-transport} and \autoref{thm:completion-visible-context-empty-distance-hsame-transport}. The ordinary and empty readback cases are exactly \autoref{thm:completion-metric-distance-e1-tail-real-prefix-readback} and \autoref{thm:completion-empty-distance-real-prefix-readback}.
+
+Use the determinacy and prefix-independent rows cited in \autoref{thm:concrete-completion-namecert} to rule out any second public read path for the same displayed prefix data. The Cauchy modulus, limit-candidate row, and package provenance are ledger coordinates, so they are readable only as the displayed rows of that packet.
+
+Therefore every public read factors through the listed finite-prefix coordinates. No step creates a quotient real, host real equality, choice-selected limit, or hidden representative.
+\end{proof}
+
 \closureat{CompletionUp}{seedStr}[BEDC.Derived.CompletionUp.CompletionMetricDistanceWitness\_semanticNameCert]
 
 \begin{closurestatus}{\CompletionUp}
