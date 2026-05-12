@@ -206,6 +206,24 @@ Many checked lemmas are intentionally statement-shape lemmas. Names such as
 which substitution preservation is proved. The full picture is assembled from
 these shape-local facts rather than from an opaque global argument.
 
+\subsection{Namespace Rationale}\label{subsec:reconstruction-namespace-rationale}
+
+The \texttt{BEDC.MetaCIC} namespace is divided by proof responsibility rather
+than by presentation order. \texttt{BEDC.MetaCIC.Syntax} contains the
+syntactic core: $\mathrm{Term}$, shift, substitution, and contexts.
+\texttt{BEDC.MetaCIC.Beta} contains one-step $\beta$ reduction, while
+\texttt{BEDC.MetaCIC.Typing} contains the typing relation over that syntax.
+\texttt{BEDC.MetaCIC.SubjectReduction} names the subject-reduction theorem
+suite, so that preservation claims remain downstream of both reduction and
+typing. \texttt{BEDC.MetaCIC.Confluence} contains multi-step reduction and
+parallel reduction, because join arguments use a different induction shape
+from one-step contraction. \texttt{BEDC.MetaCIC.Normalization} records the
+atom normal-form facts. \texttt{BEDC.MetaCIC.AtomInfer} and
+\texttt{BEDC.MetaCIC.TypedExamples} are demonstration and inference surfaces,
+kept outside the metatheory namespaces so that examples do not determine the
+core proof interfaces. Each sub-namespace is axiom-free under the strict
+\texttt{bedc\_ci.py axiom-purity --strict} audit.
+
 \subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
 
 The current MetaCIC stack is factored by proof responsibility.
