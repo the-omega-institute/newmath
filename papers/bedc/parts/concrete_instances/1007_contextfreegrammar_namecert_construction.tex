@@ -197,6 +197,44 @@ host language quotient, parse-tree infinitary semantics, pumping theorem, or
 recognizer completeness claim.
 \end{proof}
 
+\begin{theorem}[ContextFreeGrammar RegularLanguage--TuringMachine bridge boundary]
+\label{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}
+The public grammar and yield packet of
+\autoref{def:contextfreegrammar-bhist-carrier} exports to
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumers only the terminal
+alphabet, nonterminal carrier, start row, finite production ledger, finite
+derivation ledger, $\ListUp$ terminal yield row, $\hsame$ transports,
+$\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The exported boundary does not include ambiguity, parsing completeness,
+pumping arguments, Chomsky normal form, or recognizer completeness.
+\end{theorem}
+\begin{proof}
+Project the finite grammar packet of
+\autoref{def:contextfreegrammar-bhist-carrier}. The terminal alphabet,
+nonterminal carrier, start row, production ledger, derivation ledger,
+terminal yield row, transport rows, continuation routes, provenance, and
+naming row are exactly the displayed carrier coordinates.
+
+Use \autoref{thm:contextfreegrammar-production-stability} to keep every
+production witness inside the finite ledger under componentwise transport.
+Use \autoref{thm:contextfreegrammar-derivation-concatenation} to compose
+consumer derivation windows without introducing an infinitary derivation
+object.
+
+Apply \autoref{thm:contextfreegrammar-yield-readback} and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These identify the
+consumer-visible yield as the same $\ListUp$ terminal word row read through
+the finite derivation ledger and the stored terminal readback surface.
+
+Finally apply
+\autoref{thm:contextfreegrammar-namecert-obligation-surface} and repack the
+rows named by the consumer boundary. Since the packet has no coordinate for
+ambiguity, parsing completeness, pumping arguments, Chomsky normal form, or a
+complete recognizer, none of those structures is exported to
+$\RegularLanguageUp$ or $\TuringMachineUp$ readers.
+\end{proof}
+
 \closureat{ContextFreeGrammarUp}{seedStr}
 \closureat{ContextFreeGrammarUp}{obligationStr}
 \closureat{ContextFreeGrammarUp}{scopedStr}
