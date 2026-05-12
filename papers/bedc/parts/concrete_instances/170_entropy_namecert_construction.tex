@@ -243,3 +243,22 @@ outside the ledger.
   \notclaimed{This chapter does not close convergence, measure completion, or host entropy equality.}
   \upgradepath{The next paper-axis step is a bridge boundary for the public entropy readback surface over the displayed $\mathsf{BHist}$ carrier, log-partition rows, $\Cont$ ledger, $\Pkg$ provenance, and consumer-exact boundary.}
 \end{closurestatus}
+
+\begin{definition}[Entropy public readback bridge surface]
+\label{def:entropy-public-readback-bridge-surface}
+The $\EntropyUp$ public readback bridge surface is the conservative paper bridge whose BEDC side is the accepted source surface of \autoref{def:entropy-bhist-measure-source-surface} together with the accepted log-partition carrier of \autoref{def:entropy-log-partition-bhist-carrier}. Its bridge rows are exactly the displayed $\DistributionUp$ pushforward row, finite partition observation row, transported log-weight endpoint row, $\IntegralUp$ or finite-sum readback row, componentwise $\hsame$ transport rows, finite $\Cont$ ledger rows, $\Pkg$ provenance, and the consumer-exact boundary supplied by \autoref{thm:entropy-log-partition-consumer-exhaustion} and \autoref{thm:entropy-distribution-integral-boundary}.
+\end{definition}
+
+\begin{theorem}[Entropy public readback bridge boundary]
+\label{thm:entropy-public-readback-bridge-boundary}
+Let $B$ be an $\EntropyUp$ public readback bridge surface in the sense of \autoref{def:entropy-public-readback-bridge-surface}. Every conservative paper read through $B$ factors through the displayed source carrier, the log-partition rows, the transported log-weight endpoint, the $\IntegralUp$ readback row, the $\Cont$ ledger rows, the $\Pkg$ provenance, and the consumer-exact boundary named in \autoref{thm:entropy-log-partition-consumer-exhaustion} and \autoref{thm:entropy-distribution-integral-boundary}. Therefore $B$ cannot import analytic convergence, measure completion, host entropy equality, or host integral equality.
+\end{theorem}
+\begin{proof}
+Project the source side of $B$. By \autoref{def:entropy-public-readback-bridge-surface}, this projection is the accepted source surface of \autoref{def:entropy-bhist-measure-source-surface}. Applying \autoref{thm:entropy-distribution-integral-boundary} exhausts its public reads: a consumer sees only the $\DistributionUp$ pushforward row, the $\IntegralUp$ readback row, the log-weight endpoint, the $\hsame$ transport rows, the $\Cont$ ledger rows, and the $\Pkg$ provenance.
+
+Project the log-partition side of $B$. The same definition identifies this projection with the accepted carrier of \autoref{def:entropy-log-partition-bhist-carrier}. Applying \autoref{thm:entropy-log-partition-consumer-exhaustion} exhausts that side as the $\DistributionUp$ pushforward row, finite partition observation row, log-weight endpoint row, $\IntegralUp$ or finite-sum readback row, componentwise $\hsame$ transports, finite $\Cont$ ledger routes, and $\Pkg$ provenance. Applying \autoref{thm:entropy-log-partition-transport-closure} keeps those rows stable under the displayed componentwise transports and adds no analytic row.
+
+It remains to check that the bridge has no second channel. The definition of the bridge surface lists its bridge rows as the union of the two exhausted consumer boundaries, with the transported log-weight and readback rows included only through their displayed $\hsame$, $\Cont$, and $\Pkg$ provenance. Thus any conservative paper read through $B$ first lands in one of the rows already named by the source or log-partition exhaustion theorem, and reverse admission can accept only a package carrying those same rows.
+
+Analytic convergence and measure completion are excluded by both the source boundary and the log-partition exhaustion. Host entropy equality is excluded by \autoref{thm:entropy-log-partition-consumer-exhaustion}, \autoref{thm:entropy-log-partition-transport-closure}, and \autoref{thm:entropy-distribution-integral-boundary}. Host integral equality is also excluded: the only integral information admitted by the bridge is the public $\IntegralUp$ readback row, and \autoref{thm:integral-public-namecert-surface} keeps host function equality and hidden convergence choices outside the public $\IntegralUp$ surface. Consequently the bridge boundary is exactly the displayed entropy readback surface and cannot import any of the four excluded host claims.
+\end{proof}

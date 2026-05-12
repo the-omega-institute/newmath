@@ -86,6 +86,29 @@ sort or variable has the same endpoint.
 \leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
 \leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
 
+\subsection{Encoding Overview}\label{subsec:reconstruction-encoding-overview}
+
+The encoding in \texttt{BEDC.MetaCIC} is a direct Lean representation of the
+fragment. \texttt{Term} is an inductive syntax type with five constructors:
+\texttt{var}, \texttt{app}, \texttt{lam}, \texttt{pi}, and \texttt{sort}.
+Contexts are the abbreviation \texttt{Ctx := List Term}, and
+\texttt{Ctx.lookup} synchronizes lookup with de Bruijn shifting across binder
+slots.
+
+The substitution and shift operations are the standard de Bruijn operations:
+descent below a binder raises the depth by one, and the substituted value is
+shifted by \texttt{shift 0 1}. The typing predicate \texttt{HasType} is
+inductive and uses a shift-aware binder slot, namely
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom}$, when checking lambda and Pi bodies.
+
+Reduction is split into three inductive relations. \texttt{BetaStep} gives
+single-step $\beta$ contraction with congruence rules; \texttt{BetaStarStep}
+gives the multi-step closure; and \texttt{BetaParallel} gives the
+Tait--Martin-L\"of parallel relation. Closure is represented by the indexed
+inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
+inductive types or definitions, use no axioms, and have exactly the strength of
+the host CIC that checks them.
+
 \subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
 
 The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
@@ -110,6 +133,27 @@ The limit is deliberate. MetaCIC does not simulate the host's full type
 checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
 formalization: its checked claims have the same foundational strength as the
 host that checks them, not a stronger one.
+
+\subsection{Fragments and Limitations}\label{subsec:reconstruction-fragments-limitations}
+
+\texttt{BEDC.MetaCIC} represents a minimal CIC syntactic fragment. The included
+term grammar has variables, a single sort, dependent function types, lambda
+abstraction, and application. Binders use de Bruijn indices rather than names,
+and the substrate is shift-aware: context lookup, binder descent, and
+substitution all account for the index movement caused by crossing binders.
+
+Several host-CIC features are outside this represented fragment. There is no
+universe hierarchy or universe polymorphism: the syntax has one sort and no
+\texttt{Type i} annotation. There are no standalone inductive types beyond
+Pi and sort, so objects such as natural numbers or lists are not represented
+as primitive inductive families in this layer. There is also no represented
+equality type, no inference hint or coercion layer, and no eta-conversion:
+\texttt{BetaStep} contains beta contraction and beta congruence only.
+
+The design intent is correspondingly narrow. The fragment is large enough to
+demonstrate the self-compilation idea as syntax, typing, reduction, and binder
+mechanics internalized as BEDC data and predicates. It is not a full host-CIC
+model and does not aim to cover Lean's complete kernel language.
 
 \subsection{Typing Rules}\label{subsec:reconstruction-typing-rules}
 
