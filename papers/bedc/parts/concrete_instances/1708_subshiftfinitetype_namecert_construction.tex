@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SubshiftOfFiniteTypeUp$}
+\label{ch:concrete-instances-subshift-finite-type-namecert}
+\origin{human}
+
+Inspired by Omega Project: \texttt{automath/README.md/golden-mean-shift}; here re-expressed in the BEDC mathlib-free substrate. The $\SubshiftOfFiniteTypeUp$ interface packages finite binary $\mathsf{BHist}$ words together with a finite forbidden-adjacency ledger, not an ambient shift space or an external symbolic-dynamics object.
+
+\section{Finite adjacency windows}
+\label{sec:subshift-finite-type-adjacency-windows}
+
+\begin{definition}[Subshift of finite type carrier]
+\label{def:subshift-finite-type-carrier}
+A $\SubshiftOfFiniteTypeUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(A,W,F,L,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ is the finite visible alphabet row, specialized here to the displayed zero and one bit rows;
+\item $W$ is a finite word row over $A$, recorded as a list of visible $\mathsf{BHist}$ bit rows;
+\item $F$ is the finite forbidden-adjacency ledger whose rows are adjacent bit pairs disallowed inside $W$;
+\item $L$ is the acceptance ledger recording, for every neighboring pair of $W$, that the pair is absent from $F$;
+\item $P$ records the finite prefix, restriction, and row-transport provenance through $\Cont$ and $\Pkg$;
+\item $N$ is the local $\NameCert_{\SubshiftOfFiniteTypeUp}$ row for the componentwise visible-word classifier.
+\end{enumerate}
+The classifier compares two carriers componentwise by $\hsame$ on the alphabet row, each visible word row, the forbidden-adjacency ledger, the acceptance ledger, the provenance row, and the local certificate row. Acceptance is exactly finite ledger inspection: every adjacent pair displayed by $W$ must be rejected by no row of $F$ and certified in $L$ as allowed.
+\end{definition}
+
+\begin{theorem}[Subshift of finite type NameCert obligations]
+\label{thm:subshift-finite-type-namecert-obligations}
+The local $\NameCert_{\SubshiftOfFiniteTypeUp}$ obligation surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier habitation: the empty word and every one-letter visible word over $A$ are accepted, because they display no forbidden adjacent pair;
+\item classifier laws: reflexivity, symmetry, and transitivity are inherited componentwise from $\hsame$ on visible alphabet rows, word rows, forbidden-ledger rows, acceptance-ledger rows, provenance rows, and certificate rows;
+\item adjacency-ledger transport: displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes transport accepted carriers exactly when transported neighboring pairs remain outside the transported forbidden ledger;
+\item finite-prefix restriction: every displayed prefix or finite restriction of $W$ retains the corresponding subledger of $F,L,P,N$ and remains accepted;
+\item non-escape: every accepted row is justified only by the finite visible alphabet, word, forbidden-adjacency ledger, acceptance ledger, provenance, and local certificate rows.
+\end{enumerate}
+Thus the certificate is a BEDC-native finite-window object over $\mathsf{BHist}$ rows.
+\end{theorem}
+\begin{proof}
+For habitation, choose the empty word or a one-letter word. There is no adjacent position to inspect, so the acceptance ledger is empty and no forbidden pair can be witnessed.
+
+For the classifier laws, read each coordinate of \autoref{def:subshift-finite-type-carrier} componentwise. The visible rows are compared by $\hsame$, and the packet has no further coordinate on which another classifier could act.
+
+For adjacency-ledger transport, move the alphabet, word, forbidden-ledger, acceptance-ledger, provenance, and certificate rows through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. The transported carrier is accepted exactly when every transported neighboring pair remains absent from the transported forbidden ledger, because acceptance is defined by that finite inspection.
+
+For finite-prefix restriction, select an initial segment of the word through the recorded $\Cont$ route and restrict the ledgers to neighboring pairs that still appear in the segment. A retained neighbor was already accepted in the original word, so the restricted acceptance ledger certifies it again.
+
+Non-escape follows by projection of the carrier coordinates. The packet exposes no entropy row, inverse-limit object, quotient coordinate, infinite sequence carrier, or host symbolic-dynamics theorem, so a downstream $\NameCert$ consumer can cite only the displayed finite ledger rows and their routes.
+\end{proof}
+
+\begin{theorem}[Golden mean instance]
+\label{thm:subshift-finite-type-golden-mean-instance}
+The $\GoldenMeanShiftUp$ finite-window carrier is the one-forbidden-word instance of $\SubshiftOfFiniteTypeUp$ obtained by taking the visible alphabet row $A=\{0,1\}$ and the forbidden-adjacency ledger
+$$
+F=\{11\}.
+$$
+For this instance, a finite word is accepted precisely when every neighboring pair is zero-zero, zero-one, or one-zero, and the inherited $\NameCert$ obligations are the GoldenMeanShift carrier habitation, local stability, fold-prefix closure, adjacency-ledger exhaustion, and non-escape obligations.
+\end{theorem}
+\begin{proof}
+Specialize \autoref{def:subshift-finite-type-carrier} to the binary alphabet row and the singleton forbidden ledger whose only row is the adjacent pair $11$. A neighboring pair is accepted exactly when the finite ledger inspection does not find that row.
+
+The remaining adjacent binary pairs are zero-zero, zero-one, and one-zero. These are exactly the accepted adjacency rows used by the $\GoldenMeanShiftUp$ carrier, and the componentwise $\hsame$ classifier is the same visible-word classifier.
+
+The NameCert obligations restrict along the same finite ledgers. Habitation is witnessed by the empty word, one-letter words, and the all-zero word; local transport preserves acceptance by transporting the singleton forbidden row; prefix restriction deletes neighboring checks without adding any; and non-escape is inherited from the absence of any coordinate beyond the finite $\mathsf{BHist}$ word and ledger rows.
+\end{proof}
+
+\closureat{SubshiftOfFiniteTypeUp}{seedStr}
+
+\begin{closurestatus}{\SubshiftOfFiniteTypeUp}
+  \constructivestory{A $\SubshiftOfFiniteTypeUp$ packet is generated from a visible binary alphabet row, a finite $\mathsf{BHist}$ word row, a finite forbidden-adjacency ledger, an acceptance ledger for neighboring pairs, componentwise $\hsame$ transport, $\Cont$ and $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the finite adjacency-window carrier, its five local NameCert obligations, and the $\GoldenMeanShiftUp$ singleton-forbidden-ledger instance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close entropy, inverse limits, quotient presentations, infinite shift spaces, automath import, or a checked Lean certificate.}
+  \upgradepath{Scoped closure requires machine-checked carrier habitation, classifier laws, adjacency-ledger transport, finite-prefix restriction, non-escape, and the singleton-forbidden-row $\GoldenMeanShiftUp$ instance.}
+\end{closurestatus}
