@@ -58,3 +58,7 @@ The Cook data-block emitter uses a fixed 50-cell slot per cyclic-tag tape bit. L
 ## Empty cyclic-tag encoder observations (C2)
 
 The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the current leader marker at cell 100. Because this row is only 700 cells wide, the 500-step check compares against a separately evolved pure-ether row with the same finite zero-boundary evaluator. The observed difference is therefore attributed to the leader marker rather than to boundary phase drift. Non-empty cyclic-tag inputs remain outside the C2 envelope and return zero bytes.
+
+## Documentation boundary notes (E1-E3)
+
+The Layer 6 documentation describes the Cook construction code as a behavioral scaffold. The trust boundary is explicit: ether, gliders, leader, ossifier, data block, collision observation, `.r110` row manifests, and the empty `cook_encode` path are deterministic local Rule 110 artifacts, while phase-exact Cook 2004 transcription and productive cyclic-tag simulation remain outside the checked claim.

@@ -15,10 +15,12 @@ Layer 2: Cyclic tag evaluator   evaluator/cyclic_tag.c    (~80 LOC)
 Layer 3: GroundCompiler encoder encoder/groundcompiler_encoding.c (~120 LOC)
 Layer 4: Mark theorem manifests manifests/mark/*.ct        (8 files)
 Layer 5: Self-consistent tests  tests/*.c                  (~500 LOC)
+Layer 6: Cook construction scaffold encoder/cook_*.c       (behavioral)
 
-(Layer 6, Cook construction cyclic-tag→Rule-110 encoder, is milestone-2 scope,
-not shipped in this slice. Rule 110 evaluator is shipped + verified via
-binary counter toy demo, but its connection to Mark manifests is deferred.)
+Layer 6 currently contains a best-effort Cook-construction scaffold: ether,
+glider emitters, collision observation, leader, ossifier, data block, and an
+empty cyclic-tag encoder path. It is not a phase-exact Cook 2004 construction
+and does not yet support a production universality claim.
 ```
 
 ## Reproducibility
@@ -34,6 +36,7 @@ make clean      # removes all build output
 - `docs/trust_chain.md` — per-layer audit checklist
 - `docs/manifest_format.md` — cyclic-tag manifest format spec
 - `docs/theorem_encoding.md` — how 4 msame lemmas map to manifests
+- `docs/cook_construction.md` — Cook encoder scaffold status and trust posture
 
 ## Sources / convention
 
