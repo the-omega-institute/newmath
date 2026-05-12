@@ -518,6 +518,26 @@ theorem betaStep_app_cases {f a t : Term}
   | congApp2 f a a' haa' =>
       exact Or.inr (Or.inr (Exists.intro a' (And.intro haa' rfl)))
 
+theorem betaStep_pi_cases {d c t : Term}
+    (h : BetaStep (Term.pi d c) t) :
+    (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
+    (∃ d', BetaStep d d' ∧ t = Term.pi d' c) := by
+  cases h with
+  | congPiCod d c c' hc =>
+      exact Or.inl (Exists.intro c' (And.intro hc rfl))
+  | congPiDom d d' c hd =>
+      exact Or.inr (Exists.intro d' (And.intro hd rfl))
+
+theorem betaStep_lam_cases {d b t : Term}
+    (h : BetaStep (Term.lam d b) t) :
+    (∃ b', BetaStep b b' ∧ t = Term.lam d b') ∨
+    (∃ d', BetaStep d d' ∧ t = Term.lam d' b) := by
+  cases h with
+  | congLam d b b' hb =>
+      exact Or.inl (Exists.intro b' (And.intro hb rfl))
+  | congLamDom d d' b hd =>
+      exact Or.inr (Exists.intro d' (And.intro hd rfl))
+
 theorem betaStep_pi_iff {d c t : Term} :
     BetaStep (Term.pi d c) t ↔
       (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
