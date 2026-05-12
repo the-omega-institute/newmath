@@ -359,6 +359,56 @@ Now attach the downstream consumer surface. The route of \autoref{thm:cauchy-com
 Finally apply finite-window exhaustion from \autoref{thm:cauchy-completion-monad-finite-window-exhaustion}. It states that every listed consumer read is exhausted by the finite window route, so the assembled package is the promised standard completion boundary and not an assertion of quotient streams, selected limits, host equality, hidden representatives, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad schedule totality]
+\label{thm:cauchy-completion-monad-schedule-totality}
+For every accepted $\CauchyCompletionMonadUp$ packet $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$, each consumer precision request is answered first by the displayed unary schedule row $\mu$, then by one finite $\StreamNameUp$ window in $W$, and then by the displayed $\DyadicRatCoreUp$ observation attached to that window. The request cannot be answered by an external selector outside the packet coordinates.
+\end{theorem}
+\begin{proof}
+Start with the carrier description in \autoref{def:cauchy-completion-monad-carrier}. The only coordinate that names which family member and which window answer a precision request is the unary schedule row $\mu$.
+
+Apply the schedule composition boundary of \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. It keeps composed consumer reads on the displayed schedule, matched window ledger, dyadic-observation ledger, diagonal readback, and seal row.
+
+Finally use finite-window exhaustion from \autoref{thm:cauchy-completion-monad-finite-window-exhaustion}. Every downstream read is exhausted by the finite route through $\mu$, $W$, and $D$, so no further selector is available.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad diagonal readback coverage]
+\label{thm:cauchy-completion-monad-diagonal-readback-coverage}
+For every accepted $\CauchyCompletionMonadUp$ packet $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$, each scheduled window and dyadic-observation pair has a displayed $\RegSeqRatUp$ diagonal readback $\Delta$ before the public $\RealUp$ seal row is exposed. Thus a consumer cannot reach the seal row directly from a window or observation coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:cauchy-completion-monad-carrier}. The rows $W$ and $D$ record finite windows and dyadic observations, while $\Delta$ is the diagonal transport ledger that repacks the scheduled observations as regular rational readback data.
+
+Use the public seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. A public $\RealUp$ read passes through schedule, selected window, dyadic observation, $\RegSeqRatUp$ diagonal readback, and only then the final seal row.
+
+The downstream consumer route of \autoref{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route} identifies the same read order for $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumers. Hence every scheduled window and observation pair is covered by $\Delta$ before any public seal exposure.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad Real seal naturality]
+\label{thm:cauchy-completion-monad-real-seal-naturality}
+Componentwise $\hsame$ transport and displayed $\Cont$ routes commute with the passage from source-family, schedule, finite-window, and dyadic-observation rows to the diagonal $\RegSeqRatUp$ readback and public $\RealUp$ seal row of an accepted $\CauchyCompletionMonadUp$ packet.
+\end{theorem}
+\begin{proof}
+Begin with two accepted packets related by the componentwise transport rows of the carrier. The classifier of \autoref{def:cauchy-completion-monad-carrier} compares source families, schedules, windows, dyadic observations, diagonal readbacks, and seal rows only through the displayed $\hsame$ and $\Cont$ coordinates.
+
+Apply diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. It moves the scheduled windows, dyadic observations, diagonal ledger, and seal row along the componentwise transports while preserving the consumer read order.
+
+Now use the public seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Because every public seal read factors through the transported diagonal readback, the transport route commutes with the passage from scheduled data to $\Delta$ and then to the $\RealUp$ seal.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad completion root unblock package]
+\label{thm:cauchy-completion-monad-completion-root-unblock}
+The finite completion-root obligation surface for $\CauchyCompletionMonadUp$ consists of schedule totality, diagonal readback coverage, public $\RealUp$ seal naturality, the regular-family unit package, bind closure, downstream $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumer routes, and the standard completion boundary. This is the package consumed by $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$; it contains only displayed source-family rows, unary schedules, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, diagonal $\RegSeqRatUp$ readbacks, $\RealUp$ seals, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+Assemble the request side from schedule totality in \autoref{thm:cauchy-completion-monad-schedule-totality}. Each consumer precision request is routed by the displayed unary schedule and one finite window before it reaches any dyadic observation.
+
+Attach diagonal readback coverage from \autoref{thm:cauchy-completion-monad-diagonal-readback-coverage} and seal naturality from \autoref{thm:cauchy-completion-monad-real-seal-naturality}. These rows place the $\RegSeqRatUp$ diagonal readback between every scheduled observation and the public $\RealUp$ seal, and they keep that placement stable under $\hsame$ transport and displayed $\Cont$ routes.
+
+Add the regular-family unit package of \autoref{thm:cauchy-completion-monad-regular-family-unit} and the bind closure package of \autoref{thm:cauchy-completion-monad-bind-closure-package}. The downstream consumer route of \autoref{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route} and the standard completion boundary of \autoref{thm:cauchy-completion-monad-standard-completion-boundary} then give the same finite surface to $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$.
+
+The assembled package has no coordinate for quotient streams, selected limits, host equality, hidden representatives, or ambient completeness. Since every read is exhausted by the displayed schedule, finite window, dyadic observation, diagonal readback, and seal route, none of those excluded objects can be supplied by the completion-root package.
+\end{proof}
+
 \closureat{CauchyCompletionMonadUp}{seedStr}
 \closureat{CauchyCompletionMonadUp}{obligationStr}
 \closureat{CauchyCompletionMonadUp}{scopedStr}

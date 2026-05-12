@@ -73,6 +73,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
 $$
 be an accepted $\DyadicTailBoundUp$ carrier. Every consumer read of the precision row $p$ factors through the stored schedule threshold $\mu$, the displayed dyadic tolerance row $\epsilon$, the finite ledger $L$, and the displayed $\Cont$ routes in $C$. In particular, no consumer precision read may bypass the carrier by using an unrecorded threshold, a separate tolerance, or a ledger outside $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_precision\_window\_restriction}
 \begin{proof}
 Project the packet through \autoref{def:dyadic-tail-bound-carrier}. The precision row is stored in the same finite carrier as the schedule threshold, tolerance, ledger, readback, seal, transport, continuation, package, and naming rows.
 
@@ -96,6 +97,7 @@ Apply \autoref{thm:dyadic-tail-bound-classifier-transport-exactness}. Because th
 
 Apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} to repack the enlarged ledger as the $\RegSeqRatUp$ handoff, and then \autoref{thm:dyadic-tail-bound-real-seal-factorization} for the seal route. The handoff still factors through the displayed ledger, so the append operation does not create an unrecorded tail estimate or a separate real-facing route.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_ledger\_append\_stability}
 
 \begin{theorem}[DyadicTailBound classifier transport exactness]
 \label{thm:dyadic-tail-bound-classifier-transport-exactness}
@@ -185,6 +187,7 @@ The remaining rows $H$, $C$, $P$, and $N$ record transport, consumer reads, pack
 
 Therefore any ledger comparison is exhausted by $\mu$, $\epsilon$, and the visible ledger entry. A downstream consumer cannot cite an unrecorded tail estimate without leaving the carrier surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_ledger\_threshold\_exhaustion}
 
 \begin{theorem}[DyadicTailBound seal consumer determinacy]
 \label{thm:dyadic-tail-bound-seal-consumer-determinacy}
@@ -236,6 +239,28 @@ Project the ledger coordinate $L$ from the carrier. By \autoref{def:dyadic-tail-
 Apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} to keep $L$ attached to the readback row $R$. The $\hsame$ rows in $H$ and the $\Cont$ routes in $C$ only transport and read these displayed coordinates.
 
 The provenance rows $P$ and $N$ certify the dependency package and local naming surface for this finite packet. Since no other comparison coordinate exists, the ledger is exhausted by $\mu$, $\epsilon$, $R$, $H$, $C$, $P$, and $N$.
+\end{proof}
+
+\begin{theorem}[DyadicTailBound CauchyRate consumer route]
+\label{thm:dyadic-tail-bound-cauchy-rate-consumer-route}
+For every accepted $\DyadicTailBoundUp$ carrier
+$$
+T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
+$$
+every $\CauchyRateUp$ consumer read of $T$ factors through the precision row $p$, schedule $\mu$, dyadic tolerance $\epsilon$, ledger $L$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, and displayed rows $H$, $C$, $P$, and $N$.
+
+The route exports no hidden rate selector, quotient stream, selected limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its consumer-visible coordinates are exactly the precision row, schedule threshold, tolerance row, finite ledger, regular-sequence readback, real seal, transport rows, continuation routes, package provenance, and local naming row.
+
+Use \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness}. Any $\CauchyRateUp$ read that consumes a regular rational rate must pass through $R$, and $R$ is obtained from the same schedule row $\mu$, dyadic tolerance $\epsilon$, and finite ledger $L$.
+
+Apply \autoref{thm:dyadic-tail-bound-real-seal-factorization}. A real-facing consumer reaches $E$ only through the displayed $\RegSeqRatUp$ readback and the same tail-budget coordinates.
+
+Use \autoref{thm:dyadic-tail-bound-ledger-threshold-exhaustion} and \autoref{thm:dyadic-tail-bound-tolerance-ledger-exhaustion}. These rows keep every consumed comparison tied to the threshold $\mu$, tolerance $\epsilon$, ledger $L$, transports $H$, continuations $C$, package row $P$, and local naming row $N$.
+
+Since the carrier contains no hidden rate selector, quotient stream, selected limit, host equality, or ambient completeness field, every $\CauchyRateUp$ consumer route is exhausted by $p$, $\mu$, $\epsilon$, $L$, $R$, $E$, $H$, $C$, $P$, and $N$.
 \end{proof}
 
 \begin{theorem}[DyadicTailBound consumer obligation package]
