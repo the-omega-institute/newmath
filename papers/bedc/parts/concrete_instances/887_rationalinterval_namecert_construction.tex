@@ -93,6 +93,7 @@ any displayed row of $\kappa$ with its endpoint, order, transport,
 continuation, package, and local naming evidence is accepted as a
 $\RationalIntervalUp$ containment read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_containment\_ledger\_exactness}
 \begin{proof}
 Project $I$ through
 \autoref{def:rational-interval-bhist-carrier}. The only containment
@@ -338,6 +339,7 @@ accepted $\RationalIntervalUp$ packet factors through the displayed endpoint,
 order, containment, transport, continuation, package, and local $\NameCert$
 rows. These rows exhaust the consumer surface of the finite rational window.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_window\_consumer\_exhaustion}
 \begin{proof}
 Project the accepted carrier tuple. Its observable coordinates are precisely
 the two $\RatUp$ endpoints, the endpoint-order witness, the finite containment
@@ -674,6 +676,36 @@ $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Hence the two iterated
 refinements expose one finite consumer packet and add none of the excluded
 completed-real, quotient, located-subset, apartness, arithmetic, or host
 standard interval structure.
+\end{proof}
+
+\begin{theorem}[RationalInterval refinement choice neutrality]
+\label{thm:rationalinterval-refinement-choice-neutrality}
+Fix a $\RationalIntervalUp$ endpoint packet over $\mathsf{BHist}$. For any
+two common-refinement windows whose endpoint, containment, dyadic-transport,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows satisfy the
+directed-refinement and associativity hypotheses, the resulting finite consumer
+packages for $\RegSeqRatUp$ and $\RealUp$ are $\hsame$-equivalent.
+
+Thus a finite $\RegSeqRatUp$ or $\RealUp$ consumer may use any displayed
+common-refinement witness for the fixed endpoint packet without selecting
+completed real equality, quotient Cauchy classes, located subsets, apartness,
+interval arithmetic, or host standard interval data.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rational-interval-common-refinement-window} to put both
+refinement choices over explicit finite endpoint and containment windows, and
+use \autoref{thm:rational-interval-directed-refinement-basis} to compare their
+directed basis rows inside one displayed finite $\mathsf{BHist}$ packet.
+
+Compose the comparison routes with
+\autoref{thm:rational-interval-refinement-composition}. Then
+\autoref{thm:rational-interval-endpoint-transport-classifier} identifies the
+endpoint, containment, dyadic-width, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ rows seen after the displayed $\hsame$ transport.
+
+Finally apply \autoref{thm:rationalinterval-common-refinement-associativity}.
+It identifies the two readings at the finite $\RegSeqRatUp$ and $\RealUp$
+consumer surface exposed by the fixed endpoint packet.
 \end{proof}
 
 \closureat{RationalIntervalUp}{seedStr}

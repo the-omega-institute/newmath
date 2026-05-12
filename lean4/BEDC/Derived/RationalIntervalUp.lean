@@ -99,6 +99,33 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_window_consumer_exhaustion [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer readback :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory consumer ->
+        Cont endpoint consumer readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+              UnaryHistory containment ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                UnaryHistory provenance ∧ UnaryHistory name ∧ UnaryHistory endpoint ∧
+                  UnaryHistory readback ∧ Cont left right order ∧
+                    Cont order containment transport ∧ Cont transport route provenance ∧
+                      Cont provenance name endpoint ∧ Cont endpoint consumer readback ∧
+                        PkgSig bundle readback pkg := by
+  intro packet consumerUnary consumerReadbackRow readbackPkg
+  obtain ⟨leftUnary, rightUnary, orderUnary, containmentUnary, transportUnary, routeUnary,
+    provenanceUnary, nameUnary, endpointUnary, leftRightRow, containmentRow, routeRow,
+    endpointRow, _endpointPkg⟩ := packet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed endpointUnary consumerUnary consumerReadbackRow
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, transportUnary, routeUnary,
+      provenanceUnary, nameUnary, endpointUnary, readbackUnary, leftRightRow, containmentRow,
+      routeRow, endpointRow, consumerReadbackRow, readbackPkg⟩
+
 theorem RationalIntervalPacket_realup_consumer_exactness [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -120,6 +147,7 @@ theorem RationalIntervalPacket_realup_consumer_exactness [AskSetup] [PackageSetu
   exact
     ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, consumerUnary,
       leftRightOrder, endpointContainmentConsumer, consumerPkg⟩
+
 theorem RationalIntervalPacket_endpoint_order_transport [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint left' right' order' :
       BHist}
@@ -240,5 +268,21 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
   exact
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
+
+theorem RationalIntervalPacket_containment_ledger_exactness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont containment route read ->
+        UnaryHistory containment ∧ UnaryHistory route ∧ UnaryHistory read ∧
+          Cont containment route read ∧ PkgSig bundle endpoint pkg := by
+  intro packet containmentRouteRead
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, containmentUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, endpointPkg⟩ := packet
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed containmentUnary routeUnary containmentRouteRead
+  exact ⟨containmentUnary, routeUnary, readUnary, containmentRouteRead, endpointPkg⟩
 
 end BEDC.Derived.RationalIntervalUp
