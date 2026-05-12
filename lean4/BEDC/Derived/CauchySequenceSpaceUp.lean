@@ -134,6 +134,41 @@ theorem CauchySequenceSpaceCarrier_completion_handoff [AskSetup] [PackageSetup]
     ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, routeUnary,
       handoffUnary, familyRoute, toleranceRoute, completionRoute, routeToHandoff, routePkg⟩
 
+theorem CauchySequenceSpaceCarrier_cofinal_schedule_stability [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name family' schedule' window'
+      completion' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      hsame family family' ->
+        hsame schedule schedule' ->
+          Cont family' schedule' window' ->
+            Cont window' tolerance completion' ->
+              UnaryHistory window' ∧ UnaryHistory completion' ∧ hsame window window' ∧
+                hsame completion completion' ∧ Cont family' schedule' window' ∧
+                  Cont window' tolerance completion' ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameFamily sameSchedule familyScheduleWindow windowToleranceCompletion
+  obtain ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary,
+    _transportUnary, _routeUnary, _nameUnary, familyScheduleWindowOld,
+    windowToleranceCompletionOld, _completionRoute, routePkg, _namePkg⟩ := carrier
+  have familyUnary' : UnaryHistory family' :=
+    unary_transport familyUnary sameFamily
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have windowUnary' : UnaryHistory window' :=
+    unary_cont_closed familyUnary' scheduleUnary' familyScheduleWindow
+  have windowSame : hsame window window' :=
+    cont_respects_hsame sameFamily sameSchedule familyScheduleWindowOld familyScheduleWindow
+  have completionUnary' : UnaryHistory completion' :=
+    unary_cont_closed windowUnary' toleranceUnary windowToleranceCompletion
+  have completionSame : hsame completion completion' :=
+    cont_respects_hsame windowSame (hsame_refl tolerance) windowToleranceCompletionOld
+      windowToleranceCompletion
+  exact
+    ⟨windowUnary', completionUnary', windowSame, completionSame, familyScheduleWindow,
+      windowToleranceCompletion, routePkg⟩
+
 theorem CauchySequenceSpaceCarrier_completion_handoff_stability [AskSetup] [PackageSetup]
     {family schedule window tolerance completion transport route name handoff family' schedule'
       window' tolerance' completion' route' handoff' : BHist}
