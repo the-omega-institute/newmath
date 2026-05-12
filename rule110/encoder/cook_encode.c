@@ -8,6 +8,29 @@
 
 #define COOK_ENCODE_EMPTY_ETHER_PERIODS 50
 #define COOK_ENCODE_EMPTY_LEADER_POS 100
+#define COOK_ENCODE_TAPE_GUARD_PERIODS 12
+
+static int add_size(size_t a, size_t b, size_t *out) {
+    if (a > ((size_t)-1) - b) return -1;
+    *out = a + b;
+    return 0;
+}
+
+static int mul_size(size_t a, size_t b, size_t *out) {
+    if (a != 0 && b > ((size_t)-1) / a) return -1;
+    *out = a * b;
+    return 0;
+}
+
+static int round_up_ether_width(size_t in, size_t *out) {
+    size_t rem = in % (size_t)COOK_ETHER_WIDTH;
+
+    if (rem == 0) {
+        *out = in;
+        return 0;
+    }
+    return add_size(in, (size_t)COOK_ETHER_WIDTH - rem, out);
+}
 
 #define COOK_ENCODE_ONE_ETHER_PERIODS 220
 #define COOK_ENCODE_ONE_LEADER_POS 100
