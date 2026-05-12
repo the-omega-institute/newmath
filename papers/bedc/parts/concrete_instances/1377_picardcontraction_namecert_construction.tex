@@ -133,6 +133,7 @@ limit. Therefore downstream ODE and Newton consumers receive exactly the
 finite contraction surface named in the statement, with full fixed-point
 convergence and ambient completeness outside the BEDC packet.
 \end{proof}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_banach\_ode\_boundary}
 
 \begin{theorem}[PicardContraction NameCert obligation surface]
 \label{thm:picardcontraction-namecert-obligation-surface}
@@ -528,6 +529,146 @@ Begin with \autoref{thm:picardcontraction-cauchy-modulus-handoff}. It identifies
 Then use \autoref{thm:picardcontraction-regseqrat-consumer-route}. The regular-sequence route reads the same finite carrier rows and supplies no completed orbit outside the packet.
 
 Finally apply \autoref{thm:picardcontraction-real-seal-noncompletion} together with \autoref{thm:picardcontraction-public-carrier-surface}. The seal is therefore the displayed endpoint row read through the finite route, with the fixed-point and completeness exclusions still in force.
+\end{proof}
+
+\begin{theorem}[PicardContraction CauchyRate source extraction]
+\label{thm:picardcontraction-cauchyrate-source-extraction}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+the finite iterate ledger $I$, rational Lipschitz row $L$, Cauchy-modulus row $M$, endpoint seal $E$, displayed $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $G$, and local $\NameCert$ row $N$ determine the $\CauchyRateUp$-facing source packet read from $P$. The extracted packet is a finite read of the same $\mathsf{BHist}$ carrier and contains no completed Picard orbit, ambient completeness proof, Banach fixed-point object, quotient stream equality, or selected limit.
+\end{theorem}
+\begin{proof}
+Project the public carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}. The rows named in the statement are visible coordinates of the finite packet, and the theorem excludes every host-level completion object from that surface.
+
+Next isolate the effective-rate data. Apply \autoref{thm:picardcontraction-public-iterate-ledger} to bind the visible iteration evidence to $I$ and $L$, and use \autoref{thm:picardcontraction-cauchy-modulus-handoff} to bind the tolerance schedule to $M$. The endpoint and real-facing seal are then the displayed row $E$ rather than a selected limit.
+
+Finally use the transport and provenance rows $H,C,G,N$ to package the read as a $\CauchyRateUp$ source. Since each row is already part of $P$, the extracted source is determined by the finite carrier and cannot introduce an additional completion or fixed-point premise.
+\end{proof}
+
+\begin{theorem}[PicardContraction CauchyRate real seal compatibility]
+\label{thm:picardcontraction-cauchyrate-real-seal-compatibility}
+Every $\RealUp$ seal export from an accepted $\PicardContractionUp$ packet factors through the $\CauchyRateUp$-facing source packet of \autoref{thm:picardcontraction-cauchyrate-source-extraction}. In particular, a real-facing consumer must read the finite packet rows
+$$
+L,I,M,E,H,C,G,N
+$$
+before it reads the seal, and it has no route that bypasses the finite rate packet by invoking ambient completeness, a completed orbit, a host fixed point, or a selected real representative.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:picardcontraction-public-seal-export}. It factors the $\RealUp$ seal through the modulus row $M$, endpoint row $E$, and the finite carrier route surrounding $B,T,L,I,H,C,G,N$.
+
+Now replace the rate-facing part of that route by the source extraction theorem. The rows $L,I,M,E,H,C,G,N$ are exactly the finite rate, endpoint, transport, continuation, package, and naming rows used by the $\CauchyRateUp$ source packet.
+
+It remains to rule out escape around the extracted source. Apply \autoref{thm:picardcontraction-real-seal-noncompletion}; the real-facing boundary exports only the finite endpoint and seal row. Therefore seal compatibility factors through the extracted CauchyRate source and not through any omitted completion object.
+\end{proof}
+
+\begin{theorem}[PicardContraction CauchyRate root-unblock package]
+\label{thm:picardcontraction-cauchyrate-root-unblock-package}
+The public $\PicardContractionUp$ surface assembles a $\CauchyRateUp$-facing root-unblock package for downstream $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, and $\NewtonIterationUp$ consumers. The package consists of the carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}, the iteration ledger of \autoref{thm:picardcontraction-public-iterate-ledger}, the seal export of \autoref{thm:picardcontraction-public-seal-export}, the source extraction of \autoref{thm:picardcontraction-cauchyrate-source-extraction}, and the real-seal compatibility of \autoref{thm:picardcontraction-cauchyrate-real-seal-compatibility}. Its conclusion is a finite rate/modulus bridge only; it is not a Banach fixed-point theorem, an ambient completeness theorem, a completed-orbit construction, or a selected-limit principle.
+\end{theorem}
+\begin{proof}
+First assemble the public surface. The carrier theorem gives the visible rows $B,T,L,I,M,E,H,C,G,N$, and the public iterate ledger identifies the only iteration evidence available to root-facing consumers.
+
+Next attach the seal route. The public seal export sends real-facing reads through $M$, $E$, and the finite carrier route, while the source extraction theorem repackages the rate-facing rows as the $\CauchyRateUp$ source packet.
+
+Finally use real-seal compatibility to bind the downstream real path to that finite source. The cited theorems already exclude fixed points, completed orbits, ambient completeness, and selected limits, so the assembled package is exactly the finite rate/modulus bridge claimed in the statement.
+\end{proof}
+
+\begin{theorem}[PicardContraction finite-modulus obligation triad]
+\label{thm:picardcontraction-finite-modulus-obligation-triad}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+the Banach source row $B$, the rational Lipschitz-ratio ledger $L$, and the
+Cauchy-modulus window $M$ jointly form the finite $\NameCert_{\PicardContractionUp}$
+obligation surface for downstream modulus reads. The triad is read together
+with the contraction row $T$, finite iterate ledger $I$, endpoint seal $E$,
+componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$
+provenance $G$, and local naming row $N$, and it contains no Banach fixed
+point, completed orbit, ambient completeness theorem, or selected limit.
+\end{theorem}
+\begin{proof}
+Unpack \autoref{def:picardcontraction-bhist-carrier}. The rows $B$, $L$, and
+$M$ are visible coordinates of the same finite packet, while $T$, $I$, $E$,
+$H$, $C$, $G$, and $N$ record how those rows are consumed and transported.
+
+Use \autoref{thm:picardcontraction-banach-source-readback} for the source row
+and \autoref{thm:picardcontraction-lipschitz-ledger-window-exactness} for the
+ratio ledger. These rows keep Banach and Lipschitz evidence inside the
+displayed carrier rather than in an external contraction principle.
+
+Finally apply \autoref{thm:picardcontraction-cauchy-modulus-handoff} and
+\autoref{thm:picardcontraction-modulus-row-finite-tail-lock}. They identify
+$M$ as the only modulus evidence and lock it to $I$, $L$, $H$, and $C$. The
+three displayed rows therefore form the finite modulus obligation surface
+named in the statement.
+\end{proof}
+
+\begin{theorem}[PicardContraction ratio-window carrier transport]
+\label{thm:picardcontraction-ratio-window-carrier-transport}
+Let
+$$
+P=(B,T,L,I,M,E,H,C,G,N)
+$$
+and
+$$
+P'=(B',T',L',I',M',E',H',C',G',N')
+$$
+be accepted $\PicardContractionUp$ packets related by the finite classifier.
+Every $\hsame$-compatible transport through the displayed $\Cont$ routes
+preserves the rational ratio ledger and the Cauchy-modulus window: $L'$ and
+$M'$ are read as the transported images of $L$ and $M$ inside the same carrier
+surface, not as external Lipschitz or convergence witnesses.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:picardcontraction-classifier}. It
+compares the accepted packets coordinate by coordinate through the displayed
+$\hsame$ and $\Cont$ rows, so the ratio and modulus coordinates are transported
+as packet rows.
+
+Apply \autoref{thm:picardcontraction-classifier-stability} and
+\autoref{thm:picardcontraction-modulus-window-transport}. The first theorem
+keeps the carrier comparison on the finite Banach, map, ratio, iterate,
+modulus, endpoint, provenance, and naming rows; the second identifies $M$ and
+$E$ as exact transported readback rows.
+
+It remains to bind the ratio ledger. Use
+\autoref{thm:picardcontraction-ratio-ledger-nonexpansion} and
+\autoref{thm:picardcontraction-lipschitz-ledger-window-exactness}. They keep
+the rational ledger on $L$ with its finite iterate and continuation context.
+Thus transport preserves both the ratio ledger and the modulus window without
+adding any host-level contraction or completion object.
+\end{proof}
+
+\begin{theorem}[PicardContraction Banach ODE consumer non-escape]
+\label{thm:picardcontraction-banach-ode-consumer-nonescape}
+Every $\OdeUp$ or $\NewtonIterationUp$ consumer of an accepted
+$\PicardContractionUp$ packet can read only the finite Banach row $B$,
+contraction row $T$, rational ratio ledger $L$, finite iterate ledger $I$,
+Cauchy-modulus row $M$, endpoint seal $E$, $\Pkg$ provenance $G$, local
+$\NameCert$ row $N$, and the surrounding $\mathsf{BHist}$, $\hsame$, and
+$\Cont$ evidence. No ODE or Newton consumer receives a Banach fixed-point
+object, completed Picard orbit, ambient completeness proof, or selected
+limiting state from this packet.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:picardcontraction-bhist-carrier}. The
+consumer-visible coordinates are exactly $B,T,L,I,M,E,H,C,G,N$.
+
+For the ODE and Newton side, apply
+\autoref{thm:picardcontraction-banach-ode-boundary}. It already factors these
+consumer reads through the Banach source, contraction row, rational ledger,
+finite iterate rows, explicit modulus row, and endpoint/seal routes.
+
+Now attach the modulus obligation and transport rows. The triad theorem
+\autoref{thm:picardcontraction-finite-modulus-obligation-triad} binds $B$,
+$L$, and $M$ as one finite obligation surface, while
+\autoref{thm:picardcontraction-ratio-window-carrier-transport} preserves that
+surface under displayed classifier transport. Finally
+\autoref{thm:picardcontraction-finite-consumer-exhaustion} exhausts every
+listed consumer by the same finite carrier rows, proving non-escape.
 \end{proof}
 
 \closureat{PicardContractionUp}{seedStr}
