@@ -158,6 +158,58 @@ def CauchyRegularizationFiniteCarrier [AskSetup] [PackageSetup]
     hsame namecert endpoint ∧
     PkgSig bundle endpoint pkg
 
+def CauchyRegularizationModulusClassifier [AskSetup] [PackageSetup]
+    (stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint
+      stream' modulus' dyadic' window' regseq' realSeal' sameRows' route' provenance'
+      namecert' endpoint' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyRegularizationFiniteCarrier stream modulus dyadic window regseq realSeal sameRows route
+      provenance namecert endpoint bundle pkg ∧
+    CauchyRegularizationFiniteCarrier stream' modulus' dyadic' window' regseq' realSeal'
+        sameRows' route' provenance' namecert' endpoint' bundle pkg ∧
+      hsame stream stream' ∧
+      hsame modulus modulus' ∧
+      hsame dyadic dyadic' ∧
+      hsame window window' ∧
+      hsame regseq regseq' ∧
+      hsame realSeal realSeal' ∧
+      hsame sameRows sameRows' ∧
+      hsame route route' ∧
+      hsame provenance provenance' ∧
+      hsame namecert namecert' ∧
+      hsame endpoint endpoint'
+
+theorem CauchyRegularizationModulusClassifier_stability [AskSetup] [PackageSetup]
+    {stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint
+      stream' modulus' dyadic' window' regseq' realSeal' sameRows' route' provenance'
+      namecert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRegularizationModulusClassifier stream modulus dyadic window regseq realSeal sameRows
+      route provenance namecert endpoint stream' modulus' dyadic' window' regseq' realSeal'
+      sameRows' route' provenance' namecert' endpoint' bundle pkg →
+      CauchyRegularizationFiniteCarrier stream modulus dyadic window regseq realSeal sameRows
+        route provenance namecert endpoint bundle pkg ∧
+        hsame endpoint endpoint' ∧
+          PkgSig bundle endpoint pkg ∧ PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro classified
+  obtain ⟨carrier, carrier', _sameStream, _sameModulus, _sameDyadic, _sameWindow,
+    _sameRegseq, _sameRealSeal, _sameRows, _sameRoute, _sameProvenance, _sameNamecert,
+    sameEndpoint⟩ := classified
+  have carrierCore := carrier
+  have carrierCore' := carrier'
+  obtain ⟨_streamUnary, _modulusUnary, _dyadicUnary, _windowUnary, _regseqUnary,
+    _realSealUnary, _sameRowsUnary, _routeUnary, _provenanceUnary, _namecertUnary,
+    _endpointUnary, _streamModulusDyadic, _dyadicWindowRegseq, _regseqRealSealEndpoint,
+    _sameRowsCarrier, _routeCarrier, _provenanceCarrier, _namecertCarrier, endpointPkg⟩ :=
+    carrierCore
+  obtain ⟨_streamUnary', _modulusUnary', _dyadicUnary', _windowUnary', _regseqUnary',
+    _realSealUnary', _sameRowsUnary', _routeUnary', _provenanceUnary', _namecertUnary',
+    _endpointUnary', _streamModulusDyadic', _dyadicWindowRegseq', _regseqRealSealEndpoint',
+    _sameRowsCarrier', _routeCarrier', _provenanceCarrier', _namecertCarrier',
+    endpointPkg'⟩ := carrierCore'
+  exact ⟨carrier, sameEndpoint, endpointPkg, endpointPkg'⟩
+
 theorem CauchyRegularizationFiniteCarrier_namecert_obligation_surface [AskSetup]
     [PackageSetup]
     {stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint :
