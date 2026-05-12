@@ -112,6 +112,26 @@ theorem CauchyTailComparisonCarrier_real_completion_handoff [AskSetup] [PackageS
                       (And.intro endpointSame
                         (And.intro namecertSame pkgSig)))))))))))
 
+theorem CauchyTailComparisonCarrier_standard_bridge_source [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint
+      bridgeSource : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+        provenance namecert endpoint bundle pkg →
+      hsame bridgeSource (append endpoint provenance) →
+        hsame bridgeSource (append (append readback provenance) provenance) ∧
+          Cont (append leftName rightName) modulus window ∧
+            Cont window endpointLedger readback ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier bridgeSourceEndpoint
+  obtain ⟨_leftUnary, _rightUnary, _modulusUnary, _windowUnary, _endpointLedgerUnary,
+    _readbackUnary, _provenanceUnary, _namecertUnary, _endpointUnary, commonWindow,
+    endpointReadback, endpointSame, _namecertSame, pkgSig⟩ := carrier
+  have endpointAppendSame :
+      hsame (append endpoint provenance) (append (append readback provenance) provenance) :=
+    congrArg (fun row => append row provenance) endpointSame
+  exact ⟨hsame_trans bridgeSourceEndpoint endpointAppendSame, commonWindow, endpointReadback, pkgSig⟩
+
 def CauchyTailComparisonCommonWindowCarrier [AskSetup] [PackageSetup]
     (leftName rightName modulus window endpointLedger readback provenance nameRow endpoint :
       BHist)
