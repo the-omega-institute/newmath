@@ -16,6 +16,59 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def ModulusOfConvergenceBHistCarrier [AskSetup] [PackageSetup]
+    (precision selector modulus schedule witness ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+    UnaryHistory schedule ∧ UnaryHistory witness ∧ UnaryHistory ledger ∧
+      UnaryHistory provenance ∧ Cont precision selector ledger ∧
+        Cont ledger provenance endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ModulusOfConvergenceBHistCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceBHistCarrier precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint) hsame ∧
+        UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+          UnaryHistory schedule ∧ UnaryHistory witness ∧ Cont precision selector ledger ∧
+            Cont ledger provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary,
+    _ledgerUnary, _provenanceUnary, precisionSelectorRoute, endpointRoute, pkgRoute⟩ := carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint)
+        (fun row : BHist => hsame row endpoint) hsame :=
+    {
+      core := {
+        carrier_inhabited := Exists.intro endpoint (hsame_refl endpoint)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _row' _row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          exact hsame_trans (hsame_symm sameRows) source
+      }
+      pattern_sound := by
+        intro _row source
+        exact source
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+  exact
+    ⟨cert, precisionUnary, selectorUnary, modulusUnary, scheduleUnary, witnessUnary,
+      precisionSelectorRoute, endpointRoute, pkgRoute⟩
+
 def ModulusOfConvergenceTransportPacket [AskSetup] [PackageSetup]
     (precision threshold modulus schedule witness ledger provenance : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -204,6 +257,23 @@ theorem ModulusOfConvergencePacket_tail_restriction_stability [AskSetup] [Packag
                         (And.intro restrictedProvenance restrictedPkg)))))))))
   · exact And.intro sameWitness sameProvenance
 
+theorem ModulusOfConvergenceCarrier_tail_restriction_stability [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance schedule' witness'
+      provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceCarrier precision selector modulus schedule witness ledger provenance
+        bundle pkg ->
+      hsame schedule schedule' ->
+        hsame witness witness' ->
+          hsame provenance provenance' ->
+            Cont modulus schedule' witness' ->
+              Cont witness' ledger provenance' ->
+                PkgSig bundle provenance' pkg ->
+                  ModulusOfConvergenceCarrier precision selector modulus schedule' witness'
+                      ledger provenance' bundle pkg ∧
+                    hsame witness witness' ∧ hsame provenance provenance' :=
+  ModulusOfConvergencePacket_tail_restriction_stability
+
 theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSetup]
     {precision selector modulus schedule witness ledger provenance precision' selector' modulus'
       schedule' witness' ledger' provenance' : BHist}
@@ -238,52 +308,85 @@ theorem ModulusOfConvergenceCarrier_composition_stability [AskSetup] [PackageSet
                                       precisionUnary' joinedRow
                                   exact ⟨joined, joinedRow, joinedUnary⟩
 
-def ModulusOfConvergencePacket
-    (precision threshold modulus schedule late ledger provenance : BHist) : Prop :=
-  UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory schedule ∧
-    UnaryHistory late ∧ Cont precision threshold modulus ∧ Cont schedule late ledger ∧
-      Cont modulus ledger provenance
+inductive ModulusOfConvergencePacket
+    (precision selector modulus stream witness ledger provenance window : BHist) : Prop where
+  | mk :
+      hsame precision window ->
+        hsame selector window ->
+          Cont stream witness window ->
+            Cont ledger provenance window ->
+              NameCert (fun h : BHist => hsame h ledger) hsame ->
+                ModulusOfConvergencePacket precision selector modulus stream witness ledger
+                  provenance window
 
 theorem ModulusOfConvergencePacket_ledger_exactness
-    {precision threshold modulus schedule late ledger provenance : BHist} :
-    ModulusOfConvergencePacket precision threshold modulus schedule late ledger provenance ->
-      UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory schedule ∧
-        UnaryHistory late ∧ UnaryHistory modulus ∧ UnaryHistory ledger ∧
-          UnaryHistory provenance ∧ hsame modulus (append precision threshold) ∧
-            hsame ledger (append schedule late) ∧
-              hsame provenance (append modulus ledger) := by
+    {precision selector modulus stream witness ledger provenance window : BHist} :
+    ModulusOfConvergencePacket precision selector modulus stream witness ledger provenance
+        window ->
+      hsame precision window ∧ hsame selector window ∧
+        Cont stream witness window ∧ Cont ledger provenance window := by
   intro packet
-  have precisionUnary : UnaryHistory precision := packet.left
-  have thresholdUnary : UnaryHistory threshold := packet.right.left
-  have scheduleUnary : UnaryHistory schedule := packet.right.right.left
-  have lateUnary : UnaryHistory late := packet.right.right.right.left
-  have modulusCont : Cont precision threshold modulus := packet.right.right.right.right.left
-  have ledgerCont : Cont schedule late ledger := packet.right.right.right.right.right.left
-  have provenanceCont : Cont modulus ledger provenance := packet.right.right.right.right.right.right
-  have modulusUnary : UnaryHistory modulus :=
-    unary_cont_closed precisionUnary thresholdUnary modulusCont
-  have ledgerUnary : UnaryHistory ledger :=
-    unary_cont_closed scheduleUnary lateUnary ledgerCont
+  cases packet with
+  | mk precisionWindow selectorWindow streamRoute ledgerRoute _ledgerCert =>
+      exact And.intro precisionWindow
+        (And.intro selectorWindow (And.intro streamRoute ledgerRoute))
+
+def ModulusOfConvergenceRatePacket [AskSetup] [PackageSetup]
+    (precision selector modulus schedule witness ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory schedule ∧
+    UnaryHistory witness ∧ UnaryHistory provenance ∧ Cont precision selector modulus ∧
+      Cont schedule witness ledger ∧ Cont modulus ledger endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint tail restrictedSchedule
+      restrictedLedger restrictedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory tail ->
+        Cont schedule tail restrictedSchedule ->
+          Cont restrictedSchedule witness restrictedLedger ->
+            Cont modulus restrictedLedger restrictedEndpoint ->
+              PkgSig bundle restrictedEndpoint pkg ->
+                ModulusOfConvergenceRatePacket precision selector modulus restrictedSchedule witness
+                    restrictedLedger provenance restrictedEndpoint bundle pkg ∧
+                  hsame restrictedSchedule (append schedule tail) ∧
+                    hsame restrictedLedger (append restrictedSchedule witness) := by
+  intro packet tailUnary restrictedScheduleRow restrictedLedgerRow restrictedEndpointRow pkgSig
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have selectorUnary : UnaryHistory selector :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have witnessUnary : UnaryHistory witness :=
+    packet.right.right.right.left
   have provenanceUnary : UnaryHistory provenance :=
-    unary_cont_closed modulusUnary ledgerUnary provenanceCont
-  constructor
-  · exact precisionUnary
-  constructor
-  · exact thresholdUnary
-  constructor
-  · exact scheduleUnary
-  constructor
-  · exact lateUnary
-  constructor
-  · exact modulusUnary
-  constructor
-  · exact ledgerUnary
-  constructor
-  · exact provenanceUnary
-  constructor
-  · exact modulusCont
-  constructor
-  · exact ledgerCont
-  · exact provenanceCont
+    packet.right.right.right.right.left
+  have modulusRow : Cont precision selector modulus :=
+    packet.right.right.right.right.right.left
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed precisionUnary selectorUnary modulusRow
+  have restrictedScheduleUnary : UnaryHistory restrictedSchedule :=
+    unary_cont_closed scheduleUnary tailUnary restrictedScheduleRow
+  have restrictedLedgerUnary : UnaryHistory restrictedLedger :=
+    unary_cont_closed restrictedScheduleUnary witnessUnary restrictedLedgerRow
+  have _restrictedEndpointUnary : UnaryHistory restrictedEndpoint :=
+    unary_cont_closed modulusUnary restrictedLedgerUnary restrictedEndpointRow
+  have restrictedPacket :
+      ModulusOfConvergenceRatePacket precision selector modulus restrictedSchedule witness
+        restrictedLedger provenance restrictedEndpoint bundle pkg :=
+    And.intro precisionUnary
+      (And.intro selectorUnary
+        (And.intro restrictedScheduleUnary
+          (And.intro witnessUnary
+            (And.intro provenanceUnary
+              (And.intro modulusRow
+                (And.intro restrictedLedgerRow
+                  (And.intro restrictedEndpointRow pkgSig)))))))
+  exact And.intro restrictedPacket
+    (And.intro restrictedScheduleRow restrictedLedgerRow)
 
 end BEDC.Derived.ModulusOfConvergenceUp

@@ -242,6 +242,79 @@ regularity witnesses, completion objects, standard bridge rows, and
 real-completeness principles from the consumer boundary.
 \end{proof}
 
+\begin{theorem}[StreamName finite-observation classifier exhaustion]
+\label{thm:streamname-finite-observation-classifier-exhaustion}
+Let $\mathcal S$ be a synchronized finite $\StreamNameUp$ row whose
+downstream $\RegSeqRat$ handoff and finite-window $\RealUp$ terminal seal are
+read through the carrier of
+\autoref{thm:streamname-synchronized-window-union-carrier}. For every selected
+certified unary observation consumed by that handoff, the consumer-visible
+classifier data factors through exactly the displayed
+$\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership row,
+$\mathsf{UnaryHistory}$ row, pointwise
+$\mathsf{RatHistoryClassifier}$ row, $\hsame$ comparison, $\Cont$ route,
+$\Pkg$ provenance, and $\NameCert$ provenance of the synchronized window.
+
+Thus the single finite observation seen by the downstream
+$\RegSeqRat/\RealUp$ consumer has no coordinate for a regularity witness,
+quotient stream, completion row, host index equality, or host real equality.
+\end{theorem}
+\begin{proof}
+First project the synchronized row through
+\autoref{thm:streamname-synchronized-window-union-classifier-coverage}. The
+chosen certified unary observation is one member of the covered finite
+classifier inventory, so its visible rows are the bundle, membership,
+unary-history, pointwise rational-history, $\hsame$, $\Cont$, and $\Pkg$
+coordinates of that inventory.
+
+Next apply \autoref{thm:streamname-regseqrat-pointwise-handoff} to the chosen
+observation. The pointwise handoff reads exactly the displayed StreamName
+carrier and classifier rows at that observation before it reaches the
+$\RegSeqRat$ or finite-window $\RealUp$ consumer.
+
+Finally use
+\autoref{thm:streamname-synchronized-window-terminal-source-exhaustion}. Its
+terminal-source boundary adds the $\NameCert$ provenance row and removes
+regularity witnesses, quotient streams, completion rows, host index equality,
+and host real equality from the terminal consumer surface.
+\end{proof}
+
+\begin{theorem}[StreamName constant reindexing Real seal boundary]
+\label{thm:streamname-constant-reindexing-real-seal-boundary}
+Let $d,e:\Hist$ be rational-history endpoints, let $r,q:\Hist\to\Hist$ be
+two observation schedules, and let $\mathcal S$ be the synchronized finite
+$\StreamNameUp$ row built from the independently reindexed constant rational
+streams $\mathsf{RatConstStream}_d\circ r$ and
+$\mathsf{RatConstStream}_e\circ q$. The finite $\RealUp$ seal read from
+$\mathcal S$ sees only the constant $\RatUp$ endpoint data for $d$ and $e$,
+the two reindexing schedules, finite-window membership in the displayed
+$\mathsf{ProbeBundle}$, certified $\mathsf{UnaryHistory}$ rows, and the
+pointwise $\mathsf{RatHistoryClassifier}$ rows selected by the synchronized
+classifier.
+
+In particular, the seal does not read a quotient stream, completion object,
+host real equality, host index equality, or independent regularity witness.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:rat-stream-name-independent-reindexed-constant-classifier}. It
+places the two independently reindexed constant streams over the same
+StreamName classifier surface and reduces every selected classifier row to
+the RatUp endpoint classifier between $d$ and $e$.
+
+Then use
+\autoref{thm:rat-stream-name-independent-reindexed-constant-point-exactness}.
+The carrier and classifier data of the independently reindexed constant
+streams are exactly the endpoint carrier and classifier data at $d$ and $e$;
+the schedules $r$ and $q$ contribute only the displayed observation routing.
+
+Pass this synchronized constant row through
+\autoref{thm:streamname-finite-observation-classifier-exhaustion}. The
+finite $\RealUp$ seal therefore reads only the constant RatUp endpoint, the
+reindexing schedules, the finite-window membership and unary-history rows,
+and the pointwise classifier rows, with no stronger host-level coordinate.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat common-window terminal seal determinacy]
 \label{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
 Let $\mathcal S_0$ and $\mathcal S_1$ be synchronized finite
