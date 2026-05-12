@@ -78,6 +78,7 @@ the $\DyadicRatCoreUp$ endpoint packets $D$, and the explicit
 $\ModulusOfConvergenceUp$ row $M$. The readback exposes only the regular
 rational name, its dyadic finite observations, and the displayed real seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.BishopRealUp.BishopRealPacket\_regseqrat\_readback}
 \begin{proof}
 Let a downstream consumer read the seal coordinate $E$ of a packet $B$. By the
 carrier definition, $E$ is stored together with the schedule $S$, regular name
@@ -311,6 +312,48 @@ for cuts, quotient reals, trichotomy, selected limits, or classical
 completeness, the same exclusions hold for the seal surface.
 \end{proof}
 
+\begin{theorem}[BishopReal finite constructive-real consumer completeness]
+\label{thm:bishopreal-finite-constructive-real-consumer-completeness}
+Every finite consumer read of an accepted $\BishopRealUp$ packet factors through
+exactly the regular rational name, scheduled finite windows, dyadic endpoint
+packets, locatedness row, apartness row, modulus row, visible $\RealUp$ seal,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert_{\BishopRealUp}$ rows
+of \autoref{thm:bishopreal-regular-cauchy-located-real-seal}. Conversely those
+rows repack as the finite constructive-real consumer surface of the accepted
+packet.
+
+Thus the mature consumer surface for $\BishopRealUp$ is precisely the displayed
+regular-Cauchy located real packet. It contains no Dedekind cut, quotient real,
+trichotomy principle, selected limit, or classical completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through
+\autoref{def:bishopreal-regular-located-carrier}. The carrier lists the
+regular rational name, scheduled finite windows, dyadic endpoint packets,
+locatedness row, apartness row, modulus row, visible seal, transport routes,
+package row, and local certificate ledger as the available public coordinates.
+
+Next transport the real evidence through
+\autoref{thm:bishopreal-located-apartness-transport} and read back the regular
+name through \autoref{thm:bishopreal-regseqrat-readback}. These two results
+identify every constructive-real read with the displayed regular rational name,
+its finite windows, its dyadic endpoint packets, and its explicit modulus and
+locatedness-apartness rows.
+
+Now exhaust the ledger. Apply
+\autoref{thm:bishopreal-readback-ledger-exhaustion-obligation} and
+\autoref{thm:bishopreal-public-namecert-export}. The first theorem says that no
+finite read leaves the displayed ledger, while the second exports that ledger as
+the public $\NameCert$ surface of the accepted packet.
+
+Finally apply \autoref{thm:bishopreal-standard-finite-packet-bridge} and
+\autoref{thm:bishopreal-regular-cauchy-located-real-seal}. They repack the same
+rows as the standard finite constructive-real packet and the regular-Cauchy
+located $\RealUp$ seal. Since the carrier and both repackings have no coordinate
+for cuts, quotient reals, trichotomy, selected limits, or classical
+completeness, those structures cannot be consumed from the finite packet.
+\end{proof}
+
 \closureat{BishopRealUp}{seedStr}
 \closureat{BishopRealUp}{obligationStr}
 \closureat{BishopRealUp}{scopedStr}
@@ -321,10 +364,10 @@ completeness, the same exclusions hold for the seal surface.
 \begin{closurestatus}{\BishopRealUp}
   \constructivestory{A $\BishopRealUp$ packet is generated from a certified $\RegSeqRatUp$ name, finite stream windows, dyadic endpoint packets, an explicit convergence modulus, locatedness evidence, apartness evidence, componentwise transport rows, continuation routes, package provenance, and the visible $\RealUp$ seal.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, \autoref{thm:bishopreal-carrier-construction-obligation}, \autoref{thm:bishopreal-classifier-stability-obligation}, \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation}, \autoref{thm:bishopreal-public-namecert-export}, \autoref{thm:bishopreal-standard-finite-packet-bridge}, and \autoref{thm:bishopreal-regular-cauchy-located-real-seal} name the finite constructive real-neighbor certificate surface, standard bridge, and regular-Cauchy located $\RealUp$ seal over regular rational names, locatedness, apartness, explicit modulus rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \scopeclosed{\autoref{def:bishopreal-regular-located-carrier}, \autoref{thm:bishopreal-located-apartness-transport}, \autoref{thm:bishopreal-regseqrat-readback}, \autoref{thm:bishopreal-ledger-obligation-surface}, \autoref{thm:bishopreal-carrier-construction-obligation}, \autoref{thm:bishopreal-classifier-stability-obligation}, \autoref{thm:bishopreal-readback-ledger-exhaustion-obligation}, \autoref{thm:bishopreal-public-namecert-export}, \autoref{thm:bishopreal-standard-finite-packet-bridge}, \autoref{thm:bishopreal-regular-cauchy-located-real-seal}, and \autoref{thm:bishopreal-finite-constructive-real-consumer-completeness} name the finite constructive real-neighbor certificate surface, standard bridge, regular-Cauchy located $\RealUp$ seal, and finite constructive-real consumer surface over regular rational names, locatedness, apartness, explicit modulus rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close Dedekind-cut reals, quotient reals, trichotomy, selected limits, classical completeness, or machine verification of the bridge theorem.}
+  \notclaimed{This chapter does not close Dedekind-cut reals, quotient reals, trichotomy, selected limits, classical completeness, or formal verification of the finite consumer theorem.}
   \upgradepath{No further paper-axis theory grade remains; Lean verification remains on the formal axis.}
 \end{closurestatus}
