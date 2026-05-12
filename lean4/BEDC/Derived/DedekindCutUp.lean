@@ -154,4 +154,29 @@ theorem DedekindCutCarrier_rational_embedding_boundary [AskSetup] [PackageSetup]
     ⟨lowerUnary, upperUnary, embeddingUnary, lowerBoundaryUnary, upperBoundaryUnary,
       lowerBoundaryCont, upperBoundaryCont, provenancePkg⟩
 
+theorem DedekindCutCarrier_realup_comparison_handoff [AskSetup] [PackageSetup]
+    {lower upper inhabited rounded located disjoint embedding transport routes provenance nameCert
+      realSeal comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DedekindCutCarrier lower upper inhabited rounded located disjoint embedding transport routes
+        provenance nameCert bundle pkg ->
+      Cont embedding transport realSeal ->
+        Cont realSeal routes comparisonRead ->
+          UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory embedding ∧
+            UnaryHistory transport ∧ UnaryHistory routes ∧ UnaryHistory realSeal ∧
+              UnaryHistory comparisonRead ∧ Cont embedding transport realSeal ∧
+                Cont realSeal routes comparisonRead ∧ PkgSig bundle provenance pkg := by
+  intro carrier realSealRoute comparisonRoute
+  obtain ⟨lowerUnary, upperUnary, _inhabitedUnary, _roundedUnary, _locatedUnary,
+    _disjointUnary, embeddingUnary, transportUnary, routesUnary, _provenanceUnary,
+    _nameCertUnary, _lowerUpper, _inhabitedRounded, _locatedDisjoint,
+    _embeddingTransport, _routesNameCert, provenancePkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed embeddingUnary transportUnary realSealRoute
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed realSealUnary routesUnary comparisonRoute
+  exact
+    ⟨lowerUnary, upperUnary, embeddingUnary, transportUnary, routesUnary, realSealUnary,
+      comparisonReadUnary, realSealRoute, comparisonRoute, provenancePkg⟩
+
 end BEDC.Derived.DedekindCutUp
