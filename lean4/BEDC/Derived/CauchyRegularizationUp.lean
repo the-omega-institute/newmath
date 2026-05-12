@@ -144,4 +144,58 @@ theorem CauchyRegularizationFiniteCarrier_namecert_obligation_surface [AskSetup]
       exact source
   }
 
+theorem CauchyRegularizationFiniteCarrier_regular_sequence_handoff [AskSetup]
+    [PackageSetup]
+    {stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRegularizationFiniteCarrier stream modulus dyadic window regseq realSeal sameRows route
+      provenance namecert endpoint bundle pkg →
+      Cont (append (append stream modulus) window) realSeal endpoint ∧
+        hsame endpoint (append (append (append stream modulus) window) realSeal) ∧
+          PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  cases carrier with
+  | intro _streamUnary rest =>
+      cases rest with
+      | intro _modulusUnary rest =>
+          cases rest with
+          | intro _dyadicUnary rest =>
+              cases rest with
+              | intro _windowUnary rest =>
+                  cases rest with
+                  | intro _regseqUnary rest =>
+                      cases rest with
+                      | intro _realSealUnary rest =>
+                          cases rest with
+                          | intro _sameRowsUnary rest =>
+                              cases rest with
+                              | intro _routeUnary rest =>
+                                  cases rest with
+                                  | intro _provenanceUnary rest =>
+                                      cases rest with
+                                      | intro _namecertUnary rest =>
+                                          cases rest with
+                                          | intro _endpointUnary rest =>
+                                              cases rest with
+                                              | intro streamToDyadic rest =>
+                                                  cases rest with
+                                                  | intro dyadicToRegseq rest =>
+                                                      cases rest with
+                                                      | intro regseqToEndpoint rest =>
+                                                          cases rest with
+                                                          | intro _sameRows rest =>
+                                                              cases rest with
+                                                              | intro _route rest =>
+                                                                  cases rest with
+                                                                  | intro _provenance rest =>
+                                                                      cases rest with
+                                                                      | intro _namecert pkgSig =>
+                                                                          cases streamToDyadic
+                                                                          cases dyadicToRegseq
+                                                                          cases regseqToEndpoint
+                                                                          exact And.intro rfl
+                                                                            (And.intro rfl pkgSig)
+
 end BEDC.Derived.CauchyRegularizationUp
