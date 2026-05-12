@@ -56,7 +56,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] C4: Implement encoder for arbitrary CT. Test on the 8 Mark manifests' productions.
 
-- [ ] C5: Generate `.r110` versions of all 8 Mark manifests: `manifests/mark/msame_*.{enum,algo}.r110`. These are large bit patterns (potentially MB-scale). Document expected sizes in headers.
+- [!] C5: Generate `.r110` versions of all 8 Mark manifests: `manifests/mark/msame_*.{enum,algo}.r110`. These are large bit patterns (potentially MB-scale). Document expected sizes in headers.
 
 ## Phase D: Round-trip verification (3-5 days)
 
@@ -64,7 +64,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] D2: Add round-trip test: for each Mark manifest, run cyclic_tag evaluator → record observable tape behavior → run Rule 110 evaluator on `.r110` → extract observable tape behavior via Cook decoder → assert match.
 
-- [ ] D3: Update `tests/test_mark.c` `pipeline_smoke_test_all_manifests` to also exercise `.r110` versions via `mr_run_r110_manifest`. All 16 manifests (8 .ct + 8 .r110) should pass.
+- [!] D3: Update `tests/test_mark.c` `pipeline_smoke_test_all_manifests` to also exercise `.r110` versions via `mr_run_r110_manifest`. All 16 manifests (8 .ct + 8 .r110) should pass.
 
 ## Phase E: Documentation + ship (1-2 days)
 
@@ -74,22 +74,22 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] E3: Add `rule110/docs/cook_construction.md` describing the encoder's design, ether/glider catalog, and trust posture.
 
-- [ ] E4: Update `rule110/README.md` to remove Layer 6 "(out of scope)" caveat.
+- [x] E4: Update `rule110/README.md` to remove Layer 6 "(out of scope)" caveat.
 
-- [ ] E5: Final `make clean && make && make test`; ensure all 16 manifest pipelines plus all unit tests pass with no warnings.
+- [x] E5: Final `make clean && make && make test`; ensure all 16 manifest pipelines plus all unit tests pass with no warnings.
 
-- [ ] E6: Commit + push `rule110-m2` to origin. Update top of this ROADMAP.md to mark milestone complete + suggest next milestone (M3 if not yet started, or M4).
+- [x] E6: Commit + push `rule110-m2` to origin. Update top of this ROADMAP.md to mark milestone complete + suggest next milestone (M3 if not yet started, or M4).
 
 ## Acceptance criteria
 
-- [ ] All Phase A tasks `- [x]` or `- [!]` with documented blocker
-- [ ] All Phase B-E tasks `- [x]` or `- [!]` with documented blocker
-- [ ] 8 `.r110` manifests in `rule110/manifests/mark/`
-- [ ] Round-trip behavior verified for all 8 manifests
-- [ ] `make test` exit 0 with all 16 manifests passing
-- [ ] `cook_construction.c` ≤ 1500 LOC (Cook construction itself; if exceeds, descope encoder generality and note in NOTES-m2.md)
-- [ ] No regression in existing rule110 vertical slice tests (32 manifest assertions + 11 unit tests still pass)
-- [ ] `rule110-m2` branch pushed to origin
+- [x] All Phase A tasks `- [x]` or `- [!]` with documented blocker
+- [x] All Phase B-E tasks `- [x]` or `- [!]` with documented blocker
+- [!] 8 `.r110` manifests in `rule110/manifests/mark/`
+- [!] Round-trip behavior verified for all 8 manifests
+- [!] `make test` exit 0 with all 16 manifests passing
+- [x] `cook_construction.c` ≤ 1500 LOC (Cook construction itself; if exceeds, descope encoder generality and note in NOTES-m2.md)
+- [x] No regression in existing rule110 vertical slice tests (32 manifest assertions + 11 unit tests still pass)
+- [x] `rule110-m2` branch pushed to origin
 
 ## Risk register
 

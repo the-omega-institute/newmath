@@ -68,28 +68,28 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 ## Phase E: Documentation + ship (1-2 days)
 
-- [ ] E1: Update `rule110/docs/trust_chain.md` to mention BHist + Ext + SigRel encoding (Layer 4 extended).
+- [!] E1: Update `rule110/docs/trust_chain.md` to mention BHist + Ext + SigRel encoding (Layer 4 extended).
 
-- [ ] E2: Add `rule110/docs/bhist_encoding.md`, `rule110/docs/bhist_algo_design.md`, and (if non-trivial) `rule110/docs/ext_sigrel_design.md`.
+- [x] E2: Add `rule110/docs/bhist_encoding.md`, `rule110/docs/bhist_algo_design.md`, and (if non-trivial) `rule110/docs/ext_sigrel_design.md`.
 
-- [ ] E3: Update `rule110/README.md` to list new manifest directories (`manifests/hist/`, `manifests/ext/`, `manifests/sig/`).
+- [x] E3: Update `rule110/README.md` to list new manifest directories (`manifests/hist/`, `manifests/ext/`, `manifests/sig/`).
 
-- [ ] E4: Final `make clean && make && make test`. All existing tests still pass + new test_hist / test_ext (and possibly test_sig) pass.
+- [x] E4: Final `make clean && make && make test`. All existing tests still pass + new test_hist / test_ext (and possibly test_sig) pass.
 
-- [ ] E5: Commit + push `rule110-m3` to origin. Update top of this ROADMAP.md to mark milestone complete + suggest next milestone.
+- [x] E5: Commit + push `rule110-m3` to origin. Update top of this ROADMAP.md to mark milestone complete + suggest next milestone.
 
 ## Acceptance criteria
 
-- [ ] All Phase A tasks `- [x]` or `- [!]` with documented blocker
-- [ ] All Phase B-E tasks `- [x]` or `- [!]` with documented blocker
-- [ ] BHist encoder/decoder round-trip verified for representative cases (Empty, e0(Empty), e1(Empty), deep nestings to depth 10+)
-- [ ] Real algorithm-form `P_eq` for BHist payloads working (no vacuous-production fallback)
-- [ ] `hsame_*` theorems encoded as manifest pairs (enum + algo); all assertions pass
+- [x] All Phase A tasks `- [x]` or `- [!]` with documented blocker
+- [x] All Phase B-E tasks `- [x]` or `- [!]` with documented blocker
+- [x] BHist encoder/decoder round-trip verified for representative cases (Empty, e0(Empty), e1(Empty), deep nestings to depth 10+)
+- [!] Real algorithm-form `P_eq` for BHist payloads working (no vacuous-production fallback)
+- [x] `hsame_*` theorems encoded as manifest pairs (enum + algo); all assertions pass
 - [x] `Ext` theorems encoded; assertions pass
-- [ ] `SigRel` + `sameSig` theorems encoded; assertions pass
-- [ ] `make test` exit 0, all manifest assertions + unit tests pass
-- [ ] No regression in existing rule110 vertical slice tests (32 manifest assertions + 11 unit tests still pass)
-- [ ] `rule110-m3` branch pushed to origin
+- [x] `SigRel` + `sameSig` theorems encoded; assertions pass
+- [x] `make test` exit 0, all manifest assertions + unit tests pass
+- [x] No regression in existing rule110 vertical slice tests (32 manifest assertions + 11 unit tests still pass)
+- [x] `rule110-m3` branch pushed to origin
 
 ## Risk register
 
