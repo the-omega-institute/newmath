@@ -287,6 +287,25 @@ theorem identity_on_pi_type :
       pi_sort_sort_in_empty_ctx
       (HasType.varRule [Term.pi Term.sort Term.sort] 0
         (Term.pi Term.sort Term.sort) rfl))
+      (HasType.lamRule [] Term.sort Term.sort Term.sort
+        (HasType.sortRule [])
+        (HasType.sortRule [Term.sort]))
+
+theorem id_for_pi_applied :
+    HasType []
+      (Term.app (Term.lam (Term.pi Term.sort Term.sort) (Term.var 0))
+        (Term.lam Term.sort Term.sort))
+      (Term.pi Term.sort Term.sort) := by
+  exact HasType.appRule []
+    (Term.lam (Term.pi Term.sort Term.sort) (Term.var 0))
+    (Term.lam Term.sort Term.sort)
+    (Term.pi Term.sort Term.sort)
+    (Term.pi Term.sort Term.sort)
+    (HasType.lamRule [] (Term.pi Term.sort Term.sort) (Term.var 0)
+      (Term.pi Term.sort Term.sort)
+      pi_sort_sort_in_empty_ctx
+      (HasType.varRule [Term.pi Term.sort Term.sort] 0
+        (Term.pi Term.sort Term.sort) rfl))
     (HasType.lamRule [] Term.sort Term.sort Term.sort
       (HasType.sortRule [])
       (HasType.sortRule [Term.sort]))
@@ -445,6 +464,22 @@ theorem applied_const_sort :
       (HasType.sortRule [Term.sort])
       (HasType.sortRule [Term.sort, Term.sort]))
     (HasType.sortRule [Term.sort])
+
+theorem app_with_pi_context :
+    HasType [Term.pi Term.sort Term.sort]
+      (Term.app (Term.lam Term.sort (Term.var 1)) Term.sort)
+      (Term.pi Term.sort Term.sort) := by
+  exact HasType.appRule [Term.pi Term.sort Term.sort]
+    (Term.lam Term.sort (Term.var 1))
+    Term.sort
+    Term.sort
+    (Term.pi Term.sort Term.sort)
+    (HasType.lamRule [Term.pi Term.sort Term.sort] Term.sort (Term.var 1)
+      (Term.pi Term.sort Term.sort)
+      (HasType.sortRule [Term.pi Term.sort Term.sort])
+      (HasType.varRule [Term.sort, Term.pi Term.sort Term.sort] 1
+        (Term.pi Term.sort Term.sort) rfl))
+    (HasType.sortRule [Term.pi Term.sort Term.sort])
 
 /-- 单 sort ctx 下: app (lam sort (var 0)) (pi (var 0) sort) 类型为 sort. -/
 theorem app_id_pi_var_sort_in_sort_ctx :
