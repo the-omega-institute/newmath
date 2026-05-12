@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\DimLiftBoundaryUp$}
+\label{ch:concrete-instances-dimliftboundary-namecert}
+\origin{human}
+
+The $\DimLiftBoundaryUp$ packet turns the AxisZeckendorf dimension-lift refusal into a finite boundary certificate. It records the carry rows, normal-address rows, cannot-claim rows, full-axis context, real-facing refusal, transport routes, package provenance, and local naming row that a later dimension-lift acceptance flow must inspect before it may claim any primitive dimension reading.
+
+\begin{definition}[DimLiftBoundary carrier]
+\label{def:dimlift-boundary-carrier}
+A $\DimLiftBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Z,N,A,F,R,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the $\ZCarryUp$ carry-classifier ledger over the relevant AxisZeckendorf histories;
+\item $N$ is the $\ZeckendorfNormalUp$ normal-address row for the same finite histories;
+\item $A$ is the $\AxisZeckendorfCannotClaimUp$ refusal row containing the dimension-lift non-claim;
+\item $F$ is the $\FullAxisUp$ context row through which the carry and normal-address data are read;
+\item $R$ is the $\RealUp$ refusal boundary, recording that no real, metric, topological, vector-space, homological, projective, or geometric dimension row is exported;
+\item $H$ stores componentwise $\hsame$ transports for the carry row, normal-address row, cannot-claim row, full-axis context, real-facing boundary, and local naming row;
+\item $C$ stores the finite $\Cont$ routes by which consumers read the displayed rows from the packet boundary;
+\item $P$ is the $\Pkg$ provenance over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\AxisZeckendorfCannotClaimUp$, $\FullAxisUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $Q$ is the local $\NameCert_{\DimLiftBoundaryUp}$ row.
+\end{enumerate}
+The carrier is a boundary packet, not a dimension object. It exposes the finite rows that explain why a dimension-lift reading is blocked, while leaving any accepted dimension interface to a separate certificate.
+\end{definition}
+
+\begin{definition}[DimLiftBoundary classifier]
+\label{def:dimlift-boundary-classifier}
+For accepted packets $D=(Z,N,A,F,R,H,C,P,Q)$ and $D'=(Z',N',A',F',R',H',C',P',Q')$, the classifier $\mathsf{DimLiftBoundaryClassifier}(D,D')$ holds exactly when the displayed $\hsame$ and $\Cont$ rows transport $Z$ to $Z'$, $N$ to $N'$, $A$ to $A'$, $F$ to $F'$, $R$ to $R'$, $P$ to $P'$, and $Q$ to $Q'$ componentwise. The classifier preserves carry and normal-address rows while blocking any read that treats those rows as a primitive dimension.
+\end{definition}
+
+\begin{theorem}[DimLiftBoundary NameCert obligations]
+\label{thm:dimlift-boundary-namecert-obligations}
+The local $\NameCert_{\DimLiftBoundaryUp}$ surface for \autoref{def:dimlift-boundary-carrier} consists of five finite rows: carrier admission for $D$; classifier stability for $Z,N,A,F,R$ under the displayed transports $H$; route exactness for the consumer reads in $C$; package provenance through $P$; and local naming exactness for $Q$. These rows preserve the carry and normal-address evidence while keeping primitive dimension readings outside the certificate.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite tuple $D$. Each dependency row named in the statement is a visible coordinate of the same $\BHist$ packet.
+
+Classifier stability is componentwise. The $\hsame$ table $H$ and the routes $C$ transport the carry ledger, normal-address row, cannot-claim row, full-axis context, and real-facing refusal boundary without adding a dimension coordinate.
+
+The package and naming rows then repack exactly those coordinates. Since the carrier has no row for geometric, topological, vector-space, homological, projective, metric, or real dimension data, the NameCert surface is exhausted by the boundary packet.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary non-escape]
+\label{thm:dimlift-boundary-non-escape}
+Every consumer read exported by an accepted $\DimLiftBoundaryUp$ carrier factors through the displayed rows $Z,N,A,F,R,H,C,P,Q$. A read that asks to interpret the carry classifier or normal-address row as a primitive dimension lands in the refusal boundary $A$ and $R$, not in a dimension-valued row.
+\end{theorem}
+\begin{proof}
+Read the consumer request through the finite routes in $C$. If it asks for carry evidence, normal-address data, the cannot-claim row, the full-axis context, transport, provenance, or local naming, the corresponding coordinate of $D$ supplies that read.
+
+If the request asks for a primitive dimension interpretation, no coordinate of $D$ has that type. The only visible rows governing the request are the cannot-claim row $A$ and the real-facing refusal boundary $R$.
+
+Thus the request is recorded as boundary evidence. It cannot escape as a geometric, topological, vector-space, homological, projective, metric, or real dimension object.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary public export]
+\label{thm:dimlift-boundary-public-export}
+The carrier of \autoref{def:dimlift-boundary-carrier}, the classifier of \autoref{def:dimlift-boundary-classifier}, and the local obligations of \autoref{thm:dimlift-boundary-namecert-obligations} export a public boundary packet for later $\DimLiftUp$ acceptance-flow work. Downstream consumers may read the displayed $\ZCarryUp$, $\ZeckendorfNormalUp$, $\AxisZeckendorfCannotClaimUp$, $\FullAxisUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but they receive no primitive dimension interface from this chapter.
+\end{theorem}
+\begin{proof}
+The carrier supplies the public rows $Z,N,A,F,R,H,C,P,Q$. The classifier preserves those rows componentwise, so a downstream consumer can transport the boundary packet without changing its visible dependency surface.
+
+The NameCert obligations identify the exact admission, transport, route, provenance, and naming rows. The non-escape theorem then blocks every request that would turn the carry or normal-address evidence into a primitive dimension object.
+
+Therefore the public export is a boundary carrier for future acceptance-flow chapters. It supplies the refusal surface that such chapters must consume before supplying any separate dimension certificate.
+\end{proof}
+
+\closureat{DimLiftBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\DimLiftBoundaryUp}
+  \constructivestory{A $\DimLiftBoundaryUp$ packet is generated from $\ZCarryUp$ carry rows, $\ZeckendorfNormalUp$ normal-address rows, the $\AxisZeckendorfCannotClaimUp$ refusal row, $\FullAxisUp$ context, $\RealUp$ refusal boundary, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dimlift-boundary-carrier}, \autoref{def:dimlift-boundary-classifier}, \autoref{thm:dimlift-boundary-namecert-obligations}, \autoref{thm:dimlift-boundary-non-escape}, and \autoref{thm:dimlift-boundary-public-export} bind the finite boundary carrier, classifier, obligation rows, non-escape rule, and public export for AxisZeckendorf dimension-lift refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a primitive geometric dimension, topological dimension, vector-space dimension, homological dimension, projective dimension, metric dimension, real dimension, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, route exactness, package provenance, local naming exactness, and non-escape for the same finite boundary packet.}
+\end{closurestatus}
