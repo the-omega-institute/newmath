@@ -175,6 +175,58 @@ theorem RealCauchyCompletionCarrier_public_real_name_export [AskSetup] [PackageS
           regseqReadUnary, dyadicLedgerUnary, realSealUnary, provenancePkg, localCertPkg⟩
   }
 
+theorem RealCauchyCompletionCarrier_modulus_diagonal_exactness [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert selectedRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      Cont modulus diagonal selectedRead ->
+        PkgSig bundle selectedRead pkg ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory selectedRead ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont modulus diagonal selectedRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle selectedRead pkg := by
+  intro carrier modulusDiagonalRead selectedPkg
+  cases carrier with
+  | intro familyUnary rest =>
+      cases rest with
+      | intro modulusUnary rest =>
+          cases rest with
+          | intro windowUnary rest =>
+              cases rest with
+              | intro dyadicUnary rest =>
+                  cases rest with
+                  | intro _provenanceUnary rest =>
+                      cases rest with
+                      | intro familyModulusDiagonal rest =>
+                          cases rest with
+                          | intro diagonalWindowReadback rest =>
+                              cases rest with
+                              | intro readbackDyadicSeal rest =>
+                                  cases rest with
+                                  | intro _sealLocalCertProvenance provenancePkg =>
+                                      have diagonalUnary : UnaryHistory diagonal :=
+                                        unary_cont_closed familyUnary modulusUnary
+                                          familyModulusDiagonal
+                                      have readbackUnary : UnaryHistory readback :=
+                                        unary_cont_closed diagonalUnary windowUnary
+                                          diagonalWindowReadback
+                                      have sealUnary : UnaryHistory «seal» :=
+                                        unary_cont_closed readbackUnary dyadicUnary
+                                          readbackDyadicSeal
+                                      have selectedUnary : UnaryHistory selectedRead :=
+                                        unary_cont_closed modulusUnary diagonalUnary
+                                          modulusDiagonalRead
+                                      exact
+                                        ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary,
+                                          readbackUnary, dyadicUnary, sealUnary, selectedUnary,
+                                          familyModulusDiagonal, diagonalWindowReadback,
+                                          readbackDyadicSeal, modulusDiagonalRead, provenancePkg,
+                                          selectedPkg⟩
+
 theorem RealCauchyCompletionCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {family modulus diagonal window readback dyadic sealRow provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -284,6 +336,57 @@ theorem RealCauchyCompletionCarrier_real_seal_readback_scope [AskSetup] [Package
     unary_cont_closed consumerUnary provenanceUnary scopedRow
   exact ⟨sealUnary, consumerUnary, scopedUnary, readbackRow, consumerRow, scopedRow,
     provenancePkg, scopedPkg⟩
+
+theorem RealCauchyCompletionCarrier_downstream_consumer_handoff [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic sealRow provenance localCert family' modulus'
+      diagonal' window' readback' dyadic' seal' provenance' localCert' consumer downstream :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg ->
+      hsame family family' ->
+        hsame modulus modulus' ->
+          hsame window window' ->
+            hsame dyadic dyadic' ->
+              hsame localCert localCert' ->
+                Cont family' modulus' diagonal' ->
+                  Cont diagonal' window' readback' ->
+                    Cont readback' dyadic' seal' ->
+                      Cont seal' localCert' provenance' ->
+                        Cont seal' localCert' consumer ->
+                          Cont consumer provenance' downstream ->
+                            PkgSig bundle provenance' pkg ->
+                              PkgSig bundle downstream pkg ->
+                                RealCauchyCompletionCarrier family' modulus' diagonal' window'
+                                    readback' dyadic' seal' provenance' localCert' bundle pkg ∧
+                                  UnaryHistory consumer ∧ UnaryHistory downstream ∧
+                                    hsame provenance provenance' := by
+  intro carrier sameFamily sameModulus sameWindow sameDyadic sameLocalCert
+  intro familyModulusRow' diagonalWindowRow' readbackDyadicRow' sealLocalCertProvenance'
+  intro sealLocalCertConsumer consumerDownstream provenancePkg' _downstreamPkg
+  have transported :=
+    RealCauchyCompletionCarrier_transport_stability carrier sameFamily sameModulus sameWindow
+      sameDyadic sameLocalCert familyModulusRow' diagonalWindowRow' readbackDyadicRow'
+      sealLocalCertProvenance' provenancePkg'
+  have transportedCarrier :
+      RealCauchyCompletionCarrier family' modulus' diagonal' window' readback' dyadic' seal'
+        provenance' localCert' bundle pkg :=
+    transported.left
+  have sameProvenance : hsame provenance provenance' :=
+    transported.right.right.right.right
+  have provenanceUnary' : UnaryHistory provenance' :=
+    transportedCarrier.right.right.right.right.left
+  have sealLocalCertUnary' : UnaryHistory (append seal' localCert') :=
+    unary_transport provenanceUnary' sealLocalCertProvenance'
+  have sealUnary' : UnaryHistory seal' :=
+    unary_append_left_factor sealLocalCertUnary'
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_append_right_factor sealLocalCertUnary'
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary' localCertUnary' sealLocalCertConsumer
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed consumerUnary provenanceUnary' consumerDownstream
+  exact ⟨transportedCarrier, consumerUnary, downstreamUnary, sameProvenance⟩
 
 theorem RealCauchyCompletionCarrier_probe_bundle_window_coverage [AskSetup] [PackageSetup]
     {familyRow modulusRow diagonalPacket streamWindow regseqRead dyadicLedger realSeal
