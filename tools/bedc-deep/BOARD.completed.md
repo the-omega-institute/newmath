@@ -17300,3 +17300,27 @@ Rationale:
 The stochastic-process area has a prefix theorem for martingales but not the complementary suffix closure, while the adjacent MarkovChain chapter already has both prefix and suffix restriction targets. The Martingale packet is a finite tuple $(R,C,F,X,E,T,\rho,\lambda)$ accepted exactly when the displayed RandomVar, CondExp, filtration, tower, provenance, and ledger rows are present at papers/bedc/parts/concrete_instances/168_martingale_namecert_construction.tex:93-102. The existing finite-prefix restriction theorem appears at lines 345-385, and the closure story emphasizes finite packets and prefix restriction but excludes host stochastic-process data at lines 423-435. A finite-suffix restriction theorem would fill a specific missing half of the restriction schema without adding stopping-time or convergence theory.
 
 ---
+
+### B-685 - FiniteMap displayed support readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteMap displayed support readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted FiniteMapUp source is read through a FinSetUp support boundary, then the support row is exactly the displayed key rows in the ListUp spine, with duplicate keys retained as ledger entries rather than extra first-hit lookup outputs.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/775_finitemap_namecert_construction.tex`
+
+Rationale:
+This is a concrete BEDC instance-level readback theorem, not a marker or verification-axis task. The FiniteMap chapter explicitly uses finite support through FinSetUp in its story and closure surface, while the labelled theorem surface currently covers the carrier/classifier obligations, lookup Option exactness, ledger transport, and the NameCert obligation surface. The proposed target isolates the support-boundary projection that is mentioned but not separately closed, and it is distinct from existing BOARD entries and from the existing FiniteMap labels.
+
+---
