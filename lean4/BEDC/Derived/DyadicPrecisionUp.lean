@@ -248,4 +248,36 @@ theorem DyadicPrecisionEmptySchedule_exactness [AskSetup] [PackageSetup]
     ⟨unary_empty, radiusUnary, transportUnary, provenanceUnary, nameUnary, ledgerUnary,
       radiusRow, provenanceRow, pkgRow, semantic⟩
 
+theorem DyadicPrecisionSchedule_successor_schedule_exactness
+    {precision radius window transport provenance nameCert ledger successorPrecision
+      successorTransport successorLedger : BHist} :
+    DyadicPrecisionSchedule precision radius window transport provenance nameCert ledger ->
+      Cont precision (BHist.e1 BHist.Empty) successorPrecision ->
+        Cont successorPrecision window successorTransport ->
+          Cont successorTransport provenance successorLedger ->
+            UnaryHistory successorPrecision ∧ UnaryHistory successorTransport ∧
+              UnaryHistory successorLedger ∧
+                hsame successorPrecision (append precision (BHist.e1 BHist.Empty)) ∧
+                  hsame successorTransport (append successorPrecision window) ∧
+                    hsame successorLedger (append successorTransport provenance) := by
+  intro schedule successorPrecisionRow successorTransportRow successorLedgerRow
+  have precisionUnary : UnaryHistory precision :=
+    schedule.left
+  have windowUnary : UnaryHistory window :=
+    schedule.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed schedule.right.left schedule.right.right.right.left
+      schedule.right.right.right.right.left
+  have successorBaseUnary : UnaryHistory (BHist.e1 BHist.Empty) :=
+    unary_e1_closed unary_empty
+  have successorPrecisionUnary : UnaryHistory successorPrecision :=
+    unary_cont_closed precisionUnary successorBaseUnary successorPrecisionRow
+  have successorTransportUnary : UnaryHistory successorTransport :=
+    unary_cont_closed successorPrecisionUnary windowUnary successorTransportRow
+  have successorLedgerUnary : UnaryHistory successorLedger :=
+    unary_cont_closed successorTransportUnary provenanceUnary successorLedgerRow
+  exact
+    ⟨successorPrecisionUnary, successorTransportUnary, successorLedgerUnary,
+      successorPrecisionRow, successorTransportRow, successorLedgerRow⟩
+
 end BEDC.Derived.DyadicPrecisionUp
