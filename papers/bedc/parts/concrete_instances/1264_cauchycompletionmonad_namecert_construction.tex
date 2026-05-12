@@ -207,6 +207,53 @@ Use the unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary}. It
 Finally apply the public real seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. The identity $\Cont$ routes and reflexive $\hsame$ rows keep the read on the displayed constant schedule, window, observation, readback, and $\RealUp$ seal coordinates, so the packet is the advertised unit.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad unit seal route]
+\label{thm:cauchycompletionmonad-unit-seal-route}
+For a displayed constant row $r:\RegSeqRatUp$, the unit carrier of $\CauchyCompletionMonadUp$ is the finite $\mathsf{BHist}$ route
+$$
+r \longmapsto W_r \longmapsto D_r \longmapsto \Delta_r \longmapsto E_r
+$$
+where $W_r$ is the stationary $\StreamNameUp$ window ledger, $D_r$ is the constant $\DyadicRatCoreUp$ observation ledger, $\Delta_r$ is the diagonal $\RegSeqRatUp$ readback, and $E_r$ is the displayed $\RealUp$ seal. The route is transported only by componentwise $\hsame$ rows, read only through displayed $\Cont$ coordinates, and recorded in the $\Pkg$ provenance and local $\NameCert_{\CauchyCompletionMonadUp}$ row.
+\end{theorem}
+\begin{proof}
+Start from the regular seal unit of \autoref{thm:cauchy-completion-monad-regular-seal-unit}. It supplies the constant $\RegSeqRatUp$ source row, stationary $\StreamNameUp$ windows, constant $\DyadicRatCoreUp$ observations, the diagonal readback, and the $\RealUp$ seal.
+
+The carrier definition gives the finite $\mathsf{BHist}$ coordinates that hold this route. Reflexive $\hsame$ rows identify the constant windows, observations, readback, and seal with themselves, while the displayed $\Cont$ rows keep the consumer read on those coordinates.
+
+The $\Pkg$ row records provenance over the same visible primitives, and the local $\NameCert$ row records that no quotient real, selected limit, host equality, hidden stream representative, or ambient completeness datum is part of the unit route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad bind diagonal route]
+\label{thm:cauchycompletionmonad-bind-diagonal-route}
+Let $M$ and $M'$ be accepted $\CauchyCompletionMonadUp$ packets. A displayed bind composition
+$$
+M \mathbin{\mathrm{bind}} M' \rightsquigarrow
+(\mu \star \mu',\, W \star W',\, D \star D',\, \Delta \star \Delta',\, E \star E')
+$$
+preserves the schedule-window-observation-diagonal-seal route: every public read passes through a matched $\StreamNameUp$ window, a matched $\DyadicRatCoreUp$ observation, a diagonal $\RegSeqRatUp$ readback, and a $\RealUp$ seal inside the same $\mathsf{BHist}$ packet surface. The preservation uses only displayed $\hsame$ transport, displayed $\Cont$ composition, $\Pkg$ provenance, and the local $\NameCert_{\CauchyCompletionMonadUp}$ rows.
+\end{theorem}
+\begin{proof}
+Apply diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. The source-family rows, schedules, finite windows, dyadic observations, diagonal readbacks, and real-seal rows move along componentwise $\hsame$ comparisons.
+
+Use the schedule composition boundary of \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. It fixes the consumer order: schedule first, then the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ observation, the $\RegSeqRatUp$ diagonal readback, and finally the $\RealUp$ seal.
+
+The resulting route stays inside the same finite $\mathsf{BHist}$ surface. The displayed $\Cont$ composition records the read path, the $\Pkg$ rows record provenance, and the local $\NameCert$ rows rule out any escape to quotient reals, selected limits, host equality, hidden representatives, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad NameCert obligation surface]
+\label{thm:cauchycompletionmonad-namecert-obligation-surface}
+The concrete $\NameCert_{\CauchyCompletionMonadUp}$ surface consists of carrier habitation, classifier transport, the unit seal route, the bind diagonal route, real-seal non-escape, and the downstream $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumer boundary. Each row is expressed in the finite $\mathsf{BHist}$ coordinates over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, transported by $\hsame$, read through $\Cont$, and recorded by $\Pkg$ provenance together with the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Carrier habitation is supplied by the constant packet of \autoref{thm:cauchy-completion-monad-namecert-obligations}. Classifier transport is the componentwise movement of schedule, window, observation, readback, and seal rows along the stored $\hsame$ comparisons and displayed $\Cont$ reads.
+
+The unit row is exactly \autoref{thm:cauchycompletionmonad-unit-seal-route}. It exhibits a constant $\RegSeqRatUp$ source, stationary $\StreamNameUp$ windows, constant $\DyadicRatCoreUp$ observations, the diagonal readback, and the $\RealUp$ seal inside one $\mathsf{BHist}$ packet.
+
+The bind row is \autoref{thm:cauchycompletionmonad-bind-diagonal-route}. It composes schedules, windows, observations, diagonal readbacks, and seals without leaving the displayed $\Pkg$ provenance or local $\NameCert$ surface.
+
+For the real-seal and downstream boundaries, combine \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} with \autoref{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route}. Public $\RealUp$, $\RegSeqRatUp$, and $\RealCauchyCompletionUp$ reads are exhausted by the finite route, so quotient reals, selected limits, host equality, hidden stream representatives, and ambient completeness rows are not exported.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad bind associativity boundary]
 \label{thm:cauchy-completion-monad-bind-associativity-boundary}
 Let $M$, $M'$, and $M''$ be accepted $\CauchyCompletionMonadUp$ packets whose two successive schedule compositions are defined by displayed $\mathsf{BHist}$ ledger rows. The public $\RealUp$ read route obtained by first composing $M$ with $M'$ and then with $M''$ is the same route as the one obtained by first composing $M'$ with $M''$ and then composing the result with $M$: in both cases every read passes through the matched schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, $\RegSeqRatUp$ diagonal readback, $\RealUp$ seal row, componentwise $\hsame$ comparisons, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ coordinates.
