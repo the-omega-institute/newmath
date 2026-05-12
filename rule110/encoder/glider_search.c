@@ -9,7 +9,7 @@
 #include <string.h>
 
 static const char ETHER[] = "00010011011111";
-enum { ETHER_PERIOD = 14, SIDE_ETHER_PERIODS = 16 };
+enum { ETHER_PERIOD = 14, SIDE_ETHER_PERIODS = 32, MULTIPERIOD_CHECKS = 3 };
 
 static int ether_cell(size_t pos) {
     return ETHER[pos % ETHER_PERIOD] == '1';
@@ -18,6 +18,18 @@ static int ether_cell(size_t pos) {
 static void fill_ether(uint8_t *cells, size_t len) {
     for (size_t i = 0; i < len; i++) {
         cells[i] = (uint8_t)ether_cell(i);
+    }
+}
+
+static void run_steps_with_buffer(uint8_t *cells, uint8_t *scratch, size_t len, int steps) {
+    for (int step = 0; step < steps; step++) {
+        memcpy(scratch, cells, len);
+        for (size_t i = 0; i < len; i++) {
+            uint8_t left = i == 0 ? 0 : scratch[i - 1];
+            uint8_t self = scratch[i];
+            uint8_t right = i + 1 == len ? 0 : scratch[i + 1];
+            cells[i] = (left || self || right) && !(left && self && right) && !(left && !self && !right);
+        }
     }
 }
 
@@ -97,30 +109,57 @@ static bool same_shifted_perturbation(const uint8_t *before,
     return true;
 }
 
-static bool nontrivial_seed(uint64_t seed, int width, int phase) {
-    if (seed == 0) {
-        return false;
-    }
-
-    bool is_ether = true;
-    for (int i = 0; i < width; i++) {
-        int bit = (int)((seed >> (unsigned)(width - 1 - i)) & 1u);
-        if (bit != ether_cell((size_t)(phase + i))) {
-            is_ether = false;
-            break;
-        }
-    }
-    return !is_ether;
-}
-
 struct Candidate {
     uint64_t seed;
+    int width;
     int phase;
     int diff_count;
     int diff_span;
     bool exact;
     bool valid;
 };
+
+struct Work {
+    uint8_t *before;
+    uint8_t *after;
+    uint8_t *ether_control;
+    uint8_t *ether_initial;
+    uint8_t *scratch;
+    size_t len;
+};
+
+static void free_work(struct Work *work) {
+    free(work->before);
+    free(work->after);
+    free(work->ether_control);
+    free(work->ether_initial);
+    free(work->scratch);
+    work->before = NULL;
+    work->after = NULL;
+    work->ether_control = NULL;
+    work->ether_initial = NULL;
+    work->scratch = NULL;
+    work->len = 0;
+}
+
+static void ensure_work(struct Work *work, size_t len) {
+    if (work->len >= len) {
+        return;
+    }
+    free_work(work);
+    work->before = (uint8_t *)malloc(len);
+    work->after = (uint8_t *)malloc(len);
+    work->ether_control = (uint8_t *)malloc(len);
+    work->ether_initial = (uint8_t *)malloc(len);
+    work->scratch = (uint8_t *)malloc(len);
+    if (work->before == NULL || work->after == NULL || work->ether_control == NULL
+        || work->ether_initial == NULL || work->scratch == NULL) {
+        perror("malloc");
+        free_work(work);
+        exit(1);
+    }
+    work->len = len;
+}
 
 static bool better_candidate(struct Candidate lhs, struct Candidate rhs) {
     if (!rhs.valid) {
@@ -138,7 +177,30 @@ static bool better_candidate(struct Candidate lhs, struct Candidate rhs) {
     if (lhs.seed != rhs.seed) {
         return lhs.seed < rhs.seed;
     }
+    if (lhs.width != rhs.width) {
+        return lhs.width < rhs.width;
+    }
     return lhs.phase < rhs.phase;
+}
+
+static void diff_stats(const uint8_t *cells,
+                       const uint8_t *ether_control,
+                       size_t len,
+                       int *diff_count,
+                       int *diff_span) {
+    int first_diff = -1;
+    int last_diff = -1;
+    *diff_count = 0;
+    for (size_t i = 0; i < len; i++) {
+        if (cells[i] != ether_control[i]) {
+            if (first_diff < 0) {
+                first_diff = (int)i;
+            }
+            last_diff = (int)i;
+            (*diff_count)++;
+        }
+    }
+    *diff_span = last_diff >= first_diff ? last_diff - first_diff + 1 : 0;
 }
 
 static bool verify_seed(uint64_t seed,
@@ -146,66 +208,71 @@ static bool verify_seed(uint64_t seed,
                         int steps,
                         int dx,
                         int phase,
+                        struct Work *work,
                         struct Candidate *candidate) {
     const size_t left_guard = (size_t)SIDE_ETHER_PERIODS * ETHER_PERIOD;
     const size_t right_guard = left_guard;
     const size_t seed_pos = left_guard + (size_t)phase;
     const size_t len = left_guard + ETHER_PERIOD + (size_t)width + right_guard;
-    int64_t new_pos_signed = (int64_t)seed_pos + (int64_t)dx;
-    if (new_pos_signed < 0 || new_pos_signed + width > (int64_t)len) {
-        return false;
-    }
+    ensure_work(work, len);
 
-    uint8_t *before = (uint8_t *)malloc(len);
-    uint8_t *after = (uint8_t *)malloc(len);
-    uint8_t *ether_control = (uint8_t *)malloc(len);
-    if (before == NULL || after == NULL || ether_control == NULL) {
-        perror("malloc");
-        free(before);
-        free(after);
-        free(ether_control);
-        exit(1);
-    }
+    uint8_t *before = work->before;
+    uint8_t *after = work->after;
+    uint8_t *ether_control = work->ether_control;
+    uint8_t *ether_initial = work->ether_initial;
+    uint8_t *scratch = work->scratch;
 
     fill_ether(before, len);
     fill_ether(ether_control, len);
     place_seed(before, seed_pos, seed, width);
     memcpy(after, before, len);
+    fill_ether(ether_initial, len);
 
-    r110_run_n_steps(after, len, (size_t)steps);
-    r110_run_n_steps(ether_control, len, (size_t)steps);
+    int initial_diff_count = 0;
+    int initial_diff_span = 0;
+    diff_stats(before, ether_initial, len, &initial_diff_count, &initial_diff_span);
 
+    bool window_all = initial_diff_count > 0;
+    bool exact = initial_diff_count > 0;
     int diff_count = 0;
-    int first_diff = -1;
-    int last_diff = -1;
-    for (size_t i = 0; i < len; i++) {
-        if (after[i] != ether_control[i]) {
-            if (first_diff < 0) {
-                first_diff = (int)i;
-            }
-            last_diff = (int)i;
-            diff_count++;
+    int diff_span = 0;
+    memcpy(after, before, len);
+    fill_ether(ether_control, len);
+    for (int multiple = 1; multiple <= MULTIPERIOD_CHECKS && (window_all || exact); multiple++) {
+        int total_steps = steps * multiple;
+        int total_dx = dx * multiple;
+        int64_t shifted_pos = (int64_t)seed_pos + (int64_t)total_dx;
+        if (shifted_pos < 0 || shifted_pos + width > (int64_t)len) {
+            window_all = false;
+            exact = false;
+            break;
         }
-    }
 
-    bool ok = nontrivial_seed(seed, width, phase)
-        && seed_equals_at(after, (size_t)new_pos_signed, seed, width)
-        && quiet_ether_edges(after, ether_control, len, steps);
-    bool exact = ok
-        && same_shifted_perturbation(before, after, ether_control, len, dx);
-    if (ok) {
+        run_steps_with_buffer(after, scratch, len, steps);
+        run_steps_with_buffer(ether_control, scratch, len, steps);
+
+        if (multiple == 1) {
+            diff_stats(after, ether_control, len, &diff_count, &diff_span);
+        }
+
+        bool window_ok = seed_equals_at(after, (size_t)shifted_pos, seed, width)
+            && quiet_ether_edges(after, ether_control, len, total_steps);
+        bool exact_ok = quiet_ether_edges(after, ether_control, len, total_steps)
+            && same_shifted_perturbation(before, after, ether_control, len, total_dx);
+        window_all = window_all && window_ok;
+        exact = exact && exact_ok;
+    }
+    if (window_all || exact) {
         candidate->seed = seed;
+        candidate->width = width;
         candidate->phase = phase;
         candidate->diff_count = diff_count;
-        candidate->diff_span = last_diff >= first_diff ? last_diff - first_diff + 1 : 0;
+        candidate->diff_span = diff_span;
         candidate->exact = exact;
         candidate->valid = true;
     }
 
-    free(before);
-    free(after);
-    free(ether_control);
-    return ok;
+    return window_all || exact;
 }
 
 static bool parse_int_arg(const char *text, const char *name, int *out) {
@@ -221,8 +288,10 @@ static bool parse_int_arg(const char *text, const char *name, int *out) {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 5) {
-        fprintf(stderr, "usage: %s <glider_name> <width> <period_t> <period_x>\n", argv[0]);
+    if (argc != 5 && argc != 7) {
+        fprintf(stderr,
+                "usage: %s <glider_name> <width> <period_t> <period_x> [--extended-width N]\n",
+                argv[0]);
         return 2;
     }
 
@@ -230,57 +299,74 @@ int main(int argc, char **argv) {
     int width = 0;
     int steps = 0;
     int dx = 0;
+    int extended_width = 0;
     if (!parse_int_arg(argv[2], "width", &width)
         || !parse_int_arg(argv[3], "period_t", &steps)
         || !parse_int_arg(argv[4], "period_x", &dx)) {
         return 2;
     }
-    if (width <= 0 || width > 30 || steps < 0) {
-        fprintf(stderr, "invalid search bounds: width must be 1..30 and period_t must be nonnegative\n");
+    if (argc == 7) {
+        if (strcmp(argv[5], "--extended-width") != 0
+            || !parse_int_arg(argv[6], "extended_width", &extended_width)) {
+            fprintf(stderr,
+                    "usage: %s <glider_name> <width> <period_t> <period_x> [--extended-width N]\n",
+                    argv[0]);
+            return 2;
+        }
+    }
+    if (width <= 0 || width > 30 || steps < 0 || extended_width < 0 || width + extended_width > 30) {
+        fprintf(stderr, "invalid search bounds: width and extended width must stay in 1..30 and period_t must be nonnegative\n");
         return 2;
     }
 
-    uint64_t limit = UINT64_C(1) << (unsigned)width;
     unsigned long found = 0;
     unsigned long exact_found = 0;
     struct Candidate best = {0};
-    printf("# glider=%s width=%d period=(%d,%d) side_ether_periods=%d\n",
+    struct Work work = {0};
+    printf("# glider=%s width=%d extended_width=%d period=(%d,%d) side_ether_periods=%d multiperiod=%d\n",
            name,
            width,
+           extended_width,
            steps,
            dx,
-           SIDE_ETHER_PERIODS);
+           SIDE_ETHER_PERIODS,
+           MULTIPERIOD_CHECKS);
 
-    for (uint64_t seed = 0; seed < limit; seed++) {
-        for (int phase = 0; phase < ETHER_PERIOD; phase++) {
-            struct Candidate candidate = {0};
-            if (!verify_seed(seed, width, steps, dx, phase, &candidate)) {
-                continue;
-            }
-            found++;
-            if (candidate.exact) {
-                exact_found++;
-            }
-            printf("%s %d %d %d ", name, width, steps, dx);
-            print_seed(seed, width);
-            printf(" phase=%d class=%s diff_count=%d diff_span=%d\n",
-                   phase,
-                   candidate.exact ? "exact" : "window",
-                   candidate.diff_count,
-                   candidate.diff_span);
-            if (better_candidate(candidate, best)) {
-                best = candidate;
+    for (int seed_width = width; seed_width <= width + extended_width; seed_width++) {
+        uint64_t limit = UINT64_C(1) << (unsigned)seed_width;
+        for (uint64_t seed = 0; seed < limit; seed++) {
+            for (int phase = 0; phase < ETHER_PERIOD; phase++) {
+                struct Candidate candidate = {0};
+                if (!verify_seed(seed, seed_width, steps, dx, phase, &work, &candidate)) {
+                    continue;
+                }
+                found++;
+                if (candidate.exact) {
+                    exact_found++;
+                }
+                printf("%s %d %d %d ", name, seed_width, steps, dx);
+                print_seed(seed, seed_width);
+                printf(" phase=%d class=%s diff_count=%d diff_span=%d\n",
+                       phase,
+                       candidate.exact ? "exact" : "window",
+                       candidate.diff_count,
+                       candidate.diff_span);
+                if (better_candidate(candidate, best)) {
+                    best = candidate;
+                }
             }
         }
     }
+    free_work(&work);
 
     printf("# candidates=%lu\n", found);
     printf("# exact_candidates=%lu\n", exact_found);
     if (best.valid) {
         char seed_text[32];
-        format_seed(best.seed, width, seed_text, sizeof(seed_text));
-        printf("# best %s seed=%s phase=%d class=%s diff_count=%d diff_span=%d\n",
+        format_seed(best.seed, best.width, seed_text, sizeof(seed_text));
+        printf("# best %s width=%d seed=%s phase=%d class=%s diff_count=%d diff_span=%d\n",
                name,
+               best.width,
                seed_text,
                best.phase,
                best.exact ? "exact" : "window",
