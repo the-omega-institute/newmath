@@ -115,4 +115,43 @@ theorem LagrangianMechanicsPacket_namecert_obligation_surface [AskSetup] [Packag
       exact ⟨sourceRow.right.right, residualSymplecticCurrent, currentTransportRoute⟩
   }
 
+theorem LagrangianMechanicsPacket_euler_boundary_scope [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate residualRead boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont action variation residualRead ->
+        Cont residual symplectic boundary ->
+          PkgSig bundle boundary pkg ->
+            UnaryHistory configuration ∧ UnaryHistory velocity ∧ UnaryHistory action ∧
+              UnaryHistory variation ∧ UnaryHistory endpoint ∧ UnaryHistory residualRead ∧
+                UnaryHistory residual ∧ UnaryHistory symplectic ∧ UnaryHistory boundary ∧
+                  Cont configuration velocity action ∧ Cont action variation endpoint ∧
+                    Cont action variation residualRead ∧ hsame endpoint residualRead ∧
+                      Cont residual symplectic boundary ∧ PkgSig bundle certificate pkg ∧
+                        PkgSig bundle boundary pkg := by
+  intro packet residualReadRow boundaryRow boundaryPkg
+  rcases packet with
+    ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+      _transportUnary, _provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
+      _residualSymplecticCurrent, _currentTransportRoute, _routeProvenanceCertificate,
+      certificatePkg⟩
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary actionVariationEndpoint
+  have residualReadUnary : UnaryHistory residualRead :=
+    unary_cont_closed actionUnary variationUnary residualReadRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed residualUnary symplecticUnary boundaryRow
+  have sameEndpointResidualRead : hsame endpoint residualRead :=
+    cont_respects_hsame (hsame_refl action) (hsame_refl variation) actionVariationEndpoint
+      residualReadRow
+  exact
+    ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
+      residualReadUnary, residualUnary, symplecticUnary, boundaryUnary, configurationVelocityAction,
+      actionVariationEndpoint, residualReadRow, sameEndpointResidualRead, boundaryRow,
+      certificatePkg, boundaryPkg⟩
+
 end BEDC.Derived.LagrangianMechanicsUp
