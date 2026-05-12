@@ -86,6 +86,7 @@ import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
 import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
+import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
