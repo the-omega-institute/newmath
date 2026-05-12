@@ -86,6 +86,40 @@ sort or variable has the same endpoint.
 \leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
 \leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
 
+\subsection{Typing Rules}\label{subsec:reconstruction-typing-rules}
+
+The represented typing judgment $\mathrm{HasType}\ \Gamma\ t\ A$ is generated
+by five rules. They are the whole typing surface for the local MetaCIC
+fragment:
+
+$$
+\begin{aligned}
+\mathrm{sortRule}:&\quad
+  \Gamma \vdash \mathrm{sort} : \mathrm{sort}, \\
+\mathrm{varRule}:&\quad
+  \Gamma.\mathrm{lookup}\ i = \mathrm{some}\ A
+  \Rightarrow \Gamma \vdash \mathrm{var}\ i : A, \\
+\mathrm{piRule}:&\quad
+  \Gamma \vdash \mathrm{dom} : \mathrm{sort},\
+  (\mathrm{shift}\ 0\ 1\ \mathrm{dom}) :: \Gamma
+  \vdash \mathrm{cod} : \mathrm{sort}
+  \Rightarrow \Gamma \vdash
+  \pi\,\mathrm{dom}\,\mathrm{cod} : \mathrm{sort}, \\
+\mathrm{lamRule}:&\quad
+  \Gamma \vdash \mathrm{dom} : \mathrm{sort},\
+  (\mathrm{shift}\ 0\ 1\ \mathrm{dom}) :: \Gamma
+  \vdash \mathrm{body} : \mathrm{cod}
+  \Rightarrow \Gamma \vdash
+  \lambda\,\mathrm{dom}\,\mathrm{body}
+  : \pi\,\mathrm{dom}\,\mathrm{cod}, \\
+\mathrm{appRule}:&\quad
+  \Gamma \vdash f : \pi\,\mathrm{dom}\,\mathrm{cod},\
+  \Gamma \vdash a : \mathrm{dom}
+  \Rightarrow \Gamma \vdash f\,a :
+  \mathrm{substitute}\ 0\ a\ \mathrm{cod}.
+\end{aligned}
+$$
+
 \subsection{Reduction Layer Summary}\label{subsec:reconstruction-reduction-summary}
 
 The reduction layer has three relations. $\mathrm{BetaStep}$ is single-step
