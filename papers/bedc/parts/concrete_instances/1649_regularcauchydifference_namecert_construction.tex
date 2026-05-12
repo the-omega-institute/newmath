@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDifferenceUp$}
+\label{ch:concrete-instances-regularcauchydifference-namecert}
+\origin{human}
+
+The $\RegularCauchyDifferenceUp$ interface names the finite pointwise-subtraction surface for two regular rational Cauchy names. Following Bishop and Bridges, \emph{Constructive Analysis}, it records the displayed difference stream that a $\NullSequenceUp$ consumer may later inspect, without forming a quotient of streams, selecting a host limit, or appealing to ambient real completeness.
+
+\begin{definition}[RegularCauchyDifference carrier]
+\label{def:regular-cauchy-difference-carrier}
+A $\RegularCauchyDifferenceUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+D=(X,Y,S,T,Z,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose scheduled rational observations are compared pointwise;
+\item $S$ is the pointwise dyadic subtraction schedule, aligning the inspected $\StreamNameUp$ windows of $X$ and $Y$ and forming the displayed $\DyadicRatCoreUp$ row for $X-Y$ at each requested precision;
+\item $T$ is the transported $\StreamNameUp$ and $\DyadicRatCoreUp$ tolerance ledger that records the source windows, endpoint rows, requested dyadic bounds, and output tolerance assigned to the difference row;
+\item $Z$ is the $\NullSequenceUp$ consumer row when the displayed $\RegSeqRatUp$ difference stream shrinks to zero;
+\item $H$ stores componentwise $\hsame$ transports for the two source rows, the aligned windows, the dyadic subtraction rows, the tolerance ledger, and the optional null-sequence consumer row;
+\item $C$ stores the $\Cont$ routes for reading the two source windows, forming the dyadic subtraction row, transporting the tolerance ledger, and exposing $Z$ when zero-shrinkage is supplied;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyDifferenceUp}$ row.
+\end{enumerate}
+The carrier is a finite difference certificate for regular Cauchy names. It stores no quotient stream, no selected limit, no host real equality, and no ambient completeness object.
+\end{definition}
+
+\begin{theorem}[RegularCauchyDifference NameCert obligations]
+\label{thm:regular-cauchy-difference-namecert-obligations}
+The local $\NameCert_{\RegularCauchyDifferenceUp}$ surface for the carrier of \autoref{def:regular-cauchy-difference-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed packet $D$ with two $\RegSeqRatUp$ source rows, a pointwise subtraction schedule, a transported tolerance ledger, an optional $\NullSequenceUp$ consumer row, transport rows, continuation rows, provenance, and local naming data;
+\item classifier transport: classification transports the two source rows, aligned windows, dyadic subtraction rows, tolerance ledger, and null-sequence consumer componentwise through the stored $\hsame$ and $\Cont$ rows;
+\item stability: replacing either source by a classified regular Cauchy name preserves the finite subtraction schedule and recomputes the same kind of displayed difference row;
+\item ledger exactness: every output tolerance read by the difference row is the displayed tolerance in $T$, obtained from the two source windows and the dyadic subtraction schedule $S$;
+\item downstream handoff: every $\NullSequenceUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the difference first reads $X,Y,S,T,Z,H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:regular-cauchy-difference-carrier}. The two source names, subtraction schedule, tolerance ledger, consumer row, transport routes, continuation routes, package row, and local naming row are all explicit coordinates of $D$.
+
+Classifier transport is componentwise. The two $\RegSeqRatUp$ source rows transport their scheduled rational observations, the $\StreamNameUp$ windows transport the finite reads, and the $\DyadicRatCoreUp$ rows transport the endpoint subtraction calculation at the requested precision.
+
+The tolerance ledger is finite. It records the source windows and the output tolerance before any consumer sees the difference row. The downstream handoff is therefore the displayed difference surface together with $Z$ when zero-shrinkage is supplied, and no omitted coordinate can add quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDifference regularity closure]
+\label{thm:regular-cauchy-difference-regularity-closure}
+Given accepted $\RegSeqRatUp$ source rows $X$ and $Y$ in a $\RegularCauchyDifferenceUp$ packet, the schedule $S$ and ledger $T$ expose a displayed $\RegSeqRatUp$ difference row. Each requested precision reads aligned $\StreamNameUp$ windows for $X$ and $Y$, forms the $\DyadicRatCoreUp$ endpoint subtraction row, and records the output tolerance in the same finite ledger.
+\end{theorem}
+\begin{proof}
+Read the two regular source names through their aligned stream windows. The schedule $S$ names the common finite observation at which the two endpoint rows are inspected.
+
+Apply the displayed dyadic subtraction operation to the two endpoint rows. The resulting point row is still inside the packet, and the source regularity rows provide the tolerance entries that $T$ records for the output request.
+
+Repack these finite observations as the displayed $\RegSeqRatUp$ difference row. Since the construction uses only $X,Y,S,T$ and the visible transport and continuation rows, it does not require a completed real, a selected limit, or a quotient stream.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDifference NullSequence consumption]
+\label{thm:regular-cauchy-difference-nullsequence-consumption}
+If the displayed $\RegSeqRatUp$ difference row of \autoref{thm:regular-cauchy-difference-regularity-closure} shrinks to zero, then the row $Z$ is exactly the $\NullSequenceUp$ consumer surface for that difference. Every tolerance request consumed by $Z$ factors through the transported ledger $T$, the subtraction schedule $S$, the source rows $X,Y$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance of the carrier.
+\end{theorem}
+\begin{proof}
+Start with the displayed difference row supplied by \autoref{thm:regular-cauchy-difference-regularity-closure}. It is already a regular rational stream read through the two source rows, the finite subtraction schedule, and the tolerance ledger.
+
+When zero-shrinkage is supplied, project the coordinate $Z$. The $\NullSequenceUp$ consumer reads precisely the tolerance requests in $T$ and the finite difference observations formed by $S$ before exposing any real-seal equality evidence.
+
+The provenance rows do not add analytic data. They route the same source rows, windows, endpoint subtraction rows, and tolerances through $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row. Thus the null-sequence consumption is exactly the finite difference packet and not an ambient equality of host reals.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDifference non-escape boundary]
+\label{thm:regular-cauchy-difference-non-escape-boundary}
+No accepted $\RegularCauchyDifferenceUp$ packet exports quotient streams, host real equality, selected limits, or ambient completeness. Every public read of a pointwise difference, and every zero-shrinkage read by $\NullSequenceUp$, is exhausted by the finite $\mathsf{BHist}$ rows named in \autoref{def:regular-cauchy-difference-carrier} and by the handoff rows of \autoref{thm:regular-cauchy-difference-regularity-closure} and \autoref{thm:regular-cauchy-difference-nullsequence-consumption}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only analytic coordinates are two regular rational source rows, the finite subtraction schedule, the transported tolerance ledger, and the null-sequence consumer row when a zero-tail certificate is present.
+
+The regularity closure theorem shows that regular consumers receive only the scheduled pointwise difference row and its tolerance ledger. The null-sequence consumption theorem places zero-tail consumers downstream of that same displayed difference row.
+
+These routes exhaust the packet. Since no listed coordinate is a quotient stream, host real equality, selected limit, or ambient completeness theorem, no consumer can read such an object from the $\RegularCauchyDifferenceUp$ certificate.
+\end{proof}
+
+\closureat{RegularCauchyDifferenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDifferenceUp}
+  \constructivestory{A $\RegularCauchyDifferenceUp$ packet is generated from two $\RegSeqRatUp$ source rows, a pointwise $\DyadicRatCoreUp$ subtraction schedule over aligned $\StreamNameUp$ windows, a transported tolerance ledger, a $\NullSequenceUp$ consumer row when the difference shrinks, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, regular difference-row closure, null-sequence consumption surface, and non-escape boundary for pointwise differences of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, host real equality, selected limits, ambient completeness, completed-real subtraction laws, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, subtraction-schedule exactness, regular readback handoff, and null-sequence consumer non-escape for the difference packet.}
+\end{closurestatus}
