@@ -505,6 +505,19 @@ theorem betaStep_sort_absurd
   intro h
   cases h
 
+theorem betaStep_app_cases {f a t : Term}
+    (h : BetaStep (Term.app f a) t) :
+    (∃ d b, f = Term.lam d b ∧ t = substitute 0 a b) ∨
+    (∃ f', BetaStep f f' ∧ t = Term.app f' a) ∨
+    (∃ a', BetaStep a a' ∧ t = Term.app f a') := by
+  cases h with
+  | beta d b a =>
+      exact Or.inl (Exists.intro d (Exists.intro b (And.intro rfl rfl)))
+  | congApp1 f f' a hff' =>
+      exact Or.inr (Or.inl (Exists.intro f' (And.intro hff' rfl)))
+  | congApp2 f a a' haa' =>
+      exact Or.inr (Or.inr (Exists.intro a' (And.intro haa' rfl)))
+
 theorem betaStep_pi_iff {d c t : Term} :
     BetaStep (Term.pi d c) t ↔
       (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
