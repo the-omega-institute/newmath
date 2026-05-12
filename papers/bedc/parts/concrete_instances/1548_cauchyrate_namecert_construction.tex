@@ -253,17 +253,34 @@ Use \autoref{thm:cauchy-rate-tail-bound-routing} for the upstream read of $Q$. T
 Combining the two routes gives the stated factorization through $Q,F,\tau,\mu$ before $E$. The scoped obligation package has no coordinate for the excluded RealUp, quotient, selected-limit, or host-equality objects, so the completion-facing read consumes only the displayed effective-rate certificate.
 \end{proof}
 
+\begin{theorem}[CauchyRate public certificate]
+\label{thm:cauchy-rate-public-certificate}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped $\CauchyRateUp$ package. The $\mathsf{BHist}$ source, $\NameCert$ obligations, regular-family handoff, real-completion consumer boundary, ledger exactness, transport stability, scheduled-window totality, tolerance readback exactness, scoped consumer exhaustion, source scope, effective-route scope, ledger scope, window monotonicity, tail-bound routing, and real-seal consumption assemble a single exported $\CauchyRateUp$ public certificate. Its public consumers are exactly the $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ readers that factor through the displayed effective-rate rows, and it exports no RealUp completeness, quotient stream equality, selected limit, or host equality.
+\end{theorem}
+\begin{proof}
+Project the scoped package $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ from \autoref{def:cauchy-rate-scoped-obligation-package}. The $\mathsf{BHist}$ source of \autoref{def:cauchy-rate-bhist-source} supplies the carrier rows, and \autoref{thm:cauchy-rate-namecert-obligations} exposes the local $\NameCert$ obligations attached to those rows.
+
+The effective-rate spine is the one exposed by \autoref{thm:cauchy-rate-scheduled-window-totality}, \autoref{thm:cauchy-rate-regular-family-handoff}, \autoref{thm:cauchy-rate-tolerance-readback-exactness}, and \autoref{thm:cauchy-rate-window-monotonicity}. These results identify the schedule, tolerance row, regular family, and readback without replacing the rows stored in $K$.
+
+The route and ledger boundary is fixed by \autoref{thm:cauchy-rate-ledger-exactness}, \autoref{thm:cauchy-rate-transport-stability}, \autoref{thm:cauchy-rate-bhist-source-scope}, and \autoref{thm:cauchy-rate-effective-route-scope}. Together with \autoref{thm:cauchy-rate-ledger-scope}, these results keep every transported consumer inside the same source, route, and ledger surface.
+
+The downstream boundary is fixed by \autoref{thm:cauchy-rate-tail-bound-routing}, \autoref{thm:cauchy-rate-real-seal-consumption}, and \autoref{thm:cauchy-rate-scoped-consumer-exhaustion}. A $\RegSeqRatUp$ reader consumes $Q$ only after the scheduled tail-bound route, a $\RealCauchyCompletionUp$ reader consumes $E$ only through $Q,F,\tau,\mu$, and a $\RealUp$ reader sees only that same effective-rate certificate.
+
+It remains to inspect the excluded objects. The package has no coordinate for RealUp completeness, quotient stream equality, selected limits, or host equality, and the scoped consumer-exhaustion clause leaves no route that escapes $p,\mu,\tau,F,Q,E,H,C,P,N$. The assembled object is therefore a public $\CauchyRateUp$ certificate over the displayed effective-rate rows and nothing stronger.
+\end{proof}
+
 \closureat{CauchyRateUp}{seedStr}
 \closureat{CauchyRateUp}{obligationStr}
 \closureat{CauchyRateUp}{scopedStr}
+\closureat{CauchyRateUp}{publicStr}
 
 \begin{closurestatus}{\CauchyRateUp}
   \constructivestory{A $\CauchyRateUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ tolerance row, a $\RegularCauchyFamilyUp$ source, a $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The scoped dependency rows fix exactly the $p,\mu,\tau,F,Q,E,H,C,P,N$ packet over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular streams, selected limits, host real equality, public-object export, or bridge checking.}
-  \upgradepath{Public closure requires a single exported $\CauchyRateUp$ public certificate consumed by Real and Completion readers.}
+  \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular streams, selected limits, host real equality, or bridge checking.}
+  \upgradepath{Bridged closure requires a standard bridge over the same effective-rate rows.}
 \end{closurestatus}
