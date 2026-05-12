@@ -216,6 +216,12 @@ theorem betaParallel_app_beta_redex {f a _f' a' d b : Term}
     BetaParallel (Term.app f a) (substitute 0 a' b) := by
   exact BetaParallel.appBeta hf ha
 
+theorem betaParallel_app_select_beta {f a _f' a' d b : Term}
+    (hf : BetaParallel f (Term.lam d b))
+    (ha : BetaParallel a a') :
+    BetaParallel (Term.app f a) (substitute 0 a' b) := by
+  exact BetaParallel.appBeta hf ha
+
 theorem betaStep_to_parallel {t u : Term} :
     BetaStep t u → BetaParallel t u := by
   intro h
@@ -358,6 +364,48 @@ theorem betaParallel_app_shape {f a t : Term}
             (Exists.intro _
               (Exists.intro _
                 (And.intro hf (And.intro ha rfl)))))
+
+theorem betaParallel_app_full_inv {f a t : Term}
+    (h : BetaParallel (Term.app f a) t) :
+    ∃ f' a', BetaParallel f f' ∧ BetaParallel a a' ∧
+      ((t = Term.app f' a') ∨
+       (∃ d b, f' = Term.lam d b ∧ t = substitute 0 a' b)) := by
+  have hshape := betaParallel_app_shape h
+  cases hshape with
+  | inl happ =>
+      cases happ with
+      | intro f' hf' =>
+          cases hf' with
+          | intro a' hpack =>
+              cases hpack with
+              | intro hf hrest =>
+                  cases hrest with
+                  | intro ha ht =>
+                      exact
+                        Exists.intro f'
+                          (Exists.intro a'
+                            (And.intro hf
+                              (And.intro ha (Or.inl ht))))
+  | inr hredex =>
+      cases hredex with
+      | intro d hd =>
+          cases hd with
+          | intro b hb =>
+              cases hb with
+              | intro a' hpack =>
+                  cases hpack with
+                  | intro hf hrest =>
+                      cases hrest with
+                      | intro ha ht =>
+                          exact
+                            Exists.intro (Term.lam d b)
+                              (Exists.intro a'
+                                (And.intro hf
+                                  (And.intro ha
+                                    (Or.inr
+                                      (Exists.intro d
+                                        (Exists.intro b
+                                          (And.intro rfl ht)))))))
 
 theorem betaParallel_app_non_lam {f a t : Term}
     (h_not_lam : ∀ d b, ¬ BetaParallel f (Term.lam d b))
