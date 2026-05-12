@@ -90,6 +90,24 @@ No coordinate of $O$ names a measure completion, almost-sure quotient, unbounded
 \end{proof}
 \leanchecked{BEDC.Derived.OptionalStoppingUp.OptionalStoppingCarrier\_no\_escape\_boundary}
 
+\begin{theorem}[OptionalStopping scoped dependency route]
+\label{thm:optional-stopping-scoped-dependency-route}
+Every accepted $\OptionalStoppingUp$ carrier
+$$
+O=(\Omega,X,T,b,V,F,I,H,C,P,N)
+$$
+scopes the bounded stopped-value read, finite expectation window, stopping-time stability, martingale-window handoff, and ledger exactness through exactly the displayed $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No dependency route reaches an unbounded stopping branch, measure completion, almost-sure quotient, or unstated uniform-integrability principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:optional-stopping-namecert-obligations}. Its five obligations provide carrier formation, componentwise classifier transport, stopping-time stability, martingale-window handoff, and ledger exactness for the displayed finite packet.
+
+Next apply \autoref{thm:optional-stopping-bounded-stopped-value-readback}. The stopped value row $V$ is read only from the first displayed stopping branch before $b$, together with the corresponding process and filtration-window rows.
+
+Apply \autoref{thm:optional-stopping-finite-expectation-window}. It places every expectation-style read downstream of $\Omega$, $X$, $F$, $I$, $V$, $H$, $C$, $P$, and $N$.
+
+Finally apply \autoref{thm:optional-stopping-no-escape-boundary}. The excluded unbounded, completed, quotient, and unstated integrability objects are absent from the carrier, so the dependency route is exactly the displayed BEDC row surface.
+\end{proof}
+
 \closureat{OptionalStoppingUp}{seedStr}
 \closureat{OptionalStoppingUp}{obligationStr}
 
