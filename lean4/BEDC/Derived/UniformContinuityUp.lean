@@ -81,6 +81,55 @@ theorem UniformContinuityPacket_finite_net_modulus_fold [AskSetup] [PackageSetup
     unary_cont_closed lowerBoundUnary foldedUnary toleranceRoute
   exact ⟨bundleRowUnary, pointwiseUnary, foldedUnary, foldRoute, toleranceRoute⟩
 
+theorem UniformContinuityPacket_compact_continuous_standard_reading [AskSetup]
+    [PackageSetup]
+    {sourceMetric targetMetric graph tolerance bundleRow centers pointwise cover lowerBound
+      triangle transport nameRow folded : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformContinuityPacket sourceMetric targetMetric graph tolerance bundleRow centers pointwise
+        cover lowerBound triangle transport nameRow bundle pkg ->
+      Cont bundleRow pointwise folded ->
+        Cont lowerBound folded tolerance ->
+          UnaryHistory folded ∧ UnaryHistory tolerance ∧ Cont bundleRow centers pointwise ∧
+            Cont cover lowerBound triangle ∧ Cont lowerBound folded tolerance ∧
+              PkgSig bundle nameRow pkg := by
+  intro packet foldRoute toleranceRoute
+  obtain ⟨_sourceMetricUnary, _targetMetricUnary, _graphUnary, _storedToleranceUnary,
+    bundleRowUnary, _centersUnary, pointwiseUnary, _coverUnary, lowerBoundUnary,
+    _triangleUnary, _transportUnary, _nameRowUnary, bundleCentersPointwise,
+    coverLowerTriangle, _triangleTransportNameRow, nameRowPkg⟩ := packet
+  have foldedUnary : UnaryHistory folded :=
+    unary_cont_closed bundleRowUnary pointwiseUnary foldRoute
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed lowerBoundUnary foldedUnary toleranceRoute
+  exact
+    ⟨foldedUnary, toleranceUnary, bundleCentersPointwise, coverLowerTriangle,
+      toleranceRoute, nameRowPkg⟩
+
+theorem UniformContinuityPacket_modulus_non_escape [AskSetup] [PackageSetup]
+    {sourceMetric targetMetric graph tolerance bundleRow centers pointwise cover lowerBound
+      triangle transport nameRow folded : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformContinuityPacket sourceMetric targetMetric graph tolerance bundleRow centers pointwise
+        cover lowerBound triangle transport nameRow bundle pkg ->
+      Cont bundleRow pointwise folded ->
+        Cont lowerBound folded tolerance ->
+          UnaryHistory bundleRow ∧ UnaryHistory pointwise ∧ UnaryHistory lowerBound ∧
+            UnaryHistory folded ∧ UnaryHistory tolerance ∧ Cont bundleRow pointwise folded ∧
+              Cont lowerBound folded tolerance ∧ PkgSig bundle nameRow pkg := by
+  intro packet foldRoute toleranceRoute
+  obtain ⟨_sourceMetricUnary, _targetMetricUnary, _graphUnary, _toleranceUnary,
+    bundleRowUnary, _centersUnary, pointwiseUnary, _coverUnary, lowerBoundUnary,
+    _triangleUnary, _transportUnary, _nameRowUnary, _bundlePointwiseRoute,
+    _triangleRoute, _nameRowRoute, nameRowPkg⟩ := packet
+  have foldedUnary : UnaryHistory folded :=
+    unary_cont_closed bundleRowUnary pointwiseUnary foldRoute
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed lowerBoundUnary foldedUnary toleranceRoute
+  exact
+    ⟨bundleRowUnary, pointwiseUnary, lowerBoundUnary, foldedUnary, toleranceUnary, foldRoute,
+      toleranceRoute, nameRowPkg⟩
+
 theorem UniformContinuityPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {sourceMetric targetMetric graph tolerance bundleRow centers pointwise cover lowerBound
       triangle transport nameRow endpoint : BHist}
