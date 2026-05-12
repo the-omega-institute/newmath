@@ -300,6 +300,54 @@ has a row for quotient reals, selected limits, host real equality, located
 subsets, or interval arithmetic, the handoff cannot export those objects.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation consumer completeness]\label{thm:dyadicapproximation-consumer-completeness}
+Every finite consumer of a $\DyadicApproximationUp$ packet reads exactly the
+dyadic precision index, rational interval window, approximation row,
+classifier transport, precision weakening row, $\RealUp$ seal handoff,
+displayed $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ evidence. Conversely, these rows repack as the complete finite
+dyadic-approximation consumer surface.
+
+The consumer surface exports no quotient real, host real equality, completion
+point, trichotomy row, selected representative, located subset, or classical
+approximation-completeness principle.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through the finite-window obligations of
+\autoref{thm:dyadicapproximation-window-scope}. This exposes the precision
+index, dyadic endpoint, finite observation window, regular-sequence readback,
+visible transport, continuation, package, and local certificate rows.
+
+Refine the consumer read to a common precision by
+\autoref{thm:dyadic-approximation-common-precision-refinement}. Then use
+\autoref{thm:dyadic-approximation-classifier-transport} for the classifier
+route and \autoref{thm:dyadic-approximation-precision-weakening} for the
+visible weakening row.
+
+Route the seal through \autoref{thm:dyadicapproximation-real-seal-scope} and
+\autoref{thm:dyadic-approximation-real-seal-handoff}. The seal contributes
+only the displayed $\RealUp$ handoff row already bounded by the same finite
+dyadic window.
+
+Next collect the public packet surface with
+\autoref{thm:dyadicapproximation-public-finite-window-export} and the standard
+bridge of
+\autoref{thm:dyadic-approximation-standard-finite-approximation-bridge}. The
+rational endpoint part is the window handoff of
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff}, so every
+finite consumer coordinate is one of the listed rows.
+
+For the converse direction, start with precisely the listed rows. The public
+finite-window export supplies the $\NameCert$ package, the standard bridge
+packs the dyadic readback, and the rational interval handoff packs the shared
+endpoint window, giving a valid finite approximation consumer read.
+
+None of the cited packet projections contains a quotient-real coordinate,
+host equality, completion point, trichotomy row, selected representative,
+located subset, or classical completeness principle. These objects therefore
+cannot be exported by the complete consumer surface.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
@@ -309,10 +357,10 @@ subsets, or interval arithmetic, the handoff cannot export those objects.
 \begin{closurestatus}{\DyadicApproximationUp}
   \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, and \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge} form the public finite-window export and standard finite dyadic-approximation readback surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge}, \autoref{thm:dyadic-approximation-rational-interval-window-handoff}, and \autoref{thm:dyadicapproximation-consumer-completeness} form the public finite-window export, standard finite dyadic-approximation readback, rational interval handoff, and finite consumer surface for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RationalIntervalUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
-  \upgradepath{Mature closure requires a comprehensive finite-window consumer treatment for the same dyadic approximation packet.}
+  \upgradepath{Further closure requires Lean formalization of the finite consumer completeness theorem and bridge audit evidence for the same dyadic approximation packet.}
 \end{closurestatus}
