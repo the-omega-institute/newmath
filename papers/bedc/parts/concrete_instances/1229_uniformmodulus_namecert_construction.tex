@@ -104,16 +104,65 @@ Now apply the NameCert obligation surface of \autoref{thm:uniformmodulus-namecer
 Finally use the compact-continuous handoff of \autoref{thm:uniformmodulus-compact-continuous-handoff}. Every downstream tolerance-to-precision read follows the displayed finite-net and pointwise-modulus route, leaving no coordinate for open-cover compactness, sequential compactness, host minima, or external modulus functions.
 \end{proof}
 
+\begin{theorem}[UniformModulus finite-fold scope closure]
+\label{thm:uniformmodulus-finite-fold-scope-closure}
+For an accepted $\UniformModulusUp$ carrier $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, the finite $\mathsf{ProbeBundle}$ fold, classifier transport stability, and local $\NameCert_{\UniformModulusUp}$ obligation surface bind the precision row $D$ entirely to displayed $\RatUp$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+In particular, every classifier-visible use of $D$ factors through the positive $\RatUp$ fold rows $F$, the bundled probe spine $\mathcal{P}$, the componentwise transport ledger $L$, the continuation routes $Q$, the package provenance $P$, and the local naming row $N$. There is no further coordinate for a host minimum, an ambient finite-set operator, or an external modulus value.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:uniformmodulus-bhist-carrier}. The precision history $D$ appears only as the proposed output row of the finite packet, while $F$ records the rational comparisons that place $D$ below the bundled half-radius ledgers.
+
+Apply the finite $\mathsf{ProbeBundle}$ fold of \autoref{thm:uniformmodulus-finite-probebundle-fold}. It constructs the precision ledger by primitive finite recursion over $\mathcal{P}$ and stores each comparison as a displayed $\RatUp$ row.
+
+Use classifier transport stability from \autoref{thm:uniformmodulus-classifier-transport-stability}. Transport can move the displayed rows along $L$, but it cannot add a new precision source outside the carrier coordinates.
+
+Finally apply the local obligation surface of \autoref{thm:uniformmodulus-namecert-obligation-surface}. The rows $Q$, $P$, and $N$ repack the fold, transport, and naming data as the complete classifier-facing surface, so every read of $D$ is already exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[UniformModulus center-radius readback]
+\label{thm:uniformmodulus-center-radius-readback}
+Every compact-continuous read of an accepted $\UniformModulusUp$ packet first reaches a bundled center through the $\CompactMetricUp$ finite-net rows and then uses the corresponding $\ContinuousMapUp$ pointwise-modulus row. The source and target metric reads are mediated only by the displayed radius, coverage, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ witnesses of the same packet.
+
+Thus the center-radius route is a readback of displayed carrier data: compact coverage supplies the center, the finite fold supplies a precision below the relevant radius ledger, and the continuous row at that center supplies the tolerance handoff.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:uniformmodulus-bhist-carrier}. The coverage row $C$ is the only compact coordinate available to a source-point history, and it points to a center in the finite bundle $\mathcal{P}$ with its displayed radius rows $R$.
+
+Use the finite-fold exactness supplied by \autoref{thm:uniformmodulus-finite-probebundle-fold}. Since $D$ is below every bundled half-radius ledger through the displayed $\RatUp$ comparisons, any metric read below $D$ can be routed through the radius ledger attached to the center chosen by $C$.
+
+Now invoke the compact-continuous handoff of \autoref{thm:uniformmodulus-compact-continuous-handoff}. At the bundled center, the corresponding row of $M$ is the $\ContinuousMapUp$ pointwise-modulus ledger for the tolerance history $E$.
+
+The transport and boundary data of \autoref{thm:uniformmodulus-classifier-transport-stability} and \autoref{thm:uniformmodulus-namecert-obligation-surface} keep this route inside $L$, $Q$, $P$, and $N$. No metric read is therefore mediated by an undisplayed center selector or a host analytic compactness principle.
+\end{proof}
+
+\begin{theorem}[UniformModulus compact-continuous non-escape]
+\label{thm:uniformmodulus-compact-continuous-nonescape}
+Downstream consumers of an accepted $\UniformModulusUp$ packet cannot read open-cover compactness, sequential compactness, host minima, or external modulus functions. The classifier-visible coordinates are exhausted by the carrier rows of \autoref{def:uniformmodulus-bhist-carrier} together with the scoped dependency interface of \autoref{thm:uniformmodulus-scoped-dependency-interface}.
+
+Consequently every compact-continuous tolerance-to-precision query must remain inside the same finite $\RatUp$ fold, $\CompactMetricUp$ finite-net coverage row, $\ContinuousMapUp$ pointwise-modulus row, $\MetricUp$ distance witnesses, $\mathsf{ProbeBundle}$ membership rows, $\hsame$ transport ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The definition lists all rows inspectable by the classifier and explicitly leaves no coordinate for open-cover compactness, sequential compactness, a host minimum, or an external modulus function.
+
+Apply \autoref{thm:uniformmodulus-finite-fold-scope-closure} to the precision side. The precision row is tied to the finite rational fold over the displayed bundle and cannot be replaced by a host minimum or function-space selector.
+
+Apply \autoref{thm:uniformmodulus-center-radius-readback} to the compact-continuous side. Every read reaches a displayed center and then a displayed pointwise-modulus row before reaching the target metric tolerance.
+
+Finally use \autoref{thm:uniformmodulus-scoped-dependency-interface}. Since that interface is the complete consumer boundary for the carrier, any attempted downstream read outside these rows has no classifier-visible coordinate to inspect.
+\end{proof}
+
 \closureat{UniformModulusUp}{seedStr}
 \closureat{UniformModulusUp}{obligationStr}[BEDC.Derived.UniformModulusUp.UniformModulusPacket\_namecert\_obligation\_surface]
+\closureat{UniformModulusUp}{scopedStr}
 
 \begin{closurestatus}{\UniformModulusUp}
   \constructivestory{A $\UniformModulusUp$ packet starts from a positive tolerance history, a compact finite-net $\mathsf{ProbeBundle}$, continuous pointwise-modulus rows at the bundled centers, and positive rational radius rows; it folds the finite radius ledger to a precision history and routes every compact-continuous read through displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The chapter fixes the finite carrier, finite $\mathsf{ProbeBundle}$ rational fold, local NameCert obligation surface, and compact-continuous handoff boundary for later formalization.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter closes the finite-fold scope row, center-radius readback row, and compact-continuous non-escape row for the displayed $\UniformModulusUp$ packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a public uniform-continuity theorem, checked Lean implementation, bridge status, open-cover compactness, sequential compactness, or host analytic modulus selection.}
-  \upgradepath{Obligation closure requires checked carrier transport, finite-fold exactness, compact finite-net coverage, continuous pointwise-modulus handoff, and downstream non-escape for the same packet.}
+  \upgradepath{Public closure requires a checked public uniform-continuity surface and a Lean theorem for the same finite carrier packet.}
 \end{closurestatus}
