@@ -121,3 +121,78 @@ unit-boundary certificate and the singleton classifier. There is no exported
 row from which a host field, a quotient carrier of nonzero elements, or an
 external inverse operation could be read.
 \end{proof}
+
+\begin{theorem}[Terminal FieldUp history scope package]
+\label{thm:field-terminal-history-scope-package}
+The terminal $\FieldUp$ carrier of
+\autoref{def:field-terminal-history-field-instance} is a one-endpoint
+$\mathsf{BHist}$ scope packet. Every admitted carrier row is classified by
+$A_{\emp}$ against $\emp$, every classifier comparison factors through
+$R_{\emp}$, and every visible dependency is one of the displayed $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows already attached to the terminal
+endpoint.
+\end{theorem}
+\begin{proof}
+Project the terminal tuple and use
+\autoref{thm:field-terminal-history-field-laws}. The carrier is the singleton
+history endpoint, and all additive, multiplicative, zero, unit, and inverse
+rows reduce back to $\emp$ through the same classifier.
+
+Apply \autoref{thm:field-terminal-history-schema-laws}. It identifies the
+schema-facing rows with the displayed terminal carrier, classifier transport,
+and nonzero boundary, so no second history endpoint can enter the scope.
+
+The remaining route data are exactly the $\hsame$ witnesses, finite $\Cont$
+provenance, $\Pkg$ provenance, and local naming certificate already listed in
+\autoref{thm:field-terminal-nonzero-boundary}. Thus the terminal carrier is a
+closed one-endpoint history scope packet.
+\end{proof}
+
+\begin{theorem}[Terminal FieldUp inverse ledger scope]
+\label{thm:field-terminal-inverse-ledger-scope}
+In the terminal $\FieldUp$ packet, every inverse row and every apart-zero row is
+exhausted by the unit-boundary witness $N_{\emp}$ and its transport through
+$R_{\emp}$. The inverse ledger exposes no nonterminal nonzero carrier, no
+quotient of invertible elements, and no inverse operation outside the singleton
+$\mathsf{BHist}$ endpoint.
+\end{theorem}
+\begin{proof}
+Start with the nonzero boundary row of
+\autoref{thm:field-terminal-nonzero-boundary}. It says that an inverse consumer
+can read only the unit/nonzero row at $\emp$ together with the carrier and
+classifier rows of the terminal tuple.
+
+Use \autoref{thm:field-terminal-history-schema-laws} to transport that row
+along $R_{\emp}$. The transported nonzero datum remains the same displayed
+unit-boundary certificate, and the inverse endpoint is again $\emp$.
+
+Finally apply \autoref{thm:field-terminal-history-field-laws}. The inverse
+products classify against $1_{\emp}$ by the singleton law surface, so every
+inverse and apart-zero ledger row has already been consumed by the terminal
+witness.
+\end{proof}
+
+\begin{theorem}[Terminal FieldUp RatUp exit handoff]
+\label{thm:field-terminal-ratup-fieldup-exit-handoff}
+The terminal history packet hands off from the existing $\RatUp$ and
+$\FieldUp$ exit surface by the same singleton $\mathsf{BHist}$ endpoint:
+carrier admission, classifier transport, inverse use, apart-zero use, and
+consumer exit all factor through $\emp$, $A_{\emp}$, $R_{\emp}$, the displayed
+$\hsame$ and $\Cont$ rows, the $\Pkg$ row, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the exit-facing surface through the terminal carrier of
+\autoref{def:field-terminal-history-field-instance}. The carrier and
+classifier rows are the same singleton rows used by the terminal $\RatUp$ and
+$\FieldUp$ public operation packets.
+
+Apply \autoref{thm:field-terminal-history-scope-package} for carrier and
+classifier scope, then apply
+\autoref{thm:field-terminal-inverse-ledger-scope} for the inverse and
+apart-zero ledger rows. These two scope statements cover the rows a consumer
+can inspect before leaving the terminal field packet.
+
+Thus the exit handoff is not an external field construction. It is the existing
+singleton history endpoint with its recorded $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ transport data.
+\end{proof}
