@@ -1,0 +1,28 @@
+\subsection{Host CIC Relation}\label{subsec:reconstruction-host-cic-relation}
+
+MetaCIC is represented inside the host Lean calculus, not beside it. The
+objects named \texttt{BEDC.MetaCIC.Term}, \texttt{BEDC.MetaCIC.HasType}, and
+\texttt{BEDC.MetaCIC.BetaStep} are implemented as inductive types or
+inductive predicates in the host CIC. They are therefore first-order objects
+for the host: Lean can quantify over represented terms, represented typing
+derivations, and represented beta steps exactly as it quantifies over any
+other inductively generated data.
+
+The important boundary is axiomatic. The host Lean environment has available
+constants such as \texttt{propext}, \texttt{Quot.sound}, and
+\texttt{Classical.choice} when developments choose to depend on them.
+\texttt{BEDC.MetaCIC} does not use those constants. Its syntax, reduction,
+typing, and checked metatheory are built in the pure CIC fragment by
+inductive definitions and structural proofs.
+
+The verification relation is one-way. The host CIC kernel type-checks each
+BEDC theorem. Within that checked development, a MetaCIC typing derivation is
+an inhabitant of the inductive predicate \texttt{HasType}, and reasoning about
+typing inference is ordinary induction over that predicate. There is no
+circular dependence: the host checks BEDC, while BEDC encodes a CIC fragment
+as data and judgments.
+
+This also fixes the Godel-Tarski boundary. \texttt{BEDC.MetaCIC} is not
+outside the host and cannot prove the consistency of the host that checks it.
+It can state and prove fragment metatheory for the represented calculus, but
+it does not create a host-independent consistency proof.
