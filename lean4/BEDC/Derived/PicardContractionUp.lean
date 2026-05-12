@@ -401,6 +401,39 @@ theorem PicardContractionPacket_public_namecert_export [AskSetup] [PackageSetup]
       iteratesContractionStep, iteratesModulusEndpoint, iteratesEndpointConsumer,
       endpointTransportSealRead, namePkg, stepPkg, consumerPkg, sealReadPkg⟩
 
+theorem PicardContractionPacket_public_banach_cauchyrate_factorization
+    [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      rateSource banachRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates modulus rateSource ->
+        Cont banach rateSource banachRead ->
+          PkgSig bundle rateSource pkg ->
+            PkgSig bundle banachRead pkg ->
+              UnaryHistory banach ∧ UnaryHistory contraction ∧ UnaryHistory lipschitz ∧
+                UnaryHistory iterates ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                  UnaryHistory rateSource ∧ UnaryHistory banachRead ∧
+                    Cont banach contraction lipschitz ∧ Cont iterates modulus rateSource ∧
+                      Cont banach rateSource banachRead ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle rateSource pkg ∧ PkgSig bundle banachRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet iteratesModulusRateSource banachRateSourceRead rateSourcePkg banachReadPkg
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have rateSourceUnary : UnaryHistory rateSource :=
+    unary_cont_closed iteratesUnary modulusUnary iteratesModulusRateSource
+  have banachReadUnary : UnaryHistory banachRead :=
+    unary_cont_closed banachUnary rateSourceUnary banachRateSourceRead
+  exact
+    ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+      endpointUnary, rateSourceUnary, banachReadUnary, banachContractionLipschitz,
+      iteratesModulusRateSource, banachRateSourceRead, namePkg, rateSourcePkg,
+      banachReadPkg⟩
+
 theorem PicardContractionPacket_finite_modulus_obligation_triad [AskSetup] [PackageSetup]
     {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
       sealRead : BHist}
