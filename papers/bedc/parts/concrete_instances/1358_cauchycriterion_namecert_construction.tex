@@ -114,15 +114,73 @@ Next the read passes through $Q$ and $T$. The dyadic row supplies the tolerance,
 Finally the seal coordinate $E$ is reached by the factorization of \autoref{thm:cauchycriterion-tail-bound-real-seal}. The obligation sketch records this as the regular rational handoff and $\RealUp$ seal non-escape rows, so repacking the route exhausts every exported consumer read without adding quotient streams, selected limits, host real equality, uniqueness of limits, or ambient completeness.
 \end{proof}
 
+\begin{definition}[CauchyCriterion classifier]
+\label{def:cauchycriterion-classifier}
+For accepted $\CauchyCriterionUp$ carriers
+$$
+K=(W,M,T,Q,E,H,C,P,N)
+\qquad\text{and}\qquad
+K'=(W',M',T',Q',E',H',C',P',N'),
+$$
+the $\CauchyCriterionUp$ classifier relates $K$ and $K'$ exactly when the accepted packets agree componentwise on the displayed source window, modulus schedule, tail ledger, dyadic tolerance, seal row, transport ledger, continuity-route ledger, package provenance, and local certificate provenance.
+
+Thus the comparison is the finite conjunction of the corresponding $\hsame$ rows and displayed $\Cont$ route comparisons over $W,M,T,Q,E,H,C,P,N$. It has no additional coordinate for quotient streams, hidden real equality, selected limits, uniqueness of limits, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCriterion precision route normal form]
+\label{thm:cauchycriterion-precision-route-normal-form}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier. Every accepted precision read exported from $K$ has the normal form
+$$
+\mathsf{precision}
+\longmapsto
+M
+\longmapsto
+Q
+\longmapsto
+T
+\longmapsto
+W
+\longmapsto
+E.
+$$
+The only rows used by this factorization are the displayed $\mathsf{BHist}$ packet, the componentwise $\hsame$ transports in $H$, the displayed $\Cont$ routes in $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CauchyCriterionUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:cauchycriterion-carrier}. A precision request first reads the modulus schedule $M$, which selects the finite threshold at which the tail ledger is inspected.
+
+The dyadic tolerance row $Q$ supplies the comparison budget, and the ledger row $T$ records the accepted finite tail comparisons for that threshold and tolerance. The exactness statement of \autoref{thm:cauchycriterion-dyadic-tail-ledger-exactness} prevents replacing these rows by an undisplayed radius or an outside tail certificate.
+
+The regular rational source row $W$ is then the only handoff available before the seal row $E$. The exhaustion theorem \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion} and the seal factorization of \autoref{thm:cauchycriterion-tail-bound-real-seal} show that every real-facing read passes through these rows.
+
+Transport along $H$ and replay the routes in $C$ to keep the read inside the same finite $\mathsf{BHist}$ packet. The package row $P$ and the certificate row $N$ record the source certificates; no remaining carrier coordinate can export quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion obligation closure package]
+\label{thm:cauchycriterion-obligation-closure-package}
+The $\CauchyCriterionUp$ chapter presents an obligation-complete paper package for the explicit constructive Cauchy criterion over the displayed finite carrier. The package consists of the carrier of \autoref{def:cauchycriterion-carrier}, the classifier of \autoref{def:cauchycriterion-classifier}, tail-budget exactness from \autoref{thm:cauchycriterion-dyadic-tail-ledger-exactness}, the $\RegSeqRatUp$ handoff exhaustion from \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}, the $\RealUp$ seal factorization from \autoref{thm:cauchycriterion-tail-bound-real-seal}, and the non-escape boundary forbidding quotient streams, selected limits, host real equality, uniqueness-of-limit claims, and ambient completeness.
+
+Consequently a future formal target for $\CauchyCriterionUp$ may use this chapter as the paper-side obligation surface for carrier transport, classifier stability, dyadic tail-budget exactness, regular rational handoff exactness, and $\RealUp$ seal factorization, without claiming Lean verification or real completeness here.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are displayed by \autoref{def:cauchycriterion-carrier} and \autoref{def:cauchycriterion-classifier}. They identify the finite packet and the componentwise comparison rows on which every accepted read depends.
+
+Tail-budget exactness is supplied by \autoref{thm:cauchycriterion-dyadic-tail-ledger-exactness}. It binds each comparison to the same displayed modulus threshold, dyadic tolerance, tail ledger, and package provenance.
+
+The regular rational handoff is exhausted by \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The precision-route normal form of \autoref{thm:cauchycriterion-precision-route-normal-form} then names the only route by which a precision request can reach a real-facing seal.
+
+Finally \autoref{thm:cauchycriterion-tail-bound-real-seal} supplies the $\RealUp$ seal factorization and the non-escape boundary. Repacking these clauses gives the stated paper-side obligation package while leaving Lean verification, quotient construction, selected limits, host real equality, uniqueness of limits, and ambient completeness outside the claim.
+\end{proof}
+
 \closureat{CauchyCriterionUp}{seedStr}
+\closureat{CauchyCriterionUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyCriterionUp}
   \constructivestory{A $\CauchyCriterionUp$ packet is generated from a $\RegSeqRatUp$ source window, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ finite tail ledger, a $\DyadicRatCoreUp$ tolerance row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, classifier route, tail-budget exactness, regular rational handoff, and $\RealUp$ seal factorization for explicit constructive Cauchy criteria over dyadic tail bounds.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the carrier, classifier, precision-route normal form, tail-budget exactness, regular rational handoff, and $\RealUp$ seal factorization for explicit constructive Cauchy criteria over dyadic tail bounds.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, uniqueness of limits, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, tail-budget exactness, $\RegSeqRatUp$ handoff exactness, classifier stability, and full $\RealUp$ seal factorization for the same finite packet.}
+  \upgradepath{Scoped closure requires paper proofs of carrier transport, tail-budget exactness, $\RegSeqRatUp$ handoff exactness, classifier stability, and full $\RealUp$ seal factorization for the same finite packet.}
 \end{closurestatus}
