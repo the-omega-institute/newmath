@@ -100,6 +100,21 @@ Reuse the endpoint classifier supplied by $\DyadicRatCoreUp$ and the finite-wind
 Repack these transported rows into the classifier of the target packet. Carrier exhaustiveness leaves exactly the five projected coordinates, so there is no coordinate from which a completion point, quotient real, selected limit, host-real equality, or quotient-real equality could be introduced.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation precision weakening]\label{thm:dyadic-approximation-precision-weakening}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. If a displayed unary row $m$ is no finer than $n$ through the $\DyadicRatCoreUp$ radius ledger, then $A$ has a coarser accepted read at $m$. The $\RealUp$ seal handoff of this coarser read exposes only the transported precision row $m$, the transported dyadic endpoint, the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the displayed $\hsame$ and $\Cont$ routes, and the $\mathsf{Pkg}$ provenance.
+
+The weakening rule does not introduce a quotient real, host real equality, completion point, or selected representative.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $A$ and apply \autoref{thm:dyadic-approximation-real-seal-handoff}. This projects the only source rows visible to a $\RealUp$ consumer: precision, dyadic endpoint, stream window, regular-sequence readback, seal ledger, routes, and provenance.
+
+Use the displayed $\DyadicRatCoreUp$ radius ledger witnessing that $m$ is no finer than $n$ to transport the precision coordinate to the coarser row. Then apply \autoref{thm:dyadic-approximation-common-precision-refinement} with the common precision row $m$, reading the original packet and its coarser radius-ledger projection through the same finite window.
+
+Apply \autoref{thm:dyadic-approximation-classifier-transport} to repack the transported endpoint, window, regular-sequence readback, seal ledger, displayed routes, and provenance as an accepted $\DyadicApproximationUp$ classifier read at $m$.
+
+The final handoff is again the one described by \autoref{thm:dyadic-approximation-real-seal-handoff}. Every exported coordinate is a transported finite row, so no quotient real, host real equality, completion point, or selected representative is available.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 
 \begin{closurestatus}{\DyadicApproximationUp}
