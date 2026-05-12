@@ -83,7 +83,7 @@ manifest assertion PASS/FAIL
 
 ---
 
-## 当前状态快照 (Tier A 接近 ship)
+## 当前状态快照 (Tier A 已 ship — 仅余 tag + 论文引文)
 
 | FKernel 模块 | `.enum.ct` | `.algo.ct` | C 端测试 |
 |---|---|---|---|
@@ -108,18 +108,12 @@ manifest assertion PASS/FAIL
 
 ---
 
-## Tier A 收尾步骤 (近期 ship 路径)
+## Tier A 收尾步骤 (剩余 ship 工作)
 
-- [ ] T-A.1: merge `loop-L4-3-expansion` (10 enum 族 cross-check; 当前与 L4.4 有 7 处 lean script conflict, 解 conflict 后 merge). L4 cross-check 是开发期工具, **不是 BEDC trust** — 仍然 merge 但语义降级
-- [ ] T-A.2: merge `loop-L5-7-groundcompiler` (GroundCompiler manifest, in-scope encoding primitive)
-- [ ] T-A.3: merge `loop-L3-4-cook-encoder` (Tier B 推进, `cook_encode_phase_exact()` interface)
-- [ ] T-A.4: 本地全套验证: `make -C rule110 test`, `lake build BEDC.FKernel.*`, `lake exe rule110-cross-check`, `python3 tools/check-axioms.py` 全 exit 0
-- [ ] T-A.5: 更新 `rule110/STATUS.md` 反映 Tier A ship 状态
-- [ ] T-A.6: push 到 `origin/rule110`, 等 CI 全绿
-- [ ] T-A.7: tag `rule110-v2.0-fkernel-tier-a` 到 origin
-- [ ] T-A.8: 在 `papers/bedc/` 引用最终 commit hash 作为 BEDC 引文外部见证
+- [ ] T-A.7: tag `rule110-v2.0-fkernel-tier-a` 到 origin (HEAD `d3ae91028`)
+- [ ] T-A.8: 在 `papers/bedc/` 引用 Tier A ship commit hash + cross-check 状态作为 BEDC 引文外部见证
 
-**完成 T-A.* 全部 = Tier A ship 标准达成**. 预估 1-3 天.
+**完成 T-A.7 + T-A.8 = Tier A ship 标准达成**.
 
 ---
 
