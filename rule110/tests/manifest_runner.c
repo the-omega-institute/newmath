@@ -1,5 +1,6 @@
 #include "manifest_runner.h"
 #include "cyclic_tag.h"
+#include "rule110.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -120,4 +121,244 @@ MrResult mr_run_ct_manifest(const char *manifest_path,
     ct_free(&s);
     free_manifest(&m);
     return result;
+}
+
+typedef struct {
+    uint8_t *initial;
+    size_t initial_len;
+    size_t steps;
+    uint8_t *expected;
+    size_t expected_len;
+} R110Manifest;
+
+static void r110_manifest_init(R110Manifest *m) {
+    m->initial = NULL;
+    m->initial_len = 0;
+    m->steps = 0;
+    m->expected = NULL;
+    m->expected_len = 0;
+}
+
+static void r110_manifest_free(R110Manifest *m) {
+    free(m->initial);
+    free(m->expected);
+    r110_manifest_init(m);
+}
+
+static int read_manifest_line(FILE *f, char **out) {
+    size_t cap = 128;
+    size_t len = 0;
+    int c;
+    char *buf = (char *)malloc(cap);
+    if (!buf) return -1;
+
+    while ((c = fgetc(f)) != EOF) {
+        if (len + 1 >= cap) {
+            size_t next_cap = cap * 2;
+            char *next = (char *)realloc(buf, next_cap);
+            if (!next) {
+                free(buf);
+                return -1;
+            }
+            buf = next;
+            cap = next_cap;
+        }
+        if (c == '\n') break;
+        buf[len++] = (char)c;
+    }
+
+    if (c == EOF && len == 0) {
+        free(buf);
+        return 0;
+    }
+
+    if (len > 0 && buf[len - 1] == '\r') len--;
+    buf[len] = '\0';
+    *out = buf;
+    return 1;
+}
+
+static char *trim_ascii(char *s) {
+    char *end;
+
+    while (*s && isspace((unsigned char)*s)) s++;
+    end = s + strlen(s);
+    while (end > s && isspace((unsigned char)end[-1])) end--;
+    *end = '\0';
+    return s;
+}
+
+static int parse_keyword_size_line(const char *line,
+                                   const char *keyword,
+                                   size_t *out) {
+    size_t keyword_len = strlen(keyword);
+    char *endptr;
+    unsigned long value;
+
+    if (strncmp(line, keyword, keyword_len) != 0) return 0;
+    if (!isspace((unsigned char)line[keyword_len])) return 0;
+
+    value = strtoul(line + keyword_len, &endptr, 10);
+    if (endptr == line + keyword_len) return 0;
+    while (*endptr && isspace((unsigned char)*endptr)) endptr++;
+    if (*endptr != '\0') return 0;
+
+    *out = (size_t)value;
+    return 1;
+}
+
+static int parse_bit_line_exact(const char *line,
+                                size_t expected_len,
+                                uint8_t **out) {
+    uint8_t *bits;
+    size_t i;
+
+    if (strlen(line) != expected_len) return 0;
+    bits = (uint8_t *)malloc(expected_len ? expected_len : 1);
+    if (!bits) return 0;
+
+    for (i = 0; i < expected_len; i++) {
+        if (line[i] != '0' && line[i] != '1') {
+            free(bits);
+            return 0;
+        }
+        bits[i] = (uint8_t)(line[i] == '1');
+    }
+
+    *out = bits;
+    return 1;
+}
+
+static int next_r110_content_line(FILE *f, char **out) {
+    for (;;) {
+        int rc = read_manifest_line(f, out);
+        char *trimmed;
+
+        if (rc <= 0) return rc;
+        trimmed = trim_ascii(*out);
+        if (trimmed[0] == '\0' || trimmed[0] == '#') {
+            free(*out);
+            *out = NULL;
+            continue;
+        }
+        if (trimmed != *out) memmove(*out, trimmed, strlen(trimmed) + 1);
+        return 1;
+    }
+}
+
+static int parse_r110_manifest(const char *path, R110Manifest *out) {
+    FILE *f = fopen(path, "r");
+    char *line = NULL;
+    size_t declared_len = 0;
+    int rc;
+
+    if (!f) return -1;
+    r110_manifest_init(out);
+
+    rc = next_r110_content_line(f, &line);
+    if (rc != 1 ||
+        !parse_keyword_size_line(line, "INITIAL_PATTERN", &declared_len)) {
+        free(line);
+        fclose(f);
+        return -1;
+    }
+    free(line);
+    line = NULL;
+
+    rc = next_r110_content_line(f, &line);
+    if (rc != 1 ||
+        !parse_bit_line_exact(line, declared_len, &out->initial)) {
+        free(line);
+        r110_manifest_free(out);
+        fclose(f);
+        return -1;
+    }
+    out->initial_len = declared_len;
+    free(line);
+    line = NULL;
+
+    rc = next_r110_content_line(f, &line);
+    if (rc != 1 ||
+        !parse_keyword_size_line(line, "EVOLUTION_STEPS", &out->steps)) {
+        free(line);
+        r110_manifest_free(out);
+        fclose(f);
+        return -1;
+    }
+    free(line);
+    line = NULL;
+
+    rc = next_r110_content_line(f, &line);
+    if (rc != 1 ||
+        !parse_keyword_size_line(line, "EXPECTED_FINAL_PATTERN", &declared_len)) {
+        free(line);
+        r110_manifest_free(out);
+        fclose(f);
+        return -1;
+    }
+    free(line);
+    line = NULL;
+
+    rc = next_r110_content_line(f, &line);
+    if (rc != 1 ||
+        !parse_bit_line_exact(line, declared_len, &out->expected)) {
+        free(line);
+        r110_manifest_free(out);
+        fclose(f);
+        return -1;
+    }
+    out->expected_len = declared_len;
+    free(line);
+    fclose(f);
+
+    if (out->initial_len != out->expected_len) {
+        r110_manifest_free(out);
+        return -1;
+    }
+
+    return 0;
+}
+
+static size_t count_cell_diffs(const uint8_t *a, const uint8_t *b, size_t len) {
+    size_t diffs = 0;
+
+    for (size_t i = 0; i < len; i++) {
+        if (a[i] != b[i]) diffs++;
+    }
+    return diffs;
+}
+
+MrResult mr_run_r110_manifest(const char *manifest_path,
+                              size_t max_diff_cells) {
+    R110Manifest m;
+    uint8_t *cells;
+    size_t diff_cells;
+
+    if (parse_r110_manifest(manifest_path, &m) != 0) {
+        fprintf(stderr, "r110 manifest load failed: %s\n", manifest_path);
+        return MR_FAIL_LOAD;
+    }
+
+    cells = (uint8_t *)malloc(m.initial_len ? m.initial_len : 1);
+    if (!cells) {
+        r110_manifest_free(&m);
+        return MR_FAIL_LOAD;
+    }
+    memcpy(cells, m.initial, m.initial_len);
+
+    r110_run_n_steps(cells, m.initial_len, m.steps);
+    diff_cells = count_cell_diffs(cells, m.expected, m.expected_len);
+
+    if (diff_cells > max_diff_cells) {
+        fprintf(stderr,
+                "r110 mismatch in %s: diff cells=%zu, tolerance=%zu, len=%zu, steps=%zu\n",
+                manifest_path, diff_cells, max_diff_cells, m.expected_len, m.steps);
+        free(cells);
+        r110_manifest_free(&m);
+        return MR_FAIL_TAPE_MISMATCH;
+    }
+
+    free(cells);
+    r110_manifest_free(&m);
+    return MR_PASS;
 }
