@@ -7,6 +7,7 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Confluence.Diamond
+import BEDC.MetaCIC.Confluence.ClosedUnconditional
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
