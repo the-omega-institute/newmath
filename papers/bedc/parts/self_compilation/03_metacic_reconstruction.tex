@@ -109,6 +109,34 @@ inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
 inductive types or definitions, use no axioms, and have exactly the strength of
 the host CIC that checks them.
 
+\subsection{Host Fragment Coverage}\label{subsec:reconstruction-host-fragment-coverage}
+
+The represented host fragment is the dependent-function core of CIC, with
+explicit de Bruijn variables, one sort constructor, application, lambda, Pi,
+beta reduction, and a shift-aware typing judgment. The coverage boundary is:
+
+\begin{center}
+\begin{tabular}{p{0.32\linewidth}p{0.34\linewidth}p{0.22\linewidth}}
+\hline
+Host feature & BEDC.MetaCIC & Status \\
+\hline
+\texttt{Term.app} / \texttt{lam} / \texttt{pi} / \texttt{var} / \texttt{sort} & \texttt{Term} inductive & covered \\
+$\beta$-reduction & \texttt{BetaStep} + \texttt{BetaStarStep} + \texttt{BetaParallel} & covered \\
+Typing judgment & \texttt{HasType} & covered, shift-aware substrate \\
+Universe polymorphism & none & not covered \\
+$\eta$-conversion & none & not covered \\
+Inductive types beyond Pi/sort & none & not covered \\
+Equality types (\texttt{Eq}) & none & not covered \\
+Definitional unfolding & \texttt{substitute} composition & partial coverage \\
+Reduction strategies (CBV/CBN) & non-deterministic \texttt{BetaStep} & abstract \\
+\hline
+\end{tabular}
+\end{center}
+
+Thus \texttt{BEDC.MetaCIC} is not a model of the full host kernel. It is the
+host-checked representation of the small CIC fragment needed for the local
+syntax, reduction, typing, and binder-mechanics claims.
+
 \subsection{Correctness Claims}\label{subsec:reconstruction-correctness-claims}
 
 The correctness meaning of the \texttt{BEDC.MetaCIC} mechanization is internal
@@ -639,46 +667,7 @@ core proof interfaces. Each sub-namespace is axiom-free under the strict
 
 \input{parts/self_compilation/03_metacic_reconstruction_tactic_discipline.tex}
 
-\subsection{Internal Manifest Coverage}\label{subsec:internal-manifest-coverage}
-
-\texttt{BEDC.Manifest} is the Lean-side registry for paper-facing theorem
-claims. Its core record is \texttt{BEDC.Manifest.ClaimEntry}, with fields for
-the paper label, fully qualified Lean name, proposition, and proof witness.
-The field \texttt{proof : prop} is dependent: a manifest entry elaborates only
-when Lean's kernel accepts the supplied proof term at the recorded proposition.
-Thus manifest well-formedness is not a string audit; it is kernel type
-checking of the \texttt{List ClaimEntry}.
-
-The registry has 65 Lean-side entries in the unfiltered manifest-coverage
-report. Its breadth includes paper Lean-checked theorems from base reflection,
-ground compiler results, F-kernel gap transport, capstone fable-machine
-claims, reflection claims, derived structures for holonomy, KKT, and spectral
-measure packets, and the six primary MetaCIC examples in this section:
-\texttt{BEDC.MetaCIC.sort\_in\_empty\_ctx},
-\texttt{BEDC.MetaCIC.id\_sort\_well\_typed},
-\texttt{BEDC.MetaCIC.pi\_sort\_sort\_well\_typed},
-\texttt{BEDC.MetaCIC.id\_sort\_applied},
-\texttt{BEDC.MetaCIC.id\_sort\_beta}, and
-\texttt{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx}.
-
-The audit command \texttt{bedc\_ci.py manifest-coverage} compares two
-sets: paper targets named by $\backslash\mathtt{leanchecked}\{X\}$ and Lean
-targets registered in \texttt{BEDC.Manifest.manifest}. It reports the marker
-count, manifest-entry count, coverage ratio, and a sample of paper markers
-that are not represented by manifest entries. The unfiltered report gives
-7831 paper markers and 65 manifest entries, for
-\texttt{65/7831 = 0.83\%}. With the literal namespace filter
-\texttt{--scope all}, the same command reports zero markers and zero entries,
-because no Lean target has prefix \texttt{all}.
-
-The gap is therefore marker-heavy rather than manifest-heavy. The manifest
-contains a selected kernel-typed spine, while many paper markers remain outside
-the internal registry. In this section, the six primary MetaCIC markers above
-are manifest entries; the substitution, subject-reduction, and binder-transport
-markers below are Lean-checked paper markers without manifest entries. The
-audit makes this distinction mechanical: every paper-claimed theorem must be
-visible either through the ordinary $\backslash\mathtt{leanchecked}$ marker
-stream or through the stronger internal manifest entry stream.
+\input{parts/self_compilation/03_metacic_reconstruction_internal_manifest_coverage.tex}
 
 \subsection{Shift-Aware Metatheory Progress}\label{subsec:shift-aware-metatheory-progress}
 
