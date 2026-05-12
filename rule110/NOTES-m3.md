@@ -61,3 +61,16 @@
   does not reject unequal histories. The remaining hard part is retaining the
   first event payload while the second event is consumed and detecting both
   terminators in the same comparison cycle.
+
+## Ext Step Encoding
+
+- `Ext` step inputs are three events:
+  `EventEncoding(source) ++ EventEncoding(mark) ++ EventEncoding(result)`.
+  The mark event must decode to exactly one bit.
+- The executable check treats `e0 h` and `e1 h` as outer constructor extension:
+  result depth is source depth plus one, result head is the mark bit, and result
+  tail is byte-equal to the source choices.
+- `ext_step.enum.ct` and `ext_step.algo.ct` cover five constructor-positive
+  triples and three decoded non-Ext triples. The algo manifest keeps vacuous
+  CT productions under the current manifest-runner boundary; semantic checking
+  is in `tests/test_ext.c`.
