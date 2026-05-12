@@ -68,6 +68,7 @@ transports both endpoints and the order witness componentwise, and it
 introduces no apartness decision, total order on completed reals, or selected
 real endpoint outside the displayed $\RatUp$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_endpoint\_order\_transport}
 \begin{proof}
 Read the endpoint and order coordinates from
 \autoref{def:rational-interval-bhist-carrier}. The order witness row $o$ is
@@ -80,6 +81,7 @@ endpoints and for $o$. Repacking those transported rows preserves the same
 ordered endpoint surface and leaves no coordinate for completed real order
 or a selected external endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalEndpointRows\_order\_witness}
 
 \begin{theorem}[RationalInterval containment ledger exactness]
 \label{thm:rational-interval-containment-ledger-exactness}
@@ -182,6 +184,7 @@ visible data are the transported endpoints, the common endpoint-order
 witness, the common containment ledger, displayed $\hsame$ transport,
 $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_common\_refinement\_window}
 \begin{proof}
 Begin with the endpoint rows of the two carrier packets from
 \autoref{def:rational-interval-bhist-carrier}. Compatibility supplies the
@@ -280,6 +283,7 @@ from the first window to the last. The composed row replays the shared
 endpoint classifier rows, concatenates the two finite $\Cont$ routes, and
 repackages exactly the same containment-ledger coordinates.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalRefinement\_composition}
 \begin{proof}
 Project the two refinement packets through
 \autoref{def:rational-interval-bhist-carrier}. Their visible coordinates are
@@ -518,6 +522,35 @@ between the displayed endpoints. The public handoff of
 all remaining consumer reads through the same finite ledger.
 \end{proof}
 
+\begin{theorem}[RationalInterval regular-window dyadic endpoints]
+\label{thm:rationalinterval-regular-window-dyadic-endpoints}
+Every finite $\RegSeqRatUp$ observation window admitted by a certified
+$\RationalIntervalUp$ packet is bounded by the displayed lower endpoint, upper
+endpoint, and dyadic-width rows.
+
+Any refinement or containment witness consumed by $\RealUp$ factors through
+those same endpoint, width, containment, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows, with no quotient real or completed
+equality coordinate.
+\end{theorem}
+\begin{proof}
+First expose the visible endpoint and width surface by applying
+\autoref{thm:rationalinterval-endpoint-width-ledger}. This gives the lower
+endpoint row, upper endpoint row, dyadic-width witness, containment row, and
+package provenance read by the finite interval packet.
+
+Next transport the endpoint and width data along classifier reads. Apply
+\autoref{thm:rationalinterval-dyadic-transport-stability}; the transported
+packet remains over the same endpoint, width, containment, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, package, and local certificate rows.
+
+Finally use \autoref{thm:rationalinterval-regseqrat-window-coverage}. It
+exhausts every finite $\RegSeqRatUp$ consumer read by a containment or
+refinement entry in the displayed ledger, so the $\RealUp$ consumer boundary
+factors through the same finite rows and adds no quotient real or completed
+equality coordinate.
+\end{proof}
+
 \begin{theorem}[RationalInterval finite consumer completeness]
 \label{thm:rationalinterval-finite-consumer-completeness}
 For every accepted $\RationalIntervalUp$ packet, every finite consumer read of
@@ -559,6 +592,52 @@ relations absent from the packet rows, so they are not produced by this
 factorization.
 \end{proof}
 
+\begin{theorem}[RationalInterval common refinement associativity]
+\label{thm:rationalinterval-common-refinement-associativity}
+Let $I$, $J$, and $K$ be three compatible accepted
+$\RationalIntervalUp$ finite packets. Suppose their displayed pairwise
+common-refinement rows share the appropriate middle endpoint windows, so that
+one may first refine $I$ with $J$ and then with $K$, or first refine $J$ with
+$K$ and then with $I$.
+
+The two iterated refinements determine the same consumer-visible finite
+rational-window packet. They expose the same transported $\RatUp$ endpoint
+rows, endpoint-order witnesses, containment and refinement rows, dyadic-width
+row, $\RegSeqRatUp$ finite-window row, $\RealUp$ finite-window handoff row,
+visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ rows. The claim does not assert completed $\RealUp$ equality,
+quotient Cauchy classes, located subsets, apartness, interval arithmetic, or
+host standard interval data.
+\end{theorem}
+\begin{proof}
+Form the two binary common-refinement windows by applying
+\autoref{thm:rational-interval-common-refinement-window} to the compatible
+pairs. The shared middle endpoint hypotheses put both binary windows over the
+same displayed endpoint-order and containment rows.
+
+Compose the refinement rows in the left-associated direction with
+\autoref{thm:rational-interval-refinement-composition}. Apply the same theorem
+in the right-associated direction. Both composites are therefore finite
+$\mathsf{BHist}$ packets whose refinement entries are built from the same
+pairwise rows.
+
+Identify the transported endpoint coordinates componentwise by using
+\autoref{thm:rational-interval-endpoint-transport-classifier}. Lower
+endpoints, upper endpoints, endpoint-order witnesses, containment rows, and
+dyadic-width rows agree at the consumer surface because each coordinate is read
+through the same transported $\RatUp$ classifier data.
+
+Finally apply
+\autoref{thm:rationalinterval-finite-consumer-completeness}. It says every
+finite consumer read of the two composites factors through exactly the
+displayed rational-window rows, the $\RegSeqRatUp$ observation row, the
+$\RealUp$ finite-window handoff row, the visible $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Hence the two iterated
+refinements expose one finite consumer packet and add none of the excluded
+completed-real, quotient, located-subset, apartness, arithmetic, or host
+standard interval structure.
+\end{proof}
+
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}
 \closureat{RationalIntervalUp}{scopedStr}
@@ -569,7 +648,7 @@ factorization.
 \begin{closurestatus}{\RationalIntervalUp}
   \constructivestory{A rational closed interval is represented by two displayed RatUp endpoint rows, an endpoint-order witness, a finite containment ledger, and visible hsame, Cont, package, and NameCert rows consumed by RegSeqRat and RealUp finite-window arguments.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, \autoref{thm:rational-interval-realup-consumer-exactness}, \autoref{thm:rational-interval-standard-boundary-bridge}, and \autoref{thm:rationalinterval-finite-consumer-completeness} bind the endpoint, order, containment, transport, package, local $\NameCert$ rows, standard boundary bridge, and finite consumer completeness to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
+  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, \autoref{thm:rationalinterval-common-refinement-associativity}, \autoref{thm:rational-interval-realup-consumer-exactness}, \autoref{thm:rational-interval-standard-boundary-bridge}, and \autoref{thm:rationalinterval-finite-consumer-completeness} bind the endpoint, order, containment, transport, package, local $\NameCert$ rows, common-refinement associativity, standard boundary bridge, and finite consumer completeness to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
