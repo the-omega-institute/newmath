@@ -81,12 +81,27 @@ Repack these projected rows in the order of \autoref{def:regular-cauchy-interlea
 \label{thm:regular-cauchy-interleaving-selector-parity-exactness}
 For every accepted $\RegularCauchyInterleavingUp$ source packet $I$, each even selector read factors through the first regular name $A$, the schedule $S_A$, and the first component of the combined modulus ledger $M$, while each odd selector read factors through the second regular name $B$, the schedule $S_B$, and the second component of $M$. Componentwise $\hsame$ transports and the displayed $\Cont$ routes preserve this even-side and odd-side partition.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_selector\_parity\_exactness}
 \begin{proof}
 Unpack $I$ as in \autoref{def:regular-cauchy-interleaving-source}. The selector coordinate $\sigma$ is displayed as alternating, so an even selector row exposes the first source side and an odd selector row exposes the second source side.
 
 In the even case, \autoref{thm:regular-cauchy-interleaving-classifier} reads the finite window through $A$ and $S_A$ and checks the corresponding first component of $M$. In the odd case, the same classifier reads through $B$ and $S_B$ and checks the second component of $M$.
 
 The stored row $H$ transports the selector, both schedules, both regular names, and the combined modulus ledger componentwise. The stored row $C$ only routes consumers through the selected schedule and the selected ledger component, so transport preserves the parity partition rather than mixing the two source sides.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving selector transport determinacy]
+\label{thm:regular-cauchy-interleaving-selector-transport-determinacy}
+For classified accepted $\RegularCauchyInterleavingUp$ packets, transported selector rows preserve the even and odd routes. Every even transported read factors through the transported $A$-side schedule and the first component of the combined modulus ledger, and every odd transported read factors through the transported $B$-side schedule and the second component. No transported read can switch sides or use a third schedule.
+\end{theorem}
+\begin{proof}
+Project the classifier statement of \autoref{thm:regular-cauchy-interleaving-classifier}. It compares the two source names, the two schedules, the selector row, and the combined modulus ledger componentwise through the displayed $\hsame$ and $\Cont$ data.
+
+Apply \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness} before transport. Even reads are routed through $A$, $S_A$, and the first component of $M$, while odd reads are routed through $B$, $S_B$, and the second component.
+
+Apply the same parity exactness after the $\hsame$ transport. The transported selector still exposes the transported even side through the transported $A$-schedule and the transported odd side through the transported $B$-schedule.
+
+Use \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} to keep the selected ledger component fixed. Then use \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage} to rule out unscheduled routes: the carrier has only the two transported schedules, so there is no coordinate from which a third schedule or side switch could be read.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy interleaving RealUp seal non-escape]

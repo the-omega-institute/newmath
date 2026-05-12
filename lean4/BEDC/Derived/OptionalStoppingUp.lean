@@ -207,4 +207,38 @@ theorem OptionalStoppingCarrier_no_escape_boundary [AskSetup] [PackageSetup]
               (And.intro endpointSame
                 (And.intro namecertSame pkgSig)))))))
 
+theorem OptionalStoppingCarrier_scoped_dependency_route [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint dependencyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg ->
+      Cont endpoint route dependencyRead ->
+        UnaryHistory prob ∧ UnaryHistory process ∧ UnaryHistory stopping ∧ UnaryHistory bound ∧
+          UnaryHistory stoppedValue ∧ UnaryHistory filtration ∧ UnaryHistory integrability ∧
+            UnaryHistory dependencyRead ∧ Cont stopping bound stoppedValue ∧
+              Cont process filtration integrability ∧ hsame route (append stopping bound) ∧
+                hsame endpoint (append stoppedValue integrability) ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier dependencyRoute
+  obtain ⟨probUnary, processUnary, stoppingUnary, boundUnary, stoppedValueUnary,
+    filtrationUnary, integrabilityUnary, _sameRowsUnary, routeUnary, _provenanceUnary,
+    _namecertUnary, endpointUnary, stoppedValueRow, integrabilityRow, _sameRowsSame, routeSame,
+    _provenanceSame, endpointSame, _namecertSame, pkgSig⟩ := carrier
+  have dependencyReadUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed endpointUnary routeUnary dependencyRoute
+  exact And.intro probUnary
+    (And.intro processUnary
+      (And.intro stoppingUnary
+        (And.intro boundUnary
+          (And.intro stoppedValueUnary
+            (And.intro filtrationUnary
+              (And.intro integrabilityUnary
+                (And.intro dependencyReadUnary
+                  (And.intro stoppedValueRow
+                    (And.intro integrabilityRow
+                      (And.intro routeSame
+                        (And.intro endpointSame pkgSig)))))))))))
+
 end BEDC.Derived.OptionalStoppingUp
