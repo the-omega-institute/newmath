@@ -1,0 +1,62 @@
+\begin{theorem}[DyadicApproximation finite-packet StreamName Real-seal factorization]
+\label{thm:dyadicapproximation-finite-packet-streamname-real-seal-factorization}
+Let $T$ be an accepted terminal $\DyadicApproximationUp$ finite packet and let
+$D$ be an accepted $\RealDiagonalCompletionUp$ packet. Suppose the displayed
+terminal route for $T$ contains its terminal precision, dyadic endpoint,
+scheduled $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal
+ledger, visible $\hsame$ transports, visible $\Cont$ routes, $\Pkg$
+provenance, local $\NameCert_{\DyadicApproximationUp}$ row, and the
+diagonal-completion selector rows consumed by $D$.
+
+Then the route that first applies the StreamName $\RealUp$ seal factorization
+diamond and the route that first applies the $\DyadicApproximationUp$ terminal
+diagonal-completion handoff expose the same finite $\mathsf{BHist}$ surface.
+That surface is exactly the StreamName finite-window row, $\RegSeqRatUp$
+readback, dyadic endpoint rows, terminal precision row, $\RealUp$ seal token,
+diagonal selector row, transport rows, continuation rows, package provenance,
+and local $\NameCert_{\DyadicApproximationUp}$ provenance.
+
+The surface assertion is only this finite packet factorization. It does not
+assert completed real equality, quotient streams, selected host limits, solver
+correctness, metric completeness, or any standard bridge.
+\end{theorem}
+\begin{proof}
+First normalize the dyadic terminal route. Apply
+\autoref{thm:dyadicapproximation-terminal-finite-packet-real-readback} to the
+accepted terminal packet $T$. This reads the terminal consumer through the
+displayed terminal precision, dyadic endpoint, scheduled $\StreamNameUp$
+window, $\RegSeqRatUp$ readback, $\RealUp$ seal row, transport rows,
+continuation rows, package provenance, and local dyadic certificate row.
+
+Next normalize the refinement and seal route. Apply
+\autoref{thm:dyadicapproximation-finite-packet-real-seal-stability} to place
+the terminal readback and the $\RealUp$ seal on one finite refinement surface.
+Apply
+\autoref{thm:dyadicapproximation-terminal-seal-common-refinement-pullback} to
+pull that seal surface back to the visible terminal boundary.
+
+Now identify the StreamName source tuple. Apply
+\autoref{thm:streamname-real-seal-factorization-diamond} to the scheduled
+$\StreamNameUp$ finite window and its displayed prefix refinement. The
+diamond leaves exactly the StreamName finite-window row, accepted
+$\RegSeqRatUp$ source row, dyadic endpoint rows, continuation ledger,
+endpoint transports, and provenance rows visible to the $\RealUp$ seal.
+
+Finally identify the diagonal-completion consumer rows. Apply
+\autoref{thm:dyadicapproximation-terminal-diagonal-completion-handoff} to the
+same terminal packet and diagonal-completion packet. The handoff contributes
+the diagonal selector row and confirms that the terminal precision, endpoint,
+scheduled window, regular-rational readback, seal ledger, transports,
+continuations, package rows, and local certificate row are the rows consumed by
+the diagonal route.
+
+The two normal forms therefore list the same finite coordinates. Repacking
+those coordinates gives one $\mathsf{BHist}$ surface containing exactly the
+StreamName finite-window row, $\RegSeqRatUp$ readback, dyadic endpoint rows,
+terminal precision row, $\RealUp$ seal token, diagonal selector row,
+transport rows, continuation rows, package provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ provenance. None of the cited finite
+surface theorems supplies a coordinate for completed real equality, quotient
+streams, selected host limits, solver correctness, metric completeness, or a
+standard bridge.
+\end{proof}
