@@ -185,6 +185,29 @@ theorem TrieSourcePacket_carrier_stability [AskSetup] [PackageSetup]
         provenanceRow', payloadRouteRow', branchRouteRow', pkgRow'⟩,
       sameRoute, sameProvenanceFromRoutes, samePayloadRoute, sameBranchRoute⟩
 
+theorem TrieSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont branchRoute provenance publicExport ->
+        PkgSig bundle publicExport pkg ->
+          UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+            UnaryHistory branch ∧ UnaryHistory branchRoute ∧ UnaryHistory publicExport ∧
+              Cont branchRoute provenance publicExport ∧ PkgSig bundle publicExport pkg := by
+  intro packet exportRow exportPkg
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, _routeRow,
+    _provenanceRow, payloadRouteRow, branchRouteRow, _pkgRow⟩ := packet
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed payloadUnary depthUnary payloadRouteRow
+  have branchRouteUnary : UnaryHistory branchRoute :=
+    unary_cont_closed branchUnary payloadRouteUnary branchRouteRow
+  have exportUnary : UnaryHistory publicExport :=
+    unary_cont_closed branchRouteUnary provenanceUnary exportRow
+  exact
+    ⟨keyUnary, payloadUnary, depthUnary, branchUnary, branchRouteUnary, exportUnary, exportRow,
+      exportPkg⟩
+
 def TriePacket [AskSetup] [PackageSetup]
     (key payload depth branch provenance keyPayloadRoute branchRoute endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
