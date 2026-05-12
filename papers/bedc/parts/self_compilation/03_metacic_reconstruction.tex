@@ -591,6 +591,32 @@ term shapes and closure hypotheses. The development does not hide the
 remaining unrestricted theorem inside one monolithic proof; it exposes the
 proof-relevant shapes that make each derivation go through.
 
+\subsection{Induction Style}\label{subsec:reconstruction-induction-style}
+
+The induction style in \texttt{BEDC.MetaCIC} follows the object being
+analyzed. Term induction is used for syntactic properties of represented
+terms. A proof may proceed by
+\texttt{induction t with | sort => ... | var => ... | app f a ihf iha => ...},
+with the recursive hypotheses supplied exactly for the immediate subterms.
+This is the natural shape for results such as
+\texttt{substitute\_closed}, where the claim is driven by the constructors of
+\texttt{Term}.
+
+Judgment induction is used for structural properties of derivations. Proofs
+about typing and reduction inspect the evidence itself, for example by
+\texttt{induction ht} over a \texttt{HasType} witness or by induction over a
+\texttt{BetaStep} witness. This is the appropriate style for subject-reduction
+case analysis, where each typing or beta constructor exposes the premises that
+the corresponding preservation case may use.
+
+Most case lemmas are therefore local in shape: for an atom source, a concrete
+congruence constructor, or a fixed binder form, the required property holds.
+The main theorem surface is assembled by combining these lemmas with ordinary
+\texttt{cases} and induction over the relevant term or derivation. No proof
+relies on well-founded recursion beyond Lean's built-in recursion principles
+for \texttt{Nat}, \texttt{List}, and the inductive objects defined in the
+MetaCIC surface.
+
 \subsection{Namespace Rationale}\label{subsec:reconstruction-namespace-rationale}
 
 The \texttt{BEDC.MetaCIC} namespace is divided by proof responsibility rather
@@ -609,28 +635,7 @@ kept outside the metatheory namespaces so that examples do not determine the
 core proof interfaces. Each sub-namespace is axiom-free under the strict
 \texttt{bedc\_ci.py axiom-purity --strict} audit.
 
-\subsection{Lean Module Topology}\label{subsec:reconstruction-module-topology}
-
-The Lean dependency topology for \texttt{BEDC.MetaCIC} is a directed acyclic
-graph. \texttt{BEDC.MetaCIC.Syntax} is the foundation: it imports
-\texttt{BEDC.FKernel.Mark} and defines $\mathrm{Term}$, $\mathrm{Ctx}$,
-$\mathrm{shift}$, and $\mathrm{substitute}$. On that base,
-\texttt{BEDC.MetaCIC.ClosedTerm} and \texttt{BEDC.MetaCIC.Beta} depend only
-on syntax. The substitution family
-\texttt{BEDC.MetaCIC.Substitution.NatShift},
-\texttt{BEDC.MetaCIC.Substitution.Basic},
-\texttt{BEDC.MetaCIC.Substitution.Core}, and
-\texttt{BEDC.MetaCIC.Substitution.Statements} depends on syntax and closed
-terms, while \texttt{BEDC.MetaCIC.Substitution} re-exports that surface.
-\texttt{BEDC.MetaCIC.Typing.Core},
-\texttt{BEDC.MetaCIC.Typing.SubstitutionSurface}, and
-\texttt{BEDC.MetaCIC.Typing.ClosedBinderDomains} depend on syntax and the
-substitution surface. \texttt{BEDC.MetaCIC.SubjectReduction} depends on
-typing and beta reduction; \texttt{BEDC.MetaCIC.Confluence} depends on beta
-reduction; \texttt{BEDC.MetaCIC.Normalization} depends on beta reduction and
-closed terms; and \texttt{BEDC.MetaCIC.AtomInfer} and
-\texttt{BEDC.MetaCIC.TypedExamples} depend on typing. No module in this
-topology imports back into one of its prerequisites.
+\input{parts/self_compilation/03_metacic_reconstruction_module_topology.tex}
 
 \input{parts/self_compilation/03_metacic_reconstruction_tactic_discipline.tex}
 
