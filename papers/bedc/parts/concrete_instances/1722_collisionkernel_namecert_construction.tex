@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\CollisionKernelUp$}
+\label{ch:concrete-instances-collisionkernel-namecert}
+\origin{human}
+
+Inspired by Omega Project: \texttt{automath/README.md/Fiber Spectrum and Moment Theory}; here re-expressed in the BEDC mathlib-free substrate.
+
+The $\CollisionKernelUp$ interface names a finite collision-kernel packet built from the same finite-window discipline as $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, and the Zeckendorf finite-word family. It records a displayed window, fold-source rows, target-fiber ledgers, a finite collision-kernel matrix row, moment-index rows, Hankel-shadow rows, transport rows, continuation routes, package provenance, and local naming evidence. It exports no host spectrum, ambient measure, infinite Hankel operator, quotient fiber, or analytic moment problem.
+
+\begin{definition}[CollisionKernel BHist carrier]
+\label{def:collision-kernel-bhist-carrier}
+A $\CollisionKernelUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(W,F,L,M,I,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is the finite window row naming the inspected source addresses and target addresses;
+\item $F$ is the fold-source row listing the finite source entries whose target fibers are inspected;
+\item $L$ is the target-fiber ledger, with each retained source entry attached to a displayed target address in $W$;
+\item $M$ is the collision-kernel matrix row whose entries are finite ledger reads comparing pairs of target fibers inside $W$;
+\item $I$ is the moment-index row naming the finite family of moment requests consumed by downstream readers;
+\item $S$ is the Hankel-shadow row obtained by reading the visible moment-index rows against the finite matrix row;
+\item $H$ stores the componentwise $\hsame$ transports for window, fold-source, target-fiber ledger, matrix, moment-index, and Hankel-shadow rows;
+\item $C$ stores the displayed $\Cont$ routes through which consumers read $W$, $F$, $L$, $M$, $I$, and $S$;
+\item $P$ is the $\Pkg$ provenance over $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, $\NatUp$, $\mathsf{BHist}$, $\hsame$, and $\Cont$ rows;
+\item $N$ is the local $\NameCert_{\CollisionKernelUp}$ row.
+\end{enumerate}
+The displayed transport, continuation, package, and naming surface is
+$$
+\hsame(W,F,L,M,I,S,H)
+$$
+$$
+\Cont(W,F,L)\quad \Cont(L,M,S)\quad \Cont(I,M,S)
+$$
+$$
+\Pkg(P;\FoldMomentKernelUp,\GoldenMeanShiftUp,\ZeckendorfNormalUp,\ListUp,\NatUp)
+$$
+$$
+\NameCert_{\CollisionKernelUp}(N;W,F,L,M,I,S,H,C,P).
+$$
+The carrier has no coordinate for a host collision-counting operation, an ambient spectrum, an external measure, an infinite Hankel matrix, or quotient fibers.
+\end{definition}
+
+\begin{definition}[CollisionKernel classifier]
+\label{def:collision-kernel-classifier}
+For accepted $\CollisionKernelUp$ carriers $K$ and $K'$, the classifier $\mathsf{CollisionKernelClassifier}(K,K')$ compares only the displayed finite window, fold-source, target-fiber ledger, collision-kernel matrix, moment-index, Hankel-shadow, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows of \autoref{def:collision-kernel-bhist-carrier}.
+
+The classifier does not inspect hidden source sets, host matrix entries, analytic spectra, measure spaces, quotient fibers, or unrecorded moment laws. Two packets classify together only through displayed transport of the same finite collision-kernel surface.
+\end{definition}
+
+\begin{theorem}[CollisionKernel zero-window packet]
+\label{thm:collision-kernel-zero-window-packet}
+The empty source window with the zero target window determines an accepted $\CollisionKernelUp$ carrier. Its fold-source row is empty, its target-fiber ledger has no retained source entries, its collision-kernel matrix row is the displayed zero finite matrix, every moment-index read is represented by the zero row, the Hankel-shadow row is zero, and all transport, continuation, package, and local naming rows are the corresponding finite identity rows.
+\end{theorem}
+\begin{proof}
+Start with the empty displayed window. There are no source entries to fold and no target fiber entries to compare, so the target-fiber ledger is empty.
+
+Use the displayed zero finite matrix as the collision-kernel row. Since every inspected matrix entry is a read against the empty ledger, each moment-index request also reads the zero row.
+
+The Hankel-shadow row is therefore the zero shadow over the empty finite matrix. Repack the identity $\hsame$ transports, identity $\Cont$ routes, package provenance, and local naming row to obtain the accepted carrier.
+\end{proof}
+
+\begin{theorem}[CollisionKernel NameCert obligation surface]
+\label{thm:collision-kernel-namecert-obligation-surface}
+The local $\NameCert_{\CollisionKernelUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier inhabitation: \autoref{thm:collision-kernel-zero-window-packet} supplies the empty-source and zero-window packet;
+\item classifier transport: \autoref{def:collision-kernel-classifier} transports the finite window, fold-source row, target-fiber ledger, matrix row, moment-index row, Hankel-shadow row, $\hsame$ routes, $\Cont$ routes, package provenance, and local naming row componentwise;
+\item fiber-ledger exactness: every matrix entry is read from the displayed target-fiber ledger $L$, and every ledger entry is tied to the displayed fold-source row $F$ and finite window row $W$;
+\item moment-readback boundary: every moment or Hankel-shadow read factors through $I$, $M$, $S$, $L$, $H$, $C$, $P$, and $N$ before reaching any downstream consumer;
+\item non-escape from host spectra or measure: the packet exports no host spectral object, measure space, infinite Hankel operator, quotient fiber, ambient moment problem, or unrecorded collision-counting operation.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is the finite packet of \autoref{def:collision-kernel-bhist-carrier}, and \autoref{thm:collision-kernel-zero-window-packet} gives a concrete inhabitant.
+
+Classifier transport is componentwise by \autoref{def:collision-kernel-classifier}. A displayed $\hsame$ route can move only the visible window, fold-source, target-fiber ledger, matrix, moment-index, Hankel-shadow, continuation, package, and naming rows already present in the packet.
+
+Fiber-ledger exactness is obtained by projecting $L$ together with $F$ and $W$. Every matrix entry in $M$ is a finite read from those displayed target fibers, and every retained source entry remains attached to the fold-source and window rows by $C$.
+
+Moment readback projects $I$, $M$, and $S$. The Hankel-shadow consumer reaches a visible shadow only through the moment-index row, the collision-kernel matrix row, the fiber ledger, transports, continuations, package provenance, and the local certificate.
+
+Since those rows exhaust the carrier coordinates, no host spectrum, measure object, infinite Hankel operator, quotient fiber, ambient moment problem, or hidden counting operation can be exported.
+\end{proof}
+
+\begin{theorem}[CollisionKernel Hankel-shadow boundary]
+\label{thm:collision-kernel-hankel-shadow-boundary}
+Every Hankel-shadow read of an accepted $\CollisionKernelUp$ carrier factors through the finite moment-index row $I$, the displayed collision-kernel matrix row $M$, the target-fiber ledger $L$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ routes $C$, the package row $P$, and the local $\NameCert_{\CollisionKernelUp}$ row $N$. The read cannot be strengthened into an infinite Hankel operator, host spectral value, measure-theoretic moment functional, quotient-fiber equality, or external analytic boundary condition.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows mentioning a Hankel shadow are the finite moment-index row $I$, the matrix row $M$, and the shadow row $S$.
+
+Read $M$ through the target-fiber ledger $L$. By \autoref{thm:collision-kernel-namecert-obligation-surface}, every matrix entry is exhausted by displayed ledger entries over the finite window and fold-source rows.
+
+Now transport the requested shadow read through $H$ and route it through $C$. Package provenance $P$ and the local naming row $N$ certify that the read remains inside the same finite packet.
+
+The carrier has no coordinate for an infinite Hankel operator, host spectral value, ambient measure, quotient fiber, or analytic moment functional, so the Hankel-shadow read stops at the displayed finite boundary.
+\end{proof}
+
+\closureat{CollisionKernelUp}{seedStr}
+
+\begin{closurestatus}{\CollisionKernelUp}
+  \constructivestory{A $\CollisionKernelUp$ packet is generated from a finite window, fold-source rows, target-fiber ledgers, a finite collision-kernel matrix row, moment-index rows, a Hankel-shadow row, componentwise transport, continuation routes, package provenance, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the finite carrier, classifier, zero-window inhabitant, five-row naming-certificate surface, and Hankel-shadow non-escape boundary for finite collision-kernel packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic spectra, ambient measure theory, infinite Hankel operators, quotient fibers, asymptotic collision laws, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier transport, fiber-ledger exactness, matrix readback, Hankel-shadow readback, and downstream non-escape for the same finite packet.}
+\end{closurestatus}
