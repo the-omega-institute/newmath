@@ -165,6 +165,43 @@ package, and rational-history classifier rows. The appended union therefore
 adds no completion, quotient, host stream equality, or hidden selector.
 \end{proof}
 
+\begin{theorem}[StreamName constant union RegSeqRat Real readback preservation]
+\label{thm:streamname-constant-union-regseq-real-readback-preservation}
+Let $a,b:\Hist$ be rational-history endpoints, and let $I,J$ be inhabited
+finite unary constant rational windows over the same $\mathsf{BHist}$ source.
+Suppose both windows expose the row $\mathsf{RatHistoryClassifier}(a,b)$. Then
+the union window $\mathsf{bundleAppend}(I,J)$ preserves the same selected
+$\RegSeqRatUp$ tail read and the same finite-window $\RealUp$ readback surface.
+
+The preserved readback surface is exactly the rows $\StreamNameUp$,
+$\mathsf{ProbeBundle}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RatHistoryClassifier}(a,b)$. It contains no completion row, quotient,
+host stream equality, hidden selector, or selected real limit.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-constant-window-union-exactness}. The appended bundle
+has no classifier branch except the common row
+$\mathsf{RatHistoryClassifier}(a,b)$, because every selected observation comes
+from the $I$ side or the $J$ side and both sides expose the same endpoint row.
+
+Next use \autoref{thm:streamname-constant-window-regseq-boundary}. The common
+classifier row and finite $\mathsf{ProbeBundle}$ ledger repack as the
+$\RegSeqRatUp$ finite-window input, while the regularity and tail obligations
+remain external to the constant-window package.
+
+Then apply \autoref{thm:streamname-constant-window-real-boundary}. The
+$\RealUp$ readback uses the same rational point-classifier row and the same
+finite probe ledger already read by the $\RegSeqRatUp$ boundary. It receives no
+completion field or selected limit from the appended window.
+
+Finally exhaust the coordinates of the public StreamName boundary. The only rows
+used in the three cited results are $\StreamNameUp$, $\mathsf{ProbeBundle}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RatHistoryClassifier}(a,b)$, so the union cannot contribute a quotient,
+host stream equality, hidden selector, completion row, or selected real limit.
+\end{proof}
+
 \begin{theorem}[StreamName constant directed-overlap exactness]
 \label{thm:streamname-constant-window-directed-overlap-exactness}
 Let $a,b:\Hist$ be rational-history endpoints, and let
