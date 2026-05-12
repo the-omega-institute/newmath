@@ -17831,3 +17831,28 @@ Rationale:
 The candidate is a single implication about a concrete finite-family tail-bound surface already present in the UniformCauchyCriterion chapter. Existing theorems cover window stability, RealUp seal handoff, non-escape, tail-ledger exactness, shared-threshold transport, RegSeqRat tail equivalence, obligation assembly, and finite-family window exhaustion, but they do not name the empty-index and empty-tail-ledger boundary as its own base case. The theorem would make the tail-bound and seal-export discipline smaller and easier to cite without adding host completeness, selected limits, or quotient stream equality, and the file is safe for direct landing.
 
 ---
+
+### B-707 - FinitePhaseSampling alias-collision obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FinitePhaseSampling alias-collision obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \FinitePhaseSamplingUp packet has an admitted mode whose aliasing ledger displays a nonzero colliding translated mode at the chosen grid scale, then finite grid recovery for that mode is not determined by the grid row alone and any RealUp handoff must retain the aliasing ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex`
+
+Rationale:
+The carrier records a finite phase-grid row G, mode-bound row K, coefficient samples M, aliasing ledger A, real handoff E, transports, routes, provenance, and NameCert at papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex:7-23. The NameCert obligations include grid recovery, handoff exactness, and non-escape at lines 28-36. The existing grid-recovery theorem is one-sided: it assumes the aliasing ledger has no nonzero colliding translated mode and then obtains coefficient determinacy from G at lines 51-60. The Real handoff and non-escape theorems require the handoff to factor through M and A at lines 63-77. A focused rg for "FinitePhaseSampling.*alias|phase sampling.*alias|aliasing.*obstruction|colliding translated" found only the no-collision recovery/handoff statements and no separate collision obstruction theorem or Lean marker. This is a concrete obstruction claim about the finite aliasing ledger, not a parameter-transport echo.
+
+---

@@ -105,6 +105,45 @@ theorem SqueezeRealCarrier_transport_stability [AskSetup] [PackageSetup]
     (And.intro sameLowerLedger
       (And.intro sameUpperLedger (And.intro sameTransport sameEndpoint)))
 
+theorem SqueezeRealCarrier_shared_tail_ledger_determinacy [AskSetup] [PackageSetup]
+    {lower middle upper tolerance lowerLedger upperLedger realSeal transport provenance localCert
+      endpoint lower' middle' upper' tolerance' lowerLedger' upperLedger' realSeal' transport'
+      provenance' localCert' endpoint' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    SqueezeRealCarrier lower middle upper tolerance lowerLedger upperLedger realSeal transport
+        provenance localCert endpoint bundle pkg ->
+      SqueezeRealCarrier lower' middle' upper' tolerance' lowerLedger' upperLedger' realSeal'
+          transport' provenance' localCert' endpoint' bundle' pkg' ->
+        hsame lower lower' ->
+          hsame middle middle' ->
+            hsame upper upper' ->
+              hsame tolerance tolerance' ->
+                hsame realSeal realSeal' ->
+                  hsame localCert localCert' ->
+                    hsame lowerLedger lowerLedger' ∧ hsame upperLedger upperLedger' ∧
+                      hsame transport transport' ∧ hsame endpoint endpoint' := by
+  intro carrier carrier' sameLower sameMiddle sameUpper _sameTolerance sameRealSeal sameLocalCert
+  rcases carrier with
+    ⟨_lowerUnary, _middleUnary, _upperUnary, _toleranceUnary, _lowerLedgerUnary,
+      _upperLedgerUnary, _realSealUnary, _transportUnary, _provenanceUnary,
+      _localCertUnary, _endpointUnary, lowerLedgerRow, upperLedgerRow, _realSealRow,
+      transportRow, endpointRow, _pkgSig⟩
+  rcases carrier' with
+    ⟨_lowerUnary', _middleUnary', _upperUnary', _toleranceUnary', _lowerLedgerUnary',
+      _upperLedgerUnary', _realSealUnary', _transportUnary', _provenanceUnary',
+      _localCertUnary', _endpointUnary', lowerLedgerRow', upperLedgerRow', _realSealRow',
+      transportRow', endpointRow', _pkgSig'⟩
+  have sameLowerLedger : hsame lowerLedger lowerLedger' :=
+    cont_respects_hsame sameLower sameMiddle lowerLedgerRow lowerLedgerRow'
+  have sameUpperLedger : hsame upperLedger upperLedger' :=
+    cont_respects_hsame sameMiddle sameUpper upperLedgerRow upperLedgerRow'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameUpperLedger sameRealSeal transportRow transportRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameTransport sameLocalCert endpointRow endpointRow'
+  exact And.intro sameLowerLedger
+    (And.intro sameUpperLedger (And.intro sameTransport sameEndpoint))
+
 def SqueezeRealSandwichCarrier [AskSetup] [PackageSetup]
     (lower middle upper tolerance lowerLedger upperLedger sealRow transportRow provenance
       nameCert : BHist)
