@@ -12,6 +12,7 @@ TEST_DIR    := tests
 # Only rule110 evaluator ships as a standalone binary (with STANDALONE_MAIN).
 # cyclic_tag and groundcompiler_encoding are libraries compiled into test binaries.
 STANDALONE_BINS := $(EVAL_DIR)/rule110
+ENCODER_BINS    := $(ENCODER_DIR)/generate_r110_mark
 TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark \
                    $(TEST_DIR)/test_cook_ether $(TEST_DIR)/test_cook_glider_A \
@@ -28,14 +29,17 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_gap $(TEST_DIR)/test_package \
                    $(TEST_DIR)/test_name_cert $(TEST_DIR)/test_settled \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
-                   $(TEST_DIR)/test_circle_up
+                   $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test clean
-all: $(STANDALONE_BINS)
+.PHONY: all test test-r110 clean
+all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Evaluators
 $(EVAL_DIR)/rule110: $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
 	$(CC) $(CFLAGS) -DRULE110_STANDALONE_MAIN -o $@ $<
+
+$(ENCODER_DIR)/generate_r110_mark: $(ENCODER_DIR)/generate_r110_mark.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 # Tests
 $(TEST_DIR)/test_rule110: $(TEST_DIR)/test_rule110.c $(EVAL_DIR)/rule110.h
@@ -184,6 +188,11 @@ $(TEST_DIR)/test_circle_up: $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_ru
 	    $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
+$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_r110_round_trip.c \
+	    $(EVAL_DIR)/rule110.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
 test: $(TESTS)
 	@for t in $(TESTS); do \
 	    echo "== $$t =="; \
@@ -191,8 +200,11 @@ test: $(TESTS)
 	done
 	@echo "ALL TESTS PASSED"
 
+test-r110: $(TEST_DIR)/test_r110_round_trip
+	./$(TEST_DIR)/test_r110_round_trip
+
 clean:
-	rm -f $(STANDALONE_BINS) $(TESTS)
+	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS)
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
