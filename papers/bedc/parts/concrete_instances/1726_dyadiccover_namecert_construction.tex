@@ -1,0 +1,173 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCoverUp$}
+\label{ch:concrete-instances-dyadiccover-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, finite covers over
+located real data are useful when the finite list, the dyadic mesh, and the
+coverage witnesses are carried as explicit data. The $\DyadicCoverUp$
+interface packages this information as a finite BEDC certificate for Real and
+Completion consumers. It depends on $\DyadicRatCoreUp$, $\DyadicMeshUp$,
+$\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealUp$, and $\FiniteWindowEnvelopeUp$, and it does not invoke open-cover
+compactness, excluded middle, or a choice of subcover from an arbitrary family.
+
+\begin{definition}[DyadicCover carrier]
+\label{def:dyadic-cover-carrier}
+A $\DyadicCoverUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,R,I,Q,W,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $K$ is the finite list of dyadic centers, each read through a
+$\DyadicRatCoreUp$ row;
+\item $R$ is the finite list of dyadic radii, each routed through a
+$\RationalBallUp$ row with rational nonnegative radius data;
+\item $I$ is the finite list of rational interval cells, each routed through a
+$\RationalIntervalUp$ row and attached to the corresponding center-radius
+entry;
+\item $Q$ records the $\DyadicMeshUp$ mesh level and the finite refinement rows
+between adjacent mesh levels;
+\item $W$ is the displayed $\FiniteWindowEnvelopeUp$ window whose points are
+covered by the interval cells;
+\item $H$ records the $\hsame$ transports for centers, radii, interval cells,
+mesh rows, window bounds, stream-name reads, regular-rational sequence reads,
+and real rows;
+\item $C$ records the $\Cont$ routes by which consumers read center membership,
+radius bounds, interval containment, mesh refinement, coverage witnesses, and
+total-bounded handoff rows;
+\item $P$ records $\Pkg$ provenance for $\DyadicRatCoreUp$, $\DyadicMeshUp$,
+$\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, and
+$\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\DyadicCoverUp}$ provenance row.
+\end{enumerate}
+The carrier accepts exactly those packets whose finite cell list covers the
+displayed finite window and whose refinement rows keep every later mesh cell
+inside a named earlier interval or rational ball.
+\end{definition}
+
+\begin{theorem}[DyadicCover NameCert obligations]
+\label{thm:dyadic-cover-namecert-obligations}
+The local $\NameCert_{\DyadicCoverUp}$ seed surface consists of five finite
+obligations:
+\begin{enumerate}
+\item carrier: the packet of \autoref{def:dyadic-cover-carrier};
+\item classifier: componentwise comparison of centers, radii, interval cells,
+mesh rows, finite-window witnesses, transport rows, continuation routes,
+package provenance, and local certificate rows;
+\item refinement stability: displayed $\hsame$ and $\Cont$ transport preserves
+the dyadic center list, rational radii, interval cells, mesh refinement rows,
+and coverage witnesses;
+\item coverage exactness: every covered real read factors through a
+$\StreamNameUp$ row, a $\RegSeqRatUp$ approximation row, a $\RealUp$ row, and a
+finite interval or ball cell in the displayed window;
+\item ledger policy: $\Pkg$ and $\NameCert$ expose only the listed dyadic,
+rational, real, finite-window, transport, and continuation rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier. The finite center list, radius list, interval-cell list,
+mesh rows, window witnesses, transport rows, continuation routes, package
+provenance, and local certificate row are exactly the visible coordinates.
+
+The classifier is componentwise over these rows. Transport stability follows
+by moving each coordinate through the stored $\hsame$ rows and then reading it
+through the corresponding $\Cont$ route.
+
+Coverage exactness follows from the explicit witness attached to each point in
+the displayed finite window: the witness names the stream read, regular
+rational approximation, real row, and interval or ball cell used for that
+point. The package and certificate rows contain no arbitrary open family or
+subcover selector, so the ledger policy is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[DyadicCover finite refinement]
+\label{thm:dyadic-cover-finite-refinement}
+Let $D$ be an accepted $\DyadicCoverUp$ carrier and let $Q'$ be a displayed
+later $\DyadicMeshUp$ refinement row of its mesh coordinate $Q$. The refined
+packet is obtained by replacing each old cell with the finite list of named
+dyadic subcells routed by $Q'$, transporting the corresponding rational
+interval and rational ball rows through $\hsame$, and retaining the same
+$\FiniteWindowEnvelopeUp$ coverage witnesses after refinement.
+\end{theorem}
+\begin{proof}
+Read the mesh coordinate $Q$ and the displayed refinement row $Q'$. Each old
+dyadic cell has a finite named list of subcells, so the refined center, radius,
+and interval lists are built by finite list replacement.
+
+Transport each subcell's rational interval and rational ball rows through the
+stored $\hsame$ entries, then read the containment route through $\Cont$. The
+finite-window coordinate $W$ is unchanged, while each old coverage witness now
+points to the named refined subcell contained in the old cell.
+
+Repack the refined rows with the same $\Pkg$ provenance and local
+$\NameCert_{\DyadicCoverUp}$ row. No infinite cover or selected subcover is
+introduced, because every operation is over the displayed finite mesh lists.
+\end{proof}
+
+\begin{theorem}[DyadicCover total-bounded handoff]
+\label{thm:dyadic-cover-total-bounded-handoff}
+Every total-bounded or compact-metric consumer of an accepted
+$\DyadicCoverUp$ carrier factors through the displayed finite list of dyadic
+centers, rational radii, rational interval cells, $\DyadicMeshUp$ refinement
+rows, $\FiniteWindowEnvelopeUp$ coverage witnesses, and the $\Cont$ routes
+that read $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ data into those cells.
+The handoff is a finite packet handoff, not an appeal to open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the carrier and choose a consumer route. The only data addressed to
+total-bounded consumers are the finite center list, radius list, interval-cell
+list, mesh refinement rows, and coverage witnesses over the displayed window.
+
+Follow the real-data read route. A covered point is read through its
+$\StreamNameUp$ and $\RegSeqRatUp$ rows into a $\RealUp$ row, then into the
+named rational interval or rational ball cell supplied by the coverage
+witness.
+
+Thus the consumer receives exactly a finite cover packet with explicit mesh
+and radius data. Since the carrier contains no arbitrary indexed open family,
+no compactness principle and no choice of subcover can be projected from it.
+\end{proof}
+
+\begin{theorem}[DyadicCover ledger nonescape]
+\label{thm:dyadic-cover-ledger-nonescape}
+Every $\RealUp$, $\FiniteWindowEnvelopeUp$, total-bounded, or completion
+consumer of an accepted $\DyadicCoverUp$ carrier factors through the displayed
+finite dyadic centers, dyadic radii, rational interval cells, mesh refinement
+rows, coverage witnesses, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row.
+
+No consumer can obtain open-cover compactness, a choice function for arbitrary
+covers, a completeness theorem, a quotient of names, or host-level real
+extensionality from the $\DyadicCoverUp$ ledger alone.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of
+\autoref{thm:dyadic-cover-namecert-obligations}. It lists the carrier,
+classifier, refinement stability, coverage exactness, and ledger rows
+available to every local certificate consumer.
+
+For a $\RealUp$ or $\FiniteWindowEnvelopeUp$ consumer, read the stream,
+regular-rational, real, and finite-window rows that are already displayed in
+the carrier. For a total-bounded or completion consumer, read the finite center
+and radius lists together with the mesh refinement and coverage routes.
+
+All of these routes stay inside the finite $\BHist$ packet. The excluded
+conclusions require coordinates not present in
+\autoref{def:dyadic-cover-carrier}, so they cannot escape from the local
+ledger.
+\end{proof}
+
+\closureat{DyadicCoverUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCoverUp}
+  \constructivestory{A $\DyadicCoverUp$ packet is generated from finite dyadic centers, dyadic radii, rational interval cells, mesh refinement rows, coverage witnesses for a displayed finite window, $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, classifier, finite refinement, total-bounded handoff, and ledger nonescape over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, metric completeness, compact-metric equivalence, quotient equality of real names, host real extensionality, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, finite refinement, total-bounded handoff, and consumer nonescape over the displayed dyadic, rational, real, finite-window, mesh, and coverage rows.}
+\end{closurestatus}
