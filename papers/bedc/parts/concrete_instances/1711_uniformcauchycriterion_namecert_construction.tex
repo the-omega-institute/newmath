@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyCriterionUp$}
+\label{ch:concrete-instances-uniformcauchycriterion-namecert}
+\origin{human}
+
+The $\UniformCauchyCriterionUp$ interface names the finite family-level Cauchy test used in the Bishop--Bridges constructive reading of uniform convergence. It records one displayed dyadic tail criterion shared by a finite family of $\StreamNameUp$ windows. The certificate is a consumer surface for $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, and $\RealUp$, and it withholds quotient streams, host real equality, selected limits, and ambient completeness.
+
+\begin{definition}[UniformCauchyCriterion carrier]
+\label{def:uniform-cauchy-criterion-carrier}
+A $\UniformCauchyCriterionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite family index ledger naming the members whose windows are compared;
+\item $W$ is the shared finite $\StreamNameUp$ window family, indexed by $I$, through which every source observation is read;
+\item $M$ is one $\CauchyModulusUp$ schedule used uniformly for all indices in $I$;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row whose dyadic budget is used by the family test;
+\item $T$ is the finite $\DyadicTailBoundUp$ tail-comparison ledger recording all accepted comparisons beyond the threshold selected by $M$ and inside the windows named by $W$;
+\item $E$ is the $\RealUp$ seal handoff row reached after the finite family tail criterion has been accepted;
+\item $H$ records the componentwise $\hsame$ rows for the family ledger, window family, modulus schedule, tolerance row, tail ledger, and seal handoff;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the family index row, shared windows, uniform modulus, tolerance, finite tail ledger, and real seal;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UniformCauchyCriterionUp}$ provenance row.
+\end{enumerate}
+The classifier compares two accepted carriers only through these displayed coordinates, their componentwise transports, their continuation routes, and their package and local naming provenance.
+\end{definition}
+
+\begin{theorem}[UniformCauchyCriterion NameCert obligations]
+\label{thm:uniform-cauchy-criterion-namecert-obligations}
+The local $\NameCert_{\UniformCauchyCriterionUp}$ surface for the carrier of \autoref{def:uniform-cauchy-criterion-carrier} consists exactly of five rows:
+\begin{enumerate}
+\item carrier habitation by the displayed packet $U=(I,W,M,Q,T,E,H,C,P,N)$;
+\item classifier transport by componentwise $\hsame$ and displayed $\Cont$ routes over the finite family ledger, shared window family, modulus schedule, tolerance row, tail ledger, seal handoff, package provenance, and local naming row;
+\item uniform window stability, requiring every transported precision request to keep the same $I$-indexed $\StreamNameUp$ window family and the same shared modulus row $M$ before tail comparisons are read;
+\item $\RealUp$ seal handoff, requiring the family tail ledger to pass through $T$ and the real-facing row $E$ after the shared threshold and dyadic tolerance have been displayed;
+\item non-escape from quotient streams, host real equality, selected limits, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is projection from the finite packet in \autoref{def:uniform-cauchy-criterion-carrier}. The family index ledger, window family, shared modulus, dyadic tolerance, finite tail ledger, real seal, transport rows, continuation routes, package row, and local naming row are all visible coordinates.
+
+Classifier transport is componentwise. The $\hsame$ rows in $H$ move the family ledger, windows, modulus, tolerance, tail ledger, and seal row, while the $\Cont$ rows in $C$ replay the same read order for a consumer.
+
+The uniform window row is the key obligation: every member named by $I$ is inspected through the same $W$ family and the same threshold schedule $M$. The seal handoff then reads $Q$ and $T$ before reaching $E$, and no remaining coordinate can export quotient streams, host real equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion window stability]
+\label{thm:uniform-cauchy-criterion-window-stability}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ and $U'=(I',W',M',Q',T',E',H',C',P',N')$ be accepted $\UniformCauchyCriterionUp$ carriers related by the displayed classifier. Every transported family precision request preserves the same finite index ledger, the same $\StreamNameUp$ window family up to the componentwise $\hsame$ rows, and the same shared $\CauchyModulusUp$ schedule up to the transported row. Thus every tail comparison in the transported carrier is still read through one uniform threshold and one displayed dyadic tolerance row for all family members.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:uniform-cauchy-criterion-carrier}. The classifier has access only to $I,W,M,Q,T,E,H,C,P,N$ and to the corresponding rows of $U'$.
+
+Transport the family index and window rows first. The rows in $H$ compare the finite family ledger and the window family componentwise, and the routes in $C$ describe how the consumer reaches those rows before any tail ledger is inspected.
+
+Now transport the shared modulus row. Since $M$ is a single coordinate of the packet rather than an index-dependent family of moduli, the transported request still reaches one threshold schedule before reading $Q$ and $T$.
+
+The tail ledger can therefore record only comparisons inside the transported window family and beyond the transported threshold. Repacking these projections gives the stated window stability and leaves no coordinate for a host-level pointwise criterion.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion RealUp seal handoff]
+\label{thm:uniform-cauchy-criterion-real-seal-handoff}
+Every $\RealUp$ seal read exported by an accepted $\UniformCauchyCriterionUp$ carrier factors through the finite route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The route first fixes the finite family ledger, then reads the shared $\StreamNameUp$ windows, then applies the single $\CauchyModulusUp$ schedule, then reads the dyadic tolerance row and the finite tail-comparison ledger before reaching the seal row. The seal exposes no completed family limit, no quotient of streams, no host real equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a real-facing consumer request. By carrier projection, the request must first identify the finite family ledger $I$ and the shared window family $W$ that supplies the inspected observations.
+
+Apply \autoref{thm:uniform-cauchy-criterion-window-stability}. The request reaches the shared modulus row $M$ before any comparison in $T$ can be used, so the threshold is uniform over the displayed family.
+
+The tolerance coordinate $Q$ and the finite ledger $T$ are then read in the same packet. These rows provide the accepted dyadic tail comparison, while $H,C,P,N$ keep the transport, continuation, package, and local naming provenance visible.
+
+Finally the seal coordinate $E$ is reached only after that route has been completed. Since none of the carrier coordinates is a completed family limit, quotient stream, host real equality, or completeness theorem, the exported seal read cannot bypass the displayed finite criterion.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion non-escape boundary]
+\label{thm:uniform-cauchy-criterion-non-escape-boundary}
+An accepted $\UniformCauchyCriterionUp$ carrier exports only the finite family index ledger, the shared $\StreamNameUp$ windows, the uniform $\CauchyModulusUp$ schedule, the $\DyadicRatCoreUp$ tolerance row, the finite $\DyadicTailBoundUp$ comparison ledger, the $\RealUp$ seal handoff, and the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream family, no host real equality, no selected family of limits, and no ambient completeness object.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:uniform-cauchy-criterion-carrier}. Each row is a finite ledger, a displayed dependency certificate, a transport row, a continuation route, package provenance, or local naming provenance.
+
+The window-stability theorem keeps every transported read inside the finite $I,W,M,Q,T$ surface. The real-seal handoff theorem then forces every $\RealUp$ read to pass through that same surface before reaching $E$.
+
+No excluded analytic object is a coordinate of the packet or a result of the displayed route. Therefore a downstream Weierstrass, completion, or real-seal chapter can consume the uniform Cauchy criterion only as the finite NameCert package described here.
+\end{proof}
+
+\closureat{UniformCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyCriterionUp}
+  \constructivestory{A $\UniformCauchyCriterionUp$ packet is generated from a finite family index ledger, a shared $\StreamNameUp$ window family, one uniform $\CauchyModulusUp$ schedule, a $\DyadicRatCoreUp$ tolerance row, a finite $\DyadicTailBoundUp$ comparison ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, shared-window stability, $\RealUp$ seal handoff, and non-escape boundary for uniform dyadic Cauchy tests over finite families of stream-name windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream families, host real equality, selected family limits, ambient completeness, public uniform convergence, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, uniform window stability, tail-ledger exactness, and real-seal non-escape for the same finite packet.}
+\end{closurestatus}
