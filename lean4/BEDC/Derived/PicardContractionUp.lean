@@ -234,4 +234,36 @@ theorem PicardContractionPacket_modulus_window_transport [AskSetup] [PackageSetu
       routesProvenanceName, namePkg⟩
   exact ⟨transported, modulusUnary', endpointUnary', sameEndpoint⟩
 
+theorem PicardContractionPacket_banach_ode_consumer_nonescape [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name step
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates contraction step ->
+        Cont iterates endpoint consumer ->
+          PkgSig bundle step pkg ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory banach ∧ UnaryHistory contraction ∧ UnaryHistory lipschitz ∧
+                UnaryHistory iterates ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                  UnaryHistory step ∧ UnaryHistory consumer ∧
+                    Cont banach contraction lipschitz ∧ Cont iterates contraction step ∧
+                      Cont iterates modulus endpoint ∧ Cont iterates endpoint consumer ∧
+                        PkgSig bundle name pkg ∧ PkgSig bundle step pkg ∧
+                          PkgSig bundle consumer pkg := by
+  intro packet iteratesContractionStep iteratesEndpointConsumer stepPkg consumerPkg
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed iteratesUnary contractionUnary iteratesContractionStep
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointConsumer
+  exact
+    ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+      endpointUnary, stepUnary, consumerUnary, banachContractionLipschitz,
+      iteratesContractionStep, iteratesModulusEndpoint, iteratesEndpointConsumer, namePkg,
+      stepPkg, consumerPkg⟩
+
 end BEDC.Derived.PicardContractionUp
