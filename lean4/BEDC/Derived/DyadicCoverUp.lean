@@ -138,4 +138,69 @@ theorem DyadicCoverPacket_finite_refinement_transport [AskSetup] [PackageSetup]
       transportUnary, routesUnary, provenanceUnary, nameCertUnary, endpointUnary,
       centersRadiiIntervals, intervalsRefined, refinedRoutes, nameCertEndpoint, endpointPkg⟩
 
+theorem DyadicCoverPacket_finite_refinement [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint centers'
+      radii' intervals' refinedMesh refinedWindow transport' routes' provenance' nameCert'
+      refinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg ->
+      hsame centers centers' -> hsame radii radii' -> hsame intervals intervals' ->
+        hsame transport transport' -> hsame routes routes' -> hsame provenance provenance' ->
+          hsame nameCert nameCert' -> hsame endpoint refinedEndpoint ->
+            Cont intervals' refinedMesh refinedWindow ->
+              Cont refinedWindow routes' refinedEndpoint ->
+                PkgSig bundle refinedEndpoint pkg ->
+                  DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow
+                      transport' routes' provenance' nameCert' refinedEndpoint bundle pkg ∧
+                    hsame endpoint refinedEndpoint := by
+  intro packet sameCenters sameRadii sameIntervals sameTransport sameRoutes sameProvenance
+    sameNameCert sameEndpoint refinedWindowRow refinedEndpointRow refinedPkg
+  have centersUnary' : UnaryHistory centers' :=
+    unary_transport packet.left sameCenters
+  have radiiUnary' : UnaryHistory radii' :=
+    unary_transport packet.right.left sameRadii
+  have intervalsUnary' : UnaryHistory intervals' :=
+    unary_transport packet.right.right.left sameIntervals
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport packet.right.right.right.right.right.left sameTransport
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport packet.right.right.right.right.right.right.left sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport packet.right.right.right.right.right.right.right.left sameProvenance
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_transport packet.right.right.right.right.right.right.right.right.left sameNameCert
+  have refinedEndpointUnary : UnaryHistory refinedEndpoint :=
+    unary_transport packet.right.right.right.right.right.right.right.right.right.left sameEndpoint
+  have refinedWindowUnary : UnaryHistory refinedWindow :=
+    unary_cont_left_factor refinedEndpointRow refinedEndpointUnary
+  have refinedMeshUnary : UnaryHistory refinedMesh :=
+    unary_cont_right_factor refinedWindowRow refinedWindowUnary
+  have centersRadiiIntervals' : Cont centers' radii' intervals' := by
+    cases sameCenters
+    cases sameRadii
+    cases sameIntervals
+    exact packet.right.right.right.right.right.right.right.right.right.right.left
+  have nameCertEndpoint : hsame nameCert' refinedEndpoint :=
+    hsame_trans (hsame_symm sameNameCert)
+      (hsame_trans packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+        sameEndpoint)
+  exact
+    ⟨⟨centersUnary',
+      radiiUnary',
+      intervalsUnary',
+      refinedMeshUnary,
+      refinedWindowUnary,
+      transportUnary',
+      routesUnary',
+      provenanceUnary',
+      nameCertUnary',
+      refinedEndpointUnary,
+      centersRadiiIntervals',
+      refinedWindowRow,
+      refinedEndpointRow,
+      nameCertEndpoint,
+      refinedPkg⟩,
+      sameEndpoint⟩
+
 end BEDC.Derived.DyadicCoverUp
