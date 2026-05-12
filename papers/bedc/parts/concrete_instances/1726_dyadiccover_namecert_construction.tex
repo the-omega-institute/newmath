@@ -159,6 +159,81 @@ conclusions require coordinates not present in
 ledger.
 \end{proof}
 
+\begin{theorem}[DyadicCover window-cell incidence]
+\label{thm:dyadic-cover-window-cell-incidence}
+Let $D=(K,R,I,Q,W,H,C,P,N)$ be an accepted $\DyadicCoverUp$ carrier, where
+$K$ is the finite dyadic center list, $R$ is the finite rational-radius list,
+$I$ is the finite rational-interval cell list, $Q$ records the named real-data
+rows, and $W$ is the displayed finite-window coordinate. Every point covered
+inside $W$ by the accepted packet factors through one listed dyadic center, one
+rational radius, one rational interval cell, one $\StreamNameUp$ row, one
+$\RegSeqRatUp$ row, one $\RealUp$ row, and the displayed $\Cont$ route from
+the corresponding stream and regular-rational name into that real and cell
+incidence record.
+\end{theorem}
+\begin{proof}
+Project the tuple $D=(K,R,I,Q,W,H,C,P,N)$. The coverage coordinate of the
+carrier is indexed by the displayed finite window $W$, so a covered point
+comes with a coverage witness rather than with an arbitrary open-family
+membership assertion.
+
+Read that witness through the carrier definition. It names a dyadic center
+from $K$, a rational radius from $R$, and a rational interval cell from $I$,
+and it also names the stream, regular-rational, and real rows in $Q$ used to
+place the point in the cell.
+
+Finally follow the stored $\Cont$ route. The route is part of the accepted
+packet, so the incidence surface consumed downstream is exactly the finite
+window-cell record listed in the carrier.
+\end{proof}
+
+\begin{theorem}[DyadicCover refinement witness exhaustion]
+\label{thm:dyadic-cover-refinement-witness-exhaustion}
+Every later mesh-refinement witness for an accepted $\DyadicCoverUp$ packet is
+exhausted by finitely replacing old listed cells by named dyadic subcells whose
+center, radius, interval, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are
+already recorded in the packet ledger. Such a witness cannot introduce an
+arbitrary open family, an external indexed cover, or a selector for subcovers.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-cover-finite-refinement}. It decomposes a mesh
+refinement into finite replacement of the old rational interval cells by named
+subcells, preserving the displayed finite-window coordinate and the local read
+routes.
+
+Use \autoref{thm:dyadic-cover-ledger-nonescape} on the refined packet. The
+ledger exposes only the finite center, radius, interval, mesh, coverage,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows recorded in the carrier.
+
+Therefore the refinement witness is exhausted by those finite replacements.
+The excluded open-family and subcover-selector data have no coordinate in the
+accepted packet and cannot be projected from the ledger.
+\end{proof}
+
+\begin{theorem}[DyadicCover total-bounded radius ledger]
+\label{thm:dyadic-cover-total-bounded-radius-ledger}
+Every total-bounded consumer of an accepted $\DyadicCoverUp$ packet reads
+exactly the finite center list, rational-radius list, rational-interval list,
+mesh-refinement rows, and finite-window coverage witnesses displayed by the
+carrier, with the radius data routed through the corresponding
+$\RationalBallUp$ rows before the consumer receives a bounded-radius cover
+packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dyadic-cover-total-bounded-handoff}. It identifies the
+consumer-facing data as the finite center list, rational radii, interval
+cells, mesh-refinement rows, coverage witnesses, and read routes into the real
+and finite-window coordinates.
+
+Then apply \autoref{thm:dyadic-cover-ledger-nonescape} to the same packet. The
+radius coordinates available to the consumer are the displayed rational-radius
+rows and their $\RationalBallUp$ routing; no external metric ball family or
+choice of cover can be read from the ledger.
+
+Thus the total-bounded handoff is a bounded-radius ledger over the listed
+finite rows, not a compactness principle or a host-level open-cover argument.
+\end{proof}
+
 \closureat{DyadicCoverUp}{seedStr}
 
 \begin{closurestatus}{\DyadicCoverUp}

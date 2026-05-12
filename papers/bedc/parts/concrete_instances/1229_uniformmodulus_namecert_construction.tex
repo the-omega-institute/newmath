@@ -88,6 +88,22 @@ Apply \autoref{thm:uniformmodulus-finite-probebundle-fold}. The produced precisi
 All data used in the handoff are the rows displayed in \autoref{def:uniformmodulus-bhist-carrier}. Therefore the consumer receives a finite BEDC packet over $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, and $\mathsf{ProbeBundle}$, not an external analytic uniform-continuity principle.
 \end{proof}
 
+\begin{theorem}[UniformModulus scoped dependency interface]
+\label{thm:uniformmodulus-scoped-dependency-interface}
+Any compact-continuous consumer of an accepted $\UniformModulusUp$ packet can read the tolerance-to-precision handoff only through the displayed $\CompactMetricUp$ finite-net rows, $\ContinuousMapUp$ pointwise-modulus rows, $\MetricUp$ distance witnesses, positive $\RatUp$ fold rows, $\mathsf{ProbeBundle}$ membership rows, componentwise $\hsame$ comparisons, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ coordinates.
+
+The interface contains no open-cover compactness row, no sequential compactness row, no host minimum operation, and no external modulus function.
+\end{theorem}
+\begin{proof}
+Begin with the finite $\mathsf{ProbeBundle}$ fold of \autoref{thm:uniformmodulus-finite-probebundle-fold}. It makes the precision row a positive $\RatUp$ fold over the displayed bundle radii, so the handoff cannot read a host minimum or an external modulus function.
+
+Transport the same rows through classifier stability in \autoref{thm:uniformmodulus-classifier-transport-stability}. The $\CompactMetricUp$ finite-net rows, $\ContinuousMapUp$ pointwise-modulus rows, $\MetricUp$ distance witnesses, and rational fold rows remain the only classifier-visible dependency coordinates.
+
+Now apply the NameCert obligation surface of \autoref{thm:uniformmodulus-namecert-obligation-surface}. It repacks those rows with $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance as the complete local certificate surface.
+
+Finally use the compact-continuous handoff of \autoref{thm:uniformmodulus-compact-continuous-handoff}. Every downstream tolerance-to-precision read follows the displayed finite-net and pointwise-modulus route, leaving no coordinate for open-cover compactness, sequential compactness, host minima, or external modulus functions.
+\end{proof}
+
 \closureat{UniformModulusUp}{seedStr}
 \closureat{UniformModulusUp}{obligationStr}[BEDC.Derived.UniformModulusUp.UniformModulusPacket\_namecert\_obligation\_surface]
 
