@@ -87,4 +87,70 @@ theorem PicardContractionPacket_banach_ode_boundary [AskSetup] [PackageSetup]
       endpointUnary, consumerUnary, banachContractionLipschitz, iteratesModulusEndpoint,
       iteratesEndpointConsumer, namePkg, consumerPkg⟩
 
+theorem PicardContractionPacket_classifier_stability [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      banach' contraction' iterates' modulus' endpoint' transport' routes' provenance' name'
+      lipschitz' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      hsame banach banach' ->
+        hsame contraction contraction' ->
+          hsame iterates iterates' ->
+            hsame modulus modulus' ->
+              hsame endpoint endpoint' ->
+                hsame transport transport' ->
+                  hsame routes routes' ->
+                    hsame provenance provenance' ->
+                      Cont banach' contraction' lipschitz' ->
+                        Cont iterates' modulus' endpoint' ->
+                          Cont endpoint' transport' routes' ->
+                            Cont routes' provenance' name' ->
+                              PkgSig bundle name' pkg ->
+                                PicardContractionPacket banach' contraction' lipschitz'
+                                    iterates' modulus' endpoint' transport' routes' provenance'
+                                    name' bundle pkg ∧
+                                  hsame lipschitz lipschitz' ∧ hsame name name' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameBanach sameContraction sameIterates sameModulus sameEndpoint sameTransport
+    sameRoutes sameProvenance banachContractionLipschitz' iteratesModulusEndpoint'
+    endpointTransportRoutes' routesProvenanceName' namePkg'
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, routesUnary, provenanceUnary, nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, endpointTransportRoutes,
+    routesProvenanceName, _namePkg⟩ := packet
+  have sameLipschitz : hsame lipschitz lipschitz' :=
+    cont_respects_hsame sameBanach sameContraction banachContractionLipschitz
+      banachContractionLipschitz'
+  have sameName : hsame name name' :=
+    cont_respects_hsame sameRoutes sameProvenance routesProvenanceName routesProvenanceName'
+  have banachUnary' : UnaryHistory banach' :=
+    unary_transport banachUnary sameBanach
+  have contractionUnary' : UnaryHistory contraction' :=
+    unary_transport contractionUnary sameContraction
+  have lipschitzUnary' : UnaryHistory lipschitz' :=
+    unary_transport lipschitzUnary sameLipschitz
+  have iteratesUnary' : UnaryHistory iterates' :=
+    unary_transport iteratesUnary sameIterates
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory name' :=
+    unary_transport nameUnary sameName
+  have transported :
+      PicardContractionPacket banach' contraction' lipschitz' iterates' modulus' endpoint'
+        transport' routes' provenance' name' bundle pkg :=
+    ⟨banachUnary', contractionUnary', lipschitzUnary', iteratesUnary', modulusUnary',
+      endpointUnary', transportUnary', routesUnary', provenanceUnary', nameUnary',
+      banachContractionLipschitz', iteratesModulusEndpoint', endpointTransportRoutes',
+      routesProvenanceName', namePkg'⟩
+  exact ⟨transported, sameLipschitz, sameName⟩
+
 end BEDC.Derived.PicardContractionUp
