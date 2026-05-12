@@ -194,6 +194,16 @@ theorem betaStep_to_betaParallel {t t' : Term}
     BetaParallel t t' := by
   exact betaStep_to_parallel h
 
+theorem betaParallel_of_betaStep {t t' : Term}
+    (h : BetaStep t t') :
+    BetaParallel t t' := by
+  exact betaStep_to_parallel h
+
+theorem betaParallel_app_cong_step {f f' a : Term}
+    (h : BetaStep f f') :
+    BetaParallel (Term.app f a) (Term.app f' a) := by
+  exact BetaParallel.app (betaParallel_of_betaStep h) (betaParallel_refl a)
+
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
     t = Term.sort := by
@@ -413,6 +423,83 @@ theorem betaStep_sort_absurd
     BetaStep Term.sort u → False := by
   intro h
   cases h
+
+theorem betaStep_pi_iff {d c t : Term} :
+    BetaStep (Term.pi d c) t ↔
+      (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
+      (∃ d', BetaStep d d' ∧ t = Term.pi d' c) := by
+  constructor
+  · intro h
+    cases h with
+    | congPiCod d c c' hc =>
+        exact Or.inl (Exists.intro c' (And.intro hc rfl))
+    | congPiDom d d' c hd =>
+        exact Or.inr (Exists.intro d' (And.intro hd rfl))
+  · intro h
+    cases h with
+    | inl hc =>
+        cases hc with
+        | intro c' hc' =>
+            cases hc' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congPiCod d c c' hstep
+    | inr hd =>
+        cases hd with
+        | intro d' hd' =>
+            cases hd' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congPiDom d d' c hstep
+
+theorem betaStep_lam_iff {d b t : Term} :
+    BetaStep (Term.lam d b) t ↔
+      (∃ b', BetaStep b b' ∧ t = Term.lam d b') ∨
+      (∃ d', BetaStep d d' ∧ t = Term.lam d' b) := by
+  constructor
+  · intro h
+    cases h with
+    | congLam d b b' hb =>
+        exact Or.inl (Exists.intro b' (And.intro hb rfl))
+    | congLamDom d d' b hd =>
+        exact Or.inr (Exists.intro d' (And.intro hd rfl))
+  · intro h
+    cases h with
+    | inl hb =>
+        cases hb with
+        | intro b' hb' =>
+            cases hb' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congLam d b b' hstep
+    | inr hd =>
+        cases hd with
+        | intro d' hd' =>
+            cases hd' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congLamDom d d' b hstep
+
+theorem betaStep_source_not_sort {t : Term} :
+    ¬ BetaStep Term.sort t := by
+  exact betaStep_sort_absurd
+
+theorem betaStep_source_not_var {i : Idx} {t : Term} :
+    ¬ BetaStep (Term.var i) t := by
+  exact betaStep_var_absurd i
+
+theorem betaParallel_refl_self_atom {t : Term}
+    (h : t = Term.sort ∨ ∃ i, t = Term.var i) :
+    BetaParallel t t := by
+  cases h with
+  | inl hsort =>
+      cases hsort
+      exact BetaParallel.sort
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          exact BetaParallel.var i
 
 theorem betaStar_var_target
     (i : Idx) {u : Term}
