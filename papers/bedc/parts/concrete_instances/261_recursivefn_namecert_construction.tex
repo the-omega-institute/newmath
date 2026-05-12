@@ -190,13 +190,55 @@ $\mathsf{UnaryHistory}$, $\NatUp$, and $\SeqUp$ ledger, and there is no
 exported row for an unbounded search or oracle.
 \end{proof}
 
+\begin{theorem}[RecursiveFn public constructor-history export]
+\label{thm:recursivefn-public-constructor-history-export}
+The $\RecursiveFnUp$ public export is the finite
+$\NameCert_{\RecursiveFnUp}$ constructor-history surface assembled from the
+zero, successor, and projection obligation; the composition and
+primitive-recursion trace obligation; bounded-minimisation ledger exactness;
+$\NatUp$ input stability; constructor-ledger coverage; and bounded-search
+scope obligation.
+
+Its public rows are exactly the displayed $\mathsf{BHist}$ constructor
+history, $\mathsf{UnaryHistory}$ bound rows, $\SeqUp$ evaluation traces,
+$\NatUp$ input and output rows, visible $\hsame$ comparisons, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows. The export contains no
+unbounded $\mu$-recursion totality assertion, no oracle row, and no
+Church--Turing bridge claim.
+\end{theorem}
+\begin{proof}
+Build the export from the constructor obligations. The base constructor rows
+come from \autoref{thm:recursivefn-zero-successor-projection-obligation}, and
+the composition and primitive-recursion traces come from
+\autoref{thm:recursivefn-composition-primitive-recursion-obligation}.
+
+Add the bounded-search data next. Apply
+\autoref{thm:recursivefn-bounded-minimisation-ledger-exactness} for the finite
+$\mathsf{UnaryHistory}$ bound and tested $\SeqUp$ rows, then use
+\autoref{thm:recursivefn-bounded-search-scope-obligation} to keep every search
+read inside that displayed bounded ledger.
+
+Now attach transport and coverage. The $\NatUp$ input stability row is supplied
+by \autoref{thm:recursivefn-nat-input-stability-obligation}, and the
+constructor-ledger coverage row is supplied by
+\autoref{thm:recursivefn-constructor-ledger-coverage-obligation}. Together they
+show that each accepted public graph row has one displayed constructor case and
+transports only through visible $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ data.
+
+The six cited obligations exhaust the public export. Since none contains a row
+for unbounded $\mu$-recursion totality, oracle evaluation, or a
+Church--Turing bridge, those claims remain outside
+$\NameCert_{\RecursiveFnUp}$.
+\end{proof}
+
 \closureat{RecursiveFnUp}{scopedStr}[BEDC.Derived.RecursiveFnUp.RecursiveFnBoundedMinimisationLedger\_exactness]
 \closureat{RecursiveFnUp}{publicStr}[BEDC.Derived.RecursiveFnUp.RecursiveFnBoundedMinimisationLedger\_exactness]
 
 \begin{closurestatus}{\RecursiveFnUp}
   \constructivestory{A $\RecursiveFnUp$ token names a finite constructor history built from zero, successor, projection $\pi^k_i$, composition, primitive recursion with base/step subterms, and bounded minimisation with a displayed unary bound. The carrier accepts a graph row $F(n,m)$ when evaluating the constructor history on the $\NatUp$-input row $n$ over a $\SeqUp$ trace yields $\NatUp$-output $m$ within the displayed bound. Classifier control is $\hsame$ on outputs once the constructor history is fixed; the source covers $\NatUp$ inputs and outputs, constructor histories, and $\SeqUp$ evaluation traces; the pattern records constructor-history admissibility, composition row, primitive-recursion base/step row, and bounded-minimisation row; the ledger keeps the constructor sequence, intermediate evaluation rows, and minimisation witness visible. The five name-certificate obligations follow from the inductive constructor-history evaluation: the inhabited identity certificate is the zero constructor; classifier stability is reflexive, symmetric, and transitive $\hsame$ on outputs; transport repacks evaluations through composition and recursion; ledger exactness identifies the graph row with the displayed evaluation; the extension boundary fixes the bounded-minimisation rule. A history $h$ lies in the signature gap of a $\RecursiveFnUp$ token $p$ when the source-domain accepts a constructor-history evaluation, the signature relation pairs it with the graph output, and token introduction names that output as $p$. The chapter registers this finite-constructor-history surface under the name $\RecursiveFnUp$; it is a partial-recursive function object with no general $\mu$-recursion totality claim, no oracle, no Church-Turing bridge, and no standard recursion-theory library.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The obligation scope binds the three displayed rows: zero, successor, and projection base constructors; composition and primitive-recursion trace compatibility; and bounded-minimisation ledger exactness over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\SeqUp$, $\NatUp$, and $\hsame$.}
+  \scopeclosed{\autoref{thm:recursivefn-public-constructor-history-export} binds the constructor-history export over zero, successor, projection, composition, primitive recursion, bounded minimisation, $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\SeqUp$, $\NatUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RecursiveFnUp.RecursiveFnBoundedMinimisationLedger\_exactness}
   \bridgestatus{none}
