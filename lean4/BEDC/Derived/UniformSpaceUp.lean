@@ -174,4 +174,35 @@ theorem UniformSpacePacket_classifier_transport_obligation [AskSetup] [PackageSe
         diagonalRefinementLedger', symmetryCompositionEndpoint', endpointPkg'⟩,
       samePointRoute, sameLedger, sameEndpoint⟩
 
+theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition provenance name pointRoute ledger
+      endpoint handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpaceClassifierPacket point entourage diagonal refinement symmetry composition provenance
+        name pointRoute ledger endpoint bundle pkg ->
+      Cont endpoint provenance handoff ->
+        PkgSig bundle handoff pkg ->
+          UnaryHistory pointRoute ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory handoff ∧ Cont point entourage pointRoute ∧
+              Cont diagonal refinement ledger ∧ Cont symmetry composition endpoint ∧
+                Cont endpoint provenance handoff ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle handoff pkg := by
+  intro packet endpointProvenanceHandoff handoffPkg
+  rcases packet with
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, symmetryUnary,
+      compositionUnary, provenanceUnary, _nameUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointPkg⟩
+  have pointRouteUnary : UnaryHistory pointRoute :=
+    unary_cont_closed pointUnary entourageUnary pointEntouragePointRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed symmetryUnary compositionUnary symmetryCompositionEndpoint
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceHandoff
+  exact
+    ⟨pointRouteUnary, ledgerUnary, endpointUnary, handoffUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
+      endpointPkg, handoffPkg⟩
+
 end BEDC.Derived.UniformSpaceUp
