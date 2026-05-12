@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\HaltingObstructionUp$}
+\label{ch:concrete-instances-haltingobstruction-namecert}
+\origin{human}
+
+The $\HaltingObstructionUp$ surface realizes the halting fixed-point pressure of \autoref{ch:visions-halting-as-form-of-distinction-limit} as a finite naming certificate. It records only positive finite traces, self-reference rows, diagonal policy rows, and certificate provenance. It is not a global halting classifier and it carries no decision procedure for arbitrary continuation chains.
+
+\begin{definition}[Halting obstruction carrier]
+\label{def:halting-obstruction-carrier}
+A $\HaltingObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,I,T,R,D,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the certificate row naming the local program-or-certificate surface whose continuation behavior is being inspected;
+\item $I$ is the input-history row naming the starting history and its finite observation window;
+\item $T$ is the finite $\Cont$ trace row recording the positive continuation steps actually witnessed from $I$;
+\item $R$ is the self-reference row that identifies the history being fed back into the same certificate surface;
+\item $D$ is the diagonal policy row recording the local non-escape ledger attached to that self-application;
+\item $H$ stores the componentwise $\hsame$ transports for the certificate, input history, finite trace, self-reference row, diagonal policy row, package row, and local naming row;
+\item $C$ stores the displayed $\Cont$ routes by which a consumer reaches the trace, self-reference, and diagonal rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\HaltingObstructionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for deciding whether an arbitrary chain halts, no total classifier over all certificates and histories, and no host-level oracle for divergence.
+\end{definition}
+
+\begin{theorem}[Halting obstruction NameCert obligations]
+\label{thm:halting-obstruction-namecert-obligations}
+The local $\NameCert_{\HaltingObstructionUp}$ surface for \autoref{def:halting-obstruction-carrier} consists of five obligations:
+\begin{enumerate}
+\item carrier habitation by the finite packet $O=(S,I,T,R,D,H,C,P,N)$;
+\item trace exactness, saying that every positive continuation fact exported by the packet is one of the finite $\Cont$ steps recorded in $T$;
+\item self-reference readability, saying that the feedback row $R$ is reached only through the displayed input-history and certificate rows $I$ and $S$;
+\item diagonal policy locality, saying that each obstruction claim is the ledger entry named by $D$ after the displayed self-application route;
+\item package and name closure, saying that all public reads pass through the stored $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{enumerate}
+Thus the packet certifies a finite obstruction ledger for a displayed self-reference route, not a halting decision for every certificate-history pair.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:halting-obstruction-carrier}. The rows $S$, $I$, and $T$ give the only continuation facts that can be read: each exported step is one displayed finite $\Cont$ transition in the trace row.
+
+Next read the self-reference coordinate $R$. It is not a classifier over all histories; it is a recorded feedback row tied to the same certificate and input-history surface by the transports in $H$ and the routes in $C$.
+
+The diagonal row $D$ is then local to that feedback route. A consumer can read its obstruction ledger only after following the displayed $\Cont$ routes through $T$ and $R$.
+
+Finally, repack the visible rows with $P$ and $N$. Since no carrier coordinate names a total halting predicate or a divergence oracle, the NameCert obligations expose only the finite trace and diagonal ledger listed above.
+\end{proof}
+
+\begin{theorem}[Halting obstruction diagonal non-escape]
+\label{thm:halting-obstruction-diagonal-nonescape}
+Let $O=(S,I,T,R,D,H,C,P,N)$ be an accepted $\HaltingObstructionUp$ carrier. Every public attempt to turn the displayed self-reference route into a halting decision must factor through the finite trace row $T$, the self-reference row $R$, the diagonal policy row $D$, and the recorded $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The exported surface therefore cannot escape into a global halting classifier, an unbounded search over continuation histories, a host divergence oracle, or quotient equality of certificate names.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:halting-obstruction-namecert-obligations}. Trace exactness forces every positive continuation read to be one of the finite steps recorded in $T$.
+
+Self-reference readability then routes the feedback claim through $R$ together with the input-history and certificate rows. The consumer receives a displayed self-application route, not an external enumeration of all possible histories.
+
+Apply diagonal policy locality. The obstruction ledger is exactly the row $D$ attached to that route, transported only by $H$ and read only through the continuations in $C$.
+
+The exclusions follow by carrier inspection. Since $O$ contains no total halting predicate, no unbounded search coordinate, no host divergence oracle, and no quotient equality of names, none of those objects can be exported from the public surface.
+\end{proof}

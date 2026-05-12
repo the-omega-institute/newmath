@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
@@ -16,6 +17,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
@@ -136,6 +138,47 @@ theorem CauchyPairingCarrier_paired_seal_non_escape [AskSetup] [PackageSetup]
   exact
     ⟨wAUnary, wBUnary, lAUnary, lBUnary, eUnary, sealConsumerUnary, muWARow,
       muWBRow, lAlBRow, eProvenanceSealConsumer, ePkg, sealConsumerPkg⟩
+
+theorem CauchyPairingCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+            provenance localCert bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+            provenance localCert bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+            provenance localCert bundle pkg ∧ hsame row provenance)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance (And.intro carrier (hsame_refl provenance))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 theorem CauchyPairingCarrier_public_rows_zero_head_absurd [AskSetup] [PackageSetup]
     {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
