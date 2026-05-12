@@ -103,6 +103,42 @@ Now apply \autoref{thm:dyadic-bisection-real-stream-handoff}. The $\RegSeqRatUp$
 The carrier has no field for an intersection of all retained intervals and no field for a completeness theorem. Therefore the nested window is the exact surface consumed by the handoff.
 \end{proof}
 
+\begin{theorem}[DyadicBisection branch endpoint determinacy]
+\label{thm:dyadic-bisection-branch-endpoint-determinacy}
+For every accepted $\DyadicBisectionUp$ carrier and every unary precision
+request $n$, the finite branch-prefix ledger segment that reaches the retained
+window at tolerance $2^{-n}$ uniquely determines the retained lower endpoint,
+retained upper endpoint, midpoint, tolerance row, nested interval row, and the
+downstream $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ handoff rows. No host
+root, infinite intersection, trichotomy, or completeness row participates in
+this determination.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-bisection-carrier}. The
+unary request $n$ selects a finite prefix of the branch ledger, and each row of
+that prefix chooses one retained dyadic subinterval from the previous endpoint
+window.
+
+Apply the nested interval bridge of
+\autoref{thm:dyadic-bisection-nested-interval-bridge}. The selected branch
+prefix fixes the retained lower endpoint, upper endpoint, midpoint, and
+tolerance readback in the endpoint ledger, then packs the same finite chain
+into the $\NestedIntervalUp$ row.
+
+Next use the real stream handoff of
+\autoref{thm:dyadic-bisection-real-stream-handoff} and the nested window
+handoff of \autoref{thm:dyadic-bisection-nested-window-handoff}. The
+$\RegSeqRatUp$ row consumes the retained endpoint windows, and the
+$\StreamNameUp$ and $\RealUp$ rows expose that same finite observation through
+the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The construction has used only the finite carrier rows, the nested interval
+bridge, and the handoff routes. Since none of these rows contains a host root,
+an infinite intersection, a trichotomy decision, or a completeness principle,
+the branch-prefix ledger segment is the determinant of the retained endpoint
+window and its downstream reads.
+\end{proof}
+
 \closureat{DyadicBisectionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicBisectionUp}

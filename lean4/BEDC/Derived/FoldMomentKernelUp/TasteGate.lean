@@ -226,6 +226,21 @@ def taste_gate : ChapterTasteGate FoldMomentKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
   foldMomentKernelChapterTasteGate
 
+theorem FoldMomentKernelZeroWindowPacket :
+    exists x : FoldMomentKernelUp,
+      x =
+          FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty /\
+        foldMomentKernelFromEventFlow (foldMomentKernelToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine
+    Exists.intro
+      (FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ?_
+  constructor
+  · rfl
+  · rfl
+
 theorem FoldMomentKernelTasteGate_visible_rows :
     (forall x : FoldMomentKernelUp,
       foldMomentKernelFromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
