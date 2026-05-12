@@ -2,6 +2,7 @@ import BEDC.Derived.RegSeqRatUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -17,6 +18,35 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.RegSeqRatUp
+
+def CauchyFilterRefinementPacket [AskSetup] [PackageSetup]
+    (observations window threshold endpoints compatibility transport consumer provenance
+      nameRow endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont observations window threshold ∧
+    Cont threshold endpoints compatibility ∧
+      Cont compatibility transport consumer ∧
+        Cont consumer provenance nameRow ∧
+          Cont nameRow BHist.Empty endpoint ∧
+            PkgSig bundle endpoint pkg
+
+theorem CauchyFilterPacket_window_refinement_transport [AskSetup] [PackageSetup]
+    {observations window window' threshold threshold' endpoints compatibility transport consumer
+      provenance nameRow endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hsame window window' ->
+      hsame threshold threshold' ->
+        CauchyFilterRefinementPacket observations window threshold endpoints compatibility transport
+          consumer provenance nameRow endpoint bundle pkg ->
+          CauchyFilterRefinementPacket observations window' threshold' endpoints compatibility
+            transport consumer provenance nameRow endpoint bundle pkg := by
+  intro sameWindow sameThreshold packet
+  exact And.intro
+    (cont_hsame_transport (hsame_refl observations) sameWindow sameThreshold packet.left)
+    (And.intro
+      (cont_hsame_transport sameThreshold (hsame_refl endpoints) (hsame_refl compatibility)
+        packet.right.left)
+      packet.right.right)
 
 def CauchyFilterWindowPacket [AskSetup] [PackageSetup]
     (stream window threshold endpoint compatibility transport consumer provenance : BHist)
@@ -76,7 +106,6 @@ theorem CauchyFilterPacket_finite_window_coverage [AskSetup] [PackageSetup]
                   (And.intro compatibilityRow
                     (And.intro consumerRow
                         (And.intro provenanceRow pkgSig)))))))))))
-
 
 def CauchyFilterRegSeqRatWindow [AskSetup] [PackageSetup]
     (stream directed modulus endpoint regseq transport provenance : BHist)
@@ -241,10 +270,10 @@ theorem CauchyFilterPacket_common_refinement_classifier [AskSetup] [PackageSetup
       common : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     CauchyFilterPacket stream directed threshold endpoint compat transport consumer provenance
-        namecert bundle pkg →
-      Cont directed threshold left →
-        Cont endpoint compat right →
-          Cont left right common →
+        namecert bundle pkg ->
+      Cont directed threshold left ->
+        Cont endpoint compat right ->
+          Cont left right common ->
             UnaryHistory stream ∧ UnaryHistory directed ∧ UnaryHistory threshold ∧
               UnaryHistory endpoint ∧ UnaryHistory compat ∧ UnaryHistory transport ∧
                 UnaryHistory consumer ∧ UnaryHistory provenance ∧ UnaryHistory namecert ∧
@@ -260,5 +289,22 @@ theorem CauchyFilterPacket_common_refinement_classifier [AskSetup] [PackageSetup
     ⟨streamUnary, directedUnary, thresholdUnary, endpointUnary, compatUnary, transportUnary,
       consumerUnary, provenanceUnary, namecertUnary, leftRow, rightRow, commonRow, commonRow,
       pkgRow⟩
+
+theorem CauchyFilterPacket_refinement_transport [AskSetup] [PackageSetup]
+    {stream directed threshold endpoint compat transport consumer provenance namecert left right
+      common : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterPacket stream directed threshold endpoint compat transport consumer provenance
+        namecert bundle pkg →
+      Cont directed threshold left →
+        Cont endpoint compat right →
+          Cont left right common →
+            hsame common (append left right) ∧ PkgSig bundle provenance pkg := by
+  intro packet _leftRow _rightRow commonRow
+  obtain ⟨_streamUnary, _directedUnary, _thresholdUnary, _endpointUnary, _compatUnary,
+    _transportUnary, _consumerUnary, _provenanceUnary, _namecertUnary, _streamDirectedRow,
+    _thresholdEndpointRow, _compatTransportRow, _endpointCompatRow, _transportConsumerRow,
+    _provenanceNamecertRow, pkgRow⟩ := packet
+  exact ⟨commonRow, pkgRow⟩
 
 end BEDC.Derived.CauchyFilterUp
