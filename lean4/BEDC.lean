@@ -202,14 +202,16 @@ import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
 import BEDC.Derived.RationalIntervalUp.ConsumerReadbackSemanticNameCertificate
 import BEDC.Derived.RationalIntervalUp.Refinement
+import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
+import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
+import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
-import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
@@ -224,7 +226,6 @@ import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
-import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VermaModuleUp
@@ -288,7 +289,6 @@ import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.RepresentationRingUp.ObligationInventory
-import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
@@ -511,7 +511,6 @@ import BEDC.Derived.ComplexSeriesUp.NameCertificate
 import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
-import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
@@ -977,7 +976,6 @@ import BEDC.Derived.FpsUp.RingUpTailAlgebra
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
-import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
@@ -985,7 +983,6 @@ import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatUp.LedgerContextEquivalence
 import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.RatUp.StdBridge
-import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.EmptyWindow
