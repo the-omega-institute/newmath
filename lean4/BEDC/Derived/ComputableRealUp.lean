@@ -347,4 +347,86 @@ theorem ComputableRealSourcePacket_regseqrat_seal_factorization [AskSetup] [Pack
       sealReadUnary, consumerUnary, streamModulusRow, dyadicRegseqRow, transportRoutesRow,
       provenanceNameEndpoint, sealReadRow, consumerRow, endpointPkg, consumerPkg⟩
 
+theorem ComputableRealSourcePacket_modulus_window_stability [AskSetup] [PackageSetup]
+    {stream modulus dyadic regseq sealRow transport routes provenance name endpoint stream'
+      transport' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSourcePacket stream modulus dyadic regseq sealRow transport routes provenance
+        name endpoint bundle pkg ->
+      hsame stream stream' ->
+        Cont stream' modulus transport' ->
+          Cont transport' routes provenance' ->
+            Cont provenance' name endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                ComputableRealSourcePacket stream' modulus dyadic regseq sealRow transport'
+                    routes provenance' name endpoint' bundle pkg ∧
+                  hsame transport transport' ∧ hsame provenance provenance' ∧
+                    hsame endpoint endpoint' := by
+  intro packet sameStream transportRow provenanceRow endpointRow endpointPkg
+  have coverage := ComputableRealSourcePacket_ledger_coverage packet
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameStream (hsame_refl modulus)
+      coverage.right.right.right.right.right.left transportRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport (hsame_refl routes)
+      coverage.right.right.right.right.right.right.right.left provenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl name)
+      coverage.right.right.right.right.right.right.right.right.left endpointRow
+  exact
+    ⟨⟨unary_transport coverage.left sameStream,
+        coverage.right.left,
+        coverage.right.right.left,
+        coverage.right.right.right.left,
+        coverage.right.right.right.right.left,
+        transportRow,
+        coverage.right.right.right.right.right.right.left,
+        provenanceRow,
+        endpointRow,
+        endpointPkg⟩,
+      sameTransport,
+      sameProvenance,
+      sameEndpoint⟩
+
+theorem ComputableRealSourcePacket_real_seal_refinement_coverage [AskSetup] [PackageSetup]
+    {stream modulus dyadic regseq sealRow transport routes provenance name endpoint stream'
+      transport' provenance' endpoint' sealRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSourcePacket stream modulus dyadic regseq sealRow transport routes provenance
+        name endpoint bundle pkg ->
+      UnaryHistory name ->
+        hsame stream stream' ->
+          Cont stream' modulus transport' ->
+            Cont transport' routes provenance' ->
+              Cont provenance' name endpoint' ->
+                Cont regseq sealRow sealRead ->
+                  Cont sealRead name consumer ->
+                    PkgSig bundle endpoint' pkg ->
+                      PkgSig bundle consumer pkg ->
+                        ComputableRealSourcePacket stream' modulus dyadic regseq sealRow
+                            transport' routes provenance' name endpoint' bundle pkg ∧
+                          UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+                            hsame endpoint endpoint' ∧ Cont regseq sealRow sealRead ∧
+                              Cont sealRead name consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet nameUnary sameStream transportRow provenanceRow endpointRow sealReadRow
+    consumerRow endpointPkg consumerPkg
+  obtain ⟨streamUnary, modulusUnary, dyadicUnary, regseqUnary, sealUnary,
+    oldTransportRow, routesRow, oldProvenanceRow, oldEndpointRow, _oldEndpointPkg⟩ := packet
+  have streamUnary' : UnaryHistory stream' :=
+    unary_transport streamUnary sameStream
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameStream (hsame_refl modulus) oldTransportRow transportRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport (hsame_refl routes) oldProvenanceRow provenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl name) oldEndpointRow endpointRow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary sealUnary sealReadRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary nameUnary consumerRow
+  exact
+    ⟨⟨streamUnary', modulusUnary, dyadicUnary, regseqUnary, sealUnary, transportRow,
+        routesRow, provenanceRow, endpointRow, endpointPkg⟩,
+      sealReadUnary, consumerUnary, sameEndpoint, sealReadRow, consumerRow, consumerPkg⟩
+
 end BEDC.Derived.ComputableRealUp
