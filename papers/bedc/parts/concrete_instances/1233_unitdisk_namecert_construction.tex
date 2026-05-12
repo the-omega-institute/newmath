@@ -202,6 +202,46 @@ Use \autoref{thm:unitdisk-product-metric-boundary-package} to route the two $\Re
 Finally apply \autoref{thm:unitdisk-boundary-sone-consumer} for the boundary case. The provenance rows $H,C,P,N$ record the allowed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ reads, so no host Euclidean subset, compactness datum, or quotient boundary object can enter the ledger.
 \end{proof}
 
+\begin{theorem}[UnitDisk scoped product-metric source]
+\label{thm:unitdisk-scoped-product-metric-source}
+Every accepted $\UnitDiskUp$ packet reads its two $\RealUp$ coordinate rows through the displayed $\ProdUp$ pair row and the displayed origin row of \autoref{def:unitdisk-bhist-carrier}. The product-metric source of the disk certificate is therefore the finite row package
+$$
+(x,y,p,o,H,C,P,N)
+$$
+rather than a host point of $\mathbb{R}^2$ or an ambient Euclidean subset.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:unitdisk-bhist-carrier}. The coordinate rows $x$ and $y$, the product pair row $p$, and the origin row $o$ are explicit carrier coordinates.
+
+Apply \autoref{thm:unitdisk-carrier-stability} to see that transport preserves the same coordinate, pair, and origin positions. Apply \autoref{thm:unitdisk-classifier-law-package} to read the classifier componentwise on those displayed rows.
+
+The source row is consequently the finite product-metric package displayed by the carrier. No host point set or ambient Euclidean subset is added to the certificate.
+\end{proof}
+
+\begin{theorem}[UnitDisk scoped radius-boundary route]
+\label{thm:unitdisk-scoped-radius-boundary-route}
+For every accepted $\UnitDiskUp$ packet, each radius read factors through the displayed $\MetricUp$ radius row $d$, the $\IntervalUp$ or $\RealAlgOrderUp$ unit-bound row $b$, and the transport and provenance rows of \autoref{def:unitdisk-bhist-carrier}. When the optional boundary row $\partial$ is present, every boundary read additionally factors through the displayed $\SOneUp$ consumer row.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The radius row is $d$, the unit-bound row is $b$, and the optional boundary row is $\partial$.
+
+Use \autoref{thm:unitdisk-radius-boundary-exactness}. It states that public radius consumers read through $d$ and that boundary consumers read through $\partial$ when that row is present.
+
+Apply \autoref{thm:unitdisk-boundary-sone-consumer} for the boundary handoff and \autoref{thm:unitdisk-product-metric-boundary-package} for the combined product, metric, bound, and optional boundary package. These routes keep every radius or boundary request inside the displayed $\MetricUp$, $\IntervalUp$ or $\RealAlgOrderUp$, and $\SOneUp$ rows.
+\end{proof}
+
+\begin{theorem}[UnitDisk scoped consumer non-escape]
+\label{thm:unitdisk-scoped-consumer-nonescape}
+Downstream consumers of an accepted $\UnitDiskUp$ packet cannot read host Euclidean subsets, open-cover compactness, quotient boundary identification, or unrecorded topology. Their public reads are restricted to the displayed $\RealUp$ coordinate rows, $\ProdUp$ pair and origin rows, $\MetricUp$ radius row, $\IntervalUp$ or $\RealAlgOrderUp$ bound row, optional $\SOneUp$ boundary row, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:unitdisk-bhist-carrier}. The carrier lists exactly the coordinate, product, origin, radius, bound, optional boundary, transport, route, package, and local naming rows.
+
+Apply \autoref{thm:unitdisk-boundary-sone-consumer} to boundary consumers and \autoref{thm:unitdisk-radius-boundary-exactness} to radius consumers. Both theorems identify the displayed rows through which public reads must factor.
+
+Finally use \autoref{thm:unitdisk-carrier-stability} and \autoref{thm:unitdisk-classifier-law-package}. Transport and classification remain componentwise on the same finite packet rows, so no host subset, compactness proof, quotient boundary object, or unrecorded topology can be exported.
+\end{proof}
+
 \closureat{UnitDiskUp}{obligationStr}
 
 \begin{closurestatus}{\UnitDiskUp}
