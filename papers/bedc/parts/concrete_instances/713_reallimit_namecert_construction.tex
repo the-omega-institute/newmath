@@ -317,6 +317,44 @@ has no source from which any of those objects can be read.
 \end{proof}
 \leanchecked{BEDC.Derived.RealLimitUp.RealLimitPacket\_readback\_obligation}
 
+\begin{theorem}[RealLimit transported readback ledger stability]
+\label{thm:reallimit-transported-readback-ledger-stability}
+Let $R=(S,Q,E,D,H,C,P,N)$ and
+$R'=(S',Q',E',D',H',C',P',N')$ be accepted $\RealLimitUp$ packets. Suppose the
+displayed packet rows are related componentwise by $\hsame$ on the
+$\StreamNameUp$ schedules $S,S'$, the $\RegSeqRatUp$ source rows $Q,Q'$, the
+$\RealUp$ endpoint rows $E,E'$, the $\DyadicRatCoreUp$ tolerance windows
+$D,D'$, the $\mathsf{Pkg}$ provenance rows $P,P'$, and the local
+$\NameCert_{\RealLimitUp}$ rows $N,N'$, and suppose the visible schedule
+refinement routes are the same $\Cont$ routes carried by $C$ and $C'$.
+
+Then every $\RealUp$-facing readback ledger row of $R$ transports to a
+$\RealUp$-facing readback ledger row of $R'$ through those same $\Cont$
+refinement routes. The transported ledger remains inside the finite seal
+surface given by the schedules, source rows, endpoint rows, tolerance windows,
+componentwise $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert$ rows. It does not expose $\RealUp$ completeness,
+quotient-stream equality, or a selected limiting object.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:reallimit-regseqrat-streamname-handoff}. Each read of
+the real-facing endpoint $E$ is routed through the displayed
+$\StreamNameUp$ schedule, $\RegSeqRatUp$ source, $\DyadicRatCoreUp$ tolerance
+window, transport rows, continuation routes, package row, and local naming
+ledger before any consumer can observe the endpoint.
+
+Next use \autoref{thm:reallimit-transport-stability-boundary}. The assumed
+componentwise $\hsame$ relations and shared $\Cont$ refinements replace the
+visible rows of $R$ by the corresponding visible rows of $R'$ without leaving
+the displayed finite carrier surface.
+
+Finally apply \autoref{thm:reallimit-readback-obligation}. The readback row
+that survives this transport still factors through the scheduled
+$\RegSeqRatUp$ source and $\DyadicRatCoreUp$ tolerance window. Since none of
+the transported coordinates stores completeness, quotient-stream equality, or
+a selected limit, the readback ledger cannot acquire any such row.
+\end{proof}
+
 \begin{theorem}[RealLimit ledger obligation]
 \label{thm:reallimit-ledger-obligation}
 The $\RealLimitUp$ ledger exposes only $\DyadicRatCoreUp$, $\StreamNameUp$,
