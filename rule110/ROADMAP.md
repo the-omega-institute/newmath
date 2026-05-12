@@ -124,10 +124,10 @@ Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
   - [ ] L4.4.b: CI acceptance requires `cd rule110 && make test` and `cd lean4 && lake build rule110-cross-check`.
   - [ ] L4.4.c: Gate failure messages distinguish C evaluator failure, Lean decode failure, Lean semantic mismatch, missing target registration, and fixture incompleteness.
   - [ ] L4.4.d: Track runtime budget for roughly `44 manifests × ~30 assertions`, with startup/import time expected to dominate.
-- [ ] L4.5: Document trust-loop closure.
-  - [ ] L4.5.a: Keep the design source at `rule110/docs/cross_check_design.md`.
-  - [ ] L4.5.b: After the checker exists, write the operational trust-chain page `rule110/docs/cross_check.md` with exact commands and acceptance criteria.
-  - [ ] L4.5.c: State remaining boundaries clearly: Level 4 checks Lean correspondence for manifest assertions; Level 2 handles real CT recognizers; Level 3 handles `.r110` round-trip.
+- [x] L4.5: Document trust-loop closure.
+  - [x] L4.5.a: Keep the design source at `rule110/docs/cross_check_design.md`.
+  - [x] L4.5.b: After the checker exists, write the operational trust-chain page `rule110/docs/cross_check.md` with exact commands and acceptance criteria.
+  - [x] L4.5.c: State remaining boundaries clearly: Level 4 checks Lean correspondence for manifest assertions; Level 2 handles real CT recognizers; Level 3 handles `.r110` round-trip.
 
 **Outcome**: rule110 is no longer self-consistent-only; it is *Lean-verified*. The bisubstrate property starts taking shape.
 
