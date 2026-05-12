@@ -82,6 +82,20 @@ For each child, read the matching $\DyadicMeshUp$ packet and the corresponding $
 Thus the handoff is the finite enclosure subdivision formed by these rows. No coordinate supplies solver correctness, hardware semantics, classical completeness, or an infinite refinement principle.
 \end{proof}
 
+\begin{theorem}[DyadicSubdivision refinement composition]
+\label{thm:dyadic-subdivision-refinement-composition}
+Let $S=(I,L,C,M,V,P,N)$ be an accepted $\DyadicSubdivisionUp$ packet. Suppose $S'$ is obtained from $S$ by displayed finite $\DyadicMeshUp$ refinement routes over the same parent $\RationalIntervalUp$ row $I$, and suppose $S''$ is obtained from $S'$ by a second displayed finite family of $\DyadicMeshUp$ refinement routes over the same parent row. Then $S''$ is an accepted $\DyadicSubdivisionUp$ packet for $I$.
+
+The mesh coverage and validated enclosure handoff exported by $S''$ are the composed finite ledger: first the refined child rows from $S$ to $S'$, then the refined child rows from $S'$ to $S''$, together with the transported $\ValidatedNumericsUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The composition asserts no interval-tree semantics, infinite refinement process, host real subset, or solver-correctness theorem.
+\end{theorem}
+\begin{proof}
+Apply refinement stability to the first displayed refinement family. The result is the accepted packet $S'$ over the same parent interval row $I$, with only its finite cell ledger, mesh rows, and validated containment rows refined.
+
+Apply refinement stability again to the second displayed refinement family. Since its routes are also over the same parent row, the second application yields an accepted packet $S''$ whose parent interval and provenance surface remain the displayed rows of the original packet.
+
+It remains to identify the consumer surface. Mesh coverage reads only the finite ordered cell list and the $\DyadicMeshUp$ packets; validated enclosure handoff reads the matching $\ValidatedNumericsUp$ rows along the same routes. Chaining those two finite ledgers gives the composed mesh and enclosure surface named in the statement, with no additional infinite or host-level object.
+\end{proof}
+
 \closureat{DyadicSubdivisionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicSubdivisionUp}
