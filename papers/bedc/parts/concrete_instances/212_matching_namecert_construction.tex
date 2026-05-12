@@ -330,15 +330,56 @@ $$
 The graph-edge row and the no-shared-vertex row are exactly $\mathsf{MatchingEdgeSet}_G(N)$ by \autoref{def:matching-carrier-and-finite-edge-subset}.
 \end{proof}
 
+\begin{theorem}[Matching standard finite-edge bridge]
+\label{thm:matching-standard-finite-edge-bridge}
+The public finite-edge-subset matching certificate bridges to the standard
+finite matching interface exactly through the displayed $\GraphUp$ carrier,
+$\FinSetUp$ finite ledger, $\mathsf{BHist}$ edge predicates, incidence rows,
+no-shared-vertex classifier, augmentation and toggle rows, and bipartite-cover
+consumer boundary.
+
+The bridge exposes finite selected edges, carried incidence witnesses,
+classifier comparisons for shared vertices, compatible augmentation toggles,
+and the public cover-side consumer boundary. It exposes no ambient host edge
+set, maximum-matching optimality theorem, vertex-cover duality theorem, or
+external graph representation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:matching-finite-subset-closure}. It binds the selected
+edge predicate to the displayed $\GraphUp$ carrier and the $\FinSetUp$ finite
+ledger, so every selected edge read is a carried graph-edge read.
+
+Next combine the closure rows. Use
+\autoref{thm:matching-compatible-union-closure},
+\autoref{thm:empty-edge-predicate-is-matching}, and
+\autoref{thm:singleton-edge-predicate-is-matching}. These rows give the finite
+empty, singleton, and compatible-union entry points for the standard finite
+matching interface.
+
+Now add the consumer operations. Apply
+\autoref{thm:matching-augmentation-symmetric-difference-decomposition},
+\autoref{thm:matching-augmenting-edge-toggle-closure}, and
+\autoref{thm:matching-bipartite-cover-consumer-boundary}. They keep alternating
+augmentation, finite toggling, and the bipartite-cover read boundary inside the
+same edge predicate, incidence, and classifier ledger.
+
+Finally apply \autoref{thm:matching-abstract-subpredicate-closure}. It shows
+that sub-predicate reads remain matching reads without adding an unrecorded host
+edge set. The listed rows are therefore exactly the finite-edge standard
+interface available from the public certificate, and the excluded graph-theory
+objects have no coordinate in the packet.
+\end{proof}
+
 \closureat{MatchingUp}{scopedStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
 \closureat{MatchingUp}{publicStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
+\closureat{MatchingUp}{bridgedStr}[BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed]
 \begin{closurestatus}{\MatchingUp}
   \constructivestory{A matching is generated inside a displayed $\GraphUp$ carrier by choosing an edge predicate and then bounding the chosen edges with a $\FinSetUp$ finite-spine witness. The carrier accepts a predicate only when every selected history is a graph edge and any two selected edges incident to the same carried vertex collapse through the graph edge classifier; predicates with uncarried edges or unclassified shared vertices are excluded. Two matching presentations are compared through the edge classifier and the finite-subset or compatible-union ledgers, so a singleton edge class, a finite subpredicate, and a compatible toggle all remain inside the same graph-certified surface rather than becoming host edge sets. The source is the finite edge subset over the graph carrier, the pattern records hereditary subset closure, compatible union closure, empty and singleton edge predicates, augmentation toggles, and the bipartite-cover consumer boundary, and the ledger keeps selected edges, incidence witnesses, membership side, finite enumeration, and classifier comparisons visible. The five name-certificate obligations are supplied by the empty or singleton carried edge examples for nonemptiness, by the edge certificate for reflexivity, symmetry, and transitivity, and by finite-subset and compatible-union closure for repacking classified selected edges as matchings. A history $h$ lies in the signature gap of a $\MatchingUp$ token $p$ when the source-domain accepts its finite edge predicate, the signature relation pairs it with an answer matching and evidence ledger, and the token-introduction relation names that answer as $p$; concretely, every edge selected by $h$ is a carried graph edge and any shared-vertex conflict is resolved exactly as $p$ records. The chapter registers this finite incidence construction under the name $\MatchingUp$; maximum matching, vertex-cover duality, external graph-theory bridges, and ambient host edge sets remain outside the scoped certificate.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public finite-edge-subset matching certificate binds the finite edge subset, incidence, compatibility, augmentation, and consumer rows to the displayed $\GraphUp$ carrier, $\FinSetUp$ finite-subset witness, $\mathsf{BHist}$ edge predicates, and edge classifier.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public finite-edge-subset matching certificate and its standard finite-edge bridge bind the finite edge subset, incidence, compatibility, augmentation, toggle, and bipartite-cover consumer rows to the displayed $\GraphUp$ carrier, $\FinSetUp$ finite-subset witness, $\mathsf{BHist}$ edge predicates, and edge classifier.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MatchingUp.MatchingEdgeSet\_finite\_subset\_closed}
-  \bridgestatus{none}
-  \notclaimed{Maximum matching, vertex-cover duality, and standard graph-theory bridges are not claimed by this chapter.}
-  \upgradepath{Bridged closure requires a standard matching-interface bridge for the public finite-edge-subset certificate.}
+  \bridgestatus{paperBridge}
+  \notclaimed{Maximum matching, vertex-cover duality, ambient host edge sets, and mature alternating-path or cover consumer examples are not claimed by this chapter.}
+  \upgradepath{Mature closure requires finite alternating-path or cover consumer examples for the public matching certificate.}
 \end{closurestatus}
