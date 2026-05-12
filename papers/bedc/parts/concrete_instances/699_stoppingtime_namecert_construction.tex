@@ -184,14 +184,16 @@ limits outside the packet.
 \end{proof}
 
 \closureat{StoppingTimeUp}{seedStr}
+\closureat{StoppingTimeUp}{obligationStr}
+\closureat{StoppingTimeUp}{scopedStr}
 
 \begin{closurestatus}{\StoppingTimeUp}
   \constructivestory{A stopping-time packet is generated from a displayed $\ProbSpaceUp$ source, finite $\RandomVarUp$ process rows optionally supplied through $\MartingaleUp$ or $\MarkovChainUp$, a unary time horizon, a finite filtration-prefix ledger, stopping-event witness rows, componentwise $\hsame$ transport, finite $\Cont$ read routes, and $\Pkg$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:stoppingtime-source-packet}, \autoref{thm:stoppingtime-namecert-obligation-surface}, \autoref{thm:stoppingtime-filtration-prefix-stability}, \autoref{thm:stoppingtime-ledger-coverage}, and \autoref{thm:stoppingtime-standard-boundary} enumerate the obligation surface, filtration-prefix stability, ledger coverage, and standard boundary as the full finite-prefix stopping-rule obligation set.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:stoppingtime-source-packet}, \autoref{thm:stoppingtime-namecert-obligation-surface}, \autoref{thm:stoppingtime-filtration-prefix-stability}, \autoref{thm:stoppingtime-ledger-coverage}, \autoref{thm:stoppingtime-standard-boundary}, and \autoref{thm:stoppingtime-scoped-dependency-envelope} bind the obligation surface, filtration-prefix stability, ledger coverage, standard boundary, $\mathsf{BHist}$ prefixes, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row as the full finite-prefix stopping-rule scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host filtrations, infinite stopping times, optional stopping, stopped martingales, selected limits, or a standard stochastic-process bridge.}
-  \upgradepath{Scoped closure requires binding those rows explicitly to $\Cont$, $\hsame$, $\NameCert$, and finite-prefix provenance.}
+  \upgradepath{Public closure requires a single exported finite-prefix stopping-rule certificate for downstream probability consumers.}
 \end{closurestatus}
