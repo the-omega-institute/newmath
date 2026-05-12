@@ -144,15 +144,56 @@ The two-axis factorization then identifies the only real-facing route. A consume
 The excluded host objects are not coordinates of the carrier and are ruled out again by \autoref{thm:cauchy-double-sequence-seal-nonescape}. Hence the consumer boundary is exactly the displayed finite packet and its seal row.
 \end{proof}
 
-\closureat{CauchyDoubleSequenceUp}{obligationStr}
+\begin{definition}[CauchyDoubleSequence scoped route]
+\label{def:cauchy-double-sequence-scoped-route}
+The scoped diagonal route for an accepted $\CauchyDoubleSequenceUp$ carrier
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+is the finite $\BHist$ route
+$$
+(X,\mu,\tau,H,C,P,N)\longmapsto D\longmapsto R\longmapsto E.
+$$
+Here $X$ is the two-parameter $\RegSeqRatUp$ family, $\mu$ is the $\CauchyRateUp$ diagonal schedule, $\tau$ is the $\DyadicTailBoundUp$ tolerance row, $D$ is the scheduled diagonal $\RegSeqRatUp$ readback, $R$ is the $\RealCauchyCompletionUp$ consumer, and $E$ is the $\RealUp$ seal. The route is scoped by the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyDoubleSequenceUp}$ rows; it is not an ambient convergence theorem for host double sequences.
+\end{definition}
+
+\begin{theorem}[CauchyDoubleSequence scoped diagonal route]
+\label{thm:cauchy-double-sequence-scoped-diagonal-route}
+Every accepted $\CauchyDoubleSequenceUp$ packet binds the two-parameter $\RegSeqRatUp$ family, $\CauchyRateUp$ diagonal schedule, $\DyadicTailBoundUp$ tolerance row, $\RealCauchyCompletionUp$ consumer, and $\RealUp$ seal into the scoped route of \autoref{def:cauchy-double-sequence-scoped-route}. Every real-completion read of the packet factors through this route as a $\BHist$ dependency surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(X,\mu,\tau,D,R,E,H,C,P,N)$. The only two-parameter source row is $X$, the only diagonal selector is $\mu$, and the only tolerance row assigned to the selected windows is $\tau$.
+
+Use schedule-tail exactness to identify the windows consumed by $D$. The diagonal $\RegSeqRatUp$ readback is therefore already determined by the displayed array, schedule, and tail-bound rows.
+
+Next use completion consumer scope and two-axis seal factorization. They force every real-completion read through $D$, then through the completion consumer row $R$, and finally through the $\RealUp$ seal row $E$.
+
+The transport, continuation, package, and naming rows $H,C,P,N$ scope the whole route as finite $\BHist$ evidence. Thus the route is a displayed dependency surface, not a host double-sequence convergence principle.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence scoped non-escape]
+\label{thm:cauchy-double-sequence-scoped-nonescape}
+The scoped diagonal route of \autoref{def:cauchy-double-sequence-scoped-route} exports no host double-sequence convergence theorem, no quotient equality of two-parameter arrays, no selected double limit, and no unscoped real-completeness principle. A downstream $\RealCauchyCompletionUp$ or $\RealUp$ consumer receives only the scheduled diagonal windows, the diagonal $\RegSeqRatUp$ readback, the completion consumer row, the seal row, and the displayed $H,C,P,N$ provenance.
+\end{theorem}
+\begin{proof}
+Begin with the scoped diagonal route theorem. It says that every real-completion read factors through $X,\mu,\tau,D,R,E,H,C,P,N$.
+
+Apply window diagonal exhaustion to the first stage. No consumer can inspect an array coordinate outside the windows selected by $\mu$ and bounded by $\tau$.
+
+Apply real seal non-escape to the final stage. The only real-facing coordinate is $E$, and it is reached through the completion consumer row $R$ after the diagonal readback $D$.
+
+Since the scoped route contains no coordinate for host convergence, quotient equality, selected limits, or unscoped completeness, those objects cannot be extracted from the packet.
+\end{proof}
+
+\closureat{CauchyDoubleSequenceUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyDoubleSequenceUp}
   \constructivestory{A $\CauchyDoubleSequenceUp$ packet is generated from a two-parameter $\RegSeqRatUp$ family, a $\CauchyRateUp$ diagonal schedule, a $\DyadicTailBoundUp$ tolerance row, a diagonal $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-double-sequence-carrier}, \autoref{thm:cauchy-double-sequence-namecert-obligations}, \autoref{thm:cauchy-double-sequence-diagonal-handoff}, \autoref{thm:cauchy-double-sequence-seal-nonescape}, \autoref{thm:cauchy-double-sequence-scope}, \autoref{thm:cauchy-double-sequence-window-diagonal-exhaustion}, \autoref{thm:cauchy-double-sequence-two-axis-seal-factorization}, and \autoref{thm:cauchy-double-sequence-real-consumer-boundary} bind the finite diagonal-array carrier, schedule, tolerance, readback, completion consumer, real seal, transport, continuation, package, and local naming rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-double-sequence-scoped-route}, \autoref{thm:cauchy-double-sequence-scoped-diagonal-route}, and \autoref{thm:cauchy-double-sequence-scoped-nonescape} bind the finite diagonal-array carrier, schedule, tolerance, readback, completion consumer, real seal, transport, continuation, package, and local naming rows as one scoped dependency surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host double-sequence convergence, quotient equality of arrays, selected limits, unscoped real completeness, or a public standard bridge.}
-  \upgradepath{Scoped closure requires binding the diagonal schedule, tail-bound route, completion consumer, and seal boundary to explicit checked dependency scope over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRateUp$, $\DyadicTailBoundUp$, $\RealCauchyCompletionUp$, and $\RealUp$.}
+  \upgradepath{Lean verification requires a checked theorem for the scoped route over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRateUp$, $\DyadicTailBoundUp$, $\RealCauchyCompletionUp$, and $\RealUp$.}
 \end{closurestatus}
