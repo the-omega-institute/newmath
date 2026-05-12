@@ -111,6 +111,7 @@ import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
+import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyTailComparisonUp
@@ -783,6 +784,7 @@ import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
+import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
