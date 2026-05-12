@@ -141,6 +141,64 @@ The comparison used to choose the branch is the row $B$. Its prerequisites are t
 It remains to account for transport and consumer routing. The $\hsame$ row $H$ and $\Cont$ row $C$ move the same finite rows componentwise, and $P,N$ record the package and local naming provenance. No other row is present in the carrier, so the bisection or subdivision ledger is exact.
 \end{proof}
 
+\begin{theorem}[DyadicMidpoint branch-ledger totality]
+\label{thm:dyadic-midpoint-branch-ledger-totality}
+For every accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+every bisection branch read is accounted for by the displayed branch row $B$ together with the endpoint rows $L,R$, common-denominator row $S$, midpoint row $\mu$, finite-window row $W$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$. No bisection consumer can obtain a branch outside this ledger.
+
+The branch surface exports no host real equality, quotient endpoints, completed interval intersection, or completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:dyadic-midpoint-carrier}. The only branch-bearing coordinate is $B$, and its displayed prerequisites are the endpoint rows $L,R$, the common-denominator row $S$, and the midpoint row $\mu$.
+
+Apply \autoref{thm:dyadic-midpoint-branch-comparison-handoff}. It identifies every bisection or subdivision branch with the displayed branch-comparison row and routes the branch back through the same endpoint and midpoint ledger.
+
+Finally use \autoref{thm:dyadicmidpoint-bisection-ledger-exactness}. The finite-window, transport, continuation, package, and naming rows $W,H,C,P,N$ exhaust the consumer-visible route, so there is no remaining coordinate for host real equality, quotient endpoints, completed interval intersection, or a completeness principle.
+\end{proof}
+
+\begin{theorem}[DyadicMidpoint common-denominator consumer exactness]
+\label{thm:dyadic-midpoint-common-denominator-consumer-exactness}
+For every accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+any consumer that reads the midpoint row $\mu$ must first consume the displayed common-denominator row $S$ for the endpoint rows $L,R$. The finite-window route $W$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, package row $P$, and local naming row $N$ preserve that same denominator ledger when the midpoint is handed to $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, or $\RealUp$ consumers.
+
+Thus midpoint exactness is the exactness of the displayed common-denominator calculation, not equality of host real endpoints, quotient endpoint representatives, completed interval intersections, or any completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The midpoint row $\mu$ is not a primitive endpoint; it is obtained from the endpoint rows $L,R$ after the common-denominator scaling row $S$ has been read.
+
+Use \autoref{thm:dyadicmidpoint-bisection-ledger-exactness}. It states that every bisection or subdivision read is exhausted by the rows $L,R,S,\mu,B,W,H,C,P,N$, so a midpoint consumer cannot bypass $S$.
+
+Apply \autoref{thm:dyadic-midpoint-finite-window-consumer-route}. The finite-window route and the transport, continuation, package, and naming rows carry the same scaled endpoint ledger into downstream interval and real-name consumers.
+
+The handoff therefore preserves exactness of the common-denominator calculation only. Since no host real equality, quotient endpoint, completed intersection, or completeness row is present in the carrier, none is exported.
+\end{proof}
+
+\begin{theorem}[DyadicMidpoint RealUp handoff without completion]
+\label{thm:dyadic-midpoint-real-handoff-noncompletion}
+For every accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+any $\RealUp$ read of the midpoint ledger factors through the finite-window consumer route $W,H,C,P,N$ and through the exact bisection rows $L,R,S,\mu,B$. The handoff gives $\RealUp$ a finite dyadic-name packet for the current window; it does not export a completed interval intersection, a quotient endpoint equality, host real equality, or a completeness principle.
+
+The same non-completion boundary is inherited by $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, and $\StreamNameUp$ consumers that route through the midpoint ledger.
+\end{theorem}
+\begin{proof}
+Read the consumer route through \autoref{thm:dyadic-midpoint-finite-window-consumer-route}. It sends $\RealUp$ and the interval consumers through the finite readback row $W$, the transport row $H$, the continuation row $C$, the package row $P$, and the local naming row $N$.
+
+Next apply \autoref{thm:dyadicmidpoint-bisection-ledger-exactness}. The endpoint, common-denominator, midpoint, and branch data read by that route are exactly $L,R,S,\mu,B$.
+
+Use \autoref{thm:dyadic-midpoint-branch-comparison-handoff} for the branch side. Any retained-window decision is the displayed branch-comparison row, not a host order or equality fact about completed reals.
+
+Combining these rows gives $\RealUp$ only the finite dyadic-name packet for the current window. The carrier has no completed interval intersection, quotient endpoint equality, host real equality, or completeness coordinate to export, and the same boundary holds for the listed interval and stream-name consumers.
+\end{proof}
+
 \begin{theorem}[DyadicMidpoint downstream DyadicRatCore package]\label{thm:dyadicmidpoint-downstream-dyadicratcore-package}
 For every accepted $\DyadicMidpointUp$ carrier, endpoint classifier stability, branch-comparison handoff, finite-window consumer routing, and nested-interval non-escape assemble the downstream $\DyadicRatCoreUp$ package consumed by $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, and $\RealUp$ readers. The assembled package consists only of the rows $L,R,S,\mu,B,W,H,C,P,N$ and exports no host real equality, quotient endpoint, completed interval intersection, or ambient completeness principle.
 \end{theorem}
