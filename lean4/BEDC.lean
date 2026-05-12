@@ -77,7 +77,11 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
-import BEDC.Derived.DyadicMeshUp
+import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
+import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
+import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
+import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
+import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
@@ -214,6 +218,7 @@ import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
+import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularLanguageUp
