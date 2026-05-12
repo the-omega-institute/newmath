@@ -1,0 +1,128 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateUp$}
+\label{ch:concrete-instances-cauchyrate-namecert}
+\origin{human}
+
+The $\CauchyRateUp$ interface names the effective-rate certificate consumed between regular Cauchy data and real-completion readers. In the constructive-analysis reading of Bishop and Bridges, \emph{Constructive Analysis}, a usable real name supplies an explicit precision request, a modulus schedule, a tolerance row, and a regular rational source before any completion-facing consumer may read a real seal. The packet below records exactly that finite route through $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, and $\RealCauchyCompletionUp$.
+
+\begin{definition}[CauchyRate BHist source]
+\label{def:cauchy-rate-bhist-source}
+A $\CauchyRateUp$ source packet is a finite $\mathsf{BHist}$ row
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $p$ is a unary precision row naming the requested effective rate;
+\item $\mu$ is the $\CauchyModulusUp$ schedule row that assigns the finite inspection window for $p$;
+\item $\tau$ is the $\DyadicTailBoundUp$ tolerance row used to justify the scheduled tail comparison;
+\item $F$ is the $\RegularCauchyFamilyUp$ source row whose inspected family entries are read through the schedule $\mu$;
+\item $Q$ is the $\RegSeqRatUp$ source row obtained from the same scheduled family window and tolerance row;
+\item $E$ is the $\RealCauchyCompletionUp$ consumer row reached only through $Q$, $F$, $\tau$, and $\mu$;
+\item $H$ records the componentwise $\hsame$ transports for precision, schedule, tolerance, family source, regular-sequence source, and completion-consumer rows;
+\item $C$ records the displayed $\Cont$ routes from the consumer request to the schedule, tolerance, source, regular readback, and completion boundary;
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyRateUp}$ row.
+\end{enumerate}
+The displayed transports and routes are the rows
+$$
+\begin{aligned}
+&\hsame(p,p'),\quad \hsame(\mu,\mu'),\quad \hsame(\tau,\tau'),\quad
+\hsame(F,F'),\quad \hsame(Q,Q'),\quad \hsame(E,E'),\\
+&\Cont(p,\mu),\quad \Cont(\mu,\tau),\quad \Cont((\mu,\tau),F),\quad
+\Cont((F,\tau),Q),\quad \Cont((Q,F,\tau,\mu),E).
+\end{aligned}
+$$
+The classifier compares accepted packets only by these displayed rows, their $\Pkg$ provenance, and the local $\NameCert_{\CauchyRateUp}$ row.
+\end{definition}
+
+\begin{theorem}[CauchyRate NameCert obligations]
+\label{thm:cauchy-rate-namecert-obligations}
+The local $\NameCert_{\CauchyRateUp}$ surface for the packet of \autoref{def:cauchy-rate-bhist-source} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure: the precision, schedule, tolerance, regular-family source, regular rational readback, completion consumer, transport, route, package, and local certificate rows are all visible coordinates of $K$;
+\item classifier exactness: accepted packets are compared only by componentwise $\hsame$ transport and displayed $\Cont$ reads of those coordinates;
+\item regular-family handoff: the row $Q$ is read from the scheduled $\RegularCauchyFamilyUp$ source $F$ using the tolerance row $\tau$ and no separate stream;
+\item completion-consumer boundary: the row $E$ is reachable only after the $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, and $\RegSeqRatUp$ rows have been displayed;
+\item ledger exhaustion: every rate-facing dependency is named by $P$ and $N$, with no row for real completeness, quotient stream equality, selected limits, or host real equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the packet $K$ of \autoref{def:cauchy-rate-bhist-source}. Its carrier coordinates list precisely the rows used by the certificate, so carrier exposure is immediate from the finite $\mathsf{BHist}$ shape.
+
+Classifier exactness follows by replaying the stored transports and continuation routes. The classifier has no coordinate outside $p,\mu,\tau,F,Q,E,H,C,P,N$, hence a transported accepted packet is compared only through those rows.
+
+The regular-family handoff is the projection to $Q$. The route $\Cont((F,\tau),Q)$ keeps the scheduled family window and the dyadic tail bound together, so the readback cannot be replaced by an unrecorded rational stream.
+
+The completion-consumer boundary is the projection to $E$. Since the only displayed route into $E$ is $\Cont((Q,F,\tau,\mu),E)$, the consumer sees the modulus schedule, tolerance, family source, and regular rational readback before it sees a completion-facing row.
+
+Finally, $P$ and $N$ account for the package provenance and the local naming surface. They add no coordinate for RealUp completeness, quotient stream equality, selected limits, or host real equality, so the ledger is exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[CauchyRate regular-family handoff]
+\label{thm:cauchy-rate-regular-family-handoff}
+For every accepted $\CauchyRateUp$ packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ source row $Q$ is obtained from the same $\CauchyModulusUp$ schedule row $\mu$, the same $\DyadicTailBoundUp$ tolerance row $\tau$, and the same $\RegularCauchyFamilyUp$ source row $F$. Any consumer of $Q$ through the displayed $\Cont$ routes must retain those three rows as the rate certificate for the inspected finite window.
+\end{theorem}
+\begin{proof}
+Read the schedule, tolerance, family, and regular-sequence coordinates from $K$. The row $\mu$ selects the finite inspection window, the row $\tau$ supplies the displayed tail budget, and the row $F$ supplies the regular Cauchy family entries inspected on that window.
+
+The continuation route $\Cont((F,\tau),Q)$ repacks exactly those rows as the $\RegSeqRatUp$ source row. Because $\tau$ and $F$ are stored in the same packet as $\mu$, the handoff cannot drop the rate schedule or substitute a separate tolerance ledger.
+
+Any consumer of $Q$ must use the displayed routes in $C$ and the provenance rows $P$ and $N$. These rows certify the same finite packet and do not introduce quotient stream equality, selected limits, host sequence equality, or a real-completeness principle.
+\end{proof}
+
+\begin{theorem}[CauchyRate real-completion consumer boundary]
+\label{thm:cauchy-rate-real-cauchy-consumer-boundary}
+For an accepted $\CauchyRateUp$ packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N),
+$$
+every read of the $\RealCauchyCompletionUp$ consumer row $E$ factors through the scheduled modulus row $\mu$, the dyadic tail-bound row $\tau$, the regular-family source row $F$, and the regular rational readback row $Q$. The boundary exports an effective completion-facing consumer route, not RealUp completeness, quotient stream equality, a selected limit, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the completion row from the source packet. The only route displayed for $E$ is $\Cont((Q,F,\tau,\mu),E)$, so the consumer boundary is downstream of the schedule, tolerance, family source, and regular rational readback.
+
+The handoff theorem \autoref{thm:cauchy-rate-regular-family-handoff} identifies $Q$ as the regular rational row obtained from $F$ with the same $\mu$ and $\tau$. Thus reading $E$ necessarily preserves the effective-rate data that produced the readback.
+
+The packet contains no coordinate for a quotient of streams, a selected limiting object, a host real equality test, or an ambient completeness witness. The completion-facing row is therefore a consumer boundary over the displayed effective certificate only.
+\end{proof}
+
+\begin{theorem}[CauchyRate ledger exactness]
+\label{thm:cauchy-rate-ledger-exactness}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be an accepted $\CauchyRateUp$ source packet. The ledger named by $P$ and $N$ is exact over the rows $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$: every accepted rate read is accounted for by one of those displayed coordinates, and no hidden carrier may be used as an additional premise.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:cauchy-rate-bhist-source}. The rows $p,\mu,\tau,F,Q,E,H,C,P,N$ are the full list of data available to the local classifier.
+
+The obligation theorem \autoref{thm:cauchy-rate-namecert-obligations} identifies the carrier, classifier, handoff, boundary, and ledger rows. The handoff theorem \autoref{thm:cauchy-rate-regular-family-handoff} accounts for reads of $Q$, and \autoref{thm:cauchy-rate-real-cauchy-consumer-boundary} accounts for reads of $E$.
+
+It remains only to inspect provenance. The row $P$ names the dependency package and $N$ names the local certificate, both over the displayed finite packet. Since no other coordinate is present, no hidden carrier can serve as an additional premise for the effective-rate read.
+\end{proof}
+
+\begin{theorem}[CauchyRate transport stability]
+\label{thm:cauchy-rate-transport-stability}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be an accepted $\CauchyRateUp$ packet. Any componentwise $\hsame$ transport recorded in $H$, together with the displayed $\Cont$ routes recorded in $C$, preserves the $\NameCert_{\CauchyRateUp}$ classifier on the transported precision, schedule, tolerance, regular-family source, regular rational readback, completion consumer, package, and local certificate rows.
+\end{theorem}
+\begin{proof}
+Project the classifier from \autoref{def:cauchy-rate-bhist-source}. It compares only the precision, schedule, tolerance, family, readback, consumer, transport, route, package, and local naming coordinates.
+
+Transport each visible coordinate by the corresponding $\hsame$ row in $H$. Then replay the routes in $C$: first from the precision request to the schedule, then to the tolerance, then to the family source, then to the regular readback, and finally to the completion consumer boundary.
+
+The ledger exactness theorem \autoref{thm:cauchy-rate-ledger-exactness} rules out any additional premise during this transport. Hence the transported packet is accepted by the same classifier surface and still withholds RealUp completeness, quotient stream equality, selected limits, and host real equality.
+\end{proof}
+
+\closureat{CauchyRateUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateUp}
+  \constructivestory{A $\CauchyRateUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ tolerance row, a $\RegularCauchyFamilyUp$ source, a $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, effective-rate handoff, completion-consumer boundary, ledger exactness, and transport stability for the displayed packet rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular streams, selected limits, host real equality, public-object export, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean-backed carrier, handoff, boundary, ledger, and transport rows for the named effective-rate packet.}
+\end{closurestatus}
