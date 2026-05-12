@@ -206,6 +206,38 @@ Many checked lemmas are intentionally statement-shape lemmas. Names such as
 which substitution preservation is proved. The full picture is assembled from
 these shape-local facts rather than from an opaque global argument.
 
+\subsection{Derivation Style}\label{subsec:reconstruction-derivation-style}
+
+The MetaCIC proof layer follows a derivation style tied closely to the
+inductive term and judgment constructors. Most local lemmas proceed by case
+analysis on the represented term or typing witness. In the atom cases of
+subject reduction and substitution preservation, a proof often reduces to
+term-level inversion by \texttt{cases ht}: when the source term is
+$\mathrm{sort}$ or $\mathrm{var}\ i$, the impossible typing constructors are
+eliminated and the surviving constructor exposes exactly the required
+premises.
+
+Many theorems are therefore shape-restricted. A case-specific preservation
+result may assume a syntactic side condition such as
+$t = \mathrm{sort} \vee \exists i,\ t = \mathrm{var}\ i$, rather than
+claiming the unrestricted preservation theorem directly. The global proof
+surface is assembled by chaining such case lemmas, with separate entries for
+sort/variable atoms, Pi bodies, lambda bodies, and application bodies.
+
+The proofs are also closure-conditioned. Hypotheses such as
+$\mathrm{ClosedAt}\ 0\ \mathrm{dom}$ keep binder-domain shifts from changing
+the represented type, so the shifted context used by the typing rule agrees
+with the context obtained after substitution. This is the point at which the
+de Bruijn bookkeeping becomes a local equality instead of a global transport
+problem.
+
+Finally, the formalization separates statements from proof instances. Clean
+targets such as $\mathrm{BetaSubstitutionPreservation}$ name the proposition
+needed downstream, while the checked lemmas prove that target under specific
+term shapes and closure hypotheses. The development does not hide the
+remaining unrestricted theorem inside one monolithic proof; it exposes the
+proof-relevant shapes that make each derivation go through.
+
 \subsection{Namespace Rationale}\label{subsec:reconstruction-namespace-rationale}
 
 The \texttt{BEDC.MetaCIC} namespace is divided by proof responsibility rather
