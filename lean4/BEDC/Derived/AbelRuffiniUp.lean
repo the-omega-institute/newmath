@@ -297,4 +297,34 @@ theorem AbelRuffiniPublicCertificate_radical_tower_bridge_boundary
       publicData.right.right.right.right.right.right.right.right.right,
       bridgeRow⟩
 
+theorem AbelRuffiniRadicalTowerBridge_standard_boundary
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface
+      standardRead : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> Cont polynomial base coefficientLedger ->
+          Cont splittingField galoisRow galoisLedger ->
+            Cont coefficientLedger galoisLedger sourceSurface ->
+              Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                  Cont boundary s5Row publicSurface -> Cont publicSurface endpoint standardRead ->
+                    UnaryHistory publicSurface ∧ UnaryHistory standardRead ∧
+                      hsame publicSurface (append boundary s5Row) ∧
+                        hsame standardRead (append publicSurface endpoint) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  intro subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow standardReadRow
+  have exportRows :=
+    AbelRuffiniPublicCertificateExport_namecert_surface polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary s5RowUnary commutatorUnary obstructionUnary
+      coefficientRow galoisLedgerRow sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow
+      publicSurfaceRow
+  have standardReadUnary : UnaryHistory standardRead :=
+    unary_cont_closed exportRows.right.right.right.right.right.left
+      exportRows.right.right.right.left standardReadRow
+  exact
+    ⟨exportRows.right.right.right.right.right.left, standardReadUnary,
+      exportRows.right.right.right.right.right.right.right.right.right, standardReadRow⟩
+
 end BEDC.Derived.AbelRuffiniUp
