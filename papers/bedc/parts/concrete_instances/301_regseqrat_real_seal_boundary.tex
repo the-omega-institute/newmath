@@ -133,6 +133,47 @@ finite seal route is the same, with no quotient stream, host real equality,
 completion point, or selected limit available as an extra coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal classifier factorization]
+\label{thm:regseqrat-real-seal-classifier-factorization}
+Let $P$ and $Q$ be displayed finite $\mathsf{BHist}$ packets carrying
+$\StreamNameUp$ schedule rows, $\DyadicRatCoreUp$ endpoint and radius ledgers,
+$\RegSeqRatUp$ regular-stream readback rows, displayed $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ rows. Suppose
+two $\RealUp$ seal routes are accepted over the same regular-stream boundary
+and read from $P$ and $Q$. Then the two seal routes classify together exactly
+through the displayed $\RegSeqRatUp$ stream classifier and the transported
+finite-window package obtained from these rows.
+
+The classifier has no coordinate for quotient Cauchy classes, host real
+equality, completed metric limits, or selected limits. Equality consumed by the
+$\RealUp$ seal is therefore only the finite classifier factorization through
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and the displayed local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regseqrat-real-seal-route-exclusion-package} on both accepted
+seal routes. This removes every non-displayed route component and leaves only
+finite packets carrying the stream schedule, dyadic ledgers, regular readback,
+transport, continuation, package, and naming rows.
+
+Apply \autoref{thm:regseqrat-real-seal-transport-fusion} to move the endpoint
+and radius rows, together with the regular readback and package provenance, to
+a common finite window. The transported rows still present the same
+$\RegSeqRatUp$ classifier boundary because the transport is entirely through
+displayed $\hsame$ and $\Cont$ data.
+
+Choose the shared finite packet by
+\autoref{thm:regseqrat-cover-normal-form-real-seal}. In that packet the
+classifier row and the finite-window package are the only data available to the
+seal consumer.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-uniqueness-boundary}. The two
+accepted routes now read the same normal-form packet, so their $\RealUp$ seal
+classification is exactly the displayed $\RegSeqRatUp$ classifier transported
+through that finite window, with no quotient, host-real, completion, or choice
+coordinate introduced.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
