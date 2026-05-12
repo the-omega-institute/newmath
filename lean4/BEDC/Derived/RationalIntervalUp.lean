@@ -121,4 +121,29 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
 
+theorem RationalIntervalFiniteConsumer_completeness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint bridge consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory bridge ->
+        Cont endpoint bridge consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+              UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory bridge ∧
+                UnaryHistory consumer ∧ Cont left right order ∧
+                  Cont order containment transport ∧ Cont transport route provenance ∧
+                    Cont provenance name endpoint ∧ Cont endpoint bridge consumer ∧
+                      PkgSig bundle consumer pkg := by
+  intro packet bridgeUnary endpointBridgeConsumer consumerPkg
+  obtain ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, endpointUnary, leftRightOrder, orderContainmentTransport,
+    transportRouteProvenance, provenanceNameEndpoint, _endpointPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary bridgeUnary endpointBridgeConsumer
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, bridgeUnary,
+      consumerUnary, leftRightOrder, orderContainmentTransport, transportRouteProvenance,
+      provenanceNameEndpoint, endpointBridgeConsumer, consumerPkg⟩
+
 end BEDC.Derived.RationalIntervalUp
