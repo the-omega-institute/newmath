@@ -120,6 +120,7 @@ import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
@@ -274,6 +275,7 @@ import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
+import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyInterleavingUp
