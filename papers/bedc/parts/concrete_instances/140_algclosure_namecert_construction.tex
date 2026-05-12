@@ -285,6 +285,50 @@ ambient algebraic closure, quotient root, host algebraic-closure object, or
 choice-picked root, none belongs to the exported surface.
 \end{proof}
 
+\begin{theorem}[AlgClosure finite root-witness consumer completeness]
+\label{thm:algclosure-finite-root-witness-consumer-completeness}
+Every finite polynomial-root consumer read available from this
+$\AlgClosureUp$ chapter is exhausted by the displayed $\FieldExtUp$ source,
+the $\PolynomialUp$ request, the root endpoint, the root-satisfaction ledger,
+the transport rows, the finite readbacks, and the $\Pkg$ provenance. The
+consumer surface also contains the component rows needed to read those data:
+the carrier packet, the polynomial-root classifier obligation, the transported
+root-witness coverage, the standard boundary, and the public root-witness
+export.
+
+There is no ambient algebraic closure, quotient root, host
+algebraic-closure object, choice-picked root, or unlisted carrier available to
+such a finite consumer.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:algclosure-root-carrier-obligation-surface} and
+\autoref{thm:algclosure-carrier-source-obligation}. These identify the
+accepted carrier as a finite packet over the displayed $\FieldExtUp$ source,
+$\PolynomialUp$ request, root endpoint, root-satisfaction ledger, transports,
+finite readbacks, and $\Pkg$ provenance.
+
+Next apply
+\autoref{thm:algclosure-polynomial-root-classifier-obligation} and
+\autoref{thm:algclosure-polynomial-root-ledger-obligation}. They say that a
+polynomial-root consumer reads the coefficient and satisfaction ledgers through
+the same source and classifier rows, with no additional field object or
+separate root representative.
+
+The transport and boundary rows are supplied by
+\autoref{thm:algclosure-root-witness-transport-coverage} and
+\autoref{thm:algclosure-standard-boundary-obligation}. These keep the root
+endpoint, ledger, and provenance inside the finite packet while excluding host
+algebraic closures, quotient roots, and uncarried root sets.
+
+Finally apply \autoref{thm:algclosure-public-root-witness-export}. The export
+theorem repacks the carrier, classifier, transport, boundary, and downstream
+consumer rows as the public finite root-witness surface. Hence every available
+consumer read is one of the listed BEDC rows, and no ambient algebraic closure,
+quotient root, host algebraic-closure object, choice-picked root, or unlisted
+carrier is exposed.
+\end{proof}
+
 \closureat{AlgClosureUp}{seedStr}[BEDC.Derived.AlgClosureUp.AlgClosureCarrierPacket\_source\_obligation]
 \closureat{AlgClosureUp}{scopedStr}[BEDC.Derived.AlgClosureUp.AlgClosureCarrierPacket\_polynomial\_root\_classifier\_obligation]
 \closureat{AlgClosureUp}{scopedStr}[BEDC.Derived.AlgClosureUp.AlgClosureCarrierPacket\_root\_witness\_transport\_coverage]
