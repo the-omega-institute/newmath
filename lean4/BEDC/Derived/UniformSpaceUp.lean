@@ -15,6 +15,39 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def UniformSpacePacket [AskSetup] [PackageSetup]
+    (point entourage diagonal refinement symmetry composition transport provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+    UnaryHistory refinement ∧ UnaryHistory symmetry ∧ UnaryHistory composition ∧
+      UnaryHistory transport ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        Cont point entourage diagonal ∧ Cont diagonal refinement symmetry ∧
+          Cont symmetry composition transport ∧ Cont transport provenance name ∧
+            PkgSig bundle name pkg
+
+theorem UniformSpacePacket_filterbase_diagonal_obligation [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      filterbase : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement filterbase ->
+        PkgSig bundle filterbase pkg ->
+          UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+            UnaryHistory refinement ∧ UnaryHistory filterbase ∧
+              Cont point entourage diagonal ∧ Cont diagonal refinement filterbase ∧
+                PkgSig bundle filterbase pkg := by
+  intro packet diagonalRefinementFilterbase filterbasePkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, _transportUnary, _provenanceUnary, _nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterbaseUnary : UnaryHistory filterbase :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterbase
+  exact
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, filterbaseUnary,
+      pointEntourageDiagonal, diagonalRefinementFilterbase, filterbasePkg⟩
+
+def UniformSpaceClassifierPacket [AskSetup] [PackageSetup]
     (point entourage diagonal refinement symmetry composition provenance name pointRoute ledger
       endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -29,8 +62,8 @@ theorem UniformSpacePacket_classifier_transport_obligation [AskSetup] [PackageSe
       endpoint point' entourage' diagonal' refinement' symmetry' composition' provenance' name'
       pointRoute' ledger' endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    UniformSpacePacket point entourage diagonal refinement symmetry composition provenance name
-        pointRoute ledger endpoint bundle pkg ->
+    UniformSpaceClassifierPacket point entourage diagonal refinement symmetry composition provenance
+        name pointRoute ledger endpoint bundle pkg ->
       hsame point point' ->
         hsame entourage entourage' ->
           hsame diagonal diagonal' ->
@@ -43,7 +76,7 @@ theorem UniformSpacePacket_classifier_transport_obligation [AskSetup] [PackageSe
                         Cont diagonal' refinement' ledger' ->
                           Cont symmetry' composition' endpoint' ->
                             PkgSig bundle endpoint' pkg ->
-                              UniformSpacePacket point' entourage' diagonal' refinement'
+                              UniformSpaceClassifierPacket point' entourage' diagonal' refinement'
                                   symmetry' composition' provenance' name' pointRoute' ledger'
                                   endpoint' bundle pkg ∧
                                 hsame pointRoute pointRoute' ∧ hsame ledger ledger' ∧
