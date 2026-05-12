@@ -189,6 +189,60 @@ preservation therefore carries closure hypotheses in the binder cases; those
 hypotheses make the shifted domain stable and let the represented typing
 context line up without capture.
 
+\subsection{Shift Mechanism Detail}\label{subsec:reconstruction-shift-detail}
+
+The operation $\mathrm{shift}\ \mathrm{cutoff}\ \mathrm{amount}\ t$ takes a
+cutoff threshold, an addition amount, and a represented term $t$. On a
+variable $\mathrm{var}\ i$, it compares $i$ with the cutoff. If
+$i \geq \mathrm{cutoff}$, the variable is mapped to
+$\mathrm{var}\ (i+\mathrm{amount})$; if $i < \mathrm{cutoff}$, it is left
+unchanged.
+
+The operation is structural on applications and sorts. Under a lambda or Pi
+binder, the domain is shifted at the same cutoff, while the body is shifted at
+$\mathrm{cutoff}+1$. The extra unit records the binder slot that now occupies
+one de Bruijn index position before the surrounding variables.
+
+This is the mechanism behind capture-aware substitution. When
+$\mathrm{substitute}$ descends below a binder, it raises the substitution
+depth and shifts the incoming term by $\mathrm{shift}\ 0\ 1$, so the incoming
+term passes around the binder slot instead of being captured by it.
+
+The core lemmas state the bookkeeping equalities used downstream:
+\texttt{shift\_closed} says shifting at a closed boundary leaves the term
+unchanged; \texttt{substitute\_shift\_at\_eq} says substitution at depth $n$
+undoes a same-depth one-step shift; and \texttt{substitute\_closed} says
+substitution at a closed boundary leaves the term unchanged.
+
+\subsection{Substitution Operation}\label{subsec:reconstruction-substitution-operation}
+
+The operation $\mathrm{substitute}\ \mathrm{depth}\ v\ t$ takes a de Bruijn
+replacement depth, an incoming replacement value $v$, and an original
+represented term $t$. It is the capture-aware operation used by beta
+contraction and by the substitution-preservation surface.
+
+On a variable $\mathrm{var}\ i$, the operation compares $i$ with the
+replacement depth. If $i = \mathrm{depth}$, the variable is replaced by $v$.
+If $i > \mathrm{depth}$, the variable crosses the removed binder slot and
+becomes $\mathrm{var}\ (i-1)$. If $i < \mathrm{depth}$, the variable is below
+the active replacement boundary and is left unchanged.
+\leanchecked{BEDC.MetaCIC.substitute\_var\_zero}
+\leanchecked{BEDC.MetaCIC.substitute\_var\_succ\_zero}
+
+The operation is structural on application, sort, lambda, and Pi terms. Under
+a binder, the body is processed at $\mathrm{depth}+1$, and the incoming value
+is simultaneously raised to $\mathrm{shift}\ 0\ 1\ v$. This synchronized
+shift makes $v$ pass the new binder slot without capture.
+
+The syntax-level lemmas summarize the arithmetic used downstream:
+\texttt{substitute\_var\_zero} gives replacement at depth zero;
+\texttt{substitute\_var\_succ\_zero} gives the positive-variable decrement;
+\texttt{substitute\_closed} says closed terms are unaffected by substitution;
+and \texttt{substitute\_shift\_at\_eq} says substitution at depth $n$ cancels
+a same-depth one-step shift.
+\leanchecked{BEDC.MetaCIC.substitute\_closed}
+\leanchecked{BEDC.MetaCIC.substitute\_shift\_at\_eq}
+
 \subsection{Glossary}\label{subsec:reconstruction-glossary}
 
 The following terms name the local reconstruction conventions used in this
@@ -306,26 +360,7 @@ concrete typed terms; \texttt{BEDC.MetaCIC.PrettyPrint} gives a structural
 printer for terms; and \texttt{BEDC.MetaCIC.BHistSubstrate} connects the
 reconstruction to the binary-history substrate.
 
-\subsection{Tactic Discipline}\label{subsec:reconstruction-tactic-discipline}
-
-The MetaCIC Lean modules are kept under a restricted proof discipline. Tactics
-such as \texttt{simp}, \texttt{decide}, and \texttt{omega} are not used in
-this layer, because they can introduce transitive dependencies on
-\texttt{propext}, decision procedures, or classical reasoning.
-
-The permitted proof surface is the structural fragment needed by the
-reconstruction: \texttt{match}, \texttt{cases}, \texttt{rfl},
-\texttt{exact}, \texttt{apply}, \texttt{intro}, \texttt{contradiction},
-\texttt{rw}, \texttt{unfold}, \texttt{induction}, and \texttt{change}.
-These commands keep proofs close to the generated inductive structure of the
-syntax, typing, reduction, and substrate definitions.
-
-This discipline is a necessary condition for preserving the axiom-free status
-of the MetaCIC reconstruction. The strict purity audit
-\texttt{python3 lean4/scripts/bedc\_ci.py axiom-purity --strict} checks each
-theorem's transitive dependencies against the forbidden constants
-\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}; the gate
-passes only when the forbidden set is empty for every audited theorem.
+\input{parts/self_compilation/03_metacic_reconstruction_tactic_discipline.tex}
 
 \subsection{Internal Manifest Coverage}\label{subsec:internal-manifest-coverage}
 
