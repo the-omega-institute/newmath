@@ -82,6 +82,7 @@ import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
 import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
 import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
+import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
