@@ -135,6 +135,52 @@ theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
   exact ⟨startUnary, productionUnary, derivationUnary, readbackUnary, yieldUnary,
     finalYieldUnary, finalYieldRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_consumer_boundary_determinacy [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint terminal' nonterminal' start' production' yield' derivation' readback'
+      transport' route' provenance' name' endpoint' boundary boundary' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      ContextFreeGrammarPacket terminal' nonterminal' start' production' yield' derivation'
+        readback' transport' route' provenance' name' endpoint' bundle pkg ->
+        hsame terminal terminal' ->
+          hsame nonterminal nonterminal' ->
+            hsame production production' ->
+              hsame yield yield' ->
+                hsame derivation derivation' ->
+                  hsame transport transport' ->
+                    hsame name name' ->
+                      hsame endpoint endpoint' ->
+                        Cont name endpoint boundary ->
+                          Cont name' endpoint' boundary' ->
+                            PkgSig bundle boundary pkg ->
+                              PkgSig bundle boundary' pkg ->
+                                hsame start start' ∧ hsame readback readback' ∧
+                                  hsame route route' ∧ hsame boundary boundary' ∧
+                                    PkgSig bundle boundary pkg ∧
+                                      PkgSig bundle boundary' pkg := by
+  intro packet packet' sameTerminal sameNonterminal sameProduction sameYield sameDerivation
+    sameTransport sameName sameEndpoint boundaryRow boundaryRow' boundaryPkg boundaryPkg'
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    _derivationUnary, _readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, startRow, productionRow, routeRow, _nameRow,
+    _endpointRow, _pkgSig⟩ := packet
+  obtain ⟨_terminalUnary', _nonterminalUnary', _startUnary', _productionUnary', _yieldUnary',
+    _derivationUnary', _readbackUnary', _transportUnary', _routeUnary', _provenanceUnary',
+    _nameUnary', _endpointUnary', startRow', productionRow', routeRow', _nameRow',
+    _endpointRow', _pkgSig'⟩ := packet'
+  have sameStart : hsame start start' :=
+    cont_respects_hsame sameTerminal sameNonterminal startRow startRow'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameProduction sameYield productionRow productionRow'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameDerivation sameTransport routeRow routeRow'
+  have sameBoundary : hsame boundary boundary' :=
+    cont_respects_hsame sameName sameEndpoint boundaryRow boundaryRow'
+  exact
+    ⟨sameStart, sameReadback, sameRoute, sameBoundary, boundaryPkg, boundaryPkg'⟩
+
 theorem ContextFreeGrammarPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {terminal nonterminal start production yield derivation readback transport route provenance name
       endpoint : BHist}
