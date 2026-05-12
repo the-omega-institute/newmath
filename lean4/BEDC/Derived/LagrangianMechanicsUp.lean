@@ -365,4 +365,37 @@ theorem LagrangianMechanicsPacket_finite_standard_bridge_surface [AskSetup] [Pac
       exact ⟨sourceRow.right.right, routeProvenanceCertificate⟩
   }
 
+theorem LagrangianMechanicsPacket_finite_obligation_carrier [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont certificate configuration publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory configuration ∧ UnaryHistory velocity ∧ UnaryHistory action ∧
+            UnaryHistory variation ∧ UnaryHistory certificate ∧ UnaryHistory publicRead ∧
+              Cont configuration velocity action ∧ Cont route provenance certificate ∧
+                Cont certificate configuration publicRead ∧ PkgSig bundle certificate pkg ∧
+                  PkgSig bundle publicRead pkg := by
+  intro packet certificateConfigurationPublicRead publicReadPkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+    transportUnary, provenanceUnary, configurationVelocityAction, _actionVariationEndpoint,
+    residualSymplecticCurrent, currentTransportRoute, routeProvenanceCertificate,
+    certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
+  have currentUnary : UnaryHistory current :=
+    unary_cont_closed residualUnary symplecticUnary residualSymplecticCurrent
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed currentUnary transportUnary currentTransportRoute
+  have certificateUnary : UnaryHistory certificate :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceCertificate
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed certificateUnary configurationUnary certificateConfigurationPublicRead
+  exact
+    ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, certificateUnary,
+      publicReadUnary, configurationVelocityAction, routeProvenanceCertificate,
+      certificateConfigurationPublicRead, certificatePkg, publicReadPkg⟩
+
 end BEDC.Derived.LagrangianMechanicsUp
