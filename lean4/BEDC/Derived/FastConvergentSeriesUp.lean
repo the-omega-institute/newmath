@@ -51,4 +51,37 @@ theorem FastConvergentSeriesCarrier_tail_sum_boundary [AskSetup] [PackageSetup]
     exact realSealBoundary
   exact ⟨tailUnary, realSealUnary, tailBoundary, sealBoundary, provenancePkg⟩
 
+def FastConvergentSeriesTailBoundPacket [AskSetup] [PackageSetup]
+    (summand partialSums schedule tailLedger regseqratReadback «seal» transport provenance
+      localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory summand ∧ UnaryHistory partialSums ∧ UnaryHistory schedule ∧
+    UnaryHistory regseqratReadback ∧ UnaryHistory «seal» ∧ UnaryHistory provenance ∧
+      Cont partialSums schedule tailLedger ∧ Cont tailLedger regseqratReadback «seal» ∧
+        Cont summand tailLedger transport ∧ Cont transport localCert provenance ∧
+          PkgSig bundle provenance pkg
+
+theorem FastConvergentSeriesTailBoundPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {summand partialSums schedule tailLedger regseqratReadback «seal» transport provenance
+      localCert consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesTailBoundPacket summand partialSums schedule tailLedger
+        regseqratReadback «seal» transport provenance localCert bundle pkg ->
+      Cont tailLedger regseqratReadback consumerRead ->
+        UnaryHistory partialSums ∧ UnaryHistory schedule ∧ UnaryHistory tailLedger ∧
+          UnaryHistory regseqratReadback ∧ UnaryHistory consumerRead ∧
+            Cont partialSums schedule tailLedger ∧
+              Cont tailLedger regseqratReadback consumerRead ∧
+                PkgSig bundle provenance pkg := by
+  intro packet consumerRow
+  obtain ⟨_summandUnary, partialSumsUnary, scheduleUnary, regseqratReadbackUnary,
+    _sealUnary, _provenanceUnary, partialScheduleRow, _sealRow, _transportRow,
+    _provenanceRow, pkgSig⟩ := packet
+  have tailLedgerUnary : UnaryHistory tailLedger :=
+    unary_cont_closed partialSumsUnary scheduleUnary partialScheduleRow
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed tailLedgerUnary regseqratReadbackUnary consumerRow
+  exact ⟨partialSumsUnary, scheduleUnary, tailLedgerUnary, regseqratReadbackUnary,
+    consumerUnary, partialScheduleRow, consumerRow, pkgSig⟩
+
 end BEDC.Derived.FastConvergentSeriesUp
