@@ -519,6 +519,39 @@ def summarize_bedc_failures(config: dict[str, Any]) -> dict[str, Any]:
     return {"status": "ok", **data}
 
 
+def run_pi_reflection(config: dict[str, Any]) -> dict[str, Any]:
+    cfg = config.get("pi_reflection")
+    if not isinstance(cfg, dict) or not cfg.get("enabled", True):
+        return {"status": "disabled"}
+    board_cfg = config.get("bedc_board_ingest") if isinstance(config.get("bedc_board_ingest"), dict) else {}
+    cmd = [
+        sys.executable,
+        str(SCRIPT_DIR / "bridge_pi_reflection.py"),
+        "--ack-ledger",
+        str(REPO_ROOT / str(cfg.get("ack_ledger_path") or board_cfg.get("ack_ledger_path") or "docs/bridge/automath-newmath-ack.jsonl")),
+        "--status-report",
+        str(REPO_ROOT / str(cfg.get("status_report_path") or board_cfg.get("status_report_path") or "docs/bridge/automath-newmath-production-status.md")),
+        "--gate-results",
+        str(REPO_ROOT / str(cfg.get("gate_results_path") or board_cfg.get("gate_results_path") or "tools/automath_newmath_bridge/out/bridge_gate_results.jsonl")),
+        "--report",
+        str(REPO_ROOT / str(cfg.get("report_path") or "docs/bridge/automath-newmath-pi-reflection.md")),
+        "--actions",
+        str(REPO_ROOT / str(cfg.get("actions_path") or "docs/bridge/automath-newmath-pi-actions.jsonl")),
+        "--refinement-queue",
+        str(REPO_ROOT / str(cfg.get("refinement_queue_path") or "docs/bridge/automath-newmath-refinement-queue.jsonl")),
+        "--no-specific-threshold",
+        str(int(cfg.get("no_specific_threshold") or 3)),
+    ]
+    result = run_command(cmd, timeout=120)
+    if result.returncode != 0:
+        return {"status": "failed", "reason": (result.stderr or result.stdout).strip()[:1000]}
+    try:
+        payload = json.loads(result.stdout.strip()) if result.stdout.strip() else {}
+    except json.JSONDecodeError:
+        payload = {"raw": result.stdout.strip()[:1000]}
+    return {"status": "ok", **payload}
+
+
 def merge_back_to_bedc(
     config: dict[str, Any],
     gate_results: list[dict[str, Any]],
@@ -751,6 +784,9 @@ def supervisor_pass(args: argparse.Namespace) -> bool:
 
     failure_result = summarize_bedc_failures(config)
     _log(f"bedc_failure_feedback: {failure_result}")
+
+    pi_result = run_pi_reflection(config)
+    _log(f"pi_reflection: {pi_result}")
 
     if args.commit_durable:
         commit_result = commit_and_push_durable(
