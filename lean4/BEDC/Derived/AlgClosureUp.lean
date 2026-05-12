@@ -169,4 +169,30 @@ theorem AlgClosureCarrierPacket_root_carrier_obligation_surface
   }
   exact And.intro cert source
 
+theorem AlgClosureCarrierPacket_public_root_witness_export
+    {fieldExt polynomial root transport ledger provenance satisfaction consumer : BHist} :
+    AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ->
+      Cont root ledger satisfaction ->
+        Cont provenance satisfaction consumer ->
+          SemanticNameCert
+              (fun row : BHist =>
+                AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+                  hsame row provenance)
+              (fun row : BHist =>
+                AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+                  hsame row provenance)
+              (fun row : BHist =>
+                AlgClosureCarrierPacket fieldExt polynomial root transport ledger provenance ∧
+                  hsame row provenance)
+              hsame ∧
+            hsame consumer (append provenance satisfaction) ∧ hsame transport root ∧
+              Cont polynomial root ledger ∧ Cont fieldExt ledger provenance ∧
+                Cont root ledger satisfaction := by
+  intro packet satisfactionRow consumerRow
+  have surface :=
+    AlgClosureCarrierPacket_root_carrier_obligation_surface packet
+  have downstream :=
+    AlgClosureCarrierPacket_downstream_consumer_obligation packet satisfactionRow consumerRow
+  exact And.intro surface.left downstream
+
 end BEDC.Derived.AlgClosureUp
