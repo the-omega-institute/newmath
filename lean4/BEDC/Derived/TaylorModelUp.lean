@@ -98,4 +98,24 @@ theorem TaylorModelCarrier_interval_remainder_soundness [AskSetup] [PackageSetup
     unary_cont_closed evalClosed readbackUnary' evalReadbackEndpoint
   exact ⟨remainderUnary', readbackUnary', sameReadback, endpointUnary, endpointPkg⟩
 
+theorem TaylorModelCarrier_validated_consumer_boundary [AskSetup] [PackageSetup]
+    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
+      endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
+        sameRows route endpoint bundle pkg ->
+      Cont endpoint validated consumer ->
+        UnaryHistory consumer ∧ hsame ledger (append jet remainder) ∧
+          hsame eval (append center jet) ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier consumerRoute
+  obtain ⟨_centerUnary, _jetUnary, _remainderUnary, _ledgerUnary, _evalUnary,
+    validatedUnary, _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
+    _routeUnary, endpointUnary, ledgerRow, evalRow, _sameRowsRoute, _evalRoute,
+    _readbackRoute, _endpointRoute, _endpointPkg, provenancePkg, nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary validatedUnary consumerRoute
+  exact ⟨consumerUnary, ledgerRow, evalRow, provenancePkg, nameCertPkg⟩
+
 end BEDC.Derived.TaylorModelUp
