@@ -102,23 +102,23 @@ Make `cook_encode` produce correct Rule 110 initial patterns.
 
 Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
 
-- [!] L4.1: Design correspondence schema.  POC implemented for `mark/msame_refl.enum.ct`; full family registry remains L4.3 scope.
+- [x] L4.1: Design correspondence schema.  The executable registry covers the full `.enum.ct` manifest set.
   - [x] L4.1.a: Define the manifest parser contract: `PRODUCTIONS`, `ASSERTIONS`, case name, `input=...`, and family-specific key/value fields.
-  - [!] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.  `BMark` is implemented in the POC.
-  - [!] L4.1.c: Register path-to-target specs for Mark, Hist, Ext, SigRel, SameSig, Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, and Settled.  Mark, Hist, and Ext are registered in the script-level closed-kernel slice.
-  - [!] L4.1.d: Separate positive theorem-instance checks from negative complement checks such as `ext_holds=no`, `cont_holds=no`, malformed input, and trailing-input rejection.  Ext positive and negative assertions are separated in the script-level closed-kernel slice.
-  - [ ] L4.1.e: Record the concrete setup instances needed by parameterized modules: parity `AskSetup`, `Pkg := BHist`, `TokIntro := hsame`, bounded-domain fixture, depth-equivalence NameCert fixture, and identity stable transformation.
-- [!] L4.2: Build the Lean 4 executable.  `lean --run` script exists; Lake exe target is outside the script-only whitelist.
+  - [x] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.
+  - [x] L4.1.c: Register path-to-target specs for Mark, Hist, Ext, SigRel, SameSig, Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, and Settled.
+  - [x] L4.1.d: Separate positive theorem-instance checks from negative complement checks such as `ext_holds=no`, `cont_holds=no`, malformed input, and trailing-input rejection.
+  - [x] L4.1.e: Record the concrete setup instances needed by parameterized modules: parity `AskSetup`, `Pkg := BHist`, `TokIntro := hsame`, bounded-domain fixture, depth-equivalence NameCert fixture, and identity stable transformation.
+- [x] L4.2: Build the Lean 4 executable.
   - [x] L4.2.a: Create `lean4/scripts/rule110_cross_check.lean` as a read-only checker over existing manifests.
   - [x] L4.2.b: Reuse `BEDC.GroundCompiler.ChannelEncoding.DecEvent` for event decoding; do not fork the channel encoding.
   - [x] L4.2.c: Implement one closed-kernel slice first: `mark/msame_refl.enum.ct`, `hist/hsame_refl.enum.ct`, and `ext/ext_step.enum.ct`.
   - [x] L4.2.d: Add structured PASS/FAIL output with manifest path, case name, decoded values when available, and Lean target key.
   - [x] L4.2.e: Exit nonzero on parse, decode, type, fixture, target, or semantic failure.
-- [ ] L4.3: Cross-check all manifest families.
-  - [ ] L4.3.a: Cover all `.enum.ct` manifests as strict Level 4 targets.
-  - [ ] L4.3.b: Report `.algo.ct` manifests as semantic-only until Level 2 supplies real recognizers, except bounded `hist/hsame_refl.algo.ct` which can be checked as a finite recognizer case set.
-  - [ ] L4.3.c: Reuse lower-family checkers inside aggregate files where possible, especially `settled/settled_basic.enum.ct`.
-  - [ ] L4.3.d: Ensure representative finite manifests are reported as ground instances of Lean universal theorems, not as exhaustive coverage claims for infinite types.
+- [!] L4.3: Cross-check all manifest families.  The strict `.enum.ct` executable registry is complete; `.algo.ct` reporting remains semantic-only outside the default executable target.
+  - [x] L4.3.a: Cover all `.enum.ct` manifests as strict Level 4 targets.
+  - [!] L4.3.b: Report `.algo.ct` manifests as semantic-only until Level 2 supplies real recognizers, except bounded `hist/hsame_refl.algo.ct` which can be checked as a finite recognizer case set.  The executable default set remains `.enum.ct` only.
+  - [x] L4.3.c: Reuse lower-family checkers inside aggregate files where possible, especially `settled/settled_basic.enum.ct`.
+  - [x] L4.3.d: Ensure representative finite manifests are reported as ground instances of Lean universal theorems, not as exhaustive coverage claims for infinite types.
 - [ ] L4.4: Add CI gate.
   - [x] L4.4.a: Add Lake target `rule110-cross-check` that runs the Lean executable over the registered manifest list.
   - [ ] L4.4.b: CI acceptance requires `cd rule110 && make test` and `cd lean4 && lake build rule110-cross-check`.
