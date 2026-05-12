@@ -169,3 +169,19 @@
 - `CompGap` is represented by an explicit source/intermediate/final ledger and
   a two-bit event for the two supplied relation facts. This directly mirrors
   the Lean existential middle-witness shape.
+
+## Package Module Encoding
+
+- `PackageSetup` remains abstract in Lean, so the rule110 ground fixture uses
+  the concrete signature package instance: `Pkg := BHist` and `TokIntro bundle
+  s p` iff the decoded source history and package history are byte-equal.
+- `psame` is checked by decoding two source histories and two packages,
+  requiring both token introductions and equality of the source histories. This
+  directly represents the constructor witness in `Package/Core.lean`.
+- `PackageTokenPolicy` classification is represented by two claim bits:
+  `claimed_psame` and `claimed_hsame`. The harness recomputes both truth
+  values for introduced tokens and accepts exactly matching classifications.
+- `package_basic.enum.ct` and `.algo.ct` cover token positives and rejections,
+  `psame` reflexivity and symmetry representatives, negative nonintroduced and
+  distinct-history cases, soundness/reflection classifications, and a two-step
+  transitivity chain.
