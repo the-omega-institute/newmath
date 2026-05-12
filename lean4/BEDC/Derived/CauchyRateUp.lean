@@ -444,4 +444,30 @@ theorem CauchyRateCarrier_public_certificate [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionReadUnary, completionRouteUnary, completionRoutePkg⟩
 
+theorem CauchyRateCarrier_tolerance_readback_exactness [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance nameCert
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont family tolerance readback ->
+        PkgSig bundle readback pkg ->
+          hsame regseq readback ∧ UnaryHistory tolerance ∧ UnaryHistory family ∧
+            UnaryHistory regseq ∧ UnaryHistory readback ∧ Cont family tolerance readback ∧
+              hsame regseq (append family tolerance) ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle readback pkg := by
+  intro carrier readbackRow readbackPkg
+  obtain ⟨_precisionUnary, _scheduleUnary, toleranceUnary, familyUnary, regseqUnary,
+    _completionUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    _precisionScheduleTolerance, familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, regseqSameAppend,
+    provenancePkg⟩ := carrier
+  have regseqSameReadback : hsame regseq readback :=
+    cont_deterministic familyToleranceRegseq readbackRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed familyUnary toleranceUnary readbackRow
+  exact
+    ⟨regseqSameReadback, toleranceUnary, familyUnary, regseqUnary, readbackUnary,
+      readbackRow, regseqSameAppend, provenancePkg, readbackPkg⟩
+
 end BEDC.Derived.CauchyRateUp
