@@ -108,6 +108,43 @@ theorem ObserverHistoryIdentityPacket_namecert_obligations [AskSetup] [PackageSe
     }
   exact ⟨cert, sameRows, ledgerRoutes, provenancePkg⟩
 
+theorem ObserverHistoryIdentityPacket_non_escape_boundary [AskSetup] [PackageSetup]
+    {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverHistoryIdentityPacket leftHistory rightHistory signatures samenessRows ledger routes
+        provenance nameCert bundle pkg ->
+      UnaryHistory leftHistory ∧ UnaryHistory rightHistory ∧ UnaryHistory signatures ∧
+        UnaryHistory samenessRows ∧ UnaryHistory ledger ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+            SameSig bundle leftHistory rightHistory ∧ Cont ledger routes samenessRows ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle signatures pkg ∧
+                SemanticNameCert
+                    (fun row : BHist =>
+                      ObserverHistoryIdentityPacket leftHistory rightHistory signatures
+                        samenessRows ledger routes provenance row bundle pkg)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ SameSig bundle leftHistory rightHistory ∧
+                        PkgSig bundle signatures pkg)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont ledger routes samenessRows ∧
+                        PkgSig bundle provenance pkg)
+                    hsame := by
+  intro packet
+  have packetWitness := packet
+  obtain ⟨leftUnary, rightUnary, signaturesUnary, samenessRowsUnary, ledgerUnary, routesUnary,
+    provenanceUnary, nameCertUnary, sameRows, ledgerRoutes, provenancePkg, signaturesPkg⟩ :=
+      packet
+  have obligations :=
+    ObserverHistoryIdentityPacket_namecert_obligations
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := ledger) (routes := routes)
+      (provenance := provenance) (nameCert := nameCert) (bundle := bundle) (pkg := pkg)
+      packetWitness
+  obtain ⟨cert, _sameRows, _ledgerRoutes, _provenancePkg⟩ := obligations
+  exact
+    ⟨leftUnary, rightUnary, signaturesUnary, samenessRowsUnary, ledgerUnary, routesUnary,
+      provenanceUnary, nameCertUnary, sameRows, ledgerRoutes, provenancePkg, signaturesPkg, cert⟩
+
 theorem ObserverHistoryIdentityPacket_classifier_stability [AskSetup] [PackageSetup]
     {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert
       signatures' samenessRows' ledger' routes' : BHist}
