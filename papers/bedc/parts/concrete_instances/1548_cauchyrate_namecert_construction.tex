@@ -116,6 +116,46 @@ Transport each visible coordinate by the corresponding $\hsame$ row in $H$. Then
 The ledger exactness theorem \autoref{thm:cauchy-rate-ledger-exactness} rules out any additional premise during this transport. Hence the transported packet is accepted by the same classifier surface and still withholds RealUp completeness, quotient stream equality, selected limits, and host real equality.
 \end{proof}
 
+\begin{theorem}[CauchyRate scheduled window totality]
+\label{thm:cauchy-rate-scheduled-window-totality}
+For every accepted $\CauchyRateUp$ packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N),
+$$
+each precision request admitted by the packet is answered first by the displayed $\CauchyModulusUp$ schedule row $\mu$. The consumer route must expose the finite window selected by $\mu$ before it may read the $\DyadicTailBoundUp$ tolerance row $\tau$, the $\RegularCauchyFamilyUp$ source row $F$, or the $\RegSeqRatUp$ readback row $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-rate-bhist-source}. The precision row $p$ and the schedule row $\mu$ are stored as visible coordinates, and the route inventory contains $\Cont(p,\mu)$ as the first consumer step.
+
+The downstream rows are reached only along the displayed continuation chain. The tolerance row is exposed by $\Cont(\mu,\tau)$, the regular-family source by $\Cont((\mu,\tau),F)$, and the regular rational readback by $\Cont((F,\tau),Q)$.
+
+Apply \autoref{thm:cauchy-rate-effective-route-scope} to identify this chain as the only effective-rate consumer route, and apply \autoref{thm:cauchy-rate-transport-stability} to keep the same route under componentwise $\hsame$ transport. Hence every accepted precision request receives its scheduled finite window before any of the later rows can be read.
+\end{proof}
+
+\begin{theorem}[CauchyRate tolerance readback exactness]
+\label{thm:cauchy-rate-tolerance-readback-exactness}
+For every accepted $\CauchyRateUp$ packet $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, the displayed tolerance row $\tau$ and the displayed regular-family row $F$ determine the $\RegSeqRatUp$ readback row $Q$ through the packet route $\Cont((F,\tau),Q)$. No hidden rational stream, quotient representative, host sequence equality, or selected limiting object participates in the readback.
+\end{theorem}
+\begin{proof}
+The readback coordinate $Q$ is part of the finite packet in \autoref{def:cauchy-rate-bhist-source}. Its incoming displayed route is exactly $\Cont((F,\tau),Q)$.
+
+Apply \autoref{thm:cauchy-rate-regular-family-handoff}. It states that $Q$ is obtained from the same $\CauchyModulusUp$ schedule, the same $\DyadicTailBoundUp$ tolerance row, and the same $\RegularCauchyFamilyUp$ source row carried by the packet.
+
+Finally apply \autoref{thm:cauchy-rate-ledger-exactness}. The package and local naming rows exhaust the available dependency surface, so there is no extra coordinate from which a hidden rational stream or host-level equality could determine $Q$.
+\end{proof}
+
+\begin{theorem}[CauchyRate scoped consumer exhaustion]
+\label{thm:cauchy-rate-scoped-consumer-exhaustion}
+The scoped consumer surface of an accepted $\CauchyRateUp$ packet is exhausted by its displayed carrier rows, regular-family handoff, completion-consumer boundary, ledger exactness, and transport stability over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every consumer-facing read of $Q$ or $E$ is therefore a read of the same finite packet, not a use of an ambient completion principle or an unrecorded stream equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The packet exposes only $p,\mu,\tau,F,Q,E,H,C,P,N$, so the consumer surface has no raw coordinate outside the displayed $\BHist$ row.
+
+Use \autoref{thm:cauchy-rate-regular-family-handoff} and \autoref{thm:cauchy-rate-real-cauchy-consumer-boundary} for the two downstream reads. The first places $Q$ behind the scheduled family and tolerance rows, while the second places $E$ behind $Q,F,\tau,\mu$.
+
+The ledger and transport steps close the surface. By \autoref{thm:cauchy-rate-ledger-exactness}, $P$ and $N$ account for every accepted dependency over $\Pkg$ and $\NameCert$; by \autoref{thm:cauchy-rate-transport-stability}, the same classifier is preserved under the stored $\hsame$ and $\Cont$ rows. Thus the scoped consumer has exhausted exactly the displayed finite packet.
+\end{proof}
+
 \begin{theorem}[CauchyRate BHist source scope]
 \label{thm:cauchy-rate-bhist-source-scope}
 For every accepted $\CauchyRateUp$ packet
