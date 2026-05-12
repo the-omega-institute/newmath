@@ -1,0 +1,50 @@
+\begin{theorem}[DyadicApproximation terminal-window two-stage factorization]
+\label{thm:dyadicapproximation-terminal-window-two-stage-factorization}
+Let $A=(n,d,w,l,p)$ be an accepted terminal $\DyadicApproximationUp$ packet with
+terminal displayed window $T$. Suppose its terminal readback is projected by
+\autoref{thm:dyadicapproximation-terminal-window-prefix-projection}, and suppose
+the same packet is consumed through the validated enclosure route of
+\autoref{thm:dyadicapproximation-terminal-validated-enclosure-readback}.
+
+Then the two reads factor through one finite public surface. That surface is
+exactly the terminal precision row, the transported dyadic endpoint row, the
+$\StreamNameUp$ window, the $\RegSeqRatUp$ readback window, the $\RealUp$ seal
+ledger, the validated containment ledger, the visible $\hsame$ transports, the
+visible $\Cont$ routes, the $\mathsf{Pkg}$ provenance rows, and the local
+$\NameCert$ rows. Reading first by terminal prefix projection and then through
+the validated enclosure route gives the same displayed surface as reading first
+through the enclosure route and then commuting back to the terminal dyadic
+window.
+
+The factorization introduces no quotient real, host-real equality,
+solver-correctness assertion, or selected completion point.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:dyadicapproximation-terminal-window-prefix-projection}. The
+terminal readback of $A$ is reduced to the prefix rows of $T$: precision,
+endpoint, stream, regular-rational observation, real-seal ledger, visible
+transport, continuation, provenance, and local certificate data.
+
+Next exhaust the finite packet read. By
+\autoref{thm:dyadicapproximation-finite-packet-readback-exhaustion}, every
+consumer-visible read of the accepted terminal packet is already among those
+finite rows together with the displayed validated enclosure handoff. Apply
+\autoref{thm:dyadicapproximation-refined-finite-packet-readback-determinacy} to
+remove dependence on which compatible finite refinement exposes the terminal
+surface.
+
+Now read the enclosure side. Apply
+\autoref{thm:dyadicapproximation-terminal-validated-enclosure-readback} to
+identify the $\DyadicMeshUp$ cell and $\ValidatedNumericsUp$ enclosure read with
+the same terminal precision, endpoint, regular-rational, real-seal,
+containment, transport, continuation, provenance, and local certificate rows.
+
+Finally apply
+\autoref{thm:dyadicapproximation-validated-enclosure-route-commutation}. This
+commutes the terminal dyadic route with the mesh-and-enclosure route, so both
+orders factor through the single finite surface listed in the statement. Every
+cited boundary is a finite BEDC readback boundary, hence none supplies a
+quotient real, host-real equality, solver-correctness row, or chosen completion
+point.
+\end{proof}
