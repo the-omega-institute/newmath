@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\OptionalStoppingUp$}
+\label{ch:concrete-instances-optionalstopping-namecert}
+\origin{human}
+
+The $\OptionalStoppingUp$ interface names the bounded finite-window form of Doob optional stopping. It records a stopped-process packet over $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, and $\StoppingTimeUp$ in which the stopping index is visibly bounded, the stopped value is read from a finite filtration window, and every integrability and provenance row is carried as BEDC data. The chapter does not invoke measure completion, countable choice, unbounded stopping, or an ambient almost-sure quotient.
+
+\begin{definition}[OptionalStopping finite carrier]
+\label{def:optional-stopping-carrier}
+An $\OptionalStoppingUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+O=(\Omega,X,T,b,V,F,I,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ row naming the finite probability context used by the packet;
+\item $X$ is the $\RandomVarUp$ stopped-process family, indexed only over the displayed finite time window;
+\item $T$ is the $\StoppingTimeUp$ row whose decision at each inspected time is read from the corresponding filtration window;
+\item $b$ is the bounded stopping index row, giving the finite terminal window in which the stopping decision must occur;
+\item $V$ is the stopped value row $X_T$ read by the displayed branch that first satisfies the stopping row before $b$;
+\item $F$ is the finite filtration-window ledger carrying the random-variable reads, stopping decisions, and martingale conditioning rows;
+\item $I$ is the integrability and provenance row required for the bounded stopped process and each inspected martingale value;
+\item $H$ stores the displayed $\hsame$ transports for probability rows, random-variable rows, stopping-time decisions, stopped values, filtration ledgers, and integrability rows;
+\item $C$ stores the $\Cont$ routes by which consumers read the bounded stopping index, the stopped value, and the martingale-window handoff;
+\item $P$ is the $\Pkg$ provenance row naming $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, $\StoppingTimeUp$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\OptionalStoppingUp}$ registration row.
+\end{enumerate}
+The local classifier compares two carriers only through the transported bounded index, stopped value row, filtration-window ledger, integrability provenance, package row, and local certificate row. It contains no unbounded stopping argument and no quotient-level event equality.
+\end{definition}
+
+\begin{theorem}[OptionalStopping NameCert obligations]
+\label{thm:optional-stopping-namecert-obligations}
+The local $\NameCert_{\OptionalStoppingUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite $\mathsf{BHist}$ packet of \autoref{def:optional-stopping-carrier};
+\item classifier: componentwise comparison of the bounded index, stopped value, filtration-window ledger, integrability row, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row;
+\item stopping-time stability: each transported stopping decision is read from the filtration window available at that finite time and remains bounded by $b$;
+\item martingale-window handoff: the bounded finite-window Doob optional-stopping read factors through the displayed $\MartingaleUp$ rows, the stopped value row $V$, and the filtration ledger $F$;
+\item ledger exactness: every probability, random-variable, stopping-time, martingale, integrability, transport, continuation, package, and certificate row used by the stopped process appears in the displayed carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is the packet assembly of \autoref{def:optional-stopping-carrier}. The bounded index, stopped value, filtration ledger, integrability row, transports, continuations, package provenance, and local certificate are all visible coordinates.
+
+Classifier stability is componentwise. Transport the probability and random-variable rows first, then transport each finite stopping decision along its filtration-window route, and finally transport the stopped value and integrability rows attached to that selected branch.
+
+For stopping-time stability, inspect the finite ledger $F$. Each decision row of $T$ is recorded at the corresponding finite time and is read only from the filtration data available there; the bound $b$ records that the selected branch must occur inside the displayed window.
+
+The martingale-window handoff is the bounded finite-window form of Doob optional stopping. The stopped value row $V$ is read from the first displayed stopping branch, and the relevant $\MartingaleUp$ conditioning rows are exactly the rows stored in $F$ and $I$.
+
+Ledger exactness follows by projecting $O$. No consumer read can reach a probability, random variable, stopping-time decision, martingale conditioning row, integrability witness, transport, continuation, package, or local certificate outside the displayed coordinates.
+\end{proof}
+
+\closureat{OptionalStoppingUp}{seedStr}
+
+\begin{closurestatus}{\OptionalStoppingUp}
+  \constructivestory{An $\OptionalStoppingUp$ packet is generated from a finite probability row, bounded stopped-process random variables, a stopping-time row, a visible stopping bound, the stopped value, filtration-window ledger rows, integrability provenance, displayed transports, continuation routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier and five-row naming-certificate obligation surface for bounded optional stopping over $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, and $\StoppingTimeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close unbounded stopping, measure completion, almost-sure quotient equality, uniform integrability beyond the displayed finite row, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, stopping-time stability, martingale-window handoff, stopped-value readback, and ledger exactness for the bounded finite packet.}
+\end{closurestatus}
