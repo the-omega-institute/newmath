@@ -220,4 +220,125 @@ theorem RationalBallPacket_containment_exactness [AskSetup] [PackageSetup]
       ledgerUnary, centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
       containmentEndpointSample, sampleProvenanceLedger, endpointPkg, ledgerPkg⟩
 
+theorem RationalBallPacket_center_transport_obligation [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint centerNew orderNew
+      transportNew endpointNew consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      hsame center centerNew ->
+        Cont centerNew radius orderNew ->
+          Cont orderNew containment transportNew ->
+            Cont transportNew provenance endpointNew ->
+              Cont containment endpointNew consumer ->
+                PkgSig bundle endpointNew pkg ->
+                  RationalBallPacket centerNew radius orderNew transportNew containment
+                      provenance name endpointNew bundle pkg ∧
+                    UnaryHistory consumer ∧ hsame order orderNew ∧
+                      hsame transport transportNew ∧ hsame endpoint endpointNew := by
+  intro packet sameCenter centerRadiusOrder orderContainmentTransport
+    transportProvenanceEndpoint containmentEndpointConsumer endpointPkg
+  have transported :
+      RationalBallPacket centerNew radius orderNew transportNew containment provenance name
+          endpointNew bundle pkg ∧
+        hsame order orderNew ∧ hsame transport transportNew ∧
+          hsame endpoint endpointNew :=
+    RationalBallPacket_refinement_transport packet sameCenter (hsame_refl radius)
+      (hsame_refl containment) (hsame_refl provenance) (hsame_refl name) centerRadiusOrder
+      orderContainmentTransport transportProvenanceEndpoint endpointPkg
+  rcases transported with ⟨targetPacket, sameOrder, sameTransport, sameEndpoint⟩
+  rcases targetPacket with
+    ⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+      provenanceUnary, nameUnary, centerRadiusOrder', orderContainmentTransport',
+      transportProvenanceEndpoint', endpointPkg'⟩
+  have endpointUnary : UnaryHistory endpointNew :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint'
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointConsumer
+  exact
+    ⟨⟨centerUnary, radiusUnary, orderUnary, transportUnary, containmentUnary,
+        provenanceUnary, nameUnary, centerRadiusOrder', orderContainmentTransport',
+        transportProvenanceEndpoint', endpointPkg'⟩,
+      consumerUnary, sameOrder, sameTransport, sameEndpoint⟩
+
+theorem RationalBallPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧ UnaryHistory row ∧ Cont transport provenance row ∧
+            PkgSig bundle row pkg)
+        (fun row : BHist =>
+          UnaryHistory transport ∧ UnaryHistory provenance ∧ Cont transport provenance row)
+        (fun row : BHist =>
+          PkgSig bundle row pkg ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+            UnaryHistory containment ∧ UnaryHistory name)
+        (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro packet
+  obtain ⟨centerUnary, radiusUnary, _orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, nameUnary, _centerRadiusOrder, _orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint
+          ⟨hsame_refl endpoint, endpointUnary, transportProvenanceEndpoint, endpointPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨PkgSig_psame_intro sourceRow.right.right.right sourceRow.right.right.right
+          (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨transportUnary, provenanceUnary, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right.right.right, centerUnary, radiusUnary, containmentUnary,
+          nameUnary⟩
+  }
+
+theorem RationalBallPacket_metric_positive_containment_transport [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer metric : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint consumer ->
+        Cont consumer provenance metric ->
+          PkgSig bundle metric pkg ->
+            UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory containment ∧
+              UnaryHistory endpoint ∧ UnaryHistory consumer ∧ UnaryHistory metric ∧
+                Cont center radius order ∧ Cont order containment transport ∧
+                  Cont transport provenance endpoint ∧ Cont containment endpoint consumer ∧
+                    Cont consumer provenance metric ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle metric pkg := by
+  intro packet containmentEndpointConsumer consumerProvenanceMetric metricPkg
+  obtain ⟨centerUnary, radiusUnary, _orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointConsumer
+  have metricUnary : UnaryHistory metric :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceMetric
+  exact
+    ⟨centerUnary, radiusUnary, containmentUnary, endpointUnary, consumerUnary, metricUnary,
+      centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
+      containmentEndpointConsumer, consumerProvenanceMetric, endpointPkg, metricPkg⟩
+
 end BEDC.Derived.RationalBallUp
