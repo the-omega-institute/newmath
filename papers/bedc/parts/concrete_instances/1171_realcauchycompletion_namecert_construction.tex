@@ -21,6 +21,7 @@ with the following visible coordinates:
 \end{enumerate}
 The local classifier compares two carriers only by displayed $\hsame$ transport of the modulus rows, diagonal packets, readback ledgers, $\RealUp$ seal rows, package provenance, and local certificate rows.
 \end{definition}
+\leandef{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier}
 
 \begin{theorem}[RealCauchyCompletion NameCert obligations]
 \label{thm:real-cauchy-completion-namecert-obligations}
@@ -38,6 +39,7 @@ The Bishop reading is exactly this finite witness surface. It supplies a constru
 \label{thm:real-cauchy-completion-diagonal-handoff}
 For every accepted $\RealCauchyCompletionUp$ carrier $C$ and every unary precision request $n$, the $\RealUp$ consumer read of the completed name factors through the modulus row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet $D$, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the displayed $\DyadicRatCoreUp$ observation ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_diagonal\_handoff}
 \begin{proof}
 Project the carrier by \autoref{def:real-cauchy-completion-carrier}. The modulus coordinate selects the late member of the regular Cauchy family that is relevant for the request $n$.
 
@@ -81,6 +83,7 @@ The diagonal coordinate $D$ is transported through $\RealDiagonalCompletionUp$, 
 
 Finally, $P$ and $N$ transport through the package and local certificate rows. Since the classifier of \autoref{def:real-cauchy-completion-carrier} compares exactly these displayed coordinates, componentwise transport preserves accepted carriers and preserves classifier equivalence.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_transport\_stability}
 
 \begin{theorem}[RealCauchyCompletion modulus diagonal exactness]
 \label{thm:real-cauchy-completion-modulus-diagonal-exactness}
@@ -105,6 +108,7 @@ The $\Cont$ routes record how those rows are read without leaving the displayed 
 
 Thus the exported seal has a restricted readback scope: it is a real-facing boundary for the named diagonal packet, not an independent host real, quotient class, or ambient completion object.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_real\_seal\_readback\_scope}
 
 \begin{theorem}[RealCauchyCompletion ProbeBundle window coverage]
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
@@ -119,6 +123,7 @@ The selected row is the same row identified by \autoref{thm:real-cauchy-completi
 
 Finally, apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope} to the family of reads. Since $Q$ is finite, the pointwise routes assemble into one finite $\mathsf{BHist}$ consumer surface with the recorded $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and the same non-escape boundary is preserved for the bundle.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_probe\_bundle\_window\_coverage}
 
 \begin{theorem}[RealCauchyCompletion obligation closure package]
 \label{thm:real-cauchy-completion-obligation-closure-package}
@@ -184,18 +189,79 @@ Transport and finite-window reuse are supplied by \autoref{thm:real-cauchy-compl
 Finally apply \autoref{thm:real-cauchy-completion-real-seal-readback-scope}, \autoref{thm:real-cauchy-completion-non-escape-boundary}, and \autoref{thm:real-cauchy-completion-obligation-closure-package}. These identify the public object as a $\RealUp$-facing name surface and preserve the exclusions on quotient stream equality, selected host limits, host real equality, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion regular-family input interface]
+\label{thm:real-cauchy-completion-regular-family-input-interface}
+Every accepted $\RealCauchyCompletionUp$ carrier binds its $\RegularCauchyFamilyUp$ input rows to the completion carrier of \autoref{def:real-cauchy-completion-carrier}. The binding sends the regular family row $X$ and unary modulus row $\mu$ to the diagonal packet $D$, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, $\Pkg$ provenance, and local $\NameCert$ row, all inside the displayed $\mathsf{BHist}$, $\hsame$, and $\Cont$ surface.
+\end{theorem}
+\begin{proof}
+Start with the completion carrier. Its coordinates explicitly contain the regular-family row, the unary modulus, the diagonal packet, the real seal, package provenance, and local naming certificate.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff}. For each precision request, the modulus selects the family row that is read through one finite stream window, one regular-rational readback, and the dyadic observation ledger.
+
+The exact selected row is the one identified by \autoref{thm:real-cauchy-completion-modulus-diagonal-exactness}. The $\RealUp$ seal then remains in the scope described by \autoref{thm:real-cauchy-completion-real-seal-readback-scope}, so the input rows are bound to the completion carrier without creating quotient stream equality, host real equality, or a selected host limit.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion downstream consumer handoff]
+\label{thm:real-cauchy-completion-downstream-consumer-handoff}
+For any accepted $\RealCauchyCompletionUp$ carrier and any finite consumer request bundle, the downstream handoff is the route through the unary modulus, the $\RealDiagonalCompletionUp$ diagonal packet, the scheduled $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal, $\Pkg$, and $\NameCert$. The route is stable under the displayed $\hsame$ and $\Cont$ rows and exports no data outside that surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-cauchy-completion-probebundle-window-coverage} to the finite bundle. Each request is reduced to the modulus-selected diagonal packet, its finite stream window, its regular-rational readback, and the dyadic observation rows.
+
+Use \autoref{thm:real-cauchy-completion-carrier-transport-stability} to transport the same rows through the displayed $\hsame$ comparisons and $\Cont$ routes. Package provenance and the local naming row stay attached to the consumer-facing surface throughout the transport.
+
+Finally, \autoref{thm:real-cauchy-completion-real-seal-readback-scope} identifies the exported endpoint as the $\RealUp$ seal reached through that route. The non-escape boundary of \autoref{thm:real-cauchy-completion-non-escape-boundary} excludes quotient streams, selected host limits, host real equality, and ambient completeness from the downstream handoff.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion scoped consumer route]
+\label{thm:real-cauchy-completion-scoped-consumer-route}
+The regular-family input interface of \autoref{thm:real-cauchy-completion-regular-family-input-interface}, the downstream handoff of \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}, and the obligation package of \autoref{thm:real-cauchy-completion-obligation-closure-package} assemble the public consumer theorem for $\RealCauchyCompletionUp$. Its scope is exactly the completion-facing route through $\RegularCauchyFamilyUp$, modulus selection, diagonal packet, finite windows, regular-rational readback, dyadic ledger, $\RealUp$ seal, $\mathsf{ProbeBundle}$ coverage, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+The input side is supplied by \autoref{thm:real-cauchy-completion-regular-family-input-interface}. It binds the $\RegularCauchyFamilyUp$ rows to the carrier coordinates and to the modulus-selected diagonal readback route.
+
+The consumer side is supplied by \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}. It packages finite request bundles through the same diagonal packet, stream windows, regular-rational readbacks, dyadic ledger, real seal, package provenance, and local certificate rows.
+
+The package side is \autoref{thm:real-cauchy-completion-obligation-closure-package}. Together with carrier stability, modulus-diagonal exactness, real-seal readback scope, and the non-escape boundary, it gives a scoped public theorem about the concrete BEDC completion interface and nothing stronger than that interface.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion standard bridge boundary]
+\label{thm:real-cauchy-completion-standard-bridge-boundary}
+The standard BEDC completion-interface reading of any accepted $\RealCauchyCompletionUp$ carrier factors exactly through the displayed $\RegularCauchyFamilyUp$ row, the unary modulus row, the $\RealDiagonalCompletionUp$ packet, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ observations, the $\RealUp$ seal, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This boundary exports no quotient stream, host equality of real numbers, selected limit, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-cauchy-completion-regular-family-input-interface} to place the accepted carrier on the regular-family row, unary modulus row, diagonal packet, finite stream windows, regular-rational readbacks, dyadic observation ledger, real seal, package provenance, and local naming row.
+
+The downstream side is then \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}. It shows that every finite consumer request reads the same visible route through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally combine \autoref{thm:real-cauchy-completion-real-seal-readback-scope} with \autoref{thm:real-cauchy-completion-non-escape-boundary}. These rows identify the exported endpoint as the $\RealUp$ seal and exclude quotient streams, host real equality, selected limits, and ambient completeness from the standard completion-interface reading.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion bridge handoff]
+\label{thm:real-cauchy-completion-bridge-handoff}
+The public real-name export of \autoref{thm:real-cauchy-completion-public-real-name-export}, the regular-family input interface of \autoref{thm:real-cauchy-completion-regular-family-input-interface}, the downstream consumer handoff of \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}, and the standard bridge boundary of \autoref{thm:real-cauchy-completion-standard-bridge-boundary} jointly supply the paper bridge needed for the public-to-bridged $\RealCauchyCompletionUp$ closure step.
+\end{theorem}
+\begin{proof}
+The public export supplies the $\RealUp$-facing name surface. The input interface pins that surface to the regular-family row, unary modulus, diagonal packet, stream windows, regular-rational readbacks, dyadic observations, package provenance, and local certificate.
+
+The downstream handoff shows that all finite consumer bundles pass through the same rows, with $\hsame$ transport and $\Cont$ routes preserving the visible package. The standard boundary then records that this is exactly the standard BEDC completion-interface reading.
+
+Composing these four displayed rows gives a paper bridge from the public certificate to the standard completion schema. The conclusion remains paper-side only: it does not assert machine bridge checking, quotient equality, host equality, selected limits, or ambient completeness.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
 \closureat{RealCauchyCompletionUp}{obligationStr}
 \closureat{RealCauchyCompletionUp}{scopedStr}
 \closureat{RealCauchyCompletionUp}{publicStr}
+\closureat{RealCauchyCompletionUp}{bridgedStr}
 
 \begin{closurestatus}{\RealCauchyCompletionUp}
   \constructivestory{A $\RealCauchyCompletionUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy family, an explicit unary modulus, a $\RealDiagonalCompletionUp$ diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped boundary is exactly the displayed regular-family row, unary modulus, diagonal packet, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The paper bridge scope is the public real-name export of \autoref{thm:real-cauchy-completion-public-real-name-export} together with the standard Bishop reading of \autoref{thm:real-cauchy-completion-standard-bishop-reading}, through the displayed regular-family row, unary modulus, diagonal packet, finite windows, regular-rational readback, dyadic ledger, $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{The next paper grade is a bridge theorem connecting the public $\RealCauchyCompletionUp$ export to the standard BEDC completion interface.}
+  \upgradepath{Mature closure requires downstream examples and completeness-boundary coverage over the same finite regular-family, diagonal, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
