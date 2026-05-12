@@ -157,4 +157,44 @@ theorem TrieBHistSource_carrier_stability [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact ⟨transported, sameKeyBranch, samePayloadRoute, sameEndpoint⟩
 
+def TrieSource [AskSetup] [PackageSetup]
+    (key value depth branch provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory key ∧ UnaryHistory value ∧ UnaryHistory depth ∧ UnaryHistory branch ∧
+    Cont key value endpoint ∧ Cont depth branch provenance ∧ PkgSig bundle provenance pkg
+
+theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
+    {key value depth branch provenance endpoint key' value' depth' branch' provenance'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSource key value depth branch provenance endpoint bundle pkg ->
+      hsame key key' ->
+        hsame value value' ->
+          hsame depth depth' ->
+            hsame branch branch' ->
+              Cont key' value' endpoint' ->
+                Cont depth' branch' provenance' ->
+                  PkgSig bundle provenance' pkg ->
+                    TrieSource key' value' depth' branch' provenance' endpoint' bundle pkg ∧
+                      hsame endpoint endpoint' ∧ hsame provenance provenance' := by
+  intro source sameKey sameValue sameDepth sameBranch endpointRow' provenanceRow' pkgRow'
+  obtain ⟨keyUnary, valueUnary, depthUnary, branchUnary, endpointRow, provenanceRow,
+    _pkgRow⟩ := source
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame sameKey sameValue endpointRow endpointRow'
+  have provenanceSame : hsame provenance provenance' :=
+    cont_respects_hsame sameDepth sameBranch provenanceRow provenanceRow'
+  have keyUnary' : UnaryHistory key' :=
+    unary_transport keyUnary sameKey
+  have valueUnary' : UnaryHistory value' :=
+    unary_transport valueUnary sameValue
+  have depthUnary' : UnaryHistory depth' :=
+    unary_transport depthUnary sameDepth
+  have branchUnary' : UnaryHistory branch' :=
+    unary_transport branchUnary sameBranch
+  exact
+    ⟨⟨keyUnary', valueUnary', depthUnary', branchUnary', endpointRow', provenanceRow',
+        pkgRow'⟩,
+      endpointSame, provenanceSame⟩
+
 end BEDC.Derived.TrieUp
