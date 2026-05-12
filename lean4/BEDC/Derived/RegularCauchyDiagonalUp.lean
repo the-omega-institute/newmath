@@ -46,6 +46,30 @@ theorem RegularCauchyDiagonalCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       windowSelection, provenancePkg, selectedPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_stationary_compatibility [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
+      constantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont ratSeed streamWindow regseqRead ->
+        Cont regseqRead realSeal constantSeal ->
+          PkgSig bundle constantSeal pkg ->
+            UnaryHistory ratSeed ∧ UnaryHistory streamWindow ∧ UnaryHistory regseqRead ∧
+              UnaryHistory realSeal ∧ UnaryHistory constantSeal ∧
+                Cont ratSeed streamWindow regseqRead ∧
+                  Cont regseqRead realSeal constantSeal ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle constantSeal pkg := by
+  intro carrier stationaryRead constantSealRow constantSealPkg
+  obtain ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary,
+    _windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    _regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have constantSealUnary : UnaryHistory constantSeal :=
+    unary_cont_closed regseqReadUnary realSealUnary constantSealRow
+  exact
+    ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary, constantSealUnary,
+      stationaryRead, constantSealRow, provenancePkg, constantSealPkg⟩
+
 theorem RegularCauchyDiagonalCarrier_stationary_seal_exactness [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
       constantRead constantSeal : BHist}
@@ -237,6 +261,33 @@ theorem RegularCauchyDiagonalCarrier_completion_consumer_bridge [AskSetup] [Pack
   exact
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       completionUnary, windowSelection, completionRow, provenancePkg, completionPkg⟩
+
+theorem RegularCauchyDiagonalCarrier_bridge_route_determinacy [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      completionRead alternateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont selectedWindow regseqRead completionRead ->
+          Cont selectedWindow regseqRead alternateRead ->
+            PkgSig bundle completionRead pkg ->
+              PkgSig bundle alternateRead pkg ->
+                hsame completionRead alternateRead ∧ UnaryHistory completionRead ∧
+                  UnaryHistory alternateRead ∧ PkgSig bundle provenance pkg := by
+  intro carrier windowSelection completionRow alternateRow _completionPkg _alternatePkg
+  obtain ⟨_ratSeedUnary, streamWindowUnary, regseqReadUnary, _realSealUnary,
+    windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    _regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed selectedWindowUnary regseqReadUnary completionRow
+  have alternateUnary : UnaryHistory alternateRead :=
+    unary_cont_closed selectedWindowUnary regseqReadUnary alternateRow
+  have completionSameAlternate : hsame completionRead alternateRead :=
+    cont_deterministic completionRow alternateRow
+  exact ⟨completionSameAlternate, completionUnary, alternateUnary, provenancePkg⟩
 
 theorem RegularCauchyDiagonalCarrier_selector_stability [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert ratSeed'
