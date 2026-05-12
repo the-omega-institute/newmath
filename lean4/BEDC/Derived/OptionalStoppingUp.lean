@@ -144,4 +144,40 @@ theorem OptionalStoppingCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem OptionalStoppingCarrier_finite_expectation_window [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg →
+      UnaryHistory prob ∧
+        UnaryHistory process ∧
+          UnaryHistory stopping ∧
+            UnaryHistory bound ∧
+              UnaryHistory stoppedValue ∧
+                UnaryHistory filtration ∧
+                  UnaryHistory integrability ∧
+                    Cont stopping bound stoppedValue ∧
+                      Cont process filtration integrability ∧
+                        hsame provenance (append stoppedValue integrability) ∧
+                          hsame endpoint (append stoppedValue integrability) ∧
+                            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  obtain ⟨probUnary, processUnary, stoppingUnary, boundUnary, stoppedValueUnary,
+    filtrationUnary, integrabilityUnary, _sameRowsUnary, _routeUnary, _provenanceUnary,
+    _namecertUnary, _endpointUnary, stoppedValueReadback, integrabilityReadback, _sameRows,
+    _route, provenanceSame, endpointSame, _namecertSame, pkgSig⟩ := carrier
+  exact And.intro probUnary
+    (And.intro processUnary
+      (And.intro stoppingUnary
+        (And.intro boundUnary
+          (And.intro stoppedValueUnary
+            (And.intro filtrationUnary
+              (And.intro integrabilityUnary
+                (And.intro stoppedValueReadback
+                  (And.intro integrabilityReadback
+                    (And.intro provenanceSame
+                      (And.intro endpointSame pkgSig))))))))))
+
 end BEDC.Derived.OptionalStoppingUp
