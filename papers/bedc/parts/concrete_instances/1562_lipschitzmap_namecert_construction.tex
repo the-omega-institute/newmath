@@ -157,6 +157,131 @@ excluded conclusions require coordinates not present in
 ledger.
 \end{proof}
 
+\begin{theorem}[LipschitzMap bound transport]
+\label{thm:lipschitz-map-bound-transport}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. Any displayed $\hsame$ and $\Cont$
+transport of the source $\MetricSpaceUp$ row $X$, target $\MetricSpaceUp$ row
+$Y$, graph row $G$, rational $\RealUp$ bound ledger $B$, and induced
+$\UniformModulusUp$ row $M$ preserves the accepted Lipschitz packet. The
+transported packet has the same finite consumer surface: source-distance reads
+still enter through $X$, target-distance reads still exit through $Y$, graph
+reads still pass through $G$, and every modulus read is routed through the row
+$M$ induced by the ledger $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The transport row $H$ already lists the
+componentwise $\hsame$ moves for source points, target points, metric-distance
+rows, bound ledger entries, graph rows, and modulus rows.
+
+Follow the stored $\Cont$ routes in $C$ after each componentwise move. The
+source-distance route is transported first, the graph route is then read over
+the transported source and target rows, and the rational bound comparison is
+read from the transported ledger $B$.
+
+The induced modulus row has no separate origin: it is the $\UniformModulusUp$
+route generated from the same displayed bound ledger. Repack the transported
+coordinates with the original $\Pkg$ provenance $P$ and local $\NameCert$ row
+$N$. No representative choice or host function equality is used.
+\end{proof}
+
+\begin{theorem}[LipschitzMap target-distance exactness]
+\label{thm:lipschitz-map-target-distance-exactness}
+For an accepted $\LipschitzMapUp$ carrier
+$$
+L=(X,Y,B,G,M,H,C,P,N),
+$$
+every target-distance read factors through the displayed source-distance read
+in $X$, the $\ContinuousMapUp$ graph row $G$, and the rational $\RealUp$ bound
+ledger $B$. In particular, a consumer cannot read a target metric comparison
+from a hidden target-space principle, a quotient of maps, or an external
+function-extensionality assertion; the only exact route is the carried BEDC
+route
+$$
+\begin{gathered}
+\text{source distance in } X,\\
+\text{graph read through } G,\\
+\text{bound comparison through } B,\\
+\text{target distance in } Y.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Read the target-distance coordinate from the carrier. By the classifier of
+\autoref{def:lipschitz-map-classifier}, target metric rows are compared only
+componentwise through the displayed $\hsame$ and $\Cont$ surface.
+
+The graph coordinate $G$ supplies the only route from source points to target
+points. The rational ledger $B$ supplies the only nonnegative bound row for the
+target-distance comparison, and the source metric row $X$ supplies the only
+source-distance input to that comparison.
+
+Thus every target-distance read is obtained by composing those visible routes.
+The package row $P$ and local certificate row $N$ mention no completeness
+principle, quotient equality, representative selector, or host extensionality
+datum, so there is no second exactness route to project.
+\end{proof}
+
+\begin{theorem}[LipschitzMap composite-bound routing]
+\label{thm:lipschitz-map-composite-bound-routing}
+Let $L$ and $L'$ be accepted $\LipschitzMapUp$ carriers with compatible
+intermediate metric rows as in
+\autoref{thm:lipschitz-map-composition-boundary}. The composite consumer path
+is routed only through the displayed product of the two rational $\RealUp$
+bound ledgers and the sequential $\UniformModulusUp$ route induced by the two
+carried modulus rows. The composite boundary exposes no alternative consumer
+path for the bound, graph, or modulus data.
+\end{theorem}
+\begin{proof}
+Project the two carriers. The first carrier supplies the source metric row,
+first graph row, first bound ledger, and first induced modulus route. The
+second carrier supplies the intermediate-compatible source row, second graph
+row, second bound ledger, and second induced modulus route.
+
+Use the compatibility of the intermediate metric rows to pass the first target
+distance into the second source-distance input through the displayed
+classifier surface. This is a carried $\hsame$ and $\Cont$ passage, not an
+identification of host maps.
+
+Now multiply the two rational ledgers as the composite bound ledger and route
+the modulus read sequentially through the two $\UniformModulusUp$ rows. Since
+the packet contains no other bound or modulus coordinate, every composite
+consumer must use this product-ledger route.
+\end{proof}
+
+\begin{theorem}[LipschitzMap obligation closure package]
+\label{thm:lipschitz-map-obligation-closure-package}
+The $\LipschitzMapUp$ obligation surface is exhausted by the carrier of
+\autoref{def:lipschitz-map-carrier}, the classifier of
+\autoref{def:lipschitz-map-classifier}, bound transport
+\autoref{thm:lipschitz-map-bound-transport}, target-distance exactness
+\autoref{thm:lipschitz-map-target-distance-exactness}, composite-bound routing
+\autoref{thm:lipschitz-map-composite-bound-routing}, and ledger nonescape
+\autoref{thm:lipschitz-map-ledger-nonescape}. These rows form a finite
+$\BHist$ package over $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+$\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, and $\UniformModulusUp$.
+\end{theorem}
+\begin{proof}
+Collect the carrier and classifier rows first. They name exactly the finite
+coordinates and the componentwise comparison surface available to a local
+$\NameCert_{\LipschitzMapUp}$ consumer.
+
+Add the three transport and routing obligations. Bound transport preserves the
+accepted packet under displayed $\hsame$ and $\Cont$ movement. Target-distance
+exactness fixes the unique target-distance read route. Composite-bound routing
+fixes the product ledger and sequential modulus route for composed consumers.
+
+Finally apply ledger nonescape. It states that $\UniformModulusUp$,
+$\PicardContractionUp$, $\BanachFixedPointUp$, and $\ContinuousMapUp$
+consumers factor through the displayed rows and do not acquire hidden
+completeness, differentiability, quotient, representative-selection, or host
+extensionality data. Repacking these named clauses gives precisely the
+obligation closure package.
+\end{proof}
+
 \closureat{LipschitzMapUp}{seedStr}
 
 \begin{closurestatus}{\LipschitzMapUp}
