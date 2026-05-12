@@ -148,6 +148,35 @@ section:
     $\mathrm{var}\ i$.
 \end{itemize}
 
+\subsection{Construction Style}\label{subsec:reconstruction-construction-style}
+
+The MetaCIC layer is built in the first instance from pure inductive
+objects. $\mathrm{Term}$ is an inductive syntax type, while
+$\mathrm{HasType}$, $\mathrm{BetaStep}$, $\mathrm{BetaStarStep}$,
+$\mathrm{BetaParallel}$, and $\mathrm{ClosedAt}$ are inductive predicates.
+No constructor in this surface depends on an additional axiom.
+
+Binders are represented by de Bruijn indices. Variables have the form
+$\mathrm{Term.var}\ i$ for an index $i$, and substitution is the explicit
+operation $\mathrm{substitute}\ \mathrm{depth}\ v\ t$. Lambda and Pi binders
+are handled by the same shift-aware discipline used by the typing judgment:
+crossing a binder raises the depth and shifts the incoming term so that
+capture is not introduced by representation.
+
+The main substitution-preservation statements are conditioned by closure.
+They work under hypotheses such as $\mathrm{ClosedAt}\ 0\ \mathrm{dom}$,
+because a closed binder domain is stable under the binder shift:
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom} = \mathrm{dom}$. This is the local fact
+that lets the represented binder context and the substituted context line up.
+
+Many checked lemmas are intentionally statement-shape lemmas. Names such as
+\texttt{betaSubstitutionPreservation\_sort\_var},
+\texttt{betaSubstitutionPreservation\_pi\_body},
+\texttt{betaSubstitutionPreservation\_lam\_body}, and
+\texttt{betaSubstitutionPreservation\_app\_body} isolate the term shape under
+which substitution preservation is proved. The full picture is assembled from
+these shape-local facts rather than from an opaque global argument.
+
 \subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
 
 The current MetaCIC stack is factored by proof responsibility.
@@ -532,6 +561,53 @@ four standing audits at PR merge time:
 \end{itemize}
 The current state is coherent. Formal targets without full proof terms are
 reported as such, and the audit guarantees make this distinction enforceable.
+
+\subsection{Open Targets}\label{subsec:reconstruction-open-targets}
+
+The reconstruction does not yet close the following metatheoretic targets:
+\begin{itemize}
+  \item Substitute preservation for open binder domains. The checked theorem
+    covers closed binder-domain hypotheses; open domains still require a
+    general binder-shift and substitution transport argument.
+  \item Subject reduction without body-shape restrictions. The closed body
+    cases are represented, while arbitrary lambda and Pi bodies still require
+    binder-drop handling that commutes with typing projections.
+  \item Confluence as a full diamond property for parallel reduction across
+    all term shapes. The atom cases are closed; Pi, lambda, and application
+    cases still depend on general join assemblers for their components.
+  \item Strong normalization for closed sort-typed terms.
+  \item Decidable type checking for arbitrary Pi, lambda, and application
+    terms. The checked $\mathrm{AtomInfer}$ surface covers only sort and
+    variable atoms.
+\end{itemize}
+
+\subsection{Results Overview}\label{subsec:reconstruction-results-overview}
+
+The formalized MetaCIC result set covers the main closed reconstruction
+claims needed by this chapter. Closed binder-domain substitute preservation is
+proved by
+$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$, giving the
+complete closed theorem over the shift-aware typing substrate. Subject
+reduction is represented by the main theorem
+$\mathrm{subject\_reduction}$ together with the beta case, the application
+congruence cases such as $\mathrm{subject\_reduction\_congApp1}$, and the
+closed body cases for lambda and Pi constructors.
+
+The confluence layer supplies the parallel reduction framework
+$\mathrm{BetaParallel}$, beta-star transport lemmas
+$\mathrm{betaStarStep\_*}$, and atom-shape diamond components for variables
+and sorts. The normalization layer proves that atoms do not reduce:
+$\mathrm{sort\_no\_beta}$, $\mathrm{closed\_var\_no\_beta}$, and
+$\mathrm{closed\_atom\_normal\_form}$ close the represented normal-form facts
+for the atomic fragment.
+
+The executable demonstration layer contains the closed-atom inference
+theorems $\mathrm{inferAtom\_sort\_sound}$ and
+$\mathrm{inferAtom\_var\_sound}$, plus a concrete typed-term gallery with
+roughly fifteen examples spanning variables, Pi terms, dependent identity
+terms, and applications. All listed results are axiom-free under
+\texttt{\#print axioms}; the audited dependency sets contain no
+\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
 
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
