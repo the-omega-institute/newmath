@@ -386,6 +386,41 @@ def ModulusOfConvergenceRatePacket [AskSetup] [PackageSetup]
       Cont schedule witness ledger ∧ Cont modulus ledger endpoint ∧
         PkgSig bundle endpoint pkg
 
+theorem ModulusOfConvergenceRatePacket_threshold_ledger_completeness [AskSetup]
+    [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory modulus ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+        hsame modulus (append precision selector) ∧ hsame ledger (append schedule witness) ∧
+          hsame endpoint (append modulus ledger) ∧ PkgSig bundle endpoint pkg := by
+  intro packet
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have selectorUnary : UnaryHistory selector :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have witnessUnary : UnaryHistory witness :=
+    packet.right.right.right.left
+  have modulusRow : Cont precision selector modulus :=
+    packet.right.right.right.right.right.left
+  have ledgerRow : Cont schedule witness ledger :=
+    packet.right.right.right.right.right.right.left
+  have endpointRow : Cont modulus ledger endpoint :=
+    packet.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    packet.right.right.right.right.right.right.right.right
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed precisionUnary selectorUnary modulusRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary witnessUnary ledgerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed modulusUnary ledgerUnary endpointRow
+  exact
+    ⟨modulusUnary, ledgerUnary, endpointUnary, modulusRow, ledgerRow, endpointRow, pkgSig⟩
+
 theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [PackageSetup]
     {precision selector modulus schedule witness ledger provenance endpoint tail restrictedSchedule
       restrictedLedger restrictedEndpoint : BHist}
