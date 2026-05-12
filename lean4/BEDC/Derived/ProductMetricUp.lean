@@ -82,4 +82,31 @@ theorem ProductMetricCarrier_classifier_stability [AskSetup] [PackageSetup]
     (And.intro sameProduct
       (And.intro sameDistance sameTransport))
 
+theorem ProductMetricCarrier_component_distance_transport [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      componentRead productRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont leftDistance rightDistance componentRead ->
+        Cont product componentRead productRead ->
+          UnaryHistory componentRead ∧ UnaryHistory productRead ∧ hsame distance componentRead ∧
+            Cont product componentRead productRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier componentReadRow productReadRow
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, _transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have componentReadUnary : UnaryHistory componentRead :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary componentReadRow
+  have productReadUnary : UnaryHistory productRead :=
+    unary_cont_closed productUnary componentReadUnary productReadRow
+  have sameDistanceComponentRead : hsame distance componentRead :=
+    cont_respects_hsame (hsame_refl leftDistance) (hsame_refl rightDistance) distanceRow
+      componentReadRow
+  exact
+    ⟨componentReadUnary, productReadUnary, sameDistanceComponentRead, productReadRow,
+      provenancePkg⟩
+
 end BEDC.Derived.ProductMetricUp
