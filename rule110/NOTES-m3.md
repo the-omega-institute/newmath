@@ -98,3 +98,18 @@
   constructor-positive triples, and well-formed triples with wrong result
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
+
+## Ask Module Encoding
+
+- `Ask.lean` exposes `AskSetup` as an abstract typeclass with `ProbeName`,
+  `Evidence`, and a four-argument `Ask` relation. The rule110 encoding uses a
+  concrete fixture instance rather than treating the abstract typeclass as
+  ground data.
+- The fixture reuses the SigRel parity policy:
+  `mark = (probe_name + depth(history)) mod 2`. Evidence is encoded as the same
+  one-bit event, so positive Ask quadruples carry both the deterministic mark
+  and a checked evidence token.
+- `ask_basic.enum.ct` and `ask_basic.algo.ct` cover six positive quadruples and
+  six negative or malformed streams. The semantic harness in `tests/test_ask.c`
+  rejects bad unary probe names, wrong marks, wrong evidence, and trailing
+  input.
