@@ -138,7 +138,7 @@ Encode BEDC content outside the finite-kernel proof boundary.
 - [!] L5.1: `Derived/TopologyUp` thin interface (BHist-based topology constructs). Enum mirror covers finite-base neighborhood append decomposition, carrier meet-as-bundleAppend scope rows, and ledger constructor tags/no-confusion in `manifests/topology_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration and non-vacuous universal cyclic-tag recognizers are outside this row.
 - [ ] L5.2: `Derived/RealUp` (real numbers via BHist limit construction).
 - [ ] L5.3: `Derived/CircleUp` (modular arithmetic + circle group).
-- [ ] L5.4: `Derived/FoldUp` (foldable structures).
+- [!] L5.4: `Derived/FoldUp` placeholder, mirrored against the actual Lean target `Derived/FoldMomentKernelUp`. Enum mirror covers the nine-field `FoldMomentKernelUp` taste-gate event flow, canonical tag layout, BHist field round-trip, visible-row mark conservativity, and representative injectivity/layer-separation pairs in `manifests/fold_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: no separate Lean `FoldUp` fold algebra exists in this worktree, and Lean cross-check registration plus unbounded cyclic-tag recognizers are outside this row.
 - [ ] L5.5: `BaseReflection` (CIC self-reflection within rule110 substrate — challenging since rule110 is sub-Turing-complete cellular automaton; may need bridge through cyclic-tag substrate first).
 - [ ] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).
 - [ ] L5.7: `GroundCompiler` (the channel-encoding pipeline that rule110 itself uses; meta-circular).
