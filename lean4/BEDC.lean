@@ -138,6 +138,7 @@ import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
@@ -309,6 +310,7 @@ import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.BundleUp
