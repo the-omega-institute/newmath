@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\BinaryExpansionUp$}
+\label{ch:concrete-instances-binaryexpansion-namecert}
+\origin{human}
+
+The $\BinaryExpansionUp$ interface names the finite dyadic-prefix certificate that reads a binary expansion as real-name data. Following Bishop and Bridges, \emph{Constructive Analysis}, the packet treats binary observations as displayed dyadic rational prefixes with explicit precision windows and regular-sequence handoff rows. It sits over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and it exports only finite prefix, dyadic ledger, readback, transport, continuation, package, and local $\NameCert$ rows.
+
+\begin{definition}[BinaryExpansion carrier]
+\label{def:binary-expansion-carrier}
+A $\BinaryExpansionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(D,W,A,R,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $D$ is a finite row of binary digits, each digit displayed as a $\DyadicRatCoreUp$ bit row with value $0$ or $1$;
+\item $W$ is the $\StreamNameUp$ prefix-window schedule recording which initial segment of $D$ is inspected for each requested unary precision;
+\item $A$ assigns to every prefix window in $W$ the corresponding $\DyadicApproximationUp$ row, read as a dyadic rational partial sum together with a dyadic tail-radius row;
+\item $R$ is the $\RegSeqRatUp$ handoff row asserting that the displayed dyadic partial sums form a regular rational stream at the scheduled precisions;
+\item $E$ is the $\RealUp$ seal-boundary row reached from the regular stream, with no host real endpoint outside the displayed packet;
+\item $H$ records componentwise $\hsame$ transport for digit rows, prefix windows, dyadic partial sums, regular-sequence rows, and real-seal rows;
+\item $C$ records the $\Cont$ routes by which consumers read a prefix, its dyadic approximation row, the regular-sequence handoff, and the real seal in that order;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, and $\Cont$ rows;
+\item $N$ is the local $\NameCert_{\BinaryExpansionUp}$ row.
+\end{enumerate}
+The carrier predicate accepts exactly finite dyadic-prefix packets whose prefix sum, tail radius, regular-sequence handoff, and real-seal route are all displayed in these coordinates. It has no coordinate for an infinite bitstream as a host object, quotient equality of streams, a selected real representative, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[BinaryExpansion NameCert obligations]
+\label{thm:binary-expansion-namecert-obligations}
+The local $\NameCert_{\BinaryExpansionUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet of \autoref{def:binary-expansion-carrier};
+\item classifier: componentwise transport of binary digit rows, prefix-window schedules, dyadic partial sums, tail-radius rows, regular-sequence handoff rows, and real-seal rows through the displayed $\hsame$ and $\Cont$ routes;
+\item stability: any shared prefix window reads the same dyadic partial-sum row and the same tail-radius row after classifier transport;
+\item exactness: the $\RegSeqRatUp$ and $\RealUp$ consumers read only the dyadic approximation rows named by the prefix ledger;
+\item ledger: the $\Pkg$ and local $\NameCert$ rows exhaust the dependency surface over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is the displayed tuple of \autoref{def:binary-expansion-carrier}. Each digit row, prefix window, dyadic approximation row, regular handoff, real seal, transport route, continuation route, package row, and local naming row is visible before a consumer can inspect the packet.
+
+The classifier row is componentwise. Digit values transport through $\DyadicRatCoreUp$, prefix schedules through $\StreamNameUp$, dyadic partial sums and tail radii through $\DyadicApproximationUp$, and the regular and real boundary rows through $\RegSeqRatUp$ and $\RealUp$.
+
+The stability and exactness rows are then read from the same finite prefix ledger. A shared window selects one displayed prefix, and the dyadic partial sum and tail-radius rows named for that window are the only rows available to the regular-sequence and real-seal consumers.
+
+Finally, $P$ and $N$ list only the named dependency certificates and local provenance. Since the carrier has no coordinate for host infinite streams, quotient equality, selected representatives, or ambient completeness, the five rows exhaust the naming certificate surface.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion prefix-window stability]
+\label{thm:binary-expansion-window-prefix-stability}
+Let $B=(D,W,A,R,E,H,C,P,N)$ and $B'=(D',W',A',R',E',H',C',P',N')$ be accepted $\BinaryExpansionUp$ carriers. Suppose a displayed prefix window of $W$ and a displayed prefix window of $W'$ are identified by the $\StreamNameUp$ classifier and that the digit rows on those windows transport componentwise through the $\DyadicRatCoreUp$ classifier. Then the corresponding dyadic partial-sum rows, dyadic tail-radius rows, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal-boundary rows transport through the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+Thus a prefix comparison determines the finite readback surface consumed by regular-sequence and real-name readers. It does not create a second approximation ledger, a quotient of bitstreams, or a choice-selected representative.
+\end{theorem}
+\leanchecked{BEDC.Derived.BinaryExpansionUp.BinaryExpansionPacket\_prefix\_window\_stability}
+\begin{proof}
+Project the two carrier packets. The matched prefix windows select finite digit rows from $D$ and $D'$ and select the dyadic approximation rows in $A$ and $A'$ attached to those windows.
+
+Transport the digits through the $\DyadicRatCoreUp$ classifier and the window schedules through $\StreamNameUp$. The displayed continuation routes then read the same finite prefix length before any dyadic partial sum is inspected.
+
+The dyadic approximation rows are computed inside the displayed ledger for that prefix. Their partial sums and tail radii therefore transport through the recorded $\hsame$ rows and are read through the recorded $\Cont$ routes.
+
+Finally, the $\RegSeqRatUp$ handoff and the $\RealUp$ seal boundary are downstream of those dyadic rows. Repacking the transported prefix, approximation, handoff, and seal rows gives the stated stability, with no extra ledger or representative outside the packet.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion RealUp readback boundary]
+\label{thm:binary-expansion-real-readback-boundary}
+Every $\RealUp$ consumer reading an accepted $\BinaryExpansionUp$ packet may read exactly the finite route consisting of a $\StreamNameUp$ prefix window, the binary digit rows on that window, the $\DyadicApproximationUp$ partial-sum and tail-radius ledger for the window, the $\RegSeqRatUp$ regular handoff, and the displayed $\RealUp$ seal row.
+
+The readback boundary exports no host real value, no completed infinite binary stream, no quotient equality of expansions, no selected representative, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:binary-expansion-carrier}. A real-name read must pass through the continuation route $C$, so it first selects a finite prefix window in $W$ and the corresponding binary digit rows in $D$.
+
+The selected window names a dyadic approximation row in $A$. That row supplies the partial sum and tail-radius ledger at the requested precision, both read through $\DyadicRatCoreUp$ and $\DyadicApproximationUp$.
+
+The regular-sequence handoff $R$ consumes only those dyadic rows. The seal row $E$ is then the displayed $\RealUp$ boundary reached from $R$, with $H$, $C$, $P$, and $N$ recording transport, read route, dependency package, and local naming evidence.
+
+Since every step is a projection from the packet, no host real endpoint, completed stream, quotient equality, selected representative, or ambient completeness theorem can be exported by the real readback.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion dyadic-ledger exhaustion]
+\label{thm:binary-expansion-dyadic-ledger-exhaustion}
+For an accepted $\BinaryExpansionUp$ carrier, every dyadic fact exposed to a $\RegSeqRatUp$ or $\RealUp$ consumer is one of the following rows: a displayed bit row in $D$, a prefix-window row in $W$, a partial-sum row in $A$, a tail-radius row in $A$, a regular handoff row in $R$, or the real-seal row in $E$, transported and routed by $H$, $C$, $P$, and $N$.
+
+Consequently the dyadic ledger is exhausted by the finite packet. There is no exported coordinate for an unbounded bitstream object, binary-expansion uniqueness, base-two endpoint convention, quotient stream equality, or classical real completeness.
+\end{theorem}
+\begin{proof}
+List the dyadic-bearing coordinates of \autoref{def:binary-expansion-carrier}. Digits live in $D$, window requests in $W$, and the prefix sums and tail radii in $A$; the downstream rows $R$ and $E$ only consume those displayed dyadic facts.
+
+Transport can only move these rows componentwise through $H$, and continuation can only expose them along the routes recorded in $C$. The package and local certificate rows $P$ and $N$ record provenance, not additional dyadic data.
+
+Thus every dyadic read available to regular-sequence or real-name consumers is already named by the finite ledger. The excluded objects have no coordinate in the packet and cannot be reconstructed from the exported rows.
+\end{proof}
+
+\closureat{BinaryExpansionUp}{seedStr}
+
+\begin{closurestatus}{\BinaryExpansionUp}
+  \constructivestory{A $\BinaryExpansionUp$ packet is generated from finite binary digit rows, $\StreamNameUp$ prefix windows, $\DyadicApproximationUp$ partial-sum and tail-radius rows, a $\RegSeqRatUp$ regular handoff, a $\RealUp$ seal boundary, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, five-row naming obligations, prefix-window stability, real readback boundary, and dyadic-ledger exhaustion for finite dyadic-prefix packets over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim binary-expansion uniqueness, base-two endpoint convention resolution, quotient equality of streams, selected representatives, host real equality, ambient real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier encoding, prefix-window transport, dyadic approximation exactness, regular-sequence handoff, real-seal readback, and dyadic-ledger exhaustion.}
+\end{closurestatus}
