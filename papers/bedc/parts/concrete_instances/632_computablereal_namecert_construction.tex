@@ -344,6 +344,44 @@ limits, quotient reals, or host completeness, so those objects stay outside
 the bridge boundary.
 \end{proof}
 
+\begin{theorem}[ComputableReal public export]
+\label{thm:computable-real-public-export}
+The source packet, $\NameCert_{\ComputableRealUp}$ obligation surface, RealUp
+handoff, ledger coverage, $\RegSeqRatUp$ seal factorization, Real seal
+refinement coverage, classifier transport, modulus-window stability, and
+bridge boundary form the public computable-real export over $\mathsf{BHist}$
+schedules. Every downstream consumer may read only the displayed
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\StreamNameUp$,
+$\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+The export exposes no quotient real equality, no selected limit, no classical
+completeness principle, and no standard bridge datum outside the finite ledger.
+\end{theorem}
+\begin{proof}
+Begin with the source packet of
+\autoref{def:computable-real-source-packet}. Its displayed coordinates are the
+stream schedule, unary modulus row, dyadic packet family, regular-sequence seal,
+real-facing handoff, and package provenance rows.
+
+Use \autoref{thm:computable-real-namecert-obligation-surface} to name the
+obligation surface and \autoref{thm:computable-real-classifier-transport} to
+transport the classifier across the visible coordinates. Use
+\autoref{thm:computable-real-modulus-window-stability} to keep finite windows
+stable under restriction, enlargement, and refinement.
+
+Apply \autoref{thm:computable-real-realup-handoff},
+\autoref{thm:computable-real-ledger-coverage},
+\autoref{thm:computable-real-regseqrat-seal-factorization}, and
+\autoref{thm:computable-real-real-seal-refinement-coverage} to identify the
+real-facing exit, the consumer ledger, the regular-sequence seal factor, and
+the Real seal refinement coverage.
+
+Finally, \autoref{thm:computable-real-bridge-boundary} records the boundary
+objects not projected by the effective-real surface. Thus the theorem exports a
+consumer packet for later Real and modulus chapters, not a Real completeness
+theorem and not a standard bridge.
+\end{proof}
+
 \closureat{ComputableRealUp}{seedStr}
 \closureat{ComputableRealUp}{obligationStr}
 \closureat{ComputableRealUp}{scopedStr}
