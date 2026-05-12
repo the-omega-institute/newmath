@@ -60,7 +60,13 @@ LOG_RETENTION_DAYS_PRESSURE = 1
 LOG_RETENTION_DAYS_PANIC = 0.25  # ~6 hours
 
 # Worktree stale heuristic: no orchestrator-log mention in N minutes.
-WORKTREE_STALE_MINUTES = 45
+# CRITICAL: must be larger than the max Phase C codex exec duration
+# (phase_c_timeout=6000s = 100min). During Phase C the orchestrator log
+# is silent for the round id since the codex subprocess writes its own
+# log_tag file, not the main orchestrator.log. Cleaning a worktree mid-
+# Phase-C produces a worker exception when Phase D tries to `cd wt.path`.
+# 150min = 100min Phase C + 50min slack for Phase B + Phase D + merge.
+WORKTREE_STALE_MINUTES = 150
 LEAN_LOG = REPO_ROOT / "lean4" / "scripts" / "logs" / "orchestrator.log"
 PAPER_LOG = REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log"
 WORKTREES_DIR = REPO_ROOT / ".worktrees"
@@ -75,30 +81,38 @@ LOG_DIRS = [
 # Tuning constants.
 #
 # ============================================================
-# DO NOT CHANGE LEAN_MAX / PAPER_MAX — pinned at 20 by user
-# directive (2026-05-11). The cap stays at 20 regardless of
-# what the demand signals report. MIN / BUFFER may still be
-# tuned for ramp-up behaviour, but ceiling = 20 is fixed.
+# Caps pinned by user directive:
+#   LEAN_MAX = 20 (2026-05-11)
+#   PAPER_MAX = 25 (2026-05-12, raised from 20)
 #
-# Sustainability rationale: with paper PDF moved out of round
-# (paper_builder_daemon handles full build async) and lean
-# R-rounds skipping in-round lake build (bg_builder handles
-# it), per-round CPU cost is dominated by codex exec
-# (network-bound), so 20+20 concurrent rounds is sustainable
-# on an 8-core MBP with load avg ~10-12.
+# Floors:
+#   LEAN_MIN = 6  — allow ramp-down when R-side genuinely idle
+#                   (no Phase-B-0-chars cooldown storms)
+#   PAPER_MIN = 18 — keep P-side busy with discovery channels
+#                   (vision/automath/human_chapter_extension)
+#                   when high-leverage closure_mark drains
+#
+# Sustainability rationale: paper PDF moved out of round
+# (paper_builder_daemon handles full build async), lean
+# R-rounds skip in-round lake build (bg_builder handles it),
+# so per-round CPU cost is dominated by codex exec
+# (network-bound). 25+20 concurrent rounds is acceptable on
+# an 8-core MBP because most workers spend most time waiting
+# on the codex API rather than CPU/RAM.
 # ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 6   # lowered 2026-05-12: allow scaling down when R-side demand
-               # genuinely runs low (critical_path top + fallback both
-               # small). Previously pinned at 12 as sustainability floor,
-               # but that wasted worker slots on Phase-B-0-chars failures
-               # during saturation. 6 keeps a warm pool ready to absorb
-               # new top entries as paper rounds advance closure_mark.
+LEAN_MIN = 6
 LEAN_MAX = 20  # DO NOT CHANGE — pinned
 
 PAPER_BUFFER = 4
-PAPER_MIN = 12
-PAPER_MAX = 20  # DO NOT CHANGE — pinned
+PAPER_MIN = 18  # raised 2026-05-12 from 12: P-side discovery channels
+                # (vision/automath/human_chapter_extension) need a warm
+                # pool of workers ready to consume new discovery candidates
+                # as soon as Phase Review emits them; PAPER_MIN=12 was
+                # making P plateau because root_unblocks=0 → paper_demand=10
+                # → clamp to 12 floor. With discovery HARD GATE active,
+                # 18 worker is the right cruising altitude.
+PAPER_MAX = 25  # raised 2026-05-12 from 20 by user directive
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
@@ -276,6 +290,27 @@ def cleanup_stale_worktrees(stale_minutes: int = WORKTREE_STALE_MINUTES,
     now = datetime.now()
     cutoff_ts = (now - timedelta(minutes=stale_minutes)).strftime("%Y-%m-%d %H:%M:%S")
 
+    # Build map of worktree paths held by live codex exec processes.
+    # During Phase C the orchestrator log is silent for the round id
+    # (codex writes its own log_tag file), so we MUST not classify it
+    # stale just because the main log has no recent mention. The codex
+    # subprocess is invoked with `-C <wt-path>`, so the path appears in
+    # ps's command line. Any worktree referenced by an active process is
+    # considered NOT stale regardless of log timestamp.
+    held_paths: set[str] = set()
+    try:
+        ps_out = subprocess.run(
+            ["ps", "-axo", "command"],
+            capture_output=True, text=True, timeout=10,
+        ).stdout
+        for line in ps_out.splitlines():
+            # Match `-C /path/to/.worktrees/<name>` segment.
+            m_ps = re.search(r"-C\s+(/\S*\.worktrees/[^\s]+)", line)
+            if m_ps:
+                held_paths.add(m_ps.group(1).rstrip("/"))
+    except Exception:
+        pass
+
     stale: list[tuple[str, str, str]] = []  # (round_id, branch_name, wt_path)
     for wt in WORKTREES_DIR.iterdir():
         if not wt.is_dir():
@@ -293,6 +328,9 @@ def cleanup_stale_worktrees(stale_minutes: int = WORKTREE_STALE_MINUTES,
             branch = f"paper-P{num}"
             log_text = paper_log
         if rid in queued_ids:
+            continue
+        if str(wt) in held_paths:
+            # An active codex subprocess holds this worktree; do NOT touch.
             continue
         # Find last mention of [Rnnn] or [Pnnn]
         last_ts = ""

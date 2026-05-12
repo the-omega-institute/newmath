@@ -1,0 +1,46 @@
+\begin{theorem}[DyadicApproximation terminal finite-packet Real readback]
+\label{thm:dyadicapproximation-terminal-finite-packet-real-readback}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have accepted
+terminal packet $T$. Suppose a consumer reads $T$ through one of the following
+interfaces: terminal prefix projection, mesh-cell enclosure, validated
+readback, or the $\RealUp$ seal route. If the displayed transport,
+continuation, package, and local naming rows identify these interfaces over the
+same terminal window, then all four reads factor through one finite terminal
+surface.
+
+That surface is exactly the terminal precision row, the transported dyadic
+endpoint, the $\RationalIntervalUp$ cell, the $\StreamNameUp$ window, the
+$\RegSeqRatUp$ readback, the $\RealUp$ seal ledger, the
+$\ValidatedNumericsUp$ containment row, the visible $\hsame$ transports, the
+visible $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$
+provenance. It exports no completed real equality, solver correctness,
+floating-point semantics, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+First put terminal prefix access and terminal readback in the same normal form.
+Apply \autoref{thm:dyadicapproximation-terminal-window-two-stage-factorization}.
+It identifies each prefix-projected read with the terminal precision, endpoint,
+stream-name window, regular-rational readback, $\RealUp$ seal row, visible
+transport and continuation rows, package provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ row.
+
+Next attach the finite mesh and validated enclosure surface. Apply
+\autoref{thm:dyadicapproximation-finite-mesh-enclosure-exactness}. This reads
+the transported endpoint through the rational interval cell, the endpoint
+containment ledger, the validated readback rows, and the shared
+$\RegSeqRatUp/\RealUp$ finite surface.
+
+Now compare the terminal mesh route with the terminal validated route. Apply
+\autoref{thm:dyadicapproximation-terminal-mesh-enclosure-compatibility} to keep
+the mesh-cell consumer on the same terminal precision, endpoint,
+rational-interval, containment, transport, continuation, provenance, and local
+certificate rows. Apply
+\autoref{thm:dyadicapproximation-terminal-validated-enclosure-readback} to read
+the validated enclosure through that same terminal finite surface.
+
+The preceding identifications list every coordinate available to the four
+consumer interfaces. Repacking those coordinates gives one terminal
+finite-packet surface, and none of the cited boundaries contains a coordinate
+for completed real equality, solver correctness, floating-point semantics, or
+a choice-selected limit.
+\end{proof}
