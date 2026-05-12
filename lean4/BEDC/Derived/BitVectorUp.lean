@@ -303,6 +303,24 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFiniteLedger_public_finite_algebra_export [AskSetup] [PackageSetup]
+    {length spine ledger provenance read consumer exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      UnaryHistory consumer ->
+        Cont read consumer exported ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory exported ∧ hsame exported (append read consumer) ∧
+              PkgSig bundle exported pkg ∧ hsame ledger (append length spine) ∧
+                hsame read (append ledger provenance) := by
+  intro finiteLedger consumerUnary exportRow pkgExport
+  obtain ⟨_ledgerUnary, readUnary, ledgerRow, readRow, _pkgRead⟩ :=
+    BitVectorFiniteLedger_ledger_coverage finiteLedger
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed readUnary consumerUnary exportRow
+  exact
+    ⟨exportedUnary, exportRow, pkgExport, ledgerRow, readRow⟩
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
