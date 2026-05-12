@@ -1,0 +1,86 @@
+\subsection{Lean Module Topology}\label{subsec:reconstruction-module-topology}
+
+The Lean dependency topology for \texttt{BEDC.MetaCIC} is a directed acyclic
+graph. \texttt{BEDC.MetaCIC.Syntax} is the foundation: it imports
+\texttt{BEDC.FKernel.Mark} and defines $\mathrm{Term}$, $\mathrm{Ctx}$,
+$\mathrm{shift}$, and $\mathrm{substitute}$. On that base,
+\texttt{BEDC.MetaCIC.ClosedTerm} and \texttt{BEDC.MetaCIC.Beta} depend only
+on syntax. The substitution family
+\texttt{BEDC.MetaCIC.Substitution.NatShift},
+\texttt{BEDC.MetaCIC.Substitution.Basic},
+\texttt{BEDC.MetaCIC.Substitution.Core}, and
+\texttt{BEDC.MetaCIC.Substitution.Statements} depends on syntax and closed
+terms, while \texttt{BEDC.MetaCIC.Substitution} re-exports that surface.
+\texttt{BEDC.MetaCIC.Typing.Core},
+\texttt{BEDC.MetaCIC.Typing.SubstitutionSurface}, and
+\texttt{BEDC.MetaCIC.Typing.ClosedBinderDomains} depend on syntax and the
+substitution surface. \texttt{BEDC.MetaCIC.SubjectReduction} depends on
+typing and beta reduction; \texttt{BEDC.MetaCIC.Confluence} depends on beta
+reduction; \texttt{BEDC.MetaCIC.Normalization} depends on beta reduction and
+closed terms; and \texttt{BEDC.MetaCIC.AtomInfer} and
+\texttt{BEDC.MetaCIC.TypedExamples} depend on typing. No module in this
+topology imports back into one of its prerequisites.
+
+\subsection{Tactic Discipline}\label{subsec:reconstruction-tactic-discipline}
+
+The MetaCIC Lean modules are kept under a restricted proof discipline. Tactics
+such as \texttt{simp}, \texttt{decide}, and \texttt{omega} are not used in
+this layer, because they can introduce transitive dependencies on
+\texttt{propext}, decision procedures, or classical reasoning.
+
+The permitted proof surface is the structural fragment needed by the
+reconstruction: \texttt{match}, \texttt{cases}, \texttt{rfl},
+\texttt{exact}, \texttt{apply}, \texttt{intro}, \texttt{contradiction},
+\texttt{rw}, \texttt{unfold}, \texttt{induction}, and \texttt{change}.
+These commands keep proofs close to the generated inductive structure of the
+syntax, typing, reduction, and substrate definitions.
+
+This discipline is a necessary condition for preserving the axiom-free status
+of the MetaCIC reconstruction. The strict purity audit
+\texttt{python3 lean4/scripts/bedc\_ci.py axiom-purity --strict} checks each
+theorem's transitive dependencies against the forbidden constants
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}; the gate
+passes only when the forbidden set is empty for every audited theorem.
+
+\subsection{Build and Audit Process}\label{subsec:reconstruction-build-audit-process}
+
+The complete local verification gate for \texttt{BEDC.MetaCIC} is the Lean
+build followed by the paper and axiom audits:
+
+\begin{verbatim}
+cd lean4 && lake build
+python3 tools/check-axioms.py
+python3 lean4/scripts/bedc_ci.py audit
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+python3 lean4/scripts/bedc_ci.py conservativity-audit
+\end{verbatim}
+
+The first command checks that the Lean modules build with no accepted
+\texttt{sorry} terms and no project axioms. The axiom audit enforces the
+source-level ban on \texttt{axiom}. The drift audit resolves the paper's Lean
+markers against the actual \texttt{lean4/BEDC/} namespace. The strict
+axiom-purity audit checks transitive theorem dependencies, excluding
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The
+conservativity audit is the metalogical gate for the reconstruction surface.
+Each command must exit with status $0$. The chain passes only when the paper
+invariant and the mechanized state agree, and that agreement is the local
+shipping condition for the MetaCIC reconstruction.
+
+\subsection{Axiom-Free Claim}\label{subsec:reconstruction-axiom-free-claim}
+
+The axiom-free claim for \texttt{BEDC.MetaCIC} has two distinct parts. First,
+no \texttt{BEDC.MetaCIC} module declares a host axiom. This is a project-wide
+hard invariant: \texttt{tools/check-axioms.py} exits with failure if an axiom
+declaration appears in the BEDC Lean sources.
+
+Second, the checked \texttt{BEDC.MetaCIC} theorems do not depend on Lean
+stdlib axioms such as \texttt{Classical.choice}, \texttt{Quot.sound}, or
+\texttt{propext}. This dependency claim is audited by
+\texttt{bedc\_ci.py axiom-purity --strict}, which queries Lean through
+\texttt{\#print axioms} and rejects those extra axiom dependencies.
+
+Thus the commitment is stronger than the absence of local axiom declarations:
+the reconstructed MetaCIC layer is a pure constructive fragment inside CIC,
+with no reliance on Lean's additional axioms beyond CIC. The audit currently
+covers more than 9,000 checked theorems, and the exact count is allowed to
+change with the theorem set.
