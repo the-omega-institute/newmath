@@ -66,4 +66,68 @@ theorem DyadicSubdivisionSource_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem DyadicSubdivisionSource_mesh_coverage [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg →
+      UnaryHistory parent ∧
+        UnaryHistory level ∧
+        UnaryHistory cells ∧
+        UnaryHistory mesh ∧
+        UnaryHistory validated ∧
+        UnaryHistory provenance ∧
+        UnaryHistory name ∧
+        Cont parent level cells ∧
+        Cont cells mesh validated ∧
+        Cont validated provenance name ∧
+        PkgSig bundle provenance pkg ∧
+        PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro source
+  cases source with
+  | intro parentUnary rest =>
+      cases rest with
+      | intro levelUnary rest =>
+          cases rest with
+          | intro cellsUnary rest =>
+              cases rest with
+              | intro meshUnary rest =>
+                  cases rest with
+                  | intro validatedUnary rest =>
+                      cases rest with
+                      | intro provenanceUnary rest =>
+                          cases rest with
+                          | intro nameUnary rest =>
+                              cases rest with
+                              | intro parentLevelCont rest =>
+                                  cases rest with
+                                  | intro cellsMeshCont rest =>
+                                      cases rest with
+                                      | intro validatedProvenanceCont rest =>
+                                          cases rest with
+                                          | intro provenancePkg namePkg =>
+                                              constructor
+                                              · exact parentUnary
+                                              constructor
+                                              · exact levelUnary
+                                              constructor
+                                              · exact cellsUnary
+                                              constructor
+                                              · exact meshUnary
+                                              constructor
+                                              · exact validatedUnary
+                                              constructor
+                                              · exact provenanceUnary
+                                              constructor
+                                              · exact nameUnary
+                                              constructor
+                                              · exact parentLevelCont
+                                              constructor
+                                              · exact cellsMeshCont
+                                              constructor
+                                              · exact validatedProvenanceCont
+                                              constructor
+                                              · exact provenancePkg
+                                              exact namePkg
+
 end BEDC.Derived.DyadicSubdivisionUp
