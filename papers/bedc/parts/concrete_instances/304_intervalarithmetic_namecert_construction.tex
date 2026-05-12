@@ -237,19 +237,61 @@ listed data form the full finite obligation package and introduce no additional
 host-level interval or real object.
 \end{proof}
 
+\begin{theorem}[IntervalArithmetic outward-rounded standard bridge]
+\label{thm:intervalarithmetic-outward-rounded-standard-bridge}
+The public endpoint packet of $\IntervalArithmeticUp$ bridges to the standard
+outward-rounded interval-arithmetic reading exactly through the rational
+endpoint rows, $\RealUp$ enclosure soundness row, monotone transport row,
+width-bound row, refined endpoint addition row, visible $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+The bridge withholds multiplication, division, dependency-aware narrowing,
+compactness, Heine--Borel, and completed-real equality. It is only the finite
+outward-rounded endpoint and enclosure surface displayed by the public packet.
+\end{theorem}
+\begin{proof}
+Start with the endpoint packet and public certificate surface. The carrier in
+\autoref{def:intervalarithmetic-bhist-carrier} supplies the lower and upper
+dyadic endpoint histories, finite observation rows, enclosure predicate, and
+package provenance, while
+\autoref{thm:intervalarithmetic-public-certificate-surface} repacks these rows
+as the local $\NameCert_{\IntervalArithmeticUp}$ surface.
+
+Add the outward-rounded operation row. Apply
+\autoref{thm:intervalarithmetic-outward-rounded-addition} for the displayed
+endpoint addition ledger, and apply
+\autoref{thm:intervalarithmetic-classifier-transport} to keep that ledger
+stable under visible endpoint $\hsame$ and finite-window $\Cont$ transport.
+
+The enclosure side is supplied by
+\autoref{thm:intervalarithmetic-realup-enclosure-soundness} and
+\autoref{thm:intervalarithmetic-monotone-enclosure-transport}. These two rows
+keep every $\RealUp$ observation inside the displayed endpoint and monotone
+transport surface.
+
+Finally use \autoref{thm:intervalarithmetic-width-bound-stability},
+\autoref{thm:intervalarithmetic-refined-endpoint-addition-soundness}, and
+\autoref{thm:intervalarithmetic-obligation-enclosure-package}. Together they
+identify the bridge as the finite outward-rounded endpoint package with its
+width and refined-addition rows. None of the cited rows contains
+multiplication, division, dependency-aware narrowing, compactness,
+Heine--Borel, completed-real equality, or host interval semantics.
+\end{proof}
+
 \closureat{IntervalArithmeticUp}{seedStr}
 \closureat{IntervalArithmeticUp}{obligationStr}[BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface]
 \closureat{IntervalArithmeticUp}{scopedStr}[BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface]
 \closureat{IntervalArithmeticUp}{publicStr}[BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface]
+\closureat{IntervalArithmeticUp}{bridgedStr}[BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface]
 
 \begin{closurestatus}{\IntervalArithmeticUp}
   \constructivestory{Certified interval arithmetic is represented by finite lower and upper dyadic endpoint histories, finite stream and regular-sequence observation rows, an enclosure predicate over $\RealUp$ observations, outward-rounded operation ledgers, and endpoint-plus-window classifier transport.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The obligation boundary names the endpoint carrier, endpoint classifier, outward-rounded addition ledger, classifier transport, $\RealUp$ enclosure soundness, monotone enclosure transport, width-bound stability, refined-endpoint addition soundness, and the obligation enclosure package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\IntervalUp$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:intervalarithmetic-outward-rounded-standard-bridge} binds the endpoint carrier, endpoint classifier, outward-rounded addition ledger, classifier transport, $\RealUp$ enclosure soundness, monotone enclosure transport, width-bound stability, refined-endpoint addition soundness, and obligation enclosure package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\IntervalUp$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.IntervalArithmeticUp.IntervalArithmeticEndpointPacket\_public\_certificate\_surface}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close multiplication, division, dependency-aware narrowing, completeness, compactness, Heine--Borel, or a standard bridge.}
-  \upgradepath{Bridged closure requires a standard interval-arithmetic bridge for outward-rounded endpoint packets and $\RealUp$ enclosure consumers.}
+  \notclaimed{This chapter does not close multiplication, division, dependency-aware narrowing, completeness, compactness, Heine--Borel, or completed-real equality.}
+  \upgradepath{Mature closure requires consumer examples for multiplication, division, or dependency-aware narrowing over the same finite endpoint and enclosure bridge.}
 \end{closurestatus}
