@@ -100,4 +100,56 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
 
+theorem RealCauchyCompletionCarrier_modulus_diagonal_exactness [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert selectedRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      Cont modulus diagonal selectedRead ->
+        PkgSig bundle selectedRead pkg ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory selectedRead ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont modulus diagonal selectedRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle selectedRead pkg := by
+  intro carrier modulusDiagonalRead selectedPkg
+  cases carrier with
+  | intro familyUnary rest =>
+      cases rest with
+      | intro modulusUnary rest =>
+          cases rest with
+          | intro windowUnary rest =>
+              cases rest with
+              | intro dyadicUnary rest =>
+                  cases rest with
+                  | intro _provenanceUnary rest =>
+                      cases rest with
+                      | intro familyModulusDiagonal rest =>
+                          cases rest with
+                          | intro diagonalWindowReadback rest =>
+                              cases rest with
+                              | intro readbackDyadicSeal rest =>
+                                  cases rest with
+                                  | intro _sealLocalCertProvenance provenancePkg =>
+                                      have diagonalUnary : UnaryHistory diagonal :=
+                                        unary_cont_closed familyUnary modulusUnary
+                                          familyModulusDiagonal
+                                      have readbackUnary : UnaryHistory readback :=
+                                        unary_cont_closed diagonalUnary windowUnary
+                                          diagonalWindowReadback
+                                      have sealUnary : UnaryHistory «seal» :=
+                                        unary_cont_closed readbackUnary dyadicUnary
+                                          readbackDyadicSeal
+                                      have selectedUnary : UnaryHistory selectedRead :=
+                                        unary_cont_closed modulusUnary diagonalUnary
+                                          modulusDiagonalRead
+                                      exact
+                                        ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary,
+                                          readbackUnary, dyadicUnary, sealUnary, selectedUnary,
+                                          familyModulusDiagonal, diagonalWindowReadback,
+                                          readbackDyadicSeal, modulusDiagonalRead, provenancePkg,
+                                          selectedPkg⟩
+
 end BEDC.Derived.RealCauchyCompletionUp
