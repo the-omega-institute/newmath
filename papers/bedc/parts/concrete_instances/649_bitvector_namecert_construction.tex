@@ -229,6 +229,40 @@ numeric interpretation, padding, overflow, hashing, or an error-correction
 metric, so none can be exported by the scoped package.
 \end{proof}
 
+\begin{theorem}[BitVector Boolean-list width exhaustion]
+\label{thm:bitvector-boolean-list-width-exhaustion}
+An accepted $\BitVectorUp$ packet is completely exhausted by its unary
+$\NatUp$ width row, its $\ListUp$ spine of $\BoolUp$ histories, component
+classifier rows, length ledger, $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence. Conversely, those
+displayed finite-data rows supply the abstract fixed-width $\BitVectorUp$
+interface.
+
+The interface has no extra coordinate for host bit-string equality, numeric
+binary encoding, padding convention, hashing semantics, matrix indexing,
+overflow, or error-correction metrics.
+\end{theorem}
+\begin{proof}
+Start from the source carrier of \autoref{def:bitvector-bhist-source}. It
+exposes only a unary width row and a list spine of boolean component histories.
+
+Apply \autoref{thm:bitvector-classifier-laws} to read the component
+classifier rows and \autoref{thm:bitvector-ledger-coverage} to identify the
+length ledger. These two results account for the fixed-width and component
+readback coordinates.
+
+Use \autoref{thm:bitvector-namecert-obligation-surface} for the displayed
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows, and apply
+\autoref{thm:bitvector-finite-data-anchor} to expose the finite-data consumer
+surface.
+
+Finally apply \autoref{thm:bitvector-scoped-dependency-binding}. The scoped
+packet contains exactly the listed $\BoolUp$, $\ListUp$, $\NatUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, so
+the abstract fixed-width interface is supplied by those rows and no external
+bit-string or arithmetic coordinate remains.
+\end{proof}
+
 \begin{theorem}[BitVector standard bridge boundary]\label{thm:bitvector-standard-bridge-boundary}
 The public $\BitVectorUp$ packet interprets as a standard finite boolean
 vector exactly through the unary $\NatUp$ length row, the $\ListUp$ spine, the
