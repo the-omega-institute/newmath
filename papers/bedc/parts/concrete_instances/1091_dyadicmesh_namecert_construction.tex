@@ -136,6 +136,50 @@ packet, infinite meshes, host subsets, solver correctness, floating-point
 semantics, and classical real completeness remain outside the export.
 \end{proof}
 
+\begin{theorem}[DyadicMesh standard finite mesh reading bridge]
+\label{thm:dyadicmesh-standard-reading-bridge}
+For an accepted $\DyadicMeshUp$ packet
+$M=(\ell,J,I,E,H,C,P,N)$ satisfying
+\autoref{def:dyadicmesh-bhist-source}, the standard finite mesh reading
+available to downstream consumers is exactly the tuple consisting of the unary
+level row $\ell$, the finite dyadic cell-index row $J$, the
+$\RationalIntervalUp$ coverage row $I$, the $\DyadicRatCoreUp$
+endpoint-radius-order ledger $E$, the displayed $\DyadicPrecisionUp$
+refinement route, the $\DyadicApproximationUp$ endpoint readback, the
+$\RealUp$ boundary token, the componentwise $\hsame$ transports in $H$, the
+$\Cont$ routes in $C$, the $\Pkg$ provenance row $P$, and the local
+$\NameCert$ row $N$.
+
+This bridge exports one finite enclosure mesh cell to
+$\ValidatedNumericsUp$ and $\RealUp$ consumers. It does not export host
+subsets, floating-point hardware semantics, solver correctness,
+completed-real compactness, or infinite mesh refinement.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:dyadicmesh-bhist-source}. The
+packet supplies the unary level, finite cell index, rational interval row,
+dyadic containment ledger, transport rows, continuation routes, package
+provenance, and local name row as finite $\mathsf{BHist}$ data.
+
+Use \autoref{thm:dyadicmesh-cell-containment-obligation} for the selected
+cell. The containment obligation identifies the public enclosure cell and
+rules out any ambient grid object or solver state.
+
+Apply \autoref{thm:dyadicmesh-rationalinterval-coverage} to read the interval
+coverage object. The exported coverage is the finite $\RationalIntervalUp$
+row supported by the dyadic endpoint, radius, and order ledger.
+
+Next use \autoref{thm:dyadicmesh-refinement-stability}. Displayed refinement
+changes only the continuation route and preserves the transported cell
+boundary seen by the $\RealUp$ consumer.
+
+Finally combine \autoref{thm:dyadicmesh-validatednumerics-handoff} with
+\autoref{thm:dyadicmesh-public-export-boundary}. Their common public surface
+is precisely the finite enclosure mesh cell named above, so host subsets,
+floating-point hardware semantics, solver correctness, completed-real
+compactness, and infinite refinement remain outside the bridge.
+\end{proof}
+
 \closureat{DyadicMeshUp}{seedStr}
 \closureat{DyadicMeshUp}{obligationStr}
 \closureat{DyadicMeshUp}{scopedStr}
