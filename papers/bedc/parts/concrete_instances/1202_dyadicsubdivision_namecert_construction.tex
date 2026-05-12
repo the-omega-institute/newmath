@@ -82,6 +82,58 @@ For each child, read the matching $\DyadicMeshUp$ packet and the corresponding $
 Thus the handoff is the finite enclosure subdivision formed by these rows. No coordinate supplies solver correctness, hardware semantics, classical completeness, or an infinite refinement principle.
 \end{proof}
 
+\begin{theorem}[DyadicSubdivision refinement composition]
+\label{thm:dyadic-subdivision-refinement-composition}
+Let $S=(I,L,C,M,V,P,N)$ be an accepted $\DyadicSubdivisionUp$ packet. Suppose $S'$ is obtained from $S$ by displayed finite $\DyadicMeshUp$ refinement routes over the same parent $\RationalIntervalUp$ row $I$, and suppose $S''$ is obtained from $S'$ by a second displayed finite family of $\DyadicMeshUp$ refinement routes over the same parent row. Then $S''$ is an accepted $\DyadicSubdivisionUp$ packet for $I$.
+
+The mesh coverage and validated enclosure handoff exported by $S''$ are the composed finite ledger: first the refined child rows from $S$ to $S'$, then the refined child rows from $S'$ to $S''$, together with the transported $\ValidatedNumericsUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The composition asserts no interval-tree semantics, infinite refinement process, host real subset, or solver-correctness theorem.
+\end{theorem}
+\begin{proof}
+Apply refinement stability to the first displayed refinement family. The result is the accepted packet $S'$ over the same parent interval row $I$, with only its finite cell ledger, mesh rows, and validated containment rows refined.
+
+Apply refinement stability again to the second displayed refinement family. Since its routes are also over the same parent row, the second application yields an accepted packet $S''$ whose parent interval and provenance surface remain the displayed rows of the original packet.
+
+It remains to identify the consumer surface. Mesh coverage reads only the finite ordered cell list and the $\DyadicMeshUp$ packets; validated enclosure handoff reads the matching $\ValidatedNumericsUp$ rows along the same routes. Chaining those two finite ledgers gives the composed mesh and enclosure surface named in the statement, with no additional infinite or host-level object.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision common refinement exhaustion]
+\label{thm:dyadic-subdivision-common-refinement-exhaustion}
+Let $S_0=(I,L_0,C_0,M_0,V_0,P_0,N_0)$ and $S_1=(I,L_1,C_1,M_1,V_1,P_1,N_1)$ be two accepted $\DyadicSubdivisionUp$ packets over the same displayed $\RationalIntervalUp$ parent row $I$. If both packets carry finite $\DyadicMeshUp$ refinement ledgers for the same parent interval, then there is a finite accepted child-ledger over $\DyadicMeshUp$ rows that refines both $C_0$ and $C_1$ and whose validated enclosure rows are transported through the corresponding $\ValidatedNumericsUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+\end{theorem}
+\begin{proof}
+Read both packets through \autoref{def:dyadic-subdivision-source}. Each subdivision has a displayed parent interval row, a dyadic level row, a finite ordered cell list, a finite family of mesh cells, and a finite family of validated enclosure rows.
+
+Form the common child-ledger by taking the displayed finite intersections of the two ordered dyadic cell ledgers inside the same parent row $I$. Because every cell boundary is read from $\DyadicMeshUp$ rows over one rational interval parent, the resulting ledger is again finite and ordered.
+
+Apply \autoref{thm:dyadic-subdivision-refinement-stability} to transport the first packet to this common ledger, and apply it again to transport the second packet to the same ledger. The validated rows move along the same cell routes, so the common ledger exhausts both displayed refinement families without adding an infinite mesh or host interval tree.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision cell ledger transport]
+\label{thm:dyadic-subdivision-cell-ledger-transport}
+For an accepted $\DyadicSubdivisionUp$ packet $S=(I,L,C,M,V,P,N)$, componentwise $\hsame$ and $\Cont$ transport of the parent interval $I$, the dyadic level row $L$, the ordered cell list $C$, the $\DyadicMeshUp$ cell family $M$, the $\ValidatedNumericsUp$ enclosure family $V$, the package row $P$, and the local $\NameCert$ row $N$ preserves the subdivision classifier.
+\end{theorem}
+\begin{proof}
+The classifier is read directly from \autoref{def:dyadic-subdivision-source}. It compares only the parent interval, common level, ordered cell list, mesh cells, validated enclosure rows, and provenance rows.
+
+Transport the parent interval and level first. Then transport each ordered cell-list entry and its matching $\DyadicMeshUp$ row along the displayed $\Cont$ route, preserving its position in the finite ledger.
+
+Transport the $\ValidatedNumericsUp$ rows along the same cell routes. Since each containment row remains attached to the transported mesh cell indexed by the transported ordered list, the packet still satisfies the carrier conditions.
+
+Repack the transported rows with $P$ and $N$. The resulting packet is classified with the original one, and no global interval tree, solver state, or completed real subset is introduced.
+\end{proof}
+
+\begin{theorem}[DyadicSubdivision NameCert package]
+\label{thm:dyadic-subdivision-namecert-package}
+The $\DyadicSubdivisionUp$ obligation package is assembled from the source row of \autoref{def:dyadic-subdivision-source}, the NameCert obligations of \autoref{thm:dyadic-subdivision-namecert-obligations}, refinement stability, mesh coverage, validated enclosure handoff, refinement composition, common refinement exhaustion, and cell-ledger transport. The package is finite over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicMeshUp$, $\ValidatedNumericsUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+The source row supplies the displayed carrier and dependency coordinates. The NameCert obligations record carrier, classifier, stability, exactness, and ledger rows for the finite subdivision packet.
+
+Refinement stability is \autoref{thm:dyadic-subdivision-refinement-stability}; mesh coverage is \autoref{thm:dyadic-subdivision-mesh-coverage}; validated enclosure handoff is \autoref{thm:dyadic-subdivision-validated-enclosure-handoff}. Together these rows give finite coverage and consumer exactness for a single displayed subdivision ledger.
+
+Refinement composition is \autoref{thm:dyadic-subdivision-refinement-composition}, common refinement exhaustion is \autoref{thm:dyadic-subdivision-common-refinement-exhaustion}, and cell-ledger transport is \autoref{thm:dyadic-subdivision-cell-ledger-transport}. Repacking these rows gives the stated obligation package while preserving the non-escape clauses for interval-tree semantics, solver correctness, hardware semantics, classical completeness, and infinite refinement.
+\end{proof}
+
 \closureat{DyadicSubdivisionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicSubdivisionUp}

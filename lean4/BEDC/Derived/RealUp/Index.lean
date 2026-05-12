@@ -29,3 +29,5 @@ import BEDC.Derived.RealUp.TransportedEndpointDenominatorPackage
 import BEDC.Derived.RealUp.SelectedDenominatorRow
 import BEDC.Derived.RealUp.IteratedUnaryContext
 import BEDC.Derived.RealUp.DyadicRatCore
+import BEDC.Derived.RealUp.ScopedFiniteWindowReadSurface
+import BEDC.Derived.RealUp.FiniteWindowDyadicObservationCoverage
