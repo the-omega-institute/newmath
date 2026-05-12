@@ -214,13 +214,25 @@ The preceding theorem gives the exact readback route: scheduled $\StreamNameUp$ 
 The ledger exhaustion clause then follows from \autoref{thm:regularcauchyname-obligation-closure-package} and \autoref{thm:regularcauchyname-real-seal-consumer-scope}. Those results list the named BEDC primitives that account for the packet surface and rule out any additional real carrier, quotient stream, selected limit, or completeness row.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName window-radius-seal scoped package]
+\label{thm:regularcauchyname-window-radius-seal-scoped-package}
+For every accepted source packet $G=(S,Q,\rho,L,E,P,N)$ of \autoref{def:regularcauchyname-namecert-source}, the scheduled finite $\StreamNameUp$ window, transported $\DyadicRatCoreUp$ observation, dyadic-radius row, pointwise $\RegSeqRatUp$ classifier, finite ledger, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows form the scoped package consumed by $\RegularCauchyNameUp$. No host sequence, quotient stream, selected limit, hidden completeness datum, or independent real carrier is available to the consumer.
+\end{theorem}
+\begin{proof}
+First transport the carrier. By \autoref{thm:regularcauchyname-scoped-carrier-transport}, the displayed $\hsame$ comparisons and $\Cont$ routes preserve the source rows $S$, $Q$, $\rho$, $L$, $E$, $P$, and $N$ as a single accepted packet over the named BEDC primitives.
+
+Next read the finite window exactly. Apply \autoref{thm:regularcauchyname-finite-window-readback-exactness} to factor every precision request through the scheduled $\StreamNameUp$ window, transported $\DyadicRatCoreUp$ observation, dyadic-radius row, pointwise $\RegSeqRatUp$ classifier, and finite ledger.
+
+Finally attach the seal. The exhaustion theorem \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion} places the $\RealUp$ seal after those displayed rows and accounts for the remaining $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives. Repacking the rows named in \autoref{def:regularcauchyname-namecert-source} gives exactly the scoped package in the statement, with no coordinate for a host sequence, quotient stream, selected limit, hidden completeness datum, or independent real carrier.
+\end{proof}
+
 \closureat{RegularCauchyNameUp}{seedStr}
 \closureat{RegularCauchyNameUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyNameUp}
   \constructivestory{A $\RegularCauchyNameUp$ packet is generated from a $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ rational observations, dyadic-radius rows at certified unary indices, a finite $\RegSeqRatUp$ regularity ledger, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope registers the carrier sketch, classifier route, dyadic-radius obligations, finite-window handoff, $\RealUp$ seal boundary, and five-row naming-certificate surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.}
+  \scopeclosed{The seed scope registers the carrier sketch, classifier route, dyadic-radius obligations, finite-window handoff, $\RealUp$ seal boundary, five-row naming-certificate surface, and window-radius-seal scoped package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
