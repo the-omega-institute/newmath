@@ -678,3 +678,48 @@ tuple. The cited coverage and seal theorems expose no completion, quotient,
 host, metric, arithmetic, order, or bridge rows, so equality cannot depend on
 any data outside that tuple.
 \end{proof}
+
+\begin{theorem}[RealUp terminal refinement-family pullback exhaustion]
+\label{thm:realup-terminal-refinement-family-pullback-exhaustion}
+Let $C_1,\ldots,C_n$ be a finite family of certified $\StreamNameUp$
+tail-window coverage packets over the same public $\StreamNameUp$ endpoints
+and the same accepted $\RegSeqRatUp$ spine. Assume that each pair
+$C_i,C_j$ admits the common-refinement seal pullback of
+\autoref{thm:streamname-realup-common-refinement-seal-pullback}. Then every
+terminal $\RealUp$ finite-window consumer reached from the family factors
+through one finite family pullback surface.
+
+The family pullback surface exposes exactly the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRatUp$ spine, the
+$\DyadicRatCoreUp$ endpoint rows, the visible $\Cont$, $\hsame$, and
+$\Pkg$ rows, and the $\mathsf{RealLedgerPolicy}$ rows. It exposes no
+completion object, quotient row, host index, host function,
+metric-completeness datum, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Induct on the finite family. The empty and singleton cases are the terminal
+finite-window surfaces supplied by
+\autoref{thm:realup-streamname-regseqrat-directed-refinement-terminality};
+there is then no nontrivial pairwise splice to compare.
+
+For the induction step, suppose the first $k$ packets already factor through a
+single displayed pullback surface and add $C_{k+1}$. Apply
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} to make
+the route from the accumulated surface to $C_{k+1}$ independent of the chosen
+member route through the public endpoints and accepted $\RegSeqRatUp$ spine.
+
+Next use
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Pairwise
+availability of the common-refinement seal pullback fixes the splice between
+the accumulated surface and $C_{k+1}$, so all visible classifier, history,
+bundle, spine, endpoint, transport, package, and ledger rows agree on the
+same finite surface.
+
+Finally apply \autoref{thm:streamname-realup-common-refinement-seal-pullback}
+to identify that surface with the terminal consumer boundary. The cited
+terminality, route-determinacy, splice-uniqueness, and pullback results expose
+only the rows listed in the statement, so the factorization cannot read any
+completion, quotient, host, metric, arithmetic, order, or bridge data.
+\end{proof}
