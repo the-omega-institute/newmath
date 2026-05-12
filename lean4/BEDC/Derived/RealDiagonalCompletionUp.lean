@@ -179,4 +179,32 @@ theorem RealDiagonalCompletionSourcePacket_window_extraction [AskSetup] [Package
     unary_cont_closed selectedWindowUnary readbackUnary readRoute
   exact ⟨precisionUnary, selectedWindowUnary, selectedReadUnary, provenancePkg⟩
 
+theorem RealDiagonalCompletionSourcePacket_constant_rational_handoff [AskSetup] [PackageSetup]
+    {inputFamily modulus selector schedule readback sealRow provenance localCert ratRow
+      stationaryRead constantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback sealRow
+        provenance localCert bundle pkg ->
+      Cont readback ratRow stationaryRead ->
+        hsame stationaryRead ratRow ->
+          Cont stationaryRead sealRow constantSeal ->
+            UnaryHistory ratRow ->
+              UnaryHistory stationaryRead ∧ UnaryHistory constantSeal ∧
+                hsame stationaryRead ratRow ∧ Cont readback ratRow stationaryRead ∧
+                  Cont stationaryRead sealRow constantSeal ∧ PkgSig bundle provenance pkg := by
+  intro packet stationaryRoute sameStationary constantRoute ratUnary
+  obtain ⟨inputUnary, modulusUnary, scheduleUnary, sealUnary, _provenanceUnary,
+    selectorRoute, readbackRoute, _localCertRoute, _sealRoute, provenancePkg⟩ := packet
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed inputUnary modulusUnary selectorRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectorUnary scheduleUnary readbackRoute
+  have stationaryUnary : UnaryHistory stationaryRead :=
+    unary_cont_closed readbackUnary ratUnary stationaryRoute
+  have constantSealUnary : UnaryHistory constantSeal :=
+    unary_cont_closed stationaryUnary sealUnary constantRoute
+  exact
+    ⟨stationaryUnary, constantSealUnary, sameStationary, stationaryRoute, constantRoute,
+      provenancePkg⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
