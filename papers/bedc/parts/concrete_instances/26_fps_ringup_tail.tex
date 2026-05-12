@@ -478,13 +478,54 @@ the terminal empty-history object. Together these rows are the concrete
 $\RingUp$ instance certificate for the displayed FPS carrier and operations.
 \end{proof}
 
+\begin{theorem}[FPS RingUp standard bridge boundary]
+\label{thm:fps-ringup-standard-bridge-boundary}
+The public algebra interface of
+\autoref{thm:fps-ringup-public-algebra-interface} and the concrete instance
+certificate of \autoref{thm:fps-ringup-concrete-instance-certificate} form the
+paper bridge from the BEDC coefficientwise FPS carrier to the standard
+formal-power-series ring schema. The bridge boundary sends the carrier to
+coefficientwise carried sequences over $\NatUp$, sends the classifier to the
+pointwise scalar classifier, sends addition and inverse to their pointwise
+operations, sends multiplication to the Cauchy product through finite split
+spines, and sends zero and unit to the displayed scalar rows. It exports no
+analytic convergence, topology, completion, or external library quotient.
+\end{theorem}
+\begin{proof}
+First read the public surface from
+\autoref{thm:fps-ringup-public-algebra-interface}. It fixes one carrier
+$\mathsf{FPSCarrier}_R$, one pointwise classifier $\sim_{\mathrm{fps}}$, and the
+five operation rows
+$\oplus_{\mathrm{fps}}$, $0_{\mathrm{fps}}$, $-_{\mathrm{fps}}$,
+$\odot_{\mathrm{fps}}$, and $1_{\mathrm{fps}}$.
+
+Next apply \autoref{thm:fps-ringup-concrete-instance-certificate}. It repacks
+that same surface as a concrete $\RingUp$ instance, with the additive group rows,
+Cauchy-product monoid rows, distributivity rows, zero-product absorption rows,
+and singleton semantic certificate all kept on the displayed carrier and
+classifier.
+
+The Cauchy-product part is the only non-pointwise operation. Its coefficient is
+defined by the finite split spine of \autoref{def:fps-cauchy-coefficient-spine},
+and the finite-fold transport rows already used in
+\autoref{thm:finite-additive-fold-congruence-coefficient-lists} carry the scalar
+comparisons through those spines.
+
+Thus the bridge boundary is exactly the public coefficientwise $\RingUp$ schema:
+carrier and classifier are pointwise, additive structure is pointwise,
+multiplication is the displayed finite Cauchy fold, and the excluded analytic or
+quotient data are not part of the exported interface.
+\end{proof}
+
+\closureat{FpsUp}{bridgedStr}[BEDC.Derived.FpsUp.FpsRingup\_public\_algebra\_interface]
+
 \begin{closurestatus}{\FpsUp}
-  \constructivestory{A formal power series over a certified ring is built as a coefficient sequence indexed by $\NatUp$, with every coefficient carried by the same $\RingUp$ scalar certificate. The carrier accepts exactly coefficientwise carried sequences, the classifier compares two series pointwise by the scalar classifier at each unary index, and sequences with an uncarried coefficient or a missing pointwise comparison stay outside the public algebra surface. The source is the scalar $\RingUp$ data together with the coefficientwise carrier, the pattern records pointwise addition, zero series, coefficientwise inverse, Cauchy product through finite split spines, the unit series, distributivity, and zero-product absorption, while the ledger keeps each finite fold, split witness, and scalar coefficient comparison visible. The name-certificate obligations are anchored by the singleton empty-history semantic certificate for the terminal instance and by the scalar rows for the general interface: carried zero or unit sequences inhabit the relevant carrier, pointwise classifier equivalence gives reflexivity, symmetry, and transitivity, and coefficientwise transport preserves carried series under classified replacement. A sequence history $h$ lies in the signature gap of a $\FpsUp$ token $p$ when the source-domain accepts all coefficients of $h$, the signature relation pairs it with an answer series and evidence ledger of coefficient witnesses and finite folds, and token introduction names that answer as $p$; unfolded, every unary coefficient matches the scalar endpoint encoded by $p$ and every product coefficient is the displayed Cauchy finite-fold value. No standard bridge to an external formal-power-series library is present. The chapter registers this coefficientwise algebra interface under the name $\FpsUp$; the ring laws are assembled from existing $\RingUp$ and $\NatUp$ rows, with no analytic convergence, completion, or separate formal-series carrier introduced.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public FPS RingUp algebra interface is closed over $\RingUp$, $\NatUp$, the coefficientwise carrier, pointwise classifier, pointwise addition, zero series, coefficientwise inverse, Cauchy product, unit series, and finite-fold zero absorption rows displayed in this chapter.}
+  \constructivestory{A formal power series over a certified ring is built as a coefficient sequence indexed by $\NatUp$, with every coefficient carried by the same $\RingUp$ scalar certificate. The carrier accepts exactly coefficientwise carried sequences, the classifier compares two series pointwise by the scalar classifier at each unary index, and sequences with an uncarried coefficient or a missing pointwise comparison stay outside the public algebra surface. The source is the scalar $\RingUp$ data together with the coefficientwise carrier, the pattern records pointwise addition, zero series, coefficientwise inverse, Cauchy product through finite split spines, the unit series, distributivity, and zero-product absorption, while the ledger keeps each finite fold, split witness, and scalar coefficient comparison visible. The name-certificate obligations are anchored by the singleton empty-history semantic certificate for the terminal instance and by the scalar rows for the general interface: carried zero or unit sequences inhabit the relevant carrier, pointwise classifier equivalence gives reflexivity, symmetry, and transitivity, and coefficientwise transport preserves carried series under classified replacement. A sequence history $h$ lies in the signature gap of a $\FpsUp$ token $p$ when the source-domain accepts all coefficients of $h$, the signature relation pairs it with an answer series and evidence ledger of coefficient witnesses and finite folds, and token introduction names that answer as $p$; unfolded, every unary coefficient matches the scalar endpoint encoded by $p$ and every product coefficient is the displayed Cauchy finite-fold value. The bridge boundary is the public coefficientwise $\RingUp$ interface, with no analytic convergence, completion, or separate formal-series carrier introduced.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The public FPS RingUp bridge boundary is closed over $\RingUp$, $\NatUp$, the coefficientwise carrier, pointwise classifier, pointwise addition, zero series, coefficientwise inverse, Cauchy product, unit series, and finite-fold zero absorption rows displayed in this chapter.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.FpsUp.FpsRingup\_public\_algebra\_interface}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close analytic convergence, topology, completion, or bridges to standard formal-power-series libraries.}
-  \upgradepath{A stronger grade still requires a standard bridge and an external library correspondence for formal power series.}
+  \upgradepath{Mature closure requires worked consumer examples or completeness-style packaging for the public coefficientwise bridge boundary.}
 \end{closurestatus}

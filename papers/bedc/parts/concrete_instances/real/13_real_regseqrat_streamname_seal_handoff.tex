@@ -79,3 +79,79 @@ row used in both directions is one of the displayed four faces, no quotient
 carrier, host equality, completeness, arithmetic, order, or
 metric-completeness datum is introduced.
 \end{proof}
+
+\begin{theorem}[RealUp finite seal source uniqueness]
+\label{thm:realup-finite-seal-source-uniqueness}
+Two finite $\RealUp$ seal handoffs over the same $\StreamNameUp$
+finite-window classifier rows, the same accepted $\RegSeqRatUp$ regularity
+spine ledger, and the same displayed $\RealUp$ seal endpoint and readback
+provenance expose the same finite $\mathsf{BHist}$ seal source surface when
+their $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows agree
+componentwise.
+
+The shared source surface is the finite packet carrying the public
+$\StreamNameUp$ window classifier, the pointwise $\DyadicRatCoreUp$
+observation rows, the accepted $\RegSeqRatUp$ spine rows, and the displayed
+$\RealUp$ seal and readback ledger. No quotient carrier, host equality,
+completeness row, arithmetic package, order package, or metric-completeness
+datum can distinguish the two reads.
+\end{theorem}
+\begin{proof}
+Project both handoffs through
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. The projected rows are
+the same $\StreamNameUp$ classifier, transported unary classifier, endpoint
+carrier rows, finite-window ledger, and seal/readback provenance because the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows agree
+componentwise.
+
+Apply \autoref{thm:realup-open-phase-seal-exactness} to each projected
+handoff. Each accepted read factors through one finite $\mathsf{BHist}$ packet
+with the four open-phase faces: dyadic observations, stream-name classifier
+rows, the $\RegSeqRatUp$ regularity spine ledger, and the $\RealUp$ seal
+endpoint/readback provenance.
+
+Use \autoref{thm:regseqrat-finite-window-seal-coverage} and
+\autoref{thm:regseqrat-finite-window-real-seal-interface} on the shared
+finite window. These theorems identify the dyadic observation rows and the
+regular-rational spine rows as the same finite seal-facing packet for both
+reads.
+
+Thus the two handoffs expose one finite $\mathsf{BHist}$ seal source surface.
+Every coordinate available to the seal has already been matched
+componentwise, and the off-table quotient, host-equality, completeness,
+arithmetic, order, and metric-completeness data provide no further
+distinguishing row.
+\end{proof}
+
+\begin{theorem}[RealUp seal source factorization boundary]
+\label{thm:realup-seal-source-factorization-boundary}
+Any finite $\RealUp$ seal source consumed by downstream $\RealUp$ or
+$\RegSeqRatUp$ consumers factors through the unique four-face
+$\mathsf{BHist}$ packet consisting of the $\DyadicRatCoreUp$ observation rows,
+the $\StreamNameUp$ finite-window classifier rows, the $\RegSeqRatUp$
+regularity spine rows, and the $\RealUp$ seal and readback provenance rows.
+Componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ agreement on
+these rows is sufficient to identify the visible seal source for every such
+consumer.
+
+The boundary exports no quotient carrier, host equality, completeness datum,
+arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-open-phase-seal-exactness}. It factors an
+accepted finite seal handoff through the four open-phase faces: dyadic
+observations, stream-name classifier rows, the regular-rational spine, and the
+seal/readback provenance.
+
+Next use \autoref{thm:realup-finite-seal-source-uniqueness}. Componentwise
+agreement of the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows identifies the finite $\mathsf{BHist}$ seal source surface for any two
+reads with the same four faces.
+
+Finally cite \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The
+handoff theorem says the finite seal-facing rows are exactly the classifier,
+transport, endpoint, finite-window, and provenance rows consumed by the
+$\RealUp$ and $\RegSeqRatUp$ boundary, so quotient carriers, host equality,
+completeness, arithmetic or order packages, and metric-completeness rows remain
+outside the consumer-visible source.
+\end{proof}

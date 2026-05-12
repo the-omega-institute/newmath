@@ -135,6 +135,29 @@ theorem ComputableRealSource_namecert_obligation_surface [AskSetup] [PackageSetu
       exact ⟨packetSig, provenanceUnary, registrationUnary⟩
   }
 
+theorem ComputableRealSource_realup_handoff [AskSetup] [PackageSetup]
+    {schedule modulus dyadic regular sealRow transport route provenance registration
+      approximationWindow sealWindow packet : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSource schedule modulus dyadic regular sealRow transport route provenance
+        registration approximationWindow sealWindow packet bundle pkg ->
+      UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory sealWindow ∧
+        UnaryHistory packet ∧ Cont regular sealRow sealWindow ∧
+          Cont approximationWindow sealWindow packet ∧ PkgSig bundle packet pkg := by
+  intro source
+  obtain ⟨scheduleUnary, modulusUnary, _dyadicUnary, regularUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _registrationUnary,
+    approximationRow, sealWindowRow, packetRow, packetSig⟩ := source
+  have approximationUnary : UnaryHistory approximationWindow :=
+    unary_cont_closed scheduleUnary modulusUnary approximationRow
+  have sealWindowUnary : UnaryHistory sealWindow :=
+    unary_cont_closed regularUnary sealUnary sealWindowRow
+  have packetUnary : UnaryHistory packet :=
+    unary_cont_closed approximationUnary sealWindowUnary packetRow
+  exact
+    ⟨regularUnary, sealUnary, sealWindowUnary, packetUnary, sealWindowRow,
+      packetRow, packetSig⟩
+
 def ComputableRealPacket [AskSetup] [PackageSetup]
     (schedule modulus dyadic regular sealRow transport approximationLedger sealLedger provenance
       nameRow : BHist)
@@ -269,5 +292,59 @@ theorem ComputableRealSourcePacket_classifier_transport [AskSetup] [PackageSetup
                     (And.intro newProvenance
                       (And.intro newEndpoint newPkg)))))))))
     sameEndpoint
+
+theorem ComputableRealPacket_realup_handoff [AskSetup] [PackageSetup]
+    {schedule modulus dyadic regular sealRow transport approximationLedger sealLedger provenance
+      nameRow realRead publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealPacket schedule modulus dyadic regular sealRow transport approximationLedger
+        sealLedger provenance nameRow bundle pkg ->
+      Cont regular sealRow realRead ->
+        Cont realRead nameRow publicRow ->
+          PkgSig bundle publicRow pkg ->
+            UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory dyadic ∧
+              UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory realRead ∧
+                UnaryHistory publicRow ∧ Cont regular sealRow realRead ∧
+                  Cont realRead nameRow publicRow ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle publicRow pkg := by
+  intro packet realRoute publicRoute publicPkg
+  obtain ⟨scheduleUnary, modulusUnary, dyadicUnary, regularUnary, sealUnary, nameRowUnary,
+    _transportRow, _approximationRow, _sealLedgerRow, _provenanceRow, provenancePkg⟩ := packet
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed regularUnary sealUnary realRoute
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed realUnary nameRowUnary publicRoute
+  exact
+    ⟨scheduleUnary, modulusUnary, dyadicUnary, regularUnary, sealUnary, realUnary,
+      publicUnary, realRoute, publicRoute, provenancePkg, publicPkg⟩
+
+theorem ComputableRealSourcePacket_regseqrat_seal_factorization [AskSetup] [PackageSetup]
+    {stream modulus dyadic regseq sealRow transport routes provenance name endpoint sealRead
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSourcePacket stream modulus dyadic regseq sealRow transport routes provenance
+        name endpoint bundle pkg ->
+      UnaryHistory name ->
+        Cont regseq sealRow sealRead ->
+          Cont sealRead name consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory stream ∧ UnaryHistory modulus ∧ UnaryHistory dyadic ∧
+                UnaryHistory regseq ∧ UnaryHistory sealRow ∧ UnaryHistory name ∧
+                  UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+                    Cont stream modulus transport ∧ Cont dyadic regseq routes ∧
+                      Cont transport routes provenance ∧ Cont provenance name endpoint ∧
+                        Cont regseq sealRow sealRead ∧ Cont sealRead name consumer ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet nameUnary sealReadRow consumerRow consumerPkg
+  obtain ⟨streamUnary, modulusUnary, dyadicUnary, regseqUnary, sealUnary, streamModulusRow,
+    dyadicRegseqRow, transportRoutesRow, provenanceNameEndpoint, endpointPkg⟩ := packet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary sealUnary sealReadRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary nameUnary consumerRow
+  exact
+    ⟨streamUnary, modulusUnary, dyadicUnary, regseqUnary, sealUnary, nameUnary,
+      sealReadUnary, consumerUnary, streamModulusRow, dyadicRegseqRow, transportRoutesRow,
+      provenanceNameEndpoint, sealReadRow, consumerRow, endpointPkg, consumerPkg⟩
 
 end BEDC.Derived.ComputableRealUp

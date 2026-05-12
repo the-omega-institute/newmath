@@ -44,6 +44,7 @@ inventory is transported componentwise by the recorded $\hsame$ comparisons
 and every matrix, linear-map, closed-loop, and target-polynomial read follows
 one of the recorded $\Cont$ routes.
 \end{definition}
+\leandef{BEDC.Derived.PolePlacementUp.PolePlacementSourcePacket}
 
 \begin{theorem}[PolePlacement closed-loop ledger]
 \label{thm:poleplacement-closed-loop-ledger}
@@ -55,6 +56,8 @@ listed in \autoref{def:poleplacement-carrier}. The closed-loop readback is the
 displayed ledger $C=A+BK$ and no additional host closed-loop system is
 exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.PolePlacementUp.PolePlacementSourcePacket\_closed\_loop\_ledger}
+\leanchecked{BEDC.Derived.PolePlacementUp.PolePlacementCarrier\_closed\_loop\_ledger}
 \begin{proof}
 Project the accepted carrier of \autoref{def:poleplacement-carrier}. The
 projection exposes the finite state, input, matrix, gain, closed-loop, target,
@@ -203,6 +206,42 @@ Repacking these projections gives a single scoped dependency packet. No
 analytic spectrum, host trajectory space, unlogged rank proof, or external
 feedback solver is introduced, because no such coordinate occurs in the
 projected rows.
+\end{proof}
+
+\begin{theorem}[PolePlacement public consumer export]\label{thm:poleplacement-public-consumer-export}
+The scoped dependency packet of
+\autoref{thm:poleplacement-scoped-dependency-packet} exports a public
+finite-control interface to $\RiccatiUp$, $\LQRUp$, $\KalmanFilterUp$, and
+$\StateSpaceModelUp$ consumers. The exported interface consists exactly of the
+state row, input row, transition matrix row, input matrix row, gain row,
+closed-loop row $A+BK$, target characteristic row,
+characteristic-comparison ledger, displayed $\hsame$ rows, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance over $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$,
+$\StateSpaceModelUp$, and $\ControlControllabilityUp$.
+
+It exports no analytic spectrum, host trajectory space, stabilizing feedback
+theorem, controllability-rank completeness, feedback optimality, or external
+solver.
+\end{theorem}
+\begin{proof}
+Start with the closed-loop ledger of
+\autoref{thm:poleplacement-closed-loop-ledger}. It identifies the displayed
+transition, input, gain, and $A+BK$ rows as finite ledger coordinates.
+
+Apply \autoref{thm:poleplacement-namecert-obligations} to attach the target
+characteristic row, characteristic-comparison ledger, displayed $\hsame$ rows,
+$\Cont$ routes, and package provenance to the same accepted carrier.
+
+Use \autoref{thm:poleplacement-consumer-boundary} for the downstream read
+boundary, and use \autoref{thm:poleplacement-standard-finite-bridge} for the
+standard finite-control packet shape. These two results identify exactly the
+$\RiccatiUp$, $\LQRUp$, $\KalmanFilterUp$, and $\StateSpaceModelUp$ consumer
+surface named in the statement.
+
+Finally apply \autoref{thm:poleplacement-scoped-dependency-packet}. Since that
+packet has no coordinate for analytic spectra, host trajectory spaces,
+stabilizing feedback existence, rank-completeness, optimality, or solver data,
+none of those objects can be exported by the public interface.
 \end{proof}
 
 \closureat{PolePlacementUp}{obligationStr}
