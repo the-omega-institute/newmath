@@ -51,3 +51,13 @@
   outer-constructor directions at depth 1 and matching depth-3 representatives.
 - The current `hsame_trans.algo.ct` and `hsame_constructor_distinct.algo.ct`
   use vacuous productions while B3 owns the unbounded BHist equality recognizer.
+## B3 P_eq_bhist Observation
+
+- `hsame_refl.algo.ct` uses 16 non-empty productions as a bounded marker
+  certifier for the five representative reflexive BHist inputs. The CTS output
+  records the positions of `1` bits in each input, so the manifest pipeline is
+  doing input-dependent cyclic-tag computation.
+- The result is partial scope: it does not compare arbitrary BHist pairs, and it
+  does not reject unequal histories. The remaining hard part is retaining the
+  first event payload while the second event is consumed and detecting both
+  terminators in the same comparison cycle.

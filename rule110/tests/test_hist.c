@@ -29,8 +29,6 @@ static int bits_to_bytes(const char *input_bits, uint8_t **out, size_t *out_len)
     return 1;
 }
 
-/* Decode two BHists from input; return 1 iff they are bit-by-bit equal AND
-   they exactly consume the input. */
 static int decode_two_bhist_equal(const char *input_bits) {
     uint8_t *in_bytes = NULL;
     size_t in_len = 0;
@@ -51,14 +49,10 @@ static int decode_two_bhist_equal(const char *input_bits) {
     return eq;
 }
 
-/* Alias used by B5+B7 test functions for readability. */
 static int bhist_enum_assert_reflexive(const char *input_bits) {
     return decode_two_bhist_equal(input_bits);
 }
 
-/* Decode two BHists from input; return 1 iff they are UNEQUAL and exactly
-   consume the input. Used by hsame_symm vacuous cases and
-   hsame_empty_inversion. */
 static int bhist_decode_two_unequal(const char *input_bits) {
     uint8_t *in_bytes = NULL;
     size_t in_len = 0;
@@ -80,8 +74,6 @@ static int bhist_decode_two_unequal(const char *input_bits) {
     return exact_two && neq;
 }
 
-/* Decode two BHists; return 1 iff they have distinct outermost constructors
-   (Empty vs e0/e1, or e0 vs e1). Stricter than decode_two_bhist_unequal. */
 static int decode_two_bhist_constructor_distinct(const char *input_bits) {
     uint8_t *in_bytes = NULL;
     size_t in_len = 0;
@@ -110,8 +102,6 @@ static int decode_two_bhist_constructor_distinct(const char *input_bits) {
     return exact_two && outer_distinct && neq;
 }
 
-/* Decode three BHists; if first==second AND second==third, return whether
-   first==third (transitivity). Else return 1 (vacuous case). */
 static int decode_three_bhists_check_trans(const char *input_bits) {
     uint8_t *in_bytes = NULL;
     size_t in_len = 0;
@@ -153,7 +143,22 @@ static void assert_manifest_smoke(const char *path, const char *input_bits) {
     assert(r == MR_PASS);
 }
 
-/* ===== hsame_refl tests (B2+B4) ===== */
+/* B3-specific: verify hsame_refl.algo.ct produces exact marker certificate
+   under bounded CT computation. */
+static void assert_hsame_refl_algo_case(const char *input_bits,
+                                        const char *expected_marker) {
+    MrResult r = mr_run_ct_manifest("manifests/hist/hsame_refl.algo.ct",
+                                    input_bits,
+                                    expected_marker,
+                                    strlen(input_bits));
+    if (r != MR_PASS) {
+        fprintf(stderr, "hsame_refl.algo FAIL on input=%s: result=%d\n",
+                input_bits, (int)r);
+    }
+    assert(r == MR_PASS);
+}
+
+/* ===== hsame_refl (B2+B4) ===== */
 
 static void test_hsame_refl_enum(void) {
     assert(decode_two_bhist_equal("1111"));
@@ -163,6 +168,22 @@ static void test_hsame_refl_enum(void) {
     assert(decode_two_bhist_equal("10010111001011"));
     assert_manifest_smoke("manifests/hist/hsame_refl.enum.ct", "1111");
     printf("  hsame_refl.enum: 5/5 cases PASS\n");
+}
+
+/* ===== hsame_refl algo (B3, bounded P_eq, marker certificates) ===== */
+
+static void test_hsame_refl_algo(void) {
+    assert_hsame_refl_algo_case("1111",
+                                "10000100011001010011");
+    assert_hsame_refl_algo_case("011011",
+                                "10001100101010010101");
+    assert_hsame_refl_algo_case("10111011",
+                                "100001001010011101001011010111");
+    assert_hsame_refl_algo_case("0101101011",
+                                "100011001110100101101100011001");
+    assert_hsame_refl_algo_case("10010111001011",
+                                "1000010011101011011010111110101110011101");
+    printf("  hsame_refl.algo: 5/5 cases PASS (bounded CT marker certificates)\n");
 }
 
 /* ===== hsame_symm (B5) ===== */
@@ -276,7 +297,7 @@ static void test_hsame_constructor_distinct_algo(void) {
 int main(void) {
     printf("== test_hist ==\n");
     test_hsame_refl_enum();
-    /* test_hsame_refl_algo(); — pending B3 real P_eq merge */
+    test_hsame_refl_algo();
     test_hsame_symm_enum();
     test_hsame_symm_algo();
     test_hsame_empty_inversion_enum();
@@ -285,6 +306,6 @@ int main(void) {
     test_hsame_trans_algo();
     test_hsame_constructor_distinct_enum();
     test_hsame_constructor_distinct_algo();
-    printf("ALL test_hist assertions passed (61 BHist hsame cases + 3-manifest pipeline smoke)\n");
+    printf("ALL test_hist assertions passed (66 BHist hsame cases + 3-manifest pipeline smoke + 5 bounded CT certificates)\n");
     return 0;
 }
