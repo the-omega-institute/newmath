@@ -1,0 +1,20 @@
+\subsection{Tactic Discipline}\label{subsec:reconstruction-tactic-discipline}
+
+The MetaCIC Lean modules are kept under a restricted proof discipline. Tactics
+such as \texttt{simp}, \texttt{decide}, and \texttt{omega} are not used in
+this layer, because they can introduce transitive dependencies on
+\texttt{propext}, decision procedures, or classical reasoning.
+
+The permitted proof surface is the structural fragment needed by the
+reconstruction: \texttt{match}, \texttt{cases}, \texttt{rfl},
+\texttt{exact}, \texttt{apply}, \texttt{intro}, \texttt{contradiction},
+\texttt{rw}, \texttt{unfold}, \texttt{induction}, and \texttt{change}.
+These commands keep proofs close to the generated inductive structure of the
+syntax, typing, reduction, and substrate definitions.
+
+This discipline is a necessary condition for preserving the axiom-free status
+of the MetaCIC reconstruction. The strict purity audit
+\texttt{python3 lean4/scripts/bedc\_ci.py axiom-purity --strict} checks each
+theorem's transitive dependencies against the forbidden constants
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}; the gate
+passes only when the forbidden set is empty for every audited theorem.
