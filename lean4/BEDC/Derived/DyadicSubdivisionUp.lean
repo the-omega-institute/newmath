@@ -189,4 +189,36 @@ theorem DyadicSubdivisionSource_mesh_coverage [AskSetup] [PackageSetup]
                                               · exact provenancePkg
                                               exact namePkg
 
+theorem DyadicSubdivisionSource_cell_ledger_transport [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name parent' level' cells' mesh' validated'
+      provenance' name' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
+      hsame parent parent' -> hsame level level' -> hsame cells cells' ->
+        hsame mesh mesh' -> hsame validated validated' -> hsame provenance provenance' ->
+          hsame name name' -> Cont parent' level' cells' -> Cont cells' mesh' validated' ->
+            Cont validated' provenance' name' -> PkgSig bundle provenance' pkg ->
+              PkgSig bundle name' pkg ->
+                DyadicSubdivisionSource parent' level' cells' mesh' validated' provenance'
+                  name' bundle pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro source parentSame levelSame cellsSame meshSame validatedSame provenanceSame nameSame
+    parentLevelCells cellsMeshValidated validatedProvenanceName provenancePkg namePkg
+  obtain ⟨parentUnary, levelUnary, cellsUnary, meshUnary, validatedUnary, provenanceUnary,
+    nameUnary, _parentLevelCells, _cellsMeshValidated, _validatedProvenanceName,
+    _provenancePkg, _namePkg⟩ := source
+  have parentUnary' : UnaryHistory parent' := unary_transport parentUnary parentSame
+  have levelUnary' : UnaryHistory level' := unary_transport levelUnary levelSame
+  have cellsUnary' : UnaryHistory cells' := unary_transport cellsUnary cellsSame
+  have meshUnary' : UnaryHistory mesh' := unary_transport meshUnary meshSame
+  have validatedUnary' : UnaryHistory validated' :=
+    unary_transport validatedUnary validatedSame
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary provenanceSame
+  have nameUnary' : UnaryHistory name' := unary_transport nameUnary nameSame
+  exact
+    ⟨parentUnary', levelUnary', cellsUnary', meshUnary', validatedUnary', provenanceUnary',
+      nameUnary', parentLevelCells, cellsMeshValidated, validatedProvenanceName,
+      provenancePkg, namePkg⟩
+
 end BEDC.Derived.DyadicSubdivisionUp
