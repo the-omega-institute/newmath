@@ -109,6 +109,39 @@ theorem CauchyCriterionCarrier_modulus_threshold_stability [AskSetup] [PackageSe
       (And.intro sameRegseq
         (And.intro sameTransport (And.intro sameRoute sameEndpoint))))
 
+theorem CauchyCriterionRoute_precision_endpoint_closure
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert
+      endpoint : BHist} :
+    UnaryHistory window ->
+      UnaryHistory modulus ->
+        UnaryHistory ledger ->
+          UnaryHistory realSeal ->
+            UnaryHistory localCert ->
+              UnaryHistory provenance ->
+                Cont window modulus tolerance ->
+                  Cont tolerance ledger regseq ->
+                    Cont regseq realSeal transport ->
+                      Cont transport localCert route ->
+                        Cont route provenance endpoint ->
+                          UnaryHistory tolerance ∧ UnaryHistory regseq ∧
+                            UnaryHistory transport ∧ UnaryHistory route ∧
+                              UnaryHistory endpoint := by
+  intro windowUnary modulusUnary ledgerUnary realSealUnary localCertUnary provenanceUnary
+    toleranceRow regseqRow transportRow routeRow endpointRow
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed windowUnary modulusUnary toleranceRow
+  have regseqUnary : UnaryHistory regseq :=
+    unary_cont_closed toleranceUnary ledgerUnary regseqRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed regseqUnary realSealUnary transportRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed transportUnary localCertUnary routeRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeUnary provenanceUnary endpointRow
+  exact And.intro toleranceUnary
+    (And.intro regseqUnary
+      (And.intro transportUnary (And.intro routeUnary endpointUnary)))
+
 def CauchyCriterionNameCertCarrier [AskSetup] [PackageSetup]
     (window modulus tail tolerance sealRow transportRow route provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -161,5 +194,30 @@ theorem CauchyCriterionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro source.left
         (hsame_trans source.right source.left.right.right.right.right.right.right)
   }
+
+theorem CauchyCriterionCarrier_tail_bound_real_seal [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont ledger realSeal consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory window ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory ledger ∧ UnaryHistory realSeal ∧ UnaryHistory consumer ∧
+              Cont window modulus tolerance ∧ Cont tolerance ledger regseq ∧
+                Cont ledger realSeal consumer ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle consumer pkg := by
+  intro carrier ledgerRealSealConsumer consumerPkg
+  obtain ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, _regseqUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    windowModulusTolerance, toleranceLedgerRegseq, _regseqRealSealTransport,
+    _transportLocalRoute, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealConsumer
+  exact
+    ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, realSealUnary, consumerUnary,
+      windowModulusTolerance, toleranceLedgerRegseq, ledgerRealSealConsumer, endpointPkg,
+      consumerPkg⟩
 
 end BEDC.Derived.CauchyCriterionUp
