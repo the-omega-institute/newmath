@@ -135,6 +135,42 @@ coordinates, so the $\NameCert$ surface of
 value is fixed by the recorded rows and by no host-side tree structure.
 \end{proof}
 
+\begin{theorem}[Trie prefix branch consumer exhaustion]
+\label{thm:trie-prefix-branch-consumer-exhaustion}
+Any accepted $\TrieUp$ prefix-branch consumer read factors through the displayed
+finite $\mathsf{BHist}$ prefix row, the $\BoolUp$ branch tag, the $\ListUp$ path
+spine, the $\NatUp$ depth counter, the $\OptionUp$ terminal payload row,
+displayed $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+the local $\NameCert_{\TrieUp}$ ledger.
+
+The consumer surface is exactly this finite BEDC row surface. It exports no
+host map, external tree equality, unbounded lookup function, hidden node object,
+or host key ordering.
+\end{theorem}
+\begin{proof}
+Project the source tuple $(k,v,l,b,p)$ of
+\autoref{def:trie-bhist-source}. The key coordinate supplies the displayed
+finite prefix row as a $\ListUp$ spine, the branch ledger supplies the
+$\BoolUp$ branch tag, the depth coordinate supplies the $\NatUp$ counter, and
+the terminal coordinate supplies the $\OptionUp$ payload row.
+
+Use \autoref{thm:trie-obligation-prefix-branch-exactness} to bind a public
+prefix-branch read to those coordinates. Its route records the same displayed
+$\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance named by the
+source packet.
+
+Repack the resulting finite read through
+\autoref{thm:trie-namecert-obligation-surface}. The local $\NameCert_{\TrieUp}$
+ledger accepts exactly the carrier rows, classifier rows, prefix-branch
+determinacy rows, transport rows, and ledger-exactness rows already displayed
+in the packet.
+
+Apply \autoref{thm:trie-ledger-coverage} for the exclusion claim. Since every
+consumer projection is a row of $(k,v,l,b,p)$ or the named local certificate
+ledger, no host map, external tree equality, unbounded lookup function, hidden
+node object, or host key ordering is exported.
+\end{proof}
+
 \begin{theorem}[Trie key-path exhaustion]\label{thm:trie-key-path-exhaustion}
 Every public key-path read of an accepted $\TrieUp$ packet is exhausted by
 the displayed $\BitVectorUp$ or $\ListUp$ key row, the $\NatUp$ depth ledger,
@@ -292,6 +328,7 @@ extended by $b$ along the $\ListUp$ key spine and the extension is transported
 through the displayed $\hsame$ row and $\Cont$ route of the packet, then the
 transported extension of $p'$ is classified under the same branch label $b$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TriePrefixExtensionClassifier\_stability}
 \begin{proof}
 Induct on the displayed $\ListUp$ key spine. In the empty-spine case, the
 extension exposes only the first $\BoolUp$ branch row, and classifier
