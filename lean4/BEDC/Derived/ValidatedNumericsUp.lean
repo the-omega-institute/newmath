@@ -16,6 +16,63 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def ValidatedNumericsPacket [AskSetup] [PackageSetup]
+    (interval precision modulus observation readback transport containment provenance name :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+    UnaryHistory observation ∧ UnaryHistory readback ∧ UnaryHistory transport ∧
+      UnaryHistory containment ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        Cont precision modulus observation ∧ Cont observation readback transport ∧
+          Cont observation interval containment ∧ Cont containment provenance name ∧
+            PkgSig bundle name pkg
+
+theorem ValidatedNumericsPacket_precision_refinement_containment
+    [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name
+      refinedPrecision refinedObservation refinedContainment refinedName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      hsame precision refinedPrecision ->
+        hsame observation refinedObservation ->
+          hsame containment refinedContainment ->
+            hsame name refinedName ->
+              Cont refinedPrecision modulus refinedObservation ->
+                Cont refinedObservation interval refinedContainment ->
+                  PkgSig bundle refinedName pkg ->
+                    ValidatedNumericsPacket interval refinedPrecision modulus refinedObservation
+                        readback transport refinedContainment provenance refinedName bundle pkg ∧
+                      hsame observation refinedObservation ∧
+                        hsame containment refinedContainment := by
+  intro packet samePrecision sameObservation sameContainment sameName refinedPrecisionModulus
+    refinedObservationInterval refinedPkg
+  obtain ⟨intervalUnary, precisionUnary, modulusUnary, observationUnary, readbackUnary,
+    transportUnary, containmentUnary, provenanceUnary, nameUnary, _precisionModulusObservation,
+    observationReadbackTransport, _observationIntervalContainment,
+    containmentProvenanceName, _namePkg⟩ := packet
+  have refinedPrecisionUnary : UnaryHistory refinedPrecision :=
+    unary_transport precisionUnary samePrecision
+  have refinedObservationUnary : UnaryHistory refinedObservation :=
+    unary_transport observationUnary sameObservation
+  have refinedContainmentUnary : UnaryHistory refinedContainment :=
+    unary_transport containmentUnary sameContainment
+  have refinedNameUnary : UnaryHistory refinedName :=
+    unary_transport nameUnary sameName
+  have refinedObservationReadbackTransport : Cont refinedObservation readback transport := by
+    cases sameObservation
+    exact observationReadbackTransport
+  have refinedContainmentProvenanceName : Cont refinedContainment provenance refinedName := by
+    cases sameContainment
+    cases sameName
+    exact containmentProvenanceName
+  exact
+    ⟨⟨intervalUnary, refinedPrecisionUnary, modulusUnary, refinedObservationUnary,
+        readbackUnary, transportUnary, refinedContainmentUnary, provenanceUnary,
+        refinedNameUnary, refinedPrecisionModulus, refinedObservationReadbackTransport,
+        refinedObservationInterval, refinedContainmentProvenanceName, refinedPkg⟩,
+      sameObservation, sameContainment⟩
+
 theorem ValidatedNumericsReadbackPacket_real_readback_soundness [AskSetup] [PackageSetup]
     {interval precision modulus observation readback containment provenance name finiteRead
       sealRow : BHist}
