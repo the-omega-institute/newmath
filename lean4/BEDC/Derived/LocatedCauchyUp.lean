@@ -140,4 +140,17 @@ theorem LocatedCauchyCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
     ⟨cert, scheduleUnary, endpointsUnary, modulusUnary, witnessesUnary,
       scheduleEndpointsModulus, modulusWitnessesTransport, transportRoutesProvenance, pkgSig⟩
 
+theorem LocatedCauchyCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {schedule endpoints modulus witnesses transport routes provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyCarrier schedule endpoints modulus witnesses transport routes provenance nameRow
+        bundle pkg ->
+      Cont provenance (BHist.e0 nameRow) routes -> False := by
+  intro carrier extendedNameRoute
+  rcases carrier with
+    ⟨_, _, _, _, _, _, _, _, _, _, _, provenanceNameRoute, _⟩
+  have sameName : hsame nameRow (BHist.e0 nameRow) :=
+    cont_left_cancel provenanceNameRoute extendedNameRoute
+  exact hsame_extension_self_absurd.left nameRow (hsame_symm sameName)
+
 end BEDC.Derived.LocatedCauchyUp
