@@ -232,6 +232,7 @@ import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
+import BEDC.Derived.TrieUp.PrefixBranchExactness
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TrieUp.PrefixSubledger
