@@ -159,6 +159,67 @@ theorem CauchyCompletionMonadPacket_public_real_seal_factorization [AskSetup]
     ⟨observationsUnary, sealRowUnary, routeUnary, scheduleWindowsObservations,
       observationsDiagonalSealRow, sealRowTransportRoute, sealRowPkg⟩
 
+theorem CauchyCompletionMonadPacket_downstream_regseqrat_consumer_route [AskSetup]
+    [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      exists downstreamRead : BHist,
+        UnaryHistory downstreamRead ∧ hsame downstreamRead (append sourceFamily route) ∧
+          hsame observations (append schedule windows) ∧
+            hsame sealRow (append observations diagonal) ∧
+              hsame route (append sealRow transport) ∧ PkgSig bundle sealRow pkg := by
+  intro packet
+  obtain ⟨sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, transportUnary,
+    _nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow,
+    sealRowTransportRoute, _routeNameSealRow, sealRowPkg⟩ := packet
+  have observationsUnary : UnaryHistory observations :=
+    unary_cont_closed scheduleUnary windowsUnary scheduleWindowsObservations
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed observationsUnary diagonalUnary observationsDiagonalSealRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed sealRowUnary transportUnary sealRowTransportRoute
+  exact
+    ⟨append sourceFamily route, unary_append_closed sourceFamilyUnary routeUnary, hsame_refl _,
+      scheduleWindowsObservations, observationsDiagonalSealRow, sealRowTransportRoute,
+      sealRowPkg⟩
+
+theorem CauchyCompletionMonadPacket_downstream_completion_consumer_exactness [AskSetup]
+    [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      exists completionRead : BHist,
+        UnaryHistory completionRead ∧
+          hsame completionRead (append (append schedule windows) (append diagonal sealRow)) ∧
+            hsame observations (append schedule windows) ∧
+              hsame sealRow (append observations diagonal) ∧
+                hsame route (append sealRow transport) ∧
+                  Cont route nameRow sealRow ∧ PkgSig bundle sealRow pkg := by
+  intro packet
+  obtain ⟨_sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, transportUnary,
+    _nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow,
+    sealRowTransportRoute, routeNameSealRow, sealRowPkg⟩ := packet
+  have observationsUnary : UnaryHistory observations :=
+    unary_cont_closed scheduleUnary windowsUnary scheduleWindowsObservations
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed observationsUnary diagonalUnary observationsDiagonalSealRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed sealRowUnary transportUnary sealRowTransportRoute
+  have scheduleWindowsUnary : UnaryHistory (append schedule windows) :=
+    unary_append_closed scheduleUnary windowsUnary
+  have diagonalSealUnary : UnaryHistory (append diagonal sealRow) :=
+    unary_append_closed diagonalUnary sealRowUnary
+  exact
+    ⟨append (append schedule windows) (append diagonal sealRow),
+      unary_append_closed scheduleWindowsUnary diagonalSealUnary, hsame_refl _,
+      scheduleWindowsObservations, observationsDiagonalSealRow, sealRowTransportRoute,
+      routeNameSealRow, sealRowPkg⟩
+
 theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [PackageSetup]
     {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
       sourceFamily' windows' observations' schedule' diagonal' sealRow' transport' route'
