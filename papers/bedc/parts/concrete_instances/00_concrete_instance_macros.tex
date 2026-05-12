@@ -1,260 +1,3 @@
-
-% BEDC theory preamble
-% Build engine: pdflatex (matches .source/build.sh; no Chinese in paper body).
-% xelatex + xeCJK + unicode-math was attempted but caused conflicts with
-% amssymb in 96 \newcommand math macros; the paper therefore stays on pdflatex.
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{geometry}
-\usepackage{microtype}
-\usepackage{enumitem}
-\usepackage{xcolor}
-\usepackage{hyperref}
-\usepackage{fancyhdr}
-\usepackage{booktabs,longtable,array}
-\usepackage{verbatim}
-\usepackage{listings}
-\usepackage{listingsutf8}
-\lstset{inputencoding=utf8,extendedchars=true,literate={→}{{$\rightarrow$}}1 {↦}{{$\mapsto$}}1 {∀}{{$\forall$}}1 {∃}{{$\exists$}}1 {↔}{{$\leftrightarrow$}}1 {≤}{{$\leq$}}1 {≥}{{$\geq$}}1 {≠}{{$\neq$}}1}
-\usepackage{xstring}
-\usepackage{xparse}
-% --- Lean 4 verification status markers (visible in PDF) ---
-%
-% Rendering rule: the target identifier is rendered without any literal `_`.
-% Caller writes `\_` (LaTeX escaped underscore) inside the target name; the
-% macro replaces every `\_` with a thin space, so `Foo\_bar` renders as
-% `Foo bar`. Namespace dots stay literal.
-%
-% Usage:
-%   \leanchecked{BEDC.BaseReflection.PackageReflection\_base}
-%     → green   Lean4 ✓  BEDC.BaseReflection.PackageReflection base
-%        (canonical primary implementation; one per paper site)
-%   \leanvariant{BEDC.BaseReflection.PackageReflection\_base\_with\_tokens}
-%     → gray    └─ variant  BEDC.BaseReflection.PackageReflection base with tokens
-%        (auxiliary version: typeclass-binder wrapper, weakened conclusion,
-%        projection, or alternative proof of the same paper claim; multiple
-%        per primary marker allowed)
-%   \leandef{BEDC.BaseReflection.TokUnique.tokenReplacement}
-%     → gray    Lean4 (definition) BEDC.BaseReflection.TokUnique.tokenReplacement
-\newcommand{\leannobreak}[1]{\StrSubstitute{#1}{\_}{ }}
-\newcommand{\leanchecked}[1]{%
-  \par\noindent{\small\color{green!50!black}%
-    \textsf{Lean4\,$\checkmark$}\quad\texttt{\leannobreak{#1}}}\par}
-\newcommand{\leanvariant}[1]{%
-  \par\noindent{\footnotesize\color{black!55}%
-    \quad\textsf{$\hookrightarrow$\,variant}\quad\texttt{\leannobreak{#1}}}\par}
-\newcommand{\leansorryd}[2]{%
-  \par\noindent{\small\color{orange!70!black}%
-    \textsf{Lean4\,(sorry)}\quad\texttt{\leannobreak{#1}} --- \textit{#2}}\par}
-\newcommand{\leanstmt}[1]{%
-  \par\noindent{\small\color{blue!50!black}%
-    \textsf{Lean4\,(statement)}\quad\texttt{\leannobreak{#1}}}\par}
-\newcommand{\leandef}[1]{%
-  \par\noindent{\small\color{black!55}%
-    \textsf{Lean4\,(definition)}\quad\texttt{\leannobreak{#1}}}\par}
-\NewDocumentCommand{\closureat}{m m o}{}
-\NewDocumentCommand{\origin}{m}{}
-\geometry{margin=1.02in}
-\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black}
-\setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=*}
-\setlist[enumerate]{topsep=3pt,itemsep=2pt,leftmargin=*}
-\setlength{\headheight}{14pt}
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{BEDC Theory Manuscript}
-\rhead{BEDC Theory}
-\cfoot{\thepage}
-\newtheorem{definition}{Definition}[chapter]
-\newtheorem{principle}[definition]{Principle}
-\newtheorem{kernelrule}[definition]{Kernel Rule}
-\newtheorem{rulebox}[definition]{Kernel Rule}
-\newtheorem{convention}[definition]{Convention}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{protocol}[definition]{Protocol}
-\newtheorem{remark}[definition]{Remark}
-\newtheorem{example}[definition]{Example}
-\newtheorem{axiomlike}[definition]{Closure Principle}
-\newcommand{\BEDC}{\mathsf{BEDC}}
-\newcommand{\bzero}{\mathsf{b0}}
-\newcommand{\bone}{\mathsf{b1}}
-\newcommand{\Mark}{\mathsf{Mark}}
-\newcommand{\msame}{\mathsf{msame}}
-\newcommand{\MSame}{\mathsf{msame}}
-\newcommand{\Hist}{\mathsf{Hist}}
-\newcommand{\emp}{\mathsf{e}}
-\newcommand{\e}{\mathsf{e}}
-\newcommand{\Ezero}{\mathsf{E0}}
-\newcommand{\Eone}{\mathsf{E1}}
-\newcommand{\ExtR}{\mathsf{Ext}}
-\newcommand{\Ext}{\mathsf{Ext}}
-\newcommand{\ContR}{\mathsf{Cont}}
-\newcommand{\Cont}{\mathsf{Cont}}
-\newcommand{\hsame}{\mathsf{hsame}}
-\newcommand{\HSame}{\mathsf{hsame}}
-\newcommand{\PN}{\mathsf{ProbeName}}
-\newcommand{\Ev}{\mathsf{Ev}}
-\newcommand{\Ask}{\mathsf{Ask}}
-\newcommand{\AskPol}{\mathsf{AskPolicy}}
-\newcommand{\Bundle}{\mathsf{Bundle}}
-\newcommand{\Bnil}{\mathsf{Bnil}}
-\newcommand{\Bcons}{\mathsf{Bcons}}
-\newcommand{\Sig}{\mathsf{Sig}}
-\newcommand{\sameSig}{\mathsf{sameSig}}
-\newcommand{\SameSig}{\mathsf{sameSig}}
-\newcommand{\Pkg}{\mathsf{Pkg}}
-\newcommand{\psame}{\mathsf{psame}}
-\newcommand{\PSame}{\mathsf{psame}}
-\newcommand{\PkgPol}{\mathsf{PackagePolicy}}
-\newcommand{\GapPol}{\mathsf{GapPolicy}}
-\newcommand{\InGap}{\mathsf{InGap}}
-\newcommand{\Gap}{\mathsf{Gap}}
-\newcommand{\CompGap}{\mathsf{CompGap}}
-\newcommand{\NameCert}{\ensuremath{\mathsf{NameCert}}}
-\newcommand{\BHist}{\ensuremath{\mathsf{BHist}}}
-\newcommand{\ChapterTasteGate}{\ensuremath{\mathsf{ChapterTasteGate}}}
-\newcommand{\GroundCompiler}{\ensuremath{\mathsf{GroundCompiler}}}
-\newcommand{\SourceSpec}{\mathsf{SourceSpec}}
-\newcommand{\PatternSpec}{\mathsf{PatternSpec}}
-\newcommand{\ClassifierSpec}{\mathsf{ClassifierSpec}}
-\newcommand{\ClosureCert}{\mathsf{ClosureCert}}
-\newcommand{\ReuseCert}{\mathsf{ReuseCert}}
-\newcommand{\DescentCert}{\mathsf{DescentCert}}
-\newcommand{\CompositionCert}{\mathsf{CompositionCert}}
-\newcommand{\SealCert}{\mathsf{SealCert}}
-\newcommand{\StabCert}{\mathsf{StabilityCert}}
-\newcommand{\LedgerPolicy}{\mathsf{LedgerPolicy}}
-\newcommand{\Stage}{\mathsf{Stage}}
-\newcommand{\Thread}{\mathsf{Thread}}
-\newcommand{\Seal}{\mathsf{Seal}}
-\newcommand{\NatUp}{\mathsf{Nat}^{\uparrow}}
-\newcommand{\AddUp}{\mathsf{Add}^{\uparrow}}
-\newcommand{\AxisNatUp}{\mathsf{AxisNat}^{\uparrow}}
-\newcommand{\AxisAddUp}{\mathsf{AxisAdd}^{\uparrow}}
-\newcommand{\ZNormalUp}{\mathsf{ZNormal}^{\uparrow}}
-\newcommand{\ZeckendorfNormalUp}{\mathsf{ZeckendorfNormal}^{\uparrow}}
-\newcommand{\FibonacciCubeUp}{\mathsf{FibonacciCube}^{\uparrow}}
-\newcommand{\FibonacciInverseLimitUp}{\mathsf{FibonacciInverseLimit}^{\uparrow}}
-\newcommand{\ZCarryUp}{\mathsf{ZCarry}^{\uparrow}}
-\newcommand{\FullAxisUp}{\mathsf{FullAxis}^{\uparrow}}
-\newcommand{\DimLiftUp}{\mathsf{DimLift}^{\uparrow}}
-\newcommand{\IntUp}{\mathsf{Int}^{\uparrow}}
-\newcommand{\RatUp}{\mathsf{Rat}^{\uparrow}}
-\newcommand{\RationalIntervalUp}{\mathsf{RationalInterval}^{\uparrow}}
-\newcommand{\RationalBallUp}{\mathsf{RationalBall}^{\uparrow}}
-\newcommand{\ComplexUp}{\mathsf{Complex}^{\uparrow}}
-\newcommand{\BoolUp}{\mathsf{Bool}^{\uparrow}}
-\newcommand{\OptionUp}{\mathsf{Option}^{\uparrow}}
-\newcommand{\ProdUp}{\mathsf{Prod}^{\uparrow}}
-\newcommand{\SumUp}{\mathsf{Sum}^{\uparrow}}
-\newcommand{\ListUp}{\mathsf{List}^{\uparrow}}
-\newcommand{\FiniteMapUp}{\mathsf{FiniteMap}^{\uparrow}}
-\newcommand{\BitVectorUp}{\mathsf{BitVector}^{\uparrow}}
-\newcommand{\TrieUp}{\mathsf{Trie}^{\uparrow}}
-\newcommand{\FanTheoremUp}{\mathsf{FanTheorem}^{\uparrow}}
-\newcommand{\MonoidUp}{\mathsf{Monoid}^{\uparrow}}
-\newcommand{\FreeMonoidUp}{\mathsf{FreeMonoid}^{\uparrow}}
-\newcommand{\GroupUp}{\mathsf{Group}^{\uparrow}}
-\newcommand{\AbGroupUp}{\mathsf{AbGroup}^{\uparrow}}
-\newcommand{\SemiringUp}{\mathsf{Semiring}^{\uparrow}}
-\newcommand{\RingUp}{\mathsf{Ring}^{\uparrow}}
-\newcommand{\CommRingUp}{\mathsf{CommRing}^{\uparrow}}
-\newcommand{\FieldUp}{\mathsf{Field}^{\uparrow}}
-\newcommand{\ModuleUp}{\mathsf{Module}^{\uparrow}}
-\newcommand{\VecSpaceUp}{\mathsf{VecSpace}^{\uparrow}}
-\newcommand{\LinearMapUp}{\mathsf{LinMap}^{\uparrow}}
-\newcommand{\MatrixUp}{\mathsf{Mat}^{\uparrow}}
-\newcommand{\PolynomialUp}{\mathsf{Poly}^{\uparrow}}
-\newcommand{\FormalPowerSeriesUp}{\mathsf{FPS}^{\uparrow}}
-\newcommand{\FpsUp}{\FormalPowerSeriesUp}
-\newcommand{\PreorderUp}{\mathsf{Preorder}^{\uparrow}}
-\newcommand{\POSetUp}{\mathsf{POSet}^{\uparrow}}
-\newcommand{\TotalOrderUp}{\mathsf{TotalOrder}^{\uparrow}}
-\newcommand{\LatticeUp}{\mathsf{Lattice}^{\uparrow}}
-\newcommand{\IntervalUp}{\mathsf{Interval}^{\uparrow}}
-\newcommand{\IntervalArithmeticUp}{\mathsf{IntervalArithmetic}^{\uparrow}}
-\newcommand{\MetricSpaceUp}{\mathsf{Met}^{\uparrow}}
-\newcommand{\ProductMetricUp}{\mathsf{ProductMetric}^{\uparrow}}
-\newcommand{\IsometricEmbeddingUp}{\mathsf{IsometricEmbedding}^{\uparrow}}
-\newcommand{\SOneUp}{\mathsf{S}^{1\,\uparrow}}
-\newcommand{\UnitDiskUp}{\mathsf{UnitDisk}^{\uparrow}}
-\newcommand{\ContinuousFunctionUp}{\mathsf{CFun}^{\uparrow}}
-\newcommand{\ContinuousFunctionCarrierUp}{\mathsf{CFunCarrier}^{\uparrow}}
-\newcommand{\ContinuousUp}{\mathsf{Continuous}^{\uparrow}}
-\newcommand{\UniformContinuityUp}{\mathsf{UniformContinuity}^{\uparrow}}
-\newcommand{\CompactUp}{\mathsf{Compact}^{\uparrow}}
-\newcommand{\CategoryUp}{\mathsf{Cat}^{\uparrow}}
-\newcommand{\KernelCategoryUp}{\mathsf{KernelCategory}^{\uparrow}}
-\newcommand{\UnaryContinuationCategoryUp}{\mathsf{UnaryContinuationCategory}^{\uparrow}}
-\newcommand{\FiniteKernelCategoryUp}{\mathsf{FiniteKernelCategory}^{\uparrow}}
-\newcommand{\ContinuationMonadUp}{\mathsf{ContinuationMonad}^{\uparrow}}
-\newcommand{\FunctorUp}{\mathsf{Functor}^{\uparrow}}
-\newcommand{\NatTransUp}{\mathsf{NatTrans}^{\uparrow}}
-\newcommand{\EqUp}{\mathsf{Eq}^{\uparrow}}
-\newcommand{\FuncUp}{\mathsf{Func}^{\uparrow}}
-\newcommand{\LimitUp}{\mathsf{Limit}^{\uparrow}}
-\newcommand{\RealUp}{\mathsf{Real}^{\uparrow}}
-\newcommand{\RealCompletenessUp}{\mathsf{RealCompleteness}^{\uparrow}}
-\newcommand{\CircleUp}{\mathsf{Circle}^{\uparrow}}
-\newcommand{\FinitePhaseSamplingUp}{\mathsf{FinitePhaseSampling}^{\uparrow}}
-\newcommand{\FoldUp}{\mathsf{Fold}^{\uparrow}}
-\newcommand{\Mbin}{\mathcal{M}_{\mathsf{bin}}}
-
-% Concrete-instance hardening macros (domain reflection, token introduction, sig instances)
-\newcommand{\InDom}{\mathsf{InDom}}
-\newcommand{\Tok}{\mathsf{Tok}}
-\newcommand{\TokIntro}{\mathsf{TokIntro}}
-\newcommand{\PkgSig}{\mathsf{Pkg}^{\mathrm{sig}}}
-\newcommand{\GapSig}{\mathsf{Gap}^{\mathrm{sig}}}
-\newcommand{\InGapSig}{\mathsf{InGap}^{\mathrm{sig}}}
-\newcommand{\GlobSig}{\mathsf{Glob}^{\mathrm{sig}}}
-\newcommand{\Unary}{\mathsf{Unary}}
-\newcommand{\UnaryCont}{\mathsf{UnaryCont}}
-\newcommand{\UnaryComm}{\mathsf{UnaryComm}}
-
-\lstset{basicstyle=\ttfamily\scriptsize,breaklines=true,breakatwhitespace=false,columns=fullflexible}
-
-% Proof-obligation policy macros (domain, package-token, reflection, soundness)
-\newcommand{\DomainPolicy}{\mathsf{DomainPolicy}}
-\newcommand{\PkgTokPol}{\mathsf{PackageTokenPolicy}}
-\newcommand{\PkgReflect}{\mathsf{PackageReflect}}
-\newcommand{\PkgSound}{\mathsf{PackageSound}}
-\newcommand{\EoneCong}{\mathsf{E1Cong}}
-\newcommand{\UnaryShift}{\mathsf{UnaryShift}}
-\newcommand{\UnaryContMonoidUp}{\mathsf{UnaryContMonoid}^{\uparrow}}
-\newcommand{\ProofObligation}{\mathsf{ProofObligation}}
-\newcommand{\Checked}{\mathsf{Checked}}
-\newcommand{\Frozen}{\mathsf{Frozen}}
-% Token-uniqueness and unary-shift macros
-\newcommand{\TokUnique}{\mathsf{TokUnique}}
-\newcommand{\PackageTokenPolicy}{\mathsf{PackageTokenPolicy}}
-\newcommand{\UnarySource}{\mathsf{UnarySource}}
-\newcommand{\ContAddUp}{\mathsf{ContAdd}^{\uparrow}}
-
-% Minimal verification-contract macros (psame design layers, token canonical, closure reflection)
-\newcommand{\PBase}{\mathsf{PBase}}
-\newcommand{\PSig}{\mathsf{PSig}}
-\newcommand{\PEq}{\mathsf{PEq}}
-\newcommand{\EqCl}{\mathsf{EqCl}}
-\newcommand{\TokCan}{\mathsf{TokCan}}
-\newcommand{\ClosureReflect}{\mathsf{ClosureReflect}}
-\newcommand{\OneCtor}{\mathsf{OneCtor}}
-\newcommand{\BaseReflect}{\mathsf{BaseReflect}}
-\newcommand{\VerifierTarget}{\mathsf{VerifierTarget}}
-
-
-% Base-reflection check-target macros (generated signature sameness, exact Globalize)
-\newcommand{\GeneratedSameSig}{\mathsf{GeneratedSameSig}}
-\newcommand{\ExactGlobalizeBase}{\mathsf{ExactGlobalizeBase}}
-\newcommand{\PBaseData}{\mathsf{PBaseData}}
-\newcommand{\GlobalizeExactBase}{\mathsf{GlobalizeExactBase}}
-\newcommand{\PackageReflection}{\mathsf{PackageReflection}}
-
-% Roadmap chapter macros (mature-system derivation plan)
 \newcommand{\StabilityCert}{\mathsf{StabilityCert}}
 \newcommand{\MagmaUp}{\mathsf{Magma}^{\uparrow}}
 \newcommand{\SemigroupUp}{\mathsf{Semigroup}^{\uparrow}}
@@ -282,7 +25,6 @@
 \newcommand{\PadicUp}{\mathsf{Padic}^{\uparrow}}
 \newcommand{\AdeleUp}{\mathsf{Adele}^{\uparrow}}
 \newcommand{\ZetaUp}{\mathsf{Zeta}^{\uparrow}}
-% RH dependency-chain Up-macros (LEVEL 3 -- LEVEL 5 supporting namecerts and operations)
 \newcommand{\ComplexLimitUp}{\mathsf{CplxLim}^{\uparrow}}
 \newcommand{\ConvergenceRadiusUp}{\mathsf{ConvRad}^{\uparrow}}
 \newcommand{\ComplexDiffUp}{\mathsf{CplxDiff}^{\uparrow}}
@@ -296,7 +38,6 @@
 \newcommand{\CritStripUp}{\mathsf{CritStrip}^{\uparrow}}
 \newcommand{\ZetaZerosUp}{\mathsf{ZetaZeros}^{\uparrow}}
 \newcommand{\RHUp}{\mathsf{RH}^{\uparrow}}
-% Constructive transcendentals on RealUp and Gamma on ComplexUp (RH chain prerequisites)
 \newcommand{\RealAnalyticUp}{\mathsf{RealAnalytic}^{\uparrow}}
 \newcommand{\ComplexAnalyticUp}{\mathsf{CplxAnalytic}^{\uparrow}}
 \newcommand{\ComplexTopologyUp}{\mathsf{CplxTopo}^{\uparrow}}
@@ -309,7 +50,6 @@
 \newcommand{\NormUp}{\mathsf{Norm}^{\uparrow}}
 \newcommand{\HilbertUp}{\mathsf{Hilbert}^{\uparrow}}
 \newcommand{\LinMapUp}{\mathsf{LinMap}^{\uparrow}}
-% Roadmap L10 sub-milestones (Bishop-style real-number construction)
 \newcommand{\StreamNameUp}{\mathsf{StreamName}^{\uparrow}}
 \newcommand{\RationalStreamUp}{\mathsf{RationalStream}^{\uparrow}}
 \newcommand{\BaireSpaceUp}{\mathsf{BaireSpace}^{\uparrow}}
@@ -436,12 +176,12 @@
 \newcommand{\CompactMetricUp}{\mathsf{CompactMetric}^{\uparrow}}
 \newcommand{\ContinuousMapUp}{\mathsf{ContinuousMap}^{\uparrow}}
 \newcommand{\LipschitzMapUp}{\mathsf{LipschitzMap}^{\uparrow}}
-% Carrier and classifier predicate names used in L10 prose
 \newcommand{\StreamCarrier}{\mathsf{StreamCarrier}}
 \newcommand{\StreamSame}{\mathsf{StreamSame}}
 \newcommand{\UnaryHistory}{\mathsf{UnaryHistory}}
 \newcommand{\UnaryHistoryUp}{\mathsf{UnaryHistory}^{\uparrow}}
 \newcommand{\CrossHistCausalUp}{\mathsf{CrossHistCausal}^{\uparrow}}
+\newcommand{\FiniteMultiHistPacketUp}{\mathsf{FiniteMultiHistPacket}^{\uparrow}}
 \newcommand{\RealCarrier}{\mathsf{RealCarrier}}
 \newcommand{\RatHistoryClassifier}{\ensuremath{\mathsf{RatHistoryClassifier}}}
 \newcommand{\RealClassifier}{\mathsf{RealClassifier}}
@@ -450,10 +190,8 @@
 \newcommand{\CompleteCarrier}{\mathsf{CompleteCarrier}}
 \newcommand{\TotallyBoundedCarrier}{\mathsf{TotallyBoundedCarrier}}
 \newcommand{\CompactMetricCarrier}{\mathsf{CompactMetricCarrier}}
-% Audit-tool name and quotient-keyword font
 \newcommand{\bedcciaudit}{\texttt{bedc\_ci.py audit}}
 \newcommand{\Quot}{\mathtt{Quot}}
-% Framework-stub macros (concrete-instance chapters 56--110)
 \newcommand{\SubgroupUp}{\mathsf{Subgroup}^{\uparrow}}
 \newcommand{\IdealUp}{\mathsf{Ideal}^{\uparrow}}
 \newcommand{\QuotientGroupUp}{\mathsf{QuotientGroup}^{\uparrow}}
@@ -665,97 +403,25 @@
 \newcommand{\MultiHistConfigUp}{\ensuremath{\mathrm{MultiHistConfig}^{\uparrow}}}
 \newcommand{\ObserverHistoryIdentityUp}{\mathsf{ObserverHistoryIdentity}^{\uparrow}}
 \newcommand{\TransportedStationaryDiagonalUp}{\mathsf{TransportedStationaryDiagonal}^{\uparrow}}
-
-\input{parts/concrete_instances/00_concrete_instance_macros.tex}
-
-\newcommand{\GeneratorClosureUp}{\mathsf{GeneratorClosure}^{\uparrow}}
-\newcommand{\HaltingDistinctionUp}{\mathsf{HaltingDistinction}^{\uparrow}}
-
-% Closure-and-verification discipline macros
-% (\autoref{ch:closure-and-verification-discipline})
-
-% --- Theoretical closure axis (paper-internal) ---------------------------
-\newcommand{\TheoryClosure}{\mathsf{TheoryClosure}}
-\newcommand{\TheoryGate}{\mathsf{TheoryGate}}
-\newcommand{\seedClosure}{\mathsf{seed}}
-\newcommand{\obligationClosure}{\mathsf{obligation}}
-\newcommand{\scopedClosure}{\mathsf{scopedClosed}}
-\newcommand{\publicClosure}{\mathsf{publicClosed}}
-\newcommand{\bridgedClosure}{\mathsf{bridgedClosed}}
-\newcommand{\matureClosure}{\mathsf{maturePackageClosed}}
-
-% --- Formal verification axis (Lean-side audit) --------------------------
-\newcommand{\FormalStatus}{\mathsf{FormalStatus}}
-\newcommand{\VerifiedGate}{\mathsf{VerifiedGate}}
-\newcommand{\unformalizedV}{\mathsf{unformalized}}
-\newcommand{\formalTargetV}{\mathsf{formalTarget}}
-\newcommand{\encodedDefV}{\mathsf{encodedDef}}
-\newcommand{\scaffoldCheckedV}{\mathsf{scaffoldChecked}}
-\newcommand{\theoremCheckedV}{\mathsf{theoremChecked}}
-\newcommand{\auditCleanV}{\mathsf{auditClean}}
-\newcommand{\axiomCleanV}{\mathsf{axiomClean}}
-\newcommand{\bridgeCheckedV}{\mathsf{bridgeChecked}}
-
-% --- closurestatus field name tokens (for prose references) ---------------
-% These are used as math display names in text (e.g. $\theoryclosure$).
-% The same names are redefined as callable field macros inside the
-% closurestatus environment; the global definitions below are only
-% for use outside of that environment.
-\newcommand{\theoryclosure}{\mathsf{theoryclosure}}
-\newcommand{\scopeclosed}{\mathsf{scopeclosed}}
-\newcommand{\formalstatus}{\mathsf{formalstatus}}
-\newcommand{\leantarget}{\mathsf{leantarget}}
-\newcommand{\bridgestatus}{\mathsf{bridgestatus}}
-\newcommand{\notclaimed}{\mathsf{notclaimed}}
-\newcommand{\upgradepath}{\mathsf{upgradepath}}
-\newcommand{\constructivestory}{\mathsf{constructivestory}}
-\newcommand{\concretizedIn}[2]{%
-  \par\smallskip\noindent\textit{Concretized in
-  \hyperref[#1]{\S\ref*{#1}}:} #2\par\smallskip}
-
-% --- Standard-bridge structural macros (paper bridge, separate from
-% the bridgeCheckedV verification token above) ---------------------------
-\newcommand{\StdBridge}{\mathsf{StandardBridge}}
-\newcommand{\encodeN}{\mathsf{encode}}
-\newcommand{\decodeN}{\mathsf{decode}}
-\newcommand{\decodeEncode}{\mathsf{decodeEncode}}
-\newcommand{\encodeDecode}{\mathsf{encodeDecode}}
-\newcommand{\theoremPreservation}{\mathsf{theoremPreservation}}
-\newcommand{\noHostLeak}{\mathsf{noHostLeak}}
-\newcommand{\FailureCert}{\mathsf{FailureCert}}
-
-% --- Per-chapter closurestatus block ------------------------------------
-% Every <X>Up chapter ends with one block of the shape:
-%
-%   \begin{closurestatus}{\<X>Up}
-%     \theoryclosure{\scopedClosure}
-%     \scopeclosed{The displayed empty-history singleton certificate.}
-%     \formalstatus{\theoremCheckedV}
-%     \leantarget{BEDC.Derived.<X>Up.<theorem>}
-%     \bridgestatus{none}
-%     \notclaimed{General <X> theory: ...}
-%     \upgradepath{Public-object certificate + ...}
-%   \end{closurestatus}
-%
-% Underscores inside \leantarget MUST be \_-escaped.
-%
-% The block is parsed by lean4/scripts/bedc_ci.py audit and consumed by
-% lean4/scripts/critical_path.py to decide whether a chapter is retired
-% from the horizon work queue. Both axes are mandatory.
-\NewDocumentEnvironment{closurestatus}{m}{%
-  \par\smallskip\noindent%
-  \begingroup%
-    \footnotesize\sffamily\color{purple!55!black}%
-    \textbf{Closure status for $\NameCert_{#1}$.}\par
-    \def\constructivestory##1{\ifx\\##1\\\else\par\textbf{Constructive story:} ##1\par\fi}%
-    \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
-    \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
-    \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
-    \def\leantarget##1{\textbf{Lean target:} \texttt{\detokenize{##1}}\par}%
-    \def\bridgestatus##1{\textbf{Bridge status:} ##1\par}%
-    \def\notclaimed##1{\textbf{Not claimed:} ##1\par}%
-    \def\upgradepath##1{\textbf{Upgrade path:} ##1\par}%
-    \def\origin##1{\textbf{Origin:} ##1\par}%
-}{%
-  \par\endgroup\smallskip
-}
+\newcommand{\CannotClaim}{\mathsf{CannotClaim}}
+\newcommand{\TuringMachineUp}{\mathsf{TuringMachine}^{\uparrow}}
+\newcommand{\RegularLanguageUp}{\mathsf{RegularLanguage}^{\uparrow}}
+\newcommand{\ContextFreeGrammarUp}{\mathsf{ContextFreeGrammar}^{\uparrow}}
+\newcommand{\RecursiveFnUp}{\mathsf{RecursiveFn}^{\uparrow}}
+\newcommand{\ComplexityClassUp}{\mathsf{ComplexityClass}^{\uparrow}}
+\newcommand{\KolmogorovUp}{\mathsf{Kolmogorov}^{\uparrow}}
+\newcommand{\BusyBeaverUp}{\mathsf{BusyBeaver}^{\uparrow}}
+\newcommand{\AbelRuffiniUp}{\mathsf{AbelRuffini}^{\uparrow}}
+\newcommand{\SolvableRadicalsUp}{\mathsf{SolvableRadicals}^{\uparrow}}
+\newcommand{\DiffGaloisUp}{\mathsf{DiffGalois}^{\uparrow}}
+\newcommand{\GoedelIncompletenessUp}{\mathsf{GoedelIncompleteness}^{\uparrow}}
+\newcommand{\Prov}{\mathsf{Prov}}
+\newcommand{\Gal}{\mathsf{Gal}}
+\newcommand{\BeliefUp}{\mathsf{Belief}^{\uparrow}}
+\newcommand{\PolicyUp}{\mathsf{Policy}^{\uparrow}}
+\newcommand{\NameCertMorphismUp}{\mathsf{NameCertMorphism}^{\uparrow}}
+\newcommand{\GoldenMeanShiftUp}{\mathsf{GoldenMeanShift}^{\uparrow}}
+\newcommand{\SubshiftOfFiniteTypeUp}{\mathsf{SubshiftOfFiniteType}^{\uparrow}}
+\newcommand{\TransferOperatorUp}{\mathsf{TransferOperator}^{\uparrow}}
+\newcommand{\LQRUp}{\mathsf{LQR}^{\uparrow}}
+\newcommand{\SpectralMeasureUp}{\mathsf{SpectralMeasure}^{\uparrow}}
