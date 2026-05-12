@@ -86,6 +86,31 @@ sort or variable has the same endpoint.
 \leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
 \leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
 
+\subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
+
+The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
+it is the syntax and judgment-representation layer of the BEDC project. It
+does not replace the host calculus, and it does not present BEDC as a second
+kernel beside Lean. Its task is to make terms, contexts, reductions, and
+typing derivations available as inductive BEDC objects.
+
+This layer complements `\verb|BEDC.Manifest|'. The manifest side registers
+paper-anchored theorem entries as kernel-typed data, so that named results can
+be tracked through the project as typed artifacts. The MetaCIC side supplies
+the inductive description of the calculus whose syntax and judgments can be
+discussed internally.
+
+It also sits below `\verb|BEDC.Reflection|'. Reflection handles higher closure
+forms such as ext-membership, name certificates, and package-facing
+identification principles. MetaCIC supplies the typed-term syntactic
+foundation on which such higher closure forms can be related to represented
+judgments when a bridge is present.
+
+The limit is deliberate. MetaCIC does not simulate the host's full type
+checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
+formalization: its checked claims have the same foundational strength as the
+host that checks them, not a stronger one.
+
 \subsection{Typing Rules}\label{subsec:reconstruction-typing-rules}
 
 The represented typing judgment $\mathrm{HasType}\ \Gamma\ t\ A$ is generated
