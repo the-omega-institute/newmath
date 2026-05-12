@@ -1,0 +1,13 @@
+# hsame_symm.enum.ct
+# Theorem: hsame_symm : forall {h k : BHist}, hsame h k -> hsame k h
+# Strategy: representative BHist pairs. Equal pairs are trivial symmetry cases;
+# unequal pairs make the implication vacuous because hsame is equality.
+PRODUCTIONS 0
+ASSERTIONS 7
+case empty_empty:       input=1111                         ; conclusion_holds=trivial
+case e0_empty_e1_empty: input=0111011                      ; conclusion_holds=vacuous
+case e1_empty_e0_empty: input=1011011                      ; conclusion_holds=vacuous
+case e0_e1_self:        input=0101101011                   ; conclusion_holds=trivial
+case deep_self:         input=0100101000101101001010001011 ; conclusion_holds=trivial
+case e0e1e0_e1e0e1:     input=0100111001011                ; conclusion_holds=vacuous
+case e1e0e1_e0e1e0:     input=1001011010011                ; conclusion_holds=vacuous

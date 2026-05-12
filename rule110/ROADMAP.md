@@ -38,11 +38,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 - [x] B4: Add `test_hsame_refl_*` functions to a new `tests/test_hist.c` (mirror of `tests/test_mark.c` for BHist). Add `enum_assert_reflexive_hist` and `decode_two_bhist_equal` helpers leveraging the BHist decoder from Phase A. Make sure `make tests/test_hist && ./tests/test_hist` passes.
 
-- [ ] B5: hsame_symm: 4+ cases (reflexive + vacuous mismatches). Both `.enum.ct` and `.algo.ct`.
+- [x] B5: hsame_symm: 4+ cases (reflexive + vacuous mismatches). Both `.enum.ct` and `.algo.ct`.
 
 - [ ] B6: hsame_trans: 8+ cases. Algo manifest reuses P_eq from B3.
 
-- [ ] B7: hsame Empty inversion: Empty matches Empty only — manifest + test.
+- [x] B7: hsame Empty inversion: Empty matches Empty only — manifest + test.
 
 - [ ] B8: hsame constructor distinctness: e0(h) ≠ e1(h'), e0(h) ≠ Empty, e1(h) ≠ Empty for arbitrary h, h'. Manifest + test (use representative deep cases).
 
