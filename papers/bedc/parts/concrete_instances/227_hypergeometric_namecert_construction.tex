@@ -278,16 +278,48 @@ finite $\mathsf{BHist}$ packet and the stated exclusions without importing any
 host analytic continuation or special-function equality.
 \end{proof}
 
+\begin{theorem}[HypergeometricUp finite consumer completeness]
+\label{thm:hypergeometric-finite-consumer-completeness}
+Every downstream finite consumer of the public $\HypergeometricUp$ handoff
+factors through exactly the finite $\mathsf{BHist}$ source packet, the
+$\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, the parameter rows, the
+coefficient-ratio row, the finite readback row, the signature-gap boundary,
+componentwise $\hsame$ transport, finite $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert$ surface displayed in this chapter. The
+factorization exposes no analytic continuation, monodromy, singularity
+classification, host differential equation, asymptotic package, or host
+special-function equality.
+\end{theorem}
+\begin{proof}
+Begin with the certificate surface. By
+\autoref{thm:hypergeometric-namecert-obligation-surface}, the accepted packet
+contains only the finite source packet, the two dependency rows, parameter
+rows, coefficient-ratio row, readback row, continuation ledger, transport
+rows, package provenance, and local name-certificate data.
+
+Next apply \autoref{thm:hypergeometric-signature-gap-boundary}. A token-gap
+read can expose only those same finite coordinates, so a finite consumer has no
+separate channel for analytic continuation, monodromy, singularity
+classification, host differential equations, or host special-function
+equality.
+
+Finally use \autoref{thm:hypergeometric-public-certificate-handoff}. The
+public handoff is the consumer-facing form of the same packet. Therefore every
+finite downstream consumer factors through that displayed surface, and the
+listed exclusions remain outside the consumer boundary.
+\end{proof}
+
 \closureat{HypergeometricUp}{publicStr}[BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface]
 \closureat{HypergeometricUp}{bridgedStr}[BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface]
+\closureat{HypergeometricUp}{matureStr}[BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_public\_certificate\_handoff]
 
 \begin{closurestatus}{\HypergeometricUp}
   \constructivestory{A hypergeometric packet is assembled from the finite $\mathsf{BHist}$ source packet, the $\ComplexAnalyticUp$ and $\GammaUp$ dependency rows, the parameter rows, the coefficient-ratio row, the finite readback row, and the displayed $\NameCert$ obligation surface. The carrier accepts only these rows together with $\Cont$, $\hsame$, and $\Pkg$ provenance, so downstream consumers receive the public certificate handoff while analytic continuation, differential-equation semantics, asymptotics, and standard special-function bridges remain outside the displayed packet.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The bridge boundary is the displayed finite hypergeometric source, signature-gap, ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.HypergeometricUp.HypergeometricBHistSourcePacket\_namecert\_obligation\_surface}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close analytic continuation, differential equations, asymptotics, standard hypergeometric identities, or standard bridge rows.}
-  \upgradepath{Mature closure requires a finite consumer-completeness surface for the displayed hypergeometric packet.}
+  \upgradepath{No further paper theory-axis grade remains for this finite consumer surface; formal bridge checking is separate.}
 \end{closurestatus}

@@ -734,6 +734,33 @@ same transported classifier witnesses and cannot acquire a trichotomy,
 completeness, topological, quotient, or nonconstant arithmetic coordinate.
 \end{proof}
 
+\begin{theorem}[RealAlgOrder public apartness metric export]
+\label{thm:realalgorder-public-apartness-metric-export}
+For constant rational real names, the public $\RealAlgOrderUp$ export consists
+exactly of the carrier and classifier rows, algebra rows, order and apartness
+rows, positive-gap metric handoff rows, and the displayed $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ provenance already listed in this chapter. A
+$\MetricSpaceUp$ or $\SOneUp$ consumer may read only those rows.
+
+The export supplies no trichotomy row, host real equality, quotient
+representative, or completeness datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realalgorder-constant-public-interface-export} to obtain the
+carrier, classifier, algebra, provenance, and public $\NameCert$ rows.
+
+Next apply \autoref{thm:realalgorder-constant-public-order-metric-interface} and
+\autoref{thm:realalgorder-positive-apartness-nonzero-metric-boundary}. These
+project the order, apartness, and positive-gap metric handoff rows available to
+metric and circle consumers.
+
+Finally use
+\autoref{thm:realalgorder-constant-transported-classifier-congruence}. The
+transported rational classifier surface is the only congruence source for the
+displayed rows, so row projection leaves no coordinate from which trichotomy,
+host real equality, quotient representatives, or completeness could be read.
+\end{proof}
+
 \begin{closurestatus}{\RealAlgOrderUp}
   \constructivestory{A constant-rational real is obtained by taking a $\RatUp$ denominator history $d$ and placing one b1 boundary over it, so the admitted real histories are exactly those of the form $\Eone(d)$ coming from the rational embedding. Two such real histories name the same constant rational when the rational classifier already identifies their underlying denominators; the real layer does not add a second comparison beyond that transported rational one. The source is the constant-rational predicate, the pattern records the b1-embedded shape together with the addition, multiplication, order, and apartness rows, and the ledger keeps the visible real endpoint tied to the rational witness from which it came. Because the rational classifier is an equivalence and the embedding is injective on representatives, the embedded rational supplies the carrier witness, the transported classifier is reflexive, symmetric, and transitive, and any recognized representative remains in the constant-rational subcarrier. A real history $h$ lies in the signature gap of a $\RealAlgOrder$ token $p$ when the source-domain accepts $h$, the signature relation pairs it with a rational witness and evidence ledger, and the token-introduction relation names that witness as $p$; after unfolding, $h$ is $\Eone(d)$ for a rational $d$ classified as the rational value encoded by $p$. Each algebra or order row is read by going down to the rational witness, applying the matching $\RatUp$ row, and embedding the result back upward, as in $\Eone(d)+\Eone(e)$ being computed by $d+e$ before re-embedding. The chapter registers this transport-through-rational construction under the name $\RealAlgOrder$; these rows are inherited through the rational embedding, with no full non-constant real arithmetic, completeness, or standard bridge introduced here.}
   \theoryclosure{\scopedClosure}
