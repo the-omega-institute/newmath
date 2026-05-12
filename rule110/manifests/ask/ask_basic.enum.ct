@@ -1,0 +1,35 @@
+# ask_basic.enum.ct
+# Relation: Ask probe history mark evidence.
+#
+# Encoding:
+#   input = ProbeNameEncoding(probe) ++ BHistEncoding(history)
+#           ++ EventEncoding(mark) ++ EventEncoding(evidence)
+#
+# ProbeName(n) is the unary event payload [0 repeated n, 1].
+# BHist uses the event payload choices from docs/bhist_encoding.md.
+# BMark is a one-bit event payload:
+#   b0 = EventEncoding([0]) = "011"
+#   b1 = EventEncoding([1]) = "1011"
+#
+# Ground fixture Ask policy:
+#   expected = (probe + depth(history)) mod 2
+#   Ask probe history mark evidence holds when mark = expected and evidence
+#   is the one-bit event carrying the same expected value.
+#
+# This is an executable finite fixture for CT manifests. It represents one
+# concrete AskSetup instance and leaves Lean's abstract AskSetup parameter
+# untouched.
+PRODUCTIONS 0
+ASSERTIONS 12
+case p0_empty_b0_ev0:          input=101111011011           ; ask_holds=yes
+case p0_e0_b1_ev1:             input=101101110111011        ; ask_holds=yes
+case p1_empty_b1_ev1:          input=010111110111011        ; ask_holds=yes
+case p1_e0_b0_ev0:             input=01011011011011         ; ask_holds=yes
+case p2_e1e0_b0_ev0:           input=00101110011011011      ; ask_holds=yes
+case p3_e0e1e1_b0_ev0:         input=00010110101011011011   ; ask_holds=yes
+case p0_empty_wrong_mark:      input=1011111011011          ; ask_holds=no
+case p0_empty_wrong_evidence:  input=1011110111011          ; ask_holds=no
+case p1_empty_wrong_mark:      input=01011110111011         ; ask_holds=no
+case p1_e0_wrong_evidence:     input=010110110111011        ; ask_holds=no
+case malformed_probe:          input=1111011011             ; ask_holds=no
+case trailing_input:           input=10111101101111         ; ask_holds=no
