@@ -44,7 +44,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [ ] B4: Implement ossifier structure (encodes "current production index" in Cook §5). Test emission + stability.
 
-- [ ] B5: Implement data block encoding (sequence of bits as glider sequence per Cook §6).
+- [x] B5: Implement data block encoding (sequence of bits as glider sequence per Cook §6).
 
 ## Phase C: Translator (5-10 days)
 

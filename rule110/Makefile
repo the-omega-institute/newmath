@@ -17,7 +17,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_cook_ether $(TEST_DIR)/test_cook_glider_A \
                    $(TEST_DIR)/test_cook_glider_E $(TEST_DIR)/test_cook_glider_F \
                    $(TEST_DIR)/test_cook_glider_G $(TEST_DIR)/test_cook_glider_H \
-                   $(TEST_DIR)/test_cook_glider_gun
+                   $(TEST_DIR)/test_cook_glider_gun $(TEST_DIR)/test_cook_data_block
 
 .PHONY: all test clean
 all: $(STANDALONE_BINS)
@@ -70,6 +70,11 @@ $(TEST_DIR)/test_cook_glider_gun: $(TEST_DIR)/test_cook_glider_gun.c $(EVAL_DIR)
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_glider_gun.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_glider_gun.c
+
+$(TEST_DIR)/test_cook_data_block: $(TEST_DIR)/test_cook_data_block.c $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_data_block.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_data_block.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_data_block.c
 
 $(TEST_DIR)/test_mark: $(TEST_DIR)/test_mark.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
