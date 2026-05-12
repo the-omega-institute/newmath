@@ -5,10 +5,12 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution
+import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.TypedExamples
+import BEDC.MetaCIC.TypedExamples.ChurchGallery
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate

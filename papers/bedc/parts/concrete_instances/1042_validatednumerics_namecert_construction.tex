@@ -89,6 +89,39 @@ containment rows gives the finite readback soundness statement, while no
 carrier coordinate remains for completeness or completed-real equality.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics finite-window Real seal containment]
+\label{thm:validatednumerics-finite-window-real-seal-containment}
+Let $V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$ be an accepted
+$\ValidatedNumericsUp$ packet. Any finite-window $\RealUp$ seal read whose
+source is routed through the displayed $\RegSeqRatUp$ window $\rho$, the
+$\ModulusOfConvergenceUp$ row $\omega$, and the packet $\Cont$ containment
+ledger lands in the same $\RationalIntervalUp$ enclosure row $I$.
+
+The conclusion is a finite enclosure statement over the packet surface. It
+does not assert solver correctness, floating-point semantics, classical real
+completeness, or equality of completed representatives.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. By
+\autoref{thm:validatednumerics-interval-enclosure-obligation}, the only
+enclosure exported by the carrier is $I$, and the only routes from displayed
+$\RegSeqRatUp$ observations into an interval are the $\Cont$ ledger rows
+stored in $c$.
+
+Next read the $\RealUp$ token through
+\autoref{thm:validatednumerics-real-readback-soundness}. The readback is
+available only with the finite window $\rho$ and the modulus row $\omega$,
+so the seal has no independent completed-real interface through which it
+could choose a second enclosure.
+
+The $\StreamNameUp$ finite-window handoff and the $\RegSeqRat$ finite-window
+$\RealUp$ seal interface therefore expose the same consumer rows: the window
+$\rho$, the modulus row $\omega$, the transported $\hsame$ rows, and the
+$\Cont$ ledger. Repacking those rows gives containment in $I$, and the
+packet contains no additional consumer row for solver semantics, hardware
+floating-point interpretation, completeness, or equality of completions.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics precision refinement containment]
 \label{thm:validatednumerics-precision-refinement-containment}
 Let $V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$ be an accepted
