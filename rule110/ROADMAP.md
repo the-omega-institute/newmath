@@ -50,11 +50,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 - [x] C1: Read `lean4/BEDC/FKernel/Ext.lean`. Document the inductive structure of `Ext : BHist → BMark → BHist → Prop` and its 3 constructors.
 
-- [ ] C2: Design `Ext` encoding strategy: a CT manifest with input = encoded triple (BHist, BMark, BHist) and accept = whether Ext holds. The algorithm reuses BHist decoder + checks the inductive condition.
+- [x] C2: Design `Ext` encoding strategy: a CT manifest with input = encoded triple (BHist, BMark, BHist) and accept = whether Ext holds. The algorithm reuses BHist decoder + checks the inductive condition.
 
-- [ ] C3: Encode the Ext constructor cases as manifests in `rule110/manifests/ext/`. Each major Ext theorem from Ext.lean gets a manifest pair.
+- [x] C3: Encode the Ext constructor cases as manifests in `rule110/manifests/ext/`. Each major Ext theorem from Ext.lean gets a manifest pair.
 
-- [ ] C4: Test functions in `tests/test_ext.c`. Verify against `Ext.lean` examples.
+- [x] C4: Test functions in `tests/test_ext.c`. Verify against `Ext.lean` examples.
 
 ## Phase D: SigRel + sameSig (3-5 days)
 
@@ -85,7 +85,7 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 - [ ] BHist encoder/decoder round-trip verified for representative cases (Empty, e0(Empty), e1(Empty), deep nestings to depth 10+)
 - [ ] Real algorithm-form `P_eq` for BHist payloads working (no vacuous-production fallback)
 - [ ] `hsame_*` theorems encoded as manifest pairs (enum + algo); all assertions pass
-- [ ] `Ext` theorems encoded; assertions pass
+- [x] `Ext` theorems encoded; assertions pass
 - [ ] `SigRel` + `sameSig` theorems encoded; assertions pass
 - [ ] `make test` exit 0, all manifest assertions + unit tests pass
 - [ ] No regression in existing rule110 vertical slice tests (32 manifest assertions + 11 unit tests still pass)
