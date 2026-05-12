@@ -197,15 +197,55 @@ minimizers, compactness, infinite horizons, or unlogged feasibility data, the
 five rows exhaust the local $\NameCert_{\ModelPredictiveControlUp}$ surface.
 \end{proof}
 
+\begin{theorem}[Model predictive control scoped kernel support]
+\label{thm:modelpredictivecontrol-scoped-kernel-support}
+The finite MPC carrier, finite-horizon obligation, constraint ledger,
+receding-horizon boundary, consumer boundary, and $\NameCert$ obligation
+surface are scoped exactly by the displayed $\mathsf{BHist}$ packet rows,
+$\hsame$ transport rows, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance,
+$\NameCert$ provenance, and the cited $\StateSpaceModelUp$, $\DynSystemUp$,
+$\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\LQRUp$, $\RiccatiUp$,
+$\ConvexSetUp$, $\PolytopeUp$, $\ControlObservabilityUp$, and
+$\ControlControllabilityUp$ sources. The scoped support exports no host
+optimizer semantics, infinite-horizon optimality, stochastic control, or
+unlogged feasibility data.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates
+$M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C)$ from
+\autoref{def:modelpredictivecontrol-bhist-carrier}. These coordinates are the
+only state, input, horizon, transition, cost, constraint, terminal, candidate,
+first-control, transport, continuation, package, and naming rows in the
+packet.
+
+Apply
+\autoref{thm:modelpredictivecontrol-finite-horizon-obligation},
+\autoref{thm:modelpredictivecontrol-constraint-ledger},
+\autoref{thm:modelpredictivecontrol-receding-horizon-boundary}, and
+\autoref{thm:modelpredictivecontrol-consumer-boundary}. They identify the
+prediction rows, admissibility rows, first-control read, and downstream
+consumer reads as projections from the same finite carrier, transported by
+$\hsame$ and routed by the displayed $\Cont$ rollout data.
+
+Finally repack the five rows of
+\autoref{thm:modelpredictivecontrol-namecert-obligation-surface}. The
+$\mathsf{Pkg}$ row names exactly the listed control, algebra, convexity, and
+real-number sources, while the local $\NameCert$ row records the
+receding-horizon surface. Coordinate exhaustion then excludes host optimizer
+semantics, infinite-horizon optimality, stochastic control, and unlogged
+feasibility data.
+\end{proof}
+
 \closureat{ModelPredictiveControlUp}{seedStr}
+\closureat{ModelPredictiveControlUp}{scopedStr}
 
 \begin{closurestatus}{\ModelPredictiveControlUp}
   \constructivestory{A $\ModelPredictiveControlUp$ packet is seeded by finite $\mathsf{BHist}$ rows for current state, finite prediction horizon, dynamics transition, constraint window, stage-cost ledger, terminal-cost or terminal-region row, optimizer-candidate row, first-control extraction, $\hsame$ transports, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:modelpredictivecontrol-bhist-carrier}, \autoref{thm:modelpredictivecontrol-finite-horizon-obligation}, \autoref{thm:modelpredictivecontrol-constraint-ledger}, \autoref{thm:modelpredictivecontrol-receding-horizon-boundary}, \autoref{thm:modelpredictivecontrol-namecert-obligation-surface}, and \autoref{thm:modelpredictivecontrol-consumer-boundary} enumerate the finite MPC carrier, prediction ledger, constraint ledger, receding-horizon boundary, NameCert obligation surface, and consumer boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support} binds the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, and NameCert surface to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon optimality, analytic convergence, stochastic control, host optimizer semantics, recursive feasibility beyond displayed terminal rows, or a standard bridge.}
-  \upgradepath{Scoped closure requires explicit kernel dependency binding for the same finite MPC carrier, prediction-ledger, constraint-window, first-control, and NameCert rows.}
+  \upgradepath{Formal verification requires a Lean target for the scoped kernel support and later bridge checking for the finite MPC carrier.}
 \end{closurestatus}
