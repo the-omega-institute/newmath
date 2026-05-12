@@ -1,0 +1,27 @@
+# unary_basic.enum.ct
+# Relation family: UnaryHistory, UnaryDomain, UnarySourceSpec, and unary
+# Cont closure.
+#
+# A BHist is unary exactly when its decoded constructor-choice payload contains
+# only b1 choices. Empty is unary. Any b0 choice makes the history non-unary.
+#
+# Single-history cases use input = BHistEncoding(h).
+# Triple cases use input = BHistEncoding(h) ++ BHistEncoding(k) ++
+# BHistEncoding(r), with Cont h k r checked as choices(r) = choices(k) ++
+# choices(h).
+PRODUCTIONS 0
+ASSERTIONS 14
+case empty_unary:              input=11                       ; unary=yes
+case one_unary:                input=1011                     ; unary=yes
+case two_ones_unary:           input=101011                   ; unary=yes
+case four_ones_unary:          input=1010101011               ; unary=yes
+case e0_empty_not_unary:       input=011                      ; unary=no
+case e1_e0_not_unary:          input=10011                    ; unary=no
+case e0_e1_not_unary:          input=01011                    ; unary=no
+case mixed_deep_not_unary:     input=1010011011               ; unary=no
+case cont_empty_empty:         input=111111                   ; cont_unary=yes
+case cont_empty_one:           input=1110111011               ; cont_unary=yes
+case cont_one_empty:           input=1011111011               ; cont_unary=yes
+case cont_one_two:             input=101110101110101011       ; cont_unary=yes
+case cont_zero_arg:            input=011101101011             ; cont_unary=no
+case cont_wrong_result:        input=101110101110011          ; cont_unary=no

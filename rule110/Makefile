@@ -19,7 +19,13 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_cook_glider_G $(TEST_DIR)/test_cook_glider_H \
                    $(TEST_DIR)/test_cook_glider_gun \
                    $(TEST_DIR)/test_cook_ossifier \
-                   $(TEST_DIR)/test_cook_data_block
+                   $(TEST_DIR)/test_cook_data_block \
+                   $(TEST_DIR)/test_hist $(TEST_DIR)/test_ext \
+                   $(TEST_DIR)/test_sig $(TEST_DIR)/test_cont \
+                   $(TEST_DIR)/test_bundle $(TEST_DIR)/test_unary \
+                   $(TEST_DIR)/test_ask $(TEST_DIR)/test_external_binary \
+                   $(TEST_DIR)/test_gap $(TEST_DIR)/test_package \
+                   $(TEST_DIR)/test_name_cert $(TEST_DIR)/test_settled
 
 .PHONY: all test clean
 all: $(STANDALONE_BINS)
@@ -88,6 +94,66 @@ $(TEST_DIR)/test_mark: $(TEST_DIR)/test_mark.c $(TEST_DIR)/manifest_runner.c $(T
 	    $(TEST_DIR)/test_mark.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/cyclic_tag.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_hist: $(TEST_DIR)/test_hist.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_hist.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_ext: $(TEST_DIR)/test_ext.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_ext.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_sig: $(TEST_DIR)/test_sig.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_sig.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_cont: $(TEST_DIR)/test_cont.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_cont.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_bundle: $(TEST_DIR)/test_bundle.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_bundle.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_unary: $(TEST_DIR)/test_unary.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_unary.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_ask: $(TEST_DIR)/test_ask.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_ask.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_external_binary: $(TEST_DIR)/test_external_binary.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_external_binary.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_gap: $(TEST_DIR)/test_gap.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_gap.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_package: $(TEST_DIR)/test_package.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_package.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_name_cert: $(TEST_DIR)/test_name_cert.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_name_cert.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_settled: $(TEST_DIR)/test_settled.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_settled.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
 test: $(TESTS)
 	@for t in $(TESTS); do \

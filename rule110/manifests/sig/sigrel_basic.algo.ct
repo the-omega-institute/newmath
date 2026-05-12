@@ -1,0 +1,17 @@
+# sigrel_basic.algo.ct
+# Algorithm framing for representative SigRel cases.
+# The manifest productions are vacuous; tests/test_sig.c performs the
+# decoder-based relation check using the deterministic Ask fixture documented
+# in sigrel_basic.enum.ct.
+PRODUCTIONS 1
+0
+ASSERTIONS 9
+case empty_empty_to_empty:      input=111111             ; sigrel=yes
+case empty_e1_to_empty:         input=11101111           ; sigrel=yes
+case empty_wrong_result:        input=1111011            ; sigrel=no
+case p0_empty_to_e0:            input=10111111011        ; sigrel=yes
+case p0_e0_to_e1:               input=1011110111011      ; sigrel=yes
+case p0_empty_wrong_mark:       input=101111111011       ; sigrel=no
+case p1_empty_to_e1:            input=0101111111011      ; sigrel=yes
+case p0p1_empty_to_e0e1:        input=101101011111101011 ; sigrel=yes
+case p0p1_empty_wrong_tail:     input=10110101111110011  ; sigrel=no

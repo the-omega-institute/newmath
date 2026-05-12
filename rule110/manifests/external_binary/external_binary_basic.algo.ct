@@ -1,0 +1,23 @@
+# external_binary_basic.algo.ct
+# Algorithm framing for BEDC.FKernel.ExternalBinary over decoded BWord values.
+#
+# The current executable check is decoder-based: tests/test_external_binary.c
+# decodes BWord streams with the shared BHist decoder and checks model reuse,
+# append, inversion, cancellation, and congruence by direct choice-buffer
+# comparison. The CT production is vacuous for this phase and keeps the
+# manifest executable under the existing manifest_runner contract.
+PRODUCTIONS 1
+0
+ASSERTIONS 12
+case empty_empty_empty:        input=111111                 ; external_append_holds=yes
+case e0_empty_e0:              input=01111011               ; external_append_holds=yes
+case empty_e1_e1:              input=1110111011             ; external_append_holds=yes
+case e0_e1_e1_e0:              input=011101110011           ; external_append_holds=yes
+case e1_e0__e0_e1__e0_e1_e1_e0: input=100110101101010011    ; external_append_holds=yes
+case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011    ; external_append_holds=yes
+case empty_empty_e0:           input=1111011                ; external_append_holds=no
+case empty_e0_empty:           input=1101111                ; external_append_holds=no
+case e0_e1_wrong_order:        input=011101101011           ; external_append_holds=no
+case e1_e0_wrong_outer:        input=10011011101011         ; external_append_holds=no
+case e0_e1_missing_prefix:     input=010111001011           ; external_append_holds=no
+case e1_empty_e0:              input=101111011              ; external_append_holds=no

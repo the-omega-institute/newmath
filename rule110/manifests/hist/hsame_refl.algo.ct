@@ -1,0 +1,45 @@
+# hsame_refl.algo.ct
+# Theorem: hsame_refl : forall h : BHist, hsame h h
+# Encoding: bounded algorithm-form witness for the five representative BHist
+# pairs from hsame_refl.enum.ct.
+#
+# Scope:
+#   The program is a finite trace certifier, not a complete equality decider for
+#   all BHist values. It consumes a bounded input prefix and emits a positional
+#   certificate for each 1 bit that appears in the two-event input. The C test
+#   harness treats the exact certificate for each representative reflexive input
+#   as the accept marker.
+#
+# Productions:
+#   Production i emits 1 followed by the 4-bit binary index i. During the first
+#   input-length steps, every head bit equal to 1 appends the certificate for
+#   that input position. Head bit 0 appends nothing. Running for exactly the
+#   input length leaves the certificate tape.
+#
+#   This makes the CTS do real prefix computation: the result depends on both
+#   the tape bits and the cyclic production pointer. It remains finite-scope
+#   because the runner supplies the representative input length as the fuel
+#   boundary and compares against a known certificate.
+PRODUCTIONS 16
+10000
+10001
+10010
+10011
+10100
+10101
+10110
+10111
+11000
+11001
+11010
+11011
+11100
+11101
+11110
+11111
+ASSERTIONS 5
+case empty:       input=1111             ; expected_certificate=10000100011001010011
+case e0_empty:    input=011011           ; expected_certificate=10001100101010010101
+case e1_empty:    input=10111011         ; expected_certificate=100001001010011101001011010111
+case e0_e1_empty: input=0101101011       ; expected_certificate=100011001110100101101100011001
+case e1_e0_e1:    input=10010111001011   ; expected_certificate=1000010011101011011010111110101110011101

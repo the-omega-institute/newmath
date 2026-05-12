@@ -1,0 +1,17 @@
+# samesig_equiv.algo.ct
+# Algorithm framing for SameSig reflexivity, symmetry, and transitivity
+# representatives. Productions are vacuous; tests/test_sig.c decodes the
+# bundle and histories, computes fixture signatures, and checks the theorem
+# implication for each representative input.
+PRODUCTIONS 1
+0
+ASSERTIONS 9
+case refl_empty_bundle_empty:      input=111111                  ; refl=yes
+case refl_p0_e0:                  input=101111011011            ; refl=yes
+case refl_p0p1_e0e1:              input=101101011110101101011   ; refl=yes
+case symm_empty_bundle_mixed:      input=1111011                 ; symm=yes
+case symm_p0_equal_depths:         input=1011110111011           ; symm=yes
+case symm_p0_mismatch:             input=101111111011            ; symm=vacuous
+case symm_p0_mismatch_swapped:     input=101111101111            ; symm=vacuous
+case trans_p0p1_even_chain:        input=101101011111101011101011; trans=yes
+case trans_p0p1_vacuous_chain:     input=101101011111101101011   ; trans=vacuous
