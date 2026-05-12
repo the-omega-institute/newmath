@@ -14,7 +14,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.MainTheorems
 open BEDC.Meta.TasteGate
 
-/-- Finite collision-moment kernel packet with the nine visible BEDC rows. -/
+/-- Finite fold-moment kernel packet with the nine BEDC rows visible to consumers. -/
 inductive FoldMomentKernelUp : Type where
   | mk :
       (window foldSource fiberLedger momentIndex collisionCount transport continuation
@@ -46,7 +46,7 @@ private theorem foldMomentKernelDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
+def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
       transport continuation provenance nameCert =>
