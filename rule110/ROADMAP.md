@@ -97,3 +97,14 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 - **Encoding ambiguity** (Phase A1): naive `e0 → b0, e1 → b1` collides with the BMark escape convention. Need careful wrapper bits (e.g., `e0 → "00", e1 → "01"` or some scheme). Settle this in A1 design doc *before* implementing.
 - **ProbeBundle abstraction** (Phase D1-D2): the Lean version uses `Type` parameter for ProbeName, which has no ground-up analog. Choose a concrete representation (e.g., natural numbers in unary, encoded as bit strings) and document the choice.
 - **Wall clock blowout**: 14-21-day estimate; if Phase B exceeds 10 days, replan Phase C+D scope.
+
+## Cont module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Cont.lean` and identify the executable relation:
+  `Cont h k r := r = append h k`.
+- [x] Add `rule110/manifests/cont/cont_basic.enum.ct` and
+  `cont_basic.algo.ct` with representative positive and negative triples.
+- [x] Add `tests/test_cont.c` to decode three BHist events and check
+  `choices(r) = choices(k) ++ choices(h)`.
+- [x] Add `docs/cont_design.md` documenting the append direction and manifest
+  contract.

@@ -74,3 +74,15 @@
   triples and three decoded non-Ext triples. The algo manifest keeps vacuous
   CT productions under the current manifest-runner boundary; semantic checking
   is in `tests/test_ext.c`.
+
+## Cont Relation Encoding
+
+- `Cont.lean` defines `append` by recursion on the second history argument:
+  `append h Empty = h`, `append h (e0 k) = e0 (append h k)`, and similarly for
+  `e1`.
+- Under the existing BHist event encoding, `Cont h k r` is checked by decoding
+  three events and requiring `choices(r) = choices(k) ++ choices(h)`.
+- `cont_basic.enum.ct` and `cont_basic.algo.ct` cover identity cases, mixed
+  constructor-positive triples, and well-formed triples with wrong result
+  depth or order. The algo manifest follows the current Ext pattern: vacuous CT
+  production with semantic checking in `tests/test_cont.c`.
