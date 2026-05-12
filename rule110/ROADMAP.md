@@ -60,7 +60,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 ## Phase D: Round-trip verification (3-5 days)
 
-- [ ] D1: Add `mr_run_r110_manifest(const char *path, ...)` to `tests/manifest_runner.c`. Loads `.r110` file, evolves Rule 110 for the documented step count, compares result to expected pattern.
+- [x] D1: Add `mr_run_r110_manifest(const char *path, ...)` to `tests/manifest_runner.c`. Loads `.r110` file, evolves Rule 110 for the documented step count, compares result to expected pattern.
 
 - [ ] D2: Add round-trip test: for each Mark manifest, run cyclic_tag evaluator → record observable tape behavior → run Rule 110 evaluator on `.r110` → extract observable tape behavior via Cook decoder → assert match.
 
