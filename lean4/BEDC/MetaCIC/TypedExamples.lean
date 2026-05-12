@@ -148,6 +148,18 @@ theorem nested_pi_sort_sort :
     · exact HasType.sortRule [Term.sort]
     · exact HasType.sortRule [Term.sort, Term.sort]
 
+theorem triple_pi_sort :
+    HasType []
+      (Term.pi Term.sort (Term.pi Term.sort (Term.pi Term.sort Term.sort)))
+      Term.sort := by
+  apply HasType.piRule
+  · exact HasType.sortRule []
+  · apply HasType.piRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.piRule
+      · exact HasType.sortRule [Term.sort, Term.sort]
+      · exact HasType.sortRule [Term.sort, Term.sort, Term.sort]
+
 /-- 空 ctx 下: pi sort (pi (var 0) (var 1)) 类型为 sort. -/
 theorem nested_pi_dep_in_empty :
     HasType [] (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1))) Term.sort := by
@@ -253,6 +265,20 @@ theorem lam_constructs_dependent_pi :
       rfl
     · apply HasType.varRule
       rfl
+
+theorem double_lam_pi_construct :
+    HasType []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.pi (Term.var 1) (Term.var 1))))
+      (Term.pi Term.sort (Term.pi Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.piRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
 
 theorem first_of_two :
     HasType []
