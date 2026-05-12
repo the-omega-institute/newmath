@@ -45,4 +45,28 @@ theorem SignedDigitRealPacket_normalization_window_transport [AskSetup] [Package
     ⟨normalizedUnary, enclosureUnary', locatedUnary, sealUnary, normalizedSame,
       normalizationRow, sealRow, certSig⟩
 
+theorem SignedDigitRealPacket_dyadic_seal_compatibility [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert
+      stream' window' enclosure' located' sealRow' transport' route' provenance' cert' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      SignedDigitRealPacket stream' window' enclosure' located' sealRow' transport' route'
+          provenance' cert' bundle' pkg' ->
+        hsame enclosure enclosure' ->
+          hsame located located' ->
+            hsame sealRow sealRow' ∧ UnaryHistory sealRow ∧ UnaryHistory sealRow' ∧
+              Cont enclosure located sealRow ∧ Cont enclosure' located' sealRow' ∧
+                PkgSig bundle cert pkg ∧ PkgSig bundle' cert' pkg' := by
+  intro packet packet' sameEnclosure sameLocated
+  obtain ⟨_streamUnary, _windowUnary, _enclosureUnary, _locatedUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _certUnary, sealCont,
+    _provenanceCont, certSig⟩ := packet
+  obtain ⟨_streamUnary', _windowUnary', _enclosureUnary', _locatedUnary', sealUnary',
+    _transportUnary', _routeUnary', _provenanceUnary', _certUnary', sealCont',
+    _provenanceCont', certSig'⟩ := packet'
+  have sameSeal : hsame sealRow sealRow' :=
+    cont_respects_hsame sameEnclosure sameLocated sealCont sealCont'
+  exact ⟨sameSeal, sealUnary, sealUnary', sealCont, sealCont', certSig, certSig'⟩
+
 end BEDC.Derived.SignedDigitRealUp

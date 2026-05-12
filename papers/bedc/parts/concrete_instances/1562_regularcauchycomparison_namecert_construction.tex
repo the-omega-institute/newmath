@@ -244,15 +244,54 @@ Use \autoref{thm:regular-cauchy-comparison-tolerance-row-stability} to identify 
 Finally apply \autoref{thm:null-sequence-zero-tail-criterion} and \autoref{thm:null-sequence-real-seal-factorization}. These results make the zero-tail packet the consumer boundary for the real equality seal, so the route reaches $E$ only through the finite comparison surface and the null-sequence seal package, with no additional quotient, host equality, limit choice, trichotomy, or completeness object.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison carrier admission]
+\label{thm:regular-cauchy-comparison-carrier-admission}
+Every accepted $\RegularCauchyComparisonUp$ packet
+$$
+K=(X,Y,W,D,\tau,L,E,H,C,P,N)
+$$
+is a finite $\BHist$ carrier over $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\RegularCauchyComparisonUp}$ row. Its admitted surface consists exactly of the two regular names, shared stream window, dyadic observation row, tolerance row, comparison ledger, real seal handoff, componentwise transports, consumer routes, provenance, and naming certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier definition and the local naming surface. The rows $X,Y,W,D,\tau,L,E,H,C,P,N$ display the two regular Cauchy names, the common finite schedule, dyadic observations, tolerance ledger, finite comparison ledger, real-seal handoff, transports, continuations, provenance, and local name.
+
+Use the NullSequence handoff row to account for zero-tail comparison data when it is present. Because the handoff is read through the same $W,D,\tau,L,E,H,C,P,N$ coordinates, it does not add a second carrier or an external completion principle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison classifier window exactness]
+\label{thm:regular-cauchy-comparison-classifier-window-exactness}
+For an accepted $\RegularCauchyComparisonUp$ packet $K$, the common-window classifier and tolerance rows are exact under the displayed $\hsame$ and $\Cont$ routes. Every classifier read reaches the shared $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ observation row $D$, rational tolerance row $\tau$, and comparison ledger $L$ before it reaches the $\RealUp$ handoff $E$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-comparison-classifier-transport}. It transports classifier reads componentwise through the displayed $\hsame$ rows and reads them through the displayed $\Cont$ routes.
+
+Next apply \autoref{thm:regular-cauchy-comparison-tolerance-row-stability} and \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization}. These identify the tolerance and common-window rows used by the classifier with the rows $\tau$ and $W$ already stored in the packet.
+
+The resulting route reaches $D$ and $L$ in the same finite order before the seal handoff $E$. No classifier read can replace this route with host real equality, a quotient stream comparison, a selected limit, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison seal handoff obligation]
+\label{thm:regular-cauchy-comparison-seal-handoff-obligation}
+The $\RealUp$ seal handoff of an accepted $\RegularCauchyComparisonUp$ packet factors only through the admitted carrier rows and the classifier-window exactness rows. It exports the displayed handoff $E$ over $X,Y,W,D,\tau,L,H,C,P,N$ and exports no quotient representative, selected limit, host equality, trichotomy, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-comparison-carrier-admission}. It fixes the finite packet rows that a seal consumer may inspect.
+
+Use \autoref{thm:regular-cauchy-comparison-classifier-window-exactness} to force the classifier route through the shared window, dyadic observations, tolerance row, and comparison ledger. Then use \autoref{thm:regular-cauchy-comparison-real-classifier-handoff} to reach the real-facing handoff row $E$.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-completion-consumer-surface}. The consumer surface is exactly the displayed packet evidence, so the seal handoff is an obligation row inside the carrier and not an appeal to quotient equality, host equality, a chosen limit, trichotomy, or completeness.
+\end{proof}
+
 \closureat{RegularCauchyComparisonUp}{seedStr}
+\closureat{RegularCauchyComparisonUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyComparisonUp}
   \constructivestory{A $\RegularCauchyComparisonUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, a shared $\StreamNameUp$ schedule, displayed $\DyadicRatCoreUp$ observations, a rational tolerance row, a finite ledger, $\RealUp$ seal provenance, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the carrier, classifier, five-row naming surface, window exactness, tolerance exactness, and $\RealUp$ classifier handoff for finite regular Cauchy comparison packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, and $\RealUp$ seal handoff over the displayed comparison rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, common-window exactness, tolerance exactness, and seal handoff over the displayed rows.}
+  \upgradepath{Scoped closure requires binding the comparison obligation rows to the displayed $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies.}
 \end{closurestatus}

@@ -50,6 +50,54 @@ Classifier transport is componentwise by \autoref{def:compact-uniform-continuity
 The obligation surface is therefore exactly the displayed handoff from compact finite nets and pointwise continuity to a uniform precision history. Repacking those rows with $T$, $Q$, $P$, and $N$ gives the local $\NameCert_{\CompactUniformContinuityUp}$ surface, while external selectors, sequence principles, open-cover compactness, and hidden minima remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[CompactUniformContinuity root uniform-modulus row]
+\label{thm:compact-uniform-continuity-root-uniform-modulus-row}
+Every accepted $\CompactUniformContinuityUp$ packet routes the requested tolerance row through the displayed $\CompactMetricUp$, $\ContinuousMapUp$, $\mathsf{MetricDistanceWitness}$, positive $\RatUp$ radius rows, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates before exporting a uniform precision. The exported precision is therefore the visible uniform-modulus row of the packet, not a host modulus function or a selected real minimum.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of \autoref{def:compact-uniform-continuity-carrier}. The requested tolerance row is the displayed $E$ coordinate, and the proposed uniform precision is the displayed $D$ coordinate.
+
+Apply \autoref{thm:compact-uniform-continuity-namecert-obligations}. It identifies the local route through compact finite-net coverage, pointwise $\ContinuousMapUp$ modulus rows, metric-distance witnesses, positive $\RatUp$ comparisons, and the recorded transport, continuation, package, and naming rows.
+
+The classifier of \autoref{def:compact-uniform-continuity-classifier} preserves exactly those coordinates. Thus a downstream consumer sees a uniform precision only after the finite route has passed through the named BEDC packet surface.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity root compact-net row]
+\label{thm:compact-uniform-continuity-root-compact-net-row}
+For every accepted $\CompactUniformContinuityUp$ packet, the finite $\mathsf{ProbeBundle}$ net and its center-radius ledger are the only compactness data consumed by the compact-uniform-continuity handoff. No open-cover principle, sequential compactness principle, hidden point selector, or ambient compactness oracle is available to the handoff.
+\end{theorem}
+\begin{proof}
+Project the packet by \autoref{def:compact-uniform-continuity-carrier}. The compactness coordinates are the finite $\mathsf{ProbeBundle}$ spine $\mathcal{P}$ and the coverage ledger $C$, with the related radius rows read through $R$ and $W$.
+
+Apply \autoref{thm:compact-uniform-continuity-finite-net-handoff}. Every handoff read first chooses a bundled center and then follows the displayed center-radius and metric-distance rows.
+
+Finally use \autoref{thm:compact-uniform-continuity-radius-fold-exactness} to identify the precision consumed by the handoff with the finite positive-rational fold. Since the carrier has no coordinate for any other compactness witness, the finite net and center-radius ledger exhaust the compact data surface.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity root NameCert unblock package]
+\label{thm:compact-uniform-continuity-root-namecert-unblock-package}
+The $\CompactUniformContinuityUp$ root package consists of the following five rows:
+\begin{enumerate}
+\item the carrier and classifier rows of \autoref{def:compact-uniform-continuity-carrier} and \autoref{def:compact-uniform-continuity-classifier};
+\item the finite-net row of \autoref{thm:compact-uniform-continuity-root-compact-net-row};
+\item the uniform-modulus row of \autoref{thm:compact-uniform-continuity-root-uniform-modulus-row};
+\item the metric-distance routing and rational-fold rows recorded by \autoref{thm:compact-uniform-continuity-namecert-obligations} and \autoref{thm:compact-uniform-continuity-radius-fold-exactness};
+\item the non-escape ledger and downstream package surface that feed \autoref{thm:compact-uniform-continuity-finite-net-handoff}.
+\end{enumerate}
+These five rows are sufficient for a downstream consumer to use the compact-uniform-continuity certificate as a finite $\NameCert_{\CompactUniformContinuityUp}$ package.
+\end{theorem}
+\begin{proof}
+The first row is obtained by projecting the displayed packet carrier and its componentwise classifier. This gives the full finite coordinate list and the allowed transport rules.
+
+The second row is \autoref{thm:compact-uniform-continuity-root-compact-net-row}. It isolates the finite $\mathsf{ProbeBundle}$ and center-radius ledger as the compactness surface.
+
+The third row is \autoref{thm:compact-uniform-continuity-root-uniform-modulus-row}. It identifies the route from a requested tolerance history to the exported uniform precision.
+
+The fourth row is the metric and rational bookkeeping recorded by \autoref{thm:compact-uniform-continuity-namecert-obligations} and sharpened by \autoref{thm:compact-uniform-continuity-radius-fold-exactness}. Those statements keep metric-distance witnesses and positive-rational folds inside the carrier.
+
+The final row is obtained by feeding the preceding rows into \autoref{thm:compact-uniform-continuity-finite-net-handoff}. The handoff exports exactly the downstream package surface and leaves no coordinate for external compactness, selected minima, or host metric inspection.
+\end{proof}
+
 \begin{theorem}[CompactUniformContinuity finite-net handoff]
 \label{thm:compact-uniform-continuity-finite-net-handoff}
 Suppose an accepted $\CompactUniformContinuityUp$ carrier has tolerance history $E$, precision history $D$, compact finite-net spine $\mathcal{P}$, coverage rows $C$, pointwise-modulus rows $M$, positive-radius rows $R$, and lower-bound fold witness $W$. Then every source-distance read below $D$ factors through one bundled center in $\mathcal{P}$, the corresponding $\mathsf{MetricDistanceWitness}$ rows in $X$, the corresponding pointwise-modulus row in $M$, and the target metric rows in $Y$. The result is the uniform-modulus ledger promised by \autoref{thm:compact-uniform-continuity}, read as finite $\NameCert_{\CompactUniformContinuityUp}$ data.
@@ -214,6 +262,7 @@ At the real-facing boundary, \autoref{thm:compact-uniform-continuity-real-seal-b
 \label{thm:compact-uniform-continuity-realup-consumer-boundary}
 A $\RealUp$ consumer of an accepted $\CompactUniformContinuityUp$ packet can read the compact finite-net coverage rows, $\ContinuousMapUp$ pointwise-modulus rows, $\MetricUp$ distance witnesses, $\RatUp$ precision and radius rows, transported $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ data. It cannot read open-cover compactness, choice-selected subcovers, host real equality, selected real minima, or an external host modulus.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactUniformContinuityUp.CompactUniformContinuityPacket\_realup\_consumer\_boundary}
 \begin{proof}
 Read the boundary statement \autoref{thm:compact-uniform-continuity-real-seal-boundary}. It already restricts real-name consumers to finite-net coverage, metric witnesses, pointwise-modulus rows, positive rational folds, and the resulting uniform precision history.
 

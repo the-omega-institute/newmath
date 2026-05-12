@@ -222,4 +222,29 @@ theorem ObserverRegularTasteGate_single_carrier_alignment :
         exact observerRegularToEventFlow_injective heq
       · rfl
 
+theorem ObserverRegularTasteGate_visible_rows :
+    exists x : ObserverRegularUp,
+      x =
+          ObserverRegularUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+        BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine
+    Exists.intro
+      (ObserverRegularUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+      (And.intro rfl ?rt)
+  change
+    observerRegularFromEventFlow
+        (observerRegularToEventFlow
+          (ObserverRegularUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty)) =
+      some
+        (ObserverRegularUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+  exact
+    observerRegular_round_trip
+      (ObserverRegularUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
+
 end BEDC.Derived.ObserverRegularUp
