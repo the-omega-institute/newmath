@@ -129,4 +129,34 @@ theorem DyadicSplinePacket_mesh_refinement_handoff [AskSetup] [PackageSetup]
         nameCertUnary⟩
   exact ⟨refinedPacket, sameCells, sameReadback, sameProvenance⟩
 
+theorem DyadicSplinePacket_regseqrat_real_boundary [AskSetup] [PackageSetup]
+    {knots coeffs segments cells readback «seal» transport route provenance nameCert
+      consumerWindow realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSplinePacket knots coeffs segments cells readback «seal» transport route provenance
+        nameCert bundle pkg ->
+      Cont segments cells consumerWindow ->
+        Cont consumerWindow readback realSeal ->
+          PkgSig bundle realSeal pkg ->
+            UnaryHistory segments ∧ UnaryHistory cells ∧ UnaryHistory consumerWindow ∧
+              UnaryHistory realSeal ∧ Cont segments cells consumerWindow ∧
+                Cont consumerWindow readback realSeal ∧ PkgSig bundle realSeal pkg ∧
+                  PkgSig bundle provenance pkg := by
+  intro packet segmentsCellsConsumerWindow consumerWindowReadbackRealSeal realSealPkg
+  obtain ⟨knotsUnary, coeffsUnary, segmentsUnary, knotsSegmentsCells,
+    cellsCoeffsReadback, _readbackSealProvenance, provenancePkg, _transportUnary,
+    _routeUnary, _nameCertUnary⟩ := packet
+  have cellsUnary : UnaryHistory cells :=
+    unary_cont_closed knotsUnary segmentsUnary knotsSegmentsCells
+  have consumerWindowUnary : UnaryHistory consumerWindow :=
+    unary_cont_closed segmentsUnary cellsUnary segmentsCellsConsumerWindow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed cellsUnary coeffsUnary cellsCoeffsReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed consumerWindowUnary readbackUnary consumerWindowReadbackRealSeal
+  exact
+    ⟨segmentsUnary, cellsUnary, consumerWindowUnary, realSealUnary,
+      segmentsCellsConsumerWindow, consumerWindowReadbackRealSeal, realSealPkg,
+      provenancePkg⟩
+
 end BEDC.Derived.DyadicSplineUp
