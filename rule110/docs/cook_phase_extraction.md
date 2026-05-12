@@ -199,3 +199,63 @@ a translated perturbation. The likely missing representation for B, D, F, G1,
 and H is a finite two-dimensional space-time mask rather than one spatial row.
 Those gliders are space-time tubes; a single row can line up with a readable
 visual word without containing all cells needed for phase-exact recurrence.
+
+## Attempt 4 -- wider window + periodicity
+
+The verifier now accepts `--max-extended-width N`, with default `N=8` and
+hard cap `N=16`. The old `--extended-width N` spelling is still accepted as an
+alias for reproducing earlier runs. It also accepts `--try-periods k1,k2,...`
+and `--try-both-dx`, so a target can be checked against period multipliers and
+both displacement signs in one pass.
+
+The exact criterion has a second route. The old mask criterion still checks
+that the finite perturbation relative to ether recurs after `T`, `2T`, and
+`3T`. The new tube criterion simulates the whole generated space-time tube and
+checks raw cell periodicity row by row under `(T, dx)`. This verifies gliders
+whose complete tube is periodic even when the endpoint perturbation mask is
+too sensitive to the chosen ether-backed row encoding.
+
+### Regression
+
+| Glider | Command bound | Best seed | Phase | Exact candidates | Status |
+|---|---|---|---:|---:|---|
+| A | `W..W` | `011101` width 6 | 12 | 5 | exact, mask |
+| C1 | `W..W+2` | `111010000` width 9 | 0 | 26 | exact, mask |
+| C2 | `W..W+8` | `11101000` width 8 | 0 | 27 | exact, mask |
+| C3 | `W..W+1` | `1110100001` width 10 | 0 | 22 | exact, mask |
+
+The canonical visual A seed `111110` remains window-only at phases 3, 5, and
+11. The stricter single-row seed for A is still `011101` at phase 12.
+
+### Target Results
+
+| Glider | Search bound | Period trials | Best seed | Phase | Exact candidates | Status |
+|---|---|---|---|---:|---:|---|
+| B | `W..W` | `1,2,3,4`, both dx signs | `01110111` width 8 | 0 | 4 | exact, tube at `(8,4)` |
+| D1 | `W..W+4` | `1,2,3,4`, both dx signs | `00101111100` width 11 | 5 | 0 | window |
+| D2 | `W..W+8` | `1,2,3,4`, both dx signs | `00101` width 5 | 5 | 0 | window |
+| F | partial `W..W+13` | `1,2`, both dx signs | window candidates only | -- | 0 | window |
+| G1 | `W..W` | `1,2,3,4`, both dx signs | `01101111100` width 11 | 13 | 0 | window |
+| H | skipped at `W+16` | -- | previous `W+2` result retained | 10 | 0 | window |
+
+B is phase-exact under the fundamental tube periodicity test. Its exact
+candidate uses the reversed displacement sign and a doubled period relative to
+the input table row: seed `01110111`, phase 0, period `(8,4)`, four exact tube
+candidates in the width-8 pass.
+
+D1 and D2 remain readable-window gliders under the expanded period and dx
+trial. G1 remains window-only in the completed width-11 trial; the wider
+`W..W+2` run showed the same window-only pattern before it was stopped. F was
+run with the requested wider seed window in the feasible `k=1,2` regime and
+was still window-only through width 14; the full `k=1,2,3,4` run is dominated
+by the long-period tube simulation and did not become exact before it was
+stopped. H was not expanded to `W+16`: `W+16` would require checking up to
+28-cell seeds for period 92, which is outside this brute-force pass.
+
+The net verified count is four canonical targets: B, C1, C2, and C3. The
+remaining obstruction is representation-level rather than absence of readable
+windows: D1, D2, F, G1, and H all expose single-row windows, but this verifier
+still does not recover a closed finite phase tube for them within the completed
+bounds. Those classes likely need either multi-glider context, a catalogued
+phase origin from Cook's diagram, or a finite two-dimensional mask that is not
+derivable from one arbitrary spatial row.
