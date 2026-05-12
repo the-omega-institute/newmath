@@ -497,6 +497,19 @@ theorem ModulusOfConvergencePacket_ledger_exactness
       exact And.intro precisionWindow
         (And.intro selectorWindow (And.intro streamRoute ledgerRoute))
 
+theorem ModulusOfConvergencePacket_standard_bridge
+    {precision selector modulus stream witness ledger provenance window : BHist} :
+    ModulusOfConvergencePacket precision selector modulus stream witness ledger provenance
+        window ->
+      hsame precision window ∧ hsame selector window ∧ Cont stream witness window ∧
+        Cont ledger provenance window ∧ NameCert (fun h : BHist => hsame h ledger) hsame := by
+  intro packet
+  cases packet with
+  | mk precisionWindow selectorWindow streamRoute ledgerRoute ledgerCert =>
+      exact And.intro precisionWindow
+        (And.intro selectorWindow
+          (And.intro streamRoute (And.intro ledgerRoute ledgerCert)))
+
 def ModulusOfConvergenceRatePacket [AskSetup] [PackageSetup]
     (precision selector modulus schedule witness ledger provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -589,6 +602,56 @@ theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [Pa
                   (And.intro restrictedEndpointRow pkgSig)))))))
   exact And.intro restrictedPacket
     (And.intro restrictedScheduleRow restrictedLedgerRow)
+
+theorem ModulusOfConvergenceRatePacket_tail_consumer_boundary [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint tail restrictedSchedule
+      restrictedLedger restrictedEndpoint exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory tail ->
+        Cont schedule tail restrictedSchedule ->
+          Cont restrictedSchedule witness restrictedLedger ->
+            Cont modulus restrictedLedger restrictedEndpoint ->
+              PkgSig bundle restrictedEndpoint pkg ->
+                Cont restrictedEndpoint ledger exported ->
+                  PkgSig bundle exported pkg ->
+                    ModulusOfConvergenceRatePacket precision selector modulus restrictedSchedule
+                        witness restrictedLedger provenance restrictedEndpoint bundle pkg ∧
+                      UnaryHistory exported ∧ hsame restrictedSchedule (append schedule tail) ∧
+                        hsame restrictedLedger (append restrictedSchedule witness) ∧
+                          hsame restrictedEndpoint (append modulus restrictedLedger) ∧
+                            hsame exported (append restrictedEndpoint ledger) := by
+  intro packet tailUnary restrictedScheduleRow restrictedLedgerRow restrictedEndpointRow
+    restrictedPkg exportRow exportedPkg
+  obtain ⟨restrictedPacket, restrictedScheduleSame, restrictedLedgerSame⟩ :=
+    ModulusOfConvergenceRatePacket_tail_restriction_stability packet tailUnary
+      restrictedScheduleRow restrictedLedgerRow restrictedEndpointRow restrictedPkg
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have witnessUnary : UnaryHistory witness :=
+    packet.right.right.right.left
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have selectorUnary : UnaryHistory selector :=
+    packet.right.left
+  have modulusRow : Cont precision selector modulus :=
+    packet.right.right.right.right.right.left
+  have ledgerRow : Cont schedule witness ledger :=
+    packet.right.right.right.right.right.right.left
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed precisionUnary selectorUnary modulusRow
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary witnessUnary ledgerRow
+  have restrictedLedgerUnary : UnaryHistory restrictedLedger :=
+    unary_cont_closed (restrictedPacket.right.right.left) witnessUnary restrictedLedgerRow
+  have restrictedEndpointUnary : UnaryHistory restrictedEndpoint :=
+    unary_cont_closed modulusUnary restrictedLedgerUnary restrictedEndpointRow
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed restrictedEndpointUnary ledgerUnary exportRow
+  exact
+    ⟨restrictedPacket, exportedUnary, restrictedScheduleSame, restrictedLedgerSame,
+      restrictedEndpointRow, exportRow⟩
 
 theorem ModulusOfConvergenceFiniteRateBridge_rows [AskSetup] [PackageSetup]
     {precision threshold modulus schedule witness ledger prov out : BHist}
