@@ -276,4 +276,34 @@ theorem LagrangianMechanicsPacket_public_namecert_boundary [AskSetup] [PackageSe
       exact ⟨sourceRow.right.right, routeProvenanceCertificate⟩
   }
 
+theorem LagrangianMechanicsPacket_action_ledger_policy [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate comparison boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont endpoint action comparison ->
+        Cont comparison variation boundary ->
+          PkgSig bundle boundary pkg ->
+            UnaryHistory action ∧ UnaryHistory endpoint ∧ UnaryHistory comparison ∧
+              UnaryHistory boundary ∧ Cont endpoint action comparison ∧
+                Cont comparison variation boundary ∧ PkgSig bundle certificate pkg ∧
+                  PkgSig bundle boundary pkg := by
+  intro packet endpointActionComparison comparisonVariationBoundary boundaryPkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, _residualUnary, _symplecticUnary,
+    _transportUnary, _provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
+    _residualSymplecticCurrent, _currentTransportRoute, _routeProvenanceCertificate,
+    certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary actionVariationEndpoint
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed endpointUnary actionUnary endpointActionComparison
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed comparisonUnary variationUnary comparisonVariationBoundary
+  exact
+    ⟨actionUnary, endpointUnary, comparisonUnary, boundaryUnary, endpointActionComparison,
+      comparisonVariationBoundary, certificatePkg, boundaryPkg⟩
+
 end BEDC.Derived.LagrangianMechanicsUp
