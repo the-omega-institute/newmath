@@ -98,4 +98,49 @@ theorem BaireSpacePrefixPacket_prefix_restriction_composition [AskSetup] [Packag
       (And.intro (hsame_trans first.right.right.left second.right.right.left)
         (hsame_trans first.right.right.right second.right.right.right)))
 
+theorem BaireSpacePrefixPacket_real_name_handoff_transport [AskSetup] [PackageSetup]
+    {schedule window classifier ledger provenance restriction endpoint schedule' window'
+      classifier' ledger' provenance' restriction' endpoint' realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireSpacePrefixPacket schedule window classifier ledger provenance restriction endpoint
+        bundle pkg ->
+      hsame schedule schedule' -> hsame window window' -> hsame classifier classifier' ->
+        hsame ledger ledger' -> Cont schedule' window' restriction' ->
+          Cont restriction' classifier' provenance' -> Cont provenance' ledger' endpoint' ->
+            Cont endpoint' provenance' realRead -> PkgSig bundle endpoint' pkg ->
+              PkgSig bundle realRead pkg ->
+                BaireSpacePrefixPacket schedule' window' classifier' ledger' provenance'
+                    restriction' endpoint' bundle pkg ∧
+                  UnaryHistory realRead ∧ hsame endpoint endpoint' ∧
+                    Cont endpoint' provenance' realRead ∧ PkgSig bundle realRead pkg := by
+  intro packet sameSchedule sameWindow sameClassifier sameLedger restrictionRow'
+    provenanceRow' endpointRow' handoffRow endpointSig readSig
+  have stable :=
+    BaireSpacePrefixPacket_prefix_cylinder_stability
+      (schedule := schedule) (window := window) (classifier := classifier) (ledger := ledger)
+      (provenance := provenance) (restriction := restriction) (endpoint := endpoint)
+      (schedule' := schedule') (window' := window') (classifier' := classifier')
+      (ledger' := ledger') (provenance' := provenance') (restriction' := restriction')
+      (endpoint' := endpoint') (bundle := bundle) (pkg := pkg)
+      packet sameSchedule sameWindow sameClassifier sameLedger restrictionRow' provenanceRow'
+      endpointRow' endpointSig
+  have transported :
+      BaireSpacePrefixPacket schedule' window' classifier' ledger' provenance' restriction'
+          endpoint' bundle pkg :=
+    stable.left
+  have sameEndpoint : hsame endpoint endpoint' :=
+    stable.right.right.right
+  have restrictionUnary : UnaryHistory restriction' :=
+    unary_cont_closed transported.left transported.right.left restrictionRow'
+  have provenanceUnary : UnaryHistory provenance' :=
+    unary_cont_closed restrictionUnary transported.right.right.left provenanceRow'
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_cont_closed provenanceUnary transported.right.right.right.left endpointRow'
+  have readUnary : UnaryHistory realRead :=
+    unary_cont_closed endpointUnary provenanceUnary handoffRow
+  exact And.intro transported
+    (And.intro readUnary
+      (And.intro sameEndpoint
+        (And.intro handoffRow readSig)))
+
 end BEDC.Derived.BaireSpaceUp
