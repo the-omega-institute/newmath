@@ -370,3 +370,27 @@ stream family, host equality, selected limit, or completeness principle.
   \notclaimed{This chapter does not close quotient stream families, host real equality, selected family limits, ambient completeness, public uniform convergence, or bridge checking.}
   \upgradepath{Public closure requires a single consumer-facing certificate exporting the shared-window tail criterion and $\RealUp$ seal handoff.}
 \end{closurestatus}
+
+\begin{theorem}[UniformCauchyCriterion empty-family tail ledger]
+\label{thm:uniform-cauchy-criterion-empty-family-tail-ledger}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose that $I$ is the empty finite family index ledger and that $T$ is the empty finite tail-comparison ledger. Then the shared-threshold route is accepted as the vacuous finite-family route
+$$
+\mathsf{empty}_{I} \longmapsto W \longmapsto M \longmapsto Q \longmapsto \mathsf{empty}_{T} \longmapsto E.
+$$
+It has no family member at which a tail comparison can be requested, no completed family limit to export through the $\RealUp$ seal, and no indexwise schedule distinct from the single displayed $\CauchyModulusUp$ row $M$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:uniform-cauchy-criterion-carrier}. Its only family-facing rows are the finite index ledger $I$, the shared window family $W$, the single modulus schedule $M$, the tolerance row $Q$, and the tail-comparison ledger $T$.
+
+Because $I$ is empty, there is no displayed family index through which a consumer can select a component window or request an indexwise threshold. The window-stability row of \autoref{thm:uniform-cauchy-criterion-window-stability} therefore has no component case to check; the shared row $M$ remains the only threshold schedule visible in the packet.
+
+Because $T$ is empty, \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness} leaves no accepted tail comparison after the route through $I,W,M,Q$. Thus the finite family criterion is satisfied only in the vacuous sense: every possible comparison for an index in $I$ is already exhausted by the absence of such an index and by the absence of a tail-ledger entry.
+
+Now apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. Transport can rename the displayed rows through $\hsame$ and replay their reads through $\Cont$, but it cannot replace the single schedule $M$ by a family of independently selected schedules. With the family ledger empty, there is not even an index at which such a schedule could be named.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-handoff} and \autoref{thm:uniform-cauchy-criterion-non-escape-boundary}. Every $\RealUp$ seal read still factors through $I,W,M,Q,T,E$, and in the present boundary this is precisely the displayed route through the empty family ledger and empty tail ledger. Since the packet has no coordinate for a completed family limit, quotient stream family, host real equality, selected limit, or ambient completeness principle, the seal handoff exports none of them.
+\end{proof}
