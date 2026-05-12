@@ -282,22 +282,23 @@ manifests be checked as concrete Lean instances.
 Target path:
 
 ```text
-lean4/scripts/rule110_cross_check.lean
+rule110/lean-side/Rule110CrossCheck.lean
+rule110/lean-side/Rule110CrossCheck/**
 ```
 
 Lake entry:
 
 ```text
-lake build rule110-cross-check
+cd rule110/lean-side && lake build rule110-cross-check
 ```
 
-The supported proof-of-concept path is a standalone Lean script because the
-project lakefile exposes only the `BEDC` library target.  It runs with:
+The checker lives in an independent Lake package requiring the BEDC library
+from `../../lean4`.  It runs with:
 
 ```text
-cd lean4
-lake build BEDC.GroundCompiler.ChannelEncoding
-lake env lean --run scripts/rule110_cross_check.lean ../rule110/manifests/mark/msame_refl.enum.ct
+cd rule110/lean-side
+lake build rule110-cross-check
+lake exe rule110-cross-check ../manifests/mark/msame_refl.enum.ct
 ```
 
 It supports `mark/msame_refl.enum.ct`, parses the assertion table, decodes each
@@ -378,7 +379,8 @@ Required commands:
 
 ```text
 cd rule110 && make test
-cd lean4 && lake build rule110-cross-check
+cd rule110/lean-side && lake build rule110-cross-check
+cd rule110/lean-side && lake exe rule110-cross-check
 ```
 
 Scale estimate:

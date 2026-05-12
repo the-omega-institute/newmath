@@ -57,7 +57,7 @@ jobs:
             lean4=true
           fi
 
-          if printf '%s\n' "$changed_files" | grep -Eq '^rule110/|^lean4/scripts/rule110_cross_check\.lean$|^lean4/scripts/rule110_cross_check_README\.md$|^lean4/lakefile\.lean$'; then
+          if printf '%s\n' "$changed_files" | grep -Eq '^rule110/|^rule110/lean-side/|^lean4/lakefile\.lean$'; then
             rule110=true
           fi
 
@@ -115,11 +115,13 @@ jobs:
       - name: Restore Lean .lake cache
         uses: actions/cache/restore@v4
         with:
-          path: lean4/.lake
-          key: lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-${{ github.sha }}
+          path: |
+            lean4/.lake
+            rule110/lean-side/.lake
+          key: rule110-lean-side-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain', 'rule110/lean-side/lakefile.lean', 'rule110/lean-side/lean-toolchain') }}-${{ github.sha }}
           restore-keys: |
-            lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-
-            lean4-lake-${{ runner.os }}-
+            rule110-lean-side-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain', 'rule110/lean-side/lakefile.lean', 'rule110/lean-side/lean-toolchain') }}-
+            rule110-lean-side-lake-${{ runner.os }}-
 
       - name: Build Lean4 project
         uses: leanprover/lean-action@c544e89643240c6b398f14a431bcdc6309e36b3e # v1
@@ -131,14 +133,14 @@ jobs:
 
       - name: Build rule110 cross-check target
         run: |
-          if ! (cd lean4 && lake build rule110-cross-check); then
-            echo "FAIL kind=missing-target path=lean4/lakefile.lean case=rule110-cross-check message=Lake target missing or target build failed" >&2
+          if ! (cd rule110/lean-side && lake build rule110-cross-check); then
+            echo "FAIL kind=missing-target path=rule110/lean-side/lakefile.lean case=rule110-cross-check message=Lake target missing or target build failed" >&2
             exit 1
           fi
 
       - name: Run rule110 cross-check
         run: |
-          cd lean4
+          cd rule110/lean-side
           lake exe rule110-cross-check
 
   gate:

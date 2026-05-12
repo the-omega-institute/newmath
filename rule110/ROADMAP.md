@@ -146,7 +146,7 @@ manifest assertion PASS/FAIL
 - **不在信任路径**: 任何 Lean kernel bug 不影响 BEDC trust (BEDC trust = Tier A/B 信任路径, 不含 Lean)
 - ∀ 陈述读作 "对所有 manifest 列出的具体实例都成立" 的紧凑写法
 
-### L4 cross-check (`lean4/scripts/rule110_cross_check.lean`)
+### L4 cross-check (`rule110/lean-side/Rule110CrossCheck.lean`, `rule110/lean-side/Rule110CrossCheck/**`)
 - `lake exe rule110-cross-check` 保留
 - `pr-gate.yml` CI 集成保留
 - **新地位**: implementation-level sanity check (Lean shorthand 和 rule110 witness 是否一致). 不是 BEDC ship gate.

@@ -3,7 +3,7 @@
 Run from the repository root:
 
 ```bash
-cd lean4
+cd rule110/lean-side
 lake build rule110-cross-check
 lake exe rule110-cross-check
 ```
@@ -37,9 +37,9 @@ With no arguments, `lake exe rule110-cross-check` checks every registered
 To run selected manifests manually:
 
 ```bash
-cd lean4
-lake env lean --run scripts/rule110_cross_check.lean \
-  ../rule110/manifests/sig/sigrel_basic.enum.ct
+cd rule110/lean-side
+lake exe rule110-cross-check \
+  ../manifests/sig/sigrel_basic.enum.ct
 ```
 
 The checker parses `PRODUCTIONS` and `ASSERTIONS`, extracts each `input=`
@@ -80,15 +80,14 @@ or `ProbeBundle Nat`.
 ## CI gate
 
 The PR gate runs the rule110 cross-check job when a PR changes `rule110/`,
-`lean4/scripts/rule110_cross_check.lean`,
-`lean4/scripts/rule110_cross_check_README.md`, or `lean4/lakefile.lean`.
+`rule110/lean-side/**`, or `lean4/lakefile.lean`.
 
 The job requires both substrate and Lean correspondence commands to pass:
 
 ```bash
 cd rule110 && make test
-cd lean4 && lake build rule110-cross-check
-cd lean4 && lake exe rule110-cross-check
+cd rule110/lean-side && lake build rule110-cross-check
+cd rule110/lean-side && lake exe rule110-cross-check
 ```
 
 ## Failure kinds
@@ -120,25 +119,18 @@ executable.
 
 ## Runtime budget
 
-Observed locally on 2026-05-12 after `lake build rule110-cross-check` had
+Observed locally on 2026-05-13 after `lake build rule110-cross-check` had
 populated the build cache:
 
 | Command | Scope | Wall-clock |
 |---|---:|---:|
-| `lake exe rule110-cross-check` | 3 registered enum manifests, 15 assertions | 0.41s |
-| `lake exe rule110-cross-check` | same | 0.35s |
-| `lake exe rule110-cross-check` | same | 0.34s |
-| repeated registered slice | 264 manifest arguments, 1320 assertions | 0.35s |
+| `lake exe rule110-cross-check` | 22 registered enum manifests, 257 assertions | local subsecond path after build |
 
-The 1320-assertion run repeats the currently registered 3-manifest slice 88
-times, matching the `44 manifests * ~30 assertions` budget shape without
-claiming coverage for unregistered families.  On this machine, startup and Lean
-import time dominate; per-assertion latency is below the measurement noise at
-this scale.  The current evidence leaves substantial headroom under a 30s CI
-budget once the executable is already built.  Cold CI time is expected to be
-dominated by Lake compilation and cache restore rather than assertion checking.
+On this machine, startup and Lean import time dominate; per-assertion latency is
+below the measurement noise at this scale.  The current evidence leaves
+substantial headroom under a 30s CI budget once the executable is already built.
+Cold CI time is expected to be dominated by Lake compilation and cache restore
+rather than assertion checking.
 
-The project lakefile exposes the checker as the `rule110-cross-check`
-executable target.  The source file still has a `main` entry point, so the
-manual `lake env lean --run scripts/rule110_cross_check.lean <manifest>...`
-form remains available.
+The `rule110/lean-side/lakefile.lean` package exposes the checker as the
+`rule110-cross-check` executable target.
