@@ -1,0 +1,142 @@
+\subsection{Current State of the Reconstruction}\label{subsec:current-state}
+
+This subsection records the state of the MetaCIC reconstruction as encoded
+in BEDC's Lean library.
+
+\paragraph{Definitions in place.} The represented type theory exposes
+$\mathrm{Term}$, $\mathrm{Ctx}$, $\mathrm{HasType}$,
+$\mathrm{BetaStep}$, $\mathrm{shift}$, $\mathrm{substitute}$,
+$\mathrm{WellFormedCtx}$, $\mathrm{infer}$, $\mathrm{check}$,
+$\mathrm{Term.beq}$, $\mathrm{pp}$, $\mathrm{normalizeOneStep}$, and
+$\mathrm{elaborate}$. Each definition is axiom-free under
+\texttt{\#print axioms}.
+
+\paragraph{Theorems with full proofs.} The library carries axiom-free proofs
+for:
+\begin{itemize}
+  \item Sanity instances of $\mathrm{HasType}$: $\mathrm{sort}$ in the empty
+    context, polymorphic identity at the $\mathrm{Sort}$ level,
+    $\mathrm{Pi}$ types, and variable lookup in singleton contexts.
+  \item A worked encoding of host single-sort polymorphic identity as a
+    MetaCIC $\mathrm{Term}$ with its $\mathrm{HasType}$ derivation
+    (\autoref{sec:self-comp-metacic}).
+  \item Soundness of $\mathrm{Term.beq}$ as structural equality.
+  \item Soundness of $\mathrm{infer}$ against $\mathrm{HasType}$.
+  \item Soundness of $\mathrm{check}$ against $\mathrm{HasType}$.
+\end{itemize}
+
+\paragraph{Theorems with statements pending proof.} The library carries the
+unrestricted target, $\mathrm{substitute\_preserves\_typing}$, guarded by a
+$\mathrm{WellFormedCtx}$ premise. Its proof requires weakening of
+$\mathrm{HasType}$, substitution-shift composition, and binder substitution
+composition. The same substrate also supports
+$\mathrm{closed\_term\_substitute\_preserves\_typing}$ as a more tractable
+closed-term variant. The unrestricted target depends on the
+$\mathrm{WellFormedCtx}$ requirement, binder-shift propagation, and the
+induction-based assembly of the available helper lemmas.
+
+\paragraph{Closed-term substitute preservation.} The library carries
+a closed-term restriction of substitute preservation:
+$$
+\begin{aligned}
+  \mathrm{closed\_term\_substitute\_preserves\_typing} :
+  \mathrm{WellFormedCtx}\ (B :: \Gamma) \to
+  \mathrm{ClosedAt}\ 0\ B \to
+  \mathrm{ClosedAt}\ 0\ s \to \\
+  \mathrm{HasType}\ (B :: \Gamma)\ t\ A \to
+  \mathrm{HasType}\ \Gamma\ s\ B \to \\
+  \mathrm{HasType}\ \Gamma\ (\mathrm{substitute}\ 0\ s\ t)\
+    (\mathrm{substitute}\ 0\ s\ A).
+\end{aligned}
+$$
+The statement is registered as
+$\mathrm{ClosedTermSubstitutePreservesTypingStatement}$. The
+infrastructure---$\mathrm{ClosedAt}$ inductive, $\mathrm{shift\_closed}$,
+$\mathrm{substitute\_closed}$, $\mathrm{substitute\_shift\_at\_eq}$---is in
+place with axiom-free proofs.
+
+\paragraph{Closed-term substitute preservation: case status.}
+The closed-term restriction has axiom-free case lemmas covering all five
+inductive cases of the typing derivation. The variable case is split by
+depth, and the application helper carries a type-equality premise:
+
+\begin{itemize}
+  \item $\mathrm{substitute\_sort\_preserves\_typing\_closed\_anchor}$ (sort case);
+  \item $\mathrm{substitute\_var\_zero\_preserves\_typing\_closed\_anchor}$ (variable, depth 0);
+  \item $\mathrm{substitute\_var\_nonzero\_preserves\_typing\_closed\_anchor}$ (variable, depth > 0);
+  \item $\mathrm{substitute\_pi\_preserves\_typing\_closed\_anchor}$ (Pi);
+  \item $\mathrm{substitute\_lam\_preserves\_typing\_closed\_anchor}$ (lambda, proved via term induction; the corresponding $\mathrm{HasType}$-induction path depends on binder-shift propagation);
+  \item $\mathrm{substitute\_app\_preserves\_typing\_closed\_anchor\_with\_type\_eq}$ (application, conditional on a substitute composition equation).
+\end{itemize}
+
+The main theorem depends on two proof obligations:
+\begin{enumerate}
+  \item Prove the substitute composition equation
+    $\mathrm{substitute}\ 0\ s\ (\mathrm{substitute}\ 0\ a\ \mathrm{cod})
+    = \mathrm{substitute}\ 0\ (\mathrm{substitute}\ 0\ s\ a)\
+      (\mathrm{substitute}\ 1\ s\ \mathrm{cod})$, discharging the
+    application conditional.
+  \item Run the outer induction on the typing derivation, supplying each
+    case lemma's recursive premises and assembling them into the main theorem.
+\end{enumerate}
+
+The closed-term restriction avoids the binder-shift propagation obstruction by
+ensuring the substitution targets and source terms have no free variables that
+would expose it.
+
+\paragraph{Substitute composition.} The closure-restricted form of
+the substitute composition equation
+$$
+\begin{aligned}
+  \mathrm{substitute}\ 0\ s\ (\mathrm{substitute}\ 0\ a\ \mathrm{cod}) =
+  \mathrm{substitute}\ 0\ (\mathrm{substitute}\ 0\ s\ a)\
+    (\mathrm{substitute}\ 1\ s\ \mathrm{cod})
+\end{aligned}
+$$
+is established for five of five inductive cases of $\texttt{cod}$:
+sort, var, app, lam, and pi. The sort case is unconditional, the var
+case assumes $\mathrm{ClosedAt}\ 0\ s$, the app case uses two recursive
+premises, and the lam and pi cases are conditional on a
+shift-substitute commutation lemma
+$$
+\begin{aligned}
+  \mathrm{shift}\ 0\ 1\ (\mathrm{substitute}\ 0\ s\ a) =
+  \mathrm{substitute}\ 1\ (\mathrm{shift}\ 0\ 1\ s)\
+    (\mathrm{shift}\ 0\ 1\ a).
+\end{aligned}
+$$
+The commutation lemma is the required premise for full unconditional
+composition closure.
+
+\paragraph{Host reflection bridge.}
+$\texttt{BEDC.MetaCIC.HostBridge}.\mathrm{reflectExpr}$ covers eight
+host Lean $\mathrm{Expr}$ constructors: $\mathrm{sort}$,
+$\mathrm{bvar}$, $\mathrm{app}$, $\mathrm{lam}$,
+$\mathrm{forallE}$, $\mathrm{const}$, $\mathrm{fvar}$ returning
+$\mathrm{none}$, and $\mathrm{mdata}$ as a passthrough. The elaboration
+commands $\#\mathrm{reflect\_metacic}\ e$ and
+$\#\mathrm{metacic\_decide}\ e$ expose the bridge: the former prints
+the reflected $\mathrm{Term}$, and the latter runs $\mathrm{infer}$ on
+that reflected term and prints the inferred MetaCIC type.
+
+\paragraph{Out of scope.} The reconstruction does not currently implement
+strong normalization, confluence, full universe hierarchy, inductive
+declarations within MetaCIC, or a verified embedding into the host Lean kernel.
+These remain research targets as outlined in
+\autoref{sec:self-comp-reflection-bridge}.
+
+\paragraph{Audit guarantees.} The reconstruction's status is maintained by
+four standing audits at PR merge time:
+\begin{itemize}
+  \item \texttt{check-axioms.py} rejects any \texttt{axiom} declaration.
+  \item \texttt{bedc\_ci.py axiom-purity --strict} rejects theorems whose
+    transitive axiom dependency includes \texttt{Classical.choice},
+    \texttt{Quot.sound}, or \texttt{propext}.
+  \item \texttt{bedc\_ci.py audit} rejects
+    $\backslash\mathtt{leanchecked}\{X\}$ markers whose $X$ does not exist in
+    \texttt{lean4/BEDC/}.
+  \item \texttt{bedc\_ci.py marker-existence-audit} reports the same
+    information as a standing first-class audit.
+\end{itemize}
+The current state is coherent. Formal targets without full proof terms are
+reported as such, and the audit guarantees make this distinction enforceable.
