@@ -174,3 +174,30 @@ Repack the transported field source, projective source, cubic, smooth genus-one 
   \notclaimed{The chapter does not close an elliptic-curve group law, a standard Weierstrass bridge, or external equality between curve models.}
   \upgradepath{No further paper-side theory grade remains for the field-projective genus-one packet; remaining work is an optional standard bridge and downstream consumers.}
 \end{closurestatus}
+
+\begin{definition}[Elliptic-curve Weierstrass admission profile]
+\label{def:ellipticcurve-weierstrass-admission-profile}
+A Weierstrass admission profile for the public $\EllipticCurveUp$ surface is a finite row family
+$$
+W=(\mathcal{F},\mathcal{P},a_1,a_2,a_3,a_4,a_6,\gamma,\sigma,o,\lambda_F,\lambda_P,\rho)
+$$
+with the following boundary readings. The row $\mathcal{F}$ is a $\NameCert_{\FieldUp}$ source row; the five rows $a_1,a_2,a_3,a_4,a_6:\BHist$ and the scalar operations used in the Weierstrass cubic are read through that field source; $\mathcal{P}$ is a $\NameCert_{\ProjectiveVarUp}$ source row over the same field row; $\gamma:\BHist$ is the homogeneous cubic incidence row over the five displayed coefficients; $\sigma:\BHist$ is the smooth genus-one boundary row over that projective cubic; $o:\BHist$ is the chosen base-point incidence row; $\lambda_F$ and $\lambda_P$ are the inherited field and projective classifier transport rows; and $\rho$ is the $\Pkg$ provenance row naming exactly these source, coefficient, cubic, smoothness, base-point, and transport entries.
+
+The profile has no coordinate for an elliptic-curve group operation, no coordinate for equality with an external curve model, and no coordinate for host-level equality between a standard Weierstrass presentation and a projective carrier. Such data may be discussed only after a separate row is supplied outside this admission profile.
+\end{definition}
+
+\begin{theorem}[Elliptic-curve Weierstrass bridge boundary]
+\label{thm:ellipticcurve-weierstrass-bridge-boundary}
+Let $W$ be a Weierstrass admission profile as in \autoref{def:ellipticcurve-weierstrass-admission-profile}. If every standard-presentation datum in $W$ is admitted only through the $\FieldUp$ source row, the $\ProjectiveVarUp$ source row, the five coefficient rows, the cubic incidence row, the smooth genus-one row, the base-point row, the two classifier transport rows, and the $\Pkg$ provenance row listed in \autoref{def:ellipticcurve-bhist-carrier-packet}, then $W$ repacks as the same public $\EllipticCurveUp$ carrier packet. Projecting the public $\NameCert_{\EllipticCurveUp}$ surface recovers exactly those rows, and exports no elliptic-curve group law, no external curve equality, and no equality between a host Weierstrass model and the carried projective model.
+\end{theorem}
+\begin{proof}
+Start with the field side of the profile. By \autoref{thm:ellipticcurve-field-source-obligation}, the five coefficient rows and the scalar operation rows used by the cubic are readable only through the $\NameCert_{\FieldUp}$ source $\mathcal{F}$. By \autoref{thm:ellipticcurve-weierstrass-coefficient-ledger}, their contribution to the Weierstrass equation is the displayed cubic row $\gamma$ together with its $\Pkg$ provenance, not a host polynomial equality.
+
+Project the geometric side next. By \autoref{thm:ellipticcurve-projective-genus-one-obligation}, the cubic incidence row $\gamma$ and the smooth genus-one row $\sigma$ are carried by the $\NameCert_{\ProjectiveVarUp}$ dependency as BEDC rows. By \autoref{thm:ellipticcurve-smooth-projective-carrier-obligation}, smoothness and genus-one status are checked against the same field and projective projections, so the profile does not introduce a second curve object.
+
+For the chosen point, \autoref{thm:ellipticcurve-basepoint-incidence-exactness} identifies base-point acceptance with projective point carriage plus incidence with $\gamma$ under the inherited projective classifier. The base-point row therefore repacks with $\mathcal{P}$, $\gamma$, and $\sigma$ as the same point coordinate $o$ of the public packet; it is not an external point-set membership predicate.
+
+Now apply the two transport rows. The classifier transport obligation of \autoref{thm:ellipticcurve-classifier-transport-obligation} transports coefficients, cubic, smoothness, genus-one, and base-point rows componentwise through $\lambda_F$, $\lambda_P$, $\hsame$, and $\Cont$. The field-projective compatibility theorem, \autoref{thm:ellipticcurve-field-projective-source-compatibility}, says that this simultaneous transport still repacks as an $\EllipticCurveUp$ packet and adds no host comparison between projective models.
+
+It remains to identify the public export. By \autoref{thm:ellipticcurve-namecert-exactness-obligation}, the public $\NameCert_{\EllipticCurveUp}$ surface consists exactly of the carrier packet, the field-source rows, the projective genus-one rows, the base-point rows, the classifier transport rows, and the ledger exactness over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\FieldUp}$, and $\NameCert_{\ProjectiveVarUp}$. These are precisely the coordinates of $W$. Hence projecting the public surface recovers the same tuple, while any group law row, host curve-equality row, or external Weierstrass-to-projective equality row would require a coordinate absent from both \autoref{def:ellipticcurve-weierstrass-admission-profile} and \autoref{def:ellipticcurve-bhist-carrier-packet}.
+\end{proof}
