@@ -92,4 +92,38 @@ theorem BayesianPosteriorSurface_update_ledger_exactness [AskSetup] [PackageSetu
       (And.intro sourceRows.right.right.right.right.right.right.right.left
         sourceRows.right.right.right.right.right.right.right.right))
 
+theorem BayesianPosteriorPacket_classifier_transport [AskSetup] [PackageSetup]
+    {prior likelihood evidence posterior update normalisation provenance endpoint prior'
+      likelihood' evidence' posterior' update' normalisation' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+        endpoint bundle pkg ->
+      hsame prior prior' -> hsame likelihood likelihood' -> hsame evidence evidence' ->
+        hsame posterior posterior' -> hsame provenance provenance' ->
+          Cont prior' likelihood' update' -> Cont update' evidence' posterior' ->
+            Cont evidence' posterior' normalisation' ->
+              Cont provenance' normalisation' endpoint' ->
+                PkgSig bundle endpoint' pkg ->
+                  BayesianPosteriorPacket prior' likelihood' evidence' posterior' update'
+                    normalisation' provenance' endpoint' bundle pkg ∧ hsame endpoint endpoint' := by
+  intro packet samePrior sameLikelihood sameEvidence samePosterior sameProvenance
+  intro priorLikelihoodUpdate updateEvidencePosterior evidencePosteriorNormalisation
+  intro provenanceNormalisationEndpoint endpointPkg
+  have normalisationSame : hsame normalisation normalisation' :=
+    cont_respects_hsame sameEvidence samePosterior
+      packet.right.right.right.right.right.right.left evidencePosteriorNormalisation
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance normalisationSame
+      packet.right.right.right.right.right.right.right.left provenanceNormalisationEndpoint
+  exact And.intro
+    (And.intro (unary_transport packet.left samePrior)
+      (And.intro (unary_transport packet.right.left sameLikelihood)
+        (And.intro (unary_transport packet.right.right.left sameEvidence)
+          (And.intro (unary_transport packet.right.right.right.left samePosterior)
+            (And.intro priorLikelihoodUpdate
+              (And.intro updateEvidencePosterior
+                (And.intro evidencePosteriorNormalisation
+                  (And.intro provenanceNormalisationEndpoint endpointPkg))))))))
+    endpointSame
+
 end BEDC.Derived.BayesianUp
