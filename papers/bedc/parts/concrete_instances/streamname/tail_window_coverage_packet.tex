@@ -670,3 +670,54 @@ equality, metric-completeness, arithmetic or order, standard bridge, or hidden
 selector data, so the prefix/suffix recomposition cannot introduce any such
 object.
 \end{proof}
+
+\begin{theorem}[StreamName tail-window cover-chain source confluence]
+\label{thm:streamname-tail-window-cover-chain-source-confluence}
+Let
+$$
+\mathcal P_0,\mathcal P_1,\ldots,\mathcal P_n
+$$
+be a finite chain of StreamName tail-window coverage packets over the same
+public $\StreamNameUp$ endpoints and the same accepted $\RegSeqRat$ spine.
+Assume each adjacent pair $\mathcal P_i,\mathcal P_{i+1}$ carries certified
+overlap rows for the displayed finite windows, and assume the chain is closed
+under the common-refinement operation of
+\autoref{thm:streamname-tail-window-cover-common-refinement}. Then every packet
+in the chain induces the same consumer-facing source surface for finite
+$\RealUp$ reads.
+
+Concretely, the common surface consists exactly of the finite-window classifier
+rows, the selected $\mathsf{ProbeBundle}/\mathsf{InBundle}/\mathsf{UnaryHistory}$
+rows, the pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted
+$\RegSeqRat$ spine, the DyadicRatCore endpoint rows, and the
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance rows transported along
+the chain. The confluence statement exports no completion object, quotient
+representative, host-index equality, metric-completeness row, arithmetic or
+order row, standard bridge row, or hidden selector.
+\end{theorem}
+\begin{proof}
+Induct on the finite chain length. For the base chain, apply
+\autoref{thm:streamname-tail-window-terminal-consumer-factorization} and
+\autoref{thm:streamname-tail-window-realup-boundary}. A single terminal packet
+therefore exposes only the finite StreamName/$\RegSeqRat$/DyadicRatCore source
+surface and its displayed continuation ledger.
+
+For the induction step, compare the already-confluent initial subchain with the
+last packet. The certified overlap rows allow
+\autoref{thm:streamname-tail-window-cover-common-refinement} to form the common
+finite packet for the terminal member of the subchain and the last packet.
+
+Use \autoref{thm:streamname-tail-window-refinement-associativity} to identify
+this refinement with the refinement obtained by first recomposing the earlier
+chain and then attaching the last overlap. Apply
+\autoref{thm:streamname-tail-window-terminal-source-uniqueness} to the two
+terminal packets inside that common refinement, and apply
+\autoref{thm:streamname-tail-window-regseqrat-coverage-lock} to keep the
+accepted rational-sequence spine and DyadicRatCore endpoint rows fixed.
+
+Finally apply \autoref{thm:streamname-tail-window-realup-boundary} to the
+exported finite consumer. The boundary theorem removes completion, quotient,
+host-index equality, metric-completeness, arithmetic or order, standard bridge,
+and hidden-selector data from the readout, so the confluence is a statement
+only about the displayed finite source rows.
+\end{proof}
