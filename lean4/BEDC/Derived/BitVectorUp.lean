@@ -362,4 +362,37 @@ theorem BitVectorSource_semantic_name_certificate [AskSetup] [PackageSetup]
       exact ⟨pkgRow, ledgerUnary⟩
   }
 
+def BitVectorBoolSpineLedger [AskSetup] [PackageSetup]
+    (width spine componentLedger route provenance consumer : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory width ∧ UnaryHistory spine ∧ UnaryHistory componentLedger ∧
+    Cont width spine route ∧ Cont route componentLedger provenance ∧
+      Cont provenance spine consumer ∧ PkgSig bundle provenance pkg
+
+theorem BitVectorBoolSpineLedger_fixed_length_consumer_determinacy
+    [AskSetup] [PackageSetup]
+    {width spine componentLedger route provenance consumer width' spine' componentLedger'
+      route' provenance' consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorBoolSpineLedger width spine componentLedger route provenance consumer bundle pkg ->
+      BitVectorBoolSpineLedger width' spine' componentLedger' route' provenance' consumer'
+          bundle pkg ->
+        hsame width width' ->
+          hsame spine spine' ->
+            hsame componentLedger componentLedger' ->
+              hsame route route' ∧ hsame provenance provenance' ∧
+                hsame consumer consumer' := by
+  intro left right sameWidth sameSpine sameComponentLedger
+  obtain ⟨_widthUnary, _spineUnary, _componentUnary, leftRouteRow, leftProvenanceRow,
+    leftConsumerRow, _leftPkgRow⟩ := left
+  obtain ⟨_widthUnary', _spineUnary', _componentUnary', rightRouteRow, rightProvenanceRow,
+    rightConsumerRow, _rightPkgRow⟩ := right
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameWidth sameSpine leftRouteRow rightRouteRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameRoute sameComponentLedger leftProvenanceRow rightProvenanceRow
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame sameProvenance sameSpine leftConsumerRow rightConsumerRow
+  exact ⟨sameRoute, sameProvenance, sameConsumer⟩
+
 end BEDC.Derived.BitVectorUp
