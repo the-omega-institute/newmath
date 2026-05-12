@@ -214,6 +214,7 @@ import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
+import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
@@ -259,6 +260,7 @@ import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
+import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
@@ -1301,6 +1303,7 @@ import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
 import BEDC.HostBridge.ChurchNatRoundTrip
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
+import BEDC.HostBridge.ChurchOptionRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
