@@ -1,4 +1,5 @@
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 
 namespace BEDC.Derived.DyadicApproximationUp
 
@@ -75,6 +76,54 @@ theorem DyadicApproximationCarrier_overlap_directed_seal_exhaustion
   exact
     ⟨commonCarrierPacked, sealAUnary, sealBUnary, sourceReadUnary, overlapBoundaryUnary,
       sameSeals, boundaryPkg⟩
+
+theorem DyadicApproximationCarrier_nested_window_exhaustion [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint terminalWindow
+      terminalLedger terminalProvenance rationalContainment sealRow consumer publicSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance rationalContainment ->
+                    Cont terminalLedger terminalProvenance sealRow ->
+                      Cont rationalContainment sealRow consumer ->
+                        Cont consumer sealRow publicSurface ->
+                          PkgSig bundle rationalContainment pkg ->
+                            PkgSig bundle sealRow pkg ->
+                              PkgSig bundle consumer pkg ->
+                                PkgSig bundle publicSurface pkg ->
+                                  DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                                      terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                                    UnaryHistory rationalContainment ∧ UnaryHistory sealRow ∧
+                                      UnaryHistory consumer ∧ UnaryHistory publicSurface ∧
+                                        hsame window terminalWindow ∧
+                                          PkgSig bundle consumer pkg ∧
+                                            PkgSig bundle publicSurface pkg := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  intro terminalWindowProvenanceContainment terminalLedgerProvenanceSeal
+  intro containmentSealConsumer consumerSealPublicSurface containmentPkg sealPkg consumerPkg
+    publicSurfacePkg
+  have terminalRefinement :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        UnaryHistory rationalContainment ∧ UnaryHistory sealRow ∧ UnaryHistory consumer ∧
+          hsame window terminalWindow ∧ PkgSig bundle consumer pkg :=
+    DyadicApproximationCarrier_terminal_refinement_window carrier samePrecision sameEndpoint
+      sameLedger sameProvenance terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+      terminalWindowProvenanceContainment terminalLedgerProvenanceSeal containmentSealConsumer
+      containmentPkg sealPkg consumerPkg
+  obtain ⟨terminalCarrier, rationalContainmentUnary, sealUnary, consumerUnary, sameWindow,
+    consumerPkgOut⟩ := terminalRefinement
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    unary_cont_closed consumerUnary sealUnary consumerSealPublicSurface
+  exact
+    ⟨terminalCarrier, rationalContainmentUnary, sealUnary, consumerUnary, publicSurfaceUnary,
+      sameWindow, consumerPkgOut, publicSurfacePkg⟩
 
 theorem DyadicApproximationCarrier_overlap_seal_idempotence
     [AskSetup] [PackageSetup]
