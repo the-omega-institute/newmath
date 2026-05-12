@@ -100,15 +100,58 @@ Carrier admission exposes only the fields listed in \autoref{def:regular-cauchy-
 The NameCert obligations then attach the displayed $\hsame$ transport, $\Cont$ consumer route, package provenance, and local naming row to that selected path. Since the carrier definition contains no quotient-equality coordinate, no host-limit coordinate, and no ambient-completeness coordinate, a $\RealUp$ consumer has no route out of the displayed certificate.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving combined modulus exactness]
+\label{thm:regular-cauchy-interleaving-combined-modulus-exactness}
+Let
+$$
+I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyInterleavingUp$ packet. Every precision request for the interleaved $\RealUp$ seal first reads the selector row $\sigma$, then reads the selected schedule $S_A$ or $S_B$, and then checks the matching component of the combined modulus ledger $M$. Even requests use the $A$ component of $M$, odd requests use the $B$ component of $M$, and no request can consume $E$ without one of these displayed ledger routes.
+\end{theorem}
+\begin{proof}
+Unpack the packet by \autoref{def:regular-cauchy-interleaving-source}. The selector row, both schedules, the combined modulus ledger, and the interleaved seal are stored coordinates of the same finite $\mathsf{BHist}$ row.
+
+For an even selector read, \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness} routes the request through $A$, $S_A$, and the first component of $M$. For an odd selector read, the same theorem routes the request through $B$, $S_B$, and the second component of $M$.
+
+The $\Cont$ row records this order before the seal row $E$ is exposed. The $\hsame$, $\Pkg$, and $\NameCert$ rows are attached to the same route, so the precision request has no separate path to a selected real limit, quotient equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving schedule window coverage]
+\label{thm:regular-cauchy-interleaving-schedule-window-coverage}
+For an accepted packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$, the even and odd schedule windows exhaust the consumer reads of the interleaving. Every displayed consumer read is either an even read through $S_A$ and the $A$ side of $M$, or an odd read through $S_B$ and the $B$ side of $M$. There is no third schedule window and no unscheduled read of the interleaved seal.
+\end{theorem}
+\begin{proof}
+Inspect the source packet. Its only schedule coordinates are $S_A$ and $S_B$, and its only side-selector coordinate is the alternating row $\sigma$.
+
+The even case is the route through the first schedule. It reads the $A$ source row, the $S_A$ window, and the first component of the combined modulus ledger.
+
+The odd case is the route through the second schedule. It reads the $B$ source row, the $S_B$ window, and the second component of the combined modulus ledger.
+
+These two cases exhaust the selector row. Since the carrier has no coordinate for any further schedule, any consumer of $E$ must pass through one of the two displayed windows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving obligation closure package]
+\label{thm:regular-cauchy-interleaving-obligation-closure-package}
+The rows of an accepted packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$ assemble the obligation surface for $\RegularCauchyInterleavingUp$ over $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The surface consists exactly of carrier admission, componentwise classifier transport, combined modulus exactness, schedule window coverage, and $\RealUp$ seal non-escape.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{thm:regular-cauchy-interleaving-carrier-admission}. Componentwise classifier transport is \autoref{thm:regular-cauchy-interleaving-classifier}, with the parity partition supplied by \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness}.
+
+The combined modulus obligation is \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness}. The coverage obligation is \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage}. The seal boundary is \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}.
+
+These rows are all read from the same finite packet through the displayed transport, continuation, package, and naming coordinates. Therefore the chapter supplies the obligation surface, while leaving quotient equality, selected host limits, ambient completeness, and bridge checking outside the claim.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
+\closureat{RegularCauchyInterleavingUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyInterleavingUp}
   \constructivestory{A $\RegularCauchyInterleavingUp$ packet is generated from two $\RegSeqRatUp$ regular names, their $\StreamNameUp$ schedules, an alternating unary selector, a combined modulus ledger, source $\RealUp$ readbacks, an interleaved $\RealUp$ seal row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, classifier, combined modulus ledger, and real-seal route for alternating regular Cauchy observations over the displayed packet rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the finite carrier, componentwise classifier transport, combined modulus exactness, schedule window coverage, and real-seal non-escape for alternating regular Cauchy observations over the displayed packet rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of reals, selected host limits, ambient completeness, diagonal-completion uniqueness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, combined modulus exactness, and $\RealUp$ seal non-escape for the interleaving packet.}
+  \upgradepath{Scoped closure requires binding these obligations explicitly to the listed BEDC primitives and source chapters for $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
