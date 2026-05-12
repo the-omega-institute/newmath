@@ -77,62 +77,48 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
-theorem RationalIntervalPacket_refinement_composition [AskSetup] [PackageSetup]
-    {left middle right orderA orderB containmentA containmentB transportA transportB routeA
-      routeB provenanceA provenanceB nameA nameB endpointA endpointB outerOrder outerTransport
-      outerProvenance outerEndpoint : BHist}
+theorem RationalIntervalRefinement_composition {left mid right lm lmr mr lmr' : BHist} :
+    Cont left mid lm -> Cont lm right lmr -> Cont mid right mr -> Cont left mr lmr' ->
+      hsame lmr lmr' := by
+  intro leftMid leftMidRight midRight leftMidRight'
+  exact cont_assoc_hsame leftMid leftMidRight midRight leftMidRight'
+
+theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
+    {left right order left' right' order' endpointPair endpointPair' orderSurface
+      orderSurface' provenance : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RationalIntervalPacket left middle orderA containmentA transportA routeA provenanceA nameA
-        endpointA bundle pkg ->
-      RationalIntervalPacket middle right orderB containmentB transportB routeB provenanceB nameB
-        endpointB bundle pkg ->
-        hsame left middle ->
-          hsame containmentA containmentB ->
-            hsame routeA routeB ->
-              hsame nameA nameB ->
-                Cont left right outerOrder ->
-                  Cont outerOrder containmentA outerTransport ->
-                    Cont outerTransport routeA outerProvenance ->
-                      Cont outerProvenance nameA outerEndpoint ->
-                        PkgSig bundle outerEndpoint pkg ->
-                          RationalIntervalPacket left right outerOrder containmentA outerTransport
-                              routeA outerProvenance nameA outerEndpoint bundle pkg ∧
-                            hsame outerOrder orderB ∧ hsame outerTransport transportB ∧
-                              hsame outerProvenance provenanceB ∧ hsame outerEndpoint endpointB := by
-  intro leftPacket rightPacket sameLeftMiddle sameContainment sameRoute sameName outerOrderRow
-    outerTransportRow outerProvenanceRow outerEndpointRow outerPkg
-  rcases leftPacket with
-    ⟨leftUnary, _middleUnaryA, _orderUnaryA, containmentUnary, _transportUnaryA, routeUnary,
-      _provenanceUnaryA, nameUnary, _endpointUnaryA, _leftMiddleOrderA,
-      _orderContainmentTransportA, _transportRouteProvenanceA, _provenanceNameEndpointA,
-      _endpointPkgA⟩
-  rcases rightPacket with
-    ⟨_middleUnaryB, rightUnary, _orderUnaryB, _containmentUnaryB, _transportUnaryB,
-      _routeUnaryB, _provenanceUnaryB, _nameUnaryB, _endpointUnaryB, middleRightOrderB,
-      orderContainmentTransportB, transportRouteProvenanceB, provenanceNameEndpointB,
-      _endpointPkgB⟩
-  have sameOuterOrder : hsame outerOrder orderB :=
-    cont_respects_hsame sameLeftMiddle (hsame_refl right) outerOrderRow middleRightOrderB
-  have sameOuterTransport : hsame outerTransport transportB :=
-    cont_respects_hsame sameOuterOrder sameContainment outerTransportRow
-      orderContainmentTransportB
-  have sameOuterProvenance : hsame outerProvenance provenanceB :=
-    cont_respects_hsame sameOuterTransport sameRoute outerProvenanceRow
-      transportRouteProvenanceB
-  have sameOuterEndpoint : hsame outerEndpoint endpointB :=
-    cont_respects_hsame sameOuterProvenance sameName outerEndpointRow provenanceNameEndpointB
-  have outerOrderUnary : UnaryHistory outerOrder :=
-    unary_cont_closed leftUnary rightUnary outerOrderRow
-  have outerTransportUnary : UnaryHistory outerTransport :=
-    unary_cont_closed outerOrderUnary containmentUnary outerTransportRow
-  have outerProvenanceUnary : UnaryHistory outerProvenance :=
-    unary_cont_closed outerTransportUnary routeUnary outerProvenanceRow
-  have outerEndpointUnary : UnaryHistory outerEndpoint :=
-    unary_cont_closed outerProvenanceUnary nameUnary outerEndpointRow
+    UnaryHistory left ->
+      UnaryHistory right ->
+        UnaryHistory order ->
+          Cont left right endpointPair ->
+            Cont endpointPair order orderSurface ->
+              PkgSig bundle provenance pkg ->
+                hsame left left' ->
+                  hsame right right' ->
+                    hsame order order' ->
+                      Cont left' right' endpointPair' ->
+                        Cont endpointPair' order' orderSurface' ->
+                          PkgSig bundle provenance pkg ->
+                            UnaryHistory left' ∧ UnaryHistory right' ∧
+                              UnaryHistory order' ∧ hsame endpointPair endpointPair' ∧
+                                hsame orderSurface orderSurface' ∧
+                                  Cont left' right' endpointPair' ∧
+                                    Cont endpointPair' order' orderSurface' ∧
+                                      PkgSig bundle provenance pkg := by
+  intro leftUnary rightUnary orderUnary endpointRow orderRow _pkgSig sameLeft sameRight sameOrder
+    endpointRow' orderRow' pkgSig'
+  have leftUnary' : UnaryHistory left' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory right' :=
+    unary_transport rightUnary sameRight
+  have orderUnary' : UnaryHistory order' :=
+    unary_transport orderUnary sameOrder
+  have sameEndpointPair : hsame endpointPair endpointPair' :=
+    cont_respects_hsame sameLeft sameRight endpointRow endpointRow'
+  have sameOrderSurface : hsame orderSurface orderSurface' :=
+    cont_respects_hsame sameEndpointPair sameOrder orderRow orderRow'
   exact
-    ⟨⟨leftUnary, rightUnary, outerOrderUnary, containmentUnary, outerTransportUnary,
-        routeUnary, outerProvenanceUnary, nameUnary, outerEndpointUnary, outerOrderRow,
-        outerTransportRow, outerProvenanceRow, outerEndpointRow, outerPkg⟩,
-      sameOuterOrder, sameOuterTransport, sameOuterProvenance, sameOuterEndpoint⟩
+    ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
+      orderRow', pkgSig'⟩
 
 end BEDC.Derived.RationalIntervalUp
