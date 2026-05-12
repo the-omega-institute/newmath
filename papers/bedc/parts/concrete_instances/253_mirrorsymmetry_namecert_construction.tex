@@ -163,16 +163,52 @@ equivalence, Hodge theory, Calabi-Yau moduli, and standard bridges.
 \end{proof}
 \leanchecked{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_scoped\_kernel\_scope}
 
+\begin{theorem}[Mirror-symmetry finite HMS bridge boundary]
+\label{thm:mirrorsymmetry-finite-hms-bridge-boundary}
+The public HMS source boundary and the local pairing ledger define a paper
+bridge from the finite $\NameCert_{\SymplecticUp}$ and
+$\NameCert_{\DerivedCatUp}$ source rows to the abstract
+$\MirrorSymmetryUp$ pairing schema. Every exported A-model or B-model answer
+row factors through the displayed $\mathsf{BHist}$ paired ledger, $\hsame$,
+$\Cont$, $\Pkg$, and the two source certificates.
+
+This bridge boundary does not claim a full Fukaya category, derived
+equivalence, Hodge-number theorem, Calabi-Yau moduli theorem, or
+machine-checked standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:mirrorsymmetry-hms-source-boundary}. It restricts the
+available source data to one symplectic certificate, one derived-category
+certificate, and finite A-model and B-model answer rows transported by the
+displayed $\hsame$, $\Cont$, and $\Pkg$ witnesses.
+
+Apply \autoref{thm:mirrorsymmetry-local-pairing-ledger-exactness}. The ledger
+therefore exposes exactly the two source certificates, paired categorical
+answer rows, source transports, answer transports, and package provenance.
+
+Use \autoref{thm:mirrorsymmetry-namecert-obligation-inventory} to identify
+these rows as the local $\NameCert_{\MirrorSymmetryUp}$ obligation package,
+and then apply \autoref{thm:mirrorsymmetry-scoped-kernel-scope} to keep every
+consumer read inside the same finite kernel surface.
+
+Repacking those four displayed rows gives the paper bridge from the two
+finite source certificates to the $\MirrorSymmetryUp$ pairing schema. Since no
+cited row contains a full Fukaya category, derived equivalence, Hodge-number
+theorem, Calabi-Yau moduli theorem, or machine-checked standard bridge, the
+boundary exports none of those objects.
+\end{proof}
+
 \closureat{MirrorSymmetryUp}{scopedStr}[BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_hms\_source\_boundary]
 \closureat{MirrorSymmetryUp}{publicStr}[BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_hms\_source\_boundary]
+\closureat{MirrorSymmetryUp}{bridgedStr}[BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_hms\_source\_boundary]
 
 \begin{closurestatus}{\MirrorSymmetryUp}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The obligation scope is the finite paired $\mathsf{BHist}$ ledger over $\NameCert_{\SymplecticUp}$, $\NameCert_{\DerivedCatUp}$, visible A-model and B-model categorical rows, $\hsame$, $\Cont$, $\Pkg$, and the displayed source certificate rows.}
   \constructivestory{A $\MirrorSymmetryUp$ packet is built from one displayed symplectic source certificate, one displayed derived-category source certificate, and a finite ledger of paired categorical answer rows whose admissible movements are exactly the source-certificate, history, continuation, and package transports named by the classifier.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MirrorSymmetryUp.MirrorSymmetryPairCarrier\_hms\_source\_boundary}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim a full Fukaya category, derived equivalence, Hodge-number theorem, Calabi-Yau moduli theorem, or standard bridge.}
-  \upgradepath{Bridged closure requires a bridge from the public HMS boundary to the standard mirror-symmetry schema.}
+  \upgradepath{Mature closure requires finite A-side and B-side consumer examples and cross-chapter consumption of the displayed bridge packet.}
 \end{closurestatus}
