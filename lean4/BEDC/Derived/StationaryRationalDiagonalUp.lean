@@ -134,6 +134,37 @@ theorem StationaryRationalDiagonalCarrier_constant_window_totality
         (And.intro constantStreamRoute
           (And.intro diagonalSealRoute pkgSig))))
 
+theorem StationaryRationalDiagonalCarrier_consumer_boundary [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport
+        route provenance namecert endpoint bundle pkg ->
+      Cont endpoint namecert consumer ->
+        UnaryHistory rat ∧ UnaryHistory constantStream ∧ UnaryHistory regseq ∧
+          UnaryHistory realSeal ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+            Cont rat constantStream regseq ∧ Cont regseq diagonal realSeal ∧
+              Cont route provenance endpoint ∧ Cont endpoint namecert consumer ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier consumerRow
+  obtain ⟨ratUnary, constantStreamUnary, regseqUnary, _diagonalUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, namecertUnary, endpointUnary,
+    constantStreamRoute, diagonalSealRoute, _transportRoute, provenanceEndpoint, pkgSig,
+    _nameCert⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary namecertUnary consumerRow
+  exact And.intro ratUnary
+    (And.intro constantStreamUnary
+      (And.intro regseqUnary
+        (And.intro realSealUnary
+          (And.intro endpointUnary
+            (And.intro consumerUnary
+              (And.intro constantStreamRoute
+                (And.intro diagonalSealRoute
+                  (And.intro provenanceEndpoint
+                    (And.intro consumerRow pkgSig)))))))))
+
 theorem StationaryRationalDiagonalCarrier_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {rat constantStream regseq diagonal realSeal transport route provenance namecert
