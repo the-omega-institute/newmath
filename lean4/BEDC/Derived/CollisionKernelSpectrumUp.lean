@@ -183,4 +183,49 @@ theorem CollisionKernelSpectrumCarrier_moment_index_projection [AskSetup] [Packa
   exact
     ⟨momentUnary, kernelUnary, consumerUnary, fiberMomentKernel, provenancePkg, nameCertPkg⟩
 
+theorem CollisionKernelSpectrumCarrier_window_restriction [AskSetup] [PackageSetup]
+    {golden fold fiber moment kernel shadow handoff transport provenance nameCert goldenSmall
+      fiberSmall kernelSmall shadowSmall : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff transport
+        provenance nameCert bundle pkg ->
+      hsame goldenSmall golden ->
+        Cont goldenSmall fold fiberSmall ->
+          Cont fiberSmall moment kernelSmall ->
+            Cont kernelSmall handoff shadowSmall ->
+              CollisionKernelSpectrumCarrier goldenSmall fold fiberSmall moment kernelSmall
+                  shadowSmall handoff transport provenance nameCert bundle pkg ∧
+                hsame kernel kernelSmall ∧ hsame shadow shadowSmall := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameGoldenSmall goldenSmallFoldFiberSmall fiberSmallMomentKernelSmall
+    kernelSmallHandoffShadowSmall
+  obtain ⟨goldenUnary, foldUnary, _fiberUnary, momentUnary, _kernelUnary, _shadowUnary,
+    handoffUnary, transportUnary, provenanceUnary, nameCertUnary, goldenFoldFiber,
+    fiberMomentKernel, kernelHandoffShadow, provenancePkg, nameCertPkg⟩ := carrier
+  have goldenSmallUnary : UnaryHistory goldenSmall :=
+    unary_transport goldenUnary (hsame_symm sameGoldenSmall)
+  have fiberSmallUnary : UnaryHistory fiberSmall :=
+    unary_cont_closed goldenSmallUnary foldUnary goldenSmallFoldFiberSmall
+  have kernelSmallUnary : UnaryHistory kernelSmall :=
+    unary_cont_closed fiberSmallUnary momentUnary fiberSmallMomentKernelSmall
+  have shadowSmallUnary : UnaryHistory shadowSmall :=
+    unary_cont_closed kernelSmallUnary handoffUnary kernelSmallHandoffShadowSmall
+  have sameFiber : hsame fiber fiberSmall :=
+    cont_respects_hsame (hsame_symm sameGoldenSmall) (hsame_refl fold) goldenFoldFiber
+      goldenSmallFoldFiberSmall
+  have sameKernel : hsame kernel kernelSmall :=
+    cont_respects_hsame sameFiber (hsame_refl moment) fiberMomentKernel
+      fiberSmallMomentKernelSmall
+  have sameShadow : hsame shadow shadowSmall :=
+    cont_respects_hsame sameKernel (hsame_refl handoff) kernelHandoffShadow
+      kernelSmallHandoffShadowSmall
+  have restricted :
+      CollisionKernelSpectrumCarrier goldenSmall fold fiberSmall moment kernelSmall shadowSmall
+          handoff transport provenance nameCert bundle pkg :=
+    ⟨goldenSmallUnary, foldUnary, fiberSmallUnary, momentUnary, kernelSmallUnary,
+      shadowSmallUnary, handoffUnary, transportUnary, provenanceUnary, nameCertUnary,
+      goldenSmallFoldFiberSmall, fiberSmallMomentKernelSmall, kernelSmallHandoffShadowSmall,
+      provenancePkg, nameCertPkg⟩
+  exact ⟨restricted, sameKernel, sameShadow⟩
+
 end BEDC.Derived.CollisionKernelSpectrumUp
