@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -16,20 +17,43 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BitVectorPacket [AskSetup] [PackageSetup]
+    (length spine ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont length spine ledger ∧
+    Cont ledger provenance endpoint ∧
+      PkgSig bundle endpoint pkg
+
+theorem BitVectorPacket_carrier_transport [AskSetup] [PackageSetup]
+    {length length' spine spine' ledger ledger' provenance provenance' endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hsame length length' ->
+      hsame spine spine' ->
+        hsame ledger ledger' ->
+          hsame provenance provenance' ->
+            BitVectorPacket length spine ledger provenance endpoint bundle pkg ->
+              BitVectorPacket length' spine' ledger' provenance' endpoint bundle pkg := by
+  intro sameLength sameSpine sameLedger sameProvenance packet
+  exact And.intro
+    (cont_hsame_transport sameLength sameSpine sameLedger packet.left)
+    (And.intro
+      (cont_hsame_transport sameLedger sameProvenance (hsame_refl endpoint) packet.right.left)
+      packet.right.right)
+
 def BitVectorSourceClassifier
     (length spine ledger provenance length' spine' ledger' provenance' : BHist) : Prop :=
   hsame length length' ∧ hsame spine spine' ∧ hsame ledger ledger' ∧
     hsame provenance provenance'
 
 theorem BitVectorSourceClassifier_laws :
-    (∀ {n s l p : BHist}, Cont n s l → hsame p p →
+    (∀ {n s l p : BHist}, Cont n s l -> hsame p p ->
       BitVectorSourceClassifier n s l p n s l p) ∧
       (∀ {n s l p n' s' l' p' : BHist},
-        BitVectorSourceClassifier n s l p n' s' l' p' →
+        BitVectorSourceClassifier n s l p n' s' l' p' ->
           BitVectorSourceClassifier n' s' l' p' n s l p) ∧
         (∀ {n s l p n' s' l' p' n'' s'' l'' p'' : BHist},
-          BitVectorSourceClassifier n s l p n' s' l' p' →
-            BitVectorSourceClassifier n' s' l' p' n'' s'' l'' p'' →
+          BitVectorSourceClassifier n s l p n' s' l' p' ->
+            BitVectorSourceClassifier n' s' l' p' n'' s'' l'' p'' ->
               BitVectorSourceClassifier n s l p n'' s'' l'' p'') := by
   constructor
   · intro n s l p _route sameProvenance
@@ -288,7 +312,7 @@ def BitVectorSourcePacket [AskSetup] [PackageSetup]
 theorem BitVectorSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {n spine ledger route provenance source : BHist} {bundle : ProbeBundle ProbeName}
     {pkg : Pkg} :
-    BitVectorSourcePacket n spine ledger route provenance source bundle pkg →
+    BitVectorSourcePacket n spine ledger route provenance source bundle pkg ->
       UnaryHistory n ∧ UnaryHistory spine ∧ Cont n spine ledger ∧
         Cont ledger route provenance ∧ hsame ledger (append n spine) ∧
           hsame provenance (append ledger route) ∧ PkgSig bundle source pkg := by
