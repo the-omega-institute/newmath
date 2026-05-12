@@ -176,6 +176,33 @@ theorem PicardContractionPacket_classifier_stability [AskSetup] [PackageSetup]
       routesProvenanceName', namePkg'⟩
   exact ⟨transported, sameLipschitz, sameName⟩
 
+theorem PicardContractionPacket_ratio_window_carrier_transport [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      iterates' modulus' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      hsame iterates iterates' ->
+        hsame modulus modulus' ->
+          Cont iterates' modulus' endpoint' ->
+            hsame endpoint endpoint' ∧ UnaryHistory modulus' ∧ UnaryHistory endpoint' ∧
+              Cont iterates' modulus' endpoint' ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameIterates sameModulus iteratesModulusEndpoint'
+  obtain ⟨_banachUnary, _contractionUnary, _lipschitzUnary, _iteratesUnary, modulusUnary,
+    endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameIterates sameModulus iteratesModulusEndpoint
+      iteratesModulusEndpoint'
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  exact
+    ⟨sameEndpoint, modulusUnary', endpointUnary', iteratesModulusEndpoint', namePkg⟩
+
 theorem PicardContractionPacket_modulus_window_transport [AskSetup] [PackageSetup]
     {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
       modulus' endpoint' : BHist}
