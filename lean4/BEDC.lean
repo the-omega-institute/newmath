@@ -275,6 +275,7 @@ import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularCauchyFamilyUp
+import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
@@ -576,6 +577,7 @@ import BEDC.Derived.ComplexLimitUp.RegularSequence
 import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.NullSequenceUp
 import BEDC.Derived.MeasureUp
+import BEDC.Derived.MeasureUp.ComplementDifferenceRow
 import BEDC.Derived.MeasureUp.CertificateSurface
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
@@ -1273,6 +1275,7 @@ import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.ContextualActionCertificate
 import BEDC.Derived.FieldUp.ConcreteExitObject
+import BEDC.Derived.FieldUp.FieldCertificateObligations
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 import BEDC.MetaCIC
