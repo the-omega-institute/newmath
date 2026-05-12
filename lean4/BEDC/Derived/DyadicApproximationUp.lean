@@ -123,4 +123,38 @@ theorem DyadicApproximationCarrier_common_precision_refinement [AskSetup] [Packa
       sameLedger₂ sameProvenance₂ commonEndpointWindow commonWindowLedgerProvenance
   exact And.intro leftRefined.left (And.intro leftRefined.right rightRefined.right)
 
+theorem DyadicApproximationCarrier_precision_weakening [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance weaker endpointNew windowNew ledgerNew
+      provenanceNew consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision weaker ->
+        hsame endpoint endpointNew ->
+          hsame ledger ledgerNew ->
+            hsame provenance provenanceNew ->
+              Cont weaker endpointNew windowNew ->
+                Cont windowNew ledgerNew provenanceNew ->
+                  Cont windowNew provenanceNew consumer ->
+                    DyadicApproximationCarrier weaker endpointNew windowNew ledgerNew
+                        provenanceNew bundle pkg ∧
+                      UnaryHistory consumer ∧ hsame window windowNew := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance weakerEndpointWindow
+    windowLedgerProvenance consumerRow
+  have transported :
+      DyadicApproximationCarrier weaker endpointNew windowNew ledgerNew provenanceNew
+          bundle pkg ∧
+        hsame window windowNew :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance weakerEndpointWindow windowLedgerProvenance
+  rcases transported with ⟨targetCarrier, sameWindow⟩
+  rcases targetCarrier with
+    ⟨weakerUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      weakerEndpointWindow', windowLedgerProvenance', pkgSig⟩
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary consumerRow
+  exact And.intro
+    ⟨weakerUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      weakerEndpointWindow', windowLedgerProvenance', pkgSig⟩
+    (And.intro consumerUnary sameWindow)
+
 end BEDC.Derived.DyadicApproximationUp
