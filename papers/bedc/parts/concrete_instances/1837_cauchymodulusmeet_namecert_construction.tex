@@ -103,6 +103,21 @@ For a $\RegSeqRatUp$ consumer, the stream-name and rational readback surface is 
 The remaining route data are exactly $H,C,P,N$. These rows transport, route, record provenance, and name the packet; they do not provide an independent consumer object. Thus every such route factors through the displayed ordered carrier rows.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet obligation surface]\label{thm:cauchymodulusmeet-obligation-surface}
+The carrier, projection stability, swap stability, shared-bound exhaustion, $\RealUp$ handoff boundary, and consumer factorization of the $\CauchyModulusMeetUp$ packet constitute the full obligation surface for meeting two displayed $\CauchyModulusUp$ rows over a shared $\DyadicRatCoreUp$ tolerance ledger. Downstream $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ consumers may use only this finite surface.
+
+The surface exports no quotient stream equality, selected limit, ambient completeness datum, host real equality, or public standard bridge.
+\end{theorem}
+\begin{proof}
+First project the carrier of \autoref{def:cauchy-modulus-meet-carrier}. It lists the two $\StreamNameUp$ rows, their two source $\CauchyModulusUp$ rows, the shared meet row, the transport row, continuation row, provenance row, and local name.
+
+Projection stability is supplied by \autoref{thm:cauchy-modulus-meet-projection-stability}, and source-row exchange is supplied by \autoref{thm:cauchy-modulus-meet-swap-stability}. Together these bind the two source moduli and their shared meet row under the permitted componentwise $\hsame$ transports.
+
+The shared-bound and consumer-facing parts are then fixed by \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, and \autoref{thm:cauchy-modulus-meet-consumer-factorization}. These three results force $\DyadicRatCoreUp$ tolerance reads, $\RegSeqRatUp$ route reads, and $\RealUp$ handoff reads through the displayed meet packet.
+
+Finally the NameCert obligations in \autoref{thm:cauchy-modulus-meet-namecert-obligations} record the same rows as the local naming surface. Since none of the cited blocks introduces quotient stream equality, selected limits, ambient completeness, host real equality, or a standard bridge, the listed blocks are the full obligation surface.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 
