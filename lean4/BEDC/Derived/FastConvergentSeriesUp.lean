@@ -65,6 +65,29 @@ theorem FastConvergentSeriesCarrier_tail_sum_boundary [AskSetup] [PackageSetup]
     exact realSealBoundary
   exact ⟨tailUnary, realSealUnary, tailBoundary, sealBoundary, provenancePkg⟩
 
+theorem FastConvergentSeriesCarrier_bridge_tail_budget_schedule [AskSetup] [PackageSetup]
+    {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
+      nameCert bridgeSchedule : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+        realSeal transports routes provenance nameCert bundle pkg ->
+      Cont schedule partialSums tailLedger ->
+        Cont tailLedger regReadback bridgeSchedule ->
+          UnaryHistory schedule ∧ UnaryHistory partialSums ∧ UnaryHistory tailLedger ∧
+            UnaryHistory bridgeSchedule ∧ Cont schedule partialSums tailLedger ∧
+              Cont tailLedger regReadback bridgeSchedule ∧
+                hsame tailLedger (append schedule partialSums) ∧
+                  PkgSig bundle provenance pkg := by
+  intro carrier scheduleBoundary bridgeBoundary
+  obtain ⟨_seriesUnary, _seqUnary, partialSumsUnary, scheduleUnary, tailLedgerUnary,
+    regReadbackUnary, _realSealUnary, _transportsUnary, _routesUnary, _nameCertUnary,
+    _seriesRows, _carrierScheduleBoundary, _carrierSealBoundary, _nameCertBoundary,
+    tailSame, _sealSame, provenancePkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeSchedule :=
+    unary_cont_closed tailLedgerUnary regReadbackUnary bridgeBoundary
+  exact ⟨scheduleUnary, partialSumsUnary, tailLedgerUnary, bridgeUnary, scheduleBoundary,
+    bridgeBoundary, tailSame, provenancePkg⟩
+
 theorem FastConvergentSeriesCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
     {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
       nameCert : BHist}
@@ -146,6 +169,16 @@ def FastConvergentSeriesTailBoundPacket [AskSetup] [PackageSetup]
       Cont partialSums schedule tailLedger ∧ Cont tailLedger regseqratReadback «seal» ∧
         Cont summand tailLedger transport ∧ Cont transport localCert provenance ∧
           PkgSig bundle provenance pkg
+
+theorem FastConvergentSeriesTailBoundPacket_constant_zero_seed [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle BHist.Empty pkg ->
+      FastConvergentSeriesTailBoundPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg := by
+  intro pkgSig
+  exact ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+    cont_left_unit BHist.Empty, cont_left_unit BHist.Empty, cont_left_unit BHist.Empty,
+    cont_left_unit BHist.Empty, pkgSig⟩
 
 theorem FastConvergentSeriesTailBoundPacket_regseqrat_handoff [AskSetup] [PackageSetup]
     {summand partialSums schedule tailLedger regseqratReadback «seal» transport provenance
