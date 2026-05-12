@@ -113,6 +113,7 @@ import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
 import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
+import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -141,6 +142,7 @@ import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
+import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CollisionKernelUp
@@ -232,6 +234,7 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.ObserverRegularUp.TasteGate
+import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
@@ -255,6 +258,7 @@ import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
+import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.TannakaKreinUp
@@ -303,6 +307,7 @@ import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealCauchyCompletionUp.ScopedConsumerRoute
 import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealDiagonalCompletionUp
+import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularCauchyDiagonalUp
@@ -328,6 +333,7 @@ import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
+import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
