@@ -1,8 +1,8 @@
-import BEDC.FKernel.NameCert
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -75,5 +75,65 @@ theorem CauchyTailComparisonCarrier_tail_stability [AskSetup] [PackageSetup]
                                                       exact And.intro commonWindow
                                                         (And.intro endpointReadback
                                                           (And.intro endpointSame pkgSig))
+
+def CauchyTailComparisonCommonWindowCarrier [AskSetup] [PackageSetup]
+    (leftName rightName modulus window endpointLedger readback provenance nameRow endpoint :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory modulus ∧
+    UnaryHistory window ∧ UnaryHistory nameRow ∧ Cont modulus window endpointLedger ∧
+      Cont endpointLedger readback endpoint ∧ hsame provenance (append leftName rightName) ∧
+        PkgSig bundle endpoint pkg
+
+theorem CauchyTailComparisonCommonWindowCarrier_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance nameRow endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCommonWindowCarrier leftName rightName modulus window endpointLedger
+        readback provenance nameRow endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyTailComparisonCommonWindowCarrier leftName rightName modulus window
+            endpointLedger readback provenance nameRow endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          CauchyTailComparisonCommonWindowCarrier leftName rightName modulus window
+            endpointLedger readback provenance nameRow endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          CauchyTailComparisonCommonWindowCarrier leftName rightName modulus window
+            endpointLedger readback provenance nameRow endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  have carrierSource := carrier
+  obtain ⟨_leftUnary, _rightUnary, modulusUnary, windowUnary, _nameUnary,
+    modulusWindowLedger, ledgerReadbackEndpoint, _provenanceRows, _endpointPkg⟩ := carrier
+  have endpointLedgerUnary : UnaryHistory endpointLedger :=
+    unary_cont_closed modulusUnary windowUnary modulusWindowLedger
+  have _sameEndpointLedger : Cont endpointLedger readback endpoint := ledgerReadbackEndpoint
+  have _endpointLedgerUnary : UnaryHistory endpointLedger := endpointLedgerUnary
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrierSource (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.CauchyTailComparisonUp
