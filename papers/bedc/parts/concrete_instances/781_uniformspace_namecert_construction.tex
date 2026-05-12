@@ -105,6 +105,78 @@ a quotient class of streams. Therefore the handoff is only the visible
 entourage data listed in the theorem.
 \end{proof}
 
+\begin{theorem}[UniformSpaceUp classifier transport obligation]
+\label{thm:uniformspace-classifier-transport-obligation}
+Let $U=(X,E,D,R,S,C,P,N)$ be an accepted $\UniformSpaceUp$ carrier as in
+\autoref{def:uniformspace-bhist-carrier}. Endpoint $\hsame$ transport of the
+point source $X$ and of every displayed entourage row repacks another accepted
+$\UniformSpaceUp$ carrier with the same finite entourage list, diagonal
+ledger, refinement ledger, symmetry ledger, composition ledger,
+$\mathsf{Pkg}$ provenance, and $\NameCert_{\UniformSpaceUp}$ row.
+\end{theorem}
+\begin{proof}
+Unpack the carrier definition. The point classifier is the one inherited from
+the $X$ row, and every entourage row is explicitly declared stable under
+$\hsame$ on both coordinates.
+
+Transport the endpoint histories first, then apply the same transport to the
+diagonal, refinement, symmetry, and composition rows. The carrier has no
+coordinate outside these finite ledgers, so the transported rows repack with
+the unchanged package provenance and naming certificate.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp entourage ledger exactness]
+\label{thm:uniformspace-entourage-ledger-exactness}
+Every consumer-visible entourage read from an accepted $\UniformSpaceUp$
+carrier is exhausted by the finite list $E$, the diagonal row $D$, the
+refinement row $R$, the symmetry row $S$, the composition row $C$, and the
+$\mathsf{Pkg}$ provenance row. No consumer can read an additional host
+uniformity, open-cover compactness principle, quotient stream equality, or
+choice-selected completion datum from the carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the coordinates of
+\autoref{def:uniformspace-bhist-carrier}. The only entourage-bearing
+coordinate is the finite list $E$, and the only certified reads from this list
+are the rows named by $D$, $R$, $S$, and $C$.
+
+Apply the diagonal obligation of
+\autoref{thm:uniformspace-filterbase-diagonal-obligation}, the neighbourhood
+refinement obligation of
+\autoref{thm:uniformspace-diagonal-refinement-obligation}, and the symmetry
+and composition obligation of
+\autoref{thm:uniformspace-symmetry-composition-obligation}. These rows account
+for every displayed consumer read while the package row $P$ accounts for
+provenance.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp common refinement Cauchy handoff]
+\label{thm:uniformspace-common-refinement-cauchy-handoff}
+Any $\CauchyFilterUp$ or $\CompletionUp$ request through two compatible
+entourage demands of an accepted $\UniformSpaceUp$ carrier factors through a
+displayed common refinement row. The exported handoff contains only the point
+source, the two demanded entourage rows, the common refinement witness,
+endpoint $\hsame$ transport, the relevant $\Cont$ observation windows, and
+$\mathsf{Pkg}$ provenance; it exports no choice-selected limit, quotient
+stream, open-cover compactness, or host uniformity.
+\end{theorem}
+\begin{proof}
+Start with the two compatible demands as finite reads from the entourage list
+$E$. The filterbase diagonal obligation provides the common refinement row
+from $R$ and the inclusions back into the two demanded rows.
+
+Transport endpoint representatives by
+\autoref{thm:uniformspace-classifier-transport-obligation}. The refinement,
+diagonal, symmetry, and composition rows remain rows of the same finite
+carrier after this transport.
+
+Finally apply the handoff theorem
+\autoref{thm:uniformspace-cauchy-completion-handoff}. A Cauchy or completion
+consumer receives the finite refinement ledger and provenance, but the carrier
+contains no coordinate for a selected limit, quotient stream, open-cover
+compactness datum, or ambient host uniformity.
+\end{proof}
+
 \closureat{UniformSpaceUp}{seedStr}
 
 \begin{closurestatus}{\UniformSpaceUp}
