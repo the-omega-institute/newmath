@@ -148,6 +148,35 @@ section:
     $\mathrm{var}\ i$.
 \end{itemize}
 
+\subsection{Construction Style}\label{subsec:reconstruction-construction-style}
+
+The MetaCIC layer is built in the first instance from pure inductive
+objects. $\mathrm{Term}$ is an inductive syntax type, while
+$\mathrm{HasType}$, $\mathrm{BetaStep}$, $\mathrm{BetaStarStep}$,
+$\mathrm{BetaParallel}$, and $\mathrm{ClosedAt}$ are inductive predicates.
+No constructor in this surface depends on an additional axiom.
+
+Binders are represented by de Bruijn indices. Variables have the form
+$\mathrm{Term.var}\ i$ for an index $i$, and substitution is the explicit
+operation $\mathrm{substitute}\ \mathrm{depth}\ v\ t$. Lambda and Pi binders
+are handled by the same shift-aware discipline used by the typing judgment:
+crossing a binder raises the depth and shifts the incoming term so that
+capture is not introduced by representation.
+
+The main substitution-preservation statements are conditioned by closure.
+They work under hypotheses such as $\mathrm{ClosedAt}\ 0\ \mathrm{dom}$,
+because a closed binder domain is stable under the binder shift:
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom} = \mathrm{dom}$. This is the local fact
+that lets the represented binder context and the substituted context line up.
+
+Many checked lemmas are intentionally statement-shape lemmas. Names such as
+\texttt{betaSubstitutionPreservation\_sort\_var},
+\texttt{betaSubstitutionPreservation\_pi\_body},
+\texttt{betaSubstitutionPreservation\_lam\_body}, and
+\texttt{betaSubstitutionPreservation\_app\_body} isolate the term shape under
+which substitution preservation is proved. The full picture is assembled from
+these shape-local facts rather than from an opaque global argument.
+
 \subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
 
 The current MetaCIC stack is factored by proof responsibility.
