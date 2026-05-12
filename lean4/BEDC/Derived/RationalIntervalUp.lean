@@ -418,6 +418,34 @@ theorem RationalIntervalPacket_endpoint_width_ledger [AskSetup] [PackageSetup]
     cont_deterministic widthRow orderRow
   exact ⟨widthUnary, sameWidthOrder, containmentUnary, containmentRow, endpointPkg⟩
 
+theorem RationalIntervalPacket_regular_window_dyadic_endpoints [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint width consumer handoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont left right width ->
+        UnaryHistory consumer ->
+          Cont endpoint consumer handoff ->
+            PkgSig bundle handoff pkg ->
+              UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory width ∧
+                hsame width order ∧ UnaryHistory containment ∧ UnaryHistory handoff ∧
+                  hsame handoff (append endpoint consumer) ∧ Cont left right width ∧
+                    Cont endpoint consumer handoff ∧ PkgSig bundle handoff pkg := by
+  intro packet widthRow consumerUnary endpointConsumerHandoff handoffPkg
+  have widthLedger :=
+    RationalIntervalPacket_endpoint_width_ledger packet widthRow
+  have handoffSurface :=
+    RationalIntervalPacket_regseqrat_handoff packet endpointConsumerHandoff consumerUnary
+      handoffPkg
+  obtain ⟨leftUnary, rightUnary, _orderUnary, _containmentUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩ := packet
+  exact
+    ⟨leftUnary, rightUnary, widthLedger.left, widthLedger.right.left,
+      widthLedger.right.right.left, handoffSurface.left, handoffSurface.right.left, widthRow,
+      endpointConsumerHandoff, handoffSurface.right.right⟩
+
 theorem RationalIntervalPacket_containment_ledger_exactness [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint read : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
