@@ -118,6 +118,10 @@ def module_name(path: Path) -> str:
     return ".".join(rel.parts)
 
 
+def module_olean_path(module: str) -> Path:
+    return LEAN_ROOT / ".lake" / "build" / "lib" / "lean" / Path(*module.split(".")).with_suffix(".olean")
+
+
 def strip_comments_and_strings(text: str) -> str:
     out: list[str] = []
     i = 0
@@ -1432,6 +1436,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             if d.kind in ("theorem", "lemma")
             and d.qualified_name.startswith("BEDC.")
             and not d.is_private
+            and module_olean_path(d.module).exists()
         }
     )
     if not theorems:
@@ -1444,8 +1449,9 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     # import the parent hub, so the parent hub re-exporting them would
     # cycle.
     all_modules = sorted(
-        ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts)
+        m
         for p in BEDC_ROOT.rglob("*.lean")
+        if module_olean_path((m := ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts))).exists()
     )
     lean_lines = [f"import {m}" for m in all_modules]
     lean_lines.append("")
