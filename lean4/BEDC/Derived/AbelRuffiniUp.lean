@@ -253,4 +253,82 @@ theorem AbelRuffiniDerivedSeriesLedger_obstruction_endpoint_boundary
       finiteRows.right.right.right.right,
       boundaryRow⟩
 
+theorem AbelRuffiniStandardRadicalTower_bridge_boundary
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface commutator subgroup next obstruction endpoint boundary publicSurface
+      bridgeBoundary : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> Cont polynomial base coefficientLedger ->
+          Cont splittingField galoisRow galoisLedger ->
+            Cont coefficientLedger galoisLedger sourceSurface ->
+              Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                  Cont boundary s5Row publicSurface ->
+                    Cont publicSurface s5Row bridgeBoundary ->
+                      UnaryHistory sourceSurface ∧ UnaryHistory endpoint ∧
+                        UnaryHistory boundary ∧ UnaryHistory publicSurface ∧
+                          UnaryHistory bridgeBoundary ∧ hsame publicSurface (append boundary s5Row) ∧
+                            hsame bridgeBoundary (append publicSurface s5Row) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary coefficientRow galoisLedgerRow sourceSurfaceRow
+  intro subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow bridgeBoundaryRow
+  have publicData :=
+    AbelRuffiniPublicCertificateExport_namecert_surface polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary s5RowUnary commutatorUnary obstructionUnary
+      coefficientRow galoisLedgerRow sourceSurfaceRow subgroupRow nextRow endpointRow
+      boundaryRow publicSurfaceRow
+  obtain ⟨_coefficientUnary, _galoisLedgerUnary, sourceSurfaceUnary, endpointUnary,
+    boundaryUnary, publicSurfaceUnary, _sourceSurfaceSame, _endpointSame, _boundarySame,
+    publicSurfaceSame⟩ := publicData
+  have bridgeBoundaryUnary : UnaryHistory bridgeBoundary :=
+    unary_cont_closed publicSurfaceUnary s5RowUnary bridgeBoundaryRow
+  exact
+    ⟨sourceSurfaceUnary, endpointUnary, boundaryUnary, publicSurfaceUnary, bridgeBoundaryUnary,
+      publicSurfaceSame, bridgeBoundaryRow⟩
+
+theorem AbelRuffiniPublicCertificate_radical_tower_bridge_boundary
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface
+      radicalTower bridge : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> UnaryHistory radicalTower ->
+          Cont polynomial base coefficientLedger ->
+            Cont splittingField galoisRow galoisLedger ->
+              Cont coefficientLedger galoisLedger sourceSurface ->
+                Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                  Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                    Cont boundary s5Row publicSurface ->
+                      Cont publicSurface radicalTower bridge ->
+                        UnaryHistory sourceSurface ∧ UnaryHistory endpoint ∧
+                          UnaryHistory boundary ∧ UnaryHistory publicSurface ∧
+                            UnaryHistory bridge ∧
+                              hsame sourceSurface (append coefficientLedger galoisLedger) ∧
+                                hsame endpoint (append next obstruction) ∧
+                                  hsame boundary (append sourceSurface endpoint) ∧
+                                    hsame publicSurface (append boundary s5Row) ∧
+                                      hsame bridge (append publicSurface radicalTower) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary radicalTowerUnary coefficientRow galoisLedgerRow
+  intro sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow bridgeRow
+  have publicData :=
+    AbelRuffiniPublicCertificateExport_namecert_surface polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary s5RowUnary commutatorUnary obstructionUnary
+      coefficientRow galoisLedgerRow sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow
+      publicSurfaceRow
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed publicData.right.right.right.right.right.left radicalTowerUnary bridgeRow
+  exact
+    ⟨publicData.right.right.left,
+      publicData.right.right.right.left,
+      publicData.right.right.right.right.left,
+      publicData.right.right.right.right.right.left,
+      bridgeUnary,
+      publicData.right.right.right.right.right.right.left,
+      publicData.right.right.right.right.right.right.right.left,
+      publicData.right.right.right.right.right.right.right.right.left,
+      publicData.right.right.right.right.right.right.right.right.right,
+      bridgeRow⟩
+
 end BEDC.Derived.AbelRuffiniUp
