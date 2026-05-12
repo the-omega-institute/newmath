@@ -200,7 +200,19 @@ theorem betaParallel_sort_unique {t : Term}
   cases h
   rfl
 
+theorem betaParallel_sort_unique_target {t : Term}
+    (h : BetaParallel Term.sort t) :
+    t = Term.sort := by
+  cases h
+  rfl
+
 theorem betaParallel_var_unique {i : Idx} {t : Term}
+    (h : BetaParallel (Term.var i) t) :
+    t = Term.var i := by
+  cases h
+  rfl
+
+theorem betaParallel_var_unique_target {i : Idx} {t : Term}
     (h : BetaParallel (Term.var i) t) :
     t = Term.var i := by
   cases h
