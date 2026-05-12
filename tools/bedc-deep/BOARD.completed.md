@@ -17759,3 +17759,27 @@ Rationale:
 The candidate is a concrete closure theorem over an existing concrete-instance surface, not a marker, closurestatus, verification-axis item, or abstract parameter echo. It has a single implication form, lands naturally in the FoldMomentKernel NameCert construction, and the proposed input is not identified as a hub file or near the 800-line cap. Existing BOARD entries contain many analogous finite-prefix, finite-suffix, and finite-window carrier restrictions for other instances, but no FoldMomentKernel-specific target, so this is familiar in shape while still novel as a concrete object-level closure target.
 
 ---
+
+### B-704 - AscoliModulus empty-family vacuity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AscoliModulus empty-family vacuity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the AscoliModulus carrier setup, if an accepted packet has an empty finite family ledger and an empty source-net probe bundle, then its finite-net stability and family-wide equicontinuity ledgers are vacuous and the Arzela-Ascoli handoff exports only the displayed tolerance, radius, transport, package, and local naming rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1720_ascolimodulus_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete finite-ledger boundary theorem inside an existing concrete_instances chapter, not a marker or verification-axis task. The current AscoliModulus surface has carrier, equicontinuity ledger, finite-net stability, NameCert obligations, rational-radius transport, family transport, and Arzela-Ascoli handoff theorems, but no theorem isolating the empty family and empty probe-bundle base case. It exposes a useful vacuity boundary for a finite modulus package while preserving the chapter's non-compactness and no-subsequence-choice discipline, and the landing file is well below the line cap.
+
+---
