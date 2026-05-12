@@ -159,4 +159,55 @@ theorem CauchyCompletionMonadPacket_public_real_seal_factorization [AskSetup]
     ⟨observationsUnary, sealRowUnary, routeUnary, scheduleWindowsObservations,
       observationsDiagonalSealRow, sealRowTransportRoute, sealRowPkg⟩
 
+theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
+      sourceFamily' windows' observations' schedule' diagonal' sealRow' transport' route'
+      nameRow' composedSchedule composedObservations composedSeal composedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      CauchyCompletionMonadPacket sourceFamily' windows' observations' schedule' diagonal'
+          sealRow' transport' route' nameRow' bundle pkg ->
+        Cont schedule schedule' composedSchedule ->
+          Cont composedSchedule windows' composedObservations ->
+            Cont composedObservations diagonal' composedSeal ->
+              Cont composedSeal transport' composedRoute ->
+                Cont composedRoute nameRow' composedSeal ->
+                  PkgSig bundle composedSeal pkg ->
+                    CauchyCompletionMonadPacket sourceFamily' windows' composedObservations
+                        composedSchedule diagonal' composedSeal transport' composedRoute
+                        nameRow' bundle pkg ∧
+                      UnaryHistory composedSchedule ∧ UnaryHistory composedObservations ∧
+                        UnaryHistory composedSeal ∧ UnaryHistory composedRoute ∧
+                          PkgSig bundle composedSeal pkg := by
+  intro leftPacket rightPacket scheduleSchedule'ComposedSchedule
+    composedScheduleWindows'ComposedObservations composedObservationsDiagonal'ComposedSeal
+    composedSealTransport'ComposedRoute composedRouteNameRow'ComposedSeal composedSealPkg
+  obtain ⟨_sourceFamilyUnary, _windowsUnary, scheduleUnary, _diagonalUnary, _transportUnary,
+    _nameRowUnary, _scheduleWindowsObservations, _observationsDiagonalSealRow,
+    _sealRowTransportRoute, _routeNameRowSealRow, _sealRowPkg⟩ := leftPacket
+  obtain ⟨sourceFamily'Unary, windows'Unary, schedule'Unary, diagonal'Unary, transport'Unary,
+    nameRow'Unary, _schedule'Windows'Observations', _observations'Diagonal'SealRow',
+    _sealRow'Transport'Route', _route'NameRow'SealRow', _sealRowPkg'⟩ := rightPacket
+  have composedScheduleUnary : UnaryHistory composedSchedule :=
+    unary_cont_closed scheduleUnary schedule'Unary scheduleSchedule'ComposedSchedule
+  have composedObservationsUnary : UnaryHistory composedObservations :=
+    unary_cont_closed composedScheduleUnary windows'Unary
+      composedScheduleWindows'ComposedObservations
+  have composedSealUnary : UnaryHistory composedSeal :=
+    unary_cont_closed composedObservationsUnary diagonal'Unary
+      composedObservationsDiagonal'ComposedSeal
+  have composedRouteUnary : UnaryHistory composedRoute :=
+    unary_cont_closed composedSealUnary transport'Unary composedSealTransport'ComposedRoute
+  have targetPacket :
+      CauchyCompletionMonadPacket sourceFamily' windows' composedObservations
+        composedSchedule diagonal' composedSeal transport' composedRoute nameRow' bundle pkg :=
+    ⟨sourceFamily'Unary, windows'Unary, composedScheduleUnary, diagonal'Unary,
+      transport'Unary, nameRow'Unary, composedScheduleWindows'ComposedObservations,
+      composedObservationsDiagonal'ComposedSeal, composedSealTransport'ComposedRoute,
+      composedRouteNameRow'ComposedSeal, composedSealPkg⟩
+  exact
+    ⟨targetPacket, composedScheduleUnary, composedObservationsUnary, composedSealUnary,
+      composedRouteUnary, composedSealPkg⟩
+
 end BEDC.Derived.CauchyCompletionMonadUp
