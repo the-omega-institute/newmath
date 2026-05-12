@@ -23,6 +23,30 @@ def RationalStreamPacket [AskSetup] [PackageSetup]
       Cont window pointRows classifierRows ∧ Cont classifierRows transportRows contRows ∧
         Cont contRows provenance nameRow ∧ PkgSig bundle nameRow pkg
 
+theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory nameRow ->
+      Cont window nameRow consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory consumer ∧
+              Cont index schedule window ∧ Cont window nameRow consumer ∧
+                PkgSig bundle consumer pkg := by
+  intro packet nameRowUnary consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    indexScheduleRow, _windowPointRow, _classifierTransportRow, _nameRow, _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary nameRowUnary consumerRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
+      consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
+
 theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
