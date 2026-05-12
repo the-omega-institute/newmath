@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceSpaceUp$}
+\label{ch:concrete-instances-cauchysequencespace-namecert}
+\origin{human}
+
+The $\CauchySequenceSpaceUp$ interface records the finite naming surface for the space of Cauchy names itself. Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki, \emph{General Topology}, the packet keeps a displayed family of regular rational names together with the finite schedules and tolerance ledgers that make common Cauchy windows inspectable. It sits between $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyFilterUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RealCauchyCompletionUp$, and it exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+\begin{definition}[CauchySequenceSpace carrier surface]
+\label{def:cauchysequence-space-carrier-surface}
+A $\CauchySequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is a displayed finite family of $\RegSeqRatUp$ name rows;
+\item $\sigma$ is the $\StreamNameUp$ schedule that selects the inspected name and window rows;
+\item $W$ is a $\CauchyFilterUp$ or $\CauchyModulusUp$ cofinal-window ledger for the family $F$;
+\item $\epsilon$ is the $\DyadicRatCoreUp$ tolerance ledger used by the inspected windows;
+\item $Q$ is the $\RealCauchyCompletionUp$ handoff row reached from the same family, schedule, window, and tolerance data;
+\item $H$ records componentwise $\hsame$ transports for the family, schedule, cofinal-window ledger, tolerance ledger, and completion handoff;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect those rows;
+\item $P$ is the $\Pkg$ provenance over the displayed regular names, stream schedule, Cauchy window data, dyadic tolerances, and completion handoff;
+\item $N$ is the local $\NameCert_{\CauchySequenceSpaceUp}$ row.
+\end{enumerate}
+The carrier contains no quotient of Cauchy names, no selected limiting name, no host completion equality, and no ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[CauchySequenceSpace NameCert obligation surface]
+\label{thm:cauchysequence-space-namecert-obligation-surface}
+The local $\NameCert_{\CauchySequenceSpaceUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation by a displayed family of $\RegSeqRatUp$ names, a $\StreamNameUp$ schedule, a $\CauchyFilterUp$ or $\CauchyModulusUp$ cofinal-window ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealCauchyCompletionUp$ handoff row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local naming rows;
+\item classifier by common finite Cauchy windows, comparing two accepted packets only through windows selected by their schedules and justified by the same visible cofinality ledger shape;
+\item schedule and cofinality stability under the stored componentwise $\hsame$ transports and displayed $\Cont$ routes;
+\item dyadic tolerance exactness, stating that every accepted window comparison uses the tolerance row visible in the packet;
+\item completion handoff non-escape, stating that the $\RealCauchyCompletionUp$ row is reached only through the displayed family, schedule, cofinal-window, tolerance, transport, continuation, package, and naming rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is projection of \autoref{def:cauchysequence-space-carrier-surface}. The displayed family, schedule, cofinal-window ledger, tolerance ledger, completion handoff, transport, continuation, package, and naming rows are coordinates of the same finite $\BHist$ packet.
+
+The classifier is by common finite windows. A comparison first reads the scheduled $\RegSeqRatUp$ rows, then the cofinal-window evidence supplied by $W$, and finally the dyadic tolerance row $\epsilon$ attached to those windows.
+
+Schedule stability is componentwise. Move the family, schedule, window ledger, tolerance ledger, and completion handoff along $H$, and replay only the consumer routes recorded in $C$.
+
+Dyadic tolerance exactness and handoff non-escape follow from the absence of any quotient, selected limit, host equality, or ambient completeness coordinate. The completion row $Q$ is therefore a finite handoff from the named Cauchy-window surface, not a separate completion object.
+\end{proof}
+
+\begin{theorem}[CauchySequenceSpace completion handoff]
+\label{thm:cauchysequence-space-completion-handoff}
+Every $\RealCauchyCompletionUp$ consumer read exported by an accepted $\CauchySequenceSpaceUp$ carrier factors through the displayed $\RegSeqRatUp$ family row, the $\StreamNameUp$ schedule, the $\CauchyFilterUp$ or $\CauchyModulusUp$ cofinal-window ledger, the $\DyadicRatCoreUp$ tolerance ledger, and the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows. Thus the space of Cauchy names reaches completion only through the visible finite naming certificate, not through quotient-name equality, a selected representative, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$. The only family coordinate is $F$, the only schedule coordinate is $\sigma$, and the only Cauchy-window and tolerance coordinates are $W$ and $\epsilon$.
+
+Use \autoref{thm:cauchysequence-space-namecert-obligation-surface}. Its classifier, stability, and exactness rows force every inspected window to remain attached to the displayed schedule, cofinality ledger, dyadic tolerance ledger, and provenance rows.
+
+The completion read reaches $Q$ only after those rows have been read. Since the carrier has no quotient-name equality, selected representative, host real equality, or ambient completeness coordinate, the listed rows exhaust the handoff boundary.
+\end{proof}
+
+\closureat{CauchySequenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceSpaceUp}
+  \constructivestory{A $\CauchySequenceSpaceUp$ packet is generated from a displayed family of regular rational names, a stream schedule, finite Cauchy-window evidence, dyadic tolerance data, a completion handoff, componentwise transport, displayed continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, five-row naming-certificate surface, common-window classifier, schedule and cofinality stability, dyadic tolerance exactness, and completion handoff non-escape for finite spaces of Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient completion construction, equality of Cauchy-name classes, uniqueness of limits, host real equality, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires exact common-window classifier transport, schedule/cofinality stability, dyadic tolerance exactness, and completion handoff non-escape for the same finite packet.}
+\end{closurestatus}
