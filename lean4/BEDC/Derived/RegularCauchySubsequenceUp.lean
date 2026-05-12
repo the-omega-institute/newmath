@@ -202,4 +202,34 @@ theorem RegularCauchySubsequenceCarrier_real_seal_boundary [AskSetup] [PackageSe
     ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, consumerUnary,
       sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint, endpointPkg⟩
 
+theorem RegularCauchySubsequenceCarrier_real_seal_factorization [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead finalSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        Cont consumerRead endpoint finalSeal ->
+          PkgSig bundle finalSeal pkg ->
+            UnaryHistory source ∧ UnaryHistory reindex ∧ UnaryHistory windows ∧
+              UnaryHistory radius ∧ UnaryHistory sealRow ∧ UnaryHistory consumerRead ∧
+                UnaryHistory finalSeal ∧ Cont source reindex windows ∧
+                  Cont windows radius sealRow ∧ Cont provenance localCert endpoint ∧
+                    Cont sealRow localCert consumerRead ∧
+                      Cont consumerRead endpoint finalSeal ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle finalSeal pkg := by
+  intro carrier sealLocalCertConsumer consumerEndpointFinal finalSealPkg
+  obtain ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, _sameRowsUnary,
+    _routeRowsUnary, _provenanceUnary, localCertUnary, endpointUnary, sourceReindexWindows,
+    windowsRadiusSeal, _sameRowsRouteRowsProvenance, provenanceLocalCertEndpoint,
+    _endpointAppend, endpointPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  have finalSealUnary : UnaryHistory finalSeal :=
+    unary_cont_closed consumerUnary endpointUnary consumerEndpointFinal
+  exact
+    ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, consumerUnary,
+      finalSealUnary, sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint,
+      sealLocalCertConsumer, consumerEndpointFinal, endpointPkg, finalSealPkg⟩
+
 end BEDC.Derived.RegularCauchySubsequenceUp
