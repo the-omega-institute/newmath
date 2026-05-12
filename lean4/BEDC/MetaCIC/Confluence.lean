@@ -255,6 +255,12 @@ theorem betaParallel_sort_unique_target {t : Term}
   cases h
   rfl
 
+theorem betaStarStep_of_betaParallel_sort {t : Term}
+    (h : BetaParallel Term.sort t) :
+    BetaStarStep Term.sort t := by
+  cases betaParallel_sort_unique h
+  exact BetaStarStep.refl Term.sort
+
 theorem betaParallel_var_unique {i : Idx} {t : Term}
     (h : BetaParallel (Term.var i) t) :
     t = Term.var i := by
@@ -266,6 +272,12 @@ theorem betaParallel_var_unique_target {i : Idx} {t : Term}
     t = Term.var i := by
   cases h
   rfl
+
+theorem betaStarStep_of_betaParallel_var {i : Idx} {t : Term}
+    (h : BetaParallel (Term.var i) t) :
+    BetaStarStep (Term.var i) t := by
+  cases betaParallel_var_unique h
+  exact BetaStarStep.refl (Term.var i)
 
 theorem betaParallel_pi_shape {d c t : Term}
     (h : BetaParallel (Term.pi d c) t) :
@@ -631,6 +643,13 @@ theorem betaStarStep_atom_refl_only {t t' : Term}
       | intro i hi =>
           cases hi
           exact betaStar_var_target i h
+
+theorem betaStarStep_atom_reflexive {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaStarStep t t') :
+    t = t' := by
+  cases betaStarStep_atom_refl_only hatom h
+  rfl
 
 theorem betaParallel_betaStarStep_atom_coincide {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
