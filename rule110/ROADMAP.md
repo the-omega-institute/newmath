@@ -28,11 +28,11 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] A3: Implement gliders B, C, D (additional simple gliders). Each gets emit function + emergence test under Rule 110 evolution.
 
-- [ ] A4: Implement gliders E, F (complex gliders).
+- [x] A4: Implement gliders E, F (complex gliders).
 
-- [ ] A5: Implement gliders G, H (rare). Test catalog completeness — 8 named glider families per Cook paper §3.
+- [x] A5: Implement gliders G, H (rare). Test catalog completeness — 8 named glider families per Cook paper §3.
 
-- [ ] A6: Implement glider gun (periodic source). Test under Rule 110 evolution for 1000+ timesteps.
+- [x] A6: Implement glider gun (periodic source). Test under Rule 110 evolution for 1000+ timesteps.
 
 ## Phase B: Collision table + leader/ossifier (5-10 days)
 
