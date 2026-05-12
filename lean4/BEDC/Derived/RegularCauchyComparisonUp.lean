@@ -97,4 +97,27 @@ theorem RegularCauchyComparisonCarrier_semantic_name_certificate [AskSetup] [Pac
       exact source
   }
 
+theorem RegularCauchyComparisonCarrier_public_rows_zero_head_absurd [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert zWindow zLedger zSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      (hsame window (BHist.e0 zWindow) -> False) ∧
+        (hsame ledger (BHist.e0 zLedger) -> False) ∧
+          (hsame sealRow (BHist.e0 zSeal) -> False) := by
+  intro carrier
+  obtain ⟨_leftUnary, _rightUnary, windowUnary, _observationsUnary, _toleranceUnary,
+    ledgerUnary, sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, _ledgerSame, _pkgSig⟩ := carrier
+  constructor
+  · intro sameWindowZero
+    exact unary_no_zero_extension (unary_transport windowUnary sameWindowZero)
+  constructor
+  · intro sameLedgerZero
+    exact unary_no_zero_extension (unary_transport ledgerUnary sameLedgerZero)
+  · intro sameSealZero
+    exact unary_no_zero_extension (unary_transport sealUnary sameSealZero)
+
 end BEDC.Derived.RegularCauchyComparisonUp
