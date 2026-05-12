@@ -97,16 +97,47 @@ Fold-prefix closure is exactly \autoref{thm:golden-mean-shift-fold-prefix-closur
 Finally, ledger exactness follows by unfolding the five carrier rows of \autoref{def:golden-mean-shift-carrier}. The ledger contains the accepted bit rows, adjacency decisions, prefix and fold provenance, and componentwise $\hsame$ classifier rows, and it contains no Fibonacci counting, Zeckendorf arithmetic, entropy, inverse-limit, or host symbolic-dynamics datum.
 \end{proof}
 
+\begin{theorem}[GoldenMeanShift carrier row scope]
+\label{thm:golden-mean-shift-carrier-row-scope}
+The carrier rows $W,Z,O,P,L$ of \autoref{def:golden-mean-shift-carrier} are exactly the finite $\mathsf{BHist}$ bit-window rows, the all-zero witness row, the zero-zero/zero-one/one-zero adjacency ledger, the displayed $\Cont$ and $\mathsf{Pkg}$ provenance rows, and the local $\NameCert$ ledger. No entropy coordinate, inverse-limit coordinate, infinite shift space, or host symbolic-dynamics row belongs to the carrier.
+\end{theorem}
+\begin{proof}
+Project the five coordinates in \autoref{def:golden-mean-shift-carrier}. The $W$ coordinate is the finite visible bit-window row, $Z$ is the all-zero witness for that window shape, and $O$ is the finite adjacency ledger whose accepted neighboring rows are zero-zero, zero-one, or one-zero.
+
+The remaining coordinates are provenance and naming data: $P$ records the displayed prefix and fold readbacks through $\Cont$ and $\mathsf{Pkg}$, while $L$ records the local $\NameCert$ ledger for the componentwise classifier rows. Since the definition lists no further coordinate, entropy, inverse limits, infinite host shifts, and external symbolic-dynamics objects have no carrier row to project.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift classifier row scope]
+\label{thm:golden-mean-shift-classifier-row-scope}
+The $\GoldenMeanShiftUp$ classifier is componentwise $\hsame$ on the visible bit rows of $W$. Its transport surface is precisely the local stability route of \autoref{thm:golden-mean-shift-local-stability}: transported bit rows, all-zero witnesses, adjacency ledgers, provenance rows, and $\NameCert$ rows remain accepted exactly when the transported adjacency ledger still lists only zero-zero, zero-one, or one-zero rows.
+\end{theorem}
+\begin{proof}
+The classifier row named in \autoref{def:golden-mean-shift-carrier} and \autoref{thm:golden-mean-shift-namecert-obligation-surface} compares displayed bit rows componentwise by $\hsame$. There is no hidden quotient or ambient shift coordinate on which another classifier could act.
+
+Apply \autoref{thm:golden-mean-shift-local-stability}. That theorem transports exactly the visible bit rows, the all-zero witness, the adjacency ledger, the $\Cont$ and $\mathsf{Pkg}$ provenance, and the local $\NameCert$ row. The transported packet is accepted precisely under the same local adjacency alternatives, so the classifier transport surface is the local stability row and nothing larger.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift ledger row scope]
+\label{thm:golden-mean-shift-ledger-row-scope}
+The $\GoldenMeanShiftUp$ ledger exhausts adjacency decisions by the zero-zero, zero-one, and one-zero rows. Its finite prefix and fold restrictions are exactly the restrictions supplied by \autoref{thm:golden-mean-shift-fold-prefix-closure} together with the local decision exhaustion of \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion}.
+\end{theorem}
+\begin{proof}
+Inspect the adjacency row $O$ in \autoref{def:golden-mean-shift-carrier}. An accepted neighboring pair is recorded only as zero-zero, zero-one, or one-zero, and \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion} rules out any one-one acceptance route or external counting row.
+
+Now restrict along a displayed prefix or fold readback. By \autoref{thm:golden-mean-shift-fold-prefix-closure}, the restricted packet keeps only the corresponding subrows of $W,Z,O,P,L$. Applying \autoref{thm:golden-mean-shift-adjacency-ledger-exhaustion} to that restricted ledger shows that every retained adjacency decision is still one of the same three local rows.
+\end{proof}
+
 \closureat{GoldenMeanShiftUp}{obligationStr}[BEDC.Derived.GoldenMeanShiftUp.GoldenMeanShiftCarrier\_semantic\_name\_certificate]
+\closureat{GoldenMeanShiftUp}{scopedStr}[BEDC.Derived.GoldenMeanShiftUp.GoldenMeanShiftCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\GoldenMeanShiftUp}
   \constructivestory{A golden-mean finite window is generated from binary $\mathsf{BHist}$ rows together with an adjacency ledger excluding one-one neighbors, an all-zero inhabitant, prefix and fold provenance, and componentwise $\hsame$ classifier rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is the finite no-adjacent-one $\mathsf{BHist}$ carrier, its all-zero inhabitant, componentwise classifier laws, transport row, fold-prefix row, and exact local ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface is the finite no-adjacent-one $\mathsf{BHist}$ carrier row, componentwise $\hsame$ classifier row, exhausted adjacency ledger row, local stability row, fold-prefix closure row, and $\NameCert$ obligation surface over $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.GoldenMeanShiftUp.GoldenMeanShiftCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Fibonacci counting, Zeckendorf arithmetic, entropy, inverse limits, or host symbolic-dynamics theorems.}
-  \upgradepath{Scoped closure requires binding the same finite no-adjacent-one $\mathsf{BHist}$ rows through the adjacency ledger, fold-prefix closure, local stability, and exact $\NameCert$ ledger over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{Public closure requires exporting the scoped finite-window package to downstream consumers without adding entropy, inverse-limit, or host symbolic-dynamics coordinates.}
 \end{closurestatus}
