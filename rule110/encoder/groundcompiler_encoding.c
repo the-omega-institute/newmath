@@ -83,3 +83,19 @@ GcDecResult gc_dec_event(const uint8_t *in, size_t in_len, size_t fuel) {
     r.status = GC_REJECT_UNFINISHED_EVENT; r.event = evt; r.event_len = eo;
     return r;
 }
+
+size_t gc_bhist_encode(const BHist *bhist, uint8_t *out, size_t out_cap) {
+    if (bhist == NULL) return 0;
+    if (bhist->depth > 0 && bhist->choices == NULL) return 0;
+    return gc_event_encode(bhist->choices, bhist->depth, out, out_cap);
+}
+
+GcBhistDecResult gc_bhist_decode(const uint8_t *in, size_t in_len, size_t fuel) {
+    GcDecResult event = gc_dec_event(in, in_len, fuel);
+    GcBhistDecResult r;
+    r.status = event.status;
+    r.bhist.choices = event.event;
+    r.bhist.depth = event.event_len;
+    r.bytes_consumed = event.bytes_consumed;
+    return r;
+}
