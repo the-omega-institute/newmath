@@ -141,4 +141,30 @@ theorem ProductMetricCarrier_projection_route_exactness [AskSetup] [PackageSetup
   exact
     ⟨productRow, leftReadSame, rightReadSame, leftReadUnary, rightReadUnary, provenancePkg⟩
 
+theorem ProductMetricCarrier_distance_ledger_triangle_route [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      triangleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont distance transport triangleRead ->
+        UnaryHistory distance ∧ UnaryHistory transport ∧ UnaryHistory triangleRead ∧
+          Cont product distance transport ∧ Cont distance transport triangleRead ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier triangleRoute
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary distanceRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed productUnary distanceUnary transportRow
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed distanceUnary transportUnary triangleRoute
+  exact
+    ⟨distanceUnary, transportUnary, triangleReadUnary, transportRow, triangleRoute,
+      provenancePkg⟩
+
 end BEDC.Derived.ProductMetricUp
