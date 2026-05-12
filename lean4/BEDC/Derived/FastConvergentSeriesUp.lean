@@ -389,6 +389,57 @@ theorem FastConvergentSeriesCarrier_bridge_boundary_package [AskSetup] [PackageS
       exact ⟨source.left, pkgSig⟩
   }
 
+theorem FastConvergentSeriesCarrier_public_export [AskSetup] [PackageSetup]
+    {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
+      nameCert consumerRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+        realSeal transports routes provenance nameCert bundle pkg ->
+      FastConvergentSeriesTailBoundPacket series partialSums schedule tailLedger
+        regReadback realSeal transports provenance nameCert bundle pkg ->
+        Cont tailLedger regReadback consumerRead ->
+          Cont realSeal provenance endpoint ->
+            PkgSig bundle endpoint pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row endpoint ∧ Cont realSeal provenance row ∧
+                      FastConvergentSeriesCarrier series seq partialSums schedule tailLedger
+                        regReadback realSeal transports routes provenance nameCert bundle pkg)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => hsame row endpoint ∧ PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory series ∧ UnaryHistory partialSums ∧ UnaryHistory schedule ∧
+                  UnaryHistory tailLedger ∧ UnaryHistory regReadback ∧ UnaryHistory realSeal ∧
+                    UnaryHistory consumerRead ∧ UnaryHistory endpoint ∧
+                      hsame realSeal consumerRead ∧ Cont tailLedger regReadback consumerRead ∧
+                        Cont realSeal provenance endpoint ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle endpoint pkg := by
+  intro carrier packet consumerRow endpointRow endpointPkg
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row endpoint ∧ Cont realSeal provenance row ∧
+              FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+                realSeal transports routes provenance nameCert bundle pkg)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle provenance pkg)
+          hsame :=
+    FastConvergentSeriesCarrier_bridge_boundary_package carrier endpointRow
+  have publicRows :=
+    FastConvergentSeriesCarrier_public_tail_budget_export carrier packet consumerRow endpointRow
+      endpointPkg
+  have handoff :=
+    FastConvergentSeriesCarrier_bridge_completion_handoff carrier packet consumerRow endpointRow
+  obtain ⟨seriesUnary, partialSumsUnary, scheduleUnary, tailLedgerUnary, regReadbackUnary,
+    realSealUnary, consumerUnary, _seriesRow, _scheduleRow, _consumerRow, _endpointRow,
+    _tailSame, _sealSame, provenancePkg, endpointPkg'⟩ := publicRows
+  obtain ⟨sameRealConsumer, _handoffConsumerUnary, endpointUnary, _handoffConsumerRow,
+    _handoffEndpointRow, _handoffPkg⟩ := handoff
+  exact
+    ⟨cert, seriesUnary, partialSumsUnary, scheduleUnary, tailLedgerUnary, regReadbackUnary,
+      realSealUnary, consumerUnary, endpointUnary, sameRealConsumer, consumerRow, endpointRow,
+      provenancePkg, endpointPkg'⟩
+
 theorem FastConvergentSeriesTailBoundPacket_bridge_completion_handoff [AskSetup] [PackageSetup]
     {summand partialSums schedule tailLedger regseqratReadback sealRow transport provenance
       localCert consumerRead endpoint : BHist}
@@ -421,5 +472,53 @@ theorem FastConvergentSeriesTailBoundPacket_bridge_completion_handoff [AskSetup]
     ⟨sameSealConsumer, partialSumsUnary, scheduleUnary, tailLedgerUnary, regseqratReadbackUnary,
       consumerUnary, endpointUnary, partialScheduleRow, consumerRow, endpointRow, provenancePkg,
       endpointPkg⟩
+
+theorem FastConvergentSeriesCarrier_cauchy_consumer_coverage [AskSetup] [PackageSetup]
+    {series seq partialSums schedule tailLedger regReadback realSeal transports routes provenance
+      nameCert consumerRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastConvergentSeriesCarrier series seq partialSums schedule tailLedger regReadback
+        realSeal transports routes provenance nameCert bundle pkg ->
+      FastConvergentSeriesTailBoundPacket series partialSums schedule tailLedger regReadback
+        realSeal transports provenance nameCert bundle pkg ->
+        Cont tailLedger regReadback consumerRead ->
+          Cont realSeal provenance endpoint ->
+            PkgSig bundle endpoint pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row endpoint ∧ Cont realSeal provenance row ∧
+                      FastConvergentSeriesCarrier series seq partialSums schedule tailLedger
+                        regReadback realSeal transports routes provenance nameCert bundle pkg)
+                  (fun row : BHist => hsame row endpoint)
+                  (fun row : BHist => hsame row endpoint ∧ PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory consumerRead ∧ UnaryHistory endpoint ∧
+                  Cont tailLedger regReadback consumerRead ∧ Cont realSeal provenance endpoint ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  intro carrier packet consumerRow endpointRow endpointPkg
+  have carrierProof := carrier
+  obtain ⟨_seriesUnary, _seqUnary, _partialSumsUnary, _scheduleUnary, tailLedgerUnary,
+    _regReadbackCarrierUnary, realSealUnary, _transportsUnary, _routesUnary,
+    _nameCertCarrierUnary, _seriesSeqPartial, _schedulePartialTail, _tailReadbackSeal,
+    _sealProvenanceName, _tailSame, _sealSame, _carrierPkg⟩ := carrier
+  obtain ⟨_packetSeriesUnary, _packetPartialUnary, _packetScheduleUnary, regReadbackUnary,
+    _packetSealUnary, provenanceUnary, _packetTailRow, _packetSealRow, _packetTransportRow,
+    _packetProvenanceRow, provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed tailLedgerUnary regReadbackUnary consumerRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed realSealUnary provenanceUnary endpointRow
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row endpoint ∧ Cont realSeal provenance row ∧
+              FastConvergentSeriesCarrier series seq partialSums schedule tailLedger
+                regReadback realSeal transports routes provenance nameCert bundle pkg)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle provenance pkg)
+          hsame :=
+    FastConvergentSeriesCarrier_bridge_boundary_package carrierProof endpointRow
+  exact
+    ⟨cert, consumerUnary, endpointUnary, consumerRow, endpointRow, provenancePkg, endpointPkg⟩
 
 end BEDC.Derived.FastConvergentSeriesUp
