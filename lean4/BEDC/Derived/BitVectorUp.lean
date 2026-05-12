@@ -303,6 +303,25 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFiniteLedger_fixed_length_consumer_determinacy [AskSetup] [PackageSetup]
+    {length spine ledger provenance read ledger' read' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      Cont length spine ledger' ->
+        Cont ledger' provenance read' ->
+          PkgSig bundle read' pkg ->
+            hsame ledger ledger' ∧ hsame read read' := by
+  intro finiteLedger ledgerRow' readRow' _pkgSig'
+  have ledgerRow : Cont length spine ledger :=
+    finiteLedger.right.right.right.left
+  have readRow : Cont ledger provenance read :=
+    finiteLedger.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame (hsame_refl length) (hsame_refl spine) ledgerRow ledgerRow'
+  have sameRead : hsame read read' :=
+    cont_respects_hsame sameLedger (hsame_refl provenance) readRow readRow'
+  exact And.intro sameLedger sameRead
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
