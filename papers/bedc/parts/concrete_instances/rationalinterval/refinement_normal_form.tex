@@ -107,6 +107,7 @@ common-refinement witness for the fixed endpoint packet without selecting
 completed real equality, quotient Cauchy classes, located subsets, apartness,
 interval arithmetic, or host standard interval data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalRefinement\_choice\_neutrality}
 \begin{proof}
 Use \autoref{thm:rational-interval-common-refinement-window} to put both
 refinement choices over explicit finite endpoint and containment windows, and
@@ -212,4 +213,47 @@ identifies all displayed witness choices at the finite $\RegSeqRatUp$ and
 $\RealUp$ consumer surface. Since every step only repacks the listed finite
 rational-window rows, the excluded completed-real, quotient, located-subset,
 apartness, arithmetic, and host-standard structures are not exported.
+\end{proof}
+
+\begin{theorem}[RationalInterval normal form terminal seal compatibility]
+\label{thm:rationalinterval-normal-form-terminal-seal-compatibility}
+Let $T$ be any finite $\RationalIntervalUp$ containment, bisection, and
+common-refinement tree whose terminal rows are consumed by $\RegSeqRatUp$ or by
+a finite-window $\RealUp$ read. Replacing $T$ by the left-associated directed
+normal form of \autoref{thm:rationalinterval-refinement-normal-form} preserves
+the terminal seal surface exactly: the visible $\RatUp$ lower and upper
+endpoints, dyadic-width rows, containment and refinement ledgers,
+$\mathsf{BHist}$ entries, $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\RationalIntervalUp}$ rows are the same
+finite rows for every terminal consumer.
+
+Thus any $\RegSeqRatUp$ consumer and any finite-window $\RealUp$ consumer sees
+the same terminal packet before and after normal-form replacement. The
+compatibility statement exports no completed $\RealUp$ equality, quotient
+Cauchy class, located subset, apartness row, interval arithmetic operation, or
+host interval datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rationalinterval-refinement-normal-form} to factor the
+finite tree through the left-associated directed rational-window basis. The
+factorization is defined only by repacking the displayed endpoint,
+dyadic-width, containment, refinement, history, transport, continuation,
+package, and local certificate rows.
+
+For a $\RegSeqRatUp$ terminal read, use
+\autoref{thm:rationalinterval-finite-consumer-completeness}. That theorem says
+that every finite consumer read factors through the displayed packet rows, so
+the normal form has the same seal surface as the original tree at the
+$\RegSeqRatUp$ boundary.
+
+For a finite-window $\RealUp$ terminal read, use
+\autoref{thm:rationalinterval-nested-consumer-window-factorization}. It
+restricts the read to the nested finite rational-window rows and hence to the
+same endpoint, width, ledger, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates preserved by the normal form.
+
+The construction never introduces coordinates for completed real equality,
+quotient Cauchy classes, located subsets, apartness, interval arithmetic, or
+host interval data. Those objects therefore remain outside the terminal seal
+surface.
 \end{proof}
