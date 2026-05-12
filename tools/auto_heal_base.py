@@ -66,6 +66,41 @@ For each duplicate label X appearing in files A and B:
 If any duplicate is genuinely ambiguous (canonical site unclear), leave it for a human and explain in your final message.
 """
 
+HEAL_GATE_STORM_PROMPT = """You are healing the BEDC pipeline against a systematic gate-failure storm on the codex-auto-dev branch.
+
+Recent BEDC pipeline observation: a single gate is rejecting many rounds in a short window, indicating a prompt-vs-gate misalignment, a regression, or a missing rule in the phase prompts. The current operator wants to repair it WITHOUT restarting the orchestrator (round prompts are hot-reloaded; code in `codex_formalize.py` / `codex_revise.py` is not).
+
+## Storm summary
+
+Gate signature:   `{gate}`
+Window:           {minutes}-min sliding window
+Failure count:    {count}
+Affected rounds:  {rounds}
+
+Representative failure lines (last 5):
+{samples}
+
+## Resolution playbook
+
+1. Identify the rule the gate enforces by inspecting `lean4/scripts/codex_formalize.py` (for R-rounds) or `papers/bedc/scripts/codex_revise.py` (for P-rounds). The gate name above will appear in a `logger.error(...)` line near a `Rejecting round` / `Pre-merge hard gate failed` site.
+2. Read the relevant phase prompt file:
+   - `lean4/scripts/prompts/phase_b.txt`   — R-side target selection
+   - `lean4/scripts/prompts/phase_c.txt`   — R-side implementation
+   - `lean4/scripts/prompts/round_fallback_resolve.txt` — R-side recovery codex
+   - `papers/bedc/scripts/prompts/phase_review.txt` — P-side target selection
+   - `papers/bedc/scripts/prompts/phase_revise.txt` — P-side implementation
+   Decide whether the gate is documented as a HARD GATE there. If absent or weakly stated, the prompt is the bug; the gate is correct.
+3. Edit ONE prompt file to add an explicit HARD GATE block matching the gate's actual regex / path-match logic. State the rule, the rationale, and an explicit workaround (what codex should do INSTEAD when the natural target would trip the gate). Cite the observed storm: include the count + a representative round id from {rounds} so future readers see the historical justification.
+4. Do NOT modify `codex_formalize.py` / `codex_revise.py` themselves — orchestrator restart would lose in-flight workers, which the project rule forbids.
+5. Do NOT touch the `parts/visions/` directory, the `lean4/BEDC/**/Examples/**` tree, or any `*Examples*` / `*Scaffold*` / `*Demo*` path; those are read-only by project rule.
+6. After editing: `make check` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
+7. `git add` + `git commit -m "auto-heal: <gate-name> storm — explicit HARD GATE in <prompt-file>"`. Do NOT push (the daemon handles push).
+
+## When NOT to act
+
+If the storm is genuinely transient (e.g. the gate is for a now-removed file path, or the offending rounds were all dispatched before a recent prompt commit), leave alone and explain in your final message. The next dispatch wave will not reproduce the storm and human intervention is not warranted.
+"""
+
 HEAL_DUP_CONCLUSIONS_PROMPT = """You are healing the BEDC Lean library to remove a stuck duplicate-conclusion theorem on the codex-auto-dev branch.
 
 Two theorems in `{file}` have semantically equivalent conclusions and `phase_d_lint.py` rejects every round that merges this BASE:
@@ -104,6 +139,128 @@ def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None
 
 def git(*args, **kwargs):
     return run(["git", *args], **kwargs)
+
+
+GATE_STORM_WINDOW_MINUTES = 30
+GATE_STORM_THRESHOLD = 5  # ≥5 rounds rejected by same gate in window = storm
+LEAN_ORCH_LOG = REPO_ROOT / "lean4" / "scripts" / "logs" / "orchestrator.log"
+PAPER_ORCH_LOG = REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log"
+
+# Gate signature patterns (regex matched against orchestrator log lines).
+# (gate_name, side, regex_pattern, round_id_extractor_regex)
+GATE_PATTERNS = [
+    ("Examples/scaffold target paths",
+     "R",
+     r"Rejecting round: \d+ Lean file\(s\) use Examples/scaffold target paths",
+     r"\[(R\d+)\]"),
+    ("NO BEDC TOUCHPOINT",
+     "R",
+     r"Rejecting round: \d+ new declaration\(s\) do not mention BEDC kernel/setup",
+     r"\[(R\d+)\]"),
+    ("axiom-purity --strict",
+     "R",
+     r"Pre-merge hard gate failed: python3 lean4/scripts/bedc_ci.py axiom-purity --strict",
+     r"\[(R\d+)\]"),
+    ("SHALLOW GROWTH PATTERN",
+     "R",
+     r"SHALLOW GROWTH PATTERN:",
+     r"\[(R\d+)\]"),
+    ("Phase B failed: no targets extracted",
+     "R",
+     r"Phase B failed: no targets extracted",
+     r"\[(R\d+)\]"),
+    ("Pre-merge lake build",
+     "R",
+     r"Pre-merge hard gate failed: lake build",
+     r"\[(R\d+)\]"),
+    ("Paper Phase REVIEW JSON parse",
+     "P",
+     r"Phase REVIEW failed: could not parse JSON output",
+     r"\[(P\d+)\]"),
+    ("Paper OVERSIZED .TEX",
+     "P",
+     r"OVERSIZED \.TEX:.*exceeds cap",
+     r"\[(P\d+)\]"),
+]
+
+
+def detect_gate_storms() -> list[dict]:
+    """Scan orchestrator logs for any single gate that has rejected
+    >= GATE_STORM_THRESHOLD rounds in the last GATE_STORM_WINDOW_MINUTES.
+    Returns a list of dicts: {gate, side, count, rounds, samples} sorted
+    by count desc.
+
+    Reads only the tail of each log (4 MB) to keep the scan cheap; that
+    covers ~6-12 hours of orchestrator log on a busy day."""
+    from datetime import datetime, timedelta
+    cutoff = (datetime.now() - timedelta(minutes=GATE_STORM_WINDOW_MINUTES)).strftime("%Y-%m-%d %H:%M:%S")
+
+    def read_tail(p: Path, mb: int = 4) -> str:
+        if not p.exists():
+            return ""
+        try:
+            size = p.stat().st_size
+            with p.open("rb") as f:
+                if size > mb * 1024 * 1024:
+                    f.seek(size - mb * 1024 * 1024)
+                return f.read().decode("utf-8", errors="ignore")
+        except Exception:
+            return ""
+
+    lean_tail = read_tail(LEAN_ORCH_LOG)
+    paper_tail = read_tail(PAPER_ORCH_LOG)
+    side_tails = {"R": lean_tail, "P": paper_tail}
+
+    import re as _re
+    storms: list[dict] = []
+    for gate_name, side, pattern, rid_extractor in GATE_PATTERNS:
+        tail = side_tails.get(side, "")
+        if not tail:
+            continue
+        rid_re = _re.compile(rid_extractor)
+        gate_re = _re.compile(pattern)
+        rounds: list[str] = []
+        samples: list[str] = []
+        for line in tail.splitlines():
+            if line[:19] < cutoff:
+                continue
+            if not gate_re.search(line):
+                continue
+            m = rid_re.search(line)
+            if m:
+                rounds.append(m.group(1))
+            if len(samples) < 5:
+                samples.append(line[:240])
+        # Dedup rounds (one gate trigger per round)
+        rounds_unique = list(dict.fromkeys(rounds))
+        if len(rounds_unique) >= GATE_STORM_THRESHOLD:
+            storms.append({
+                "gate": gate_name,
+                "side": side,
+                "count": len(rounds_unique),
+                "rounds": rounds_unique[:20],
+                "samples": samples,
+            })
+    storms.sort(key=lambda s: s["count"], reverse=True)
+    return storms
+
+
+def heal_gate_storm(storm: dict) -> bool:
+    """Invoke codex to repair a recurring gate-failure storm via prompt fix."""
+    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    prompt = HEAL_GATE_STORM_PROMPT.format(
+        gate=storm["gate"],
+        minutes=GATE_STORM_WINDOW_MINUTES,
+        count=storm["count"],
+        rounds=", ".join(storm["rounds"]),
+        samples="\n".join(f"  {s}" for s in storm["samples"]),
+    )
+    rc = call_codex(prompt, timeout=1800)
+    head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    if head_before == head_after:
+        print(f"[heal] gate-storm '{storm['gate']}': codex made no commit (rc={rc})", file=sys.stderr)
+        return False
+    return True
 
 
 def detect_dup_labels() -> list[tuple[str, list[str]]]:
@@ -235,19 +392,41 @@ def cycle() -> None:
 
     # Detect dup labels.
     dups = detect_dup_labels()
-    if not dups:
+    if dups:
+        print(f"[heal] {len(dups)} stuck dup label group(s) detected; invoking codex",
+              flush=True)
+        for label, sites in dups[:5]:
+            print(f"[heal]   {label} @ {sites}", flush=True)
+        if heal_dup_labels(dups):
+            if push_to_origin():
+                print("[heal] codex committed + pushed (dup labels)", flush=True)
+            else:
+                print("[heal] codex committed but push failed (will retry next tick)",
+                      flush=True)
+            return  # one heal per cycle is enough
+    else:
         print("[heal] audit clean (0 dup labels)", flush=True)
-        return
-    print(f"[heal] {len(dups)} stuck dup label group(s) detected; invoking codex",
-          flush=True)
-    for label, sites in dups[:5]:
-        print(f"[heal]   {label} @ {sites}", flush=True)
 
-    if heal_dup_labels(dups):
+    # Detect generic gate-failure storms in orchestrator logs.
+    storms = detect_gate_storms()
+    if not storms:
+        print("[heal] no gate-failure storm in last 30min", flush=True)
+        return
+    print(f"[heal] {len(storms)} gate-failure storm(s) detected:", flush=True)
+    for s in storms:
+        print(f"[heal]   {s['side']}-side '{s['gate']}': {s['count']} rounds in 30min",
+              flush=True)
+    # Heal the worst one this cycle (next cycle picks up the next if codex's
+    # prompt fix actually drained the top storm).
+    top = storms[0]
+    print(f"[heal] healing top storm: {top['gate']} ({top['count']} rounds)",
+          flush=True)
+    if heal_gate_storm(top):
         if push_to_origin():
-            print("[heal] codex committed + pushed", flush=True)
+            print(f"[heal] codex committed + pushed (gate storm: {top['gate']})",
+                  flush=True)
         else:
-            print("[heal] codex committed but push failed (will retry next tick)",
+            print(f"[heal] codex committed but push failed (will retry next tick)",
                   flush=True)
 
 
