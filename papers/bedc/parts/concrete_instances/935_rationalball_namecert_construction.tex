@@ -401,6 +401,45 @@ remain absent because none is a coordinate of the bridge or of the public
 finite consumer export.
 \end{proof}
 
+\begin{theorem}[RationalBall dyadic-radius readback]
+\label{thm:rationalball-dyadic-radius-readback}
+Every accepted $\RationalBallUp$ packet whose radius row is displayed by a
+$\DyadicRatCoreUp$ tolerance window gives a $\RealUp$-facing readback
+determined exactly by the $\RatUp$ center row, the $\DyadicRatCoreUp$ radius
+row, the $\RationalIntervalUp$ containment ledger, the $\RegSeqRatUp$
+observation window, displayed $\hsame$ transports, visible $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RationalBallUp}$ ledger.
+
+The readback exports no metric completion point, open-ball compactness claim,
+open-cover topology, quotient real equality, or $\RealUp$ completeness
+principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the finite carrier of
+\autoref{def:rational-ball-bhist-carrier}. In the dyadic-radius case, the
+consumer-visible coordinates are the rational center row, dyadic radius row,
+containment ledger, transport rows, continuation routes, package provenance,
+and local naming ledger.
+
+Apply \autoref{thm:rational-ball-containment-exactness}. This identifies the
+center-radius containment row inside the displayed
+$\RationalIntervalUp$ ledger and leaves no separate metric completion
+coordinate.
+
+Use \autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rational-ball-real-window-handoff}. These route the regular
+rational observation window and the $\RealUp$-facing read through the same
+finite dyadic-radius packet.
+
+Finally invoke
+\autoref{thm:rationalball-mature-finite-consumer-completeness}. The mature
+consumer surface is exhausted by the center, dyadic radius, containment,
+observation, transport, continuation, package, and naming rows, so the stated
+readback contains none of the excluded completion, compactness, topology,
+quotient, or real-completeness data.
+\end{proof}
+
 \begin{theorem}[RationalBall metric positive containment transport]
 \label{thm:rationalball-metric-positive-containment-transport}
 An accepted $\RationalBallUp$ packet with nonnegative radius and finite
