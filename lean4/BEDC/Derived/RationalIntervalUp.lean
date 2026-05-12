@@ -23,6 +23,28 @@ def RationalIntervalPacket [AskSetup] [PackageSetup]
         Cont order containment transport ∧ Cont transport route provenance ∧
           Cont provenance name endpoint ∧ PkgSig bundle endpoint pkg
 
+theorem RationalIntervalPacket_endpoint_order_classifier [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint left' right' order' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          Cont left' right' order' ->
+            UnaryHistory left' ∧ UnaryHistory right' ∧ UnaryHistory order' ∧
+              Cont left' right' order' ∧ hsame order order' := by
+  intro packet sameLeft sameRight leftRightOrder'
+  rcases packet with
+    ⟨leftUnary, rightUnary, orderUnary, _containmentUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, _endpointUnary, leftRightOrder, _orderContainmentTransport,
+      _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩
+  have sameOrder : hsame order order' :=
+    cont_respects_hsame sameLeft sameRight leftRightOrder leftRightOrder'
+  exact
+    ⟨unary_transport leftUnary sameLeft, unary_transport rightUnary sameRight,
+      unary_transport orderUnary sameOrder, leftRightOrder', sameOrder⟩
+
 theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint left' right' order'
       containment' transport' route' provenance' name' endpoint' : BHist}
