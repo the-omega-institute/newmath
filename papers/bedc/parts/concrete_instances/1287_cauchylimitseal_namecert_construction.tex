@@ -372,6 +372,51 @@ tail route share the same windows, tolerance row, tail ledger, diagonal row,
 and seal, so no excluded coordinate can be introduced between the two packets.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal uniform family source]
+\label{thm:cauchy-limit-seal-uniform-family-source}
+The family-source packet for the public $\CauchyLimitSealUp$ route is the finite row family over $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ consisting of:
+\begin{enumerate}
+\item a shared $\StreamNameUp$ index schedule for the family windows;
+\item a $\RegSeqRatUp$ source row for each scheduled regular rational stream;
+\item a $\CauchyModulusUp$ row assigning the displayed tail modulus for the scheduled family;
+\item a $\DyadicRatCoreUp$ tolerance row for each requested window precision;
+\item a $\NullSequenceUp$ zero-tail row witnessing that family differences vanish inside the scheduled tail;
+\item a $\RealUp$ seal handoff row for the downstream real consumer.
+\end{enumerate}
+The packet is read only through the public route of \autoref{def:cauchy-limit-seal-public-route-packet}, the uniform tail route of \autoref{thm:cauchy-limit-seal-uniform-tail-seal-route}, and the family non-escape boundary of \autoref{thm:cauchy-limit-seal-family-seal-non-escape}.
+\end{theorem}
+\begin{proof}
+Begin with the public route packet of \autoref{def:cauchy-limit-seal-public-route-packet}. It supplies the scheduled $\StreamNameUp$ window family, the displayed $\RegSeqRatUp$ source rows, the dyadic observation ledger, the completion diagonal row, and the $\RealUp$ seal row.
+
+Attach the uniform tail route of \autoref{thm:cauchy-limit-seal-uniform-tail-seal-route}. That route adds the shared $\CauchyModulusUp$ and $\DyadicRatCoreUp$ tolerance rows and reads the family tail through the same scheduled windows.
+
+Finally use the family non-escape theorem \autoref{thm:cauchy-limit-seal-family-seal-non-escape}. It prevents quotient stream families, selected family limits, hidden tail witnesses, and ambient completeness data from entering the source packet, so the listed six row types exhaust the family-source surface.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal family window pullback]
+\label{thm:cauchy-limit-seal-family-window-pullback}
+Every family-seal consumer window of an accepted $\CauchyLimitSealUp$ packet factors through the existing public route packet and then pulls back along the uniform-criterion route. Concretely, a consumer read must pass through the shared $\StreamNameUp$ schedule, the $\RegSeqRatUp$ source row, the $\DyadicRatCoreUp$ observation ledger, the $\CauchyModulusUp$ tail row, the $\NullSequenceUp$ zero-tail comparison, the $\RealCauchyCompletionUp$ diagonal row, and the $\RealUp$ seal before it reaches any downstream family consumer.
+\end{theorem}
+\begin{proof}
+First apply the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. It places every real or completion-facing consumer read inside the projected route packet $X,S,D,G,E,T,P,N$.
+
+Next apply the uniform-criterion pullback of \autoref{thm:cauchy-limit-seal-uniform-criterion-pullback}. The family window is pulled back to the shared index, tolerance, and tail rows before any seal read is consumed.
+
+Now combine the result with \autoref{thm:cauchy-limit-seal-uniform-tail-seal-route}. The route carries the uniform modulus and null-tail comparison through the same scheduled windows used by the public seal. The family non-escape boundary of \autoref{thm:cauchy-limit-seal-family-seal-non-escape} then excludes any hidden completion or selected family limit outside that pullback.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal family ledger exhaustion]
+\label{thm:cauchy-limit-seal-family-ledger-exhaustion}
+The family ledger for the $\CauchyLimitSealUp$ route contains exactly three classes of rows: source-index rows naming the $\StreamNameUp$ schedule and $\RegSeqRatUp$ family entries, tail-seal rows naming the $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\NullSequenceUp$ tail evidence, and $\RealUp$ handoff rows naming the diagonal completion route and final seal. It contains no hidden completion datum, no quotient stream family, no selected family limit, and no ambient completeness row.
+\end{theorem}
+\begin{proof}
+Read the source side through \autoref{thm:cauchy-limit-seal-uniform-family-source}. The only source-index data are the shared schedule and the displayed regular rational family entries.
+
+Read the tail side through \autoref{thm:cauchy-limit-seal-uniform-tail-seal-route}. The only tail-seal data are the modulus, dyadic tolerance, null-tail comparison, and their displayed transport rows.
+
+Read the endpoint through \autoref{thm:cauchy-limit-seal-realup-consumer-boundary} and the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. The endpoint is the diagonal completion route followed by the $\RealUp$ seal. The family non-escape theorem of \autoref{thm:cauchy-limit-seal-family-seal-non-escape} rules out every additional hidden completion, quotient family, selected limit, or ambient completeness row, so the three listed classes exhaust the ledger.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
 \closureat{CauchyLimitSealUp}{scopedStr}
