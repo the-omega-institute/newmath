@@ -99,6 +99,7 @@ The diagonal route $R$ is carried through $\RealDiagonalCompletionUp$, while $P$
 \label{thm:regular-cauchy-family-modulus-window-exactness}
 For every accepted $\RegularCauchyFamilyUp$ carrier $F=(I,X,\mu,W,D,R,H,C,P,N)$ and every unary precision request $n$, the row $\mu(n)$ determines one displayed $\RegSeqRatUp$ member read, one finite $\StreamNameUp$ window, the corresponding $\DyadicRatCoreUp$ observation rows, and the $\RealDiagonalCompletionUp$ diagonal handoff route. The determination is entirely internal to the $\mathsf{BHist}$ packet, its $\hsame$ transports, its $\Cont$ routes, $\Pkg$, and $\NameCert$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyFamilyUp.RegularCauchyFamilyCarrier\_modulus\_window\_exactness}
 \begin{proof}
 The modulus coordinate is part of the carrier, so the request $n$ first reads the displayed row $\mu(n)$. This row selects the late member named in the $\RegSeqRatUp$ member table $X$ over the inspected ledger $I$.
 
@@ -149,18 +150,31 @@ The handoff and boundary are \autoref{thm:regular-cauchy-family-diagonal-handoff
 The stability, exactness, and determinacy rows are \autoref{thm:regular-cauchy-family-carrier-transport-stability}, \autoref{thm:regular-cauchy-family-modulus-window-exactness}, and \autoref{thm:regular-cauchy-family-member-selection-determinacy}. The route package of \autoref{thm:regular-cauchy-family-scoped-route-package} binds these rows to the exact dependency surface consumed by $\RealCauchyCompletionUp$. These rows assemble the stated obligation package without adding any coordinate outside the listed BEDC objects.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFamily standard bridge boundary]
+\label{thm:regular-cauchy-family-standard-bridge-boundary}
+The public $\RegularCauchyFamilyUp$ packet bridges to the $\RealCauchyCompletionUp$ input schema through exactly the displayed $\RegSeqRatUp$ member rows, the $\CauchyModulusUp$ schedule, the $\StreamNameUp$ finite windows, the $\DyadicRatCoreUp$ observation ledgers, the $\RealDiagonalCompletionUp$ diagonal route, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. This standard bridge exports the completion-facing regular-family input and no quotient stream, selected limit, host real equality, host sequence equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the diagonal handoff of \autoref{thm:regular-cauchy-family-diagonal-handoff}. It identifies the completion-facing route as the selected modulus row, one $\RegSeqRatUp$ member, one finite $\StreamNameUp$ window, the matching $\DyadicRatCoreUp$ ledger, and the $\RealDiagonalCompletionUp$ route.
+
+Next apply \autoref{thm:regular-cauchy-family-modulus-window-exactness} and \autoref{thm:regular-cauchy-family-member-selection-determinacy}. These results make the selected member, window, ledger, and diagonal route determined by the displayed carrier rows for each precision request.
+
+Finally use \autoref{thm:regular-cauchy-family-obligation-closure-package}. The carrier, classifier, transport, package, and local certificate rows are already the whole public surface. Thus the bridge has no coordinate from which to read a quotient stream, selected limit, host real equality, host sequence equality, or ambient completeness principle.
+\end{proof}
+
 \closureat{RegularCauchyFamilyUp}{seedStr}
 \closureat{RegularCauchyFamilyUp}{obligationStr}
 \closureat{RegularCauchyFamilyUp}{scopedStr}
 \closureat{RegularCauchyFamilyUp}{publicStr}
+\closureat{RegularCauchyFamilyUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularCauchyFamilyUp}
   \constructivestory{A $\RegularCauchyFamilyUp$ packet is generated from finite $\RegSeqRatUp$ member rows, an explicit $\CauchyModulusUp$ schedule, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ observation ledgers, $\RealDiagonalCompletionUp$ diagonal routes, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-family-carrier}, \autoref{def:regular-cauchy-family-classifier}, \autoref{thm:regular-cauchy-family-diagonal-handoff}, \autoref{thm:regular-cauchy-family-modulus-window-exactness}, \autoref{thm:regular-cauchy-family-member-selection-determinacy}, and \autoref{thm:regular-cauchy-family-obligation-closure-package} export the public consumer surface sent to $\RealCauchyCompletionUp$ through diagonal handoff, modulus-window exactness, member-selection determinacy, and the obligation package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-family-carrier}, \autoref{def:regular-cauchy-family-classifier}, \autoref{thm:regular-cauchy-family-diagonal-handoff}, \autoref{thm:regular-cauchy-family-modulus-window-exactness}, \autoref{thm:regular-cauchy-family-member-selection-determinacy}, \autoref{thm:regular-cauchy-family-obligation-closure-package}, and \autoref{thm:regular-cauchy-family-standard-bridge-boundary} export the public consumer surface and paper bridge sent to $\RealCauchyCompletionUp$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or checked Lean implementation.}
-  \upgradepath{Bridge closure requires a standard bridge boundary from this public regular-family interface to the completion schema.}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, selected host limits, host real equality, or checked Lean implementation.}
+  \upgradepath{Machine verification requires the Lean bridge target BEDC.Derived.RegularCauchyFamilyUp.RegularCauchyFamilyStandardBridgeBoundary for this paper bridge.}
 \end{closurestatus}
