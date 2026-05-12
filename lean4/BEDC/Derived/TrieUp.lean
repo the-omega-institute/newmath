@@ -331,6 +331,36 @@ theorem TrieBHistSource_carrier_stability [AskSetup] [PackageSetup]
       pkgSig'⟩
   exact ⟨transported, sameKeyBranch, samePayloadRoute, sameEndpoint⟩
 
+theorem TrieBHistSource_lookup_ledger_exhaustion [AskSetup] [PackageSetup]
+    {key payload depth branch provenance keyBranch payloadRoute endpoint lookup consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieBHistSource key payload depth branch provenance keyBranch payloadRoute endpoint
+        bundle pkg ->
+      UnaryHistory lookup ->
+        Cont endpoint lookup consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+              UnaryHistory branch ∧ UnaryHistory provenance ∧ UnaryHistory keyBranch ∧
+                UnaryHistory payloadRoute ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+                  Cont key branch keyBranch ∧ Cont keyBranch payload payloadRoute ∧
+                    Cont payloadRoute depth endpoint ∧ Cont endpoint lookup consumer ∧
+                      PkgSig bundle consumer pkg := by
+  intro source lookupUnary lookupRow consumerPkg
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, keyBranchRow,
+    payloadRouteRow, endpointRow, _provenancePkg⟩ := source
+  have keyBranchUnary : UnaryHistory keyBranch :=
+    unary_cont_closed keyUnary branchUnary keyBranchRow
+  have payloadRouteUnary : UnaryHistory payloadRoute :=
+    unary_cont_closed keyBranchUnary payloadUnary payloadRouteRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed payloadRouteUnary depthUnary endpointRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary lookupUnary lookupRow
+  exact
+    ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, keyBranchUnary,
+      payloadRouteUnary, endpointUnary, consumerUnary, keyBranchRow, payloadRouteRow,
+      endpointRow, lookupRow, consumerPkg⟩
+
 def TrieSource [AskSetup] [PackageSetup]
     (key value depth branch provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
