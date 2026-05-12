@@ -220,6 +220,45 @@ theorem CauchyCompletionMonadPacket_downstream_completion_consumer_exactness [As
       scheduleWindowsObservations, observationsDiagonalSealRow, sealRowTransportRoute,
       routeNameSealRow, sealRowPkg⟩
 
+theorem CauchyCompletionMonadPacket_right_unit_visible_seal_preservation [AskSetup]
+    [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
+      unitRead unitSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      Cont diagonal BHist.Empty unitRead ->
+        Cont unitRead sealRow unitSeal ->
+          PkgSig bundle unitSeal pkg ->
+            UnaryHistory unitRead ∧ UnaryHistory unitSeal ∧ hsame diagonal unitRead ∧
+              hsame (append diagonal sealRow) unitSeal ∧
+                hsame sealRow (append observations diagonal) ∧ PkgSig bundle sealRow pkg ∧
+                  PkgSig bundle unitSeal pkg := by
+  intro packet diagonalUnitRead unitReadSealRowUnitSeal unitSealPkg
+  obtain ⟨_sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, _transportUnary,
+    _nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow,
+    _sealRowTransportRoute, _routeNameSealRow, sealRowPkg⟩ := packet
+  have observationsUnary : UnaryHistory observations :=
+    unary_cont_closed scheduleUnary windowsUnary scheduleWindowsObservations
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed observationsUnary diagonalUnary observationsDiagonalSealRow
+  have sameUnitReadDiagonal : hsame unitRead diagonal :=
+    cont_deterministic diagonalUnitRead (cont_right_unit diagonal)
+  have sameDiagonalUnitRead : hsame diagonal unitRead :=
+    hsame_symm sameUnitReadDiagonal
+  have unitReadUnary : UnaryHistory unitRead :=
+    unary_transport diagonalUnary sameDiagonalUnitRead
+  have unitSealUnary : UnaryHistory unitSeal :=
+    unary_cont_closed unitReadUnary sealRowUnary unitReadSealRowUnitSeal
+  have diagonalSealCont : Cont diagonal sealRow (append diagonal sealRow) :=
+    cont_intro rfl
+  have sameVisibleSeal : hsame (append diagonal sealRow) unitSeal :=
+    cont_respects_hsame sameDiagonalUnitRead (hsame_refl sealRow) diagonalSealCont
+      unitReadSealRowUnitSeal
+  exact
+    ⟨unitReadUnary, unitSealUnary, sameDiagonalUnitRead, sameVisibleSeal,
+      observationsDiagonalSealRow, sealRowPkg, unitSealPkg⟩
+
 theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [PackageSetup]
     {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
       sourceFamily' windows' observations' schedule' diagonal' sealRow' transport' route'
@@ -270,5 +309,21 @@ theorem CauchyCompletionMonadPacket_schedule_composition_boundary [AskSetup] [Pa
   exact
     ⟨targetPacket, composedScheduleUnary, composedObservationsUnary, composedSealUnary,
       composedRouteUnary, composedSealPkg⟩
+
+theorem CauchyCompletionMonadPacket_unit_boundary [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle BHist.Empty pkg ->
+      CauchyCompletionMonadPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg ∧
+        UnaryHistory BHist.Empty ∧ Cont BHist.Empty BHist.Empty BHist.Empty ∧
+          PkgSig bundle BHist.Empty pkg := by
+  intro emptyPkg
+  have emptyPacket :
+      CauchyCompletionMonadPacket BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty bundle pkg :=
+    ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+      cont_left_unit BHist.Empty, cont_left_unit BHist.Empty, cont_left_unit BHist.Empty,
+      cont_left_unit BHist.Empty, emptyPkg⟩
+  exact ⟨emptyPacket, unary_empty, cont_left_unit BHist.Empty, emptyPkg⟩
 
 end BEDC.Derived.CauchyCompletionMonadUp

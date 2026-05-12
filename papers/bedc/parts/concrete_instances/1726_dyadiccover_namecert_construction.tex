@@ -46,6 +46,7 @@ The carrier accepts exactly those packets whose finite cell list covers the
 displayed finite window and whose refinement rows keep every later mesh cell
 inside a named earlier interval or rational ball.
 \end{definition}
+\leandef{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket}
 
 \begin{theorem}[DyadicCover NameCert obligations]
 \label{thm:dyadic-cover-namecert-obligations}
@@ -66,6 +67,7 @@ finite interval or ball cell in the displayed window;
 rational, real, finite-window, transport, and continuation rows.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_namecert\_obligations}
 \begin{proof}
 Project the carrier. The finite center list, radius list, interval-cell list,
 mesh rows, window witnesses, transport rows, continuation routes, package
@@ -483,17 +485,32 @@ compactness, arbitrary subcover choice, quotient equality of names, or host
 real extensionality added.
 \end{proof}
 
+\begin{theorem}[DyadicCover public total-bounded export]
+\label{thm:dyadic-cover-public-total-bounded-export}
+Every public total-bounded or Real-envelope consumer of an accepted $\DyadicCoverUp$ packet receives exactly the finite center list, rational radius list, interval cells, mesh refinement rows, finite-window envelope coverage, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row assembled in \autoref{thm:dyadic-cover-scoped-package}. The export factors through \autoref{thm:dyadic-cover-finite-window-envelope-factorization}, \autoref{thm:dyadic-cover-refined-window-total-bounded-package}, and \autoref{thm:dyadic-cover-real-envelope-coverage-exactness}; it exports no open-cover compactness, arbitrary subcover choice, metric completeness, quotient equality of names, or host real extensionality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-cover-scoped-package}. It assembles the carrier, naming, mesh, finite-window envelope, refined total-bounded, and Real envelope rows into one scoped package.
+
+Apply \autoref{thm:dyadic-cover-finite-window-envelope-factorization}. This identifies the coverage surface as the displayed finite envelope over the packet's own center list, radius list, interval cells, mesh rows, transports, routes, package provenance, and local name row.
+
+Next use \autoref{thm:dyadic-cover-refined-window-total-bounded-package}. A total-bounded consumer therefore reads only the refined finite window and the same bounded-radius ledger, not an arbitrary subcover selection.
+
+Finally apply \autoref{thm:dyadic-cover-real-envelope-coverage-exactness}. It repacks those same finite coverage rows for Real-envelope consumers, so the public export carries no open-cover compactness, metric completeness, quotient equality of names, or host real extensionality.
+\end{proof}
+
 \closureat{DyadicCoverUp}{seedStr}
 \closureat{DyadicCoverUp}{obligationStr}
 \closureat{DyadicCoverUp}{scopedStr}
+\closureat{DyadicCoverUp}{publicStr}
 
 \begin{closurestatus}{\DyadicCoverUp}
   \constructivestory{A $\DyadicCoverUp$ packet is generated from finite dyadic centers, dyadic radii, rational interval cells, mesh refinement rows, coverage witnesses for a displayed finite window, $\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface is the finite carrier, naming, mesh transport, finite-window envelope, refined total-bounded, and Real envelope package of \autoref{thm:dyadic-cover-scoped-package} over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface is the finite carrier, naming, mesh transport, finite-window envelope, refined total-bounded, Real envelope package, and downstream total-bounded export of \autoref{thm:dyadic-cover-scoped-package} and \autoref{thm:dyadic-cover-public-total-bounded-export} over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RationalBallUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteWindowEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close open-cover compactness, arbitrary subcover choice, metric completeness, compact-metric equivalence, quotient equality of real names, host real extensionality, or bridge checking.}
-  \upgradepath{The next paper grade requires a public export theorem for downstream total-bounded and Real-envelope consumers.}
+  \upgradepath{The next paper grade requires the standard bridge with bridge-surface fields and no-host-leak discipline.}
 \end{closurestatus}

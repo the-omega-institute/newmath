@@ -390,4 +390,68 @@ theorem RegularCauchySubsequenceCarrier_bridged_export [AskSetup] [PackageSetup]
       (fun hostReturn =>
         cont_mutual_extension_right_tail_absurd.right sourceFinal hostReturn)⟩
 
+theorem RegularCauchySubsequenceCarrier_public_export [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        Cont consumerRead endpoint finalRead ->
+          PkgSig bundle finalRead pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows
+                    routeRows provenance localCert endpoint bundle pkg ∧
+                  Cont source (append reindex (append radius (append localCert endpoint)))
+                    finalRead ∧
+                    PkgSig bundle finalRead pkg ∧ hsame row finalRead)
+              (fun row : BHist =>
+                RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows
+                    routeRows provenance localCert endpoint bundle pkg ∧
+                  Cont source (append reindex (append radius (append localCert endpoint)))
+                    finalRead ∧
+                    PkgSig bundle finalRead pkg ∧ hsame row finalRead)
+              (fun row : BHist =>
+                RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows
+                    routeRows provenance localCert endpoint bundle pkg ∧
+                  Cont source (append reindex (append radius (append localCert endpoint)))
+                    finalRead ∧
+                    PkgSig bundle finalRead pkg ∧ hsame row finalRead)
+              hsame := by
+  intro carrier sealLocalCertConsumer consumerEndpointFinal finalReadPkg
+  have scopedData :=
+    RegularCauchySubsequenceCarrier_scoped_kernel_interface carrier sealLocalCertConsumer
+      consumerEndpointFinal finalReadPkg
+  have sourceFinalRead :
+      Cont source (append reindex (append radius (append localCert endpoint))) finalRead :=
+    scopedData.right.right.right.right.right.right.right.right.right.right.left
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro finalRead
+          ⟨carrier, sourceFinalRead, finalReadPkg, hsame_refl finalRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        exact
+          ⟨sourceRow.left, sourceRow.right.left, sourceRow.right.right.left,
+            hsame_trans (hsame_symm same) sourceRow.right.right.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
+
 end BEDC.Derived.RegularCauchySubsequenceUp
