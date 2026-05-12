@@ -65,21 +65,6 @@ The first four rows are exactly the preceding definition and theorems. The ledge
 These five rows are closed under consumer readback because every consumer-visible fact is obtained by scanning the finite displayed spine. No primitive finite-map object, ambient host function, or quotient equality is exported.
 \end{proof}
 
-\closureat{FiniteMapUp}{seedStr}
-\closureat{FiniteMapUp}{obligationStr}
-\closureat{FiniteMapUp}{scopedStr}
-
-\begin{closurestatus}{\FiniteMapUp}
-  \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finitemap-namecert-source}, \autoref{thm:finitemap-carrier-classifier-obligations}, \autoref{thm:finitemap-lookup-option-exactness}, \autoref{thm:finitemap-ledger-transport}, and \autoref{thm:finitemap-namecert-obligation-surface} bind the finite association-list source, lookup classifier, option exactness, transport, and duplicate-key ledger rows over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{human}
-  \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
-  \upgradepath{Public closure requires a single exported finite-map boundary over the same $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.}
-\end{closurestatus}
-
 \begin{definition}[FiniteMapUp displayed support boundary]
 \label{def:finitemap-displayed-support-boundary}
 Let $M$ be an accepted $\FiniteMapUp$ source in the sense of \autoref{def:finitemap-namecert-source}, presented by a finite $\ListUp$ spine $xs$ of $\ProdUp$ key-value rows. Define $\mathsf{KeyRows}(xs):\mathsf{HistSpine}$ by structural readback from the displayed spine: the empty spine maps to $\mathsf{nil}$, and a cons row whose $\ProdUp$ first component is the displayed key history $k$ maps to the cons spine with head $k$ and tail $\mathsf{KeyRows}(xs')$.
@@ -112,3 +97,46 @@ Now suppose a later row of $xs$ has a key in the same $\sim_A$-class as an earli
 
 Finally apply \autoref{thm:finitemap-lookup-option-exactness}. Lookup scans the original displayed $\ListUp$ spine from left to right, so the first key row matching the query supplies the unique $\mathsf{some}$ value witness, and every later matching key row is recorded only in the duplicate-key ledger. The support boundary and the lookup boundary therefore read the same displayed key positions, but they use them differently: $\FinSetUp$ records finite support by projected key occurrence modulo the key classifier, while $\OptionUp$ lookup emits only the first-hit value and keeps duplicate keys as ledger provenance.
 \end{proof}
+
+\begin{theorem}[FiniteMapUp public support lookup boundary]
+\label{thm:finitemap-public-support-lookup-boundary}
+The public $\FiniteMapUp$ export is exactly the finite $\ListUp$ spine of
+$\ProdUp$ key-value rows together with the $\OptionUp$ first-hit lookup
+witness, the displayed $\FinSetUp$ support boundary, the duplicate-key ledger,
+$\hsame$ transport, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance. Every
+public read of lookup or support factors through these rows, and no host finite
+map or quotient graph equality is exported.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finitemap-lookup-option-exactness}. It identifies every
+lookup read with the scan of the displayed $\ListUp$ spine and the resulting
+$\OptionUp$ first-hit witness, while later matching keys remain only in the
+duplicate ledger.
+
+Apply \autoref{thm:finitemap-ledger-transport} to move the lookup and duplicate
+rows through the displayed $\hsame$ transports, $\Cont$ lookup routes, and
+$\mathsf{Pkg}$ provenance. These are the only transport rows available to a
+public finite-map read.
+
+Finally use \autoref{thm:finitemap-displayed-support-readback}. The support
+side reads the same displayed key positions through the $\FinSetUp$ support
+boundary. Combining the lookup exactness, ledger transport, and support
+readback rows exhausts the public export, with no host finite map and no
+quotient graph equality left to read.
+\end{proof}
+
+\closureat{FiniteMapUp}{seedStr}
+\closureat{FiniteMapUp}{obligationStr}
+\closureat{FiniteMapUp}{scopedStr}
+\closureat{FiniteMapUp}{publicStr}
+
+\begin{closurestatus}{\FiniteMapUp}
+  \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:finitemap-public-support-lookup-boundary} binds the public finite association-list lookup and support export over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
+  \upgradepath{Bridge closure requires a conservative bridge for public finite-map lookup and support reads.}
+\end{closurestatus}
