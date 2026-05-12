@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TruthTotalReflectionUp
@@ -191,5 +192,17 @@ theorem TruthTotalReflectionTasteGate_single_carrier_alignment :
       exact truthTotalReflectionToEventFlow_injective heq
     · intro x w m hw hm
       exact event_flow_conservativity (S := truthTotalReflectionToEventFlow x) hw hm
+
+theorem TruthTotalReflectionUp_taste_gate_boundary :
+    (∀ x : TruthTotalReflectionUp, ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
+      (∀ (x : TruthTotalReflectionUp) (w : RawEvent) (m : BMark),
+        List.Mem w (BHistCarrier.toEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    exact ⟨truthTotalReflectionToEventFlow x, truthTotalReflection_round_trip x⟩
+  · intro x w m hw hm
+    exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 
 end BEDC.Derived.TruthTotalReflectionUp
