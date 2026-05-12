@@ -152,6 +152,49 @@ all family indices. The tail-ledger exactness route then forces $Q'$ and $T'$
 to be read after that same schedule.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion RegSeqRat tail equivalence]
+\label{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}
+For every accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+the finite tail-ledger route through the shared $\StreamNameUp$ window family
+$W$, the single $\CauchyModulusUp$ schedule $M$, the $\DyadicRatCoreUp$
+tolerance row $Q$, and the $\DyadicTailBoundUp$ comparison ledger $T$ is
+equivalent, as a BEDC consumer surface, to the $\RegSeqRatUp$ finite-window
+regularity route whose $\RealUp$ seal is $E$. Thus a consumer can reconstruct
+the same accepted finite evidence from either surface, and neither route
+introduces a quotient stream, selected limit, host real equality, or ambient
+completeness principle.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with a consumer read of the tail ledger.
+By \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}, the read
+passes through $I,W,M,Q,T$ before any seal row is consumed. By
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}, the
+threshold row remains one shared $M$-schedule across all transported family
+indices.
+
+Now attach the regular-rational handoff. The carrier already stores the seal
+row $E$, and \autoref{thm:uniform-cauchy-criterion-real-seal-handoff} forces
+the real-facing read to pass through the same finite route before reaching
+$E$. The $\RegSeqRatUp$ regularity window therefore receives exactly the
+stream windows, shared modulus, dyadic tolerance, and accepted tail
+comparisons displayed in the packet.
+
+For the reverse direction, start with the $\RegSeqRatUp$ finite-window
+regularity route whose seal is $E$. Unpack its window read through the same
+carrier coordinates: the stream observations are the family windows $W$, the
+threshold schedule is the displayed modulus row $M$, and the dyadic tolerance
+budget is $Q$.
+
+Repack those rows into the comparison ledger $T$. The transport and read
+routes $H$ and $C$ preserve the displayed coordinates, while $P$ and $N$ keep
+the package and local naming provenance attached. This reconstructs the
+finite $\DyadicTailBoundUp$ ledger without adding any excluded completion,
+limit-selection, quotient, or host-equality object.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion obligation assembly]
 \label{thm:uniform-cauchy-criterion-obligation-assembly}
 The carrier of \autoref{def:uniform-cauchy-criterion-carrier},
