@@ -87,6 +87,29 @@ theorem PicardContractionPacket_banach_ode_boundary [AskSetup] [PackageSetup]
       endpointUnary, consumerUnary, banachContractionLipschitz, iteratesModulusEndpoint,
       iteratesEndpointConsumer, namePkg, consumerPkg⟩
 
+theorem PicardContractionPacket_contraction_step_package [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name step :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates contraction step ->
+        PkgSig bundle step pkg ->
+          UnaryHistory banach ∧ UnaryHistory contraction ∧ UnaryHistory iterates ∧
+            UnaryHistory step ∧ Cont banach contraction lipschitz ∧
+              Cont iterates contraction step ∧ Cont iterates modulus endpoint ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle step pkg := by
+  intro packet iteratesContractionStep stepPkg
+  obtain ⟨banachUnary, contractionUnary, _lipschitzUnary, iteratesUnary, _modulusUnary,
+    _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed iteratesUnary contractionUnary iteratesContractionStep
+  exact
+    ⟨banachUnary, contractionUnary, iteratesUnary, stepUnary, banachContractionLipschitz,
+      iteratesContractionStep, iteratesModulusEndpoint, namePkg, stepPkg⟩
+
 theorem PicardContractionPacket_classifier_stability [AskSetup] [PackageSetup]
     {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
       banach' contraction' iterates' modulus' endpoint' transport' routes' provenance' name'
