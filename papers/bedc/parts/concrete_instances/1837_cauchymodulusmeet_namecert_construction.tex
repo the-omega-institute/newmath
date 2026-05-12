@@ -103,15 +103,32 @@ For a $\RegSeqRatUp$ consumer, the stream-name and rational readback surface is 
 The remaining route data are exactly $H,C,P,N$. These rows transport, route, record provenance, and name the packet; they do not provide an independent consumer object. Thus every such route factors through the displayed ordered carrier rows.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet obligation surface]\label{thm:cauchymodulusmeet-obligation-surface}
+The carrier, projection stability, swap stability, shared-bound exhaustion, $\RealUp$ handoff boundary, and consumer factorization of the $\CauchyModulusMeetUp$ packet constitute the full obligation surface for meeting two displayed $\CauchyModulusUp$ rows over a shared $\DyadicRatCoreUp$ tolerance ledger. Downstream $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ consumers may use only this finite surface.
+
+The surface exports no quotient stream equality, selected limit, ambient completeness datum, host real equality, or public standard bridge.
+\end{theorem}
+\begin{proof}
+First project the carrier of \autoref{def:cauchy-modulus-meet-carrier}. It lists the two $\StreamNameUp$ rows, their two source $\CauchyModulusUp$ rows, the shared meet row, the transport row, continuation row, provenance row, and local name.
+
+Projection stability is supplied by \autoref{thm:cauchy-modulus-meet-projection-stability}, and source-row exchange is supplied by \autoref{thm:cauchy-modulus-meet-swap-stability}. Together these bind the two source moduli and their shared meet row under the permitted componentwise $\hsame$ transports.
+
+The shared-bound and consumer-facing parts are then fixed by \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, and \autoref{thm:cauchy-modulus-meet-consumer-factorization}. These three results force $\DyadicRatCoreUp$ tolerance reads, $\RegSeqRatUp$ route reads, and $\RealUp$ handoff reads through the displayed meet packet.
+
+Finally the NameCert obligations in \autoref{thm:cauchy-modulus-meet-namecert-obligations} record the same rows as the local naming surface. Since none of the cited blocks introduces quotient stream equality, selected limits, ambient completeness, host real equality, or a standard bridge, the listed blocks are the full obligation surface.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
+\closureat{CauchyModulusMeetUp}{obligationStr}
+\closureat{CauchyModulusMeetUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyModulusMeetUp}
   \constructivestory{A $\CauchyModulusMeetUp$ packet is generated from two $\StreamNameUp$ rows, their $\RegSeqRatUp$ rational readbacks, two source $\CauchyModulusUp$ rows, one shared $\CauchyModulusUp$ meet row with a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, and \autoref{thm:cauchy-modulus-meet-consumer-factorization} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, source-row swap transport, continuation routes, package provenance, and local naming row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, or a public standard bridge.}
-  \upgradepath{Obligation closure requires a checked carrier surface and checked projection, shared-bound, and Real handoff rows for the same finite meet packet.}
+  \upgradepath{Public closure next requires a single exported $\CauchyModulusMeetUp$ public certificate over the scoped shared-modulus packet.}
 \end{closurestatus}
