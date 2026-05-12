@@ -303,6 +303,24 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFixedLengthConsumer_determinacy [AskSetup] [PackageSetup]
+    {length spine ledger provenance read : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      BitVectorSourceClassifier length spine ledger provenance length spine ledger provenance ∧
+        UnaryHistory length ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧ UnaryHistory read ∧
+          hsame ledger (append length spine) ∧ hsame read (append ledger provenance) ∧
+            PkgSig bundle read pkg := by
+  intro finiteLedger
+  have classifier :
+      BitVectorSourceClassifier length spine ledger provenance length spine ledger provenance :=
+    (BitVectorSourceClassifier_laws.left finiteLedger.right.right.right.left
+      (hsame_refl provenance))
+  have coverage :=
+    BitVectorFiniteLedger_ledger_coverage finiteLedger
+  exact
+    ⟨classifier, finiteLedger.left, finiteLedger.right.left, coverage.left, coverage.right.left,
+      coverage.right.right.left, coverage.right.right.right.left, coverage.right.right.right.right⟩
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
