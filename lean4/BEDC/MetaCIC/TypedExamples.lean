@@ -317,6 +317,15 @@ theorem id_applied_to_pi :
     id_sort_well_typed
     pi_sort_sort_in_empty_ctx
 
+theorem id_applied_pi_value :
+    HasType []
+      (Term.app (Term.lam Term.sort (Term.var 0)) (Term.pi Term.sort Term.sort))
+      (substitute 0 (Term.pi Term.sort Term.sort) Term.sort) := by
+  exact HasType.appRule [] (Term.lam Term.sort (Term.var 0))
+    (Term.pi Term.sort Term.sort) Term.sort Term.sort
+    id_sort_well_typed
+    pi_sort_sort_in_empty_ctx
+
 theorem id_applied_to_pi_result_eq :
     substitute 0 (Term.pi Term.sort Term.sort) (Term.var 0) =
       Term.pi Term.sort Term.sort := by
@@ -428,6 +437,18 @@ theorem double_lam_const_first_app :
 
 /-- 空 ctx 下: app (app (lam sort (lam sort sort)) sort) sort 类型为 sort. -/
 theorem double_lam_const_repeated_app :
+    HasType []
+      (Term.app
+        (Term.app (Term.lam Term.sort (Term.lam Term.sort Term.sort)) Term.sort)
+        Term.sort)
+      Term.sort := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam Term.sort Term.sort)) Term.sort)
+    Term.sort Term.sort Term.sort
+    double_lam_const_first_app
+    (HasType.sortRule [])
+
+theorem twice_applied_const :
     HasType []
       (Term.app
         (Term.app (Term.lam Term.sort (Term.lam Term.sort Term.sort)) Term.sort)
