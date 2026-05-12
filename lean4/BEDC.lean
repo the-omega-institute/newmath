@@ -660,6 +660,7 @@ import BEDC.Derived.ComplexLimitUp.SourceSpec
 import BEDC.Derived.NullSequenceUp
 import BEDC.Derived.MeasureUp
 import BEDC.Derived.MeasureUp.ComplementDifferenceRow
+import BEDC.Derived.MeasureUp.CarrierSurface
 import BEDC.Derived.MeasureUp.CertificateSurface
 import BEDC.Derived.MeasureUp.ProbabilityNormalization
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
@@ -1366,6 +1367,7 @@ import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.FieldCertificateObligations
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
+import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
 import BEDC.MetaCIC.Confluence.Core
