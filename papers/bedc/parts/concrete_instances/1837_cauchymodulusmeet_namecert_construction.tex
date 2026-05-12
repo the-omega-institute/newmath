@@ -43,6 +43,7 @@ The dyadic tolerance ledger is stored inside the shared row $\mu$ and its associ
 \begin{theorem}[CauchyModulusMeet projection stability]\label{thm:cauchy-modulus-meet-projection-stability}
 Let $M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)$ and $M'=(S'_0,S'_1,\mu'_0,\mu'_1,\mu',H',C',P',N')$ be accepted $\CauchyModulusMeetUp$ carriers whose displayed coordinates are related componentwise by the transport rows in $H$ and $H'$. Then the projected source modulus reads $\mu_0,\mu_1$ and the shared meet read $\mu$ remain readable through the transported packet, and their $\DyadicRatCoreUp$ tolerance ledger is the same displayed ledger seen by both $\RegSeqRatUp$ stream-name projections.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_projection\_stability}
 \begin{proof}
 Project both accepted carriers and read the componentwise transport rows. The only modulus coordinates in either packet are the two source rows and the shared meet row.
 
@@ -118,6 +119,26 @@ The shared-bound and consumer-facing parts are then fixed by \autoref{thm:cauchy
 Finally the NameCert obligations in \autoref{thm:cauchy-modulus-meet-namecert-obligations} record the same rows as the local naming surface. Since none of the cited blocks introduces quotient stream equality, selected limits, ambient completeness, host real equality, or a standard bridge, the listed blocks are the full obligation surface.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet public export certificate]
+\label{thm:cauchy-modulus-meet-public-export}
+The carrier, projection stability, swap stability, shared-bound exhaustion, $\RealUp$ handoff boundary, consumer factorization, and obligation surface assemble one public $\CauchyModulusMeetUp$ certificate over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+This certificate exports exactly the finite rows
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+It does not export quotient stream equality, selected limits, host real equality, ambient completeness, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:cauchy-modulus-meet-carrier}. It supplies the two $\StreamNameUp$ rows, their $\RegSeqRatUp$ readbacks, the two source $\CauchyModulusUp$ rows, the shared meet row, the transport row, the continuation row, the provenance row, and the local $\NameCert$ row.
+
+Add the local stability surface. Projection stability is supplied by \autoref{thm:cauchy-modulus-meet-projection-stability}, source-row exchange by \autoref{thm:cauchy-modulus-meet-swap-stability}, and shared-bound exhaustion by \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}.
+
+Add the consumer-facing surface. The $\RealUp$ handoff boundary is supplied by \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, consumer factorization by \autoref{thm:cauchy-modulus-meet-consumer-factorization}, and the finite obligation inventory by \autoref{thm:cauchymodulusmeet-obligation-surface}.
+
+Each cited block is stated over the same displayed packet and refuses quotient stream equality, selected limits, host real equality, ambient completeness, and bridge content. Therefore the assembled public certificate has exactly the named surface and no additional export.
+\end{proof}
+
 \begin{theorem}[CauchyModulusMeet public export surface]
 \label{thm:cauchy-modulus-meet-public-export-surface}
 The $\CauchyModulusMeetUp$ public export packet is the finite shared-modulus surface over
@@ -169,14 +190,15 @@ The exclusions then follow from \autoref{thm:cauchymodulusmeet-obligation-surfac
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 \closureat{CauchyModulusMeetUp}{scopedStr}
+\closureat{CauchyModulusMeetUp}{publicStr}
 
 \begin{closurestatus}{\CauchyModulusMeetUp}
   \constructivestory{A $\CauchyModulusMeetUp$ packet is generated from two $\StreamNameUp$ rows, their $\RegSeqRatUp$ rational readbacks, two source $\CauchyModulusUp$ rows, one shared $\CauchyModulusUp$ meet row with a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-consumer-factorization}, \autoref{thm:cauchy-modulus-meet-public-export-surface}, \autoref{thm:cauchy-modulus-meet-export-consumer-lock}, and \autoref{thm:cauchy-modulus-meet-export-non-escape} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, public export packet, source-row swap transport, continuation routes, package provenance, and local naming row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-consumer-factorization}, \autoref{thm:cauchymodulusmeet-obligation-surface}, \autoref{thm:cauchy-modulus-meet-public-export}, \autoref{thm:cauchy-modulus-meet-public-export-surface}, \autoref{thm:cauchy-modulus-meet-export-consumer-lock}, and \autoref{thm:cauchy-modulus-meet-export-non-escape} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, public export certificate, source-row swap transport, continuation routes, package provenance, and local naming row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, or a public standard bridge.}
-  \upgradepath{Public closure next requires downstream consumers to cite the exported $\CauchyModulusMeetUp$ packet as the unique public interface over the scoped shared-modulus packet.}
+  \upgradepath{Bridged closure next requires a bridge theorem connecting the public shared-modulus export packet to the standard bridge surface.}
 \end{closurestatus}
