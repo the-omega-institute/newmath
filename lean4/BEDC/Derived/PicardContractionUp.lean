@@ -234,4 +234,45 @@ theorem PicardContractionPacket_modulus_window_transport [AskSetup] [PackageSetu
       routesProvenanceName, namePkg⟩
   exact ⟨transported, modulusUnary', endpointUnary', sameEndpoint⟩
 
+theorem PicardContractionPacket_ratio_ledger_nonexpansion [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      nextIterates concatenatedIterates concatenatedEndpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      hsame endpoint nextIterates ->
+        Cont iterates nextIterates concatenatedIterates ->
+          Cont concatenatedIterates modulus concatenatedEndpoint ->
+            Cont concatenatedEndpoint transport routes ->
+              Cont concatenatedIterates concatenatedEndpoint consumer ->
+                PkgSig bundle consumer pkg ->
+                  PicardContractionPacket banach contraction lipschitz concatenatedIterates
+                      modulus concatenatedEndpoint transport routes provenance name bundle pkg ∧
+                    UnaryHistory lipschitz ∧ UnaryHistory concatenatedIterates ∧
+                      UnaryHistory concatenatedEndpoint ∧ UnaryHistory consumer ∧
+                        Cont banach contraction lipschitz ∧
+                          Cont concatenatedIterates modulus concatenatedEndpoint ∧
+                            Cont concatenatedIterates concatenatedEndpoint consumer ∧
+                              PkgSig bundle name pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameEndpointNextIterates iteratesNextIteratesConcatenated
+    concatenatedIteratesModulusEndpoint concatenatedEndpointTransportRoutes
+    concatenatedIteratesEndpointConsumer consumerPkg
+  obtain ⟨closedPacket, _sameEndpointNextIterates, concatenatedIteratesUnary,
+    concatenatedEndpointUnary⟩ :=
+    PicardContractionPacket_finite_iterate_closure packet sameEndpointNextIterates
+      iteratesNextIteratesConcatenated concatenatedIteratesModulusEndpoint
+      concatenatedEndpointTransportRoutes
+  obtain ⟨_banachUnary, _contractionUnary, lipschitzUnary, _iteratesUnary, _modulusUnary,
+    _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed concatenatedIteratesUnary concatenatedEndpointUnary
+      concatenatedIteratesEndpointConsumer
+  exact
+    ⟨closedPacket, lipschitzUnary, concatenatedIteratesUnary, concatenatedEndpointUnary,
+      consumerUnary, banachContractionLipschitz, concatenatedIteratesModulusEndpoint,
+      concatenatedIteratesEndpointConsumer, namePkg, consumerPkg⟩
+
 end BEDC.Derived.PicardContractionUp
