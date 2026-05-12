@@ -482,6 +482,35 @@ Next apply the diagonal-seal normal form of \autoref{thm:cauchy-completion-monad
 The completion root package of \autoref{thm:cauchy-completion-monad-completion-root-unblock} assembles exactly those request-side and seal-facing rows for $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumers. Since the package lists no quotient stream, selected limit, host equality, hidden representative, or ambient completeness coordinate, no consumer can read such a coordinate from the root surface.
 \end{proof}
 
+\begin{definition}[CauchyCompletionMonad root consumer face triad]
+\label{def:cauchy-completion-monad-root-consumer-face-triad}
+For an accepted $\CauchyCompletionMonadUp$ packet $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$, the root consumer face triad is the ordered public package consisting of the $\RegSeqRatUp$ face, the $\RealCauchyCompletionUp$ face, and the $\RealUp$ face read through the same schedule-window-observation-diagonal-seal packet. The $\RegSeqRatUp$ face reads the source-family row $X$, the schedule row $\mu$, the finite $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ observation row $D$, and the diagonal readback $\Delta$. The $\RealCauchyCompletionUp$ face reads that same route as the completion-consumer source package. The $\RealUp$ face reads the public seal row $E$ only after the same scheduled observation and diagonal readback. All three faces use the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $L,C,P,N$.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionMonad root face coverage]
+\label{thm:cauchy-completion-monad-root-face-coverage}
+Every accepted $\CauchyCompletionMonadUp$ packet supplies the root consumer face triad of \autoref{def:cauchy-completion-monad-root-consumer-face-triad}. In particular, the $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ public faces are obtained from the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows by the single route through source-family data, unary schedule, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, diagonal $\RegSeqRatUp$ readback, and public $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+First use the root schedule-window normal form of \autoref{thm:cauchy-completion-monad-root-schedule-window-normal-form}. It places every consumer precision request on the displayed unary schedule, finite window, and dyadic observation route before any downstream face is read.
+
+Next use the root diagonal-seal normal form of \autoref{thm:cauchy-completion-monad-root-diagonal-seal-normal-form}. It inserts the diagonal $\RegSeqRatUp$ readback between the scheduled observation and the public $\RealUp$ seal, so the $\RegSeqRatUp$ and $\RealUp$ faces are read from one packet route.
+
+The root consumer exhaustion theorem \autoref{thm:cauchy-completion-monad-root-consumer-exhaustion} identifies the same finite route as the full consumer surface. The downstream consumer route of \autoref{thm:cauchy-completion-monad-downstream-regseqrat-consumer-route} then lets $\RealCauchyCompletionUp$ consume exactly that source package, and the public seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization} supplies the final $\RealUp$ face.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad root face non-escape]
+\label{thm:cauchy-completion-monad-root-face-nonescape}
+The root consumer face triad of an accepted $\CauchyCompletionMonadUp$ packet exports no quotient stream, selected limit, host equality, hidden representative, or ambient completeness coordinate. Each public face is exhausted by the same displayed source-family, schedule, finite-window, dyadic-observation, diagonal-readback, seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-completion-monad-root-face-coverage}. It gives the three public faces by the single schedule-window-observation-diagonal-seal route.
+
+Apply root consumer exhaustion from \autoref{thm:cauchy-completion-monad-root-consumer-exhaustion}. That theorem lists the only coordinates available to $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumers at the completion root.
+
+Finally use public seal factorization from \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Since even the public $\RealUp$ seal factors through the displayed diagonal readback and recorded provenance rows, none of the three faces can expose a quotient stream, selected limit, host equality, hidden representative, or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMonad schedule source membership]
 \label{thm:cauchy-completion-monad-schedule-source-membership}
 Let $M=(X,W,D,\mu,\Delta,E,L,C,P,N)$ be an accepted $\CauchyCompletionMonadUp$ packet. For every consumer precision request routed by $\mu$, the scheduled answer names a member of the displayed source-family row $X$. The membership is part of the same finite packet route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row; it is not supplied by an external family selector, quotient stream representative, selected limit, host equality, or ambient completeness principle.
