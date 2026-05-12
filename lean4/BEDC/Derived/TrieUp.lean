@@ -113,4 +113,31 @@ theorem TriePacket_carrier_stability [AskSetup] [PackageSetup]
                 (And.intro hBranchRoute (And.intro hEndpoint hPkg))))))
   · exact And.intro keyPayloadSame (And.intro branchRouteSame endpointSame)
 
+theorem TrieSourcePacket_branch_read_exactness [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute pref branchTag readback
+      : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont pref branchTag readback ->
+        UnaryHistory pref ->
+          UnaryHistory branchTag ->
+            PkgSig bundle provenance pkg ->
+              (pref = BHist.Empty ∨
+                  ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail) ∧
+                UnaryHistory readback ∧ UnaryHistory key ∧ UnaryHistory branch ∧
+                  UnaryHistory depth ∧ Cont pref branchTag readback ∧
+                    PkgSig bundle provenance pkg := by
+  intro packet branchRead prefUnary branchTagUnary provenancePkg
+  obtain ⟨keyUnary, _payloadUnary, depthUnary, branchUnary, _provenanceUnary,
+    _routeRow, _provenanceRow, _payloadRouteRow, _branchRouteRow, _packetPkg⟩ := packet
+  have prefSplit :
+      pref = BHist.Empty ∨ ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail :=
+    unary_history_empty_or_e1_tail prefUnary
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed prefUnary branchTagUnary branchRead
+  exact
+    ⟨prefSplit, readbackUnary, keyUnary, branchUnary, depthUnary, branchRead,
+      provenancePkg⟩
+
 end BEDC.Derived.TrieUp
