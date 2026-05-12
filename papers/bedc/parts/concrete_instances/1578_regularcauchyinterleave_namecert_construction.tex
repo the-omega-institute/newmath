@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyInterleaveUp$}
+\label{ch:concrete-instances-regularcauchyinterleave-namecert}
+\origin{human}
+
+The $\RegularCauchyInterleaveUp$ interface names the finite merge schedule used when two regular Cauchy names are exposed through one visible stream of observations. The construction is not a quotient of completed real values and does not select a host limit; it records the rows that make every merged window, dyadic observation, modulus request, and real-name handoff inspectable.
+
+\begin{definition}[Regular Cauchy interleave carrier]
+\label{def:regular-cauchy-interleave-carrier}
+A $\RegularCauchyInterleaveUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(I,J,S,T,W,D,M,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ and $J$ are the two $\RegSeqRatUp$ member schedules whose regular Cauchy observations may be read;
+\item $S$ is the unary merge schedule naming, for each retained slot, whether the slot reads the $I$ side or the $J$ side;
+\item $T$ is the interleaved $\StreamNameUp$ window table produced by applying $S$ to the two source schedules;
+\item $W$ records the $\CauchyModulusUp$ precision requests attached to the selected windows;
+\item $D$ records the $\DyadicRatCoreUp$ observation rows reached at the selected windows and precision requests;
+\item $M$ records the $\RegSeqRatUp/\RealUp$ handoff rows by which the merged finite observations are exposed to real-name consumers;
+\item $H$ displays the componentwise $\hsame$ transports for the two regular schedules, merge schedule, window table, modulus requests, dyadic observations, handoff rows, provenance, and local naming row;
+\item $C$ displays the $\Cont$ routes for reading a selected side, forming the interleaved window, checking the modulus request, observing the dyadic row, and handing the result to $\RegSeqRatUp$ and $\RealUp$;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyInterleaveUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of streams, host equality of completed reals, ambient completeness, or a choice-selected limit.
+\end{definition}
+
+\begin{definition}[Regular Cauchy interleave classifier]
+\label{def:regular-cauchy-interleave-classifier}
+Two accepted $\RegularCauchyInterleaveUp$ carriers are classified as the same finite merge packet exactly when all rows of \autoref{def:regular-cauchy-interleave-carrier} transport componentwise through the displayed $\hsame$ rows and all consumer reads factor through the displayed $\Cont$ routes. The classifier compares the two source $\RegSeqRatUp$ schedules, the unary merge schedule, the interleaved $\StreamNameUp$ table, the $\CauchyModulusUp$ request ledger, the $\DyadicRatCoreUp$ observation ledger, the $\RegSeqRatUp/\RealUp$ handoff rows, package provenance, and the local $\NameCert_{\RegularCauchyInterleaveUp}$ row.
+
+The classifier has no generator for comparing completed streams or host real values. Equality is exhausted by the finite rows carried by the packet.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy interleave NameCert obligations]
+\label{thm:regular-cauchy-interleave-namecert-obligations}
+The local $\NameCert_{\RegularCauchyInterleaveUp}$ obligation surface for the carrier of \autoref{def:regular-cauchy-interleave-carrier} consists of carrier admission, classifier transport, finite merge-window exactness, modulus-observation compatibility, and real-handoff boundary. Every row consumed by the certificate is one of
+$$
+I,J,S,T,W,D,M,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite packet $K$. The rows $I$, $J$, $S$, $T$, $W$, $D$, and $M$ are stored coordinates, while $H$, $C$, $P$, and $N$ provide transport, continuation, package, and local naming evidence.
+
+Classifier transport is exactly \autoref{def:regular-cauchy-interleave-classifier}. It moves source schedules, merge choices, window rows, precision requests, observations, and handoffs only through displayed $\hsame$ and $\Cont$ rows.
+
+The merge-window and modulus-observation clauses are finite repackings. A selected slot of $S$ names one side, $T$ records the resulting window, $W$ records the requested precision, and $D$ records the dyadic observation at that request.
+
+The real-handoff clause projects $M$. Since no carrier coordinate stores a quotient stream, host real equality, completeness proof, or selected limit, the certificate exports only the displayed finite handoff surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave window merge exactness]
+\label{thm:regular-cauchy-interleave-window-merge-exactness}
+For every accepted $\RegularCauchyInterleaveUp$ carrier $K=(I,J,S,T,W,D,M,H,C,P,N)$, each retained row of the interleaved $\StreamNameUp$ window table $T$ is obtained by reading exactly one source schedule, selected by the corresponding unary merge row of $S$, and by pairing that selected window with the corresponding $\CauchyModulusUp$ request in $W$ and $\DyadicRatCoreUp$ observation in $D$.
+\end{theorem}
+\begin{proof}
+Project the selected slot of $S$. Its unary row has only the displayed left and right alternatives named by the carrier, so it chooses one of the two $\RegSeqRatUp$ member schedules $I$ and $J$.
+
+Read the chosen schedule through the stored $\Cont$ route. The resulting finite window is the corresponding row of $T$, and the componentwise $\hsame$ rows in $H$ transport that row together with the chosen source schedule.
+
+Next read the matching precision and observation rows. The ledger $W$ stores the $\CauchyModulusUp$ request for the same slot, and $D$ stores the $\DyadicRatCoreUp$ observation reached at that request.
+
+Repacking these projections gives the asserted table row. No additional stream quotient or host equality comparison can alter the selected window, because the carrier contains no such coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave real handoff boundary]
+\label{thm:regular-cauchy-interleave-real-handoff-boundary}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer read of a $\RegularCauchyInterleaveUp$ carrier factors through the finite merge schedule $S$, the interleaved window table $T$, the modulus request ledger $W$, the dyadic observation ledger $D$, and the handoff row $M$. The consumer cannot read a quotient of streams, a host equality proof between completed names, an ambient completeness theorem, or a choice-selected real value from the packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer read. The only real-facing coordinate of the carrier is $M$, and $M$ is stored together with the window, modulus, and dyadic observation rows that produce it.
+
+Use \autoref{thm:regular-cauchy-interleave-window-merge-exactness} to identify the finite window consumed by the read. Each window row of $T$ is tied to one selected side of $S$, one precision request in $W$, and one observation row in $D$.
+
+Use \autoref{def:regular-cauchy-interleave-classifier} for transport. It allows the consumer route to move these rows componentwise through $H$ and $C$, with the same package provenance $P$ and local naming row $N$.
+
+Thus the read factors through the displayed finite packet. Since the carrier has no field for quotient streams, host equality of completed reals, completeness, or selected limits, none of those objects can be exported at the $\RegSeqRatUp/\RealUp$ boundary.
+\end{proof}
+
+\closureat{RegularCauchyInterleaveUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInterleaveUp}
+  \constructivestory{A $\RegularCauchyInterleaveUp$ packet is generated from two $\RegSeqRatUp$ member schedules, a unary merge schedule, an interleaved $\StreamNameUp$ window table, $\CauchyModulusUp$ requests, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp/\RealUp$ handoff rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier, merge-window exactness, and real-handoff boundary for regular Cauchy interleaving over the displayed packet rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, host equality of completed real names, ambient completeness, uniqueness of a merged limit, or bridge checking.}
+  \upgradepath{Obligation closure requires binding carrier admission, classifier transport, merge-window exactness, modulus-observation compatibility, and $\RegSeqRatUp/\RealUp$ handoff boundary to the displayed finite packet.}
+\end{closurestatus}
