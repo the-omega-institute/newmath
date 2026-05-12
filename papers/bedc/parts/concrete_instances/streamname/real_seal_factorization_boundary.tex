@@ -84,3 +84,50 @@ Therefore restricting the $W'$ factorization along the displayed prefix
 refinement gives exactly the factorization obtained directly over $W$, with no
 additional completion, quotient, host-equality, choice, or completeness data.
 \end{proof}
+
+\begin{theorem}[StreamName Real finite-window classifier exactness]
+\label{thm:streamname-real-seal-finite-window-classifier-exactness}
+Let $W$ and $W'$ be finite public $\StreamNameUp$ rational observation windows
+over certified unary indices. Suppose the two windows display the same
+$\mathsf{ProbeBundle}$ rows, the same $\mathsf{InBundle}$ membership rows, the
+same $\mathsf{UnaryHistory}$ observations, the same pointwise rational
+classifier rows, the same accepted $\RegSeqRat$ seal rows, the same finite
+$\Cont$ ledger, the same displayed $\hsame$ transports, and the same
+$\mathsf{Pkg}$ provenance naming the source certificates. Then the
+finite-window $\RealUp$ seal classifier induced by either window is exactly the
+transport of the $\RegSeqRat$ classifier read from those displayed rows.
+
+In particular, no completion representative, quotient equality, hidden host
+index equality, choice datum, or $\RealUp$ completeness field can change that
+classifier once the listed finite StreamName and $\RegSeqRat$ rows agree.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-seal-factorization-boundary}. The boundary
+theorem says that every finite-window $\RealUp$ seal classifier arising from
+the StreamName-to-$\RegSeqRat$ handoff is read only through the listed
+StreamName rows, accepted $\RegSeqRat$ seal rows, bundle membership, unary
+history, continuation ledger, $\hsame$ transports, and package provenance.
+
+Next apply
+\autoref{thm:streamname-real-seal-factorization-refinement-stability}. Any
+common finite presentation or prefix refinement of $W$ and $W'$ restricts to
+the same displayed factorization, so changing the window while preserving the
+listed rows cannot change the induced $\RealUp$ classifier.
+
+The classifier handoff is the equality supplied by
+\autoref{thm:streamname-regseqrat-common-window-transport}. Since the two
+windows expose the same pointwise rational classifier rows and the same
+accepted $\RegSeqRat$ seal rows, the transported $\RegSeqRat$ classifier is the
+single classifier available on the common finite surface.
+
+Finally,
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy} fixes the
+source tuple from the displayed StreamName, bundle, history, transport,
+continuation, and provenance rows, and
+\autoref{thm:streamname-regseqrat-realup-seal-source-minimality} rules out any
+extra source coordinate. Hence the finite-window $\RealUp$ seal classifier is
+exactly the transported $\RegSeqRat$ classifier read from those rows, with no
+escape through completion, quotient, host-equality, choice, or completeness
+data.
+\end{proof}
