@@ -288,4 +288,30 @@ theorem RegularCauchyNameCarrier_completion_handoff_non_escape [AskSetup] [Packa
   · intro hostReturn
     exact cont_mutual_extension_right_tail_absurd.right scheduleToEndpoint hostReturn
 
+theorem RegularCauchyNameCarrier_constant_seal_embedding [AskSetup] [PackageSetup]
+    {schedule observation radius ledger sealRow provenance namecert endpoint stationary
+      constantRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNameCarrier schedule observation radius ledger sealRow provenance namecert
+        endpoint bundle pkg ->
+      Cont schedule BHist.Empty stationary ->
+        Cont stationary observation constantRead ->
+          PkgSig bundle constantRead pkg ->
+            UnaryHistory stationary ∧ UnaryHistory constantRead ∧
+              hsame stationary (append schedule BHist.Empty) ∧
+                hsame constantRead (append stationary observation) ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle constantRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier stationaryRow constantReadRow constantReadPkg
+  obtain ⟨scheduleUnary, observationUnary, _radiusUnary, _ledgerUnary, _sealUnary,
+    _namecertUnary, _scheduleObservationRadius, _radiusLedgerSeal,
+    _sealProvenanceEndpoint, endpointPkg⟩ := carrier
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed scheduleUnary unary_empty stationaryRow
+  have constantReadUnary : UnaryHistory constantRead :=
+    unary_cont_closed stationaryUnary observationUnary constantReadRow
+  exact
+    ⟨stationaryUnary, constantReadUnary, stationaryRow, constantReadRow, endpointPkg,
+      constantReadPkg⟩
+
 end BEDC.Derived.RegularCauchyNameUp
