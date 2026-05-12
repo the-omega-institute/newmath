@@ -1,0 +1,538 @@
+\section{Session-Level Metatheory Claim}
+\label{sec:session-metatheory-claim}
+
+This section states the claim surface carried by \texttt{BEDC.MetaCIC} as a
+single formal object of the manuscript.  The surface is intentionally narrow:
+it concerns the universe-$0$, beta-only, single-sort dependent-function
+fragment, read at closed represented terms and empty object contexts.  Within
+that scope, the manuscript can cite a mathlib-free, axiom-free, sorry-free
+Lean 4 mechanization of the represented syntax, typing, beta reduction,
+closure discipline, selected confluence components, closed normalization
+witnesses, executable checking, host-gallery transport, Church-encoded data
+laws, and beta-conversion facts.
+
+\begin{center}
+\fbox{\begin{minipage}{0.91\textwidth}
+\textbf{Scope claim.}
+In the universe-$0$, beta-only, single-sort fragment with represented
+constructors \texttt{sort}, \texttt{var}, \texttt{app}, \texttt{lam}, and
+\texttt{pi}, and under the reading
+$$
+\begin{aligned}
+  \mathrm{ClosedEmptyCtx}(t,A)
+  \quad\equiv\quad
+  \texttt{ClosedAt}\ 0\ t
+  \land
+  \texttt{HasType}\ []\ t\ A,
+\end{aligned}
+$$
+\texttt{BEDC.MetaCIC} supplies first-principles mechanized metatheory inside
+Lean 4, without mathlib imports, without project axioms, and without sorry
+placeholders.  The claim is about this represented object calculus, not about
+the full host Lean kernel.
+\end{minipage}}
+\end{center}
+
+\subsection{Claim 1: Substrate Invariants}
+\label{subsec:claim-substrate-invariants}
+
+The substrate invariant is that de Bruijn indices are not treated as informal
+names.  The calculus defines shift and substitution as native recursive
+operations on represented terms.  A descent under a binder changes the cutoff;
+substitution below a binder shifts the inserted term; closure is the predicate
+that records which indices are admissible at a boundary.  The following
+targets are the basic shift-aware substrate facts used throughout the
+metatheory:
+
+\leanvariant{BEDC.MetaCIC.shift\_closed}
+\leanvariant{BEDC.MetaCIC.substitute\_closed}
+\leanvariant{BEDC.MetaCIC.closedAt\_shift}
+\leanvariant{BEDC.MetaCIC.closedAt\_substitute}
+\leanvariant{BEDC.MetaCIC.closedAt\_succ}
+\leanvariant{BEDC.MetaCIC.closedAt\_zero\_at}
+\leanvariant{BEDC.MetaCIC.shift\_substitute\_at\_closed\_zero}
+\leanvariant{BEDC.MetaCIC.shift\_substitute\_zero\_zero\_closed}
+
+The typing substrate is correspondingly local.  Substitution preservation is
+not asserted by a global slogan; it is exposed through first-principles
+subderivation theorems for the relevant shapes.  The Pi, lambda, and
+application theorems say exactly which represented premises are sufficient to
+preserve typing across the local substitution operation:
+
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_pi\_if\_subderivations}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_lam\_if\_subderivations}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_app\_if\_subderivations}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_pi}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_lam}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_app\_cod\_sort\_var\_commutes}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_via\_term\_induction}
+
+Closure is stable under represented beta computation.  A one-step beta
+reduction from a term closed at boundary $n$ has a target closed at the same
+boundary, and the reflexive-transitive beta chain preserves the same boundary.
+This is the guardrail that permits the self-compilation surface to execute
+finite represented beta traces without leaving the closed fragment:
+
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_closed\_at}
+\leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaParallel\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaParallel\_preserves\_closed\_zero}
+
+Read together, these targets justify the substrate part of the claim: the
+syntax, closure, substitution, and local typing algebra are not external
+assumptions.  They are object-language theorems about the represented
+calculus, and all later claims depend on that explicit de Bruijn discipline.
+
+\subsection{Claim 2: Subject Reduction in the Closed Scope}
+\label{subsec:claim-subject-reduction-closed-scope}
+
+The central subject-reduction theorem has an explicit interface shape.  It
+assumes the beta-substitution interface and three non-beta stability
+interfaces, then proves preservation of the displayed type along one
+represented beta step.  The beta case and the congruence cases are checked
+directly over the represented typing and beta-step relations:
+
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_beta}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp1}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp2}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congLam}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congPi}
+\leanvariant{BEDC.MetaCIC.subject\_reduction}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_retype}
+
+Inside the closed empty-context reading, the application-argument stability
+interface has a positive closed use case.  When the Pi codomain is already
+closed at boundary $0$, substituting either the source argument or its beta
+reduct into that codomain returns the same codomain.  This gives the closed
+independent-codomain application preservation theorem consumed by the
+self-compilation examples:
+
+\leanvariant{BEDC.MetaCIC.appArgTypeStable\_closed\_independent\_codomain}
+\leanvariant{BEDC.MetaCIC.appArgTypeStable\_closed}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_closed\_app\_independent\_codomain}
+
+The closed scope also records the exact negative boundary for stronger
+blanket readings.  A closed lambda may reduce in its displayed domain while
+the target no longer has the displayed Pi type.  A closed Pi may reduce in
+its domain while its codomain was typed in the old shifted-domain context.
+Therefore closedness alone does not discharge the lambda-domain and Pi-domain
+interfaces as global theorems:
+
+\leanvariant{BEDC.MetaCIC.lamDomainSR\_closed\_counterexample}
+\leanvariant{BEDC.MetaCIC.not\_lamDomainSR\_closed}
+\leanvariant{BEDC.MetaCIC.not\_subject\_reduction\_closed\_lam}
+\leanvariant{BEDC.MetaCIC.piDomainSR\_closed\_counterexample}
+\leanvariant{BEDC.MetaCIC.not\_piDomainSR\_closed}
+\leanvariant{BEDC.MetaCIC.not\_subject\_reduction\_closed\_pi}
+\leanvariant{BEDC.MetaCIC.not\_subject\_reduction\_closed}
+
+Thus the subject-reduction claim is exact.  BEDC has a checked preservation
+theorem with explicit hypotheses, a checked positive closed application
+sub-scope, and checked counterexamples to the stronger closed binder-domain
+reading.  The manuscript must not cite a blanket
+\texttt{subject\_reduction\_closed} theorem, because the represented calculus
+contains formal witnesses refuting that statement.
+
+\subsection{Claim 3: Confluence in the Closed Scope}
+\label{subsec:claim-confluence-closed-scope}
+
+The confluence surface is split into atom facts, shape assemblers, and a
+closed-normal sub-scope.  Atoms have trivial forks: a sort source and a
+variable source cannot produce a genuine beta fork.  The beta-star and
+parallel-beta diamonds for atom sources therefore join at the source itself:
+
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+\leanvariant{BEDC.MetaCIC.betaParallel\_sort\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_var\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_var}
+
+For compound terms, the parallel relation exposes the expected structural
+components.  Application, lambda, and Pi diamonds can be assembled from
+component diamonds.  Shape-specific lambda and Pi diamonds are checked.
+Application forks are handled by an inversion theorem and by a conditional
+application-shape theorem whose remaining premise is the explicit
+substitution-compatibility property:
+
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_lam\_shape\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_pi\_shape\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_full\_inv}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_cong\_cong\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_shape\_diamond\_from\_substitution}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_from\_substitution}
+
+The unconditional closed part is available for normal sources.  If a closed
+source is beta-normal, any parallel target or beta-star target is forced back
+to the source, so both forks join immediately.  Sort is a closed normal
+source; a closed variable source is impossible at boundary $0$, and the
+corresponding impossible cases are also named:
+
+\leanvariant{BEDC.MetaCIC.BetaNormal}
+\leanvariant{BEDC.MetaCIC.betaNormal\_sort}
+\leanvariant{BEDC.MetaCIC.betaNormal\_var}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_closed\_normal}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_closed\_sort}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_sort}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_closed\_var\_impossible}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_var\_impossible}
+
+The Church-Rosser theorem for the whole closed fragment is therefore not read
+as an unqualified theorem here.  What is checked is the atom diamond surface,
+the compound-shape machinery, the conditional full parallel diamond from
+substitution compatibility, and the unconditional closed-normal confluence
+surface.  The missing global claim would require a closed substitution
+compatibility theorem strong enough to cover application residuals.
+
+\subsection{Claim 4: Strong Normalization in the Closed Scope}
+\label{subsec:claim-strong-normalization-closed-scope}
+
+The normalization layer defines the reducibility-candidate vocabulary used by
+the closed fragment.  \texttt{StrongNormalizable} is an inductive predicate
+closed under one-step tails.  Candidate, closed candidate, Pi candidate, and
+candidate-set structures package strong-normalization witnesses together with
+the type-head and closure facts needed by the represented calculus:
+
+\leanvariant{BEDC.MetaCIC.StrongNormalizable}
+\leanvariant{BEDC.MetaCIC.strongNormalizable\_step}
+\leanvariant{BEDC.MetaCIC.strongNormalizable\_reduces\_once}
+\leanvariant{BEDC.MetaCIC.Candidate}
+\leanvariant{BEDC.MetaCIC.ClosedCandidate}
+\leanvariant{BEDC.MetaCIC.PiCandidate}
+\leanvariant{BEDC.MetaCIC.CandidateSet}
+\leanvariant{BEDC.MetaCIC.candidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.closedCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.piCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.candidate\_closed\_under\_beta}
+\leanvariant{BEDC.MetaCIC.closedCandidate\_under\_beta\_with\_closed\_target}
+
+The Pi adequacy component says that a Pi candidate gives the expected
+application candidate and application strong-normalization witness.  Neutral
+normal forms supply the closed application witnesses used in the gallery, and
+lambda and Pi constructors preserve strong-normalization from their parts:
+
+\leanvariant{BEDC.MetaCIC.pi\_candidate\_app}
+\leanvariant{BEDC.MetaCIC.piCandidate\_head\_sn}
+\leanvariant{BEDC.MetaCIC.PiAdequacy.piCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.NeutralNormal}
+\leanvariant{BEDC.MetaCIC.neutralNormal\_step}
+\leanvariant{BEDC.MetaCIC.neutralNormal\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.neutralApp\_sn}
+\leanvariant{BEDC.MetaCIC.sn\_lam}
+\leanvariant{BEDC.MetaCIC.sn\_pi}
+
+The closed-typed-term layer turns those witnesses into theorem statements
+about empty-context terms.  It does not assert that every closed typed term
+has a candidate.  It asserts the exact theorem available from each of the
+candidate structures: if the candidate evidence is present, then the closed
+typed term is strongly normalizable and admits no infinite beta-reduction
+chain:
+
+\leanvariant{BEDC.MetaCIC.ClosedTypedTerm}
+\leanvariant{BEDC.MetaCIC.ClosedTypedCandidate}
+\leanvariant{BEDC.MetaCIC.ClosedTypedPiCandidate}
+\leanvariant{BEDC.MetaCIC.closedTypedCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.closedTypedPiCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.closedTypedPiCandidate\_app\_sn}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}
+\leanvariant{BEDC.MetaCIC.strongNormalizable\_no\_infinite\_reduction}
+\leanvariant{BEDC.MetaCIC.closedTypedCandidate\_no\_infinite\_reduction}
+
+The gallery supplies concrete closed witnesses for the sort, Church Boolean,
+Church natural, identity, constant, and successor shapes used by the
+self-compilation account:
+
+\leanvariant{BEDC.MetaCIC.closed\_sort\_sn}
+\leanvariant{BEDC.MetaCIC.closed\_lam\_sn\_from\_parts}
+\leanvariant{BEDC.MetaCIC.closed\_pi\_sn\_from\_parts}
+\leanvariant{BEDC.MetaCIC.closed\_neutral\_sn}
+\leanvariant{BEDC.MetaCIC.churchBoolTy\_sn}
+\leanvariant{BEDC.MetaCIC.churchNatTy\_sn}
+\leanvariant{BEDC.MetaCIC.churchIdentityTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchIdentityTy\_sn}
+\leanvariant{BEDC.MetaCIC.churchTrueTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchFalseTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchZeroTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchOneTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchConstTy\_sn}
+\leanvariant{BEDC.MetaCIC.churchConstTm\_sn}
+\leanvariant{BEDC.MetaCIC.churchSuccTy\_sn}
+\leanvariant{BEDC.MetaCIC.churchSuccTm\_sn}
+
+This is the strong-normalization claim carried by the manuscript.  The
+theorems are genuine Lean theorems with no axioms and no placeholders, but
+their quantifiers are candidate-scoped or gallery-scoped.  A global theorem
+that every closed typed represented term has a reducibility candidate is not
+part of this claim.
+
+\subsection{Claim 5: Decidable Type Checker}
+\label{subsec:claim-decidable-type-checker}
+
+The executable checker is the function \texttt{inferTypeCtx}.  It computes an
+optional represented type from a represented context and term, using native
+recursive equality checks and the same syntax and context lookup as the
+typing relation.  Its closed version is the empty-context specialization:
+
+\leanvariant{BEDC.MetaCIC.inferTypeCtx}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_eq\_inferType}
+
+Soundness states that a successful checker result gives a \texttt{HasType}
+witness.  Completeness states that a represented typing derivation is found by
+the checker.  The shape-specific completeness theorems expose the sort,
+variable, Pi, lambda, and application cases separately:
+
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_sound}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_sound}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_complete}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_raw}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_total}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_sort}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_var}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_pi}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_lam}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_app}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete\_strict}
+
+The lookup-based closed-atom layer records the boundary behavior at empty
+contexts.  Sort checks as sort, variables are rejected in the empty context,
+and the inversion lemmas expose how a typed atom or compound term must have
+arisen:
+
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete\_sort}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_var\_empty\_none}
+\leanvariant{BEDC.MetaCIC.hasType\_sort\_empty\_ctx}
+\leanvariant{BEDC.MetaCIC.hasType\_var\_ctx\_lookup}
+\leanvariant{BEDC.MetaCIC.hasType\_var\_empty\_ctx\_absurd}
+\leanvariant{BEDC.MetaCIC.hasType\_app\_empty\_ctx\_pi}
+\leanvariant{BEDC.MetaCIC.hasType\_lam\_empty\_ctx\_pi}
+\leanvariant{BEDC.MetaCIC.hasType\_pi\_empty\_ctx}
+
+The checker claim is therefore an executable metatheory claim.  It is not a
+prose assertion that type checking is decidable in some external calculus; it
+is a concrete function together with soundness, completeness, and closed
+empty-context atom behavior over the represented calculus.
+
+\subsection{Claim 6: Self-Representability via HostBridge}
+\label{subsec:claim-hostbridge-self-representability}
+
+The host bridge relates ordinary host CIC examples to represented MetaCIC
+terms by a finite transport gallery.  On the host side, identity, constant,
+flip, compose, Church Booleans, Church naturals, pairs, options, and selected
+redexes compute by reflexive equalities.  These equalities are not imported as
+axioms about the represented calculus; they are paired with represented
+typing and reduction witnesses:
+
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_identity\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_const\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_flip\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_compose\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_true\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_false\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_zero\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_one\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_pair\_fst\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_pair\_snd\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_none\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_some\_beta}
+
+The transport layer gives the represented typing side of the same gallery.
+Each transport theorem is an empty-context \texttt{HasType} witness over the
+MetaCIC syntax:
+
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_identity\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_const\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_flip\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_compose\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_bool\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_true\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_false\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_nat\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_zero\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_one\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_succ\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_pair\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_mk\_pair\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_option\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_none\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_some\_well\_typed}
+
+The bounded normalizer gives an operational companion to the transport
+gallery.  It is a fuel-indexed recursive function over represented terms.
+Concrete equations state that sufficient fuel reaches the expected normal
+forms for the finite examples, and separate beta-chain theorems give the
+object-language reduction traces:
+
+\leanvariant{BEDC.MetaCIC.normalizeBounded}
+\leanvariant{BEDC.HostBridge.normalize\_id\_app\_sort}
+\leanvariant{BEDC.HostBridge.normalize\_poly\_identity\_apply}
+\leanvariant{BEDC.HostBridge.normalize\_church\_true\_apply}
+\leanvariant{BEDC.HostBridge.normalize\_church\_false\_apply}
+\leanvariant{BEDC.HostBridge.normalize\_church\_zero\_apply}
+\leanvariant{BEDC.HostBridge.normalize\_church\_one\_apply}
+\leanvariant{BEDC.HostBridge.host\_id\_app\_sort}
+\leanvariant{BEDC.HostBridge.host\_poly\_identity\_apply}
+\leanvariant{BEDC.HostBridge.host\_church\_true\_apply}
+\leanvariant{BEDC.HostBridge.host\_church\_zero\_apply}
+\leanvariant{BEDC.HostBridge.id\_app\_sort\_beta\_star}
+\leanvariant{BEDC.HostBridge.poly\_identity\_chain}
+\leanvariant{BEDC.HostBridge.church\_true\_apply\_chain}
+\leanvariant{BEDC.HostBridge.church\_false\_apply\_chain}
+
+This is a self-representability claim for a finite gallery, not a theorem that
+arbitrary host Lean terms elaborate into MetaCIC terms.  The bridge is exact
+because each transported example is named on both sides.
+
+\subsection{Claim 7: Church-Encoded Data Structure Laws}
+\label{subsec:claim-church-encoded-data-laws}
+
+The Church gallery is a typed object-language gallery.  Booleans, naturals,
+pairs, options, and polymorphic function forms are represented as MetaCIC
+terms and typed in the empty context:
+
+\leanvariant{BEDC.MetaCIC.church\_bool\_type}
+\leanvariant{BEDC.MetaCIC.church\_true}
+\leanvariant{BEDC.MetaCIC.church\_false}
+\leanvariant{BEDC.MetaCIC.church\_nat\_type}
+\leanvariant{BEDC.MetaCIC.church\_zero}
+\leanvariant{BEDC.MetaCIC.church\_one}
+\leanvariant{BEDC.MetaCIC.church\_succ\_type}
+\leanvariant{BEDC.MetaCIC.church\_succ}
+\leanvariant{BEDC.MetaCIC.church\_pair\_type}
+\leanvariant{BEDC.MetaCIC.church\_mk\_pair}
+\leanvariant{BEDC.MetaCIC.church\_fst}
+\leanvariant{BEDC.MetaCIC.church\_snd}
+\leanvariant{BEDC.MetaCIC.church\_option\_type}
+\leanvariant{BEDC.MetaCIC.church\_none}
+\leanvariant{BEDC.MetaCIC.church\_some}
+\leanvariant{BEDC.MetaCIC.church\_case\_option}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_type}
+\leanvariant{BEDC.MetaCIC.poly\_const\_type}
+\leanvariant{BEDC.MetaCIC.poly\_flip\_type}
+\leanvariant{BEDC.MetaCIC.poly\_compose\_type}
+
+The algebraic laws are represented beta-star equalities, not host-side
+rewrite folklore.  Boolean projections select the expected branch, Church
+zero and one apply as expected, polymorphic identity returns its argument,
+and pair elimination sends a Church pair to the selector applied to its two
+payloads:
+
+\leanvariant{BEDC.MetaCIC.church\_true\_proj}
+\leanvariant{BEDC.MetaCIC.church\_false\_proj}
+\leanvariant{BEDC.MetaCIC.church\_zero\_apply}
+\leanvariant{BEDC.MetaCIC.church\_one\_apply}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_apply}
+\leanvariant{BEDC.MetaCIC.churchPairPayload\_normalize}
+\leanvariant{BEDC.MetaCIC.church\_pair\_value\_to\_selector}
+
+The redex gallery connects the same algebraic surface to explicit
+\texttt{BetaStep} and \texttt{BetaStarStep} witnesses.  These targets are the
+closed concrete traces used by the bounded normalizer and by the transport
+bridge:
+
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex}
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.fn\_sort\_to\_sort\_redex}
+\leanvariant{BEDC.MetaCIC.fn\_sort\_to\_sort\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.const\_sort\_redex}
+\leanvariant{BEDC.MetaCIC.const\_sort\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex}
+\leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex}
+\leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex\_typed}
+
+The Church-encoded data claim is therefore a mechanized family of typed
+examples and beta-star laws for the represented calculus.  It covers the
+finite data structures used in the self-compilation surface; it does not
+assert native inductive families in the represented object language.
+
+\subsection{Claim 8: BetaConv Relation Properties}
+\label{subsec:claim-betaconv-relation-properties}
+
+\texttt{BetaConv} is the joinability relation induced by
+\texttt{BetaStarStep}.  Reflexivity, symmetry, inclusion of beta-star and
+one-step beta on either side, and conditional transitivity under a confluence
+input are all checked:
+
+\leanvariant{BEDC.MetaCIC.BetaConv}
+\leanvariant{BEDC.MetaCIC.BetaConv.refl}
+\leanvariant{BEDC.MetaCIC.BetaConv.symm}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStar\_left}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStar\_right}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStep\_left}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStep\_right}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_of\_confluence}
+
+There is also a closed-normal transitivity route.  If the middle term is
+beta-strong, both conversion witnesses must meet at that normal middle, so
+conversion composes through it.  Closed normal forms related by
+\texttt{BetaConv} are equal:
+
+\leanvariant{BEDC.MetaCIC.betaNormal\_of\_betaStrong}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_normal\_middle}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_closed\_normal\_middle}
+\leanvariant{BEDC.MetaCIC.BetaConv\_normal\_forms\_equal\_closed}
+
+The important negative fact is also checked: empty-context typing is not
+invariant under \texttt{BetaConv} in full generality.  The obstruction is a
+lambda-domain type example.  The source and target are closed and
+beta-convertible, the source has the displayed type, and the target does not:
+
+\leanvariant{BEDC.MetaCIC.HasTypeBetaConvInvariantClosedStatement}
+\leanvariant{BEDC.MetaCIC.closedLamDomainTarget\_closed}
+\leanvariant{BEDC.MetaCIC.BetaConv\_closed\_lam\_domain\_type\_obstruction}
+\leanvariant{BEDC.MetaCIC.not\_HasType\_BetaConv\_invariant\_closed}
+
+Consequently, the manuscript can use \texttt{BetaConv} as a checked
+joinability relation with equivalence-like behavior in the confluence or
+closed-normal sub-scope.  It cannot use \texttt{BetaConv} as a blanket typing
+conversion rule for \texttt{HasType} over the closed empty-context fragment.
+
+\subsection{Boundary Statement}
+\label{subsec:session-metatheory-boundary}
+
+The scope boundary is part of the claim.  Open-term metatheory is outside the
+closed empty-context surface.  The obstruction is concrete: the naive
+substitution-composition shape fails at depth $0$ with
+$v = \texttt{var}\ 0$, $u = \texttt{sort}$, and $t = \texttt{var}\ 1$.
+The corresponding Lean target records the inequality directly, and the
+confluence layer exposes the same obstruction as a substitution-commutation
+boundary:
+
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_unclosed\_counterexample}
+\leanvariant{BEDC.MetaCIC.substitute\_commutation\_unclosed\_obstruction}
+\leanvariant{BEDC.MetaCIC.BetaParallelSubstitutionCompatibility}
+
+The represented calculus also excludes a universe hierarchy, cumulative
+universes, native inductive families, eliminators for those families,
+propositional irrelevance, quotient principles, and eta-conversion.  The
+syntax has one sort and beta reduction only.  Any argument requiring those
+features must introduce a separate bridge or a separate represented calculus;
+it is not licensed by the claim in this section.
+
+\subsection{Delivered Invariants}
+\label{subsec:session-metatheory-delivered-invariants}
+
+The delivered invariants are project-level as well as theorem-level.  The
+\texttt{lean4/} development imports Lean 4 core facilities and project files,
+not mathlib.  The project axiom audit rejects \texttt{axiom} declarations in
+\texttt{lean4/BEDC/}.  The build is kept at zero sorry.  The axiom-purity
+audit checks theorem dependencies against forbidden host principles, including
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}.
+
+These invariants determine how the preceding claims are read.  The markers in
+this section are not literary citations; each target is a Lean object in the
+project.  The substrate, subject-reduction, confluence, normalization,
+checker, host-bridge, Church-algebra, and beta-conversion surfaces are
+therefore reproducible as mechanized claims over the represented calculus.
+The boundary clauses are equally binding: where a stronger statement is
+refuted or only conditional, the paper reads the formal target as a refusal to
+overstate the metatheory.

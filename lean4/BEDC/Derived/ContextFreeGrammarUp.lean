@@ -53,4 +53,84 @@ theorem ContextFreeGrammarPacket_production_stability [AskSetup] [PackageSetup]
     unary_transport readbackUnary sameReadback
   exact ⟨productionUnary', yieldUnary', readbackUnary', sameReadback, transportedRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_terminal_yield_window [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance name
+      endpoint production' yield' readback' derivation' transport' route' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      hsame production production' ->
+        hsame yield yield' ->
+          Cont production' yield' readback' ->
+            hsame derivation derivation' ->
+              hsame transport transport' ->
+                Cont derivation' transport' route' ->
+                  UnaryHistory readback' ∧ UnaryHistory route' ∧ hsame readback readback' ∧
+                    hsame route route' ∧ Cont production' yield' readback' ∧
+                      Cont derivation' transport' route' ∧ PkgSig bundle endpoint pkg := by
+  intro packet sameProduction sameYield productionRow' sameDerivation sameTransport routeRow'
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, productionUnary, yieldUnary,
+    derivationUnary, readbackUnary, transportUnary, routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _startRow, productionRow, routeRow, _nameRow,
+    _endpointRow, pkgSig⟩ := packet
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameProduction sameYield productionRow productionRow'
+  have readbackUnary' : UnaryHistory readback' := unary_transport readbackUnary sameReadback
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameDerivation sameTransport routeRow routeRow'
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport routeUnary sameRoute
+  exact
+    ⟨readbackUnary', routeUnary', sameReadback, sameRoute, productionRow', routeRow', pkgSig⟩
+
+theorem ContextFreeGrammarPacket_derivation_concatenation [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint leftSegment rightSegment joined : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont derivation transport leftSegment ->
+        Cont leftSegment route rightSegment ->
+          Cont rightSegment endpoint joined ->
+            PkgSig bundle joined pkg ->
+              UnaryHistory leftSegment ∧ UnaryHistory rightSegment ∧ UnaryHistory joined ∧
+                Cont derivation transport leftSegment ∧ Cont leftSegment route rightSegment ∧
+                  Cont rightSegment endpoint joined ∧ PkgSig bundle joined pkg ∧
+                    PkgSig bundle endpoint pkg := by
+  intro packet derivationTransportLeft leftRouteRight rightEndpointJoined joinedPkg
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    derivationUnary, _readbackUnary, transportUnary, routeUnary, _provenanceUnary,
+    _nameUnary, endpointUnary, _terminalNonterminalStart, _productionYieldReadback,
+    _derivationTransportRoute, _routeProvenanceName, _nameEndpointEndpoint,
+    endpointPkg⟩ := packet
+  have leftUnary : UnaryHistory leftSegment :=
+    unary_cont_closed derivationUnary transportUnary derivationTransportLeft
+  have rightUnary : UnaryHistory rightSegment :=
+    unary_cont_closed leftUnary routeUnary leftRouteRight
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed rightUnary endpointUnary rightEndpointJoined
+  exact
+    ⟨leftUnary, rightUnary, joinedUnary, derivationTransportLeft, leftRouteRight,
+      rightEndpointJoined, joinedPkg, endpointPkg⟩
+
+theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint finalYield : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont derivation readback finalYield ->
+        UnaryHistory start ∧ UnaryHistory production ∧ UnaryHistory derivation ∧
+          UnaryHistory readback ∧ UnaryHistory yield ∧ UnaryHistory finalYield ∧
+            Cont derivation readback finalYield ∧ PkgSig bundle endpoint pkg := by
+  intro packet finalYieldRow
+  obtain ⟨_terminalUnary, _nonterminalUnary, startUnary, productionUnary, yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _startRow, _productionRow, _routeRow, _nameRow,
+    _endpointRow, pkgSig⟩ := packet
+  have finalYieldUnary : UnaryHistory finalYield :=
+    unary_cont_closed derivationUnary readbackUnary finalYieldRow
+  exact ⟨startUnary, productionUnary, derivationUnary, readbackUnary, yieldUnary,
+    finalYieldUnary, finalYieldRow, pkgSig⟩
+
 end BEDC.Derived.ContextFreeGrammarUp
