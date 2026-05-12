@@ -17348,3 +17348,27 @@ Rationale:
 This is a focused empty-spine inversion for an existing concrete instance. The RegularLanguage chapter already states the deterministic empty-word endpoint and separately states accepted-word endpoint transport, but there is no closely matching labelled theorem that packages the empty-word accepted endpoint itself as start-state plus accepting-carrier membership. The claim is narrow, concrete, lands in the existing chapter without hub or line-cap risk, and is sufficiently distinct from existing BOARD entries.
 
 ---
+
+### B-689 - MPC finite-horizon prefix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | MPC finite-horizon prefix restriction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted ModelPredictiveControlUp packet over horizon N is restricted to a certified prefix horizon m≤N while retaining the first m prediction, constraint, cost, terminal, first-control, hsame, Cont, Pkg, and NameCert rows, then the restricted packet is accepted as a ModelPredictiveControlUp packet over m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex`
+
+Rationale:
+The MPC carrier is a finite BHist packet M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C), where N is the unary prediction horizon, W is a constraint-window row indexed by horizon entries, O is a finite control-sequence candidate, and R records finite rollout routes at papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex:18-58. The existing finite-horizon obligation exposes the prediction ledger as finite rows at lines 60-68, and the constraint theorem exposes admissibility rows indexed by the same finite horizon at lines 86-94. Focused rg for `modelpredictivecontrol.*restriction|model predictive control.*restriction|modelpredictivecontrol.*prefix|model predictive control.*prefix` returned 0 hits across papers and BOARD, while the adjacent Riccati chapter already has a finite horizon tail restriction theorem, showing this is a missing local finite-ledger closure rather than a broad control-theory claim. The target file has 211 lines with 5 theorem-like blocks.
+
+---
