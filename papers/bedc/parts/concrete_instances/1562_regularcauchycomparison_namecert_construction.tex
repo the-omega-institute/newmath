@@ -74,6 +74,7 @@ $\Cont$ routes. A classified read of either $X$ or $Y$ must inspect the same
 transported $\StreamNameUp$ schedule before reading $D$ and $\tau$, and no read
 may split the two regular names across unrelated windows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyComparisonUp.RegularCauchyComparisonCarrier\_common\_window\_stability}
 \begin{proof}
 Project the carrier of
 \autoref{def:regular-cauchy-comparison-carrier}. It contains one shared
@@ -214,6 +215,24 @@ Apply \autoref{thm:regular-cauchy-comparison-classifier-transport} to carry the 
 Thus the two consumers see the same $\RealUp$ seal row at the classifier interface. The proof never introduces a host equality test or a selected completion limit, because neither is a coordinate of the displayed carrier.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison symmetric window swap]
+\label{thm:regular-cauchy-comparison-symmetric-window-swap}
+Let
+$$
+K=(X,Y,W,D,\tau,L,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyComparisonUp$ packet. Swapping the two $\RegSeqRatUp$ names $X$ and $Y$ preserves the shared $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ observation row $D$, the tolerance row $\tau$, the ledger $L$, the seal row $E$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The swapped packet therefore exposes the same $\RealUp$ classifier handoff through the same finite common-window comparison surface.
+\end{theorem}
+\begin{proof}
+First isolate the common window. By \autoref{thm:regular-cauchy-comparison-common-window-stability}, both regular names are read through the single displayed schedule $W$, so exchanging the order of $X$ and $Y$ does not create a second window row.
+
+Next keep the numerical comparison rows fixed. Apply \autoref{thm:regular-cauchy-comparison-tolerance-row-stability}: the dyadic observations in $D$ are compared against exactly the recorded tolerance row $\tau$ and ledger $L$, and classified transport cannot substitute an unrecorded tolerance.
+
+Now use \autoref{thm:regular-cauchy-comparison-classifier-transport}. The displayed $\hsame$ and $\Cont$ components move the two name coordinates componentwise while preserving the shared window, observation row, tolerance row, ledger, seal row, package provenance, and local certificate.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The $\RealUp$ handoff reads only the same finite comparison surface, so the swapped presentation exposes the same classifier-facing handoff without importing host equality of regular streams.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison completion consumer surface]
 \label{thm:regular-cauchy-comparison-completion-consumer-surface}
 Every $\RealUp$-completion consumer of an accepted $\RegularCauchyComparisonUp$ packet can cite exactly the finite comparison surface
@@ -327,6 +346,22 @@ Use \autoref{thm:regular-cauchy-comparison-classifier-transport} to move the com
 Apply \autoref{thm:regular-cauchy-comparison-classifier-window-exactness}. The classifier reaches the shared window, dyadic observation row, rational tolerance row, and comparison ledger before it reaches the real handoff.
 
 The public seal and consumer boundaries are then supplied by \autoref{thm:regular-cauchy-comparison-seal-handoff-obligation} and \autoref{thm:regular-cauchy-comparison-completion-consumer-surface}. Together they make the $\StreamNameUp$ route and the $\RealUp$ handoff one scoped comparison package.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison public export certificate]
+\label{thm:regular-cauchy-comparison-public-export-certificate}
+The carrier, classifier, window exactness, tolerance exactness, $\RealUp$ seal boundary, $\NullSequenceUp$ handoff, and $\StreamNameUp$--$\RealUp$ scope package rows of \autoref{thm:regular-cauchy-comparison-carrier-admission}, \autoref{thm:regular-cauchy-comparison-classifier-transport}, \autoref{thm:regular-cauchy-comparison-window-exactness}, \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}, \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization}, \autoref{thm:regular-cauchy-comparison-nullsequence-handoff}, and \autoref{thm:regular-cauchy-comparison-streamname-realup-scope-package} export one public $\RegularCauchyComparisonUp$ comparison certificate for downstream $\RealUp$ consumers.
+
+The exported certificate is a consumer-facing object over the displayed finite comparison packet. It introduces no quotient stream equality, selected host limit, host real equality, trichotomy claim, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-comparison-carrier-admission} and \autoref{thm:regular-cauchy-comparison-classifier-transport}. These fix the finite packet and preserve its two regular names, shared stream window, dyadic observations, tolerance row, comparison ledger, seal row, package row, and local naming row under the displayed transport routes.
+
+Next apply \autoref{thm:regular-cauchy-comparison-window-exactness} and \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. They make the comparison readable only after the shared $\StreamNameUp$ window and the rational tolerance row have both been displayed.
+
+Use \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization} and \autoref{thm:regular-cauchy-comparison-nullsequence-handoff} for the real-facing seal. These rows keep the $\RealUp$ handoff tied to the same finite comparison evidence and to the $\NullSequenceUp$ route when that route is present.
+
+Finally apply \autoref{thm:regular-cauchy-comparison-streamname-realup-scope-package}. It repacks the displayed window route and real handoff as one $\StreamNameUp$--$\RealUp$ comparison package, so the public export is exactly the stated consumer certificate and not an appeal to quotient equality, a selected host limit, host real equality, trichotomy, or ambient completeness.
 \end{proof}
 
 \closureat{RegularCauchyComparisonUp}{seedStr}

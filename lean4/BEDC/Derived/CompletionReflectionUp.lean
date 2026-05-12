@@ -94,4 +94,55 @@ theorem CompletionReflectionPacket_consumer_scope [AskSetup] [PackageSetup]
     ⟨reflectedUnary, sealUnary, extensionUnary, completionUnary, reflectedRow, extensionRow,
       certSig⟩
 
+theorem CompletionReflectionPacket_provenance_route_scope [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance
+      cert audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont route provenance audit ->
+        PkgSig bundle audit pkg ->
+          UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory audit ∧
+            Cont transport route provenance ∧ Cont route provenance audit ∧
+              PkgSig bundle cert pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet auditRow auditSig
+  obtain ⟨_completionUnary, _universalUnary, _separatedUnary, _diagonalUnary, _regularUnary,
+    _sealUnary, _transportUnary, routeUnary, _packageUnary, provenanceUnary, _certUnary,
+    _packageRow, provenanceRow, certSig⟩ := packet
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed routeUnary provenanceUnary auditRow
+  exact
+    ⟨routeUnary, provenanceUnary, auditUnary, provenanceRow, auditRow, certSig, auditSig⟩
+
+theorem CompletionReflectionPacket_public_export [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              UnaryHistory completion /\ UnaryHistory universal /\ UnaryHistory separated /\
+                UnaryHistory diagonal /\ UnaryHistory regular /\ UnaryHistory sealRow /\
+                  UnaryHistory reflected /\ UnaryHistory extension /\
+                    Cont completion universal package /\ Cont diagonal regular reflected /\
+                      Cont universal completion extension /\ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet reflectedRow reflectedSame extensionRow _extensionSame
+  obtain ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    packageRow, _provenanceRow, certSig⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_transport reflectedUnary reflectedSame
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  exact
+    ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary, sealUnary,
+      reflectedUnary, extensionUnary, packageRow, reflectedRow, extensionRow, certSig⟩
+
 end BEDC.Derived.CompletionReflectionUp

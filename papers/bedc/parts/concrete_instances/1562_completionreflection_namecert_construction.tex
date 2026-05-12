@@ -101,6 +101,7 @@ The same definition also states the exclusions. Since every carrier read is a pr
 \label{thm:completionreflection-classifier-scope}
 The $\CompletionReflectionUp$ classifier transports the scoped rows componentwise along the same $C,U,H,D,Q,A,S,T,K,P,N$ surface. It can compare construction, extension, separated-boundary, diagonal, regular-source, real-seal, transport, continuation, package, packet-provenance, and local naming rows, but it cannot add quotient streams, selected host limits, host real equality, or ambient completeness data.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_provenance\_route\_scope}
 \begin{proof}
 Apply \autoref{def:completion-reflection-classifier}. Its comparison clauses are exactly the rows already displayed in the carrier definition, with $\hsame$ and $\Cont$ supplying componentwise transport for the visible packet.
 
@@ -120,17 +121,35 @@ For extension-facing consumers, apply \autoref{thm:completion-reflection-extensi
 Combining the two routes exhausts the consumer surface: a consumer can read only the displayed real-seal row or the displayed extension row, each with the same finite provenance boundary.
 \end{proof}
 
+\begin{theorem}[CompletionReflection public export]
+\label{thm:completionreflection-public-export}
+Any public consumer of $\NameCert_{\CompletionReflectionUp}$ may read exactly the completion construction row $C$, universal-property extension row $U$, Hausdorff separated boundary row $H$, diagonal regular-sequence reflection row $D$, regular rational source row $Q$, $\RealUp$ seal row $A$, displayed $\hsame$ and $\Cont$ transports $S,T$, $\Pkg$ provenance $K,P$, and the local $\NameCert$ row $N$ from the carrier
+$$
+(C,U,H,D,Q,A,S,T,K,P,N).
+$$
+The public export has no coordinate for quotient completion objects, selected host limits, host equality of completed reals, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:completionreflection-carrier-scope}. It identifies the public carrier surface with the finite tuple $C,U,H,D,Q,A,S,T,K,P,N$ and excludes quotient streams, selected host limits, host real equality, and ambient completeness from the carrier coordinates.
+
+Next apply \autoref{thm:completionreflection-classifier-scope}. Public movement between accepted packets is componentwise along the same construction, extension, separated-boundary, diagonal, regular-source, real-seal, transport, continuation, package, packet-provenance, and local naming rows.
+
+Finally apply \autoref{thm:completionreflection-consumer-scope}. Every public consumer read factors through the real-seal row or the extension row over the same finite provenance surface, so the exported $\NameCert_{\CompletionReflectionUp}$ interface is exactly the displayed tuple and nothing outside it.
+\end{proof}
+\leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_public\_export}
+
 \closureat{CompletionReflectionUp}{seedStr}
 \closureat{CompletionReflectionUp}{obligationStr}
 \closureat{CompletionReflectionUp}{scopedStr}[BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_real\_seal\_boundary]
+\closureat{CompletionReflectionUp}{publicStr}[BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_public\_export]
 
 \begin{closurestatus}{\CompletionReflectionUp}
   \constructivestory{A $\CompletionReflectionUp$ packet is generated from completion construction, universal-property extension, Hausdorff separated boundary, diagonal regular-sequence reflection, real-seal, transport, continuation, package, and local naming rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:completionreflection-carrier-scope}, \autoref{thm:completionreflection-classifier-scope}, and \autoref{thm:completionreflection-consumer-scope} bind the finite carrier, componentwise classifier transport, and consumer readback boundary over $\RealCauchyCompletionUp$, $\CompletionUniversalPropertyUp$, $\HausdorffCompletionUp$, $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, selected host limits, host equality of completed reals, ambient completeness, or bridge checking.}
-  \upgradepath{Public closure requires a public consumer interface beyond the scoped real-seal and extension readback boundary.}
+  \upgradepath{Bridged closure requires a standard-bridge consumer over the public completion-reflection packet.}
 \end{closurestatus}

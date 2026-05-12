@@ -54,6 +54,88 @@ theorem MultiHistConfigCarrier_habitation [AskSetup] [PackageSetup]
       provenanceLocalLedger, pkgSig⟩
   exact ⟨carrier, ledger0Unary, sameRowUnary, provenanceUnary, ledger1Unary⟩
 
+theorem MultiHistConfigCarrier_componentwise_classifier_stability [AskSetup] [PackageSetup]
+    {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert h0' h1' ledger0'
+      ledger1' sameRow' provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert
+        bundle pkg ->
+      hsame h0 h0' ->
+        hsame h1 h1' ->
+          Cont h0' h1' ledger0' ->
+            Cont ledger0' noSync sameRow' ->
+              Cont sameRow' route provenance' ->
+                Cont provenance' localCert ledger1' ->
+                  PkgSig bundle provenance' pkg ->
+                    MultiHistConfigCarrier h0' h1' ledger0' ledger1' noSync sameRow' route
+                        provenance' localCert bundle pkg ∧
+                      hsame ledger0 ledger0' ∧ hsame sameRow sameRow' ∧
+                        hsame provenance provenance' ∧ hsame ledger1 ledger1' := by
+  intro carrier sameH0 sameH1 targetH0H1 targetLedgerNoSync targetSameRoute
+    targetProvenanceLocal targetPkgSig
+  have sourceH0Unary : UnaryHistory h0 := carrier.left
+  have sourceH1Unary : UnaryHistory h1 := carrier.right.left
+  have sourceH0H1 : Cont h0 h1 ledger0 := carrier.right.right.left
+  have sourceLedgerNoSync : Cont ledger0 noSync sameRow := carrier.right.right.right.left
+  have sourceSameRoute : Cont sameRow route provenance := carrier.right.right.right.right.left
+  have sourceProvenanceLocal : Cont provenance localCert ledger1 :=
+    carrier.right.right.right.right.right.left
+  have targetH0Unary : UnaryHistory h0' :=
+    unary_transport sourceH0Unary sameH0
+  have targetH1Unary : UnaryHistory h1' :=
+    unary_transport sourceH1Unary sameH1
+  have sameLedger0 : hsame ledger0 ledger0' :=
+    cont_respects_hsame sameH0 sameH1 sourceH0H1 targetH0H1
+  have sameSameRow : hsame sameRow sameRow' :=
+    cont_respects_hsame sameLedger0 (hsame_refl noSync) sourceLedgerNoSync
+      targetLedgerNoSync
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameSameRow (hsame_refl route) sourceSameRoute targetSameRoute
+  have sameLedger1 : hsame ledger1 ledger1' :=
+    cont_respects_hsame sameProvenance (hsame_refl localCert) sourceProvenanceLocal
+      targetProvenanceLocal
+  exact
+    ⟨⟨targetH0Unary, targetH1Unary, targetH0H1, targetLedgerNoSync, targetSameRoute,
+        targetProvenanceLocal, targetPkgSig⟩,
+      sameLedger0, sameSameRow, sameProvenance, sameLedger1⟩
+
+theorem MultiHistConfigCarrier_no_global_sync_ledger [AskSetup] [PackageSetup]
+    {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert noSync' sameRow'
+      provenance' ledger1' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert
+        bundle pkg ->
+      hsame noSync noSync' ->
+        Cont ledger0 noSync' sameRow' ->
+          Cont sameRow' route provenance' ->
+            Cont provenance' localCert ledger1' ->
+              PkgSig bundle provenance' pkg ->
+                MultiHistConfigCarrier h0 h1 ledger0 ledger1' noSync' sameRow' route
+                    provenance' localCert bundle pkg ∧
+                  hsame sameRow sameRow' ∧ hsame provenance provenance' ∧
+                    hsame ledger1 ledger1' := by
+  intro carrier sameNoSync targetLedgerNoSync targetSameRoute targetProvenanceLocal
+    targetPkgSig
+  have sourceH0Unary : UnaryHistory h0 := carrier.left
+  have sourceH1Unary : UnaryHistory h1 := carrier.right.left
+  have sourceLedger0 : Cont h0 h1 ledger0 := carrier.right.right.left
+  have sourceLedgerNoSync : Cont ledger0 noSync sameRow := carrier.right.right.right.left
+  have sourceSameRoute : Cont sameRow route provenance := carrier.right.right.right.right.left
+  have sourceProvenanceLocal : Cont provenance localCert ledger1 :=
+    carrier.right.right.right.right.right.left
+  have sameSameRow : hsame sameRow sameRow' :=
+    cont_respects_hsame (hsame_refl ledger0) sameNoSync sourceLedgerNoSync
+      targetLedgerNoSync
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameSameRow (hsame_refl route) sourceSameRoute targetSameRoute
+  have sameLedger1 : hsame ledger1 ledger1' :=
+    cont_respects_hsame sameProvenance (hsame_refl localCert) sourceProvenanceLocal
+      targetProvenanceLocal
+  exact
+    ⟨⟨sourceH0Unary, sourceH1Unary, sourceLedger0, targetLedgerNoSync, targetSameRoute,
+        targetProvenanceLocal, targetPkgSig⟩,
+      sameSameRow, sameProvenance, sameLedger1⟩
+
 theorem MultiHistConfig_carrier_habitation (h0 h1 : BHist) :
     (Cont h0 BHist.Empty h0 ∧ Cont h1 BHist.Empty h1) ∧
       BEDC.FKernel.NameCert.NameCert
