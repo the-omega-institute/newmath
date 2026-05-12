@@ -114,4 +114,27 @@ theorem CauchyPairingCarrier_classifier_transport_exactness [AskSetup] [PackageS
   exact And.intro targetCarrier
     (And.intro sameLA (And.intro sameLB sameE))
 
+theorem CauchyPairingCarrier_paired_seal_non_escape [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      sealConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont e provenance sealConsumer ->
+        PkgSig bundle sealConsumer pkg ->
+          UnaryHistory wA ∧ UnaryHistory wB ∧ UnaryHistory lA ∧ UnaryHistory lB ∧
+            UnaryHistory e ∧ UnaryHistory sealConsumer ∧ Cont mu wA lA ∧
+              Cont mu wB lB ∧ Cont lA lB e ∧ Cont e provenance sealConsumer ∧
+                PkgSig bundle e pkg ∧ PkgSig bundle sealConsumer pkg := by
+  intro carrier eProvenanceSealConsumer sealConsumerPkg
+  obtain ⟨_aUnary, _bUnary, wAUnary, wBUnary, lAUnary, lBUnary, _muAUnary,
+    _muBUnary, _muUnary, _eAUnary, _eBUnary, eUnary, _transportUnary, _routeUnary,
+    provenanceUnary, _localCertUnary, muWARow, muWBRow, lAlBRow, _eProvenanceTransport,
+    _transportLocalRoute, ePkg⟩ := carrier
+  have sealConsumerUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed eUnary provenanceUnary eProvenanceSealConsumer
+  exact
+    ⟨wAUnary, wBUnary, lAUnary, lBUnary, eUnary, sealConsumerUnary, muWARow,
+      muWBRow, lAlBRow, eProvenanceSealConsumer, ePkg, sealConsumerPkg⟩
+
 end BEDC.Derived.CauchyPairingUp
