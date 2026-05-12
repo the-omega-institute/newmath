@@ -78,7 +78,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [ ] L2.7: Universal Ask fixture recognizer.
 - [!] L2.8: Universal ExternalBinary recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` ExternalBinary corpus; because ExternalBinary append is definitionally Cont append, the universal queue-copy/compare recognizer is the same deferred unbounded problem as L2.4.
 - [ ] L2.9: Universal Gap (InGapSig + CompGap) recognizer.
-- [ ] L2.10: Universal Package (psame + TokenPolicy) recognizer.
+- [!] L2.10: Universal Package (psame + TokenPolicy) recognizer. Bounded positional-certificate CTS covers the representative Package fixtures and the generated depth `<= 2` token/psame/TokenPolicy/chain corpus; the universal recognizer is blocked on the unbounded `hsame` equality machine needed for `TokIntro := hsame`.
 - [ ] L2.11: Universal NameCert (Carrier + Equiv + descent + composition + stability mode) recognizer.
 - [ ] L2.12: Universal Settled (aggregator) recognizer.
 
