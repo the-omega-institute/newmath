@@ -23,6 +23,36 @@ static void test_catalog_lookup(void) {
     assert(strcmp(bits, "111110000100011111010") == 0);
     assert(len == 21);
 
+    bits = glider_phase("D1", "A", 1, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "11111000010") == 0);
+    assert(len == 11);
+
+    bits = glider_phase("D1", "B", 4, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "11111011100") == 0);
+    assert(len == 11);
+
+    bits = glider_phase("D1", "C", 4, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "11111000010") == 0);
+    assert(len == 11);
+
+    bits = glider_phase("D2", "A", 1, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "1111101011000100110") == 0);
+    assert(len == 19);
+
+    bits = glider_phase("D2", "B", 3, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "111110001001101110111111000100110") == 0);
+    assert(len == 33);
+
+    bits = glider_phase("D2", "C", 4, &len);
+    assert(bits != NULL);
+    assert(strcmp(bits, "1111101011000100110") == 0);
+    assert(len == 19);
+
     assert(glider_phase("D", "A", 1, &len) == NULL);
 
     printf("  catalog_lookup: PASS\n");
