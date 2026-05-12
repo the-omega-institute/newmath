@@ -232,4 +232,45 @@ theorem RegularCauchySubsequenceCarrier_real_seal_factorization [AskSetup] [Pack
       finalSealUnary, sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint,
       sealLocalCertConsumer, consumerEndpointFinal, endpointPkg, finalSealPkg⟩
 
+theorem RegularCauchySubsequenceCarrier_standard_bridge_source [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        Cont source (append reindex (append radius localCert)) consumerRead ∧
+          UnaryHistory consumerRead ∧ PkgSig bundle endpoint pkg := by
+  intro carrier sealLocalCertConsumer
+  obtain ⟨_sourceUnary, _reindexUnary, _windowsUnary, _radiusUnary, sealUnary,
+    _sameRowsUnary, _routeRowsUnary, _provenanceUnary, localCertUnary, _endpointUnary,
+    sourceReindexWindows, windowsRadiusSeal, _sameRowsRouteRowsProvenance,
+    _provenanceLocalCertEndpoint, _endpointAppend, endpointPkg⟩ := carrier
+  have sourceToConsumer : Cont source (append reindex (append radius localCert))
+      consumerRead := by
+    cases sourceReindexWindows
+    cases windowsRadiusSeal
+    cases sealLocalCertConsumer
+    exact (append_assoc (append source reindex) radius localCert).trans
+      (append_assoc source reindex (append radius localCert))
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  exact ⟨sourceToConsumer, consumerUnary, endpointPkg⟩
+
+theorem RegularCauchySubsequenceCarrier_bridge_non_escape [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead hostTail : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        (Cont consumerRead (BHist.e0 hostTail) source -> False) ∧
+          (Cont consumerRead (BHist.e1 hostTail) source -> False) := by
+  intro carrier sealLocalCertConsumer
+  have bridgeSource :=
+    (RegularCauchySubsequenceCarrier_standard_bridge_source carrier sealLocalCertConsumer).left
+  constructor
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.left bridgeSource hostReturn
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.right bridgeSource hostReturn
+
 end BEDC.Derived.RegularCauchySubsequenceUp
