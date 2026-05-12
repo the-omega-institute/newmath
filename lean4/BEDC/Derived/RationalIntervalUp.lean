@@ -541,4 +541,59 @@ theorem RationalIntervalPacket_midpoint_bisection_window [AskSetup] [PackageSetu
         routeUnary, rightProvenanceUnary, nameUnary, rightEndpointUnary, rightOrderRow,
         rightTransportRow, rightProvenanceRow, rightEndpointRow, rightPkg⟩⟩
 
+theorem RationalIntervalPacket_endpoint_transport_classifier [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint left' right'
+      lowerClass upperClass order' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      hsame left left' ->
+        hsame right right' ->
+          Cont left left' lowerClass ->
+            Cont right right' upperClass ->
+              Cont left' right' order' ->
+                UnaryHistory lowerClass ∧ UnaryHistory upperClass ∧ UnaryHistory order' ∧
+                  hsame order order' ∧ Cont left' right' order' := by
+  intro packet sameLeft sameRight lowerRow upperRow orderRow'
+  obtain ⟨leftUnary, rightUnary, orderUnary, _containmentUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, _endpointUnary, orderRow,
+    _containmentRow, _provenanceRow, _endpointRow, _endpointPkg⟩ := packet
+  have leftUnary' : UnaryHistory left' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory right' :=
+    unary_transport rightUnary sameRight
+  have lowerUnary : UnaryHistory lowerClass :=
+    unary_cont_closed leftUnary leftUnary' lowerRow
+  have upperUnary : UnaryHistory upperClass :=
+    unary_cont_closed rightUnary rightUnary' upperRow
+  have sameOrder : hsame order order' :=
+    cont_respects_hsame sameLeft sameRight orderRow orderRow'
+  have orderUnary' : UnaryHistory order' :=
+    unary_transport orderUnary sameOrder
+  exact ⟨lowerUnary, upperUnary, orderUnary', sameOrder, orderRow'⟩
+
+theorem RationalIntervalRefinement_choice_neutrality [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint choiceA choiceB :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint route choiceA ->
+        Cont endpoint route choiceB ->
+          PkgSig bundle choiceA pkg ->
+            PkgSig bundle choiceB pkg ->
+              UnaryHistory choiceA ∧ UnaryHistory choiceB ∧ hsame choiceA choiceB ∧
+                PkgSig bundle choiceA pkg ∧ PkgSig bundle choiceB pkg := by
+  intro packet choiceRowA choiceRowB choicePkgA choicePkgB
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+    routeUnary, _provenanceUnary, _nameUnary, endpointUnary, _orderRow,
+    _containmentRow, _provenanceRow, _endpointRow, _endpointPkg⟩ := packet
+  have choiceUnaryA : UnaryHistory choiceA :=
+    unary_cont_closed endpointUnary routeUnary choiceRowA
+  have choiceUnaryB : UnaryHistory choiceB :=
+    unary_cont_closed endpointUnary routeUnary choiceRowB
+  have sameChoice : hsame choiceA choiceB :=
+    cont_deterministic choiceRowA choiceRowB
+  exact ⟨choiceUnaryA, choiceUnaryB, sameChoice, choicePkgA, choicePkgB⟩
+
 end BEDC.Derived.RationalIntervalUp
