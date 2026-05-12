@@ -246,4 +246,23 @@ theorem HankelVandermondeTasteGate_single_carrier_alignment :
         exact hankelVandermondeToEventFlow_injective heq
       · rfl
 
+theorem HankelVandermondeCarrier_namecert_obligations :
+    (forall x : HankelVandermondeUp,
+      hankelVandermondeFromEventFlow (BHistCarrier.toEventFlow x) = some x) /\
+      (forall x y : HankelVandermondeUp,
+        BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) /\
+        (forall (x : HankelVandermondeUp) w m, List.Mem w (BHistCarrier.toEventFlow x) ->
+          List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    change hankelVandermondeFromEventFlow (hankelVandermondeToEventFlow x) = some x
+    exact hankelVandermonde_round_trip x
+  · constructor
+    · intro x y heq
+      change hankelVandermondeToEventFlow x = hankelVandermondeToEventFlow y at heq
+      exact hankelVandermondeToEventFlow_injective heq
+    · intro x w m hw hm
+      exact ChapterTasteGate.conservativity x w m hw hm
+
 end BEDC.Derived.HankelVandermondeUp
