@@ -448,6 +448,63 @@ the cited component exhaustions export none of the excluded downstream data,
 the common subwindow exports none of it.
 \end{proof}
 
+\begin{theorem}[StreamName pointwise classifier finite-window separation]
+\label{thm:streamname-pointwise-classifier-finite-window-separation}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be certified rational StreamName
+observation maps, and let their public $\NameCert$ rows display the
+$\mathsf{BHist}$ carrier, $\hsame$ transport, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance required by the finite-window interface. If the
+pointwise StreamName classifier for $s$ and $t$ does not hold, then there is a
+certified unary index $n$, a finite $\mathsf{ProbeBundle}$ window $K$ carrying
+$n$, and a finite-window $\mathsf{Pkg}$ row over $K$ such that the selected
+endpoint packages $s(n)$ and $t(n)$ are not identified by the downstream
+$\RegSeqRat/\RealUp$ seal classifier read from that row.
+
+Conversely, if a certified finite-window package over some $K$ carries a
+certified unary index $n$ and displays endpoint packages $s(n)$ and $t(n)$
+which the $\RegSeqRat/\RealUp$ seal classifier does not identify, then the
+pointwise StreamName classifier for $s$ and $t$ fails. The separating package
+uses only the displayed $\mathsf{BHist}$ observations, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, $\mathsf{InBundle}$, pointwise $\RatUp$ rows, and $\NameCert$
+provenance.
+\end{theorem}
+\begin{proof}
+For the forward direction, restrict the failed pointwise classifier to a
+certified unary observation at which its displayed endpoint row is not
+identified. The finite-window interface supplies a singleton
+$\mathsf{ProbeBundle}$ carrying that observation, and
+\autoref{thm:streamname-finite-window-schedule-exhaustion} identifies the
+resulting packet as a public $\mathsf{BHist}$ window with the corresponding
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+
+Next pass the singleton packet through the common-window machinery. Apply
+\autoref{thm:streamname-finite-window-common-refinement-export} to regard the
+singleton as a certified subwindow of any displayed comparison window, and use
+\autoref{thm:streamname-window-common-refinement-readback} to read back the
+selected endpoint packages $s(n)$ and $t(n)$ from the same finite
+$\NameCert$ provenance row.
+
+Finally use
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion} together
+with \autoref{thm:streamname-real-regseq-finite-window-handoff}. The handoff
+theorem says the downstream $\RegSeqRat/\RealUp$ read sees exactly the selected
+StreamName endpoint packages and the displayed denominator ledger; the
+intersection exhaustion prevents any hidden regularity, completion, quotient,
+or host-index row from identifying endpoints that the selected package
+separates.
+
+For the reverse direction, start with the separating certified package over
+$K$. The selected $\mathsf{InBundle}(n,K)$ row and the
+$\mathsf{UnaryHistory}$ certificate restrict the public StreamName classifier
+to the endpoint comparison at $n$.
+
+If the pointwise classifier for $s$ and $t$ held, the finite-window
+restriction theorem would transport that pointwise row into the same
+$\mathsf{Pkg}$ packet, and the RegSeqRat/RealUp handoff would read an
+identified seal endpoint there. This contradicts the displayed separating seal
+row, so the pointwise classifier fails.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat RealUp observation coverage]
 \label{thm:streamname-regseqrat-realup-observation-coverage}
 Every finite-window handoff from public $\StreamNameUp$ to a downstream
