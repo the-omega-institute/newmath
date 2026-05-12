@@ -66,28 +66,3 @@ This is a concrete obstruction target over the existing S1 carrier/readback surf
 
 ---
 
-### B-691 - ExactGlobalizeBase subdomain base-change
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (oracle) |
-| Object | ExactGlobalizeBase subdomain base-change |
-| Layer | proof_obligations |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-
-Problem:
-If ExactGlobalizeBase(Π,D) holds and D′ is a subdomain of D, then the concrete signature Globalize structure restricted through InGapSig(Π,D′,p,h) satisfies ExactGlobalizeBase(Π,D′).
-
-Local inputs:
-- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
-- `papers/bedc/parts/concrete_hardening/internalized_gap_globalize.tex`
-
-Rationale:
-This is a concrete proof-obligation theorem on the existing ExactGlobalizeBase surface rather than a marker or verification-status task. It is not present in the BOARD title index or paper labels, and it is not just a field projection: coverage must rebuild a D′ gap from the D coverage witness using the D′ admission premise, while soundness and completeness require pushing D′ gap memberships through the subdomain inclusion before applying the D exactness fields. The proposed landing files are non-hub theorem-bearing files and are below the line cap.
-
----
-
