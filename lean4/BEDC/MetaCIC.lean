@@ -1,4 +1,5 @@
 import BEDC.MetaCIC.Syntax
+import BEDC.MetaCIC.Syntax.Size
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.ClosedTerm.Helpers
 import BEDC.MetaCIC.Beta
