@@ -78,6 +78,7 @@ This is a concrete obstruction target over the existing S1 carrier/readback surf
 | Risk | unknown |
 | Fit | 7/10 |
 | Novelty | 6/10 |
+| Landing kind | existing_chapter_ledger_row |
 
 Problem:
 Under the S1 boundary-readback setup, if BEDC has a named S1 readback carrier for the Cayley coordinate and the Automath Cayley coordinate/inverse evidence supplies the coordinate laws, then the displayed S1 boundary readback carries the Cayley coordinate certificate row.
@@ -87,6 +88,31 @@ Local inputs:
 
 Rationale:
 This is an evidence-backed bridge continuation with a plausible BEDC-native landing surface: the existing S1 carrier/readback file is already the active locus for S1 bridge/readback targets, and this candidate asks for one concrete certificate row rather than analytic boundary theory. It is distinct from B-675, which is about completion-readback injectivity preservation, and B-676, which is about finite-rank host homologization obstruction. Provenance must be preserved: Automath source the-omega-institute/automath@origin/dev, commit aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f, source path papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_cayley_gate.tex, evidence packet tools\automath_newmath_bridge\review_packets\papers-publication-2026-cayley-chebyshev-poisson-entropy-strip-rkhs-jfa-sec-cayley-gate-tex-ce39cd0cc9a6.json, source labels sec:cayley-gate, eq:phase-coord, eq:angular-var, eq:cayley-embed, prop:cayley-homeo, eq:cayley-inverse. Reuse instruction: inspect and consume existing Automath evidence first; do not rediscover or re-prove the Automath theorem unless BEDC needs a native restatement. Expected NewMath delta: one S1 boundary-readback Cayley coordinate certificate row or a rejected BEDC-fit note. Reject if no S1 boundary-readback carrier or name-certificate host can represent the Cayley coordinate.
+
+---
+
+### B-707 - FinitePhaseSampling alias-collision obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FinitePhaseSampling alias-collision obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \FinitePhaseSamplingUp packet has an admitted mode whose aliasing ledger displays a nonzero colliding translated mode at the chosen grid scale, then finite grid recovery for that mode is not determined by the grid row alone and any RealUp handoff must retain the aliasing ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex`
+
+Rationale:
+The carrier records a finite phase-grid row G, mode-bound row K, coefficient samples M, aliasing ledger A, real handoff E, transports, routes, provenance, and NameCert at papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex:7-23. The NameCert obligations include grid recovery, handoff exactness, and non-escape at lines 28-36. The existing grid-recovery theorem is one-sided: it assumes the aliasing ledger has no nonzero colliding translated mode and then obtains coefficient determinacy from G at lines 51-60. The Real handoff and non-escape theorems require the handoff to factor through M and A at lines 63-77. A focused rg for "FinitePhaseSampling.*alias|phase sampling.*alias|aliasing.*obstruction|colliding translated" found only the no-collision recovery/handoff statements and no separate collision obstruction theorem or Lean marker. This is a concrete obstruction claim about the finite aliasing ledger, not a parameter-transport echo.
 
 ---
 
