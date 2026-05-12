@@ -88,6 +88,16 @@ theorem betaStarStep_of_two_steps {t t' t'' : Term}
     BetaStarStep t t'' := by
   exact BetaStarStep.step h1 (BetaStarStep.step h2 (BetaStarStep.refl t''))
 
+theorem betaStarStep_triple {a b c d : Term}
+    (h1 : BetaStarStep a b) (h2 : BetaStarStep b c) (h3 : BetaStarStep c d) :
+    BetaStarStep a d := by
+  exact betaStar_trans h1 (betaStar_trans h2 h3)
+
+theorem betaStarStep_three_steps {a b c d : Term}
+    (h1 : BetaStep a b) (h2 : BetaStep b c) (h3 : BetaStep c d) :
+    BetaStarStep a d := by
+  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStarStep_single h3)
+
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
   intro h
