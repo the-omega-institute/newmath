@@ -58,6 +58,18 @@ The consumer then reaches the displayed partial sums through the $\SeqUp$ and $\
 The $\RegSeqRatUp$ handoff reads the same partial-sum ledger as a regular rational sequence, and the $\RealUp$ seal-facing row is attached to that handoff. Since the carrier has no coordinate for a host sum, quotient stream, or completeness proof, none can be exported by the read.
 \end{proof}
 
+\begin{theorem}[FastConvergentSeries regular rational tail-bound handoff]
+\label{thm:fastconvergentseries-regseqrat-tail-bound-obligations}
+For an accepted $\FastConvergentSeriesUp$ packet, the displayed partial-sum rows, fast tail schedule, and finite tail-bound ledger determine the $\RegSeqRatUp$ handoff row used by the real-seal ledger. Classifier transport of the schedule rows and tail-bound rows transports that handoff row componentwise.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $Q$, $\mu$, $T$, $R$, and $E$ from \autoref{def:fastconvergentseries-bhist-carrier}. The partial-sum rows $Q$ supply the displayed rational approximants, the schedule $\mu$ supplies the finite threshold for each requested precision, and the tail-bound ledger $T$ records the comparison rows past that threshold.
+
+Use \autoref{thm:fastconvergentseries-tail-sum-boundary} to factor every real-facing read through the same schedule and finite comparison ledger. Thus the regular rational readback row $R$ is the repacking of $Q$, $\mu$, and $T$ that the seal-facing row $E$ is allowed to consume.
+
+Under classifier transport, the schedule rows and tail-bound rows move by the stored componentwise $\hsame$ comparisons. Repack the transported finite rows as the transported $\RegSeqRatUp$ handoff row. No host infinite sum, quotient stream, or ambient completeness object is introduced in this repacking.
+\end{proof}
+
 \begin{theorem}[FastConvergentSeries NameCert obligation surface]
 \label{thm:fastconvergentseries-namecert-obligation-surface}
 The local $\NameCert_{\FastConvergentSeriesUp}$ obligation surface consists of five rows:
@@ -81,11 +93,12 @@ The final two rows are projections of the same carrier. The regular readback for
 \end{proof}
 
 \closureat{FastConvergentSeriesUp}{seedStr}
+\closureat{FastConvergentSeriesUp}{obligationStr}
 
 \begin{closurestatus}{\FastConvergentSeriesUp}
   \constructivestory{A $\FastConvergentSeriesUp$ packet is generated from displayed $\SeriesUp$ summand and partial-sum rows, the underlying $\SeqUp$ observation surface, a $\CauchyModulusUp$ fast tail schedule, finite tail-bound rows, $\RegSeqRatUp$ partial-sum readbacks, $\RealUp$ seal-facing rows, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter fixes the finite carrier, classifier, zero-series inhabitant, tail-sum boundary, regular readback handoff, and real-seal non-escape obligations for the fast convergent series certificate surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter fixes the carrier, classifier, constant-zero inhabitant, tail-sum boundary, $\RegSeqRatUp$ handoff, and $\RealUp$ seal non-escape rows for the fast convergent series certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

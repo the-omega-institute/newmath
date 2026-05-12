@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\DiagonalModulusUp$}
+\label{ch:concrete-instances-diagonalmodulus-namecert}
+\origin{human}
+
+The $\DiagonalModulusUp$ packet names the selector modulus used when regular rational streams are read along a diagonal and then sealed as real-name data. Following Bishop--Bridges constructive analysis, the packet keeps the modulus explicit: a consumer precision is converted into a displayed threshold, a finite stream window, a $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ observation ledger, and a $\RealUp$ seal row. It does not classify by quotient streams, host real equality, selected limits, or ambient completeness.
+
+Its dependency list is $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, $\CauchyModulusUp$, $\RegularityModulusUp$, $\RegularCauchyDiagonalUp$, and $\RealCauchyCompletionUp$.
+
+\begin{definition}[DiagonalModulus carrier]
+\label{def:diagonalmodulus-carrier}
+A $\DiagonalModulusUp$ carrier row is a finite $\mathsf{BHist}$ packet
+$$
+\Delta=(n,\mu,w,r,d,e,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $n$ is the unary precision request issued by the downstream real-name reader;
+\item $\mu$ is the selected modulus threshold witnessing how far the diagonal read must inspect regular rational data at precision $n$;
+\item $w$ is the $\StreamNameUp$ window selected from $\mu$ and $n$;
+\item $r$ is the $\RegSeqRatUp$ readback row obtained inside the window $w$;
+\item $d$ is the $\DyadicRatCoreUp$ observation ledger recording the dyadic rational bounds used by that readback;
+\item $e$ is the $\RealUp$ seal row exposed to the consumer after the readback is displayed;
+\item $P$ is the $\Pkg$ provenance row naming the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\RegularityModulusUp$, $\RegularCauchyDiagonalUp$, and $\RealCauchyCompletionUp$ dependencies;
+\item $N$ is the local $\NameCert_{\DiagonalModulusUp}$ provenance row.
+\end{enumerate}
+The carrier contains no quotient of streams, no host-level equality of reals, no selected limit object, and no completeness theorem field.
+\end{definition}
+
+\begin{definition}[DiagonalModulus classifier]
+\label{def:diagonalmodulus-classifier}
+Two $\DiagonalModulusUp$ carrier rows are classified together exactly when their displayed precision requests, modulus thresholds, stream windows, regular-sequence readbacks, dyadic observation ledgers, real-seal rows, package rows, and local certificate rows are transported componentwise by the recorded $\hsame$ comparisons and $\Cont$ routes. The classifier is not allowed to compare hidden sequences, quotient representatives, host real endpoints, or unrecorded limit selections.
+\end{definition}
+
+\begin{theorem}[DiagonalModulus window selector totality]
+\label{thm:diagonalmodulus-window-selector-total}
+For every accepted $\DiagonalModulusUp$ carrier row and every displayed unary precision request $n$, the selected modulus threshold $\mu$ determines a finite $\StreamNameUp$ window $w$ and a $\RegSeqRatUp$ readback row $r$ inside that window. The selector therefore returns visible finite data for every consumer precision request.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:diagonalmodulus-carrier}. The precision coordinate $n$ and the threshold coordinate $\mu$ are stored before any readback, so the window selection is read from displayed data rather than from an external sequence object.
+
+The $\StreamNameUp$ coordinate $w$ records the finite window selected by that threshold. The readback coordinate $r$ is then attached to the same window, and the allowed transport routes are exactly the $\hsame$ and $\Cont$ entries recorded by the carrier provenance.
+
+Thus a consumer precision request always lands in a visible stream window and a visible regular rational row. No hidden limit selector is consulted.
+\end{proof}
+
+\begin{theorem}[DiagonalModulus RegSeqRat handoff]
+\label{thm:diagonalmodulus-regseqrat-handoff}
+Every $\DiagonalModulusUp$ read that reaches $\RegSeqRatUp$ factors through the selected $\StreamNameUp$ window $w$, the displayed readback row $r$, and the $\DyadicRatCoreUp$ ledger $d$ attached to that readback. The handoff exports only finite rational evidence and the recorded classifier routes.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier and a selected window. By \autoref{thm:diagonalmodulus-window-selector-total}, the window and the regular rational readback are already displayed as coordinates of the same finite packet.
+
+The dyadic ledger $d$ is stored beside $r$. It records the rational observations and radius data used by the readback, so transport of the readback also transports the corresponding $\DyadicRatCoreUp$ evidence.
+
+Consequently the handoff into $\RegSeqRatUp$ is a finite route through $w$, $r$, and $d$. It does not expose host sequence equality or quotient equality of regular streams.
+\end{proof}
+
+\begin{theorem}[DiagonalModulus RealUp seal non-escape]
+\label{thm:diagonalmodulus-real-seal-nonescape}
+The $\RealUp$ seal row $e$ of an accepted $\DiagonalModulusUp$ packet can be consumed only after the precision request, modulus threshold, stream window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger have been displayed. The seal therefore exports a real-name surface without exporting selected limits, quotient equality, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the coordinates of \autoref{def:diagonalmodulus-carrier} in order. The seal row appears after the precision, threshold, window, readback, and dyadic ledger rows, so any consumer route to $e$ must pass through those displayed coordinates.
+
+The handoff theorem identifies the preceding rational evidence. Once that evidence is displayed, the seal row records only the $\RealUp$ consumer boundary attached to it.
+
+Therefore the seal cannot be used as an escape to an unrecorded completion object. It withholds selected limits, quotient stream equality, host real equality, and ambient completeness data.
+\end{proof}
+
+\begin{theorem}[DiagonalModulus NameCert obligation surface]
+\label{thm:diagonalmodulus-namecert-obligation-surface}
+The local $\NameCert_{\DiagonalModulusUp}$ obligation surface consists of carrier habitation, displayed classifier transport, total finite-window selection, $\RegSeqRatUp$ handoff through dyadic observation rows, $\RealUp$ seal non-escape, and package dependency stability over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\RegularityModulusUp$, $\RegularCauchyDiagonalUp$, $\mathsf{BHist}$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Carrier habitation is the packaging operation of \autoref{def:diagonalmodulus-carrier}. The classifier row is the componentwise route of \autoref{def:diagonalmodulus-classifier}, using only displayed $\hsame$, $\Cont$, $\Pkg$, and dependency rows.
+
+Total finite-window selection is exactly \autoref{thm:diagonalmodulus-window-selector-total}. The $\RegSeqRatUp$ handoff is supplied by \autoref{thm:diagonalmodulus-regseqrat-handoff}, which keeps each readback attached to its stream window and dyadic observation ledger.
+
+The seal boundary is supplied by \autoref{thm:diagonalmodulus-real-seal-nonescape}. Together these rows list the local certificate obligations and exclude hidden streams, quotient representatives, selected limits, host real equality, and ambient completeness fields.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion modulus classifier transport]
+\label{thm:real-cauchy-completion-modulus-classifier-transport}
+A $\RealCauchyCompletionUp$ consumer may use an accepted $\DiagonalModulusUp$ packet by transporting its classifier through the displayed precision request, modulus threshold, stream window, $\RegSeqRatUp$ readback, dyadic ledger, and $\RealUp$ seal rows. The transport supplies the diagonal modulus required by the completion packet without adding quotient streams, host real equality, choice-selected limits, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a $\RealCauchyCompletionUp$ consumer request. The $\DiagonalModulusUp$ packet answers the request by \autoref{thm:diagonalmodulus-window-selector-total}, producing a displayed threshold, stream window, and regular rational readback.
+
+The rational evidence transported to the completion packet is exactly the handoff of \autoref{thm:diagonalmodulus-regseqrat-handoff}. The downstream real-name boundary is exactly the non-escaping seal of \autoref{thm:diagonalmodulus-real-seal-nonescape}.
+
+Since the classifier of \autoref{def:diagonalmodulus-classifier} compares only displayed rows and recorded routes, $\RealCauchyCompletionUp$ receives a concrete modulus packet rather than an external completion witness. The consumer therefore obtains the needed diagonal selector while quotient streams, host real equality, choice-selected limits, and ambient completeness remain outside the packet.
+\end{proof}
+
+\closureat{DiagonalModulusUp}{seedStr}
+
+\begin{closurestatus}{\DiagonalModulusUp}
+  \constructivestory{A $\DiagonalModulusUp$ packet is generated from a unary precision request, a selected modulus threshold, a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier sketch, displayed classifier route, total window selector, regular rational handoff, $\RealUp$ seal boundary, NameCert obligation surface, and $\RealCauchyCompletionUp$ consumer transport.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality, selected limits, host real equality, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, selector totality, $\RegSeqRatUp$ handoff exactness, $\RealUp$ seal non-escape, dependency stability, and the completion-consumer transport theorem.}
+\end{closurestatus}
