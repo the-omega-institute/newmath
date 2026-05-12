@@ -176,4 +176,40 @@ theorem CompletionFunctorCarrier_identity_route_stability [AskSetup] [PackageSet
       identityLedgerRow, sameIdentityLedger, identityRouteRow, sameIdentityRoute,
       provenanceSig, nameSig⟩
 
+theorem CompletionFunctorCarrier_completion_consumer_surface [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport routes
+      provenance name unitRead extensionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont source target unitRead ->
+        hsame unitRead denseMap ->
+          Cont denseMap extension extensionRead ->
+            hsame extensionRead functorLedger ->
+              UnaryHistory unitRead ∧ UnaryHistory extensionRead ∧
+                Cont source target denseMap ∧ Cont denseMap extension functorLedger ∧
+                  hsame unitRead denseMap ∧ hsame extensionRead functorLedger ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  intro carrier unitRoute sameUnit extensionReadRow sameExtensionRead
+  have unitFacts :
+      UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory denseMap ∧
+        UnaryHistory unitRead ∧ Cont source target denseMap ∧ Cont source target unitRead ∧
+          hsame unitRead denseMap ∧ Cont monad universal realCompletion ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg :=
+    CompletionFunctorCarrier_unit_boundary carrier unitRoute sameUnit
+  have extensionFacts :
+      UnaryHistory denseMap ∧ UnaryHistory extension ∧ UnaryHistory functorLedger ∧
+        UnaryHistory extensionRead ∧ Cont denseMap extension functorLedger ∧
+          Cont denseMap extension extensionRead ∧ hsame extensionRead functorLedger ∧
+            PkgSig bundle provenance pkg :=
+    CompletionFunctorCarrier_extension_ledger_exactness carrier extensionReadRow sameExtensionRead
+  obtain ⟨_sourceUnary, _targetUnary, _denseMapUnary, unitReadUnary, sourceTargetDenseMap,
+    _unitReadRoute, sameUnitRead, _monadRoute, provenancePkg, namePkg⟩ := unitFacts
+  obtain ⟨_denseMapUnaryExt, _extensionUnary, _functorLedgerUnary, extensionReadUnary,
+    denseMapExtensionFunctorLedger, _extensionReadRoute, sameExtensionReadLedger,
+    _extensionProvenancePkg⟩ := extensionFacts
+  exact
+    ⟨unitReadUnary, extensionReadUnary, sourceTargetDenseMap, denseMapExtensionFunctorLedger,
+      sameUnitRead, sameExtensionReadLedger, provenancePkg, namePkg⟩
+
 end BEDC.Derived.CompletionFunctorUp
