@@ -461,26 +461,28 @@ kept outside the metatheory namespaces so that examples do not determine the
 core proof interfaces. Each sub-namespace is axiom-free under the strict
 \texttt{bedc\_ci.py axiom-purity --strict} audit.
 
-\subsection{Module Stack Overview}\label{subsec:metacic-module-stack}
+\subsection{Lean Module Topology}\label{subsec:reconstruction-module-topology}
 
-The current MetaCIC stack is factored by proof responsibility.
-\texttt{BEDC.MetaCIC.Syntax} provides the term grammar, de Bruijn shifting,
-substitution, and contexts; \texttt{BEDC.MetaCIC.ClosedTerm} defines
-$\mathrm{ClosedAt}$ and the closed-term behavior of shift and substitution;
-\texttt{BEDC.MetaCIC.Beta} gives the one-step $\mathrm{BetaStep}$ relation;
-\texttt{BEDC.MetaCIC.Substitution}, together with
-\texttt{BEDC.MetaCIC.Substitution.Core},
-\texttt{BEDC.MetaCIC.Substitution.Basic}, and
-\texttt{BEDC.MetaCIC.Substitution.Statements}, organizes the syntax-level
-substitution surface; \texttt{BEDC.MetaCIC.Typing} contains the shift-aware
-$\mathrm{HasType}$ judgment; \texttt{BEDC.MetaCIC.SubjectReduction} records
-the preservation interface for beta contraction; \texttt{BEDC.MetaCIC.Confluence}
-contains $\mathrm{BetaStarStep}$ and parallel reduction; \texttt{BEDC.MetaCIC.Normalization}
-proves the atom no-reduction facts; \texttt{BEDC.MetaCIC.AtomInfer} gives
-closed atom type inference; \texttt{BEDC.MetaCIC.TypedExamples} supplies
-concrete typed terms; \texttt{BEDC.MetaCIC.PrettyPrint} gives a structural
-printer for terms; and \texttt{BEDC.MetaCIC.BHistSubstrate} connects the
-reconstruction to the binary-history substrate.
+The Lean dependency topology for \texttt{BEDC.MetaCIC} is a directed acyclic
+graph. \texttt{BEDC.MetaCIC.Syntax} is the foundation: it imports
+\texttt{BEDC.FKernel.Mark} and defines $\mathrm{Term}$, $\mathrm{Ctx}$,
+$\mathrm{shift}$, and $\mathrm{substitute}$. On that base,
+\texttt{BEDC.MetaCIC.ClosedTerm} and \texttt{BEDC.MetaCIC.Beta} depend only
+on syntax. The substitution family
+\texttt{BEDC.MetaCIC.Substitution.NatShift},
+\texttt{BEDC.MetaCIC.Substitution.Basic},
+\texttt{BEDC.MetaCIC.Substitution.Core}, and
+\texttt{BEDC.MetaCIC.Substitution.Statements} depends on syntax and closed
+terms, while \texttt{BEDC.MetaCIC.Substitution} re-exports that surface.
+\texttt{BEDC.MetaCIC.Typing.Core},
+\texttt{BEDC.MetaCIC.Typing.SubstitutionSurface}, and
+\texttt{BEDC.MetaCIC.Typing.ClosedBinderDomains} depend on syntax and the
+substitution surface. \texttt{BEDC.MetaCIC.SubjectReduction} depends on
+typing and beta reduction; \texttt{BEDC.MetaCIC.Confluence} depends on beta
+reduction; \texttt{BEDC.MetaCIC.Normalization} depends on beta reduction and
+closed terms; and \texttt{BEDC.MetaCIC.AtomInfer} and
+\texttt{BEDC.MetaCIC.TypedExamples} depend on typing. No module in this
+topology imports back into one of its prerequisites.
 
 \input{parts/self_compilation/03_metacic_reconstruction_tactic_discipline.tex}
 
