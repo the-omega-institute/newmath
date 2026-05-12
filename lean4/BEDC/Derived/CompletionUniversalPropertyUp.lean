@@ -50,4 +50,27 @@ theorem CompletionUniversalPropertyPacket_extension_obligations [AskSetup] [Pack
       extensionUnary, exportUnary, extensionRoute, denseRoute, exportRoute, provenancePkg,
       exportPkg⟩
 
+theorem CompletionUniversalPropertyPacket_uniqueness_ledger [AskSetup] [PackageSetup]
+    {completion diagonal regular realSeal denseMap extensionLedger uniquenessLedger provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionUniversalPropertyPacket completion diagonal regular realSeal denseMap
+        extensionLedger uniquenessLedger provenance nameRow bundle pkg ->
+      Cont extensionLedger nameRow uniquenessLedger ->
+        UnaryHistory extensionLedger ∧ UnaryHistory uniquenessLedger ∧ UnaryHistory provenance ∧
+          Cont extensionLedger nameRow uniquenessLedger ∧
+            Cont extensionLedger uniquenessLedger provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet uniquenessRoute
+  obtain ⟨completionUnary, diagonalUnary, _regularUnary, _realSealUnary, nameRowUnary,
+    extensionRoute, _denseRoute, provenanceRoute, provenancePkg⟩ := packet
+  have extensionUnary : UnaryHistory extensionLedger :=
+    unary_cont_closed completionUnary diagonalUnary extensionRoute
+  have uniquenessUnary : UnaryHistory uniquenessLedger :=
+    unary_cont_closed extensionUnary nameRowUnary uniquenessRoute
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed extensionUnary uniquenessUnary provenanceRoute
+  exact
+    ⟨extensionUnary, uniquenessUnary, provenanceUnary, uniquenessRoute, provenanceRoute,
+      provenancePkg⟩
+
 end BEDC.Derived.CompletionUniversalPropertyUp
