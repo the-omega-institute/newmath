@@ -82,6 +82,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
+import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicSubdivisionUp
@@ -250,6 +251,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
@@ -298,6 +300,7 @@ import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularLanguageUp
+import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularityModulusUp
