@@ -106,4 +106,66 @@ theorem DyadicTailBoundCarrier_classifier_transport_exactness [AskSetup] [Packag
       sameTransport,
       sameRoute⟩
 
+theorem DyadicTailBoundCarrier_budget_composition [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance localCert
+      ledger2 readback2 sealRow2 compositeLedger compositeReadback compositeSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      Cont schedule tolerance ledger2 ->
+        Cont ledger ledger2 compositeLedger ->
+          Cont schedule tolerance compositeLedger ->
+            UnaryHistory readback2 ->
+              Cont compositeLedger readback2 compositeReadback ->
+                UnaryHistory sealRow2 ->
+                  Cont compositeReadback sealRow2 compositeSeal ->
+                    Cont compositeLedger compositeReadback compositeSeal ->
+                      Cont precision compositeSeal transport ->
+                        Cont route provenance compositeSeal ->
+                          PkgSig bundle compositeSeal pkg ->
+                            DyadicTailBoundCarrier precision schedule tolerance compositeLedger
+                                compositeReadback compositeSeal transport route provenance localCert
+                                bundle pkg ∧
+                              UnaryHistory ledger2 ∧ UnaryHistory compositeLedger ∧
+                                UnaryHistory compositeReadback ∧ UnaryHistory compositeSeal ∧
+                                  PkgSig bundle compositeSeal pkg := by
+  intro carrier ledger2Cont compositeLedgerCont compositeLedgerScheduleCont readback2Unary
+    compositeReadbackCont sealRow2Unary compositeSealCont compositeCarrierSealCont transportCont
+    compositeRouteCont compositePkgSig
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, _readbackUnary, _sealUnary,
+    provenanceUnary, _ledgerCont, _sealCont, _transportCont, routeCont, _sealRouteCont,
+    pkgSig⟩ := carrier
+  have ledger2Unary : UnaryHistory ledger2 :=
+    unary_cont_closed scheduleUnary toleranceUnary ledger2Cont
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary _ledgerCont
+  have compositeLedgerUnary : UnaryHistory compositeLedger :=
+    unary_cont_closed ledgerUnary ledger2Unary compositeLedgerCont
+  have compositeReadbackUnary : UnaryHistory compositeReadback :=
+    unary_cont_closed compositeLedgerUnary readback2Unary compositeReadbackCont
+  have compositeSealUnary : UnaryHistory compositeSeal :=
+    unary_cont_closed compositeReadbackUnary sealRow2Unary compositeSealCont
+  have rebuilt :
+      DyadicTailBoundCarrier precision schedule tolerance compositeLedger compositeReadback
+          compositeSeal transport route provenance localCert bundle pkg :=
+    ⟨precisionUnary,
+      scheduleUnary,
+      toleranceUnary,
+      compositeReadbackUnary,
+      compositeSealUnary,
+      provenanceUnary,
+      compositeLedgerScheduleCont,
+      compositeCarrierSealCont,
+      transportCont,
+      routeCont,
+      compositeRouteCont,
+      pkgSig⟩
+  exact
+    ⟨rebuilt,
+      ledger2Unary,
+      compositeLedgerUnary,
+      compositeReadbackUnary,
+      compositeSealUnary,
+      compositePkgSig⟩
+
 end BEDC.Derived.DyadicTailBoundUp
