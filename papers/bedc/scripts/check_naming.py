@@ -8,7 +8,7 @@ Examples (allowed): 04_nat_namecert_construction.tex, 35b_compact_image_total_bo
 Examples (rejected): hilbert_orthogonal_projection_row.tex, 35B_caps.tex, _index.tex
 
 Subdirectories (parts/concrete_instances/<theme>/...) are NOT checked. Other
-theme directories (parts/core, parts/capstones, ...) are NOT checked.
+theme directories (parts/core, parts/visions, ...) are NOT checked.
 """
 import re
 import sys
