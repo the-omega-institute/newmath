@@ -221,6 +221,7 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
@@ -331,6 +332,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyDiagonalUp.CompletionSealComposition
 import BEDC.Derived.RegularCauchyDiagonalUp.DownstreamRoute
+import BEDC.Derived.RegularCauchyDiagonalUp.MatureConsumerExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
 import BEDC.Derived.RegularCauchyDiagonalUp.ReadbackExactness
 import BEDC.Derived.RegularCauchyDiagonalUp.RootSourceDeterminacy
@@ -1026,6 +1028,7 @@ import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
+import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
