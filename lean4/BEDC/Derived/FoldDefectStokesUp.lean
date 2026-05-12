@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -66,5 +68,65 @@ theorem FoldDefectStokesPacket_non_escape_boundary [AskSetup] [PackageSetup]
   exact
     ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, publicBoundaryUnary, ledgerReadUnary,
       routesRoute, boundaryRoute, ledgerRoute, provenancePkg, publicPkg⟩
+
+theorem FoldDefectStokesPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {input output boundary ledger transport routes provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FoldDefectStokesPacket input output boundary ledger transport routes provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          FoldDefectStokesPacket input output boundary ledger transport routes provenance
+            nameRow bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          FoldDefectStokesPacket input output boundary ledger transport routes provenance
+            nameRow bundle pkg ∧ hsame row provenance)
+        (fun row : BHist =>
+          FoldDefectStokesPacket input output boundary ledger transport routes provenance
+            nameRow bundle pkg ∧ hsame row provenance)
+        hsame ∧
+        UnaryHistory input ∧ UnaryHistory output ∧ UnaryHistory boundary ∧
+          UnaryHistory ledger ∧ UnaryHistory nameRow ∧ Cont input output routes ∧
+            Cont boundary ledger transport ∧ Cont routes transport provenance ∧
+              PkgSig bundle provenance pkg := by
+  intro packet
+  let packetWitness :
+      FoldDefectStokesPacket input output boundary ledger transport routes provenance
+        nameRow bundle pkg :=
+    packet
+  obtain ⟨inputUnary, outputUnary, boundaryUnary, ledgerUnary, nameUnary, routesCont,
+    transportCont, provenanceCont, pkgSig⟩ := packet
+  let Carrier : BHist → Prop :=
+    fun row =>
+      FoldDefectStokesPacket input output boundary ledger transport routes provenance
+        nameRow bundle pkg ∧ hsame row provenance
+  have core : NameCert Carrier hsame := {
+    carrier_inhabited := by
+      exact Exists.intro provenance (And.intro packetWitness (hsame_refl provenance))
+    equiv_refl := by
+      intro row _rowCarrier
+      exact hsame_refl row
+    equiv_symm := by
+      intro _row _row' same
+      exact hsame_symm same
+    equiv_trans := by
+      intro _row _row' _row'' same same'
+      exact hsame_trans same same'
+    carrier_respects_equiv := by
+      intro _row _row' same rowCarrier
+      exact And.intro rowCarrier.left (hsame_trans (hsame_symm same) rowCarrier.right)
+  }
+  have cert : SemanticNameCert Carrier Carrier Carrier hsame := {
+    core := core
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact
+    ⟨cert, inputUnary, outputUnary, boundaryUnary, ledgerUnary, nameUnary, routesCont,
+      transportCont, provenanceCont, pkgSig⟩
 
 end BEDC.Derived.FoldDefectStokesUp
