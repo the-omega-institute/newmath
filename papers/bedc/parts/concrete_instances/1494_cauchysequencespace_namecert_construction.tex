@@ -114,6 +114,26 @@ Use the dyadic tolerance exactness clause of \autoref{thm:cauchysequence-space-n
 The completion handoff theorem then carries that exact row to $Q$ together with $F$, $\sigma$, $W$, $H$, $C$, $P$, and $N$. Thus the tolerance ledger consumed by completion is precisely $\epsilon$, and no hidden tolerance source participates in the route.
 \end{proof}
 
+\begin{theorem}[CauchySequenceSpace limit-seal factorization]
+\label{thm:cauchysequence-space-limit-seal-factorization}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. Any $\RealUp$ limit-seal consumer read of the completion handoff row $Q$ factors through the displayed $\RegSeqRatUp$ family $F$, the $\StreamNameUp$ schedule $\sigma$, the $\CauchyFilterUp$ or $\CauchyModulusUp$ cofinal ledger $W$, the $\DyadicRatCoreUp$ tolerance row $\epsilon$, the completion handoff $Q$, the $\hsame$ transport row $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchySequenceSpaceUp}$ row $N$.
+
+The read cannot use quotient-name equality, a selected representative, host real equality, or ambient completeness outside the displayed finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:cauchysequence-space-carrier-surface}. The rows $F,\sigma,W,\epsilon,Q,H,C,P,N$ are the whole accepted packet.
+
+Use the NameCert obligation surface of \autoref{thm:cauchysequence-space-namecert-obligation-surface}. It supplies common-window classification, schedule stability, cofinality stability, dyadic tolerance exactness, and completion handoff non-escape for that same packet.
+
+Apply \autoref{thm:cauchysequence-space-regular-window-factorization}, \autoref{thm:cauchysequence-space-common-window-classifier-transport}, \autoref{thm:cauchysequence-space-cofinal-schedule-stability}, and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness}. These results keep the read on the displayed regular family, schedule, cofinal window ledger, and tolerance ledger before it reaches $Q$.
+
+Finally, \autoref{thm:cauchysequence-space-completion-handoff} identifies the terminal route to completion. Since the carrier lists no quotient-name equality, selected representative, host real equality, or ambient completeness row, the limit-seal consumer read has no hidden coordinate through which to bypass the displayed factorization.
+\end{proof}
+
 \closureat{CauchySequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\CauchySequenceSpaceUp}
