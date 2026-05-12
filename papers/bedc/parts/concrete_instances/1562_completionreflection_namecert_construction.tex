@@ -83,16 +83,53 @@ The separated boundary row $H$ fixes the Hausdorff-facing route. Transport along
 The obligation surface in \autoref{thm:completion-reflection-namecert-obligations} then repacks the extension read as a $\NameCert_{\CompletionReflectionUp}$ row. Since every exported coordinate is visible in the carrier, the reflected extension has no path to unrecorded quotient, limit, equality, or completeness data.
 \end{proof}
 
+\begin{theorem}[CompletionReflection carrier scope]
+\label{thm:completionreflection-carrier-scope}
+The scoped carrier of $\CompletionReflectionUp$ is exactly the finite packet
+$$
+(C,U,H,D,Q,A,S,T,K,P,N)
+$$
+over $\RealCauchyCompletionUp$, $\CompletionUniversalPropertyUp$, $\HausdorffCompletionUp$, $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No scoped carrier coordinate names a quotient stream, selected host limit, host real equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:completion-reflection-carrier}. The definition lists the six construction-facing rows $C,U,H,D,Q,A$ and then the five structural rows $S,T,K,P,N$.
+
+The same definition also states the exclusions. Since every carrier read is a projection from this finite tuple, any object outside these coordinates has no scoped carrier slot from which it can be read.
+\end{proof}
+
+\begin{theorem}[CompletionReflection classifier scope]
+\label{thm:completionreflection-classifier-scope}
+The $\CompletionReflectionUp$ classifier transports the scoped rows componentwise along the same $C,U,H,D,Q,A,S,T,K,P,N$ surface. It can compare construction, extension, separated-boundary, diagonal, regular-source, real-seal, transport, continuation, package, packet-provenance, and local naming rows, but it cannot add quotient streams, selected host limits, host real equality, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{def:completion-reflection-classifier}. Its comparison clauses are exactly the rows already displayed in the carrier definition, with $\hsame$ and $\Cont$ supplying componentwise transport for the visible packet.
+
+Because the classifier is defined only on accepted carriers and has no extra field, transport preserves the listed rows without creating a new coordinate. The excluded quotient, limit, equality, and completeness objects therefore remain outside the classifier scope.
+\end{proof}
+
+\begin{theorem}[CompletionReflection consumer scope]
+\label{thm:completionreflection-consumer-scope}
+Every consumer read exported by $\CompletionReflectionUp$ factors through the displayed real-seal and extension rows: the real-facing read passes through $A$ over $C,D,Q,H,S,T,K,P,N$, and the extension-facing read passes through $U$ over the same construction, diagonal, regular-source, real-seal, separated-boundary, transport, continuation, package, and local naming rows.
+\end{theorem}
+\begin{proof}
+For real-facing consumers, apply \autoref{thm:completion-reflection-real-seal-boundary}. It routes every $\RealUp$ read through the displayed construction, diagonal, regular-source, separated-boundary, transport, continuation, package, and naming coordinates.
+
+For extension-facing consumers, apply \autoref{thm:completion-reflection-extension-reflects}. The extension coordinate $U$ reflects back to the same rows and cannot switch to an unrecorded completion object.
+
+Combining the two routes exhausts the consumer surface: a consumer can read only the displayed real-seal row or the displayed extension row, each with the same finite provenance boundary.
+\end{proof}
+
 \closureat{CompletionReflectionUp}{seedStr}
 \closureat{CompletionReflectionUp}{obligationStr}
+\closureat{CompletionReflectionUp}{scopedStr}[BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_real\_seal\_boundary]
 
 \begin{closurestatus}{\CompletionReflectionUp}
   \constructivestory{A $\CompletionReflectionUp$ packet is generated from completion construction, universal-property extension, Hausdorff separated boundary, diagonal regular-sequence reflection, real-seal, transport, continuation, package, and local naming rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records carrier admission, classifier transport, diagonal real-seal reflection, universal-property extension reflection, and non-escape for finite completion reflection packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:completionreflection-carrier-scope}, \autoref{thm:completionreflection-classifier-scope}, and \autoref{thm:completionreflection-consumer-scope} bind the finite carrier, componentwise classifier transport, and consumer readback boundary over $\RealCauchyCompletionUp$, $\CompletionUniversalPropertyUp$, $\HausdorffCompletionUp$, $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, selected host limits, host equality of completed reals, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires carrier admission, classifier transport, diagonal real-seal reflection, universal-property extension reflection, and non-escape for the same packet.}
+  \upgradepath{Public closure requires a public consumer interface beyond the scoped real-seal and extension readback boundary.}
 \end{closurestatus}
