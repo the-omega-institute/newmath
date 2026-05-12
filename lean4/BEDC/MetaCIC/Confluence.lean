@@ -757,6 +757,20 @@ theorem betaStep_source_not_var {i : Idx} {t : Term} :
     ¬ BetaStep (Term.var i) t := by
   exact betaStep_var_absurd i
 
+theorem betaStep_target_sort_source_not_sort {t : Term}
+    (h : BetaStep t Term.sort) :
+    t ≠ Term.sort := by
+  intro ht
+  cases ht
+  exact betaStep_sort_absurd h
+
+theorem betaStep_target_var_source_not_same_var {i : Idx} {t : Term}
+    (h : BetaStep t (Term.var i)) :
+    t ≠ Term.var i := by
+  intro ht
+  cases ht
+  exact betaStep_var_absurd i h
+
 theorem betaParallel_refl_self_atom {t : Term}
     (h : t = Term.sort ∨ ∃ i, t = Term.var i) :
     BetaParallel t t := by
