@@ -77,4 +77,61 @@ theorem CauchyCompletionMonadPacket_namecert_obligations [AskSetup] [PackageSetu
             (hsame_symm sourceRow.left)⟩
   }
 
+theorem CauchyCompletionMonadPacket_diagonal_bind_stability [AskSetup] [PackageSetup]
+    {sourceFamily windows observations schedule diagonal sealRow transport route nameRow
+      sourceFamily' windows' observations' schedule' diagonal' sealRow' transport' route'
+      nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMonadPacket sourceFamily windows observations schedule diagonal sealRow
+        transport route nameRow bundle pkg ->
+      hsame sourceFamily sourceFamily' ->
+        hsame windows windows' ->
+          hsame schedule schedule' ->
+            hsame diagonal diagonal' ->
+              hsame transport transport' ->
+                hsame nameRow nameRow' ->
+                  Cont schedule' windows' observations' ->
+                    Cont observations' diagonal' sealRow' ->
+                      Cont sealRow' transport' route' ->
+                        Cont route' nameRow' sealRow' ->
+                          PkgSig bundle sealRow' pkg ->
+                            CauchyCompletionMonadPacket sourceFamily' windows' observations'
+                                schedule' diagonal' sealRow' transport' route' nameRow'
+                                bundle pkg ∧
+                              hsame observations observations' ∧ hsame sealRow sealRow' ∧
+                                hsame route route' := by
+  intro packet sameSourceFamily sameWindows sameSchedule sameDiagonal sameTransport sameNameRow
+    scheduleWindowsObservations' observationsDiagonalSealRow' sealTransportRoute'
+    routeNameSeal' sealRowPkg'
+  obtain ⟨sourceFamilyUnary, windowsUnary, scheduleUnary, diagonalUnary, transportUnary,
+    nameRowUnary, scheduleWindowsObservations, observationsDiagonalSealRow, sealTransportRoute,
+    routeNameSeal, _sealRowPkg⟩ := packet
+  have sourceFamilyUnary' : UnaryHistory sourceFamily' :=
+    unary_transport sourceFamilyUnary sameSourceFamily
+  have windowsUnary' : UnaryHistory windows' :=
+    unary_transport windowsUnary sameWindows
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have diagonalUnary' : UnaryHistory diagonal' :=
+    unary_transport diagonalUnary sameDiagonal
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have nameRowUnary' : UnaryHistory nameRow' :=
+    unary_transport nameRowUnary sameNameRow
+  have sameObservations : hsame observations observations' :=
+    cont_respects_hsame sameSchedule sameWindows scheduleWindowsObservations
+      scheduleWindowsObservations'
+  have sameSealRow : hsame sealRow sealRow' :=
+    cont_respects_hsame sameObservations sameDiagonal observationsDiagonalSealRow
+      observationsDiagonalSealRow'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameSealRow sameTransport sealTransportRoute sealTransportRoute'
+  have targetPacket :
+      CauchyCompletionMonadPacket sourceFamily' windows' observations' schedule' diagonal'
+        sealRow' transport' route' nameRow' bundle pkg :=
+    ⟨sourceFamilyUnary', windowsUnary', scheduleUnary', diagonalUnary', transportUnary',
+      nameRowUnary', scheduleWindowsObservations', observationsDiagonalSealRow',
+      sealTransportRoute', routeNameSeal', sealRowPkg'⟩
+  exact ⟨targetPacket, sameObservations, sameSealRow, sameRoute⟩
+
 end BEDC.Derived.CauchyCompletionMonadUp
