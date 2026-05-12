@@ -198,6 +198,7 @@ import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalIntervalUp
+import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
