@@ -574,6 +574,45 @@ $\RealUp$ equality, trichotomy, or host-level standard real data, a
 $\RealUp$-facing consumer of the standard bridge cannot project any such datum.
 \end{proof}
 
+\begin{theorem}[RationalStream RealUp seal common-window normal form]\label{thm:rational-stream-real-seal-common-window-normal-form}
+Every $\RealUp$-facing read of a $\RationalStreamUp$ standard bridge factors
+through one displayed common finite unary window. The rows of that window are
+exactly the $\StreamNameUp$ schedule, pointwise $\RatUp$ carrier rows,
+pointwise $\RatUp$ classifier rows, $\RegSeqRatUp$ ledger rows, displayed
+$\hsame$ transports, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert$ evidence.
+
+The normal form exports no quotient Cauchy class, selected limit, completed
+$\RealUp$ equality, trichotomy, or host standard stream equality. Any
+$\RealUp$ seal consumer therefore reads the same finite common window consumed
+by the downstream $\RegSeqRatUp$ and $\RealUp$ packet surfaces.
+\end{theorem}
+\begin{proof}
+Project the carried rational stream packet through
+\autoref{def:rational-stream-carrier}. The carrier projection exposes only the
+finite unary index, the stream schedule, pointwise rational rows, visible
+transport and route data, package provenance, and local naming evidence.
+
+Use \autoref{thm:rational-stream-common-window-classifier-stability} to align
+the pointwise rational classifiers with a single common window. Then apply
+\autoref{thm:rationalstream-common-denominator-window-exhaustion} to put the
+denominator rows read by the endpoint classifiers on that same displayed finite
+window.
+
+Next apply \autoref{thm:rational-stream-regseqrat-ledger-completeness}. This
+exhausts the $\RegSeqRatUp$ handoff rows available to any downstream consumer
+and keeps them attached to the same schedule, classifier, transport, route,
+package, and certificate rows.
+
+Finally combine \autoref{thm:rational-stream-standard-bridge} with
+\autoref{thm:rational-stream-real-seal-consumer-boundary}. The standard bridge
+gives the finite rational-prefix reading, and the seal boundary rules out every
+read outside the displayed rows. Repacking those rows gives the claimed common
+finite-window normal form and excludes quotient Cauchy classes, selected
+limits, completed $\RealUp$ equality, trichotomy, and host standard stream
+equality.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
 \closureat{RationalStreamUp}{obligationStr}
 \closureat{RationalStreamUp}{scopedStr}
