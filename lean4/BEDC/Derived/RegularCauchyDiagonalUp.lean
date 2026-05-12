@@ -580,4 +580,36 @@ theorem RegularCauchyDiagonalCarrier_bridge_obligation_package [AskSetup] [Packa
       completionReadUnary, windowSelection, sealReadRow, completionRow, ledgerSameSealRead,
       provenancePkg, selectedPkg, sealReadPkg, completionPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_real_completion_handoff [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      completionRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont selectedWindow regseqRead completionRead ->
+          Cont regseqRead realSeal sealRead ->
+            PkgSig bundle completionRead pkg ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory selectedWindow ∧ UnaryHistory completionRead ∧
+                  UnaryHistory sealRead ∧ Cont selectedWindow regseqRead completionRead ∧
+                    Cont regseqRead realSeal sealRead ∧ hsame windowLedger sealRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle completionRead pkg ∧
+                        PkgSig bundle sealRead pkg := by
+  intro carrier windowSelection completionRow sealReadRow completionPkg sealReadPkg
+  obtain ⟨_ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary,
+    windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed selectedWindowUnary regseqReadUnary completionRow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqReadUnary realSealUnary sealReadRow
+  have ledgerSameSealRead : hsame windowLedger sealRead :=
+    cont_deterministic regseqSealLedger sealReadRow
+  exact
+    ⟨selectedWindowUnary, completionUnary, sealReadUnary, completionRow, sealReadRow,
+      ledgerSameSealRead, provenancePkg, completionPkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyDiagonalUp

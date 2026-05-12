@@ -123,4 +123,33 @@ theorem RealDiagonalCompletionSourcePacket_classifier_stability [AskSetup] [Pack
         pkgSig⟩,
       sameLocalCert⟩
 
+theorem RealDiagonalCompletionSourcePacket_seal_factorization [AskSetup] [PackageSetup]
+    {inputFamily modulus selector schedule readback sealRow provenance localCert diagonalRead
+      diagonalRead' rationalRead rationalRead' consumerRead consumerRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback sealRow
+        provenance localCert bundle pkg ->
+      Cont selector schedule diagonalRead ->
+        Cont selector schedule diagonalRead' ->
+          Cont diagonalRead readback rationalRead ->
+            Cont diagonalRead' readback rationalRead' ->
+              Cont rationalRead sealRow consumerRead ->
+                Cont rationalRead' sealRow consumerRead' ->
+                  hsame diagonalRead diagonalRead' ->
+                    hsame rationalRead rationalRead' ∧ hsame consumerRead consumerRead' ∧
+                      UnaryHistory rationalRead ∧ UnaryHistory consumerRead ∧
+                        PkgSig bundle provenance pkg := by
+  intro packet diagonalRow diagonalRow' rationalRow rationalRow' consumerRow consumerRow'
+    sameDiagonal
+  have exactness :=
+    RealDiagonalCompletionSourcePacket_ledger_exactness packet diagonalRow rationalRow consumerRow
+  have sameRational : hsame rationalRead rationalRead' :=
+    cont_respects_hsame sameDiagonal (hsame_refl readback) rationalRow rationalRow'
+  have sameConsumer : hsame consumerRead consumerRead' :=
+    cont_respects_hsame sameRational (hsame_refl sealRow) consumerRow consumerRow'
+  exact
+    ⟨sameRational, sameConsumer, exactness.right.right.right.right.right.left,
+      exactness.right.right.right.right.right.right.left,
+      exactness.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
