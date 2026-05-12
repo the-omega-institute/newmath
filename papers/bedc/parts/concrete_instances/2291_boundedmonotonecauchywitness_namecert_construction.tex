@@ -76,6 +76,35 @@ For the selection site, inspect the Cauchy witness row. A tolerance request is r
 For the collapse site, compare accepted packets only through the transported regular sequence, located trap, and real-seal classifier rows. The $\hsame$ transports and $\Cont$ routes preserve the displayed rows, while the $\RealUp$ seal is reached through classifier transport rather than host equality.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness classifier transport]
+\label{thm:bounded-monotone-cauchy-witness-classifier-transport}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+and
+$$
+W'=(S',F',\sigma',\mu',\lambda',I',Q',H',C',P',N')
+$$
+be accepted $\BoundedMonotoneCauchyWitnessUp$ carriers. If the displayed classifier relates $W$ to $W'$, then the replacement transports the packet componentwise:
+\begin{enumerate}
+\item bounded source rows $S$ to $S'$;
+\item $\RegSeqRatUp$ rows $F$ to $F'$ and $\StreamNameUp$ schedules $\sigma$ to $\sigma'$;
+\item $\CauchyModulusUp$ witnesses $\mu$ to $\mu'$ and $\DyadicRatCoreUp$ ledgers $\lambda$ to $\lambda'$;
+\item $\LocatedIntervalUp$ traps $I$ to $I'$ and $\RealUp$ seals $Q$ to $Q'$;
+\item $\hsame$ rows $H$ to $H'$, $\Cont$ routes $C$ to $C'$, $\Pkg$ provenance $P$ to $P'$, and local $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ rows $N$ to $N'$.
+\end{enumerate}
+
+No quotient real equality, selected limit, ambient completeness theorem, trichotomy row, or open-cover compactness coordinate can enter the transported packet.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The source, regular sequence, stream schedule, Cauchy witness, dyadic ledger, located trap, real seal, transport, continuation, provenance, and local naming rows are exactly the displayed coordinates of \autoref{def:bounded-monotone-cauchy-witness-carrier}.
+
+Invoke the five rows of \autoref{thm:bounded-monotone-cauchy-witness-namecert-obligations}. Carrier admission fixes the packet shape, generator range discipline keeps source observations inside $S_{\mathrm{gen}}$ and $S'_{\mathrm{gen}}$, explicit Cauchy witness discipline keeps tolerance requests inside $\mu,\sigma$ and $\mu',\sigma'$, the seal handoff keeps real-facing reads routed through the located trap and $\RealUp$ seal, and ledger exhaustion lists the remaining public routes.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-socket-separation}. Type I range, Type II selection, and Type III collapse sites occupy disjoint carrier sockets, so classifier replacement can only replay the listed componentwise rows. The excluded completion objects are absent from the carrier definition and from the NameCert rows, hence there is no coordinate through which they could be transported into the accepted packet.
+\end{proof}
+
 \begin{theorem}[Bounded monotone Cauchy witness Real seal handoff]
 \label{thm:bounded-monotone-cauchy-witness-real-seal-handoff}
 For an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$, every $\RealUp$ seal read factors through the displayed bounded source row, the $\RegSeqRatUp$ row, the scheduled $\StreamNameUp$ windows, the $\CauchyModulusUp$ tail witness, the $\DyadicRatCoreUp$ tolerance and upper-bound ledger, and the $\LocatedIntervalUp$ trap before reaching $Q$.
