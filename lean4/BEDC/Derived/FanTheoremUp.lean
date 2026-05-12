@@ -25,6 +25,23 @@ def FanTheoremPacket [AskSetup] [PackageSetup]
         Cont depth window endpoint ∧ Cont transport traversal provenance ∧
           PkgSig bundle endpoint pkg
 
+theorem FanTheoremPacket_finite_bar_handoff [AskSetup] [PackageSetup]
+    {tree bar depth window transport traversal provenance nameCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+        bundle pkg ->
+      UnaryHistory tree ∧ UnaryHistory bar ∧ UnaryHistory depth ∧ UnaryHistory window ∧
+        UnaryHistory traversal ∧ UnaryHistory provenance ∧ Cont tree bar depth ∧
+          Cont depth window endpoint ∧ Cont transport traversal provenance ∧
+            PkgSig bundle endpoint pkg := by
+  intro packet
+  obtain ⟨treeUnary, barUnary, depthUnary, windowUnary, _transportUnary, traversalUnary,
+    provenanceUnary, _nameCertUnary, _endpointUnary, treeBarDepth, depthWindowEndpoint,
+    transportTraversalProvenance, endpointPkg⟩ := packet
+  exact
+    ⟨treeUnary, barUnary, depthUnary, windowUnary, traversalUnary, provenanceUnary,
+      treeBarDepth, depthWindowEndpoint, transportTraversalProvenance, endpointPkg⟩
+
 theorem FanTheoremPacket_namecert_obligations [AskSetup] [PackageSetup]
     {tree bar depth window transport traversal provenance nameCert endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
