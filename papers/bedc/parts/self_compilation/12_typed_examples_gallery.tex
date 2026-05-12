@@ -1,0 +1,219 @@
+\section{Typed Examples Gallery}\label{sec:typed-examples-gallery}
+
+The typed examples gallery is the reader-facing index for closed-term witnesses
+inside `\verb|BEDC.MetaCIC.TypedExamples|'.  It complements the representational
+adequacy argument in \autoref{sec:metatheory-representational-adequacy}: the
+adequacy claim explains why the first-principles substrate is the right target,
+while this gallery lists the concrete closed terms whose typing or reduction
+facts have been mechanized on that substrate.
+
+\subsection{Why a gallery}\label{subsec:typed-examples-gallery-why}
+
+`\verb|BEDC.MetaCIC|' is a first-principles substrate.  It does not inherit a
+host-kernel reflection API, a built-in quotation mechanism, or a host-level
+`\verb|decide|' path for typing judgments.  Each displayed typing fact is built
+by an explicit chain of constructors for the object syntax, object typing
+relation, and object reduction relation.  The gallery is therefore not a
+convenience catalogue alone: it is the compact map of the mechanized closed-term
+witnesses that exercise the representational layer.
+
+\subsection{Sibling index}\label{subsec:typed-examples-gallery-siblings}
+
+\begin{longtable}{p{0.23\textwidth}p{0.68\textwidth}}
+\textbf{Lean sibling} & \textbf{Role} \\
+\hline
+`\verb|Sorts.lean|' & Sort-level and variable lookup typing examples over
+small contexts. \\
+`\verb|Identity.lean|' & Identity-shaped $\lambda x:T.\ x$ witnesses, dependent
+identity forms, and simple projections. \\
+`\verb|ConstForms.lean|' & Constant-function forms and their staged
+applications. \\
+`\verb|AppForms.lean|' & Application-shaped witnesses, including reduced and
+unreduced forms over empty and small contexts. \\
+`\verb|PiForms.lean|' & Pi-type formation and lambda terms whose types are Pi
+forms. \\
+`\verb|BetaRedex.lean|' & Beta-redex witnesses and corresponding `\verb|BetaStep|'
+or `\verb|BetaStarStep|' instances. \\
+`\verb|ChurchGallery.lean|' & Church encodings for Booleans, naturals, pairs,
+and options. \\
+`\verb|Polymorphic.lean|' & Pi-polymorphic identity, constant, apply, flip, and
+compose forms. \\
+\end{longtable}
+
+\subsection{Mechanized witnesses}\label{subsec:typed-examples-gallery-witnesses}
+
+\begin{longtable}{p{0.24\textwidth}p{0.36\textwidth}p{0.31\textwidth}}
+\textbf{Example} & \textbf{Lean witness} & \textbf{Description} \\
+\hline
+Sorts & \leanvariant{BEDC.MetaCIC.var\_zero\_in\_sort\_ctx} & Variable zero in a one-sort context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.var\_one\_in\_double\_sort\_ctx} & Variable one in a two-sort context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.middle\_var\_in\_triple\_sort} & Middle variable lookup in a three-sort context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.deep\_var\_in\_quad\_sort} & Deep variable lookup in a four-sort context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.mixed\_ctx\_vars} & Variable lookup in a mixed sort-and-Pi context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.mixed\_ctx\_var\_zero} & Front variable lookup in a mixed context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.mixed\_var\_in\_three\_ctx} & Interior variable lookup in a mixed three-entry context. \\
+Sorts & \leanvariant{BEDC.MetaCIC.var\_in\_quint\_sort} & Deep variable lookup in a five-sort context. \\
+Identity & \leanvariant{BEDC.MetaCIC.lam\_dependent\_identity} & Dependent identity lambda. \\
+Identity & \leanvariant{BEDC.MetaCIC.carrier\_identity\_in\_sort\_ctx} & Identity over a carrier variable in a sort context. \\
+Identity & \leanvariant{BEDC.MetaCIC.lam\_inner\_to\_outer\_in\_double\_sort} & Lambda returning an outer variable. \\
+Identity & \leanvariant{BEDC.MetaCIC.triple\_sort\_lam} & Three-level sort lambda witness. \\
+Identity & \leanvariant{BEDC.MetaCIC.polymorphic\_identity} & Pi-polymorphic identity witness. \\
+Identity & \leanvariant{BEDC.MetaCIC.nested\_poly\_id} & Nested polymorphic identity witness. \\
+Identity & \leanvariant{BEDC.MetaCIC.lam\_constructs\_dependent\_pi} & Lambda forming a dependent Pi target. \\
+Identity & \leanvariant{BEDC.MetaCIC.double\_lam\_pi\_construct} & Two-lambda Pi construction. \\
+Identity & \leanvariant{BEDC.MetaCIC.first\_of\_two} & First projection over two arguments. \\
+Identity & \leanvariant{BEDC.MetaCIC.second\_of\_two} & Second projection over two arguments. \\
+Identity & \leanvariant{BEDC.MetaCIC.ignore\_arg} & Lambda that ignores an argument. \\
+Identity & \leanvariant{BEDC.MetaCIC.double\_poly\_first} & Polymorphic first projection. \\
+Identity & \leanvariant{BEDC.MetaCIC.second\_proj} & Second projection witness. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.app\_const\_sort\_in\_empty\_ctx} & Constant sort function applied in the empty context. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.const\_sort\_app} & Application of a constant sort function. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.double\_lam\_const} & Two-argument constant lambda. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.double\_lam\_const\_first\_app} & First application of a two-argument constant lambda. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.double\_lam\_const\_repeated\_app} & Repeated application of a two-argument constant lambda. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.twice\_applied\_const} & Fully applied constant function witness. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.first\_arg\_proj} & First-argument projection as a constant form. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.second\_arg\_proj} & Second-argument projection as a constant form. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.const\_sort\_1\_applied} & One-step application of a sort constant. \\
+ConstForms & \leanvariant{BEDC.MetaCIC.applied\_const\_sort} & Applied constant-sort witness. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_applied\_to\_sort\_type} & Type of identity applied to sort. \\
+AppForms & \leanvariant{BEDC.MetaCIC.poly\_id\_at\_sort\_full} & Fully instantiated polymorphic identity at sort. \\
+AppForms & \leanvariant{BEDC.MetaCIC.poly\_id\_double\_app} & Polymorphic identity with two applications. \\
+AppForms & \leanvariant{BEDC.MetaCIC.poly\_id\_to\_pi\_type} & Polymorphic identity applied to a Pi type. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_id\_sort\_in\_empty\_ctx} & Identity application in the empty context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_to\_id\_in\_empty} & Identity function applied to identity in the empty context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.applied\_pi\_constructor\_in\_empty} & Applied Pi constructor in the empty context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.applied\_pi\_constructor\_in\_empty\_result\_eq} & Result equality for the applied Pi constructor. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_applied\_to\_pi} & Identity applied to a Pi expression. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_applied\_pi\_value} & Value witness for identity applied to Pi. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_applied\_to\_pi\_result\_eq} & Result equality for identity applied to Pi. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_on\_pi\_sort\_sort} & Identity on the sort-to-sort Pi type. \\
+AppForms & \leanvariant{BEDC.MetaCIC.pi\_value\_id} & Identity value for a Pi-shaped term. \\
+AppForms & \leanvariant{BEDC.MetaCIC.proj\_for\_pi\_arg} & Projection with a Pi argument. \\
+AppForms & \leanvariant{BEDC.MetaCIC.identity\_on\_pi\_type} & Identity over a Pi type. \\
+AppForms & \leanvariant{BEDC.MetaCIC.id\_for\_pi\_applied} & Applied identity for a Pi argument. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_id\_var\_in\_sort\_ctx} & Identity applied to a variable in a sort context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.dep\_id\_applied\_to\_arg\_in\_sort\_ctx} & Dependent identity applied to a parameter in a sort context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.dep\_id\_applied\_to\_arg\_result\_in\_sort\_ctx} & Result typing for dependent identity application. \\
+AppForms & \leanvariant{BEDC.MetaCIC.applied\_dep\_id\_in\_double\_sort\_ctx} & Applied dependent identity in a two-sort context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_with\_pi\_context} & Application in a context containing a Pi type. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_pi\_var\_to\_sort} & Pi variable applied to sort. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_pi\_function} & Application of a Pi-typed function. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_pi\_ctx\_to\_sort} & Pi-context application targeting sort. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_two\_pi\_vars} & Application between two Pi-context variables. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_pi\_deep\_var} & Application involving a deeper Pi variable. \\
+AppForms & \leanvariant{BEDC.MetaCIC.apply\_function\_arg\_in\_empty} & Function-argument application in the empty context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.app\_id\_pi\_var\_sort\_in\_sort\_ctx} & Identity application over a Pi variable in a sort context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.pi\_var\_sort\_then\_sort\_id\_app\_in\_sort\_ctx} & Pi variable followed by sort identity application. \\
+AppForms & \leanvariant{BEDC.MetaCIC.apply\_function\_arg\_in\_value\_ctx} & Function-argument application in a value context. \\
+AppForms & \leanvariant{BEDC.MetaCIC.dep\_pi\_app} & Dependent Pi application. \\
+AppForms & \leanvariant{BEDC.MetaCIC.apply\_function\_arg} & Function-argument application witness. \\
+AppForms & \leanvariant{BEDC.MetaCIC.applied\_poly\_id} & Applied polymorphic identity witness. \\
+PiForms & \leanvariant{BEDC.MetaCIC.two\_sort\_vars} & Pair of sort variables in context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.lam\_pi\_var0\_var1} & Lambda whose type is a Pi over variables zero and one. \\
+PiForms & \leanvariant{BEDC.MetaCIC.lam\_pi\_var\_var} & Lambda over variable-shaped Pi data. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_var\_sort\_in\_sort\_ctx} & Pi formation from a variable to sort. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_using\_arrow\_in\_ctx} & Arrow-like Pi formation in context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_sort\_sort\_in\_empty\_ctx} & Sort-to-sort Pi in the empty context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_sort\_dependent} & Dependent Pi over sort. \\
+PiForms & \leanvariant{BEDC.MetaCIC.nested\_pi\_sort\_sort} & Nested sort-to-sort Pi. \\
+PiForms & \leanvariant{BEDC.MetaCIC.triple\_pi\_sort} & Three-level Pi over sort. \\
+PiForms & \leanvariant{BEDC.MetaCIC.nested\_pi\_dep\_in\_empty} & Nested dependent Pi in the empty context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.nested\_pi\_var\_sort} & Nested Pi using a variable and sort. \\
+PiForms & \leanvariant{BEDC.MetaCIC.map\_pi\_in\_sort\_ctx} & Map-like Pi in a sort context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.triple\_lam\_pi\_construction} & Three-lambda Pi construction. \\
+PiForms & \leanvariant{BEDC.MetaCIC.double\_poly\_pi} & Double-polymorphic Pi witness. \\
+PiForms & \leanvariant{BEDC.MetaCIC.double\_arrow\_in\_sort} & Double-arrow Pi in sort. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_var\_var\_in\_quad\_sort} & Pi over variables in a four-sort context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.nested\_pi\_chain} & Chain of nested Pi forms. \\
+PiForms & \leanvariant{BEDC.MetaCIC.pi\_function\_to\_sort\_in\_empty} & Function-to-sort Pi in the empty context. \\
+PiForms & \leanvariant{BEDC.MetaCIC.function\_of\_function} & Function-of-function Pi witness. \\
+PiForms & \leanvariant{BEDC.MetaCIC.nested\_shifted\_pi\_in\_sort} & Nested shifted Pi in sort. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.id\_sort\_redex} & Beta step for identity at sort. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.id\_sort\_redex\_typed} & Typing fact for identity-at-sort redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.fn\_sort\_to\_sort\_redex} & Beta step for a sort-to-sort function. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.fn\_sort\_to\_sort\_redex\_typed} & Typing fact for the sort-to-sort redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.const\_sort\_redex} & Beta step for a constant sort function. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.const\_sort\_redex\_typed} & Typing fact for the constant sort redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.inner\_id\_redex} & Beta step inside an identity-shaped term. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.inner\_sort\_id\_redex} & Inner sort identity beta step. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.inner\_sort\_id\_redex\_typed} & Typing fact for the inner sort identity redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.app\_right\_id\_sort\_redex} & Beta step in the right side of an application. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.app\_right\_id\_sort\_redex\_typed} & Typing fact for the right-application redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.pi\_domain\_redex} & Beta step in a Pi domain. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.pi\_domain\_redex\_typed} & Typing fact for the Pi-domain redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.pi\_cod\_redex} & Beta step in a Pi codomain. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.pi\_cod\_redex\_typed} & Typing fact for the Pi-codomain redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex} & Two-step beta reduction for polymorphic identity. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex\_typed} & Typing fact for the two-step polymorphic redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.k\_sort\_partial\_redex} & Partial beta step for a sort-level K combinator. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.k\_sort\_partial\_redex\_typed} & Typing fact for the partial K redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex} & Two-step beta reduction for the sort-level K combinator. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex\_typed} & Typing fact for the two-step K redex. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.app\_left\_projection\_redex} & Beta step for a left projection application. \\
+BetaRedex & \leanvariant{BEDC.MetaCIC.app\_left\_projection\_redex\_typed} & Typing fact for the left projection redex. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_bool\_type} & Church Boolean type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_true} & Church true term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_false} & Church false term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_nat\_type} & Church natural-number type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_zero} & Church zero term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_one} & Church one term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_nat\_type\_in\_ctx} & Church natural-number type in context. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_succ\_type} & Church successor type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_succ} & Church successor term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_identity\_type} & Church identity type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_identity} & Church identity term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_const\_type} & Church constant-function type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_const} & Church constant-function term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_bool\_elim\_sort} & Boolean eliminator over sort. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_pair\_type} & Church pair type former. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_pair\_ab\_type} & Church pair type at two arguments. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_mk\_pair\_type} & Pair constructor type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_mk\_pair} & Pair constructor term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_fst\_type} & First projection type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_fst} & First projection term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_snd\_type} & Second projection type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_snc\_type} & Constant-style helper type for the second projection. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_snd} & Second projection term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_pair\_former} & Pair type former witness. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_pair\_bool\_nat\_type} & Boolean-natural Church pair type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_option\_at\_type} & Church option type at an argument. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_option\_type} & Church option type former. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_none\_type} & None constructor type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_none} & None constructor term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_some\_type} & Some constructor type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_some} & Some constructor term. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_option\_in\_case\_ctx\_type} & Option type in a case-analysis context. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_case\_option\_type} & Option case-analysis type. \\
+ChurchGallery & \leanvariant{BEDC.MetaCIC.church\_case\_option} & Option case-analysis term. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_identity\_type} & Pi-polymorphic identity type. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_const\_type} & Pi-polymorphic constant-function type. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_apply\_type} & Pi-polymorphic apply type. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_flip\_type} & Pi-polymorphic flip type. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_compose\_type} & Pi-polymorphic compose type. \\
+Polymorphic & \leanvariant{BEDC.MetaCIC.poly\_identity\_at\_sort\_type} & Polymorphic identity instantiated at sort. \\
+\end{longtable}
+
+\subsection{Boundary of the gallery}\label{subsec:typed-examples-gallery-boundary}
+
+The gallery records closed-term witness patterns.  It does not claim a catalogue
+of non-closed terms, although the object syntax and context machinery can state
+such judgments.  It also does not present general typing in arbitrary non-empty
+contexts: several witnesses use small explicit contexts, but the dominant path
+for the self-compilation metatheory is the closed-term path.  Finally, it does
+not claim reduction over open terms; the displayed reduction witnesses are
+closed or are paired with closed typing facts where the file states them.
+
+\subsection{Contributor discipline}\label{subsec:typed-examples-gallery-contributor}
+
+A witness belongs in this gallery when it is a concrete `\verb|theorem|' inside
+`\verb|lean4/BEDC/MetaCIC/TypedExamples/|' and its target name is stable under
+`\verb|BEDC.MetaCIC|'.  Choose the sibling by term shape rather than by proof
+technique: sort and variable facts go in `\verb|Sorts.lean|', identity-like
+lambda terms in `\verb|Identity.lean|', constant functions in
+`\verb|ConstForms.lean|', applications in `\verb|AppForms.lean|', Pi formation
+in `\verb|PiForms.lean|', beta witnesses in `\verb|BetaRedex.lean|', Church
+encodings in `\verb|ChurchGallery.lean|', and Pi-polymorphic combinators in
+`\verb|Polymorphic.lean|'.  The paper row should use `\verb|\leanvariant|',
+not `\verb|\leanchecked|', because the gallery is an index of sibling witnesses
+rather than the canonical primary site for a single paper theorem.
