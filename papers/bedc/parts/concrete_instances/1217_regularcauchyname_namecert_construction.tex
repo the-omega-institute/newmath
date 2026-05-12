@@ -298,6 +298,42 @@ Next attach the real-name boundary. The seal readback exhaustion theorem account
 The three consumers named in the statement read exactly this surface: subsequence consumers read finite windows, diagonal consumers read the transported diagonal boundary, and completion consumers read the real seal after the finite ledger. Repacking the shared $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows gives one handoff package and leaves no coordinate for quotient streams, host sequences, selected limits, independent real carriers, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName bridge source surface]
+\label{thm:regularcauchyname-bridge-source-surface}
+For every accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$ of \autoref{def:regularcauchyname-namecert-source}, the rows displayed by $G$ supply the bridge source surface from $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ into the completion-facing consumer surface. The source surface consists exactly of the scheduled stream window $S$, dyadic observation row $Q$, dyadic-radius row $\rho$, finite regularity ledger $L$, $\RealUp$ seal $E$, package row $P$, local $\NameCert$ row $N$, and the ambient $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ transport rows already named by the window-radius-seal package.
+\end{theorem}
+\begin{proof}
+Start from the window-radius-seal package of \autoref{thm:regularcauchyname-window-radius-seal-scoped-package}. It displays the source packet as a finite row package over the scheduled stream window, dyadic observation, radius evidence, pointwise regular rational readback, ledger, real seal, package provenance, and local certificate.
+
+The finite-window route is exact by \autoref{thm:regularcauchyname-finite-window-readback-exactness}. Thus the rows read by a completion-facing consumer are not reconstructed from a host sequence; they are the displayed $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows of the packet.
+
+Finally use \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion} and \autoref{thm:regularcauchyname-real-seal-consumer-scope}. These place the $\RealUp$ seal after the finite rows and identify the consumer-facing boundary as the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface named in the statement.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName bridge consumer factorization]
+\label{thm:regularcauchyname-bridge-consumer-factorization}
+Every downstream $\RealCauchyCompletionUp$ or $\RegularCauchyFamilyUp$ consumer read of an accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$ factors through the displayed stream window, dyadic observation, radius row, pointwise $\RegSeqRatUp$ classifier, finite ledger, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The factorization has no additional completion datum before those rows and no independent consumer coordinate beyond them.
+\end{theorem}
+\begin{proof}
+First factor the read through the scoped package of \autoref{thm:regularcauchyname-window-radius-seal-scoped-package}. Any downstream consumer begins with the same accepted packet rows, so its visible route must pass through $S$, $Q$, $\rho$, $L$, $E$, $P$, and $N$.
+
+Next apply \autoref{thm:regularcauchyname-finite-window-readback-exactness}. The stream window, dyadic observation, radius row, pointwise classifier, and ledger are consumed together; this gives the common finite part of the factorization for both $\RealCauchyCompletionUp$ and $\RegularCauchyFamilyUp$ reads.
+
+The remaining real-name step is governed by \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion} and \autoref{thm:regularcauchyname-real-seal-consumer-scope}. They attach the $\RealUp$ seal only after the finite rows and account for the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence, so no further completion coordinate is available.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName bridge non-escape boundary]
+\label{thm:regularcauchyname-bridge-non-escape-boundary}
+The bridge-facing surface exported by an accepted $\RegularCauchyNameUp$ packet exports no host sequence, quotient stream, selected limit, hidden completeness datum, or independent real carrier. Any consumer-side route to $\RealCauchyCompletionUp$ or $\RegularCauchyFamilyUp$ is bounded by the rows of \autoref{thm:regularcauchyname-bridge-source-surface} and the factorization of \autoref{thm:regularcauchyname-bridge-consumer-factorization}.
+\end{theorem}
+\begin{proof}
+The exclusion already appears in the scoped package: \autoref{thm:regularcauchyname-window-radius-seal-scoped-package} lists the available rows and states that host sequences, quotient streams, selected limits, hidden completeness data, and independent real carriers are not coordinates of the package.
+
+Exact readback preserves that boundary. By \autoref{thm:regularcauchyname-finite-window-readback-exactness}, a consumer precision request can only read the scheduled window, dyadic observation, radius row, pointwise classifier, and ledger before reaching the seal.
+
+Finally, \autoref{thm:regularcauchyname-real-seal-ledger-exhaustion} and \autoref{thm:regularcauchyname-real-seal-consumer-scope} exhaust the $\RealUp$ side of the route through the displayed ledger and seal rows. Since the packet has no remaining exported coordinate, the bridge-facing boundary cannot escape to any of the excluded objects.
+\end{proof}
+
 \closureat{RegularCauchyNameUp}{seedStr}
 \closureat{RegularCauchyNameUp}{obligationStr}
 \closureat{RegularCauchyNameUp}{scopedStr}
