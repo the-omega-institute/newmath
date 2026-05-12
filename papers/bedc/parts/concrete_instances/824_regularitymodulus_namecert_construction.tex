@@ -483,6 +483,40 @@ selected limit, quotient completion, host equality, analytic modulus, or
 choice-selected tail, the mature finite-rate consumer boundary is complete.
 \end{proof}
 
+\begin{theorem}[RegularityModulus scheduled-tail closure]
+\label{thm:regularitymodulus-scheduled-tail-closure}
+Let an accepted $\RegularityModulusUp$ packet carry a scheduled finite tail
+transported along its displayed $\hsame$ and $\Cont$ ledger. Any $\RegSeqRatUp$
+or $\RealUp$ consumer read using that transported scheduled tail still factors
+through the same seven visible rows: unary precision, unary modulus,
+dyadic-window endpoints, componentwise $\hsame$, displayed $\Cont$,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+
+The closure is only a finite scheduled-tail closure for the accepted
+regularity-rate packet. It adds no selected limit, quotient completion, host
+equality, analytic modulus, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First place the scheduled tail on a common finite window. Apply
+\autoref{thm:regularitymodulus-common-window-exactness}; the transported tail
+read is represented by the shared precision row, modulus row, dyadic-window
+endpoint rows, $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ surface.
+
+Next use \autoref{thm:regularitymodulus-transport-ledger-obligations}. The
+transport ledger keeps the scheduled tail inside the same carrier coordinates
+after passage to the common dyadic window, so transport does not create an
+additional analytic row or a host-equality row.
+
+Finally apply
+\autoref{thm:regularitymodulus-mature-rate-consumer-completeness}. The
+$\RegSeqRatUp$ and $\RealUp$ consumers named there exhaust their reads through
+the seven finite rows already produced by the common-window and transport
+steps. Since none of those rows contains a selected limit, quotient completion,
+analytic modulus, host equality, or choice-selected tail, the transported
+scheduled-tail read is closed at the finite regularity-rate boundary.
+\end{proof}
+
 \closureat{RegularityModulusUp}{seedStr}
 \closureat{RegularityModulusUp}{obligationStr}
 \closureat{RegularityModulusUp}{scopedStr}
