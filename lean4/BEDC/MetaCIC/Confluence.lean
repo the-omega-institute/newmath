@@ -54,16 +54,6 @@ theorem betaStar_one {t u : Term} :
   intro h
   exact BetaStarStep.step h (BetaStarStep.refl u)
 
-theorem betaStep_to_star {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact betaStar_one h
-
-theorem betaStarStep_single {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact BetaStarStep.step h (BetaStarStep.refl t')
-
 theorem betaStar_trans {t u v : Term} :
     BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
   intro htu huv
@@ -96,7 +86,7 @@ theorem betaStarStep_triple {a b c d : Term}
 theorem betaStarStep_three_steps {a b c d : Term}
     (h1 : BetaStep a b) (h2 : BetaStep b c) (h3 : BetaStep c d) :
     BetaStarStep a d := by
-  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStarStep_single h3)
+  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStar_one h3)
 
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
@@ -749,14 +739,6 @@ theorem betaStep_lam_iff {d b t : Term} :
                 cases ht
                 exact BetaStep.congLamDom d d' b hstep
 
-theorem betaStep_source_not_sort {t : Term} :
-    ¬ BetaStep Term.sort t := by
-  exact betaStep_sort_absurd
-
-theorem betaStep_source_not_var {i : Idx} {t : Term} :
-    ¬ BetaStep (Term.var i) t := by
-  exact betaStep_var_absurd i
-
 theorem betaParallel_refl_self_atom {t : Term}
     (h : t = Term.sort ∨ ∃ i, t = Term.var i) :
     BetaParallel t t := by
@@ -780,38 +762,10 @@ theorem betaStar_var_target
   | step hstep _ =>
       exact False.elim (betaStep_var_absurd i hstep)
 
-theorem betaStarStep_var_refl_only {i : Idx} {t : Term}
-    (h : BetaStarStep (Term.var i) t) :
-    t = Term.var i := by
-  exact betaStar_var_target i h
-
-theorem betaStarStep_var_unique_target {i : Idx} {t : Term}
-    (h : BetaStarStep (Term.var i) t) :
-    t = Term.var i := by
-  cases h with
-  | refl t =>
-      rfl
-  | step hstep _ =>
-      exact False.elim (betaStep_var_absurd i hstep)
-
 theorem betaStar_sort_target
     {u : Term}
     (h : BetaStarStep Term.sort u) :
     u = Term.sort := by
-  cases h with
-  | refl t =>
-      rfl
-  | step hstep _ =>
-      exact False.elim (betaStep_sort_absurd hstep)
-
-theorem betaStarStep_sort_unique {t : Term}
-    (h : BetaStarStep Term.sort t) :
-    t = Term.sort := by
-  exact betaStar_sort_target h
-
-theorem betaStarStep_sort_unique_target {t : Term}
-    (h : BetaStarStep Term.sort t) :
-    t = Term.sort := by
   cases h with
   | refl t =>
       rfl
@@ -831,22 +785,6 @@ theorem betaStarStep_atom_refl_only {t t' : Term}
       | intro i hi =>
           cases hi
           exact betaStar_var_target i h
-
-theorem betaStarStep_atom_reflexive {t t' : Term}
-    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
-    (h : BetaStarStep t t') :
-    t = t' := by
-  cases betaStarStep_atom_refl_only hatom h
-  rfl
-
-theorem betaParallel_betaStarStep_atom_coincide {t t' : Term}
-    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
-    (h : BetaParallel t t') :
-    t' = t ∧ BetaStarStep t t' := by
-  exact
-    And.intro
-      (betaStarStep_atom_refl_only hatom (betaStarStep_of_betaParallel_atom hatom h))
-      (betaStarStep_of_betaParallel_atom hatom h)
 
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}

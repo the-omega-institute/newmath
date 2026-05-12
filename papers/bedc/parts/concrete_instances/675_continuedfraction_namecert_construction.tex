@@ -239,6 +239,7 @@ $\NameCert_{\ContinuedFractionUp}$ row.
 This bridge excludes total expansion, uniqueness of infinite expansions,
 measure-typicality, quotient tails, and completed real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuedFractionUp.ContinuedFractionPacket\_convergent\_window\_standard\_bridge}
 \begin{proof}
 Project the finite continued-fraction carrier and classifier. The carrier
 coordinates supply the partial quotient spine, rational convergent rows, dyadic
@@ -466,6 +467,48 @@ and the cited handoff theorems provide exactly the $\RegSeqRatUp$,
 $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$,
 $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows named in the
 statement.
+\end{proof}
+
+\begin{theorem}[ContinuedFraction convergent prefix window normal form]
+\label{thm:continuedfraction-convergent-prefix-window-normal-form}
+Every finite $\RealUp$ or $\RegSeqRatUp$ consumer read of an accepted
+$\ContinuedFractionUp$ packet restricted to a certified prefix factors through
+one displayed prefix normal form. The normal form consists exactly of the
+finite partial-quotient spine, numerator and denominator convergent rows, the
+$\DyadicRatCoreUp$ radius row, the $\StreamNameUp$ schedule, the
+$\RegSeqRatUp$ handoff, the $\RealUp$ boundary row, visible $\hsame$
+transports, visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\ContinuedFractionUp}$ row.
+
+The factorization is unchanged by restricting to a smaller certified prefix
+or by passing to a common overlapping prefix cylinder. It exports no completed
+real equality, quotient tail, total expansion theorem, interval arithmetic
+law, or host equality principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuedfraction-prefix-convergent-window}. It reads
+the certified prefix through the finite partial-quotient spine, numerator and
+denominator convergent rows, dyadic radius row, schedule, regular rational
+handoff, visible transports, continuation routes, package provenance, and
+local name-certificate row.
+
+Next apply
+\autoref{thm:continuedfraction-rational-interval-window-handoff}. The
+rational-interval view is only the endpoint boundary of the same finite
+convergent window, so it does not add an interval arithmetic law or a host
+equality principle.
+
+Use \autoref{thm:continuedfraction-nested-cylinder-boundary} for prefix
+restriction. The smaller certified prefix inherits exactly the restricted
+spine, recurrence, radius, schedule, handoff, boundary, transport,
+continuation, package, and local certificate rows from the larger packet.
+
+Finally apply
+\autoref{thm:continuedfraction-common-refinement-cylinder-exhaustion}. Any
+consumer comparison over overlapping certified prefixes refines to the same
+common prefix cylinder, and that cylinder contains precisely the rows listed
+in the normal form. Completed real equality, quotient tail, total expansion,
+interval arithmetic, and host equality are absent from those finite rows.
 \end{proof}
 
 \closureat{ContinuedFractionUp}{seedStr}
