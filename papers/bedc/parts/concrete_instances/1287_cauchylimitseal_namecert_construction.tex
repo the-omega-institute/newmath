@@ -503,6 +503,22 @@ The family pullback theorem then fixes the tail-side rows for that window. By fa
 Finally apply route uniqueness from \autoref{thm:cauchy-limit-seal-hsame-route-uniqueness}. Replaying the same displayed rows cannot change the route, and the consumer totality theorem leaves no hidden limit, alternate completion route, or seal bypass to choose.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal source factorization]
+\label{thm:cauchy-limit-seal-source-factorization}
+Every accepted $\CauchyLimitSealUp$ consumer source factors through exactly the displayed $\RegSeqRatUp$ family row, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, $\RealUp$ seal row, $\hsame$ and $\Cont$ transport rows, $\Pkg$ provenance, and $\NameCert$ row of its carrier. Family tail rows enter only through the family ledger exhaustion of \autoref{thm:cauchy-limit-seal-family-ledger-exhaustion}; no consumer source may add a hidden completion row, selected limit, quotient family, alternate seal, or unlisted dependency outside that route.
+\end{theorem}
+\begin{proof}
+Start with window factorization from \autoref{thm:cauchy-limit-seal-window-factorization}. It sends every accepted consumer read through the scheduled $\StreamNameUp$ window, the $\RegSeqRatUp$ source row, the $\DyadicRatCoreUp$ observation ledger, the $\RealCauchyCompletionUp$ diagonal row, and the displayed transport rows before the $\RealUp$ seal is consumed.
+
+Next apply the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. The carrier rows $X,S,D,G,E,T,P,N$ are exactly the public source, schedule, observation, diagonal, seal, transport, provenance, and naming rows available to a completion-facing or $\RealUp$-facing consumer.
+
+For family-indexed reads, use the family window pullback of \autoref{thm:cauchy-limit-seal-family-window-pullback}. The pullback may add only the uniform tail evidence attached to the same scheduled window and the same dyadic observation row.
+
+Then invoke the family ledger exhaustion theorem \autoref{thm:cauchy-limit-seal-family-ledger-exhaustion}. It confines those tail-side rows to the source-index, tail-seal, and handoff ledgers already named by the packet, so no hidden completion or selected family limit remains.
+
+Finally combine consumer ledger totality, $\hsame$ route uniqueness, and window replay determinacy from \autoref{thm:cauchy-limit-seal-consumer-ledger-totality}, \autoref{thm:cauchy-limit-seal-hsame-route-uniqueness}, and \autoref{thm:cauchy-limit-seal-window-replay-determinacy}. The total ledger is exhausted, transport cannot split it into two consumer sources, and replay of the displayed window determines the same sealed route each time.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
 \closureat{CauchyLimitSealUp}{scopedStr}
