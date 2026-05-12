@@ -275,18 +275,56 @@ public read exposes exactly the same finite packet and no additional analytic
 object.
 \end{proof}
 
+\begin{theorem}[LagrangianMechanics finite standard bridge surface]
+\label{thm:lagrangianmechanics-finite-standard-bridge-surface}
+The public finite action, Euler--Lagrange residual, symplectic-flow read,
+Noether-current read, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows determine the paper-side standard bridge surface for the
+finite $\LagrangianMechanicsUp$ schema. Standard action, residual, flow, and
+current reads may be interpreted only through these displayed rows.
+
+The bridge surface exports no minimizer, global dynamics theorem, Hamiltonian
+equivalence, analytic regularity theorem, or complete Noether correspondence.
+\end{theorem}
+\begin{proof}
+Begin with the public boundary of
+\autoref{thm:lagrangianmechanics-public-namecert-boundary}. It already exposes
+the finite action, residual, flow, current, carrier, transport, package, and
+name-certificate rows as the only public mechanics packet.
+
+The standard action read is the action ledger of
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. The standard
+residual read is the Euler--Lagrange interface of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface}. The standard flow
+and current reads are the finite rows of
+\autoref{thm:lagrangianmechanics-noether-consumer-boundary}.
+
+Repack these reads with the obligation surface of
+\autoref{thm:lagrangianmechanics-namecert-obligation-surface}, the finite
+carrier of \autoref{thm:lagrangianmechanics-finite-obligation-carrier}, and
+the boundary scope of \autoref{thm:lagrangianmechanics-euler-boundary-scope}.
+The resulting bridge surface uses only the displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Since none of the cited rows contains a minimizer, global dynamics theorem,
+Hamiltonian equivalence, analytic regularity theorem, or complete Noether
+correspondence, the finite standard bridge surface has exactly the stated
+non-claim boundary.
+\end{proof}
+
 \closureat{LagrangianMechanicsUp}{seedStr}
 \closureat{LagrangianMechanicsUp}{obligationStr}
 \closureat{LagrangianMechanicsUp}{scopedStr}
 \closureat{LagrangianMechanicsUp}{publicStr}
+\closureat{LagrangianMechanicsUp}{bridgedStr}
 
 \begin{closurestatus}{\LagrangianMechanicsUp}
   \constructivestory{Lagrangian mechanics is represented by finite rows for configuration, velocity, action functional, variation, endpoint policy, Euler--Lagrange residual, symplectic-flow read, Noether-current read, and provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:lagrangianmechanics-bhist-carrier}, \autoref{thm:lagrangianmechanics-action-ledger-obligation}, \autoref{thm:lagrangianmechanics-eulerlagrange-interface}, \autoref{thm:lagrangianmechanics-noether-consumer-boundary}, \autoref{thm:lagrangianmechanics-namecert-obligation-surface}, \autoref{thm:lagrangianmechanics-euler-boundary-scope}, and \autoref{thm:lagrangianmechanics-public-namecert-boundary} bind the public-facing finite action, Euler--Lagrange, symplectic-flow, Noether-current, and public NameCert packet boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:lagrangianmechanics-bhist-carrier}, \autoref{thm:lagrangianmechanics-action-ledger-obligation}, \autoref{thm:lagrangianmechanics-eulerlagrange-interface}, \autoref{thm:lagrangianmechanics-noether-consumer-boundary}, \autoref{thm:lagrangianmechanics-namecert-obligation-surface}, \autoref{thm:lagrangianmechanics-euler-boundary-scope}, \autoref{thm:lagrangianmechanics-public-namecert-boundary}, and \autoref{thm:lagrangianmechanics-finite-standard-bridge-surface} bind the public-facing finite action, Euler--Lagrange, symplectic-flow, Noether-current, public NameCert packet boundary, and paper-side finite standard bridge surface.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close minimizer existence, global dynamics, Hamiltonian equivalence, complete Noether correspondence, analytic regularity, or a standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge for the finite action, Euler--Lagrange, symplectic-flow, and Noether-current rows.}
+  \notclaimed{This chapter does not close minimizer existence, global dynamics, Hamiltonian equivalence, complete Noether correspondence, analytic regularity, or bridge checking.}
+  \upgradepath{Mature closure requires downstream examples or completeness of the finite bridge consumption surface.}
 \end{closurestatus}
