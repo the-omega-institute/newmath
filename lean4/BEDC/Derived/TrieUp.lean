@@ -182,6 +182,36 @@ theorem TrieSourcePacket_branch_read_exactness [AskSetup] [PackageSetup]
     ⟨prefSplit, readbackUnary, keyUnary, branchUnary, depthUnary, branchRead,
       provenancePkg⟩
 
+theorem TrieSourcePacket_prefix_branch_consumer_exhaustion [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute pref branchTag readback
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      UnaryHistory pref ->
+        UnaryHistory branchTag ->
+          Cont pref branchTag readback ->
+            Cont readback provenance consumer ->
+              PkgSig bundle consumer pkg ->
+                (pref = BHist.Empty ∨
+                    ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail) ∧
+                  UnaryHistory readback ∧ UnaryHistory consumer ∧ UnaryHistory key ∧
+                    UnaryHistory branch ∧ UnaryHistory depth ∧ Cont pref branchTag readback ∧
+                      Cont readback provenance consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet prefUnary branchTagUnary branchRead consumerRow consumerPkg
+  obtain ⟨keyUnary, _payloadUnary, depthUnary, branchUnary, provenanceUnary,
+    _routeRow, _provenanceRow, _payloadRouteRow, _branchRouteRow, _packetPkg⟩ := packet
+  have prefSplit :
+      pref = BHist.Empty ∨ ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail :=
+    unary_history_empty_or_e1_tail prefUnary
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed prefUnary branchTagUnary branchRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed readbackUnary provenanceUnary consumerRow
+  exact
+    ⟨prefSplit, readbackUnary, consumerUnary, keyUnary, branchUnary, depthUnary, branchRead,
+      consumerRow, consumerPkg⟩
+
 theorem TriePrefixExtensionClassifier_stability [AskSetup] [PackageSetup]
     {pre pre' branch ext ext' prov : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory pre -> UnaryHistory branch -> hsame pre pre' -> Cont pre branch ext ->
