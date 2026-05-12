@@ -239,6 +239,13 @@ theorem CrossHistCausalUp_taste_gate_boundary :
   · intro x w m hw hm
     exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 
+theorem taste_gate :
+    (∀ x : CrossHistCausalUp, ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
+      (∀ (x : CrossHistCausalUp) (w : RawEvent) (m : BMark),
+        List.Mem w (BHistCarrier.toEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) :=
+  CrossHistCausalUp_taste_gate_boundary
+
 theorem CrossHistCausalUp_slot_witness_route_transport
     {anchorA anchorB slot slot' witness witness' transports probes routes provenance
       localName : BHist}
