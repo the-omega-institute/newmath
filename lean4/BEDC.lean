@@ -167,6 +167,7 @@ import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.EqtypeUp
+import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
@@ -256,6 +257,7 @@ import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
+import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -283,6 +285,7 @@ import BEDC.Derived.HodgeBridgeUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HopfAlgUp
 import BEDC.Derived.InfCatUp
+import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
