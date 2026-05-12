@@ -272,4 +272,71 @@ theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
       consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
       windowProvenanceConsumer, provenancePkg, consumerPkg⟩
 
+theorem DyadicApproximationCarrier_terminal_window_prefix_projection [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance prefixPrecision prefixEndpoint prefixWindow
+      prefixLedger prefixProvenance terminalPrecision terminalEndpoint terminalWindow
+      terminalLedger terminalProvenance reread : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision prefixPrecision ->
+        hsame endpoint prefixEndpoint ->
+          hsame ledger prefixLedger ->
+            hsame provenance prefixProvenance ->
+              Cont prefixPrecision prefixEndpoint prefixWindow ->
+                Cont prefixWindow prefixLedger prefixProvenance ->
+                  hsame prefixPrecision terminalPrecision ->
+                    hsame prefixEndpoint terminalEndpoint ->
+                      hsame prefixLedger terminalLedger ->
+                        hsame prefixProvenance terminalProvenance ->
+                          Cont terminalPrecision terminalEndpoint terminalWindow ->
+                            Cont terminalWindow terminalLedger terminalProvenance ->
+                              Cont terminalWindow terminalProvenance reread ->
+                                DyadicApproximationCarrier prefixPrecision prefixEndpoint
+                                    prefixWindow prefixLedger prefixProvenance bundle pkg ∧
+                                  DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                                      terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                                    UnaryHistory reread ∧ hsame prefixWindow terminalWindow := by
+  intro carrier samePrecisionPrefix sameEndpointPrefix sameLedgerPrefix sameProvenancePrefix
+  intro prefixPrecisionEndpointWindow prefixWindowLedgerProvenance samePrefixPrecisionTerminal
+  intro samePrefixEndpointTerminal samePrefixLedgerTerminal samePrefixProvenanceTerminal
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance terminalWindowProvenanceReread
+  have prefixTransported :
+      DyadicApproximationCarrier prefixPrecision prefixEndpoint prefixWindow prefixLedger
+          prefixProvenance bundle pkg ∧
+        hsame window prefixWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecisionPrefix
+      sameEndpointPrefix sameLedgerPrefix sameProvenancePrefix prefixPrecisionEndpointWindow
+      prefixWindowLedgerProvenance
+  have samePrecisionTerminal : hsame precision terminalPrecision :=
+    hsame_trans samePrecisionPrefix samePrefixPrecisionTerminal
+  have sameEndpointTerminal : hsame endpoint terminalEndpoint :=
+    hsame_trans sameEndpointPrefix samePrefixEndpointTerminal
+  have sameLedgerTerminal : hsame ledger terminalLedger :=
+    hsame_trans sameLedgerPrefix samePrefixLedgerTerminal
+  have sameProvenanceTerminal : hsame provenance terminalProvenance :=
+    hsame_trans sameProvenancePrefix samePrefixProvenanceTerminal
+  have terminalTransported :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        hsame window terminalWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecisionTerminal
+      sameEndpointTerminal sameLedgerTerminal sameProvenanceTerminal
+      terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  rcases prefixTransported with ⟨prefixCarrier, samePrefixWindow⟩
+  rcases terminalTransported with ⟨terminalCarrier, sameTerminalWindow⟩
+  rcases terminalCarrier with
+    ⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+      _terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+      terminalWindowLedgerProvenance', terminalPkgSig⟩
+  have rereadUnary : UnaryHistory reread :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceReread
+  have samePrefixTerminalWindow : hsame prefixWindow terminalWindow :=
+    hsame_trans (hsame_symm samePrefixWindow) sameTerminalWindow
+  exact And.intro prefixCarrier
+    (And.intro
+      ⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+        _terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+        terminalWindowLedgerProvenance', terminalPkgSig⟩
+      (And.intro rereadUnary samePrefixTerminalWindow))
+
 end BEDC.Derived.DyadicApproximationUp
