@@ -56,6 +56,7 @@ import BEDC.Derived.AddUp
 import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
+import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -69,9 +70,11 @@ import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BishopRealUp
+import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
+import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
@@ -84,11 +87,13 @@ import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
 import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
 import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
 import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
+import BEDC.Derived.DyadicApproximationUp.TerminalSelector
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
+import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
@@ -107,12 +112,15 @@ import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
+import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
+import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyRegularizationUp
+import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
@@ -195,6 +203,7 @@ import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
+import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
@@ -224,6 +233,7 @@ import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
+import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformSpaceUp
@@ -257,6 +267,7 @@ import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
+import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyNameUp
@@ -778,6 +789,7 @@ import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
+import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.OperatorIdealUp
 import BEDC.Derived.NuclearUp
