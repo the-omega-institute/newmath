@@ -54,6 +54,7 @@ The obligation surface is therefore exactly the displayed handoff from compact f
 \label{thm:compact-uniform-continuity-root-uniform-modulus-row}
 Every accepted $\CompactUniformContinuityUp$ packet routes the requested tolerance row through the displayed $\CompactMetricUp$, $\ContinuousMapUp$, $\mathsf{MetricDistanceWitness}$, positive $\RatUp$ radius rows, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates before exporting a uniform precision. The exported precision is therefore the visible uniform-modulus row of the packet, not a host modulus function or a selected real minimum.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactUniformContinuityUp.CompactUniformContinuityPacket\_root\_uniform\_modulus\_row}
 \begin{proof}
 Project the accepted packet through the carrier of \autoref{def:compact-uniform-continuity-carrier}. The requested tolerance row is the displayed $E$ coordinate, and the proposed uniform precision is the displayed $D$ coordinate.
 
@@ -96,6 +97,42 @@ The third row is \autoref{thm:compact-uniform-continuity-root-uniform-modulus-ro
 The fourth row is the metric and rational bookkeeping recorded by \autoref{thm:compact-uniform-continuity-namecert-obligations} and sharpened by \autoref{thm:compact-uniform-continuity-radius-fold-exactness}. Those statements keep metric-distance witnesses and positive-rational folds inside the carrier.
 
 The final row is obtained by feeding the preceding rows into \autoref{thm:compact-uniform-continuity-finite-net-handoff}. The handoff exports exactly the downstream package surface and leaves no coordinate for external compactness, selected minima, or host metric inspection.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity source metric totality]
+\label{thm:compact-uniform-continuity-source-metric-totality}
+In every accepted $\CompactUniformContinuityUp$ root packet, each source-center distance read used by the finite-net handoff factors through the source $\MetricUp$ coordinate $X$, a displayed $\mathsf{MetricDistanceWitness}$ row, and the transport, continuation, package, and naming provenance $T,Q,P,N$ before any pointwise modulus row is consumed. Thus the handoff has no route from a source point to a $\ContinuousMapUp$ modulus row except through the recorded source metric surface of the carrier.
+\end{theorem}
+\begin{proof}
+Project the root packet by \autoref{def:compact-uniform-continuity-carrier}. The source metric row $X$, the compact finite-net ledger $\mathcal{P},C$, the pointwise-modulus ledger $M$, and the provenance rows $T,Q,P,N$ are all visible coordinates before any consumer can read a source-center distance.
+
+Use the classifier of \autoref{def:compact-uniform-continuity-classifier}. It permits source metric transport only through the displayed $\hsame$ rows, the $\Cont$ routes, the package row, and the local naming row.
+
+Now apply \autoref{thm:compact-uniform-continuity-root-compact-net-row} and \autoref{thm:compact-uniform-continuity-root-namecert-unblock-package}. The finite-net row chooses bundled centers only inside the carrier, and the root package lists the metric-distance route as part of the same $\NameCert$ surface. Therefore each accepted source-center read reaches $M$ only after passing through $X$, $\mathsf{MetricDistanceWitness}$, and $T,Q,P,N$.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity target metric totality]
+\label{thm:compact-uniform-continuity-target-metric-totality}
+In every accepted $\CompactUniformContinuityUp$ root packet, each target-output tolerance read factors through the target $\MetricUp$ coordinate $Y$, a displayed $\mathsf{MetricDistanceWitness}$ row, the centerwise $\ContinuousMapUp$ modulus ledger $M$, and the same $T,Q,P,N$ provenance that already controls source-center metric reads. No target tolerance row is available directly from a host metric outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with the target tolerance route isolated by \autoref{thm:compact-uniform-continuity-root-uniform-modulus-row}. It sends the requested tolerance through compact finite-net coverage, centerwise $\ContinuousMapUp$ rows, target metric evidence, positive $\RatUp$ comparisons, and the recorded transport, continuation, package, and naming rows.
+
+Apply \autoref{thm:compact-uniform-continuity-source-metric-totality}. The source side of each centerwise modulus read has already been forced through $X$, $\mathsf{MetricDistanceWitness}$, and $T,Q,P,N$ before $M$ is consumed.
+
+The target side of the same centerwise row is the displayed $\MetricUp$ coordinate $Y$. The classifier transports it only through the target $\mathsf{MetricDistanceWitness}$ row and the same $T,Q,P,N$ provenance, so a target-output tolerance read cannot bypass the finite packet surface.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity fold witness stability]
+\label{thm:compact-uniform-continuity-fold-witness-stability}
+In every accepted $\CompactUniformContinuityUp$ root packet, the fold witness $W$ transports the positive $\RatUp$ lower-bound fold below each bundled half-radius row under the classifier, and $W$ is the only route by which the precision row $D$ is accepted as a common lower bound for the finite handoff. The classifier therefore preserves the fold surface without introducing a host minimum, a selected real radius, or an unrecorded precision source.
+\end{theorem}
+\begin{proof}
+Project the rational ledger $R$, the fold witness $W$, and the precision row $D$ from the carrier. By \autoref{thm:compact-uniform-continuity-radius-fold-exactness}, $D$ is accepted exactly as the finite lower-bound fold over the positive $\RatUp$ rows, with a displayed comparison below each bundled half-radius row.
+
+Use \autoref{thm:compact-uniform-continuity-root-rational-fold-route}. It identifies $R$ and $W$ as the only rational route from the root package to the precision row $D$.
+
+Finally apply \autoref{thm:compact-uniform-continuity-target-metric-totality}. The target-output reads that consume $D$ already pass through $Y$, the centerwise modulus row $M$, and $T,Q,P,N$. Transporting $W$ under the classifier therefore preserves the same positive $\RatUp$ fold for every downstream target read, with no additional coordinate from which another lower bound could be read.
 \end{proof}
 
 \begin{theorem}[CompactUniformContinuity root metric route]
@@ -577,6 +614,48 @@ Use finite-net handoff, $\mathsf{ProbeBundle}$ coverage, and metric-distance rou
 Finally apply the non-escape ledger and real metric seal boundary. Since every listed read is a projection from the displayed packet followed by transport through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, no outside compactness principle or host modulus can enter the root consumer package.
 \end{proof}
 
+\begin{theorem}[CompactUniformContinuity ProbeBundle center selection]
+\label{thm:compact-uniform-continuity-root-probebundle-center-selection}
+In every accepted $\CompactUniformContinuityUp$ root packet, source-side compact access is mediated by finitely many $\CompactMetricUp$ $\mathsf{ProbeBundle}$ centers. A consumer may read a source point only by selecting one displayed center row, transporting it through the packet's $\hsame$ rows, reading the associated $\Cont$ route, and carrying the result through the $\Pkg$ provenance and local $\NameCert_{\CompactUniformContinuityUp}$ row.
+
+The selected center is a row of the finite packet, not an open-cover point, host compactness witness, or minimum-selection operation.
+\end{theorem}
+\begin{proof}
+Project the root consumer triad of \autoref{thm:compact-uniform-continuity-root-consumer-triad}. Its compact side is the finite $\mathsf{ProbeBundle}$ coverage row, already attached to $\CompactMetricUp$ provenance.
+
+Apply finite-net handoff and metric-distance routing. These rows force each source read through one bundled center before any modulus or target-distance row can be consumed.
+
+Finally transport the selected center through the displayed $\hsame$ and $\Cont$ rows and repack it with $\Pkg$ and $\NameCert$ provenance. Since the carrier contains no open-cover or host-minimum coordinate, the center selection remains a finite packet read.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity pointwise modulus row]
+\label{thm:compact-uniform-continuity-root-pointwise-modulus-row}
+For each finite $\CompactMetricUp$ $\mathsf{ProbeBundle}$ center read from an accepted $\CompactUniformContinuityUp$ packet, the only modulus data available to the root consumer is the matching $\ContinuousMapUp$ pointwise modulus row. That row is consumed together with the source and target $\mathsf{MetricDistanceWitness}$ rows, the positive $\RatUp$ radius ledger, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CompactUniformContinuityUp}$ provenance.
+
+No root consumer can replace the pointwise row by an external modulus function or a host continuity theorem.
+\end{theorem}
+\begin{proof}
+Begin with a center supplied by \autoref{thm:compact-uniform-continuity-root-probebundle-center-selection}. The center is already a displayed finite packet row.
+
+Use the finite-net handoff to reach the centerwise $\ContinuousMapUp$ modulus row. Metric-distance routing then supplies exactly the source-center and target-output $\mathsf{MetricDistanceWitness}$ rows consumed by that modulus read.
+
+The positive $\RatUp$ radius ledger and the stored transport, continuation, package, and naming rows carry this pointwise read into the root packet. The carrier has no coordinate for an external modulus, so the displayed pointwise row exhausts the route.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity rational-fold consumer]
+\label{thm:compact-uniform-continuity-root-rational-fold-consumer}
+Every root consumer of uniform precision in an accepted $\CompactUniformContinuityUp$ packet factors through the finite $\RatUp$ positive-radius fold. The fold consumes the finitely many centerwise $\ContinuousMapUp$ pointwise modulus rows selected through the $\CompactMetricUp$ $\mathsf{ProbeBundle}$ centers, compares them only through displayed $\mathsf{MetricDistanceWitness}$ rows, and exports the precision with the packet's $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CompactUniformContinuityUp}$ provenance.
+
+The consumer surface contains no open-cover compactness, host minimum, or external modulus selector.
+\end{theorem}
+\begin{proof}
+First assemble the finite center and pointwise rows using \autoref{thm:compact-uniform-continuity-root-probebundle-center-selection} and \autoref{thm:compact-uniform-continuity-root-pointwise-modulus-row}. These rows provide the compact, continuous, and metric inputs to the precision read.
+
+Next apply radius-fold exactness. The exported precision is the positive $\RatUp$ lower-bound fold over the displayed centerwise radius rows, so the consumer never leaves the finite rational ledger.
+
+Finally use the root consumer triad. Transport and continuation rows carry the folded precision with package and naming provenance, while the non-escape boundary excludes open covers, host minima, and external modulus selection.
+\end{proof}
+
 \begin{theorem}[CompactUniformContinuity ProbeBundle-to-metric route]
 \label{thm:compact-uniform-continuity-probe-metric-route}
 Every source-side root read in an accepted $\CompactUniformContinuityUp$ packet passes from the finite $\mathsf{ProbeBundle}$ spine to displayed source and target $\mathsf{MetricDistanceWitness}$ rows before it can consume a $\ContinuousMapUp$ pointwise modulus row. The route is mediated by the carrier's $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CompactUniformContinuityUp}$ provenance, and it never reads a host metric directly.
@@ -599,6 +678,48 @@ Read the precision coordinate $D$ from the accepted carrier. The carrier also di
 Radius-fold exactness identifies $D$ as the finite lower-bound fold over $R$. The finite-net modulus extraction theorem then attaches this fold to the $\mathsf{ProbeBundle}$ coverage rows and the centerwise $\ContinuousMapUp$ modulus rows.
 
 Metric-distance routing and the non-escape ledger keep the resulting precision route inside displayed BEDC rows. Therefore the rational fold is the sole exported uniform precision, and no downstream consumer can bypass it through external compactness or modulus choice.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity four-source handoff correspondence]
+\label{thm:compact-uniform-continuity-four-source-handoff-correspondence}
+For every accepted $\CompactUniformContinuityUp$ root packet, the finite $\mathsf{ProbeBundle}$ compact-net rows, the pointwise $\ContinuousMapUp$ modulus rows, the source and target $\mathsf{MetricDistanceWitness}$ rows, the positive $\RatUp$ fold rows, and the $\RealUp$ seal row form one finite handoff correspondence. A consumer may enter the handoff through any displayed compact, continuous, metric, rational, or real row, but every such entry reads the same carrier packet with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CompactUniformContinuityUp}$ provenance.
+
+The correspondence has no coordinate for open-cover compactness, sequence compactness, host minimum selection, or an external modulus. It is the root handoff of the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Start with the compact-net side. Apply \autoref{thm:compact-uniform-continuity-finite-net-handoff} to bind the finite $\mathsf{ProbeBundle}$ net to the centerwise $\ContinuousMapUp$ modulus rows.
+
+Next read the metric and rational rows. Metric-distance routing supplies the only source and target distance observations, while radius-fold exactness identifies the positive $\RatUp$ fold as the precision row consumed by the handoff.
+
+Finally attach the real-facing boundary. Use the real seal boundary together with the rational fold export theorem to repack the compact, continuous, metric, rational, and real rows as one carrier correspondence. Since each step is a projection from the accepted packet followed by displayed transport, no outside compactness or modulus coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity rational fold metric compatibility]
+\label{thm:compact-uniform-continuity-rational-fold-metric-compatibility}
+In an accepted $\CompactUniformContinuityUp$ packet, the rational-fold precision row is compatible with every source-center and target-output metric read consumed by the handoff of \autoref{thm:compact-uniform-continuity-four-source-handoff-correspondence}. Each $\mathsf{MetricDistanceWitness}$ read is routed through the displayed compact-net center, then compared only against the precision exported by the positive $\RatUp$ lower-bound fold and its recorded $\hsame$ and $\Cont$ transports.
+
+Thus no metric consumer can replace the rational fold by a host minimum, an unrecorded real radius, or an external modulus choice.
+\end{theorem}
+\begin{proof}
+Project the displayed metric witnesses from the carrier. By metric-distance routing, every source-center or target-output distance read is one of these witnesses and not a host metric call.
+
+Apply finite-net handoff to place those metric witnesses on the same route as the centerwise $\ContinuousMapUp$ modulus rows. Radius-fold exactness then identifies the precision read by that route with the positive $\RatUp$ lower-bound fold.
+
+The rational fold export theorem says that all downstream precision consumers factor through this fold. Therefore every metric read consumed by the handoff is compatible with the same rational precision row, and no hidden radius selector is available.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity compact-continuous NameCert export]
+\label{thm:compact-uniform-continuity-compact-continuous-namecert-export}
+The compact-net rows, pointwise $\ContinuousMapUp$ modulus rows, $\mathsf{MetricDistanceWitness}$ rows, positive $\RatUp$ fold rows, and $\RealUp$ seal row of an accepted $\CompactUniformContinuityUp$ packet export a finite $\NameCert_{\CompactUniformContinuityUp}$ package. The exported package is exactly the displayed carrier, classifier, transport, continuation, package, and naming ledger over those rows.
+
+It exports no open-cover compactness, sequence compactness, host minimum, host modulus, or additional real-coordinate selector.
+\end{theorem}
+\begin{proof}
+First assemble the finite handoff correspondence from \autoref{thm:compact-uniform-continuity-four-source-handoff-correspondence}. This supplies the compact, continuous, metric, rational, and real rows as one accepted packet with fixed provenance.
+
+Next apply \autoref{thm:compact-uniform-continuity-rational-fold-metric-compatibility}. The metric observations and rational precision row agree along the displayed finite-net route, so the exported package has a single precision ledger.
+
+Finally use the real seal boundary and rational fold export theorem. The real-facing row can only read the sealed finite packet, while the rational fold remains the only exported precision. Repacking these rows gives the finite $\NameCert_{\CompactUniformContinuityUp}$ package and leaves no coordinate for open covers, sequence compactness, host minima, or external modulus data.
 \end{proof}
 
 \closureat{CompactUniformContinuityUp}{seedStr}

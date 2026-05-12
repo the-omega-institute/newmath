@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RefutationWitnessUp$}
+\label{ch:concrete-instances-refutationwitness-namecert}
+\origin{human}
+
+The $\RefutationWitnessUp$ surface is the concrete NameCert landing for constructive reasoning by contradiction. It records an assumption row, a finite continuation route from that assumption to bottom, the produced bottom row, and the local transport and provenance rows needed to replay the route. The packet certifies refutation only as displayed assumption-to-bottom evidence; it does not export a certificate-indexed truth branch, a host-level contradiction principle, or a witness selected from an unwitnessed negation.
+
+\begin{definition}[RefutationWitness carrier]
+\label{def:refutation-witness-carrier}
+A $\RefutationWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,a,\rho,b,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition or predicate row being refuted, read as a certificate-visible $\BHist$ object rather than as host truth;
+\item $a$ is the assumed witness row for $A$ at the current history;
+\item $\rho$ is the finite refutation route, a list of displayed $\Cont$, $\msame$, and $\hsame$ steps beginning at $a$;
+\item $b$ is the bottom row reached by replaying $\rho$ from the assumed witness;
+\item $H$ records componentwise $\hsame$ transport for $A$, $a$, $\rho$, $b$, provenance, and local naming rows;
+\item $C$ records the $\Cont$ routes used to read the assumption, replay the refutation route, and return the bottom row to a downstream consumer;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\Cont$, $\msame$, $\hsame$, bottom-witness rows, and the surrounding certificate rows;
+\item $N$ is the local $\NameCert_{\RefutationWitnessUp}$ ledger.
+\end{enumerate}
+The carrier contains no coordinate for excluded middle over certificate predicates, no host truth predicate for $A$, no double-negation eliminator, and no existential witness selected from a contradiction argument.
+\end{definition}
+
+\begin{theorem}[RefutationWitness NameCert obligations]
+\label{thm:refutation-witness-namecert-obligations}
+The local $\NameCert_{\RefutationWitnessUp}$ surface for the carrier of \autoref{def:refutation-witness-carrier} consists exactly of carrier exposure, assumption accountability, route replay, bottom-row accountability, classifier transport, continuation locality, package provenance, and truth-branch exclusion. A consumer accepts a refutation only by projecting
+$$
+(A,a,\rho,b,H,C,P,N)
+$$
+and checking that the displayed route $\rho$ carries the displayed assumption row $a$ to the displayed bottom row $b$ through the recorded $\Cont$, $\msame$, and $\hsame$ data.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:refutation-witness-carrier}. The packet lists the proposition row, assumption row, route, bottom row, transport ledger, continuation ledger, provenance, and local naming row, and no other coordinate is available.
+
+Assumption accountability and route replay are read from $a$, $\rho$, and $C$. A consumer cannot project $b$ without also projecting the route that starts from the displayed assumed witness and reaches that bottom row.
+
+Classifier transport is componentwise transport through $H$. The proposition row, assumption row, route, bottom row, package row, and naming row move together, so transport preserves the same finite refutation evidence rather than introducing an external proof principle.
+
+Finally, truth-branch exclusion follows from the carrier inventory. The packet has no row for a family deciding predicates over all naming certificates, no host truth row for $A$, and no selected existential witness. Hence the NameCert obligations are exhausted by the displayed assumption-to-bottom route.
+\end{proof}
+
+\begin{theorem}[RefutationWitness truth-branch blocker]
+\label{thm:refutation-witness-truth-branch-blocker}
+No accepted $\RefutationWitnessUp$ packet can be read as a certificate-indexed truth branch in the sense of \autoref{def:reasoning-certificate-indexed-truth-branch}. Its only negative information is the displayed map from the assumed witness row $a$ to the bottom row $b$ along $\rho$, and every downstream read remains inside the finite rows $A,a,\rho,b,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $R=(A,a,\rho,b,H,C,P,N)$. The available projection operations return only those displayed rows, their componentwise transports, and the continuation routes that replay $\rho$.
+
+A certificate-indexed truth branch would require a row assigning, for each naming certificate in a carrier of certificates, either a positive witness or a refutation. No such carrier-wide predicate row appears in $R$, and no coordinate ranges over all naming certificates.
+
+The packet therefore supports only the local refutation read: assume the displayed witness row $a$, replay the finite route $\rho$, and obtain the displayed bottom row $b$. That read blocks any extraction of excluded middle, undecided double-negation elimination, or existential witness selection from the $\RefutationWitnessUp$ surface.
+\end{proof}
+
+\closureat{RefutationWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RefutationWitnessUp}
+  \constructivestory{A $\RefutationWitnessUp$ packet is generated from a proposition row, an assumed witness row, a finite assumption-to-bottom route, the produced bottom row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:refutation-witness-carrier}, \autoref{thm:refutation-witness-namecert-obligations}, and \autoref{thm:refutation-witness-truth-branch-blocker} bind the finite carrier, local NameCert obligations, and truth-branch exclusion surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, excluded middle over certificate predicates, host truth, undecided double-negation elimination, existential witness selection, or a public standard bridge.}
+  \upgradepath{Obligation closure requires Lean encoding of the packet and checked theorems for route replay, classifier transport, bottom-row accountability, and truth-branch exclusion.}
+\end{closurestatus}

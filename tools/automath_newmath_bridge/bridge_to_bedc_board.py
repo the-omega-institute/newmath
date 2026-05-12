@@ -17,6 +17,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+try:
+    from logic_discipline import bridge_payload
+except ModuleNotFoundError:  # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import bridge_payload
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
@@ -90,6 +96,10 @@ def _write_packet(record: dict[str, Any], packet_dir: Path) -> Path:
         "taste_gate_required": False,
         "audit_required": True,
         "gate_result": record,
+        "logic_discipline": record.get("logic_discipline") or bridge_payload(
+            readiness=str(record.get("readiness") or ""),
+            oracle_mode="continuation_refill",
+        ),
         "non_actions": [
             "no direct BEDC paper write",
             "no direct BEDC Lean write",
@@ -121,7 +131,15 @@ def _claim(record: dict[str, Any], packet_rel: str) -> str:
         "Evaluate whether this Automath artifact should become a BEDC research "
         f"target. Source: {source}. Bridge packet: {packet_rel}. Evidence: "
         f"{evidence_text}. The task is to extract a NewMath-native theorem, "
-        "obstruction, or planning target without copying Automath runtime state."
+        "obstruction, or planning target without copying Automath runtime state. "
+        "The source and packet strings are BOARD review metadata only; if any "
+        "candidate becomes paper LaTeX, do not reproduce Automath paths, the "
+        "word Automath, JSON paths, bridge packet paths, repository coordinates, or external "
+        "provenance phrases in the paper body. "
+        "Apply the logic-minimization discipline: expose axiom budget, "
+        "witness status, cut/elimination status, equality or interpretation "
+        "kind, dependency/resource trace, oracle mode, and descent-certificate "
+        "boundary."
     )
 
 
@@ -138,7 +156,8 @@ def _candidate(record: dict[str, Any], packet_rel: str) -> dict[str, Any]:
         "local_inputs": [packet_rel],
         "rationale": (
             "Automath-to-NewMath bridge gate passed. BEDC board_spawn must still "
-            "judge fit, novelty, dedup, and paper coverage before BOARD append."
+            "judge fit, novelty, dedup, paper coverage, and logic-minimization "
+            "discipline before BOARD append."
         ),
         "fit_score": fit,
         "novelty": novelty,
