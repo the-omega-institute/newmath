@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyScaleUp$}
+\label{ch:concrete-instances-regularcauchyscale-namecert}
+\origin{human}
+
+The $\RegularCauchyScaleUp$ interface names the finite rational-scaling surface for a regular rational Cauchy name. It sits with $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, and $\RegularCauchyProductUp$: the packet displays a rational scalar row, one regular source name, aligned stream windows, dyadic endpoint rows for the scalar and source, a scaled dyadic endpoint row, a finite error-budget ledger, regular rational readback, transports, continuations, package provenance, and local naming data.
+
+The packet is a constructive arithmetic certificate. It is not a quotient of streams, not a selected host limit, not a host real equality assertion, and not an ambient completeness theorem.
+
+\begin{definition}[RegularCauchyScale carrier]
+\label{def:regular-cauchy-scale-carrier}
+A $\RegularCauchyScaleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ scalar row whose rational value is used in every scaled endpoint;
+\item $A$ is the $\RegSeqRatUp$ source row whose scheduled rational observations are scaled by $Q$;
+\item $W$ is the aligned $\StreamNameUp$ window used to read the source observation at the requested precision and index;
+\item $D_Q$ is the $\DyadicRatCoreUp$ endpoint row for the scalar $Q$ at the common exponent used by the packet;
+\item $D_A$ is the $\DyadicRatCoreUp$ endpoint row read from the source window $W$;
+\item $D$ is the displayed $\DyadicRatCoreUp$ endpoint row for the scaled value $D_Q \cdot D_A$;
+\item $E$ is the finite $\FiniteErrorBudgetUp$ ledger recording the scalar endpoint, source tolerance, scalar magnitude bound, scaled endpoint error, and output tolerance assigned to $D$;
+\item $R$ is the $\RegSeqRatUp$ readback row whose scheduled point row is $D$ with regularity evidence supplied by $E$;
+\item $H$ stores componentwise $\hsame$ transports for the scalar, source name, stream window, dyadic endpoint rows, finite budget ledger, and readback row;
+\item $C$ stores the displayed $\Cont$ routes for reading the scalar, reading the source window, forming the dyadic scaled endpoint, checking the budget, and exposing the readback;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteErrorBudgetUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyScaleUp}$ row.
+\end{enumerate}
+The carrier is finite rational-scaling data for regular Cauchy names. It stores no quotient stream, no selected limit, no host real equality, and no ambient completeness object.
+\end{definition}
+
+\begin{theorem}[RegularCauchyScale NameCert obligations]
+\label{thm:regular-cauchy-scale-namecert-obligations}
+The local $\NameCert_{\RegularCauchyScaleUp}$ surface for the carrier of \autoref{def:regular-cauchy-scale-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed $\mathsf{BHist}$ packet $S$ with a $\RatUp$ scalar, one $\RegSeqRatUp$ source, an aligned $\StreamNameUp$ window, dyadic endpoint rows, a finite scale-error ledger, transports, continuations, provenance, and local naming data;
+\item classifier transport: classification transports the scalar row, source row, window row, endpoint rows, finite budget ledger, and readback row componentwise through the stored $\hsame$ and $\Cont$ rows;
+\item stability: replacing the scalar or source by a classified row preserves the displayed window route and recomputes the same kind of dyadic scaled endpoint row;
+\item ledger exactness: the output tolerance row is the finite scale-error budget recorded in $E$, including the scalar endpoint, source tolerance, scalar magnitude bound, and scaled endpoint error;
+\item downstream handoff: every $\RegSeqRatUp$ or $\RealUp$ consumer first reads $R$ together with $Q$, $A$, $W$, $D_Q$, $D_A$, $D$, $E$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:regular-cauchy-scale-carrier}. The rational scalar, regular source, stream window, endpoint rows, finite ledger, transport rows, continuation routes, provenance row, and local naming row are explicit coordinates of $S$.
+
+Classifier transport is componentwise. The $\RatUp$ scalar row transports the rational coefficient, the $\RegSeqRatUp$ source row transports its scheduled observations, the $\StreamNameUp$ row transports the source window read, and the $\DyadicRatCoreUp$ rows transport the scalar endpoint, source endpoint, and scaled endpoint calculation.
+
+The finite ledger records the scalar endpoint, the source tolerance, the scalar magnitude bound, the scaled endpoint error, and the output tolerance before the readback is exposed. Since the downstream handoff is the readback row $R$ and its displayed provenance, no omitted coordinate can add quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale window budget]
+\label{thm:regular-cauchy-scale-window-budget}
+Given an accepted $\RatUp$ scalar row $Q$ and an accepted $\RegSeqRatUp$ source row $A$ in a $\RegularCauchyScaleUp$ packet, every precision request reads the aligned $\StreamNameUp$ window $W$, the scalar endpoint row $D_Q$, and the source endpoint row $D_A$. The packet displays a $\DyadicRatCoreUp$ row $D$ for $D_Q \cdot D_A$ and a finite ledger $E$ whose output tolerance is the recorded scale-error budget for the source tolerance and scalar magnitude bound.
+\end{theorem}
+\begin{proof}
+Read the precision request through the scalar and source coordinates. The scalar row $Q$ supplies the rational endpoint $D_Q$, while the source row $A$ is observed through the aligned stream window $W$ to produce $D_A$.
+
+Apply the displayed dyadic multiplication row of $\DyadicRatCoreUp$ to $D_Q$ and $D_A$. The result is the scaled endpoint row $D$, still inside the same finite carrier.
+
+Finally read the finite budget ledger $E$. Its entries record the source tolerance, the scalar magnitude bound, and the endpoint error assigned to the output request, so the budget is a finite BEDC ledger rather than an appeal to a completed real scalar action.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale RegSeqRat handoff]
+\label{thm:regular-cauchy-scale-regseqrat-handoff}
+The budgeted rational-scaling windows of \autoref{thm:regular-cauchy-scale-window-budget} repack as the $\RegSeqRatUp$ readback row $R$ of \autoref{def:regular-cauchy-scale-carrier}. A consumer of $R$ reads only the scalar row, source window, dyadic scaled endpoint row, finite scale-error ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite window budget. For each requested precision, the packet exposes the scalar endpoint, the source endpoint, the scaled dyadic endpoint, and the scale-error row that bounds the output tolerance.
+
+Repack those displayed rows as a regular rational sequence readback. The point row of $R$ is $D$, and the regularity evidence visible to the consumer is the scale ledger $E$ routed through the same scalar and source windows.
+
+The transport and continuation rows are inherited from the carrier. Because the repacking uses only coordinates already listed in \autoref{def:regular-cauchy-scale-carrier}, it introduces no host sequence quotient, selected limit, host real equality, or completed-real scalar operation.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale RealUp seal boundary]
+\label{thm:regular-cauchy-scale-realup-seal-boundary}
+Any $\RealUp$ consumer of an accepted $\RegularCauchyScaleUp$ packet reads only the $\RegSeqRatUp$ readback row $R$ together with the visible provenance of the scalar, source name, aligned window, dyadic endpoint rows, finite scale-error ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ row, and local $\NameCert_{\RegularCauchyScaleUp}$ row.
+\end{theorem}
+\begin{proof}
+Factor the real-facing read through the regular readback. By \autoref{thm:regular-cauchy-scale-regseqrat-handoff}, $R$ is already the repacking of the budgeted rational-scaling windows.
+
+The remaining consumer-visible data are exactly the provenance rows attached to that repacking: the scalar row, source name, source schedule, dyadic endpoint rows, scale-error ledger, transports, continuations, package row, and local naming row.
+
+The carrier has no independent $\RealUp$ equality field and no completion witness outside the readback. Therefore the real seal can consume only the displayed regular readback and its visible provenance.
+\end{proof}
+
+\closureat{RegularCauchyScaleUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyScaleUp}
+  \constructivestory{A $\RegularCauchyScaleUp$ packet is generated from a $\RatUp$ scalar row, a $\RegSeqRatUp$ source row, an aligned $\StreamNameUp$ window, $\DyadicRatCoreUp$ scalar/source/scaled endpoint rows, a finite $\FiniteErrorBudgetUp$ scale ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, scalar-window budget, regular readback handoff, and real-seal boundary for rational scaling of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-vector-space laws, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, scale-window budget exactness, regular readback handoff, and real-seal non-escape for the scale packet.}
+\end{closurestatus}
