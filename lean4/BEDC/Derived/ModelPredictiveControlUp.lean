@@ -47,66 +47,80 @@ theorem ModelPredictiveControlPacket_finite_horizon_obligation [AskSetup] [Packa
     ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, rolloutUnary,
       provenanceUnary, rolloutRow, provenanceRow, provenancePkg⟩
 
-theorem ModelPredictiveControlPacket_semantic_name_certificate [AskSetup] [PackageSetup]
-    {state input horizon dynamics cost rollout provenance nameRow constraint admissibility : BHist}
+theorem ModelPredictiveControlPacket_receding_horizon_boundary [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow firstControl : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
         bundle pkg ->
-      Cont horizon cost constraint ->
-        Cont rollout constraint admissibility ->
-          PkgSig bundle admissibility pkg ->
-            SemanticNameCert
-              (fun row : BHist => hsame row admissibility ∧ UnaryHistory row ∧
-                PkgSig bundle row pkg)
-              (fun row : BHist =>
-                UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory horizon ∧
-                  UnaryHistory dynamics ∧ UnaryHistory cost ∧ UnaryHistory rollout ∧
-                    UnaryHistory constraint ∧ UnaryHistory row ∧
-                      Cont state dynamics rollout ∧ Cont horizon cost constraint ∧
-                        Cont rollout constraint row)
-              (fun row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle row pkg)
-              (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
-  intro packet horizonCostConstraint rolloutConstraintAdmissibility admissibilityPkg
-  obtain ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, nameRowUnary,
+      Cont rollout horizon firstControl ->
+        PkgSig bundle firstControl pkg ->
+          UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory horizon ∧
+            UnaryHistory dynamics ∧ UnaryHistory cost ∧ UnaryHistory rollout ∧
+              UnaryHistory provenance ∧ UnaryHistory firstControl ∧
+                Cont state dynamics rollout ∧ Cont rollout horizon provenance ∧
+                  Cont rollout horizon firstControl ∧ hsame provenance firstControl ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle firstControl pkg := by
+  intro packet firstControlRow firstControlPkg
+  obtain ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, _nameRowUnary,
+    rolloutRow, provenanceRow, provenancePkg⟩ := packet
+  have rolloutUnary : UnaryHistory rollout :=
+    unary_cont_closed stateUnary dynamicsUnary rolloutRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed rolloutUnary horizonUnary provenanceRow
+  have firstControlUnary : UnaryHistory firstControl :=
+    unary_cont_closed rolloutUnary horizonUnary firstControlRow
+  have sameFirstControl : hsame provenance firstControl :=
+    cont_deterministic provenanceRow firstControlRow
+  exact
+    ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, rolloutUnary,
+      provenanceUnary, firstControlUnary, rolloutRow, provenanceRow, firstControlRow,
+      sameFirstControl, provenancePkg, firstControlPkg⟩
+
+theorem ModelPredictiveControlPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+        (fun row : BHist => Cont rollout horizon row ∧ UnaryHistory state ∧
+          UnaryHistory input ∧ UnaryHistory cost)
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont state dynamics rollout ∧
+          Cont rollout horizon provenance)
+        (fun row row' : BHist => hsame row row') := by
+  intro packet
+  obtain ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, _nameRowUnary,
     stateDynamicsRollout, rolloutHorizonProvenance, provenancePkg⟩ := packet
   have rolloutUnary : UnaryHistory rollout :=
     unary_cont_closed stateUnary dynamicsUnary stateDynamicsRollout
-  have constraintUnary : UnaryHistory constraint :=
-    unary_cont_closed horizonUnary costUnary horizonCostConstraint
-  have admissibilityUnary : UnaryHistory admissibility :=
-    unary_cont_closed rolloutUnary constraintUnary rolloutConstraintAdmissibility
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed rolloutUnary horizonUnary rolloutHorizonProvenance
   exact {
     core := {
       carrier_inhabited :=
-        Exists.intro admissibility
-          ⟨hsame_refl admissibility, admissibilityUnary, admissibilityPkg⟩
+        Exists.intro provenance ⟨hsame_refl provenance, provenanceUnary, provenancePkg⟩
       equiv_refl := by
-        intro row sourceRow
-        exact
-          ⟨PkgSig_psame_intro sourceRow.right.right sourceRow.right.right
-            (hsame_refl row), hsame_refl row⟩
+        intro row _sourceRow
+        exact hsame_refl row
       equiv_symm := by
         intro _row _row' classified
-        exact ⟨classified.left, hsame_symm classified.right⟩
+        exact hsame_symm classified
       equiv_trans := by
         intro _row _row' _row'' leftClassified rightClassified
-        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+        exact hsame_trans leftClassified rightClassified
       carrier_respects_equiv := by
         intro _row _row' classified sourceRow
-        cases classified.right
+        cases classified
         exact sourceRow
     }
     pattern_sound := by
       intro row sourceRow
-      cases sourceRow.left
       exact
-        ⟨stateUnary, inputUnary, horizonUnary, dynamicsUnary, costUnary, rolloutUnary,
-          constraintUnary, admissibilityUnary, stateDynamicsRollout, horizonCostConstraint,
-          rolloutConstraintAdmissibility⟩
+        ⟨cont_result_hsame_transport rolloutHorizonProvenance (hsame_symm sourceRow.left),
+          stateUnary, inputUnary, costUnary⟩
     ledger_sound := by
       intro row sourceRow
-      cases sourceRow.left
-      exact ⟨provenancePkg, admissibilityPkg⟩
+      exact ⟨sourceRow.right.right, stateDynamicsRollout, rolloutHorizonProvenance⟩
   }
 
 end BEDC.Derived.ModelPredictiveControlUp

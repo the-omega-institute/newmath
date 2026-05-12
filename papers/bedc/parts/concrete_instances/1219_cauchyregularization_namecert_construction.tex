@@ -1,0 +1,175 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRegularizationUp$}
+\label{ch:concrete-instances-cauchyregularization-namecert}
+\origin{human}
+
+The $\CauchyRegularizationUp$ interface names the finite certificate surface
+that turns a rational Cauchy stream with displayed modulus windows into the
+regular rational sequence data consumed by $\RegSeqRatUp$ and then by
+$\RealUp$. Following Bishop and Bridges, \emph{Constructive Analysis}, the
+regularizing operation is carried by explicit tail moduli and finite
+approximants. The packet therefore records only the rational stream windows,
+dyadic modulus observations, finite-window regularized approximants, seal
+provenance, and $\Pkg/\NameCert$ ledgers visible to BEDC consumers.
+
+\begin{definition}[CauchyRegularization finite carrier]
+\label{def:cauchyregularization-finite-carrier}
+A $\CauchyRegularizationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+G=(S,M,D,W,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the $\RationalStreamUp$ source row naming the inspected rational
+Cauchy stream through finite $\StreamNameUp$ observation windows;
+\item $M$ is the $\CauchyModulusUp$ row naming, for each requested precision,
+the displayed tail threshold used by the regularization;
+\item $D$ is the finite family of $\DyadicRatCoreUp$ modulus-window packets
+that records the rational tolerance, dyadic radius, and comparison rows read
+at the inspected thresholds;
+\item $W$ is the finite window ledger that pairs each inspected source window
+with the modulus row that justifies reading it as a late Cauchy window;
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained by repacking those late
+finite-window approximants as a regular rational sequence surface;
+\item $E$ is the $\RealUp$ seal-provenance row attached to the same regular
+sequence handoff;
+\item $H$ records the componentwise $\hsame$ transports for source windows,
+modulus rows, dyadic observations, regularized approximants, and seal rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers reach the
+stream, modulus, dyadic-window, regular-sequence, and seal coordinates;
+\item $P$ is the $\Pkg$ provenance over $\RationalStreamUp$,
+$\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$;
+\item $N$ is the local $\NameCert_{\CauchyRegularizationUp}$ ledger.
+\end{enumerate}
+The carrier contains no quotient of Cauchy streams, no chosen host real, no
+ambient completeness theorem, and no hidden tail selector outside the
+displayed modulus row.
+\end{definition}
+
+\begin{definition}[CauchyRegularization modulus classifier]
+\label{def:cauchyregularization-modulus-classifier}
+For accepted $\CauchyRegularizationUp$ carriers $G$ and $G'$, the classifier
+$\mathsf{CauchyRegularizationClassifier}(G,G')$ compares only the displayed
+$\RationalStreamUp$ windows, $\CauchyModulusUp$ thresholds,
+$\DyadicRatCoreUp$ modulus-window ledgers, finite-window approximants,
+$\RegSeqRatUp$ handoff rows, $\RealUp$ seal-provenance rows, componentwise
+$\hsame$ transports, $\Cont$ read routes, $\Pkg$ provenance, and local
+$\NameCert$ ledgers.
+
+In particular, two carriers classify together only when their regularized
+finite windows are read from the same transported source windows and the same
+transported modulus thresholds. The classifier does not inspect host limits,
+completion quotients, or any convergence predicate not represented by the
+listed rows.
+\end{definition}
+
+\begin{theorem}[CauchyRegularization NameCert obligation surface]
+\label{thm:cauchyregularization-namecert-obligation-surface}
+The local $\NameCert_{\CauchyRegularizationUp}$ surface consists of five
+obligations:
+\begin{enumerate}
+\item carrier admission: an accepted packet is exactly the finite
+$\mathsf{BHist}$ package of
+\autoref{def:cauchyregularization-finite-carrier};
+\item modulus-window classifier stability:
+\autoref{def:cauchyregularization-modulus-classifier} is preserved by the
+displayed $\hsame$ transports and $\Cont$ routes on source windows, modulus
+thresholds, dyadic observations, approximants, and seal rows;
+\item regular-sequence handoff: the finite approximants selected by the
+modulus windows repack as the displayed $\RegSeqRatUp$ row $R$;
+\item $\RealUp$ seal compatibility: the seal-provenance row $E$ reads only
+the $\RegSeqRatUp$ handoff and the finite stream, modulus, dyadic, transport,
+and package rows carried by the packet;
+\item ledger exactness: every consumer-visible source window, modulus
+threshold, dyadic radius, approximant, handoff, seal, transport, continuation,
+package, and local certificate row occurs in the displayed carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is just the finite packet of
+\autoref{def:cauchyregularization-finite-carrier}. Each coordinate is a
+visible history row, and the provenance row names exactly the source
+certificates that own those rows.
+
+Classifier stability is componentwise. Transport a source window, its modulus
+threshold, and the dyadic observation ledger along the displayed $\hsame$
+rows, then replay the recorded $\Cont$ routes. The regularized approximant is
+still read from the transported late window justified by the transported
+modulus threshold.
+
+The regular-sequence handoff is obtained by projecting the row $R$. It
+forgets no evidence needed by $\RegSeqRatUp$, because the source window,
+modulus threshold, dyadic radius, and comparison rows remain in $S,M,D,W,H,C$.
+
+Finally the $\RealUp$ seal reads the same handoff through $E$, and the ledger
+rows $P$ and $N$ account for package and local naming provenance. Since every
+consumer-visible coordinate is listed in the carrier, there is no extra host
+limit, quotient, hidden selector, or ambient completeness object to export.
+\end{proof}
+
+\begin{theorem}[CauchyRegularization regular-sequence handoff]
+\label{thm:cauchyregularization-regular-sequence-handoff}
+For every accepted $\CauchyRegularizationUp$ carrier and every displayed
+precision request, the $\RegSeqRatUp$ consumer read factors through one
+$\RationalStreamUp$ finite observation window, one $\CauchyModulusUp$
+threshold row for that precision, the corresponding $\DyadicRatCoreUp$
+modulus-window ledger, and the finite-window approximant recorded in $W$.
+No $\RegSeqRatUp$ read can bypass those rows by using an unrecorded tail
+choice or a quotient of rational streams.
+\end{theorem}
+\begin{proof}
+Project the carrier
+$G=(S,M,D,W,R,E,H,C,P,N)$. A precision request first reaches the source
+stream through the displayed $\StreamNameUp$ window in $S$ and then reads the
+threshold supplied by $M$.
+
+The dyadic tolerance and comparison evidence are exactly the rows recorded in
+$D$. The window ledger $W$ pairs those rows with the inspected late source
+window, so the regularized approximant has a visible origin in the same
+finite packet.
+
+The $\RegSeqRatUp$ row $R$ is attached to that approximant ledger. Transport
+changes only the displayed routes in $H$ and $C$; it does not add a hidden tail
+selector or a quotient stream coordinate. Hence every regular-sequence read
+factors through the stated finite rows.
+\end{proof}
+
+\begin{theorem}[CauchyRegularization RealUp seal boundary]
+\label{thm:cauchyregularization-real-seal-boundary}
+Every $\RealUp$ consumer read of an accepted $\CauchyRegularizationUp$ packet
+is mediated by the $\RegSeqRatUp$ handoff row, the displayed rational-stream
+window, the modulus threshold, the dyadic modulus-window ledger, the
+regularized finite approximant, the $\hsame$ and $\Cont$ transport rows, and
+the $\Pkg/\NameCert$ provenance. The packet exports no classical
+completeness claim, no host real equality, no selected limit, and no quotient
+of Cauchy streams.
+\end{theorem}
+\begin{proof}
+Begin with a real-facing read. The only $\RealUp$ coordinate in the carrier is
+the seal-provenance row $E$, and $E$ is attached to the regular rational
+handoff $R$.
+
+Use \autoref{thm:cauchyregularization-regular-sequence-handoff} to expand the
+source of $R$. The read must pass through the finite rational observation
+window, the displayed modulus threshold, the dyadic tolerance ledger, and the
+approximant row justified by that window.
+
+The remaining coordinates are transport and provenance rows. They preserve
+the displayed route and name the dependency certificates, but they contain no
+field for a host real value, a quotient representative, a selected limit, or
+an ambient completeness theorem. Thus the seal boundary is exactly the
+finite BEDC surface stated above.
+\end{proof}
+
+\closureat{CauchyRegularizationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRegularizationUp}
+  \constructivestory{A $\CauchyRegularizationUp$ packet is generated from finite $\RationalStreamUp$ windows, explicit $\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ modulus-window observations, regularized finite-window approximants, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-provenance row, transport routes, package provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier, modulus-window classifier, five-row naming-certificate obligation surface, regular-sequence handoff, and real-seal boundary for rational Cauchy regularization over $\RationalStreamUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close classical real completeness, quotient equality of Cauchy streams, uniqueness of limits, selected host real values, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, modulus-window classifier stability, regular-sequence handoff exactness, real-seal compatibility, and ledger coverage for the same finite packet.}
+\end{closurestatus}
