@@ -24,6 +24,15 @@ def RegularLanguageAutomatonPacket [AskSetup] [PackageSetup]
         UnaryHistory provenance ∧ Cont start word run ∧ Cont run transition endpoint ∧
           Cont endpoint transport routes ∧ PkgSig bundle provenance pkg
 
+def RegularLanguageAutomatonClassifier [AskSetup] [PackageSetup]
+    (alphabet states start accept transition word run endpoint transport routes provenance
+      alphabet' states' start' accept' transition' word' run' endpoint' transport' routes'
+      provenance' : BHist) : Prop :=
+  hsame alphabet alphabet' ∧ hsame states states' ∧ hsame start start' ∧
+    hsame accept accept' ∧ hsame transition transition' ∧ hsame word word' ∧
+      hsame run run' ∧ hsame endpoint endpoint' ∧ hsame transport transport' ∧
+        hsame routes routes' ∧ hsame provenance provenance'
+
 theorem RegularLanguageAutomatonPacket_run_ledger_deterministic [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance run'
       endpoint' : BHist}
