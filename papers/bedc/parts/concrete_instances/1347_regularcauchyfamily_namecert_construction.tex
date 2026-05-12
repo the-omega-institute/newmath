@@ -200,6 +200,42 @@ Apply \autoref{thm:regular-cauchy-family-diagonal-handoff} to identify the compl
 The scoped route package of \autoref{thm:regular-cauchy-family-scoped-route-package} repacks the same rows for public consumption. Finally, \autoref{thm:regular-cauchy-family-non-escape-boundary} excludes every route outside the displayed modulus, member, window, ledger, diagonal, transport, package, and naming surface.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFamily public bridge boundary]
+\label{thm:regular-cauchy-family-public-bridge-boundary}
+The public $\RegularCauchyFamilyUp$ packet factors from the displayed $\RegSeqRatUp$ member rows, $\CauchyModulusUp$ schedule, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ observations, $\RealDiagonalCompletionUp$ routes, $\mathsf{BHist}$ ledger rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row into the completion-facing interface consumed by $\RealCauchyCompletionUp$. The factorization exports no quotient stream, selected limit, host real equality, host sequence equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet using \autoref{def:regular-cauchy-family-carrier} and \autoref{def:regular-cauchy-family-classifier}. The available coordinates are precisely the member table, modulus schedule, window catalogue, dyadic ledger, diagonal route, history transports, continuations, package row, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-family-standard-bridge-boundary} and \autoref{thm:regular-cauchy-family-standard-bridge-carrier}. They identify the completion-facing interface as the same finite surface over $\RegSeqRatUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealDiagonalCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-family-non-escape-boundary} removes every unlisted completion source, so the public bridge boundary contains no quotient stream, selected limit, host equality row, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily downstream consumer exhaustion]
+\label{thm:regular-cauchy-family-downstream-consumer-exhaustion}
+Every $\RealCauchyCompletionUp$ consumer route from an accepted $\RegularCauchyFamilyUp$ packet is exhausted by the selected member, window, ledger, and diagonal rows already named in that packet, together with the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. There is no downstream route through a hidden stream representative, selected limit, host equality test, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-family-bridge-consumer-exactness}. It states that every consumer read factors through the displayed modulus, member, window, dyadic ledger, diagonal route, transport, package, and naming rows.
+
+Use \autoref{thm:regular-cauchy-family-modulus-window-exactness} and \autoref{thm:regular-cauchy-family-member-selection-determinacy} to pin the selected member and finite window for each precision request. The dyadic observation ledger and diagonal route are then the rows named by \autoref{thm:regular-cauchy-family-diagonal-handoff}.
+
+Finally apply \autoref{thm:regular-cauchy-family-public-bridge-boundary}. The public bridge boundary has no remaining coordinate outside those rows, so the downstream consumer surface is exhausted by the named packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily completion consumer factorization]
+\label{thm:regular-cauchy-family-completion-consumer-factorization}
+The public bridge boundary and downstream consumer exhaustion assemble the bridge package consumed by $\RealCauchyCompletionUp$: each completion consumer first reads the $\RegSeqRatUp$ member row, $\CauchyModulusUp$ schedule, $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation, and $\RealDiagonalCompletionUp$ route, and then transports only along the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-family-public-bridge-boundary} as the source boundary. It lists the exact public rows available to the completion-facing interface.
+
+Use \autoref{thm:regular-cauchy-family-downstream-consumer-exhaustion} as the consumer boundary. It shows that each downstream route is already one of the member, schedule, window, ledger, diagonal, transport, package, or naming rows.
+
+Composing the two boundaries yields the stated factorization. The composition adds no new carrier coordinate and therefore cannot introduce quotient streams, selected limits, host equality tests, or ambient completeness objects.
+\end{proof}
+
 \closureat{RegularCauchyFamilyUp}{seedStr}
 \closureat{RegularCauchyFamilyUp}{obligationStr}
 \closureat{RegularCauchyFamilyUp}{scopedStr}
@@ -209,10 +245,10 @@ The scoped route package of \autoref{thm:regular-cauchy-family-scoped-route-pack
 \begin{closurestatus}{\RegularCauchyFamilyUp}
   \constructivestory{A $\RegularCauchyFamilyUp$ packet is generated from finite $\RegSeqRatUp$ member rows, an explicit $\CauchyModulusUp$ schedule, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ observation ledgers, $\RealDiagonalCompletionUp$ diagonal routes, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-family-carrier}, \autoref{def:regular-cauchy-family-classifier}, \autoref{thm:regular-cauchy-family-diagonal-handoff}, \autoref{thm:regular-cauchy-family-modulus-window-exactness}, \autoref{thm:regular-cauchy-family-member-selection-determinacy}, \autoref{thm:regular-cauchy-family-obligation-closure-package}, and \autoref{thm:regular-cauchy-family-standard-bridge-boundary} export the public consumer surface and paper bridge sent to $\RealCauchyCompletionUp$.}
+  \scopeclosed{\autoref{thm:regular-cauchy-family-public-bridge-boundary}, \autoref{thm:regular-cauchy-family-downstream-consumer-exhaustion}, and \autoref{thm:regular-cauchy-family-completion-consumer-factorization} export the public consumer surface and paper bridge sent to $\RealCauchyCompletionUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, selected host limits, host real equality, or checked Lean implementation.}
-  \upgradepath{Machine verification requires the Lean bridge target BEDC.Derived.RegularCauchyFamilyUp.RegularCauchyFamilyStandardBridgeBoundary for this paper bridge.}
+  \upgradepath{Mature closure requires example families and completeness-style consumer reuse over the same bridge boundary.}
 \end{closurestatus}
