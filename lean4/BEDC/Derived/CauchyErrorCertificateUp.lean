@@ -270,4 +270,35 @@ theorem CauchyErrorCertificatePacket_non_escape_boundary [AskSetup] [PackageSetu
       modulusTailBudget, readbackBudgetProvenance, budgetProvenanceConsumer, readbackPkg,
       provenancePkg, consumerPkg⟩
 
+theorem CauchyErrorCertificatePacket_modulus_budget_composition [AskSetup] [PackageSetup]
+    {readback modulus tail budget provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      Cont budget provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory tail ∧ UnaryHistory budget ∧
+            UnaryHistory consumer ∧ hsame consumer (append (append modulus tail) provenance) ∧
+              hsame consumer (append budget provenance) ∧ Cont modulus tail budget ∧
+                Cont budget provenance consumer ∧ PkgSig bundle readback pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet budgetProvenanceConsumer consumerPkg
+  obtain ⟨_readbackUnary, modulusUnary, tailUnary, budgetUnary, provenanceUnary,
+    _nameCertUnary, modulusTailBudget, _readbackBudgetProvenance, readbackPkg,
+    _provenancePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed budgetUnary provenanceUnary budgetProvenanceConsumer
+  have consumerBudgetProvenance : hsame consumer (append budget provenance) :=
+    budgetProvenanceConsumer
+  have budgetModulusTail : hsame budget (append modulus tail) :=
+    modulusTailBudget
+  have consumerModulusTailProvenance :
+      hsame consumer (append (append modulus tail) provenance) := by
+    exact budgetProvenanceConsumer.trans (congrArg (fun row => append row provenance)
+      budgetModulusTail)
+  exact
+    ⟨modulusUnary, tailUnary, budgetUnary, consumerUnary, consumerModulusTailProvenance,
+      consumerBudgetProvenance, modulusTailBudget, budgetProvenanceConsumer, readbackPkg,
+      consumerPkg⟩
+
 end BEDC.Derived.CauchyErrorCertificateUp

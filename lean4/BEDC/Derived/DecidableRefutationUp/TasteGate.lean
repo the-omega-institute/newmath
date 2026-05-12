@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DecidableRefutationUp
@@ -188,6 +189,17 @@ instance decidableRefutationChapterTasteGate : ChapterTasteGate DecidableRefutat
   layer_separation := by
     intro x y hxy heq
     exact hxy (decidableRefutationToEventFlow_injective heq)
+
+theorem DecidableRefutationUp_taste_gate_boundary :
+    ChapterTasteGate DecidableRefutationUp /\
+      (forall (x : DecidableRefutationUp) (w : RawEvent) (m : DisplayAlphabet),
+        List.Mem w (BHistCarrier.toEventFlow x) ->
+          List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact decidableRefutationChapterTasteGate
+  · intro x w m hw hm
+    exact ChapterTasteGate.conservativity x w m hw hm
 
 theorem DecidableRefutationTasteGate_single_carrier_alignment :
     (forall h : BHist, decidableRefutationDecodeBHist (decidableRefutationEncodeBHist h) = h) /\
