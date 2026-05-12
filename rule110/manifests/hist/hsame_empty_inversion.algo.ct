@@ -1,0 +1,12 @@
+# hsame_empty_inversion.algo.ct
+# Algorithm framing for Empty inversion. Productions remain vacuous here;
+# decoder assertions verify that Empty/Empty is the only matching pair among
+# the representative left and right Empty cases.
+PRODUCTIONS 1
+0
+ASSERTIONS 5
+case empty_empty:     input=1111   ; empty_check=yes
+case empty_e0_empty:  input=11011  ; empty_check=reject
+case empty_e1_empty:  input=111011 ; empty_check=reject
+case e0_empty_empty:  input=01111  ; empty_check=reject
+case e1_empty_empty:  input=101111 ; empty_check=reject

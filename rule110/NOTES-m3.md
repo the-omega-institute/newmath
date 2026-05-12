@@ -32,3 +32,13 @@
 - SigRel and SameSig need a deterministic manifest Ask fixture. This fixture is
   only for executable CT examples and should not be described as changing the
   Lean abstraction.
+
+## hsame Symmetry and Empty Inversion
+
+- `hsame_symm` coverage uses seven representative two-history streams:
+  Empty/Empty, both one-step cross-constructor orders, `e0(e1 Empty)` against
+  itself, one deep self-pair, and two same-depth unequal deep pairs.
+- Empty inversion coverage uses Empty/Empty plus Empty against each one-step
+  constructor in both left and right positions.
+- The `.algo.ct` files keep vacuous productions under the current B3 boundary;
+  executable semantics are checked by `gc_bhist_decode` in `tests/test_hist.c`.
