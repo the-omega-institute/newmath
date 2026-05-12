@@ -150,6 +150,7 @@ import BEDC.Derived.GaloisExtUp.SourceClassifier
 import BEDC.Derived.GaloisExtUp.StdBridge
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
+import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
@@ -231,6 +232,7 @@ import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
