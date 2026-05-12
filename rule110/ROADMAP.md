@@ -26,7 +26,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] A2: Implement glider A (simplest left-moving glider). Document its bit pattern + phase. Add `cook_glider_A_emit(uint8_t *out, size_t pos, size_t ether_width)` injecting glider into ether background. Test: 100-step evolution shows glider moves left at expected speed without breaking ether.
 
-- [ ] A3: Implement gliders B, C, D (additional simple gliders). Each gets emit function + emergence test under Rule 110 evolution.
+- [x] A3: Implement gliders B, C, D (additional simple gliders). Each gets emit function + emergence test under Rule 110 evolution.
 
 - [ ] A4: Implement gliders E, F (complex gliders).
 
