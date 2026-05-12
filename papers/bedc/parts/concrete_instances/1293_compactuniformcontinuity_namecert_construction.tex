@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformContinuityUp$}
+\label{ch:concrete-instances-compactuniformcontinuity-namecert}
+\origin{human}
+
+The $\CompactUniformContinuityUp$ interface names the concrete certificate layer that realizes \autoref{thm:compact-uniform-continuity} as finite BEDC data. It sits over the same source metric as the compact and continuous-map packets: compactness contributes finite $\mathsf{ProbeBundle}$ nets from $\CompactMetricUp$, continuity contributes pointwise modulus rows from $\ContinuousMapUp$, the source and target metrics contribute $\mathsf{MetricDistanceWitness}$ rows, and the final precision is selected by positive-radius folds through $\RatUp$. The packet exports a $\NameCert$ surface for the compact-uniform-continuity handoff; it does not expose an open-cover principle, sequential compactness, a host modulus function, or a selected real-valued minimum.
+
+\begin{definition}[CompactUniformContinuity carrier]
+\label{def:compact-uniform-continuity-carrier}
+A $\CompactUniformContinuityUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+H=(X,Y,F,E,D,\mathcal{P},C,M,R,W,T,Q,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row whose distance reads are witnessed by $\mathsf{MetricDistanceWitness}$;
+\item $Y$ is the target $\MetricUp$ row whose distance reads are witnessed by $\mathsf{MetricDistanceWitness}$;
+\item $F$ is the displayed $\ContinuousMapUp$ graph row from $X$ to $Y$;
+\item $E$ is a positive $\RatUp$ tolerance history requested by the target metric consumer;
+\item $D$ is the positive $\RatUp$ precision history proposed as the compact-uniform output;
+\item $\mathcal{P}$ is the nonempty finite $\mathsf{ProbeBundle}$ net supplied by the $\CompactMetricUp$ packet over $X$;
+\item $C$ records the compact finite-net coverage rows, including center histories and half-radius coverage witnesses for every source-point history;
+\item $M$ records the $\ContinuousMapUp$ pointwise modulus rows at the bundled centers, each read through the graph row $F$ and the source and target metric ledgers;
+\item $R$ records the positive-radius $\RatUp$ rows and comparison rows used by the fold, including the half-radius histories consumed by the finite cover;
+\item $W$ is the finite lower-bound fold witness proving that $D$ is classifier-stably below every bundled half-radius row;
+\item $T$ records the componentwise $\hsame$ rows for source metrics, target metrics, graph rows, tolerance rows, precision rows, finite-net rows, pointwise-modulus rows, radius rows, and fold rows;
+\item $Q$ records the displayed $\Cont$ routes by which compact, continuous-map, metric, rational-fold, and compact-uniform-continuity consumers read the packet;
+\item $P$ is the $\Pkg$ provenance row over $\MetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RatUp$, and the closed $\mathsf{ProbeBundle}$ spine;
+\item $N$ is the local $\NameCert_{\CompactUniformContinuityUp}$ row.
+\end{enumerate}
+The carrier contains only the displayed finite-net, pointwise-modulus, metric-distance, positive-rational, transport, continuation, package, and naming rows. It contains no hidden point selector, no quotient of source histories, no ambient minimum operator, and no analytic compactness theorem beyond the finite packet.
+\end{definition}
+
+\begin{definition}[CompactUniformContinuity classifier]
+\label{def:compact-uniform-continuity-classifier}
+For accepted $\CompactUniformContinuityUp$ carriers $H$ and $H'$, the classifier $\mathsf{CompactUniformContinuityClassifier}(H,H')$ compares exactly the visible rows of \autoref{def:compact-uniform-continuity-carrier}. Source and target metric rows compare through their displayed $\hsame$ and $\Cont$ routes; compact finite-net rows compare through the same $\mathsf{ProbeBundle}$ spine and coverage witnesses; continuous-map rows compare through the pointwise modulus ledger; positive tolerance, precision, radius, and fold rows compare through the $\RatUp$ classifier; and the package and local naming rows compare through their displayed $\Pkg$ and $\NameCert$ provenance.
+
+The classifier does not compare external functions, open covers, sequences, host real endpoints, selected minima, or unrecorded continuity data.
+\end{definition}
+
+\begin{theorem}[CompactUniformContinuity NameCert obligations]
+\label{thm:compact-uniform-continuity-namecert-obligations}
+The local $\NameCert_{\CompactUniformContinuityUp}$ obligation surface consists of carrier habitation, displayed classifier transport, compact finite-net coverage over $\CompactMetricUp$ and $\mathsf{ProbeBundle}$, continuous pointwise-modulus handoff over $\ContinuousMapUp$, metric-distance routing through $\mathsf{MetricDistanceWitness}$, positive-radius lower-bound folding over $\RatUp$, and downstream non-escape through the recorded $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Carrier habitation is the finite packet of \autoref{def:compact-uniform-continuity-carrier}. Every row named by the compact-uniform certificate has a visible coordinate before any consumer can read it.
+
+Classifier transport is componentwise by \autoref{def:compact-uniform-continuity-classifier}. The compact rows transport finite-net coverage, the continuous rows transport pointwise modulus data, the metric rows transport distance witnesses, and the rational rows transport positive-radius comparisons and the lower-bound fold.
+
+The obligation surface is therefore exactly the displayed handoff from compact finite nets and pointwise continuity to a uniform precision history. Repacking those rows with $T$, $Q$, $P$, and $N$ gives the local $\NameCert_{\CompactUniformContinuityUp}$ surface, while external selectors, sequence principles, open-cover compactness, and hidden minima remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity finite-net handoff]
+\label{thm:compact-uniform-continuity-finite-net-handoff}
+Suppose an accepted $\CompactUniformContinuityUp$ carrier has tolerance history $E$, precision history $D$, compact finite-net spine $\mathcal{P}$, coverage rows $C$, pointwise-modulus rows $M$, positive-radius rows $R$, and lower-bound fold witness $W$. Then every source-distance read below $D$ factors through one bundled center in $\mathcal{P}$, the corresponding $\mathsf{MetricDistanceWitness}$ rows in $X$, the corresponding pointwise-modulus row in $M$, and the target metric rows in $Y$. The result is the uniform-modulus ledger promised by \autoref{thm:compact-uniform-continuity}, read as finite $\NameCert_{\CompactUniformContinuityUp}$ data.
+\end{theorem}
+\begin{proof}
+Read the compact coordinate first. The $\CompactMetricUp$ row supplies the nonempty $\mathsf{ProbeBundle}$, center histories, half-radius histories, and coverage rows saying that each source-point history is covered by some bundled center.
+
+Read the rational fold next. The witness $W$ records a primitive finite fold over the positive-radius rows $R$, so the selected precision history $D$ compares below every bundled half-radius through the $\RatUp$ classifier and the transported $\hsame$ rows.
+
+Given two source histories whose displayed distance is below $D$, the coverage row chooses the bundled center for the first history. The fold comparison and the source metric triangle row route the second history into the same local ball, with all distances witnessed by $\mathsf{MetricDistanceWitness}$.
+
+Finally use the $\ContinuousMapUp$ pointwise-modulus row attached to that bundled center and the target metric triangle row. Both source histories are inside the same displayed pointwise ball, so the two target histories are within the requested tolerance row $E$. All reads pass through the carrier coordinates, hence the handoff is a $\NameCert_{\CompactUniformContinuityUp}$ row rather than an external Heine--Cantor theorem.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity real-seal boundary]
+\label{thm:compact-uniform-continuity-real-seal-boundary}
+When the source and target metrics are consumed through $\RealUp$ or interval-shaped $\RealUp$ packets, an accepted $\CompactUniformContinuityUp$ carrier can expose only the finite-net coverage rows, $\mathsf{MetricDistanceWitness}$ rows, pointwise-modulus rows, positive $\RatUp$ fold rows, and the resulting uniform precision history. It cannot expose host real equality, a selected real minimum, sequential compactness, open-cover compactness, or an external modulus function at the real-seal boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier through its metric coordinates $X$ and $Y$. A real-valued consumer reaches those coordinates only through displayed metric rows and their $\mathsf{MetricDistanceWitness}$ evidence.
+
+The compact information available at the boundary is the finite $\mathsf{ProbeBundle}$ ledger $C$. The continuous information available there is the pointwise-modulus ledger $M$. The positive lower bound available there is the $\RatUp$ fold row $W$ over the radius ledger $R$.
+
+Since these rows exhaust the carrier coordinates exposed to real-name consumers, the seal can export only the resulting finite uniform-precision packet. Host real equality, selected minima, sequence arguments, open covers, and external modulus functions have no coordinate from which they could be read.
+\end{proof}
+
+\closureat{CompactUniformContinuityUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformContinuityUp}
+  \constructivestory{A $\CompactUniformContinuityUp$ packet is generated from source and target metric rows, a continuous-map graph row, a positive tolerance history, a compact finite $\mathsf{ProbeBundle}$ net, pointwise-modulus rows at the bundled centers, positive $\RatUp$ radius rows, a finite lower-bound fold selecting a precision history, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the compact finite-net carrier, displayed classifier, local NameCert obligation surface, finite-net handoff, and real-seal boundary for the compact-uniform-continuity certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a checked Lean implementation, bridge status, open-cover compactness, sequential compactness, host real equality, selected real minima, or external modulus selection.}
+  \upgradepath{Obligation closure requires checked carrier transport, classifier stability, finite-net coverage, pointwise-modulus handoff, rational-fold exactness, and real-seal non-escape for the same packet.}
+\end{closurestatus}
