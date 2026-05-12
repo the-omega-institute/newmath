@@ -17469,3 +17469,27 @@ Rationale:
 This is a concrete proof-obligation theorem on the existing ExactGlobalizeBase surface rather than a marker or verification-status task. It is not present in the BOARD title index or paper labels, and it is not just a field projection: coverage must rebuild a D′ gap from the D coverage witness using the D′ admission premise, while soundness and completeness require pushing D′ gap memberships through the subdomain inclusion before applying the D exactness fields. The proposed landing files are non-hub theorem-bearing files and are below the line cap.
 
 ---
+
+### B-692 - ZeroKnowledge public finite-transcript surface
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ZeroKnowledge public finite-transcript surface |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If a ZeroKnowledgeUp packet satisfies the carrier, classifier, completeness-ledger, soundness-ledger, and simulation-ledger obligations, then the public NameCert surface is exactly the finite transcript/provenance surface and exports no hidden witness, probability distribution, hardness predicate, extractor, negligible bound, or standard bridge.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/222_zeroknowledge_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete finite-surface aggregation over the ZeroKnowledgeUp chapter's displayed component obligations. Existing paper content states the carrier, classifier, completeness, soundness, and simulation boundaries separately, but there is no matching public NameCert-surface or consumer-exhaustion theorem for the whole packet. It stays within BEDC's finite BHist/provenance lane and avoids cryptographic-strength claims, while the landing file is short and safe.
+
+---
