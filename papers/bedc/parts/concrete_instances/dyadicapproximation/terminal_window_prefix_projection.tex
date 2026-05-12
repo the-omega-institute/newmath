@@ -1,0 +1,47 @@
+\begin{theorem}[DyadicApproximation terminal window prefix projection]
+\label{thm:dyadicapproximation-terminal-window-prefix-projection}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. For every initial compatible subchain, the projected
+displayed window consists exactly of the prefix rows of $T$: the precision
+row, the dyadic endpoint row, the $\StreamNameUp$ row, the $\RegSeqRatUp$
+observation row, the $\RealUp$ seal row, the optional
+$\RationalIntervalUp$ containment row when present, the visible $\hsame$
+transports, the visible $\Cont$ routes, the $\mathsf{Pkg}$ provenance, and the
+local $\NameCert_{\DyadicApproximationUp}$ row.
+
+After this prefix projection, rereading the full compatible chain returns the
+same terminal window $T$. The projection exports no quotient real, host
+equality, completion point, trichotomy, selected representative, located
+subset, or choice principle.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:dyadicapproximation-nested-window-exhaustion} to the full finite
+chain. This gives the terminal window $T$ and identifies every consumer-visible
+row with the terminal precision, endpoint, stream, regular-sequence, seal,
+containment, transport, package, and local certificate rows.
+
+Apply the same exhaustion theorem to the chosen initial compatible subchain.
+The prefix read has its own displayed terminal window, but its rows are drawn
+from the same directed finite refinement spine as the full chain.
+
+Use \autoref{thm:dyadicapproximation-terminal-refinement-window} to compare the
+terminal row of the initial subchain with the terminal row of the full chain.
+The comparison says that each visible prefix row is the corresponding initial
+row of $T$, including the optional rational-interval containment row when that
+row is part of the displayed chain.
+
+Now remove bracketing dependence by
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}.
+Whether the full terminal window is read before or after projecting the initial
+subchain, the same precision, endpoint, observation, seal, transport,
+provenance, and local certificate rows are obtained.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Every
+finite consumer read after the prefix projection factors through the same
+terminal window $T$, and
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff} accounts
+for the optional containment row. Since the packet has no quotient-real, host
+equality, completion, trichotomy, representative-selection, located-subset, or
+choice coordinate, none is exported by the projection.
+\end{proof}
