@@ -159,6 +159,11 @@ theorem betaStep_to_parallel {t u : Term} :
   | congLamDom d d' b hdd' ih =>
       exact BetaParallel.lam ih (betaParallel_refl b)
 
+theorem betaStep_to_betaParallel {t t' : Term}
+    (h : BetaStep t t') :
+    BetaParallel t t' := by
+  exact betaStep_to_parallel h
+
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
     t = Term.sort := by

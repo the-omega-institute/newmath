@@ -90,6 +90,7 @@ classifier of
 packet has the same carrier shape and no constructor for a chosen limit or
 quotient completion, so composition is stable inside the finite ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_composition\_stability}
 
 \begin{theorem}[ModulusOfConvergence tail restriction stability]\label{thm:modulusofconvergence-tail-restriction-stability}
 For every accepted $\ModulusOfConvergenceUp$ packet and every tail restriction
@@ -138,6 +139,7 @@ Thus a $\RegSeqRatUp$ or $\RealUp$ consumer can inspect exactly the displayed
 convergence-rate ledger and no extra completion object, quotient equality,
 global modulus choice, or selected real limit.
 \end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_ledger\_exactness}
 
 \begin{theorem}[ModulusOfConvergence scoped dependency packet]\label{thm:modulusofconvergence-scoped-dependency-packet}
 For an accepted $\ModulusOfConvergenceUp$ packet, the carrier, classifier,
@@ -209,6 +211,83 @@ $\RealUp$ anchors are retained, and no completion coordinate, quotient
 equality, selected limit, or global threshold choice is available.
 \end{proof}
 
+\begin{theorem}[ModulusOfConvergence finite-rate bridge packet]\label{thm:modulusofconvergence-finite-rate-bridge-packet}
+Any standard bridge for the displayed convergence-rate package may read exactly
+the precision request, unary threshold selector, modulus row,
+$\StreamNameUp$ observation schedule, $\RegSeqRatUp$ late-observation witness,
+$\DyadicRatCoreUp$ endpoint ledger, $\hsame$ transports, $\Cont$ windows, and
+$\mathsf{Pkg}$ provenance isolated by
+\autoref{thm:modulusofconvergence-realup-public-export}. It may not read
+quotient completion, selected real limits, global threshold choice, or host real
+equality.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:modulusofconvergence-bhist-carrier}.
+The visible rows are the finite precision request, unary threshold selector,
+modulus row, scheduled observations, late-observation witness, endpoint ledger,
+and package/name provenance.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} to bind
+these rows to the accepted $\NameCert_{\ModulusOfConvergenceUp}$ surface. Tail
+restriction through
+\autoref{thm:modulusofconvergence-tail-restriction-stability} keeps the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ coordinates when a
+consumer narrows the visible observation window.
+
+Ledger exactness is supplied by
+\autoref{thm:modulusofconvergence-ledger-exactness}. The dependency boundary is
+the packet of \autoref{thm:modulusofconvergence-scoped-dependency-packet}, and
+the public $\RegSeqRatUp$/$\RealUp$ read is exactly
+\autoref{thm:modulusofconvergence-realup-public-export}.
+
+The excluded data are not coordinates of the carrier. A bridge that reads a
+quotient completion, a selected real limit, a global threshold choice, or host
+real equality would therefore leave the displayed finite-rate package rather
+than using the boundary proved here.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence standard bridge]\label{thm:modulusofconvergence-standard-bridge}
+Let $M=(p,u,\mu,s,r,\ell,P)$ be an accepted
+$\ModulusOfConvergenceUp$ $\mathsf{BHist}$ packet. Then $M$ determines the
+standard explicit-modulus-of-convergence schema by reading exactly the
+precision request $p$, selected threshold $u(p)$, modulus row $\mu$,
+$\StreamNameUp$ observations $s$, $\RegSeqRatUp$ late-window witness $r$,
+$\hsame$ transports, $\Cont$ windows, $\mathsf{Pkg}$ provenance, dependency
+ledger $\ell$, and $\NameCert$ row $P$ displayed in this chapter.
+
+Conversely, any displayed standard explicit-modulus package whose rows are
+exactly those BEDC rows repacks as the same $\ModulusOfConvergenceUp$ public
+packet. The bridge exports no quotient completion, no selected real limit, and
+no global choice of thresholds outside the displayed finite threshold row.
+\end{theorem}
+\begin{proof}
+Project the carrier of $M$ using
+\autoref{def:modulusofconvergence-bhist-carrier}. The precision request,
+selected unary threshold, modulus row, observation schedule, late-window
+witness, ledger, and package/name provenance are already the coordinates of the
+accepted packet.
+
+The naming and obligation surface is the surface of
+\autoref{thm:modulusofconvergence-namecert-obligation-surface}. It fixes the
+classifier, the displayed $\mathsf{BHist}$ rows, the $\hsame$ transports, the
+$\Cont$ windows, the $\mathsf{Pkg}$ provenance, and the $\NameCert$ row without
+adding any host-level completion coordinate.
+
+Composition and tail restriction preserve the same visible package by
+\autoref{thm:modulusofconvergence-composition-stability} and
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. Ledger exactness
+then identifies every consumer read with one of the listed rows, and
+\autoref{thm:modulusofconvergence-realup-public-export} gives the public
+$\RegSeqRatUp$ and $\RealUp$ export surface.
+
+For the converse direction, start from a displayed standard package with
+exactly these BEDC rows. Repack the precision request, threshold row, modulus
+row, observation schedule, late-window witness, ledger, and provenance into the
+carrier tuple $M$. The same NameCert obligation surface and stability rows give
+acceptance, so the repacked object is the original public
+$\ModulusOfConvergenceUp$ packet.
+\end{proof}
+
 \closureat{ModulusOfConvergenceUp}{obligationStr}
 \closureat{ModulusOfConvergenceUp}{scopedStr}
 \closureat{ModulusOfConvergenceUp}{publicStr}
@@ -220,6 +299,6 @@ equality, selected limit, or global threshold choice is available.
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close a quotient completion, a selected real limit, a global threshold choice outside the finite ledger, or a standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge for the displayed convergence-rate package.}
+  \notclaimed{This chapter does not close a quotient completion, a selected real limit, a global threshold choice outside the finite ledger, or a Lean-checked bridge.}
+  \upgradepath{Bridged closure requires promoting the displayed standard bridge to the closurestatus and verification axes.}
 \end{closurestatus}
