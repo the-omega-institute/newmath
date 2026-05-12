@@ -169,4 +169,23 @@ theorem RealLimitPacket_readback_obligation [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem RealLimitPacket_standard_bridge_boundary [AskSetup] [PackageSetup]
+    {schedule stream endpoint tolerance handoff route ledger readback boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealLimitPacket schedule stream endpoint tolerance handoff route ledger bundle pkg ->
+      Cont endpoint tolerance readback ->
+        Cont ledger readback boundary ->
+          PkgSig bundle boundary pkg ->
+            UnaryHistory readback ∧ UnaryHistory boundary ∧
+              hsame readback (append endpoint tolerance) ∧ Cont ledger readback boundary ∧
+                PkgSig bundle boundary pkg := by
+  intro packet readbackRow boundaryRow boundarySig
+  have readbackData :=
+    RealLimitPacket_readback_obligation packet readbackRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed packet.right.right.right.right.right.right.left readbackData.left
+      boundaryRow
+  exact
+    ⟨readbackData.left, boundaryUnary, readbackData.right.left, boundaryRow, boundarySig⟩
+
 end BEDC.Derived.RealLimitUp
