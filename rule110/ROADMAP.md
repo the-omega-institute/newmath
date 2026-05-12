@@ -123,3 +123,17 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   checks for the manifest cases.
 - [x] `docs/bundle_design.md` documents the concrete ground fixture and
   theorem coverage.
+
+## Unary module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Unary.lean` and the focused Unary sibling files
+  for the all-one BHist spine, domain/source aliases, certificates, result
+  cases, closure, and additive stability targets.
+- [x] Add `rule110/manifests/unary/unary_basic.enum.ct` and
+  `unary_basic.algo.ct` with representative unary, non-unary, classifier, and
+  continuation cases.
+- [x] Add `tests/test_unary.c` to decode BHist events and check unary payloads,
+  classifier equality, continuation closure, e0-result rejection, and e1-result
+  classification.
+- [x] Add `docs/unary_design.md` documenting the all-one event-payload
+  predicate and manifest contract.
