@@ -226,6 +226,33 @@ def taste_gate : ChapterTasteGate FoldMomentKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
   foldMomentKernelChapterTasteGate
 
+theorem FoldMomentKernelTasteGate_zero_window_display :
+    foldMomentKernelToEventFlow
+      (FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+      [[BMark.b0],
+        [],
+        [BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        []] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
+
 theorem FoldMomentKernelTasteGate_single_carrier_alignment :
     (∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h) ∧
       (∀ x : FoldMomentKernelUp,
