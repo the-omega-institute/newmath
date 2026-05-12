@@ -141,3 +141,22 @@ The downstream-exhaustion theorem closes the consumer side. It covers the named 
 
 Combining these three statements gives the formal target surface. Since each cited theorem explicitly excludes fixed points, completed Picard orbits, ambient completion, quotient stream equality, and selected limits, the future Lean target has no additional row to encode.
 \end{proof}
+
+\begin{theorem}[PicardContraction root source-window checked handoff]
+\label{thm:picardcontraction-root-source-window-checked-handoff}
+For a root source-window packet
+$$
+R=(B,T,L,I,M,E,H,C,G,N,U),
+$$
+the same finite rows certified by the checked public export targets
+\texttt{PicardContractionPacket\_public\_namecert\_export},
+\texttt{PicardContractionPacket\_banach\_ode\_consumer\_nonescape}, and
+\texttt{PicardContractionPacket\_ratio\_ledger\_nonexpansion} consume the paper-side source window. The request row $U$ may select only one of the displayed $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, $\NewtonIterationUp$, or $\CauchyRateUp$ consumer families, and each selected family reads the packet through $B,T,L,I,M,E,H,C,G,N$ rather than through a Banach fixed point, completed orbit, quotient stream equality, or selected limit.
+\end{theorem}
+\begin{proof}
+First use the public naming export. It exposes the Banach source, contraction row, ratio ledger, finite iterate ledger, modulus row, endpoint row, transport row, route row, provenance row, and local naming row as the checked public $\NameCert$ surface.
+
+Next use the Banach-to-ODE non-escape row. It routes ODE-facing consumer reads through the same finite carrier coordinates and blocks any replacement of the source window by a fixed-point theorem, completed orbit, or ambient completion principle.
+
+Finally use the ratio-ledger non-expansion row. It keeps rate-facing and ratio-facing consumers inside the displayed Lipschitz and iterate ledger coordinates. Since $U$ only names which of the five consumer families is requested, composing the three checked rows gives the advertised handoff without adding any new analytic coordinate.
+\end{proof}
