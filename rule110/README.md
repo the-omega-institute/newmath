@@ -25,6 +25,8 @@ empty cyclic-tag encoder path. It is not a phase-exact Cook 2004 construction
 and does not yet support a production universality claim.
 ```
 
+Operational Lean cross-check instructions live in `docs/cross_check.md`.
+
 ## Reproducibility
 
 ```bash
