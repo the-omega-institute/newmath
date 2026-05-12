@@ -106,6 +106,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
+import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CstaralgebraUp
@@ -146,6 +147,7 @@ import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
+import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
