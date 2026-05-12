@@ -177,6 +177,106 @@ classical completeness, and global convergence are not rows of the finite
 packet, they are outside the dependency boundary.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics carrier and classifier obligations]
+\label{thm:validatednumerics-carrier-classifier-obligations}
+The nine displayed rows of
+\autoref{def:validatednumerics-bhist-source} supply the local carrier and
+classifier obligations for $\ValidatedNumericsUp$. The carrier is inhabited by
+any finite packet whose interval, precision, modulus, observation, readback,
+transport, containment, package, and local name rows are displayed. Its
+classifier compares accepted packets componentwise through the interval row,
+precision row, modulus request, regular rational window, real readback token,
+containment routes, $\hsame$ transport, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ row, and carrier transport is exactly transport of these nine rows.
+\end{theorem}
+\begin{proof}
+Read the packet definition row by row. Inhabitation is the assertion that the
+displayed finite tuple
+$V=(I,\varepsilon,\omega,\rho,\lambda,h,c,p,n)$ is present as a
+$\mathsf{BHist}$ packet, so no additional analytic carrier is required.
+
+For classifier laws, compare two accepted packets only through the nine
+coordinates listed in the definition. The interval, precision, modulus,
+observation, and readback entries are component rows, while $h$, $c$, $p$, and
+$n$ record the transport, continuation, package, and local naming data used by
+the comparison.
+
+Carrier transport is therefore componentwise. Moving an accepted packet along
+the displayed $\hsame$ rows and replaying the same $\Cont$ containment routes
+keeps the tuple inside the carrier, with the package and local name rows
+recording the same source surface.
+\end{proof}
+
+\begin{theorem}[ValidatedNumerics containment ledger transport]
+\label{thm:validatednumerics-containment-ledger-transport}
+Interval containment ledgers in an accepted $\ValidatedNumericsUp$ packet are
+preserved by the displayed $\hsame$ and $\Cont$ rows. If the enclosure row,
+precision request, modulus row, regular rational observation window, and
+$\RealUp$ readback token are transported componentwise, then every containment
+read from the transported observation window lands in the transported
+$\RationalIntervalUp$ enclosure through the transported $\Cont$ ledger.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:validatednumerics-interval-enclosure-obligation}. It
+identifies the containment ledger as the finite list of $\Cont$ routes from
+displayed approximations in $\rho$ into the interval row $I$.
+
+Transport the packet componentwise using the $h$ rows of
+\autoref{def:validatednumerics-bhist-source}. The source approximation row, the
+target interval row, the precision request, the modulus row, and the real
+readback token move together, so the containment source and target remain
+matched.
+
+Finally replay the transported $c$ rows. Each ledger entry is a displayed
+continuation route, hence it remains a continuation route after transport and
+preserves the same finite containment claim inside the transported enclosure.
+\end{proof}
+
+\begin{theorem}[ValidatedNumerics NameCert obligation surface]
+\label{thm:validatednumerics-namecert-obligation-surface}
+The $\NameCert_{\ValidatedNumericsUp}$ obligation surface is assembled from the
+carrier and classifier obligations of
+\autoref{thm:validatednumerics-carrier-classifier-obligations}, the interval
+enclosure obligation of
+\autoref{thm:validatednumerics-interval-enclosure-obligation}, the real readback
+soundness of \autoref{thm:validatednumerics-real-readback-soundness}, precision
+refinement containment from
+\autoref{thm:validatednumerics-precision-refinement-containment}, containment
+ledger transport from
+\autoref{thm:validatednumerics-containment-ledger-transport}, package
+provenance, and the local $\NameCert$ row.
+
+This obligation surface is finite over $\DyadicRatCoreUp$,
+$\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$,
+$\ModulusOfConvergenceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$, and it does not assert solver correctness,
+floating-point hardware semantics, host real equality, or classical real
+completeness.
+\end{theorem}
+\begin{proof}
+First assemble the carrier and classifier rows from
+\autoref{thm:validatednumerics-carrier-classifier-obligations}. These rows bind
+the accepted packet to the nine displayed coordinates of the source definition.
+
+Next attach the enclosure and readback rows. Apply
+\autoref{thm:validatednumerics-interval-enclosure-obligation} for the interval
+ledger and \autoref{thm:validatednumerics-real-readback-soundness} for the
+$\RealUp$ token read through the $\RegSeqRatUp$ window and finite modulus
+request.
+
+The refinement and transport rows are supplied by
+\autoref{thm:validatednumerics-precision-refinement-containment} and
+\autoref{thm:validatednumerics-containment-ledger-transport}. They keep the
+finite enclosure claim stable under smaller precision requests and displayed
+$\hsame/\Cont$ movement.
+
+Finally add the package provenance and local naming row from
+\autoref{def:validatednumerics-bhist-source}. Together with
+\autoref{thm:validatednumerics-dependency-boundary}, this exhausts the local
+obligation surface and leaves solver correctness, floating-point semantics,
+host real equality, and classical completeness outside the packet.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics obligation closure scope]
 \label{thm:validatednumerics-obligation-closure-scope}
 The finite enclosure packet obligations for $\ValidatedNumericsUp$ are
@@ -220,7 +320,7 @@ and global convergence remain outside the packet boundary.
 \begin{closurestatus}{\ValidatedNumericsUp}
   \constructivestory{A $\ValidatedNumericsUp$ packet is generated by a rational or dyadic interval enclosure, a requested precision row, a finite modulus-of-convergence request, a regular rational observation window, a real-name readback token, containment routes, transport rows, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:validatednumerics-bhist-source}, \autoref{thm:validatednumerics-interval-enclosure-obligation}, \autoref{thm:validatednumerics-real-readback-soundness}, \autoref{thm:validatednumerics-five-row-namecert-sketch}, \autoref{thm:validatednumerics-dependency-boundary}, and \autoref{thm:validatednumerics-obligation-closure-scope} declare the finite certified-enclosure obligation surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{\autoref{thm:validatednumerics-carrier-classifier-obligations}, \autoref{thm:validatednumerics-containment-ledger-transport}, and \autoref{thm:validatednumerics-namecert-obligation-surface} bind the finite certified-enclosure obligation surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\ModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
