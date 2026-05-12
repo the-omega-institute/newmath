@@ -209,6 +209,42 @@ theorem TrieSourcePacket_public_namecert_export [AskSetup] [PackageSetup]
     ⟨keyUnary, payloadUnary, depthUnary, branchUnary, branchRouteUnary, exportUnary, exportRow,
       exportPkg⟩
 
+theorem TrieSourcePacket_standard_finite_packet_bridge [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute terminalRead branchRead
+      publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont payload provenance terminalRead ->
+        Cont branch provenance branchRead ->
+          Cont branchRoute provenance publicExport ->
+            PkgSig bundle terminalRead pkg ->
+              PkgSig bundle branchRead pkg ->
+                PkgSig bundle publicExport pkg ->
+                  UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧
+                    UnaryHistory branch ∧ UnaryHistory terminalRead ∧ UnaryHistory branchRead ∧
+                      UnaryHistory publicExport ∧ Cont payload provenance terminalRead ∧
+                        Cont branch provenance branchRead ∧
+                          Cont branchRoute provenance publicExport ∧
+                            PkgSig bundle terminalRead pkg ∧ PkgSig bundle branchRead pkg ∧
+                              PkgSig bundle publicExport pkg := by
+  intro packet terminalRow branchRow exportRow terminalPkg branchPkg exportPkg
+  have finiteBoundary :=
+    TrieSourcePacket_finite_branch_consumer_boundary packet terminalRow branchRow terminalPkg
+      branchPkg
+  have publicSurface :=
+    TrieSourcePacket_public_namecert_export packet exportRow exportPkg
+  rcases finiteBoundary with
+    ⟨keyUnary, payloadUnary, branchUnary, terminalUnary, branchReadUnary, terminalCont,
+      branchCont, terminalPkgRow, branchPkgRow⟩
+  rcases publicSurface with
+    ⟨_keyUnary, _payloadUnary, depthUnary, _branchUnary, _branchRouteUnary,
+      publicExportUnary, exportCont, exportPkgRow⟩
+  exact
+    ⟨keyUnary, payloadUnary, depthUnary, branchUnary, terminalUnary, branchReadUnary,
+      publicExportUnary, terminalCont, branchCont, exportCont, terminalPkgRow, branchPkgRow,
+      exportPkgRow⟩
+
 theorem TrieSourcePacket_classifier_laws [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute key' payload' depth'
       branch' key'' payload'' depth'' branch'' : BHist}
