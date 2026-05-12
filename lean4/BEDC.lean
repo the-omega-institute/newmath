@@ -936,6 +936,7 @@ import BEDC.Derived.IndependenceUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.ContinuationAutomatonUp.TasteGate
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.RingedSpaceUp
 import BEDC.Derived.LinearMapUp.Image
