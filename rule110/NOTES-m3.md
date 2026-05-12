@@ -33,7 +33,7 @@
   only for executable CT examples and should not be described as changing the
   Lean abstraction.
 
-## hsame Symmetry and Empty Inversion
+## hsame Symmetry and Empty Inversion (B5+B7)
 
 - `hsame_symm` coverage uses seven representative two-history streams:
   Empty/Empty, both one-step cross-constructor orders, `e0(e1 Empty)` against
@@ -42,3 +42,12 @@
   constructor in both left and right positions.
 - The `.algo.ct` files keep vacuous productions under the current B3 boundary;
   executable semantics are checked by `gc_bhist_decode` in `tests/test_hist.c`.
+
+## BHist hsame Transitivity And Constructor Distinctness (B6+B8)
+
+- `hsame_trans` is represented by eight BHist triple cases spanning Empty,
+  depth-1, depth-2, and mixed vacuous antecedents.
+- Constructor distinctness is represented by twelve BHist pair cases: the six
+  outer-constructor directions at depth 1 and matching depth-3 representatives.
+- The current `hsame_trans.algo.ct` and `hsame_constructor_distinct.algo.ct`
+  use vacuous productions while B3 owns the unbounded BHist equality recognizer.
