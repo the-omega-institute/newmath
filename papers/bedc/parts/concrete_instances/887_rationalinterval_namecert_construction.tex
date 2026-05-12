@@ -222,6 +222,7 @@ consumer read of the basis is one of the displayed rational-window rows. It
 exports no completed $\RealUp$ equality, located subset, apartness witness,
 interval arithmetic law, or standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_directed\_refinement\_basis}
 \begin{proof}
 Start with two compatible accepted packets. Apply
 \autoref{thm:rational-interval-common-refinement-window} to obtain their common
@@ -374,6 +375,7 @@ The boundary is conservative. It excludes completed $\RealUp$ equality,
 quotient Cauchy classes, located subsets, interval arithmetic laws, and host
 standard interval data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_standard\_boundary\_bridge}
 \begin{proof}
 Project the accepted packet through
 \autoref{def:rational-interval-bhist-carrier}. The visible coordinates are the
@@ -482,6 +484,7 @@ $\Cont$ continuation routes.
 The transported packet remains a finite rational-window interval packet over
 the same endpoint, width, containment, and package rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_dyadic\_transport\_stability}
 \begin{proof}
 Start with the displayed lower and upper endpoint histories. By
 \autoref{thm:rational-interval-endpoint-order-witness}, their order relation is
@@ -573,7 +576,6 @@ and $\NameCert$ rows, and the standard boundary bridge. The completeness claim
 does not assert completed $\RealUp$ equality, quotient Cauchy classes, located
 subsets, or interval arithmetic.
 \end{theorem}
-\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalFiniteConsumer\_completeness}
 \begin{proof}
 Start with a finite consumer read accepted by the $\RationalIntervalUp$ packet.
 If the read asks for endpoint order, containment, common refinement, or a
@@ -636,53 +638,7 @@ completed real equality, quotient Cauchy classes, located subsets, and host
 interval objects remain outside the factorization.
 \end{proof}
 
-\begin{theorem}[RationalInterval common refinement associativity]
-\label{thm:rationalinterval-common-refinement-associativity}
-Let $I$, $J$, and $K$ be three compatible accepted
-$\RationalIntervalUp$ finite packets. Suppose their displayed pairwise
-common-refinement rows share the appropriate middle endpoint windows, so that
-one may first refine $I$ with $J$ and then with $K$, or first refine $J$ with
-$K$ and then with $I$.
-
-The two iterated refinements determine the same consumer-visible finite
-rational-window packet. They expose the same transported $\RatUp$ endpoint
-rows, endpoint-order witnesses, containment and refinement rows, dyadic-width
-row, $\RegSeqRatUp$ finite-window row, $\RealUp$ finite-window handoff row,
-visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
-$\NameCert$ rows. The claim does not assert completed $\RealUp$ equality,
-quotient Cauchy classes, located subsets, apartness, interval arithmetic, or
-host standard interval data.
-\end{theorem}
-\begin{proof}
-Form the two binary common-refinement windows by applying
-\autoref{thm:rational-interval-common-refinement-window} to the compatible
-pairs. The shared middle endpoint hypotheses put both binary windows over the
-same displayed endpoint-order and containment rows.
-
-Compose the refinement rows in the left-associated direction with
-\autoref{thm:rational-interval-refinement-composition}. Apply the same theorem
-in the right-associated direction. Both composites are therefore finite
-$\mathsf{BHist}$ packets whose refinement entries are built from the same
-pairwise rows.
-
-Identify the transported endpoint coordinates componentwise by using
-\autoref{thm:rational-interval-endpoint-transport-classifier}. Lower
-endpoints, upper endpoints, endpoint-order witnesses, containment rows, and
-dyadic-width rows agree at the consumer surface because each coordinate is read
-through the same transported $\RatUp$ classifier data.
-
-Finally apply
-\autoref{thm:rationalinterval-finite-consumer-completeness}. It says every
-finite consumer read of the two composites factors through exactly the
-displayed rational-window rows, the $\RegSeqRatUp$ observation row, the
-$\RealUp$ finite-window handoff row, the visible $\mathsf{BHist}$, $\hsame$,
-$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Hence the two iterated
-refinements expose one finite consumer packet and add none of the excluded
-completed-real, quotient, located-subset, apartness, arithmetic, or host
-standard interval structure.
-\end{proof}
-
-\input{parts/concrete_instances/887_rationalinterval_bisection_refinement_nesting}
+\input{parts/concrete_instances/rationalinterval/refinement_normal_form}
 
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}

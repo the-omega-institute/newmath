@@ -72,6 +72,7 @@ start-state row. At a cons spine, the next run row is obtained by reading the
 head symbol, applying the unique transition-table entry to the current state,
 and continuing through the tail spine.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_deterministic\_run\_ledger}
 \begin{proof}
 Induct on the displayed $\ListUp$ word spine. In the empty case, the carrier
 row requires the initial run row to be $q_0$, and no transition route is
@@ -130,6 +131,7 @@ is carried to the final state of the second run, and acceptance in the first
 accepting-state carrier is carried to acceptance in the second accepting-state
 carrier through the displayed $\hsame$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_classified\_word\_transport}
 \begin{proof}
 Use the classifier definition to obtain componentwise comparisons of the
 alphabet row, state row, transition table, input word, run ledger, and
@@ -255,6 +257,71 @@ Since none of the carrier or obligation rows is a host language quotient,
 regular-expression equivalence, minimization result, infinite automaton,
 selected recognizer semantics, or hidden automaton state, the public packet
 exports no such object.
+\end{proof}
+
+\begin{theorem}[RegularLanguage transition-ledger standard boundary]
+\label{thm:regularlanguage-transition-ledger-standard-boundary}
+The standard finite-automaton reading of a public
+$\NameCert_{\RegularLanguageUp}$ packet may consume exactly the finite alphabet
+row, finite state row, start row, accepting-state row, transition table,
+$\ListUp$ word spine, deterministic run ledger, accepted endpoint, displayed
+$\hsame$ transport rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance.
+
+It cannot read a host language quotient, regular-expression equivalence,
+minimization result, infinite automaton, or hidden recognizer state.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from
+\autoref{def:regularlanguage-finite-automaton-carrier}. These are precisely
+the finite alphabet, finite state, start, accepting-state, transition-table,
+word-spine, deterministic-run, and accepted-endpoint rows available to the
+standard finite-automaton reading.
+
+Use \autoref{def:regularlanguage-classifier} to bind classifier reads to the
+displayed $\hsame$ comparisons. Then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger}; the run is reconstructed
+from the displayed start row, transition table, and $\ListUp$ word spine.
+
+Next apply \autoref{thm:regularlanguage-classified-word-transport}. It carries
+the accepted endpoint through the displayed transport rows and does not add a
+host-language coordinate.
+
+Finally apply \autoref{thm:regularlanguage-public-accepted-word-export}. The
+public export repacks the carrier, classifier, run-ledger, endpoint,
+continuation, and package rows as the visible certificate surface, while the
+excluded quotient, equivalence, minimization, infinite-automaton, and hidden
+recognizer objects are not rows of that surface.
+\end{proof}
+
+\begin{theorem}[RegularLanguage standard finite-automaton bridge boundary]
+\label{thm:regularlanguage-standard-automaton-bridge-boundary}
+The standard finite-automaton reading of the public $\RegularLanguageUp$ packet
+consumes exactly the finite state row, start row, accepting row, transition
+ledger, input-word $\ListUp$ rows, deterministic run ledger, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ surface already
+exported by \autoref{thm:regularlanguage-public-accepted-word-export}.
+
+The bridge boundary supplies no minimization theorem, Kleene algebra surface,
+pumping-lemma witness, language-complement closure, or machine-checked bridge
+evidence.
+\end{theorem}
+\begin{proof}
+Read the automaton rows from
+\autoref{def:regularlanguage-finite-automaton-carrier}. The finite state row,
+start row, accepting row, transition table, and input-word $\ListUp$ spine are
+all displayed fields of the carrier.
+
+Use \autoref{def:regularlanguage-classifier} to bind accepted-word reads to the
+componentwise $\hsame$ transport, then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger}. This supplies the
+finite deterministic run ledger over exactly the displayed transition and word
+rows.
+
+Finally apply \autoref{thm:regularlanguage-public-accepted-word-export}. It
+repackages those rows with the $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ surface, while the excluded minimization, algebraic, pumping,
+complement, and machine-checking objects have no coordinate in the public
+packet.
 \end{proof}
 
 \closureat{RegularLanguageUp}{seedStr}
