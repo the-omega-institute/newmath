@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -12,53 +13,110 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def RegularCauchySubsequenceCarrier [AskSetup] [PackageSetup]
-    (source reindex window radius sealRow transport route provenance nameCert : BHist)
+    (source reindex windows radius «seal» sameRows routeRows provenance localCert endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory source ∧ UnaryHistory reindex ∧ UnaryHistory window ∧
-    UnaryHistory radius ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧ UnaryHistory route ∧
-      UnaryHistory nameCert ∧ Cont source reindex window ∧ Cont window radius transport ∧
-        Cont transport route sealRow ∧ Cont sealRow provenance nameCert ∧
-          PkgSig bundle provenance pkg
+  UnaryHistory source ∧ UnaryHistory reindex ∧ UnaryHistory windows ∧ UnaryHistory radius ∧
+    UnaryHistory «seal» ∧ UnaryHistory sameRows ∧ UnaryHistory routeRows ∧
+      UnaryHistory provenance ∧ UnaryHistory localCert ∧ UnaryHistory endpoint ∧
+        Cont source reindex windows ∧ Cont windows radius «seal» ∧
+          Cont sameRows routeRows provenance ∧ Cont provenance localCert endpoint ∧
+            hsame endpoint (append provenance localCert) ∧ PkgSig bundle endpoint pkg
+
+theorem RegularCauchySubsequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source reindex windows radius «seal» sameRows routeRows provenance localCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+            provenance localCert endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+            provenance localCert endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+            provenance localCert endpoint bundle pkg ∧ hsame row endpoint)
+        hsame := by
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
 
 theorem RegularCauchySubsequenceCarrier_tail_classifier_stability [AskSetup] [PackageSetup]
-    {source reindex window radius sealRow transport route nameCert source' reindex' window'
-      radius' sealRow' transport' route' nameCert' provenance : BHist}
+    {source reindex windows radius «seal» sameRows routeRows provenance localCert endpoint source'
+      reindex' windows' radius' seal' sameRows' routeRows' provenance' localCert'
+      endpoint' : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RegularCauchySubsequenceCarrier source reindex window radius sealRow transport route
-        provenance nameCert bundle pkg ->
+    RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
       hsame source source' ->
         hsame reindex reindex' ->
-          hsame window window' ->
+          hsame windows windows' ->
             hsame radius radius' ->
-              hsame sealRow sealRow' ->
-                hsame transport transport' ->
-                  hsame route route' ->
-                    hsame nameCert nameCert' ->
-                      RegularCauchySubsequenceCarrier source' reindex' window' radius' sealRow'
-                        transport' route' provenance nameCert' bundle pkg := by
-  intro carrier sameSource sameReindex sameWindow sameRadius sameSeal sameTransport sameRoute
-    sameNameCert
-  obtain ⟨sourceUnary, reindexUnary, windowUnary, radiusUnary, sealUnary, transportUnary,
-    routeUnary, nameCertUnary, sourceReindexWindow, windowRadiusTransport,
-    transportRouteSeal, sealProvenanceNameCert, provenancePkg⟩ := carrier
+              hsame «seal» seal' ->
+                hsame sameRows sameRows' ->
+                  hsame routeRows routeRows' ->
+                    hsame provenance provenance' ->
+                      hsame localCert localCert' ->
+                        hsame endpoint endpoint' ->
+                          PkgSig bundle endpoint' pkg ->
+                            RegularCauchySubsequenceCarrier source' reindex' windows' radius'
+                              seal' sameRows' routeRows' provenance' localCert' endpoint' bundle
+                                pkg := by
+  intro carrier sameSource sameReindex sameWindows sameRadius sameSeal sameRowsRoute
+    sameRouteRows sameProvenance sameLocalCert sameEndpoint endpointPkg
+  obtain ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, sameRowsUnary,
+    routeRowsUnary, provenanceUnary, localCertUnary, endpointUnary, sourceReindexWindows,
+    windowsRadiusSeal, sameRowsRouteRowsProvenance, provenanceLocalCertEndpoint,
+    endpointAppend, _endpointPkg⟩ := carrier
   exact
     ⟨unary_transport sourceUnary sameSource,
       unary_transport reindexUnary sameReindex,
-      unary_transport windowUnary sameWindow,
+      unary_transport windowsUnary sameWindows,
       unary_transport radiusUnary sameRadius,
       unary_transport sealUnary sameSeal,
-      unary_transport transportUnary sameTransport,
-      unary_transport routeUnary sameRoute,
-      unary_transport nameCertUnary sameNameCert,
-      cont_hsame_transport sameSource sameReindex sameWindow sourceReindexWindow,
-      cont_hsame_transport sameWindow sameRadius sameTransport windowRadiusTransport,
-      cont_hsame_transport sameTransport sameRoute sameSeal transportRouteSeal,
-      cont_hsame_transport sameSeal (hsame_refl provenance) sameNameCert
-        sealProvenanceNameCert,
-      provenancePkg⟩
+      unary_transport sameRowsUnary sameRowsRoute,
+      unary_transport routeRowsUnary sameRouteRows,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport localCertUnary sameLocalCert,
+      unary_transport endpointUnary sameEndpoint,
+      cont_hsame_transport sameSource sameReindex sameWindows sourceReindexWindows,
+      cont_hsame_transport sameWindows sameRadius sameSeal windowsRadiusSeal,
+      cont_hsame_transport sameRowsRoute sameRouteRows sameProvenance
+        sameRowsRouteRowsProvenance,
+      cont_hsame_transport sameProvenance sameLocalCert sameEndpoint provenanceLocalCertEndpoint,
+      hsame_trans (hsame_symm sameEndpoint)
+        (hsame_trans endpointAppend (by
+          cases sameProvenance
+          cases sameLocalCert
+          exact hsame_refl (append provenance localCert))),
+      endpointPkg⟩
 
 end BEDC.Derived.RegularCauchySubsequenceUp
