@@ -56,11 +56,13 @@ The dyadic ledger $d$ is stored beside $r$. It records the rational observations
 
 Consequently the handoff into $\RegSeqRatUp$ is a finite route through $w$, $r$, and $d$. It does not expose host sequence equality or quotient equality of regular streams.
 \end{proof}
+\leanchecked{BEDC.Derived.DiagonalModulusUp.DiagonalModulusPacket\_regseqrat\_handoff}
 
 \begin{theorem}[DiagonalModulus RealUp seal non-escape]
 \label{thm:diagonalmodulus-real-seal-nonescape}
 The $\RealUp$ seal row $e$ of an accepted $\DiagonalModulusUp$ packet can be consumed only after the precision request, modulus threshold, stream window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger have been displayed. The seal therefore exports a real-name surface without exporting selected limits, quotient equality, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalModulusUp.DiagonalModulusPacket\_real\_seal\_nonescape}
 \begin{proof}
 Read the coordinates of \autoref{def:diagonalmodulus-carrier} in order. The seal row appears after the precision, threshold, window, readback, and dyadic ledger rows, so any consumer route to $e$ must pass through those displayed coordinates.
 
@@ -86,12 +88,27 @@ The seal boundary is supplied by \autoref{thm:diagonalmodulus-real-seal-nonescap
 \label{thm:real-cauchy-completion-modulus-classifier-transport}
 A $\RealCauchyCompletionUp$ consumer may use an accepted $\DiagonalModulusUp$ packet by transporting its classifier through the displayed precision request, modulus threshold, stream window, $\RegSeqRatUp$ readback, dyadic ledger, and $\RealUp$ seal rows. The transport supplies the diagonal modulus required by the completion packet without adding quotient streams, host real equality, choice-selected limits, or an ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalModulusUp.DiagonalModulusWindowCarrier\_completion\_classifier\_transport}
 \begin{proof}
 Start with a $\RealCauchyCompletionUp$ consumer request. The $\DiagonalModulusUp$ packet answers the request by \autoref{thm:diagonalmodulus-window-selector-total}, producing a displayed threshold, stream window, and regular rational readback.
 
 The rational evidence transported to the completion packet is exactly the handoff of \autoref{thm:diagonalmodulus-regseqrat-handoff}. The downstream real-name boundary is exactly the non-escaping seal of \autoref{thm:diagonalmodulus-real-seal-nonescape}.
 
 Since the classifier of \autoref{def:diagonalmodulus-classifier} compares only displayed rows and recorded routes, $\RealCauchyCompletionUp$ receives a concrete modulus packet rather than an external completion witness. The consumer therefore obtains the needed diagonal selector while quotient streams, host real equality, choice-selected limits, and ambient completeness remain outside the packet.
+\end{proof}
+
+\begin{theorem}[DiagonalModulus bridge source package]
+\label{thm:diagonalmodulus-bridge-source-package}
+For every accepted $\DiagonalModulusUp$ carrier row $\Delta=(n,\mu,w,r,d,e,P,N)$, the tuple $(n,\mu,w,r,d,e,P,N)$ together with the displayed window selector, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal non-escape row, and $\RealCauchyCompletionUp$ classifier transport is the bridge source from the public $\DiagonalModulusUp$ packet to the completion-consumer schema. The source uses only the recorded $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and exports no quotient stream, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:diagonalmodulus-carrier}. Its eight displayed coordinates are the precision request, selected modulus threshold, stream window, regular-sequence readback, dyadic ledger, real seal, package provenance, and local certificate provenance.
+
+Apply \autoref{thm:diagonalmodulus-window-selector-total} to obtain the finite window selected by $(n,\mu)$, and apply \autoref{thm:diagonalmodulus-regseqrat-handoff} to attach the $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ ledger to that same window.
+
+The real-name side is supplied by \autoref{thm:diagonalmodulus-real-seal-nonescape}, which keeps the seal behind the displayed precision, threshold, window, readback, and dyadic rows. The completion-facing transport is exactly \autoref{thm:real-cauchy-completion-modulus-classifier-transport}.
+
+Repacking these rows gives the bridge source required by the completion-consumer schema. Because every component is one of the displayed carrier or provenance rows, the package has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness.
 \end{proof}
 
 \closureat{DiagonalModulusUp}{seedStr}
