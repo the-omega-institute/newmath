@@ -120,6 +120,40 @@ theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [Pac
   exact
     ⟨runUnary', transitionUnary', endpointUnary', sameEndpoint, endpointRow', pkgSig⟩
 
+theorem RegularLanguageAutomatonPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance run'
+      endpoint' publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont start word run' ->
+        Cont run' transition endpoint' ->
+          Cont endpoint' transport publicRead ->
+            PkgSig bundle publicRead pkg ->
+              UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+                UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+                  UnaryHistory run' ∧ UnaryHistory endpoint' ∧ UnaryHistory publicRead ∧
+                    hsame run run' ∧ hsame endpoint endpoint' ∧
+                      Cont endpoint' transport publicRead ∧ PkgSig bundle publicRead pkg := by
+  intro packet runRow' endpointRow' publicReadRow publicReadPkg
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, _routesUnary, _provenanceUnary, runRow,
+    endpointRow, _routesRow, _pkgSig⟩ := packet
+  have sameRun : hsame run run' :=
+    cont_deterministic runRow runRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRun (hsame_refl transition) endpointRow endpointRow'
+  have runUnary' : UnaryHistory run' :=
+    unary_cont_closed startUnary wordUnary runRow'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed runUnary' transitionUnary endpointRow'
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary' transportUnary publicReadRow
+  exact
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary', endpointUnary', publicReadUnary, sameRun, sameEndpoint, publicReadRow,
+      publicReadPkg⟩
+
 theorem RegularLanguageAutomatonPacket_public_accepted_word_export [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance
       publicExport : BHist}
@@ -145,5 +179,28 @@ theorem RegularLanguageAutomatonPacket_public_accepted_word_export [AskSetup] [P
     ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
       runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, publicUnary,
         runRow, endpointRow, routesRow, exportRow, publicSig⟩
+
+theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont routes provenance boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory routes ∧
+            UnaryHistory provenance ∧ UnaryHistory boundary ∧ Cont start word run ∧
+              Cont run transition endpoint ∧ Cont endpoint transport routes ∧
+                Cont routes provenance boundary ∧ PkgSig bundle boundary pkg := by
+  intro packet boundaryRow boundarySig
+  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
+    _wordUnary, runUnary, endpointUnary, _transportUnary, routesUnary, provenanceUnary,
+    runRow, endpointRow, routesRow, _pkgSig⟩ := packet
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed routesUnary provenanceUnary boundaryRow
+  exact
+    ⟨runUnary, endpointUnary, routesUnary, provenanceUnary, boundaryUnary, runRow, endpointRow,
+      routesRow, boundaryRow, boundarySig⟩
 
 end BEDC.Derived.RegularLanguageUp
