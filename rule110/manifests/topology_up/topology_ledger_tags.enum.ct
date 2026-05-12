@@ -1,0 +1,26 @@
+# topology_ledger_tags.enum.ct
+# Theorem family:
+#   BHistUnaryTopologyLedgerRow_constructor_coverage
+#   BHistUnaryTopologyLedgerRow_constructor_tag_no_confusion
+#
+# Input shape:
+#   BHist rowTag ++ BHist expectedTag ++ BHist ledger
+#
+# Constructor tags:
+#   singletonMetricBall    = Empty
+#   finiteListIntersection = e0 Empty
+#   binaryGeneratedMeet    = e1 Empty
+#   arbitraryUnion         = e0(e0 Empty)
+#   bottom                 = e0(e1 Empty)
+#   top                    = e1(e0 Empty)
+PRODUCTIONS 0
+ASSERTIONS 9
+case singleton_tag:            input=111111                      ; theorem=ledger_constructor_coverage ; row_constructor=singletonMetricBall ; tag=empty ; expected_tag=empty ; ledger=empty ; conclusion_holds=yes
+case finite_intersection_tag:  input=01101111                    ; theorem=ledger_constructor_coverage ; row_constructor=finiteListIntersection ; tag=e0_empty ; expected_tag=e0_empty ; ledger=empty ; conclusion_holds=yes
+case binary_meet_tag:          input=1011101111                  ; theorem=ledger_constructor_coverage ; row_constructor=binaryGeneratedMeet ; tag=e1_empty ; expected_tag=e1_empty ; ledger=empty ; conclusion_holds=yes
+case arbitrary_union_tag:      input=0011001111                  ; theorem=ledger_constructor_coverage ; row_constructor=arbitraryUnion ; tag=e0_e0_empty ; expected_tag=e0_e0_empty ; ledger=empty ; conclusion_holds=yes
+case bottom_tag:               input=010110101111                ; theorem=ledger_constructor_coverage ; row_constructor=bottom ; tag=e0_e1_empty ; expected_tag=e0_e1_empty ; ledger=empty ; conclusion_holds=yes
+case top_tag:                  input=100111001111                ; theorem=ledger_constructor_coverage ; row_constructor=top ; tag=e1_e0_empty ; expected_tag=e1_e0_empty ; ledger=empty ; conclusion_holds=yes
+case empty_not_e0:             input=1101111                     ; theorem=ledger_constructor_tag_no_confusion ; tag=empty ; expected_tag=e0_empty ; ledger=empty ; tags_distinct=yes
+case e0_not_e1:                input=011101111                   ; theorem=ledger_constructor_tag_no_confusion ; tag=e0_empty ; expected_tag=e1_empty ; ledger=empty ; tags_distinct=yes
+case e0e1_not_e1e0:            input=010111001111                ; theorem=ledger_constructor_tag_no_confusion ; tag=e0_e1_empty ; expected_tag=e1_e0_empty ; ledger=empty ; tags_distinct=yes
