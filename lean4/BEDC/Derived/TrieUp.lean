@@ -182,6 +182,33 @@ theorem TrieSourcePacket_branch_read_exactness [AskSetup] [PackageSetup]
     ⟨prefSplit, readbackUnary, keyUnary, branchUnary, depthUnary, branchRead,
       provenancePkg⟩
 
+theorem TrieSourcePacket_prefix_branch_determinacy [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute pref branchTag readback
+      readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont pref branchTag readback ->
+        Cont pref branchTag readback' ->
+          UnaryHistory pref ->
+            UnaryHistory branchTag ->
+              PkgSig bundle provenance pkg ->
+                hsame readback readback' ∧ UnaryHistory readback ∧ UnaryHistory readback' ∧
+                  (pref = BHist.Empty ∨
+                    ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail) ∧
+                    PkgSig bundle provenance pkg := by
+  intro _packet branchRead branchRead' prefUnary branchTagUnary provenancePkg
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame (hsame_refl pref) (hsame_refl branchTag) branchRead branchRead'
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed prefUnary branchTagUnary branchRead
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed prefUnary branchTagUnary branchRead'
+  have prefSplit :
+      pref = BHist.Empty ∨ ∃ tail : BHist, pref = BHist.e1 tail ∧ UnaryHistory tail :=
+    unary_history_empty_or_e1_tail prefUnary
+  exact ⟨sameReadback, readbackUnary, readbackUnary', prefSplit, provenancePkg⟩
+
 theorem TrieSourcePacket_prefix_branch_consumer_exhaustion [AskSetup] [PackageSetup]
     {key payload depth branch provenance route payloadRoute branchRoute pref branchTag readback
       consumer : BHist}
@@ -315,6 +342,28 @@ theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
     ⟨⟨keyUnary', valueUnary', depthUnary', branchUnary', endpointRow', provenanceRow',
         pkgRow'⟩,
       endpointSame, provenanceSame⟩
+
+theorem TrieSourcePacket_lookup_payload_projection [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute lookup terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont key payload lookup ->
+        Cont lookup provenance terminal ->
+          PkgSig bundle terminal pkg ->
+            UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory provenance ∧
+              UnaryHistory lookup ∧ UnaryHistory terminal ∧ Cont key payload lookup ∧
+                Cont lookup provenance terminal ∧ PkgSig bundle terminal pkg := by
+  intro packet lookupRow terminalRow terminalPkg
+  obtain ⟨keyUnary, payloadUnary, _depthUnary, _branchUnary, provenanceUnary, _routeRow,
+    _provenanceRow, _payloadRouteRow, _branchRouteRow, _packetPkg⟩ := packet
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed keyUnary payloadUnary lookupRow
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed lookupUnary provenanceUnary terminalRow
+  exact
+    ⟨keyUnary, payloadUnary, provenanceUnary, lookupUnary, terminalUnary, lookupRow,
+      terminalRow, terminalPkg⟩
 
 def TrieTerminalPacket [AskSetup] [PackageSetup]
     (key terminal transport route branch provenance cert : BHist)
