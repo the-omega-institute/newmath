@@ -170,15 +170,51 @@ standard finite pole-placement data shape, while the excluded analytic and
 optimality claims remain outside the certificate.
 \end{proof}
 
+\begin{theorem}[PolePlacement scoped dependency packet]\label{thm:poleplacement-scoped-dependency-packet}
+The closed-loop ledger of \autoref{thm:poleplacement-closed-loop-ledger},
+target-polynomial ledger and certificate surface of
+\autoref{thm:poleplacement-namecert-obligations}, consumer boundary of
+\autoref{thm:poleplacement-consumer-boundary}, and standard finite bridge of
+\autoref{thm:poleplacement-standard-finite-bridge} form one scoped dependency
+packet. Its only source rows are the displayed $\mathsf{BHist}$ state, input,
+matrix, gain, closed-loop, target, characteristic-comparison, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$,
+$\StateSpaceModelUp$, and $\ControlControllabilityUp$ rows.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:poleplacement-carrier}. The available
+coordinates are exactly the finite state and input rows, matrix rows, gain row,
+closed-loop row, target row, characteristic-comparison row, transports,
+continuations, and package provenance named in the statement.
+
+Apply \autoref{thm:poleplacement-closed-loop-ledger} to identify the closed-loop
+projection, and apply \autoref{thm:poleplacement-namecert-obligations} to bind
+the target-polynomial ledger and certificate obligations to the same carrier
+rows.
+
+For every consumer projection, use
+\autoref{thm:poleplacement-consumer-boundary}; for the standard finite data
+shape, use \autoref{thm:poleplacement-standard-finite-bridge}. Both results
+factor through the displayed $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$,
+$\StateSpaceModelUp$, $\ControlControllabilityUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ rows.
+
+Repacking these projections gives a single scoped dependency packet. No
+analytic spectrum, host trajectory space, unlogged rank proof, or external
+feedback solver is introduced, because no such coordinate occurs in the
+projected rows.
+\end{proof}
+
 \closureat{PolePlacementUp}{obligationStr}
+\closureat{PolePlacementUp}{scopedStr}
 
 \begin{closurestatus}{\PolePlacementUp}
   \constructivestory{A $\PolePlacementUp$ packet is seeded by finite $\mathsf{BHist}$ rows for state, input, transition matrix, input matrix, gain, closed-loop matrix $A+BK$, target characteristic row, characteristic-comparison ledger, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance over the state-space, controllability, matrix, vector-space, and linear-map certificates.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:poleplacement-carrier}, \autoref{thm:poleplacement-closed-loop-ledger}, \autoref{thm:poleplacement-namecert-obligations}, \autoref{thm:poleplacement-consumer-boundary}, and \autoref{thm:poleplacement-standard-finite-bridge} seed the finite pole-placement carrier, closed-loop ledger, NameCert obligation rows, consumer boundary, and standard finite data shape.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:poleplacement-scoped-dependency-packet} binds the finite pole-placement carrier, closed-loop ledger, target-polynomial ledger, NameCert obligation rows, consumer boundary, standard finite data shape, and displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\StateSpaceModelUp$, and $\ControlControllabilityUp$ dependencies.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close analytic spectral theory, pole-existence theorems, stabilizing feedback existence, controllability-rank completeness, host trajectory semantics, feedback optimality, or a machine-checked standard bridge.}
-  \upgradepath{Scoped closure requires explicit binding of the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\StateSpaceModelUp$, and $\ControlControllabilityUp$ dependency rows.}
+  \upgradepath{Public closure requires an export theorem identifying the downstream finite-control consumers that may read this scoped packet.}
 \end{closurestatus}
