@@ -307,6 +307,31 @@ theorem PicardContractionPacket_ratio_ledger_nonexpansion [AskSetup] [PackageSet
       consumerUnary, banachContractionLipschitz, concatenatedIteratesModulusEndpoint,
       concatenatedIteratesEndpointConsumer, namePkg, consumerPkg⟩
 
+theorem PicardContractionPacket_cauchyrate_source_extraction [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      rateSource : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates modulus rateSource ->
+        Cont rateSource endpoint routes ->
+          PkgSig bundle rateSource pkg ->
+            UnaryHistory iterates ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+              UnaryHistory rateSource ∧ Cont iterates modulus rateSource ∧
+                Cont rateSource endpoint routes ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle rateSource pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet iteratesModulusRateSource rateSourceEndpointRoutes rateSourcePkg
+  obtain ⟨_banachUnary, _contractionUnary, _lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have rateSourceUnary : UnaryHistory rateSource :=
+    unary_cont_closed iteratesUnary modulusUnary iteratesModulusRateSource
+  exact
+    ⟨iteratesUnary, modulusUnary, endpointUnary, rateSourceUnary,
+      iteratesModulusRateSource, rateSourceEndpointRoutes, namePkg, rateSourcePkg⟩
+
 theorem PicardContractionPacket_public_namecert_export [AskSetup] [PackageSetup]
     {banach contraction lipschitz iterates modulus endpoint transport routes provenance name step
       consumer sealRead : BHist}
