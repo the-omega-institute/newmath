@@ -311,6 +311,7 @@ The bridge boundary supplies no minimization theorem, Kleene algebra surface,
 pumping-lemma witness, language-complement closure, or machine-checked bridge
 evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_standard\_automaton\_bridge\_boundary}
 \begin{proof}
 Read the automaton rows from
 \autoref{def:regularlanguage-finite-automaton-carrier}. The finite state row,
@@ -424,3 +425,20 @@ that bridge boundary.
   \notclaimed{This chapter does not close host language quotients, external regular-expression equivalence, minimization, infinite automata, or machine-checked bridge evidence.}
   \upgradepath{No further paper theory-axis upgrade is claimed while formal and bridge verification remain separate.}
 \end{closurestatus}
+
+\begin{theorem}[RegularLanguage empty-word acceptance exactness]
+\label{thm:regularlanguage-empty-word-acceptance-exactness}
+Let $R=(\Sigma,Q,q_0,F,\delta,w,r,a,h,c,p)$ be a $\RegularLanguageUp$ packet satisfying
+$\mathsf{RegularLanguageAutomatonPacket}(R)$. If the displayed $\ListUp$ input spine $w$ is empty, then the accepted endpoint row $a$ is exactly the start-state row together with accepting-carrier membership:
+$$
+a=(q_0,\eta)
+$$
+for the displayed witness $\eta:q_0\in F$. In particular, the state coordinate of the accepted endpoint is $q_0$, and the membership coordinate is membership of that same start-state row in the accepting-state carrier $F$.
+\end{theorem}
+\begin{proof}
+Unfold the carrier row of \autoref{def:regularlanguage-finite-automaton-carrier}. The accepted endpoint coordinate $a$ has only two displayed fields: the final run state and a witness that this final state lies in $F$.
+
+Since $w$ is the empty $\ListUp$ spine, \autoref{thm:regularlanguage-deterministic-run-ledger} applies to the accepted packet and identifies the final run state with the initial state $q_0$. The empty spine has no head symbol and no tail step, so no transition-table route in $c$ can replace this endpoint by a later state.
+
+Substitute this empty-spine endpoint identification into the two-field endpoint row. Its state field becomes $q_0$. Its remaining field is still the accepting-carrier witness supplied by the endpoint row; after the substitution, that witness has type $q_0\in F$. Therefore the endpoint row has the displayed form $a=(q_0,\eta)$ with $\eta:q_0\in F$, and there is no further endpoint coordinate in the packet that could carry additional acceptance data.
+\end{proof}
