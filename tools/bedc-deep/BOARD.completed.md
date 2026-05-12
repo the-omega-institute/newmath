@@ -17663,3 +17663,27 @@ Rationale:
 KKTUp already has row obligations, transport, complementarity exactness, downstream boundary, and public finite-packet export, while its closure block names the standard bridge as the next paper obligation. The proposed theorem is a bounded bridge target over the displayed finite packet, not a request for nonlinear optimization semantics, and it is not already covered by the public export theorem because it asks for the standard-presentation roundtrip boundary.
 
 ---
+
+### B-700 - GeomQuantization public-surface standard bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | GeomQuantization public-surface standard bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If a standard geometric-quantization presentation is read only through the SymplecticUp source row, HilbertUp endpoint row, prequantum line-bundle row, polarisation classifier, metaplectic ledger, finite Cont readback, hsame transport family, and Pkg provenance of the public packet, then it conservatively bridges to the GeomQuantizationUp public certificate and cannot expose an ambient quantization functor or host Hilbert construction.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/248_geomquantization_namecert_construction.tex`
+
+Rationale:
+The GeomQuantizationUp chapter already proves the public certificate handoff but explicitly leaves standard bridges outside the current surface and names a schema-level public-surface bridge as the upgrade path. This candidate is a concrete conservative bridge theorem over the listed packet rows, distinct from the existing handoff because it constrains how a standard geometric-quantization presentation may be admitted without adding ambient quantization or host-space rows.
+
+---
