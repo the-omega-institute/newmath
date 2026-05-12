@@ -253,4 +253,112 @@ theorem DyadicApproximationCarrier_window_regseqrat_source_exhaustion
         _terminalWindowLedgerProvenance, _terminalProvenancePkg⟩,
       readUnary, sealUnary, containmentUnary, sameWindow, readPkg, sealPkg, containmentPkg⟩
 
+theorem DyadicApproximationCarrier_terminal_window_idempotence
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint terminalWindow
+      terminalLedger terminalProvenance firstRead repeatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance firstRead ->
+                    Cont terminalWindow terminalProvenance repeatedRead ->
+                      PkgSig bundle firstRead pkg ->
+                        PkgSig bundle repeatedRead pkg ->
+                          DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                              terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                            UnaryHistory firstRead ∧ UnaryHistory repeatedRead ∧
+                              hsame window terminalWindow ∧ hsame firstRead repeatedRead ∧
+                                PkgSig bundle repeatedRead pkg := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  intro terminalWindowProvenanceFirst terminalWindowProvenanceRepeated _firstPkg repeatedPkg
+  have transported :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        hsame window terminalWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance terminalPrecisionEndpointWindow
+      terminalWindowLedgerProvenance
+  obtain ⟨terminalCarrierData, sameWindow⟩ := transported
+  obtain ⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary,
+    terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindowData,
+    terminalWindowLedgerProvenanceData, terminalProvenancePkg⟩ := terminalCarrierData
+  have firstReadUnary : UnaryHistory firstRead :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceFirst
+  have repeatedReadUnary : UnaryHistory repeatedRead :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceRepeated
+  have sameReads : hsame firstRead repeatedRead :=
+    cont_deterministic terminalWindowProvenanceFirst terminalWindowProvenanceRepeated
+  exact
+    ⟨⟨terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary, terminalLedgerUnary,
+        terminalProvenanceUnary, terminalPrecisionEndpointWindowData,
+        terminalWindowLedgerProvenanceData, terminalProvenancePkg⟩,
+      firstReadUnary, repeatedReadUnary, sameWindow, sameReads, repeatedPkg⟩
+
+theorem DyadicApproximationCarrier_overlap_refinement_chain_normal_form
+    [AskSetup] [PackageSetup]
+    {precisionA endpointA windowA ledgerA provenanceA precisionB endpointB windowB ledgerB
+      provenanceB commonPrecision commonEndpoint commonWindow commonLedger commonProvenance sealA
+      sealB sourceRead firstBoundary secondBoundary terminalBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precisionA endpointA windowA ledgerA provenanceA bundle pkg ->
+      DyadicApproximationCarrier precisionB endpointB windowB ledgerB provenanceB bundle pkg ->
+        hsame precisionA commonPrecision ->
+          hsame precisionB commonPrecision ->
+            hsame endpointA commonEndpoint ->
+              hsame endpointB commonEndpoint ->
+                hsame ledgerA commonLedger ->
+                  hsame ledgerB commonLedger ->
+                    hsame provenanceA commonProvenance ->
+                      hsame provenanceB commonProvenance ->
+                        Cont commonPrecision commonEndpoint commonWindow ->
+                          Cont commonWindow commonLedger commonProvenance ->
+                            Cont commonLedger commonProvenance sealA ->
+                              Cont commonLedger commonProvenance sealB ->
+                                Cont commonWindow commonProvenance sourceRead ->
+                                  Cont sourceRead sealA firstBoundary ->
+                                    Cont firstBoundary sealB secondBoundary ->
+                                      Cont sourceRead sealA terminalBoundary ->
+                                        PkgSig bundle firstBoundary pkg ->
+                                          PkgSig bundle secondBoundary pkg ->
+                                            PkgSig bundle terminalBoundary pkg ->
+                                              DyadicApproximationCarrier commonPrecision
+                                                  commonEndpoint commonWindow commonLedger
+                                                  commonProvenance bundle pkg ∧
+                                                UnaryHistory firstBoundary ∧
+                                                  UnaryHistory secondBoundary ∧
+                                                    UnaryHistory terminalBoundary ∧
+                                                      hsame firstBoundary terminalBoundary ∧
+                                                        hsame sealA sealB ∧
+                                                          PkgSig bundle terminalBoundary pkg := by
+  intro carrierA carrierB samePrecisionA samePrecisionB sameEndpointA sameEndpointB
+  intro sameLedgerA sameLedgerB sameProvenanceA sameProvenanceB
+  intro commonPrecisionEndpointWindow commonWindowLedgerProvenance
+  intro commonLedgerProvenanceSealA commonLedgerProvenanceSealB
+  intro commonWindowProvenanceSource sourceSealFirst firstSealSecond sourceSealTerminal
+  intro firstBoundaryPkg secondBoundaryPkg terminalBoundaryPkg
+  have boundaryNormal :
+      DyadicApproximationCarrier commonPrecision commonEndpoint commonWindow commonLedger
+          commonProvenance bundle pkg ∧
+        UnaryHistory firstBoundary ∧ UnaryHistory secondBoundary ∧
+          UnaryHistory terminalBoundary ∧ hsame firstBoundary terminalBoundary ∧
+            PkgSig bundle secondBoundary pkg :=
+    DyadicApproximationCarrier_overlap_seal_idempotence carrierA carrierB samePrecisionA
+      samePrecisionB sameEndpointA sameEndpointB sameLedgerA sameLedgerB sameProvenanceA
+      sameProvenanceB commonPrecisionEndpointWindow commonWindowLedgerProvenance
+      commonLedgerProvenanceSealA commonLedgerProvenanceSealB commonWindowProvenanceSource
+      sourceSealFirst firstSealSecond sourceSealTerminal firstBoundaryPkg secondBoundaryPkg
+  obtain ⟨commonCarrier, firstBoundaryUnary, secondBoundaryUnary, terminalBoundaryUnary,
+    sameFirstTerminal, _secondBoundaryPkg⟩ := boundaryNormal
+  have sameSeals : hsame sealA sealB :=
+    cont_deterministic commonLedgerProvenanceSealA commonLedgerProvenanceSealB
+  exact
+    ⟨commonCarrier, firstBoundaryUnary, secondBoundaryUnary, terminalBoundaryUnary,
+      sameFirstTerminal, sameSeals, terminalBoundaryPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp
