@@ -1314,6 +1314,7 @@ import BEDC.MetaCIC.Consistency
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
 import BEDC.HostBridge.ChurchNatRoundTrip
+import BEDC.HostBridge.HostInterpreter
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
 import BEDC.HostBridge.ChurchOptionRoundTrip
 /- Capstone formalizations. -/
