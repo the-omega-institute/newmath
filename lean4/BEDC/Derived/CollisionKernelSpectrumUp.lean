@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -48,5 +50,82 @@ theorem CollisionKernelSpectrumCarrier_finite_window_spectral_shadow [AskSetup] 
   have sameShadow : hsame shadow shadow' :=
     cont_respects_hsame sameKernel (hsame_refl handoff) oldShadowRoute shadowRoute
   exact ⟨sameKernel, sameShadow, provenancePkg⟩
+
+theorem CollisionKernelSpectrumCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {golden fold fiber moment kernel shadow handoff transport provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff transport
+        provenance nameCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row kernel ∧
+            CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff
+              transport provenance nameCert bundle pkg)
+        (fun row : BHist => hsame row kernel)
+        (fun row : BHist => hsame row kernel ∧ PkgSig bundle provenance pkg)
+        hsame ∧ UnaryHistory golden ∧ UnaryHistory kernel ∧ UnaryHistory shadow ∧
+          Cont fiber moment kernel ∧ Cont kernel handoff shadow ∧
+            PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont NameCert
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨goldenUnary, _foldUnary, _fiberUnary, _momentUnary, kernelUnary, shadowUnary,
+    _handoffUnary, _transportUnary, _provenanceUnary, _nameCertUnary, _goldenFoldFiber,
+    fiberMomentKernel, kernelHandoffShadow, provenancePkg, nameCertPkg⟩ := carrier
+  have sourceWitness :
+      (fun row : BHist =>
+        hsame row kernel ∧
+          CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff
+            transport provenance nameCert bundle pkg) kernel := by
+    exact And.intro (hsame_refl kernel) carrierWitness
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row kernel ∧
+            CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff
+              transport provenance nameCert bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro kernel sourceWitness
+      equiv_refl := by
+        intro h _source
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k same
+        exact hsame_symm same
+      equiv_trans := by
+        intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK sourceH
+        have sameKKernel : hsame k kernel :=
+          hsame_trans (hsame_symm sameHK) sourceH.left
+        exact And.intro sameKKernel sourceH.right
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row kernel ∧
+            CollisionKernelSpectrumCarrier golden fold fiber moment kernel shadow handoff
+              transport provenance nameCert bundle pkg)
+        (fun row : BHist => hsame row kernel)
+        (fun row : BHist => hsame row kernel ∧ PkgSig bundle provenance pkg)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro h source
+        exact source.left
+      ledger_sound := by
+        intro h source
+        exact And.intro source.left provenancePkg
+    }
+  exact
+    And.intro cert
+      (And.intro goldenUnary
+        (And.intro kernelUnary
+          (And.intro shadowUnary
+            (And.intro fiberMomentKernel
+              (And.intro kernelHandoffShadow nameCertPkg)))))
 
 end BEDC.Derived.CollisionKernelSpectrumUp
