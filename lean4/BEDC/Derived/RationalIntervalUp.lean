@@ -515,4 +515,31 @@ theorem RationalIntervalRefinement_choice_neutrality [AskSetup] [PackageSetup]
     cont_deterministic choiceRowA choiceRowB
   exact ⟨choiceUnaryA, choiceUnaryB, sameChoice, choicePkgA, choicePkgB⟩
 
+theorem RationalIntervalPacket_refinement_normal_form [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer readback bridge :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory consumer ->
+        Cont endpoint consumer readback ->
+          Cont endpoint readback bridge ->
+            PkgSig bundle readback pkg ->
+              PkgSig bundle bridge pkg ->
+                UnaryHistory readback ∧ UnaryHistory bridge ∧ Cont endpoint consumer readback ∧
+                  Cont endpoint readback bridge ∧ PkgSig bundle readback pkg ∧
+                    PkgSig bundle bridge pkg := by
+  intro packet consumerUnary endpointConsumerReadback endpointReadbackBridge readbackPkg bridgePkg
+  obtain ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder,
+    _orderContainmentTransport, _transportRouteProvenance, _provenanceNameEndpoint,
+    _endpointPkg⟩ := packet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed endpointUnary consumerUnary endpointConsumerReadback
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_cont_closed endpointUnary readbackUnary endpointReadbackBridge
+  exact
+    ⟨readbackUnary, bridgeUnary, endpointConsumerReadback, endpointReadbackBridge, readbackPkg,
+      bridgePkg⟩
+
 end BEDC.Derived.RationalIntervalUp
