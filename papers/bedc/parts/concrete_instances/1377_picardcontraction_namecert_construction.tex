@@ -168,6 +168,42 @@ local naming-certificate surface and leave fixed-point convergence outside
 the seed packet.
 \end{proof}
 
+\begin{theorem}[PicardContraction classifier transport stability]
+\label{thm:picard-contraction-classifier-transport-stability}
+For the finite packet of \autoref{def:picardcontraction-bhist-carrier}, componentwise $\hsame$ transport preserving the classifier of \autoref{def:picardcontraction-classifier} also preserves the $\BanachUp$ source row, contraction-map row, Lipschitz ledger, finite Picard-iterate ledger, modulus row, endpoint seal, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\PicardContractionUp}$ row.
+\end{theorem}
+\begin{proof}
+The classifier lists the rows of the accepted packet componentwise. A transport step is therefore read one coordinate at a time: the Banach source remains on the Banach row, the contraction map remains on the displayed map row, and the Lipschitz, iterate, modulus, and endpoint rows remain the same named ledger entries.
+
+The continuation routes are part of the carrier inventory, so the transported packet keeps the same $\Cont$ reads. Package provenance and the local naming certificate are ordinary carrier coordinates and are carried by the same componentwise $\hsame$ comparison.
+
+Thus every row named by the obligation surface is stable under the classifier transport, with no access to a host fixed point or completed orbit.
+\end{proof}
+
+\begin{theorem}[PicardContraction modulus readback exactness]
+\label{thm:picard-contraction-modulus-readback-exactness}
+The modulus row and endpoint seal of a $\PicardContractionUp$ packet read only through finite Picard-iterate windows and rational tolerance ledgers. Each accepted precision request is discharged by the displayed finite iterate ledger, the Lipschitz-ratio ledger, the modulus coordinate, the endpoint seal, and their $\Cont$ read routes.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. Its only precision-bearing coordinates are the finite iterate ledger, the rational Lipschitz ledger, the modulus row, and the endpoint seal.
+
+For a consumer tolerance, the modulus row chooses a finite iterate window. The readback then uses the finite Picard-iterate ledger at that window, together with the rational Lipschitz ledger that bounds the contraction step and the endpoint seal that names the exported finite endpoint.
+
+No coordinate in this readback is an infinite orbit or a host limit. The exactness is therefore the finite ledger exactness of the displayed rows, not an appeal to ambient Banach completeness.
+\end{proof}
+
+\begin{theorem}[PicardContraction ledger nonescape]
+\label{thm:picard-contraction-ledger-nonescape}
+Every $\OdeUp$, $\NewtonIterationUp$, $\RegSeqRatUp$, and $\RealUp$ consumer read from a $\PicardContractionUp$ packet is exhausted by the visible finite rows of the $\BanachUp$ source, contraction map, Lipschitz ledger, finite Picard-iterate ledger, modulus row, endpoint seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Such a read cannot observe a host fixed point, completed orbit, ambient completeness theorem, or selected limit.
+\end{theorem}
+\begin{proof}
+The ODE and Newton consumers are already bounded by \autoref{thm:picardcontraction-banach-ode-boundary}. Their reads pass through the Banach source, contraction row, rational Lipschitz ledger, finite iterate ledger, modulus row, endpoint seal, transport rows, continuation routes, package provenance, and local certificate.
+
+The regular-sequence and real-name consumers use the same modulus and endpoint surface. Apply \autoref{thm:picard-contraction-modulus-readback-exactness} to force their precision reads through finite Picard-iterate windows and rational tolerance ledgers.
+
+Finally apply \autoref{thm:picard-contraction-classifier-transport-stability} to carry this finite surface across accepted $\hsame$ replacements. Since the carrier contains no host fixed point, completed orbit, ambient completeness theorem, or selected limit, no listed consumer can escape the visible ledger.
+\end{proof}
+
 \closureat{PicardContractionUp}{seedStr}
 
 \begin{closurestatus}{\PicardContractionUp}
