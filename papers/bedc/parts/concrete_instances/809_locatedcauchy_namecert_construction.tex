@@ -147,15 +147,56 @@ representative, and no open-cover compactness datum, so none of those objects
 can be exported through the real-facing readback.
 \end{proof}
 
+\begin{theorem}[LocatedCauchy scoped dependency package]
+\label{thm:locatedcauchy-scoped-dependency-package}
+Any accepted $\LocatedCauchyUp$ packet whose displayed rows satisfy
+\autoref{def:locatedcauchy-bhist-carrier},
+\autoref{def:locatedcauchy-classifier},
+\autoref{thm:locatedcauchy-window-stability},
+\autoref{thm:locatedcauchy-namecert-obligation-surface}, and
+\autoref{thm:locatedcauchy-real-seal-boundary} determines a scoped dependency
+package over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+$\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$,
+$\RegSeqRatUp$, and $\RealUp$.
+
+Every $\RealUp$-facing consumer read from that package is exhausted by those
+displayed rows. The package cannot export a Dedekind cut, quotient stream,
+host real equality, trichotomy, choice data, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:locatedcauchy-bhist-carrier}. This exposes the schedule,
+dyadic-endpoint rows, modulus row, located-ball witnesses, transport rows,
+continuation routes, package provenance, and local name certificate as one
+finite $\mathsf{BHist}$ surface.
+
+Use \autoref{def:locatedcauchy-classifier} to transport the exposed rows
+componentwise. The classifier compares only the displayed schedules, endpoint
+rows, modulus data, located-ball witnesses, continuation routes, and package
+provenance, so no external real-equality or quotient coordinate is introduced.
+
+For precision refinement, apply
+\autoref{thm:locatedcauchy-window-stability}. It keeps every refined read on
+the same scheduled finite window surface and preserves the visible
+$\DyadicRatCoreUp$, $\CauchyModulusUp$, and located-ball rows.
+
+The five local certificate rows are exactly the surface named by
+\autoref{thm:locatedcauchy-namecert-obligation-surface}. Finally,
+\autoref{thm:locatedcauchy-real-seal-boundary} exhausts every $\RealUp$-facing
+consumer read by the displayed finite rows, which proves the stated exclusions.
+\end{proof}
+
 \closureat{LocatedCauchyUp}{seedStr}
+\closureat{LocatedCauchyUp}{obligationStr}
+\closureat{LocatedCauchyUp}{scopedStr}
 
 \begin{closurestatus}{\LocatedCauchyUp}
   \constructivestory{A $\LocatedCauchyUp$ packet is generated from a finite StreamName schedule, DyadicRatCore endpoint rows, a CauchyModulus precision row, located dyadic-ball witnesses, componentwise transport rows, continuation readback routes, package provenance for DyadicRatCoreUp, StreamNameUp, CauchyModulusUp, RegSeqRatUp, and RealUp, and a local NameCert provenance row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:locatedcauchy-bhist-carrier}, \autoref{def:locatedcauchy-classifier}, \autoref{thm:locatedcauchy-window-stability}, \autoref{thm:locatedcauchy-namecert-obligation-surface}, and \autoref{thm:locatedcauchy-real-seal-boundary} bind the finite located-Cauchy carrier, classifier, window-stability row, NameCert obligation surface, and real-seal boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:locatedcauchy-scoped-dependency-package} binds the scoped package over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind cuts, quotient streams, host real equality, trichotomy, choice, open-cover compactness, or a standard bridge.}
-  \upgradepath{A stronger closure grade requires formal carrier, classifier, transport, precision-window stability, and RealUp seal-boundary targets for the same finite located-Cauchy packet.}
+  \upgradepath{Public closure requires a public LocatedCauchy export theorem for $\RealUp$-facing consumers.}
 \end{closurestatus}
