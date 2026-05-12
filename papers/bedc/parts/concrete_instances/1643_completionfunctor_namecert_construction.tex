@@ -66,6 +66,54 @@ The real-completion row $R$ and seal $A$ are then read through the same source o
 The comparison between the monad unit boundary and the real seal boundary is recorded by the componentwise transports in $H$ and the read routes in $C$. Thus the public unit boundary is a finite packet route through the named rows, with no quotient completion or ambient completeness datum.
 \end{proof}
 
+\begin{theorem}[CompletionFunctor extension ledger exactness]
+\label{thm:completion-functor-extension-ledger-exactness}
+Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. Every completion-facing extension read produced from the dense $\ContinuousMapUp$ row $G$ and regular rational source row $Q$ is exactly the displayed extension ledger $E$ read through $M$, $U$, $R$, $A$, $H$, $C$, $P$, and $N$. The packet exports no second extension route, quotient completion, selected limit, or host function equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:completion-functor-carrier}. The only row whose role is extension from dense graph data to a completion-facing continuous map is $E$, and its source rows are visibly $G$, $Q$, $M$, $U$, $R$, and $A$.
+
+Apply the extension clause in \autoref{thm:completion-functor-namecert-obligations}. It makes extension exactness a visible carrier row rather than an external principle, so every consumer read of the extended map reaches $E$ through the displayed $\hsame$ transports in $H$ and the $\Cont$ routes in $C$.
+
+Finally use the non-escape inventory implicit in the carrier. Since no coordinate of $F$ is a quotient completion, selected limit, host function equality, or ambient completeness field, no second extension object can be read from the packet.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor identity route stability]
+\label{thm:completion-functor-identity-route-stability}
+For an accepted $\CompletionFunctorUp$ carrier $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ whose dense map row $G$ is the identity $\ContinuousMapUp$ row on the displayed dense source, the identity completion route is stable under the componentwise $\hsame$ rows in $H$ and the $\Cont$ routes in $C$. Its public read is the identity clause of the functoriality ledger $T$, using the same extension ledger $E$ and unit-boundary rows $M$, $R$, $Q$, and $A$.
+\end{theorem}
+\begin{proof}
+Start with the identity part of \autoref{thm:completion-functor-functoriality}. The dense identity graph is read as a displayed $\ContinuousMapUp$ row, then repacked by $U$ and $E$ through the source row $Q$ and completion envelope $M$.
+
+The unit boundary of \autoref{thm:completion-functor-unit-boundary} identifies the source-side completed object with the $\RealUp$ seal $A$ through $M$, $R$, and $Q$. Transporting the same rows by $H$ and reading them through $C$ keeps the identity route attached to the displayed source and seal rows.
+
+The functoriality ledger $T$ is therefore the only public identity comparison row. The route is stable as a finite $\BHist$ comparison and does not become an equality of host functions.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor composition route stability]
+\label{thm:completion-functor-composition-route-stability}
+For an accepted $\CompletionFunctorUp$ carrier $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ that displays composable dense $\ContinuousMapUp$ reads inside $G$ and their transported extension rows inside $E$, the completion route for the composite is classified by the composition clause of $T$. Componentwise transport through $H$ and consumer reads through $C$ preserve the same route through $M$, $U$, $R$, $Q$, $A$, $G$, $E$, $P$, and $N$.
+\end{theorem}
+\begin{proof}
+Read the composable dense graph rows through the second paragraph of \autoref{thm:completion-functor-functoriality}. The carrier records the source read, first graph read, second graph read, extension read, and real-seal read as finite routes.
+
+Apply \autoref{thm:completion-functor-extension-ledger-exactness}. Both completion-facing maps and the completion-facing composite are read through $E$, so the composition comparison has a single extension ledger to inspect.
+
+The ledger $T$ then compares the extension of the dense composite with the composite of the two transported extension rows. Because $T$ is transported by the same $H$ and read by the same $C$, the composition route is stable without appealing to host function equality.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor completion consumer surface]
+\label{thm:completion-functor-completion-consumer-surface}
+Every public completion consumer of an accepted $\CompletionFunctorUp$ packet factors through the displayed carrier rows $M,U,R,Q,A,G,E,T,H,C,P,N$: completed-source reads use the unit boundary, extension reads use the exact ledger $E$, identity reads use the identity clause of $T$, composition reads use the composition clause of $T$, and all reads obey the non-escape boundary.
+\end{theorem}
+\begin{proof}
+First split the consumer request by the row it asks to read. A completed-source request reaches $M$, $R$, $Q$, and $A$ by \autoref{thm:completion-functor-unit-boundary}; an extension request reaches $E$ by \autoref{thm:completion-functor-extension-ledger-exactness}.
+
+For functorial requests, use the two route-stability rows. Identity reads are governed by \autoref{thm:completion-functor-identity-route-stability}, while composition reads are governed by \autoref{thm:completion-functor-composition-route-stability}.
+
+Finally apply \autoref{thm:completion-functor-non-escape}. The listed rows exhaust the finite carrier, so the consumer surface contains no quotient completion, selected limit, hidden representative, host function equality, or ambient completeness field.
+\end{proof}
+
 \begin{theorem}[CompletionFunctor non-escape boundary]
 \label{thm:completion-functor-non-escape}
 No accepted $\CompletionFunctorUp$ carrier exports quotient completions, host function equality, selected limits, hidden representatives, or ambient completeness. Every public read of a completed object, a transported continuous map, an identity ledger, or a composition ledger factors through the finite $\BHist$ packet of \autoref{def:completion-functor-carrier}, the extension route of \autoref{thm:completion-functor-namecert-obligations}, the functoriality ledger of \autoref{thm:completion-functor-functoriality}, and the unit boundary of \autoref{thm:completion-functor-unit-boundary}.
