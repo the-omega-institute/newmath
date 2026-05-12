@@ -4,31 +4,32 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteMultiHistPacketUp
 
-open BEDC.FKernel.Mark
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FiniteMultiHistPacketUp : Type where
   | mk :
-      (histories ledgers sameness routes boundary provenance nameCert : BHist) →
+      (histories ledgers comparisons routes boundary provenance nameCert : BHist) →
       FiniteMultiHistPacketUp
   deriving DecidableEq
 
-private def finiteMultiHistPacketEncodeBHist : BHist → RawEvent
+def finiteMultiHistPacketEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: finiteMultiHistPacketEncodeBHist h
   | BHist.e1 h => BMark.b1 :: finiteMultiHistPacketEncodeBHist h
 
-private def finiteMultiHistPacketDecodeBHist : RawEvent → BHist
+def finiteMultiHistPacketDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (finiteMultiHistPacketDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteMultiHistPacketDecodeBHist tail)
 
 private theorem finiteMultiHistPacket_decode_encode_bhist :
-    ∀ h : BHist, finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h := by
+    ∀ h : BHist,
+      finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,15 +40,16 @@ private theorem finiteMultiHistPacket_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def finiteMultiHistPacketToEventFlow : FiniteMultiHistPacketUp → EventFlow
+def finiteMultiHistPacketToEventFlow : FiniteMultiHistPacketUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteMultiHistPacketUp.mk histories ledgers sameness routes boundary provenance nameCert =>
+  | FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary provenance
+      nameCert =>
       [[BMark.b0],
         finiteMultiHistPacketEncodeBHist histories,
         [BMark.b1, BMark.b0],
         finiteMultiHistPacketEncodeBHist ledgers,
         [BMark.b1, BMark.b1, BMark.b0],
-        finiteMultiHistPacketEncodeBHist sameness,
+        finiteMultiHistPacketEncodeBHist comparisons,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         finiteMultiHistPacketEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -57,7 +59,7 @@ private def finiteMultiHistPacketToEventFlow : FiniteMultiHistPacketUp → Event
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         finiteMultiHistPacketEncodeBHist nameCert]
 
-private def finiteMultiHistPacketFromEventFlow : EventFlow → Option FiniteMultiHistPacketUp
+def finiteMultiHistPacketFromEventFlow : EventFlow → Option FiniteMultiHistPacketUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -75,7 +77,7 @@ private def finiteMultiHistPacketFromEventFlow : EventFlow → Option FiniteMult
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | sameness :: rest5 =>
+                      | comparisons :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
@@ -109,7 +111,7 @@ private def finiteMultiHistPacketFromEventFlow : EventFlow → Option FiniteMult
                                                                   (finiteMultiHistPacketDecodeBHist
                                                                     ledgers)
                                                                   (finiteMultiHistPacketDecodeBHist
-                                                                    sameness)
+                                                                    comparisons)
                                                                   (finiteMultiHistPacketDecodeBHist
                                                                     routes)
                                                                   (finiteMultiHistPacketDecodeBHist
@@ -126,23 +128,24 @@ private theorem finiteMultiHistPacket_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk histories ledgers sameness routes boundary provenance nameCert =>
+  | mk histories ledgers comparisons routes boundary provenance nameCert =>
       change
         some
           (FiniteMultiHistPacketUp.mk
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist histories))
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist ledgers))
-            (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist sameness))
+            (finiteMultiHistPacketDecodeBHist
+              (finiteMultiHistPacketEncodeBHist comparisons))
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist routes))
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist boundary))
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist provenance))
             (finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist nameCert))) =
           some
-            (FiniteMultiHistPacketUp.mk histories ledgers sameness routes boundary provenance
-              nameCert)
+            (FiniteMultiHistPacketUp.mk histories ledgers comparisons routes boundary
+              provenance nameCert)
       rw [finiteMultiHistPacket_decode_encode_bhist histories,
         finiteMultiHistPacket_decode_encode_bhist ledgers,
-        finiteMultiHistPacket_decode_encode_bhist sameness,
+        finiteMultiHistPacket_decode_encode_bhist comparisons,
         finiteMultiHistPacket_decode_encode_bhist routes,
         finiteMultiHistPacket_decode_encode_bhist boundary,
         finiteMultiHistPacket_decode_encode_bhist provenance,
@@ -190,5 +193,23 @@ theorem FiniteMultiHistPacketUp_taste_gate_boundary :
   constructor
   · exact finiteMultiHistPacketChapterTasteGate
   · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
+theorem FiniteMultiHistPacketTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h) ∧
+      (∀ x : FiniteMultiHistPacketUp,
+        finiteMultiHistPacketFromEventFlow (finiteMultiHistPacketToEventFlow x) = some x) ∧
+        (∀ x y : FiniteMultiHistPacketUp,
+          finiteMultiHistPacketToEventFlow x = finiteMultiHistPacketToEventFlow y → x = y) ∧
+          finiteMultiHistPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact finiteMultiHistPacket_decode_encode_bhist
+  · constructor
+    · exact finiteMultiHistPacket_round_trip
+    · constructor
+      · intro x y heq
+        exact finiteMultiHistPacketToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.FiniteMultiHistPacketUp
