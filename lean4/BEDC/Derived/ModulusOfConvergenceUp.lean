@@ -497,6 +497,19 @@ theorem ModulusOfConvergencePacket_ledger_exactness
       exact And.intro precisionWindow
         (And.intro selectorWindow (And.intro streamRoute ledgerRoute))
 
+theorem ModulusOfConvergencePacket_standard_bridge
+    {precision selector modulus stream witness ledger provenance window : BHist} :
+    ModulusOfConvergencePacket precision selector modulus stream witness ledger provenance
+        window ->
+      hsame precision window ∧ hsame selector window ∧ Cont stream witness window ∧
+        Cont ledger provenance window ∧ NameCert (fun h : BHist => hsame h ledger) hsame := by
+  intro packet
+  cases packet with
+  | mk precisionWindow selectorWindow streamRoute ledgerRoute ledgerCert =>
+      exact And.intro precisionWindow
+        (And.intro selectorWindow
+          (And.intro streamRoute (And.intro ledgerRoute ledgerCert)))
+
 def ModulusOfConvergenceRatePacket [AskSetup] [PackageSetup]
     (precision selector modulus schedule witness ledger provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
