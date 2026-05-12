@@ -85,6 +85,46 @@ Use \autoref{thm:uniform-limit-namecert-obligations} to obtain carrier admission
 Finally apply \autoref{thm:uniform-limit-non-escape-boundary}. The route has no coordinate outside the listed BEDC rows, so the finite endpoint certificate is the whole downstream consumer surface.
 \end{proof}
 
+\begin{theorem}[UniformLimit windowwise Cauchy obligation]
+\label{thm:uniform-limit-windowwise-cauchy-obligation}
+Every endpoint-facing read of an accepted $\UniformLimitUp$ carrier must pass through the shared threshold ledger $M$ and the $\UniformCauchyCriterionUp$ tail row $T$ before it reaches the $\RegSeqRatUp$ handoff. Thus the read is windowwise uniform: no endpoint row may be obtained from a pointwise-only convergence witness or from a window threshold selected outside the packet.
+\end{theorem}
+\begin{proof}
+Project the route inventory from \autoref{def:uniform-limit-carrier}. The only endpoint-facing continuation route reads the family windows through $F$, then the shared threshold ledger $M$, then the uniform tail ledger $T$.
+
+Apply the uniform-tail and regular-seal clauses of \autoref{thm:uniform-limit-namecert-obligations}. They force the consumer route to use the same $M$ and $T$ before the handoff row $R$ can be reached.
+
+Finally use \autoref{thm:uniform-limit-seal-factorization} and \autoref{thm:uniform-limit-finite-endpoint-certificate}. Both identify the downstream endpoint path as the finite route through $F,M,T,R,S,E$, so a pointwise-only or externally selected threshold route is not part of the certificate.
+\end{proof}
+
+\begin{theorem}[UniformLimit limit-seal compatibility]
+\label{thm:uniform-limit-limit-seal-compatibility}
+The $\RegSeqRatUp$ handoff row $R$ and the $\CauchyLimitSealUp$ row $S$ of an accepted $\UniformLimitUp$ carrier are compatible with the same window coordinates and the same $\hsame$ and $\Cont$ rows used by the uniform tail route. Transporting the window family, shared threshold, or uniform tail ledger therefore transports the handoff and seal route without changing the endpoint surface.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates $H$ and $C$ from \autoref{def:uniform-limit-carrier}. These rows store the componentwise transports and displayed continuations for the function/window family, threshold ledger, uniform tail ledger, handoff row, seal row, and endpoint.
+
+Use \autoref{thm:uniform-limit-seal-factorization}. It factors every endpoint read through the same route from $F,M,T$ to $R$, then to $S$, and finally to $E$.
+
+Apply the classifier-transport clause of \autoref{thm:uniform-limit-namecert-obligations}. Since $R$ and $S$ are transported by the same $H$ and replayed by the same $C$ as the tail route, the transported packet keeps the handoff and seal compatible with the original windows and endpoint boundary.
+\end{proof}
+
+\begin{theorem}[UniformLimit ledger exactness obligation]
+\label{thm:uniform-limit-ledger-exactness-obligation}
+For an accepted $\UniformLimitUp$ carrier, the packet
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+exhausts the visible ledger. It includes the function/window family, shared modulus, uniform tail ledger, regular handoff, limit seal, endpoint row, transports, continuations, package provenance, and local naming row, and it excludes pointwise-only convergence, open-cover compactness, selected host limits, quotient function spaces, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:uniform-limit-carrier}. Its tuple lists every visible coordinate of the carrier and names the dependency rows in $P$ and $N$.
+
+Use \autoref{thm:uniform-limit-windowwise-cauchy-obligation} for the tail side and \autoref{thm:uniform-limit-limit-seal-compatibility} for the handoff and seal side. Together they show that all endpoint-facing routes are contained in the displayed packet.
+
+Finally apply \autoref{thm:uniform-limit-non-escape-boundary} and \autoref{thm:uniform-limit-finite-endpoint-certificate}. The excluded analytic structures would require additional carrier coordinates or a different consumer route, and neither is present in $U$.
+\end{proof}
+
 \closureat{UniformLimitUp}{seedStr}
 
 \begin{closurestatus}{\UniformLimitUp}
