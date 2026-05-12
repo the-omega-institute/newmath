@@ -134,6 +134,7 @@ import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -271,6 +272,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp.TerminalPacket
