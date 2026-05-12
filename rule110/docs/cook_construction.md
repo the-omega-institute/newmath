@@ -47,6 +47,11 @@ It also has an ether phase, spacetime period, horizontal displacement, footprint
 and legal spacing against other particles. A universality-grade construction
 needs all of those facts aligned.
 
+Component-level phase contracts for the leader, ossifier, and data block are
+recorded in `docs/cook_phase_exact_components.md`. That page is the current
+handoff between the behavioral package emitters and the phase-exact entry
+points that wait on the `B` through `H` glider catalog.
+
 ## 2. Implementation map
 
 The code is split into named emitters and observers so each physical component

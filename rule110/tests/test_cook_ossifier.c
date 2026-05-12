@@ -95,10 +95,29 @@ static void test_ossifier_empty_production(void) {
     printf("  ossifier_empty_production: PASS\n");
 }
 
+static void test_ossifier_phase_exact_missing_catalog(void) {
+    uint8_t cells[128];
+    uint8_t before[128];
+    const uint8_t production[3] = {1, 0, 1};
+    int rc = 0;
+
+    memset(cells, 0x5a, sizeof(cells));
+    memcpy(before, cells, sizeof(cells));
+
+    rc = cook_ossifier_emit_phase_exact(cells, 15, sizeof(cells),
+                                        production, 3);
+
+    assert(rc == COOK_OSSIFIER_PHASE_EXACT_CATALOG_MISSING);
+    assert(memcmp(cells, before, sizeof(cells)) == 0);
+
+    printf("  ossifier_phase_exact_missing_catalog: PASS\n");
+}
+
 int main(void) {
     printf("== test_cook_ossifier ==\n");
     test_ossifier_3bit_production();
     test_ossifier_empty_production();
+    test_ossifier_phase_exact_missing_catalog();
     printf("ALL test_cook_ossifier tests passed\n");
     return 0;
 }
