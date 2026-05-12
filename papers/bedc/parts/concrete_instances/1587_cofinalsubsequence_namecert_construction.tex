@@ -66,13 +66,42 @@ Next use the regular rational handoff clause. A $\RegSeqRatUp$ consumer reaches 
 The remaining coordinates are provenance rows. The displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ certificate, and local $\NameCert$ row exhaust the consumer-visible ledger, so the carrier provides no further dependency outside the listed finite selector packet.
 \end{proof}
 
+\begin{theorem}[CofinalSubsequence selector transport exactness]
+\label{thm:cofinalsubsequence-selector-transport-exactness}
+Let $Q=(S,\phi,W,D,R,E,H,C,P,N)$ and $Q'=(S',\phi',W',D',R',E',H',C',P',N')$ be accepted $\CofinalSubsequenceUp$ carriers. If the source row, unary selector row, selected finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff, $\RealUp$ seal, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows are transported componentwise by the displayed $\hsame$ coordinates, then $Q$ and $Q'$ determine the same accepted cofinal selector packet for every classifier-facing consumer read.
+\end{theorem}
+\begin{proof}
+Project the accepted carriers to the rows listed in \autoref{def:cofinalsubsequence-carrier}. The classifier has no coordinate outside the source, selector, window, observation, handoff, seal, transport, continuation, package, and naming rows.
+
+Use the selector discipline and finite-window clauses of \autoref{thm:cofinalsubsequence-namecert-obligations}. They move the source row through the unary selector before any selected window is read, and they attach the dyadic observation row to that same selected window.
+
+Transport the handoff and seal rows along the displayed $\hsame$ coordinates. The $\Cont$ rows keep the consumer route ordered from source to selector, from selector to window, from window to dyadic observation, and then to the $\RegSeqRatUp$ handoff and $\RealUp$ seal.
+
+Finally apply the consumer boundary of \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}. Since every public read is exhausted by those transported rows, the accepted cofinal selector packet is unchanged at the classifier-facing surface.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence window handoff exactness]
+\label{thm:cofinalsubsequence-window-handoff-exactness}
+For every accepted $\CofinalSubsequenceUp$ carrier $Q=(S,\phi,W,D,R,E,H,C,P,N)$ and every displayed precision request in its finite ledger, the selected $\StreamNameUp$ window is reached through the unary cofinal selector $\phi$, then its $\DyadicRatCoreUp$ observation row is read, and only then the $\RegSeqRatUp$ handoff $R$ is available to a downstream consumer. No $\RealUp$ seal row is read before this selected-window and regular-rational handoff route has been displayed.
+\end{theorem}
+\begin{proof}
+Start from a displayed precision request in the carrier. The selector discipline row of \autoref{thm:cofinalsubsequence-namecert-obligations} forces the request to pass through the unary selector $\phi$ and its inspected monotonicity and cofinality witnesses.
+
+Apply the finite-window exactness row. It reads the selected $\StreamNameUp$ window from $S$ along $\phi$ and carries the $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision observations with that selected window.
+
+Next use the regular rational handoff row of the same theorem. The $\RegSeqRatUp$ coordinate $R$ consumes exactly the selected window and dyadic observation rows, so the handoff cannot be reached through an unselected stream window.
+
+The consumer boundary of \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary} then places the $\RealUp$ seal after $R$ and $E$. Thus every seal-facing read follows the selected-window, dyadic-observation, and regular-rational handoff route first.
+\end{proof}
+
 \closureat{CofinalSubsequenceUp}{seedStr}
 \closureat{CofinalSubsequenceUp}{obligationStr}
+\closureat{CofinalSubsequenceUp}{scopedStr}
 
 \begin{closurestatus}{\CofinalSubsequenceUp}
   \constructivestory{A $\CofinalSubsequenceUp$ packet is generated from regular Cauchy or regular rational source data, a displayed unary monotone cofinal selector row, selected finite stream windows, dyadic observation rows, a regular rational handoff, a real seal, and visible provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, and \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary} describe the concrete finite selector certificate and the RegSeqRat or RealCauchyCompletion consumer boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}, \autoref{thm:cofinalsubsequence-selector-transport-exactness}, and \autoref{thm:cofinalsubsequence-window-handoff-exactness} bind the scoped finite selector route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
