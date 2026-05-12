@@ -716,6 +716,39 @@ and ledger fields are the identity implications on the Bool history carrier.
 
 \input{parts/concrete_instances/07_bool_public_endpoint_surface}
 
+\begin{theorem}[Bool finite-data bridge interface]
+\label{thm:bool-finite-data-bridge-interface}
+The endpoint bridge of \autoref{def:bool-endpoint-bridge}, endpoint coverage,
+classifier endpoint exactness, constructor separation, semantic fields, and the
+certificate of \autoref{thm:bool-concrete-semantic-namecert} form the
+bridge-ready finite-data interface from $\BoolUp$ to the standard two-endpoint
+Bool surface. Concretely, the interface consists of
+\autoref{thm:bool-endpoint-bridge-exactness},
+\autoref{thm:bool-history-carrier-endpoint-coverage},
+\autoref{thm:bool-history-classifier-endpoint-exactness},
+\autoref{thm:bool-history-classifier-constructor-separation},
+\autoref{def:bool-history-semantic-fields}, and
+\autoref{thm:bool-concrete-semantic-namecert}.
+\end{theorem}
+\begin{proof}
+The endpoint bridge supplies the two visible endpoints, and
+\autoref{thm:bool-endpoint-bridge-exactness} identifies endpoint agreement
+with the kernel mark equality read by the Bool bridge.
+
+Endpoint coverage follows from
+\autoref{thm:bool-history-carrier-endpoint-coverage}. Classifier exactness and
+constructor separation are supplied by
+\autoref{thm:bool-history-classifier-endpoint-exactness} and
+\autoref{thm:bool-history-classifier-constructor-separation}, so the two
+constructors are both covered and separated.
+
+The semantic fields of \autoref{def:bool-history-semantic-fields} and the
+public certificate of \autoref{thm:bool-concrete-semantic-namecert} package the
+carrier, pattern, and ledger rows into the finite Bool surface. These are
+exactly the finite data a bridge layer may consume, without asserting a
+machine-checked standard bridge in this chapter.
+\end{proof}
+
 \closureat{BoolUp}{publicStr}[BEDC.Derived.BoolUp.bool\_history\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\BoolUp}
