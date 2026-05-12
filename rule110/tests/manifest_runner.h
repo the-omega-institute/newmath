@@ -20,4 +20,7 @@ MrResult mr_run_ct_manifest(const char *manifest_path,
                             const char *expected_final_tape,
                             size_t max_steps);
 
+MrResult mr_run_r110_manifest(const char *manifest_path,
+                              size_t max_diff_cells);
+
 #endif
