@@ -210,6 +210,20 @@ For componentwise transport, apply \autoref{thm:regseqrat-classifier-transport}.
 The carrier of \autoref{def:regseqrat-stream-carrier} and the classifier of \autoref{def:regseqrat-classifier} therefore close under these finite operations by repacking existing rows. The resulting packet is still a $\RegSeqRatUp$ source surface, not a quotient or completion object.
 \end{proof}
 
+\begin{theorem}[RegSeqRat finite-window classifier reflexivity]
+\label{thm:regseqrat-finite-window-classifier-reflexivity}
+Every accepted finite $\RegSeqRatUp$ scheduled window over its displayed $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ endpoint rows, $\DyadicRatCoreUp$ radius rows, regularity ledger, $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ row carries a $\mathsf{RegSeqRatClassifier}$ witness from that finite window to itself.
+
+The self-classifier uses the same schedule rows, endpoint rows, radius rows, dyadic distance ledgers, regularity ledgers, package provenance, and naming row as the input window. It introduces no quotient stream, host real equality, metric-completion datum, or $\RealUp$ seal claim.
+\end{theorem}
+\begin{proof}
+Project the accepted window through \autoref{thm:regseqrat-regularity-obligation-surface}. This exposes the finite schedule, endpoint rows, radius rows, regularity ledger, displayed $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ row that already belong to the accepted packet.
+
+Use identity $\hsame$ rows on each displayed coordinate and reuse the same $\Cont$ routes. With the source and target window equal, the endpoint, radius, distance, and regularity ledgers are exactly the rows already read by the dyadic-radius classifier surface.
+
+Apply \autoref{thm:regseqrat-finite-window-transport-closure} to the identity transport of this finite packet. The resulting repackaged surface is a $\mathsf{RegSeqRatClassifier}$ witness from the window to itself, built only from the displayed finite-window rows.
+\end{proof}
+
 \begin{theorem}[RegSeqRat refined-window gluing]
 \label{thm:regseqrat-refined-window-gluing}
 Let $W_0$ and $W_1$ be accepted finite scheduled windows of the same $\RegSeqRatUp$ stream carrier. Suppose $\StreamNameUp$ supplies a finite common refinement schedule $W_\cup$ whose source rows restrict to the two input schedules, and suppose the overlapping unary index rows, $\DyadicRatCoreUp$ endpoint rows, dyadic radius rows, regularity ledgers, and classifier ledgers of $W_0$ and $W_1$ agree along the displayed $\hsame$ comparisons and $\Cont$ routes. Then the refined union repacks as an accepted finite $\RegSeqRatUp$ window over $W_\cup$.
@@ -700,4 +714,3 @@ the tail-stable cover exhausts the whole seal-facing source surface and
 leaves no off-table quotient, host-equality, completion, or extra seal row to
 read.
 \end{proof}
-
