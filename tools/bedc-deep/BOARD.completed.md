@@ -17567,3 +17567,27 @@ Rationale:
 This is a concrete core signature-classification theorem rather than a verification marker or closure-status task. Existing core coverage includes singleton bundle grammar, empty-bundle sameSig, cons signature inversion/determinacy, sameSig append closure/cancellation/exact split, and duplicate-probe obstruction, but no paper label or BOARD title states the one-probe exact iff reducing singleton signature sameness precisely to the two head Ask events and mark sameness. It is close to the signature-generation surface yet distinct from append residual and cons determinacy results, and the proposed landing files are not hub-only and remain below the line cap for a short theorem insertion.
 
 ---
+
+### B-698 - EllipticCurve Weierstrass bridge boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | EllipticCurve Weierstrass bridge boundary |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a standard Weierstrass elliptic-curve presentation is admitted only through the FieldUp row, ProjectiveVarUp row, five coefficient rows, cubic incidence row, smooth genus-one row, base-point row, classifier transports, and Pkg provenance of an EllipticCurveUp packet, then it repacks to the same public EllipticCurveUp surface and exports no group law or external curve equality.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/153_ellipticcurve_namecert_construction.tex`
+
+Rationale:
+The EllipticCurveUp chapter has mature field/projective carrier coverage and explicitly leaves the standard Weierstrass bridge outside the current surface. This target is a conservative bridge-boundary theorem over already enumerated BEDC rows, distinct from the existing coefficient ledger and field-projective compatibility theorems because it addresses the standard-presentation admission boundary while still excluding group law and external model equality.
+
+---
