@@ -49,4 +49,40 @@ theorem LipschitzMapCarrier_uniform_modulus_boundary [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right⟩
 
+theorem LipschitzMapCarrier_bound_transport [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert source' target'
+      bound' graph' modulus' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      hsame source source' ->
+        hsame target target' ->
+          hsame bound bound' ->
+            hsame graph graph' ->
+              Cont graph' bound' modulus' ->
+                LipschitzMapCarrier source' target' bound' graph' modulus' transports routes
+                    provenance localCert bundle pkg ∧
+                  hsame modulus modulus' := by
+  intro carrier sameSource sameTarget sameBound sameGraph modulusCont'
+  obtain ⟨sourceUnary, targetUnary, boundUnary, graphUnary, transportsUnary, routesUnary,
+    localCertUnary, modulusCont, provenanceCont, pkgSig⟩ := carrier
+  have sourceUnary' : UnaryHistory source' :=
+    unary_transport sourceUnary sameSource
+  have targetUnary' : UnaryHistory target' :=
+    unary_transport targetUnary sameTarget
+  have boundUnary' : UnaryHistory bound' :=
+    unary_transport boundUnary sameBound
+  have graphUnary' : UnaryHistory graph' :=
+    unary_transport graphUnary sameGraph
+  have _modulusUnary' : UnaryHistory modulus' :=
+    unary_cont_closed graphUnary' boundUnary' modulusCont'
+  have sameModulus : hsame modulus modulus' :=
+    cont_respects_hsame sameGraph sameBound modulusCont modulusCont'
+  have provenanceCont' : Cont modulus' routes provenance := by
+    cases sameModulus
+    exact provenanceCont
+  exact
+    ⟨⟨sourceUnary', targetUnary', boundUnary', graphUnary', transportsUnary, routesUnary,
+      localCertUnary, modulusCont', provenanceCont', pkgSig⟩, sameModulus⟩
+
 end BEDC.Derived.LipschitzMapUp
