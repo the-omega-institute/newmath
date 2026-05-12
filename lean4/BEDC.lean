@@ -1199,6 +1199,7 @@ import BEDC.MetaCIC.Substitution.Core
 import BEDC.MetaCIC.TypedExamples.Projections
 import BEDC.MetaCIC.TypedExamples.BasicApplications
 import BEDC.MetaCIC.TypedExamples.Applications
+import BEDC.HostBridge.MetaCICTransport
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
