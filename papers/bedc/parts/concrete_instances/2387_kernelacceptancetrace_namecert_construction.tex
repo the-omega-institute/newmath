@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\KernelAcceptanceTraceUp$}
+\label{ch:concrete-instances-kernelacceptancetrace-namecert}
+\origin{human}
+
+The $\KernelAcceptanceTraceUp$ surface records kernel acceptance as a finite trace packet: a submitted candidate, the type and classifier under which it is checked, the accepted stamp, the environment row, the displayed axiom ledger, transport, continuation, provenance, and local naming row. It is an audit witness for what the kernel admitted and which dependency rows the admission exposes, not a proof of kernel correctness.
+
+\begin{definition}[KernelAcceptanceTrace carrier]
+\label{def:kernel-acceptance-trace-carrier}
+A $\KernelAcceptanceTraceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,T,C,S,E,L,H,R,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ is the candidate row naming the term, declaration, inductive clause, or recursor instance submitted to the kernel;
+\item $T$ is the type row against which the candidate is checked;
+\item $C$ is the kernel classifier row recording the admitted declaration class and the local acceptance predicate for the candidate at type $T$;
+\item $S$ is the kernel stamp row that records the accepted name, module position, and replay boundary for the acceptance event;
+\item $E$ is the environment row in which the stamp is valid;
+\item $L$ is the displayed axiom ledger for the accepted trace, including the dependency rows exposed by the strict audit query;
+\item $H$ stores componentwise $\hsame$ transports for the candidate, type, classifier, stamp, environment row, axiom ledger, package provenance, and local naming row;
+\item $R$ stores the displayed $\Cont$ routes through which consumers read the candidate, transport the classifier, inspect the stamp, query the environment ledger, and replay the axiom ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, candidate rows, type rows, kernel classifiers, kernel stamps, environment ledgers, axiom ledgers, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KernelAcceptanceTraceUp}$ row.
+\end{enumerate}
+The carrier has no hidden coordinate for ambient kernel soundness, host runtime trust, compiler trust, unqueried dependency ancestry, or a stronger paper-side theorem than the accepted declaration states.
+\end{definition}
+
+\begin{theorem}[KernelAcceptanceTrace NameCert obligations]
+\label{thm:kernel-acceptance-trace-namecert-obligations}
+For every accepted $\KernelAcceptanceTraceUp$ carrier
+$$
+K=(A,T,C,S,E,L,H,R,P,N),
+$$
+the local $\NameCert_{\KernelAcceptanceTraceUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed packet $K$ and its candidate, type, classifier, stamp, environment, axiom ledger, transport, continuation, provenance, and naming rows;
+\item classifier transport, requiring every accepted comparison of traces to move $A,T,C,S,E,L,P,N$ only by the componentwise $\hsame$ rows in $H$ and the displayed $\Cont$ routes in $R$;
+\item kernel-stamp exposure, requiring consumers to read acceptance through the accepted name, module position, and replay boundary in $S$;
+\item environment-ledger exposure, requiring the accepted trace to route through the environment row $E$ and the displayed axiom ledger $L$ before any dependency claim is consumed;
+\item non-escape, excluding hidden kernel soundness, host runtime trust, compiler trust, unqueried dependency ancestry, and theorem-content strengthening outside the accepted declaration.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:kernel-acceptance-trace-carrier}. The packet lists the candidate, type, classifier, stamp, environment, axiom ledger, transport, continuation, provenance, and local naming rows as finite coordinates.
+
+Classifier transport is componentwise. The $\hsame$ rows in $H$ preserve the displayed coordinates, and the $\Cont$ rows in $R$ give only the routes named in the packet, so the accepted trace cannot be compared through an unrecorded classifier.
+
+The stamp and environment obligations then force every acceptance read through $S$ and $E$. The axiom ledger $L$ is the only displayed ancestry row for dependency classification.
+
+Finally inspect the carrier inventory. Since no coordinate names kernel soundness, host runtime trust, compiler trust, unqueried ancestry, or theorem strengthening beyond the accepted declaration, no local $\NameCert_{\KernelAcceptanceTraceUp}$ consumer can export such data.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceTrace axiom ledger non-escape]
+\label{thm:kernel-acceptance-trace-axiom-ledger-nonescape}
+For every accepted $\KernelAcceptanceTraceUp$ carrier
+$$
+K=(A,T,C,S,E,L,H,R,P,N),
+$$
+the exported dependency surface is exactly the displayed axiom ledger $L$ together with the stamp, environment, transport, continuation, provenance, and local naming rows $S,E,H,R,P,N$. No consumer may obtain a hidden $\mathsf{Classical}$ source, $\mathsf{Quot}$ source, $\mathsf{propext}$ source, or any other unlisted dependency by reading the candidate row, type row, classifier row, or acceptance stamp alone.
+\end{theorem}
+\begin{proof}
+Read the dependency side of the carrier through $L$. The ledger is a named coordinate of the finite packet and is the only row that classifies transitive dependency ancestry.
+
+The stamp $S$ and environment row $E$ identify where the accepted declaration lives, while $H,R,P,N$ preserve and package the route by transport, continuation, provenance, and local naming. These rows can expose the displayed ledger but do not add a second ancestry channel.
+
+Therefore a hidden $\mathsf{Classical}$, $\mathsf{Quot}$, $\mathsf{propext}$, or other unlisted source would require an extra coordinate outside $K$. The local trace certificate has no such coordinate, so the accepted trace exports only the displayed axiom ledger.
+\end{proof}
+
+\closureat{KernelAcceptanceTraceUp}{seedStr}
+
+\begin{closurestatus}{\KernelAcceptanceTraceUp}
+  \constructivestory{A $\KernelAcceptanceTraceUp$ packet is generated from a submitted candidate, type row, kernel classifier, acceptance stamp, environment row, displayed axiom ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-trace-carrier}, \autoref{thm:kernel-acceptance-trace-namecert-obligations}, and \autoref{thm:kernel-acceptance-trace-axiom-ledger-nonescape} bind the finite trace carrier, local naming obligations, kernel stamp, environment row, and displayed axiom-ledger boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, kernel correctness, host runtime correctness, compiler correctness, theorem-content strengthening beyond the accepted declaration, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, kernel-stamp exposure, environment-ledger exposure, and axiom-ledger non-escape for the trace packet.}
+\end{closurestatus}

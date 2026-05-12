@@ -112,6 +112,7 @@ Two theorems from \texttt{lean4/BEDC/MetaCIC/ClosedTerm.lean} carry the technica
 \begin{itemize}
   \item \texttt{shift\_closed} -- \leanvariant{BEDC.MetaCIC.shift\_closed}
   \item \texttt{substitute\_closed} -- \leanvariant{BEDC.MetaCIC.substitute\_closed}
+  \item \texttt{closed\_under\_substitute\_classifier} -- \leanvariant{BEDC.MetaCIC.closed\_under\_substitute\_classifier} (instance of \leanvariant{BEDC.MetaCIC.GeneratorClosureClassifier})
 \end{itemize}
 
 \texttt{shift\_closed} states that shifting a term at its closedness boundary by
@@ -238,6 +239,8 @@ The compiler may feed its own term representation to its own evaluator without
 turning closed source into boundary-leaking source at this operation.
 
 The theorem is therefore a local non-escape certificate.
+
+\concretizedIn{ch:concrete-instances-closedsubstitutionseal-namecert}{Closed substitution is realized as a finite seal whose inert boundary is certified by the MetaCIC closedness classifier.}
 
 It is local because it speaks only about the \texttt{substitute} operation at a
 single depth.
@@ -459,6 +462,8 @@ $$
 
 The exactness is the point.
 
+\concretizedIn{ch:concrete-instances-closed-substitution-boundary-namecert}{Closed substitution is represented by a finite boundary packet whose substitute route is inert on the \texttt{ClosedAt} slice.}
+
 At the boundary where a substitution payload could otherwise enter, the
 closedness classifier proves that there is no target for it.
 
@@ -505,3 +510,10 @@ It does not complete the entire compiler story.
 
 It closes this boundary, with this classifier, for this authorized generator,
 under the executable audit gate.
+
+\concretizedIn{ch:concrete-instances-closedtermsubstitution-namecert}{Closed-term substitution is realized as a finite NameCert packet for boundary-inert substitution over MetaCIC closed terms.}
+\concretizedIn{ch:concrete-instances-closedsubstitutionseal-namecert}{Closed substitution seals realize the MetaCIC closedness boundary as a finite NameCert packet over Term, ClosedAt, substitution, shift, audit, and self-compilation rows.}
+
+\concretizedIn{ch:concrete-instances-closedtermsubstitutionboundary-namecert}{Closed-term substitution boundary is realized as a finite NameCert packet over Term, ClosedAt, shift, substitute, closedness ledgers, and audit-visible non-escape rows.}
+\concretizedIn{ch:concrete-instances-binderbudgetseal-namecert}{Binder-budget seals realize the ClosedAt boundary as a finite NameCert packet for shift and substitution non-escape.}
+\concretizedIn{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}{Closed-term substitution is realized as a finite compiler-boundary NameCert over ClosedAt, substitute, shift, BHist, Cont, Pkg, and NameCert.}

@@ -59,6 +59,7 @@ The ledger $T$ compares the completion of the composite dense map with the compo
 \label{thm:completion-functor-unit-boundary}
 For every accepted $\CompletionFunctorUp$ carrier, the unit row of $\CauchyCompletionMonadUp$ and the real seal of $\RealCauchyCompletionUp$ agree at the public boundary through the displayed rows $M$, $R$, $Q$, $A$, $E$, $H$, $C$, $P$, and $N$. A dense regular rational input is first read as $Q$, then admitted through the completion envelope $M$, and finally exposed through the $\RealUp$ seal $A$ without adding a quotient representative or a selected limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_unit\_boundary}
 \begin{proof}
 Start with the displayed regular rational source row $Q$. The completion envelope $M$ supplies the unit-facing packet for this source, using finite stream windows and regular rational observations.
 
@@ -84,6 +85,7 @@ Finally use the non-escape inventory implicit in the carrier. Since no coordinat
 \label{thm:completion-functor-identity-route-stability}
 For an accepted $\CompletionFunctorUp$ carrier $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ whose dense map row $G$ is the identity $\ContinuousMapUp$ row on the displayed dense source, the identity completion route is stable under the componentwise $\hsame$ rows in $H$ and the $\Cont$ routes in $C$. Its public read is the identity clause of the functoriality ledger $T$, using the same extension ledger $E$ and unit-boundary rows $M$, $R$, $Q$, and $A$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_identity\_route\_stability}
 \begin{proof}
 Start with the identity part of \autoref{thm:completion-functor-functoriality}. The dense identity graph is read as a displayed $\ContinuousMapUp$ row, then repacked by $U$ and $E$ through the source row $Q$ and completion envelope $M$.
 
@@ -108,6 +110,7 @@ The ledger $T$ then compares the extension of the dense composite with the compo
 \label{thm:completion-functor-completion-consumer-surface}
 Every public completion consumer of an accepted $\CompletionFunctorUp$ packet factors through the displayed carrier rows $M,U,R,Q,A,G,E,T,H,C,P,N$: completed-source reads use the unit boundary, extension reads use the exact ledger $E$, identity reads use the identity clause of $T$, composition reads use the composition clause of $T$, and all reads obey the non-escape boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_completion\_consumer\_surface}
 \begin{proof}
 First split the consumer request by the row it asks to read. A completed-source request reaches $M$, $R$, $Q$, and $A$ by \autoref{thm:completion-functor-unit-boundary}; an extension request reaches $E$ by \autoref{thm:completion-functor-extension-ledger-exactness}.
 
@@ -172,14 +175,15 @@ Finally invoke \autoref{thm:completion-functor-completion-consumer-surface} and 
 \closureat{CompletionFunctorUp}{seedStr}
 \closureat{CompletionFunctorUp}{obligationStr}
 \closureat{CompletionFunctorUp}{scopedStr}
+\closureat{CompletionFunctorUp}{publicStr}
 
 \begin{closurestatus}{\CompletionFunctorUp}
   \constructivestory{A $\CompletionFunctorUp$ packet is generated from a $\CauchyCompletionMonadUp$ completion envelope, a $\CompletionUniversalPropertyUp$ extension row, a $\RealCauchyCompletionUp$ real-completion row, a $\RegSeqRatUp$ dense source, a $\RealUp$ seal, a $\ContinuousMapUp$ dense map, a finite extension ledger, a functoriality ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the finite carrier, extension ledger, unit boundary, identity route, composition route, and consumer surface to the displayed completion monad, universal-property, real-completion, regular-sequence, real-seal, continuous-map, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:completion-functor-public-extension-interface} exports the public completion-functor interface over $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completions, host function equality, selected limits, ambient completeness, completed-category laws beyond the displayed finite ledger, or bridge checking.}
-  \upgradepath{Public closure requires an exported completion-functor consumer theorem over the same $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Bridge closure requires a standard bridge for the displayed completion-functor packet.}
 \end{closurestatus}

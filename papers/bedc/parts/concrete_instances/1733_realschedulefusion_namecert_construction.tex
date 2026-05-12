@@ -100,6 +100,7 @@ The $\ChapterTasteGate$ surface for $\RealScheduleFusionUp$ is exactly the singl
 
 Consequently any promotion of this chapter beyond seed strength must certify this same carrier surface: no carrier coordinate may be duplicated as a proof step, and no hidden quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness may be used as a substitute for one of the displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealScheduleFusionUp.taste\_gate}
 \begin{proof}
 The carrier is the tuple displayed in \autoref{def:realschedulefusion-carrier}. Its local naming obligations are the five rows of \autoref{thm:realschedulefusion-namecert-obligations}, so the TasteGate surface has a single finite object to inspect.
 
@@ -108,15 +109,64 @@ The schedule lock is \autoref{thm:realschedulefusion-streamname-regseqrat-lock}.
 The ledger boundary is \autoref{thm:realschedulefusion-ledger-non-escape}, and the public boundary is \autoref{thm:realschedulefusion-standard-boundary}. These two boundaries rule out carrier-echo proof text: a proof may cite the finite rows and their routes, but it cannot replace a missing row by repeating the carrier description.
 \end{proof}
 
-\closureat{RealScheduleFusionUp}{seedStr}
+\begin{theorem}[Real schedule fusion TasteGate obligation closure]
+\label{thm:realschedulefusion-tastegate-obligation-closure}
+The carrier of \autoref{def:realschedulefusion-carrier}, the NameCert obligations of \autoref{thm:realschedulefusion-namecert-obligations}, the schedule lock of \autoref{thm:realschedulefusion-streamname-regseqrat-lock}, the real and completion handoff of \autoref{thm:realschedulefusion-real-completion-handoff}, the ledger non-escape theorem of \autoref{thm:realschedulefusion-ledger-non-escape}, the standard boundary of \autoref{thm:realschedulefusion-standard-boundary}, and the TasteGate surface of \autoref{thm:realschedulefusion-tastegate-obligation-surface} form the complete obligation closure for the single $\RealScheduleFusionUp$ carrier checked by $\mathsf{RealScheduleFusionTasteGate\_single\_carrier\_alignment}$.
+\end{theorem}
+\begin{proof}
+Use the checked TasteGate marker attached to \autoref{def:realschedulefusion-carrier}. It fixes the chapter to the single carrier surface inspected by the TasteGate, so the closure cannot introduce a second carrier row or an alternate schedule object.
+
+The finite ledger rows are supplied by the displayed theorems. The NameCert obligation rows give carrier habitation, classifier transport, schedule-readback lock, real-completion handoff, and ledger boundary. The schedule-lock, handoff, non-escape, and standard-boundary theorems then account for each consumer-facing route named by those obligations.
+
+Finally apply the TasteGate surface theorem. It states that any stronger chapter reading must certify the same finite carrier surface rather than repeat the carrier as a proof substitute. The listed rows therefore exhaust the obligation surface for the single carrier.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion schedule-lock consumer scope]
+\label{thm:realschedulefusion-schedule-lock-consumer-scope}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\StreamNameUp$ consumer route through the schedule row $S$ reaches the finite window ledger $W$ and the $\RegSeqRatUp$ readback row $R$ only by the displayed $\Cont$ routes in $C$ and the componentwise $\hsame$ transports in $H$. The scope contains no second schedule carrier and no alternate readback row.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:realschedulefusion-carrier}. It has one schedule coordinate $S$, one finite window coordinate $W$, and one regular-rational readback coordinate $R$.
+
+The continuation row $C$ stores the visible route from schedule inspection to window selection and then to regular-rational readback. The transport row $H$ is the only mechanism by which another displayed packet can be compared with those rows.
+
+Thus a $\StreamNameUp$ consumer may reach $W$ and $R$ only through the stored route and transport witnesses. Since the carrier has no second schedule coordinate and no second readback coordinate, no alternate schedule carrier can be read by this chapter.
+\end{proof}
+
+\begin{theorem}[Real and completion consumer scope]
+\label{thm:realschedulefusion-real-completion-consumer-scope}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealScheduleFusionUp$ carrier reads the same seal row $E$ only after $S$, $W$, and $R$ have been fixed by the schedule-lock scope. The real-facing and completion-facing reads therefore share the finite schedule, window, and regular-rational readback rows before any seal or handoff is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a real-facing or completion-facing route. The only seal coordinate in the carrier is $E$, so the route must arrive at that row from the displayed schedule, window, and readback coordinates.
+
+Apply \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}. It fixes $S$, $W$, and $R$ before any downstream consumer can inspect the seal row.
+
+The $\RealUp$ consumer reads the real seal from $E$, and the $\CompletionUp$ consumer reads the completion handoff from the same $E$ row. Because both reads share the fixed upstream rows, neither consumer can introduce a separate completion witness, selected limit, quotient stream, or host equality.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion scoped dependency closure]
+\label{thm:realschedulefusion-scoped-dependency-closure}
+The $\RealScheduleFusionUp$ scoped dependency surface is the schedule-lock consumer scope of \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}, the real and completion consumer scope of \autoref{thm:realschedulefusion-real-completion-consumer-scope}, and the checked TasteGate surface of \autoref{thm:realschedulefusion-tastegate-obligation-surface}. It closes the current Real and Completion dependency row for the single finite carrier without adding a quotient stream, selected limit, ambient completeness proof, host real equality, or second schedule carrier.
+\end{theorem}
+\begin{proof}
+First use the schedule-lock consumer scope. It forces every $\StreamNameUp$ read through $S$ to reach $W$ and $R$ by the displayed continuation routes and componentwise transports.
+
+Next use the real and completion consumer scope. It says that $\RealUp$ and $\CompletionUp$ both read the seal row $E$ only after the same $S$, $W$, and $R$ rows are fixed.
+
+Finally apply the checked TasteGate surface. The TasteGate pins all of these rows to the single finite carrier $F=(S,W,R,E,H,C,P,N)$, so the scoped dependency closure has no place for an alternate schedule object, hidden completion witness, or host-side equality.
+\end{proof}
+
+\closureat{RealScheduleFusionUp}{obligationStr}[BEDC.Derived.RealScheduleFusionUp.RealScheduleFusionTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RealScheduleFusionUp}
   \constructivestory{A $\RealScheduleFusionUp$ packet is generated by a $\StreamNameUp$ schedule row, a finite window ledger, a $\RegSeqRatUp$ readback row, a $\RealUp$ and $\CompletionUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, local NameCert obligations, StreamName and RegSeqRat lock, real and completion handoff, ledger non-escape, and standard boundary for schedule-fusion packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the single TasteGate carrier, local NameCert obligations, StreamName and RegSeqRat lock, real and completion handoff, ledger non-escape, standard boundary, and complete obligation closure for schedule-fusion packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
+  \leanchecked{BEDC.Derived.RealScheduleFusionUp.taste\_gate}
   \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, host completion witnesses, or Lean verification.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding and checked finite-ledger theorems for schedule lock, real and completion handoff, non-escape, and the standard boundary.}
+  \upgradepath{Scoped dependency closure requires checked finite-ledger theorems tying the schedule lock, real and completion handoff, non-escape, standard boundary, and TasteGate surface to downstream Real and Completion consumers.}
 \end{closurestatus}
