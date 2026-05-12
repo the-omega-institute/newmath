@@ -138,15 +138,18 @@ convergence-rate ledger and no extra completion object, quotient equality,
 global modulus choice, or selected real limit.
 \end{proof}
 
-\begin{theorem}[ModulusOfConvergence scoped dependency package]\label{thm:modulusofconvergence-scoped-dependency-package}
-The carrier packet, $\NameCert$ obligation surface, composition stability, tail
-restriction stability, and ledger exactness together form the scoped dependency
-package for $\ModulusOfConvergenceUp$. Every exported convergence-rate read
-factors through finite $\mathsf{BHist}$ rows, displayed $\hsame$ comparisons,
-displayed $\Cont$ windows, $\mathsf{Pkg}$ provenance, and the local $\NameCert$
-row over the precision request, unary threshold selector, modulus row,
-$\StreamNameUp$ observation schedule, and $\RegSeqRatUp$ late-observation
-witness.
+\begin{theorem}[ModulusOfConvergence scoped dependency packet]\label{thm:modulusofconvergence-scoped-dependency-packet}
+For an accepted $\ModulusOfConvergenceUp$ packet, the carrier, classifier,
+composition, tail-restriction, and ledger exactness rows form one scoped BEDC
+dependency packet over $\mathsf{BHist}$. Precision and threshold transport are
+read only through $\hsame$, finite observation windows are read only through
+$\Cont$, provenance is read only through $\mathsf{Pkg}$, and the public
+certificate row is read only through
+$\NameCert_{\ModulusOfConvergenceUp}$.
+
+The packet preserves the displayed $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors. It excludes quotient completion,
+selected real limits, and global threshold choice.
 \end{theorem}
 \begin{proof}
 Project the seven carrier coordinates of
@@ -166,8 +169,10 @@ composition and tail restriction.
 
 Finally apply \autoref{thm:modulusofconvergence-ledger-exactness}. It says
 that every $\RegSeqRatUp$ or $\RealUp$ consumer read factors through the
-listed BEDC rows, so no completion object, quotient equality, selected limit,
-or global choice is exposed by the scoped packet.
+listed BEDC rows and keeps the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors visible. Hence no completion object,
+quotient equality, selected limit, or global threshold choice is exposed by the
+scoped packet.
 \end{proof}
 
 \closureat{ModulusOfConvergenceUp}{obligationStr}
