@@ -1,0 +1,131 @@
+\chapter{The Finite Kernel Is Already a Category}
+\label{ch:visions-kernel-as-category}
+
+The checked categorical interface for BEDC is the unary-continuation
+$\CategoryUp$ package over $\mathsf{BHist}$. Its objects are unary histories,
+its displayed hom-carriers are histories $f$ equipped with a continuation
+ledger from $a$ to $b$, and morphism equality is the endpoint-stable
+classifier $\hsame$ on displayed hom histories. The prior capstone
+Computation as Continuation (\autoref{ch:visions-computation-as-continuation})
+reads $\Cont$ as a small-step relation; the present chapter records the
+checked categorical reading available to the paper-Lean interface.
+
+\section{Hom as unary continuation}
+\label{sec:kernel-as-category-hom-as-cont}
+
+\begin{theorem}[Unary-continuation category realizes the continuation interface]
+\label{thm:kernel-as-category-unary-continuation-realization}
+For unary histories $a,b,f:\mathsf{BHist}$, the checked hom-carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$ is equivalent to unary endpoints and a
+continuation morphism whose tail is classified as $f$:
+$$
+\mathsf{CategoryHomCarrier}(a,b,f)
+\quad\Longleftrightarrow\quad
+\mathsf{UnaryHistory}(a)\wedge
+\mathsf{UnaryHistory}(b)\wedge
+\mathsf{UnaryHistory}(f)\wedge
+\exists m:\mathsf{ContinuationMorphism}(a,b),\,
+\hsame(\mathsf{tail}(m),f).
+$$
+With this hom-carrier, the unary-continuation $\CategoryUp$ package satisfies
+identity, binary composition closure, associativity of displayed composition,
+left and right unit laws, and endpoint-transport stability under $\hsame$.
+\end{theorem}
+
+\begin{proof}
+The equivalence is exactly
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}.
+Its forward direction unpacks a displayed hom-carrier into unary source,
+target, and morphism histories, then packages the continuation ledger as a
+$\mathsf{ContinuationMorphism}$ whose displayed tail is classified by
+$\hsame$. Its reverse direction transports the continuation ledger carried by
+the morphism tail across the supplied $\hsame$ classifier and repacks the four
+fields of $\mathsf{CategoryHomCarrier}$.
+
+The categorical law package is
+\autoref{thm:category-unary-continuation-stability-law-package}. It supplies
+the empty hom-carrier identities, closure under displayed binary composition,
+associativity for the two displayed composites of a threefold composition,
+the left and right empty-composition laws, and preservation of hom-carriers
+after endpoint transport along $\hsame$.
+\end{proof}
+
+\begin{theorem}[Category hom-carrier morphism induction]
+\label{thm:category-hom-carrier-morphism-induction}
+For fixed unary-continuation endpoints \(a,b:\mathsf{BHist}\), any predicate
+on displayed morphism histories holds for every
+\(\mathsf{CategoryHomCarrier}(a,b,f)\) if it holds at \(\emp\) and is
+preserved by one-step unary extension of the morphism history.
+\end{theorem}
+\begin{proof}
+Unpack \(\mathsf{CategoryHomCarrier}(a,b,f)\). Its morphism field is exactly
+the unary-history witness for \(f\), so unary-history induction over \(f\)
+proves the displayed predicate.
+\end{proof}
+\leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_morphism\_induction}
+
+\section{Derived presentations over the unary category}
+\label{sec:kernel-as-category-laws}
+
+\begin{remark}[FunctorUp and NatTransUp as bounded bridges]
+\label{rem:kernel-as-category-functorup-nattransup}
+$\NameCert_{\FunctorUp}$ (\autoref{ch:concrete-instances-functor-namecert})
+and $\NameCert_{\NatTransUp}$
+(\autoref{ch:concrete-instances-nattrans-namecert}) are prefix and component
+presentations over the checked unary-continuation category. They use the same
+BEDC carriers, classifiers, and continuation stability obligations at their
+own certificate sites. A standard category interface or mathlib bridge is not
+asserted here; that bridge remains governed by the roadmap bridge phase.
+\end{remark}
+
+\paragraph{Capstone}
+
+\begin{theorem}[Prefix functor identity naturality bridge]
+\label{thm:prefix-functor-nattrans-identity-bridge}
+For histories $p,a,b,f,left,right:\mathsf{BHist}$, assume
+$\mathsf{UnaryHistory}(p)$, $\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\ContR(\emp,f,left)$, and $\ContR(f,\emp,right)$. Then the checked
+$\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ facts compose into the concrete
+identity-naturality bridge:
+\begin{enumerate}
+\item $left$ and $right$ are hom-carriers from $\mathsf{append}(p,a)$ to
+$\mathsf{append}(p,b)$.
+\item $\hsame(left,right)$.
+\item each displayed hom-carrier reflects through the unary context exactness
+theorem to the original unprefixed
+hom carrier $\mathsf{CategoryHomCarrier}(a,b,f)$, with the left and right unit
+continuations identifying the displayed morphism with $f$.
+\item for every unary object $x:\mathsf{BHist}$ and every empty identity
+continuation $id$ with $\ContR(\emp,\emp,id)$, the empty component supplied by
+the prefix functor identity law is a hom-carrier from
+$\mathsf{append}(p,x)$ to $\mathsf{append}(p,x)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:nattrans-prefix-identity-naturality-square} to the unary
+prefix, the displayed hom-carrier $f:a\to b$, and the two empty-composite
+continuations. It gives the two displayed hom-carriers after prefixing by $p$
+and the classifier equality $\hsame(left,right)$.
+
+Next apply \autoref{thm:category-hom-carrier-unary-context-exactness} to each
+displayed carrier. The same unary prefix $p$ is already part of the hypotheses,
+so the readback is the corresponding unprefixed hom-carrier; the empty left and
+right unit continuations identify those displayed morphisms with the original
+carrier $f$.
+
+Finally, apply
+\autoref{thm:functor-prefix-hom-carrier-empty-identity-preserves} at any unary object
+$x$. Its identity-closure statement supplies the empty component carrier over
+$\mathsf{append}(p,x)$, giving the component data used by the identity natural
+transformation.
+\end{proof}
+
+\begin{remark}[No new axioms]
+\label{rem:kernel-as-category-no-new-axioms}
+\autoref{thm:kernel-as-category-unary-continuation-realization} introduces no
+kernel-level definition not already present in the checked $\CategoryUp$
+continuation bridge. The categorical reading is obtained by unfolding
+$\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, and $\hsame$
+transport, then applying the already checked stability package.
+\end{remark}

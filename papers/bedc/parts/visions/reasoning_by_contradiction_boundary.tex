@@ -1,0 +1,120 @@
+\chapter{Reasoning by Contradiction: BEDC's Permitted Forms}
+\label{ch:visions-reasoning-by-contradiction-boundary}
+
+BEDC accepts certain forms of reasoning by contradiction and rejects others, and the boundary is not a stylistic preference but a structural one. The permitted patterns -- proving a negation by deriving falsity from the assumption, eliminating double negation on a decidable proposition, refuting a false existence claim by exhibiting a counterexample to its witness -- all operate within the closed ground loop and never touch the meta level. The forbidden patterns -- proving an existence statement by contradiction, eliminating double negation on an undecidable proposition, splitting on the law of excluded middle for a predicate over the carrier of naming certificates -- all, on inspection, reduce to a single underlying move: closing the meta-level self-reference loop that \autoref{ch:visions-reflection-and-limits}'s two-loops theorem requires to remain open. This chapter (i) catalogues the permitted refutation patterns as they appear in \autoref{ch:core-relational-extension-and-continuation}'s extension and continuation calculus, (ii) catalogues the forbidden patterns and traces each to its meta-closure consequence via a Tarski-style fragment of the truth predicate, (iii) states the unifying theorem that every forbidden pattern implements meta-closure, and (iv) records that the boundary thus identified is the same boundary that separates the closed ground loop from the open meta loop, with the halting capstone (\autoref{ch:visions-halting-as-form-of-distinction-limit}) as the canonical sibling instance.
+
+\section{Permitted refutation patterns}
+\label{sec:reasoning-by-contradiction-permitted}
+
+\begin{definition}[Permitted refutation pattern]
+\label{def:reasoning-permitted-pattern}
+A \emph{permitted refutation pattern} is a derivation rule of the form ``from $A \Rightarrow \bot$, conclude $\neg A$'' or one of its decidable specialisations, where the derivation of $\bot$ uses only $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate. The conclusion $\neg A$ is read as the BEDC predicate ``every witness of $A$ produces $\bot$ inside the certificate's classifier'', not as ``$A$ holds in no possible world''.
+\end{definition}
+
+\begin{example}[Negation by derived falsity]
+\label{ex:reasoning-negation-by-falsity}
+The kernel theorem $\neg \msame(\bzero, \bone)$ of \autoref{ch:core-raw-marks-and-mark-sameness} is a permitted refutation. Assuming a witness $w$ of $\msame(\bzero, \bone)$ produces $\bot$ by inversion on the constructor pattern: $\msame$ is a closed inductive whose only constructor identifies a mark with itself, and the constructors of $\Mark$ are different. The derivation never leaves the inductive carrier of $\Mark$ and never appeals to a meta-level predicate.
+\end{example}
+
+\begin{example}[Double negation on decidable predicates]
+\label{ex:reasoning-double-negation-decidable}
+For a decidable predicate $P$ on $\Hist$, the rule $\neg \neg P\,h \Rightarrow P\,h$ is permitted: decidability supplies a constructive disjunction $P\,h \vee \neg P\,h$, and the second disjunct contradicts $\neg \neg P\,h$, leaving the first. The rule fails for predicates that are not given decidably; the failure is not a stylistic restriction but a refusal to substitute meta-level reasoning for missing constructive content.
+\end{example}
+
+\begin{example}[Counterexample to a false existence]
+\label{ex:reasoning-counterexample}
+Refuting $\exists h, P\,h$ by exhibiting a uniform $\Hist$ map $\varphi$ with $\neg P(\varphi h)$ for every $h$ is permitted: the witness $\varphi$ is a kernel-level continuation that converts a putative existential witness into a $\bot$. The refutation is constructive in the same sense the existence claim would have been.
+\end{example}
+
+\section{Forbidden patterns and their meta-closure}
+\label{sec:reasoning-forbidden-patterns}
+
+\begin{definition}[Forbidden pattern]
+\label{def:reasoning-forbidden-pattern}
+A \emph{forbidden pattern} is a derivation step that produces a kernel-level conclusion of one of the following shapes without supplying the corresponding constructive witness:
+\begin{enumerate}
+\item proving $\exists h, P\,h$ from the assumption $\neg \forall h, \neg P\,h$;
+\item eliminating double negation on a predicate not given decidably;
+\item splitting on the law of excluded middle for a predicate over the carrier $\mathcal{C}$ of all naming certificates.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Each forbidden pattern implements meta closure]
+\label{thm:reasoning-forbidden-implements-meta-closure}
+For every forbidden pattern of \autoref{def:reasoning-forbidden-pattern}, accepting the pattern as an admissible derivation step at the certificate level closes the open meta loop of \autoref{ch:visions-reflection-and-limits}: it supplies a $\NameCert$-level decision for a predicate whose decidability is not constructively available, and the supplied decision is, structurally, an $\NameCert$-level value of the host's truth predicate.
+\end{theorem}
+
+\begin{proof}[Sketch]
+For (i): the move from $\neg \forall \neg$ to $\exists$ supplies a witness without exhibiting one. Reading the existential as a $\NameCert$-level extension predicate, the witness is the value the predicate takes when applied to the assumption; reading the value back as a constructor of the witness type closes the meta loop. For (ii): double-negation elimination on a non-decidable $P$ supplies a value of $P\,h$ without a constructor; reading $P$ as a $\NameCert$ classifier exposes the supplied value as a $\NameCert$-level truth witness. For (iii): excluded middle on a predicate over $\mathcal{C}$ asserts that the certificate-of-certificates settles every certificate-level proposition, which is precisely the assumption that the meta loop is closed (\autoref{rem:reflection-tarski-undefinability}).
+\end{proof}
+
+\section{The boundary as ground vs meta loop}
+\label{sec:reasoning-boundary}
+
+\begin{theorem}[Permitted iff stays within the closed ground loop]
+\label{thm:reasoning-permitted-iff-ground}
+A refutation pattern is permitted in BEDC if and only if its derivation factors through the closed ground loop of \autoref{ch:visions-reflection-and-limits}: every step uses $\Cont$, $\hsame$, $\msame$, and the closure laws of a fixed naming certificate, and no step appeals to a $\NameCert$-level predicate over the carrier of all naming certificates.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Forward: \autoref{def:reasoning-permitted-pattern} restricts the derivation primitives to those of the kernel together with a fixed certificate, and these primitives are exactly the closed ground loop's data. Backward: a derivation that stays in the ground loop produces only certificate-level consequences supported by their constructors, hence avoids the meta-closure characterised by \autoref{thm:reasoning-forbidden-implements-meta-closure}.
+\end{proof}
+
+\begin{remark}[Sibling instance: halting]
+\label{rem:reasoning-halting-sibling}
+The same boundary, applied to the predicate ``the continuation chain from $h$ in $\NameCert_P$ terminates'', produces the halting obstruction of \autoref{thm:halting-as-form-of-distinction-fixed-point}. Halting decidability is the canonical instance of the third forbidden pattern: a $\NameCert$-level decision for a predicate over the carrier of all naming certificates. The catalogues of \autoref{def:reasoning-permitted-pattern} and \autoref{def:reasoning-forbidden-pattern} therefore unify the proof discipline of the kernel with the halting result of the operational-semantics capstone.
+\end{remark}
+
+\begin{remark}[Sibling instance: three axioms]
+\label{rem:reasoning-three-axioms-sibling}
+The chapter is also the discipline-side complement of \autoref{ch:visions-three-axioms-one-closure}: the three axioms classified there as ``unwitnessed-$\exists$ acceptance'' instantiate the first forbidden pattern at the term, type, and proposition layers respectively. Refusing the forbidden patterns at the proof level and refusing the three axioms at the foundation level are two faces of the same refusal of meta closure.
+\end{remark}
+
+\begin{definition}[Certificate-indexed truth branch]
+\label{def:reasoning-certificate-indexed-truth-branch}
+Let $\mathcal C$ be the carrier of all naming certificates. For a predicate $Q:\mathcal C\to\mathsf{Prop}$, a \emph{certificate-indexed truth branch} for $Q$ is a family
+$$
+\mathsf{Branch}_Q:\forall N:\mathcal C,\; Q(N)\vee\neg Q(N).
+$$
+When $Q$ ranges over certificate-level statements represented by the certificate carrier, such a branch is a truth-predicate fragment at the $\NameCert$ stratum: it chooses, inside the certificate layer, a positive witness or a refutation for each represented statement.
+\end{definition}
+
+\begin{lemma}[Excluded-middle branches are always double-negated]
+\label{lem:reasoning-excluded-middle-branch-double-negated}
+For every proposition $A$, there is a constructive derivation of $\neg\neg(A\vee\neg A)$.
+\end{lemma}
+
+\begin{proof}
+Assume $u:\neg(A\vee\neg A)$. Define $n_A:\neg A$ by sending a witness $a:A$ to $u(\mathsf{inl}(a))$. Then $\mathsf{inr}(n_A)$ is a witness of $A\vee\neg A$, so $u(\mathsf{inr}(n_A))$ gives $\bot$. Thus every assumed refutation of $A\vee\neg A$ produces $\bot$, which is exactly $\neg\neg(A\vee\neg A)$.
+\end{proof}
+
+\begin{theorem}[Forbidden contradiction schemas produce certificate truth branches]
+\label{thm:reasoning-forbidden-schemas-produce-certificate-truth-branches}
+Let $\mathcal C$ be the carrier of all naming certificates. The following three uniform schemas each imply a certificate-indexed truth branch for every predicate $Q:\mathcal C\to\mathsf{Prop}$:
+\begin{enumerate}
+\item the existential-by-contradiction schema $\neg\forall h:\Hist,\neg R(h)\Rightarrow\exists h:\Hist,R(h)$ for arbitrary history predicates $R$;
+\item the double-negation schema $\neg\neg A\Rightarrow A$ for propositions not supplied with a decidability row;
+\item the excluded-middle schema $Q(N)\vee\neg Q(N)$ for predicates over $N:\mathcal C$.
+\end{enumerate}
+Consequently each forbidden pattern of \autoref{def:reasoning-forbidden-pattern}, when admitted uniformly as a certificate-level derivation rule, closes the open meta loop of \autoref{thm:two-loops} by supplying the truth-predicate fragment forbidden by \autoref{rem:reflection-tarski-undefinability}.
+\end{theorem}
+
+\begin{proof}
+Fix a predicate $Q:\mathcal C\to\mathsf{Prop}$ and a certificate $N:\mathcal C$. Put
+$$
+A_N := Q(N)\vee\neg Q(N).
+$$
+By \autoref{lem:reasoning-excluded-middle-branch-double-negated}, there is a constructive witness $d_N:\neg\neg A_N$.
+
+For the existential-by-contradiction schema, define a history predicate
+$$
+R_N(h) := \hsame(h,\emp)\land A_N.
+$$
+If $u:\forall h:\Hist,\neg R_N(h)$, then $u(\emp)$ refutes $R_N(\emp)$. But the empty-history rule in \autoref{def:history-sameness} supplies $\hsame(\emp,\emp)$, so any $a:A_N$ gives a witness $(\hsame(\emp,\emp),a)$ of $R_N(\emp)$, contradicting $u(\emp)$. Hence $u$ implies $\neg A_N$, and this contradicts $d_N$. Therefore $\neg\forall h:\Hist,\neg R_N(h)$ holds. Applying the existential-by-contradiction schema gives $\exists h:\Hist,R_N(h)$, and projecting the second component of its witness gives $A_N$.
+
+For the double-negation schema, apply the schema directly to the proposition $A_N$. The premise $d_N:\neg\neg A_N$ is constructive, and the schema returns $A_N$.
+
+For the excluded-middle schema over $\mathcal C$, the instance at $N$ and $Q$ is exactly $A_N$.
+
+Thus each of the three schemas supplies $Q(N)\vee\neg Q(N)$. Since $N$ was arbitrary, each supplies the family $\mathsf{Branch}_Q$ of \autoref{def:reasoning-certificate-indexed-truth-branch}. When $Q$ ranges over certificate-level statements represented by $\mathcal C$, this family is a $\NameCert$-level truth-predicate fragment. By \autoref{rem:reflection-tarski-undefinability}, such a fragment is precisely what BEDC's self-description cannot internalize as its own truth predicate; by \autoref{thm:two-loops}, keeping that layer open is the consistency side of the two-loops boundary. Therefore uniformly admitting any forbidden schema implements meta closure.
+\end{proof}

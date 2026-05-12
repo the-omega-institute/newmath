@@ -73,6 +73,7 @@ import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -228,6 +229,7 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
+import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VonneumannalgebraUp
@@ -1185,8 +1187,9 @@ import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 import BEDC.MetaCIC
-import BEDC.MetaCIC.Confluence.SourceShapes
-import BEDC.MetaCIC.Confluence.Atoms
+import BEDC.MetaCIC.Confluence.Core
+import BEDC.MetaCIC.Confluence.AtomShape
+import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution.Core
 /- Capstone formalizations. -/
 import BEDC.Capstone
