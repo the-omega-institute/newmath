@@ -133,6 +133,22 @@ The complete local obligation surface is the five-row $\NameCert$ packet of \aut
 Since none of the cited rows contains a quotient stream, choice-selected limit, host real equality, or ambient completeness object, the scoped consumer seal package has exactly the dependency surface stated above.
 \end{proof}
 
+\begin{theorem}[RealDiagonalCompletion public RealUp handoff]
+\label{thm:real-diagonal-completion-public-realup-handoff}
+Every accepted $\RealDiagonalCompletionUp$ packet is repacked as a consumer-facing $\RealUp$ seal read through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows only. The repacking is exactly the composition of diagonal-window extraction, real-seal factorization, constant rational handoff, and scoped primitive dependency over the accepted packet surface.
+
+The handoff exports no $\RealUp$ completeness theorem, quotient equality of regular streams, selected limit, uniqueness of limits, or host real construction.
+\end{theorem}
+\begin{proof}
+Begin with the extracted consumer window of \autoref{thm:real-diagonal-completion-window-extraction}. It routes each requested read through the displayed modulus, diagonal selector, finite $\StreamNameUp$ window, and $\RegSeqRatUp$ readback row.
+
+Next apply the seal factorization of \autoref{thm:real-diagonal-completion-seal-factorization}. The $\RealUp$ seal is read from those extracted windows and their displayed rational observations, with $\hsame$ and $\Cont$ accounting for the permitted transports.
+
+For stationary rational inputs, \autoref{thm:real-diagonal-completion-constant-rational-handoff} identifies the same surface with the constant $\RatUp$ handoff inside the $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ dependency rows.
+
+Finally use the scoped dependency package of \autoref{thm:real-diagonal-completion-scoped-consumer-seal-package}. That package exhausts the accepted packet fields by $\mathsf{BHist}$ carrier data, package provenance, local $\NameCert$ rows, and the named dependency certificates. Since none of these rows contains completeness, quotient equality, a selected limit, uniqueness of limits, or a host real carrier, the public read has exactly the stated boundary.
+\end{proof}
+
 \closureat{RealDiagonalCompletionUp}{seedStr}
 \closureat{RealDiagonalCompletionUp}{obligationStr}
 \closureat{RealDiagonalCompletionUp}{scopedStr}
