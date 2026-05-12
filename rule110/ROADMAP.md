@@ -30,7 +30,7 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 ## Phase B: hsame relation (5-7 days)
 
-- [ ] B1: Read `lean4/BEDC/FKernel/Hist.lean` for `hsame` definition + theorems (refl, symm, trans, empty inversion, constructor distinctness). List target theorems to encode.
+- [x] B1: Read `lean4/BEDC/FKernel/Hist.lean` for `hsame` definition + theorems (refl, symm, trans, empty inversion, constructor distinctness). List target theorems to encode.
 
 - [ ] B2: Design CT manifest format for BHist pairs (analogous to BMark pairs in vertical slice). New directory `rule110/manifests/hist/`. Create `hsame_refl.enum.ct` with representative cases (Empty/Empty, e0(Empty)/e0(Empty), e1(Empty)/e1(Empty), and a deep case like e0(e1(e0(Empty)))/itself). Enum is documentary only — runtime check via decoder.
 
@@ -48,7 +48,7 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 ## Phase C: Ext relation (3-5 days)
 
-- [ ] C1: Read `lean4/BEDC/FKernel/Ext.lean`. Document the inductive structure of `Ext : BHist → BMark → BHist → Prop` and its 3 constructors.
+- [x] C1: Read `lean4/BEDC/FKernel/Ext.lean`. Document the inductive structure of `Ext : BHist → BMark → BHist → Prop` and its 3 constructors.
 
 - [ ] C2: Design `Ext` encoding strategy: a CT manifest with input = encoded triple (BHist, BMark, BHist) and accept = whether Ext holds. The algorithm reuses BHist decoder + checks the inductive condition.
 
@@ -58,7 +58,7 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 ## Phase D: SigRel + sameSig (3-5 days)
 
-- [ ] D1: Read `lean4/BEDC/FKernel/Sig.lean` and `lean4/BEDC/FKernel/Sig/SameSig.lean`. SigRel involves ProbeBundle parameterization — design how to encode an abstract ProbeBundle in CT manifests.
+- [x] D1: Read `lean4/BEDC/FKernel/Sig.lean` and `lean4/BEDC/FKernel/Sig/SameSig.lean`. SigRel involves ProbeBundle parameterization — design how to encode an abstract ProbeBundle in CT manifests.
 
 - [ ] D2: Implement ProbeBundle encoding (list of probe names, each name itself bit-encoded).
 
