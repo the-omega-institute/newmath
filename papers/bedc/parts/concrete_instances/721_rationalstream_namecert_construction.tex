@@ -131,12 +131,103 @@ for every carrier coordinate, so the five seed obligations are complete for
 the displayed packet.
 \end{proof}
 
+\begin{theorem}[RationalStream common-window classifier stability]
+\label{thm:rational-stream-common-window-classifier-stability}
+If two accepted $\RationalStreamUp$ packets classify together, then their
+comparison factors through a displayed common finite unary window. On that
+window the two $\mathsf{UnaryHistory}$ rows are related by the stored
+$\hsame$ witnesses, the $\StreamNameUp$ schedules select the same displayed
+finite observation positions, and every rational comparison is one of the
+pointwise $\RatUp$ classifier rows $\rho$ transported along the packet data.
+The stability claim exposes only finite windows and stored rational rows; it
+does not identify quotient Cauchy classes, choose a limit, or assert equality
+inside completed $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the two carrier tuples from \autoref{def:rational-stream-carrier}.
+The only classifier coordinates are the pointwise rational rows $\rho$, and
+the only index transport coordinates are the displayed $\hsame$ rows in $h$.
+
+Use \autoref{thm:rational-stream-pointwise-rat-obligations} to reduce every
+rational comparison to the stored $\RatUp$ carrier and classifier rows. Use
+\autoref{thm:rational-stream-streamname-schedule-boundary} to identify the
+finite schedule rows and the common unary window on which the comparison is
+read.
+
+The remaining coordinates $c$, $p$, and $n$ record consumer routes,
+dependency provenance, and local registration. None supplies a quotient
+Cauchy object, a selected limiting real, or completed $\RealUp$ equality, so
+the common-window classifier stability is exhausted by the displayed finite
+packet rows.
+\end{proof}
+
+\begin{theorem}[RationalStream schedule transport exactness]
+\label{thm:rational-stream-schedule-transport-exactness}
+Transporting an accepted $\RationalStreamUp$ packet by the stored $\hsame$
+rows transports exactly its $\mathsf{UnaryHistory}$ index, $\StreamNameUp$
+schedule, pointwise $\RatUp$ carrier rows, pointwise $\RatUp$ classifier rows,
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\RationalStreamUp}$
+row. The transported packet is again accepted with the same finite schedule
+surface, and the transport introduces no unbounded stream, quotient Cauchy
+class, selected limit, or completed $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Start from the carrier tuple
+$(u,s,q,\rho,h,c,p,n)$ in \autoref{def:rational-stream-carrier}. The transport
+coordinate $h$ is componentwise, so it names exactly the allowed movements of
+the unary index row, schedule row, rational carriers, and rational
+classifiers.
+
+The schedule boundary theorem
+\autoref{thm:rational-stream-streamname-schedule-boundary} identifies the
+finite stream-name surface after transport. The pointwise obligation theorem
+\autoref{thm:rational-stream-pointwise-rat-obligations} keeps the rational
+rows inside the transported $\RatUp$ data, and
+\autoref{thm:rational-stream-regseqrat-handoff} records that $c$, $p$, and
+$n$ are the only consumer, provenance, and registration rows exposed to the
+regular-sequence reader.
+
+Repacking these transported coordinates gives another accepted packet with
+the same finite support. Since every coordinate has been accounted for, no
+coordinate remains from which an unbounded stream, quotient class, chosen
+limit, or completed real equality could be introduced.
+\end{proof}
+
+\begin{theorem}[RationalStream RegSeqRat ledger completeness]
+\label{thm:rational-stream-regseqrat-ledger-completeness}
+Every $\RegSeqRatUp$ consumer read from an accepted $\RationalStreamUp$ packet
+is exhausted by the scheduled unary indices, the pointwise $\RatUp$ carrier
+and classifier rows, $\hsame$ and $\Cont$ transport data, $\Pkg$ provenance,
+and the local $\NameCert_{\RationalStreamUp}$ ledger. The ledger therefore
+records a complete finite rational-stream handoff surface and excludes
+quotient Cauchy classes, selected limiting reals, and completed $\RealUp$
+equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet carrier. Its scheduled consumer-visible rows are
+$u$ and $s$ for finite indices and stream-name choices, together with $q$ and
+$\rho$ for the pointwise rational data.
+
+Apply \autoref{thm:rational-stream-regseqrat-handoff}. It states that a
+regular-sequence consumer may read only those scheduled rational rows and the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The pointwise obligation theorem
+\autoref{thm:rational-stream-pointwise-rat-obligations} and the schedule
+boundary theorem \autoref{thm:rational-stream-streamname-schedule-boundary}
+identify the rational and schedule parts of that handoff. The remaining
+coordinates are exactly $h$, $c$, $p$, and $n$, so the consumer ledger is
+complete for the packet and leaves no row for quotient completion or a
+selected real limit.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
+\closureat{RationalStreamUp}{obligationStr}
 
 \begin{closurestatus}{\RationalStreamUp}
   \constructivestory{A rational stream packet is represented by finite unary index rows, a StreamName schedule, pointwise RatUp carrier and classifier rows, and visible transport, continuation, package, and NameCert provenance on the path to RegSeqRat and the RealUp seal.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:rational-stream-carrier}, \autoref{thm:rational-stream-pointwise-rat-obligations}, \autoref{thm:rational-stream-streamname-schedule-boundary}, \autoref{thm:rational-stream-regseqrat-handoff}, and \autoref{thm:rational-stream-namecert-seed-obligations} bind the finite carrier, pointwise rational obligations, schedule boundary, regular-sequence handoff, and seed NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:rational-stream-carrier}, \autoref{thm:rational-stream-pointwise-rat-obligations}, \autoref{thm:rational-stream-streamname-schedule-boundary}, \autoref{thm:rational-stream-regseqrat-handoff}, \autoref{thm:rational-stream-namecert-seed-obligations}, \autoref{thm:rational-stream-common-window-classifier-stability}, \autoref{thm:rational-stream-schedule-transport-exactness}, and \autoref{thm:rational-stream-regseqrat-ledger-completeness} bind the finite carrier, pointwise rational obligations, schedule boundary, regular-sequence handoff, classifier stability, exact schedule transport, and complete consumer ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
