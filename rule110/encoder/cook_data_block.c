@@ -43,3 +43,23 @@ void cook_data_block_emit(uint8_t *out, size_t pos, size_t buf_len,
                               bit);
     }
 }
+
+int cook_data_block_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len,
+                                     const uint8_t *tape_bits,
+                                     size_t tape_len) {
+#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
+    /*
+       TODO(L3.1 B-H): emit phase-exact data-symbol packages after the needed
+       B/C/D/E/F/H masks and symbol spacings are checked. Logical 0 and 1 must
+       be particle packages whose head collisions respectively suppress or
+       release the active ossifier payload while preserving the tail phase for
+       appended symbols.
+    */
+#endif
+    (void)out;
+    (void)pos;
+    (void)buf_len;
+    (void)tape_bits;
+    (void)tape_len;
+    return COOK_DATA_BLOCK_PHASE_EXACT_CATALOG_MISSING;
+}

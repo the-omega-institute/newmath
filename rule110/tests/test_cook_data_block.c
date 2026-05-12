@@ -80,10 +80,29 @@ static void test_data_block_empty(void) {
     printf("  data_block_empty: PASS\n");
 }
 
+static void test_data_block_phase_exact_missing_catalog(void) {
+    uint8_t cells[160];
+    uint8_t before[160];
+    const uint8_t tape_bits[4] = {1, 0, 0, 1};
+    int rc = 0;
+
+    memset(cells, 0x5a, sizeof(cells));
+    memcpy(before, cells, sizeof(cells));
+
+    rc = cook_data_block_emit_phase_exact(cells, 30, sizeof(cells),
+                                          tape_bits, 4);
+
+    assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_CATALOG_MISSING);
+    assert(memcmp(cells, before, sizeof(cells)) == 0);
+
+    printf("  data_block_phase_exact_missing_catalog: PASS\n");
+}
+
 int main(void) {
     printf("== test_cook_data_block ==\n");
     test_data_block_5bit_tape();
     test_data_block_empty();
+    test_data_block_phase_exact_missing_catalog();
     printf("ALL test_cook_data_block tests passed\n");
     return 0;
 }
