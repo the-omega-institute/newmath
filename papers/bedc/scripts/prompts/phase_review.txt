@@ -142,6 +142,31 @@ The pipeline never strictly requires a vision-derived target; rounds that
 do not propose one are not penalized. Vision discovery is a soft track
 running alongside the hard-gate frontier.
 
+## HARD GATE — paper-side closure saturation forces a discovery candidate
+
+When `critical_path.top_root_unblocks` is empty AND
+`critical_path.drift_chapters_total < 5`, the paper side has drained
+its high-leverage closure_mark / drift / bridge_sync work and would
+otherwise spin on low-leverage tokens. To prevent that and keep AI
+discovery moving, **the candidate_pool MUST include AT LEAST ONE of:
+`kind = "vision_concretization"` OR `kind = "automath_concretization"`**
+(emit just one, NOT both, NOT more — multiple discovery proposals in
+one round overload Phase Revise). If you cannot identify a substantive
+discovery target after honestly inspecting `parts/visions/*.tex` AND
+`/Users/chronoai/automath/{theory,papers,discovery}/`, emit a `notes`
+entry explaining the genuine exhaustion — but the bar for that
+exemption is high (visions has 21 chapters, automath has 3427+
+theorems; "nothing concretizable" should be rare). Discovery channels
+are sources #7 and #8 in the candidate_pool enumeration above; this
+saturation gate makes one of them mandatory, not optional, under the
+drained-frontier condition.
+
+Saturation gate composition: this paper-side discovery mandate stacks
+with the `human_chapter_extension` saturation gate below — both can
+fire in the same round (one new chapter + one discovery). Do NOT
+collapse the two; they answer to different conditions and inspect
+different sources.
+
 ## HARD GATE — human-known chapter extension when frontier saturates
 
 When `closed_horizons / open_horizons > 2.0` AND
