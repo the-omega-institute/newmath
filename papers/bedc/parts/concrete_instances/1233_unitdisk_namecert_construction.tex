@@ -77,6 +77,46 @@ For ledger exactness, inspect the packet coordinates. The only radius coordinate
 Finally apply \autoref{thm:unitdisk-boundary-sone-consumer}. The optional boundary handoff is a finite $\SOneUp$ consumer surface and contains no open-cover compactness datum, quotient boundary construction, or host Euclidean topology.
 \end{proof}
 
+\begin{theorem}[UnitDisk origin radius ledger]
+\label{thm:unitdisk-origin-radius-ledger}
+The packet whose coordinates $x$ and $y$ are the zero $\RealUp$ rows, whose point row $p$ and origin row $o$ are both the displayed $\ProdUp$ pairing of those zero rows, whose radius witness $d$ is the zero $\MetricUp$ read from $p$ to $o$, whose bound row $b$ records zero below the real unit through $\IntervalUp$ or $\RealAlgOrderUp$, and whose provenance rows are the corresponding $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows is an accepted $\UnitDiskUp$ carrier. Its radius ledger is exactly the displayed zero-radius $\MetricUp$ row and its unit-bound row.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:unitdisk-bhist-carrier} with both coordinates set to the displayed zero $\RealUp$ row. The product row $p$ and the origin row $o$ are then the same finite $\ProdUp$ pairing surface.
+
+The metric read from the point to the origin is the displayed zero-distance row. The bound row records that this zero radius is below the real unit through the available $\IntervalUp$ or $\RealAlgOrderUp$ comparison.
+
+Package these coordinates with the identity $\hsame$ comparisons, the displayed $\Cont$ routes, $P$, and $N$. The carrier contains no other radius coordinate, so the radius ledger of this origin packet is exactly $d$ together with the unit-bound row $b$.
+\end{proof}
+
+\begin{theorem}[UnitDisk classifier law package]
+\label{thm:unitdisk-classifier-law-package}
+The $\UnitDiskUp$ classifier has reflexivity, symmetry, transitivity, and carrier transport componentwise on the displayed $\RealUp$ coordinate rows, $\ProdUp$ pair rows, origin rows, $\MetricUp$ radius witnesses, $\IntervalUp$ or $\RealAlgOrderUp$ bound rows, optional $\SOneUp$ boundary rows, $\mathsf{BHist}$ routing rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Read the classifier from \autoref{def:unitdisk-bhist-carrier}. It compares only visible coordinates of the packet and the displayed transport rows; it does not compare ambient Euclidean points or host subsets.
+
+Reflexivity uses the identity displayed comparison at each coordinate. Symmetry reverses each componentwise $\hsame$ comparison and the associated $\Cont$ route on the same coordinate, pair, radius, bound, boundary, and provenance rows.
+
+Transitivity composes two displayed transports coordinate by coordinate. Since each transport keeps the metric witness tied to the transported point and origin and keeps the bound and optional boundary ledgers attached to the same radius row, the composite packet is again accepted.
+
+Carrier transport is exactly \autoref{thm:unitdisk-carrier-stability}. Combining these componentwise laws gives the stated classifier law package.
+\end{proof}
+
+\begin{theorem}[UnitDisk radius boundary exactness]
+\label{thm:unitdisk-radius-boundary-exactness}
+Every $\UnitDiskUp$ radius consumer read factors through the displayed $\MetricUp$ radius witness $d$ of the carrier packet, and every boundary consumer read factors through the optional $\SOneUp$ boundary row $\partial$ when that row is present. No consumer read exports a host Euclidean subset, an open-cover compactness datum, a quotient boundary identification, or any boundary object not displayed in the carrier.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:unitdisk-bhist-carrier}. The only radius coordinate is the $\MetricUp$ witness $d$, and the only exact boundary coordinate is the optional row $\partial$.
+
+For a radius request, the consumer first reads the two $\RealUp$ coordinates through the $\ProdUp$ row and the origin row, then reads the radius through $d$ and the unit comparison through $b$. There is no separate Euclidean norm coordinate in the packet.
+
+For a boundary request, apply \autoref{thm:unitdisk-boundary-sone-consumer}. If $\partial$ is present, the $\SOneUp$ consumer receives exactly the boundary row and its provenance; if it is absent, the disk packet exports no boundary consumer surface.
+
+The non-escape clauses follow by inspection of the carrier coordinates and by \autoref{thm:unitdisk-carrier-stability}, which preserves the same displayed metric and boundary rows under transport.
+\end{proof}
+
 \closureat{UnitDiskUp}{seedStr}
 
 \begin{closurestatus}{\UnitDiskUp}
