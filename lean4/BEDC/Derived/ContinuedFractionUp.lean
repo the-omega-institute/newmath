@@ -115,6 +115,36 @@ theorem ContinuedFractionPacket_finite_handoff_obligation [AskSetup] [PackageSet
     ⟨scheduleUnary, handoffUnary, ledgerUnary, provenanceUnary, consumerUnary, readbackUnary,
       consumerRow, readbackRow, readbackPkg⟩
 
+theorem ContinuedFractionPacket_digit_tail_stability [AskSetup] [PackageSetup]
+    {digits digits' numer denom radius schedule handoff boundary ledger provenance tail tail' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      hsame digits digits' -> Cont digits schedule tail -> Cont digits' schedule tail' ->
+        PkgSig bundle tail' pkg ->
+          ContinuedFractionPacket digits' numer denom radius schedule handoff boundary ledger
+              provenance bundle pkg ∧
+            UnaryHistory tail ∧ UnaryHistory tail' ∧ hsame tail tail' ∧
+              PkgSig bundle tail' pkg := by
+  intro packet sameDigits tailRow tailRow' tailPkg
+  obtain ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+    boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumerRow, boundaryRow, provenanceRow,
+    provenancePkg⟩ := packet
+  have digitsUnary' : UnaryHistory digits' :=
+    unary_transport digitsUnary sameDigits
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed digitsUnary scheduleUnary tailRow
+  have tailUnary' : UnaryHistory tail' :=
+    unary_cont_closed digitsUnary' scheduleUnary tailRow'
+  have sameTail : hsame tail tail' :=
+    cont_respects_hsame sameDigits (hsame_refl schedule) tailRow tailRow'
+  exact
+    ⟨⟨digitsUnary', numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+        boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumerRow, boundaryRow,
+        provenanceRow, provenancePkg⟩,
+      tailUnary, tailUnary', sameTail, tailPkg⟩
+
 theorem ContinuedFractionPacket_rational_interval_window_handoff_certificate [AskSetup]
     [PackageSetup]
     {digits numerator denominator radius schedule handoff boundary ledger provenance interval
