@@ -102,6 +102,20 @@ Next read the matching precision and observation rows. The ledger $W$ stores the
 Repacking these projections gives the asserted table row. No additional stream quotient or host equality comparison can alter the selected window, because the carrier contains no such coordinate.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleave selected-slot exhaustion]
+\label{thm:regular-cauchy-interleave-selected-slot-exhaustion}
+For every accepted $\RegularCauchyInterleaveUp$ packet $K=(I,J,S,T,W,D,M,H,C,P,N)$, each retained slot of $S$ selects exactly one of the two source schedules $I$ and $J$. Along that same slot route the selected $\StreamNameUp$ row in $T$, $\CauchyModulusUp$ request in $W$, $\DyadicRatCoreUp$ observation in $D$, and handoff row in $M$ are read as one finite chain, while the unselected side remains present only as provenance in the packet.
+\end{theorem}
+\begin{proof}
+Project the retained slot from the unary merge schedule $S$. The carrier displays only the two alternatives $I$ and $J$, so the slot inversion has one selected side and one unselected side.
+
+Apply \autoref{thm:regular-cauchy-interleave-window-merge-exactness}. It identifies the window row in $T$, the precision request in $W$, and the dyadic observation row in $D$ as the rows attached to the same selected slot.
+
+Use \autoref{thm:regular-cauchy-interleave-dyadic-observation-handoff} to continue the same route into the handoff row $M$. The row is reached after the selected observation, so it cannot be read from the opposite source side.
+
+The unselected source schedule is still part of $K$ through provenance, transport, and continuation data, but it does not supply the retained slot. Since the carrier contains no quotient stream, host equality of completed reals, completeness object, or choice-selected limit, no external object can replace the displayed slot route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy interleave real handoff boundary]
 \label{thm:regular-cauchy-interleave-real-handoff-boundary}
 Every $\RegSeqRatUp$ or $\RealUp$ consumer read of a $\RegularCauchyInterleaveUp$ carrier factors through the finite merge schedule $S$, the interleaved window table $T$, the modulus request ledger $W$, the dyadic observation ledger $D$, and the handoff row $M$. The consumer cannot read a quotient of streams, a host equality proof between completed names, an ambient completeness theorem, or a choice-selected real value from the packet.
