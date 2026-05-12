@@ -94,6 +94,7 @@ Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} for the consumer-fac
 \label{thm:regular-cauchy-diagonal-real-seal-handoff}
 For every accepted source row $D=(Q,S,R,L,W,P,N)$, the $\RealUp$ seal row $L$ is reached only through the displayed $\RatUp$ seed row, $\StreamNameUp$ window row, and $\RegSeqRatUp$ diagonal readback row. This handoff is the $\NameCert_{\RegularCauchyDiagonalUp}$ seal-facing route consumed by downstream $\RealDiagonalCompletionUp$ and $\RealCauchyCompletionUp$ packets.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_real\_seal\_handoff}
 \begin{proof}
 Read a consumer request through \autoref{thm:regular-cauchy-diagonal-window-coverage}. The request first selects a displayed diagonal window, then reads the corresponding $\StreamNameUp$ window row and $\RegSeqRatUp$ regular rational row.
 
@@ -113,6 +114,7 @@ Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} to route each comple
 
 The carrier definition has no coordinate for a quotient of streams, a chosen external limit, or an ambient completeness witness. Thus any completion consumer using the accepted packet can only consume the displayed tuple and the two named routes.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_completion\_consumer\_bridge}
 
 \begin{theorem}[Regular Cauchy diagonal stationary seal exactness]
 \label{thm:regular-cauchy-diagonal-stationary-seal-exactness}
@@ -250,6 +252,7 @@ It remains to connect the bridge surface to the completion consumers. This is ex
 \label{thm:regular-cauchy-diagonal-source-stability-obligation}
 Let $D=(Q,S,R,L,W,P,N)$ be an accepted $\RegularCauchyDiagonalUp$ source row. If the displayed $\hsame$ comparisons and $\Cont$ routes transport $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ to another accepted source row, then carrier admission, the diagonal selector classifier, the stationary rational route, and the $\RealUp$ seal route are transported through the same finite tuple. No transported source read leaves the rows named in $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_source\_stability\_obligation}
 \begin{proof}
 Project $D$ through \autoref{def:regular-cauchy-diagonal-source} and \autoref{def:regular-cauchy-diagonal-carrier}. The classifier compares only the rational seed, stream-window row, regular readback, seal row, finite window ledger, package row, and local naming row.
 
@@ -304,6 +307,102 @@ First apply \autoref{thm:regular-cauchy-diagonal-source-stability-obligation}. T
 Next apply \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}. Every consumer window is one of the finite entries of $W$, with its stream-window route, regular readback, and seal-facing continuation already named.
 
 The public certificate surface is then \autoref{thm:regular-cauchy-diagonal-namecert-consumer-surface}. The real-completion read is \autoref{thm:regular-cauchy-diagonal-real-completion-handoff-package}. Composing these rows gives the downstream package and excludes all non-displayed completion objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal root source determinacy]
+\label{thm:regular-cauchy-diagonal-root-source-determinacy}
+For an accepted $\RegularCauchyDiagonalUp$ root packet, the concrete source tuple $D=(Q,S,R,L,W,P,N)$ is determined as a displayed $\mathsf{BHist}$ row by the stationary $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$ route, the componentwise $\hsame$ comparisons, the displayed $\Cont$ routes, the package row $\Pkg$, and the local $\NameCert$ row. No second source for the same root packet can change $Q$, $S$, $R$, $L$, $W$, $P$, or $N$ without changing one of those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the root packet through \autoref{def:regular-cauchy-diagonal-source} and \autoref{def:regular-cauchy-diagonal-carrier}. The carrier exposes exactly the seven rows $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ inside the displayed $\mathsf{BHist}$ packet.
+
+The source-stability row of \autoref{thm:regular-cauchy-diagonal-source-stability-obligation} identifies transport of the tuple by the recorded $\hsame$ and $\Cont$ data. The stationary compatibility row of \autoref{thm:regular-cauchy-diagonal-stationary-compatibility} fixes the route from $\RatUp$ through $\StreamNameUp$ and $\RegSeqRatUp$ to the same $\RealUp$ seal.
+
+Thus any competing root readback must agree on the carrier rows and on the $\Pkg$ and $\NameCert$ provenance. There is no hidden completion coordinate through which a different source tuple could be substituted.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal root selector totality]
+\label{thm:regular-cauchy-diagonal-root-selector-totality}
+For every accepted root tuple $D=(Q,S,R,L,W,P,N)$ of $\RegularCauchyDiagonalUp$ and every classifier-facing downstream request, the selector has a displayed finite response in the $\mathsf{BHist}$ ledger $W$. The response follows the route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$ and carries only the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data attached to $D$.
+\end{theorem}
+\begin{proof}
+Begin with a classifier-facing request and read the accepted packet through the carrier definition. The available selector data is the finite ledger $W$ together with the stream row $S$, regular readback row $R$, seal row $L$, package row $P$, and naming row $N$.
+
+Apply \autoref{thm:regular-cauchy-diagonal-window-coverage}. It routes the request to a displayed diagonal window, the matching $\StreamNameUp$ row, and the matching $\RegSeqRatUp$ readback.
+
+The selector-stability theorem \autoref{thm:regular-cauchy-diagonal-selector-stability} transports this response across the recorded $\hsame$ and $\Cont$ witnesses. The real-seal handoff of \autoref{thm:regular-cauchy-diagonal-real-seal-handoff} then identifies the response as the same $\RealUp$ seal row.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal root window-ledger exactness]
+\label{thm:regular-cauchy-diagonal-root-window-ledger-exactness}
+For a root packet with source tuple $D=(Q,S,R,L,W,P,N)$, every window read used by the Real and Completion handoff is exactly one displayed entry of the finite $\mathsf{BHist}$ ledger $W$. That entry names the corresponding $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal route, $\hsame$ and $\Cont$ transport data, $\Pkg$ provenance, and local $\NameCert$ provenance; no additional window source is available.
+\end{theorem}
+\begin{proof}
+Read the downstream window through \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}. The theorem identifies the requested window with one of the finite entries in $W$ and records the stream, regular rational, seal-facing, and provenance rows used by that entry.
+
+The root source determinacy theorem above fixes the ambient tuple $D=(Q,S,R,L,W,P,N)$ in which this ledger lives. Hence the selected window cannot be re-read through another $\mathsf{BHist}$ source or through another package row.
+
+Finally, \autoref{thm:regular-cauchy-diagonal-bridge-non-escape} excludes quotient streams, selected host limits, host equality, and ambient completeness rows. The ledger entry is therefore exact for the Real and Completion handoff.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal root seal route exhaustion]
+\label{thm:regular-cauchy-diagonal-root-seal-route-exhaustion}
+Every $\RealUp$ seal read exported from a root tuple $D=(Q,S,R,L,W,P,N)$ factors through the displayed $\mathsf{BHist}$ route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$, the exact finite ledger $W$, the visible $\hsame$ and $\Cont$ routes, the package row $\Pkg$, and the local $\NameCert$ row. The root packet exports no quotient stream, selected limit, host real equality, or ambient completeness row for the seal.
+\end{theorem}
+\begin{proof}
+Start from the real-seal handoff \autoref{thm:regular-cauchy-diagonal-real-seal-handoff}. It sends the seal request through the stationary rational row, the stream window, the regular rational readback, and the displayed $\RealUp$ seal row.
+
+Use root window-ledger exactness to locate the requested observation inside $W$. This names the precise $\mathsf{BHist}$ entry and attaches the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already carried by $D$.
+
+The bridge non-escape theorem \autoref{thm:regular-cauchy-diagonal-bridge-non-escape} and mature consumer exhaustion \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion} rule out every remaining completion-side escape coordinate. Thus the seal route is exhausted by the displayed root packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal root downstream-unblock package]
+\label{thm:regular-cauchy-diagonal-root-downstream-unblock-package}
+The root obligation surface for $\RegularCauchyDiagonalUp$ is the composition of source determinacy, selector totality, window-ledger exactness, seal route exhaustion, bridge non-escape, and mature consumer exhaustion for the concrete tuple $D=(Q,S,R,L,W,P,N)$. Consequently the $\RealCauchyCompletionUp$ and $\RealDiagonalCompletionUp$ handoff reads only the displayed $\mathsf{BHist}$ route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$, the visible $\hsame$ and $\Cont$ transports, the $\Pkg$ row, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+First assemble the root source, selector, and window rows. The preceding three theorems fix the tuple $D$, give a displayed selector response for each downstream request, and identify every requested window with an entry of $W$.
+
+Next attach the seal boundary. Root seal route exhaustion identifies the completion-facing object as the same $\RealUp$ seal reached along the route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
+
+Finally compose \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}, \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion}, and \autoref{thm:regular-cauchy-diagonal-downstream-unblock-package}. These rows show that the Real and Completion consumers obtain exactly the displayed packet and no external completion object.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal selector-fiber exhaustion]
+\label{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}
+Every classifier-facing read of an accepted $\RegularCauchyDiagonalUp$ diagonal packet factors through the displayed selector row of its source tuple $D=(Q,S,R,L,W,P,N)$. The factorization reads only the selected finite $\StreamNameUp$ windows in $W$, the corresponding $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ row $R$, the $\RealUp$ seal row $L$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance attached to $D$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier of \autoref{def:regular-cauchy-diagonal-source}. The carrier exposes exactly the rational seed row, the stream-window row, the regular readback row, the seal row, the finite window ledger, the package row, and the local naming certificate.
+
+Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} and \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}. These clauses identify every classifier-facing window read with one of the selected entries of $W$ and attach the matching $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ observations.
+
+Finally apply \autoref{thm:regular-cauchy-diagonal-selector-stability} and \autoref{thm:regular-cauchy-diagonal-namecert-consumer-surface}. The remaining reads are precisely the visible transport, package, and naming rows, while the seal-facing coordinate is the displayed $\RealUp$ row supplied by the same source tuple.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal completion-seal composition]
+\label{thm:regular-cauchy-diagonal-completion-seal-composition}
+The $\RealCauchyCompletionUp$ consumer handoff for an accepted $\RegularCauchyDiagonalUp$ packet is the composition of stationary seal exactness, the bridge obligation package, and the real-completion handoff package. This composition adds no host sequence equality, quotient stream, selected host limit, or ambient completeness data beyond the finite diagonal selector route and the displayed $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the stationary seal clause of \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}. It fixes the constant rational source route and the associated $\RegSeqRatUp$ readback used by the diagonal selector.
+
+Attach the bridge obligations with \autoref{thm:regular-cauchy-diagonal-standard-bridge-source}, \autoref{thm:regular-cauchy-diagonal-bridge-readback-exactness}, and \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}. These results expose the bridge source, preserve the visible readback, and rule out completion data not carried by the displayed packet.
+
+Now apply \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion} and \autoref{thm:regular-cauchy-diagonal-real-completion-handoff-package}. The selector exhaustion supplies the finite packet route, and the handoff package identifies the completion-facing object as the same $\RealUp$ seal row.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal downstream route factorization]
+\label{thm:regular-cauchy-diagonal-downstream-route-factorization}
+Every downstream consumer route from an accepted $\RegularCauchyDiagonalUp$ packet through $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, or $\RealCauchyCompletionUp$ factors through the finite diagonal selector route of \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion} and the completion-seal route of \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}. No downstream route obtains an additional carrier, classifier, host equality, quotient, or completion witness outside those two displayed routes.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion}. It says that mature consumers of the diagonal packet read the same displayed tuple, finite ledger, readback row, seal row, and local provenance.
+
+Next use \autoref{thm:regular-cauchy-diagonal-downstream-unblock-package}. The downstream package is already the composition of source stability, window-ledger exactness, the public $\NameCert$ surface, and the real-completion handoff package.
+
+The $\DyadicTailBoundUp$, $\RegSeqRatUp$, and $\RealUp$ portions are therefore the selector-fiber route of \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. The $\RealCauchyCompletionUp$ portion is the completion-seal composition of \autoref{thm:regular-cauchy-diagonal-completion-seal-composition}, so every listed downstream route factors through those two routes and no extra object is exposed.
 \end{proof}
 
 \closureat{RegularCauchyDiagonalUp}{seedStr}
