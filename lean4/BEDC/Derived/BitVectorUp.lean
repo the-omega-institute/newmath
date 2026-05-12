@@ -320,6 +320,23 @@ theorem BitVectorSourcePacket_namecert_obligation_surface [AskSetup] [PackageSet
   obtain ⟨nUnary, spineUnary, _routeUnary, ledgerRow, provenanceRow, pkgRow⟩ := packet
   exact ⟨nUnary, spineUnary, ledgerRow, provenanceRow, ledgerRow, provenanceRow, pkgRow⟩
 
+theorem BitVectorSourcePacket_finite_data_anchor [AskSetup] [PackageSetup]
+    {n spine ledger route provenance source : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    BitVectorSourcePacket n spine ledger route provenance source bundle pkg ->
+      UnaryHistory n ∧ UnaryHistory spine ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+        Cont n spine ledger ∧ Cont ledger route provenance ∧ hsame ledger (append n spine) ∧
+          hsame provenance (append ledger route) ∧ PkgSig bundle source pkg := by
+  intro packet
+  obtain ⟨nUnary, spineUnary, routeUnary, ledgerRow, provenanceRow, pkgRow⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed nUnary spineUnary ledgerRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary routeUnary provenanceRow
+  exact
+    ⟨nUnary, spineUnary, ledgerUnary, provenanceUnary, ledgerRow, provenanceRow,
+      ledgerRow, provenanceRow, pkgRow⟩
+
 theorem BitVectorSource_semantic_name_certificate [AskSetup] [PackageSetup]
     {length spine ledger provenance : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
