@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCriterionUp$}
+\label{ch:concrete-instances-cauchycriterion-namecert}
+\origin{human}
+
+The $\CauchyCriterionUp$ interface records the explicit constructive Cauchy criterion used by Bishop and Bridges, \emph{Constructive Analysis}, when a real-facing packet is accepted only after a displayed dyadic tail budget has been checked. It is a finite consumer object over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$: a precision request is read through an explicit modulus, a dyadic tolerance row, a finite tail-bound ledger, a regular rational handoff, and finally a real seal. The certificate does not form quotient streams, identify host real equality, select a limit, or appeal to ambient completeness.
+
+\begin{definition}[CauchyCriterion carrier]
+\label{def:cauchycriterion-carrier}
+A $\CauchyCriterionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(W,M,T,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is the $\RegSeqRatUp$ source window being tested, including the finite rational observations that the consumer may inspect;
+\item $M$ is the $\CauchyModulusUp$ schedule that assigns to each displayed precision request the tail threshold used by the test;
+\item $T$ is the $\DyadicTailBoundUp$ ledger recording the finite comparisons between tail observations beyond the threshold selected by $M$;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row whose dyadic budget is used by every comparison in $T$;
+\item $E$ is the $\RealUp$ seal row reached after the regular rational handoff has been accepted;
+\item $H$ records the componentwise $\hsame$ transports for the source window, modulus schedule, tail ledger, dyadic tolerance, regular-sequence handoff, and seal rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the modulus, tolerance, finite tail ledger, $\RegSeqRatUp$ handoff, and $\RealUp$ seal;
+\item $P$ is the $\Pkg$ provenance naming the $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ source certificates;
+\item $N$ is the local $\NameCert_{\CauchyCriterionUp}$ provenance row.
+\end{enumerate}
+The classifier compares two accepted carriers only by these displayed rows, their componentwise $\hsame$ transports, their $\Cont$ read routes, their $\Pkg$ provenance, and their local $\NameCert$ rows.
+\end{definition}
+
+\begin{theorem}[CauchyCriterion tail-bound RealUp seal factorization]
+\label{thm:cauchycriterion-tail-bound-real-seal}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier. Every $\RealUp$ seal read exported from $K$ factors through the displayed Cauchy criterion route:
+$$
+\mathsf{precision}
+\longmapsto
+M(\mathsf{precision})
+\longmapsto
+Q
+\longmapsto
+T
+\longmapsto
+W
+\longmapsto
+E.
+$$
+Equivalently, the consumer must pass through the $\CauchyModulusUp$ schedule, the $\DyadicRatCoreUp$ tolerance row, the finite $\DyadicTailBoundUp$ ledger, the $\RegSeqRatUp$ source handoff, and the $\RealUp$ seal. No exported read may use a quotient stream, host real equality, a selected limit, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchycriterion-carrier}. The consumer precision request first reaches the modulus row $M$, which supplies the displayed tail threshold for the requested precision.
+
+The tolerance coordinate $Q$ and tail ledger $T$ are stored beside that threshold. Reading $T$ therefore uses exactly the dyadic budget named by $Q$ and the finite tail entries selected by $M$, not an unrecorded rational radius or an external metric estimate.
+
+The source window $W$ is the regular rational handoff for the same inspected tail. Transport along the recorded $\hsame$ comparisons and replay the $\Cont$ routes in $C$ to keep the modulus, tolerance, ledger, and handoff rows in one visible $\mathsf{BHist}$ packet.
+
+Finally the seal coordinate $E$ is reached only after this regular-sequence handoff. The package row $P$ and local certificate row $N$ record the dependency certificates used by the route, and the carrier has no coordinate for quotient streams, host real equality, selected limits, or ambient completeness. Hence every seal read factors through the displayed criterion route.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion NameCert obligation sketch]
+\label{thm:cauchycriterion-namecert-obligation-sketch}
+The local $\NameCert_{\CauchyCriterionUp}$ sketch has five rows:
+\begin{enumerate}
+\item carrier habitation: the packet of \autoref{def:cauchycriterion-carrier} stores a $\RegSeqRatUp$ source window, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ ledger, a $\DyadicRatCoreUp$ tolerance row, a $\RealUp$ seal, transport routes, package provenance, and local certificate provenance;
+\item classifier transport: accepted packets are compared only by componentwise $\hsame$ and displayed $\Cont$ routes over the source window, modulus, tolerance, tail ledger, handoff, seal, $\Pkg$, and $\NameCert$ rows;
+\item tail-budget exactness: every accepted tail comparison uses the threshold supplied by $M$ and the tolerance supplied by $Q$ in the same carrier;
+\item $\RegSeqRatUp$ handoff: the finite tail ledger repacks as the visible regular rational source window $W$ before any real-facing seal read is exposed;
+\item $\RealUp$ seal non-escape: \autoref{thm:cauchycriterion-tail-bound-real-seal} exhausts every exported seal read and withholds quotient streams, host real equality, selected limits, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are direct projections of the displayed packet. Since the classifier reads only the named coordinates, componentwise $\hsame$ transport and the recorded $\Cont$ routes preserve the accepted carrier shape.
+
+Tail-budget exactness is read from the paired coordinates $M$, $Q$, and $T$. The threshold and tolerance used by a comparison are the rows displayed in the same finite packet, so the criterion cannot substitute hidden bounds.
+
+The regular-sequence handoff is the projection to $W$ after the finite tail ledger has been checked. The handoff keeps the inspected observations, threshold, tolerance, and ledger evidence visible to $\RegSeqRatUp$ consumers.
+
+The seal row is supplied by \autoref{thm:cauchycriterion-tail-bound-real-seal}. It is reached only through the displayed criterion route, so the certificate exports no quotient, host-real, selected-limit, or completeness datum.
+\end{proof}
+
+\closureat{CauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCriterionUp}
+  \constructivestory{A $\CauchyCriterionUp$ packet is generated from a $\RegSeqRatUp$ source window, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ finite tail ledger, a $\DyadicRatCoreUp$ tolerance row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, classifier route, tail-budget exactness, regular rational handoff, and $\RealUp$ seal factorization for explicit constructive Cauchy criteria over dyadic tail bounds.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, uniqueness of limits, or bridge checking.}
+  \upgradepath{Obligation closure requires formal carrier transport, tail-budget exactness, $\RegSeqRatUp$ handoff exactness, classifier stability, and full $\RealUp$ seal factorization for the same finite packet.}
+\end{closurestatus}

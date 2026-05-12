@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\NestedIntervalIntersectionUp$}
+\label{ch:concrete-instances-nestedintervalintersection-namecert}
+\origin{human}
+
+The $\NestedIntervalIntersectionUp$ interface names the finite readback surface through which nested interval packets hand a diagonal interval-intersection claim to the real and completion layers. Bishop--Bridges constructive analysis treats nested interval intersection through explicit moduli and finite approximants; BEDC records only the finite diagonal rows, transport ledgers, and seal-facing boundary. It does not claim open-cover compactness, choice of an intersection point, or equality with a host real intersection.
+
+\begin{definition}[Nested interval intersection carrier]
+\label{def:nested-interval-intersection-carrier}
+A $\NestedIntervalIntersectionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+X=(N,W,D,E,H,C,P,Q)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $N$ is the source $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ chain row, including the displayed $\DyadicIntervalUp$ endpoint packets and their $\DyadicRatCoreUp$ lower and upper endpoint reads;
+\item $W$ is the displayed width surface, either as explicit width rows for the visible chain or as $\RegularityModulusUp$ rows naming the requested finite precision window;
+\item $D$ is the finite diagonal selector: for each displayed precision request, it chooses one visible interval row whose width ledger is bounded by the requested tolerance;
+\item $E$ records the selected endpoint enclosures and the finite $\RegSeqRatUp$ handoff rows read from those selected intervals;
+\item $H$ is the $\RealUp$ seal-facing surface obtained by routing the selected regular-rational rows through the displayed endpoint and width ledgers;
+\item $C$ stores the $\hsame$ and $\Cont$ transports for the source chain, width or modulus rows, diagonal selector, handoff rows, and seal-facing rows;
+\item $P$ is the $\Pkg$ provenance naming $\NestedIntervalUp$, $\NestedDyadicIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularityModulusUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ source certificates;
+\item $Q$ is the local $\NameCert_{\NestedIntervalIntersectionUp}$ row for the finite intersection readback name.
+\end{enumerate}
+The carrier predicate is $\mathsf{NestedIntervalIntersectionPacket}(X)$. Its public rows are exactly the displayed source-chain, width, diagonal-selector, endpoint-handoff, seal-facing, transport, package, and local certificate rows.
+\end{definition}
+
+\begin{definition}[Nested interval intersection classifier]
+\label{def:nested-interval-intersection-classifier}
+Two accepted $\NestedIntervalIntersectionUp$ carriers classify together when their source nested-interval rows transport to the same displayed finite window and their diagonal selectors choose endpoint enclosures with the same requested tolerance rows.
+
+Concretely, after the $\hsame$ and $\Cont$ transports recorded in $C$ and $C'$, the classifier compares the selected lower endpoint rows, selected upper endpoint rows, displayed width or $\RegularityModulusUp$ rows, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal-facing rows, $\Pkg$ provenance, and local $\NameCert$ rows componentwise. It does not quotient infinite chains and does not identify a selected point in the intersection.
+\end{definition}
+
+\begin{theorem}[Nested interval intersection NameCert obligations]
+\label{thm:nested-interval-intersection-namecert-obligations}
+The seed $\NameCert_{\NestedIntervalIntersectionUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite $\mathsf{BHist}$ packet of \autoref{def:nested-interval-intersection-carrier};
+\item classifier: the finite-window classifier of \autoref{def:nested-interval-intersection-classifier};
+\item diagonal stability: the selected interval row remains accepted when the source $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ chain, width or $\RegularityModulusUp$ row, and endpoint packets are transported through the displayed $\hsame$ and $\Cont$ routes;
+\item handoff exactness: every $\RegSeqRatUp$ row read by the carrier is one of the endpoint enclosures selected by the finite diagonal selector;
+\item seal boundary: the $\RealUp$ surface consumes only the selected finite regular-rational rows, package provenance, and local certificate row.
+\end{enumerate}
+These obligations are the complete seed certificate surface for finite nested-interval intersection readback.
+\end{theorem}
+\begin{proof}
+Carrier formation is the assembly of the displayed packet. The source chain is already supplied by $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$, the endpoint packets are $\DyadicIntervalUp$ rows, and the selected endpoint reads are $\DyadicRatCoreUp$ rows attached to the same finite history.
+
+The classifier is finite because each comparison is made at the requested displayed precision window. After transporting both packets to that window, the selected lower endpoints, selected upper endpoints, width or modulus rows, handoff rows, seal-facing rows, provenance rows, and local certificate rows are compared component by component.
+
+Diagonal stability follows by transporting the source chain and the width surface first, then reading the same requested tolerance row through the transported selector. Since the selector chooses only from displayed intervals, the transported selected row remains a visible row of the transported chain.
+
+Handoff exactness is a projection from the coordinate $E$: every regular-rational read is attached to one selected endpoint enclosure. The seal boundary is a projection from $H$, which routes those same finite rows to $\RealUp$ without adding an infinite chain, compactness principle, choice operator, or host real equality.
+\end{proof}
+
+\begin{theorem}[Nested interval intersection finite diagonal handoff]
+\label{thm:nested-interval-intersection-finite-diagonal-handoff}
+For every accepted $\NestedIntervalIntersectionUp$ carrier and every displayed precision request, the consumer-visible $\RegSeqRatUp$ read factors through exactly one selected finite interval row of the source $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ chain, its $\DyadicIntervalUp$ endpoint packet, its lower and upper $\DyadicRatCoreUp$ rows, and the displayed width or $\RegularityModulusUp$ witness that justifies the request.
+
+The handoff exports no completed intersection point, no hidden tail of the chain, and no host completeness datum.
+\end{theorem}
+\begin{proof}
+Project the selector coordinate $D$ from \autoref{def:nested-interval-intersection-carrier}. A precision request is answered by a visible interval row together with its displayed width or regularity-modulus witness.
+
+Read the selected interval through the source chain coordinate $N$. Its lower and upper endpoints are the $\DyadicRatCoreUp$ rows of the selected $\DyadicIntervalUp$ packet, and the width or modulus row is the only bound supplied to the consumer at that request.
+
+Now project the handoff coordinate $E$. The $\RegSeqRatUp$ row is obtained by repacking the selected finite endpoint enclosure and the displayed bound. Since $E$ has no coordinate for an infinite tail or a completed point, every consumer read factors through the selected finite interval row just described.
+\end{proof}
+
+\begin{theorem}[Nested interval intersection real seal boundary]
+\label{thm:nested-interval-intersection-real-seal-boundary}
+The $\RealUp$-facing boundary of an accepted $\NestedIntervalIntersectionUp$ carrier is exactly the finite diagonal handoff surface of \autoref{thm:nested-interval-intersection-finite-diagonal-handoff}, together with the displayed $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\NestedIntervalIntersectionUp}$ row.
+
+In particular, the boundary does not assert Cantor nested-interval convergence, open-cover compactness, extraction of a point by choice, uniqueness of an intersection element, or equality with a host real value.
+\end{theorem}
+\begin{proof}
+Start with the seal-facing coordinate $H$ in \autoref{def:nested-interval-intersection-carrier}. Its inputs are the selected regular-rational rows from $E$, the transports in $C$, the package provenance $P$, and the local certificate row $Q$.
+
+Use \autoref{thm:nested-interval-intersection-finite-diagonal-handoff} to identify the regular-rational inputs. Each such input has already factored through one visible interval row, its endpoint packet, and its displayed width or modulus witness.
+
+The remaining coordinates are bookkeeping rows: $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local naming certificate. None of them contains a compactness theorem, a point-selection operator, a uniqueness claim, or a host real equality row. Therefore the real-seal boundary is precisely the finite surface stated above.
+\end{proof}
+
+\closureat{NestedIntervalIntersectionUp}{seedStr}
+
+\begin{closurestatus}{\NestedIntervalIntersectionUp}
+  \constructivestory{A $\NestedIntervalIntersectionUp$ packet is generated from a finite $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ chain, displayed $\DyadicIntervalUp$ endpoint packets, $\DyadicRatCoreUp$ endpoint reads, width or $\RegularityModulusUp$ rows, a finite diagonal selector, $\RegSeqRatUp$ handoff rows, a $\RealUp$ seal-facing surface, displayed $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, finite-window classifier, five-row naming-certificate obligation surface, finite diagonal handoff, and real-seal boundary for nested interval intersection readback over $\NestedIntervalUp$, $\NestedDyadicIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RegularityModulusUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Cantor nested-interval convergence, open-cover compactness, point extraction, uniqueness of an intersection element, or host real equality.}
+  \upgradepath{Obligation closure requires formal carrier encoding, classifier stability, finite diagonal handoff checking, handoff exactness checking, and real-seal boundary checking.}
+\end{closurestatus}
