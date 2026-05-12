@@ -142,16 +142,31 @@ The combined modulus obligation is \autoref{thm:regular-cauchy-interleaving-comb
 These rows are all read from the same finite packet through the displayed transport, continuation, package, and naming coordinates. Therefore the chapter supplies the obligation surface, while leaving quotient equality, selected host limits, ambient completeness, and bridge checking outside the claim.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving scoped kernel route]
+\label{thm:regular-cauchy-interleaving-scoped-kernel-route}
+Every accepted packet from \autoref{def:regular-cauchy-interleaving-source} factors its carrier admission, classifier transport, selector parity, combined modulus, schedule-window coverage, and $\RealUp$ seal non-escape through exactly the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No part of the accepted carrier is routed through quotient equality of reals, selected host limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the classifier of \autoref{thm:regular-cauchy-interleaving-classifier}. It reads only the two regular names, the two stream schedules, the alternating selector, the combined modulus ledger, the real seal rows, and the displayed transport and continuation coordinates.
+
+The NameCert surface of \autoref{thm:regular-cauchy-interleaving-namecert-obligations} supplies the carrier row, classifier row, transport row, exactness row, and seal-boundary row. The carrier admission theorem then repacks those coordinates as the finite $\mathsf{BHist}$ packet of the source definition.
+
+Selector parity is exact by \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness}. Combined modulus exactness is \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness}, and schedule coverage is \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage}. These three statements bind every consumer read to one of the two displayed schedules and to the matching component of the ledger.
+
+Finally, \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape} keeps the $\RealUp$ seal downstream of the selected regular readback, selected schedule, combined modulus row, $\hsame$ transport, $\Cont$ route, package row, and naming row. Together with \autoref{thm:regular-cauchy-interleaving-obligation-closure-package}, this exhausts the scoped kernel route and leaves no carrier coordinate for quotient equality, host limits, or ambient completeness.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
+\closureat{RegularCauchyInterleavingUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyInterleavingUp}
   \constructivestory{A $\RegularCauchyInterleavingUp$ packet is generated from two $\RegSeqRatUp$ regular names, their $\StreamNameUp$ schedules, an alternating unary selector, a combined modulus ledger, source $\RealUp$ readbacks, an interleaved $\RealUp$ seal row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the finite carrier, componentwise classifier transport, combined modulus exactness, schedule window coverage, and real-seal non-escape for alternating regular Cauchy observations over the displayed packet rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-interleaving-scoped-kernel-route} binds the finite carrier, classifier transport, selector parity, combined modulus exactness, schedule-window coverage, and $\RealUp$ seal non-escape to the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of reals, selected host limits, ambient completeness, diagonal-completion uniqueness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding these obligations explicitly to the listed BEDC primitives and source chapters for $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{The next paper grade is a public export theorem over the same displayed $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
