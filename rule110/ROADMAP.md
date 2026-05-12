@@ -52,7 +52,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] C2: Implement encoder for empty CT (just ether + leader, no productions). Verify Rule 110 evolution preserves shape indefinitely.
 
-- [ ] C3: Implement encoder for CT with 1 production. Verify by running Cook's example or constructing a minimal example.
+- [x] C3: Implement encoder for CT with 1 production. Verify by running Cook's example or constructing a minimal example.
 
 - [ ] C4: Implement encoder for arbitrary CT. Test on the 8 Mark manifests' productions.
 

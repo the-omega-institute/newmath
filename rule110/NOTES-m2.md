@@ -58,3 +58,7 @@ The Cook data-block emitter uses a fixed 50-cell slot per cyclic-tag tape bit. L
 ## Empty cyclic-tag encoder observations (C2)
 
 The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the current leader marker at cell 100. Because this row is only 700 cells wide, the 500-step check compares against a separately evolved pure-ether row with the same finite zero-boundary evaluator. The observed difference is therefore attributed to the leader marker rather than to boundary phase drift. Non-empty cyclic-tag inputs remain outside the C2 envelope and return zero bytes.
+
+## One-production cyclic-tag encoder observations (C3)
+
+The one-production encoder uses a fixed M2 layout over Cook ether: leader at cell 100, the single ossifier at cell 300, and an optional initial data block at cell 800. The substrate is padded to at least 220 ether periods, with additional trailing ether when a longer tape requires it, so the 1000-step behavioral check has guard space beyond the data block. The C3 test verifies initial perturbations in the leader, ossifier, and data-block regions, preserves ether in the gaps between them, and confirms each populated region still differs from a same-step ether control after 1000 Rule 110 steps. This remains a structural persistence check for the current best-effort templates, not a proof of productive cyclic-tag simulation.
