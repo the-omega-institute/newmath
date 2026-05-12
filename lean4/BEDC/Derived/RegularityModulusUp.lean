@@ -80,4 +80,17 @@ theorem RegularityModulusDyadicWindowCarrier_window_monotonicity [AskSetup] [Pac
                   hsame provenance provenance' :=
   RegularityModulusPacket_window_monotonicity
 
+theorem RegularityModulusPacket_dyadic_window_exactness [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont ledger (BHist.e1 nameRow) provenance -> False := by
+  intro packet extendedNameRoute
+  have provenanceRow : Cont ledger nameRow provenance :=
+    packet.right.right.right.right.right.right.left
+  have sameName : hsame nameRow (BHist.e1 nameRow) :=
+    cont_left_cancel provenanceRow extendedNameRoute
+  exact hsame_extension_self_absurd.right nameRow (hsame_symm sameName)
+
 end BEDC.Derived.RegularityModulusUp
