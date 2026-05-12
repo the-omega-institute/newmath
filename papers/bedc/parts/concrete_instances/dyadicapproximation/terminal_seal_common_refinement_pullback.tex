@@ -1,0 +1,69 @@
+\begin{theorem}[DyadicApproximation terminal seal common-refinement pullback]
+\label{thm:dyadicapproximation-terminal-seal-common-refinement-pullback}
+Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted
+$\DyadicApproximationUp$ finite packets. Let terminal finite-window
+$\RealUp$ seal consumers read the visible terminal boundary of $A$ and $A'$
+through displayed $\RegSeqRatUp$ windows, $\RealUp$ tokens, visible $\hsame$
+transports, visible $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ rows.
+
+Then equality of the visible terminal seal boundary is equivalent to the
+existence of a common-refinement enclosure handoff through one finite
+$\mathsf{BHist}$ surface. The witnessing surface consists exactly of a common
+precision row, transported dyadic endpoint, terminal finite window,
+$\RegSeqRatUp$ readback, $\RealUp$ token, $\DyadicMeshUp$ mesh row,
+$\ValidatedNumericsUp$ enclosure row, visible $\hsame$ transports, visible
+$\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$, and
+$\NameCert_{\ValidatedNumericsUp}$ rows.
+
+Under this equivalence the forward implication starts from the terminal
+$\RealUp$ seal boundary and produces the common finite surface; the reverse
+implication starts from the common-refinement enclosure handoff and reads back
+the same terminal seal boundary. The criterion exports no completed real
+equality, quotient-real equality, solver correctness, floating-point
+semantics, infinite mesh selection, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+For the forward direction, first put the two terminal seal consumers into the
+finite-packet readback form. Apply
+\autoref{thm:dyadicapproximation-terminal-finite-packet-real-readback} to the
+terminal packet read by each consumer. The visible terminal boundary therefore
+has only the displayed precision, endpoint, terminal-window,
+regular-rational, real-token, transport, continuation, package, and local
+certificate rows.
+
+Now use the assumed equality of the visible terminal $\RealUp$ seal boundary.
+Apply \autoref{thm:dyadicapproximation-shared-real-boundary-determinacy} to
+the two accepted packets with those identified terminal rows. The determinacy
+statement says that every terminal finite-window consumer, mesh-cell consumer,
+and validated-enclosure consumer must read the same finite BEDC boundary.
+
+Choose the resulting mesh and enclosure rows as the common-refinement witness.
+Their shared precision row, transported endpoint, terminal window,
+$\RegSeqRatUp$ readback, $\RealUp$ token, visible transports, continuation
+routes, package rows, and local name-certificate rows form the required
+finite $\mathsf{BHist}$ surface.
+
+For the reverse direction, begin with the displayed common-refinement
+enclosure handoff. Apply
+\autoref{thm:dyadicapproximation-common-refinement-enclosure-handoff} to
+$A$, $A'$, the common refinement, the mesh row, and the validated enclosure
+row. This places the dyadic endpoint, mesh cell, containment ledger,
+regular-rational window, real token, transport rows, continuation rows,
+package rows, and local certificate rows on one finite surface.
+
+Next restrict the handoff to the finite packet boundary. Apply
+\autoref{thm:dyadicapproximation-finite-mesh-enclosure-exactness}. Then apply
+\autoref{thm:dyadicapproximation-validated-enclosure-route-commutation} to
+identify the terminal finite-window route with the mesh-enclosure and
+validated-readback route.
+
+The two routes now expose the same finite $\RegSeqRatUp/\RealUp$ rows, with
+the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+Reading those rows through the terminal seal consumers gives equality of the
+visible terminal seal boundary. Since every cited component is a finite BEDC
+boundary statement, the pullback supplies no completed real equality,
+quotient-real equality, solver correctness, floating-point semantics,
+infinite mesh selection, or choice-selected limit.
+\end{proof}

@@ -1448,11 +1448,18 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     # the project uses a parent-hub + namespace-extension pattern: sub-files
     # import the parent hub, so the parent hub re-exporting them would
     # cycle.
-    all_modules = sorted(
-        m
-        for p in BEDC_ROOT.rglob("*.lean")
-        if module_olean_path((m := ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts))).exists()
-    )
+    all_modules: list[str] = []
+    seen_public_decls: set[str] = set()
+    for path in sorted(BEDC_ROOT.rglob("*.lean")):
+        module = ".".join(path.relative_to(LEAN_ROOT).with_suffix("").parts)
+        if not module_olean_path(module).exists():
+            continue
+        file_decls, _fields = collect_declarations(path)
+        public_decls = {d.qualified_name for d in file_decls if not d.is_private}
+        if public_decls and public_decls.issubset(seen_public_decls):
+            continue
+        all_modules.append(module)
+        seen_public_decls.update(public_decls)
     lean_lines = [f"import {m}" for m in all_modules]
     lean_lines.append("")
     lean_lines.extend(f"#print axioms {name}" for name in theorems)
