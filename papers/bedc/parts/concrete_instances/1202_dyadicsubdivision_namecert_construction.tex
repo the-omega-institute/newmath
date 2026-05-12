@@ -134,6 +134,20 @@ Refinement stability is \autoref{thm:dyadic-subdivision-refinement-stability}; m
 Refinement composition is \autoref{thm:dyadic-subdivision-refinement-composition}, common refinement exhaustion is \autoref{thm:dyadic-subdivision-common-refinement-exhaustion}, and cell-ledger transport is \autoref{thm:dyadic-subdivision-cell-ledger-transport}. Repacking these rows gives the stated obligation package while preserving the non-escape clauses for interval-tree semantics, solver correctness, hardware semantics, classical completeness, and infinite refinement.
 \end{proof}
 
+\begin{theorem}[DyadicSubdivision routed bisection normal form]
+\label{thm:dyadic-subdivision-routed-bisection-normal-form}
+Let $S$ be an accepted $\DyadicSubdivisionUp$ packet obtained by iterated unary bisection of a parent $\RationalIntervalUp$ row. Then $S$ has a unique visible finite normal-form packet consisting exactly of the parent interval row, unary level row, ordered cell-list row, $\DyadicMeshUp$ cell packets, $\ValidatedNumericsUp$ containment rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+
+If two unary bisection routes over the same parent row agree on these displayed rows, then their resulting packets classify together as $\DyadicSubdivisionUp$ packets. The normal-form packet exports no global interval tree, solver correctness, floating-point semantics, classical real completeness, or infinite refinement.
+\end{theorem}
+\begin{proof}
+Start with the initial parent interval row and read every unary bisection as a displayed finite $\DyadicMeshUp$ refinement route. Apply \autoref{thm:dyadic-subdivision-refinement-stability} after each bisection step, and use \autoref{thm:dyadic-subdivision-refinement-composition} to collapse the resulting chain into one finite accepted subdivision packet over the original parent row.
+
+The visible rows of the normal form are exhausted by the finite mesh and enclosure ledgers. Apply \autoref{thm:dyadic-subdivision-common-refinement-exhaustion} to compare two routes through their common finite child-ledger, then apply \autoref{thm:dyadic-subdivision-cell-ledger-transport} to transport the parent interval, level, ordered cells, mesh packets, containment rows, provenance, and local certificate componentwise.
+
+Finally, \autoref{thm:dyadic-subdivision-namecert-package} repacks these transported rows as the public $\DyadicSubdivisionUp$ certificate. Because the package contains only the listed finite rows and routes, agreeing bisection ledgers classify together, and no global interval tree, solver-correctness theorem, hardware semantics, classical completeness principle, or infinite refinement object is exported.
+\end{proof}
+
 \closureat{DyadicSubdivisionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicSubdivisionUp}
