@@ -156,6 +156,28 @@ theorem RegularCauchyComparisonCarrier_real_classifier_handoff [AskSetup] [Packa
     ⟨sharedReadUnary, observationReadUnary, toleranceReadUnary, sealReadUnary,
       ledgerSealRead, ledgerSame, provenancePkg, sealReadPkg⟩
 
+theorem RegularCauchyComparisonCarrier_tolerance_row_stability [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert transportedTolerance toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      hsame tolerance transportedTolerance ->
+        Cont observations transportedTolerance toleranceRead ->
+          UnaryHistory transportedTolerance ∧ UnaryHistory toleranceRead ∧
+            hsame ledger (append observations tolerance) ∧ PkgSig bundle provenance pkg := by
+  intro carrier sameTolerance toleranceReadRow
+  obtain ⟨_leftUnary, _rightUnary, _windowUnary, observationsUnary, toleranceUnary,
+    _ledgerUnary, _sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have transportedToleranceUnary : UnaryHistory transportedTolerance :=
+    unary_transport toleranceUnary sameTolerance
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationsUnary transportedToleranceUnary toleranceReadRow
+  exact ⟨transportedToleranceUnary, toleranceReadUnary, ledgerSame, provenancePkg⟩
+
 theorem RegularCauchyComparisonCarrier_seal_handoff_obligation [AskSetup] [PackageSetup]
     {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
       nameCert sharedRead observationRead toleranceRead sealRead : BHist}
