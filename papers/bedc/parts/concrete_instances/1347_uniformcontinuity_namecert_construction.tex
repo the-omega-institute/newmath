@@ -1,0 +1,170 @@
+\chapter{A Concrete Naming Certificate for $\UniformContinuityUp$}
+\label{ch:concrete-instances-uniformcontinuity-namecert}
+
+The $\UniformContinuityUp$ surface materializes the compact-uniform-continuity
+capstone of \autoref{ch:visions-compact-uniform-continuity} as an ordinary
+concrete instance. It consumes the finite-net certificate of $\CompactUp$, the
+located distance rows of $\MetricUp$, the pointwise modulus ledger of
+$\ContinuousUp$, the rational lower-bound ledger of $\RatUp$, and the closed
+$\mathsf{ProbeBundle}$ spine. The exported object is a tolerance-only
+uniform-modulus certificate; it is not a host-level modulus selector.
+
+\begin{definition}[UniformContinuity BHist carrier]
+\label{def:uniform-continuity-bhist-carrier}
+A $\UniformContinuityUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+U=(X,Y,f,\varepsilon,P,C,R,T,L,M,H,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source metric row consumed through $\NameCert_{\MetricUp}$;
+\item $Y$ is the target metric row consumed through $\NameCert_{\MetricUp}$;
+\item $f$ is the graph row consumed through $\NameCert_{\ContinuousUp}$;
+\item $\varepsilon$ is a positive tolerance row consumed through $\NameCert_{\RatUp}$;
+\item $P$ is the finite $\mathsf{ProbeBundle}$ row supplied by the compact certificate;
+\item $C$ lists the center histories indexed by the bundled probes;
+\item $R$ lists the local positive radius and pointwise precision histories;
+\item $T$ records the half-radius coverage rows from $\NameCert_{\CompactUp}$;
+\item $L$ records the $\RatUp$ lower-bound fold over the bundled radius rows;
+\item $M$ records the metric triangle transports in the source and target metrics;
+\item $H$ records $\hsame$ transport for the displayed histories;
+\item $N$ is the local $\NameCert_{\UniformContinuityUp}$ row.
+\end{enumerate}
+The packet is accepted only when these rows are tied by $\Cont$ routes and
+$\mathsf{Pkg}$ provenance to the listed dependency certificates. No coordinate
+stores a function from tolerances to radii outside $\mathsf{BHist}$.
+\end{definition}
+
+\begin{definition}[UniformContinuity classifier]
+\label{def:uniform-continuity-classifier}
+Two $\UniformContinuityUp$ packets
+$$
+U=(X,Y,f,\varepsilon,P,C,R,T,L,M,H,N)
+$$
+and
+$$
+U'=(X',Y',f',\varepsilon',P',C',R',T',L',M',H',N')
+$$
+are classified together when the source and target metric rows are transported
+by their $\MetricUp$ classifiers, the graph row is transported by the
+$\ContinuousUp$ classifier, the tolerance and folded precision rows are
+transported by the $\RatUp$ classifier, the $\mathsf{ProbeBundle}$ membership
+spine is the same displayed finite spine after $\hsame$ transport, and the
+coverage, pointwise-modulus, lower-bound, and triangle rows are the
+corresponding transported rows. The classifier compares exactly the displayed
+certificate packet and does not compare host functions, external compact
+covers, or selected moduli.
+\end{definition}
+
+\begin{theorem}[Finite-net modulus fold]
+\label{thm:uniform-continuity-finite-net-modulus-fold}
+Let $U$ be an accepted $\UniformContinuityUp$ carrier. The finite
+$\mathsf{ProbeBundle}$ row $P$, the pointwise-modulus rows $R$, and the
+$\RatUp$ lower-bound ledger $L$ determine a folded positive precision history
+$\delta_\varepsilon$ such that, for every bundled probe $p$, the fold certifies
+$\delta_\varepsilon$ below the half-radius row attached to $p$. The same
+folded history is stable under the classifier of
+\autoref{def:uniform-continuity-classifier}. Therefore the uniform precision
+read by a consumer is a BEDC history extracted from the finite bundle, not an
+external selection.
+\end{theorem}
+\begin{proof}
+Project the finite $\mathsf{ProbeBundle}$ spine from the carrier. Its center
+rows, local radius rows, and pointwise precision rows are displayed
+coordinates of $U$, and each row is attached to the compact and continuous
+dependency certificates by $\Cont$ and $\mathsf{Pkg}$ provenance.
+
+Run primitive recursion over the bundle. At the empty boundary the accepted
+carrier supplies the nonempty compact-net witness, so the fold starts from a
+displayed positive radius row. At each successor probe, the $\RatUp$ comparison
+row selects the certified lower of the accumulator and the next half-radius
+row, and stores the selected row back in $L$.
+
+Classifier stability follows coordinatewise. Transporting $U$ to $U'$ moves
+the rational rows through the $\RatUp$ classifier and moves the bundle
+membership witnesses through the same displayed finite spine. The recursion
+therefore reads the transported lower-bound ledger, so the folded precision
+history is classified with its transported representative.
+\end{proof}
+
+\begin{theorem}[UniformContinuity NameCert obligation surface]
+\label{thm:uniform-continuity-namecert-obligation-surface}
+The local $\NameCert_{\UniformContinuityUp}$ obligation surface consists
+exactly of the following five rows:
+\begin{enumerate}
+\item the finite-net carrier row exposing the compact $\mathsf{ProbeBundle}$,
+its center histories, and half-radius coverage witnesses;
+\item the pointwise-to-uniform modulus fold row of
+\autoref{thm:uniform-continuity-finite-net-modulus-fold};
+\item the $\RatUp$ lower-bound ledger certifying the folded positive precision
+below every bundled half-radius row;
+\item the metric triangle transport row carrying the source estimate through a
+chosen center and then carrying the two target estimates to the final
+$\varepsilon$ bound;
+\item the non-escape row saying that every consumer-visible modulus read
+factors through the displayed compact, continuous, rational, metric,
+$\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\UniformContinuityUp}$ rows.
+\end{enumerate}
+Consequently the public certificate exports a tolerance-only
+uniform-modulus ledger and exports no host-level modulus selector, no
+unlisted open cover, no sequential compactness argument, and no chosen
+subsequence.
+\end{theorem}
+\begin{proof}
+The finite-net row is the compact certificate projected to the displayed
+$\mathsf{ProbeBundle}$, center histories, and half-radius coverage witnesses.
+Those rows are already part of the carrier, so the local packet has no hidden
+cover coordinate.
+
+The pointwise-to-uniform row is the finite fold of
+\autoref{thm:uniform-continuity-finite-net-modulus-fold}. Its output is a
+positive $\RatUp$ history below every bundled half-radius row, and the
+classifier stability of that theorem gives the corresponding transport field
+for the local $\NameCert$ packet.
+
+The metric row applies the source triangle inequality around the selected
+center, then applies the target triangle inequality to the two pointwise
+estimates produced by the continuous certificate. The rational ledger supplies
+the displayed comparison rows needed to keep the source distances inside the
+local pointwise radii.
+
+Finally inspect the carrier coordinates of
+\autoref{def:uniform-continuity-bhist-carrier}. They list all dependency
+certificates, all finite bundle rows, all rational comparison rows, all metric
+transport rows, and the local naming row. A consumer-visible read must factor
+through one of these coordinates, so there is no readable slot for an external
+modulus selector, sequential compactness witness, or host cover.
+\end{proof}
+
+\begin{theorem}[Compact continuous standard reading]
+\label{thm:uniform-continuity-compact-continuous-standard-reading}
+When a classical compact metric source and a continuous graph are presented
+through $\NameCert_{\CompactUp}$, $\NameCert_{\MetricUp}$, and
+$\NameCert_{\ContinuousUp}$, the accepted $\UniformContinuityUp$ packet reads
+as the usual statement that a continuous function on a compact metric space is
+uniformly continuous. The BEDC reading is the finite certificate surface:
+for each positive $\RatUp$ tolerance history $\varepsilon$, the packet returns
+a folded positive $\RatUp$ precision history $\delta_\varepsilon$ whose
+validity is witnessed by finite-net coverage, pointwise continuity at bundled
+centers, rational lower-bound comparison, and metric triangle transport.
+\end{theorem}
+\begin{proof}
+Start with the compact certificate. It supplies the finite
+$\mathsf{ProbeBundle}$ net and the half-radius coverage witnesses for the
+chosen tolerance scale. The continuous certificate supplies pointwise modulus
+rows at the bundled centers.
+
+Apply \autoref{thm:uniform-continuity-finite-net-modulus-fold} to extract the
+single folded precision history. The fold uses only the displayed rational
+ledger and is stable under the packet classifier, so it is the public precision
+read by $\NameCert_{\UniformContinuityUp}$.
+
+For any two accepted source histories whose source distance is below this
+precision, choose the covering bundled center for the first history. The source
+triangle row places the second history within the same local pointwise radius,
+and the target triangle row combines the two pointwise estimates into the
+displayed tolerance bound. This is precisely the classical Heine--Cantor
+reading, expressed through finite BEDC certificate rows.
+\end{proof}
+
