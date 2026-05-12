@@ -27,9 +27,9 @@ theorem betaParallel_lam_inv {d b t : Term}
 theorem betaParallel_app_target_shape {f a f' a' : Term}
     (h : BetaParallel (Term.app f a) (Term.app f' a')) :
     (BetaParallel f f' ∧ BetaParallel a a') ∨
-    (∃ d body body' arg',
-      BetaParallel body body' ∧ BetaParallel a arg' ∧
-        f = Term.lam d body ∧ Term.app f' a' = substitute 0 arg' body') := by
+    (∃ d body arg',
+      BetaParallel f (Term.lam d body) ∧ BetaParallel a arg' ∧
+        Term.app f' a' = substitute 0 arg' body) := by
   have hshape := betaParallel_app_shape h
   cases hshape with
   | inl hp =>
@@ -47,7 +47,7 @@ theorem betaParallel_app_target_shape {f a f' a' : Term}
       exact Or.inr hredex
 
 theorem betaParallel_app_no_beta {f a f' a' : Term}
-    (h_not_lam : ∀ d b, f ≠ Term.lam d b)
+    (h_not_lam : ∀ d b, ¬ BetaParallel f (Term.lam d b))
     (h : BetaParallel (Term.app f a) (Term.app f' a')) :
     BetaParallel f f' ∧ BetaParallel a a' := by
   have hshape := betaParallel_app_target_shape h
@@ -60,15 +60,9 @@ theorem betaParallel_app_no_beta {f a f' a' : Term}
           cases hd with
           | intro body hbody =>
               cases hbody with
-              | intro body' hbody' =>
-                  cases hbody' with
-                  | intro arg' hpack =>
-                      cases hpack with
-                      | intro _ hrest =>
-                          cases hrest with
-                          | intro _ heq =>
-                              cases heq with
-                              | intro hf _ =>
-                                  exact False.elim (h_not_lam d body hf)
+              | intro arg' hpack =>
+                  cases hpack with
+                  | intro hf _ =>
+                      exact False.elim (h_not_lam d body hf)
 
 end BEDC.MetaCIC

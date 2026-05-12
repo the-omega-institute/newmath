@@ -309,11 +309,24 @@ gh pr checks <PR> --watch --interval 30 > /tmp/pr<PR>-ci.log 2>&1
 
 `run_in_background: true` 让任务挂着, 完成时发 task-notification 唤回. 同时继续派遣下一轮 codex worker / 写代码 / 跑本地 build —— 不浪费 wall clock.
 
-**等待开发循环**: codex worker 也 background dispatch, 同样靠 task-notification 唤回. 一个典型回合: dispatch 3 worker (background) + 在 PR 上 push 新内容 + arm CI Monitor (background) + `ScheduleWakeup` 25 min fallback. 然后这个 turn 结束, harness 在事件触发或 fallback 时唤回.
+**等待开发循环**: codex worker 也 background dispatch, 同样靠 task-notification 唤回. 一个典型回合: dispatch 3 worker (background) + 在 PR 上 push 新内容 + 对每个 worker arm 一个 Monitor (background) 等其 commit + `ScheduleWakeup` 长 fallback (1h+). 然后这个 turn 结束, harness 在事件触发或 fallback 时唤回.
 
-**绝不**用 `gh pr checks <PR> --watch` 在前台同步等. 也**绝不**在 worker 都 background 后立刻 `wait` (除非真的没下一步可做).
+**绝不**用 `gh pr checks <PR> --watch` 在前台同步等. 也**绝不**在 worker 都 background 后立刻 `wait` (除非真的没下一步可做). **也不要靠 ScheduleWakeup 固定 25 min 节奏**: codex worker 完成时间方差大 (3-15 min), 固定 wakeup 浪费 cache window + 不及时. 改用 Monitor 等真信号.
 
-CI 失败诊断也尽量懒处理: 如果 PDF 失败是上游 codex 引入的未定义宏 (历史复现: `\origin` / `\ChapterTasteGate` / `\GroundCompiler`), 加 preamble stub macro 即可, 不阻塞.
+**Worker 完成回调**: 最简单做法是直接用 Bash `run_in_background: true` 跑 `codex exec ...` (**不要**在尾部加 `&`). codex 本身阻塞执行 5-15 min, 退出时 harness 发 task-notification. 一个 worker 一个 Bash 调用, 3 个 worker 就并行 3 个 background Bash, 各自完成各自发回调.
+
+```bash
+# Bash 调用, run_in_background: true, 不要内部 & 后台化
+codex exec --dangerously-bypass-approvals-and-sandbox -C /tmp/wt-X "$(cat /tmp/prompt-X.md)" > /tmp/codex-log-X.log 2>&1
+```
+
+错误做法: `codex exec ... &` 在 Bash 里, bash 立即 fork+退出, 永远收不到 codex 完成事件. 也不要靠 ScheduleWakeup 固定 25 min 节奏 polling, 既不及时又烧 cache.
+
+Monitor 工具留给"事件流"型监视 (CI 多个 check 状态变化, 日志新错误行). 单次"等命令完成"用 Bash background 就够.
+
+CI 失败诊断也尽量懒处理: 如果 PDF 失败是上游 codex 引入的未定义宏 (历史复现: `\origin` / `\ChapterTasteGate` / `\GroundCompiler` / `\BHist`), 加 preamble stub macro 即可, 不阻塞.
+
+**上游 codex sibling 重复**: 上游 codex 偶尔把 monolithic 文件拆成 sibling (Confluence.lean → Confluence/Core.lean + AtomShape.lean + ...). 我合并时若也加了相同内容到 monolithic, lean 编译会报 "已 declared" 重复. 解决: 删 monolithic 留 sibling (或反向), 让导入清单只指一边.
 
 ---
 
