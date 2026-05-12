@@ -1,0 +1,7 @@
+# msame_no_confusion.enum.ct
+# Theorem: msame_no_confusion : (msame b0 b1 -> False) /\ (msame b1 b0 -> False)
+# Strategy: enumerate 2 cases. Each asserts that the decoded events are unequal.
+PRODUCTIONS 0
+ASSERTIONS 2
+case b0_b1: input=0111011 ; expected_unequal=yes (decoded events b0 != b1)
+case b1_b0: input=1011011 ; expected_unequal=yes (decoded events b1 != b0)
