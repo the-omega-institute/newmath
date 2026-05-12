@@ -618,6 +618,29 @@ theorem betaStarStep_sort_unique_target {t : Term}
   | step hstep _ =>
       exact False.elim (betaStep_sort_absurd hstep)
 
+theorem betaStarStep_atom_refl_only {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaStarStep t t') :
+    t' = t := by
+  cases hatom with
+  | inl hsort =>
+      cases hsort
+      exact betaStar_sort_target h
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          exact betaStar_var_target i h
+
+theorem betaParallel_betaStarStep_atom_coincide {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaParallel t t') :
+    t' = t ∧ BetaStarStep t t' := by
+  exact
+    And.intro
+      (betaStarStep_atom_refl_only hatom (betaStarStep_of_betaParallel_atom hatom h))
+      (betaStarStep_of_betaParallel_atom hatom h)
+
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}
     (h1 : BetaStarStep (Term.var i) u1)
