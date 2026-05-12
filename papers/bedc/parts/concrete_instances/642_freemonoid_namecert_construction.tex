@@ -174,3 +174,51 @@ word-history certificate.
   \notclaimed{This chapter does not close host free-monoid quotients, infinite words, formal-language recognizers, automata semantics, or a standard bridge.}
   \upgradepath{Lean formalization requires a future finite word-history carrier and public certificate theorem.}
 \end{closurestatus}
+
+\begin{theorem}[FreeMonoid empty concatenation inversion]
+\label{thm:freemonoid-empty-concat-inversion}
+Fix one payload source row $A:\mathsf{BHist}\to\mathsf{Prop}$ and one
+payload classifier $\sim_A$. Let $u$ and $v$ be accepted $\FreeMonoidUp$ words
+for this same payload, $\ListUp$, $\NatUp$, and $\MonoidUp$ setup, and let
+$u\cdot v$ be their displayed concatenation word. If $u\cdot v$ is classified
+with the empty $\FreeMonoidUp$ word, then $u$ is classified with the empty word
+and $v$ is classified with the empty word, all under the same payload and
+provenance rows.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:freemonoid-word-carrier}. The accepted word
+$u$ has a finite position spine $s_u$, a $\NatUp$ length row $\ell_u$, payload
+entries over $A$, and provenance through the fixed $A$, $\ListUp$, $\NatUp$, and
+$\MonoidUp$ packet. The word $v$ has the analogous rows $s_v$ and $\ell_v$. The
+concatenation ledger records the output position spine as the displayed
+$\ListUp$ append of $s_u$ and $s_v$, and its length row as the displayed
+$\NatUp$ addition row $\ell_u+\ell_v$.
+
+The hypothesis says that this concatenation output is classified with the empty
+word. By the classifier clause in \autoref{def:freemonoid-word-carrier}, its
+length row is therefore classified with the $\NatUp$ zero row, and its position
+spine is classified with the empty $\ListUp$ spine. The ledger normal form of
+\autoref{thm:freemonoid-ledger-normal-form} leaves no hidden word evaluator: in
+the concatenation case, these two rows are exactly the append spine and the
+length-addition row just displayed.
+
+Apply empty-result inversion for the finite append surface recorded in
+\autoref{thm:external-model-soundness-finite-kernel}, equivalently the
+contrapositive form of \autoref{thm:append-nonempty-iff}, to the displayed
+append spine $s_u\cdot s_v$ classified with the empty spine. Both factors are
+classified with the empty spine. The same inversion applied to the $\NatUp$
+length-addition row identifies both $\ell_u$ and $\ell_v$ with the zero length
+row.
+
+There are now no remaining payload positions in either factor: an empty
+$\ListUp$ spine has no displayed position at which a payload comparison can be
+stored, and the zero $\NatUp$ row agrees with that empty presentation. The
+$\Pkg$ provenance has not changed, since the concatenation row in
+\autoref{def:freemonoid-word-carrier} uses the same payload source, $\ListUp$,
+$\NatUp$, and $\MonoidUp$ packet for the two inputs and the result. Thus the
+classifier clauses for $u$ against the empty word and for $v$ against the empty
+word are exactly the empty spine comparison, the zero length comparison, the
+vacuous componentwise payload comparison, and the same continuation provenance.
+Therefore both factors are classified with the empty $\FreeMonoidUp$ word under
+the original setup.
+\end{proof}

@@ -630,6 +630,7 @@ rows are exactly the public bridge surface.
 The bridge exports no host string, host finite map, hidden infinite tree, key
 ordering, or ambient lookup function.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_standard\_finite\_packet\_bridge}
 \begin{proof}
 Project the finite packet as $(k,v,l,b,p)$ from
 \autoref{def:trie-bhist-source}. The coordinates are the displayed key path,
@@ -754,3 +755,43 @@ consumer interface.
   \notclaimed{This chapter does not close host strings, host finite maps, function extensionality, infinite trees, key-order semantics, balancing invariants, or host lookup behavior.}
   \upgradepath{No further paper-side theory grade remains for the finite trie packet surface; formal bridge verification remains on the separate verification axis.}
 \end{closurestatus}
+
+\begin{definition}[Displayed Trie prefix subledger]\label{def:trie-displayed-prefix-subledger}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet. A displayed prefix subledger of $T$ is a finite packet
+$$
+U=(k_U,v_U,l_U,b_U,p_U;\iota)
+$$
+with a displayed inclusion row $\iota$ into the visible prefix positions of $T$ such that:
+\begin{enumerate}
+\item $k_U$ is a finite $\BitVectorUp$ path or $\ListUp$ spine whose entries are exactly the key-path entries of $k$ at the positions selected by $\iota$;
+\item the selected positions are prefix-closed: whenever a displayed position is selected, every displayed predecessor prefix of that position in the key-path ledger is also selected;
+\item $v_U$ is the $\OptionUp$ payload row of $T$ restricted to selected terminal positions, so the absent tag stays absent and a present tag exposes only the same displayed payload row already exposed by $v$;
+\item $l_U$ is the $\NatUp$ depth ledger obtained by restricting $l$ to the selected positions, with each selected read still below the corresponding depth bound;
+\item $b_U$ is the branch ledger obtained by retaining exactly the $\BoolUp$ branch tags and left or right subprefix reads of $b$ whose source and target prefixes are selected by $\iota$;
+\item $p_U$ is the projected $\Pkg$ provenance row naming only the consumed $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, $\BitVectorUp$, $\hsame$, and $\Cont$ rows that occur in the retained coordinates.
+\end{enumerate}
+The associated restricted packet is $T|_U=(k_U,v_U,l_U,b_U,p_U)$.
+\end{definition}
+
+\begin{theorem}[Trie prefix subledger restriction carrier]\label{thm:trie-prefix-subledger-restriction-carrier}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet, and let $U$ be a displayed prefix subledger of $T$ in the sense of \autoref{def:trie-displayed-prefix-subledger}. Then the restricted packet
+$$
+T|_U=(k_U,v_U,l_U,b_U,p_U)
+$$
+is again an accepted $\TrieUp$ source packet under the same $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, and $\BitVectorUp$ dependency certificates.
+\end{theorem}
+\begin{proof}
+Unpack the accepted source packet by \autoref{def:trie-bhist-source}. The original carrier consists only of the key-path row, optional terminal payload row, finite depth ledger, boolean branch ledger, and package provenance row. The displayed subledger definition selects rows from exactly those five coordinates and records the inclusion row $\iota$.
+
+First consider the key coordinate. Since $k_U$ is obtained by selecting displayed positions of the finite $\BitVectorUp$ path or $\ListUp$ branch-history spine of $k$, it is again a finite key-path row of the same kind. Prefix-closedness of the selected positions ensures that every selected non-root prefix has its predecessor prefix in the same restricted packet, so no branch read in $k_U$ points outside the restricted carrier.
+
+Next consider the $\NatUp$ ledger. The row $l_U$ is the restriction of $l$ to selected positions. Every public read admitted by $l_U$ was already a public read admitted by $l$, and the depth inequality for that read is the same displayed $\NatUp$ row. Thus the restricted depth ledger is finite and still bounds all selected key and branch reads.
+
+For the branch coordinate, each retained entry of $b_U$ is a $\BoolUp$ tag already present in $b$. The definition of displayed prefix subledger keeps a branch entry only when its source prefix and the selected left or right subprefix row are both selected by $\iota$. Therefore the branch ledger of the restricted packet has no public unrecorded branch, and every visible branch selection remains routed through displayed finite list or bit-vector positions.
+
+For the optional payload coordinate, the absent case is inherited unchanged from $v$. In the present case, $v_U$ exposes only a payload row already exposed by the original $\OptionUp$ row $v$ at a selected terminal prefix. Thus no payload comparison, hidden value equality, or terminal read is introduced by the restriction.
+
+Finally, $p_U$ is the projection of the original provenance row $p$ to the dependency rows actually used by $k_U$, $v_U$, $l_U$, and $b_U$. It names the same kinds of certificates as $p$: $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, $\BitVectorUp$, $\hsame$, and $\Cont$. Since \autoref{thm:trie-ledger-coverage} says every public read of an accepted trie packet factors through the finite ledger coordinates, deleting unselected rows cannot create a host string equality, a host finite map lookup, an ambient function space, an infinite tree, or an implicit ordering on keys.
+
+The five projected coordinates therefore satisfy the same carrier clauses as \autoref{def:trie-bhist-source}. Hence $T|_U=(k_U,v_U,l_U,b_U,p_U)$ is an accepted $\TrieUp$ source packet under the same finite dependency certificates.
+\end{proof}
