@@ -374,6 +374,47 @@ $\CauchyFilterUp$ read, and the same ledger is retained by the $\CompletionUp$
 read without selecting a limit or quotienting streams.
 \end{proof}
 
+\begin{theorem}[UniformSpace entourage-filter-metric comparison]
+\label{thm:uniformspace-entourage-filter-metric-comparison}
+An accepted $\UniformSpaceUp$ packet compares two point histories only through
+the displayed entourage rows, filter-neighbourhood rows, $\MetricUp$ distance
+witness rows when those witnesses are present, componentwise $\hsame$
+transports on the two endpoints, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance.
+
+The comparison exports no host uniformity, open-cover compactness principle,
+quotient topology equality, choice-selected completion datum, or ambient
+metric space equality. A downstream $\MetricUp$, $\TopologyUp$, $\FilterUp$,
+or $\CauchyFilterUp$ consumer therefore receives exactly the finite comparison
+surface carried by the $\UniformSpaceUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet by
+\autoref{thm:uniformspace-scoped-entourage-package}. This supplies the point
+source, finite entourage list, diagonal, refinement, symmetry, composition,
+transport, continuation, package, and local naming rows over the same
+$\mathsf{BHist}$ surface.
+
+Next replay the filter-neighbourhood witnesses. The finite filterbase
+diagonal obligation and the diagonal refinement obligation identify each
+requested neighbourhood with a displayed entourage row and a displayed
+refinement route, while componentwise $\hsame$ carries the two endpoint
+histories through the same classifier surface.
+
+When a $\MetricUp$ distance witness row is present, it is read as one of the
+neighbourhood anchors already routed through the displayed entourage ledger.
+The classifier transport obligation preserves that row under endpoint
+transport, and the common-refinement handoff keeps the filter and Cauchy reads
+on the same finite continuation routes.
+
+Finally apply
+\autoref{thm:uniformspace-entourage-ledger-exactness}. Since the exactness
+boundary has no coordinate for host uniformity, open-cover compactness,
+quotient topology equality, or ambient metric equality, the comparison is
+exhausted by the displayed entourage, filter, metric-witness, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ rows.
+\end{proof}
+
 \closureat{UniformSpaceUp}{seedStr}
 \closureat{UniformSpaceUp}{obligationStr}
 \closureat{UniformSpaceUp}{publicStr}
