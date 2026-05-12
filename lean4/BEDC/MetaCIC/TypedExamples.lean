@@ -146,6 +146,32 @@ theorem id_applied_to_pi_result_eq :
       Term.pi Term.sort Term.sort := by
   rfl
 
+/-- 空 ctx 下: lam (pi sort sort) (var 0) 是 pi-type values 上的 identity. -/
+theorem id_on_pi_sort_sort :
+    HasType []
+      (Term.lam (Term.pi Term.sort Term.sort) (Term.var 0))
+      (Term.pi (Term.pi Term.sort Term.sort) (Term.pi Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · apply HasType.piRule
+    · exact HasType.sortRule []
+    · exact HasType.sortRule [Term.sort]
+  · apply HasType.varRule
+    rfl
+
+/-- 空 ctx 下: lam (pi sort sort) (lam sort (var 0)) 给出 pi 参数后的 sort identity. -/
+theorem proj_for_pi_arg :
+    HasType []
+      (Term.lam (Term.pi Term.sort Term.sort) (Term.lam Term.sort (Term.var 0)))
+      (Term.pi (Term.pi Term.sort Term.sort) (Term.pi Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · apply HasType.piRule
+    · exact HasType.sortRule []
+    · exact HasType.sortRule [Term.sort]
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.pi Term.sort Term.sort]
+    · apply HasType.varRule
+      rfl
+
 theorem identity_on_pi_type :
     HasType []
       (Term.app
