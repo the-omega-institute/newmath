@@ -49,6 +49,47 @@ Boundary-ledger exactness is read from $L$ and $B$. The ledger lists the interna
 The non-escape obligation follows because those rows exhaust the carrier coordinates. A downstream consumer can reach no chain complex, host summation, quotient cancellation, or external calculus datum outside the displayed packet.
 \end{proof}
 
+\begin{definition}[FoldDefectStokes empty carrier]
+\label{def:fold-defect-stokes-empty-carrier}
+The empty $\FoldDefectStokesUp$ carrier is the packet of \autoref{def:fold-defect-stokes-carrier} with empty fold-input row, empty projected-output row, empty boundary-defect row, empty interior ledger, identity componentwise $\hsame$ transports, trivial displayed $\Cont$ routes, empty $\Pkg$ provenance, and the local $\NameCert_{\FoldDefectStokesUp}$ row.
+\end{definition}
+
+\begin{theorem}[FoldDefectStokes classifier laws]
+\label{thm:fold-defect-stokes-classifier-laws}
+For every accepted $\FoldDefectStokesUp$ carrier $S=(I,O,B,L,H,C,P,N)$, the local classifier transported by $H$ is reflexive, symmetric, and transitive on the displayed input, output, boundary, ledger, route, provenance, and naming rows. These laws are componentwise $\hsame$ laws over the carrier of \autoref{def:fold-defect-stokes-carrier} and add no ambient fold equality.
+\end{theorem}
+\begin{proof}
+Use the coordinates of \autoref{def:fold-defect-stokes-carrier}. Reflexivity is obtained by taking the identity $\hsame$ row on each of $I$, $O$, $B$, $L$, $H$, $C$, $P$, and $N$.
+
+Symmetry reverses each displayed transport row. Since the classifier never reads an unrecorded fold operation, reversing the componentwise rows gives the same accepted surface.
+
+Transitivity composes the displayed transports component by component. The boundary-ledger factorization of \autoref{thm:fold-defect-stokes-boundary-ledger} and the finite no-escape boundary of \autoref{thm:fold-defect-stokes-non-escape} ensure that the composed classifier still mentions only the rows of the carrier.
+\end{proof}
+
+\begin{theorem}[FoldDefectStokes projection stability]
+\label{thm:fold-defect-stokes-projection-stability}
+Let $S=(I,O,B,L,H,C,P,N)$ be an accepted $\FoldDefectStokesUp$ carrier. Any accepted transport of the fold-input row $I$ through the displayed classifier keeps the projected-output row $O$ readable through the same $I$-to-$O$ $\Cont$ route, with the transported boundary row $B$ and ledger row $L$ still factoring as in \autoref{thm:fold-defect-stokes-boundary-ledger}.
+\end{theorem}
+\begin{proof}
+Start from the $I$-to-$O$ route stored in $C$. Transporting $I$ by the displayed classifier also transports the corresponding output coordinate through the matching component of $H$.
+
+The boundary and ledger coordinates are then read through the same continuation route. Apply \autoref{thm:fold-defect-stokes-boundary-ledger} to identify the transported public defect with the boundary row and the interior ledger.
+
+Finally, \autoref{thm:fold-defect-stokes-non-escape} rules out any alternate output route through an external fold semantics, quotient, or host summation law.
+\end{proof}
+
+\begin{theorem}[FoldDefectStokes exactness obligation]
+\label{thm:fold-defect-stokes-exactness-obligation}
+For every accepted $\FoldDefectStokesUp$ carrier $S=(I,O,B,L,H,C,P,N)$, the ledger $L$ is exact at the public boundary row $B$: each internal defect contribution recorded in $L$ is paired with a displayed cancellation route, and the remaining public defect is precisely the boundary read $B$ certified by \autoref{thm:fold-defect-stokes-boundary-ledger}.
+\end{theorem}
+\begin{proof}
+Inspect the ledger coordinate in \autoref{def:fold-defect-stokes-carrier}. Its entries are internal defect rows together with the displayed cancellation data that removes them from the endpoint read.
+
+Apply \autoref{thm:fold-defect-stokes-boundary-ledger}. The theorem says every public defect factors through $B$ and $L$, so the only contributions not canceled inside $L$ are exactly the entries represented by the boundary row.
+
+The non-escape boundary of \autoref{thm:fold-defect-stokes-non-escape} keeps the obligation local: there is no hidden differential, quotient cancellation, or host telescoping sum that could change the boundary after the ledger is read.
+\end{proof}
+
 \begin{theorem}[FoldDefectStokes boundary-ledger factorization]
 \label{thm:fold-defect-stokes-boundary-ledger}
 Let $S=(I,O,B,L,H,C,P,N)$ be an accepted $\FoldDefectStokesUp$ carrier. Any public defect read from the projected fold output factors through the displayed route
