@@ -150,4 +150,58 @@ theorem DyadicApproximationCarrier_overlap_seal_idempotence
     ⟨commonCarrierPacked, firstBoundaryUnary, secondBoundaryUnary, rereadUnary,
       sameFirstReread, secondBoundaryPkg⟩
 
+theorem DyadicApproximationCarrier_window_regseqrat_source_exhaustion
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint
+      terminalWindow terminalLedger terminalProvenance sealRow regseqRead
+      intervalContainment : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance regseqRead ->
+                    Cont terminalLedger terminalProvenance sealRow ->
+                      Cont terminalEndpoint regseqRead intervalContainment ->
+                        PkgSig bundle regseqRead pkg ->
+                          PkgSig bundle sealRow pkg ->
+                            PkgSig bundle intervalContainment pkg ->
+                              DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                                  terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                                UnaryHistory regseqRead ∧ UnaryHistory sealRow ∧
+                                  UnaryHistory intervalContainment ∧
+                                    hsame window terminalWindow ∧
+                                      PkgSig bundle regseqRead pkg ∧
+                                        PkgSig bundle sealRow pkg ∧
+                                          PkgSig bundle intervalContainment pkg := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  intro terminalWindowProvenanceRead terminalLedgerProvenanceSeal
+  intro terminalEndpointReadContainment readPkg sealPkg containmentPkg
+  have transported :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        hsame window terminalWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance terminalPrecisionEndpointWindow
+      terminalWindowLedgerProvenance
+  obtain ⟨terminalCarrier, sameWindow⟩ := transported
+  obtain ⟨_terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary,
+    terminalLedgerUnary, terminalProvenanceUnary, _terminalPrecisionEndpointWindow,
+    _terminalWindowLedgerProvenance, _terminalProvenancePkg⟩ := terminalCarrier
+  have readUnary : UnaryHistory regseqRead :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceRead
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed terminalLedgerUnary terminalProvenanceUnary terminalLedgerProvenanceSeal
+  have containmentUnary : UnaryHistory intervalContainment :=
+    unary_cont_closed terminalEndpointUnary readUnary terminalEndpointReadContainment
+  exact
+    ⟨⟨_terminalPrecisionUnary, terminalEndpointUnary, terminalWindowUnary, terminalLedgerUnary,
+        terminalProvenanceUnary, _terminalPrecisionEndpointWindow,
+        _terminalWindowLedgerProvenance, _terminalProvenancePkg⟩,
+      readUnary, sealUnary, containmentUnary, sameWindow, readPkg, sealPkg, containmentPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp
