@@ -76,6 +76,64 @@ theorem CauchyRegularizationCarrier_namecert_obligation_surface [AskSetup] [Pack
       exact source
   }
 
+def CauchyRegularizationSealRoute [AskSetup] [PackageSetup]
+    (streamRow modulusRow dyadicRow windowRow regseqRow sealRow transportRow routeRow nameRow
+      sealRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CauchyRegularizationCarrier streamRow modulusRow dyadicRow windowRow regseqRow sealRow
+      transportRow routeRow nameRow bundle pkg ∧
+    Cont regseqRow routeRow sealRead ∧ PkgSig bundle sealRead pkg
+
+theorem CauchyRegularizationSealRoute_semantic_name_certificate [AskSetup] [PackageSetup]
+    {streamRow modulusRow dyadicRow windowRow regseqRow sealRow transportRow routeRow nameRow
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRegularizationSealRoute streamRow modulusRow dyadicRow windowRow regseqRow sealRow
+        transportRow routeRow nameRow sealRead bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyRegularizationSealRoute streamRow modulusRow dyadicRow windowRow regseqRow
+            sealRow transportRow routeRow nameRow sealRead bundle pkg ∧ hsame row sealRead)
+        (fun row : BHist =>
+          CauchyRegularizationSealRoute streamRow modulusRow dyadicRow windowRow regseqRow
+            sealRow transportRow routeRow nameRow sealRead bundle pkg ∧ hsame row sealRead)
+        (fun row : BHist =>
+          CauchyRegularizationSealRoute streamRow modulusRow dyadicRow windowRow regseqRow
+            sealRow transportRow routeRow nameRow sealRead bundle pkg ∧ hsame row sealRead)
+        hsame := by
+  intro route
+  have routeSource := route
+  obtain ⟨carrier, regseqRouteRead, _sealReadPkg⟩ := route
+  obtain ⟨_streamUnary, _modulusUnary, _dyadicUnary, _windowUnary, regseqUnary,
+    _sealUnary, _transportUnary, routeUnary, _nameUnary, _streamModulusTransport,
+    _dyadicWindowRoute, _sealAppend, _sealPkg⟩ := carrier
+  have _sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqUnary routeUnary regseqRouteRead
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro sealRead (And.intro routeSource (hsame_refl sealRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
 def CauchyRegularizationFiniteCarrier [AskSetup] [PackageSetup]
     (stream modulus dyadic window regseq realSeal sameRows route provenance namecert endpoint :
       BHist)
