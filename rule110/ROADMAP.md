@@ -97,3 +97,18 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 - **Encoding ambiguity** (Phase A1): naive `e0 → b0, e1 → b1` collides with the BMark escape convention. Need careful wrapper bits (e.g., `e0 → "00", e1 → "01"` or some scheme). Settle this in A1 design doc *before* implementing.
 - **ProbeBundle abstraction** (Phase D1-D2): the Lean version uses `Type` parameter for ProbeName, which has no ground-up analog. Choose a concrete representation (e.g., natural numbers in unary, encoded as bit strings) and document the choice.
 - **Wall clock blowout**: 14-21-day estimate; if Phase B exceeds 10 days, replan Phase C+D scope.
+
+## Bundle module (beyond original M3 scope)
+
+- [x] Encode `ProbeBundle` as the unary probe-name event list from
+  `sigrel_design.md`, terminated by the reserved bundle-end event `[1,1]`.
+- [x] `manifests/bundle/bundle_length.*.ct` covers append length, nil units,
+  associativity, append/right-left equivalences, and fixed-length split
+  uniqueness representatives.
+- [x] `manifests/bundle/bundle_membership.*.ct` covers nil/cons/singleton
+  membership, append membership flattening, member split, cancellation, and
+  append result inversion representatives.
+- [x] `tests/test_bundle.c` has a local ProbeBundle decoder and semantic
+  checks for the manifest cases.
+- [x] `docs/bundle_design.md` documents the concrete ground fixture and
+  theorem coverage.
