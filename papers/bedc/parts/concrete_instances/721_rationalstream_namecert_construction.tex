@@ -457,18 +457,52 @@ ledger, which gives conservativity and excludes quotient sequences, selected
 limits, host stream equality, and hidden completion coordinates.
 \end{proof}
 
+\begin{theorem}[RationalStream RealUp seal consumer boundary]\label{thm:rational-stream-real-seal-consumer-boundary}
+Every $\RealUp$-facing consumer of the $\RationalStreamUp$ standard bridge of
+\autoref{thm:rational-stream-standard-bridge} may read only the finite unary
+schedule, pointwise $\RatUp$ rows, $\StreamNameUp$ schedule, $\RegSeqRatUp$
+handoff, common-window classifier, finite-window transport, package provenance,
+and local $\NameCert$ row already named by
+\autoref{thm:rational-stream-standard-bridge}. It cannot read quotient Cauchy
+classes, a selected limit, completed $\RealUp$ equality, trichotomy, or
+host-level standard real data.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:rational-stream-carrier}. This exposes
+only finite unary index rows, pointwise rational endpoint data, denominator
+rows, and the displayed package and naming coordinates carried by the rational
+stream packet.
+
+Apply \autoref{thm:rational-stream-public-export} and
+\autoref{thm:rational-stream-standard-bridge}. The public export gives the
+$\RegSeqRatUp$- and $\RealUp$-facing packet, while the standard bridge reads it
+as a finite-window rational sequence prefix with the same visible schedule,
+classifier, transport, package, and naming rows.
+
+Use \autoref{thm:rational-stream-regseqrat-ledger-completeness} to exhaust the
+regular-sequence handoff rows. The handoff ledger accounts for the downstream
+consumer reads by finite prefix, rational endpoint, schedule, and provenance
+coordinates.
+
+Finally apply \autoref{thm:rational-stream-scoped-boundary}. Since that boundary
+has no coordinate for quotient Cauchy classes, selected limits, completed
+$\RealUp$ equality, trichotomy, or host-level standard real data, a
+$\RealUp$-facing consumer of the standard bridge cannot project any such datum.
+\end{proof}
+
 \closureat{RationalStreamUp}{seedStr}
 \closureat{RationalStreamUp}{obligationStr}
 \closureat{RationalStreamUp}{scopedStr}
 \closureat{RationalStreamUp}{publicStr}
+\closureat{RationalStreamUp}{bridgedStr}
 
 \begin{closurestatus}{\RationalStreamUp}
   \constructivestory{A rational stream packet is represented by finite unary index rows, a StreamName schedule, pointwise RatUp carrier and classifier rows, and visible transport, continuation, package, and NameCert provenance on the path to RegSeqRat and the RealUp seal.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:rational-stream-scoped-boundary} binds the finite carrier, pointwise classifier laws, finite-window transport, schedule boundary, finite ledger, regular-sequence handoff, and displayed $\mathsf{BHist}$, $\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ dependencies consumed by $\RegSeqRatUp$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close quotient Cauchy classes, selected limits, RealUp completeness, trichotomy, or standard bridges.}
-  \upgradepath{Bridged closure requires a standard bridge for this finite rational-stream handoff packet.}
+  \notclaimed{This chapter does not close quotient Cauchy classes, selected limits, RealUp completeness, trichotomy, or a machine-checked standard bridge.}
+  \upgradepath{Bridged closure is supplied by the standard bridge packet and the RealUp seal consumer boundary; machine bridge checking remains on the formal axis.}
 \end{closurestatus}
