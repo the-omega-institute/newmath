@@ -142,4 +142,36 @@ theorem ContinuedFractionPacket_real_boundary_scope [AskSetup] [PackageSetup]
       boundaryUnary, ledgerUnary, realReadUnary, readbackUnary, scheduleNumerRow, boundaryRow,
       realReadRow, readbackRow, packetPkg, readbackPkg⟩
 
+theorem ContinuedFractionPacket_convergent_window_standard_bridge [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance recurrence
+      window consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont numerator denominator recurrence ->
+        Cont recurrence radius window ->
+          Cont handoff boundary consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory digits ∧ UnaryHistory numerator ∧ UnaryHistory denominator ∧
+                UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory recurrence ∧
+                  UnaryHistory window ∧ UnaryHistory consumer ∧
+                    Cont schedule numerator handoff ∧ Cont numerator denominator recurrence ∧
+                      Cont recurrence radius window ∧ Cont handoff boundary consumer ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet numeratorDenominatorRecurrence recurrenceRadiusWindow handoffBoundaryConsumer
+    consumerPkg
+  obtain ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, _ledgerUnary, _provenanceUnary, scheduleNumeratorHandoff,
+    _handoffLedgerBoundary, _boundaryScheduleProvenance, provenancePkg⟩ := packet
+  have recurrenceUnary : UnaryHistory recurrence :=
+    unary_cont_closed numeratorUnary denominatorUnary numeratorDenominatorRecurrence
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed recurrenceUnary radiusUnary recurrenceRadiusWindow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary boundaryUnary handoffBoundaryConsumer
+  exact
+    ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary, recurrenceUnary,
+      windowUnary, consumerUnary, scheduleNumeratorHandoff, numeratorDenominatorRecurrence,
+      recurrenceRadiusWindow, handoffBoundaryConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.ContinuedFractionUp

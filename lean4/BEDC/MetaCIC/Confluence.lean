@@ -54,16 +54,6 @@ theorem betaStar_one {t u : Term} :
   intro h
   exact BetaStarStep.step h (BetaStarStep.refl u)
 
-theorem betaStep_to_star {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact betaStar_one h
-
-theorem betaStarStep_single {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact BetaStarStep.step h (BetaStarStep.refl t')
-
 theorem betaStar_trans {t u v : Term} :
     BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
   intro htu huv
@@ -96,7 +86,7 @@ theorem betaStarStep_triple {a b c d : Term}
 theorem betaStarStep_three_steps {a b c d : Term}
     (h1 : BetaStep a b) (h2 : BetaStep b c) (h3 : BetaStep c d) :
     BetaStarStep a d := by
-  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStarStep_single h3)
+  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStar_one h3)
 
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
@@ -728,14 +718,6 @@ theorem betaStep_lam_iff {d b t : Term} :
             | intro hstep ht =>
                 cases ht
                 exact BetaStep.congLamDom d d' b hstep
-
-theorem betaStep_source_not_sort {t : Term} :
-    ¬ BetaStep Term.sort t := by
-  exact betaStep_sort_absurd
-
-theorem betaStep_source_not_var {i : Idx} {t : Term} :
-    ¬ BetaStep (Term.var i) t := by
-  exact betaStep_var_absurd i
 
 theorem betaParallel_refl_self_atom {t : Term}
     (h : t = Term.sort ∨ ∃ i, t = Term.var i) :
