@@ -50,6 +50,42 @@ The merge-window and modulus-observation clauses are finite repackings. A select
 The real-handoff clause projects $M$. Since no carrier coordinate stores a quotient stream, host real equality, completeness proof, or selected limit, the certificate exports only the displayed finite handoff surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleave carrier admission]
+\label{thm:regular-cauchy-interleave-carrier-admission}
+An accepted $\RegularCauchyInterleaveUp$ carrier is admitted exactly as the displayed finite $\mathsf{BHist}$ packet
+$$
+K=(I,J,S,T,W,D,M,H,C,P,N)
+$$
+of \autoref{def:regular-cauchy-interleave-carrier}. Carrier admission projects the two $\RegSeqRatUp$ schedules $I,J$, the merge schedule $S$, the interleaved $\StreamNameUp$ table $T$, the $\CauchyModulusUp$ request ledger $W$, the $\DyadicRatCoreUp$ observation ledger $D$, the $\RegSeqRatUp/\RealUp$ handoff rows $M$, and the rows $H,C,P,N$ for transport, continuation, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted packet by \autoref{def:regular-cauchy-interleave-carrier}. Each listed row is a coordinate of the same finite $\mathsf{BHist}$ object, so the admission witness is obtained by reading those coordinates and repacking them as the local $\NameCert_{\RegularCauchyInterleaveUp}$ carrier.
+
+There is no further admission case to discharge. The carrier has no coordinate for quotient equality of streams, a host equality proof between completed names, ambient completeness, or a selected limit, so none of those objects can enter the admitted packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave classifier transport exactness]
+\label{thm:regular-cauchy-interleave-classifier-transport-exactness}
+Let $K$ and $K'$ be accepted $\RegularCauchyInterleaveUp$ carriers. If their rows $I,J,S,T,W,D,M,P,N$ are matched componentwise by the displayed $\hsame$ rows in $H$ and read through the displayed $\Cont$ routes in $C$, then the $\RegularCauchyInterleaveUp$ classifier transports exactly those rows and no other comparison data.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:regular-cauchy-interleave-classifier}. The classifier reads the two source schedules, the unary merge schedule, the interleaved window table, the modulus requests, the dyadic observations, the handoff rows, package provenance, and the local naming row.
+
+The displayed $\hsame$ rows give the componentwise replacements, and the displayed $\Cont$ routes give the permitted consumer reads. Since the classifier has no generator for completed stream equality or host real equality, the transported comparison is exactly the one carried by $H$ and $C$ over the stored packet rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleave dyadic observation handoff]
+\label{thm:regular-cauchy-interleave-dyadic-observation-handoff}
+For every accepted $\RegularCauchyInterleaveUp$ carrier $K=(I,J,S,T,W,D,M,H,C,P,N)$, each selected merge slot reaches its $\CauchyModulusUp$ request in $W$ and its $\DyadicRatCoreUp$ observation in $D$ before any $\RegSeqRatUp$ or $\RealUp$ handoff row in $M$ is consumed.
+\end{theorem}
+\begin{proof}
+Start with a selected slot of the unary merge schedule $S$. The slot chooses one of the displayed source schedules $I$ or $J$ and then reads the corresponding finite $\StreamNameUp$ window row in $T$.
+
+The same slot carries a precision request in $W$. Reading that request through the stored continuation route reaches the dyadic observation row in $D$, with the componentwise $\hsame$ rows preserving the selected side, window, request, and observation.
+
+Only after these rows have been displayed does the handoff coordinate $M$ become available to $\RegSeqRatUp$ or $\RealUp$ consumers. Thus the handoff is a finite dyadic-observation route, not a shortcut through a quotient stream, completed real equality, completeness theorem, or selected limit.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy interleave window merge exactness]
 \label{thm:regular-cauchy-interleave-window-merge-exactness}
 For every accepted $\RegularCauchyInterleaveUp$ carrier $K=(I,J,S,T,W,D,M,H,C,P,N)$, each retained row of the interleaved $\StreamNameUp$ window table $T$ is obtained by reading exactly one source schedule, selected by the corresponding unary merge row of $S$, and by pairing that selected window with the corresponding $\CauchyModulusUp$ request in $W$ and $\DyadicRatCoreUp$ observation in $D$.
