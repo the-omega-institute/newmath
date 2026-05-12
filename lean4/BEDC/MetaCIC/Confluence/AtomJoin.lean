@@ -14,4 +14,51 @@ theorem betaStarStep_diamond_var {i : Idx} {t1 t2 : Term}
     Exists (fun v => BetaStarStep t1 v ∧ BetaStarStep t2 v) := by
   exact betaStar_var_join i h1 h2
 
+theorem betaParallel_app_target_shape {f a f' a' : Term}
+    (h : BetaParallel (Term.app f a) (Term.app f' a')) :
+    (BetaParallel f f' ∧ BetaParallel a a') ∨
+    (∃ d body body' arg',
+      BetaParallel body body' ∧ BetaParallel a arg' ∧
+        f = Term.lam d body ∧ Term.app f' a' = substitute 0 arg' body') := by
+  have hshape := betaParallel_app_shape h
+  cases hshape with
+  | inl hp =>
+      cases hp with
+      | intro g hg =>
+          cases hg with
+          | intro arg hpack =>
+              cases hpack with
+              | intro hf hrest =>
+                  cases hrest with
+                  | intro ha ht =>
+                      cases ht
+                      exact Or.inl (And.intro hf ha)
+  | inr hredex =>
+      exact Or.inr hredex
+
+theorem betaParallel_app_no_beta {f a f' a' : Term}
+    (h_not_lam : ∀ d b, f ≠ Term.lam d b)
+    (h : BetaParallel (Term.app f a) (Term.app f' a')) :
+    BetaParallel f f' ∧ BetaParallel a a' := by
+  have hshape := betaParallel_app_target_shape h
+  cases hshape with
+  | inl hp =>
+      exact hp
+  | inr hredex =>
+      cases hredex with
+      | intro d hd =>
+          cases hd with
+          | intro body hbody =>
+              cases hbody with
+              | intro body' hbody' =>
+                  cases hbody' with
+                  | intro arg' hpack =>
+                      cases hpack with
+                      | intro _ hrest =>
+                          cases hrest with
+                          | intro _ heq =>
+                              cases heq with
+                              | intro hf _ =>
+                                  exact False.elim (h_not_lam d body hf)
+
 end BEDC.MetaCIC
