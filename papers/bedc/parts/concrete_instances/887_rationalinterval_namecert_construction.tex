@@ -200,6 +200,47 @@ exports one finite rational observation window and no completed $\RealUp$
 object.
 \end{proof}
 
+\begin{theorem}[RationalInterval directed refinement basis]
+\label{thm:rational-interval-directed-refinement-basis}
+Any finite family of compatible accepted $\RationalIntervalUp$ packets admits
+one displayed finite rational-window basis packet. Its rows are exactly the
+transported $\RatUp$ lower and upper endpoints, endpoint-order witnesses,
+containment ledgers, displayed $\hsame$ transports, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert_{\RationalIntervalUp}$
+evidence needed by the family.
+
+This basis is directed for $\RegSeqRatUp$ and finite-window $\RealUp$
+consumers: every member packet maps to it by finite refinement rows, and every
+consumer read of the basis is one of the displayed rational-window rows. It
+exports no completed $\RealUp$ equality, located subset, apartness witness,
+interval arithmetic law, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with two compatible accepted packets. Apply
+\autoref{thm:rational-interval-common-refinement-window} to obtain their common
+finite rational observation window. The resulting packet already contains only
+transported endpoint rows, the order witness, containment ledger, displayed
+transport, continuation, package, and local naming evidence.
+
+Extend from two packets to a finite family by iterating the binary construction
+along the displayed finite list of packets. At each step, use
+\autoref{thm:rational-interval-refinement-composition} to compose the previous
+basis row with the next common-refinement row, so the accumulated packet remains
+a single finite rational window.
+
+The endpoint rows of the accumulated basis are controlled by
+\autoref{thm:rational-interval-endpoint-transport-classifier}. Lower endpoints
+transport only along lower $\RatUp$ coordinates, upper endpoints transport only
+along upper $\RatUp$ coordinates, and the order witness is replayed over those
+transported rows.
+
+Finally apply
+\autoref{thm:rational-interval-window-consumer-exhaustion}. It accounts for all
+$\RegSeqRatUp$ and finite-window $\RealUp$ reads of the basis, so no completed
+real equality, located subset, apartness witness, interval arithmetic law, or
+standard bridge can be projected from the directed finite-window packet.
+\end{proof}
+
 \begin{theorem}[RationalInterval RealUp consumer exactness]
 \label{thm:rational-interval-realup-consumer-exactness}
 Every finite-window $\RealUp$ consumer of an accepted $\RationalIntervalUp$
@@ -309,17 +350,185 @@ readback surface, so the consumer has no additional row for quotient reals,
 located subsets, apartness, or standard bridges.
 \end{proof}
 
+\begin{theorem}[RationalInterval standard boundary bridge]
+\label{thm:rational-interval-standard-boundary-bridge}
+For an accepted $\RationalIntervalUp$ packet, the endpoint order witness, finite
+containment ledger, endpoint transport classifier, refinement composition, and
+finite-window consumer exhaustion determine a conservative standard
+rational-interval boundary. Reading that boundary back recovers exactly the
+displayed $\mathsf{BHist}$ packet: the lower endpoint, upper endpoint, order
+row, containment ledger, endpoint transport rows, continuation routes, package
+provenance, and local $\NameCert_{\RationalIntervalUp}$ rows.
+
+The boundary is conservative. It excludes completed $\RealUp$ equality,
+quotient Cauchy classes, located subsets, interval arithmetic laws, and host
+standard interval data.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:rational-interval-bhist-carrier}. The visible coordinates are the
+lower $\RatUp$ endpoint, upper $\RatUp$ endpoint, order row, containment ledger,
+endpoint transport rows, continuation routes, package provenance, and local
+name-certificate evidence.
+
+Use \autoref{thm:rational-interval-endpoint-order-witness} to place the two
+endpoint rows in the conservative boundary order. Apply
+\autoref{thm:rational-interval-containment-ledger-exactness} to identify the
+finite containment rows as the entire membership ledger for the displayed
+window.
+
+Next compose \autoref{thm:rational-interval-refinement-composition} with
+\autoref{thm:rational-interval-endpoint-transport-classifier}. Refinement keeps
+the lower and upper endpoints on the same finite rational window, and endpoint
+transport keeps each classifier row attached to its displayed endpoint
+coordinate.
+
+Finally apply
+\autoref{thm:rational-interval-window-consumer-exhaustion}. Every
+$\RegSeqRatUp$ or finite-window $\RealUp$ consumer has already factored through
+the projected rows, so reading the conservative boundary back componentwise
+recovers the original $\mathsf{BHist}$ packet and adds no completed real,
+quotient class, located subset, interval law, or host standard interval field.
+\end{proof}
+
+\begin{theorem}[RationalInterval public rational-window handoff]
+\label{thm:rational-interval-public-rational-window-handoff}
+The endpoint-order witness, containment ledger, endpoint transport classifier,
+common-refinement window, $\RegSeqRatUp$ handoff, $\RealUp$ seed boundary, and
+finite-window consumer exhaustion assemble a public $\RationalIntervalUp$
+handoff packet over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+$\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The handoff exposes only the finite rational-window rows named by those
+objects. It excludes completed $\RealUp$ equality, quotient Cauchy classes,
+located subsets, apartness, interval arithmetic, and standard bridges.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from
+\autoref{def:rational-interval-bhist-carrier}. The visible data are the two
+endpoint rows, their order witness, containment ledger, endpoint transport
+coordinates, continuation routes, package provenance, and local naming
+evidence.
+
+Use \autoref{thm:rational-interval-endpoint-order-witness} and
+\autoref{thm:rational-interval-containment-ledger-exactness}. These identify the
+ordered endpoint pair and the exact finite containment rows that a public
+rational-window handoff may expose.
+
+Compose \autoref{thm:rational-interval-common-refinement-window} with
+\autoref{thm:rational-interval-endpoint-transport-classifier}. The common
+window supplies the shared finite rational interval surface, and endpoint
+transport keeps the lower and upper classifier rows attached to their own
+$\RatUp$ coordinates.
+
+Finally repack the resulting finite window through
+\autoref{thm:rational-interval-regseqrat-handoff},
+\autoref{thm:rational-interval-realup-seed-boundary}, and
+\autoref{thm:rational-interval-window-consumer-exhaustion}. These consumer
+theorems account for all $\RegSeqRatUp$ and finite-window $\RealUp$ reads, and
+none of the repacked coordinates contains completed real equality, quotient
+Cauchy data, located subset structure, apartness, interval arithmetic, or a
+standard bridge.
+\end{proof}
+
+\begin{theorem}[RationalInterval endpoint-width ledger]
+\label{thm:rationalinterval-endpoint-width-ledger}
+Every certified $\RationalIntervalUp$ $\mathsf{BHist}$ packet exposes exactly
+the lower endpoint row, the upper endpoint row, a dyadic width witness, the
+finite containment row, and the $\mathsf{Pkg}$ provenance row inherited from
+the displayed $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$
+surfaces.
+
+No quotient real, host interval, ambient located subset, interval arithmetic
+operation, or completed equality relation is projected by this ledger.
+\end{theorem}
+\begin{proof}
+Project the certified packet through the same carrier rows used by
+\autoref{thm:rational-interval-public-rational-window-handoff}. The endpoint
+coordinates are the two displayed $\RatUp$ rows, while the width and
+containment coordinates are the dyadic witness and finite containment row.
+
+Apply \autoref{thm:rational-interval-endpoint-order-witness} to bind the
+endpoint pair to the visible order surface. Then use
+\autoref{thm:rational-interval-containment-ledger-exactness} to identify the
+containment component as the whole finite ledger for that endpoint window.
+
+Finally read the package coordinate componentwise. The public handoff of
+\autoref{thm:rational-interval-public-rational-window-handoff} lists the only
+consumer-facing rows, so a quotient real, host interval, located subset,
+interval operation, or completed equality relation has no carrier coordinate
+from which it could be projected.
+\end{proof}
+
+\begin{theorem}[RationalInterval dyadic transport stability]
+\label{thm:rationalinterval-dyadic-transport-stability}
+Transporting both endpoint histories and the dyadic width witness along the
+displayed $\RatUp$ and $\RegSeqRatUp$ classifiers preserves the
+$\RationalIntervalUp$ classifier under componentwise $\hsame$ transport and
+$\Cont$ continuation routes.
+
+The transported packet remains a finite rational-window interval packet over
+the same endpoint, width, containment, and package rows.
+\end{theorem}
+\begin{proof}
+Start with the displayed lower and upper endpoint histories. By
+\autoref{thm:rational-interval-endpoint-order-witness}, their order relation is
+recorded as a visible endpoint row and is therefore transported with the
+endpoints.
+
+Use \autoref{thm:rational-interval-common-refinement-window} to place the
+source and target reads on a common finite rational window. The
+$\RegSeqRatUp$ handoff of
+\autoref{thm:rational-interval-regseqrat-handoff} transports the finite
+regular-sequence observations through the same $\hsame$ and $\Cont$ rows.
+
+The dyadic width witness is part of the displayed finite window, so it follows
+the transported endpoints along the same classifier route. Apply
+\autoref{thm:rational-interval-containment-ledger-exactness} to re-identify the
+containment row after transport, yielding the original
+$\RationalIntervalUp$ classifier shape.
+\end{proof}
+
+\begin{theorem}[RationalInterval RegSeqRat window coverage]
+\label{thm:rationalinterval-regseqrat-window-coverage}
+Every finite $\RegSeqRatUp$ observation window admitted by a
+$\RationalIntervalUp$ source packet has a containment or refinement witness in
+the $\RationalIntervalUp$ ledger.
+
+Equivalently, a finite regular rational sequence consumer cannot read outside
+the endpoint, dyadic-width, containment, refinement, and provenance rows
+already displayed by the interval packet.
+\end{theorem}
+\begin{proof}
+Take a finite $\RegSeqRatUp$ observation window admitted by the source packet.
+By \autoref{thm:rational-interval-regseqrat-handoff}, that window reaches the
+interval only through the displayed rational endpoint and containment rows.
+
+Apply \autoref{thm:rational-interval-common-refinement-window} to compare the
+consumer window with the source interval window. The common refinement supplies
+the finite row on which both observations are read.
+
+Use \autoref{thm:rational-interval-containment-ledger-exactness} to decide the
+corresponding containment entry, and use
+\autoref{thm:rational-interval-endpoint-order-witness} to keep the refined row
+between the displayed endpoints. The public handoff of
+\autoref{thm:rational-interval-public-rational-window-handoff} then exhausts
+all remaining consumer reads through the same finite ledger.
+\end{proof}
+
 \closureat{RationalIntervalUp}{seedStr}
 \closureat{RationalIntervalUp}{obligationStr}
 \closureat{RationalIntervalUp}{scopedStr}
+\closureat{RationalIntervalUp}{publicStr}
+\closureat{RationalIntervalUp}{bridgedStr}
 
 \begin{closurestatus}{\RationalIntervalUp}
   \constructivestory{A rational closed interval is represented by two displayed RatUp endpoint rows, an endpoint-order witness, a finite containment ledger, and visible hsame, Cont, package, and NameCert rows consumed by RegSeqRat and RealUp finite-window arguments.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, and \autoref{thm:rational-interval-realup-consumer-exactness} bind the endpoint, order, containment, transport, package, and local $\NameCert$ rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:rational-interval-endpoint-containment-transport}, \autoref{thm:rational-interval-common-refinement-window}, \autoref{thm:rational-interval-realup-consumer-exactness}, and \autoref{thm:rational-interval-standard-boundary-bridge} bind the endpoint, order, containment, transport, package, local $\NameCert$ rows, and standard boundary bridge to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ for the finite interval packet.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close completed RealUp equality, quotient Cauchy classes, located subsets, interval arithmetic, or standard bridges.}
-  \upgradepath{Public closure requires a single exported rational-window handoff theorem.}
+  \notclaimed{This chapter does not close completed RealUp equality, quotient Cauchy classes, located subsets, interval arithmetic, or completeness-style finite consumer treatment.}
+  \upgradepath{Mature closure requires a completeness-style finite consumer treatment for the same rational-interval packet.}
 \end{closurestatus}
