@@ -60,6 +60,18 @@ For each edge, read the two endpoint names through $X$ and the dyadic comparison
 The row $V$ stores the finite sum of exactly those displayed edge observations. When a common refinement is supplied by $R$, the endpoint transports and dyadic edge rows are repacked along the refinement ledger, so the public read remains a finite partition-sum read.
 \end{proof}
 
+\begin{theorem}[BoundedVariation common-refinement classifier exactness]
+\label{thm:bounded-variation-common-refinement-classifier-exactness}
+Let $B$ and $B'$ be accepted $\BoundedVariationUp$ packets with carrier coordinates as in \autoref{def:bounded-variation-carrier}. The local $\BoundedVariationUp$ classifier identifies $B$ and $B'$ if and only if there is a displayed common finite refinement whose interval row, transported endpoint $\RealUp$ or $\RegSeqRatUp$ names, $\DyadicRatCoreUp$ edge observations, finite variation-sum ledger, and $\Pkg$ and $\NameCert$ provenance rows compare componentwise by the visible $\hsame$ and $\Cont$ routes stored in the two packets.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:bounded-variation-carrier}. The classifier has no hidden coordinate beyond the interval row, finite partition ledger, endpoint names, dyadic edge observations, variation-sum ledger, common-refinement rows, and displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+For the forward direction, project the classifier witness to its common-refinement rows. Apply \autoref{thm:bounded-variation-variation-ledger-exactness} to both packets on that refinement. Both public variation reads therefore factor through the same displayed endpoint ledger, dyadic edge observations, and finite variation-sum row, with the endpoint and provenance coordinates transported by the recorded $\hsame$ and $\Cont$ routes.
+
+For the reverse direction, start from the displayed common finite refinement and its componentwise comparisons. Repack the transported interval, endpoint, edge-observation, variation-sum, $\Pkg$, and $\NameCert$ rows into the local classifier data. Since the exactness theorem accounts for every public variation read through that finite ledger, no further comparison data are required.
+\end{proof}
+
 \begin{theorem}[BoundedVariation carrier transport]
 \label{thm:bounded-variation-carrier-transport}
 Let $B$ and $B'$ be accepted $\BoundedVariationUp$ packets. If their interval rows, finite partition ledgers, endpoint-name rows, dyadic observation rows, variation-sum ledgers, and common-refinement rows are transported componentwise by displayed $\hsame$ routes and read through the corresponding $\Cont$ routes, then the local classifier identifies the same bounded-variation packet on every common finite refinement.
