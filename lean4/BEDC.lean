@@ -89,6 +89,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
+import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
@@ -114,6 +115,7 @@ import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
+import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
@@ -155,6 +157,7 @@ import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FoldDefectStokesUp
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
@@ -168,6 +171,7 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GradedAlgebraUp
+import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
@@ -201,6 +205,7 @@ import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.MonodromyUp
@@ -220,6 +225,7 @@ import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelPredictiveControlUp
