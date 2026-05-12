@@ -291,6 +291,46 @@ package, so replaying the same displayed rows reconstructs the same
 $\RealUp$ seal route and no additional limit-like datum.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal schedule coverage]
+\label{thm:regseqrat-real-seal-schedule-coverage}
+Every finite schedule accepted as a $\RealUp$ seal read from accepted
+$\RegSeqRatUp$ packets is consumed by exactly the public $\StreamNameUp$
+window rows, $\DyadicRatCoreUp$ endpoint and radius ledgers, regularity rows,
+transported $\RegSeqRatUp$ classifier surface, displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Conversely,
+any route package containing exactly those rows replays to the same finite
+$\RealUp$ seal route.
+
+The coverage assertion does not add quotient real carriers, host real
+equality, selected limits, metric-completion points, or $\RealUp$
+completeness. It only states that the accepted finite schedule has no read
+channel outside the displayed package rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-real-seal-route-exclusion-package}. An accepted
+$\RealUp$ seal read from accepted $\RegSeqRatUp$ packets has only the finite
+schedule, dyadic ledger, regularity, transport, continuation, package, and
+local naming rows available to the route.
+
+Next apply \autoref{thm:regseqrat-cover-normal-form-real-seal}. The exposed
+rows are repacked as the canonical finite $\mathsf{BHist}$ packet whose row
+inventory is exactly the public $\StreamNameUp$ windows, dyadic endpoint and
+radius ledgers, regularity rows, transported classifier rows, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Then use \autoref{thm:regseqrat-real-seal-classifier-exhaustion}. The
+classifier component is fully read from the transported $\RegSeqRatUp$
+classifier surface together with the finite route package, so no further
+classifier coordinate remains to be consumed.
+
+For the converse, apply \autoref{thm:regseqrat-real-seal-route-replay}. A
+package containing exactly the displayed rows reconstructs the same finite
+$\RealUp$ seal route, and the exclusion boundary prevents replay from reading
+quotient reals, host equality, selected limits, completion points, or
+completeness data.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
