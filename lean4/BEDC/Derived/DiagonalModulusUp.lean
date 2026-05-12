@@ -112,4 +112,28 @@ theorem DiagonalModulusPacket_namecert_obligation_surface [AskSetup] [PackageSet
       ledgerSealProvenance,
       pkgSig⟩
 
+def DiagonalModulusWindowCarrier [AskSetup] [PackageSetup]
+    (precision modulus window readback dyadic «seal» provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory readback ∧
+    UnaryHistory dyadic ∧ UnaryHistory nameCert ∧ Cont precision modulus window ∧
+      Cont window readback «seal» ∧ Cont readback dyadic provenance ∧
+        PkgSig bundle «seal» pkg
+
+theorem DiagonalModulusWindowCarrier_selector_total [AskSetup] [PackageSetup]
+    {precision modulus window readback dyadic «seal» provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusWindowCarrier precision modulus window readback dyadic «seal» provenance
+        nameCert bundle pkg ->
+      UnaryHistory window ∧ UnaryHistory «seal» ∧ hsame window (append precision modulus) ∧
+        Cont window readback «seal» ∧ PkgSig bundle «seal» pkg := by
+  intro carrier
+  obtain ⟨precisionUnary, modulusUnary, readbackUnary, _dyadicUnary, _nameCertUnary,
+    windowRow, sealRow, _provenanceRow, sealPkg⟩ := carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed precisionUnary modulusUnary windowRow
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed windowUnary readbackUnary sealRow
+  exact ⟨windowUnary, sealUnary, windowRow, sealRow, sealPkg⟩
+
 end BEDC.Derived.DiagonalModulusUp
