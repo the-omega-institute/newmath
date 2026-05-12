@@ -175,4 +175,24 @@ theorem BanachFixedPointPacket_iteration_ledger [AskSetup] [PackageSetup]
     ⟨banachUnary, distanceUnary, contractionUnary, ratioUnary, iterateUnary, stepRowUnary,
       contractionRatioIterate, iterateStepHandoff, endpointPkg⟩
 
+theorem BanachFixedPointPacket_public_export [AskSetup] [PackageSetup]
+    {banach distance contraction ratio iterate modulus handoff endpoint transport continuation
+      provenance nameCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachFixedPointPacket banach distance contraction ratio iterate modulus handoff endpoint
+        transport continuation provenance nameCert bundle pkg ->
+      Cont continuation provenance publicRead ->
+        UnaryHistory publicRead ∧ hsame publicRead endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro packet publicRoute
+  obtain ⟨_banachUnary, _distanceUnary, _contractionUnary, _ratioUnary, _iterateUnary,
+    _modulusUnary, _handoffUnary, _endpointUnary, _transportUnary, continuationUnary,
+    provenanceUnary, _nameCertUnary, _banachDistanceContraction, _contractionRatioIterate,
+    _iterateModulusHandoff, _handoffTransportContinuation, endpointRoute, endpointPkg⟩ :=
+    packet
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed continuationUnary provenanceUnary publicRoute
+  have sameEndpoint : hsame publicRead endpoint :=
+    cont_deterministic publicRoute endpointRoute
+  exact ⟨publicUnary, sameEndpoint, endpointPkg⟩
+
 end BEDC.Derived.BanachFixedPointUp
