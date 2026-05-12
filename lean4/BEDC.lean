@@ -214,6 +214,7 @@ import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
+import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.ShortestPathUp
