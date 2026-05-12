@@ -116,6 +116,46 @@ theorem FreeMonoidWordCarrier_namecert_obligation_surface [AskSetup] [PackageSet
       exact sourceRow.left
   }
 
+theorem FreeMonoidWordCarrier_public_seal [AskSetup] [PackageSetup]
+    {word route provenance endpoint u v w uv left vw right : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier word route provenance bundle pkg ->
+      Cont word route endpoint ->
+        PkgSig bundle endpoint pkg ->
+          FreeMonoidWordCarrier u route provenance bundle pkg ->
+            FreeMonoidWordCarrier v route provenance bundle pkg ->
+              FreeMonoidWordCarrier w route provenance bundle pkg ->
+                Cont u v uv ->
+                  Cont uv w left ->
+                    Cont v w vw ->
+                      Cont u vw right ->
+                        SemanticNameCert
+                            (fun row : BHist =>
+                              FreeMonoidWordCarrier word route provenance bundle pkg ∧
+                                hsame row provenance)
+                            (fun row : BHist => Cont word route row ∧ PkgSig bundle row pkg)
+                            (fun _row : BHist =>
+                              UnaryHistory word ∧ UnaryHistory route ∧
+                                UnaryHistory provenance ∧ Cont word route provenance ∧
+                                  PkgSig bundle provenance pkg)
+                            hsame ∧
+                          UnaryHistory endpoint ∧ hsame provenance endpoint ∧
+                            hsame left right ∧ PkgSig bundle provenance pkg ∧
+                              PkgSig bundle endpoint pkg := by
+  intro carrier endpointRow endpointSig uCarrier vCarrier wCarrier uvRow leftRow vwRow rightRow
+  have cert :=
+    FreeMonoidWordCarrier_namecert_obligation_surface carrier
+  have normal :=
+    FreeMonoidWordCarrier_ledger_normal_form carrier endpointRow endpointSig
+  rcases normal with
+    ⟨_wordUnary, _routeUnary, _provenanceUnary, endpointUnary, _provenanceRow,
+      _endpointRow, sameProvenanceEndpoint, provenanceSig, endpointSig'⟩
+  have assocSame : hsame left right :=
+    FreeMonoidWordCarrier_concat_associativity
+      uCarrier vCarrier wCarrier uvRow leftRow vwRow rightRow provenanceSig
+  exact
+    ⟨cert, endpointUnary, sameProvenanceEndpoint, assocSame, provenanceSig, endpointSig'⟩
+
 theorem FreeMonoidWordCarrier_singleton_concat_inversion [AskSetup] [PackageSetup]
     {u v routeU routeV provenanceU provenanceV : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
