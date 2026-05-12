@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\FibonacciCubeUp$}
+\label{ch:concrete-instances-fibonaccicube-namecert}
+\origin{human}
+
+Inspired by Omega Project: \texttt{automath/discovery/discovery\_report.json/FibonacciCube}; here re-expressed in the BEDC mathlib-free substrate. The $\FibonacciCubeUp$ interface packages the finite-path independent-set reading of Fibonacci cubes as visible $\mathsf{BHist}$ rows rather than importing an external graph library or automath theorem.
+
+\begin{definition}[FibonacciCube carrier]
+\label{def:fibonacci-cube-carrier}
+A $\FibonacciCubeUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+C=(n,G,W,I,Z,D,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $n$ is a unary $\NatUp$ length row;
+\item $G$ is the path-graph source row with vertices indexed by the visible initial segment of length $n$ and edges only between successor indices;
+\item $W$ is a $\ListUp$ word row over $\BoolUp$ whose support has no adjacent $1$ entries;
+\item $I$ is the path-independent-set row listing exactly the positions where $W$ carries $1$;
+\item $Z$ is the Zeckendorf and $\GoldenMeanShiftUp$ provenance row recording the same no-adjacent-$1$ classifier as a finite shift word;
+\item $D$ records dependency rows for $\GraphUp$, $\ListUp$, and $\NatUp$ together with the visible $\hsame$ comparisons and $\Cont$ routes between path vertices, list positions, word support, and independent-set membership;
+\item $P$ is the $\Pkg$ provenance row naming the $\GraphUp$, $\ListUp$, $\NatUp$, $\ZeckendorfNormalUp$, and $\GoldenMeanShiftUp$ sources;
+\item $N$ is the local $\NameCert_{\FibonacciCubeUp}$ row.
+\end{enumerate}
+The local classifier compares carriers componentwise by the length row, path-graph row, no-adjacent word row, independent-set row, provenance row, dependency rows, package row, and local certificate row.
+\end{definition}
+
+\begin{theorem}[FibonacciCube carrier habitation]
+\label{thm:fibonacci-cube-carrier-habitation}
+For each displayed unary length row $n$, the empty support word on the path graph of length $n$ supplies an accepted $\FibonacciCubeUp$ carrier. Its path-independent-set row is empty, its no-adjacent-$1$ word row is the all-$0$ word, and its provenance is witnessed by the $\GraphUp$, $\ListUp$, $\NatUp$, $\ZeckendorfNormalUp$, and $\GoldenMeanShiftUp$ dependency rows.
+\end{theorem}
+\begin{proof}
+Build the path-graph source row from the unary length row and choose the all-$0$ list word. The support row is empty, so no edge of the path graph can have both endpoints in the support.
+
+The empty support is also the independent-set row. The Zeckendorf and golden-mean-shift provenance rows read the same all-$0$ finite word, and the componentwise $\hsame$ and $\Cont$ routes are the identity routes on the displayed rows.
+\end{proof}
+
+\begin{theorem}[FibonacciCube word and path-independent-set correspondence]
+\label{thm:fibonacci-cube-word-path-independent-correspondence}
+For an accepted $\FibonacciCubeUp$ carrier, the no-adjacent-$1$ word row $W$ and the path-independent-set row $I$ determine each other on the visible path graph: a position belongs to $I$ exactly when the corresponding entry of $W$ is $1$, and path independence is exactly the absence of adjacent $1$ entries along successor edges.
+\end{theorem}
+\begin{proof}
+Read $I$ from $W$ by taking the displayed support row. Since $W$ has no adjacent $1$ entries, no successor edge of the path graph has both endpoints in the support.
+
+Conversely, read $W$ from $I$ by marking precisely the listed positions with $1$ and all other visible positions with $0$. Path independence of $I$ forbids a successor pair from both being marked, so the reconstructed word satisfies the no-adjacent-$1$ classifier.
+
+The two readings use only the stored vertex-position $\hsame$ comparisons and the finite $\Cont$ routes between list entries and graph vertices, so they remain inside the carrier.
+\end{proof}
+
+\begin{theorem}[FibonacciCube finite path coverage]
+\label{thm:fibonacci-cube-finite-path-coverage}
+Every classifier read of an accepted $\FibonacciCubeUp$ carrier is covered by the finite path graph of the displayed unary length row. There is no vertex outside the initial segment, no edge outside successor adjacency, and no membership query outside the listed $\ListUp$ word and path-independent-set rows.
+\end{theorem}
+\begin{proof}
+The carrier records the length row and path-graph source row as coordinates. Hence every vertex read is mediated by the visible initial segment, and every edge read is mediated by the successor-edge row.
+
+The word row and independent-set row are indexed by the same displayed positions. The dependency coordinate records the $\hsame$ comparisons and $\Cont$ routes that identify list positions with path vertices, so a classifier query cannot name an external vertex, edge, or membership source.
+\end{proof}
+
+\begin{theorem}[FibonacciCube classifier transport]
+\label{thm:fibonacci-cube-classifier-transport}
+Displayed $\hsame$ transport preserving the length row, path-graph row, word row, independent-set row, Zeckendorf and $\GoldenMeanShiftUp$ provenance row, dependency rows, package row, and local certificate row preserves the $\FibonacciCubeUp$ carrier predicate and its local classifier.
+\end{theorem}
+\begin{proof}
+The classifier is componentwise by \autoref{def:fibonacci-cube-carrier}. Transport of the length and path-graph rows preserves the visible initial segment and successor-edge relation.
+
+Transport of the word, support, and independent-set rows preserves the no-adjacent-$1$ and path-independent-set readings because the relevant entries and successor-edge checks are exactly the transported rows. The provenance, package, and local certificate rows then repack the same finite surface with no additional classifier data.
+\end{proof}
+
+\begin{theorem}[FibonacciCube ledger non-escape]
+\label{thm:fibonacci-cube-ledger-non-escape}
+An accepted $\FibonacciCubeUp$ carrier exports no ambient graph theory, no infinite binary shift, no external Fibonacci-counting theorem, and no automath object. Its public ledger consists only of the finite path-graph row, no-adjacent word row, path-independent-set row, Zeckendorf and $\GoldenMeanShiftUp$ provenance row, dependency rows for $\GraphUp$, $\ListUp$, and $\NatUp$, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. Each exported field is a finite history row or a route between finite history rows.
+
+The path-independent-set correspondence is recorded as a BEDC classifier relation between the word support and the path graph, not as an imported theorem about an external graph type. The counting interpretation is therefore only provenance for the concrete certificate surface.
+
+Since no coordinate contains an ambient graph carrier, an infinite shift object, or an automath artifact, a downstream consumer can cite only the listed rows.
+\end{proof}
+
+\closureat{FibonacciCubeUp}{seedStr}
+
+\begin{closurestatus}{\FibonacciCubeUp}
+  \constructivestory{A $\FibonacciCubeUp$ packet is generated from a unary $\NatUp$ length row, a finite $\GraphUp$ path row, a no-adjacent-$1$ $\ListUp$ word row, a path-independent-set support row, Zeckendorf and $\GoldenMeanShiftUp$ provenance, componentwise $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the concrete finite-path word/support carrier and its five local NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Fibonacci-cube enumeration, automath import, graph-isomorphism completeness, or a checked Lean certificate.}
+  \upgradepath{Scoped closure requires machine-checked carrier habitation, support correspondence, finite path coverage, classifier transport, and ledger non-escape for the $\FibonacciCubeUp$ packet.}
+\end{closurestatus}
