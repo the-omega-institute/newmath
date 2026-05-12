@@ -186,6 +186,38 @@ rows, so the excluded host-language and infinite-automaton objects have no
 coordinate in the scoped envelope.
 \end{proof}
 
+\begin{theorem}[RegularLanguage public automaton consumer export]\label{thm:regularlanguage-public-automaton-consumer-export}
+The public $\RegularLanguageUp$ packet exports exactly the finite alphabet row,
+finite state row, start state, accepting-state carrier, transition table,
+$\ListUp$ input word spine, deterministic run ledger, accepted endpoint,
+componentwise $\hsame$ rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance over
+$\ListUp$, $\FinSetUp$, $\ComputableUp$, and $\TuringMachineUp$.
+
+No host language set, quotient recognizer, minimization theorem,
+regular-expression equivalence, infinite automaton, or selected external
+semantics is exported.
+\end{theorem}
+\begin{proof}
+Read the finite alphabet, finite state row, start state, accepting-state
+carrier, transition table, and input word spine from
+\autoref{def:regularlanguage-finite-automaton-carrier}.
+
+Use \autoref{def:regularlanguage-classifier} to bind public classifier reads to
+the componentwise $\hsame$ rows. Then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger} to obtain the displayed
+deterministic run ledger over the $\ListUp$ spine.
+
+Next apply \autoref{thm:regularlanguage-classified-word-transport}. It
+identifies the accepted endpoint as the transported endpoint of the same finite
+run, with the stated $\Cont$ routes and package provenance.
+
+Finally use \autoref{thm:regularlanguage-namecert-obligation-surface} to repack
+these rows as the public automaton consumer surface. Since none of the carrier
+or obligation rows is a host language set, quotient recognizer, minimization
+theorem, regular-expression equivalence, infinite automaton, or external
+semantics object, the public packet exports no such object.
+\end{proof}
+
 \closureat{RegularLanguageUp}{seedStr}
 \closureat{RegularLanguageUp}{obligationStr}
 \closureat{RegularLanguageUp}{scopedStr}
