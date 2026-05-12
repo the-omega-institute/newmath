@@ -99,6 +99,30 @@ theorem StationaryPartitionDiagonalCarrier_window_exactness [AskSetup] [PackageS
   exact ⟨windowUnary, refinedWindowUnary, readbackUnary, partitionLedgerWindow,
     refinedWindowReadback, sameWindow, pkgSig⟩
 
+theorem StationaryPartitionDiagonalCarrier_public_export [AskSetup] [PackageSetup]
+    {rat partition diagonal constantStream dyadic realSeal ledger transport provenance localCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryPartitionDiagonalCarrier rat partition diagonal constantStream dyadic realSeal ledger
+        transport provenance localCert endpoint bundle pkg ->
+      Cont (append (append (append (append rat partition) constantStream) realSeal) transport)
+          localCert endpoint ∧
+        hsame endpoint
+            (append (append (append (append (append rat partition) constantStream) realSeal)
+              transport) localCert) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨_ratUnary, _partitionUnary, _diagonalUnary, _constantStreamUnary, _dyadicUnary,
+    _realSealUnary, _ledgerUnary, _transportUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, ratPartitionDiagonal, diagonalConstantDyadic, dyadicRealLedger,
+    ledgerTransportProvenance, provenanceLocalEndpoint, _endpointSame, pkgSig⟩ := carrier
+  cases ratPartitionDiagonal
+  cases diagonalConstantDyadic
+  cases dyadicRealLedger
+  cases ledgerTransportProvenance
+  cases provenanceLocalEndpoint
+  exact ⟨rfl, rfl, pkgSig⟩
+
 theorem StationaryPartitionDiagonalCarrier_seal_boundary [AskSetup] [PackageSetup]
     {rat partition diagonal constantStream dyadic realSeal ledger transport provenance localCert
       endpoint sealRead : BHist}
