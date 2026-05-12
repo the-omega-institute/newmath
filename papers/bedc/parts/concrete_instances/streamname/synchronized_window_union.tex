@@ -489,3 +489,51 @@ and third terminal reads agree on the endpoint, radius, regularity,
 classifier, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
 $\mathsf{RealLedgerPolicy}$ rows and on no stronger host-level object.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat finite-window chain compaction]
+\label{thm:streamname-regseqrat-finite-window-chain-compaction}
+Let
+$$
+\mathcal S_0,\mathcal S_1,\ldots,\mathcal S_n
+$$
+be a finite chain of synchronized $\StreamNameUp$ windows over one accepted
+rational stream-name schedule. Suppose every adjacent pair
+$\mathcal S_i,\mathcal S_{i+1}$ satisfies the common-window terminal seal
+determinacy hypotheses, and suppose every window feeds the same accepted
+$\RegSeqRat$ handoff. Then all terminal finite-window $\RealUp$ seal reads
+through the chain compact to one seal-facing surface.
+
+The compacted surface has exactly the shared
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, $\mathsf{ProbeBundle}$
+rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, $\DyadicRatCore$ endpoint and radius rows, and the visible $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. It contains
+no quotient stream row, host-index equality row, completion object, standard
+bridge row, or real-completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite chain. In the first nonempty adjacent case,
+\autoref{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
+identifies the two terminal reads through the common synchronized window and
+leaves exactly the stated StreamName, RegSeqRat, DyadicRatCore, transport,
+provenance, and Real ledger rows.
+
+For the induction step, assume the initial segment has already compacted to one
+terminal seal-facing surface. The next adjacent pair satisfies the same
+determinacy hypotheses, so
+\autoref{thm:streamname-regseqrat-common-window-terminal-seal-determinacy}
+identifies the last read of the compacted segment with the read of the new
+window.
+
+Apply \autoref{thm:streamname-regseqrat-uniform-tail-seal-confluence} to compose
+the compacted segment, the shared middle window, and the new terminal window.
+The confluence theorem keeps the accepted $\RegSeqRat$ handoff and every
+visible row on the same synchronized schedule, so the enlarged chain again has
+one terminal finite-window $\RealUp$ seal surface.
+
+At no step is there a coordinate from which to read quotient streams,
+host-index equality, completion objects, standard bridge data, or real
+completeness. The induction therefore compacts the whole finite chain to the
+single displayed terminal seal inventory.
+\end{proof}
