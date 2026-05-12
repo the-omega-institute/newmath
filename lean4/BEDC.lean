@@ -109,6 +109,7 @@ import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DyadicTailBoundUp
+import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
