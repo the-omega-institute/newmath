@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationAutomatonUp$}
+\label{ch:concrete-instances-continuationautomaton-namecert}
+\origin{ai}
+
+The $\ContinuationAutomatonUp$ interface realizes computation as a finite $\Cont$-labelled transition surface. It packages a small-step automaton directly over $\BHist$ rows, behaviour classifiers, acceptance rows, package provenance, and a local naming row, without adding a host state space or an external operational semantics.
+
+\begin{definition}[ContinuationAutomaton carrier]\label{def:continuationautomaton-carrier}
+A $\ContinuationAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,q_0,F,T,B,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the finite list of reachable state rows, each row being a $\BHist$ entry;
+\item $q_0$ is the displayed initial state row and $F$ is the finite accepting-state subledger of $Q$;
+\item $T$ is the finite transition table whose rows have the form $(q,m,q',c)$ with $q,q'\in Q$, $m:\Mark$, and $c$ a displayed $\Cont(q,m,q')$ witness;
+\item $B$ is the behaviour classifier ledger, read only from initial reachability, accepting membership, and the displayed transition rows;
+\item $H$ stores componentwise $\hsame$ transports for state rows, transition endpoints, accepting rows, behaviour rows, provenance, and local name;
+\item $C$ stores the displayed continuation routes by which consumers inspect transition steps and behaviour reads;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Mark$, $\hsame$, $\Cont$, behaviour classifiers, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ContinuationAutomatonUp}$ row.
+\end{enumerate}
+The classifier accepts behaviour claims only through this finite state, transition, acceptance, transport, continuation, provenance, and naming surface. The carrier has no coordinate for host configurations, an external evaluator, a quotient of traces, or an unlisted transition rule.
+\end{definition}
+\leandef{BEDC.Derived.ContinuationAutomatonUp.ContinuationAutomatonUp}
+
+\begin{theorem}[ContinuationAutomaton step-continuation correspondence]\label{thm:continuationautomaton-step-continuation-correspondence}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$, every displayed automaton step $q \xrightarrow{m} q'$ is exactly a row of $T$ carrying a $\Cont(q,m,q')$ witness, and every such displayed $\Cont(q,m,q')$ row reconstructs the automaton step from $q$ to $q'$ labelled by $m$. Consequently the behaviour classifier $B$ reads transition behaviour only through $\Cont$ rows already present in the finite carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationAutomatonUp.ContinuationAutomatonTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+For the forward direction, project the carrier of \autoref{def:continuationautomaton-carrier}. A displayed automaton step is not an independent predicate in the packet; it is a row of the finite transition table $T$. Reading that row exposes endpoints $q,q'$, a mark $m$, and the stored witness $c:\Cont(q,m,q')$.
+
+For the reverse direction, begin with a displayed transition row $(q,m,q',c)$ in $T$. The endpoints are members of the finite state ledger $Q$, and the row itself records that the automaton has a transition from $q$ to $q'$ labelled by $m$. Thus the same row reconstructs the step.
+
+Finally read the classifier row $B$. Its behaviour observations are licensed only by initial reachability, accepting membership in $F$, the transition table $T$, and the routes in $C$. Since the only transition evidence in $T$ is the displayed $\Cont$ field, the classifier cannot consult a host evaluator, quotient trace, or unlisted transition rule.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton NameCert obligations]\label{thm:continuationautomaton-namecert-obligations}
+The local $\NameCert_{\ContinuationAutomatonUp}$ surface for the carrier of \autoref{def:continuationautomaton-carrier} consists exactly of five rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $A=(Q,q_0,F,T,B,H,C,P,N)$;
+\item behaviour-classifier admission over the initial row, accepting rows, and $\Cont$-labelled transition table;
+\item stability of state rows, accepting membership, transition endpoints, and behaviour rows under componentwise $\hsame$ transport;
+\item exactness of every displayed automaton step as the corresponding $\Cont$ witness and of every displayed $\Cont$ transition row as an automaton step;
+\item ledger rows for transition inspection, accepting inspection, behaviour reads, $\Pkg$ provenance, and the local naming certificate.
+\end{enumerate}
+These obligations mention no host evaluator, external state space, trace quotient, or unlisted transition rule.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:continuationautomaton-carrier}. The finite packet already displays its state ledger, initial row, accepting ledger, transition table, behaviour classifier, transport row, continuation routes, provenance, and local name.
+
+Classifier admission reads only the rows $q_0,F,T,B$. The row $B$ classifies behaviour by inspecting initial reachability, accepting membership, and transition rows already present in the packet.
+
+Stability is componentwise through $H$, while exactness is \autoref{thm:continuationautomaton-step-continuation-correspondence}. The remaining ledgers $C,P,N$ route, record provenance, and name the packet. No carrier coordinate can introduce a separate operational semantics, so the five displayed rows exhaust the NameCert surface.
+\end{proof}
+
+\closureat{ContinuationAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationAutomatonUp}
+  \constructivestory{A $\ContinuationAutomatonUp$ packet is generated from finite $\BHist$ state rows, an initial row, accepting rows, $\Mark$-labelled transition rows carrying displayed $\Cont$ witnesses, behaviour classifier rows, componentwise $\hsame$ transports, displayed inspection routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuationautomaton-carrier}, \autoref{thm:continuationautomaton-step-continuation-correspondence}, and \autoref{thm:continuationautomaton-namecert-obligations} bind the finite automaton carrier, step-continuation exactness, behaviour classifier surface, transport rows, continuation routes, package provenance, and local naming row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close external operational semantics, host configurations, trace quotients, deterministic transition selection, or a public standard bridge.}
+  \upgradepath{Obligation closure next requires checked carrier admission, classifier stability, step-continuation exactness, and ledger factorization for the same finite continuation automaton packet.}
+\end{closurestatus}

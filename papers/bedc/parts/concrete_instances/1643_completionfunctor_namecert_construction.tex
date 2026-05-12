@@ -71,6 +71,7 @@ The comparison between the monad unit boundary and the real seal boundary is rec
 \label{thm:completion-functor-extension-ledger-exactness}
 Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. Every completion-facing extension read produced from the dense $\ContinuousMapUp$ row $G$ and regular rational source row $Q$ is exactly the displayed extension ledger $E$ read through $M$, $U$, $R$, $A$, $H$, $C$, $P$, and $N$. The packet exports no second extension route, quotient completion, selected limit, or host function equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_extension\_ledger\_exactness}
 \begin{proof}
 Project the accepted carrier through \autoref{def:completion-functor-carrier}. The only row whose role is extension from dense graph data to a completion-facing continuous map is $E$, and its source rows are visibly $G$, $Q$, $M$, $U$, $R$, and $A$.
 
@@ -139,17 +140,47 @@ The NameCert obligation theorem makes $E$ the only completion-facing extension r
 These routes exhaust the packet. Since none of the listed coordinates is a quotient completion, host function equality proof, selected limit, hidden representative, or ambient completeness field, no public consumer can read such an object from the $\CompletionFunctorUp$ surface.
 \end{proof}
 
+\begin{theorem}[CompletionFunctor public completion export]
+\label{thm:completion-functor-public-completion-export}
+The $\CompletionFunctorUp$ carrier, functoriality ledger, unit boundary, extension-ledger exactness, identity route stability, composition route stability, completion consumer surface, scoped dependency spine, and non-escape boundary assemble into the public $\CompletionFunctorUp$ completion export consumed by $\CompleteMetricUp$, $\HausdorffCompletionUp$, and $\CompletionUniversalPropertyUp$. This export exposes only the finite rows $M,U,R,Q,A,G,E,T,H,C,P,N$ of \autoref{def:completion-functor-carrier} and their displayed $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Start from the local carrier and obligation surface of \autoref{thm:completion-functor-namecert-obligations}. It fixes the displayed rows, the componentwise classifier transports, the continuation routes, and the local $\NameCert_{\CompletionFunctorUp}$ packet read by downstream completion consumers.
+
+The public completion map surface is then determined by the three central construction rows. The functoriality ledger is supplied by \autoref{thm:completion-functor-functoriality}, the unit-facing dense-to-completed boundary by \autoref{thm:completion-functor-unit-boundary}, and the single completion-facing extension read by \autoref{thm:completion-functor-extension-ledger-exactness}.
+
+The route-level stability needed by consumers is already internal to the same packet. Identity reads use \autoref{thm:completion-functor-identity-route-stability}, and composable dense-map reads use \autoref{thm:completion-functor-composition-route-stability}, both over the same extension ledger and transport rows.
+
+Finally combine the consumer inventory of \autoref{thm:completion-functor-completion-consumer-surface} with the dependency inventory of \autoref{thm:completion-functor-scoped-dependency-spine} and the non-escape boundary of \autoref{thm:completion-functor-non-escape}. The resulting public export is exactly the completion-functor surface available to $\CompleteMetricUp$, $\HausdorffCompletionUp$, and $\CompletionUniversalPropertyUp$, with no quotient completion, selected limit, host function equality, hidden representative, or ambient completeness field added at the boundary.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor public extension interface]
+\label{thm:completion-functor-public-extension-interface}
+Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. The packet exports a public completion-functor interface in which unit reads come from the $\CauchyCompletionMonadUp$ row $M$, extension reads come from the $\CompletionUniversalPropertyUp$ row $U$ and the exact ledger $E$, $\RealUp$ seals come from the $\RealCauchyCompletionUp$ and $\RegSeqRatUp$ rows $R$ and $Q$ together with $A$, and map transport comes from the $\ContinuousMapUp$ row $G$ and functoriality ledger $T$. Every such read is routed through displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_public\_extension\_interface}
+\begin{proof}
+For the unit side, apply \autoref{thm:completion-functor-unit-boundary}. It identifies the public completed-source read as the route through $M$, $R$, $Q$, $A$, $H$, $C$, $P$, and $N$.
+
+For extension reads, use \autoref{thm:completion-functor-extension-ledger-exactness}. The universal-property row $U$ and exact ledger $E$ give the only completion-facing extension path from the dense $\ContinuousMapUp$ row $G$.
+
+For transported maps, combine \autoref{thm:completion-functor-functoriality}, \autoref{thm:completion-functor-identity-route-stability}, and \autoref{thm:completion-functor-composition-route-stability}. These theorems route identity and composition through $T$ using the same displayed carrier rows.
+
+Finally invoke \autoref{thm:completion-functor-completion-consumer-surface} and \autoref{thm:completion-functor-non-escape}. They exhaust the public consumer surface and rule out quotient completions, selected limits, hidden representatives, host function equality, and ambient completeness.
+\end{proof}
+
 \closureat{CompletionFunctorUp}{seedStr}
 \closureat{CompletionFunctorUp}{obligationStr}
 \closureat{CompletionFunctorUp}{scopedStr}
+\closureat{CompletionFunctorUp}{publicStr}
 
 \begin{closurestatus}{\CompletionFunctorUp}
   \constructivestory{A $\CompletionFunctorUp$ packet is generated from a $\CauchyCompletionMonadUp$ completion envelope, a $\CompletionUniversalPropertyUp$ extension row, a $\RealCauchyCompletionUp$ real-completion row, a $\RegSeqRatUp$ dense source, a $\RealUp$ seal, a $\ContinuousMapUp$ dense map, a finite extension ledger, a functoriality ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the finite carrier, extension ledger, unit boundary, identity route, composition route, and consumer surface to the displayed completion monad, universal-property, real-completion, regular-sequence, real-seal, continuous-map, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:completion-functor-public-extension-interface} exports the public completion-functor interface over $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completions, host function equality, selected limits, ambient completeness, completed-category laws beyond the displayed finite ledger, or bridge checking.}
-  \upgradepath{Public closure requires an exported completion-functor consumer theorem over the same $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Bridge closure requires a standard bridge for the displayed completion-functor packet.}
 \end{closurestatus}

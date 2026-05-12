@@ -70,4 +70,32 @@ theorem RegularCauchyLimitClassifierCarrier_real_seal_handoff [AskSetup] [Packag
     ⟨consumerUnary, readbackUnary, ledgerUnary, sealUnary, diagonalWindowsReadback,
       readbackLedgerSeal, sameCert, certPkg⟩
 
+theorem RegularCauchyLimitClassifierCarrier_diagonal_window_public_boundary [AskSetup]
+    [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      Cont cert routes publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory readback ∧ UnaryHistory ledger ∧ UnaryHistory sealRow ∧
+            UnaryHistory cert ∧ UnaryHistory publicRead ∧ Cont diagonal windows readback ∧
+              Cont readback ledger sealRow ∧ Cont cert routes publicRead ∧
+                hsame cert (append provenance sealRow) ∧ PkgSig bundle cert pkg ∧
+                  PkgSig bundle publicRead pkg := by
+  intro carrier certRoutesPublicRead publicReadPkg
+  have stable :=
+    RegularCauchyLimitClassifierCarrier_stability carrier
+  obtain ⟨readbackUnary, ledgerUnary, sealUnary, certUnary, diagonalWindowsReadback,
+    readbackLedgerSeal, sameCert, certPkg⟩ := stable
+  have routesUnary : UnaryHistory routes :=
+    carrier.right.right.right.right.right.right.left
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed certUnary routesUnary certRoutesPublicRead
+  exact
+    ⟨readbackUnary, ledgerUnary, sealUnary, certUnary, publicReadUnary,
+      diagonalWindowsReadback, readbackLedgerSeal, certRoutesPublicRead, sameCert, certPkg,
+      publicReadPkg⟩
+
 end BEDC.Derived.RegularCauchyLimitClassifierUp

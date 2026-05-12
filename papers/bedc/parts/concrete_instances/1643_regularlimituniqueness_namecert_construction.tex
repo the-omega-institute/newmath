@@ -54,6 +54,7 @@ Let $U$ be an accepted $\RegularLimitUniquenessUp$ carrier. Suppose two accepted
 
 The certificate exports no quotient stream comparison, selected host limit, host real equality, ambient completeness principle, or choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLimitUniquenessUp.RegularLimitUniquenessCarrier\_separated\_limit\_certificate}
 \begin{proof}
 Project $U$ as in \autoref{def:regular-limit-uniqueness-carrier}. Both candidates point to the same $\RegularCauchyFamilyUp$ row $F$ and the same $\CauchyModulusUp$ threshold $\mu$, so their readback routes begin at one displayed regular-Cauchy input surface.
 
@@ -68,6 +69,7 @@ Repacking this route gives the stated certificate. Since the carrier contains no
 \label{thm:regular-limit-uniqueness-classifier-determinacy}
 Let $U$ and $U'$ be accepted $\RegularLimitUniquenessUp$ carriers whose displayed $\hsame$ and $\Cont$ rows classify the shared $\RegularCauchyFamilyUp$ input, the shared $\CauchyModulusUp$ threshold, the two $\RealDiagonalCompletionUp$ candidates, their $\RegSeqRatUp$ readbacks, their $\RealUp$ seals, and their separated comparison rows. Then the two carriers determine the same separated limit route: every classified candidate pair reaches the corresponding $\RealUp$ seals through the displayed separated comparison row and through no additional host equality or chosen limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLimitUniquenessUp.RegularLimitUniquenessCarrier\_classifier\_determinacy}
 \begin{proof}
 Project both carriers using \autoref{def:regular-limit-uniqueness-carrier}. The family row, threshold row, diagonal candidate rows, readback rows, seal rows, separated comparison rows, transport rows, continuation rows, package rows, and local certificates are all visible coordinates.
 
@@ -133,6 +135,7 @@ Let $U=(F,D_0,D_1,\mu,R_0,R_1,E_0,E_1,S,H,C,P,N)$ be an accepted $\RegularLimitU
 
 No identification route in the packet bypasses $R_0,R_1,E_0,E_1,S$, and no route factors through host real equality, a selected host limit, a quotient stream, ambient completeness, or choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLimitUniquenessUp.RegularLimitUniquenessCarrier\_readback\_seal\_exactness}
 \begin{proof}
 Project the accepted carrier. The two candidates share the same $F$ and $\mu$ coordinates, and their readback rows are explicitly $R_0$ and $R_1$.
 
@@ -203,16 +206,31 @@ Apply \autoref{thm:regular-limit-uniqueness-obligation-closure-package}. It repa
 Finally apply \autoref{thm:regular-limit-uniqueness-choice-free-ledger-exhaustion}. Since every exported route is already exhausted by the displayed coordinates, no unlisted host or quotient object can enter the scoped uniqueness packet.
 \end{proof}
 
+\begin{theorem}[RegularLimitUniqueness scoped handoff]
+\label{thm:regular-limit-uniqueness-scoped-handoff}
+The shared-family scope of \autoref{thm:regular-limit-uniqueness-shared-family-scope}, the separated-comparison scope of \autoref{thm:regular-limit-uniqueness-separated-comparison-scope}, and the ledger non-escape scope of \autoref{thm:regular-limit-uniqueness-ledger-non-escape-scope} jointly bind every $\RegularLimitUniquenessUp$ consumer route to $\RegularCauchyFamilyUp$, $\RealDiagonalCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Within this scoped handoff, no consumer may replace the displayed rows by a quotient stream, selected host limit, host equality, ambient completeness principle, or choice witness.
+\end{theorem}
+\begin{proof}
+Begin with the shared-family scope. It fixes the common $\RegularCauchyFamilyUp$ input, both $\RealDiagonalCompletionUp$ candidates, their $\RegSeqRatUp$ and $\StreamNameUp$ readbacks, the two $\RealUp$ seal rows, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Next use the separated-comparison scope. It binds the uniqueness comparison to the route from the shared family through diagonal completion and regular-rational readback into the two real seals, with the row $S$ as the only separated comparison.
+
+Finally apply the ledger non-escape scope together with the NameCert obligation package of \autoref{thm:regular-limit-uniqueness-namecert-obligations}. The non-escape row excludes quotient streams, selected host limits, host equality, ambient completeness, and choice, so the three scoped rows hand off exactly the displayed consumer surface and nothing outside it.
+\end{proof}
+
 \closureat{RegularLimitUniquenessUp}{seedStr}
 \closureat{RegularLimitUniquenessUp}{obligationStr}
+\closureat{RegularLimitUniquenessUp}{scopedStr}
 
 \begin{closurestatus}{\RegularLimitUniquenessUp}
   \constructivestory{A $\RegularLimitUniquenessUp$ packet is generated from one regular-Cauchy family, two diagonal completion candidates, a shared Cauchy threshold, two regular-rational readbacks, two real seal rows, one separated comparison row, displayed transport and continuation rows, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the carrier, classifier transport, readback-to-seal exactness, separated comparison exactness, and ledger non-escape rows for two regular-Cauchy completion candidates over the same displayed input and boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface records the carrier, classifier transport, shared-family route, readback-to-seal exactness, separated comparison exactness, and ledger non-escape rows for two regular-Cauchy completion candidates over the same displayed input and boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, selected host limits, host real equality, ambient completeness, bridge checking, or a Lean implementation.}
-  \upgradepath{Scoped closure requires paper-level discharge of the same displayed carrier transport, separated seal exactness, and ledger non-escape rows.}
+  \upgradepath{Public closure requires an exported theorem packaging the scoped uniqueness route for downstream regular-Cauchy completion consumers.}
 \end{closurestatus}

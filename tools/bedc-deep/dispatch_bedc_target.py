@@ -13,6 +13,14 @@ import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+try:
+    from logic_discipline import render_prompt_block
+except ModuleNotFoundError:  # pragma: no cover
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import render_prompt_block
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -301,12 +309,18 @@ Target payload:
 Selected local BEDC excerpts:
 {build_context_block(target)}
 
+{render_prompt_block(context="BEDC deep-reasoning target; oracle may propose proof routes, witnesses, or obstructions, but deterministic expansion and schema checks belong to local gates.")}
+
 {prior_art_block}
 Task:
 Work on this target only. State the smallest precise claim that should be
 tested first, the assumptions it needs, and either a proof outline in ordinary
 mathematical prose or a precise obstruction. If a step requires a setup-field
 assumption, say so directly and cite the existing BEDC class or structure.
+When a bridge, completion, equality, existence, or descent claim appears, name
+the relevant axiom budget, witness/existence mode, cut/elimination status,
+equality or interpretation kind, dependency/resource trace, and certificate
+boundary in ordinary prose.
 
 End with a line:
 NEXT: <one precise follow-up question>

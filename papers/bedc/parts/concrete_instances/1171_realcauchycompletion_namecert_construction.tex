@@ -322,6 +322,22 @@ Now account for the precision budget. Apply \autoref{thm:dyadic-tail-bound-budge
 Conversely, a $\NullSequenceUp$ zero-tail packet equipped with the stated $\DyadicTailBoundUp$ budget ledger determines the same displayed tail window for the finite request bundle. Re-reading it through the common $\RegSeqRatUp$ refinement gives exactly the synchronized seal route, and all named transports remain inside the listed BEDC rows.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion synchronized null-tail consumer]
+\label{thm:real-cauchy-completion-synchronized-null-tail-consumer}
+Let $C$ and $C'$ be accepted $\RealCauchyCompletionUp$ carriers whose regular-family rows classify through one $\RegSeqRatUp$ common-refinement row, and let one finite $\mathsf{ProbeBundle}$ carry the precision requests. Then the synchronized seal route and the null-tail dyadic-budget packet assemble into one consumer-visible $\RealUp$ equality surface.
+
+This surface is exactly the finite BEDC route over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\DyadicTailBoundUp$, and $\RealUp$: two accepted carrier reads are equal for the consumer only by passing through the common tail window, the shared zero-tail certificate, the finite dyadic budget ledger, and the resulting $\RealUp$ seal. It exports no quotient stream equality, selected limit, host real equality, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First build the common consumer route. Apply \autoref{thm:real-cauchy-completion-family-tail-synchronization} to the two accepted carriers and the shared $\mathsf{ProbeBundle}$. This gives one finite tail window before either $\RealUp$ seal is consumed, with the window read through the common $\RegSeqRatUp$ refinement, the $\StreamNameUp$ request window, and the $\DyadicRatCoreUp$ ledger.
+
+Next convert the synchronized window into the null-tail budget packet. Apply \autoref{thm:real-cauchy-completion-null-tail-budget-correspondence}. Its forward direction packages the same synchronized route as one $\NullSequenceUp$ zero-tail packet equipped with one $\DyadicTailBoundUp$ finite budget ledger; its reverse direction rereads such a packet as the same synchronized seal route.
+
+The certificate ingredients are the displayed null-sequence and dyadic-tail rows. Use \autoref{thm:null-sequence-zero-tail-criterion} and \autoref{thm:null-sequence-common-window-refinement} for the shared zero-tail window, then use \autoref{thm:dyadic-tail-bound-budget-composition} and \autoref{thm:dyadic-tail-bound-real-seal-factorization} for the finite tolerance ledger and its $\RealUp$ seal factorization.
+
+Combining these rows gives a reusable consumer equality surface rather than a stronger equality principle. Every transport still runs through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\DyadicTailBoundUp$, and $\RealUp$, so quotient streams, selected limits, host real equality, trichotomy, and ambient completeness remain outside the claim.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
 \closureat{RealCauchyCompletionUp}{obligationStr}
 \closureat{RealCauchyCompletionUp}{scopedStr}
