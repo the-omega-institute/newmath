@@ -78,7 +78,42 @@ theorem RegularityModulusDyadicWindowCarrier_window_monotonicity [AskSetup] [Pac
                   provenance' nameRow' bundle pkg ∧
                 hsame transport transport' ∧ hsame ledger ledger' ∧
                   hsame provenance provenance' :=
-  RegularityModulusPacket_window_monotonicity
+    RegularityModulusPacket_window_monotonicity
+
+theorem RegularityModulusPacket_common_window_exactness [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow precision' modulus' window'
+      transport' ledger' provenance' nameRow' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      RegularityModulusPacket precision' modulus' window' transport' ledger' provenance'
+        nameRow' bundle' pkg' ->
+        hsame precision precision' ->
+          hsame modulus modulus' ->
+            hsame window window' ->
+              hsame nameRow nameRow' ->
+                hsame transport transport' ∧ hsame ledger ledger' ∧
+                  hsame provenance provenance' := by
+  intro packet packet' samePrecision sameModulus sameWindow sameNameRow
+  have transportRow : Cont precision window transport :=
+    packet.right.right.right.right.left
+  have transportRow' : Cont precision' window' transport' :=
+    packet'.right.right.right.right.left
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame samePrecision sameWindow transportRow transportRow'
+  have ledgerRow : Cont transport modulus ledger :=
+    packet.right.right.right.right.right.left
+  have ledgerRow' : Cont transport' modulus' ledger' :=
+    packet'.right.right.right.right.right.left
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameTransport sameModulus ledgerRow ledgerRow'
+  have provenanceRow : Cont ledger nameRow provenance :=
+    packet.right.right.right.right.right.right.left
+  have provenanceRow' : Cont ledger' nameRow' provenance' :=
+    packet'.right.right.right.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameNameRow provenanceRow provenanceRow'
+  exact And.intro sameTransport (And.intro sameLedger sameProvenance)
 
 theorem RegularityModulusPacket_dyadic_window_exactness [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow : BHist}
