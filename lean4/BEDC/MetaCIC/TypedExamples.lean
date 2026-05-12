@@ -34,6 +34,11 @@ theorem mixed_ctx_vars :
   apply HasType.varRule
   rfl
 
+theorem mixed_ctx_var_zero :
+    HasType [Term.sort, Term.pi Term.sort Term.sort, Term.sort] (Term.var 0) Term.sort := by
+  apply HasType.varRule
+  rfl
+
 theorem mixed_var_in_three_ctx :
     HasType [Term.pi Term.sort Term.sort, Term.sort, Term.sort]
       (Term.var 1) Term.sort := by
@@ -687,6 +692,19 @@ theorem app_pi_ctx_to_sort :
       (Term.pi Term.sort Term.sort) rfl)
     (HasType.sortRule [Term.pi Term.sort Term.sort])
 
+theorem app_pi_deep_var :
+    HasType [Term.sort, Term.sort, Term.sort, Term.pi Term.sort Term.sort]
+      (Term.app (Term.var 3) Term.sort)
+      Term.sort := by
+  exact HasType.appRule [Term.sort, Term.sort, Term.sort, Term.pi Term.sort Term.sort]
+    (Term.var 3)
+    Term.sort
+    Term.sort
+    Term.sort
+    (HasType.varRule [Term.sort, Term.sort, Term.sort, Term.pi Term.sort Term.sort] 3
+      (Term.pi Term.sort Term.sort) rfl)
+    (HasType.sortRule [Term.sort, Term.sort, Term.sort, Term.pi Term.sort Term.sort])
+
 theorem apply_function_arg_in_empty :
     HasType []
       (Term.lam (Term.pi Term.sort Term.sort) (Term.app (Term.var 0) Term.sort))
@@ -800,6 +818,44 @@ theorem triple_lam_pi_construction :
           rfl
         · apply HasType.varRule
           rfl
+
+theorem double_poly_first :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam Term.sort
+          (Term.lam (Term.var 1)
+            (Term.lam (Term.var 1)
+              (Term.var 1)))))
+      (Term.pi Term.sort
+        (Term.pi Term.sort
+          (Term.pi (Term.var 1)
+            (Term.pi (Term.var 1) (Term.var 3))))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.lamRule
+        · apply HasType.varRule
+          rfl
+        · apply HasType.varRule
+          rfl
+
+theorem double_poly_pi :
+    HasType []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.pi (Term.var 1) (Term.var 1))))
+      (Term.pi Term.sort (Term.pi Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.piRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
 
 theorem double_arrow_in_sort :
     HasType [Term.sort]
