@@ -274,8 +274,8 @@ cannot introduce Dedekind cuts, host real equality, trichotomy, selected
 representatives, choice data, quotient coordinates, or open-cover compactness.
 \end{proof}
 
-\begin{theorem}[LocatedCauchy consumer-completeness package]
-\label{thm:locatedcauchy-consumer-completeness-package}
+\begin{theorem}[LocatedCauchy finite bridge consumer completeness]
+\label{thm:locatedcauchy-finite-bridge-consumer-completeness}
 Every public $\RealUp$-facing consumer of the standard finite-packet bridge of
 \autoref{thm:locatedcauchy-standard-finite-packet-bridge} factors through
 exactly the rows named by
@@ -289,7 +289,7 @@ $\NameCert$ rows over the scoped dependency package of
 \autoref{thm:locatedcauchy-scoped-dependency-package}.
 
 Conversely, every accepted finite packet row in that displayed carrier is
-exported to the same public $\RealUp$ consumer surface. The package exports no
+repacked as the same standard finite bridge surface. The package exports no
 Dedekind cut, quotient stream, host real equality, trichotomy, selected
 representative, choice datum, or open-cover compactness witness.
 \end{theorem}
@@ -313,7 +313,7 @@ For the reverse direction, take an accepted row of the displayed finite packet.
 The finite-window boundary already identifies it as a public packet row, and the
 public export sends precisely those rows to the $\RealUp$ consumer surface. The
 standard finite-packet bridge does not add a second consumer surface; it only
-repackages the same accepted rows under the standard reading.
+repackages the same accepted rows under the standard finite bridge surface.
 
 All exclusions are inherited from the same three results. Since none of their
 carriers contains a Dedekind cut, quotient stream, host real equality,
@@ -332,10 +332,26 @@ which such data could be read.
 \begin{closurestatus}{\LocatedCauchyUp}
   \constructivestory{A $\LocatedCauchyUp$ packet is generated from a finite StreamName schedule, DyadicRatCore endpoint rows, a CauchyModulus precision row, located dyadic-ball witnesses, componentwise transport rows, continuation readback routes, package provenance for DyadicRatCoreUp, StreamNameUp, CauchyModulusUp, RegSeqRatUp, and RealUp, and a local NameCert provenance row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:locatedcauchy-scoped-dependency-package}, \autoref{thm:locatedcauchy-public-real-consumer-export}, \autoref{thm:locatedcauchy-finite-window-bridge-boundary}, \autoref{thm:locatedcauchy-standard-finite-packet-bridge}, and \autoref{thm:locatedcauchy-consumer-completeness-package} bind the scoped package, public $\RealUp$ consumer export, finite-window boundary, standard finite-packet bridge, and complete public consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{thm:locatedcauchy-scoped-dependency-package}, \autoref{thm:locatedcauchy-public-real-consumer-export}, \autoref{thm:locatedcauchy-finite-window-bridge-boundary}, \autoref{thm:locatedcauchy-standard-finite-packet-bridge}, and \autoref{thm:locatedcauchy-finite-bridge-consumer-completeness} bind the scoped package, public $\RealUp$ consumer export, finite-window boundary, standard finite-packet bridge, and complete public consumer surface over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close Dedekind cuts, quotient streams, host real equality, trichotomy, choice, or open-cover compactness.}
   \upgradepath{No further theory-axis grade is available for this package; remaining work belongs to the verification axis.}
 \end{closurestatus}
+
+\begin{theorem}[LocatedCauchy constant window degeneracy]
+\label{thm:locatedcauchy-constant-window-degeneracy}
+Let $L=(S,D,M,W,H,C,P,N)$ be the constant dyadic-stream $\LocatedCauchyUp$ carrier described in \autoref{def:locatedcauchy-bhist-carrier}. Thus there is one displayed dyadic endpoint row $d$ such that $S$ repeats the scheduled endpoint $d$, the modulus row $M$ returns the same observation threshold for every requested precision, and $W$ displays the degenerate located dyadic ball attached to $d$ at each requested window.
+
+Then every consumer-visible precision request for $L$ reads the same degenerate dyadic endpoint. More precisely, for any requested precision window $q$, the $\Cont$ readback route selected by $C$ factors through the $\StreamNameUp$ row that schedules $d$, the $\CauchyModulusUp$ row that returns the constant threshold, the $\DyadicRatCoreUp$ endpoint row $d$, and the located-ball witness in $W$ whose left endpoint, center endpoint, and right endpoint are all the displayed row $d$. Hence the classifier of \autoref{def:locatedcauchy-classifier} sees no window-dependent endpoint variation in the constant packet: changing $q$ changes only the name of the finite request, not the dyadic endpoint or the degenerate located ball read at that request.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:locatedcauchy-bhist-carrier}. The constant-stream clause fixes the visible coordinates: the schedule $S$ repeats one scheduled dyadic endpoint row $d$, the modulus row $M$ returns the same threshold for each requested precision, and the witness family $W$ assigns to each requested window the degenerate located dyadic ball corresponding to that same endpoint.
+
+Let $q$ be a requested precision window. The only route from a consumer request to packet data is one of the continuation rows recorded in $C$. By the carrier definition, such a route first reads the requested window through $S$ and $M$, then reads the endpoint data from $D$, and then reads the located-ball witness from $W$. Since $S$ is constant and $M$ returns the fixed threshold, this route reaches the same scheduled endpoint row $d$ for the request $q$ as for any other request.
+
+At that row, $D$ is the displayed $\DyadicRatCoreUp$ endpoint family of the packet, and the constant-stream clause says that the located witness attached by $W$ is degenerate at $d$. Thus the left endpoint, center endpoint, and right endpoint exposed by the located dyadic ball are all the same displayed dyadic row $d$.
+
+Finally, \autoref{def:locatedcauchy-classifier} compares only the displayed schedules, endpoint rows, modulus rows, located-ball witnesses, transport rows, continuation routes, and provenance. None of those coordinates contains a second endpoint for the constant packet, so a change of requested precision window cannot introduce endpoint variation. It only selects another finite request whose readback again reaches the same degenerate dyadic ball at $d$.
+\end{proof}
