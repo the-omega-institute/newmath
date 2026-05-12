@@ -242,4 +242,32 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
 
+theorem RationalStreamPacket_pointwise_classifier_laws [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows classifierRows' classifierRows'' transportRows
+      contRows provenance nameRow window : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      hsame classifierRows classifierRows' ->
+        hsame classifierRows' classifierRows'' ->
+          UnaryHistory classifierRows ∧ UnaryHistory classifierRows' ∧
+            UnaryHistory classifierRows'' ∧ hsame classifierRows classifierRows ∧
+              hsame classifierRows' classifierRows ∧ hsame classifierRows classifierRows'' ∧
+                PkgSig bundle nameRow pkg := by
+  intro packet sameClassifierRows sameClassifierRows'
+  obtain ⟨_indexUnary, _scheduleUnary, _pointRowsUnary, classifierRowsUnary,
+    _transportRowsUnary, _provenanceUnary, _windowRow, _classifierRowsRow, _contRowsRow,
+    _nameRowRow, nameRowPkg⟩ := packet
+  have classifierRowsUnary' : UnaryHistory classifierRows' :=
+    unary_transport classifierRowsUnary sameClassifierRows
+  have sameClassifierRowsSymm : hsame classifierRows' classifierRows :=
+    hsame_symm sameClassifierRows
+  have classifierRowsUnary'' : UnaryHistory classifierRows'' :=
+    unary_transport classifierRowsUnary' sameClassifierRows'
+  have sameClassifierRowsTrans : hsame classifierRows classifierRows'' :=
+    hsame_trans sameClassifierRows sameClassifierRows'
+  exact
+    ⟨classifierRowsUnary, classifierRowsUnary', classifierRowsUnary'', hsame_refl classifierRows,
+      sameClassifierRowsSymm, sameClassifierRowsTrans, nameRowPkg⟩
+
 end BEDC.Derived.RationalStreamUp

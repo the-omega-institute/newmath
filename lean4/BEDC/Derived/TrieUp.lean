@@ -190,6 +190,34 @@ theorem TrieSourcePacket_prefix_branch_consumer_exhaustion [AskSetup] [PackageSe
     ⟨prefSplit, readbackUnary, consumerUnary, keyUnary, branchUnary, depthUnary, branchRead,
       consumerRow, consumerPkg⟩
 
+theorem TrieSourcePacket_key_prefix_transport [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute «prefix» «prefix'»
+      branch' read read' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      UnaryHistory «prefix» ->
+        hsame «prefix» «prefix'» ->
+          hsame branch branch' ->
+            Cont «prefix» branch read ->
+              Cont «prefix'» branch' read' ->
+                UnaryHistory «prefix'» ∧ UnaryHistory read ∧ UnaryHistory read' ∧
+                  hsame read read' ∧ PkgSig bundle provenance pkg := by
+  intro packet prefixUnary samePrefix sameBranch prefixBranchRead prefixBranchRead'
+  obtain ⟨_keyUnary, _payloadUnary, _depthUnary, branchUnary, _provenanceUnary, _routeRow,
+    _provenanceRow, _payloadRouteRow, _branchRouteRow, provenancePkg⟩ := packet
+  have prefixUnary' : UnaryHistory «prefix'» :=
+    unary_transport prefixUnary samePrefix
+  have branchUnary' : UnaryHistory branch' :=
+    unary_transport branchUnary sameBranch
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed prefixUnary branchUnary prefixBranchRead
+  have readUnary' : UnaryHistory read' :=
+    unary_cont_closed prefixUnary' branchUnary' prefixBranchRead'
+  have sameRead : hsame read read' :=
+    cont_respects_hsame samePrefix sameBranch prefixBranchRead prefixBranchRead'
+  exact ⟨prefixUnary', readUnary, readUnary', sameRead, provenancePkg⟩
+
 theorem TriePrefixExtensionClassifier_stability [AskSetup] [PackageSetup]
     {pre pre' branch ext ext' prov : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory pre -> UnaryHistory branch -> hsame pre pre' -> Cont pre branch ext ->
