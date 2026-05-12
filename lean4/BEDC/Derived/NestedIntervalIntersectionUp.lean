@@ -113,4 +113,60 @@ theorem NestedIntervalIntersectionCarrier_finite_diagonal_handoff [AskSetup] [Pa
                                                               selectedReadRoute, handoffRoute,
                                                               routePkg⟩
 
+theorem NestedIntervalIntersectionCarrier_selector_transport_determinacy [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {sourceChain width selector endpoints handoff sealRow transport route name sourceChain' width'
+      selector' endpoints' handoff' sealRow' transport' : BHist} :
+    NestedIntervalIntersectionCarrier sourceChain width selector endpoints handoff sealRow
+        transport route name bundle pkg ->
+      hsame sourceChain sourceChain' ->
+        hsame width width' ->
+          hsame selector selector' ->
+            hsame endpoints endpoints' ->
+              hsame sealRow sealRow' ->
+                hsame transport transport' ->
+                  Cont sourceChain' width' selector' ->
+                    Cont selector' endpoints' handoff' ->
+                      Cont handoff' sealRow' transport' ->
+                        hsame handoff handoff' ∧
+                          NestedIntervalIntersectionCarrier sourceChain' width' selector'
+                            endpoints' handoff' sealRow' transport' route name bundle pkg := by
+  intro carrier sameSource sameWidth sameSelector sameEndpoints sameSeal sameTransport
+  intro contSource contSelector contHandoff
+  have sourceUnary : UnaryHistory sourceChain' :=
+    unary_transport carrier.left sameSource
+  have widthUnary : UnaryHistory width' :=
+    unary_transport carrier.right.left sameWidth
+  have selectorUnary : UnaryHistory selector' :=
+    unary_transport carrier.right.right.left sameSelector
+  have endpointsUnary : UnaryHistory endpoints' :=
+    unary_transport carrier.right.right.right.left sameEndpoints
+  have handoffSame : hsame handoff handoff' :=
+    cont_respects_hsame sameSelector sameEndpoints carrier.right.right.right.right.right.right.right.right.right.right.left contSelector
+  have handoffUnary : UnaryHistory handoff' :=
+    unary_transport carrier.right.right.right.right.left handoffSame
+  have sealUnary : UnaryHistory sealRow' :=
+    unary_transport carrier.right.right.right.right.right.left sameSeal
+  have transportUnary : UnaryHistory transport' :=
+    unary_transport carrier.right.right.right.right.right.right.left sameTransport
+  have transportedRoute : Cont transport' route name := by
+    cases sameTransport
+    exact carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  exact And.intro handoffSame
+    (And.intro sourceUnary
+      (And.intro widthUnary
+        (And.intro selectorUnary
+          (And.intro endpointsUnary
+            (And.intro handoffUnary
+              (And.intro sealUnary
+                (And.intro transportUnary
+                  (And.intro carrier.right.right.right.right.right.right.right.left
+                    (And.intro carrier.right.right.right.right.right.right.right.right.left
+                      (And.intro contSource
+                        (And.intro contSelector
+                          (And.intro contHandoff
+                            (And.intro transportedRoute
+                              (And.intro carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+                                carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right))))))))))))))
+
 end BEDC.Derived.NestedIntervalIntersectionUp
