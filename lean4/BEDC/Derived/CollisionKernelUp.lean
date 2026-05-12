@@ -41,4 +41,25 @@ theorem CollisionKernelCarrier_zero_window_packet [AskSetup] [PackageSetup]
     ⟨windowUnary, foldUnary, ledgerUnary, matrixUnary, momentUnary, shadowUnary, windowRoute,
       ledgerRoute, momentRoute, provenancePkg⟩
 
+theorem CollisionKernelCarrier_hankel_shadow_boundary [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert shadowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      Cont moment matrix shadowRead ->
+        hsame shadowRead shadow ->
+          UnaryHistory moment ∧ UnaryHistory matrix ∧ UnaryHistory shadow ∧
+            UnaryHistory shadowRead ∧ Cont ledger matrix shadow ∧ Cont moment matrix shadow ∧
+              Cont moment matrix shadowRead ∧ hsame shadowRead shadow ∧
+                PkgSig bundle provenance pkg := by
+  intro carrier shadowReadRoute shadowReadSame
+  obtain ⟨_windowUnary, _foldUnary, _ledgerUnary, matrixUnary, momentUnary, shadowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowRoute, ledgerRoute,
+    momentRoute, provenancePkg, _nameCertPkg⟩ := carrier
+  have shadowReadUnary : UnaryHistory shadowRead :=
+    unary_cont_closed momentUnary matrixUnary shadowReadRoute
+  exact
+    ⟨momentUnary, matrixUnary, shadowUnary, shadowReadUnary, ledgerRoute, momentRoute,
+      shadowReadRoute, shadowReadSame, provenancePkg⟩
+
 end BEDC.Derived.CollisionKernelUp
