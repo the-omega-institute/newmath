@@ -189,6 +189,40 @@ primitive, likelihood object outside the probability certificate, or bridge
 datum, no consumer can read one from the public surface.
 \end{proof}
 
+\begin{theorem}[Belief mature consumer exhaustion]
+\label{thm:belief-mature-consumer-exhaustion}
+Every downstream consumer of the public $\BeliefUp$ packet reads only the prior
+row, observation row, update trace, probability certificate row, posterior
+endpoint, finite evidence ledger, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and the
+TasteGate carrier boundary named by
+\texttt{BEDC.Derived.BeliefUp.taste\_gate}. Every such read factors through
+\autoref{thm:belief-public-namecert-surface}.
+
+No hidden likelihood object, host update primitive, external observation
+stream, or extra probability witness is exported by the mature packet surface.
+\end{theorem}
+\begin{proof}
+Project the consumer read through
+\autoref{thm:belief-public-namecert-surface}. The public surface is already the
+assembled observation-update carrier with its classifier transport, ledger
+exactness, TasteGate recognition, posterior trace, and finite evidence
+coverage rows.
+
+The six source clauses give the exhaustive list. Apply
+\autoref{thm:belief-classifier-transport-obligation},
+\autoref{thm:belief-ledger-exactness-obligation},
+\autoref{thm:belief-tastegate-carrier-recognition},
+\autoref{thm:belief-posterior-trace-transport-obligation},
+\autoref{thm:belief-finite-evidence-ledger-coverage}, and
+\autoref{thm:belief-public-namecert-surface} to reduce each consumer read to
+one displayed row of the packet.
+
+The checked TasteGate marker displayed in \autoref{sec:belief-carrier}, named
+\texttt{BEDC.Derived.BeliefUp.taste\_gate}, supplies only the carrier boundary.
+It contributes no hidden likelihood object, host update primitive, external
+observation stream, or extra probability witness.
+\end{proof}
+
 \closureat{BeliefUp}{publicStr}[BEDC.Derived.BeliefUp.taste\_gate]
 \closureat{BeliefUp}{bridgedStr}[BEDC.Derived.BeliefUp.taste\_gate]
 \closureat{BeliefUp}{matureStr}[BEDC.Derived.BeliefUp.taste\_gate]
