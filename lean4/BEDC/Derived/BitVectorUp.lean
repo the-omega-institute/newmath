@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -161,5 +163,47 @@ theorem BitVectorSourcePacket_namecert_obligation_surface [AskSetup] [PackageSet
   intro packet
   obtain ⟨nUnary, spineUnary, _routeUnary, ledgerRow, provenanceRow, pkgRow⟩ := packet
   exact ⟨nUnary, spineUnary, ledgerRow, provenanceRow, ledgerRow, provenanceRow, pkgRow⟩
+
+theorem BitVectorSource_semantic_name_certificate [AskSetup] [PackageSetup]
+    {length spine ledger provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorSource length spine ledger provenance bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row provenance ∧ BitVectorSource length spine ledger row bundle pkg)
+        (fun row : BHist => UnaryHistory row ∧ Cont length spine ledger)
+        (fun row : BHist => PkgSig bundle row pkg ∧ UnaryHistory ledger)
+        (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro source
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro provenance ⟨hsame_refl provenance, source⟩
+      equiv_refl := by
+        intro row sourceRow
+        obtain ⟨_lengthUnary, _spineUnary, _ledgerUnary, _rowUnary, _ledgerRow,
+          pkgRow⟩ := sourceRow.right
+        exact ⟨PkgSig_psame_intro pkgRow pkgRow (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨_lengthUnary, _spineUnary, _ledgerUnary, rowUnary, ledgerRow, _pkgRow⟩ :=
+        sourceRow.right
+      exact ⟨rowUnary, ledgerRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_lengthUnary, _spineUnary, ledgerUnary, _rowUnary, _ledgerRow, pkgRow⟩ :=
+        sourceRow.right
+      exact ⟨pkgRow, ledgerUnary⟩
+  }
 
 end BEDC.Derived.BitVectorUp
