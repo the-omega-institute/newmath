@@ -190,6 +190,7 @@ import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
+import BEDC.Derived.ModelPredictiveControlUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
