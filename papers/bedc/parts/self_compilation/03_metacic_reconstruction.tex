@@ -533,6 +533,53 @@ four standing audits at PR merge time:
 The current state is coherent. Formal targets without full proof terms are
 reported as such, and the audit guarantees make this distinction enforceable.
 
+\subsection{Open Targets}\label{subsec:reconstruction-open-targets}
+
+The reconstruction does not yet close the following metatheoretic targets:
+\begin{itemize}
+  \item Substitute preservation for open binder domains. The checked theorem
+    covers closed binder-domain hypotheses; open domains still require a
+    general binder-shift and substitution transport argument.
+  \item Subject reduction without body-shape restrictions. The closed body
+    cases are represented, while arbitrary lambda and Pi bodies still require
+    binder-drop handling that commutes with typing projections.
+  \item Confluence as a full diamond property for parallel reduction across
+    all term shapes. The atom cases are closed; Pi, lambda, and application
+    cases still depend on general join assemblers for their components.
+  \item Strong normalization for closed sort-typed terms.
+  \item Decidable type checking for arbitrary Pi, lambda, and application
+    terms. The checked $\mathrm{AtomInfer}$ surface covers only sort and
+    variable atoms.
+\end{itemize}
+
+\subsection{Results Overview}\label{subsec:reconstruction-results-overview}
+
+The formalized MetaCIC result set covers the main closed reconstruction
+claims needed by this chapter. Closed binder-domain substitute preservation is
+proved by
+$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$, giving the
+complete closed theorem over the shift-aware typing substrate. Subject
+reduction is represented by the main theorem
+$\mathrm{subject\_reduction}$ together with the beta case, the application
+congruence cases such as $\mathrm{subject\_reduction\_congApp1}$, and the
+closed body cases for lambda and Pi constructors.
+
+The confluence layer supplies the parallel reduction framework
+$\mathrm{BetaParallel}$, beta-star transport lemmas
+$\mathrm{betaStarStep\_*}$, and atom-shape diamond components for variables
+and sorts. The normalization layer proves that atoms do not reduce:
+$\mathrm{sort\_no\_beta}$, $\mathrm{closed\_var\_no\_beta}$, and
+$\mathrm{closed\_atom\_normal\_form}$ close the represented normal-form facts
+for the atomic fragment.
+
+The executable demonstration layer contains the closed-atom inference
+theorems $\mathrm{inferAtom\_sort\_sound}$ and
+$\mathrm{inferAtom\_var\_sound}$, plus a concrete typed-term gallery with
+roughly fifteen examples spanning variables, Pi terms, dependent identity
+terms, and applications. All listed results are axiom-free under
+\texttt{\#print axioms}; the audited dependency sets contain no
+\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
 The MetaCIC reconstruction has three foundation layers in Lean:
