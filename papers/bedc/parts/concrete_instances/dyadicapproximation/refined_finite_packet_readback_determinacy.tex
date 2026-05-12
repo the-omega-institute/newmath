@@ -1,0 +1,46 @@
+\begin{theorem}[DyadicApproximation refined finite-packet readback determinacy]
+\label{thm:dyadicapproximation-refined-finite-packet-readback-determinacy}
+Let $A$ and $A'$ be accepted $\DyadicApproximationUp$ finite packets. Suppose
+their transported precision rows, $\DyadicRatCoreUp$ endpoint windows,
+terminal overlap routes, overlap refinement normal forms,
+$\RegSeqRatUp$ readback windows, $\RealUp$ seal tokens, and
+$\DyadicMeshUp/\ValidatedNumericsUp$ consumer normal forms are the same
+displayed BEDC rows. Suppose also that their visible $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert_{\DyadicApproximationUp}$ rows agree.
+
+Then every displayed precision refinement reads the same public finite
+surface from $A$ and $A'$. The common read is exactly the displayed precision
+row, endpoint window, terminal overlap route, overlap normal form,
+regular-rational readback window, real seal token, mesh-and-validated consumer
+handoff, visible transport rows, continuation routes, package provenance, and
+local certificate rows named above.
+
+The determinacy statement does not identify completed real values, does not
+export host interval objects, does not decide a trichotomy row, and does not
+read solver state or choice data.
+\end{theorem}
+\begin{proof}
+First exhaust the finite readback of each packet. Apply
+\autoref{thm:dyadicapproximation-finite-packet-readback-exhaustion} to both
+$A$ and $A'$. The only rows available to either consumer are the displayed
+precision, endpoint, readback, seal, refinement, overlap, transport,
+continuation, package, local certificate, and
+$\DyadicMeshUp/\ValidatedNumericsUp$ handoff rows.
+
+Next normalize the overlap side. Use
+\autoref{thm:dyadicapproximation-overlap-refinement-chain-normal-form} for the
+displayed overlap refinement chain of each packet. The hypotheses identify the
+terminal route and the overlap normal form, so the two packet reads have the
+same terminal finite route after any displayed precision refinement.
+
+Finally normalize the downstream consumer. By
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form},
+the mesh cell and validated enclosure can read only the common containment,
+mesh-level, cell-index, endpoint-window, regular-rational, real-seal,
+transport, continuation, package, and local certificate rows. Since those rows
+are assumed equal as displayed BEDC data, the public finite read is the same.
+
+The cited exhaustion and normal-form results also list the absent coordinates.
+Thus the conclusion cannot be strengthened into completed-real equality, host
+interval equality, trichotomy, solver-state agreement, or a choice principle.
+\end{proof}
