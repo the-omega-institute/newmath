@@ -243,4 +243,30 @@ theorem StationaryRationalDiagonalCarrier_classifier_determinacy [AskSetup] [Pac
   exact And.intro sameRegseq
     (And.intro sameRealSeal (And.intro sameRoute sameEndpoint))
 
+theorem StationaryRationalDiagonalCarrier_seal_factorization [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert endpoint
+      sealConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport route
+        provenance namecert endpoint bundle pkg ->
+      Cont realSeal route sealConsumer ->
+        UnaryHistory rat ∧ UnaryHistory constantStream ∧ UnaryHistory regseq ∧
+          UnaryHistory realSeal ∧ UnaryHistory sealConsumer ∧
+            Cont rat constantStream regseq ∧ Cont regseq diagonal realSeal ∧
+              Cont realSeal route sealConsumer ∧ PkgSig bundle endpoint pkg := by
+  intro carrier sealConsumerRow
+  obtain ⟨ratUnary, constantStreamUnary, regseqUnary, _diagonalUnary, realSealUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+    regseqRow, realSealRow, _routeRow, _endpointRow, pkgSig, _nameCert⟩ := carrier
+  have sealConsumerUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed realSealUnary routeUnary sealConsumerRow
+  exact And.intro ratUnary
+    (And.intro constantStreamUnary
+      (And.intro regseqUnary
+        (And.intro realSealUnary
+          (And.intro sealConsumerUnary
+            (And.intro regseqRow
+              (And.intro realSealRow
+                (And.intro sealConsumerRow pkgSig)))))))
+
 end BEDC.Derived.StationaryRationalDiagonalUp
