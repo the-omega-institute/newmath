@@ -65,4 +65,37 @@ theorem BaireSpacePrefixPacket_prefix_cylinder_stability [AskSetup] [PackageSetu
     (And.intro sameRestriction
       (And.intro sameProvenance sameEndpoint))
 
+theorem BaireSpacePrefixPacket_prefix_restriction_composition [AskSetup] [PackageSetup]
+    {schedule window classifier ledger provenance restriction endpoint schedule1 window1
+      classifier1 ledger1 provenance1 restriction1 endpoint1 schedule2 window2 classifier2
+      ledger2 provenance2 restriction2 endpoint2 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireSpacePrefixPacket schedule window classifier ledger provenance restriction endpoint
+        bundle pkg ->
+      hsame schedule schedule1 -> hsame window window1 -> hsame classifier classifier1 ->
+        hsame ledger ledger1 -> Cont schedule1 window1 restriction1 ->
+          Cont restriction1 classifier1 provenance1 -> Cont provenance1 ledger1 endpoint1 ->
+            PkgSig bundle endpoint1 pkg -> hsame schedule1 schedule2 ->
+              hsame window1 window2 -> hsame classifier1 classifier2 ->
+                hsame ledger1 ledger2 -> Cont schedule2 window2 restriction2 ->
+                  Cont restriction2 classifier2 provenance2 ->
+                    Cont provenance2 ledger2 endpoint2 -> PkgSig bundle endpoint2 pkg ->
+                      BaireSpacePrefixPacket schedule2 window2 classifier2 ledger2 provenance2
+                          restriction2 endpoint2 bundle pkg ∧
+                        hsame restriction restriction2 ∧ hsame provenance provenance2 ∧
+                          hsame endpoint endpoint2 := by
+  intro packet sameSchedule01 sameWindow01 sameClassifier01 sameLedger01 restrictionRow1
+    provenanceRow1 endpointRow1 pkgSig1 sameSchedule12 sameWindow12 sameClassifier12
+    sameLedger12 restrictionRow2 provenanceRow2 endpointRow2 pkgSig2
+  have first :=
+    BaireSpacePrefixPacket_prefix_cylinder_stability packet sameSchedule01 sameWindow01
+      sameClassifier01 sameLedger01 restrictionRow1 provenanceRow1 endpointRow1 pkgSig1
+  have second :=
+    BaireSpacePrefixPacket_prefix_cylinder_stability first.left sameSchedule12 sameWindow12
+      sameClassifier12 sameLedger12 restrictionRow2 provenanceRow2 endpointRow2 pkgSig2
+  exact And.intro second.left
+    (And.intro (hsame_trans first.right.left second.right.left)
+      (And.intro (hsame_trans first.right.right.left second.right.right.left)
+        (hsame_trans first.right.right.right second.right.right.right)))
+
 end BEDC.Derived.BaireSpaceUp
