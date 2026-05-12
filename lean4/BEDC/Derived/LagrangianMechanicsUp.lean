@@ -61,4 +61,40 @@ theorem LagrangianMechanicsPacket_action_ledger_obligation [AskSetup] [PackageSe
     ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
       actionReadUnary, actionRow, actionReadRow, sameEndpoint, pkgSig⟩
 
+theorem LagrangianMechanicsPacket_noether_consumer_boundary [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate noetherRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont symplectic current noetherRead ->
+        PkgSig bundle noetherRead pkg ->
+          UnaryHistory configuration ∧ UnaryHistory velocity ∧ UnaryHistory action ∧
+            UnaryHistory variation ∧ UnaryHistory endpoint ∧ UnaryHistory residual ∧
+              UnaryHistory symplectic ∧ UnaryHistory current ∧ UnaryHistory transport ∧
+                UnaryHistory route ∧ UnaryHistory noetherRead ∧
+                  Cont configuration velocity action ∧ Cont action variation endpoint ∧
+                    Cont residual symplectic current ∧ Cont current transport route ∧
+                      Cont symplectic current noetherRead ∧ PkgSig bundle certificate pkg ∧
+                        PkgSig bundle noetherRead pkg := by
+  intro packet noetherReadRow noetherPkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+    transportUnary, _provenanceUnary, actionRow, endpointRow, currentRow, routeRow,
+    _certificateRow, certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary actionRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary endpointRow
+  have currentUnary : UnaryHistory current :=
+    unary_cont_closed residualUnary symplecticUnary currentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed currentUnary transportUnary routeRow
+  have noetherUnary : UnaryHistory noetherRead :=
+    unary_cont_closed symplecticUnary currentUnary noetherReadRow
+  exact
+    ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
+      residualUnary, symplecticUnary, currentUnary, transportUnary, routeUnary,
+      noetherUnary, actionRow, endpointRow, currentRow, routeRow, noetherReadRow,
+      certificatePkg, noetherPkg⟩
+
 end BEDC.Derived.LagrangianMechanicsUp
