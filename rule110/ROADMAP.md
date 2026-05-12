@@ -1,218 +1,203 @@
-# rule110 — Master ROADMAP
+# rule110 路线图
 
-**Project**: BEDC ground-up minimal-trust substrate on Rule 110 cellular automaton.
-**Branch**: `rule110` (single trunk; M2 + M3 sub-branches archived in `history/`).
-**Sibling to**: `lean4/BEDC/` (Lean 4 formalization), `papers/bedc/` (LaTeX manuscript).
-**Hard constraint**: zero external dependencies, ANSI C99, Rule 110 + cyclic tag system as the only substrate primitives.
-
----
-
-## 最终目标 (Final Goal — Level 6)
-
-**BEDC as a bisubstrate-verified theory.** Every theorem in `lean4/BEDC/` has a verified ground-up counterpart on the rule110 substrate. The `rule110/` directory is a first-class peer to `lean4/BEDC/`; either substrate independently proves the same theorems. New BEDC content commits trigger both Lean check and rule110 manifest regeneration; both must agree before merge. This removes the asymmetric trust in any single proof system: BEDC is "true" iff *both* substrates (Lean CIC and Rule 110 cellular automaton) verify it.
-
-This goal is open-ended. Levels below are the ascending path toward it.
+**项目**: BEDC 基于 Rule 110 元胞自动机 + 循环标签系统的最小信任 substrate.
+**分支**: `rule110` (单 trunk; 历史里程碑 m2/m3 已归档到 `history/`).
+**姊妹**: `lean4/BEDC/` (Lean 4 形式化), `papers/bedc/` (LaTeX 论文).
+**硬约束**: 零外部依赖, ANSI C99, Rule 110 + 循环标签系统作为唯二 substrate 原语.
 
 ---
 
-## Current State (Level 0 plateau — Behavioral Scaffold Complete)
+## 最终目标
 
-- 8,213 LOC ANSI C (`evaluator/` + `encoder/` + `tests/`)
-- 44 `.ct` cyclic-tag manifests across 13 FKernel modules
-- ~470 semantic test cases, `make test` exit 0
-- 0 external dependencies (only `<stdio.h>` `<stdlib.h>` `<string.h>` `<stdint.h>` `<assert.h>`)
-- Branch tree: `rule110` (trunk, this branch); legacy: `rule110-m2`, `rule110-m3` (both merged + archived in `history/`)
+**FKernel + GroundCompiler 在 Lean 和 rule110 双 substrate 上 CI 强制一致.**
 
-### What's encoded
+具体含义:
 
-| Layer | Component | Status |
-|---|---|---|
-| L1 | Rule 110 evaluator (`evaluator/rule110.c`, ~50 LOC) | ✓ |
-| L2 | Cyclic tag evaluator (`evaluator/cyclic_tag.c`, ~80 LOC) | ✓ |
-| L3 | GroundCompiler encoding (escape + decoder + 6 reject reasons) | ✓ |
-| L4 | Mark theorem manifests (8 .ct, 4 `msame` lemmas) | ✓ vertical slice |
-| L4 | BHist/hsame (66 cases + 5 bounded CT certs) | ✓ M3 Phase A+B |
-| L4 | Ext relation (16 cases) | ✓ M3 Phase C |
-| L4 | SigRel + sameSig (36 cases) | ✓ M3 Phase D |
-| L4 | Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, Settled (9 modules, ~370 cases) | ✓ M3 extensions |
-| L5 | Self-consistent test suite (decoder-based verification) | ✓ |
-| L6 | Cook construction primitives (ether + 8 gliders + gun + leader/ossifier/data_block + cook_encode behavioral) | ✓ M2 |
-| L6 | Phase-exact Cook universality (8 `.r110` manifests + round-trip ≡ CT) | ✗ Level 3 |
+- `lean4/BEDC/FKernel/` 13 个模块 (Mark / Hist / Ext / Sig / Cont / Bundle / Unary / Ask / ExternalBinary / Gap / Package / NameCert / Settled) 加 `lean4/BEDC/GroundCompiler/ChannelEncoding.lean` 的所有闭项定理
+- 在 rule110 substrate 上有对应的 `.enum.ct` / `.algo.ct` manifest
+- `lake exe rule110-cross-check` 全部 PASS, 退出 0
+- `python3 tools/check-axioms.py` 全程 0 axiom
+- `pr-gate.yml` CI 强制: 任何 FKernel 或 GroundCompiler 改动必须双 substrate 同步通过才能合并
 
-### What's deliberately deferred
+**不在 scope 内**: `lean4/BEDC/Derived/**`, `lean4/BEDC/BaseReflection/**`, `lean4/BEDC/MetaCIC/**`, `lean4/BEDC/Capstone/**`. 这些可以在 Lean 侧单 substrate 自由演进; rule110 侧若已有的 exploratory mirror 保留, 但不参与 CI gate (见末尾附录).
 
-- **Vacuous `*.algo.ct` productions** (most algo manifests): semantic verification is via decoder, not real CT recognition. Honest trade-off documented in module design docs.
-- **B3 P_eq for BHist (bounded scope)**: 16-production marker certifier for 5 representative reflexive inputs only. Universal BHist equality recognizer deferred (per ROADMAP risk register).
-- **Phase-exact Cook construction**: `cook_encode` ships best-effort behavioral; phase-exact transcription of Cook 2004 §5-6 is Level 3.
-- **`.r110` manifest generation + round-trip**: depends on phase-exact Cook (Level 3).
-- **Lean ↔ rule110 cross-check**: deliberate "self-consistent only" posture per spec §3.2; cross-check is Level 4.
+这个目标是**有界、可达成**的, 不是开放式无限工作.
 
 ---
 
-## Level Ascent
+## 当前状态快照
 
-### Level 1: Ship signal (1 day, ~5h)
+| 模块 | `.enum.ct` (闭项) | `.algo.ct` (通用 recognizer) | Lean cross-check |
+|---|---|---|---|
+| Mark | ✓ done | n/a (recognition 平凡) | ✓ done |
+| Hist | ✓ done | `[!]` bounded (L2.1 defer) | ✓ done |
+| Ext | ✓ done | `[!]` bounded | ✓ done |
+| Sig (SigRel + sameSig) | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Cont | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Bundle | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Unary | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Ask | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| ExternalBinary | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Gap | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Package | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| NameCert | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| Settled | ✓ done | `[!]` bounded | 待 merge (L4.3) |
+| GroundCompiler | 待加 (L5.7 在跑) | n/a (encoding 自身) | 待加 (随 L5.7) |
 
-Lock current state as a citable artifact.
+`[!]` 含义: bounded positional-certificate CTS 覆盖代表性 fixtures + 浅深度 sweep; 通用 CT recognizer 工程量级别大, 已在 `docs/<module>_algo_design.md` 记录所需算法.
 
-- [x] L1.1: Honestly mark all `[!]` items in `history/ROADMAP-m2-cook-construction.md` and `history/ROADMAP-m3-fkernel-modules.md` (M2 C5+D3 = phase-exact deferred; M3 B3 already done).
-- [x] L1.2: Update `rule110/README.md` to reflect both milestones merged.
-- [x] L1.3: Write `rule110/STATUS.md` snapshot (LOC, manifest count, test case count, modules covered, deliberate gaps).
-- [x] L1.4: Final `make clean && make && make test` confirm exit 0; record output to `STATUS.md`.
-- [x] L1.5: Tag git release `rule110-v1.0-behavioral-scaffold` on origin.
+**substrate 侧基础设施**: `evaluator/rule110.c` (~50 LOC) + `evaluator/cyclic_tag.c` (~80 LOC) + `encoder/groundcompiler_encoding.c` (~120 LOC) + manifest runner + 14 test 二进制. `make test` 全过.
 
-### Level 2: Sharpen algo manifests (3-6 months, hard task)
+**Lean 侧基础设施**: `lake exe rule110-cross-check` 已成 Lake exe target, 当前覆盖 3 enum 族 (mark/hist/ext), L4.3 扩展到全 13 族待 merge.
 
-Replace vacuous productions with real cyclic-tag programs.
-
-Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` which is bounded P_eq) has `PRODUCTIONS 1` + a single zero-bit production, and the test driver verifies via decoder. This is honest "structure preserved" but not "CT actually computes the relation".
-
-**Goal**: every `*.algo.ct` is a real CT program whose halt state encodes the relation outcome for *arbitrary* input (not just representative cases).
-
-- [ ] L2.1: Universal BHist equality recognizer (M3 B3 unbounded continuation). Estimated alone: 1-2 months wall clock (CT program complexity).
-- [!] L2.2: Universal Ext step recognizer. Bounded positional-certificate CTS covers the representative Ext fixtures, source depth `<= 3` / candidate result depth `<= 4` sweep, and malformed/trailing samples; the unbounded source-copy/result-tail compare machine is specified, but not implemented, in `docs/ext_algo_design.md`.
-- [!] L2.3: Universal SigRel + sameSig recognizers. Bounded positional-certificate CTS covers the representative SigRel/SameSig fixtures and bounded bundle/history sweeps; the universal ProbeBundle-parameterized recognizer remains open because it needs unbounded bundle lexing, parity accumulation over unary probe names, and signature comparison.
-- [!] L2.4: Universal Cont (append) recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` Cont corpus; the unbounded queue-copy/compare machine is specified, but not implemented, in `docs/cont_algo_design.md`.
-- [!] L2.5: Bundle length + membership recognizers: bounded positional-certificate CTS for the manifest fixtures; universal parsing and probe-name comparison remain open.
-- [!] L2.6: Universal Unary classifier. `manifests/unary/unary_basic.algo.ct` contains an eight-production CT scan certificate; the binary CTS runner lacks a complete unbounded accept/reject convention for negative Unary inputs.
-- [!] L2.7: Universal Ask fixture recognizer. Bounded positional-certificate CTS covers the representative Ask corpus and bounded parity fixture sweep; the full four-event lexer/parity decider is specified, but not implemented, in `docs/ask_algo_design.md`.
-- [!] L2.8: Universal ExternalBinary recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` ExternalBinary corpus; because ExternalBinary append is definitionally Cont append, the universal queue-copy/compare recognizer is the same deferred unbounded problem as L2.4.
-- [!] L2.9: Universal Gap (InGapSig + CompGap) recognizer. Bounded positional-certificate CTS covers the representative Gap fixtures and depth `<= 2` InGapSig/CompGap sweep; the unbounded bundle-signature parser/compare machine is specified, but not implemented, in `docs/gap_algo_design.md`.
-- [!] L2.10: Universal Package (psame + TokenPolicy) recognizer. Bounded positional-certificate CTS covers the representative Package fixtures and the generated depth `<= 2` token/psame/TokenPolicy/chain corpus; the universal recognizer is blocked on the unbounded `hsame` equality machine needed for `TokIntro := hsame`.
-- [!] L2.11: Universal NameCert recognizer. Bounded positional-certificate CTS covers the representative NameCert fixtures and a small generated sweep over the concrete depth/equivalence fixture; a universal recognizer is blocked by the Prop-parameterized Carrier/Equiv/descent/stability interfaces and is specified as deferred in `docs/namecert_algo_design.md`.
-- [!] L2.12: Universal Settled (aggregator) recognizer. Bounded positional-certificate CTS covers the 38 Settled aggregate fixtures plus short malformed sweep; universal dispatch remains blocked on lower-family universal recognizers and a shared CT accept/reject protocol, as specified in `docs/settled_algo_design.md`.
-
-**Risk register**: each item is comparable to "designing a string-rewriting decision procedure" — 1-4 weeks median per module, much more if novel encoding tricks needed. Some relations may be Π⁰₁-hard and not admit Σ⁰₁ CT recognition; in that case mark `[!]` with explicit "halts iff" reformulation.
-
-### Level 3: Phase-exact Cook construction (4-8 weeks)
-
-Make `cook_encode` produce correct Rule 110 initial patterns.
-
-- [!] L3.1: Glider A phase word `A(f1_1)=111110` is emitted and verified as a period-3, displacement-2 Rule 110 orbit. B-H and full Cook Figure 4 multi-row masks remain blocked pending direct figure access or a trusted machine-readable phase catalog; see `docs/cook_glider_phases.md`.
-- [!] L3.2: Collision lookup table sharpened with a direct-simulation API and a verified-input A-A row using the L3.1 `A(f1_1)=111110` phase. Outgoing islands are recorded conservatively; B-H rows remain heuristic/unknown pending phase-exact B-H catalogs.
-- [!] L3.3: Leader/ossifier/data-block phase contracts are documented in `docs/cook_phase_exact_components.md`, and phase-exact C entry points now return catalog-missing without writing. Actual phase-exact bodies remain blocked on the L3.1 `B` through `H` glider catalog and package spacings.
-- [ ] L3.4: Cook encoder for arbitrary cyclic-tag programs: given (productions, tape), emit Rule 110 initial pattern whose evolution simulates the CT.
-- [ ] L3.5: Generate `.r110` manifests for all 8 Mark + 36 BHist/Ext/Sig/Cont/Bundle/Unary/Ask/ExtBin/Gap/Package/NameCert/Settled `.ct` manifests (so 44 `.r110` total).
-- [ ] L3.6: Round-trip verification: each manifest pair (`*.ct`, `*.r110`) — CT execution outcome on input X equals Rule 110 evolution outcome on encoded(X) decoded back.
-- [ ] L3.7: Update `mr_run_r110_manifest` pipeline smoke test to cover all 44 .r110.
-
-**Risk register** (from earlier research): no public ANSI C universal Cook construction exists; machine-110 (best public attempt) abandoned at 300 LOC. Realistic budget: 4-8 weeks, lower bound 25 days (replay Martínez fixed CTS), upper bound 60+ days (arbitrary CT generality). AI assistance is weak for this task class (low pattern density, off-by-one fatal).
-
-### Level 4: Lean ↔ rule110 cross-check (2-4 weeks)
-
-Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
-
-- [!] L4.1: Design correspondence schema.  POC implemented for `mark/msame_refl.enum.ct`; full family registry remains L4.3 scope.
-  - [x] L4.1.a: Define the manifest parser contract: `PRODUCTIONS`, `ASSERTIONS`, case name, `input=...`, and family-specific key/value fields.
-  - [!] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.  `BMark` is implemented in the POC.
-  - [!] L4.1.c: Register path-to-target specs for Mark, Hist, Ext, SigRel, SameSig, Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, and Settled.  Mark, Hist, and Ext are registered in the script-level closed-kernel slice.
-  - [!] L4.1.d: Separate positive theorem-instance checks from negative complement checks such as `ext_holds=no`, `cont_holds=no`, malformed input, and trailing-input rejection.  Ext positive and negative assertions are separated in the script-level closed-kernel slice.
-  - [ ] L4.1.e: Record the concrete setup instances needed by parameterized modules: parity `AskSetup`, `Pkg := BHist`, `TokIntro := hsame`, bounded-domain fixture, depth-equivalence NameCert fixture, and identity stable transformation.
-- [!] L4.2: Build the Lean 4 executable.  `lean --run` script exists; Lake exe target is outside the script-only whitelist.
-  - [x] L4.2.a: Create `lean4/scripts/rule110_cross_check.lean` as a read-only checker over existing manifests.
-  - [x] L4.2.b: Reuse `BEDC.GroundCompiler.ChannelEncoding.DecEvent` for event decoding; do not fork the channel encoding.
-  - [x] L4.2.c: Implement one closed-kernel slice first: `mark/msame_refl.enum.ct`, `hist/hsame_refl.enum.ct`, and `ext/ext_step.enum.ct`.
-  - [x] L4.2.d: Add structured PASS/FAIL output with manifest path, case name, decoded values when available, and Lean target key.
-  - [x] L4.2.e: Exit nonzero on parse, decode, type, fixture, target, or semantic failure.
-- [ ] L4.3: Cross-check all manifest families.
-  - [ ] L4.3.a: Cover all `.enum.ct` manifests as strict Level 4 targets.
-  - [ ] L4.3.b: Report `.algo.ct` manifests as semantic-only until Level 2 supplies real recognizers, except bounded `hist/hsame_refl.algo.ct` which can be checked as a finite recognizer case set.
-  - [ ] L4.3.c: Reuse lower-family checkers inside aggregate files where possible, especially `settled/settled_basic.enum.ct`.
-  - [ ] L4.3.d: Ensure representative finite manifests are reported as ground instances of Lean universal theorems, not as exhaustive coverage claims for infinite types.
-- [ ] L4.4: Add CI gate.
-  - [x] L4.4.a: Add Lake target `rule110-cross-check` that runs the Lean executable over the registered manifest list.
-  - [x] L4.4.b: CI acceptance requires `cd rule110 && make test` and `cd lean4 && lake build rule110-cross-check`.
-  - [x] L4.4.c: Gate failure messages distinguish C evaluator failure, Lean decode failure, Lean semantic mismatch, missing target registration, and fixture incompleteness.
-  - [x] L4.4.d: Track runtime budget for roughly `44 manifests × ~30 assertions`, with startup/import time expected to dominate.
-- [x] L4.5: Document trust-loop closure.
-  - [x] L4.5.a: Keep the design source at `rule110/docs/cross_check_design.md`.
-  - [x] L4.5.b: After the checker exists, write the operational trust-chain page `rule110/docs/cross_check.md` with exact commands and acceptance criteria.
-  - [x] L4.5.c: State remaining boundaries clearly: Level 4 checks Lean correspondence for manifest assertions; Level 2 handles real CT recognizers; Level 3 handles `.r110` round-trip.
-
-**Outcome**: rule110 is no longer self-consistent-only; it is *Lean-verified*. The bisubstrate property starts taking shape.
-
-### Level 5: Beyond FKernel (open-ended, scope expanding)
-
-Encode BEDC content outside the finite-kernel proof boundary.
-
-- [!] L5.1: `Derived/TopologyUp` thin interface (BHist-based topology constructs). Enum mirror covers finite-base neighborhood append decomposition, carrier meet-as-bundleAppend scope rows, and ledger constructor tags/no-confusion in `manifests/topology_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration and non-vacuous universal cyclic-tag recognizers are outside this row.
-- [ ] L5.2: `Derived/RealUp` (real numbers via BHist limit construction).
-- [!] L5.3: `Derived/CircleUp` roadmap placeholder, corresponding to Lean `Derived/S1Up` + `Derived/ModNUp`. Enum mirror covers ModN quotient classifier rows, singleton operation descent rows, add-neg empty classification, and the discrete S1 e1-component/unit-equation/point-tail readback surface in `manifests/circle_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration, full continuous topological-circle acceptance, and non-vacuous universal cyclic-tag recognizers are outside this row.
-- [!] L5.4: `Derived/FoldUp` placeholder, mirrored against the actual Lean target `Derived/FoldMomentKernelUp`. Enum mirror covers the nine-field `FoldMomentKernelUp` taste-gate event flow, canonical tag layout, BHist field round-trip, visible-row mark conservativity, and representative injectivity/layer-separation pairs in `manifests/fold_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: no separate Lean `FoldUp` fold algebra exists in this worktree, and Lean cross-check registration plus unbounded cyclic-tag recognizers are outside this row.
-- [!] L5.5: `BaseReflection` substrate mirror design.  `docs/base_reflection_design.md` records the Lean package/signature reflection surface, explains why direct CIC self-reflection requires a cyclic-tag MetaCIC bridge, and scopes this row to design plus obstruction documentation.  Boundary: no executable BaseReflection manifests are claimed until L5.6 fixes a concrete MetaCIC-on-BHist encoding and a closed-judgment accept/reject protocol.
-- [!] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).  Bounded enum manifests cover BHistSubstrate closed encodings and AtomInfer atom rules in `manifests/meta_cic/`; this is not a full cyclic-tag dependent typechecker, reducer, normalizer, or self-host.
-- [ ] L5.7: `GroundCompiler` (the channel-encoding pipeline that rule110 itself uses; meta-circular).
-- [ ] L5.8: `Capstones` (vision-level constructions — see `papers/bedc/parts/visions/`).
-
-**Note**: Levels 5.5-5.8 are increasingly ambitious. L5.5 BaseReflection on rule110 may face fundamental obstructions (rule110 has no native dependent types; would need to encode `Type` hierarchy as bit patterns). Honest expectation: L5.5+ becomes a multi-year research program if pursued strictly.
-
-### Level 6: Bisubstrate-verified BEDC (终极目标, ongoing forever)
-
-The final goal. BEDC ships with two equal-trust substrates, both auto-verified on commit.
-
-- [ ] L6.1: All BEDC theorems (Lean + rule110) cross-verified by CI on every PR.
-- [ ] L6.2: New BEDC content can originate from either substrate; the other auto-derives.
-- [ ] L6.3: `papers/bedc/` paper bibliography cites rule110 manifests with same authority as Lean theorems.
-- [ ] L6.4: External reviewers can choose to verify in Lean OR in rule110 (or both); both paths sufficient for trust.
-- [ ] L6.5: Cook construction so robust that any new cyclic-tag manifest is automatically generated as a Rule 110 `.r110` artifact, and the Rule 110 evolution is observable via `evaluator/rule110.c` (~50 LOC, audit ceiling).
-
-**Outcome**: BEDC's trust foundation is "rule110 + Lean CIC + paper", not "Lean CIC + paper". The rule110 substrate becomes one of the most minimal-trust formalization substrates publicly verified at scale — significantly smaller element trust face than Lean kernel (`evaluator/rule110.c` ~50 LOC + a 14-byte ether pattern), while covering the same BEDC theorem corpus.
+**CI**: `.github/workflows/pr-gate.yml` 已有 `rule110-cross-check` job, 结构化 FAIL 消息 5 类区分, runtime budget 已记录.
 
 ---
 
-## Honest "Levels Bypass" Considerations
+## 主线四轴
 
-The level ascent is not strictly monotonic. Real progression should consider:
+新路线图按 4 个正交轴组织, 替代之前的 "Level" 编号.
 
-- **Level 2 + Level 4 in parallel**: cross-check (L4) can validate the *intent* of L2 sharpening as it lands. Don't wait for all 12 L2 sub-items.
-- **Level 3 deprioritized?**: Cook phase-exact construction is hard and not strictly necessary for Level 4 cross-check (cross-check operates on `.ct` manifests, not `.r110`). If resources tight, do L2 + L4 first, leave L3 as a "minimum-trust polish" later.
-- **Level 5 selective**: not all `Derived/` modules need rule110 encoding for the final goal — only the ones used in the paper proof chain. Profile paper dependencies first, encode selectively.
+### 轴 A: rule110 substrate 见证
 
----
+- A.1: 13 FKernel 模块 + GroundCompiler 各自有 `.enum.ct` (闭项 enumeration)
+  - 状态: 13/14 done; GroundCompiler 待 L5.7 merge
+- A.2: 同一组模块各自有 `.algo.ct` (通用 recognizer 或 bounded CTS + obstruction doc)
+  - 状态: 12/12 FKernel 已 bounded `[!]` ship 状态; L2.1 BHist universal 显式 defer
+  - 任何 `.algo.ct` 要 ship "universal" 需 ~1 月以上 CT 工程量, 不在主线必经路径
+- A.3: `make test` exit 0 不变
 
-## What `make test` should verify at each level
+### 轴 B: Lean ↔ rule110 cross-check
 
-| Level | `make test` invariant |
-|---|---|
-| 0 (now) | All `.ct` manifests + decoder-based verification + Cook primitives behavioral test |
-| 1 | Same as 0; tag committed; nothing changes |
-| 2 | All `*.algo.ct` invoke real CT recognizer; arbitrary input (not just representative cases) classifies correctly |
-| 3 | All 44 `.r110` manifests round-trip with their `.ct` siblings; Cook universality demonstrated |
-| 4 | Lean ↔ rule110 correspondence checker passes for all manifests |
-| 5 | Cross-check covers Derived/RealUp etc. (expanding scope) |
-| 6 | CI gate: any commit changing `lean4/BEDC/` OR `rule110/manifests/` must verify in both substrates |
+- B.1: `lean4/scripts/rule110_cross_check.lean` 解析每个 `.enum.ct`, 调用对应 `BEDC.FKernel.<Module>` 闭项定理, 报 PASS/FAIL
+  - 状态: 3 enum 族 done (mark/hist/ext); 10 族 (sig/cont/bundle/unary/ask/extbin/gap/package/namecert/settled) 待 merge (L4.3, conflict 待解)
+- B.2: `lake exe rule110-cross-check` 默认参数覆盖所有 14 个 manifest 族 (含 GroundCompiler)
+  - 状态: `lakefile.lean` 已注册 exe; 默认参数当前 3 族, 随 L4.3 merge 扩到 13, 随 L5.7 merge 扩到 14
+- B.3: 失败消息分类 (C-decode / Lean-decode / semantic-mismatch / missing-target / fixture-incomplete) — done
+- B.4: 0 axiom 全程 — done
 
----
+### 轴 C: CI ship gate
 
-## Acceptance Criteria for "Ship Level N"
+- C.1: `pr-gate.yml` 在 `rule110/**` 或 `lean4/BEDC/FKernel/**` 或 `lean4/scripts/rule110_cross_check*` 改动时触发
+  - 状态: workflow yaml 已加, 实际触发条件待验证
+- C.2: CI 跑序列: `make -C rule110 test` → `lake build BEDC.FKernel.*` → `lake exe rule110-cross-check` → `python3 tools/check-axioms.py`
+  - 状态: workflow 已有, 待 L4.3 merge 后端到端跑一次确认
+- C.3: 合并条件 (branch protection): 上述全部 PASS 才能 merge 到 rule110 trunk
+  - 状态: 未配置 GitHub branch protection rules (当前是人工纪律 + CI 状态)
 
-At each level, declare ship-ready iff:
+### 轴 D: Cook 物理嵌入 (stretch, 阻塞)
 
-1. All `[ ]` items in that level marked `[x]` or `[!]` (with documented blocker).
-2. `make test` exit 0 with full test suite green.
-3. Spec `docs/superpowers/specs/2026-05-12-rule110-init-design.md` §11 acceptance criteria still met (sibling experiment posture, no touching of `lean4/` or `papers/bedc/`).
-4. `STATUS.md` updated with new LOC, manifest count, test case count.
-5. Git tag `rule110-vN-<descriptor>` on origin.
+**这一轴不是 ship-blocking**. Cook 2004 phase-exact glider B-H catalog 公开二手源不一致, 直接图访问受限. 已尽量推进:
 
----
+- D.1: Glider A `(f1_1)=111110` phase-exact + 周期-3 / 位移-2 验证 — done
+- D.2: Glider B-H phase-exact — **blocked** 等 Cook 2004 figure 直接访问或可信机读 catalog
+- D.3: Collision lookup table: A-A 验证 done; 其他 heuristic pending D.2
+- D.4: Leader / ossifier / data_block: phase-exact entry points + structural docs done; bodies blocked on D.2
+- D.5: `cook_encode_phase_exact()` interface + composition design — L3.4 worker 在跑
+- D.6: `.r110` manifest 全 44 族 + round-trip 验证 — 全 blocked on D.2
 
-## History (archived)
-
-Active references (read these first):
-- `rule110/docs/` — 14 per-module design docs + cook_construction.md (canonical current design)
-- `rule110/README.md` — top-level reproducibility + trust chain summary
-
-Historical audit trail (kept for provenance, not for active lookup):
-- `history/ROADMAP-m2-cook-construction.md` — M2 milestone roadmap (Cook construction, 60% done as behavioral scaffold).
-- `history/ROADMAP-m3-fkernel-modules.md` — M3 milestone roadmap (13 FKernel modules, 79% done).
-- `history/NOTES-m2-cook-observations.md` — M2 worker observations (per-glider best-effort rationale, collision sim outputs).
-- `history/NOTES-m3-fkernel-observations.md` — M3 worker observations (per-Lean-file LOC + theorem counts, per-module encoding choice timestamps).
-- Original vertical slice spec + plan: `docs/superpowers/specs/2026-05-12-rule110-init-design.md`, `docs/superpowers/plans/2026-05-12-rule110-init.md`.
+Cook 阻塞**不影响最终目标达成**. 最终目标只需要 substrate manifest + Lean cross-check + CI gate; 物理嵌入是雄心目标, 等外部资源.
 
 ---
 
-## /loop instructions (for autonomous progression)
+## 阶段划分
 
-When a tick fires, find the lowest-numbered Level still containing `- [ ]` items. Execute one of them via codex CLI worker dispatch on `/tmp/wt-<level>-<task>/` worktree. Each task is bounded ~1 day; harder tasks (L2.* relation recognizers, L3.* Cook phases) may take longer — split via mid-task ROADMAP refinement.
+按推进顺序排.
 
-Before dispatching: read this file fresh (Levels evolve as understanding deepens). Don't blindly execute stale tasks.
+### 阶段 0: substrate scaffold + bounded recognizer 全集 + 设计文档
+
+**完成态**. 现在的状态.
+
+### 阶段 1: 闭合 FKernel cross-check
+
+- [ ] 1.1: merge `loop-L4-3-expansion` (10 enum 族扩展; 当前与 L4.4 有 7 处 lean script conflict 待解)
+- [ ] 1.2: 等 `loop-L5-7-groundcompiler` 跑完 + merge (GroundCompiler manifest + cross-check 注册)
+- [ ] 1.3: 本地全套验证: `make -C rule110 test`, `lake build BEDC.FKernel.*`, `lake exe rule110-cross-check`, `python3 tools/check-axioms.py` 全 exit 0
+- [ ] 1.4: push 到 `origin/rule110`
+
+### 阶段 2: CI ship gate 端到端验证
+
+- [ ] 2.1: 在 PR 上故意制造 FKernel 不一致 (临时把某个 enum manifest 的 expected 改错), 确认 `pr-gate.yml` FAIL
+- [ ] 2.2: 还原, 确认 `pr-gate.yml` PASS
+- [ ] 2.3: 配置 GitHub branch protection: `rule110` trunk require pr-gate status check
+- [ ] 2.4: 更新 `rule110/docs/cross_check.md` 写明 CI 强制路径
+
+### 阶段 3: ship signal (释放 tag)
+
+- [ ] 3.1: 更新 `rule110/STATUS.md` 反映 FKernel 双 substrate 闭合状态
+- [ ] 3.2: tag `rule110-v2.0-fkernel-bisubstrate` 到 origin
+- [ ] 3.3: 论文 `papers/bedc/` 引用最终 commit hash + 包含 `rule110-cross-check` 状态作为外部见证
+
+**完成阶段 1 + 2 + 3 即达成最终目标**. 预估总工作量 1-3 天 (主要是 1.1 conflict 解决 + 1.2 等 worker + 2.1-2.4 CI 验证).
+
+### 阶段 4 (可选, 雄心): 提升某些 `[!]` 到 universal
+
+任何一个 `[!]` 模块的 universal CT recognizer 工程量都 ~1 月+. 选择性推进, 不阻塞 ship.
+
+最高 ROI 候选:
+
+- L2.1 BHist universal — 解锁后 Package 也跟着 universal 化 (Package 依赖 hsame)
+- L2.6 Unary universal — 算法相对简单, ~5-10 productions
+
+### 阶段 5 (可选, 雄心): Cook D 轴推进
+
+需要外部资源 (Cook 2004 figure 直接访问或机读 catalog). 不阻塞 ship.
+
+---
+
+## 验收标准
+
+```bash
+# 全部 exit 0 即达成最终目标
+cd /Users/auric/newmath/rule110 && make clean && make && make test
+cd /Users/auric/newmath/lean4 && lake build \
+    BEDC.FKernel.Mark BEDC.FKernel.Hist BEDC.FKernel.Ext \
+    BEDC.FKernel.Sig BEDC.FKernel.Cont BEDC.FKernel.Bundle \
+    BEDC.FKernel.Unary BEDC.FKernel.Ask BEDC.FKernel.ExternalBinary \
+    BEDC.FKernel.Gap BEDC.FKernel.Package BEDC.FKernel.NameCert \
+    BEDC.FKernel.Settled BEDC.GroundCompiler.ChannelEncoding
+cd /Users/auric/newmath/lean4 && lake exe rule110-cross-check
+cd /Users/auric/newmath && python3 tools/check-axioms.py
+```
+
+CI 侧: `pr-gate.yml` 对 `rule110/**` 或 `lean4/BEDC/FKernel/**` 或 `lean4/scripts/rule110_cross_check*` 任何 PR 都跑上述序列, 全 PASS 才允许 merge.
+
+---
+
+## 附录: Beyond-FKernel exploratory mirrors
+
+以下 rule110 manifest 目录由历史 dispatch 产生, **不在 FKernel scope, 不参与 CI gate, 不是路线图主线**. 保留作为独立见证 / future research 起点:
+
+| 目录 | 对应 Lean | 状态 | 备注 |
+|---|---|---|---|
+| `manifests/topology_up/` | `Derived/TopologyUp` | 3 enum manifests + test | exploratory |
+| `manifests/circle_up/` | `Derived/S1Up + ModNUp` | 3 enum manifests + test | exploratory |
+| `manifests/fold_up/` | `Derived/FoldMomentKernelUp` | 3 enum manifests + test | exploratory |
+| `manifests/meta_cic/` | `MetaCIC` | 3 enum manifests + test | exploratory |
+| `docs/base_reflection_design.md` | `BaseReflection` | design-only doc | 研究开放 |
+
+如果未来 BEDC scope 扩展到包含某个 Derived 模块, 这些 mirror 可以从附录上升到主线; 上升时需补 `.algo.ct` + cross-check 注册 + CI gate.
+
+`manifests/real_up/` (L5.2) 和 `manifests/capstones/` (L5.8) 当前为 worker 已 finish 或在跑 但未 merge 状态, 待用户决定纳入附录或放弃.
+
+---
+
+## 历史
+
+- M2 (2026-05): Cook construction 行为脚手架 (ether + 8 gliders + leader/ossifier/data_block + cook_encode 行为版) — 归档至 `history/ROADMAP-m2-cook-construction.md`
+- M3 (2026-05): 13 FKernel 模块的 `.enum.ct` 全套 + bounded `.algo.ct` — 归档至 `history/ROADMAP-m3-fkernel-modules.md`
+- 2026-05-12: master roadmap 第一版 (含 Level 5 + Level 6), 由对话推动, 现已替换为此 FKernel-scoped 版本
+- 2026-05-13: 本路线图. Beyond-FKernel 的 L5.* 工作产物移入附录, 不进 CI gate
+
+---
+
+## 给 codex worker 的指令 (autonomous progression)
+
+任何后续 codex CLI worker 在 rule110 trunk 上推进时:
+
+1. **只关心 scope 内任务**: FKernel 13 模块 + GroundCompiler. Beyond-FKernel 不主动推进 (除非用户显式 scope 扩展)
+2. **优先阶段 1 + 2 + 3**: 闭合 FKernel cross-check → CI 强制 → release tag
+3. **不动 Cook D 轴**: 除非用户明确指示且提供 Cook figure 资料
+4. **每个 commit 自洽**: substrate `make test` PASS + cross-check PASS + 0 axiom
+5. **不动附录 manifests**: `topology_up/` / `circle_up/` / `fold_up/` / `meta_cic/` 是 exploratory, 不主动改
+6. **永远 push 不 force**: merge 不 rebase, 单 commit 原子
