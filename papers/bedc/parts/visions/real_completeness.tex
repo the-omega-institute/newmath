@@ -1,5 +1,5 @@
 \chapter{Real Completeness via Regular Cauchy Sequences}
-\label{ch:capstones-real-completeness}
+\label{ch:visions-real-completeness}
 
 This capstone records the conditional analytical target for the Phase Real and Completion milestone of \autoref{sec:roadmap-l10-construction-order}. It treats the real naming certificate $\NameCert_{\RealUp}$ (\autoref{ch:concrete-instances-real-namecert}) as complete in the Bishop sense only after the DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp certificate obligations are available at machine-checked strength. The chapter defines a regular Cauchy sequence over $\RegSeqRat$ as a sequence of regular rational sequences together with an explicit modulus of convergence, gives the intended limit modulus and $\RegSeqRat$ representative by diagonal extraction, and records the uniqueness criterion up to the standard $\psame$ equivalence on naming certificates. The construction is fully constructive as a proof target: every modulus is an explicit function on naturals and rationals, no real number is identified with an equivalence class, and the required Lean target is expected to use neither $\mathsf{Classical.choice}$ nor $\mathsf{Quot.sound}$ nor $\mathsf{propext}$.
 
@@ -753,7 +753,7 @@ through the one-window classifier; downstream use RegSeqRat and RealUp
 diagonal-limit arguments without carrying arbitrary finite segmentation data.
 Status: $\mathsf{ProofTarget}$.
 
-\input{parts/capstones/real_completeness/transported_stationary_diagonal}
+\input{parts/visions/real_completeness/transported_stationary_diagonal}
 
 \section{Constructive content and axiom purity}
 \label{sec:real-completeness-axiom-purity}
@@ -770,5 +770,5 @@ The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit})
 
 \begin{remark}[Composition with the compact uniform-continuity capstone]
 \label{rem:real-completeness-compact-composition}
-After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:capstones-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
+After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:visions-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
 \end{remark}

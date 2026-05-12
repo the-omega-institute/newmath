@@ -1,0 +1,23 @@
+\subsection{Build and Audit Process}\label{subsec:reconstruction-build-audit-process}
+
+The complete local verification gate for \texttt{BEDC.MetaCIC} is the Lean
+build followed by the paper and axiom audits:
+
+\begin{verbatim}
+cd lean4 && lake build
+python3 tools/check-axioms.py
+python3 lean4/scripts/bedc_ci.py audit
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+python3 lean4/scripts/bedc_ci.py conservativity-audit
+\end{verbatim}
+
+The first command checks that the Lean modules build with no accepted
+\texttt{sorry} terms and no project axioms. The axiom audit enforces the
+source-level ban on \texttt{axiom}. The drift audit resolves the paper's Lean
+markers against the actual \texttt{lean4/BEDC/} namespace. The strict
+axiom-purity audit checks transitive theorem dependencies, excluding
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The
+conservativity audit is the metalogical gate for the reconstruction surface.
+Each command must exit with status $0$. The chain passes only when the paper
+invariant and the mechanized state agree, and that agreement is the local
+shipping condition for the MetaCIC reconstruction.
