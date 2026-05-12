@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductUp$}
+\label{ch:concrete-instances-cauchyproduct-namecert}
+\origin{human}
+
+The $\CauchyProductUp$ interface names the finite product certificate for two regular Cauchy names. It expresses the Bishop--Bridges constructive product of regular Cauchy sequences as displayed $\NameCert$ rows over scheduled finite windows, dyadic observations, regular rational readback, and the $\RealUp$ seal, without adding quotient streams or an ambient completeness operation.
+
+\begin{definition}[CauchyProduct NameCert source]
+\label{def:cauchy-product-namecert-source}
+A $\CauchyProductUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegularCauchyNameUp$ source rows;
+\item $W_X$ and $W_Y$ are the paired $\StreamNameUp$ finite-window schedules for a shared precision request;
+\item $M_X$ and $M_Y$ are the paired dyadic-radius rows bounding the two source windows;
+\item $Q_X$ and $Q_Y$ are the $\DyadicRatCoreUp$ observation rows read from the scheduled windows;
+\item $P$ is the pointwise product observation row formed from $Q_X$ and $Q_Y$ inside the displayed dyadic rational core;
+\item $E$ is the $\RegSeqRatUp$ classifier row for the product observation and its finite radius ledger;
+\item $H$ stores the displayed $\hsame$ transports for the two source names, both stream windows, both radius rows, both dyadic observations, the product observation, and the regular rational readback;
+\item $C$ stores the displayed $\Cont$ routes for reading the source windows, transporting the dyadic product observation, exposing the regular rational classifier, and handing the result to the real seal;
+\item $L$ is the finite ledger recording the paired input radii, the product-radius row, the $\RealUp$ seal handoff, and the $\Pkg$ provenance over $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyProductUp}$ row.
+\end{enumerate}
+The packet stores a finite product construction. It contains no quotient stream, host multiplication primitive, selected limit, trichotomy row, independent real carrier, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[CauchyProduct NameCert obligations]
+\label{thm:cauchy-product-namecert-obligations}
+The local $\NameCert_{\CauchyProductUp}$ surface for the source packet of \autoref{def:cauchy-product-namecert-source} consists exactly of carrier admission, paired $\RegularCauchyNameUp$ source admission, paired $\StreamNameUp$ window scheduling, dyadic-radius routing, $\DyadicRatCoreUp$ product observation, pointwise $\RegSeqRatUp$ classifier exposure, $\RealUp$ seal handoff, displayed $\hsame$ and $\Cont$ transport, package provenance, finite ledger, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $Z$. Its coordinates list the two regular Cauchy sources, their paired stream windows, the radius rows, dyadic observations, product observation, readback classifier, transport rows, continuation routes, ledger, and local certificate.
+
+The analytic product step is finite. The two window reads expose $Q_X$ and $Q_Y$ inside $\DyadicRatCoreUp$, and the product observation row $P$ is the only row that combines them. The classifier row $E$ then reads this product observation with the radius information stored in the ledger.
+
+The remaining obligations are provenance obligations. The rows $H,C,L,N$ carry transport, continuation, package, seal handoff, and local naming data, so the certificate has no source from which to read host multiplication, quotient equality, selected limits, trichotomy, or completeness.
+\end{proof}
+
+\begin{theorem}[CauchyProduct StreamName handoff]
+\label{thm:cauchy-product-streamname-handoff}
+Every accepted $\CauchyProductUp$ packet routes a product read through the paired $\StreamNameUp$ windows $W_X,W_Y$ before exposing the $\DyadicRatCoreUp$ observations $Q_X,Q_Y$, the dyadic-radius rows $M_X,M_Y$, the product observation $P$, and the pointwise $\RegSeqRatUp$ classifier row $E$. No consumer can read a product row without first reading those finite schedules and their displayed provenance.
+\end{theorem}
+\begin{proof}
+Start with the two source rows $X$ and $Y$. Each is read only through its displayed $\RegularCauchyNameUp$ source row and the matching finite $\StreamNameUp$ schedule.
+
+The dyadic product row is downstream of the schedules. Once $W_X$ and $W_Y$ have exposed $Q_X,Q_Y$ and $M_X,M_Y$, the row $P$ records the finite dyadic product observation and $E$ repacks it as a pointwise regular rational classifier.
+
+The transport and continuation rows preserve this order. Since $H,C,L,N$ are attached to the same paired windows, a consumer has no alternate route to a host sequence, quotient product, selected limit, or ambient real operation.
+\end{proof}
+
+\begin{theorem}[CauchyProduct Real seal boundary]
+\label{thm:cauchy-product-real-seal-boundary}
+Any $\RealUp$ consumer of an accepted $\CauchyProductUp$ packet reads only the $\RegSeqRatUp$ classifier row $E$ built from the paired $\StreamNameUp$ windows, dyadic-radius rows, $\DyadicRatCoreUp$ product observation, displayed $\hsame$ transports, $\Cont$ routes, finite ledger, package provenance, and local $\NameCert_{\CauchyProductUp}$ row. The seal boundary exports no RealUp completeness theorem, quotient stream, selected limit, trichotomy row, independent real carrier, or host multiplication primitive.
+\end{theorem}
+\begin{proof}
+Factor the real-facing read through the pointwise regular classifier. By \autoref{thm:cauchy-product-streamname-handoff}, the classifier is already downstream of the two finite stream windows and their dyadic product observation.
+
+The real seal is recorded in the ledger row rather than supplied by an ambient carrier. Thus a $\RealUp$ consumer receives $E$ together with $H,C,L,N$, which are exactly the displayed transport, continuation, ledger, package, and naming rows.
+
+No other coordinate in \autoref{def:cauchy-product-namecert-source} can supply completeness, quotient equality, a selected limit, trichotomy, or host multiplication. The real-facing boundary is therefore exhausted by the finite product packet.
+\end{proof}
+
+\begin{theorem}[CauchyProduct ledger exhaustion]
+\label{thm:cauchy-product-ledger-exhaustion}
+For every accepted $\CauchyProductUp$ packet, every consumer route is exhausted by the rows named in \autoref{def:cauchy-product-namecert-source} together with the obligations of \autoref{thm:cauchy-product-namecert-obligations}, the $\StreamNameUp$ handoff of \autoref{thm:cauchy-product-streamname-handoff}, and the $\RealUp$ seal boundary of \autoref{thm:cauchy-product-real-seal-boundary}. The ledger contains exactly the paired input radii, product-radius row, regular rational readback route, seal handoff, displayed transports, continuations, package provenance, and local certificate.
+\end{theorem}
+\begin{proof}
+Inspect the source packet. Its only product-facing data are the two regular names, paired windows, paired radius rows, dyadic observations, product observation, classifier row, transports, continuations, ledger, and local naming row.
+
+The NameCert obligations attach every accepted read to those displayed rows. The StreamName handoff fixes the order from source windows to dyadic product observation to regular classifier, while the Real seal boundary places each real-facing read downstream of the same classifier and ledger.
+
+Therefore the listed rows exhaust the certificate. A route seeking quotient streams, host multiplication, selected limits, trichotomy, an independent real carrier, or ambient completeness has no coordinate in the accepted packet.
+\end{proof}
+
+\closureat{CauchyProductUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductUp}
+  \constructivestory{A $\CauchyProductUp$ packet is generated from two $\RegularCauchyNameUp$ source rows, paired $\StreamNameUp$ finite-window schedules, dyadic-radius rows, $\DyadicRatCoreUp$ observations, a pointwise product row, a $\RegSeqRatUp$ classifier, displayed $\hsame$ transports, $\Cont$ routes, a finite ledger, $\RealUp$ seal handoff, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-namecert-source}, \autoref{thm:cauchy-product-namecert-obligations}, \autoref{thm:cauchy-product-streamname-handoff}, \autoref{thm:cauchy-product-real-seal-boundary}, and \autoref{thm:cauchy-product-ledger-exhaustion} bind the finite product carrier, paired schedules, dyadic product observation, regular classifier, seal handoff, ledger, transport, continuation, package, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, quotient streams, selected limits, trichotomy, host multiplication as a primitive, independent real carriers, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired window scheduling, dyadic product observation, regular classifier handoff, real-seal boundary, and ledger exhaustion for the product packet.}
+\end{closurestatus}
