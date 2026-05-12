@@ -151,6 +151,7 @@ carrying the same $\StreamNameUp$ observations, $\CauchyModulusUp$ threshold
 rows, $\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ compatibility row,
 $\hsame$ and $\Cont$ transport rows, and $\mathsf{Pkg}$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterPacket\_common\_refinement\_classifier}
 \begin{proof}
 Project both accepted packets through the carrier decomposition of
 \autoref{def:cauchyfilter-carrier}. The visible coordinates are finite
@@ -252,6 +253,43 @@ $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
 $\hsame$, $\Cont$, $\mathsf{Pkg}$, or $\NameCert$ surface, there is no channel
 for a host filter, ultrafilter, quotient stream, or choice-selected
 subsequence.
+\end{proof}
+
+\begin{theorem}[CauchyFilter RegSeqRat Real seal exhaustion]
+\label{thm:cauchyfilter-regseqrat-real-seal-exhaustion}
+Every $\RegSeqRatUp$ handoff and every $\RealUp$ seal consumer read from an
+accepted $\CauchyFilterUp$ packet factors through one finite surface: stream
+observations, the directed finite-window ledger, the modulus threshold,
+dyadic endpoints, the compatibility row, $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+
+No consumer read from this export contains a host filter, ultrafilter,
+quotient stream, metric-completion point, or choice-selected subsequence.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchyfilter-finite-window-coverage}. It gives the
+stream observations, directed finite-window ledger, modulus threshold, and
+dyadic endpoints as displayed finite rows of the accepted packet.
+
+Next apply \autoref{thm:cauchyfilter-regseqrat-handoff}. The
+$\RegSeqRatUp$ consumer receives exactly the compatibility row over those
+finite observations and endpoints.
+
+Apply \autoref{thm:cauchyfilter-real-seal-consumer-boundary}. The $\RealUp$
+seal consumes the same finite filter surface, with no additional host filter
+or completion coordinate.
+
+It remains to bind refinement. Use
+\autoref{thm:cauchyfilter-common-refinement-classifier} and
+\autoref{thm:cauchyfilter-filter-refinement-transport} for the common
+finite-window classifier and its $\hsame$ and $\Cont$ transport, then apply
+\autoref{thm:cauchyfilter-scoped-dependency-packet} to repack the package and
+local naming rows.
+
+The cited projections exhaust the consumer coordinates. Therefore each
+$\RegSeqRatUp$ handoff and each $\RealUp$ seal read factors through the single
+finite surface stated above, and the excluded host objects have no displayed
+row from which they could be read.
 \end{proof}
 
 \closureat{CauchyFilterUp}{seedStr}
