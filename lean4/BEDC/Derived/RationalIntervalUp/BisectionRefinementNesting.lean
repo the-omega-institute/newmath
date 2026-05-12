@@ -1,4 +1,5 @@
 import BEDC.Derived.RationalIntervalUp
+import BEDC.Derived.RationalIntervalUp.Refinement
 
 namespace BEDC.Derived.RationalIntervalUp
 
