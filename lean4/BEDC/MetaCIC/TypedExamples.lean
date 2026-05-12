@@ -193,6 +193,32 @@ theorem id_applied_to_sort_type :
     polymorphic_identity
     (HasType.sortRule [])
 
+theorem poly_id_at_sort_full :
+    HasType []
+      (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))) Term.sort)
+      (Term.pi Term.sort Term.sort) := by
+  exact HasType.appRule []
+    (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+    Term.sort
+    Term.sort
+    (Term.pi (Term.var 0) (Term.var 1))
+    polymorphic_identity
+    (HasType.sortRule [])
+
+theorem poly_id_double_app :
+    HasType []
+      (Term.app
+        (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))) Term.sort)
+        Term.sort)
+      Term.sort := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))) Term.sort)
+    Term.sort
+    Term.sort
+    Term.sort
+    poly_id_at_sort_full
+    (HasType.sortRule [])
+
 theorem poly_id_to_pi_type :
     HasType []
       (Term.app (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
