@@ -295,4 +295,44 @@ theorem RegularCauchyFamilyCarrier_diagonal_handoff [AskSetup] [PackageSetup]
       diagonalReadUnary, memberRowsRoute, dyadicLedgerRoute, selectedMemberRoute,
       diagonalReadRoute, provenancePkg, diagonalReadPkg⟩
 
+theorem RegularCauchyFamilyCarrier_member_selection_determinacy [AskSetup] [PackageSetup]
+    {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
+      provenance localCert selectedMember selectedMember' diagonalRead diagonalRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows dyadicLedger
+        diagonalRoute transports contRoutes provenance localCert bundle pkg ->
+      Cont modulus windows selectedMember ->
+        Cont modulus windows selectedMember' ->
+          Cont selectedMember diagonalRoute diagonalRead ->
+            Cont selectedMember' diagonalRoute diagonalRead' ->
+              PkgSig bundle diagonalRead pkg ->
+                PkgSig bundle diagonalRead' pkg ->
+                  hsame selectedMember selectedMember' ∧ hsame diagonalRead diagonalRead' ∧
+                    UnaryHistory selectedMember ∧ UnaryHistory selectedMember' ∧
+                      UnaryHistory diagonalRead ∧ UnaryHistory diagonalRead' ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle diagonalRead pkg ∧
+                          PkgSig bundle diagonalRead' pkg := by
+  intro carrier selectedRoute selectedRoute' diagonalRouteRead diagonalRouteRead'
+    diagonalReadPkg diagonalReadPkg'
+  obtain ⟨_memberLedgerUnary, _memberRowsUnary, modulusUnary, windowsUnary,
+    _dyadicLedgerUnary, diagonalRouteUnary, _transportsUnary, _contRoutesUnary,
+    _provenanceUnary, _localCertUnary, _memberRoute, _windowRoute, _contRoutesRoute,
+    _provenanceRoute, provenancePkg⟩ := carrier
+  have sameSelected : hsame selectedMember selectedMember' :=
+    cont_deterministic selectedRoute selectedRoute'
+  have sameDiagonal : hsame diagonalRead diagonalRead' :=
+    cont_respects_hsame sameSelected (hsame_refl diagonalRoute) diagonalRouteRead
+      diagonalRouteRead'
+  have selectedUnary : UnaryHistory selectedMember :=
+    unary_cont_closed modulusUnary windowsUnary selectedRoute
+  have selectedUnary' : UnaryHistory selectedMember' :=
+    unary_cont_closed modulusUnary windowsUnary selectedRoute'
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed selectedUnary diagonalRouteUnary diagonalRouteRead
+  have diagonalUnary' : UnaryHistory diagonalRead' :=
+    unary_cont_closed selectedUnary' diagonalRouteUnary diagonalRouteRead'
+  exact
+    ⟨sameSelected, sameDiagonal, selectedUnary, selectedUnary', diagonalUnary,
+      diagonalUnary', provenancePkg, diagonalReadPkg, diagonalReadPkg'⟩
+
 end BEDC.Derived.RegularCauchyFamilyUp
