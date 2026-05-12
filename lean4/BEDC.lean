@@ -183,6 +183,7 @@ import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
+import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
@@ -201,6 +202,7 @@ import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegularityModulusUp
