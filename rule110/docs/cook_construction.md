@@ -89,18 +89,24 @@ preservation. They do not certify Cook-catalog phase identity.
 
 ### Collisions
 
-The collision layer simulates selected ordered pairs under one chosen spacing.
-The checked matrix covers `A`, `B`, `C`, and `D`, giving 16 ordered pairs.
+The collision layer has two interfaces. The compatibility interface simulates
+selected ordered pairs under one chosen spacing and keeps the older coarse
+classification. The phase-aware interface accepts explicit row patterns and
+records evidence status, incoming phases, separation, final difference count,
+and any outgoing products that match a verified local template.
 
 The observer compares a perturbed row against an independently evolved pure
-ether row. It classifies the final difference pattern coarsely:
+ether row. The compatibility observer classifies the final difference pattern
+coarsely:
 
 - `passthrough` when the disturbance island count remains close to the incoming
   particle count,
 - `annihilation` when the final row matches the evolved ether control row.
 
-Under the current spacing, all simulated pairs classify as passthrough or
-annihilation. No current collision row is a certified productive collision.
+The lookup table currently has one direct-simulation row for `A` with `A`, using
+the Level 3.1 verified `A(f1_1)=111110` phase. Rows involving `B` through `H`
+are reported as phase-catalog pending rather than as checked collision data.
+No current collision row is a certified productive collision.
 
 ### Leader
 
@@ -220,8 +226,8 @@ Known limitations:
 
 - glider templates are row-0 approximations rather than full phase tables,
 - the glider gun is a separated source band, not a certified source oscillator,
-- collision classification is limited to 16 ordered `A` through `D` pairs,
-- the chosen collision spacing currently yields passthrough or annihilation,
+- the only phase-aware collision lookup row is `A` with `A`,
+- `B` through `H` collision rows remain blocked on phase-exact catalogs,
 - leader, ossifier, and data block are behavioral substrate encodings,
 - production-word append behavior is not implemented,
 - non-empty `cook_encode` inputs are not encoded,
