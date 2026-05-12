@@ -137,7 +137,7 @@ Encode BEDC content outside the finite-kernel proof boundary.
 
 - [!] L5.1: `Derived/TopologyUp` thin interface (BHist-based topology constructs). Enum mirror covers finite-base neighborhood append decomposition, carrier meet-as-bundleAppend scope rows, and ledger constructor tags/no-confusion in `manifests/topology_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration and non-vacuous universal cyclic-tag recognizers are outside this row.
 - [ ] L5.2: `Derived/RealUp` (real numbers via BHist limit construction).
-- [ ] L5.3: `Derived/CircleUp` (modular arithmetic + circle group).
+- [!] L5.3: `Derived/CircleUp` roadmap placeholder, corresponding to Lean `Derived/S1Up` + `Derived/ModNUp`. Enum mirror covers ModN quotient classifier rows, singleton operation descent rows, add-neg empty classification, and the discrete S1 e1-component/unit-equation/point-tail readback surface in `manifests/circle_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration, full continuous topological-circle acceptance, and non-vacuous universal cyclic-tag recognizers are outside this row.
 - [ ] L5.4: `Derived/FoldUp` (foldable structures).
 - [ ] L5.5: `BaseReflection` (CIC self-reflection within rule110 substrate — challenging since rule110 is sub-Turing-complete cellular automaton; may need bridge through cyclic-tag substrate first).
 - [ ] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).
