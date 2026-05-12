@@ -169,6 +169,7 @@
   a two-bit event for the two supplied relation facts. This directly mirrors
   the Lean existential middle-witness shape.
 
+<<<<<<< HEAD
 ## Package Module Encoding
 
 - `PackageSetup` remains abstract in Lean, so the rule110 ground fixture uses
@@ -184,3 +185,22 @@
   `psame` reflexivity and symmetry representatives, negative nonintroduced and
   distinct-history cases, soundness/reflection classifications, and a two-step
   transitivity chain.
+=======
+## NameCert Module Encoding
+
+- `NameCert` uses a finite bound-based fixture:
+  `Carrier_bound(h) := depth(h) <= bound` and
+  `Equiv(h,k) := depth(h) = depth(k)`. `Empty` supplies the carrier witness,
+  and depth equality supplies refl, symm, trans, and carrier transport.
+- `SemanticNameCert` reuses the same carrier for `PatternSpec` and
+  `LedgerPolicy`, so semantic transport reduces to checking classifier depth
+  equality and boundedness of the transported history.
+- `SealInterface` streams carry a unary thread witness and a bound for the
+  certificate instance.
+- `StableTransformation` and `DescentCertificate` use the identity map on
+  `BHist` with depth equality as both source and target sameness. Composition
+  requires both ledger witness bits.
+- `StabilityMode` uses unary mode codes `0..4` for `closure`, `reuse`,
+  `descent`, `composition`, and `seal`, with representative no-confusion cases
+  rejecting equal or out-of-range modes.
+>>>>>>> loop-m3-NameCert
