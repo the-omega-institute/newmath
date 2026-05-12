@@ -13,7 +13,8 @@ TEST_DIR    := tests
 # cyclic_tag and groundcompiler_encoding are libraries compiled into test binaries.
 STANDALONE_BINS := $(EVAL_DIR)/rule110
 TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
-                   $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark
+                   $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark \
+                   $(TEST_DIR)/test_cook_ether $(TEST_DIR)/test_cook_glider_A
 
 .PHONY: all test clean
 all: $(STANDALONE_BINS)
@@ -31,6 +32,16 @@ $(TEST_DIR)/test_cyclic_tag: $(TEST_DIR)/test_cyclic_tag.c $(EVAL_DIR)/cyclic_ta
 
 $(TEST_DIR)/test_encoder: $(TEST_DIR)/test_encoder.c $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ $< $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_cook_ether: $(TEST_DIR)/test_cook_ether.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_ether.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c
+
+$(TEST_DIR)/test_cook_glider_A: $(TEST_DIR)/test_cook_glider_A.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_glider_A.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c
 
 $(TEST_DIR)/test_mark: $(TEST_DIR)/test_mark.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
