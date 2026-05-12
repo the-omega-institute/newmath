@@ -1191,6 +1191,7 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution.Core
+import BEDC.MetaCIC.TypedExamples.FunctionApplications
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest

@@ -87,4 +87,29 @@ theorem ValidatedNumericsReadbackPacket_precision_refinement_containment [AskSet
     ⟨refinedPrecisionUnary, refinedObservationUnary, refinedReadUnary, refinedContainmentUnary,
       modulusPrecisionObservation, observationReadback, intervalContainment, containmentPkg⟩
 
+theorem ValidatedNumericsKernel_dependency_boundary [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback containment provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory interval ->
+      UnaryHistory precision ->
+        UnaryHistory modulus ->
+          UnaryHistory readback ->
+            Cont modulus precision observation ->
+              Cont observation readback containment ->
+                PkgSig bundle provenance pkg ->
+                  PkgSig bundle localName pkg ->
+                    UnaryHistory observation ∧ UnaryHistory containment ∧
+                      Cont modulus precision observation ∧
+                        Cont observation readback containment ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  intro _intervalUnary precisionUnary modulusUnary readbackUnary modulusPrecision
+    observationReadback provenancePkg localNamePkg
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed modulusUnary precisionUnary modulusPrecision
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed observationUnary readbackUnary observationReadback
+  exact
+    ⟨observationUnary, containmentUnary, modulusPrecision, observationReadback, provenancePkg,
+      localNamePkg⟩
+
 end BEDC.Derived.ValidatedNumericsUp
