@@ -1,0 +1,51 @@
+\begin{theorem}[DyadicApproximation diagonal mesh-selector boundary]
+\label{thm:dyadicapproximation-diagonal-mesh-selector-boundary}
+Let $A$ be an accepted $\DyadicApproximationUp$ finite packet, let $M$ be an
+accepted $\DyadicMeshUp$ finite cell, and let $D$ be an accepted
+$\RealDiagonalCompletionUp$ packet. Suppose these packets display the same
+unary precision row, selected diagonal window, $\RegSeqRatUp$ readback,
+rational-interval cell, $\RealUp$ readback token, visible $\hsame$
+transports, visible $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$, and
+$\NameCert_{\RealDiagonalCompletionUp}$ rows.
+
+Then the diagonal-completion consumer of $D$ and the mesh or validated dyadic
+consumer of $A$ and $M$ read the same finite $\RegSeqRatUp/\RealUp$ boundary
+surface. The shared surface is exactly the displayed precision row, selected
+diagonal window, regular-rational readback, rational-interval cell, real
+readback token, visible transport rows, continuation routes, package
+provenance, and local name-certificate rows.
+
+This boundary theorem does not identify quotient streams, host real numbers,
+selected limits, infinite meshes, solver correctness, or classical
+completeness.
+\end{theorem}
+\begin{proof}
+Start with the dyadic side. Apply
+\autoref{thm:dyadicapproximation-shared-real-boundary-determinacy} to the
+accepted dyadic packet and its displayed mesh and validated-readback rows.
+This reduces every dyadic finite-window, mesh-cell, and validated-enclosure
+read to the listed $\RegSeqRatUp/\RealUp$ boundary surface.
+
+Next read the mesh packet through
+\autoref{thm:dyadicmesh-standard-finite-mesh-bridge-boundary}. The bridge
+shows that the standard finite mesh consumer has no coordinate beyond the
+unary level, finite cell index, rational interval, endpoint and real readback,
+transport, continuation, package, and local certificate rows already listed in
+the statement.
+
+Now turn to the diagonal-completion packet. Apply
+\autoref{thm:real-diagonal-completion-window-extraction} to factor the
+consumer read through the displayed modulus row, diagonal selector, scheduled
+window, and regular-rational readback. Then apply
+\autoref{thm:real-diagonal-completion-seal-factorization} to identify the
+visible $\RealUp$ seal ledger with those extracted finite windows and their
+readback ledger.
+
+The hypotheses identify the precision, selected window, rational interval,
+regular-rational readback, real token, transports, continuations, package
+provenance, and local certificates on both routes. Therefore both consumers
+project the same finite boundary surface. Since every cited step is a finite
+BEDC packet boundary, none of the excluded analytic or quotient objects is
+exported.
+\end{proof}
