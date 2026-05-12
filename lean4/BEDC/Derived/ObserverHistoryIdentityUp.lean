@@ -108,4 +108,42 @@ theorem ObserverHistoryIdentityPacket_namecert_obligations [AskSetup] [PackageSe
     }
   exact ⟨cert, sameRows, ledgerRoutes, provenancePkg⟩
 
+theorem ObserverHistoryIdentityPacket_classifier_stability [AskSetup] [PackageSetup]
+    {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert
+      signatures' samenessRows' ledger' routes' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverHistoryIdentityPacket leftHistory rightHistory signatures samenessRows ledger routes
+        provenance nameCert bundle pkg ->
+      hsame signatures signatures' ->
+        hsame samenessRows samenessRows' ->
+          hsame ledger ledger' ->
+            hsame routes routes' ->
+              SameSig bundle leftHistory rightHistory ->
+                Cont ledger' routes' samenessRows' ->
+                  PkgSig bundle signatures' pkg ->
+                    ObserverHistoryIdentityPacket leftHistory rightHistory signatures'
+                        samenessRows' ledger' routes' provenance nameCert bundle pkg /\
+                      hsame signatures signatures' /\ hsame samenessRows samenessRows' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameSignatures sameSamenessRows sameLedger sameRoutes sameRows'
+    ledgerRoutes' signaturesPkg'
+  obtain ⟨leftUnary, rightUnary, signaturesUnary, samenessRowsUnary, ledgerUnary, routesUnary,
+    provenanceUnary, nameCertUnary, _sameRows, _ledgerRoutes, provenancePkg,
+    _signaturesPkg⟩ := packet
+  have signaturesUnary' : UnaryHistory signatures' :=
+    unary_transport signaturesUnary sameSignatures
+  have samenessRowsUnary' : UnaryHistory samenessRows' :=
+    unary_transport samenessRowsUnary sameSamenessRows
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport ledgerUnary sameLedger
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have transported :
+      ObserverHistoryIdentityPacket leftHistory rightHistory signatures' samenessRows' ledger'
+        routes' provenance nameCert bundle pkg :=
+    ⟨leftUnary, rightUnary, signaturesUnary', samenessRowsUnary', ledgerUnary', routesUnary',
+      provenanceUnary, nameCertUnary, sameRows', ledgerRoutes', provenancePkg,
+      signaturesPkg'⟩
+  exact ⟨transported, sameSignatures, sameSamenessRows⟩
+
 end BEDC.Derived.ObserverHistoryIdentityUp
