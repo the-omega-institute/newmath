@@ -125,6 +125,44 @@ theorem DyadicApproximationCarrier_common_precision_refinement [AskSetup] [Packa
       sameLedger₂ sameProvenance₂ commonEndpointWindow commonWindowLedgerProvenance
   exact And.intro leftRefined.left (And.intro leftRefined.right rightRefined.right)
 
+theorem DyadicApproximationCarrier_overlap_seal_boundary [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance precision₂ endpoint₂ window₂ ledger₂
+      provenance₂ common endpointCommon windowCommon ledgerCommon provenanceCommon sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      DyadicApproximationCarrier precision₂ endpoint₂ window₂ ledger₂ provenance₂ bundle pkg ->
+        hsame precision common -> hsame precision₂ common ->
+          hsame endpoint endpointCommon -> hsame endpoint₂ endpointCommon ->
+            hsame ledger ledgerCommon -> hsame ledger₂ ledgerCommon ->
+              hsame provenance provenanceCommon -> hsame provenance₂ provenanceCommon ->
+                Cont common endpointCommon windowCommon ->
+                  Cont windowCommon ledgerCommon provenanceCommon ->
+                    Cont ledgerCommon provenanceCommon sealRow ->
+                      PkgSig bundle sealRow pkg ->
+                        DyadicApproximationCarrier common endpointCommon windowCommon
+                            ledgerCommon provenanceCommon bundle pkg ∧
+                          hsame window windowCommon ∧ hsame window₂ windowCommon ∧
+                            UnaryHistory sealRow ∧ Cont ledgerCommon provenanceCommon sealRow ∧
+                              PkgSig bundle sealRow pkg := by
+  intro leftCarrier rightCarrier samePrecision samePrecision₂ sameEndpoint sameEndpoint₂
+    sameLedger sameLedger₂ sameProvenance sameProvenance₂ commonEndpointWindow
+    commonWindowLedgerProvenance ledgerProvenanceSeal sealPkg
+  have refined :
+      DyadicApproximationCarrier common endpointCommon windowCommon ledgerCommon
+          provenanceCommon bundle pkg ∧
+        hsame window windowCommon ∧ hsame window₂ windowCommon :=
+    DyadicApproximationCarrier_common_precision_refinement leftCarrier rightCarrier samePrecision
+      samePrecision₂ sameEndpoint sameEndpoint₂ sameLedger sameLedger₂ sameProvenance
+      sameProvenance₂ commonEndpointWindow commonWindowLedgerProvenance
+  have sameWindow := refined.right.left
+  have sameWindow₂ := refined.right.right
+  obtain ⟨_precisionUnary, _endpointUnary, _windowUnary, ledgerUnary, provenanceUnary,
+    _commonEndpointWindow, _commonWindowLedgerProvenance, _pkgSig⟩ := refined.left
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  exact
+    ⟨refined.left, sameWindow, sameWindow₂, sealUnary, ledgerProvenanceSeal, sealPkg⟩
+
 theorem DyadicApproximationCarrier_real_seal_radius_route_certificate [AskSetup] [PackageSetup]
     {precision endpoint window ledger provenance coarser endpoint2 window2 ledger2 provenance2
       sealRow : BHist}
