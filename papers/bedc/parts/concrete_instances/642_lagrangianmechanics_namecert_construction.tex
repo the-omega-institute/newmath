@@ -238,17 +238,54 @@ $H$ and the continuation routes in $C$. Repacking them with $P$ and $N$ gives
 the scoped Euler boundary, with no further analytic equation surface added.
 \end{proof}
 
+\begin{theorem}[LagrangianMechanics public NameCert boundary]
+\label{thm:lagrangianmechanics-public-namecert-boundary}
+For an accepted $\LagrangianMechanicsUp$ carrier, the finite configuration,
+velocity, action, variation, endpoint, Euler--Lagrange residual,
+symplectic-flow read, Noether-current read, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows assemble the public
+$\NameCert_{\LagrangianMechanicsUp}$ boundary. A downstream mechanics or
+Noether-facing consumer may read the public boundary only through this finite
+packet.
+
+The boundary exports no minimizer existence theorem, no global dynamics model,
+no Hamiltonian equivalence, no complete Noether correspondence, no analytic
+regularity theorem, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the action ledger of
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. It supplies the
+finite configuration, velocity, action, variation, endpoint, transport,
+package, and name-certificate rows.
+
+The Euler--Lagrange interface of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface} adds the residual row
+that is read from the same action, variation, endpoint, $\hsame$, and $\Cont$
+surface. The Noether consumer boundary of
+\autoref{thm:lagrangianmechanics-noether-consumer-boundary} adds only the
+symplectic-flow and Noether-current rows.
+
+Use \autoref{thm:lagrangianmechanics-namecert-obligation-surface} and
+\autoref{thm:lagrangianmechanics-finite-obligation-carrier} to repack these
+rows as one local certificate carrier. The action ledger policy of
+\autoref{thm:lagrangianmechanics-action-ledger-policy} and the Euler boundary
+scope of \autoref{thm:lagrangianmechanics-euler-boundary-scope} show that the
+public read exposes exactly the same finite packet and no additional analytic
+object.
+\end{proof}
+
 \closureat{LagrangianMechanicsUp}{seedStr}
 \closureat{LagrangianMechanicsUp}{obligationStr}
 \closureat{LagrangianMechanicsUp}{scopedStr}
+\closureat{LagrangianMechanicsUp}{publicStr}
 
 \begin{closurestatus}{\LagrangianMechanicsUp}
   \constructivestory{Lagrangian mechanics is represented by finite rows for configuration, velocity, action functional, variation, endpoint policy, Euler--Lagrange residual, symplectic-flow read, Noether-current read, and provenance.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:lagrangianmechanics-bhist-carrier}, \autoref{thm:lagrangianmechanics-action-ledger-obligation}, \autoref{thm:lagrangianmechanics-eulerlagrange-interface}, \autoref{thm:lagrangianmechanics-noether-consumer-boundary}, and \autoref{thm:lagrangianmechanics-namecert-obligation-surface} bind the finite carrier plus the action ledger, Euler--Lagrange interface, Noether consumer boundary, and NameCert obligation rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:lagrangianmechanics-bhist-carrier}, \autoref{thm:lagrangianmechanics-action-ledger-obligation}, \autoref{thm:lagrangianmechanics-eulerlagrange-interface}, \autoref{thm:lagrangianmechanics-noether-consumer-boundary}, \autoref{thm:lagrangianmechanics-namecert-obligation-surface}, and \autoref{thm:lagrangianmechanics-public-namecert-boundary} bind the finite carrier plus the action ledger, Euler--Lagrange interface, Noether consumer boundary, and public NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close minimizer existence, global dynamics, Hamiltonian equivalence, complete Noether correspondence, analytic regularity, or a standard bridge.}
-  \upgradepath{Public closure requires a single exported public NameCert boundary for the same finite action, Euler--Lagrange, symplectic-flow, and Noether-current packet.}
+  \upgradepath{A higher theory grade requires a standard bridge from the public finite mechanics certificate to a standard mechanics schema.}
 \end{closurestatus}
