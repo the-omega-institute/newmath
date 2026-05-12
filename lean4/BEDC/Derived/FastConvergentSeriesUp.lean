@@ -440,6 +440,69 @@ theorem FastConvergentSeriesCarrier_public_export [AskSetup] [PackageSetup]
       realSealUnary, consumerUnary, endpointUnary, sameRealConsumer, consumerRow, endpointRow,
       provenancePkg, endpointPkg'⟩
 
+theorem FastConvergentSeriesCarrier_mature_boundary_package [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} {endpoint : BHist} :
+    PkgSig bundle BHist.Empty pkg ->
+      Cont BHist.Empty BHist.Empty endpoint ->
+        SemanticNameCert
+          (fun row : BHist =>
+            hsame row endpoint ∧ Cont BHist.Empty BHist.Empty row ∧
+              FastConvergentSeriesCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty bundle pkg)
+          (fun row : BHist => hsame row endpoint)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle BHist.Empty pkg)
+          hsame := by
+  intro pkgSig endpointCont
+  have zeroCarrier :
+      FastConvergentSeriesCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        bundle pkg :=
+    FastConvergentSeriesCarrier_constant_zero_seed pkgSig
+  have sourceEndpoint :
+      (fun row : BHist =>
+        hsame row endpoint ∧ Cont BHist.Empty BHist.Empty row ∧
+          FastConvergentSeriesCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            bundle pkg) endpoint := by
+    exact ⟨hsame_refl endpoint, endpointCont, zeroCarrier⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧ Cont BHist.Empty BHist.Empty row ∧
+            FastConvergentSeriesCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro endpoint sourceEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other same source
+        have otherEndpoint : hsame other endpoint :=
+          hsame_trans (hsame_symm same) source.left
+        have otherCont : Cont BHist.Empty BHist.Empty other :=
+          cont_result_hsame_transport source.right.left same
+        exact ⟨otherEndpoint, otherCont, source.right.right⟩
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro row source
+      exact source.left
+    ledger_sound := by
+      intro row source
+      exact ⟨source.left, pkgSig⟩
+  }
+
 theorem FastConvergentSeriesTailBoundPacket_bridge_completion_handoff [AskSetup] [PackageSetup]
     {summand partialSums schedule tailLedger regseqratReadback sealRow transport provenance
       localCert consumerRead endpoint : BHist}
