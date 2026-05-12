@@ -53,6 +53,36 @@ theorem ContextFreeGrammarPacket_production_stability [AskSetup] [PackageSetup]
     unary_transport readbackUnary sameReadback
   exact ⟨productionUnary', yieldUnary', readbackUnary', sameReadback, transportedRow, pkgSig⟩
 
+theorem ContextFreeGrammarPacket_derivation_concatenation [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint leftSegment rightSegment joined : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont derivation transport leftSegment ->
+        Cont leftSegment route rightSegment ->
+          Cont rightSegment endpoint joined ->
+            PkgSig bundle joined pkg ->
+              UnaryHistory leftSegment ∧ UnaryHistory rightSegment ∧ UnaryHistory joined ∧
+                Cont derivation transport leftSegment ∧ Cont leftSegment route rightSegment ∧
+                  Cont rightSegment endpoint joined ∧ PkgSig bundle joined pkg ∧
+                    PkgSig bundle endpoint pkg := by
+  intro packet derivationTransportLeft leftRouteRight rightEndpointJoined joinedPkg
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    derivationUnary, _readbackUnary, transportUnary, routeUnary, _provenanceUnary,
+    _nameUnary, endpointUnary, _terminalNonterminalStart, _productionYieldReadback,
+    _derivationTransportRoute, _routeProvenanceName, _nameEndpointEndpoint,
+    endpointPkg⟩ := packet
+  have leftUnary : UnaryHistory leftSegment :=
+    unary_cont_closed derivationUnary transportUnary derivationTransportLeft
+  have rightUnary : UnaryHistory rightSegment :=
+    unary_cont_closed leftUnary routeUnary leftRouteRight
+  have joinedUnary : UnaryHistory joined :=
+    unary_cont_closed rightUnary endpointUnary rightEndpointJoined
+  exact
+    ⟨leftUnary, rightUnary, joinedUnary, derivationTransportLeft, leftRouteRight,
+      rightEndpointJoined, joinedPkg, endpointPkg⟩
+
 theorem ContextFreeGrammarPacket_yield_readback [AskSetup] [PackageSetup]
     {terminal nonterminal start production yield derivation readback transport route provenance
       name endpoint finalYield : BHist}
