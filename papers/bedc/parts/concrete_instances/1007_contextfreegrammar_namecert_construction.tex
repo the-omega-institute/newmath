@@ -117,6 +117,44 @@ the displayed terminal readback row. These are exactly the carrier coordinates
 $S$, $P$, $d$, $y$, and $w$, so they repack as the accepted yield read.
 \end{proof}
 
+\begin{theorem}[ContextFreeGrammar terminal-yield finite window]
+\label{thm:contextfreegrammar-terminal-yield-window}
+For an accepted $\ContextFreeGrammarUp$ packet
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+and a displayed finite derivation window selected by a
+$\mathsf{ProbeBundle}$, suppose the selected production rows are stable under
+the packet's componentwise $\hsame$ rows, the selected derivation segments
+concatenate through their displayed sentential-form endpoints, and the final
+sentential form has the readback row $y$. Then every selected terminal row is
+read through the same $\mathsf{BHist}$ carrier, $\hsame$ transport,
+$\Cont$ route, $\Pkg$ provenance, and $\NameCert_{\ContextFreeGrammarUp}$
+ledger of $G$. No selected nonterminal production row is exposed as a
+terminal yield row.
+\end{theorem}
+\begin{proof}
+Begin with the selected production rows in the finite window. Apply
+\autoref{thm:contextfreegrammar-production-stability} to each selected
+production step, so the left nonterminal, the right-side $\ListUp$ row, and
+the terminal and nonterminal tags remain inside the displayed production
+ledger $P$ with the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance.
+
+Next assemble the selected route. Apply
+\autoref{thm:contextfreegrammar-derivation-concatenation} to the displayed
+derivation segments whose endpoints agree by the packet's sentential-form
+$\hsame$ rows. The concatenated route is still a finite ledger over $P$, so it
+does not introduce a host grammar step or an unlisted production row.
+
+Finally apply \autoref{thm:contextfreegrammar-yield-readback} to the terminal
+sentential form and the readback row $y$. The readback projects only terminal
+rows through the displayed bundle and identifies them with the $\ListUp$ word
+row $w$. Since nonterminal tags are preserved by production stability and the
+readback row is terminal-only, no nonterminal production row escapes as a
+terminal yield.
+\end{proof}
+
 \begin{theorem}[ContextFreeGrammar NameCert obligation surface]
 \label{thm:contextfreegrammar-namecert-obligation-surface}
 The local $\NameCert_{\ContextFreeGrammarUp}$ obligation surface consists of
