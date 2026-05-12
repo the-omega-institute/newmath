@@ -169,7 +169,6 @@
   a two-bit event for the two supplied relation facts. This directly mirrors
   the Lean existential middle-witness shape.
 
-<<<<<<< HEAD
 ## Package Module Encoding
 
 - `PackageSetup` remains abstract in Lean, so the rule110 ground fixture uses
@@ -185,7 +184,7 @@
   `psame` reflexivity and symmetry representatives, negative nonintroduced and
   distinct-history cases, soundness/reflection classifications, and a two-step
   transitivity chain.
-=======
+
 ## NameCert Module Encoding
 
 - `NameCert` uses a finite bound-based fixture:
@@ -203,4 +202,3 @@
 - `StabilityMode` uses unary mode codes `0..4` for `closure`, `reuse`,
   `descent`, `composition`, and `seal`, with representative no-confusion cases
   rejecting equal or out-of-range modes.
->>>>>>> loop-m3-NameCert

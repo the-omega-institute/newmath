@@ -176,7 +176,6 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 - [x] Add `docs/gap_design.md` documenting the concrete fixtures and manifest
   contract.
 
-<<<<<<< HEAD
 ## Package module (beyond original M3 scope)
 
 - [x] Read `lean4/BEDC/FKernel/Package.lean`,
@@ -190,7 +189,7 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   transitivity, soundness, and reflection representatives.
 - [x] Add `docs/package_design.md` documenting the concrete fixture and tagged
   manifest contract.
-=======
+
 ## NameCert module (beyond original M3 scope)
 
 - [x] Read `lean4/BEDC/FKernel/NameCert.lean`,
@@ -205,4 +204,3 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   the executable obligations.
 - [x] Add `docs/name_cert_design.md` documenting the fixture and manifest
   contract.
->>>>>>> loop-m3-NameCert
