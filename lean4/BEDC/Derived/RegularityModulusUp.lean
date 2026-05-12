@@ -319,6 +319,56 @@ theorem RegularityModulusPacket_scheduled_tail_closure [AskSetup] [PackageSetup]
       exact ⟨sourceRow.right.right, ledgerNameProvenance⟩
   }
 
+theorem RegularityModulusPacket_carrier_classifier_obligations [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist => UnaryHistory precision ∧ UnaryHistory modulus ∧
+          UnaryHistory window ∧ Cont ledger nameRow row)
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont precision window transport ∧
+          Cont transport modulus ledger)
+        (fun row row' : BHist => hsame row row') := by
+  intro packet
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance ⟨hsame_refl provenance, provenanceUnary, provenancePkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨precisionUnary, modulusUnary, windowUnary,
+          cont_result_hsame_transport ledgerNameProvenance (hsame_symm sourceRow.left)⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, precisionWindowTransport, transportModulusLedger⟩
+  }
+
 theorem RegularityModulusPacket_dyadicmesh_window_factorization [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow meshLevel meshCell interval
       endpoint radius orderLedger meshRead consumer : BHist}
