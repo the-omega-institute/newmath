@@ -41,6 +41,7 @@ The exactness and boundary obligations follow from the shape of the carrier. Eve
 \label{thm:cauchy-limit-seal-window-factorization}
 For every accepted $\CauchyLimitSealUp$ carrier $L$ and every finite $\RealUp$ consumer request, the read factors through a visible $\StreamNameUp$ window from $S$, the corresponding $\RegSeqRatUp$ source row in $X$, the matching $\DyadicRatCore$ observation ledger in $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, and the displayed transport rows in $T$ before it reaches the seal row $E$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealPacket\_window\_factorization}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-limit-seal-carrier}. A consumer request first selects one of the scheduled finite windows because the seal row has no independent read channel.
 
@@ -83,6 +84,32 @@ Start with the carrier of \autoref{def:cauchy-limit-seal-carrier}. Its coordinat
 Apply the component obligations in order. The $\NameCert$ obligation theorem supplies habitation, classifier stability, exactness, and non-escape requirements; the window factorization theorem identifies the consumer route through the scheduled finite observations; the non-escape theorem records the absent quotient, host-limit, uniqueness, and completeness fields; and the $\RealUp$ consumer-boundary theorem fixes the public endpoint of the route.
 
 These rows are finite and exhaust the displayed packet surface. Since the carrier contains no further coordinate from which an omitted quotient, selected limit, uniqueness principle, host real, or ambient-completeness datum could be read, the listed component rows provide the whole paper-side obligation package.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal public export certificate]
+\label{thm:cauchy-limit-seal-public-export-certificate}
+The carrier, $\NameCert$ obligations, finite-window factorization, non-escape boundary, $\RealUp$ consumer boundary, and obligation closure package assemble a public certificate for the sealed finite-window route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The exported certificate exposes exactly the displayed source row, scheduled window, dyadic observation ledger, diagonal completion row, seal row, transport rows, package provenance, and local certificate.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-limit-seal-carrier}. It supplies the displayed regular source, schedule, dyadic ledger, diagonal completion row, real seal, transport rows, package provenance, and local certificate.
+
+Apply the $\NameCert$ obligations of \autoref{thm:cauchy-limit-seal-namecert-obligations}. They provide carrier habitation, classifier stability, exactness of the consumer route, and the non-escape clauses needed for a public certificate.
+
+Next use the window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization} and the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. These identify the public read route through the scheduled finite window, dyadic observation ledger, completion diagonal, and seal row.
+
+Finally combine the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape} with the obligation closure package of \autoref{thm:cauchy-limit-seal-obligation-closure-package}. The rows listed there exhaust the public surface, so the assembled certificate exports the sealed finite-window route and nothing outside the stated BEDC coordinates.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal downstream completion handoff]
+\label{thm:cauchy-limit-seal-downstream-completion-handoff}
+A downstream completion consumer of an accepted $\CauchyLimitSealUp$ carrier can pull back only along the displayed $\RegSeqRatUp$ source, scheduled $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, and $\RealUp$ seal. The handoff carries the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and does not export an independent completeness principle, quotient stream, selected host limit, uniqueness theorem, or host real construction.
+\end{theorem}
+\begin{proof}
+Apply the window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization}. It forces every downstream read through the scheduled $\StreamNameUp$ window, the displayed $\RegSeqRatUp$ source row, the corresponding dyadic observation ledger, and the $\RealCauchyCompletionUp$ diagonal row before reaching the $\RealUp$ seal.
+
+Use the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape}. The accepted carrier has no field for quotient streams, selected host limits, uniqueness theorems, host real construction, or ambient completeness.
+
+The public export certificate of \autoref{thm:cauchy-limit-seal-public-export-certificate} packages the remaining rows as the consumer-facing handoff. Thus a completion consumer can pull back only through the displayed finite-window route and its visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
 \end{proof}
 
 \closureat{CauchyLimitSealUp}{seedStr}
