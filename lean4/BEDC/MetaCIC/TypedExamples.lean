@@ -819,6 +819,44 @@ theorem triple_lam_pi_construction :
         · apply HasType.varRule
           rfl
 
+theorem double_poly_first :
+    HasType []
+      (Term.lam Term.sort
+        (Term.lam Term.sort
+          (Term.lam (Term.var 1)
+            (Term.lam (Term.var 1)
+              (Term.var 1)))))
+      (Term.pi Term.sort
+        (Term.pi Term.sort
+          (Term.pi (Term.var 1)
+            (Term.pi (Term.var 1) (Term.var 3))))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.lamRule
+        · apply HasType.varRule
+          rfl
+        · apply HasType.varRule
+          rfl
+
+theorem double_poly_pi :
+    HasType []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.pi (Term.var 1) (Term.var 1))))
+      (Term.pi Term.sort (Term.pi Term.sort Term.sort)) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.piRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
+
 theorem double_arrow_in_sort :
     HasType [Term.sort]
       (Term.pi (Term.var 0) (Term.pi (Term.var 1) (Term.var 2)))
