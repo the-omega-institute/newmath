@@ -14,6 +14,16 @@ theorem betaStarStep_diamond_var {i : Idx} {t1 t2 : Term}
     Exists (fun v => BetaStarStep t1 v ∧ BetaStarStep t2 v) := by
   exact betaStar_var_join i h1 h2
 
+theorem betaParallel_pi_inv {d c t : Term}
+    (h : BetaParallel (Term.pi d c) t) :
+    ∃ d' c', t = Term.pi d' c' ∧ BetaParallel d d' ∧ BetaParallel c c' := by
+  exact betaParallel_pi_shape h
+
+theorem betaParallel_lam_inv {d b t : Term}
+    (h : BetaParallel (Term.lam d b) t) :
+    ∃ d' b', t = Term.lam d' b' ∧ BetaParallel d d' ∧ BetaParallel b b' := by
+  exact betaParallel_lam_shape h
+
 theorem betaParallel_app_target_shape {f a f' a' : Term}
     (h : BetaParallel (Term.app f a) (Term.app f' a')) :
     (BetaParallel f f' ∧ BetaParallel a a') ∨
