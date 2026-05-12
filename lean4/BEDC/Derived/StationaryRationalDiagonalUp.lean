@@ -113,6 +113,27 @@ theorem StationaryRationalDiagonalCarrier_real_handoff [AskSetup] [PackageSetup]
                 (And.intro transportRoute
                   (And.intro provenanceEndpoint pkgSig))))))))
 
+theorem StationaryRationalDiagonalCarrier_constant_window_totality
+    [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport
+        route provenance namecert endpoint bundle pkg ->
+      UnaryHistory rat ∧ UnaryHistory constantStream ∧ UnaryHistory regseq ∧
+        hsame regseq (append rat constantStream) ∧ hsame realSeal (append regseq diagonal) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨ratUnary, constantStreamUnary, regseqUnary, _diagonalUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+    constantStreamRoute, diagonalSealRoute, _transportRoute, _provenanceEndpoint, pkgSig,
+    _nameCert⟩ := carrier
+  exact And.intro ratUnary
+    (And.intro constantStreamUnary
+      (And.intro regseqUnary
+        (And.intro constantStreamRoute
+          (And.intro diagonalSealRoute pkgSig))))
+
 theorem StationaryRationalDiagonalCarrier_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {rat constantStream regseq diagonal realSeal transport route provenance namecert
@@ -156,5 +177,39 @@ theorem StationaryRationalDiagonalCarrier_semantic_name_certificate
       intro _row source
       exact source
   }
+
+theorem StationaryRationalDiagonalCarrier_classifier_determinacy [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert endpoint rat'
+      constantStream' regseq' diagonal' realSeal' transport' route' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport route
+        provenance namecert endpoint bundle pkg ->
+      hsame rat rat' ->
+        hsame constantStream constantStream' ->
+          hsame diagonal diagonal' ->
+            hsame transport transport' ->
+              hsame provenance provenance' ->
+                Cont rat' constantStream' regseq' ->
+                  Cont regseq' diagonal' realSeal' ->
+                    Cont realSeal' transport' route' ->
+                      Cont route' provenance' endpoint' ->
+                        hsame regseq regseq' ∧ hsame realSeal realSeal' ∧
+                          hsame route route' ∧ hsame endpoint endpoint' := by
+  intro carrier sameRat sameConstantStream sameDiagonal sameTransport sameProvenance regseqRow'
+    realSealRow' routeRow' endpointRow'
+  rcases carrier with
+    ⟨_ratUnary, _constantStreamUnary, _regseqUnary, _diagonalUnary, _realSealUnary,
+      _transportUnary, _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+      regseqRow, realSealRow, routeRow, endpointRow, _pkgSig, _nameCert⟩
+  have sameRegseq : hsame regseq regseq' :=
+    cont_respects_hsame sameRat sameConstantStream regseqRow regseqRow'
+  have sameRealSeal : hsame realSeal realSeal' :=
+    cont_respects_hsame sameRegseq sameDiagonal realSealRow realSealRow'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameRealSeal sameTransport routeRow routeRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameRoute sameProvenance endpointRow endpointRow'
+  exact And.intro sameRegseq
+    (And.intro sameRealSeal (And.intro sameRoute sameEndpoint))
 
 end BEDC.Derived.StationaryRationalDiagonalUp
