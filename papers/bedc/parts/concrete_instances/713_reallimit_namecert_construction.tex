@@ -303,6 +303,45 @@ stream, host equality, analytic convergence theorem, or selected limit, the
 ledger cannot expose any of them.
 \end{proof}
 
+\begin{theorem}[RealLimit primitive scope binding]
+\label{thm:reallimit-primitive-scope-binding}
+The classifier, stability, readback, and ledger obligations of
+\autoref{thm:reallimit-classifier-obligation},
+\autoref{thm:reallimit-stability-obligation},
+\autoref{thm:reallimit-readback-obligation}, and
+\autoref{thm:reallimit-ledger-obligation} are scoped exactly by the
+$\mathsf{BHist}$ carrier of \autoref{def:reallimit-bhist-carrier}, the
+componentwise $\hsame$ rows, the displayed $\Cont$ routes, the $\Pkg$
+provenance row, the local $\NameCert_{\RealLimitUp}$ row, and the downstream
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ interfaces.
+
+Within that scope the $\RealUp$ endpoint is only a sealed consumer row reached
+through the handoff of
+\autoref{thm:reallimit-regseqrat-streamname-handoff}. The binding does not
+claim completed real equality, quotient streams, or selected limits.
+\end{theorem}
+\begin{proof}
+Project an accepted packet as $R=(S,Q,E,D,H,C,P,N)$ from
+\autoref{def:reallimit-bhist-carrier}. The schedule, regular rational source,
+endpoint seal, dyadic tolerances, transport, continuation, package, and naming
+coordinates are the only rows available to the four obligations.
+
+Apply \autoref{thm:reallimit-regseqrat-streamname-handoff}. It sends the
+real-facing endpoint $E$ through the same $S$, $Q$, $D$, $H$, $C$, $P$, and
+$N$ rows, so the downstream $\RealUp$ handoff has no wider surface than the
+displayed BEDC packet.
+
+The classifier obligation reads only those coordinates; the stability
+obligation transports them by $\hsame$ and $\Cont$; the readback obligation
+factors every endpoint read through the scheduled $\RegSeqRatUp$ and
+$\DyadicRatCoreUp$ rows; and the ledger obligation is exhausted by $P$ and
+$N$.
+
+Since no coordinate of the carrier stores completed real equality, quotient
+streams, or selected limits, none of the four obligations can acquire such an
+object through the primitive scope binding.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 
