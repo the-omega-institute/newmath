@@ -403,6 +403,36 @@ surface, with no additional host equality, branch selector, completed
 sequence, topological object, apartness row, or real-completeness row.
 \end{proof}
 
+\begin{theorem}[BaireSpace finite prefix-cylinder coverage]
+\label{thm:bairespace-finite-prefix-cylinder-coverage}
+Every finite stream-name consumer read of a certified $\BaireSpaceUp$ packet
+factors through a displayed prefix-cylinder row.
+
+Compatible nested prefix cylinders share a common finite prefix transport
+through the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\BaireSpaceUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:baire-space-prefix-cylinder-stability}. It keeps each
+accepted finite read inside the displayed prefix-cylinder classifier, finite
+$\NatUp$ index rows, unary answer rows, and stream schedule.
+
+For nested cylinders, apply
+\autoref{thm:baire-space-prefix-restriction-composition}. The composed
+restriction route supplies the common finite prefix transport through the same
+$\hsame$, $\Cont$, package, and local certificate rows.
+
+Use \autoref{thm:baire-space-real-name-handoff} for rational and real-facing
+consumers. Those reads remain finite stream-name handoffs rather than
+completed sequences or real-completeness assumptions.
+
+Finally combine \autoref{thm:bairespace-scoped-finite-consumer-boundary} with
+\autoref{thm:bairespace-prefix-stream-bridge}. The scoped boundary exhausts
+the finite consumer rows, and the bridge identifies the same rows with the
+stream-name presentation, yielding the stated finite prefix-cylinder
+coverage.
+\end{proof}
+
 \begin{theorem}[BaireSpace StreamName prefix sieve]
 \label{thm:bairespace-streamname-prefix-sieve}
 Every finite prefix-cylinder read consumed by $\StreamNameUp$, $\RegSeqRatUp$,
