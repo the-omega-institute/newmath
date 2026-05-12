@@ -77,4 +77,42 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
+    {left right order left' right' order' endpointPair endpointPair' orderSurface
+      orderSurface' provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory left ->
+      UnaryHistory right ->
+        UnaryHistory order ->
+          Cont left right endpointPair ->
+            Cont endpointPair order orderSurface ->
+              PkgSig bundle provenance pkg ->
+                hsame left left' ->
+                  hsame right right' ->
+                    hsame order order' ->
+                      Cont left' right' endpointPair' ->
+                        Cont endpointPair' order' orderSurface' ->
+                          PkgSig bundle provenance pkg ->
+                            UnaryHistory left' ∧ UnaryHistory right' ∧
+                              UnaryHistory order' ∧ hsame endpointPair endpointPair' ∧
+                                hsame orderSurface orderSurface' ∧
+                                  Cont left' right' endpointPair' ∧
+                                    Cont endpointPair' order' orderSurface' ∧
+                                      PkgSig bundle provenance pkg := by
+  intro leftUnary rightUnary orderUnary endpointRow orderRow _pkgSig sameLeft sameRight sameOrder
+    endpointRow' orderRow' pkgSig'
+  have leftUnary' : UnaryHistory left' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory right' :=
+    unary_transport rightUnary sameRight
+  have orderUnary' : UnaryHistory order' :=
+    unary_transport orderUnary sameOrder
+  have sameEndpointPair : hsame endpointPair endpointPair' :=
+    cont_respects_hsame sameLeft sameRight endpointRow endpointRow'
+  have sameOrderSurface : hsame orderSurface orderSurface' :=
+    cont_respects_hsame sameEndpointPair sameOrder orderRow orderRow'
+  exact
+    ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
+      orderRow', pkgSig'⟩
+
 end BEDC.Derived.RationalIntervalUp
