@@ -77,6 +77,7 @@ Apply the non-escape boundary. Since the carrier has no field for quotient strea
 \label{thm:cauchy-error-certificate-budget-readback-determinacy}
 Let $C=(R,M,T,E,P,N)$ and $C'=(R',M',T',E',P',N')$ be accepted $\CauchyErrorCertificateUp$ carriers. Suppose the unary modulus rows $M,M'$, dyadic tail or diagonal rows $T,T'$, finite error-budget rows $E,E'$, and provenance rows $P,P'$ are matched by the displayed $\hsame$ comparisons and $\Cont$ routes of the two packets. Then every completion, diagonal, or validated-numerics consumer reaches the same $\RegSeqRatUp$ and $\RealUp$ readback boundary from $C$ and $C'$. The packet has no alternate route through quotient streams, host limits, ambient completeness, or host real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_budget\_readback\_determinacy}
 \begin{proof}
 Use \autoref{thm:cauchy-error-certificate-modulus-soundness}. A finite dyadic tolerance request must pass through the unary modulus row, then the tail or diagonal row, and then the finite error-budget ledger before it reaches the readback route.
 
@@ -136,6 +137,20 @@ Apply \autoref{thm:cauchy-error-certificate-modulus-soundness}. Both diagonal an
 The budget row is then fixed by \autoref{thm:cauchy-error-certificate-modulus-budget-composition}. The downstream handoff and budget-readback determinacy theorems identify the same $E$ before any consumer reaches $R$.
 
 Finally apply the non-escape boundary. Because the carrier has no host-completeness or selected-limit coordinate, diagonal and tail evidence can be compatible only through the displayed finite budget ledger.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate uniform diagonal compatibility]
+\label{thm:cauchy-error-certificate-uniform-diagonal-compatibility}
+Let $U$ be an accepted $\UniformCauchyCriterionUp$ packet, let $D$ be an accepted $\DiagonalModulusUp$ row, and let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet consuming both displayed inputs. If $U$ and $D$ feed the same accepted packet $C$, then every finite family tolerance request and every diagonal precision request pass through the same unary modulus row $M$, the same tail-or-diagonal packet $T$, and the same finite budget ledger $E$ before reaching the $\RegSeqRatUp/\RealUp$ readback boundary $R$. The combined route exports no quotient streams, selected host limits, ambient completeness principle, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the uniform-family route. By \autoref{thm:cauchy-error-certificate-uniform-budget-handoff}, every finite family tolerance request reaches the Cauchy error certificate through the displayed uniform ledger and then enters the packet through the finite budget route visible in $C$.
+
+Now read the diagonal request. The diagonal-tail compatibility theorem \autoref{thm:cauchy-error-certificate-diagonal-tail-compatibility} says that diagonal and tail evidence accepted by the same packet share the coordinate $T$ and feed the same budget row $E$.
+
+Compose the routes through the packet. By \autoref{thm:cauchy-error-certificate-modulus-budget-composition}, both requests are routed by the unary modulus row $M$, checked against the tail-or-diagonal packet $T$, and consumed by the ledger $E$ before the readback boundary $R$ is exposed.
+
+Finally apply \autoref{thm:cauchy-error-certificate-readback-route-uniqueness} together with the non-escape boundary. Once $M$, $T$, $E$, and the provenance row are fixed, the $\RegSeqRatUp/\RealUp$ boundary is unique inside the displayed carrier, and the absent quotient, selected-limit, completeness, and host-equality objects cannot supply an alternate route.
 \end{proof}
 
 \closureat{CauchyErrorCertificateUp}{seedStr}

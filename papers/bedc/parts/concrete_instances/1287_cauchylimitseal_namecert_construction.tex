@@ -127,6 +127,44 @@ Next use the downstream completion handoff of \autoref{thm:cauchy-limit-seal-dow
 Finally attach the $\NullSequenceUp$ real-seal factorization of \autoref{thm:null-sequence-real-seal-factorization}. Its tolerance row, observation window, and threshold row supply the zero-tail evidence read by the two seals, and the combined route remains the finite CauchyLimitSeal route plus that displayed null-sequence packet.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal regular-source stability]
+\label{thm:cauchy-limit-seal-regular-source-stability}
+Let $L$ be an accepted $\CauchyLimitSealUp$ carrier. Any classifier transport of the accepted seal preserves the displayed $\RegSeqRatUp$ source row, the scheduled $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ observation ledger, the $\RealCauchyCompletionUp$ diagonal row, and the $\RealUp$ seal row through the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-limit-seal-carrier}. The source row, schedule, dyadic ledger, diagonal row, seal row, transport rows, package row, and local certificate are named coordinates of the same finite $\mathsf{BHist}$ packet.
+
+Apply the classifier-stability clause of \autoref{thm:cauchy-limit-seal-namecert-obligations}. Transport can move an accepted packet only along the displayed $\hsame$ comparison and the corresponding $\Cont$ route, while the $\Pkg$ and $\NameCert$ rows keep the dependency names fixed.
+
+Finally use the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape}. Since no quotient stream, selected host limit, uniqueness theorem, or ambient completeness coordinate is available, the transported seal still exposes exactly the displayed regular source, scheduled windows, observation ledger, diagonal row, and seal row.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal diagonal-row compatibility]
+\label{thm:cauchy-limit-seal-diagonal-row-compatibility}
+Every $\RealCauchyCompletionUp$ diagonal read consumed by an accepted $\CauchyLimitSealUp$ seal factors through the same scheduled $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ observation ledger as the finite route of \autoref{thm:cauchy-limit-seal-window-factorization}. Consequently the diagonal row $G$ in the carrier cannot be replaced, for that seal read, by an independent completion object outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with the window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization}. It sends each consumer read through a scheduled $\StreamNameUp$ window, the displayed $\RegSeqRatUp$ source row, the matching $\DyadicRatCore$ ledger, and then the $\RealCauchyCompletionUp$ diagonal coordinate before the read reaches the $\RealUp$ seal.
+
+Use the downstream completion handoff of \autoref{thm:cauchy-limit-seal-downstream-completion-handoff}. A completion consumer may pull back only along that displayed route, so the diagonal read is tied to the same scheduled window and observation ledger that feed the seal.
+
+The carrier has no second completion coordinate. By \autoref{thm:cauchy-limit-seal-non-escape}, no host limit, quotient stream, or ambient completeness datum can supply an alternate completion object; therefore the diagonal row consumed by the seal is the carrier row $G$ routed through the stated finite ledger.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal seal-ledger exhaustion]
+\label{thm:cauchy-limit-seal-seal-ledger-exhaustion}
+The carrier of \autoref{def:cauchy-limit-seal-carrier}, the $\NameCert_{\CauchyLimitSealUp}$ obligations, regular-source stability, diagonal-row compatibility, the $\RealUp$ consumer boundary, and the non-escape theorem exhaust the finite seal ledger for downstream $\RealUp$ and completion consumers. No further $\mathsf{BHist}$ row is available beyond the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. Its finite packet lists exactly the regular source family, schedule, observation ledger, diagonal completion row, real seal row, transport rows, package provenance, and local certificate.
+
+Apply the $\NameCert$ obligations of \autoref{thm:cauchy-limit-seal-namecert-obligations}. They supply habitation, classifier stability, exact finite-route factorization, and the exclusion of quotient, host-limit, uniqueness, and ambient-completeness data.
+
+Next combine \autoref{thm:cauchy-limit-seal-regular-source-stability} and \autoref{thm:cauchy-limit-seal-diagonal-row-compatibility}. The first keeps classifier transport on the displayed source, schedule, ledger, diagonal, and seal rows; the second prevents a downstream completion read from replacing the diagonal row by an object outside the packet.
+
+Finally use the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary} and the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape}. These identify the public endpoint and rule out every listed hidden field, so the finite rows named in the statement exhaust the seal ledger for downstream real and completion consumers.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
 \closureat{CauchyLimitSealUp}{scopedStr}
