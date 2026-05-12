@@ -96,4 +96,22 @@ theorem CauchyErrorCertificatePacket_namecert_obligations [AskSetup] [PackageSet
       (And.intro readbackUnary
         (And.intro modulusUnary (And.intro tailUnary (And.intro budgetUnary readbackPkg))))
 
+theorem CauchyErrorCertificatePacket_budget_handoff_closure [AskSetup] [PackageSetup]
+    {readback modulus tail budget budget' provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      hsame budget budget' ->
+        Cont modulus tail budget' ->
+          Cont readback budget' provenance ->
+            CauchyErrorCertificatePacket readback modulus tail budget' provenance nameCert
+              bundle pkg := by
+  intro packet sameBudget modulusTailBudget' readbackBudgetProvenance'
+  obtain ⟨readbackUnary, modulusUnary, tailUnary, budgetUnary, provenanceUnary, nameCertUnary,
+    _modulusTailBudget, _readbackBudgetProvenance, readbackPkg, provenancePkg⟩ := packet
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_transport budgetUnary sameBudget
+  exact
+    ⟨readbackUnary, modulusUnary, tailUnary, budgetUnary', provenanceUnary, nameCertUnary,
+      modulusTailBudget', readbackBudgetProvenance', readbackPkg, provenancePkg⟩
+
 end BEDC.Derived.CauchyErrorCertificateUp

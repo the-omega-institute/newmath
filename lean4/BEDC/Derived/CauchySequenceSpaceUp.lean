@@ -112,4 +112,26 @@ theorem CauchySequenceSpaceCarrier_namecert_obligation_surface [AskSetup] [Packa
       exact source
   }
 
+theorem CauchySequenceSpaceCarrier_completion_handoff [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      Cont route name handoff ->
+        UnaryHistory family ∧ UnaryHistory schedule ∧ UnaryHistory window ∧
+          UnaryHistory tolerance ∧ UnaryHistory completion ∧ UnaryHistory route ∧
+            UnaryHistory handoff ∧ Cont family schedule window ∧
+              Cont window tolerance completion ∧ Cont completion transport route ∧
+                Cont route name handoff ∧ PkgSig bundle route pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier routeToHandoff
+  obtain ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary,
+    _transportUnary, routeUnary, nameUnary, familyRoute, toleranceRoute, completionRoute,
+    routePkg, _namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routeUnary nameUnary routeToHandoff
+  exact
+    ⟨familyUnary, scheduleUnary, windowUnary, toleranceUnary, completionUnary, routeUnary,
+      handoffUnary, familyRoute, toleranceRoute, completionRoute, routeToHandoff, routePkg⟩
+
 end BEDC.Derived.CauchySequenceSpaceUp
