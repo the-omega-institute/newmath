@@ -176,3 +176,17 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   and check domain, token, and composition witness predicates.
 - [x] Add `docs/gap_design.md` documenting the concrete fixtures and manifest
   contract.
+
+## Settled module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/Settled.lean` and identify it as the FKernel
+  proof-boundary aggregator over history, Ext/Cont, signature, package/gap,
+  globalize, composite gap, name-certificate, function-descent, and bundle
+  projection targets.
+- [x] Add `rule110/manifests/settled/settled_basic.enum.ct` and
+  `settled_basic.algo.ct` with tagged representative cases for every exposed
+  Settled projection family.
+- [x] Add `tests/test_settled.c` to decode the tagged aggregator input, reuse
+  the sibling concrete fixtures, and check all representative semantic cases.
+- [x] Add `docs/settled_design.md` documenting the aggregator contract and the
+  Lean target alignment.

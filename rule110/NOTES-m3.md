@@ -169,3 +169,18 @@
 - `CompGap` is represented by an explicit source/intermediate/final ledger and
   a two-bit event for the two supplied relation facts. This directly mirrors
   the Lean existential middle-witness shape.
+
+## Settled Module Encoding
+
+- `Settled.lean` is encoded as a tagged proof-boundary aggregator rather than a
+  new primitive relation. Each input begins with `tag(family) ++ tag(case)` and
+  then reuses the concrete fixture payload for the relevant sibling module.
+- Covered families are history kernel, Ext/Cont, signature kernel,
+  package/gap, globalize exactness, composite gap, unary name certificates,
+  function-like descent, and bundle generation.
+- `settled_basic.enum.ct` and `settled_basic.algo.ct` contain 38 representative
+  cases. The algo manifest keeps the current vacuous cyclic-tag production
+  pattern for abstract-boundary modules; executable checking is in
+  `tests/test_settled.c`.
+- The semantic harness checks each case through the enum and algo paths, giving
+  76 Settled assertions plus two manifest pipeline smoke checks.
