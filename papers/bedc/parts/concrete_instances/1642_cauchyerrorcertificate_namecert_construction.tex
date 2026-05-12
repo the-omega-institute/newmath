@@ -70,6 +70,19 @@ The provenance row $P$ names the dependency certificates for the dyadic observat
 
 Apply the non-escape boundary. Since the carrier has no field for quotient streams, selected host limits, host completeness, or host real equality, the downstream handoff consists exactly of the listed finite BEDC rows.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_downstream\_handoff}
+
+\begin{theorem}[CauchyErrorCertificate budget-readback determinacy]
+\label{thm:cauchy-error-certificate-budget-readback-determinacy}
+Let $C=(R,M,T,E,P,N)$ and $C'=(R',M',T',E',P',N')$ be accepted $\CauchyErrorCertificateUp$ carriers. Suppose the unary modulus rows $M,M'$, dyadic tail or diagonal rows $T,T'$, finite error-budget rows $E,E'$, and provenance rows $P,P'$ are matched by the displayed $\hsame$ comparisons and $\Cont$ routes of the two packets. Then every completion, diagonal, or validated-numerics consumer reaches the same $\RegSeqRatUp$ and $\RealUp$ readback boundary from $C$ and $C'$. The packet has no alternate route through quotient streams, host limits, ambient completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-error-certificate-modulus-soundness}. A finite dyadic tolerance request must pass through the unary modulus row, then the tail or diagonal row, and then the finite error-budget ledger before it reaches the readback route.
+
+The assumed $\hsame$ and $\Cont$ matches identify those three rows and their provenance rows between $C$ and $C'$. Hence the downstream packet seen by a completion, diagonal, or validated-numerics consumer is the same packet described by \autoref{thm:cauchy-error-certificate-downstream-handoff}.
+
+It remains to exclude hidden readback sources. By \autoref{thm:cauchy-error-certificate-non-escape-boundary}, the carrier exports no quotient stream equality, selected host limit, ambient completeness theorem, or host real equality assertion. Thus the displayed modulus, tail, budget, and provenance ledger determines the $\RegSeqRatUp$ and $\RealUp$ readback boundary.
+\end{proof}
 
 \closureat{CauchyErrorCertificateUp}{seedStr}
 
