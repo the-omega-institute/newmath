@@ -519,6 +519,43 @@ Then invoke the family ledger exhaustion theorem \autoref{thm:cauchy-limit-seal-
 Finally combine consumer ledger totality, $\hsame$ route uniqueness, and window replay determinacy from \autoref{thm:cauchy-limit-seal-consumer-ledger-totality}, \autoref{thm:cauchy-limit-seal-hsame-route-uniqueness}, and \autoref{thm:cauchy-limit-seal-window-replay-determinacy}. The total ledger is exhausted, transport cannot split it into two consumer sources, and replay of the displayed window determines the same sealed route each time.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal bridge interface]
+\label{thm:cauchy-limit-seal-bridge-interface}
+The $\CauchyLimitSealUp$ carrier rows, public route packet, source factorization, family ledger exhaustion, and consumer ledger totality assemble the concrete bridge from the public sealed $\RealUp$ boundary to the abstract $\CauchyLimitSealUp$ interface. The bridge is entirely over the displayed $\RegSeqRatUp$ source family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, $\RealUp$ seal row, $\mathsf{BHist}$ history surface, $\hsame$ transport, $\Cont$ continuation row, $\Pkg$ provenance, and $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier rows $X,S,D,G,E,T,P,N$ of the public route packet. The public route boundary supplies the sealed $\RealUp$ side, while source factorization identifies the same rows as the abstract $\CauchyLimitSealUp$ source surface.
+
+The family side is supplied by ledger exhaustion. It restricts all tail and family rows to the displayed source-index, tail-seal, and handoff ledgers attached to the same schedule and dyadic observations.
+
+Finally apply consumer ledger totality. Every public or completion-facing read is already routed through the carrier rows and the family ledger, so the bridge interface is obtained by projection and composition of those named surfaces.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal bridge route exactness]
+\label{thm:cauchy-limit-seal-bridge-route-exactness}
+Every bridge read from the public sealed $\RealUp$ boundary into the abstract $\CauchyLimitSealUp$ interface factors exactly through the route chain
+\autoref{thm:cauchy-limit-seal-public-route-boundary}, \autoref{thm:cauchy-limit-seal-family-window-pullback}, \autoref{thm:cauchy-limit-seal-family-ledger-exhaustion}, and \autoref{thm:cauchy-limit-seal-source-factorization}. Hence no bridge consumer can read a row outside the public route, the pulled-back family window, the exhausted family ledger, and the factored source surface.
+\end{theorem}
+\begin{proof}
+Begin with the public route boundary. It places every $\RealUp$ or completion-facing read inside the carrier route packet before any bridge handoff is interpreted.
+
+For family-indexed reads, pull the same window back through the family window theorem. The pullback keeps the read on the shared schedule, source row, dyadic observation ledger, tail evidence, diagonal completion row, and seal row.
+
+Apply family ledger exhaustion to remove any remaining row outside the source-index, tail-seal, and handoff ledgers. Source factorization then repacks the same routed rows as the abstract $\CauchyLimitSealUp$ source surface, giving exactness of the bridge route.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal bridge non-escape]
+\label{thm:cauchy-limit-seal-bridge-nonescape}
+The CauchyLimitSeal bridge adds no quotient stream, selected host limit, uniqueness theorem, ambient completeness datum, hidden family limit, or alternate seal route. Its entire consumer-visible content is the public route packet, the pulled-back family ledger, the $\RealUp$ handoff, and the existing $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ carrier rows.
+\end{theorem}
+\begin{proof}
+The bridge interface theorem confines the handoff to the carrier rows and the displayed family ledger. Thus any bridge consumer starts with only the public route packet and the already factored source surface.
+
+Route exactness then forces every read through the public route boundary, family window pullback, family ledger exhaustion, and source factorization. Each of those theorems excludes hidden completion data, quotient stream families, selected limits, and alternate routes at the point where such a row could enter.
+
+Therefore composition of the four route constraints leaves no escape row for the bridge to add. The bridge is a public projection of the sealed packet, not an additional completion or selection principle.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
 \closureat{CauchyLimitSealUp}{scopedStr}
