@@ -210,6 +210,47 @@ selected limit field, the transported $\RegSeqRatUp$ classifier is the unique
 stable seal-route classifier.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal classifier exhaustion]
+\label{thm:regseqrat-real-seal-classifier-exhaustion}
+Every accepted $\RealUp$ seal classifier read between two accepted
+$\RegSeqRatUp$ packets is exactly the finite route package consisting of the
+displayed $\StreamNameUp$ schedule rows, the $\DyadicRatCoreUp$ endpoint and
+radius ledgers, the regularity rows, the transported $\RegSeqRatUp$ classifier
+surface, the displayed $\hsame$ transports, the $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows.
+
+Conversely, any packet carrying precisely those rows supplies the same finite
+$\RealUp$ seal classifier read. The exhaustion statement has no coordinate for
+quotient streams, host real equality, completion points, selected limits, or
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First reduce the read to its visible route package. By
+\autoref{thm:regseqrat-real-seal-route-exclusion-package}, an accepted seal
+read exposes only the schedule, dyadic ledger, regularity, transport,
+continuation, package, and local naming rows, and excludes the non-displayed
+real-number coordinates named in the statement.
+
+Next put the exposed rows into normal form. Apply
+\autoref{thm:regseqrat-cover-normal-form-real-seal} to obtain the canonical
+finite $\mathsf{BHist}$ packet whose rows are exactly the public
+$\StreamNameUp$ windows, dyadic endpoint and radius ledgers, regularity and
+classifier ledgers, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance.
+
+The classifier component is then forced by
+\autoref{thm:regseqrat-real-seal-classifier-factorization}. In the normal-form
+packet the $\RealUp$ seal classifier reads only the transported
+$\RegSeqRatUp$ classifier surface and the finite-window package.
+
+Finally use \autoref{thm:regseqrat-seal-route-classifier-stability}. Transport
+along the displayed $\hsame$ and $\Cont$ rows preserves the classifier read, so
+any packet with precisely the displayed rows gives the same finite seal
+classifier. Since none of the four cited boundaries contains quotient streams,
+host real equality, completion points, selected limits, or $\RealUp$
+completeness, the exhaustion has no further read channel.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
