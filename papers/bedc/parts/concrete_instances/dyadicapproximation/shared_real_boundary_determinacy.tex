@@ -1,0 +1,57 @@
+\begin{theorem}[DyadicApproximation shared Real-boundary determinacy]
+\label{thm:dyadicapproximation-shared-real-boundary-determinacy}
+Let $A$ and $A'$ be accepted $\DyadicApproximationUp$ finite packets. Suppose
+the two packets display the same precision row, transported dyadic endpoint,
+rational-interval cell, $\DyadicMeshUp$ level and index rows,
+$\ValidatedNumericsUp$ containment ledger, $\RegSeqRatUp$ readback window,
+$\RealUp$ readback token, visible $\hsame$ transports, visible $\Cont$
+routes, $\Pkg$ provenance, and local $\NameCert_{\DyadicApproximationUp}$,
+$\NameCert_{\DyadicMeshUp}$, and $\NameCert_{\ValidatedNumericsUp}$ rows.
+
+Then every mesh-cell consumer, validated-enclosure consumer, and terminal
+dyadic finite-window consumer that reads either packet through the displayed
+BEDC rows reads the same finite $\RegSeqRatUp/\RealUp$ boundary surface. The
+surface is exactly the shared precision row, transported endpoint,
+rational-interval cell, mesh level, mesh index, containment ledger,
+regular-rational window, real-readback token, visible transport rows,
+continuation routes, package provenance, and local name-certificate rows.
+
+The determinacy is finite. It does not assert completed real equality,
+quotient-real equality, solver correctness, floating-point semantics, or
+classical completeness.
+\end{theorem}
+\begin{proof}
+First compare the two dyadic packets before any downstream consumer is read.
+Apply
+\autoref{thm:dyadicapproximation-refined-finite-packet-readback-determinacy}
+to $A$ and $A'$. The hypotheses identify precisely the displayed precision,
+endpoint, regular-rational, real-readback, mesh-and-validated handoff,
+transport, continuation, provenance, and local certificate rows available to
+both packets.
+
+Next put each packet together with its mesh cell and validated enclosure in
+normal form. Apply
+\autoref{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form}
+to the accepted packet, the displayed mesh cell, and the validated enclosure
+over the same rational-interval cell and containment ledger. The normal form
+has no coordinate beyond the rows listed in the statement.
+
+Now identify the two routes that consumers may use. Apply
+\autoref{thm:dyadicapproximation-validated-enclosure-route-commutation} to
+compare the terminal dyadic finite-window route with the route through the
+mesh cell and validated enclosure. Apply
+\autoref{thm:dyadicapproximation-mesh-validated-real-boundary} to expose the
+shared Real-boundary surface carried by that comparison.
+
+Finally restrict mesh and enclosure reads to the finite packet boundary. Apply
+\autoref{thm:dyadicapproximation-finite-mesh-enclosure-exactness}. Its
+factorization says that every accepted mesh-cell or validated-enclosure read
+passes through the same finite $\RealUp$ surface already identified above.
+
+Combining the refined packet determinacy, the three-packet normal form, route
+commutation, shared Real-boundary comparison, and finite mesh-enclosure
+exactness leaves a single displayed BEDC surface for every listed consumer.
+Since each cited boundary is a finite packet boundary, the conclusion exports
+no completed real equality, quotient-real equality, solver correctness,
+floating-point semantics, or classical completeness.
+\end{proof}
