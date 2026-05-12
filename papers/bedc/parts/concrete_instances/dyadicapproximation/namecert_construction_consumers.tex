@@ -1,0 +1,373 @@
+
+\begin{theorem}[DyadicApproximation terminal refinement window]\label{thm:dyadicapproximation-terminal-refinement-window}
+Let a finite family of accepted $\DyadicApproximationUp$ packets be equipped
+with displayed common unary precision refinements, and suppose those displayed
+refinements are mutually compatible whenever two refinement brackets overlap.
+Then the iterated refinement surface has one terminal finite consumer window.
+That window consists exactly of the terminal precision row, the dyadic endpoint,
+the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\RealUp$ seal
+ledger, the $\RationalIntervalUp$ containment row when that row is present, the
+visible $\hsame$ and $\Cont$ transport routes, the $\mathsf{Pkg}$ provenance
+row, and the local $\NameCert$ rows.
+
+The terminal window is independent of binary bracketing of the finite
+refinement family. It exports no quotient real, host equality, completion
+point, trichotomy row, selected representative, located subset, or choice
+principle.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite refinement family. In the singleton case,
+the accepted packet projection supplies exactly the displayed precision row,
+dyadic endpoint, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$
+seal ledger, visible $\hsame$ and $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and local $\NameCert$ rows. If the rational containment row is present, it is
+the row supplied by
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff}.
+
+For the binary step, assume terminal windows have already been constructed for
+the two finite subfamilies. Apply
+\autoref{thm:dyadic-approximation-common-precision-refinement} to their
+displayed terminal packets. Compatibility of the displayed common precision
+rows gives a single terminal precision row for the combined family.
+
+Transport the classifier data along the common precision row by
+\autoref{thm:dyadic-approximation-classifier-transport}. The transported rows
+carry the dyadic endpoint, stream window, regular rational readback, real seal
+ledger, visible $\hsame$ route, visible $\Cont$ route, package provenance, and
+local certificate rows into the combined terminal packet.
+
+Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to compare two binary bracketings of the same finite family. The theorem
+identifies the consumer-visible packet rows produced by the two bracketings, so
+the terminal window is independent of the chosen binary refinement tree.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. It
+shows that the listed coordinates exhaust the finite consumer surface, while
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff} accounts
+for the optional rational-interval containment row. Since the involved packet
+coordinates contain no quotient-real, host-equality, completion-point,
+trichotomy, selected-representative, located-subset, or choice-principle field,
+none of those objects can be exported by the terminal window.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation nested window exhaustion]
+\label{thm:dyadicapproximation-nested-window-exhaustion}
+Every finite chain of compatible $\DyadicApproximationUp$ consumer refinements
+has one terminal displayed window. Every consumer read in the chain factors
+through exactly the terminal precision row, the $\DyadicRatCoreUp$ endpoint
+row, the $\StreamNameUp$ and $\RegSeqRatUp$ observation window, the displayed
+$\hsame$ transports, the visible $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and the local $\NameCert_{\DyadicApproximationUp}$ ledger.
+
+When a $\RationalIntervalUp$ containment row is present in the chain, it is
+read through that same terminal window. The exhaustion exports no quotient
+real, host equality, completion point, trichotomy row, selected representative,
+located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+Induct over the finite refinement chain. The empty and singleton chains are
+handled by projecting the accepted packet carrier: the only consumer-visible
+rows are the displayed precision row, endpoint row, observation window,
+transport routes, package provenance, and local naming ledger.
+
+For the binary extension step, apply
+\autoref{thm:dyadicapproximation-terminal-refinement-window} to the terminal
+window already obtained for the initial segment and to the next compatible
+refinement packet. This produces one displayed terminal precision row for the
+extended chain.
+
+Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to remove dependence on the chosen bracketing of the finite chain. Any two
+ways of building the terminal window identify the same consumer-visible
+precision, endpoint, observation, transport, package, and ledger rows.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. It
+exhausts all finite consumer reads through the terminal row, while
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff} accounts
+for the containment row when present. Since the carrier contains none of the
+excluded completion, quotient, trichotomy, selection, located-subset, or choice
+coordinates, the nested chain exports none of them.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation terminal window idempotence]
+\label{thm:dyadicapproximation-terminal-window-idempotence}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. If $T$ is adjoined as one further compatible refinement,
+then the extended chain has the same terminal precision row, dyadic endpoint
+row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger,
+optional $\RationalIntervalUp$ containment row, visible $\hsame$ transports,
+visible $\Cont$ transports, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$ ledger as the original chain.
+
+Thus repeating a terminal displayed window contributes no consumer-visible row.
+The extended read exports no quotient-real equality, host equality, completed
+real, choice principle, or selected representative coordinate beyond the rows
+already present in $T$.
+\end{theorem}
+\begin{proof}
+Start with the original finite chain. Apply
+\autoref{thm:dyadicapproximation-terminal-refinement-window} to obtain its
+terminal displayed window $T$ and the listed precision, endpoint, observation,
+seal, transport, package, containment, and local certificate rows.
+
+Now append $T$ as a compatible refinement packet. Applying
+\autoref{thm:dyadicapproximation-terminal-refinement-window} again produces a
+terminal row for the extended chain, but the new binary refinement step uses the
+same displayed terminal precision row as both the accumulated window and the
+adjoined packet.
+
+Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to compare the bracketing that first forms $T$ with the bracketing that first
+forms $T$ and then appends $T$. Associativity identifies the consumer-visible
+precision, endpoint, stream, regular-sequence, seal, containment, transport,
+package, and local ledger rows in the two bracketings.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Since
+all finite consumer reads factor through those identified rows, the appended
+terminal window has no additional quotient-real, host-equality, completion,
+choice, or selected-representative coordinate to export.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation terminal window subchain absorption]
+\label{thm:dyadicapproximation-terminal-window-subchain-absorption}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. Any finite compatible subchain whose packets factor
+through $T$ may be inserted, deleted, or repeated without changing the terminal
+precision row, dyadic endpoint row, $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, $\RealUp$ seal ledger, optional
+$\RationalIntervalUp$ containment row, visible $\hsame$ routes, visible
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, or local
+$\NameCert_{\DyadicApproximationUp}$ ledger.
+
+Equivalently, the displayed terminal row is an absorbing finite normal form for
+every already-terminal compatible subchain. The normal form exports no quotient
+real equality, host equality, completed real, trichotomy, choice principle, or
+selected representative coordinate beyond the rows already visible through
+$T$.
+\end{theorem}
+\begin{proof}
+Begin with the given finite chain and apply
+\autoref{thm:dyadicapproximation-nested-window-exhaustion}. This places every
+compatible finite refinement packet in the same directed displayed-window
+spine and supplies the common precision, endpoint, stream, regular-sequence,
+seal, containment, transport, package, and local certificate rows.
+
+For a subchain whose packets factor through $T$, apply
+\autoref{thm:dyadicapproximation-terminal-window-idempotence} to each displayed
+terminal packet in the subchain. Repetition of such a packet contributes no new
+consumer-visible row, and deletion removes only rows already identified with
+the terminal row.
+
+It remains to compare the positions of the subchain inside the whole finite
+refinement. Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to rebracket the refinement so the subchain is read either before, after, or at
+the displayed terminal row. The associated bracketings have the same precision,
+endpoint, stream, regular-sequence, seal, containment, visible transport,
+package, and local ledger data.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Every
+finite $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and optional
+$\RationalIntervalUp$ consumer read factors through the terminal displayed row,
+so insertion, deletion, and repetition of an already-terminal compatible
+subchain leave exactly the same public finite-window surface.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation window RegSeqRat source exhaustion]
+\label{thm:dyadicapproximation-window-regseqrat-source-exhaustion}
+Every accepted $\DyadicApproximationUp$ packet together with a finite
+compatible refinement chain determines exactly one displayed
+$\RegSeqRatUp$-facing source surface. The surface consists of the unary
+precision row, the $\DyadicRatCoreUp$ endpoint row, the $\StreamNameUp$
+schedule, the $\RegSeqRatUp$ observation window, the $\RealUp$ seal ledger,
+the visible $\hsame$ transports, the visible $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance row, and the local
+$\NameCert_{\DyadicApproximationUp}$ row.
+
+If the same packet is read through the $\RationalIntervalUp$ handoff or the
+$\RealUp$ seal boundary, those consumers read that same source surface and no
+other row. The exhaustion exports no quotient real equality, selected limit,
+trichotomy row, located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with the finite refinement chain and apply
+\autoref{thm:dyadicapproximation-nested-window-exhaustion}. This gives one
+terminal displayed window containing the precision, endpoint, stream,
+regular-sequence, transport, continuation, package, and local certificate rows
+seen by every consumer read in the chain.
+
+Next apply \autoref{thm:dyadicapproximation-real-seal-scope}. The
+$\RealUp$ seal ledger is a finite boundary row attached to the same terminal
+window, so it does not contribute a completed real or a selected limit outside
+the displayed packet surface.
+
+Use \autoref{thm:dyadic-approximation-real-seal-handoff} to read the terminal
+window as a real-seal source for $\RegSeqRatUp$. The handoff identifies the
+regular rational observation row, seal ledger, visible $\hsame$ route, visible
+$\Cont$ route, and package provenance as the only real-facing source data.
+
+Finally apply
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff}. It shows
+that any rational-interval consumer sees the same endpoint and observation
+rows, so the terminal window is the unique displayed source surface for all
+the named consumers. Since all cited surfaces are finite packet rows, quotient
+real equality, selected limits, trichotomy, located subsets, and choice
+principles are not exported.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation overlap-directed seal exhaustion]\label{thm:dyadicapproximation-overlap-directed-seal-exhaustion}
+Let two accepted $\DyadicApproximationUp$ packets carry overlapping finite
+$\StreamNameUp$ windows and overlapping finite $\RegSeqRatUp$ observation
+windows. Suppose their overlap is equipped with a displayed directed common
+unary precision refinement, so that both dyadic endpoints and both seal
+ledgers are transported to the same visible precision row. Then every
+$\RealUp$ seal read from either packet factors through one finite boundary
+surface: the common precision row, the transported dyadic endpoints, the
+$\RationalIntervalUp$ refinement window, the $\RegSeqRatUp$ source readback,
+the visible $\hsame$ transports, the visible $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert_{\DyadicApproximationUp}$ rows.
+
+This finite boundary exports no quotient-real equality, host real equality,
+completion point, trichotomy row, selected representative, located subset, or
+choice principle. The overlap theorem is only a coverage statement for the
+displayed finite rows already present in the two accepted packets and their
+directed refinement data.
+\end{theorem}
+\begin{proof}
+First put the two accepted packets on the same displayed precision row. Apply
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to make the directed refinement independent of the binary route used to reach
+the common row.
+
+Next apply \autoref{thm:dyadicapproximation-terminal-refinement-window} to the
+overlapping two-packet family. This produces the terminal finite window
+containing the common precision row, transported endpoints, stream window,
+regular rational observation window, seal ledger, visible transports,
+continuations, package provenance, and local certificate rows.
+
+Use \autoref{thm:dyadic-approximation-rational-interval-window-handoff} to
+read the transported dyadic endpoints through the shared
+$\RationalIntervalUp$ refinement window. The handoff keeps the endpoint and
+containment data inside the same finite overlap surface.
+
+Then apply
+\autoref{thm:dyadicapproximation-window-regseqrat-source-exhaustion}. It
+identifies the $\RegSeqRatUp$ source readback and shows that both
+$\RationalIntervalUp$ and $\RealUp$ consumers read the same displayed source
+surface.
+
+Finally route the seal boundary through
+\autoref{thm:dyadicapproximation-real-seal-scope}. Since the seal scope has no
+coordinate for quotient-real equality, host equality, completion points,
+trichotomy, selected representatives, located subsets, or choice data, the
+overlap-directed read cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation overlap seal idempotence]\label{thm:dyadicapproximation-overlap-seal-idempotence}
+Let two accepted $\DyadicApproximationUp$ packets satisfy the hypotheses of
+\autoref{thm:dyadicapproximation-overlap-directed-seal-exhaustion}, and let
+their resulting finite $\RealUp$ seal boundary be read again through any
+compatible displayed overlap refinement. Then the second read factors through
+the same common precision row, the same transported dyadic endpoint rows, the
+same $\RationalIntervalUp$ refinement window, the same $\RegSeqRatUp$ source
+readback, the same visible $\hsame$ transports, the same visible $\Cont$
+routes, the same $\mathsf{Pkg}$ provenance, and the same local
+$\NameCert_{\DyadicApproximationUp}$ rows as the first seal read.
+
+Thus repeated $\RealUp$ seal reads through a fixed finite overlap boundary are
+idempotent as displayed packet reads. The idempotence assertion exports no
+quotient-real equality, host real equality, completion point, trichotomy row,
+selected representative, located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:dyadicapproximation-overlap-directed-seal-exhaustion} to the two
+accepted packets and their displayed directed common precision refinement. This
+identifies the first $\RealUp$ seal read with the finite overlap boundary
+containing the common precision row, transported endpoint rows, rational
+interval window, regular rational source readback, visible transports,
+continuations, package provenance, and local certificate rows.
+
+Next apply \autoref{thm:dyadicapproximation-terminal-window-idempotence} to the
+compatible displayed overlap refinement used by the second read. Re-reading a
+terminal finite window through a compatible refinement returns the same terminal
+window, so the second seal read cannot introduce a new precision row, endpoint
+row, consumer route, package row, or local certificate row.
+
+Finally apply
+\autoref{thm:dyadicapproximation-window-regseqrat-source-exhaustion}. It
+identifies the unique $\RegSeqRatUp$-facing source surface seen by the
+$\RationalIntervalUp$ and $\RealUp$ consumers, and therefore transports the
+second seal read back to the same source surface already named by the first
+overlap-directed read. Since each cited result is a statement about finite
+displayed packet rows, the repeated read has no coordinate for quotient-real
+equality, host real equality, completion points, trichotomy, selected
+representatives, located subsets, or choice data.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation finite overlap cocone determinacy]\label{thm:dyadicapproximation-finite-overlap-cocone-determinacy}
+Let a finite family of accepted $\DyadicApproximationUp$ packets be equipped
+with pairwise overlap data, and suppose every pairwise overlap admits a
+displayed directed common unary precision refinement compatible on triple
+overlaps. Then the family determines one consumer-visible cocone surface. Its
+rows are exactly the common precision row, the transported dyadic endpoints,
+the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the
+$\RealUp$ seal ledgers, any optional $\RationalIntervalUp$ containment rows,
+the visible $\hsame$ routes, the visible $\Cont$ routes, the $\mathsf{Pkg}$
+provenance rows, and the local $\NameCert_{\DyadicApproximationUp}$ ledgers.
+
+Every finite consumer of this family factors through that cocone surface, and
+two bracketings of the displayed pairwise overlap refinements expose the same
+listed rows. The determinacy assertion exports no quotient-real equality, host
+equality, completed real point, trichotomy row, selected representative,
+located subset, or choice data.
+\end{theorem}
+\begin{proof}
+First build the common precision spine. Apply
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+across the compatible pairwise directed refinements. This makes the displayed
+common precision row independent of the binary route through the finite family.
+
+Next identify the terminal finite window. Use
+\autoref{thm:dyadicapproximation-terminal-window-subchain-absorption} to absorb
+each pairwise overlap subchain into the same terminal window, so the transported
+dyadic endpoints, finite stream windows, visible $\hsame$ routes, visible
+$\Cont$ routes, package provenance, and local certificate ledgers are read on
+one surface.
+
+Then apply
+\autoref{thm:dyadicapproximation-window-regseqrat-source-exhaustion}. The
+regular-rational readbacks and any rational-interval containment rows are
+therefore source rows of the same terminal consumer surface, not additional
+choices of representatives.
+
+Finally apply
+\autoref{thm:dyadicapproximation-overlap-directed-seal-exhaustion} to every
+pairwise overlap boundary. The $\RealUp$ seal ledgers are exhausted by the
+directed common precision rows already absorbed into the terminal window, so
+the finite family has one displayed cocone surface for all named consumers.
+Because all cited theorems are finite packet-row statements, the construction
+has no coordinate for quotient-real equality, host equality, completed real
+points, trichotomy, selected representatives, located subsets, or choice data.
+\end{proof}
+
+\closureat{DyadicApproximationUp}{seedStr}
+\closureat{DyadicApproximationUp}{obligationStr}
+\closureat{DyadicApproximationUp}{scopedStr}
+\closureat{DyadicApproximationUp}{publicStr}
+\closureat{DyadicApproximationUp}{bridgedStr}
+\closureat{DyadicApproximationUp}{matureStr}
+
+\begin{closurestatus}{\DyadicApproximationUp}
+  \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:dyadicapproximation-window-scope}, \autoref{thm:dyadicapproximation-real-seal-scope}, \autoref{thm:dyadicapproximation-ledger-exclusion-scope}, \autoref{thm:dyadicapproximation-public-finite-window-export}, \autoref{thm:dyadic-approximation-standard-finite-approximation-bridge}, \autoref{thm:dyadic-approximation-rational-interval-window-handoff}, \autoref{thm:dyadicapproximation-consumer-completeness}, \autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}, and \autoref{thm:dyadicapproximation-terminal-refinement-window} form the public finite-window export, standard finite dyadic-approximation readback, rational interval handoff, finite consumer surface, directed refinement associativity, and terminal common-refinement window for the accepted dyadic window, $\RealUp$ seal handoff, and ledger exclusions over $\mathsf{BHist}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RationalIntervalUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
+  \upgradepath{No further paper theory-axis grade remains; formal verification remains a separate axis for the same dyadic approximation packet.}
+\end{closurestatus}
