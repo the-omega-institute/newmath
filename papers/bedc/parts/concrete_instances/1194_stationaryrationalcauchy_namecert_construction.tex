@@ -49,6 +49,18 @@ Read the scheduled finite window of $A$. Because $A$ is constant, the selected w
 The displayed $\hsame$ comparison transports this read through the stored $\Cont$ route, and the $\Pkg$ and $\NameCert$ rows record the provenance of the read. Thus the diagonal read is exactly the finite route listed in the statement.
 \end{proof}
 
+\begin{theorem}[StationaryRationalCauchy finite-prefix uniformity]
+\label{thm:stationary-rational-cauchy-finite-prefix-uniformity}
+For every accepted $\StationaryRationalCauchyUp$ carrier $S=(q,A,R,D,E,P,N)$ and every finite unary prefix of precision requests, each request in the prefix reads the same $\RatUp$ seed $q$ through the same constant $\StreamNameUp$ schedule $A$, the same stationary $\RegSeqRatUp$ member $R$, and the same $\DyadicRatCoreUp$ ledger $D$. The only variation permitted across the prefix is the displayed $\hsame$ transport and $\Cont$ route used to reach the repeated rows.
+\end{theorem}
+\begin{proof}
+Induct over the finite prefix. The empty prefix has no requested read, so the carrier coordinates already supply the uniform seed, schedule, regular-sequence member, and ledger.
+
+For a prefix extended by one request $n$, apply \autoref{thm:stationary-rational-cauchy-diagonal-handoff} to the final request. The handoff routes $n$ through $R$, then through the constant schedule $A$, and then back to the seed row $q$ and ledger $D$.
+
+The induction hypothesis gives the same rows for the earlier requests. Since the carrier of \autoref{def:stationary-rational-cauchy-carrier} is stationary in $q,A,R,D$, the final request introduces no new stream schedule, regular-sequence member, or dyadic ledger. Its displayed $\hsame$ and $\Cont$ rows are the only request-indexed data.
+\end{proof}
+
 \begin{theorem}[StationaryRationalCauchy classifier correspondence]
 \label{thm:stationary-rational-cauchy-classifier-correspondence}
 Let $S=(q,A,R,D,E,P,N)$ and $S'=(q',A',R',D',E',P',N')$ be accepted $\StationaryRationalCauchyUp$ carriers. The local classifier relates $S$ and $S'$ exactly when the displayed $\RatUp$ classifier relates $q$ and $q'$ and the associated $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\Pkg$, and $\NameCert$ rows are transported componentwise by the recorded $\hsame$ comparisons and $\Cont$ routes.
