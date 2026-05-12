@@ -460,4 +460,38 @@ theorem RationalIntervalPacket_standard_boundary_bridge [AskSetup] [PackageSetup
     unary_cont_closed endpointUnary widthUnary boundaryRow
   exact ⟨widthUnary, containmentReadUnary, boundaryUnary, sameWidthOrder, boundaryRow, boundaryPkg⟩
 
+theorem RationalIntervalPacket_refinement_choice_neutrality [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint choice choice' package
+      package' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory choice ->
+        UnaryHistory choice' ->
+          hsame choice choice' ->
+            Cont endpoint choice package ->
+              Cont endpoint choice' package' ->
+                PkgSig bundle package pkg ->
+                  PkgSig bundle package' pkg ->
+                    hsame package package' ∧ UnaryHistory package ∧ UnaryHistory package' ∧
+                      Cont endpoint choice package ∧ Cont endpoint choice' package' ∧
+                        PkgSig bundle package pkg ∧ PkgSig bundle package' pkg := by
+  intro packet choiceUnary choiceUnary' sameChoice endpointChoicePackage endpointChoicePackage'
+    packagePkg packagePkg'
+  rcases packet with
+    ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+      _routeUnary, _provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder,
+      _orderContainmentTransport, _transportRouteProvenance, _provenanceNameEndpoint,
+      _endpointPkg⟩
+  have samePackage : hsame package package' :=
+    cont_respects_hsame (hsame_refl endpoint) sameChoice endpointChoicePackage
+      endpointChoicePackage'
+  have packageUnary : UnaryHistory package :=
+    unary_cont_closed endpointUnary choiceUnary endpointChoicePackage
+  have packageUnary' : UnaryHistory package' :=
+    unary_cont_closed endpointUnary choiceUnary' endpointChoicePackage'
+  exact
+    ⟨samePackage, packageUnary, packageUnary', endpointChoicePackage, endpointChoicePackage',
+      packagePkg, packagePkg'⟩
+
 end BEDC.Derived.RationalIntervalUp
