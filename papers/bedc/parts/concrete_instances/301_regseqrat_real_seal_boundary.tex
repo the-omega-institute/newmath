@@ -374,6 +374,47 @@ quotient reals, host equality, selected limits, completion points, or
 completeness data.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal public handoff determinacy]
+\label{thm:regseqrat-real-seal-public-handoff-determinacy}
+Every public $\RealUp$ seal consumer of an accepted $\RegSeqRatUp$ stream
+packet factors through the finite schedule-coverage row of
+\autoref{thm:regseqrat-real-seal-schedule-coverage}, the replay-ledger lock of
+\autoref{thm:regseqrat-real-seal-replay-ledger-lock}, the classifier
+exhaustion row of \autoref{thm:regseqrat-real-seal-classifier-exhaustion},
+and the handoff row
+$\mathrm{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}$.
+If two accepted public handoff routes have the same finite schedule and the
+same replay ledger, then they expose the same $\RealUp$ readback classifier.
+
+The conclusion is a deterministic consumer boundary for the displayed finite
+seal package. It does not introduce quotient-real equality, host equality,
+selected limits, metric-completion points, or $\RealUp$ completeness as
+readback coordinates.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:regseqrat-real-seal-schedule-coverage}. The public
+consumer has only the finite $\StreamNameUp$ windows, dyadic endpoint and
+radius ledgers, regularity rows, transported classifier rows, $\mathsf{BHist}$
+packet rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows
+available for a seal read.
+
+Next apply \autoref{thm:regseqrat-real-seal-replay-ledger-lock}. Equality of
+the schedule and replay ledger locks the accepted route package, so the
+consumer cannot choose a second route through a different dyadic-radius,
+regularity, continuation, package, or local naming row.
+
+Then invoke \autoref{thm:regseqrat-real-seal-classifier-exhaustion}. The
+visible classifier is exhausted by the transported $\RegSeqRatUp$ classifier
+surface together with the locked route package, leaving no extra seal case for
+the readback classifier.
+
+Finally use the displayed handoff row
+$\mathrm{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}$.
+That row is the finite $\RegSeqRatUp$-to-$\RealUp$ seal handoff already named
+by the chapter closure target, so the common schedule and replay ledger yield
+one exposed $\RealUp$ readback classifier.
+\end{proof}
+
 \begin{theorem}[RegSeqRat Real seal schedule confluence]
 \label{thm:regseqrat-real-seal-schedule-confluence}
 Let $S$ and $T$ be finite schedules accepted as $\RealUp$ seal reads from

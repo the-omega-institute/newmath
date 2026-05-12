@@ -92,17 +92,53 @@ The external regular-singular and Riemann-Hilbert traditions justify the human-k
 Thus the boundary is a finite scope statement about what the certificate rows expose. Standard analytic or categorical monodromy results remain outside this seed chapter until they are represented by additional displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[Monodromy public loop readback export]
+\label{thm:monodromy-public-loop-readback-export}
+The public $\MonodromyUp$ readback exports exactly the loop row, base endpoint
+row, local-system or fibre row, returned row, finite continuation ledger,
+componentwise $\hsame$ transports, and $\mathsf{Pkg}$ provenance over
+$\HolonomyUp$, $\RiemannHilbertUp$, $\SheafUp$, $\ConnectionUp$, and
+$\CurvatureUp$.
+
+The export does not include analytic fundamental groups, host representation
+categories, unbounded continuation solvers, or a Riemann-Hilbert equivalence.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition
+\autoref{def:monodromy-bhist-transport-carrier}. Its coordinates are precisely
+the loop row, base endpoint, local-system or fibre row, returned row, finite
+continuation ledger, componentwise transports, and dependency provenance.
+
+Apply the finite transport classifier of
+\autoref{def:monodromy-finite-transport-classifier}. It permits only rowwise
+comparison of the displayed loop, endpoint, fibre or local-system, returned,
+ledger, transport, and provenance rows.
+
+Next use \autoref{thm:monodromy-loop-continuation-obligation} and
+\autoref{thm:monodromy-returned-row-provenance-exactness}. The first theorem
+binds the returned row to the finite loop-continuation ledger, and the second
+shows that no returned row has a source outside the displayed packet.
+
+Finally apply \autoref{thm:monodromy-namecert-obligation-surface} together
+with \autoref{thm:monodromy-standard-boundary-scope}. The local
+$\NameCert_{\MonodromyUp}$ surface and the standard boundary scope repack the
+same rows as the public readback while keeping analytic fundamental groups,
+host representation categories, unbounded continuation solvers, and
+Riemann-Hilbert equivalence outside the packet.
+\end{proof}
+
 \closureat{MonodromyUp}{seedStr}
 \closureat{MonodromyUp}{obligationStr}
 \closureat{MonodromyUp}{scopedStr}[BEDC.Derived.MonodromyUp.MonodromyTransportPacket\_loop\_continuation\_obligation]
+\closureat{MonodromyUp}{publicStr}
 \begin{closurestatus}{\MonodromyUp}
   \constructivestory{A monodromy packet is a finite $\mathsf{BHist}$ transport ledger over a displayed loop, base endpoint, local-system or fibre row, returned row, finite continuation ledger, componentwise $\hsame$ transports, and package provenance. Classification is rowwise transport of those finite coordinates, with Deligne-style regular-singular monodromy and Riemann-Hilbert theory serving only as the human-known naming source.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped boundary binds the loop-continuation rows, returned-row provenance, local $\NameCert$ surface, and RiemannHilbert, connection, and sheaf sources through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public boundary binds the loop-continuation rows, returned-row provenance, local $\NameCert$ surface, public loop readback export, and RiemannHilbert, connection, and sheaf sources through $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.MonodromyUp.MonodromyTransportPacket\_loop\_continuation\_obligation}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close analytic continuation, a fundamental-group representation theorem, regular-singular classification, Riemann-Hilbert equivalence, or a standard bridge.}
-  \upgradepath{Public closure requires a consumer-facing packet theorem tying these scoped rows to the downstream monodromy readback boundary.}
+  \upgradepath{The next paper-grade step is a standard bridge boundary for the public monodromy readback packet.}
 \end{closurestatus}
