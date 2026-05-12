@@ -6,17 +6,19 @@ Runtime inbox, state, logs, and raw gate output remain untracked.
 | Metric | Value |
 | --- | --- |
 | Apply | `True` |
-| Eligible candidates | `0` |
+| Eligible candidates | `3` |
 | Accepted into BOARD | `0` |
-| Rejected | `0` |
+| Rejected | `3` |
 | Appended ids | `none` |
-| Judge backend | `` |
+| Judge backend | `codex_fallback` |
 
 ## Candidate Modes
 
 | Title | Mode | Source commit | Source paths | Evidence packet | Expected NewMath delta |
 | --- | --- | --- | --- | --- | --- |
-| _none_ |  |  |  |  |  |
+| `Cayley weighted integral normalization bridge evidence` | `board_continuation` | `aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f` | `papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_appendix.tex` | `tools\automath_newmath_bridge\review_packets\papers-publication-2026-cayley-chebyshev-poisson-entropy-strip-rkhs-jfa-sec-appendix-tex-98a1027e8c35.json` | minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet |
+| `Cayley boundary chart bridge wrapper` | `board_continuation` | `aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f` | `papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_cayley_gate.tex` | `tools\automath_newmath_bridge\review_packets\papers-publication-2026-cayley-chebyshev-poisson-entropy-strip-rkhs-jfa-sec-cayley-gate-tex-ce39cd0cc9a6.json` | minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet |
+| `Doob Phi-entropy dissipation bridge obligation` | `board_continuation` | `aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f` | `papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_doob_phi_entropy.tex` | `tools\automath_newmath_bridge\review_packets\papers-publication-2026-cayley-chebyshev-poisson-entropy-strip-rkhs-jfa-sec-doob-phi-entropy-tex-218a5391e43c.json` | minimal BEDC wrapper, native restatement, obstruction, or audit/planning task that cites the Automath evidence packet |
 
 ## Policy
 
