@@ -115,6 +115,94 @@ remaining coordinate from which a completeness principle, stream quotient, or
 selected limiting value could be obtained.
 \end{proof}
 
+\begin{theorem}[RealLimit common-refinement classifier]
+\label{thm:reallimit-common-refinement-classifier}
+For accepted $\RealLimitUp$ packets
+$$
+R=(S,Q,E,D,H,C,P,N)
+\quad\text{and}\quad
+R'=(S',Q',E',D',H',C',P',N'),
+$$
+the local classifier can place $R$ and $R'$ in the same real-limit name only
+through a displayed common finite $\StreamNameUp$ schedule refinement. On that
+common refinement it reads the same $\RegSeqRatUp$ tolerance row, the displayed
+$\DyadicRatCoreUp$ error rows, and the componentwise $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows of the two packets. The classifier has no row for
+completed real equality, quotient-stream equality, or a selected limit.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:reallimit-bhist-carrier}. The
+schedule coordinates $S,S'$ are the only sources of observation windows, and
+the source-stream coordinates $Q,Q'$ are the only regular rational rows
+available at those windows.
+
+Refine the displayed schedules to a common finite window. On that window the
+classifier reads the $\RegSeqRatUp$ tolerance row named by the source stream
+coordinates and the $\DyadicRatCoreUp$ error rows named by $D,D'$.
+
+The remaining comparison data is componentwise. Transport is supplied by
+$H,H'$, continuation routes by $C,C'$, package provenance by $P,P'$, and local
+ledger evidence by $N,N'$. Repacking these displayed rows gives the classifier,
+and the carrier contains no coordinate from which completed real equality,
+quotient-stream equality, or a selected limit could be read.
+\end{proof}
+
+\begin{theorem}[RealLimit transport stability boundary]
+\label{thm:reallimit-transport-stability-boundary}
+For an accepted $\RealLimitUp$ packet, $\hsame$ transport and $\Cont$
+refinement preserve the selected $\StreamNameUp$ schedule, the
+$\RegSeqRatUp$ source stream, the $\RealUp$ seal endpoint, the
+$\DyadicRatCoreUp$ tolerance windows, the $\Pkg$ provenance row, and the local
+$\NameCert_{\RealLimitUp}$ ledger. Every transported row remains a displayed
+row of the finite packet surface.
+\end{theorem}
+\begin{proof}
+Read the packet $R=(S,Q,E,D,H,C,P,N)$ from
+\autoref{def:reallimit-bhist-carrier}. The coordinates $H$ and $C$ are exactly
+the stored componentwise transport and refinement routes for the schedule,
+source stream, seal endpoint, dyadic tolerances, package provenance, and local
+ledger.
+
+Apply \autoref{thm:reallimit-common-refinement-classifier} to identify the
+common finite schedule surface on which a transported comparison is allowed to
+take place. The classifier exposes only the displayed schedule, source,
+tolerance, transport, continuation, provenance, and certificate rows.
+
+Transporting along $H$ and refining along $C$ therefore keeps every consumer
+row inside the same finite packet surface. Since no other carrier coordinate is
+available, the seal endpoint, dyadic tolerance windows, provenance, and ledger
+remain displayed rows rather than hidden real-completion data.
+\end{proof}
+
+\begin{theorem}[RealLimit readback ledger exhaustion]
+\label{thm:reallimit-readback-ledger-exhaustion}
+Every $\RealUp$-facing read from an accepted $\RealLimitUp$ packet factors
+through the scheduled $\RegSeqRatUp$ source, the $\DyadicRatCoreUp$ tolerance
+row, the displayed $\hsame$ and $\Cont$ routes, the $\Pkg$ provenance row, and
+the local $\NameCert_{\RealLimitUp}$ ledger. The readback surface excludes
+$\RealUp$ completeness, quotient-stream equality, and selected limiting
+objects.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:reallimit-regseqrat-streamname-handoff}. It routes a
+real-facing read through the finite $\StreamNameUp$ schedule, the
+$\RegSeqRatUp$ source stream, the dyadic tolerance row, transport,
+continuation, package provenance, and local certificate.
+
+Use \autoref{thm:reallimit-common-refinement-classifier} for paired readbacks.
+It shows that compatible packet reads share only a displayed common finite
+schedule refinement and the same scheduled tolerance surface.
+
+Use \autoref{thm:reallimit-transport-stability-boundary} for replacement of
+rows along $\hsame$ and $\Cont$. The transported read remains on the visible
+packet coordinates, so the ledger is exhausted by $S,Q,D,H,C,P,N$ together
+with the seal endpoint $E$.
+
+No coordinate of the carrier stores real completeness, quotient-stream
+equality, or a selected limiting object. Those objects therefore cannot appear
+in the $\RealUp$-facing readback ledger.
+\end{proof}
+
 \begin{theorem}[RealLimit classifier obligation]
 \label{thm:reallimit-classifier-obligation}
 For accepted $\RealLimitUp$ packets
