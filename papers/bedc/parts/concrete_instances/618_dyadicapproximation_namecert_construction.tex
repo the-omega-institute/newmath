@@ -558,6 +558,51 @@ terminal window has no additional quotient-real, host-equality, completion,
 choice, or selected-representative coordinate to export.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation terminal window subchain absorption]
+\label{thm:dyadicapproximation-terminal-window-subchain-absorption}
+Let a compatible finite $\DyadicApproximationUp$ refinement chain have terminal
+displayed window $T$. Any finite compatible subchain whose packets factor
+through $T$ may be inserted, deleted, or repeated without changing the terminal
+precision row, dyadic endpoint row, $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, $\RealUp$ seal ledger, optional
+$\RationalIntervalUp$ containment row, visible $\hsame$ routes, visible
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, or local
+$\NameCert_{\DyadicApproximationUp}$ ledger.
+
+Equivalently, the displayed terminal row is an absorbing finite normal form for
+every already-terminal compatible subchain. The normal form exports no quotient
+real equality, host equality, completed real, trichotomy, choice principle, or
+selected representative coordinate beyond the rows already visible through
+$T$.
+\end{theorem}
+\begin{proof}
+Begin with the given finite chain and apply
+\autoref{thm:dyadicapproximation-nested-window-exhaustion}. This places every
+compatible finite refinement packet in the same directed displayed-window
+spine and supplies the common precision, endpoint, stream, regular-sequence,
+seal, containment, transport, package, and local certificate rows.
+
+For a subchain whose packets factor through $T$, apply
+\autoref{thm:dyadicapproximation-terminal-window-idempotence} to each displayed
+terminal packet in the subchain. Repetition of such a packet contributes no new
+consumer-visible row, and deletion removes only rows already identified with
+the terminal row.
+
+It remains to compare the positions of the subchain inside the whole finite
+refinement. Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to rebracket the refinement so the subchain is read either before, after, or at
+the displayed terminal row. The associated bracketings have the same precision,
+endpoint, stream, regular-sequence, seal, containment, visible transport,
+package, and local ledger data.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. Every
+finite $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and optional
+$\RationalIntervalUp$ consumer read factors through the terminal displayed row,
+so insertion, deletion, and repetition of an already-terminal compatible
+subchain leave exactly the same public finite-window surface.
+\end{proof}
+
 \begin{theorem}[DyadicApproximation window RegSeqRat source exhaustion]
 \label{thm:dyadicapproximation-window-regseqrat-source-exhaustion}
 Every accepted $\DyadicApproximationUp$ packet together with a finite
