@@ -1,0 +1,528 @@
+\section{Session Closing Summary}
+\label{sec:session-closing-summary}
+
+This closing section gathers the self-compilation surface as a single
+reader-facing account.  The chapter has reached a point where the
+closed-term metatheory is represented inside Lean, the Church-encoded gallery
+is broad enough to exercise the object calculus, and the host bridge carries
+both directions of the intended comparison: ordinary Lean examples on one
+side, represented MetaCIC terms and beta traces on the other.  The result is
+not a full kernel story.  It is a closed, first-principles story about the
+fragment that BEDC uses when it treats its finite self-description as object
+language data.
+
+The self-compilation chapter began from the L1/L4 distinction and the
+Godel--Tarski boundary.  It then built the MetaCIC reconstruction as an
+explicit object calculus: syntax, contexts, closure, substitution, typing,
+beta reduction, finite beta chains, typed examples, bounded normalization, and
+bridges from finite BEDC histories.  The present position is sharper than a
+catalogue of definitions.  The calculus has closed-term preservation facts,
+subject-reduction interfaces with checked positive and negative resolutions,
+atom and closed-normal confluence results, candidate-based strong-normalization
+witnesses for the represented gallery, a decidable checker with soundness and
+completeness facts, Church-encoded data with beta laws, and HostBridge
+transport facts aligning represented examples with host computation.
+
+The common invariant behind these pieces is that BEDC does not outsource the
+mathematics to a quotation facility or to mathlib.  The represented syntax is
+an inductive datatype.  De Bruijn shifting and substitution are recursive
+functions.  Closure, typing, beta steps, beta-star chains, parallel beta, and
+conversion are object-language relations.  Every Lean target cited below lives
+in this first-principles surface.  The paper therefore reads the
+self-compilation chapter as a closed-term metatheory for the represented
+fragment, not as a statement about Lean's host kernel.
+
+\subsection{Mechanized Theorems Table}
+\label{subsec:session-closing-mechanized-theorems}
+
+The table records the principal theorem families used by the chapter.  Each
+entry uses \verb|\leanvariant| because this section is an index of already
+documented targets rather than the primary site for a single canonical paper
+theorem.
+
+\begin{longtable}{p{0.18\textwidth}p{0.31\textwidth}p{0.42\textwidth}}
+\toprule
+Layer & Mechanized content & Lean targets \\
+\midrule
+\endfirsthead
+\toprule
+Layer & Mechanized content & Lean targets \\
+\midrule
+\endhead
+Substrate &
+Closed terms, native substitution, shift-aware closure, and closure
+preservation across beta traces. &
+\leanvariant{BEDC.MetaCIC.shift\_closed}
+\leanvariant{BEDC.MetaCIC.substitute\_closed}
+\leanvariant{BEDC.MetaCIC.closedAt\_shift}
+\leanvariant{BEDC.MetaCIC.closedAt\_substitute}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_closed\_at}
+\leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+\\
+Typing rules &
+The object typing judgment, the beta-substitution interface, and shape-wise
+substitution preservation for Pi, lambda, and application. &
+\leanvariant{BEDC.MetaCIC.HasType}
+\leanvariant{BEDC.MetaCIC.BetaSubstitutionPreservation}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_pi}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_lam}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_app\_cod\_sort\_var\_commutes}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_typing\_via\_term\_induction}
+\\
+Subject reduction &
+The hypothesis-explicit subject-reduction theorem, its constructor cases, the
+closed independent-codomain application discharge, and the checked closed
+binder-domain obstructions. &
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_beta}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp1}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp2}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congLam}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congPi}
+\leanvariant{BEDC.MetaCIC.subject\_reduction}
+\leanvariant{BEDC.MetaCIC.appArgTypeStable\_closed}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_closed\_app\_independent\_codomain}
+\leanvariant{BEDC.MetaCIC.not\_subject\_reduction\_closed}
+\\
+Confluence &
+Atom diamonds, shape assemblers for compound terms, the conditional full
+parallel diamond, and the unconditional closed-normal surface. &
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_var}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_shape\_diamond\_from\_substitution}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_from\_substitution}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_closed\_normal}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal}
+\\
+Strong normalization &
+The reducibility vocabulary, Pi adequacy, closed candidate consequences, and
+the gallery witnesses used by the closed self-compilation surface. &
+\leanvariant{BEDC.MetaCIC.StrongNormalizable}
+\leanvariant{BEDC.MetaCIC.Candidate}
+\leanvariant{BEDC.MetaCIC.ClosedCandidate}
+\leanvariant{BEDC.MetaCIC.PiCandidate}
+\leanvariant{BEDC.MetaCIC.CandidateSet}
+\leanvariant{BEDC.MetaCIC.candidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.closedCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.piCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.pi\_candidate\_app}
+\leanvariant{BEDC.MetaCIC.PiAdequacy.piCandidate\_implies\_sn}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}
+\\
+Decidable checker &
+The context-sensitive executable type checker, its closed wrapper, and the
+soundness and completeness theorems that connect it to the inductive typing
+judgment. &
+\leanvariant{BEDC.MetaCIC.inferTypeCtx}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_sound}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_sound}
+\leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_complete}
+\leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_raw}
+\leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete\_strict}
+\\
+Church gallery &
+Closed represented encodings for Booleans, naturals, pairs, options, and
+polymorphic combinators. &
+\leanvariant{BEDC.MetaCIC.church\_bool\_type}
+\leanvariant{BEDC.MetaCIC.church\_true}
+\leanvariant{BEDC.MetaCIC.church\_false}
+\leanvariant{BEDC.MetaCIC.church\_nat\_type}
+\leanvariant{BEDC.MetaCIC.church\_zero}
+\leanvariant{BEDC.MetaCIC.church\_one}
+\leanvariant{BEDC.MetaCIC.church\_succ}
+\leanvariant{BEDC.MetaCIC.church\_pair\_type}
+\leanvariant{BEDC.MetaCIC.church\_mk\_pair}
+\leanvariant{BEDC.MetaCIC.church\_fst}
+\leanvariant{BEDC.MetaCIC.church\_snd}
+\leanvariant{BEDC.MetaCIC.church\_option\_type}
+\leanvariant{BEDC.MetaCIC.church\_none}
+\leanvariant{BEDC.MetaCIC.church\_some}
+\leanvariant{BEDC.MetaCIC.church\_case\_option}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_type}
+\leanvariant{BEDC.MetaCIC.poly\_compose\_type}
+\\
+Algebraic laws &
+Beta-star laws for Church Boolean projections, Church numeral application,
+polymorphic identity, and pair selection. &
+\leanvariant{BEDC.MetaCIC.church\_true\_proj}
+\leanvariant{BEDC.MetaCIC.church\_false\_proj}
+\leanvariant{BEDC.MetaCIC.church\_zero\_apply}
+\leanvariant{BEDC.MetaCIC.church\_one\_apply}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_apply}
+\leanvariant{BEDC.MetaCIC.church\_pair\_value\_to\_selector}
+\\
+Church natural recursion &
+Closed successor and addition facts for represented Church naturals, including
+successor application, zero-left addition, addition application, and the
+successor-left addition law. &
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_succ\_closed}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_add\_type}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_succ\_iter}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_succ\_zero\_conv}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_succ\_zero\_to\_one}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_add\_zero}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_add\_apply}
+\leanvariant{BEDC.MetaCIC.ChurchNatRec.church\_add\_succ\_left}
+\\
+HostBridge &
+Host-side beta equalities, represented typing transport, represented beta
+transport, and bounded-normalizer equations for the same finite examples. &
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_identity\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_const\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_true\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_church\_zero\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_identity\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_true\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_zero\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_pair\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_option\_type\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_poly\_id\_two\_step\_redex\_star}
+\leanvariant{BEDC.HostBridge.normalize\_church\_true\_apply}
+\leanvariant{BEDC.HostBridge.normalize\_church\_zero\_apply}
+\\
+Beta conversion &
+Symmetric join-based conversion, constructors from beta-star and beta-step,
+conditional transitivity, closed-normal transitivity, equality of closed
+normal forms, and a closed lambda-domain obstruction to a blanket typing
+invariance statement. &
+\leanvariant{BEDC.MetaCIC.BetaConv}
+\leanvariant{BEDC.MetaCIC.BetaConv.refl}
+\leanvariant{BEDC.MetaCIC.BetaConv.symm}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStar\_left}
+\leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStep\_left}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_of\_confluence}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_closed\_normal\_middle}
+\leanvariant{BEDC.MetaCIC.BetaConv\_normal\_forms\_equal\_closed}
+\leanvariant{BEDC.MetaCIC.BetaConv\_closed\_lam\_domain\_type\_obstruction}
+\leanvariant{BEDC.MetaCIC.not\_HasType\_BetaConv\_invariant\_closed}
+\\
+\bottomrule
+\end{longtable}
+
+\subsection{How to Read the Table}
+\label{subsec:session-closing-table-reading}
+
+The table is deliberately organized by proof pressure rather than by file
+path.  A reader who starts from the substrate rows sees the object calculus
+as a small de Bruijn machine: terms are built by constructors, contexts are
+lists, closure is a boundary predicate, and substitution is the operation that
+must respect the boundary.  This is the layer that prevents later examples
+from becoming informal syntax diagrams.  The object calculus has to preserve
+its own scope before any self-compilation claim can use it.
+
+The typing and subject-reduction rows then show how much of the ordinary
+metatheory is available at the represented level.  The theorem named
+\texttt{subject\_reduction} is intentionally hypothesis-explicit.  It is not
+a paper promise that all conversion-sensitive facts hold automatically.  It
+is a Lean theorem that lists the required stability interfaces and proves the
+constructor cases once those interfaces are supplied.  The closed
+independent-codomain theorem is the positive closed case used by the gallery.
+The negative closed binder-domain targets explain why the paper does not
+silently strengthen the theorem beyond what the represented calculus proves.
+
+The confluence row has the same discipline.  The atom and closed-normal
+targets are unconditional.  The application and full-diamond targets expose a
+substitution-compatibility premise.  This matters because the self-compilation
+chapter uses confluence where its sources are atom-shaped, closed-normal, or
+part of the finite gallery.  It does not need to pretend that every
+application residual of the represented calculus has been globally joined.
+The row therefore records both usable theorem content and the exact algebraic
+frontier.
+
+The strong-normalization row should also be read as a scoped result.  The
+project has a robust vocabulary of candidates, closed candidates, Pi
+candidates, neutral normal forms, and closed typed candidate consequences.
+That vocabulary is sufficient for the gallery witnesses and for the
+closed-term termination claims made in the chapter.  It is not a semantic
+normalization theorem for every well-typed represented term.  This distinction
+keeps the paper aligned with its Lean surface: the file names and theorem
+names show candidate adequacy where it is actually proved, not where a
+textbook proof might eventually go.
+
+The decidable-checker row is the executable counterpart to the inductive
+typing relation.  It closes a practical loop: the chapter can present a
+represented term, cite an inductive typing witness, and also cite a recursive
+checker whose soundness and completeness connect computation back to
+\texttt{HasType}.  This is one of the reasons the self-compilation surface is
+not merely philosophical.  The represented fragment can be used as data, and
+the project has a checked path for recognizing its closed typed examples.
+
+The Church gallery and HostBridge rows give the computational content of the
+chapter.  Church Booleans, naturals, pairs, options, and polymorphic
+combinators are familiar enough to act as inspection points.  If the
+represented calculus mishandled binders, substitution, application, or
+closedness, these examples would be where the defect becomes visible.  The
+host bridge then places those represented examples next to ordinary host Lean
+functions.  The bridge does not collapse the two layers; it gives a finite
+alignment of examples across them.
+
+The BetaConv row is a useful final row because it shows how the chapter treats
+conversion.  Conversion is represented as a common-join relation over
+\texttt{BetaStarStep}.  Reflexivity and symmetry are immediate from that
+definition.  Transitivity is available under named confluence conditions and
+under the closed-normal middle case.  The closed lambda-domain obstruction
+prevents the paper from claiming a blanket typing-invariance theorem for
+closed conversion.  Thus even the conversion layer follows the same pattern:
+state the relation, prove the stable facts, and name the obstruction where
+the stronger reading fails.
+
+\subsection{Closed Surface}
+\label{subsec:session-closing-closed-surface}
+
+The closed surface consists of the parts of the chapter that can be read
+without an unproved paper-side metatheoretic promise.  The first closed part
+is the de Bruijn substrate.  The calculus does not identify closedness with a
+typographic convention about missing variable names.  It proves that the
+recursive operations respect the boundary they are meant to respect.  This is
+the algebra behind every later finite evaluator trace: once a term is closed
+at boundary $0$, beta contraction and beta congruence cannot manufacture a
+free represented variable.
+
+The second closed part is the subject-reduction interface.  The central
+theorem states the exact hypotheses needed for displayed-type preservation
+along one beta step.  The beta case and congruence cases are checked directly.
+Inside the closed empty-context surface, the application-argument stability
+interface is discharged for independent codomains.  The two binder-domain
+interfaces are not swept into prose: Lean supplies closed counterexamples
+showing that lambda-domain and Pi-domain blanket readings are false as stated.
+This gives the chapter a stronger boundary than an informal preservation
+paragraph would give.  It says what works, what does not work, and which
+object-language witnesses enforce the distinction.
+
+The third closed part is confluence at the level needed by the current
+self-compilation reading.  Atom sources have no genuine beta forks.  Closed
+normal sources have immediate joins.  Compound terms have shape assemblers,
+and the full parallel diamond is available from the named substitution
+compatibility condition.  The confluence story is therefore not hidden behind
+a universal Church--Rosser slogan.  It is a structured surface: atom results,
+shape results, closed-normal results, and one explicit algebraic frontier for
+application residuals.
+
+The fourth closed part is normalization for the represented gallery.  The
+chapter uses strong-normalization witnesses and candidate structures, not a
+global theorem that every closed well-typed represented term normalizes.
+Sorts, variables, neutral applications, lambdas, Pis, Church Booleans, Church
+naturals, identity-shaped terms, and selected closed terms carry the witnesses
+needed by the paper.  The main practical fact is enough for the BEDC surface:
+the concrete represented programs used as examples come with closed typing,
+finite beta traces, or candidate-style termination evidence at the exact
+places where termination is cited.
+
+The fifth closed part is the executable checker.  The checker is not an
+oracle.  It is a recursive function whose result is connected back to
+\texttt{HasType}.  Soundness says that a returned type is justified by the
+inductive typing judgment.  Completeness says that a derivable term is
+accepted by the checker at the displayed type.  The closed wrapper specializes
+that story to the empty-context surface used by the chapter.  This makes the
+gallery simultaneously human-readable and executable: a represented term can
+be shown in the paper, typed by an inductive proof, and checked by the
+decidable surface.
+
+The sixth closed part is the Church gallery.  The gallery covers Boolean
+choice, natural zero and one, successor, pairs, options, and polymorphic
+combinators.  Its laws are beta-star laws over represented terms, not
+host-level reductions pasted into prose.  The natural recursion surface closes
+successor and addition, including the relation between successor of zero and
+one, addition by zero on the left, application of addition, and the
+successor-left law.  Multiplication and exponentiation are not cited here as
+mechanized targets because no Lean target with those names is present in the
+audited surface.
+
+The seventh closed part is HostBridge.  The bridge has two readings.  On the
+host side, ordinary Lean functions compute by reflexivity.  On the represented
+side, the corresponding MetaCIC terms have typing witnesses and beta traces.
+The bridge does not claim that host Lean elaboration is reflected into
+MetaCIC.  It provides a checked finite transport gallery, large enough to say
+that the same examples that compute in the host also exist as represented
+object-language terms inside BEDC.
+
+\subsection{Open Frontier}
+\label{subsec:session-closing-open-frontier}
+
+The open frontier is equally important to the chapter's meaning.  The first
+frontier is open-term metatheory across binders.  The closed empty-context
+surface is robust, but closedness at the outer boundary does not erase the
+local obligations created below lambdas and Pis.  The checked binder-domain
+counterexamples show exactly why.  A stronger theorem would need a transport
+discipline for binder contexts and displayed codomains, not merely a stronger
+wording of the closed theorem.
+
+The second frontier is full confluence for \texttt{BetaStarStep} beyond the
+atom and closed-normal shapes.  The atom diamonds are complete for atom
+sources, and the compound machinery exposes the right structure, but a full
+unconditional Church--Rosser result needs the remaining substitution
+compatibility law for application residuals.  The chapter therefore treats
+\texttt{betaParallel\_diamond\_from\_substitution} as a conditional theorem,
+not as a completed global confluence theorem.
+
+The third frontier is the rest of Church natural arithmetic.  Successor and
+addition are represented and mechanized.  The present paper surface does not
+cite multiplication or exponentiation targets because the audited Lean tree
+does not contain them.  Those operations fit the same object-language style,
+but the closing account reports only the checked targets that the audit can
+find.
+
+The fourth frontier is the full host-kernel feature set: universe hierarchy,
+inductive families, propositional irrelevance, eta-conversion, cumulativity,
+quotients, and proof-irrelevant conversion.  None of these is part of the
+present \texttt{BEDC.MetaCIC} scope.  The calculus is a universe-$0$,
+beta-only, single-sort dependent-function fragment.  This restriction is not
+an omission to hide.  It is what keeps the formalization mathlib-free and
+axiom-free while still covering the represented terms used by the
+self-compilation story.
+
+\subsection{Why This Surface Closes Here}
+\label{subsec:session-closing-why-close}
+
+This is the correct closing point because the closed-term metatheory now
+covers the substance of BEDC's self-compilation surface.  The paper needs a
+finite represented syntax, a checked closure discipline, a typing relation,
+beta traces, a bounded evaluator, examples that exercise dependent functions,
+Church-encoded data, and a bridge to ordinary host examples.  Those pieces are
+present.  Their Lean targets are visible.  Their restrictions are visible as
+well.
+
+The zero-axiom invariant is central to the interpretation.  BEDC's MetaCIC
+surface is not merely constructive in prose.  It avoids project axioms, mathlib
+imports, sorry placeholders, and standard-library axiom dependencies in the
+validated discipline of the project.  In that sense the represented
+metatheory sits in the same strict constructive class that one expects from a
+Brouwer or Bishop reading: theorems are derived from inductive definitions,
+recursive functions, structures, and prior theorems, not from an external
+logical extension.
+
+The practical consequence is that the chapter can stop treating
+self-compilation as a metaphor.  A finite BEDC history can be embedded as a
+closed represented term.  A represented term can be typed.  Finite represented
+beta traces can be checked.  Closedness is preserved along those traces.
+Representative host computations have corresponding represented transport
+witnesses.  The remaining task line is therefore not to argue again that
+reflection is possible in principle.  It is to extend the $\mathsf{BHist}$
+substrate bridge from closed atoms toward self-application while preserving
+the same audit discipline.
+
+\subsection{Forward-Looking Summary}
+\label{subsec:session-closing-forward-looking}
+
+The next self-compilation work line is not a broader claim about every CIC
+feature.  It is a deeper bridge from BEDC's finite-history substrate into the
+represented closed-term calculus.  The current \texttt{BHistSubstrate}
+embedding already shows that a history index can be turned into a closed
+MetaCIC term and that the embedding is injective.  The natural continuation
+is to give that embedding more semantic load: histories should not only enter
+the represented syntax as atoms, but should participate in typed represented
+programs that describe their own admissible transformations.
+
+That direction keeps the chapter's scale under control.  Instead of expanding
+the object calculus toward all of Lean, the project can ask a narrower
+question: which additional finite BEDC structures must be represented so that
+self-application is no longer merely a host-side explanation?  The answer is
+likely to involve typed encodings of package signatures, bridge certificates,
+and closure-preserving transformations between history-shaped terms.  Each
+candidate should enter by the same route used here: define the represented
+object, prove closure, prove typing, give finite beta behavior where
+computation is claimed, and expose every remaining hypothesis as a named Lean
+target.
+
+The closed-term metatheory is already enough to support that route.  It gives
+the low-level guarantee that represented self-application does not lose the
+boundary condition.  It gives a subject-reduction theorem whose hypotheses
+tell the project which typing interfaces must be supplied.  It gives a
+confluence surface for the atom and closed-normal cases likely to appear in
+finite certificate encodings.  It gives candidate and strong-normalization
+witnesses for the small functional programs used as examples.  It gives an
+executable checker for recognizing the typed fragment.  Those are the
+ingredients needed for a disciplined expansion of the $\mathsf{BHist}$ bridge,
+provided each additional represented object remains inside the same audit
+rules.
+
+The Church gallery suggests a useful design style for that expansion.  The
+gallery does not begin with a universal theorem about all data encodings.  It
+starts with concrete encodings whose laws are inspectable.  Booleans choose,
+naturals apply successors, pairs feed a selector, options choose between a
+default and a branch, and polymorphic functions exercise Pi structure.  A
+self-application bridge can follow the same method: begin with finite,
+closed, typed objects whose behavior can be stated as beta-star or BetaConv
+laws, then use the resulting library as the surface that higher-level BEDC
+claims cite.
+
+HostBridge also points to the right discipline.  The host layer is valuable
+because it gives ordinary Lean computations that readers can recognize.  The
+represented layer is valuable because it proves that corresponding examples
+exist inside the object calculus.  Future bridge work should preserve that
+separation.  A host computation can guide the example, but the represented
+term must carry its own typing and reduction evidence.  A host theorem can
+explain the expected behavior, but the paper-side claim should cite the
+MetaCIC target that realizes the behavior in the represented language.
+
+The open-term frontier should be approached only when the closed bridge
+requires it.  The binder-domain counterexamples show that open contexts are
+not a matter of adding a quantifier to closed theorems.  They require a
+context-transport account that respects shifted domains and displayed
+codomains.  If self-application can be expressed through closed certificate
+objects and closed transformations, the project should keep using that route.
+If a later certificate necessarily crosses binders, the theorem statement
+should expose the transport structure directly rather than hiding it behind a
+closedness hypothesis.
+
+The same caution applies to full confluence.  A complete Church--Rosser
+theorem would be valuable, but the chapter already identifies the exact
+missing algebraic law.  The correct next theorem would be the substitution
+compatibility needed by application residuals, stated over the actual
+\texttt{substitute} and \texttt{shift} functions of the represented calculus.
+Once that law is available, the existing conditional diamond target provides
+the route to the stronger result.  Until then, the paper should continue to
+cite atom, shape, closed-normal, and conditional confluence targets with their
+actual scopes.
+
+The arithmetic frontier is similarly concrete.  Successor and addition are
+mechanized for Church naturals.  Multiplication and exponentiation should be
+added only when their represented terms, closure facts, typing facts, and
+beta laws exist in Lean.  The present closing section therefore treats them
+as mathematical next objects, not as paper facts.  This is not a weakness of
+the self-compilation chapter; it is the rule that keeps the chapter
+audit-clean.
+
+In short, the forward path is to make self-application less metaphorical while
+keeping the calculus small.  Extend the finite-history bridge.  Add
+represented certificate programs only when their closed typing and beta
+behavior are checked.  Preserve the distinction between host computation and
+represented computation.  Treat open binders, full confluence, richer
+arithmetic, universes, and inductive families as separate theorem projects.
+The closing surface is strong because it is narrow, visible, and mechanically
+audited.
+
+\subsection{What BEDC Does Not Claim}
+\label{subsec:session-closing-not-claimed}
+
+BEDC does not claim to replace the Lean 4 kernel.  The represented calculus is
+an object-language fragment inside Lean, not an implementation of Lean's
+elaborator, environment, universe constraints, inductive compiler, recursor
+generation, quotient layer, or kernel conversion checker.  Host Lean remains
+the metalanguage in which BEDC proves facts about the represented object
+calculus.
+
+BEDC also does not claim a universal mechanization of CIC.  The present scope
+is deliberately constrained by three commitments: first-principles definitions,
+mathlib-free Lean, and zero project axioms.  Those commitments make the proofs
+auditable, but they also keep the object calculus narrow.  The correct reading
+is a closed-term sub-fragment with a rich gallery and explicit bridges, not a
+general theorem about all terms and all type formers of CIC.
+
+Finally, BEDC does not claim that every frontier has been discharged by naming
+it.  Conditional theorems remain conditional.  Counterexamples remain
+counterexamples.  Open-term binder transport, full application-residual
+confluence, universe hierarchy, inductive families, propositional
+irrelevance, eta-conversion, multiplication, and exponentiation stay outside
+the closed surface reported here unless corresponding Lean targets enter the
+audited tree.  This is the discipline that makes the closing meaningful: the
+chapter closes exactly the surface it can verify, and no larger one.
