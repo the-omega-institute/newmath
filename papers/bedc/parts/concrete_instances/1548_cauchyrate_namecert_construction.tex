@@ -116,6 +116,58 @@ Transport each visible coordinate by the corresponding $\hsame$ row in $H$. Then
 The ledger exactness theorem \autoref{thm:cauchy-rate-ledger-exactness} rules out any additional premise during this transport. Hence the transported packet is accepted by the same classifier surface and still withholds RealUp completeness, quotient stream equality, selected limits, and host real equality.
 \end{proof}
 
+\begin{definition}[CauchyRate scoped obligation package]
+\label{def:cauchy-rate-scoped-obligation-package}
+The scoped obligation package for $\CauchyRateUp$ is the accepted finite packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-rate-bhist-source}, read as a $\mathsf{BHist}$ carrier over exactly the displayed dependencies
+$$
+\CauchyModulusUp,\quad \DyadicTailBoundUp,\quad
+\RegularCauchyFamilyUp,\quad \RegSeqRatUp,\quad \RealCauchyCompletionUp.
+$$
+Its scope consists of the precision row $p$, the modulus schedule $\mu$, the tail-bound row $\tau$, the regular Cauchy family row $F$, the regular rational readback $Q$, the completion consumer row $E$, the componentwise $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchyRateUp}$ row $N$.
+
+The package admits a consumer only when the consumer route factors through these rows in the displayed order. It has no coordinate for RealUp completeness, host real equality, quotient stream equality, selected limits, or an unscoped completion oracle.
+\end{definition}
+
+\begin{theorem}[CauchyRate window monotonicity]
+\label{thm:cauchy-rate-window-monotonicity}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped obligation package for $\CauchyRateUp$. If a consumer refines a precision request from $p$ to a stricter displayed request $p'$, then the accepted schedule window for $p'$ is obtained by transporting $p'$ through the same $\CauchyModulusUp$ row $\mu$ and the same $\DyadicTailBoundUp$ row $\tau$. The transported classifier may enlarge the inspected finite window, but it cannot replace $\mu$, bypass $\tau$, or read $F,Q,E$ from a different package.
+\end{theorem}
+\begin{proof}
+Project the scoped carrier of \autoref{def:cauchy-rate-scoped-obligation-package}. The only row that turns a precision request into a finite inspection window is $\mu$, and the only tail budget attached to that window is $\tau$.
+
+Transport the refined request by the precision component of $H$. Replaying the route $\Cont(p,\mu)$ for the transported request keeps the schedule inside the same $\CauchyModulusUp$ row, and replaying $\Cont(\mu,\tau)$ keeps the dyadic tail-bound ledger attached to the scheduled window.
+
+The classifier described in \autoref{def:cauchy-rate-bhist-source} compares packets only through displayed $\hsame$ and $\Cont$ rows. Thus a stricter request can ask the same schedule row for a larger visible window, but no classifier branch can substitute a different modulus, omit the tolerance row, or fetch the downstream rows from outside $K$.
+\end{proof}
+
+\begin{theorem}[CauchyRate tail-bound routing]
+\label{thm:cauchy-rate-tail-bound-routing}
+For every scoped $\CauchyRateUp$ package $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, every read of the $\RegSeqRatUp$ row $Q$ must first pass through the scheduled $\CauchyModulusUp$ row $\mu$, the $\DyadicTailBoundUp$ row $\tau$, and the $\RegularCauchyFamilyUp$ row $F$. In particular, no $Q$-consumer can inspect a regular rational readback before the tail-bound route through $\tau$ has been displayed.
+\end{theorem}
+\begin{proof}
+Read the route inventory from the scoped package. The route into $Q$ is $\Cont((F,\tau),Q)$, and the row $F$ is itself reached only after the schedule and tolerance rows have been exposed through the displayed route chain.
+
+Apply the regular-family handoff theorem \autoref{thm:cauchy-rate-regular-family-handoff}. It identifies $Q$ as the readback produced from the same scheduled family row and the same dyadic tail-bound row, so the rational readback is not an independent source row.
+
+Finally inspect $P$ and $N$. Their provenance names the displayed dependency package and the local certificate only; neither row adds an alternate path to $Q$. Hence a consumer of $Q$ must see $\mu$, $\tau$, and $F$ before it obtains the regular rational readback.
+\end{proof}
+
+\begin{theorem}[CauchyRate real-seal consumption]
+\label{thm:cauchy-rate-real-seal-consumption}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped $\CauchyRateUp$ package. Every $\RealCauchyCompletionUp$ consumer read of $E$ factors through $Q,F,\tau,\mu$ in that order before any completion-facing row is consumed. The factorization is a scoped completion-consumer route, not a proof of RealUp completeness, quotient equality of streams, a selected limit, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the completion-facing coordinate from $K$. The only displayed route into $E$ is $\Cont((Q,F,\tau,\mu),E)$, so the consumer boundary begins with the regular rational readback and carries the family, tail-bound, and schedule rows with it.
+
+Use \autoref{thm:cauchy-rate-tail-bound-routing} for the upstream read of $Q$. That theorem forces the readback itself through $\mu$, $\tau$, and $F$ before $Q$ is available to any later consumer.
+
+Combining the two routes gives the stated factorization through $Q,F,\tau,\mu$ before $E$. The scoped obligation package has no coordinate for the excluded RealUp, quotient, selected-limit, or host-equality objects, so the completion-facing read consumes only the displayed effective-rate certificate.
+\end{proof}
+
 \closureat{CauchyRateUp}{seedStr}
 \closureat{CauchyRateUp}{obligationStr}
 
