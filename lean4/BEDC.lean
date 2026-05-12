@@ -118,6 +118,7 @@ import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyCompletionMonadUp
+import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyTailComparisonUp
@@ -213,6 +214,7 @@ import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
+import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
