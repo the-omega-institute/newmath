@@ -59,6 +59,7 @@ transport rows. Since the packet contains no constructor for an external
 filter object, the public read is exhausted by the finite window and its
 package provenance.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterPacket\_finite\_window\_coverage}
 \leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterCarrier\_finite\_window\_coverage}
 
 \begin{theorem}[CauchyFilter RegSeqRat handoff]\label{thm:cauchyfilter-regseqrat-handoff}
@@ -68,6 +69,7 @@ $\StreamNameUp$ observation family, the $\CauchyModulusUp$ threshold row, the
 $\DyadicRatCoreUp$ endpoint rows, the directed finite-window ledger, and the
 displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterCarrier\_regseqrat\_handoff}
 \leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterPacket\_regseqrat\_handoff}
 \begin{proof}
 Project the packet to the compatibility row $r$ and the rows named in
@@ -152,6 +154,7 @@ carrying the same $\StreamNameUp$ observations, $\CauchyModulusUp$ threshold
 rows, $\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ compatibility row,
 $\hsame$ and $\Cont$ transport rows, and $\mathsf{Pkg}$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterPacket\_common\_refinement\_classifier}
 \begin{proof}
 Project both accepted packets through the carrier decomposition of
 \autoref{def:cauchyfilter-carrier}. The visible coordinates are finite
@@ -255,18 +258,169 @@ for a host filter, ultrafilter, quotient stream, or choice-selected
 subsequence.
 \end{proof}
 
+\begin{theorem}[CauchyFilter finite-filter standard bridge]
+\label{thm:cauchyfilter-finite-filter-standard-bridge}
+An accepted $\CauchyFilterUp$ packet determines the standard finite
+Cauchy-filter schema exactly through the displayed $\StreamNameUp$ observation
+rows, directed finite-window ledger, $\CauchyModulusUp$ threshold row,
+$\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ compatibility row, displayed
+$\hsame$ routes, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert$ row.
+
+Conversely, any standard finite-filter package whose rows are exactly those
+displayed BEDC rows repacks as the same public $\CauchyFilterUp$ packet. The
+bridge has no coordinate for host filters, ultrafilters, quotient streams,
+metric-completion points, or choice-selected subsequences.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through the carrier of
+\autoref{def:cauchyfilter-carrier}. Apply
+\autoref{thm:cauchyfilter-finite-window-coverage} to expose the finite
+observation windows, directed ledger, $\StreamNameUp$ rows,
+$\CauchyModulusUp$ threshold row, and $\DyadicRatCoreUp$ endpoints as the
+visible finite-filter data.
+
+Next use \autoref{thm:cauchyfilter-regseqrat-handoff} to read the
+$\RegSeqRatUp$ compatibility row and
+\autoref{thm:cauchyfilter-real-seal-consumer-boundary} to keep the $\RealUp$
+consumer boundary on the same finite surface. These projections add no carrier
+beyond the displayed finite rows.
+
+Apply \autoref{thm:cauchyfilter-scoped-dependency-packet} to gather the
+displayed $\hsame$ routes, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ row into the scoped dependency packet. This is exactly the standard
+finite Cauchy-filter schema because the cited packet has no additional
+coordinate.
+
+For the converse direction, start with a standard finite-filter package whose
+coordinates are exactly the displayed rows. Repack those rows in the carrier,
+handoff, refinement, seal, transport, provenance, and local naming positions
+just projected. The result is the same public $\CauchyFilterUp$ packet because
+no further coordinate remains to choose.
+
+The excluded objects are not hidden cases of the construction. Host filters,
+ultrafilters, quotient streams, metric-completion points, and choice-selected
+subsequences are absent from every cited projection, so the bridge cannot read
+or export them.
+\end{proof}
+
+\begin{theorem}[CauchyFilter RegSeqRat Real seal exhaustion]
+\label{thm:cauchyfilter-regseqrat-real-seal-exhaustion}
+Every $\RegSeqRatUp$ handoff and every $\RealUp$ seal consumer read from an
+accepted $\CauchyFilterUp$ packet factors through one finite surface: stream
+observations, the directed finite-window ledger, the modulus threshold,
+dyadic endpoints, the compatibility row, $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+
+No consumer read from this export contains a host filter, ultrafilter,
+quotient stream, metric-completion point, or choice-selected subsequence.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchyfilter-finite-window-coverage}. It gives the
+stream observations, directed finite-window ledger, modulus threshold, and
+dyadic endpoints as displayed finite rows of the accepted packet.
+
+Next apply \autoref{thm:cauchyfilter-regseqrat-handoff}. The
+$\RegSeqRatUp$ consumer receives exactly the compatibility row over those
+finite observations and endpoints.
+
+Apply \autoref{thm:cauchyfilter-real-seal-consumer-boundary}. The $\RealUp$
+seal consumes the same finite filter surface, with no additional host filter
+or completion coordinate.
+
+It remains to bind refinement. Use
+\autoref{thm:cauchyfilter-common-refinement-classifier} and
+\autoref{thm:cauchyfilter-filter-refinement-transport} for the common
+finite-window classifier and its $\hsame$ and $\Cont$ transport, then apply
+\autoref{thm:cauchyfilter-scoped-dependency-packet} to repack the package and
+local naming rows.
+
+The cited projections exhaust the consumer coordinates. Therefore each
+$\RegSeqRatUp$ handoff and each $\RealUp$ seal read factors through the single
+finite surface stated above, and the excluded host objects have no displayed
+row from which they could be read.
+\end{proof}
+
+\begin{theorem}[CauchyFilter finite-filter mature coverage]
+\label{thm:cauchyfilter-finite-filter-mature-coverage}
+Every public or standard finite-filter consumer read of an accepted
+$\CauchyFilterUp$ packet is exhausted by the displayed $\StreamNameUp$
+observations, directed finite-window ledger, $\CauchyModulusUp$ threshold,
+$\DyadicRatCoreUp$ endpoints, $\RegSeqRatUp$ compatibility, $\RealUp$ seal,
+common-refinement classifier, $\hsame$ and $\Cont$ transport,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ row.
+
+The covered surface preserves the exclusions of host filters, ultrafilters,
+quotient streams, metric-completion points, and choice-selected subsequences.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchyfilter-finite-window-coverage}. It supplies the
+displayed stream observations, directed finite-window ledger, threshold row,
+and dyadic endpoint rows as the finite carrier available to consumers.
+
+Next use \autoref{thm:cauchyfilter-regseqrat-handoff} and
+\autoref{thm:cauchyfilter-real-seal-consumer-boundary}. These identify the
+$\RegSeqRatUp$ compatibility read and the $\RealUp$ seal as reads of the same
+finite carrier, with no completion or host-filter coordinate added.
+
+Refinement is controlled by
+\autoref{thm:cauchyfilter-common-refinement-classifier} and
+\autoref{thm:cauchyfilter-filter-refinement-transport}. The first theorem
+classifies common finite-window refinements, and the second transports that
+classifier through the displayed $\hsame$ and $\Cont$ routes.
+
+Finally apply \autoref{thm:cauchyfilter-finite-filter-standard-bridge} and
+\autoref{thm:cauchyfilter-regseqrat-real-seal-exhaustion}. The standard
+finite-filter packet and the $\RegSeqRatUp$/$\RealUp$ consumer boundary read
+exactly the listed rows, while host filters, ultrafilters, quotient streams,
+metric-completion points, and choice-selected subsequences remain outside the
+packet.
+\end{proof}
+
+\begin{theorem}[CauchyFilter mature Real consumer example]
+\label{thm:cauchyfilter-mature-real-consumer-example}
+A $\RealUp$ seal consumer supplied with an accepted $\CauchyFilterUp$ packet
+and a $\RegSeqRatUp$ compatibility row obtains a finite late-window package
+consisting only of $\StreamNameUp$ observations, $\CauchyModulusUp$ thresholds,
+$\DyadicRatCoreUp$ endpoints, the compatibility row, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ evidence.
+
+The package contains no host filter, ultrafilter, quotient stream,
+metric-completion point, or choice-selected subsequence.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchyfilter-finite-window-coverage}. It supplies the
+visible stream observations, finite-window ledger, modulus threshold, and
+dyadic endpoint rows of the accepted packet.
+
+Next use \autoref{thm:cauchyfilter-regseqrat-handoff}. The
+$\RegSeqRatUp$ compatibility row is a read of the same finite late-window
+surface, so it adds no host filter or quotient-stream coordinate.
+
+Apply \autoref{thm:cauchyfilter-real-seal-consumer-boundary}. This identifies
+the $\RealUp$ seal consumer as a reader of the finite filter package rather than
+of a selected completion object.
+
+Finally use \autoref{thm:cauchyfilter-regseqrat-real-seal-exhaustion}. It
+exhausts the combined $\RegSeqRatUp$ and $\RealUp$ readback surface by the
+listed rows, leaving the excluded host objects outside the package.
+\end{proof}
+
 \closureat{CauchyFilterUp}{seedStr}
 \closureat{CauchyFilterUp}{obligationStr}
 \closureat{CauchyFilterUp}{scopedStr}
 \closureat{CauchyFilterUp}{publicStr}
+\closureat{CauchyFilterUp}{bridgedStr}
+\closureat{CauchyFilterUp}{matureStr}
 
 \begin{closurestatus}{\CauchyFilterUp}
   \constructivestory{A $\CauchyFilterUp$ packet is generated by visible $\StreamNameUp$ observations, a directed finite-window ledger, a $\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ endpoint rows, $\RegSeqRatUp$ compatibility, displayed transport, package provenance, and a local naming row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public packet is the consumer-visible finite observation filter boundary of \autoref{thm:cauchyfilter-scoped-dependency-packet} over $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:cauchyfilter-finite-filter-mature-coverage} combines the finite-window coverage, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, refinement transport, and finite-filter standard bridge over $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyFilterUp.CauchyFilterCarrier\_finite\_window\_coverage}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close host filter theory, ultrafilter selection, quotient-stream equality, metric completion, or a standard bridge.}
-  \upgradepath{Bridged closure requires a standard bridge for the same visible finite-filter packet.}
+  \notclaimed{This chapter does not close host filter theory, ultrafilter selection, quotient-stream equality, metric completion, or Lean bridge checking.}
+  \upgradepath{No further paper-axis theory upgrade remains; only bridgeChecked verification remains on the formal bridge axis.}
 \end{closurestatus}
