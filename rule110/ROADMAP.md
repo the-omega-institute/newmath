@@ -36,7 +36,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 ## Phase B: Collision table + leader/ossifier (5-10 days)
 
-- [ ] B1: Document collision pairs (A+A, A+B, etc.) from Cook §4. Create lookup table `cook_collision_outcome(GliderId, GliderId)` returning either a new GliderId list or "annihilation".
+- [x] B1: Document collision pairs (A+A, A+B, etc.) from Cook §4. Create lookup table `cook_collision_outcome(GliderId, GliderId)` returning either a new GliderId list or "annihilation".
 
 - [ ] B2: Verify collision outcomes by direct Rule 110 simulation: inject two gliders, evolve, observe outcome, compare against lookup. Add `tests/test_cook_collisions.c` covering all listed collision pairs.
 
@@ -48,7 +48,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 ## Phase C: Translator (5-10 days)
 
-- [ ] C1: Design `cook_encode(const CyclicTag *ct, uint8_t *out, size_t *out_len)` function signature. Document the encoding strategy: ether background + leader + ossifiers for each production + data block for initial tape.
+- [x] C1: Design `cook_encode(const CyclicTag *ct, uint8_t *out, size_t *out_len)` function signature. Document the encoding strategy: ether background + leader + ossifiers for each production + data block for initial tape.
 
 - [ ] C2: Implement encoder for empty CT (just ether + leader, no productions). Verify Rule 110 evolution preserves shape indefinitely.
 
