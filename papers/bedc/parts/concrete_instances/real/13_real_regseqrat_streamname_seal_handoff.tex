@@ -204,3 +204,46 @@ coordinate. Thus quotient carriers, host equality, real completeness,
 arithmetic and order packages, and metric-completeness rows cannot appear in
 the pullback source or in its projected faces.
 \end{proof}
+
+\begin{theorem}[RealUp RegSeqRat seal readback determinacy]
+\label{thm:realup-regseqrat-seal-readback-determinacy}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal packets. Suppose they display
+the same $\RegSeqRatUp$ regular stream carrier, the same $\StreamNameUp$
+finite-window schedule, and the same $\RealUp$ seal/readback row. Then every
+consumer-visible readback route out of $S$ or $T$ factors through the same
+finite dyadic observation window, the same $\RegSeqRatUp$ classifier witness,
+and the same $\RealUp$ seal endpoint.
+
+The common readback boundary is the four-face packet whose rows are the
+$\DyadicRatCoreUp$ observations on the displayed window, the $\StreamNameUp$
+schedule rows, the $\RegSeqRatUp$ regularity spine rows, and the $\RealUp$
+seal/readback provenance rows. It exports no host equality, quotient class,
+completeness row, arithmetic package, or order package.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-regseqrat-streamname-seal-handoff} to both accepted
+packets. The handoff theorem reads their visible data as one package of
+stream-name classifier rows, transported unary classifier rows, endpoint
+carriers, finite-window ledger, and seal/readback provenance.
+
+Next use \autoref{thm:realup-open-phase-seal-exactness}. Since the accepted
+packets have the same displayed $\RegSeqRatUp$ carrier, the same
+$\StreamNameUp$ finite-window schedule, and the same $\RealUp$ seal/readback
+row, exactness restricts both reads to the same four open-phase row set.
+
+Apply \autoref{thm:realup-finite-seal-source-uniqueness} to identify the
+consumer-visible source surface. The shared source contains precisely the
+finite dyadic observation window, the regular-rational classifier witness, and
+the seal endpoint named by the displayed row.
+
+Now route downstream reads through
+\autoref{thm:realup-seal-source-factorization-boundary}. Every consumer of the
+seal source sees only the displayed schedule, the $\RegSeqRatUp$ spine, and the
+$\RealUp$ seal provenance, so no off-table host or completeness coordinate can
+separate the two packets.
+
+Finally apply \autoref{thm:realup-open-phase-four-face-pullback}. The two
+readback routes have the same componentwise four-face boundary, hence the same
+consumer-visible readback boundary, while quotient classes, host equality,
+arithmetic packages, order packages, and completeness rows remain absent.
+\end{proof}
