@@ -319,4 +319,62 @@ theorem RegularityModulusPacket_scheduled_tail_closure [AskSetup] [PackageSetup]
       exact ⟨sourceRow.right.right, ledgerNameProvenance⟩
   }
 
+theorem RegularityModulusPacket_dyadicmesh_window_factorization [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow meshLevel meshCell interval
+      endpoint radius orderLedger meshRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      UnaryHistory meshLevel ->
+        UnaryHistory meshCell ->
+          UnaryHistory endpoint ->
+            UnaryHistory orderLedger ->
+              Cont meshLevel meshCell interval ->
+                Cont interval endpoint radius ->
+                  Cont radius orderLedger meshRead ->
+                    Cont window provenance consumer ->
+                      PkgSig bundle meshRead pkg ->
+                        PkgSig bundle consumer pkg ->
+                          UnaryHistory precision ∧ UnaryHistory modulus ∧
+                            UnaryHistory window ∧ UnaryHistory transport ∧
+                              UnaryHistory ledger ∧ UnaryHistory provenance ∧
+                                UnaryHistory meshLevel ∧ UnaryHistory meshCell ∧
+                                  UnaryHistory interval ∧ UnaryHistory radius ∧
+                                    UnaryHistory meshRead ∧ UnaryHistory consumer ∧
+                                      Cont precision window transport ∧
+                                        Cont transport modulus ledger ∧
+                                          Cont ledger nameRow provenance ∧
+                                            Cont meshLevel meshCell interval ∧
+                                              Cont interval endpoint radius ∧
+                                                Cont radius orderLedger meshRead ∧
+                                                  Cont window provenance consumer ∧
+                                                    PkgSig bundle provenance pkg ∧
+                                                      PkgSig bundle meshRead pkg ∧
+                                                        PkgSig bundle consumer pkg := by
+  intro packet meshLevelUnary meshCellUnary endpointUnary orderLedgerUnary
+  intro meshLevelMeshCellInterval intervalEndpointRadius radiusOrderLedgerMeshRead
+  intro windowProvenanceConsumer meshReadPkg consumerPkg
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have intervalUnary : UnaryHistory interval :=
+    unary_cont_closed meshLevelUnary meshCellUnary meshLevelMeshCellInterval
+  have radiusUnary : UnaryHistory radius :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointRadius
+  have meshReadUnary : UnaryHistory meshRead :=
+    unary_cont_closed radiusUnary orderLedgerUnary radiusOrderLedgerMeshRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, modulusUnary, windowUnary, transportUnary, ledgerUnary, provenanceUnary,
+      meshLevelUnary, meshCellUnary, intervalUnary, radiusUnary, meshReadUnary, consumerUnary,
+      precisionWindowTransport, transportModulusLedger, ledgerNameProvenance,
+      meshLevelMeshCellInterval, intervalEndpointRadius, radiusOrderLedgerMeshRead,
+      windowProvenanceConsumer, provenancePkg, meshReadPkg, consumerPkg⟩
+
 end BEDC.Derived.RegularityModulusUp
