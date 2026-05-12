@@ -322,6 +322,42 @@ Use \autoref{thm:locatedinterval-real-comparison-boundary} for the Real-facing b
 Finally apply \autoref{thm:locatedinterval-kernel-scope-package}. Its non-escape statement keeps the package inside the concrete rows of $J$, so the assembled certificate has exactly the displayed BEDC surface and cannot export a host interval primitive, selected endpoint value, quotient real equality, or order-completeness principle.
 \end{proof}
 
+\begin{theorem}[LocatedInterval endpoint order window]
+\label{thm:locatedinterval-endpoint-order-window}
+For every accepted $\LocatedIntervalUp$ packet, each endpoint order read is a finite row over the lower and upper $\LocatedRealUp$ endpoint rows, the $\RationalIntervalUp$ containment ledger, the $\StreamNameUp$ endpoint windows, the $\RegSeqRatUp$ readbacks, the $\RealUp$ seal-facing rows, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates. The read cannot inspect a host interval order, an ambient endpoint selector, quotient real equality, or order completeness outside those rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:located-interval-carrier}. Its endpoint data are the displayed lower and upper rows together with the stream windows and regular rational readbacks attached to those rows.
+
+Apply \autoref{thm:located-interval-endpoint-transport} to move endpoint comparisons through the componentwise $\hsame$ rows and the displayed $\Cont$ routes. Apply \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion} for the readback boundary, so every order read is witnessed by the finite endpoint-window and regular-readback rows.
+
+The $\RealUp$ boundary is supplied by \autoref{thm:locatedinterval-real-seal-non-escape}. Since the carrier has no coordinate for a host interval order, selected endpoint, quotient real equality, or completeness principle, the endpoint order window is exhausted by the named finite rows.
+\end{proof}
+
+\begin{theorem}[LocatedInterval rational cell coverage route]
+\label{thm:locatedinterval-rational-cell-coverage-route}
+Every rational or dyadic containment read of an accepted $\LocatedIntervalUp$ packet routes through the $\RationalIntervalUp$ cell ledger $I$ or the $\DyadicIntervalUp$ refinement ledger $D$, and then through the endpoint transport row. Thus containment coverage is read only from $I$, $D$, the lower and upper endpoint rows, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+Inspect a rational containment read. By \autoref{thm:locatedinterval-containment-exactness}, the read is a projection of the $\RationalIntervalUp$ cell ledger $I$ attached to the displayed endpoint rows.
+
+Inspect a dyadic containment read. By \autoref{thm:locatedinterval-dyadic-refinement-handoff}, the read first enters the $\DyadicIntervalUp$ refinement ledger $D$ and then hands back to the same rational-cell and endpoint rows.
+
+Finally apply \autoref{thm:locatedinterval-containment-transport-scope}. The transport row preserves the endpoint, cell, and refinement coordinates componentwise, so rational and dyadic coverage cannot leave $I$, $D$, and the finite BEDC rows that carry them.
+\end{proof}
+
+\begin{theorem}[LocatedInterval downstream root package]
+\label{thm:locatedinterval-downstream-root-package}
+For every accepted $\LocatedIntervalUp$ packet, the downstream root package consists exactly of carrier habitation, endpoint order windows, rational-cell coverage routes, dyadic refinement handoff, real-seal non-escape, and containment transport scope over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$. Any downstream interval or $\RealUp$ consumer must factor through this finite package.
+\end{theorem}
+\begin{proof}
+Carrier habitation is \autoref{thm:locatedinterval-carrier-habitation}. It supplies the finite packet rows and rules out hidden host interval coordinates.
+
+The endpoint part of the root package is \autoref{thm:locatedinterval-endpoint-order-window}. The rational and dyadic part is \autoref{thm:locatedinterval-rational-cell-coverage-route}, with dyadic handoff supplied by \autoref{thm:locatedinterval-dyadic-refinement-handoff}.
+
+For Real-facing consumers, use \autoref{thm:locatedinterval-real-seal-non-escape}. For transport of containment reads, use \autoref{thm:locatedinterval-containment-transport-scope}. Repacking these rows under the public export and consumer route of \autoref{thm:locatedinterval-public-export-packet} and \autoref{thm:locatedinterval-public-consumer-route} yields the finite downstream package and no additional primitive.
+\end{proof}
+
 \closureat{LocatedIntervalUp}{obligationStr}
 \closureat{LocatedIntervalUp}{scopedStr}
 
