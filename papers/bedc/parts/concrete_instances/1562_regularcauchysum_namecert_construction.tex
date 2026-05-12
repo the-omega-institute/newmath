@@ -58,6 +58,20 @@ Apply the displayed common-exponent addition window of $\DyadicRatCoreUp$ to $D_
 Finally read the finite budget ledger $E$. Its two input entries are the tolerances used by the two regular names, and its output entry is their displayed sum. This proves the window budget without invoking any completed real or quotient stream.
 \end{proof}
 
+\begin{theorem}[RegularCauchySum symmetric input handoff]
+\label{thm:regular-cauchy-sum-symmetric-input-handoff}
+For every accepted $\RegularCauchySumUp$ packet $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$, any consumer read of the sum readback $R$ factors through both aligned source windows $W_A,W_B$, both endpoint rows $D_A,D_B$, the common dyadic addition row $D$, and the finite error ledger $E$. Exchanging the two source rows preserves the same handoff surface up to the displayed componentwise classifier over the two sources, two windows, two endpoint rows, addition row, budget row, readback row, transports, continuations, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Read the two inputs through \autoref{thm:regular-cauchy-sum-window-budget}. The window budget exposes both aligned source windows, both endpoint rows, the common dyadic addition row, and the finite ledger before the readback row is consumed.
+
+Repack those rows through \autoref{thm:regular-cauchy-sum-regseqrat-handoff}. The consumer of $R$ therefore receives the paired source data together with $D$ and $E$, rather than a one-sided source row or an ambient completed-real operation.
+
+For the exchanged packet, use the componentwise classifier carried by $H$ and read through $C$. It swaps the two source rows with their matching windows and endpoints while preserving the displayed addition row, budget ledger, readback row, package provenance, and local $\NameCert$ row.
+
+The carrier has no coordinate for a host-level completed-real addition law, quotient stream, selected limit, or completeness object. Thus the symmetric handoff is exactly the finite paired-source surface described by the packet classifier.
+\end{proof}
+
 \begin{theorem}[RegularCauchySum RegSeqRat handoff]
 \label{thm:regular-cauchy-sum-regseqrat-handoff}
 The budgeted pointwise-sum windows of \autoref{thm:regular-cauchy-sum-window-budget} repack as the $\RegSeqRatUp$ readback row $R$ of \autoref{def:regular-cauchy-sum-carrier}. A consumer of $R$ reads only the aligned input windows, the dyadic endpoint addition rows, the finite error-budget ledger, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row.
