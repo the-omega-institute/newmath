@@ -71,7 +71,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 
 - [ ] L2.1: Universal BHist equality recognizer (M3 B3 unbounded continuation). Estimated alone: 1-2 months wall clock (CT program complexity).
 - [!] L2.2: Universal Ext step recognizer. Bounded positional-certificate CTS covers the representative Ext fixtures, source depth `<= 3` / candidate result depth `<= 4` sweep, and malformed/trailing samples; the unbounded source-copy/result-tail compare machine is specified, but not implemented, in `docs/ext_algo_design.md`.
-- [ ] L2.3: Universal SigRel + sameSig recognizers (ProbeBundle-parameterized; needs hash-like fingerprinting in CT productions).
+- [!] L2.3: Universal SigRel + sameSig recognizers. Bounded positional-certificate CTS covers the representative SigRel/SameSig fixtures and bounded bundle/history sweeps; the universal ProbeBundle-parameterized recognizer remains open because it needs unbounded bundle lexing, parity accumulation over unary probe names, and signature comparison.
 - [!] L2.4: Universal Cont (append) recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` Cont corpus; the unbounded queue-copy/compare machine is specified, but not implemented, in `docs/cont_algo_design.md`.
 - [!] L2.5: Bundle length + membership recognizers: bounded positional-certificate CTS for the manifest fixtures; universal parsing and probe-name comparison remain open.
 - [!] L2.6: Universal Unary classifier. `manifests/unary/unary_basic.algo.ct` contains an eight-production CT scan certificate; the binary CTS runner lacks a complete unbounded accept/reject convention for negative Unary inputs.
