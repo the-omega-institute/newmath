@@ -61,6 +61,50 @@ The row $Q$ records probe-stability at both anchors. Thus a transported source r
 Finally replay the routes in $C$. Because every consumer path to $K$ and $R$ is one of the displayed continuations, the transported read preserves the same slot-local dependence packet and adds no global synchronization or metric coordinate.
 \end{proof}
 
+\begin{theorem}[CrossHistCausal slot locality]
+\label{thm:cross-hist-causal-slot-locality}
+For an accepted $\CrossHistCausalUp$ carrier
+$$
+X=(A,B,K,R,H,Q,C,P,N),
+$$
+every causal-dependence read of $R$ is local to the displayed unary slot ledger $K$. The read may use the componentwise $\hsame$ row $H$, the two-anchor $\psame$ row $Q$, and the displayed $\Cont$ routes in $C$, but it may not introduce a global frame, synchronized clock, metric datum, or ambient geometry.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cross-hist-causal-namecert-obligations}. Its slot-locality clause states that every causal-dependence read passes through $K$.
+
+Apply \autoref{thm:cross-hist-causal-hsame-psame-stability}. Transported reads preserve the same finite witness $R$ at the same unary slot ledger after using $H$, $Q$, and $C$.
+
+The checked TasteGate marker attached to \autoref{thm:cross-hist-causal-namecert-obligations} supports this boundary as an admitted taste-gate surface. Since the carrier rows are only $A,B,K,R,H,Q,C,P,N$, there is no projection target for global frames, synchronized clocks, metric data, or ambient geometry.
+\end{proof}
+
+\begin{theorem}[CrossHistCausal witness exactness]
+\label{thm:cross-hist-causal-witness-exactness}
+For an accepted $\CrossHistCausalUp$ carrier $X=(A,B,K,R,H,Q,C,P,N)$, the dependence witness consumed by any cross-Hist read is exactly the displayed row $R$ together with the two history anchors $A,B$ and the slot ledger $K$. Componentwise $\hsame$ and two-anchor $\psame$ transport preserve that same witness; they do not replace it by a witness chosen from a multi-Hist frame, an external rate structure, or an ambient geometric model.
+\end{theorem}
+\begin{proof}
+Use the witness-exactness clause of \autoref{thm:cross-hist-causal-namecert-obligations}. It requires the finite dependence row $R$ to display the source-side and target-side observations consumed by the read.
+
+Use \autoref{thm:cross-hist-causal-hsame-psame-stability} for transport. The $\hsame$ row preserves the carrier coordinates componentwise, while the $\psame$ row preserves probe-stability at both anchors.
+
+The checked TasteGate marker at the obligation theorem records that this finite boundary is the supported local surface. Because $X$ contains no multi-Hist frame, rate row, synchronized clock, metric row, or ambient geometry coordinate, the witness remains exactly $R$ at $A,B,K$.
+\end{proof}
+
+\begin{theorem}[CrossHistCausal non-escape]
+\label{thm:cross-hist-causal-non-escape}
+Every consumer of an accepted $\CrossHistCausalUp$ carrier factors through the finite rows
+$$
+A,B,K,R,H,Q,C,P,N.
+$$
+In particular, the consumer may read the two history anchors, unary slot ledger, finite dependence witness, componentwise $\hsame$ transport, two-anchor $\psame$ stability, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\CrossHistCausalUp}$ row, and nothing outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:cross-hist-causal-namecert-obligations}. The non-escape clause there excludes global frames, synchronized clocks, metric data, maximum-rate data, and ambient geometry.
+
+Apply \autoref{thm:cross-hist-causal-hsame-psame-stability}. Any transported consumer read is still routed through $H,Q,C$ and preserves the same slot-local dependence witness.
+
+The checked TasteGate marker associated with the obligation theorem supplies the recognized gate boundary for promoting this carrier past a mere seed reading. Since every visible consumer row is one of $A,B,K,R,H,Q,C,P,N$, no consumer can extract data outside the finite packet.
+\end{proof}
+
 \closureat{CrossHistCausalUp}{seedStr}
 
 \begin{closurestatus}{\CrossHistCausalUp}
