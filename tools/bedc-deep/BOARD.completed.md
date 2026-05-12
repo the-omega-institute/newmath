@@ -17591,3 +17591,27 @@ Rationale:
 The EllipticCurveUp chapter has mature field/projective carrier coverage and explicitly leaves the standard Weierstrass bridge outside the current surface. This target is a conservative bridge-boundary theorem over already enumerated BEDC rows, distinct from the existing coefficient ledger and field-projective compatibility theorems because it addresses the standard-presentation admission boundary while still excluding group law and external model equality.
 
 ---
+
+### B-696 - Bayesian posterior packet carrier introduction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Bayesian posterior packet carrier introduction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If DistributionUp prior and posterior rows, a CondExpUp likelihood/evidence row, a Bayes-to-posterior hsame comparison, a normalisation Cont row, and Pkg provenance are supplied under the BayesianUp setup, then they assemble an accepted Bayesian update packet whose public posterior source is exactly those rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/210_bayesian_namecert_construction.tex`
+
+Rationale:
+This fills a real local gap in the BayesianUp chapter: the carrier section is empty while the existing source-obligation and ledger-exactness theorems already quantify over Bayesian update packets and accepted packets. The proposed target is a concrete carrier/introduction theorem over named DistributionUp, CondExpUp, hsame, Cont, and Pkg rows, not a marker or verification-status change, and the landing file is short enough to be safe.
+
+---
