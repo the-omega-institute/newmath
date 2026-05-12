@@ -291,6 +291,19 @@ Lake entry:
 lake build rule110-cross-check
 ```
 
+The supported proof-of-concept path is a standalone Lean script because the
+project lakefile exposes only the `BEDC` library target.  It runs with:
+
+```text
+cd lean4
+lake build BEDC.GroundCompiler.ChannelEncoding
+lake env lean --run scripts/rule110_cross_check.lean ../rule110/manifests/mark/msame_refl.enum.ct
+```
+
+It supports `mark/msame_refl.enum.ct`, parses the assertion table, decodes each
+`input=` through `DecEvent`, converts the two payload events to `BMark`, and
+checks the pair as a ground instance of `BEDC.FKernel.Mark.msame_refl`.
+
 Stages:
 
 1. Load registered manifest paths.
