@@ -485,6 +485,20 @@ compactness, arbitrary subcover choice, quotient equality of names, or host
 real extensionality added.
 \end{proof}
 
+\begin{theorem}[DyadicCover public total-bounded export]
+\label{thm:dyadic-cover-public-total-bounded-export}
+Every public total-bounded or Real-envelope consumer of an accepted $\DyadicCoverUp$ packet receives exactly the finite center list, rational radius list, interval cells, mesh refinement rows, finite-window envelope coverage, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row assembled in \autoref{thm:dyadic-cover-scoped-package}. The export factors through \autoref{thm:dyadic-cover-finite-window-envelope-factorization}, \autoref{thm:dyadic-cover-refined-window-total-bounded-package}, and \autoref{thm:dyadic-cover-real-envelope-coverage-exactness}; it exports no open-cover compactness, arbitrary subcover choice, metric completeness, quotient equality of names, or host real extensionality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-cover-scoped-package}. It assembles the carrier, naming, mesh, finite-window envelope, refined total-bounded, and Real envelope rows into one scoped package.
+
+Apply \autoref{thm:dyadic-cover-finite-window-envelope-factorization}. This identifies the coverage surface as the displayed finite envelope over the packet's own center list, radius list, interval cells, mesh rows, transports, routes, package provenance, and local name row.
+
+Next use \autoref{thm:dyadic-cover-refined-window-total-bounded-package}. A total-bounded consumer therefore reads only the refined finite window and the same bounded-radius ledger, not an arbitrary subcover selection.
+
+Finally apply \autoref{thm:dyadic-cover-real-envelope-coverage-exactness}. It repacks those same finite coverage rows for Real-envelope consumers, so the public export carries no open-cover compactness, metric completeness, quotient equality of names, or host real extensionality.
+\end{proof}
+
 \closureat{DyadicCoverUp}{seedStr}
 \closureat{DyadicCoverUp}{obligationStr}
 \closureat{DyadicCoverUp}{scopedStr}
