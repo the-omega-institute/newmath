@@ -169,4 +169,32 @@ theorem RealLimitPacket_readback_obligation [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem RealLimitPacket_transported_readback_ledger_stability [AskSetup] [PackageSetup]
+    {schedule stream endpoint tolerance handoff route ledger readback schedule' stream'
+      endpoint' tolerance' handoff' route' ledger' readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealLimitPacket schedule stream endpoint tolerance handoff route ledger bundle pkg ->
+      hsame schedule schedule' ->
+        hsame stream stream' ->
+          hsame endpoint endpoint' ->
+            hsame tolerance tolerance' ->
+              Cont schedule' stream' handoff' ->
+                Cont handoff' tolerance' route' ->
+                  Cont route' endpoint' ledger' ->
+                    Cont endpoint tolerance readback ->
+                      Cont endpoint' tolerance' readback' ->
+                        PkgSig bundle ledger' pkg ->
+                          hsame readback readback' ∧
+                            RealLimitPacket schedule' stream' endpoint' tolerance' handoff'
+                              route' ledger' bundle pkg ∧
+                              hsame ledger ledger' := by
+  intro packet sameSchedule sameStream sameEndpoint sameTolerance
+  intro scheduledHandoff' toleranceRoute' endpointLedger' readbackRow readbackRow' ledgerPkg'
+  have transported :=
+    RealLimitPacket_scheduled_handoff_transport packet sameSchedule sameStream sameEndpoint
+      sameTolerance scheduledHandoff' toleranceRoute' endpointLedger' ledgerPkg'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameEndpoint sameTolerance readbackRow readbackRow'
+  exact ⟨sameReadback, transported.left, transported.right.right.right⟩
+
 end BEDC.Derived.RealLimitUp
