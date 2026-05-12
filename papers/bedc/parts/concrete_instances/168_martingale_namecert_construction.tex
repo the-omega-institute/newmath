@@ -434,3 +434,46 @@ row, none of those data can be exported through this consumer projection.
   \notclaimed{It does not close Brownian sample-path theory, measure-theoretic convergence, stopping-time results, or standard stochastic-process bridges.}
   \upgradepath{Mature closure requires examples and consumer coverage for the same finite adapted-sequence packet surface.}
 \end{closurestatus}
+
+\begin{definition}[Martingale finite-suffix restriction]
+\label{def:martingale-finite-suffix-restriction}
+Let
+$$
+\mathcal{M}=(R,C,F,X,E,T,\rho,\lambda)
+$$
+be a displayed $\MartingaleUp$ adapted-sequence packet whose finite unary time spine has endpoint rows $0,\ldots,n+k$. The finite-suffix restriction $\mathcal{M}_{\ge n}^{k}$ is the tuple obtained by keeping the same consumed $\NameCert_{\RandomVarUp}$ row $R$, the same consumed $\NameCert_{\CondExpUp}$ row $C$, and the same displayed filtration and adaptation row $F$, while retaining only the suffix-indexed endpoint rows
+$$
+X_n,X_{n+1},\ldots,X_{n+k},
+$$
+the adjacent conditional-expectation rows
+$$
+E_{n+1|n},E_{n+2|n+1},\ldots,E_{n+k|n+k-1},
+$$
+the tower-boundary rows of $T$ whose adjacent conditional-expectation faces both lie in that suffix, the corresponding provenance rows of $\rho$, and exactly the finite $\Cont$ ledger entries of $\lambda$ whose endpoints and conditional-expectation faces lie in the displayed suffix.
+
+The suffix time row is reindexed by unary histories so that suffix endpoint $j$ is the original endpoint $n+j$ and suffix adjacent face $j<k$ is the original face $n+j+1|n+j$. No endpoint row before $n$, no conditional-expectation face before $n+1|n$, and no tower or ledger row crossing the boundary from $n-1$ to $n$ is part of $\mathcal{M}_{\ge n}^{k}$.
+\end{definition}
+
+\begin{theorem}[Martingale finite-suffix restriction carrier]
+\label{thm:martingale-finite-suffix-restriction-carrier}
+Let
+$$
+\mathcal{M}=(R,C,F,X,E,T,\rho,\lambda)
+$$
+be an accepted $\MartingaleUp$ adapted-sequence packet in the sense of \autoref{def:martingale-bhist-adapted-sequence-packet}. Suppose its displayed finite unary time spine has endpoint rows $X_0,\ldots,X_{n+k}$ and adjacent conditional-expectation rows $E_{1|0},\ldots,E_{n+k|n+k-1}$. Then the finite-suffix restriction $\mathcal{M}_{\ge n}^{k}$ of \autoref{def:martingale-finite-suffix-restriction}, with the same consumed $\RandomVarUp$ and $\CondExpUp$ packets, the same displayed filtration and adaptation row, the suffix endpoint rows $X_n,\ldots,X_{n+k}$, the suffix conditional-expectation rows $E_{n+1|n},\ldots,E_{n+k|n+k-1}$, and the inherited suffix rows of $T$, $\rho$, and $\lambda$, is again an accepted $\MartingaleUp$ adapted-sequence packet.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet by \autoref{def:martingale-bhist-adapted-sequence-packet}. Acceptance is stated entirely by the presence of the finite tuple rows $R$, $C$, $F$, $X$, $E$, $T$, $\rho$, and $\lambda$: the $X$ entries are $\RandomVarUp$ endpoint rows over $R$ adapted to $F$, the $E$ entries are $\CondExpUp$ rows over $C$ whose source is the later retained endpoint and whose target is the earlier retained endpoint, $T$ records tower compatibility of adjacent faces, $\rho$ records provenance through the two consumed packets, and $\lambda$ stores the displayed transport rows.
+
+Form the suffix tuple. The consumed rows $R$ and $C$ are unchanged, so the source certificates for every retained $\RandomVarUp$ endpoint and every retained $\CondExpUp$ face are the same rows used in the parent packet. The filtration row $F$ is also unchanged, and the suffix reads only the adaptation entries of $F$ attached to the retained endpoints $X_n,\ldots,X_{n+k}$. By \autoref{thm:martingale-adapted-sequence-carrier-boundary}, each retained public endpoint row is one of the original entries of $X$, is scoped through $R$, and is connected to the displayed filtration row by an adaptation row already present in the accepted packet.
+
+Consider a suffix adjacent face $j<k$. Under the suffix reindexing it is the original face $n+j+1|n+j$. Acceptance of $\mathcal M$ supplies the conditional-expectation row over $C$ whose source is $X_{n+j+1}$ and whose target is $X_{n+j}$, together with the corresponding continuation ledger entry. By \autoref{thm:martingale-conditional-expectation-ledger-stability}, the displayed conditional-expectation row is preserved through the consumed $\CondExpUp$ classifier and through the finite $\Cont$ ledger. Thus the same row is well typed as the suffix face from suffix endpoint $j+1$ to suffix endpoint $j$.
+
+The first suffix face is not a separate initial-condition obligation. It is exactly the original face $E_{n+1|n}$, with boundary endpoint $X_n$ as its target. The carrier definition does not require the suffix to remember the discarded predecessor $X_{n-1}$ or any conditional-expectation row crossing into $X_n$ from outside the suffix. It requires only the displayed endpoint rows, the adjacent conditional-expectation faces internal to the finite spine, and the finite ledger rows attached to those faces.
+
+For tower compatibility, retain precisely those rows of $T$ whose adjacent conditional-expectation faces both survive the suffix restriction. By \autoref{thm:martingale-tower-law-ledger-surface}, each such row is only a finite ledger boundary over adjacent faces from $E$ and the corresponding rows of $\lambda$. Since the suffix retains both faces and the associated $\Cont$ entries, each retained tower-boundary row remains a valid tower row in the suffix packet. Rows of $T$ crossing the discarded boundary are not obligations of the suffix because one of their adjacent faces is no longer displayed.
+
+The provenance row $\rho$ and ledger $\lambda$ are finite rows, so restricting them to entries whose endpoints and faces lie in the suffix preserves exactly the displayed provenance and transport required by the retained $X$, $E$, and $T$ rows. No row outside $R$, $C$, $F$, the suffix of $X$, the suffix of $E$, the retained tower rows, the retained provenance rows, and the retained ledger rows is introduced.
+
+Repack the retained rows through \autoref{thm:martingale-namecert-obligation-surface}. The suffix tuple has the same form as the accepted adapted-sequence packet: consumed $\RandomVarUp$ and $\CondExpUp$ packets, displayed filtration and adaptation rows, finite endpoint rows, finite adjacent conditional-expectation faces, finite tower-boundary rows, provenance, and finite $\Cont$ ledger. Therefore $\mathcal{M}_{\ge n}^{k}$ is again an accepted $\MartingaleUp$ adapted-sequence packet.
+\end{proof}
