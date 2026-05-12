@@ -81,4 +81,25 @@ theorem RegularCauchyTailSelectorPacket_namecert_obligation_surface [AskSetup] [
       consumerUnary, streamRegularityWitness, witnessDyadicSeal, witnessRegularityConsumer,
       namePkg, consumerPkg⟩
 
+theorem RegularCauchyTailSelectorPacket_precision_window_exactness [AskSetup] [PackageSetup]
+    {precision stream regularity dyadic «seal» witness transport routes provenance name
+      witnessPrime : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailSelectorPacket precision stream regularity dyadic «seal» witness transport
+        routes provenance name bundle pkg ->
+      Cont stream regularity witnessPrime ->
+        UnaryHistory witnessPrime ∧ hsame witness witnessPrime := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet streamRegularityWitnessPrime
+  obtain ⟨_precisionUnary, streamUnary, regularityUnary, _dyadicUnary, _sealUnary,
+    _witnessUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    streamRegularityWitness, _witnessDyadicSeal, _sealTransportRoutes, _routesProvenanceName,
+    _namePkg⟩ := packet
+  have witnessPrimeUnary : UnaryHistory witnessPrime :=
+    unary_cont_closed streamUnary regularityUnary streamRegularityWitnessPrime
+  have sameWitness : hsame witness witnessPrime :=
+    cont_respects_hsame (hsame_refl stream) (hsame_refl regularity) streamRegularityWitness
+      streamRegularityWitnessPrime
+  exact ⟨witnessPrimeUnary, sameWitness⟩
+
 end BEDC.Derived.RegularCauchyTailSelectorUp

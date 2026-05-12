@@ -90,12 +90,41 @@ B,\ d,\ T,\ \lambda,\ I,\ M,\ R,\ E,\ H,\ C,\ P,\ N.
 $$
 The exported surface provides a finite Picard ledger, an explicit Cauchy modulus, a $\CompleteMetricUp$ and $\RegSeqRatUp$ convergence handoff, and a $\RealUp$ seal-facing endpoint row. It does not export host fixed-point equality, choice-selected limits, global nonlinear analysis, or completeness beyond the carried distance row.
 \end{theorem}
+\leanchecked{BEDC.Derived.BanachFixedPointUp.BanachFixedPointPacket\_public\_export}
 \begin{proof}
 Take any public read of the certificate. The carrier definition lists all accessible rows, so the read must pass through the displayed Banach, metric, contraction, ratio, Picard, modulus, handoff, endpoint, transport, continuation, package, and naming coordinates.
 
 \autoref{thm:banach-fixed-point-iteration-ledger} identifies the finite Picard surface. \autoref{thm:banach-fixed-point-cauchy-handoff} identifies the modulus and convergence handoff. \autoref{thm:banach-fixed-point-uniqueness-boundary} identifies the endpoint determinacy available to the classifier.
 
 These rows repack as the public $\BanachFixedPointUp$ surface. Since no other coordinate is present, the exported certificate cannot be used to read host fixed-point equality, an externally selected limit, global nonlinear-analysis structure, or ambient completeness beyond $d$.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint scoped transport route]
+\label{thm:banach-fixed-point-scoped-transport-route}
+Every consumer route through the $\BanachFixedPointUp$ carrier factors through the displayed $\mathsf{BHist}$ packet rows
+$$
+B,\ d,\ T,\ \lambda,\ I,\ M,\ R,\ E,\ H,\ C,\ P,\ N.
+$$
+The row $H$ supplies the componentwise $\hsame$ routes for the Banach, distance, contraction, ratio, iterate, modulus, handoff, endpoint, provenance, and naming coordinates. The row $C$ replays the corresponding $\Cont$ routes for metric reads, contraction application, finite Picard concatenation, modulus readback, completion handoff, and endpoint sealing. The row $P$ records package provenance, and $N$ supplies the local $\NameCert_{\BanachFixedPointUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-fixed-point-carrier}. Its listed coordinates are precisely the rows displayed in the statement, so any consumer route starts by reading one of those coordinates.
+
+The finite Picard surface is identified by \autoref{thm:banach-fixed-point-iteration-ledger}. The modulus and completion-facing handoff are identified by \autoref{thm:banach-fixed-point-cauchy-handoff}. The endpoint boundary is identified by \autoref{thm:banach-fixed-point-uniqueness-boundary}.
+
+Finally, \autoref{thm:banach-fixed-point-public-export} says that public access has no route outside the displayed packet. Thus the only available scoped route is through the $\mathsf{BHist}$ rows, with $H$ carrying $\hsame$, $C$ carrying $\Cont$, $P$ carrying $\Pkg$ provenance, and $N$ carrying the local naming certificate.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint completion handoff scope]
+\label{thm:banach-fixed-point-completion-handoff-scope}
+The handoff from finite Picard data to the seal-facing endpoint of an accepted $\BanachFixedPointUp$ carrier passes, in order, through the rational Lipschitz ledger $\lambda$, the $\CauchyModulusUp$ row $M$, the $\RegSeqRatUp$ handoff row $R$, the carried $\CompleteMetricUp$ distance row $d$, and only then the $\RealUp$ endpoint row $E$. This scoped handoff does not expose host fixed-point equality, a choice-selected limit, or ambient completeness beyond the carried row $d$.
+\end{theorem}
+\begin{proof}
+Begin with the finite Picard ledger from \autoref{thm:banach-fixed-point-iteration-ledger}. Its adjacent application rows are read through $T$, while all distance comparisons are read through $d$ and the rational Lipschitz ledger $\lambda$.
+
+Next apply \autoref{thm:banach-fixed-point-cauchy-handoff}. The ratio ledger and finite Picard rows determine the explicit modulus $M$, and the handoff row $R$ routes that modulus through the regular rational name and the carried complete-metric surface.
+
+The endpoint row $E$ is reached only after this handoff route is present. By \autoref{thm:banach-fixed-point-public-export}, there is no exported coordinate for host fixed-point equality, selected limits, or an ambient completeness theorem, so the completion handoff remains confined to the displayed BEDC rows.
 \end{proof}
 
 \closureat{BanachFixedPointUp}{seedStr}

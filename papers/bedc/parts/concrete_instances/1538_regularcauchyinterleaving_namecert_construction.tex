@@ -90,6 +90,20 @@ In the even case, \autoref{thm:regular-cauchy-interleaving-classifier} reads the
 The stored row $H$ transports the selector, both schedules, both regular names, and the combined modulus ledger componentwise. The stored row $C$ only routes consumers through the selected schedule and the selected ledger component, so transport preserves the parity partition rather than mixing the two source sides.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving selector transport determinacy]
+\label{thm:regular-cauchy-interleaving-selector-transport-determinacy}
+For classified accepted $\RegularCauchyInterleavingUp$ packets, transported selector rows preserve the even and odd routes. Every even transported read factors through the transported $A$-side schedule and the first component of the combined modulus ledger, and every odd transported read factors through the transported $B$-side schedule and the second component. No transported read can switch sides or use a third schedule.
+\end{theorem}
+\begin{proof}
+Project the classifier statement of \autoref{thm:regular-cauchy-interleaving-classifier}. It compares the two source names, the two schedules, the selector row, and the combined modulus ledger componentwise through the displayed $\hsame$ and $\Cont$ data.
+
+Apply \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness} before transport. Even reads are routed through $A$, $S_A$, and the first component of $M$, while odd reads are routed through $B$, $S_B$, and the second component.
+
+Apply the same parity exactness after the $\hsame$ transport. The transported selector still exposes the transported even side through the transported $A$-schedule and the transported odd side through the transported $B$-schedule.
+
+Use \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} to keep the selected ledger component fixed. Then use \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage} to rule out unscheduled routes: the carrier has only the two transported schedules, so there is no coordinate from which a third schedule or side switch could be read.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy interleaving RealUp seal non-escape]
 \label{thm:regular-cauchy-interleaving-real-seal-non-escape}
 Let $I$ be an accepted $\RegularCauchyInterleavingUp$ source packet with interleaved seal $E$. Any $\RealUp$ consumer of $E$ must pass through the selected $\RegSeqRatUp$ readback, the selected $\StreamNameUp$ schedule, the combined modulus ledger, the displayed $\hsame$ transport and $\Cont$ route, and the package and naming rows $P$ and $N$. No consumer of $E$ can read quotient real equality, a host limit, or ambient completeness from the packet.
@@ -111,6 +125,7 @@ I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
 $$
 be an accepted $\RegularCauchyInterleavingUp$ packet. Every precision request for the interleaved $\RealUp$ seal first reads the selector row $\sigma$, then reads the selected schedule $S_A$ or $S_B$, and then checks the matching component of the combined modulus ledger $M$. Even requests use the $A$ component of $M$, odd requests use the $B$ component of $M$, and no request can consume $E$ without one of these displayed ledger routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_combined\_modulus\_exactness}
 \begin{proof}
 Unpack the packet by \autoref{def:regular-cauchy-interleaving-source}. The selector row, both schedules, the combined modulus ledger, and the interleaved seal are stored coordinates of the same finite $\mathsf{BHist}$ row.
 

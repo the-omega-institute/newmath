@@ -112,6 +112,7 @@ Apply \autoref{thm:dyadic-subdivision-refinement-stability} to transport the fir
 \label{thm:dyadic-subdivision-cell-ledger-transport}
 For an accepted $\DyadicSubdivisionUp$ packet $S=(I,L,C,M,V,P,N)$, componentwise $\hsame$ and $\Cont$ transport of the parent interval $I$, the dyadic level row $L$, the ordered cell list $C$, the $\DyadicMeshUp$ cell family $M$, the $\ValidatedNumericsUp$ enclosure family $V$, the package row $P$, and the local $\NameCert$ row $N$ preserves the subdivision classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionSource\_cell\_ledger\_transport}
 \begin{proof}
 The classifier is read directly from \autoref{def:dyadic-subdivision-source}. It compares only the parent interval, common level, ordered cell list, mesh cells, validated enclosure rows, and provenance rows.
 
@@ -180,18 +181,33 @@ Apply mesh coverage from \autoref{thm:dyadic-subdivision-mesh-coverage} and the 
 Repack those rows as the public finite-enclosure surface. Since each cited row is finite and none contains an interval tree, solver state, hardware semantics, classical completeness principle, or infinite refinement coordinate, the exported certificate has exactly the stated boundary.
 \end{proof}
 
+\begin{theorem}[DyadicSubdivision standard bridge certificate]
+\label{thm:dyadic-subdivision-standard-bridge-certificate}
+The public finite-enclosure certificate of \autoref{thm:dyadic-subdivision-public-finite-enclosure-export} supplies a standard finite subdivision reading for the same parent interval. Its bridge fields are the parent $\RationalIntervalUp$ row, unary dyadic level, ordered child-cell ledger, $\DyadicMeshUp$ packets, $\ValidatedNumericsUp$ containment rows, $\RealUp$ consumer handoff, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Every standard read of the finite subdivision factors through those displayed fields. The bridge exports no interval tree, solver-correctness theorem, floating-point hardware semantics, classical real completeness principle, or infinite refinement object.
+\end{theorem}
+\begin{proof}
+Begin with the public finite-enclosure export. It already names the parent rational interval, common dyadic level, ordered cell list, mesh packets, validated containment rows, and consumer provenance as one public $\DyadicSubdivisionUp$ certificate.
+
+Read this packet as a standard finite subdivision by projecting the same rows. The parent interval is the source field; the ordered child-cell ledger and $\DyadicMeshUp$ packets give the finite subdivision field; the $\ValidatedNumericsUp$ rows give the enclosure field; and the $\RealUp$ handoff is reached only through the displayed consumer routes.
+
+The transport and provenance fields are exactly $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the bridge has no other field, a standard reader cannot obtain an interval tree, solver-correctness theorem, hardware semantics, classical completeness principle, or infinite refinement object from the packet.
+\end{proof}
+
 \closureat{DyadicSubdivisionUp}{seedStr}
 \closureat{DyadicSubdivisionUp}{obligationStr}
 \closureat{DyadicSubdivisionUp}{scopedStr}
 \closureat{DyadicSubdivisionUp}{publicStr}
+\closureat{DyadicSubdivisionUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicSubdivisionUp}
   \constructivestory{A $\DyadicSubdivisionUp$ packet is generated from a parent $\RationalIntervalUp$ row, a unary dyadic level row, a finite ordered cell-list row, $\DyadicMeshUp$ cell packets, $\ValidatedNumericsUp$ containment rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadic-subdivision-public-finite-enclosure-export} exports the finite $\DyadicSubdivisionUp$ enclosure certificate for $\ValidatedNumericsUp$ and $\RealUp$ readers through the parent rational interval, unary level, ordered cell list, mesh packets, containment rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:dyadic-subdivision-public-finite-enclosure-export} and \autoref{thm:dyadic-subdivision-standard-bridge-certificate} export the finite $\DyadicSubdivisionUp$ enclosure certificate and its standard finite subdivision reading for $\ValidatedNumericsUp$ and $\RealUp$ readers through the parent rational interval, unary level, ordered cell list, mesh packets, containment rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global interval-tree semantics, solver correctness, floating-point hardware behavior, classical real completeness, infinite refinement, or bridge checking.}
-  \upgradepath{Bridged closure requires a standard bridge theorem for the same finite-enclosure packet.}
+  \upgradepath{Mature closure requires representative examples and completeness coverage for standard finite subdivision consumers.}
 \end{closurestatus}

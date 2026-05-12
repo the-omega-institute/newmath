@@ -186,15 +186,59 @@ The naming side is fixed by \autoref{thm:collision-kernel-classifier-transport-s
 Therefore a moment or Hankel-shadow consumer can vary only the moment-facing index or shadow rows of the read, while $W,F,M,P,N$ remain the same visible ledger data.
 \end{proof}
 
-\closureat{CollisionKernelUp}{seedStr}
+\begin{theorem}[CollisionKernel matrix readback totality]
+\label{thm:collision-kernel-matrix-readback-totality}
+Every matrix read of an accepted $\CollisionKernelUp$ packet $K=(W,F,L,M,I,S,H,C,P,N)$ is exhausted by the displayed rows $W,F,L,M,H,C,P,N$. More precisely, a consumer can reach an entry of $M$ only as a finite read against the target-fiber ledger $L$, tied to the fold-source row $F$ and the finite window row $W$, transported by $H$, routed by $C$, and recorded by $P$ and $N$.
+
+Consequently the matrix row exports no host matrix operation, hidden source set, quotient fiber, ambient spectrum, measure object, or analytic collision law.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:collision-kernel-bhist-carrier}. The matrix row $M$ is displayed only together with the window $W$, fold-source row $F$, target-fiber ledger $L$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$.
+
+Apply \autoref{thm:collision-kernel-fiber-ledger-exactness}. It identifies every matrix entry as a read from $L$, with each retained source entry tied to $F$ and $W$.
+
+Now use \autoref{thm:collision-kernel-classifier-transport-scope}. The only permitted replacement of a matrix read is componentwise transport through the displayed $\hsame$ and $\Cont$ rows, with provenance and local naming still recorded by $P$ and $N$.
+
+Since those rows exhaust the available readback coordinates, the matrix read cannot export a host operation, hidden source set, quotient fiber, spectrum, measure, or analytic collision law.
+\end{proof}
+
+\begin{theorem}[CollisionKernel downstream non-escape package]
+\label{thm:collision-kernel-downstream-non-escape-package}
+Every downstream Hankel-shadow or moment consumer of an accepted $\CollisionKernelUp$ packet factors through the finite rows $I,M,S,L,H,C,P,N$ and then back through the matrix-readback boundary of \autoref{thm:collision-kernel-matrix-readback-totality}. Such a consumer cannot export an ambient spectrum, measure space, quotient fiber, infinite Hankel operator, analytic moment law, or hidden collision-counting operation.
+\end{theorem}
+\begin{proof}
+First isolate the downstream read. By \autoref{thm:collision-kernel-moment-readback-exhaustion}, every moment or Hankel-shadow request factors through $I,M,S,L,H,C,P,N$.
+
+Next identify the matrix component of that read. \autoref{thm:collision-kernel-matrix-readback-totality} sends every access to $M$ back to the displayed window, fold-source row, target-fiber ledger, transports, continuations, package provenance, and local naming row.
+
+Finally apply \autoref{thm:collision-kernel-hankel-shadow-boundary}. A Hankel-shadow consumer stops at the same finite packet and has no coordinate for an infinite Hankel operator or analytic moment functional.
+
+Thus every downstream read remains a finite consumer of the displayed packet and cannot export spectra, measures, quotient fibers, hidden counting, or analytic moment laws.
+\end{proof}
+
+\begin{theorem}[CollisionKernel obligation closure package]
+\label{thm:collision-kernel-obligation-closure-package}
+The paper-side $\CollisionKernelUp$ obligation package consists of the zero-window inhabitant, classifier transport scope, fiber-ledger exactness, matrix readback totality, moment and Hankel-shadow readback exhaustion, and downstream non-escape package. Together these clauses bind the accepted finite carrier $K=(W,F,L,M,I,S,H,C,P,N)$ as a NameCert surface over displayed windows, fold-source rows, target-fiber ledgers, matrix rows, moment-index rows, Hankel-shadow rows, transports, continuations, package provenance, and local naming evidence.
+\end{theorem}
+\begin{proof}
+The inhabitant is \autoref{thm:collision-kernel-zero-window-packet}. It supplies a concrete accepted packet with empty source data, zero target window, zero matrix row, zero moment rows, and identity transport and naming data.
+
+Classifier transport is \autoref{thm:collision-kernel-classifier-transport-scope}. It restricts classified replacement to the displayed rows of the carrier and excludes hidden source sets, host entries, analytic spectra, ambient measures, quotient fibers, and unrecorded moment laws.
+
+Fiber exactness and readback are supplied by \autoref{thm:collision-kernel-fiber-ledger-exactness}, \autoref{thm:collision-kernel-matrix-readback-totality}, and \autoref{thm:collision-kernel-moment-readback-exhaustion}. These theorems force matrix, moment, and Hankel-shadow consumers to return to the finite ledger rows $W,F,L,M,I,S,H,C,P,N$.
+
+Downstream non-escape is \autoref{thm:collision-kernel-downstream-non-escape-package}. Repacking these clauses gives the finite paper-side obligation package for the $\NameCert_{\CollisionKernelUp}$ surface.
+\end{proof}
+
+\closureat{CollisionKernelUp}{obligationStr}
 
 \begin{closurestatus}{\CollisionKernelUp}
   \constructivestory{A $\CollisionKernelUp$ packet is generated from a finite window, fold-source rows, target-fiber ledgers, a finite collision-kernel matrix row, moment-index rows, a Hankel-shadow row, componentwise transport, continuation routes, package provenance, and local naming evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope fixes the finite carrier, classifier, zero-window inhabitant, five-row naming-certificate surface, and Hankel-shadow non-escape boundary for finite collision-kernel packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the finite carrier, classifier transport, fiber ledger exactness, moment readback, matrix readback, downstream non-escape, and obligation package for finite collision-kernel packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close analytic spectra, ambient measure theory, infinite Hankel operators, quotient fibers, asymptotic collision laws, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier transport, fiber-ledger exactness, matrix readback, Hankel-shadow readback, and downstream non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires explicit dependency binding across carrier admission, classifier transport, ledger exactness, readback exhaustion, and downstream non-escape for the same finite packet.}
 \end{closurestatus}
