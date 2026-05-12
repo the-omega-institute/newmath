@@ -168,6 +168,7 @@ endpoint, radius, comparison, precision, modulus, transport, continuation,
 package, and name row displayed by $w,h,c,p,n$. Conversely, every displayed
 row of this form is accepted as a $\RegularityModulusUp$ consumer read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularityModulusUp.RegularityModulusPacket\_dyadic\_window\_exactness}
 \begin{proof}
 Project $R$ through
 \autoref{def:regularitymodulus-dyadic-window-carrier}. The carrier stores the
@@ -362,14 +363,15 @@ choice-based tail from the packet.
 
 \closureat{RegularityModulusUp}{seedStr}
 \closureat{RegularityModulusUp}{obligationStr}
+\closureat{RegularityModulusUp}{scopedStr}
 
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness} records the obligation catalogue over the dyadic-window carrier, monotonicity, $\RegSeqRatUp$ consumption, $\RealUp$ seal handoff, dyadic-window exactness, and common-window exactness.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regularitymodulus-obligation-completeness}, \autoref{thm:regularitymodulus-carrier-classifier-obligations}, \autoref{thm:regularitymodulus-transport-ledger-obligations}, and \autoref{thm:regularitymodulus-regseqrat-real-consumer-obligations} bind the carrier, classifier, transport, ledger, $\RegSeqRatUp$, and $\RealUp$ consumer rows to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a checked Lean carrier, real completeness, uniqueness of real representatives, analytic moduli, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding these obligation rows to the exact BEDC primitives and the downstream $\RegSeqRatUp$ and $\RealUp$ handoff scope.}
+  \upgradepath{Public closure requires a consumer-facing export theorem for the same finite regularity-rate packet.}
 \end{closurestatus}
