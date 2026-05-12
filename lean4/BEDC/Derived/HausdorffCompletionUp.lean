@@ -90,6 +90,35 @@ theorem HausdorffCompletionCarrier_uniform_entourage_cauchy_handoff [AskSetup]
     ⟨sourceUnary, entourageUnary, handoffUnary, consumerUnary, sourceEntourageTransport,
       entourageHandoffConsumer, transportRouteProvenance, provenancePkg, consumerPkg⟩
 
+theorem HausdorffCompletionCarrier_cauchy_entourage_handoff_exactness [AskSetup]
+    [PackageSetup]
+    {source entourage separated handoff transport route provenance consumer endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont source entourage consumer ->
+        Cont consumer handoff endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory source ∧ UnaryHistory entourage ∧ UnaryHistory handoff ∧
+              UnaryHistory consumer ∧ UnaryHistory endpoint ∧ Cont source entourage transport ∧
+                Cont source entourage consumer ∧ hsame transport consumer ∧
+                  Cont consumer handoff endpoint ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier sourceEntourageConsumer consumerHandoffEndpoint endpointPkg
+  obtain ⟨sourceUnary, entourageUnary, _separatedUnary, handoffUnary, transportUnary,
+    _routeUnary, _provenanceUnary, sourceEntourageTransport, _separatedHandoffRoute,
+    _transportRouteProvenance, provenancePkg⟩ := carrier
+  have sameTransportConsumer : hsame transport consumer :=
+    cont_deterministic sourceEntourageTransport sourceEntourageConsumer
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport transportUnary sameTransportConsumer
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed consumerUnary handoffUnary consumerHandoffEndpoint
+  exact
+    ⟨sourceUnary, entourageUnary, handoffUnary, consumerUnary, endpointUnary,
+      sourceEntourageTransport, sourceEntourageConsumer, sameTransportConsumer,
+      consumerHandoffEndpoint, provenancePkg, endpointPkg⟩
+
 theorem HausdorffCompletionCarrier_separated_seal_boundary [AskSetup] [PackageSetup]
     {source entourage separated handoff transport route provenance sealConsumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
