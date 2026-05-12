@@ -47,11 +47,35 @@ theorem nested_pi_dep_in_empty :
     · apply HasType.varRule
       rfl
 
+/-- 空 ctx 下: lambda 内构造 pi (var 0) (var 1), 外层类型为 pi sort sort. -/
+theorem lam_constructs_dependent_pi :
+    HasType [] (Term.lam Term.sort (Term.pi (Term.var 0) (Term.var 1)))
+      (Term.pi Term.sort Term.sort) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
+
 /-- 单 sort ctx 下: pi (var 0) (pi (var 1) sort) 类型为 sort. -/
 theorem nested_pi_dep_in_sort_ctx :
     HasType [Term.sort] (Term.pi (Term.var 0) (Term.pi (Term.var 1) Term.sort))
       Term.sort := by
   apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · exact HasType.sortRule [Term.var 2, Term.var 1, Term.sort]
+
+/-- 单 sort ctx 下: lambda 构造把外层 type 映到 pi (var 1) sort 的 type 操作. -/
+theorem map_pi_in_sort_ctx :
+    HasType [Term.sort] (Term.lam (Term.var 0) (Term.pi (Term.var 1) Term.sort))
+      (Term.pi (Term.var 0) Term.sort) := by
+  apply HasType.lamRule
   · apply HasType.varRule
     rfl
   · apply HasType.piRule
