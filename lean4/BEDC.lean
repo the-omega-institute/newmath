@@ -84,6 +84,7 @@ import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
+import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
@@ -179,6 +180,8 @@ import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp
+import BEDC.Derived.TrieUp.TerminalPrefixReadback
+import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
@@ -187,6 +190,7 @@ import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
+import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
