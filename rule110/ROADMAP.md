@@ -40,7 +40,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [ ] B2: Verify collision outcomes by direct Rule 110 simulation: inject two gliders, evolve, observe outcome, compare against lookup. Add `tests/test_cook_collisions.c` covering all listed collision pairs.
 
-- [ ] B3: Implement leader structure (encodes "start of data block" in Cook §5). Test emission + stability.
+- [x] B3: Implement leader structure (encodes "start of data block" in Cook §5). Test emission + stability.
 
 - [ ] B4: Implement ossifier structure (encodes "current production index" in Cook §5). Test emission + stability.
 
