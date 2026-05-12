@@ -212,12 +212,28 @@ The finite-window consumer route supplies the package boundary. It factors ratio
 Finally, nested-interval non-escape excludes every coordinate not present in the carrier. Thus the downstream $\DyadicRatCoreUp$ package consumed by interval and $\RealUp$ readers is exactly the displayed finite midpoint ledger.
 \end{proof}
 
+\begin{theorem}[DyadicMidpoint scoped support package]\label{thm:dyadic-midpoint-scoped-support-package}
+The carrier of \autoref{def:dyadic-midpoint-carrier}, the six $\NameCert_{\DyadicMidpointUp}$ obligations of \autoref{thm:dyadic-midpoint-namecert-obligations}, endpoint classifier stability, branch-comparison handoff, finite-window consumer routing, nested-interval non-escape, the $\RealUp$ handoff of \autoref{thm:dyadic-midpoint-real-handoff-noncompletion}, and the downstream $\DyadicRatCoreUp$ package of \autoref{thm:dyadicmidpoint-downstream-dyadicratcore-package} assemble one scoped support package for $\DyadicMidpointUp$.
+
+This package is stated only over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, and $\RealUp$. It exports the finite midpoint ledger and its consumer routes, but it exports no host real equality, quotient endpoint, completed interval intersection, or completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:dyadic-midpoint-carrier}. The endpoint rows, common-denominator row, midpoint row, branch row, readback row, transport row, continuation row, package row, and local naming row are the whole displayed packet.
+
+The local obligation surface is \autoref{thm:dyadic-midpoint-namecert-obligations}. Endpoint classifier stability keeps transported endpoint windows aligned, branch-comparison handoff identifies the consumer branch with the row $B$, and finite-window consumer routing factors each downstream read through $W,H,C,P,N$.
+
+Use nested-interval non-escape to keep bisection and nested-interval refinement inside the displayed packet. Use the $\RealUp$ handoff to record that real-name consumers receive only a finite dyadic-name packet for the current window, and use the downstream $\DyadicRatCoreUp$ package to bind the rational, dyadic interval, nested interval, and real-name consumers to the same rows.
+
+The projected rows list no host real equality, quotient endpoint, completed interval intersection, or ambient completeness coordinate. Therefore the cited carrier, obligations, stability, route, non-escape, real-name handoff, and downstream package form the stated scoped support package and export no object outside that dependency surface.
+\end{proof}
+
 \closureat{DyadicMidpointUp}{seedStr}
+\closureat{DyadicMidpointUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicMidpointUp}
   \constructivestory{A $\DyadicMidpointUp$ packet is generated from two dyadic endpoint rows, a common-denominator scaling row, a finite midpoint calculation, a branch-comparison row, a finite-window readback row, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the endpoint rows, common-denominator scaling row, midpoint row, branch-comparison row, finite-window readback route, local classifier stability, consumer handoff, and nested-interval non-escape boundary for $\DyadicMidpointUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope packages the endpoint rows, common-denominator scaling row, midpoint row, branch-comparison row, finite-window readback route, local classifier stability, consumer handoff, nested-interval non-escape boundary, $\RealUp$ handoff, and downstream $\DyadicRatCoreUp$ surface for $\DyadicMidpointUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
