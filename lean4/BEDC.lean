@@ -183,6 +183,7 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
+import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
@@ -200,6 +201,7 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.TranscendenceUp
+import BEDC.Derived.TrieUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.VermaModuleUp
@@ -953,6 +955,7 @@ import BEDC.Derived.FpsUp.RingUpTailAlgebra
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.RatUp
+import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RatUp.DenominatorAppendDecomposition
 import BEDC.Derived.RatUp.DenominatorContext
 import BEDC.Derived.RatUp.HistoryClassifier
