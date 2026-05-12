@@ -88,7 +88,12 @@ LOG_DIRS = [
 # on an 8-core MBP with load avg ~10-12.
 # ============================================================
 LEAN_BUFFER = 0
-LEAN_MIN = 12
+LEAN_MIN = 6   # lowered 2026-05-12: allow scaling down when R-side demand
+               # genuinely runs low (critical_path top + fallback both
+               # small). Previously pinned at 12 as sustainability floor,
+               # but that wasted worker slots on Phase-B-0-chars failures
+               # during saturation. 6 keeps a warm pool ready to absorb
+               # new top entries as paper rounds advance closure_mark.
 LEAN_MAX = 20  # DO NOT CHANGE — pinned
 
 PAPER_BUFFER = 4
