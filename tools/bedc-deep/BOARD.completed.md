@@ -17808,8 +17808,6 @@ This is a concrete closure theorem for the existing DomainPolicy transport surfa
 
 ---
 
->>>>>>> Stashed changes
-
 ### B-705 - UniformCauchyCriterion empty-family tail ledger
 
 | field | value |
