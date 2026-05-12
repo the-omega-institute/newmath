@@ -153,4 +153,32 @@ theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
         pkgRow'⟩,
       endpointSame, provenanceSame⟩
 
+theorem TrieBranchRead_exactness [AskSetup] [PackageSetup]
+    {key payload depth branch provenance branchRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory key ->
+      UnaryHistory depth ->
+        UnaryHistory payload ->
+          UnaryHistory provenance ->
+            Cont key depth branch ->
+              Cont branch payload branchRead ->
+                Cont branchRead provenance consumerRead ->
+                  PkgSig bundle consumerRead pkg ->
+                    UnaryHistory branch ∧ UnaryHistory branchRead ∧ UnaryHistory consumerRead ∧
+                      hsame branch (append key depth) ∧
+                        hsame branchRead (append branch payload) ∧
+                          hsame consumerRead (append branchRead provenance) ∧
+                            PkgSig bundle consumerRead pkg := by
+  intro keyUnary depthUnary payloadUnary provenanceUnary branchRow branchReadRow consumerReadRow
+    pkgSig
+  have branchUnary : UnaryHistory branch :=
+    unary_cont_closed keyUnary depthUnary branchRow
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchUnary payloadUnary branchReadRow
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed branchReadUnary provenanceUnary consumerReadRow
+  exact
+    ⟨branchUnary, branchReadUnary, consumerReadUnary, branchRow, branchReadRow, consumerReadRow,
+      pkgSig⟩
+
 end BEDC.Derived.TrieUp

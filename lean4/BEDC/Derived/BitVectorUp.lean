@@ -412,4 +412,22 @@ theorem BitVectorBoolSpineLedger_fixed_length_consumer_determinacy
     cont_respects_hsame sameProvenance sameSpine leftConsumerRow rightConsumerRow
   exact ⟨sameRoute, sameProvenance, sameConsumer⟩
 
+theorem BitVectorSource_fixed_width_consumer_completeness [AskSetup] [PackageSetup]
+    {length spine ledger provenance read : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    BitVectorSource length spine ledger provenance bundle pkg ->
+      BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+        SemanticNameCert
+            (fun row : BHist =>
+              hsame row provenance ∧ BitVectorSource length spine ledger row bundle pkg)
+            (fun row : BHist => UnaryHistory row ∧ Cont length spine ledger)
+            (fun row : BHist => PkgSig bundle row pkg ∧ UnaryHistory ledger)
+            (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') ∧
+          UnaryHistory ledger ∧ UnaryHistory read ∧ hsame ledger (append length spine) ∧
+            hsame read (append ledger provenance) ∧ PkgSig bundle read pkg := by
+  intro source finiteLedger
+  exact And.intro
+    (BitVectorSource_semantic_name_certificate source)
+    (BitVectorFiniteLedger_ledger_coverage finiteLedger)
+
 end BEDC.Derived.BitVectorUp
