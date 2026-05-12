@@ -1,0 +1,73 @@
+\chapter{RegularCauchyInterleaving NameCert Construction}
+\label{ch:concrete-instances-regularcauchyinterleaving-namecert}
+\origin{human}
+
+The $\RegularCauchyInterleavingUp$ interface isolates the standard alternating construction for two regular Cauchy names. In the constructive-analysis reading of Bishop and Bridges, \emph{Constructive Analysis}, the interleaving is not a quotient of two completed real values; it is a finite certificate that records which regular Cauchy observation is read at each unary selector step, how the two schedules share a modulus ledger, and where the resulting $\RealUp$ seal can be consumed.
+
+\begin{definition}[Regular Cauchy interleaving source]
+\label{def:regular-cauchy-interleaving-source}
+A $\RegularCauchyInterleavingUp$ source packet is a finite $\mathsf{BHist}$ row
+$$
+I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ regular Cauchy names whose point rows may be inspected;
+\item $S_A$ and $S_B$ are the two $\StreamNameUp$ schedules that expose the finite observation windows for $A$ and $B$;
+\item $\sigma$ is the alternating unary selector row, with even selector rows reading from $A$ and odd selector rows reading from $B$;
+\item $M$ is the combined modulus ledger, recording the common precision budget and the component budget used on each selected side;
+\item $E_A$ and $E_B$ are the $\RealUp$ seal readbacks attached to the two source names;
+\item $E$ is the interleaved $\RealUp$ seal row reached only through the selected source readback and the common modulus ledger;
+\item $H$ stores the componentwise $\hsame$ transports for the two regular names, both schedules, the selector, the combined modulus ledger, and all three seal rows;
+\item $C$ stores the displayed $\Cont$ routes for selecting a source side, reading its scheduled window, checking the combined modulus row, and exposing the interleaved seal;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyInterleavingUp}$ row.
+\end{enumerate}
+The packet has no coordinate for a quotient real, a selected host limit, or an equality principle beyond the displayed $\hsame$ and $\Cont$ rows.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy interleaving classifier]
+\label{thm:regular-cauchy-interleaving-classifier}
+Two accepted $\RegularCauchyInterleavingUp$ source packets classify together exactly when their two $\RegSeqRatUp$ source names, two $\StreamNameUp$ schedules, alternating selector rows, combined modulus ledgers, source $\RealUp$ readbacks, interleaved $\RealUp$ seal rows, package provenance, and local naming rows are transported componentwise by the displayed $\hsame$ comparisons and read through the displayed $\Cont$ routes. The classifier compares the selected finite window on the even side with the transported even-side window, and the selected finite window on the odd side with the transported odd-side window, always under the same combined modulus ledger.
+\end{theorem}
+\begin{proof}
+Project the two accepted source packets. Their carrier rows expose only the two regular names, the two stream schedules, the selector, the modulus ledger, the seal readbacks, and the displayed transport and continuation rows.
+
+For an even selector row, the classifier reads the scheduled window from the first $\RegSeqRatUp$ name through $S_A$, then checks the corresponding component of $M$. For an odd selector row, it performs the same finite read through $S_B$ and the second component of $M$.
+
+The rows $H$ and $C$ record exactly the transports and consumer routes used by these reads. Repacking the transported side-specific read with $P$ and $N$ gives the same classifier surface for the interleaved seal $E$, and no quotient real or host-limit comparison is available.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving NameCert obligations]
+\label{thm:regular-cauchy-interleaving-namecert-obligations}
+The local $\NameCert_{\RegularCauchyInterleavingUp}$ surface for the source packet of \autoref{def:regular-cauchy-interleaving-source} consists of five finite rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed $\mathsf{BHist}$ packet $I$;
+\item classifier equivalence: classification is the finite even-and-odd window comparison of \autoref{thm:regular-cauchy-interleaving-classifier};
+\item $\hsame$ transport: the two source names, two schedules, selector, combined modulus ledger, and seal rows are preserved componentwise by the stored transport rows;
+\item combined modulus exactness: each interleaved precision request is discharged by the displayed common budget and the component budget selected by $\sigma$;
+\item $\RealUp$ seal non-escape: the interleaved seal $E$ can be consumed only after the selected $\RegSeqRatUp$ readback, its $\StreamNameUp$ schedule row, and the combined modulus ledger have been displayed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite packet $I$. The source rows $A$, $B$, $S_A$, $S_B$, $\sigma$, $M$, $E_A$, $E_B$, and $E$ are stored coordinates, while $H$, $C$, $P$, and $N$ record transport, continuation, package, and local naming provenance.
+
+Classifier equivalence is \autoref{thm:regular-cauchy-interleaving-classifier}. Its even and odd cases use the same packet rows and differ only in which source schedule the selector chooses.
+
+The $\hsame$ row transports each displayed coordinate componentwise, and the $\Cont$ row records the consumer route through the selected schedule and modulus ledger. The combined modulus row is exact because a request is answered by the common budget together with the component budget named by $\sigma$.
+
+Finally, the real-facing coordinate $E$ is downstream of the selected regular readback and not an independent host real. Since the packet has no field for quotient equality, selected limits, or ambient completeness, the seal cannot escape the displayed interleaving certificate.
+\end{proof}
+
+\closureat{RegularCauchyInterleavingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInterleavingUp}
+  \constructivestory{A $\RegularCauchyInterleavingUp$ packet is generated from two $\RegSeqRatUp$ regular names, their $\StreamNameUp$ schedules, an alternating unary selector, a combined modulus ledger, source $\RealUp$ readbacks, an interleaved $\RealUp$ seal row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier, combined modulus ledger, and real-seal route for alternating regular Cauchy observations over the displayed packet rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of reals, selected host limits, ambient completeness, diagonal-completion uniqueness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, combined modulus exactness, and $\RealUp$ seal non-escape for the interleaving packet.}
+\end{closurestatus}
