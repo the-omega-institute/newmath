@@ -172,4 +172,46 @@ theorem CauchyTailComparisonCommonWindowCarrier_semantic_name_certificate
       exact source
   }
 
+theorem CauchyTailComparisonCarrier_window_composition_seal_exhaustion
+    [AskSetup] [PackageSetup]
+    {leftName middleName rightName modulusXY windowXY endpointLedgerXY readbackXY
+      provenanceXY namecertXY endpointXY modulusYZ windowYZ endpointLedgerYZ readbackYZ
+      provenanceYZ namecertYZ endpointYZ modulusXZ windowXZ endpointLedgerXZ readbackXZ
+      namecertXZ sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName middleName modulusXY windowXY endpointLedgerXY
+        readbackXY provenanceXY namecertXY endpointXY bundle pkg ->
+      CauchyTailComparisonCarrier middleName rightName modulusYZ windowYZ endpointLedgerYZ
+        readbackYZ provenanceYZ namecertYZ endpointYZ bundle pkg ->
+        UnaryHistory modulusXZ ->
+          UnaryHistory endpointLedgerXZ ->
+            UnaryHistory namecertXZ ->
+              Cont (append leftName rightName) modulusXZ windowXZ ->
+                Cont windowXZ endpointLedgerXZ readbackXZ ->
+                  Cont readbackXZ namecertXZ sealRow ->
+                    UnaryHistory (append leftName rightName) /\
+                      UnaryHistory windowXZ /\
+                        UnaryHistory readbackXZ /\ UnaryHistory sealRow := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont append
+  intro carrierXY carrierYZ modulusUnary endpointLedgerUnary namecertUnary composedWindow
+    readbackRoute sealRoute
+  obtain ⟨leftUnary, _middleUnaryXY, _modulusXYUnary, _windowXYUnary,
+    _endpointLedgerXYUnary, _readbackXYUnary, _provenanceXYUnary, _namecertXYUnary,
+    _endpointXYUnary, _commonWindowXY, _endpointReadbackXY, _endpointSameXY,
+    _namecertSameXY, _pkgSigXY⟩ := carrierXY
+  obtain ⟨_middleUnaryYZ, rightUnary, _modulusYZUnary, _windowYZUnary,
+    _endpointLedgerYZUnary, _readbackYZUnary, _provenanceYZUnary, _namecertYZUnary,
+    _endpointYZUnary, _commonWindowYZ, _endpointReadbackYZ, _endpointSameYZ,
+    _namecertSameYZ, _pkgSigYZ⟩ := carrierYZ
+  have endpointNamesUnary : UnaryHistory (append leftName rightName) :=
+    unary_append_closed leftUnary rightUnary
+  have windowUnary : UnaryHistory windowXZ :=
+    unary_cont_closed endpointNamesUnary modulusUnary composedWindow
+  have readbackUnary : UnaryHistory readbackXZ :=
+    unary_cont_closed windowUnary endpointLedgerUnary readbackRoute
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary namecertUnary sealRoute
+  exact And.intro endpointNamesUnary
+    (And.intro windowUnary (And.intro readbackUnary sealUnary))
+
 end BEDC.Derived.CauchyTailComparisonUp
