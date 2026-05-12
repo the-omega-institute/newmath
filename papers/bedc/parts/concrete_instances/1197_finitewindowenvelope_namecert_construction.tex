@@ -70,6 +70,20 @@ The window row is classified by $Q$, and every rational observation inside it is
 Thus the endpoint read has no independent source of data. It reaches the $\RealUp$ classifier only through the selected stream window, the dyadic ledger, and the regular-sequence seal, leaving no host value or completion object available to consumers.
 \end{proof}
 
+\begin{theorem}[FiniteWindowEnvelope common refinement exactness]
+\label{thm:finite-window-envelope-common-refinement-exactness}
+Let $W=(S,A,B,L,Q,G,E,P,N)$ and $W'=(S',A',B',L',Q',G',E',P',N')$ be accepted $\FiniteWindowEnvelopeUp$ carriers. If the local classifier relates $W$ and $W'$, then their comparison factors through one displayed selected $\StreamNameUp$ finite window, one transported $\DyadicRatCoreUp$ observation ledger, one $\RegSeqRatUp$ seal row, and one $\RealUp$ endpoint classifier row. Conversely, any such four transported rows, with the package and local certificate provenance already carried by $P,N,P',N'$, repack into the local $\FiniteWindowEnvelopeUp$ classifier.
+\end{theorem}
+\begin{proof}
+For the forward direction, project the carrier tuple of \autoref{def:finite-window-envelope-carrier}. The classifier can inspect only the selected window row $Q$, the dyadic ledger $L$, the seal row $G$, the endpoint row $E$, and their transported counterparts.
+
+Use \autoref{thm:finite-window-envelope-regseqrat-seal-handoff} to identify the transported $\RegSeqRatUp$ seal from the common selected window and the common dyadic ledger. Then use \autoref{thm:finite-window-envelope-realup-window-exactness} to identify the endpoint classifier as the read of that same finite window through the same seal row.
+
+It remains only to rule out hidden comparison data. Apply \autoref{thm:finite-window-envelope-ledger-exhaustion}: every anchor, scale, subwindow, readback, seal, endpoint, package, and certificate row has already appeared in the displayed carrier coordinates.
+
+For the reverse direction, start with the displayed $\StreamNameUp$ window, transported $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, and $\RealUp$ endpoint classifier rows. Repack them with the provenance rows $P,N,P',N'$ into the component order of \autoref{def:finite-window-envelope-carrier}. Since the local classifier is exactly the componentwise comparison of those rows, the two carriers classify together.
+\end{proof}
+
 \begin{theorem}[FiniteWindowEnvelope ledger exhaustion]
 \label{thm:finite-window-envelope-ledger-exhaustion}
 Every accepted $\FiniteWindowEnvelopeUp$ carrier exhausts the hidden finite observation data: the anchor, window length, scale, subwindow bounds, selected offsets, dyadic readbacks, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\Pkg$ provenance, and local $\NameCert$ row all occur as displayed coordinates of the carrier or as displayed component rows of those coordinates.
