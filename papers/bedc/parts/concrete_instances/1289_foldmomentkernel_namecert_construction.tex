@@ -1,0 +1,137 @@
+\chapter{A Concrete Naming Certificate for $\FoldMomentKernelUp$}
+\label{ch:concrete-instances-fold-moment-kernel-namecert}
+\origin{ai}
+
+Inspired by Omega Project: \texttt{automath/README.md/Fiber Spectrum and Moment Theory}; here re-expressed in the BEDC mathlib-free substrate.
+
+The $\FoldMomentKernelUp$ interface names a finite collision-moment packet for
+folded fibers. It records only visible $\mathsf{BHist}$ rows for a finite
+window, fold sources, fiber ledgers, moment indices, collision counts,
+transport routes, continuation routes, package provenance, and local
+$\NameCert$ evidence. It does not import analytic spectral data, host counting
+semantics, quotient fibers, or an external measure space.
+
+\begin{definition}[FoldMomentKernel carrier]
+\label{def:fold-moment-kernel-carrier}
+A $\FoldMomentKernelUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(W,F,L,I,Q,T,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is the finite window row naming the inspected source and target
+positions;
+\item $F$ is the fold-source row recording the displayed finite sources whose
+images are compared in the window;
+\item $L$ is the visible fiber ledger listing the inspected source entries
+above each displayed target entry;
+\item $I$ is the moment-index row naming the finite family of moment requests
+read by consumers;
+\item $Q$ is the collision-count row family, with one displayed finite count
+ledger for each inspected target and moment index;
+\item $T$ records componentwise $\hsame$ transports for windows, fold sources,
+fiber ledgers, moment indices, and collision-count rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers reach the
+window, fold-source, fiber-ledger, moment-index, and collision-count rows;
+\item $P$ is the $\Pkg$ provenance naming the finite BEDC packets that own the
+source window, target window, fold relation, ledger rows, and count rows;
+\item $N$ is the local $\NameCert_{\FoldMomentKernelUp}$ row.
+\end{enumerate}
+The carrier contains no host cardinality function, no analytic spectrum, no
+ambient probability measure, and no quotient of fibers.
+\end{definition}
+
+\begin{definition}[FoldMomentKernel classifier]
+\label{def:fold-moment-kernel-classifier}
+For accepted $\FoldMomentKernelUp$ carriers $K$ and $K'$, the classifier
+$\mathsf{FoldMomentKernelClassifier}(K,K')$ compares only the displayed window
+rows, fold-source rows, fiber-ledger rows, moment-index rows, collision-count
+rows, componentwise $\hsame$ transports, $\Cont$ read routes, $\Pkg$
+provenance, and local $\NameCert$ evidence of
+\autoref{def:fold-moment-kernel-carrier}.
+
+The classifier does not compare hidden source sets, host counts, analytic
+moments, spectral values, quotient fibers, or unrecorded fold laws.
+\end{definition}
+
+\begin{theorem}[FoldMomentKernel zero-window packet]
+\label{thm:fold-moment-kernel-zero-window-packet}
+The empty source window with the zero target window determines an accepted
+$\FoldMomentKernelUp$ carrier. Its fold-source row is empty, its visible fiber
+ledger has no source entries, every moment-index read is represented by the
+displayed zero row, every collision-count row is zero, and all transport,
+continuation, package, and local naming rows are the corresponding finite
+identity rows.
+\end{theorem}
+\begin{proof}
+Start with the empty displayed window. There are no source entries to fold and
+no target fiber entries to inspect, so the fiber ledger is the empty finite
+ledger.
+
+For each moment index carried by the packet, use the zero collision-count row.
+The count row is visible data in $Q$, not a host cardinality computation.
+
+The transport and continuation routes are componentwise identity routes on the
+empty and zero rows. Repacking them with the package provenance and local
+certificate row gives the stated carrier.
+\end{proof}
+
+\begin{theorem}[FoldMomentKernel NameCert obligation surface]
+\label{thm:fold-moment-kernel-namecert-obligation-surface}
+The local $\NameCert_{\FoldMomentKernelUp}$ obligation surface consists of five
+rows:
+\begin{enumerate}
+\item carrier inhabitation: \autoref{thm:fold-moment-kernel-zero-window-packet}
+supplies the empty-source and zero-window packet;
+\item classifier transport: \autoref{def:fold-moment-kernel-classifier}
+transports windows, fold-source rows, fiber ledgers, moment indices,
+collision-count rows, $\hsame$ routes, $\Cont$ routes, package provenance, and
+local provenance componentwise;
+\item fiber-ledger exactness: every visible source entry counted by the packet
+appears in the displayed fiber ledger $L$, and every ledger entry is tied to the
+displayed fold-source row $F$ and window row $W$;
+\item moment readback boundary: every moment read factors through $I$, $Q$,
+$L$, $T$, $C$, $P$, and $N$ before reaching any downstream consumer;
+\item non-escape: the packet exports no host counting operation, analytic
+moment, spectral theorem, quotient fiber, ambient measure, or unrecorded
+fold-completeness claim.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is the finite packet of
+\autoref{def:fold-moment-kernel-carrier}, and
+\autoref{thm:fold-moment-kernel-zero-window-packet} gives a concrete
+inhabitant. Thus the local certificate has an admitted finite source surface.
+
+Classifier transport is componentwise by
+\autoref{def:fold-moment-kernel-classifier}. A displayed $\hsame$ transport can
+move only window, fold-source, fiber-ledger, moment-index, collision-count,
+route, provenance, and local certificate rows already present in the packet.
+
+Fiber-ledger exactness is obtained by projecting $L$ together with $F$ and $W$.
+Every counted source entry is read from that ledger, and every ledger entry is
+attached to the displayed fold-source and window rows by the recorded
+continuation routes.
+
+Moment readback is a boundary statement about the visible rows $I$ and $Q$.
+The consumer can inspect the requested moment only through the moment-index row,
+the associated collision-count ledger, the fiber ledger, transports,
+continuations, package provenance, and local certificate row.
+
+Since those rows exhaust the carrier coordinates, there is no remaining field
+from which host counting, analytic spectral information, quotient fibers,
+ambient measure, or a hidden completeness principle could be exported.
+\end{proof}
+
+\closureat{FoldMomentKernelUp}{seedStr}
+
+\begin{closurestatus}{\FoldMomentKernelUp}
+  \constructivestory{A $\FoldMomentKernelUp$ packet is generated from finite window rows, fold-source rows, visible fiber ledgers, moment-index rows, collision-count rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the finite carrier, classifier, zero-window inhabitant, fiber-ledger exactness row, moment readback boundary, and non-escape obligations for collision-moment packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close analytic spectra, host cardinality, quotient fibers, ambient measure theory, collision asymptotics, or bridge checking.}
+  \upgradepath{Scoped closure requires checked transport stability, fiber-ledger exactness, moment readback totality, and public finite-packet export for the same carrier.}
+\end{closurestatus}
