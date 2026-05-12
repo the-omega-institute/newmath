@@ -80,4 +80,42 @@ theorem CompactUniformContinuityPacket_namecert_obligations [AskSetup] [PackageS
       exact ⟨sourceRow.right.right, foldTransportRoute, routeNamePrecision⟩
   }
 
+theorem CompactUniformContinuityPacket_realup_consumer_boundary [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow metricRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont precision nameRow metricRead ->
+        Cont metricRead transport realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+              UnaryHistory tolerance ∧ UnaryHistory precision ∧ UnaryHistory metricRead ∧
+                UnaryHistory realRead ∧ Cont net coverage modulusRows ∧
+                  Cont modulusRows radiusRows fold ∧ Cont fold transport route ∧
+                    Cont route nameRow precision ∧ Cont precision nameRow metricRead ∧
+                      Cont metricRead transport realRead ∧ PkgSig bundle precision pkg ∧
+                        PkgSig bundle realRead pkg := by
+  intro packet precisionNameMetric metricTransportReal realReadPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, toleranceUnary, netUnary, coverageUnary,
+    radiusRowsUnary, transportUnary, nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  have foldUnary : UnaryHistory fold :=
+    unary_cont_closed modulusRowsUnary radiusRowsUnary modulusRowsRadiusRowsFold
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed foldUnary transportUnary foldTransportRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed routeUnary nameRowUnary routeNamePrecision
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed precisionUnary nameRowUnary precisionNameMetric
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed metricUnary transportUnary metricTransportReal
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, toleranceUnary, precisionUnary, metricUnary,
+      realUnary, netCoverageModulusRows, modulusRowsRadiusRowsFold, foldTransportRoute,
+      routeNamePrecision, precisionNameMetric, metricTransportReal, precisionPkg, realReadPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
