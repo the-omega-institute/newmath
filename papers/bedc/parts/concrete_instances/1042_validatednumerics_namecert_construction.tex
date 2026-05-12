@@ -428,6 +428,49 @@ correctness, floating-point hardware semantics, host real equality, and
 classical real completeness remain outside the bridge boundary.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics finite consumer example completeness]
+\label{thm:validatednumerics-finite-consumer-example-completeness}
+Every finite consumer example using the displayed validated-enclosure bridge
+of \autoref{thm:validatednumerics-validated-enclosure-bridge-boundary}
+factors through the $\RationalIntervalUp$ enclosure row, dyadic-or-rational
+endpoint provenance, finite $\ModulusOfConvergenceUp$ request,
+$\RegSeqRatUp$ observation window, $\RealUp$ readback token, containment
+ledger, visible $\hsame$ transports, visible $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\ValidatedNumericsUp}$ row.
+
+Conversely, those displayed rows repack as a valid finite consumer example for
+the validated-enclosure bridge. The repacking preserves the exclusions on
+solver correctness, floating-point semantics, host real equality, and
+classical real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a finite consumer example and apply
+\autoref{thm:validatednumerics-public-finite-enclosure-consumer-certificate}.
+The certificate projects the example to the rational-interval enclosure,
+endpoint provenance, finite precision request, regular rational observation
+window, real readback token, containment ledger, transport rows, package
+provenance, and local naming row.
+
+Next apply
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary}. It
+identifies the same rows as the bridge boundary visible to downstream
+consumers, so no solver, hardware, host-real, or classical-completeness
+coordinate is introduced by the bridge read.
+
+Use \autoref{thm:validatednumerics-precision-refinement-containment} to keep
+the enclosure stable under finite precision requests. Then apply
+\autoref{thm:validatednumerics-containment-ledger-transport} to carry the
+containment ledger through the displayed $\hsame$ and $\Cont$ surface.
+
+For the converse direction, start from the listed displayed rows. Repack the
+enclosure row, endpoint provenance, finite modulus request, observation
+window, readback token, containment ledger, transport rows, package provenance,
+and local name row by the public finite-enclosure consumer certificate. The
+validated-enclosure bridge boundary then reads exactly that packet as a valid
+finite consumer example, with the same excluded semantic obligations remaining
+outside the exported surface.
+\end{proof}
+
 \closureat{ValidatedNumericsUp}{seedStr}
 \closureat{ValidatedNumericsUp}{obligationStr}
 \closureat{ValidatedNumericsUp}{scopedStr}
