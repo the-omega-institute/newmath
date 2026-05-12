@@ -263,32 +263,44 @@ $$
 whose coordinates are the lower and upper endpoint rows $L,U$, the $\RationalIntervalUp$ cell ledger $I$, the $\DyadicIntervalUp$ refinement ledger $D$, the $\StreamNameUp$ endpoint windows $S$, the $\RegSeqRatUp$ readbacks $R$, the $\RealUp$ seal rows $E$, and the BEDC rows $H,C,P,N$ for displayed $\hsame$ transports, $\Cont$ routes, package provenance, and local naming.
 \end{definition}
 
-\begin{theorem}[LocatedInterval public certificate export]
-\label{thm:locatedinterval-public-certificate-export}
+\begin{theorem}[LocatedInterval public export packet]
+\label{thm:locatedinterval-public-export-packet}
 For every displayed finite history row
 $$
 J=(L,U,I,D,S,R,E,H,C,P,N)
 $$
-accepted by the $\LocatedIntervalUp$ carrier, \autoref{thm:locatedinterval-kernel-scope-package} repacks exactly its carrier habitation, endpoint transport, rational containment exactness, dyadic refinement handoff, and real-seal non-escape rows as the public $\NameCert_{\LocatedIntervalUp}$ export over $\mathcal{I}_{\LocatedIntervalUp}$. The export contains no coordinate outside the public certificate interface of \autoref{def:locatedinterval-public-certificate-interface}.
+accepted by the $\LocatedIntervalUp$ carrier, \autoref{thm:locatedinterval-kernel-scope-package} repacks exactly its carrier habitation, endpoint transport, rational containment exactness, dyadic refinement handoff, real-seal non-escape, scoped real-seal scope, and kernel-scope rows as one public $\NameCert_{\LocatedIntervalUp}$ export over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The export contains no coordinate outside the public certificate interface of \autoref{def:locatedinterval-public-certificate-interface}.
 \end{theorem}
 \begin{proof}
 First read the carrier surface from \autoref{def:located-interval-carrier} and \autoref{thm:locatedinterval-carrier-habitation}. This gives the finite tuple $J$ with no hidden coordinate.
 
 The endpoint component is supplied by \autoref{thm:located-interval-endpoint-transport}; the rational component is supplied by \autoref{thm:locatedinterval-containment-exactness}; and the dyadic component is supplied by \autoref{thm:locatedinterval-dyadic-refinement-handoff}. These are exactly the endpoint, cell, and refinement rows of $\mathcal{I}_{\LocatedIntervalUp}$.
 
-The Real-facing component is bounded by \autoref{thm:locatedinterval-real-seal-non-escape}. Combining these rows through \autoref{thm:locatedinterval-kernel-scope-package} yields the named $\NameCert_{\LocatedIntervalUp}$ export, and the displayed interface already lists every row used by the repacking.
+The Real-facing component is bounded by \autoref{thm:locatedinterval-real-seal-non-escape} and scoped by \autoref{thm:locatedinterval-scoped-real-seal-scope}. Combining these rows through \autoref{thm:locatedinterval-kernel-scope-package} yields the named $\NameCert_{\LocatedIntervalUp}$ export, and the displayed interface already lists every row used by the repacking.
 \end{proof}
 
-\begin{theorem}[LocatedInterval public consumer boundary]
-\label{thm:locatedinterval-public-consumer-boundary}
-Every downstream $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalUp$, or $\DyadicIntervalUp$ consumer of an accepted $\LocatedIntervalUp$ packet factors through the public certificate interface $\mathcal{I}_{\LocatedIntervalUp}$. No such consumer can read a host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle from the packet.
+\begin{theorem}[LocatedInterval public consumer route]
+\label{thm:locatedinterval-public-consumer-route}
+Every downstream $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalUp$, or $\DyadicIntervalUp$ consumer of an accepted $\LocatedIntervalUp$ packet factors through the public export packet of \autoref{thm:locatedinterval-public-export-packet}. The consumer route is only the displayed carrier, endpoint transport, containment exactness, dyadic refinement, seal non-escape, and scoped seal ledger over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 \end{theorem}
 \begin{proof}
 For endpoint-window and readback consumers, apply \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}. Their reads pass through the endpoint rows $L,U$, StreamName windows $S$, RegSeqRat readbacks $R$, and the same transport and continuation rows.
 
 For rational and dyadic interval consumers, apply \autoref{thm:locatedinterval-rational-dyadic-cell-chain}. Its exactness and handoff dependencies are \autoref{thm:locatedinterval-containment-exactness} and \autoref{thm:locatedinterval-dyadic-refinement-handoff}, so the consumer sees only the public cell ledger $I$ and refinement ledger $D$.
 
-For Real-facing consumers, apply \autoref{thm:locatedinterval-scoped-real-seal-scope} and \autoref{thm:locatedinterval-public-certificate-export}. The seal rows $E$ and BEDC rows $H,C,P,N$ are already part of $\mathcal{I}_{\LocatedIntervalUp}$, while the carrier and kernel package expose no host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle.
+For Real-facing consumers, apply \autoref{thm:locatedinterval-scoped-real-seal-scope} and \autoref{thm:locatedinterval-public-export-packet}. The seal rows $E$ and BEDC rows $H,C,P,N$ are already part of $\mathcal{I}_{\LocatedIntervalUp}$, while the carrier and kernel package expose no coordinate beyond the displayed public route.
+\end{proof}
+
+\begin{theorem}[LocatedInterval real comparison boundary]
+\label{thm:locatedinterval-real-comparison-boundary}
+Any $\RealUp$ or $\RegSeqRatUp$ comparison that uses a public $\LocatedIntervalUp$ packet is bounded by the endpoint windows, readbacks, rational cells, dyadic refinements, seal rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ row named in \autoref{thm:locatedinterval-public-export-packet}. It cannot read a host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle.
+\end{theorem}
+\begin{proof}
+The comparison first enters through the public consumer route of \autoref{thm:locatedinterval-public-consumer-route}. Thus every $\RealUp$ or $\RegSeqRatUp$ read has already been restricted to $\mathcal{I}_{\LocatedIntervalUp}$.
+
+Apply \autoref{thm:locatedinterval-real-seal-non-escape} for the seal boundary and \autoref{thm:locatedinterval-scoped-real-seal-scope} for its scoped form. These results route the comparison through $L,U,S,R,E,H,C,P,N$ and keep the rational and dyadic side attached by \autoref{thm:locatedinterval-rational-dyadic-cell-chain}.
+
+Finally use \autoref{thm:locatedinterval-kernel-scope-package}. The package contains no host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle, so the public comparison boundary has exactly the displayed rows and no additional real construction.
 \end{proof}
 
 \closureat{LocatedIntervalUp}{obligationStr}
@@ -296,11 +308,11 @@ For Real-facing consumers, apply \autoref{thm:locatedinterval-scoped-real-seal-s
 
 \begin{closurestatus}{\LocatedIntervalUp}
   \constructivestory{A $\LocatedIntervalUp$ packet is generated from lower and upper $\LocatedRealUp$ endpoint rows, a $\RationalIntervalUp$ cell ledger, optional $\DyadicIntervalUp$ refinements, $\StreamNameUp$ endpoint windows, $\RegSeqRatUp$ readbacks, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:locatedinterval-kernel-scope-package} closes the scoped kernel interface for finite located interval packets over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:locatedinterval-public-export-packet}, \autoref{thm:locatedinterval-public-consumer-route}, and \autoref{thm:locatedinterval-real-comparison-boundary} close the public packet interface for finite located interval packets over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host interval primitives, selected endpoint values, quotient real equality, ambient order completeness, or bridge checking.}
-  \upgradepath{Public closure requires one exported $\LocatedIntervalUp$ public certificate over the same $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Bridge closure requires a standard bridge for the same exported $\LocatedIntervalUp$ public certificate over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
