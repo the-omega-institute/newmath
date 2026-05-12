@@ -111,4 +111,45 @@ theorem CauchyDoubleSequenceCarrier_namecert_obligations [AskSetup] [PackageSetu
                   (And.intro scheduleToleranceRoute
                     (And.intro diagonalCompletionRoute pkgSig)))))))))
 
+theorem CauchyDoubleSequenceCarrier_diagonal_handoff [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance
+      localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg →
+      Cont sealRow localCert consumer →
+        UnaryHistory diagonal ∧ UnaryHistory completion ∧ UnaryHistory sealRow ∧
+          UnaryHistory consumer ∧ Cont array schedule diagonal ∧
+            Cont schedule tolerance diagonal ∧ Cont diagonal completion sealRow ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier sealConsumer
+  have diagonalUnary : UnaryHistory diagonal := carrier.right.right.right.left
+  have completionUnary : UnaryHistory completion := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.left
+  have transportLocalCertRoute : Cont transport localCert route :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeProvenanceSeal : Cont route provenance sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    unary_append_left_factor (routeProvenanceSeal ▸ sealUnary)
+  have localCertUnary : UnaryHistory localCert :=
+    unary_append_right_factor (transportLocalCertRoute ▸ routeUnary)
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary localCertUnary sealConsumer
+  have arrayScheduleRoute : Cont array schedule diagonal :=
+    carrier.right.right.right.right.right.right.right.left
+  have scheduleToleranceRoute : Cont schedule tolerance diagonal :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have diagonalCompletionRoute : Cont diagonal completion sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact And.intro diagonalUnary
+    (And.intro completionUnary
+      (And.intro sealUnary
+          (And.intro consumerUnary
+            (And.intro arrayScheduleRoute
+              (And.intro scheduleToleranceRoute
+                (And.intro diagonalCompletionRoute pkgSig))))))
+
 end BEDC.Derived.CauchyDoubleSequenceUp
