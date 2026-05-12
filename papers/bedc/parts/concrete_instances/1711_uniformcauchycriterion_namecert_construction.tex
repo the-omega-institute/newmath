@@ -356,6 +356,55 @@ consumer receives the displayed finite certificate surface and no quotient
 stream family, host equality, selected limit, or completeness principle.
 \end{proof}
 
+\begin{definition}[UniformCauchyCriterion public export surface]
+\label{def:uniform-cauchy-criterion-public-export-surface}
+The public export surface of an accepted $\UniformCauchyCriterionUp$ packet is the finite row package
+$$
+\mathsf{Pub}(U)=(I,W,M,Q,T,E,H,C,P,N)
+$$
+read from the carrier of \autoref{def:uniform-cauchy-criterion-carrier}. It exposes the finite family index ledger $I$, shared $\StreamNameUp$ windows $W$, single $\CauchyModulusUp$ schedule $M$, $\DyadicRatCoreUp$ tolerance row $Q$, finite $\DyadicTailBoundUp$ tail ledger $T$, $\RealUp$ seal row $E$, transport rows $H$, continuation routes $C$, package provenance $P$, and local naming row $N$.
+
+The surface is public only as this finite row package. It contains no quotient stream family, no host real equality, no selected family limits, and no ambient completeness object.
+\end{definition}
+
+\begin{theorem}[UniformCauchyCriterion public export package]
+\label{thm:uniform-cauchy-criterion-public-export-package}
+Every accepted $\UniformCauchyCriterionUp$ packet exports the public surface of \autoref{def:uniform-cauchy-criterion-public-export-surface}. The export is assembled from the carrier, NameCert obligations, window stability, tail-ledger exactness, shared-threshold transport, RegSeqRat consumer package, finite-family window exhaustion, and the $\RealUp$ seal completion boundary.
+\end{theorem}
+\begin{proof}
+First project the carrier of \autoref{def:uniform-cauchy-criterion-carrier}. This supplies exactly the rows $I,W,M,Q,T,E,H,C,P,N$ named by the public export surface.
+
+Next attach the local certificate obligations. The NameCert obligation theorem gives carrier habitation and classifier transport, while window stability and shared-threshold transport keep every transported family request inside the same shared window and modulus rows.
+
+Now attach the tail and consumer rows. Tail-ledger exactness routes every accepted comparison through $I,W,M,Q,T$, the RegSeqRat consumer package reads the same finite evidence, and finite-family window exhaustion prevents indexwise schedules or selected limits from entering the route.
+
+Finally apply the $\RealUp$ seal completion boundary. The seal is reached only after the finite public rows have been displayed, and the non-escape clauses exclude quotient stream families, host real equality, selected family limits, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion downstream Real consumer export]
+\label{thm:uniform-cauchy-criterion-downstream-real-consumer-export}
+Every downstream $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer of an accepted $\UniformCauchyCriterionUp$ packet can read only the public export surface $\mathsf{Pub}(U)=(I,W,M,Q,T,E,H,C,P,N)$. The consumer route factors through the shared threshold, finite tail ledger, RegSeqRat consumer package, finite-family window exhaustion, and the $\RealUp$ seal completion boundary before any real-facing row is available.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer read. By \autoref{thm:uniform-cauchy-criterion-regseqrat-consumer-package}, a regular-rational consumer must pass through the family ledger, shared windows, shared modulus, dyadic tolerance, tail ledger, real seal, transport rows, continuation routes, package row, and local naming row.
+
+The same route is preserved for real-facing consumers. Shared-threshold transport keeps the modulus coordinate single, and finite-family window exhaustion keeps every request inside the displayed window family.
+
+The completion-facing step is then the seal boundary of \autoref{thm:uniform-cauchy-criterion-real-seal-completion-boundary}. Since the boundary exposes only the finite public surface before $E$ is read, the downstream consumer receives no quotient streams, host real equality, selected family limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion public non-escape export]
+\label{thm:uniform-cauchy-criterion-public-non-escape-export}
+The public export surface of $\UniformCauchyCriterionUp$ is finite and non-escaping: it exports exactly $I,W,M,Q,T,E,H,C,P,N$ and excludes quotient stream families, host real equality, selected family limits, and ambient completeness. Any downstream consumer that claims one of the excluded objects is outside the public package.
+\end{theorem}
+\begin{proof}
+Inspect the definition of the public export surface. It contains only the ten displayed rows copied from the accepted carrier.
+
+Use the NameCert obligations and the non-escape boundary to rule out extra coordinates. The certificate admits classifier transport, window stability, tail-ledger exactness, and real-seal handoff only through the rows already present in the carrier.
+
+The downstream Real consumer export does not add a new object. It merely replays the RegSeqRat consumer package, finite-family window exhaustion, shared-threshold transport, and Real seal completion boundary. Therefore the public surface remains finite and cannot export quotient streams, host real equality, selected family limits, or ambient completeness.
+\end{proof}
+
 \closureat{UniformCauchyCriterionUp}{seedStr}
 \closureat{UniformCauchyCriterionUp}{obligationStr}
 \closureat{UniformCauchyCriterionUp}{scopedStr}
