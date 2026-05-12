@@ -70,6 +70,36 @@ theorem RegularCauchyNamePacket_streamname_handoff [AskSetup] [PackageSetup]
                     · exact provenancePkg
                     · exact handoffPkg
 
+theorem RegularCauchyNamePacket_handoff_nonempty_iff [AskSetup] [PackageSetup]
+    {schedule observation radius ledger sealRow provenance name window point handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNamePacket schedule observation radius ledger sealRow provenance name bundle pkg ->
+      Cont schedule observation window ->
+        Cont window radius point ->
+          Cont point sealRow handoff ->
+            PkgSig bundle handoff pkg ->
+              UnaryHistory handoff ∧
+                (((hsame handoff BHist.Empty -> False) ↔
+                    (hsame point BHist.Empty -> False) ∨
+                      (hsame sealRow BHist.Empty -> False))) ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle handoff pkg := by
+  intro packet windowCont pointCont handoffCont handoffPkg
+  obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, sealUnary,
+    _provenanceUnary, _nameUnary, provenancePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary observationUnary windowCont
+  have pointUnary : UnaryHistory point :=
+    unary_cont_closed windowUnary radiusUnary pointCont
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed pointUnary sealUnary handoffCont
+  have handoffNonempty :
+      ((hsame handoff BHist.Empty -> False) ↔
+        (hsame point BHist.Empty -> False) ∨
+          (hsame sealRow BHist.Empty -> False)) := by
+    cases handoffCont
+    exact append_nonempty_iff
+  exact ⟨handoffUnary, handoffNonempty, provenancePkg, handoffPkg⟩
+
 def RegularCauchyNameCarrier [AskSetup] [PackageSetup]
     (schedule observation radius ledger sealRow provenance namecert endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
