@@ -5,12 +5,12 @@ Runtime inbox, state, raw gate output, and logs remain untracked.
 
 | Metric | Value |
 | --- | --- |
-| Production reason | `all_specific_board_candidates_duplicate_or_history_rejected` |
+| Production reason | `candidate_output_available` |
 | Apply BOARD ingest | `True` |
-| Eligible BOARD candidates this pass | `0` |
+| Eligible BOARD candidates this pass | `3` |
 | Duplicate/history-skipped titles | `3` |
 | Accepted into BOARD | `0` |
-| Rejected by BOARD | `0` |
+| Rejected by BOARD | `3` |
 | ACK rows emitted this pass | `9` |
 
 ## Status Counts
@@ -28,7 +28,7 @@ Runtime inbox, state, raw gate output, and logs remain untracked.
 | `duplicate_board_title` | 2 |
 | `evidence_only:pipeline_status` | 3 |
 | `history_rejected:too_vague` | 1 |
-| `no_specific_board_claim` | 3 |
+| `too_vague` | 3 |
 
 ## Source Commits
 
