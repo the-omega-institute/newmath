@@ -113,4 +113,65 @@ theorem ContinuedFractionPacket_finite_handoff_obligation [AskSetup] [PackageSet
     ⟨scheduleUnary, handoffUnary, ledgerUnary, provenanceUnary, consumerUnary, readbackUnary,
       consumerRow, readbackRow, readbackPkg⟩
 
+theorem ContinuedFractionPacket_real_boundary_scope [AskSetup] [PackageSetup]
+    {digits numer denom radius schedule handoff boundary ledger provenance realRead readback :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      Cont handoff boundary realRead ->
+        Cont realRead ledger readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory digits ∧ UnaryHistory numer ∧ UnaryHistory denom ∧
+              UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory handoff ∧
+                UnaryHistory boundary ∧ UnaryHistory ledger ∧ UnaryHistory realRead ∧
+                  UnaryHistory readback ∧ Cont schedule numer handoff ∧
+                    Cont handoff ledger boundary ∧ Cont handoff boundary realRead ∧
+                      Cont realRead ledger readback ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle readback pkg := by
+  intro packet realReadRow readbackRow readbackPkg
+  obtain ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+    boundaryUnary, ledgerUnary, _provenanceUnary, scheduleNumerRow, boundaryRow,
+    _provenanceRow, packetPkg⟩ := packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffUnary boundaryUnary realReadRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed realReadUnary ledgerUnary readbackRow
+  exact
+    ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+      boundaryUnary, ledgerUnary, realReadUnary, readbackUnary, scheduleNumerRow, boundaryRow,
+      realReadRow, readbackRow, packetPkg, readbackPkg⟩
+
+theorem ContinuedFractionPacket_convergent_window_standard_bridge [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance recurrence
+      window consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont numerator denominator recurrence ->
+        Cont recurrence radius window ->
+          Cont handoff boundary consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory digits ∧ UnaryHistory numerator ∧ UnaryHistory denominator ∧
+                UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory recurrence ∧
+                  UnaryHistory window ∧ UnaryHistory consumer ∧
+                    Cont schedule numerator handoff ∧ Cont numerator denominator recurrence ∧
+                      Cont recurrence radius window ∧ Cont handoff boundary consumer ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet numeratorDenominatorRecurrence recurrenceRadiusWindow handoffBoundaryConsumer
+    consumerPkg
+  obtain ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, _ledgerUnary, _provenanceUnary, scheduleNumeratorHandoff,
+    _handoffLedgerBoundary, _boundaryScheduleProvenance, provenancePkg⟩ := packet
+  have recurrenceUnary : UnaryHistory recurrence :=
+    unary_cont_closed numeratorUnary denominatorUnary numeratorDenominatorRecurrence
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed recurrenceUnary radiusUnary recurrenceRadiusWindow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary boundaryUnary handoffBoundaryConsumer
+  exact
+    ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary, recurrenceUnary,
+      windowUnary, consumerUnary, scheduleNumeratorHandoff, numeratorDenominatorRecurrence,
+      recurrenceRadiusWindow, handoffBoundaryConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.ContinuedFractionUp

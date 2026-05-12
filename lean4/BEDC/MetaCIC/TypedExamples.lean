@@ -743,6 +743,28 @@ theorem double_arrow_in_sort :
     · apply HasType.varRule
       rfl
 
+theorem pi_var_var_in_quad_sort :
+    HasType [Term.sort, Term.sort, Term.sort, Term.sort]
+      (Term.pi (Term.var 0) (Term.var 1))
+      Term.sort := by
+  apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.varRule
+    rfl
+
+theorem nested_pi_chain :
+    HasType []
+      (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1)))
+      Term.sort := by
+  apply HasType.piRule
+  · exact HasType.sortRule []
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
+
 theorem applied_poly_id :
     HasType []
       (Term.lam Term.sort
