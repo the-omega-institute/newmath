@@ -293,6 +293,39 @@ hashing, matrix indexing, overflow, and error-correction metrics are absent
 from both cited surfaces, so none belongs to the bridge boundary.
 \end{proof}
 
+\begin{theorem}[BitVector fixed-width consumer completeness]
+\label{thm:bitvector-fixed-width-consumer-completeness}
+Every finite-data consumer of $\BitVectorUp$ is completely determined by the
+unary $\NatUp$ width row, $\ListUp$ spine of $\BoolUp$ histories, component
+classifier rows, length ledger, $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+
+The fixed-width surface excludes host bit-string equality, numeric binary
+primitives, padding, hashing, matrix indexing, overflow, and error-correction
+metrics.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:bitvector-public-finite-algebra-export}. It exposes
+the unary width row, boolean list spine, component classifier rows, length
+ledger, transport, continuation, package, and local name evidence as the
+public finite-data readback surface.
+
+Next use \autoref{thm:bitvector-scoped-dependency-binding}. This binds the
+same rows over $\BoolUp$, $\ListUp$, $\NatUp$, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$, so the consumer has no separate
+host bit-string or arithmetic coordinate to inspect.
+
+Apply \autoref{thm:bitvector-boolean-list-width-exhaustion}. It proves that
+the abstract fixed-width interface is exhausted by exactly those rows and that
+padding, hashing, matrix indexing, overflow, and error-correction metrics are
+not exported fields.
+
+Finally \autoref{thm:bitvector-standard-bridge-boundary} identifies the same
+surface with the standard finite boolean-vector boundary. Therefore every
+finite-data consumer read is determined by the displayed fixed-width BEDC
+rows, with numeric binary primitives and host equality still excluded.
+\end{proof}
+
 \closureat{BitVectorUp}{seedStr}
 \closureat{BitVectorUp}{obligationStr}
 \closureat{BitVectorUp}{scopedStr}
