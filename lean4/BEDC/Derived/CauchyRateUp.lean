@@ -374,6 +374,73 @@ theorem CauchyRateCarrier_tail_bound_routing [AskSetup] [PackageSetup]
     ⟨scheduleUnary, toleranceUnary, familyUnary, regseqUnary, tailConsumerUnary,
       familyToleranceRegseq, tailRoute, regseqSame, pkgSig⟩
 
+theorem CauchyRateCarrier_real_seal_consumption [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance nameCert
+      completionRead completionRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont regseq completion completionRead ->
+        Cont completionRead route completionRoute ->
+          PkgSig bundle completionRoute pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row completionRoute ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+              (fun row : BHist => hsame row completionRoute ∧ Cont completionRead route row)
+              (fun _row : BHist =>
+                Cont regseq completion completionRead ∧ hsame regseq (append family tolerance) ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧ UnaryHistory completionRead ∧ UnaryHistory completionRoute ∧
+                PkgSig bundle completionRoute pkg := by
+  intro carrier completionReadRow completionRouteRow completionRoutePkg
+  obtain ⟨_precisionUnary, _scheduleUnary, _toleranceUnary, _familyUnary, regseqUnary,
+    completionUnary, _transportUnary, routeUnary, _provenanceUnary, _nameCertUnary,
+    _precisionScheduleTolerance, _familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, regseqSame,
+    provenancePkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed regseqUnary completionUnary completionReadRow
+  have completionRouteUnary : UnaryHistory completionRoute :=
+    unary_cont_closed completionReadUnary routeUnary completionRouteRow
+  have sourceCompletionRoute :
+      hsame completionRoute completionRoute ∧ UnaryHistory completionRoute ∧
+        PkgSig bundle completionRoute pkg :=
+    ⟨hsame_refl completionRoute, completionRouteUnary, completionRoutePkg⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row completionRoute ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+        (fun row : BHist => hsame row completionRoute ∧ Cont completionRead route row)
+        (fun _row : BHist =>
+          Cont regseq completion completionRead ∧ hsame regseq (append family tolerance) ∧
+            PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro completionRoute sourceCompletionRoute
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact ⟨hsame_refl completionRoute, completionRouteRow⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact ⟨completionReadRow, regseqSame, provenancePkg⟩
+  }
+  exact ⟨cert, completionReadUnary, completionRouteUnary, completionRoutePkg⟩
+
 theorem CauchyRateCarrier_public_certificate [AskSetup] [PackageSetup]
     {precision schedule tolerance family regseq completion transport route provenance nameCert
       acceptedRead completionRead completionRoute : BHist}
