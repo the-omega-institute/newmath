@@ -818,4 +818,21 @@ theorem pi_function_to_sort_in_empty :
   · exact pi_sort_sort_in_empty_ctx
   · exact HasType.sortRule [Term.pi Term.sort Term.sort]
 
+theorem var_in_quint_sort :
+    HasType [Term.sort, Term.sort, Term.sort, Term.sort, Term.sort] (Term.var 4) Term.sort := by
+  apply HasType.varRule
+  rfl
+
+theorem function_of_function :
+    HasType []
+      (Term.pi (Term.pi Term.sort Term.sort) (Term.pi (Term.pi Term.sort Term.sort) Term.sort))
+      Term.sort := by
+  apply HasType.piRule
+  · exact pi_sort_sort_in_empty_ctx
+  · apply HasType.piRule
+    · apply HasType.piRule
+      · exact HasType.sortRule [Term.pi Term.sort Term.sort]
+      · exact HasType.sortRule [Term.sort, Term.pi Term.sort Term.sort]
+    · exact HasType.sortRule [Term.pi Term.sort Term.sort, Term.pi Term.sort Term.sort]
+
 end BEDC.MetaCIC
