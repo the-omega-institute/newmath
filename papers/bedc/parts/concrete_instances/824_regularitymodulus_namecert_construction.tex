@@ -236,6 +236,41 @@ host real equality, or choice-based tails, none of those objects can be
 exported by the common window.
 \end{proof}
 
+\begin{theorem}[RegularityModulus obligation completeness]
+\label{thm:regularitymodulus-obligation-completeness}
+The dyadic-window carrier, monotonicity row, $\RegSeqRatUp$ consumption
+boundary, $\RealUp$ seal handoff, dyadic-window exactness, common-window
+exactness, $\hsame$ and $\Cont$ transport, $\mathsf{Pkg}$ provenance, and
+local $\NameCert$ row form the full public obligation surface for
+$\RegularityModulusUp$.
+
+This surface contains no host modulus function, selected real limit, quotient
+completion, or global choice of windows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regularitymodulus-namecert-seed-obligation-surface}.
+It binds the local $\NameCert$ row to the dyadic-window carrier of
+\autoref{def:regularitymodulus-dyadic-window-carrier}, including unary
+precision, modulus, dyadic endpoint, transport, continuation, package, and
+name coordinates.
+
+Apply \autoref{thm:regularitymodulus-window-monotonicity}. This supplies the
+monotonicity row and keeps refined precision reads on the same displayed
+$\hsame$ and $\Cont$ transport surface.
+
+The downstream reads are fixed by
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary} and
+\autoref{thm:regularitymodulus-realup-seal-handoff}. They show that
+$\RegSeqRatUp$ and $\RealUp$ consumers receive only the carrier, package, and
+name rows already present in the obligation surface.
+
+Finally use \autoref{thm:regularitymodulus-dyadic-window-exactness} and
+\autoref{thm:regularitymodulus-common-window-exactness}. These exactness
+results exhaust single-window and common-window consumer reads, so no host
+modulus function, selected real limit, quotient completion, or global window
+choice is part of the public surface.
+\end{proof}
+
 \begin{closurestatus}{\RegularityModulusUp}
   \constructivestory{A $\RegularityModulusUp$ packet is seeded by finite $\mathsf{BHist}$ rows for unary precision, unary modulus, a dyadic observation window over $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{Pkg}$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusUp$, and local $\NameCert$ provenance.}
   \theoryclosure{\seedClosure}
