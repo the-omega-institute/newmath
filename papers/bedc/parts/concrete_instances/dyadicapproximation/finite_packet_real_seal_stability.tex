@@ -1,0 +1,49 @@
+\begin{theorem}[DyadicApproximation finite-packet Real-seal stability]
+\label{thm:dyadicapproximation-finite-packet-real-seal-stability}
+Let $A$ and $A'$ be accepted finite $\DyadicApproximationUp$ packets sharing a
+displayed common refinement $R$. Let $M$ be an accepted $\DyadicMeshUp$ cell,
+and let $V$ be an accepted $\ValidatedNumericsUp$ enclosure over the same
+rational interval selected by the refined dyadic endpoint. Suppose the visible
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance rows, and local
+$\NameCert$ rows identify the finite-packet route, the mesh-cell route, the
+validated-enclosure route, and the $\RealUp$ seal route over that common
+refinement.
+
+Then the terminal finite-packet readback and the $\RealUp$ seal expose the same
+finite surface after refinement, whether the consumer reaches it through the
+common-refinement route or through the validated enclosure route. This surface
+is exactly the precision row, transported dyadic endpoint,
+$\RationalIntervalUp$ cell, $\StreamNameUp$ window, $\RegSeqRatUp$ readback,
+$\RealUp$ seal token, $\ValidatedNumericsUp$ containment row, visible
+$\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\DyadicApproximationUp}$, $\NameCert_{\DyadicMeshUp}$, and
+$\NameCert_{\ValidatedNumericsUp}$ rows.
+
+The stability assertion is only this finite seal surface. It does not assert
+completed real equality, solver correctness, floating-point semantics,
+infinite mesh selection, or choice-selected limits.
+\end{theorem}
+\begin{proof}
+First put the terminal readback in its finite normal form. Apply
+\autoref{thm:dyadicapproximation-terminal-finite-packet-real-readback}. This
+identifies the terminal precision, transported endpoint, stream-name window,
+regular-rational readback, $\RealUp$ seal row, transport rows, continuation
+routes, package provenance, and local name-certificate rows visible to the
+finite packet.
+
+Next compare the common-refinement route with the validated-enclosure route.
+Apply \autoref{thm:dyadicapproximation-refinement-seal-commutation} to the
+accepted packets, the displayed refinement, the accepted mesh cell, and the
+accepted validated enclosure. This places the rational interval cell,
+containment row, refined endpoint, $\RegSeqRatUp$ observation window, and
+$\RealUp$ seal token on one finite consumer surface.
+
+Finally use
+\autoref{thm:dyadicapproximation-shared-real-boundary-determinacy}. The shared
+boundary theorem says that every mesh-cell, validated-enclosure, and terminal
+finite-window read with the displayed rows reads the same
+$\RegSeqRatUp/\RealUp$ boundary. Repacking those rows gives exactly the
+surface stated above, and the cited finite boundaries provide no coordinate for
+completed real equality, solver correctness, floating-point semantics,
+infinite mesh selection, or choice-selected limits.
+\end{proof}
