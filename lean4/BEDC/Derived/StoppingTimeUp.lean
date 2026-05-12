@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -145,5 +147,57 @@ theorem StoppingTimeSourcePacket_scoped_dependency_envelope [AskSetup] [PackageS
   exact
     ⟨probUnary, processUnary, filtrationUnary, horizonUnary, witnessUnary, prefixUnary,
       prefixRouteUnary, eventReadUnary, prefixRow, eventReadRow, provenanceSig⟩
+
+theorem StoppingTimeSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {prob process filtration horizon witness transport routes provenance eventRead prefixRoute :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoppingTimeSourcePacket prob process filtration horizon witness transport routes provenance
+        bundle pkg ->
+      Cont filtration witness eventRead ->
+        Cont filtration horizon prefixRoute ->
+          PkgSig bundle provenance pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row eventRead ∧ UnaryHistory row ∧ PkgSig bundle provenance pkg)
+              (fun row : BHist =>
+                Cont filtration witness row ∧ UnaryHistory filtration ∧ UnaryHistory witness)
+              (fun _row : BHist =>
+                PkgSig bundle provenance pkg ∧ Cont filtration horizon prefixRoute ∧
+                  UnaryHistory provenance)
+              (fun row row' : BHist => hsame row row') := by
+  intro packet eventReadRow prefixRouteRow provenanceSig
+  obtain ⟨_probUnary, _processUnary, filtrationUnary, _horizonUnary, witnessUnary,
+    _transportUnary, _routesUnary, provenanceUnary, _filtrationRow, _witnessRow,
+    _routesRow, _probRow, _pkgSig⟩ := packet
+  have eventReadUnary : UnaryHistory eventRead :=
+    unary_cont_closed filtrationUnary witnessUnary eventReadRow
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro eventRead ⟨hsame_refl eventRead, eventReadUnary, provenanceSig⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right.left sameRows, sourceRow.right.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact ⟨eventReadRow, filtrationUnary, witnessUnary⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact ⟨provenanceSig, prefixRouteRow, provenanceUnary⟩
+  }
 
 end BEDC.Derived.StoppingTimeUp

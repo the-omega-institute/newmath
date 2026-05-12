@@ -694,4 +694,34 @@ theorem DyadicApproximationCarrier_standard_finite_approximation_bridge
       realSealUnary, consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
       ledgerProvenanceSeal, windowProvenanceConsumer, provenancePkg, sealPkg, consumerPkg⟩
 
+theorem DyadicApproximationCarrier_kernel_scope_package [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance consumer sealRow localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont window provenance consumer ->
+        Cont ledger provenance sealRow ->
+          PkgSig bundle consumer pkg ->
+            PkgSig bundle sealRow pkg ->
+              PkgSig bundle localName pkg ->
+                UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+                  UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+                    UnaryHistory sealRow ∧ Cont precision endpoint window ∧
+                      Cont window ledger provenance ∧ Cont window provenance consumer ∧
+                        Cont ledger provenance sealRow ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle consumer pkg ∧ PkgSig bundle sealRow pkg ∧
+                            PkgSig bundle localName pkg := by
+  intro carrier windowProvenanceConsumer ledgerProvenanceSeal consumerPkg sealPkg
+    localNamePkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      consumerUnary, sealUnary, precisionEndpointWindow, windowLedgerProvenance,
+      windowProvenanceConsumer, ledgerProvenanceSeal, provenancePkg, consumerPkg, sealPkg,
+      localNamePkg⟩
+
 end BEDC.Derived.DyadicApproximationUp
