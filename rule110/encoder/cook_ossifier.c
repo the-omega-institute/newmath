@@ -30,3 +30,23 @@ void cook_ossifier_emit(uint8_t *out, size_t pos, size_t buf_len,
         memcpy(out + pos + (i * width), pattern, width);
     }
 }
+
+int cook_ossifier_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len,
+                                   const uint8_t *production_bits,
+                                   size_t production_len) {
+#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
+    /*
+       TODO(L3.1 B-H): emit the production ossifier as a phase-locked packet
+       sequence after B/C/D/E/F/H masks and legal spacings are verified. Each
+       production bit needs the Cook package that makes a consumed data 0
+       append nothing, a consumed data 1 release this production word, and the
+       outgoing clock packet regain the phase for the next ossifier.
+    */
+#endif
+    (void)out;
+    (void)pos;
+    (void)buf_len;
+    (void)production_bits;
+    (void)production_len;
+    return COOK_OSSIFIER_PHASE_EXACT_CATALOG_MISSING;
+}

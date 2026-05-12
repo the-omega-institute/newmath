@@ -22,3 +22,20 @@ void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len) {
 
     memcpy(out + pos, LEADER_ROW0, sizeof(LEADER_ROW0));
 }
+
+int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len) {
+#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
+    /*
+       TODO(L3.1 B-H): replace this sentinel with the Cook leader packet once
+       the B/C/D/E/F/H phase catalog includes verified masks, ether phase,
+       and legal spacings. The leader is a clock/synchronizer package, not the
+       20-cell behavioral marker above; it must place its A-bearing head and
+       B-H support particles so that the first ossifier interaction restores
+       the cyclic-tag production phase.
+    */
+#endif
+    (void)out;
+    (void)pos;
+    (void)buf_len;
+    return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+}
