@@ -340,6 +340,35 @@ theorem DyadicTailBoundCarrier_ledger_threshold_exhaustion [AskSetup] [PackageSe
     ⟨scheduleUnary, toleranceUnary, ledgerUnary, comparisonUnary, scheduleToleranceLedger,
       ledgerThresholdComparison, provenancePkg, comparisonPkg⟩
 
+theorem DyadicTailBoundCarrier_ledger_comparison_determinacy [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance localCert
+      comparison comparison' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      Cont ledger tolerance comparison ->
+        Cont ledger tolerance comparison' ->
+          PkgSig bundle comparison pkg ->
+            PkgSig bundle comparison' pkg ->
+              hsame comparison comparison' ∧ UnaryHistory comparison ∧
+                UnaryHistory comparison' ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle comparison pkg ∧ PkgSig bundle comparison' pkg := by
+  intro carrier comparisonRow comparisonRow' comparisonPkg comparisonPkg'
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, _readbackUnary, _sealUnary,
+    _provenanceUnary, scheduleToleranceLedger, _ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  have sameComparison : hsame comparison comparison' :=
+    cont_deterministic comparisonRow comparisonRow'
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed ledgerUnary toleranceUnary comparisonRow
+  have comparisonUnary' : UnaryHistory comparison' :=
+    unary_cont_closed ledgerUnary toleranceUnary comparisonRow'
+  exact
+    ⟨sameComparison, comparisonUnary, comparisonUnary', provenancePkg, comparisonPkg,
+      comparisonPkg'⟩
+
 theorem DyadicTailBoundCarrier_ledger_append_stability [AskSetup] [PackageSetup]
     {precision schedule tolerance ledger readback sealRow transport route provenance localCert
       enlargedLedger enlargedSeal transport' route' : BHist}
