@@ -129,6 +129,33 @@ theorem DyadicBisectionCarrier_branch_nested_window_scope [AskSetup] [PackageSet
       (And.intro realSealUnary
         (And.intro selectedRow (And.intro realSealRow routeSig)))
 
+theorem DyadicBisectionCarrier_real_stream_endpoint_scope [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      retained sealRow : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont nested endpoint retained ->
+        Cont retained stream sealRow ->
+          PkgSig bundle sealRow pkg ->
+            UnaryHistory retained ∧ UnaryHistory sealRow ∧
+              hsame retained (append nested endpoint) ∧
+                hsame sealRow (append retained stream) ∧
+                  Cont nested endpoint retained ∧ Cont retained stream sealRow ∧
+                    PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier retainedRow sealRowRoute sealSig
+  obtain ⟨_initialUnary, _precisionUnary, _midpointUnary, _branchUnary, nestedUnary,
+    endpointUnary, _regseqUnary, streamUnary, _realUnary, _transportUnary, _routeUnary,
+    _nameUnary, _initialPrecision, _midpointBranch, _nestedEndpoint, _regseqStream,
+    _realTransport, _routePkg, _namePkg⟩ := carrier
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed nestedUnary endpointUnary retainedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed retainedUnary streamUnary sealRowRoute
+  exact
+    ⟨retainedUnary, sealUnary, retainedRow, sealRowRoute, retainedRow, sealRowRoute, sealSig⟩
+
 theorem DyadicBisectionCarrier_retained_interval_nonempty_iff [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {pkg : Pkg}
     {initial precision midpoint branch nested endpoint regseq stream real transport route name
