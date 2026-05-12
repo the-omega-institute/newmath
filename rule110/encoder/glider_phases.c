@@ -1,0 +1,139 @@
+#include "glider_phases.h"
+#include <string.h>
+
+const char COOK_ETHER_PATTERN_STR[] = "11111000100110";
+
+typedef struct {
+    const char *name;
+    const char *neighbor;
+    int phase;
+    const char *bits;
+    size_t len;
+} GliderPhaseRecord;
+
+/* Core Cook subset. B-/B^, D1/D2, non-bar E, and extra F/G/H/Gun
+   neighbor contexts remain in listPhasesR110.txt for later registration. */
+static const GliderPhaseRecord GLIDER_PHASES[] = {
+    {"ether", NULL, 1, "11111000100110", 14},
+    {"A", NULL, 1, "111110", 6},
+    {"A", NULL, 2, "11111000111000100110", 20},
+    {"A", NULL, 3, "11111000100110100110", 20},
+    {"A", NULL, 4, "111110", 6},
+    {"B", NULL, 1, "11111010", 8},
+    {"B", NULL, 2, "11111000", 8},
+    {"B", NULL, 3, "1111100010011000100110", 22},
+    {"B", NULL, 4, "11100110", 8},
+    {"C1", "A", 1, "111110000", 9},
+    {"C1", "A", 2, "11111000100011000100110", 23},
+    {"C1", "A", 3, "11111000100110011100110", 23},
+    {"C1", "A", 4, "111011010", 9},
+    {"C1", "B", 1, "11111011111111000100110", 23},
+    {"C1", "B", 2, "11111000111000000100110", 23},
+    {"C1", "B", 3, "11111000100110100000110", 23},
+    {"C1", "B", 4, "11111011111111000100110", 23},
+    {"C2", "A", 1, "11111000000100110", 17},
+    {"C2", "A", 2, "11111000100000110", 17},
+    {"C2", "A", 3, "11111000100110000", 17},
+    {"C2", "A", 4, "11100011000100110", 17},
+    {"C2", "B", 1, "11111010011100110", 17},
+    {"C2", "B", 2, "11111000111011010", 17},
+    {"C2", "B", 3, "1111100010011011111111000100110", 31},
+    {"C2", "B", 4, "11111010011100110", 17},
+    {"C3", "A", 1, "11111011010", 11},
+    {"C3", "A", 2, "1111100011111111000100110", 25},
+    {"C3", "A", 3, "1111100010011000000100110", 25},
+    {"C3", "A", 4, "11100000110", 11},
+    {"C3", "B", 1, "11111010000", 11},
+    {"C3", "B", 2, "1111100011100011000100110", 25},
+    {"C3", "B", 3, "1111100010011010011100110", 25},
+    {"C3", "B", 4, "11111010000", 11},
+    {"Ebar", "A", 1, "111110000100011111010", 21},
+    {"Ebar", "A", 2, "111110001000110011000", 21},
+    {"Ebar", "A", 3, "11111000100110011101110011000100110", 35},
+    {"Ebar", "A", 4, "111011011101011100110", 21},
+    {"Ebar", "B", 1, "111110111111011111010", 21},
+    {"Ebar", "B", 2, "111110001110000111000", 21},
+    {"Ebar", "B", 3, "11111000100110100011010011000100110", 35},
+    {"Ebar", "B", 4, "111110011111011100110", 21},
+    {"Ebar", "C", 1, "111110001011000111010", 21},
+    {"Ebar", "C", 2, "111110001001111100110", 21},
+    {"Ebar", "C", 3, "11111000100110110001011111000100110", 35},
+    {"Ebar", "C", 4, "111111001111000100110", 21},
+    {"Ebar", "D", 1, "111110000101100100110", 21},
+    {"Ebar", "D", 2, "111110001000111110110", 21},
+    {"Ebar", "D", 3, "11111000100110011000111111000100110", 35},
+    {"Ebar", "D", 4, "111011100110000100110", 21},
+    {"F", "A", 1, "111110001011010", 15},
+    {"F", "A", 2, "11111000100111111111000100110", 29},
+    {"F", "A", 3, "11111000100110110000000100110", 29},
+    {"F", "A", 4, "111111000000110", 15},
+    {"G", "A", 1, "111110100111110011100110", 24},
+    {"G", "A", 2, "111110001110110001011010", 24},
+    {"G", "A", 3, "11111000100110111100111111111000100110", 38},
+    {"G", "A", 4, "111110010110000000100110", 24},
+    {"H", "A", 1, "11111000101100000000111110001001101001111111000100110", 53},
+    {"H", "A", 2, "11111000100111110000000110001001101111101100000100110", 53},
+    {"H", "A", 3, "11111000100110110001000000111001101111100011110000110", 53},
+    {"H", "A", 4, "111111001100000110101111100010011001000", 39},
+    {"Gun", "A", 1, "11111010110011101001100101111100000100110", 41},
+    {"Gun", "A", 2, "11111000111111011011101110111100010000110", 41},
+    {"Gun", "A", 3, "11111000100110000111111011101110010011000", 41},
+    {"Gun", "A", 4, "11100011000011101110101101110011000100110", 41}
+};
+
+static int same_text(const char *left, const char *right) {
+    if (left == NULL || right == NULL) return left == right;
+    return strcmp(left, right) == 0;
+}
+
+static int same_glider_name(const char *left, const char *right) {
+    if (left == NULL || right == NULL) return left == right;
+    if (strcmp(left, right) == 0) return 1;
+    if (strcmp(left, "E-") == 0 && strcmp(right, "Ebar") == 0) return 1;
+    if (strcmp(left, "Ebar") == 0 && strcmp(right, "E-") == 0) return 1;
+    if (strcmp(left, "glider_gun") == 0 && strcmp(right, "Gun") == 0) return 1;
+    if (strcmp(left, "Gun") == 0 && strcmp(right, "glider_gun") == 0) return 1;
+    return 0;
+}
+
+const char *glider_phase(const char *glider_name,
+                         const char *neighbor,
+                         int phase,
+                         size_t *out_len) {
+    if (out_len != NULL) *out_len = 0;
+    if (glider_name == NULL || phase < 1 || phase > 4) return NULL;
+
+    for (size_t i = 0; i < sizeof(GLIDER_PHASES) / sizeof(GLIDER_PHASES[0]);
+         i++) {
+        if (same_glider_name(glider_name, GLIDER_PHASES[i].name) &&
+            same_text(neighbor, GLIDER_PHASES[i].neighbor) &&
+            phase == GLIDER_PHASES[i].phase) {
+            if (out_len != NULL) *out_len = GLIDER_PHASES[i].len;
+            return GLIDER_PHASES[i].bits;
+        }
+    }
+
+    return NULL;
+}
+
+int glider_phase_emit(uint8_t *out,
+                      size_t pos,
+                      size_t buf_len,
+                      const char *glider_name,
+                      const char *neighbor,
+                      int phase,
+                      size_t *written_out) {
+    size_t len = 0;
+    const char *bits = glider_phase(glider_name, neighbor, phase, &len);
+
+    if (written_out != NULL) *written_out = 0;
+    if (out == NULL || bits == NULL) return 1;
+    if (pos > buf_len || len > buf_len - pos) return 2;
+
+    for (size_t i = 0; i < len; i++) {
+        out[pos + i] = (uint8_t)(bits[i] == '1' ? 1 : 0);
+    }
+    if (written_out != NULL) *written_out = len;
+
+    return 0;
+}

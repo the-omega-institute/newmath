@@ -1,6 +1,7 @@
 #include "cook_encode.h"
 #include "cook_construction.h"
 #include "cook_data_block.h"
+#include "glider_phases.h"
 #if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
 #include "cook_glider_gun.h"
 #endif
@@ -47,6 +48,9 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_ENCODE_PHASE_OSSIFIER_TO_DATA_PERIODS 96
 #define COOK_ENCODE_PHASE_SYMBOL_STRIDE_PERIODS 64
 #define COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS 128
+
+#define COOK_ENCODE_PHASE_A_POS 100
+#define COOK_ENCODE_PHASE_EBAR_POS 140
 
 typedef struct {
     size_t total_cells;
@@ -108,6 +112,21 @@ static int cook_phase_cells_from_periods(size_t periods, size_t *out) {
 
 static int cook_phase_round_up_ether_width(size_t in, size_t *out) {
     return round_up_ether_width(in, out) == 0;
+}
+
+static int cook_phase_write_catalog(uint8_t *out,
+                                    size_t pos,
+                                    size_t buf_len,
+                                    const char *glider_name,
+                                    const char *neighbor,
+                                    int phase) {
+    return glider_phase_emit(out,
+                             pos,
+                             buf_len,
+                             glider_name,
+                             neighbor,
+                             phase,
+                             NULL) == 0;
 }
 
 static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
@@ -532,19 +551,38 @@ int cook_encode_phase_exact(const CyclicTagInput *ct,
         return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
     }
 
-#if !defined(COOK_PHASE_EXACT_BH_AVAILABLE)
-    (void)out;
-    *written_out = layout.total_cells;
-    return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
-#else
-    int rc = COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
+#if defined(COOK_PHASE_EXACT_BH_AVAILABLE)
+    {
+        int rc = cook_encode_phase_exact_compose(ct, &layout, out);
 
-    rc = cook_encode_phase_exact_compose(ct, &layout, out);
-    if (rc == COOK_ENCODE_PHASE_EXACT_OK) {
-        *written_out = layout.total_cells;
-    } else {
-        *written_out = 0;
+        if (rc == COOK_ENCODE_PHASE_EXACT_OK) {
+            *written_out = layout.total_cells;
+        } else {
+            *written_out = 0;
+        }
+        return rc;
     }
-    return rc;
+#else
+    cook_ether_emit(out, layout.total_cells / (size_t)COOK_ETHER_WIDTH);
+    if (!cook_phase_write_catalog(out,
+                                  COOK_ENCODE_PHASE_A_POS,
+                                  layout.total_cells,
+                                  "A",
+                                  NULL,
+                                  1)) {
+        *written_out = 0;
+        return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
+    }
+    if (!cook_phase_write_catalog(out,
+                                  COOK_ENCODE_PHASE_EBAR_POS,
+                                  layout.total_cells,
+                                  "Ebar",
+                                  "A",
+                                  1)) {
+        *written_out = 0;
+        return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
+    }
+    *written_out = layout.total_cells;
+    return COOK_ENCODE_PHASE_EXACT_OK;
 #endif
 }

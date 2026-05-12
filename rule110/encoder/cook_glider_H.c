@@ -1,4 +1,5 @@
 #include "cook_glider_H.h"
+#include "glider_phases.h"
 #include <string.h>
 
 const size_t COOK_GLIDER_H_WIDTH = 14;
@@ -17,4 +18,12 @@ void cook_glider_H_emit(uint8_t *out, size_t pos, size_t buf_len) {
     if (pos > buf_len || sizeof(GLIDER_H_ROW0) > buf_len - pos) return;
 
     memcpy(out + pos, GLIDER_H_ROW0, sizeof(GLIDER_H_ROW0));
+}
+
+int cook_glider_H_emit_phase_exact(uint8_t *out,
+                                   size_t pos,
+                                   size_t buf_len,
+                                   const char *neighbor,
+                                   int phase) {
+    return glider_phase_emit(out, pos, buf_len, "H", neighbor, phase, NULL);
 }

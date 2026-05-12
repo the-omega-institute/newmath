@@ -1,4 +1,5 @@
 #include "cook_glider_gun.h"
+#include "glider_phases.h"
 #include <string.h>
 
 const size_t COOK_GLIDER_GUN_WIDTH = 518;
@@ -28,4 +29,12 @@ void cook_glider_gun_emit(uint8_t *out, size_t pos, size_t buf_len) {
     memcpy(out + pos + (3 * COOK_GLIDER_GUN_EMISSION_PERIOD),
            GUN_H,
            sizeof(GUN_H));
+}
+
+int cook_glider_gun_emit_phase_exact(uint8_t *out,
+                                     size_t pos,
+                                     size_t buf_len,
+                                     const char *neighbor,
+                                     int phase) {
+    return glider_phase_emit(out, pos, buf_len, "Gun", neighbor, phase, NULL);
 }

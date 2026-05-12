@@ -1,4 +1,5 @@
 #include "cook_construction.h"
+#include "glider_phases.h"
 #include <string.h>
 
 const uint8_t COOK_ETHER_PATTERN[COOK_ETHER_WIDTH] =
@@ -30,7 +31,9 @@ void cook_glider_A_emit(uint8_t *out, size_t pos, size_t ether_width) {
         return;
     }
 
-    memcpy(out + pos,
-           COOK_GLIDER_A_PHASE_ORBIT[0],
-           sizeof(COOK_GLIDER_A_PHASE_ORBIT[0]));
+    if (glider_phase_emit(out, pos, ether_width, "A", NULL, 1, NULL) != 0) {
+        memcpy(out + pos,
+               COOK_GLIDER_A_PHASE_ORBIT[0],
+               sizeof(COOK_GLIDER_A_PHASE_ORBIT[0]));
+    }
 }

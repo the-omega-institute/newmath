@@ -69,4 +69,8 @@ CollisionResult cook_simulate_collision(char left,
                                          size_t pos2,
                                          size_t steps);
 
+const char *cook_collision_lookup(const char *glider_left,
+                                  const char *glider_right,
+                                  int ether_gap);
+
 #endif

@@ -317,7 +317,7 @@ static void test_mark_manifest_productions(void) {
     printf("  mark_manifest_productions: PASS\n");
 }
 
-static void test_phase_exact_catalog_missing(void) {
+static void test_phase_exact_partial_composition(void) {
     uint8_t p0[2] = {1, 0};
     uint8_t p1[1] = {1};
     uint8_t *productions[2] = {p0, p1};
@@ -331,14 +331,15 @@ static void test_phase_exact_catalog_missing(void) {
     memset(cells, 0x5a, sizeof(cells));
     rc = cook_encode_phase_exact(&ct, cells, sizeof(cells), &written);
 
-    assert(rc == COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING);
+    assert(rc == COOK_ENCODE_PHASE_EXACT_OK);
     assert(written > 0);
     assert(written <= sizeof(cells));
-    for (size_t i = 0; i < sizeof(cells); i++) {
-        assert(cells[i] == 0x5a);
-    }
+    assert(cells[100] == 1);
+    assert(cells[105] == 0);
+    assert(cells[140] == 1);
+    assert(cells[160] == 0);
 
-    printf("  phase_exact_catalog_missing: PASS\n");
+    printf("  phase_exact_partial_composition: PASS\n");
 }
 
 int main(void) {
@@ -347,7 +348,7 @@ int main(void) {
     test_two_productions_five_bit_tape();
     test_four_productions_three_bit_tape();
     test_mark_manifest_productions();
-    test_phase_exact_catalog_missing();
+    test_phase_exact_partial_composition();
     printf("ALL test_cook_encode_arbitrary tests passed\n");
     return 0;
 }

@@ -9,5 +9,11 @@ extern const size_t COOK_GLIDER_D_PERIOD;
 extern const int COOK_GLIDER_D_VELOCITY;
 
 void cook_glider_D_emit(uint8_t *out, size_t pos, size_t buf_len);
+int cook_glider_D_emit_phase_exact(uint8_t *out,
+                                   size_t pos,
+                                   size_t buf_len,
+                                   const char *variant,
+                                   const char *neighbor,
+                                   int phase);
 
 #endif
