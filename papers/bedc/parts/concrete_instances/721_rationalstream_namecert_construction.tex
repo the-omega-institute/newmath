@@ -717,6 +717,29 @@ step, and the seal normal form. Hence each consumer coordinate is one of the
 listed finite rows.
 \end{proof}
 
+\begin{theorem}[RationalStream synchronized seal readback exhaustion]\label{thm:rationalstream-synchronized-seal-readback-exhaustion}
+Any synchronized finite-window read of an accepted $\RationalStreamUp$ packet
+factors through exactly its displayed $\StreamNameUp$ schedule, pointwise $\RatUp$
+rows, common-window classifier rows, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal
+consumer boundary, displayed $\hsame$, displayed $\Cont$, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows.
+
+The read exports no quotient stream equality, selected limit, completed
+$\RealUp$ equality, trichotomy row, or host stream equality beyond that finite
+seal boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rational-stream-common-window-classifier-stability} and
+\autoref{thm:rationalstream-common-denominator-window-exhaustion} to place the
+classifier and denominator reads on one displayed finite window.
+
+Then apply \autoref{thm:rational-stream-regseqrat-ledger-completeness},
+\autoref{thm:rational-stream-real-seal-consumer-boundary}, and
+\autoref{thm:rational-stream-finite-window-seal-determinacy}. These theorems
+identify the handoff, seal consumer read, and exclusion boundary with the same
+finite packet rows.
+\end{proof}
+
 \begin{theorem}[RationalStream tail-window determinacy]
 \label{thm:rational-stream-tail-window-determinacy}
 Two $\RationalStreamUp$ packets with the same finite unary schedule,
