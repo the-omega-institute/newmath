@@ -503,6 +503,7 @@ name. Every standard finite observation of such a candidate factors through
 The boundary introduces no quotient stream equality, selected limit object, or
 $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealLimitUp.RealLimitPacket\_standard\_bridge\_boundary}
 \begin{proof}
 Start with the obligation surface of
 \autoref{thm:reallimit-namecert-obligation-surface}. Its rows are the
@@ -558,6 +559,43 @@ Finally apply \autoref{thm:reallimit-standard-bridge-boundary}. The bridge
 boundary contributes no hidden completion, quotient, or selected-limit row, so
 the displayed rows are also sufficient in the reverse direction to repack the
 finite real-seal consumer surface.
+\end{proof}
+
+\begin{theorem}[RealLimit stream-tail window normal form]
+\label{thm:reallimit-stream-tail-window-normal-form}
+For accepted $\RealLimitUp$ packets whose scheduled $\StreamNameUp$ rows refine
+to the same displayed finite tail window, every $\RealUp$-facing readback
+factors through exactly the same $\RegSeqRatUp$ source row, the same
+$\DyadicRatCoreUp$ tolerance rows, the displayed $\hsame$ transports, the
+visible $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RealLimitUp}$ ledger. The tail-window normal form is determined
+entirely by those finite rows.
+
+The normal form exports no completed real equality, quotient stream, selected
+limit, host completion witness, or choice data.
+\end{theorem}
+\begin{proof}
+Project each accepted packet to the finite carrier of
+\autoref{def:reallimit-bhist-carrier}. The projected rows are the scheduled
+stream-name coordinate, the regular rational source coordinate, the dyadic
+tolerance coordinates, componentwise $\hsame$ transport, visible $\Cont$
+routes, package provenance, and the local naming ledger.
+
+Apply \autoref{thm:reallimit-common-refinement-classifier} to the two scheduled
+$\StreamNameUp$ rows. The common finite tail window fixes the classifier
+surface on which the readback rows are compared, so later tail data cannot
+change the displayed source or tolerance coordinates.
+
+Use \autoref{thm:reallimit-readback-ledger-exhaustion} and
+\autoref{thm:reallimit-public-real-window-export}. These identify every
+$\RealUp$-facing readback row with the same regular rational source row,
+dyadic tolerance rows, componentwise transports, continuation routes, package
+provenance, and naming ledger on the common window.
+
+Finally invoke \autoref{thm:reallimit-standard-bridge-boundary}. The boundary
+contains no coordinate for completed real equality, quotient stream formation,
+selected limits, host completion, or choice data. Carrier exhaustion therefore
+leaves exactly the stated finite tail-window normal form.
 \end{proof}
 
 \closureat{RealLimitUp}{seedStr}
