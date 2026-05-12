@@ -77,6 +77,61 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_common_refinement_window [AskSetup] [PackageSetup]
+    {left1 right1 order1 containment1 transport1 route1 provenance1 name1 endpoint1 left2
+      right2 order2 containment2 transport2 route2 provenance2 name2 endpoint2 left right order
+      containment transport route provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left1 right1 order1 containment1 transport1 route1 provenance1 name1
+        endpoint1 bundle pkg ->
+      RationalIntervalPacket left2 right2 order2 containment2 transport2 route2 provenance2 name2
+          endpoint2 bundle pkg ->
+        hsame left1 left ->
+          hsame right1 right ->
+            hsame containment1 containment ->
+              hsame route1 route ->
+                hsame name1 name ->
+                  hsame left2 left ->
+                    hsame right2 right ->
+                      hsame containment2 containment ->
+                        hsame route2 route ->
+                          hsame name2 name ->
+                            Cont left right order ->
+                              Cont order containment transport ->
+                                Cont transport route provenance ->
+                                  Cont provenance name endpoint ->
+                                    PkgSig bundle endpoint pkg ->
+                                      RationalIntervalPacket left right order containment transport
+                                          route provenance name endpoint bundle pkg ∧
+                                        hsame order1 order ∧ hsame order2 order ∧
+                                          hsame transport1 transport ∧
+                                            hsame transport2 transport ∧
+                                              hsame provenance1 provenance ∧
+                                                hsame provenance2 provenance ∧
+                                                  hsame endpoint1 endpoint ∧
+                                                    hsame endpoint2 endpoint := by
+  intro packet1 packet2 sameLeft1 sameRight1 sameContainment1 sameRoute1 sameName1 sameLeft2
+    sameRight2 sameContainment2 sameRoute2 sameName2 leftRightOrder orderContainmentTransport
+    transportRouteProvenance provenanceNameEndpoint endpointPkg
+  have firstTransport :=
+    RationalIntervalPacket_endpoint_containment_transport packet1 sameLeft1 sameRight1
+      sameContainment1 sameRoute1 sameName1 leftRightOrder orderContainmentTransport
+      transportRouteProvenance provenanceNameEndpoint endpointPkg
+  have secondTransport :=
+    RationalIntervalPacket_endpoint_containment_transport packet2 sameLeft2 sameRight2
+      sameContainment2 sameRoute2 sameName2 leftRightOrder orderContainmentTransport
+      transportRouteProvenance provenanceNameEndpoint endpointPkg
+  exact
+    ⟨firstTransport.left,
+      firstTransport.right.left,
+      secondTransport.right.left,
+      firstTransport.right.right.left,
+      secondTransport.right.right.left,
+      firstTransport.right.right.right.left,
+      secondTransport.right.right.right.left,
+      firstTransport.right.right.right.right,
+      secondTransport.right.right.right.right⟩
+
 theorem RationalIntervalRefinement_composition {left mid right lm lmr mr lmr' : BHist} :
     Cont left mid lm -> Cont lm right lmr -> Cont mid right mr -> Cont left mr lmr' ->
       hsame lmr lmr' := by
