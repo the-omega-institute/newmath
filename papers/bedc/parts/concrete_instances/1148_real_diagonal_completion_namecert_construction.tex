@@ -115,16 +115,35 @@ For the ledger boundary, inspect the source packet. Its coordinates name only th
 These five rows are precisely the naming-certificate obligations for the diagonal completion object. They turn the diagonal representative into a concrete $\mathsf{BHist}$ packet surface while this chapter leaves machine-checked real completeness unclaimed.
 \end{proof}
 
+\begin{theorem}[RealDiagonalCompletion scoped consumer seal package]
+\label{thm:real-diagonal-completion-scoped-consumer-seal-package}
+Every accepted $\RealDiagonalCompletionUp$ packet satisfying the source row of \autoref{def:real-diagonal-completion-source}, the carrier construction, classifier stability, ledger exactness, diagonal window extraction, seal factorization, constant rational handoff, and $\NameCert$ obligation surface determines a scoped dependency package over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.
+
+Every $\RealUp$-facing consumer read of that package factors through the displayed diagonal selector, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger, and provenance rows. No quotient stream, choice-selected limit, host real equality, or ambient completeness object is part of the scoped package.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:real-diagonal-completion-source}. Its visible coordinates are the finite $\mathsf{BHist}$ carrier row, the displayed transport routes through $\hsame$ and $\Cont$, the package and local $\NameCert$ provenance, and the source certificates for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.
+
+The carrier row is supplied by \autoref{thm:real-diagonal-completion-carrier}. Classifier transport is supplied by \autoref{thm:real-diagonal-completion-classifier-stability}, and each consumer read is forced through the displayed diagonal-window ledger by \autoref{thm:real-diagonal-completion-ledger-exactness} and \autoref{thm:real-diagonal-completion-window-extraction}.
+
+The seal route is the factorization of \autoref{thm:real-diagonal-completion-seal-factorization}. For stationary rational inputs, \autoref{thm:real-diagonal-completion-constant-rational-handoff} keeps the handoff inside the same $\RatUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.
+
+The complete local obligation surface is the five-row $\NameCert$ packet of \autoref{thm:real-diagonal-completion-namecert-obligation-surface}. These rows exhaust the available fields of the accepted packet.
+
+Since none of the cited rows contains a quotient stream, choice-selected limit, host real equality, or ambient completeness object, the scoped consumer seal package has exactly the dependency surface stated above.
+\end{proof}
+
 \closureat{RealDiagonalCompletionUp}{seedStr}
 \closureat{RealDiagonalCompletionUp}{obligationStr}
+\closureat{RealDiagonalCompletionUp}{scopedStr}
 
 \begin{closurestatus}{\RealDiagonalCompletionUp}
   \constructivestory{A $\RealDiagonalCompletionUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy input, an explicit unary modulus, a diagonal selector, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal ledger, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed boundary binds the finite diagonal completion carrier, classifier transport, diagonal-window readback exactness, constant rational handoff, and ledger non-escape surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:real-diagonal-completion-scoped-consumer-seal-package} binds the finite diagonal completion carrier, classifier transport, diagonal-window readback exactness, constant rational handoff, and ledger non-escape surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Scoped closure requires each obligation row to cite the precise $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$ primitives it depends on.}
+  \upgradepath{Public closure requires a consumer-facing $\RealUp$ completeness interface and bridge checking beyond the finite diagonal completion dependency packet.}
 \end{closurestatus}

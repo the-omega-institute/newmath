@@ -540,4 +540,114 @@ theorem DyadicApproximationCarrier_terminal_window_prefix_projection [AskSetup] 
         terminalWindowLedgerProvenance', terminalPkgSig⟩
       (And.intro rereadUnary samePrefixTerminalWindow))
 
+theorem DyadicApproximationCarrier_terminal_validated_enclosure_readback [AskSetup]
+    [PackageSetup]
+    {precision endpoint window ledger provenance terminalPrecision terminalEndpoint terminalWindow
+      terminalLedger terminalProvenance meshCell validatedEnclosure sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      hsame precision terminalPrecision ->
+        hsame endpoint terminalEndpoint ->
+          hsame ledger terminalLedger ->
+            hsame provenance terminalProvenance ->
+              Cont terminalPrecision terminalEndpoint terminalWindow ->
+                Cont terminalWindow terminalLedger terminalProvenance ->
+                  Cont terminalWindow terminalProvenance meshCell ->
+                    Cont meshCell terminalProvenance validatedEnclosure ->
+                      Cont terminalLedger terminalProvenance sealRow ->
+                        PkgSig bundle meshCell pkg ->
+                          PkgSig bundle validatedEnclosure pkg ->
+                            PkgSig bundle sealRow pkg ->
+                              DyadicApproximationCarrier terminalPrecision terminalEndpoint
+                                  terminalWindow terminalLedger terminalProvenance bundle pkg ∧
+                                UnaryHistory meshCell ∧ UnaryHistory validatedEnclosure ∧
+                                  UnaryHistory sealRow ∧ hsame window terminalWindow ∧
+                                    PkgSig bundle meshCell pkg ∧
+                                      PkgSig bundle validatedEnclosure pkg ∧
+                                        PkgSig bundle sealRow pkg := by
+  intro carrier samePrecision sameEndpoint sameLedger sameProvenance
+  intro terminalPrecisionEndpointWindow terminalWindowLedgerProvenance
+  intro terminalWindowProvenanceMesh meshProvenanceEnclosure terminalLedgerProvenanceSeal
+  intro meshPkg enclosurePkg sealPkg
+  have transported :
+      DyadicApproximationCarrier terminalPrecision terminalEndpoint terminalWindow
+          terminalLedger terminalProvenance bundle pkg ∧
+        hsame window terminalWindow :=
+    DyadicApproximationCarrier_classifier_transport carrier samePrecision sameEndpoint
+      sameLedger sameProvenance terminalPrecisionEndpointWindow
+      terminalWindowLedgerProvenance
+  rcases transported with ⟨terminalCarrier, sameWindow⟩
+  rcases terminalCarrier with
+    ⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+      terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+      terminalWindowLedgerProvenance', terminalPkg⟩
+  have meshUnary : UnaryHistory meshCell :=
+    unary_cont_closed terminalWindowUnary terminalProvenanceUnary terminalWindowProvenanceMesh
+  have enclosureUnary : UnaryHistory validatedEnclosure :=
+    unary_cont_closed meshUnary terminalProvenanceUnary meshProvenanceEnclosure
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed terminalLedgerUnary terminalProvenanceUnary terminalLedgerProvenanceSeal
+  exact
+    ⟨⟨_terminalPrecisionUnary, _terminalEndpointUnary, terminalWindowUnary,
+        terminalLedgerUnary, terminalProvenanceUnary, terminalPrecisionEndpointWindow',
+        terminalWindowLedgerProvenance', terminalPkg⟩,
+      meshUnary, enclosureUnary, sealUnary, sameWindow, meshPkg, enclosurePkg, sealPkg⟩
+
+theorem DyadicApproximationCarrier_mesh_cell_consumer_boundary [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance meshCell enclosure consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      UnaryHistory meshCell ->
+        Cont window provenance consumer ->
+          Cont endpoint meshCell enclosure ->
+            PkgSig bundle consumer pkg ->
+              PkgSig bundle enclosure pkg ->
+                UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+                  UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory meshCell ∧
+                    UnaryHistory enclosure ∧ UnaryHistory consumer ∧
+                      Cont precision endpoint window ∧ Cont window ledger provenance ∧
+                        Cont window provenance consumer ∧ Cont endpoint meshCell enclosure ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg ∧
+                            PkgSig bundle enclosure pkg := by
+  intro carrier meshCellUnary windowProvenanceConsumer endpointMeshCellEnclosure
+    consumerPkg enclosurePkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed endpointUnary meshCellUnary endpointMeshCellEnclosure
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      meshCellUnary, enclosureUnary, consumerUnary, precisionEndpointWindow,
+      windowLedgerProvenance, windowProvenanceConsumer, endpointMeshCellEnclosure,
+      provenancePkg, consumerPkg, enclosurePkg⟩
+
+theorem DyadicApproximationCarrier_standard_finite_approximation_bridge
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont ledger provenance realSeal ->
+        PkgSig bundle realSeal pkg ->
+          Cont window provenance consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+                UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory realSeal ∧
+                  UnaryHistory consumer ∧ Cont precision endpoint window ∧
+                    Cont window ledger provenance ∧ Cont ledger provenance realSeal ∧
+                      Cont window provenance consumer ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle realSeal pkg ∧ PkgSig bundle consumer pkg := by
+  intro carrier ledgerProvenanceSeal sealPkg windowProvenanceConsumer consumerPkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      realSealUnary, consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
+      ledgerProvenanceSeal, windowProvenanceConsumer, provenancePkg, sealPkg, consumerPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp

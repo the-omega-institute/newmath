@@ -16,6 +16,32 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def DyadicMeshCarrier [AskSetup] [PackageSetup]
+    (level cell interval ledger routes provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory level ∧ UnaryHistory cell ∧ UnaryHistory ledger ∧
+    UnaryHistory provenance ∧ UnaryHistory name ∧ Cont level cell interval ∧
+      Cont interval ledger routes ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
+theorem DyadicMeshCarrier_cell_containment_obligation [AskSetup] [PackageSetup]
+    {level cell interval ledger routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshCarrier level cell interval ledger routes provenance name bundle pkg ->
+      UnaryHistory level ∧ UnaryHistory cell ∧ UnaryHistory interval ∧
+        UnaryHistory ledger ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+          UnaryHistory name ∧ Cont level cell interval ∧ Cont interval ledger routes ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  intro carrier
+  obtain ⟨levelUnary, cellUnary, ledgerUnary, provenanceUnary, nameUnary, levelCellInterval,
+    intervalLedgerRoutes, provenancePkg, namePkg⟩ := carrier
+  have intervalUnary : UnaryHistory interval :=
+    unary_cont_closed levelUnary cellUnary levelCellInterval
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed intervalUnary ledgerUnary intervalLedgerRoutes
+  exact
+    ⟨levelUnary, cellUnary, intervalUnary, ledgerUnary, routesUnary, provenanceUnary,
+      nameUnary, levelCellInterval, intervalLedgerRoutes, provenancePkg, namePkg⟩
+
 def DyadicMeshPacket [AskSetup] [PackageSetup]
     (level cell interval endpoint radius order transport refinement provenance nameCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -197,6 +223,52 @@ theorem DyadicMeshPacket_refinement_stability [AskSetup] [PackageSetup]
         transportUnary', refinementUnary', provenanceUnary', nameCertUnary',
         levelCellInterval', intervalEndpointRadius', provenancePkg'⟩,
       sameInterval⟩
+
+theorem DyadicMeshPacket_rationalinterval_coverage [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert coverage :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint coverage ->
+        PkgSig bundle coverage pkg ->
+          UnaryHistory interval ∧ UnaryHistory endpoint ∧ UnaryHistory radius ∧
+            UnaryHistory order ∧ UnaryHistory coverage ∧ Cont level cell interval ∧
+              Cont interval endpoint radius ∧ Cont interval endpoint coverage ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle coverage pkg := by
+  intro packet intervalEndpointCoverage coveragePkg
+  rcases packet with
+    ⟨_levelUnary, _cellUnary, intervalUnary, endpointUnary, radiusUnary, orderUnary,
+      _transportUnary, _refinementUnary, _provenanceUnary, _nameCertUnary,
+      levelCellInterval, intervalEndpointRadius, provenancePkg⟩
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointCoverage
+  exact
+    ⟨intervalUnary, endpointUnary, radiusUnary, orderUnary, coverageUnary,
+      levelCellInterval, intervalEndpointRadius, intervalEndpointCoverage, provenancePkg,
+      coveragePkg⟩
+
+theorem DyadicMeshPacket_rational_interval_coverage [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert coverage :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint coverage ->
+        PkgSig bundle coverage pkg ->
+          UnaryHistory interval ∧ UnaryHistory endpoint ∧ UnaryHistory coverage ∧
+            Cont interval endpoint radius ∧ Cont interval endpoint coverage ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle coverage pkg := by
+  intro packet intervalEndpointCoverage coveragePkg
+  rcases packet with
+    ⟨_levelUnary, _cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      _transportUnary, _refinementUnary, _provenanceUnary, _nameCertUnary,
+      _levelCellInterval, intervalEndpointRadius, provenancePkg⟩
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointCoverage
+  exact
+    ⟨intervalUnary, endpointUnary, coverageUnary, intervalEndpointRadius,
+      intervalEndpointCoverage, provenancePkg, coveragePkg⟩
 
 theorem DyadicMeshPacket_standard_finite_mesh_bridge_boundary [AskSetup] [PackageSetup]
     {level cell interval endpoint radius order transport refinement provenance nameCert meshCell
