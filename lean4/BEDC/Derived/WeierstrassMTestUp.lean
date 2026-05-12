@@ -67,4 +67,35 @@ theorem WeierstrassMTestCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem WeierstrassMTestCarrier_majorant_tail_transport [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name tail'
+      regseq' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg ->
+      hsame tail tail' ->
+        Cont domination tail' regseq' ->
+          WeierstrassMTestCarrier family majorant domination tail' regseq' realSeal transport
+              route provenance name bundle pkg ∧ hsame regseq regseq' := by
+  intro carrier sameTail newTailRoute
+  obtain ⟨familyUnary, majorantUnary, dominationUnary, tailUnary, regseqUnary, realSealUnary,
+    transportUnary, routeUnary, provenanceUnary, nameUnary, familyMajorantDomination,
+    dominationTailRegseq, regseqRealSealTransport, transportRouteProvenance, routePkg,
+    namePkg⟩ := carrier
+  have tailUnary' : UnaryHistory tail' :=
+    unary_transport tailUnary sameTail
+  have regseqUnary' : UnaryHistory regseq' :=
+    unary_cont_closed dominationUnary tailUnary' newTailRoute
+  have sameRegseq : hsame regseq regseq' :=
+    cont_respects_hsame (hsame_refl domination) sameTail dominationTailRegseq newTailRoute
+  have regseqRealSealTransport' : Cont regseq' realSeal transport := by
+    cases sameRegseq
+    exact regseqRealSealTransport
+  exact
+    ⟨⟨familyUnary, majorantUnary, dominationUnary, tailUnary', regseqUnary',
+        realSealUnary, transportUnary, routeUnary, provenanceUnary, nameUnary,
+        familyMajorantDomination, newTailRoute, regseqRealSealTransport',
+        transportRouteProvenance, routePkg, namePkg⟩,
+      sameRegseq⟩
+
 end BEDC.Derived.WeierstrassMTestUp
