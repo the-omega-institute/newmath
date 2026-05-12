@@ -132,4 +132,26 @@ theorem FanTheoremPacket_real_completion_boundary [AskSetup] [PackageSetup]
     ⟨endpointUnary, realConsumerUnary, treeBarDepth, depthWindowEndpoint,
       endpointProvenanceRealConsumer, endpointPkg, realConsumerPkg⟩
 
+theorem FanTheoremPacket_bar_uniform_modulus [AskSetup] [PackageSetup]
+    {tree bar depth window transport traversal provenance nameCert endpoint
+      modulusConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+        bundle pkg ->
+      Cont window provenance modulusConsumer ->
+        PkgSig bundle modulusConsumer pkg ->
+          UnaryHistory depth ∧ UnaryHistory window ∧ UnaryHistory provenance ∧
+            UnaryHistory modulusConsumer ∧ Cont tree bar depth ∧
+              Cont depth window endpoint ∧ Cont window provenance modulusConsumer ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle modulusConsumer pkg := by
+  intro packet windowProvenanceModulusConsumer modulusConsumerPkg
+  obtain ⟨_treeUnary, _barUnary, depthUnary, windowUnary, _transportUnary,
+    _traversalUnary, provenanceUnary, _nameCertUnary, _endpointUnary, treeBarDepth,
+    depthWindowEndpoint, _transportTraversalProvenance, endpointPkg⟩ := packet
+  have modulusConsumerUnary : UnaryHistory modulusConsumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceModulusConsumer
+  exact
+    ⟨depthUnary, windowUnary, provenanceUnary, modulusConsumerUnary, treeBarDepth,
+      depthWindowEndpoint, windowProvenanceModulusConsumer, endpointPkg, modulusConsumerPkg⟩
+
 end BEDC.Derived.FanTheoremUp
