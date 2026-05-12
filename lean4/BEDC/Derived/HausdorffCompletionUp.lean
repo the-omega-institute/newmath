@@ -113,6 +113,30 @@ theorem HausdorffCompletionCarrier_separated_seal_boundary [AskSetup] [PackageSe
       sourceEntourageTransport, separatedHandoffRoute, transportRouteProvenance,
       separatedProvenanceSealConsumer, provenancePkg, sealConsumerPkg⟩
 
+theorem HausdorffCompletionCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {source entourage separated handoff transport route provenance ledger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffCompletionCarrier source entourage separated handoff transport route provenance
+        bundle pkg ->
+      Cont provenance route ledger ->
+        PkgSig bundle ledger pkg ->
+          UnaryHistory source ∧ UnaryHistory entourage ∧ UnaryHistory separated ∧
+            UnaryHistory handoff ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+              UnaryHistory provenance ∧ UnaryHistory ledger ∧
+                Cont source entourage transport ∧ Cont separated handoff route ∧
+                  Cont transport route provenance ∧ Cont provenance route ledger ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle ledger pkg := by
+  intro carrier provenanceRouteLedger ledgerPkg
+  obtain ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, transportUnary,
+    routeUnary, provenanceUnary, sourceEntourageTransport, separatedHandoffRoute,
+    transportRouteProvenance, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed provenanceUnary routeUnary provenanceRouteLedger
+  exact
+    ⟨sourceUnary, entourageUnary, separatedUnary, handoffUnary, transportUnary, routeUnary,
+      provenanceUnary, ledgerUnary, sourceEntourageTransport, separatedHandoffRoute,
+      transportRouteProvenance, provenanceRouteLedger, provenancePkg, ledgerPkg⟩
+
 def HausdorffCompletionPacket [AskSetup] [PackageSetup]
     (source entourage sealRow handoff transports routes provenance nameRow exported : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
