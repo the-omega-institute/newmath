@@ -153,15 +153,58 @@ Compose the routes through the packet. By \autoref{thm:cauchy-error-certificate-
 Finally apply \autoref{thm:cauchy-error-certificate-readback-route-uniqueness} together with the non-escape boundary. Once $M$, $T$, $E$, and the provenance row are fixed, the $\RegSeqRatUp/\RealUp$ boundary is unique inside the displayed carrier, and the absent quotient, selected-limit, completeness, and host-equality objects cannot supply an alternate route.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate budget-window exhaustion]
+\label{thm:cauchy-error-certificate-budget-window-exhaustion}
+For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, every finite dyadic tolerance request is exhausted by the displayed budget-window route before the readback row $R$ is available. The route first reads the unary precision modulus $M$, then the tail or diagonal packet $T$, then the finite error-budget ledger $E$, and only then exposes the $\RegSeqRatUp/\RealUp$ readback boundary named by $R$.
+
+No consumer of the packet can bypass this $M,T,E$ route through quotient streams, selected host limits, ambient completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with a finite dyadic tolerance request. The modulus soundness theorem \autoref{thm:cauchy-error-certificate-modulus-soundness} forces the request through the unary modulus row $M$ and selects the finite tail or diagonal read in $T$.
+
+Next consume the finite budget ledger. By \autoref{thm:cauchy-error-certificate-modulus-budget-composition}, the selected $T$ row feeds $E$ before any downstream read reaches $R$.
+
+Finally apply readback route uniqueness and the non-escape boundary. The theorems \autoref{thm:cauchy-error-certificate-readback-route-uniqueness} and \autoref{thm:cauchy-error-certificate-non-escape-boundary} exclude any second route through non-displayed host objects, so the $M,T,E$ budget window is exhausted before $R$ is readable.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate shared modulus transport]
+\label{thm:cauchy-error-certificate-shared-modulus-transport}
+Let $C=(R,M,T,E,P,N)$ and $C'=(R',M',T',E',P',N')$ be accepted $\CauchyErrorCertificateUp$ packets whose classifier comparison identifies the displayed $M,T,E,P$ rows by $\hsame$ and $\Cont$ transport. Then transport preserves the shared unary modulus route: every finite tolerance request read in $C$ and transported to $C'$ is routed through the matched row $M'$ before it reaches $T'$, $E'$, and $R'$.
+
+The transport creates no indexwise hidden modulus and exports no modulus function outside the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Use the classifier comparison componentwise. The hypothesis identifies the unary modulus rows, tail or diagonal rows, finite budget rows, and provenance rows by the stored $\hsame$ comparisons and continuation routes.
+
+Read a finite tolerance request in $C$. Budget-window exhaustion routes it through $M,T,E$ before exposing $R$; transporting along the classifier comparison carries these same displayed rows to $M',T',E'$ in $C'$.
+
+It remains to exclude a hidden modulus. The carrier of \autoref{def:cauchy-error-certificate-carrier} has only one modulus coordinate, and the non-escape boundary rules out additional host data. Hence transport preserves the shared unary modulus row instead of selecting an indexwise modulus outside the packet.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate seal budget package]
+\label{thm:cauchy-error-certificate-seal-budget-package}
+For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, modulus soundness, diagonal-tail compatibility, readback route uniqueness, and uniform diagonal compatibility assemble the finite $\RealUp$ seal budget package. Every completion-facing consumer receives the displayed unary modulus row $M$, tail or diagonal packet $T$, finite budget ledger $E$, provenance row $P$, and readback boundary $R$ as one finite package over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The package closes the error-budget obligation surface for the displayed certificate, while leaving quotient streams, selected host limits, ambient completeness, host real equality, and bridge checking outside the chapter.
+\end{theorem}
+\begin{proof}
+First bind the soundness route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} supplies the finite tolerance-to-budget route through $M$, $T$, and $E$.
+
+Next bind compatibility. Theorem~\ref{thm:cauchy-error-certificate-diagonal-tail-compatibility} states that diagonal and tail evidence accepted by the same packet feed the same finite budget ledger, and Theorem~\ref{thm:cauchy-error-certificate-uniform-diagonal-compatibility} identifies the uniform-family and diagonal routes through the same $M,T,E$ coordinates.
+
+Finally bind the seal boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed rows, and the non-escape boundary excludes all host-side completion objects. Repacking these rows gives the announced finite $\RealUp$ seal budget package.
+\end{proof}
+
 \closureat{CauchyErrorCertificateUp}{seedStr}
+\closureat{CauchyErrorCertificateUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyErrorCertificateUp}
   \constructivestory{A $\CauchyErrorCertificateUp$ packet is generated from a regular-rational and real readback route, a unary precision modulus, a dyadic tail or diagonal row, a finite error-budget ledger, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter displays the carrier, NameCert obligations, modulus soundness surface, non-escape boundary, and downstream handoff for explicit dyadic error certificates.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The chapter displays the carrier, NameCert obligations, modulus soundness route, budget-window exhaustion, shared modulus transport, readback determinacy, and finite seal budget package for dyadic error certificates.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected host limits, ambient real completeness, host real equality, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, classifier transport, modulus soundness, budget handoff, and non-escape for the displayed error-certificate packet.}
+  \upgradepath{Scoped closure requires binding the displayed budget-window route, shared modulus transport, and finite seal package to a checked dependency scope.}
 \end{closurestatus}
