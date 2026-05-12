@@ -455,6 +455,56 @@ Use \autoref{thm:locatedinterval-real-comparison-boundary} for comparison reads.
 Finally apply \autoref{thm:locatedinterval-downstream-root-package}. It packages the carrier habitation, endpoint transport, rational-cell coverage, dyadic refinement handoff, real-seal non-escape, and containment transport scope for downstream Real and completion consumers. Since the package contains no host interval, endpoint selector, quotient real equality, or order-completeness coordinate, the handoff is exactly the finite BEDC surface displayed above.
 \end{proof}
 
+\begin{theorem}[LocatedInterval endpoint-cell refinement completeness]
+\label{thm:locatedinterval-endpoint-cell-refinement-completeness}
+For every accepted $\LocatedIntervalUp$ root obligation carrier
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+every endpoint-cell refinement read factors through $L,U,I,D,S,R,E,H,C,P,N$. The read may inspect lower and upper located endpoints, rational cells, dyadic refinements, endpoint windows, readbacks, real seal rows, transport rows, continuation routes, package provenance, and local naming; it cannot inspect a host interval primitive, selected endpoint value, quotient real equality, or order-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with endpoint transport. By \autoref{thm:located-interval-endpoint-transport}, endpoint comparisons and readbacks move componentwise through the displayed $\hsame$ and $\Cont$ rows.
+
+Next use \autoref{thm:locatedinterval-containment-exactness}. Rational cell reads are exactly reads of the displayed $\RationalIntervalUp$ ledger $I$ attached to the lower and upper endpoint rows.
+
+For refinements, apply \autoref{thm:locatedinterval-dyadic-refinement-handoff}. A dyadic refinement row in $D$ is consumed together with its rational parent cell and the same endpoint transport.
+
+Finally use \autoref{thm:located-interval-real-handoff}. The Real-facing part of the read stays inside $S,R,E,H,C,P,N$, and the carrier has no coordinate for host intervals, selected endpoint values, quotient real equality, or order completeness.
+\end{proof}
+
+\begin{theorem}[LocatedInterval located-real window coverage]
+\label{thm:locatedinterval-located-real-window-coverage}
+In every accepted $\LocatedIntervalUp$ root obligation carrier, the lower and upper $\LocatedRealUp$ endpoint windows exhaust all endpoint observations. Any endpoint observation factors through the endpoint rows $L,U$, the window rows $S$, the readback rows $R$, the seal rows $E$, and the package rows $H,C,P,N$, with rational and dyadic cell information available only through $I$ and $D$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}. It states that endpoint-window and endpoint-readback requests are exhausted by the lower and upper endpoint rows, their stream windows, their regular rational readbacks, and the displayed transport and continuation rows.
+
+Apply \autoref{thm:located-interval-endpoint-transport}. Transport preserves those lower and upper endpoint observations componentwise, so an observation cannot detach from $L,U,S,R,E,H,C,P,N$.
+
+It remains to account for interval cells. By \autoref{thm:locatedinterval-rational-dyadic-cell-chain}, rational cells and dyadic refinements attach to the endpoint windows through $I$ and $D$ rather than by adding a separate endpoint-observation source.
+
+Thus the two located-real endpoint windows cover all endpoint observations, while containment data remains visible only through the finite cell ledgers.
+\end{proof}
+
+\begin{theorem}[LocatedInterval rational-dyadic Real handoff exactness]
+\label{thm:locatedinterval-rational-dyadic-real-handoff-exactness}
+For every accepted $\LocatedIntervalUp$ root obligation carrier, rational cells, dyadic refinements, and $\RealUp$ seal rows form one exact finite route through
+$$
+L,U,I,D,S,R,E,H,C,P,N.
+$$
+A downstream $\RealUp$ or completion-facing consumer receives this route as the public handoff and cannot separate rational containment, dyadic refinement, or real sealing into independent host objects.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:locatedinterval-rational-dyadic-cell-chain}. It ties rational containment cells in $I$ and dyadic refinement rows in $D$ to the same endpoint package.
+
+Use \autoref{thm:locatedinterval-located-real-window-coverage}. The lower and upper endpoint observations are exhausted by the endpoint windows, readbacks, and seal-facing rows.
+
+Now apply \autoref{thm:located-interval-real-handoff}. Every $\RealUp$ or completion-facing consumer receives the endpoint-window rows, readback rows, seal rows, and package rows of the root obligation carrier, with rational and dyadic information available only through $I$ and $D$.
+
+Finally apply \autoref{thm:locatedinterval-endpoint-cell-refinement-completeness}. It rules out a second route through host intervals, selected endpoints, quotient real equality, or order completeness, so the rational-dyadic-real handoff is exactly the displayed finite route.
+\end{proof}
+
 \closureat{LocatedIntervalUp}{obligationStr}
 \closureat{LocatedIntervalUp}{scopedStr}
 
