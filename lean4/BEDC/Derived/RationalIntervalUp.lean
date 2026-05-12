@@ -369,4 +369,30 @@ theorem RationalIntervalPacket_containment_ledger_exactness [AskSetup] [PackageS
     unary_cont_closed containmentUnary routeUnary containmentRouteRead
   exact ⟨containmentUnary, routeUnary, readUnary, containmentRouteRead, endpointPkg⟩
 
+theorem RationalIntervalPacket_standard_boundary_bridge [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint width containmentRead
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont left right width ->
+        Cont containment route containmentRead ->
+          Cont endpoint width boundary ->
+            PkgSig bundle boundary pkg ->
+              UnaryHistory width ∧ UnaryHistory containmentRead ∧ UnaryHistory boundary ∧
+                hsame width order ∧ Cont endpoint width boundary ∧ PkgSig bundle boundary pkg := by
+  intro packet widthRow containmentReadRow boundaryRow boundaryPkg
+  obtain ⟨leftUnary, rightUnary, _orderUnary, containmentUnary, _transportUnary,
+    routeUnary, _provenanceUnary, _nameUnary, endpointUnary, orderRow,
+    _containmentRow, _provenanceRow, _endpointRow, _endpointPkg⟩ := packet
+  have widthUnary : UnaryHistory width :=
+    unary_cont_closed leftUnary rightUnary widthRow
+  have sameWidthOrder : hsame width order :=
+    cont_deterministic widthRow orderRow
+  have containmentReadUnary : UnaryHistory containmentRead :=
+    unary_cont_closed containmentUnary routeUnary containmentReadRow
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed endpointUnary widthUnary boundaryRow
+  exact ⟨widthUnary, containmentReadUnary, boundaryUnary, sameWidthOrder, boundaryRow, boundaryPkg⟩
+
 end BEDC.Derived.RationalIntervalUp
