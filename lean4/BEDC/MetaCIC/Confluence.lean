@@ -293,6 +293,24 @@ theorem betaParallel_lam_shape {d b t : Term}
   | lam hd hb =>
       exact Exists.intro _ (Exists.intro _ (And.intro rfl (And.intro hd hb)))
 
+theorem betaParallel_app_shape {f a t : Term}
+    (h : BetaParallel (Term.app f a) t) :
+    (∃ f' a', BetaParallel f f' ∧ BetaParallel a a' ∧ t = Term.app f' a') ∨
+    (∃ d body body' a',
+      BetaParallel body body' ∧ BetaParallel a a' ∧
+        f = Term.lam d body ∧ t = substitute 0 a' body') := by
+  cases h with
+  | app hf ha =>
+      exact Or.inl (Exists.intro _ (Exists.intro _ (And.intro hf (And.intro ha rfl))))
+  | beta hd hb ha =>
+      exact
+        Or.inr
+          (Exists.intro _
+            (Exists.intro _
+              (Exists.intro _
+                (Exists.intro _
+                  (And.intro hb (And.intro ha (And.intro rfl rfl)))))))
+
 theorem betaStarStep_of_betaParallel_atom {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
     (h : BetaParallel t t') :
