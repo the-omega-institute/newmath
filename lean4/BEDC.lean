@@ -160,6 +160,7 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
+import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.ModularArithmeticUp
 import BEDC.Derived.ModularFormUp
 import BEDC.Derived.HodgeBridgeUp
@@ -211,6 +212,8 @@ import BEDC.Derived.BilinFormUp.EmptyLedgerInversion
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.BilinFormUp.ZeroLeftPairing
+import BEDC.Derived.BitVectorUp
+import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.EnvelopeClassifier
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
