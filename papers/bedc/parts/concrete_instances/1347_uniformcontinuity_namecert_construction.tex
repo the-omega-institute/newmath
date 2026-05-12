@@ -168,3 +168,38 @@ displayed tolerance bound. This is precisely the classical Heine--Cantor
 reading, expressed through finite BEDC certificate rows.
 \end{proof}
 
+\begin{theorem}[UniformContinuity modulus non-escape]
+\label{thm:uniform-continuity-modulus-non-escape}
+Every consumer-visible modulus row of an accepted $\UniformContinuityUp$
+packet factors through the compact $\mathsf{ProbeBundle}$ row, the
+$\ContinuousUp$ pointwise rows, the $\RatUp$ lower-bound ledger, the
+$\MetricUp$ triangle rows, and the local $\NameCert_{\UniformContinuityUp}$
+row of \autoref{def:uniform-continuity-bhist-carrier}, with the folded
+precision supplied by \autoref{thm:uniform-continuity-finite-net-modulus-fold}.
+The packet exports no host function from tolerances to radii, no open-cover
+selection, no sequential compactness witness, and no choice-selected center.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates of
+\autoref{def:uniform-continuity-bhist-carrier}. The only modulus-facing data
+are the compact $\mathsf{ProbeBundle}$ row $P$, the center and pointwise rows
+$C$ and $R$, the compact coverage row $T$, the rational lower-bound ledger
+$L$, the metric triangle row $M$, and the local naming row $N$.
+
+Apply the finite-net fold of
+\autoref{thm:uniform-continuity-finite-net-modulus-fold}. It constructs the
+folded precision from the displayed bundle, pointwise rows, and rational
+ledger, and its classifier stability keeps that folded row inside the same
+transported packet.
+
+The obligation surface of
+\autoref{thm:uniform-continuity-namecert-obligation-surface} identifies this
+folded row as the local consumer-visible modulus route. The metric rows then
+use exactly the displayed triangle transports to turn the folded source
+precision into the target tolerance estimate.
+
+Inspecting the carrier shape completes the non-escape claim. No coordinate
+stores a host tolerance-to-radius function, an open-cover selector, a
+sequential compactness witness, or a choice-selected center, so none of those
+objects can be exported by a modulus read.
+\end{proof}
