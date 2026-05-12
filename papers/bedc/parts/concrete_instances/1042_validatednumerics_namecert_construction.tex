@@ -559,3 +559,69 @@ outside the exported surface.
   \notclaimed{This chapter does not close general convergence, floating-point hardware semantics, classical real completeness, or solver correctness.}
   \upgradepath{No further paper-side theory closure upgrade remains for this chapter.}
 \end{closurestatus}
+
+\begin{theorem}[ValidatedNumerics refinement composition containment]
+\label{thm:validatednumerics-refinement-composition-containment}
+Let
+$$
+\begin{aligned}
+V_0&=(I,\varepsilon_0,\omega,\rho,\lambda,h,c,p_0,n_0),\\
+V_1&=(I,\varepsilon_1,\omega,\rho,\lambda,h,c,p_1,n_1),\\
+V_2&=(I,\varepsilon_2,\omega,\rho,\lambda,h,c,p_2,n_2)
+\end{aligned}
+$$
+be accepted $\ValidatedNumericsUp$ packets. Suppose $V_1$ refines the
+requested precision row of $V_0$ to a smaller finite request, and $V_2$
+refines the requested precision row of $V_1$ to a smaller finite request.
+Assume that both refinement steps preserve the displayed
+$\RationalIntervalUp$ enclosure $I$, the $\ModulusOfConvergenceUp$ row
+$\omega$, the $\RegSeqRatUp$ observation window $\rho$, the $\RealUp$
+readback token $\lambda$, the $\hsame$ transport row $h$, and the $\Cont$
+containment ledger $c$. Then the composite refinement from $V_0$ to $V_2$
+routes every displayed approximation read at the terminal request into the
+original finite enclosure row $I$ through the original containment ledger
+$c$.
+
+The conclusion is a containment statement over the displayed finite packet
+surface. It does not add solver correctness, floating-point hardware
+semantics, completed-real equality, or a global convergence principle.
+\end{theorem}
+\begin{proof}
+Project the three accepted packets through
+\autoref{def:validatednumerics-bhist-source}. The first refinement changes
+only the precision coordinate from $\varepsilon_0$ to $\varepsilon_1$ and
+keeps $I$, $\omega$, $\rho$, $\lambda$, $h$, and $c$ fixed as displayed rows.
+The second refinement changes only the precision coordinate from
+$\varepsilon_1$ to $\varepsilon_2$ and keeps the same six displayed rows
+fixed again.
+
+By the classifier description in
+\autoref{def:validatednumerics-bhist-source}, accepted packets are compared
+componentwise by the displayed rows and by replay of the finite containment
+routes. The two displayed comparisons therefore compose on the enclosure,
+modulus, observation window, readback token, transport row, and containment
+ledger. The transitivity part of
+\autoref{thm:history-sameness-equivalence} supplies the corresponding
+$\hsame$ comparison for the transported rows, so $V_2$ still displays the
+same containment source window $\rho$, the same target enclosure $I$, and the
+same ledger $c$ as $V_0$.
+
+Apply \autoref{thm:validatednumerics-precision-refinement-containment} to the
+second refinement $V_1$ to $V_2$. Since the enclosure row of $V_1$ is the
+same displayed row $I$ inherited from $V_0$, every approximation read from
+the terminal refined request is contained in $I$.
+
+It remains only to identify this containment as a read through the original
+ledger rather than through an unrelated copy. Apply
+\autoref{thm:validatednumerics-containment-ledger-transport}. The source
+approximation rows, the target interval row, the modulus row, the readback
+token, and the containment routes are transported by the same $h$ and replay
+the same $c$ at both refinement steps. Hence each terminal approximation read
+from $V_2$ lands in the original finite enclosure row $I$ through the
+original $\Cont$ routes recorded in $c$.
+
+Finally, \autoref{thm:validatednumerics-real-readback-soundness} keeps the
+readback token tied to the displayed $\RegSeqRatUp$ window and finite modulus
+request, and \autoref{thm:validatednumerics-dependency-boundary} excludes any
+extra analytic or host-numeric coordinate from the argument.
+\end{proof}
