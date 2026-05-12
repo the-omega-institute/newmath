@@ -77,4 +77,62 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_refinement_composition [AskSetup] [PackageSetup]
+    {left middle right orderA orderB containmentA containmentB transportA transportB routeA
+      routeB provenanceA provenanceB nameA nameB endpointA endpointB outerOrder outerTransport
+      outerProvenance outerEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left middle orderA containmentA transportA routeA provenanceA nameA
+        endpointA bundle pkg ->
+      RationalIntervalPacket middle right orderB containmentB transportB routeB provenanceB nameB
+        endpointB bundle pkg ->
+        hsame left middle ->
+          hsame containmentA containmentB ->
+            hsame routeA routeB ->
+              hsame nameA nameB ->
+                Cont left right outerOrder ->
+                  Cont outerOrder containmentA outerTransport ->
+                    Cont outerTransport routeA outerProvenance ->
+                      Cont outerProvenance nameA outerEndpoint ->
+                        PkgSig bundle outerEndpoint pkg ->
+                          RationalIntervalPacket left right outerOrder containmentA outerTransport
+                              routeA outerProvenance nameA outerEndpoint bundle pkg ∧
+                            hsame outerOrder orderB ∧ hsame outerTransport transportB ∧
+                              hsame outerProvenance provenanceB ∧ hsame outerEndpoint endpointB := by
+  intro leftPacket rightPacket sameLeftMiddle sameContainment sameRoute sameName outerOrderRow
+    outerTransportRow outerProvenanceRow outerEndpointRow outerPkg
+  rcases leftPacket with
+    ⟨leftUnary, _middleUnaryA, _orderUnaryA, containmentUnary, _transportUnaryA, routeUnary,
+      _provenanceUnaryA, nameUnary, _endpointUnaryA, _leftMiddleOrderA,
+      _orderContainmentTransportA, _transportRouteProvenanceA, _provenanceNameEndpointA,
+      _endpointPkgA⟩
+  rcases rightPacket with
+    ⟨_middleUnaryB, rightUnary, _orderUnaryB, _containmentUnaryB, _transportUnaryB,
+      _routeUnaryB, _provenanceUnaryB, _nameUnaryB, _endpointUnaryB, middleRightOrderB,
+      orderContainmentTransportB, transportRouteProvenanceB, provenanceNameEndpointB,
+      _endpointPkgB⟩
+  have sameOuterOrder : hsame outerOrder orderB :=
+    cont_respects_hsame sameLeftMiddle (hsame_refl right) outerOrderRow middleRightOrderB
+  have sameOuterTransport : hsame outerTransport transportB :=
+    cont_respects_hsame sameOuterOrder sameContainment outerTransportRow
+      orderContainmentTransportB
+  have sameOuterProvenance : hsame outerProvenance provenanceB :=
+    cont_respects_hsame sameOuterTransport sameRoute outerProvenanceRow
+      transportRouteProvenanceB
+  have sameOuterEndpoint : hsame outerEndpoint endpointB :=
+    cont_respects_hsame sameOuterProvenance sameName outerEndpointRow provenanceNameEndpointB
+  have outerOrderUnary : UnaryHistory outerOrder :=
+    unary_cont_closed leftUnary rightUnary outerOrderRow
+  have outerTransportUnary : UnaryHistory outerTransport :=
+    unary_cont_closed outerOrderUnary containmentUnary outerTransportRow
+  have outerProvenanceUnary : UnaryHistory outerProvenance :=
+    unary_cont_closed outerTransportUnary routeUnary outerProvenanceRow
+  have outerEndpointUnary : UnaryHistory outerEndpoint :=
+    unary_cont_closed outerProvenanceUnary nameUnary outerEndpointRow
+  exact
+    ⟨⟨leftUnary, rightUnary, outerOrderUnary, containmentUnary, outerTransportUnary,
+        routeUnary, outerProvenanceUnary, nameUnary, outerEndpointUnary, outerOrderRow,
+        outerTransportRow, outerProvenanceRow, outerEndpointRow, outerPkg⟩,
+      sameOuterOrder, sameOuterTransport, sameOuterProvenance, sameOuterEndpoint⟩
+
 end BEDC.Derived.RationalIntervalUp

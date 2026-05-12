@@ -217,4 +217,33 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
 
+theorem RationalStreamPacket_standard_bridge_common_window_readback [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory nameRow ->
+        Cont window nameRow consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory window ∧ UnaryHistory classifierRows ∧ UnaryHistory contRows ∧
+              UnaryHistory nameRow ∧ UnaryHistory consumer ∧ Cont index schedule window ∧
+                Cont window pointRows classifierRows ∧ Cont classifierRows transportRows contRows ∧
+                  Cont contRows provenance nameRow ∧ Cont window nameRow consumer ∧
+                    PkgSig bundle consumer pkg := by
+  intro packet nameRowUnary consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, _pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, indexScheduleRow, windowPointRowsRow, classifierTransportRow,
+    contProvenanceRow, _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary nameRowUnary consumerRow
+  exact
+    ⟨windowUnary, classifierRowsUnary, contRowsUnary, nameRowUnary, consumerUnary,
+      indexScheduleRow, windowPointRowsRow, classifierTransportRow, contProvenanceRow,
+      consumerRow, consumerPkg⟩
+
 end BEDC.Derived.RationalStreamUp
