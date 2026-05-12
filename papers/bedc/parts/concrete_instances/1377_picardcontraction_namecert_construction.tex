@@ -531,6 +531,50 @@ Then use \autoref{thm:picardcontraction-regseqrat-consumer-route}. The regular-s
 Finally apply \autoref{thm:picardcontraction-real-seal-noncompletion} together with \autoref{thm:picardcontraction-public-carrier-surface}. The seal is therefore the displayed endpoint row read through the finite route, with the fixed-point and completeness exclusions still in force.
 \end{proof}
 
+\begin{theorem}[PicardContraction CauchyRate source extraction]
+\label{thm:picardcontraction-cauchyrate-source-extraction}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+the finite iterate ledger $I$, rational Lipschitz row $L$, Cauchy-modulus row $M$, endpoint seal $E$, displayed $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $G$, and local $\NameCert$ row $N$ determine the $\CauchyRateUp$-facing source packet read from $P$. The extracted packet is a finite read of the same $\mathsf{BHist}$ carrier and contains no completed Picard orbit, ambient completeness proof, Banach fixed-point object, quotient stream equality, or selected limit.
+\end{theorem}
+\begin{proof}
+Project the public carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}. The rows named in the statement are visible coordinates of the finite packet, and the theorem excludes every host-level completion object from that surface.
+
+Next isolate the effective-rate data. Apply \autoref{thm:picardcontraction-public-iterate-ledger} to bind the visible iteration evidence to $I$ and $L$, and use \autoref{thm:picardcontraction-cauchy-modulus-handoff} to bind the tolerance schedule to $M$. The endpoint and real-facing seal are then the displayed row $E$ rather than a selected limit.
+
+Finally use the transport and provenance rows $H,C,G,N$ to package the read as a $\CauchyRateUp$ source. Since each row is already part of $P$, the extracted source is determined by the finite carrier and cannot introduce an additional completion or fixed-point premise.
+\end{proof}
+
+\begin{theorem}[PicardContraction CauchyRate real seal compatibility]
+\label{thm:picardcontraction-cauchyrate-real-seal-compatibility}
+Every $\RealUp$ seal export from an accepted $\PicardContractionUp$ packet factors through the $\CauchyRateUp$-facing source packet of \autoref{thm:picardcontraction-cauchyrate-source-extraction}. In particular, a real-facing consumer must read the finite packet rows
+$$
+L,I,M,E,H,C,G,N
+$$
+before it reads the seal, and it has no route that bypasses the finite rate packet by invoking ambient completeness, a completed orbit, a host fixed point, or a selected real representative.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:picardcontraction-public-seal-export}. It factors the $\RealUp$ seal through the modulus row $M$, endpoint row $E$, and the finite carrier route surrounding $B,T,L,I,H,C,G,N$.
+
+Now replace the rate-facing part of that route by the source extraction theorem. The rows $L,I,M,E,H,C,G,N$ are exactly the finite rate, endpoint, transport, continuation, package, and naming rows used by the $\CauchyRateUp$ source packet.
+
+It remains to rule out escape around the extracted source. Apply \autoref{thm:picardcontraction-real-seal-noncompletion}; the real-facing boundary exports only the finite endpoint and seal row. Therefore seal compatibility factors through the extracted CauchyRate source and not through any omitted completion object.
+\end{proof}
+
+\begin{theorem}[PicardContraction CauchyRate root-unblock package]
+\label{thm:picardcontraction-cauchyrate-root-unblock-package}
+The public $\PicardContractionUp$ surface assembles a $\CauchyRateUp$-facing root-unblock package for downstream $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, and $\NewtonIterationUp$ consumers. The package consists of the carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}, the iteration ledger of \autoref{thm:picardcontraction-public-iterate-ledger}, the seal export of \autoref{thm:picardcontraction-public-seal-export}, the source extraction of \autoref{thm:picardcontraction-cauchyrate-source-extraction}, and the real-seal compatibility of \autoref{thm:picardcontraction-cauchyrate-real-seal-compatibility}. Its conclusion is a finite rate/modulus bridge only; it is not a Banach fixed-point theorem, an ambient completeness theorem, a completed-orbit construction, or a selected-limit principle.
+\end{theorem}
+\begin{proof}
+First assemble the public surface. The carrier theorem gives the visible rows $B,T,L,I,M,E,H,C,G,N$, and the public iterate ledger identifies the only iteration evidence available to root-facing consumers.
+
+Next attach the seal route. The public seal export sends real-facing reads through $M$, $E$, and the finite carrier route, while the source extraction theorem repackages the rate-facing rows as the $\CauchyRateUp$ source packet.
+
+Finally use real-seal compatibility to bind the downstream real path to that finite source. The cited theorems already exclude fixed points, completed orbits, ambient completeness, and selected limits, so the assembled package is exactly the finite rate/modulus bridge claimed in the statement.
+\end{proof}
+
 \begin{theorem}[PicardContraction finite-modulus obligation triad]
 \label{thm:picardcontraction-finite-modulus-obligation-triad}
 For every accepted $\PicardContractionUp$ packet
