@@ -1,0 +1,16 @@
+# circle_modn_rows.enum.ct
+# Theorem family:
+#   ModNQuotientClassifier_concrete_rows
+#   ModNQuotient_concrete_namecert_scope
+#
+# Input shape:
+#   BHist modulus ++ BHist h ++ BHist k ++ BHist witness
+#
+# Runtime harness checks unary modulus rows and singleton-carrier/classifier
+# premises over the decoded BHist values.
+PRODUCTIONS 0
+ASSERTIONS 4
+case refl_empty_mod_empty:       input=11111111             ; theorem=modn_classifier_concrete_rows ; row=refl ; modulus=empty ; h=empty ; k=empty ; carrier_premise=true ; conclusion_holds=yes
+case symm_unary_mod_empty:       input=1011111111           ; theorem=modn_classifier_concrete_rows ; row=symm ; modulus=e1_empty ; h=empty ; k=empty ; classifier_premise=true ; conclusion_holds=yes
+case trans_two_mod_empty:        input=101011111111         ; theorem=modn_classifier_concrete_rows ; row=trans ; modulus=e1_e1_empty ; h=empty ; k=empty ; classifier_premise=true ; conclusion_holds=yes
+case carrier_respects_vacuous:   input=10110111111          ; theorem=modn_classifier_concrete_rows ; row=carrier_respects_equiv ; modulus=e1_empty ; h=e0_empty ; k=empty ; classifier_premise=false ; conclusion_holds=yes
