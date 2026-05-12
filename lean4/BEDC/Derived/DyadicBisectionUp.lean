@@ -71,4 +71,38 @@ theorem DyadicBisectionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem DyadicBisectionCarrier_branch_endpoint_transport [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route
+      name initial' precision' midpoint' branch' nested' endpoint' regseq' stream' real'
+      transport' route' name' : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      hsame initial initial' -> hsame precision precision' -> hsame midpoint midpoint' ->
+        hsame branch branch' -> hsame nested nested' -> hsame endpoint endpoint' ->
+          hsame regseq regseq' -> hsame stream stream' -> hsame real real' ->
+            hsame transport transport' -> hsame route route' -> hsame name name' ->
+              DyadicBisectionCarrier initial' precision' midpoint' branch' nested' endpoint'
+                  regseq' stream' real' transport' route' name' bundle pkg ∧
+                hsame endpoint endpoint' ∧ hsame regseq regseq' ∧ hsame stream stream' ∧
+                  hsame real real' := by
+  intro carrier sameInitial samePrecision sameMidpoint sameBranch sameNested sameEndpoint
+    sameRegseq sameStream sameReal sameTransport sameRoute sameName
+  cases sameInitial
+  cases samePrecision
+  cases sameMidpoint
+  cases sameBranch
+  cases sameNested
+  cases sameEndpoint
+  cases sameRegseq
+  cases sameStream
+  cases sameReal
+  cases sameTransport
+  cases sameRoute
+  cases sameName
+  exact And.intro carrier
+    (And.intro (hsame_refl endpoint)
+      (And.intro (hsame_refl regseq)
+        (And.intro (hsame_refl stream) (hsame_refl real))))
+
 end BEDC.Derived.DyadicBisectionUp
