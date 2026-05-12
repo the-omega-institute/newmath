@@ -231,6 +231,40 @@ packet. No coordinate remains for analytic existence, uniqueness, host Bessel
 functions, functional asymptotic expansions, or a standard bridge.
 \end{proof}
 
+\begin{theorem}[BesselUp standard root bridge boundary]
+\label{thm:bessel-standard-root-bridge-boundary}
+The public root packet exported by
+\autoref{thm:bessel-public-certificate-export} is exactly the bridge-facing
+surface for $\BesselUp$. Its visible rows are the $\OdeUp$ source row, the
+$\HolomorphicUp$ source row, the order and index histories, the solution
+endpoints, the recurrence ledgers, componentwise $\hsame$ transport, finite
+$\Cont$ routes, the shared $\mathsf{Pkg}$ provenance, and the local
+$\NameCert$ rows. No bridge-facing coordinate is available for analytic
+existence, asymptotic expansions as functions, host Bessel functions, or a
+standard analytic model.
+\end{theorem}
+\begin{proof}
+First take the public packet of
+\autoref{thm:bessel-public-certificate-export}. It already identifies the
+ODE, holomorphic, order, endpoint, recurrence, transport, continuation, and
+provenance rows that a public consumer may receive.
+
+Next compose the packet with the root and recurrence boundaries. The ODE
+source is fixed by \autoref{thm:bessel-root-ode-source-obligation}, the
+holomorphic reads by \autoref{thm:bessel-holomorphic-consumer-boundary}, and
+the recurrence reads by \autoref{thm:bessel-recurrence-ledger-exactness}. The
+name-certificate obligations of
+\autoref{thm:bessel-namecert-obligation-surface} place these rows under the
+same local $\NameCert$ and $\mathsf{Pkg}$ surface.
+
+Finally use coordinate exhaustion. The carrier packet has coordinates only for
+the displayed ODE row, holomorphic row, order and index histories, endpoints,
+recurrence ledgers, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ data. Since analytic existence, asymptotic functions, host Bessel
+functions, and a standard analytic model are not coordinates of that packet,
+the public export is precisely the bridge-facing boundary and nothing larger.
+\end{proof}
+
 \closureat{BesselUp}{publicStr}[BEDC.Derived.BesselUp.BesselRootPacket\_namecert\_obligation\_surface]
 \closureat{BesselUp}{bridgedStr}[BEDC.Derived.BesselUp.BesselRootPacket\_namecert\_obligation\_surface]
 
@@ -242,5 +276,5 @@ functions, functional asymptotic expansions, or a standard bridge.
   \leantarget{BEDC.Derived.BesselUp.BesselRootPacket\_namecert\_obligation\_surface}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim analytic existence or uniqueness, asymptotic expansions, host Bessel functions, function-space quotients, or a standard bridge.}
-  \upgradepath{Mature treatment remains for the displayed ODE, holomorphic, recurrence-ledger, classifier, and provenance bridge surface.}
+  \upgradepath{Mature closure requires finite consumer examples for the displayed ODE, holomorphic, recurrence-ledger, classifier, and provenance root bridge surface.}
 \end{closurestatus}
