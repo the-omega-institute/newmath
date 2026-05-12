@@ -343,6 +343,28 @@ theorem TrieSource_carrier_stability [AskSetup] [PackageSetup]
         pkgRow'⟩,
       endpointSame, provenanceSame⟩
 
+theorem TrieSourcePacket_lookup_payload_projection [AskSetup] [PackageSetup]
+    {key payload depth branch provenance route payloadRoute branchRoute lookup terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieSourcePacket key payload depth branch provenance route payloadRoute branchRoute
+        bundle pkg ->
+      Cont key payload lookup ->
+        Cont lookup provenance terminal ->
+          PkgSig bundle terminal pkg ->
+            UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory provenance ∧
+              UnaryHistory lookup ∧ UnaryHistory terminal ∧ Cont key payload lookup ∧
+                Cont lookup provenance terminal ∧ PkgSig bundle terminal pkg := by
+  intro packet lookupRow terminalRow terminalPkg
+  obtain ⟨keyUnary, payloadUnary, _depthUnary, _branchUnary, provenanceUnary, _routeRow,
+    _provenanceRow, _payloadRouteRow, _branchRouteRow, _packetPkg⟩ := packet
+  have lookupUnary : UnaryHistory lookup :=
+    unary_cont_closed keyUnary payloadUnary lookupRow
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed lookupUnary provenanceUnary terminalRow
+  exact
+    ⟨keyUnary, payloadUnary, provenanceUnary, lookupUnary, terminalUnary, lookupRow,
+      terminalRow, terminalPkg⟩
+
 def TrieTerminalPacket [AskSetup] [PackageSetup]
     (key terminal transport route branch provenance cert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
