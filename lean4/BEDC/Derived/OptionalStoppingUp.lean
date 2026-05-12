@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -95,5 +97,51 @@ theorem OptionalStoppingCarrier_bounded_stopped_value_readback [AskSetup] [Packa
                                                                                   (And.intro
                                                                                     endpointSame
                                                                                     pkgSig))
+
+theorem OptionalStoppingCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+      route provenance namecert endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          OptionalStoppingCarrier prob process stopping bound stoppedValue filtration
+            integrability sameRows route provenance namecert endpoint bundle pkg ∧
+            hsame row endpoint)
+        (fun row : BHist =>
+          OptionalStoppingCarrier prob process stopping bound stoppedValue filtration
+            integrability sameRows route provenance namecert endpoint bundle pkg ∧
+            hsame row endpoint)
+        (fun row : BHist =>
+          OptionalStoppingCarrier prob process stopping bound stoppedValue filtration
+            integrability sameRows route provenance namecert endpoint bundle pkg ∧
+            hsame row endpoint)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist OptionalStoppingCarrier hsame SemanticNameCert
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro carrier (hsame_refl endpoint))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm sameRows) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow
+    ledger_sound := by
+      intro _row sourceRow
+      exact sourceRow
+  }
 
 end BEDC.Derived.OptionalStoppingUp
