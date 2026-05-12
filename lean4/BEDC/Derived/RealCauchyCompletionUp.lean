@@ -102,6 +102,66 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
 
+theorem RealCauchyCompletionCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont «seal» localCert consumer ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+              UnaryHistory «seal» ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+                Cont family modulus diagonal ∧ Cont diagonal window readback ∧
+                  Cont readback dyadic «seal» ∧ Cont «seal» localCert provenance ∧
+                    Cont «seal» localCert consumer ∧ PkgSig bundle provenance pkg := by
+  intro carrier localCertUnary sealLocalCertConsumer
+  obtain ⟨familyUnary, modulusUnary, windowUnary, dyadicUnary, provenanceUnary,
+    familyModulusRow, diagonalWindowRow, readbackDyadicRow, sealLocalCertProvenance,
+    pkgSig⟩ := carrier
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed familyUnary modulusUnary familyModulusRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed diagonalUnary windowUnary diagonalWindowRow
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  exact
+    ⟨familyUnary, modulusUnary, diagonalUnary, windowUnary, readbackUnary, dyadicUnary,
+      sealUnary, provenanceUnary, consumerUnary, familyModulusRow, diagonalWindowRow,
+      readbackDyadicRow, sealLocalCertProvenance, sealLocalCertConsumer, pkgSig⟩
+
+theorem RealCauchyCompletionCarrier_real_seal_readback_scope [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic «seal» provenance localCert consumerRead
+      scopedSurface : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic «seal»
+        provenance localCert bundle pkg ->
+      UnaryHistory localCert ->
+        Cont «seal» localCert consumerRead ->
+          Cont consumerRead provenance scopedSurface ->
+            PkgSig bundle scopedSurface pkg ->
+              UnaryHistory «seal» ∧ UnaryHistory consumerRead ∧
+                UnaryHistory scopedSurface ∧ Cont readback dyadic «seal» ∧
+                  Cont «seal» localCert consumerRead ∧
+                    Cont consumerRead provenance scopedSurface ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle scopedSurface pkg := by
+  intro carrier localCertUnary consumerRow scopedRow scopedPkg
+  have handoff :=
+    RealCauchyCompletionCarrier_diagonal_handoff carrier localCertUnary consumerRow
+  obtain ⟨_familyUnary, _modulusUnary, _windowUnary, _dyadicUnary, provenanceUnary,
+    _familyModulusRow, _diagonalWindowRow, _carrierReadbackRow, _carrierProvenanceRow,
+    provenancePkg⟩ := carrier
+  obtain ⟨_diagonalUnary, _handoffWindowUnary, _readbackUnary, _handoffDyadicUnary,
+    sealUnary, consumerUnary, _handoffFamilyRow, _handoffDiagonalRow, readbackRow,
+    _handoffPkg⟩ := handoff
+  have scopedUnary : UnaryHistory scopedSurface :=
+    unary_cont_closed consumerUnary provenanceUnary scopedRow
+  exact ⟨sealUnary, consumerUnary, scopedUnary, readbackRow, consumerRow, scopedRow,
+    provenancePkg, scopedPkg⟩
+
 theorem RealCauchyCompletionCarrier_probe_bundle_window_coverage [AskSetup] [PackageSetup]
     {familyRow modulusRow diagonalPacket streamWindow regseqRead dyadicLedger realSeal
       consumerRead bundleSurface localCert : BHist}
