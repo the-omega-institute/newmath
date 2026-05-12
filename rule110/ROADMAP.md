@@ -108,3 +108,17 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   `choices(r) = choices(k) ++ choices(h)`.
 - [x] Add `docs/cont_design.md` documenting the append direction and manifest
   contract.
+
+## ExternalBinary module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/ExternalBinary*.lean` and identify the
+  executable surface: `BWord` and `Mbin` are aliases of `BHist`, and `append`
+  reuses `Cont.append`.
+- [x] Add `rule110/manifests/external_binary/external_binary_basic.enum.ct`
+  and `external_binary_basic.algo.ct` with representative positive and
+  negative append triples.
+- [x] Add `tests/test_external_binary.c` to decode BWord streams and check
+  model reuse, append, bit inversion, empty-result inversion, cancellation,
+  and congruence representatives.
+- [x] Add `docs/external_binary_design.md` documenting why the encoding is
+  exactly the existing BHist event encoding.
