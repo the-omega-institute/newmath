@@ -96,6 +96,54 @@ The regular handoff row is \autoref{thm:fast-series-product-regseqrat-handoff}. 
 Thus the obligation surface closes around the finite certificate packet. It leaves no coordinate for host sums, stream quotients, selected limits, or ambient real completeness.
 \end{proof}
 
+\begin{theorem}[FastSeriesProduct classifier transport exactness]
+\label{thm:fast-series-product-classifier-transport-exactness}
+Let
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N)
+$$
+be an accepted $\FastSeriesProductUp$ carrier. If a displayed packet $H'$ is obtained by transporting the two source packets, finite convolution row, product-window ledger, pasted schedule, tail-bound ledger, regular handoff, and real-seal row along the componentwise $\hsame$ data in $L$ and the displayed $\Cont$ routes in $C$, while preserving the $\Pkg$ row $P$ and local $\NameCert_{\FastSeriesProductUp}$ row $N$, then the classifier accepts $H'$ exactly as the transported product carrier. It cannot compare host products, quotient streams, unbounded convolution functions, or ambient completeness evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:fast-series-product-carrier}. The classifier of \autoref{def:fast-series-product-classifier} reads precisely the two source packets, $K$, $W$, $M$, $T$, $R$, $E$, and the transport, continuation, package, and local certificate rows.
+
+Transport each displayed coordinate using the corresponding $\hsame$ witness in $L$, and read the transported row only through the continuation routes recorded in $C$. The package and local certificate rows keep the transported packet inside the same finite naming surface.
+
+Because the classifier definition has no projection for a host product, stream quotient, unbounded convolution object, or completeness theorem, acceptance is preserved exactly by those componentwise transported carrier rows.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct convolution row exactness]
+\label{thm:fast-series-product-convolution-row-exactness}
+For every accepted $\FastSeriesProductUp$ carrier
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N),
+$$
+the convolution row $K$ supplies each inspected product coefficient as the finite displayed row $\sum_{0 \leq i \leq n} a_i b_{n-i}$ over the source summands read from $F$ and $G$. The product-window ledger $W$ and pasted tail ledger $T$ may consume $K$ only through those finite coefficient rows, together with the schedule row $M$, the $\RegSeqRatUp$ handoff $R$, and the provenance rows $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Read $F$ and $G$ as accepted $\FastConvergentSeriesUp$ source packets. Their summand observations are already displayed finite rows, so the inspected coefficient at a fixed $n$ is obtained by the finite rational sum named in the carrier.
+
+The product-window ledger $W$ records prefix sums built from those inspected coefficients. The pasted schedule $M$ and tail-bound ledger $T$ then use \autoref{thm:fast-series-product-tail-bound-convolution} to compare late product prefixes through finite source windows and source tail schedules.
+
+Finally \autoref{thm:fast-series-product-regseqrat-handoff} repacks $W$, $M$, and $T$ as the regular rational row $R$. Thus the convolution row is exact at the finite coefficient surface and is never replaced by a host-level Cauchy product.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct real-seal factorization]
+\label{thm:fast-series-product-real-seal-factorization}
+For an accepted $\FastSeriesProductUp$ carrier
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N),
+$$
+the $\RealUp$ seal row $E$ factors through the $\RegSeqRatUp$ handoff row $R$, which in turn is determined by the product-window ledger $W$, the pasted schedule row $M$, and the tail-bound ledger $T$ built from the finite convolution row $K$. The rows $L$, $C$, $P$, and $N$ certify componentwise transport, continuation readback, package provenance, and local naming, but add no quotient stream, selected product sum, host multiplication theorem, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the seal row $E$ and project the regular handoff $R$ from the same carrier. The carrier definition makes $R$ the only regular rational route that the seal may read.
+
+Use \autoref{thm:fast-series-product-regseqrat-handoff} to identify $R$ with the repacking of $W$, $M$, and $T$. Then use \autoref{thm:fast-series-product-convolution-row-exactness} and \autoref{thm:fast-series-product-tail-bound-convolution} to bind those rows to the finite convolution coefficients, pasted source schedules, and tail estimates.
+
+The remaining coordinates $L$, $C$, $P$, and $N$ only certify transport, readback, provenance, and naming for the displayed packet. Since the carrier has no field for quotient streams, a chosen product sum, host multiplication, or completeness, the real seal factors through the finite product certificate alone.
+\end{proof}
+
 \closureat{FastSeriesProductUp}{seedStr}
 
 \begin{closurestatus}{\FastSeriesProductUp}
