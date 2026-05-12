@@ -1,0 +1,297 @@
+\section{MetaCIC Confluence Status}\label{sec:self-comp-metatheory-confluence}
+
+The confluence surface for \texttt{BEDC.MetaCIC} is intentionally split into
+three layers. The first layer is the inductive reduction interface: one-step
+beta reduction, its reflexive-transitive closure, and parallel beta reduction.
+The second layer contains shape and join lemmas for terms whose source shape
+prevents a real beta fork. The third layer records the component-wise diamond
+principles available for application, lambda, and Pi terms, together with the
+case distinctions that remain outside the checked surface.
+
+This section records exactly what is represented in Lean and what is still a
+mathematical obligation for a full Church-Rosser theorem over the represented
+beta system. The statement is deliberately local to the object calculus in
+\texttt{BEDC.MetaCIC}: it does not appeal to Lean kernel conversion and does
+not import a confluence theorem from the host calculus.
+
+\subsection{Setting}
+\label{subsec:metacic-confluence-setting}
+
+The primitive one-step relation is \texttt{BetaStep}, defined in
+\texttt{BEDC.MetaCIC.Beta}. Its constructors are the represented beta
+contraction and the congruence rules under application, lambda body, lambda
+domain, Pi codomain, and Pi domain:
+
+$$
+\begin{aligned}
+(\lambda d.\,b)\ a &\longrightarrow_\beta b[0 := a].
+\end{aligned}
+$$
+
+\texttt{BEDC.MetaCIC.BetaStep} is the checked name for this interface.
+
+The reflexive-transitive closure is \texttt{BetaStarStep}. It has only
+reflexivity and left-consing by one \texttt{BetaStep}. The confluence predicate
+\texttt{BetaStarConfluent} is the ordinary joinability condition for two
+\texttt{BetaStarStep} paths with the same source:
+
+$$
+\begin{aligned}
+\mathrm{BetaStarConfluent}
+\quad\equiv\quad
+\forall t,u_1,u_2.\;
+t \longrightarrow_\beta^\ast u_1
+\to t \longrightarrow_\beta^\ast u_2
+\to \exists v.\;
+u_1 \longrightarrow_\beta^\ast v
+\land
+u_2 \longrightarrow_\beta^\ast v .
+\end{aligned}
+$$
+
+\texttt{BEDC.MetaCIC.BetaStarStep} and
+\texttt{BEDC.MetaCIC.BetaStarConfluent} are the checked names for these two
+interfaces.
+
+The parallel relation \texttt{BetaParallel} is the standard proof vehicle for
+diamond arguments. It reduces independent subterms in one represented parallel
+step and also contracts an application whose function side is already a lambda
+after a parallel step. The associated predicate \texttt{BetaParallelDiamond}
+asks for a one-step parallel join:
+
+$$
+\begin{aligned}
+\mathrm{BetaParallelDiamond}
+\quad\equiv\quad
+\forall t,u_1,u_2.\;
+t \Rightarrow u_1
+\to t \Rightarrow u_2
+\to \exists v.\;
+u_1 \Rightarrow v
+\land
+u_2 \Rightarrow v .
+\end{aligned}
+$$
+
+\texttt{BEDC.MetaCIC.BetaParallel} and
+\texttt{BEDC.MetaCIC.BetaParallelDiamond} are the checked names for these two
+interfaces.
+
+The bridge between the two relations is already mechanized in the direction
+needed for a Tait-Martin-Lof style proof: one-step beta embeds into parallel
+beta, and a parallel step is simulated by beta-star.
+\texttt{BEDC.MetaCIC.betaStep\_to\_parallel} and
+\texttt{BEDC.MetaCIC.betaParallel\_to\_betaStar} are the checked bridge
+lemmas.
+Thus, a checked full parallel diamond would be enough substrate for a
+beta-star Church-Rosser theorem, provided the standard multi-step lifting is
+also assembled inside the same object calculus.
+
+\subsection{Atom-Shape Diamond}
+\label{subsec:metacic-atom-shape-diamond}
+
+The atom fragment consists of \texttt{Term.sort} and variables. These terms
+have no beta redex at the root and no subterm position in which a congruence
+constructor can act. For one-step beta, this is recorded by impossibility
+lemmas:
+\leanvariant{BEDC.MetaCIC.betaStep\_sort\_absurd}
+\leanvariant{BEDC.MetaCIC.betaStep\_var\_absurd}
+
+Consequently, beta-star paths out of atoms are forced to be reflexive. The
+target uniqueness lemmas state that a beta-star target of a sort is the same
+sort, and a beta-star target of a variable is the same variable:
+\leanvariant{BEDC.MetaCIC.betaStarStep\_sort\_unique\_target}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_var\_unique\_target}
+
+The join lemmas are therefore immediate. Two beta-star paths out of
+\texttt{Term.sort} join at \texttt{Term.sort}; two beta-star paths out of
+\texttt{Term.var i} join at \texttt{Term.var i}.
+\texttt{BEDC.MetaCIC.betaStarStep\_diamond\_sort} and
+\texttt{BEDC.MetaCIC.betaStarStep\_diamond\_var} are the checked join
+theorems.
+
+The same fact is also available on the parallel side. Parallel reduction from
+an atom has a unique target, so the two branches of a parallel fork have the
+source atom itself as their common reduct:
+\texttt{BEDC.MetaCIC.betaParallel\_sort\_diamond} and
+\texttt{BEDC.MetaCIC.betaParallel\_var\_diamond} are the corresponding
+parallel join theorems.
+
+This is the precise sense in which atom confluence is closed in
+\texttt{BEDC.MetaCIC}. There is no redex that can make the two branches choose
+different residual structure. The proof is shape analysis over the constructors
+of the represented reduction relation, not an appeal to normalization or
+typing.
+
+\subsection{Application, Lambda, and Pi Shapes}
+\label{subsec:metacic-app-lam-pi-shape-diamond}
+
+For compound terms, BEDC has mechanized important shape and component lemmas,
+but not the full diamond theorem over all application, lambda, and Pi forks.
+The checked component lemmas say that, if corresponding subcomponents already
+have parallel joins, then the compound terms have a parallel join:
+\texttt{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components},
+\texttt{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}, and
+\texttt{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}.
+
+For lambda and Pi sources, the checked shape diamond lemmas reduce the
+compound fork to diamond obligations for the domain and body or codomain:
+\leanchecked{BEDC.MetaCIC.betaParallel\_lam\_shape\_diamond}
+\leanchecked{BEDC.MetaCIC.betaParallel\_pi\_shape\_diamond}
+These lemmas do not prove the recursive premises. They are local assembly
+principles: once the domain and body joins are supplied, the outer constructor
+is joined by congruence.
+
+Applications are where the complete proof becomes more delicate. The checked
+surface contains a full shape inversion for parallel reduction from an
+application:
+\leanchecked{BEDC.MetaCIC.betaParallel\_app\_full\_inv}
+It separates two target forms. Either the target is another application whose
+function and argument are parallel reducts of the source components, or the
+target is a beta contractum obtained after the function side reduces in
+parallel to a lambda.
+
+The full application diamond must account for four fork shapes.
+
+\paragraph{Congruence against congruence.}
+Both branches keep the application shape:
+
+$$
+\begin{aligned}
+f\ a &\Rightarrow f_1\ a_1,\\
+f\ a &\Rightarrow f_2\ a_2.
+\end{aligned}
+$$
+
+This case is exactly the component-wise argument: join $f_1$ with $f_2$, join
+$a_1$ with $a_2$, and rebuild the application.
+
+\paragraph{Congruence against beta.}
+One branch keeps application shape while the other branch contracts after the
+function side exposes a lambda:
+
+$$
+\begin{aligned}
+f\ a &\Rightarrow f_1\ a_1,\\
+f\ a &\Rightarrow b_2[0 := a_2].
+\end{aligned}
+$$
+
+The missing obligation is a residual statement: the application branch must be
+shown to reduce toward a shape compatible with the contractum branch, and the
+contracted body must commute with the residual reductions of the argument.
+
+\paragraph{Beta against congruence.}
+This is the symmetric case. The source branch that contracts first produces a
+substitution instance, while the other branch keeps the application wrapper.
+The join must show that the wrapper branch can expose a compatible lambda and
+then contract to the same residual substitution target.
+
+\paragraph{Beta against beta.}
+Both branches expose lambda structure and contract:
+
+$$
+\begin{aligned}
+f\ a &\Rightarrow b_1[0 := a_1],\\
+f\ a &\Rightarrow b_2[0 := a_2].
+\end{aligned}
+$$
+
+The join depends on a simultaneous residual argument for the two lambda bodies
+and the two arguments, plus the substitution-commutation law that connects
+parallel residuals before and after substituting the argument into the body.
+
+Lambda and Pi terms avoid root beta contraction, but their complete diamond
+proof still requires recursive joins for all binder subcomponents. For lambda,
+the cases are:
+
+\paragraph{Domain against domain.}
+Both branches reduce the domain and keep the body branch compatible. The join
+is rebuilt by the lambda congruence constructor.
+
+\paragraph{Body against body.}
+Both branches reduce the body. The join is rebuilt under the binder after the
+body residuals are joined.
+
+\paragraph{Cross branch.}
+One branch reduces the domain and the other reduces the body. The diamond must
+commute these independent moves and rebuild the lambda over the joined domain
+and body. The checked \texttt{betaParallel\_lam\_shape\_diamond} lemma packages
+this once the recursive component joins are supplied.
+
+Pi terms have the same pattern with domain and codomain in place of lambda
+domain and body. The checked \texttt{betaParallel\_pi\_shape\_diamond} lemma
+again performs the outer constructor assembly, but it does not supply the
+recursive induction principle for the subcomponents.
+
+\subsection{Strategy Notes}
+\label{subsec:metacic-confluence-strategy-notes}
+
+The standard route to Church-Rosser for beta reduction is the
+Tait-Martin-Lof parallel-reduction method. One proves a diamond property for
+parallel reduction, shows that ordinary beta steps embed into parallel
+reduction, shows that parallel steps are included in beta-star, and then lifts
+the parallel diamond to confluence of beta-star.
+
+BEDC has the first-order interface and many constructor-local lemmas needed by
+that route. What is absent is the complete induction that covers every
+constructor of \texttt{BetaParallel} with the correct residual term in the
+application beta cases. In informal notation the residual target is natural:
+parallel-reduce the body and argument, then substitute the residual argument
+into the residual body. In the BEDC substrate, that sentence expands into
+shift-aware de Bruijn algebra.
+
+The hard point is the congruence-beta family of application cases. A branch
+may first reduce the function position to a lambda while the other branch
+contracts after a different exposure of lambda structure. Joining these
+branches requires a theorem saying that substitution commutes with the
+parallel residuals in exactly the represented form:
+
+$$
+\begin{aligned}
+b \Rightarrow b'
+\land
+a \Rightarrow a'
+\quad\Longrightarrow\quad
+b[0 := a] \Rightarrow^\ast b'[0 := a'].
+\end{aligned}
+$$
+
+The displayed formula is schematic. In the actual substrate, descent under a
+binder changes the cutoff and shifts the inserted term. The open algebraic gap
+therefore is not merely the absence of a textbook substitution lemma; it is the
+absence of the exact shift-aware commutation theorem that matches
+\texttt{BEDC.MetaCIC.substitute}. \autoref{subsec:substrate-open-algebraic-gap}
+shows why a naive zero-depth composition law is false for unclosed anchors, and
+\autoref{sec:self-comp-substrate-shift-aware-design} explains the binder
+transport invariant that any usable law must respect.
+
+This is also why the atom fragment is not representative of the general case.
+Atoms need no residual calculus, no binder descent, and no substitution
+transport. Application beta cases need all three.
+
+\subsection{BEDC Scope}
+\label{subsec:metacic-confluence-bedc-scope}
+
+Within the closed-atom fragment, BEDC already has the confluence behavior it
+uses. Sorts and closed variables are normal forms for represented beta
+reduction, and forks out of those sources are forced to join at the source
+itself. This covers the atomic normal-form statements used in the
+self-compilation discussion:
+\texttt{BEDC.MetaCIC.closed\_atom\_normal\_form}.
+
+The scope changes once reducible closed terms are admitted. A closed term can
+contain an application redex, and then a fork may choose between reducing
+inside subcomponents and contracting the exposed lambda. BEDC has checked
+closure preservation for beta steps and beta-star, and it has checked
+subject-reduction under the stated substitution-preservation interface, but
+those facts are not a full diamond theorem:
+\texttt{BEDC.MetaCIC.betaStep\_preserves\_closed},
+\texttt{BEDC.MetaCIC.betaStarStep\_preserves\_closed}, and
+\texttt{BEDC.MetaCIC.subject\_reduction}.
+
+The resulting boundary is sharp. Atom sources are closed under the diamond
+argument because their reduction relation is trivial. Reducible closed terms
+remain within the represented closed world under reduction, but full
+joinability for all their beta forks requires the application residual proof
+and the shift-aware substitution commutation lemmas described above.
