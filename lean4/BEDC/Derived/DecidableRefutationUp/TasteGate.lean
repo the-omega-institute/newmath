@@ -11,26 +11,25 @@ open BEDC.Meta.TasteGate
 
 inductive DecidableRefutationUp : Type where
   | mk :
-      (proposition refutation decision exclusions transports routes provenance localName :
-        BHist) → DecidableRefutationUp
+      (proposition refutation decision exclusion transport continuation provenance name : BHist) ->
+      DecidableRefutationUp
   deriving DecidableEq
 
-private def DecidableRefutationUp_taste_gate_boundary_encodeBHist : BHist → RawEvent
+def decidableRefutationEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: DecidableRefutationUp_taste_gate_boundary_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: DecidableRefutationUp_taste_gate_boundary_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: decidableRefutationEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: decidableRefutationEncodeBHist h
 
-private def DecidableRefutationUp_taste_gate_boundary_decodeBHist : RawEvent → BHist
+def decidableRefutationDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (DecidableRefutationUp_taste_gate_boundary_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (DecidableRefutationUp_taste_gate_boundary_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (decidableRefutationDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (decidableRefutationDecodeBHist tail)
 
-private theorem DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist :
-    ∀ h : BHist,
-      DecidableRefutationUp_taste_gate_boundary_decodeBHist
-        (DecidableRefutationUp_taste_gate_boundary_encodeBHist h) = h := by
+private theorem decidableRefutationDecode_encode_bhist :
+    forall h : BHist,
+      decidableRefutationDecodeBHist (decidableRefutationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,31 +40,29 @@ private theorem DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def DecidableRefutationUp_taste_gate_boundary_toEventFlow :
-    DecidableRefutationUp → EventFlow
+def decidableRefutationToEventFlow : DecidableRefutationUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | DecidableRefutationUp.mk proposition refutation decision exclusions transports routes
-      provenance localName =>
+  | DecidableRefutationUp.mk proposition refutation decision exclusion transport continuation
+      provenance name =>
       [[BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist proposition,
+        decidableRefutationEncodeBHist proposition,
         [BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist refutation,
+        decidableRefutationEncodeBHist refutation,
         [BMark.b1, BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist decision,
+        decidableRefutationEncodeBHist decision,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist exclusions,
+        decidableRefutationEncodeBHist exclusion,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist transports,
+        decidableRefutationEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist routes,
+        decidableRefutationEncodeBHist continuation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist provenance,
+        decidableRefutationEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        DecidableRefutationUp_taste_gate_boundary_encodeBHist localName]
+        decidableRefutationEncodeBHist name]
 
-private def DecidableRefutationUp_taste_gate_boundary_fromEventFlow :
-    EventFlow → Option DecidableRefutationUp
+def decidableRefutationFromEventFlow : EventFlow -> Option DecidableRefutationUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -89,19 +86,19 @@ private def DecidableRefutationUp_taste_gate_boundary_fromEventFlow :
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | exclusions :: rest7 =>
+                              | exclusion :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | transports :: rest9 =>
+                                      | transport :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | routes :: rest11 =>
+                                              | continuation :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -113,110 +110,112 @@ private def DecidableRefutationUp_taste_gate_boundary_fromEventFlow :
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | localName :: rest15 =>
+                                                              | name :: rest15 =>
                                                                   match rest15 with
                                                                   | [] =>
                                                                       some
                                                                         (DecidableRefutationUp.mk
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
+                                                                          (decidableRefutationDecodeBHist
                                                                             proposition)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
+                                                                          (decidableRefutationDecodeBHist
                                                                             refutation)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
+                                                                          (decidableRefutationDecodeBHist
                                                                             decision)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-                                                                            exclusions)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-                                                                            transports)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-                                                                            routes)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
+                                                                          (decidableRefutationDecodeBHist
+                                                                            exclusion)
+                                                                          (decidableRefutationDecodeBHist
+                                                                            transport)
+                                                                          (decidableRefutationDecodeBHist
+                                                                            continuation)
+                                                                          (decidableRefutationDecodeBHist
                                                                             provenance)
-                                                                          (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-                                                                            localName))
+                                                                          (decidableRefutationDecodeBHist
+                                                                            name))
                                                                   | _ :: _ => none
 
-private theorem DecidableRefutationUp_taste_gate_boundary_round_trip :
-    ∀ x : DecidableRefutationUp,
-      DecidableRefutationUp_taste_gate_boundary_fromEventFlow
-        (DecidableRefutationUp_taste_gate_boundary_toEventFlow x) = some x := by
+private theorem decidableRefutation_round_trip :
+    forall x : DecidableRefutationUp,
+      decidableRefutationFromEventFlow (decidableRefutationToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk proposition refutation decision exclusions transports routes provenance localName =>
+  | mk proposition refutation decision exclusion transport continuation provenance name =>
       change
         some
           (DecidableRefutationUp.mk
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist proposition))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist refutation))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist decision))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist exclusions))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist transports))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist routes))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist provenance))
-            (DecidableRefutationUp_taste_gate_boundary_decodeBHist
-              (DecidableRefutationUp_taste_gate_boundary_encodeBHist localName))) =
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist proposition))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist refutation))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist decision))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist exclusion))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist transport))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist continuation))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist provenance))
+            (decidableRefutationDecodeBHist (decidableRefutationEncodeBHist name))) =
           some
-            (DecidableRefutationUp.mk proposition refutation decision exclusions transports
-              routes provenance localName)
-      rw [DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist proposition,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist refutation,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist decision,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist exclusions,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist transports,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist routes,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist provenance,
-        DecidableRefutationUp_taste_gate_boundary_decode_encode_bhist localName]
+            (DecidableRefutationUp.mk proposition refutation decision exclusion transport
+              continuation provenance name)
+      rw [decidableRefutationDecode_encode_bhist proposition,
+        decidableRefutationDecode_encode_bhist refutation,
+        decidableRefutationDecode_encode_bhist decision,
+        decidableRefutationDecode_encode_bhist exclusion,
+        decidableRefutationDecode_encode_bhist transport,
+        decidableRefutationDecode_encode_bhist continuation,
+        decidableRefutationDecode_encode_bhist provenance,
+        decidableRefutationDecode_encode_bhist name]
 
-private theorem DecidableRefutationUp_taste_gate_boundary_toEventFlow_injective
-    {x y : DecidableRefutationUp} :
-    DecidableRefutationUp_taste_gate_boundary_toEventFlow x =
-      DecidableRefutationUp_taste_gate_boundary_toEventFlow y → x = y := by
+private theorem decidableRefutationToEventFlow_injective {x y : DecidableRefutationUp} :
+    decidableRefutationToEventFlow x = decidableRefutationToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      DecidableRefutationUp_taste_gate_boundary_fromEventFlow
-          (DecidableRefutationUp_taste_gate_boundary_toEventFlow x) =
-        DecidableRefutationUp_taste_gate_boundary_fromEventFlow
-          (DecidableRefutationUp_taste_gate_boundary_toEventFlow y) :=
-    congrArg DecidableRefutationUp_taste_gate_boundary_fromEventFlow heq
+      decidableRefutationFromEventFlow (decidableRefutationToEventFlow x) =
+        decidableRefutationFromEventFlow (decidableRefutationToEventFlow y) :=
+    congrArg decidableRefutationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (DecidableRefutationUp_taste_gate_boundary_round_trip x).symm
-      (Eq.trans hread (DecidableRefutationUp_taste_gate_boundary_round_trip y)))
+    (Eq.trans (decidableRefutation_round_trip x).symm
+      (Eq.trans hread (decidableRefutation_round_trip y)))
 
 instance decidableRefutationBHistCarrier : BHistCarrier DecidableRefutationUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := DecidableRefutationUp_taste_gate_boundary_toEventFlow
-  fromEventFlow := DecidableRefutationUp_taste_gate_boundary_fromEventFlow
+  toEventFlow := decidableRefutationToEventFlow
+  fromEventFlow := decidableRefutationFromEventFlow
 
 instance decidableRefutationChapterTasteGate : ChapterTasteGate DecidableRefutationUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      DecidableRefutationUp_taste_gate_boundary_fromEventFlow
-        (DecidableRefutationUp_taste_gate_boundary_toEventFlow x) = some x
-    exact DecidableRefutationUp_taste_gate_boundary_round_trip x
+    change decidableRefutationFromEventFlow (decidableRefutationToEventFlow x) = some x
+    exact decidableRefutation_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (DecidableRefutationUp_taste_gate_boundary_toEventFlow_injective heq)
+    exact hxy (decidableRefutationToEventFlow_injective heq)
 
 theorem DecidableRefutationUp_taste_gate_boundary :
-    ChapterTasteGate DecidableRefutationUp ∧
-      (∀ (x : DecidableRefutationUp) (w : RawEvent) (m : DisplayAlphabet),
-        List.Mem w (BHistCarrier.toEventFlow x) →
-          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+    ChapterTasteGate DecidableRefutationUp /\
+      (forall (x : DecidableRefutationUp) (w : RawEvent) (m : DisplayAlphabet),
+        List.Mem w (BHistCarrier.toEventFlow x) ->
+          List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact decidableRefutationChapterTasteGate
   · intro x w m hw hm
     exact ChapterTasteGate.conservativity x w m hw hm
+
+theorem DecidableRefutationTasteGate_single_carrier_alignment :
+    (forall h : BHist, decidableRefutationDecodeBHist (decidableRefutationEncodeBHist h) = h) /\
+      (forall x : DecidableRefutationUp,
+        decidableRefutationFromEventFlow (decidableRefutationToEventFlow x) = some x) /\
+        (forall x y : DecidableRefutationUp,
+          decidableRefutationToEventFlow x = decidableRefutationToEventFlow y -> x = y) /\
+          decidableRefutationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact decidableRefutationDecode_encode_bhist
+  · constructor
+    · exact decidableRefutation_round_trip
+    · constructor
+      · intro x y heq
+        exact decidableRefutationToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.DecidableRefutationUp
