@@ -177,6 +177,42 @@ listed. Its exclusion clause gives the absence of quotient, completion,
 host-index, metric, arithmetic, order, and bridge data.
 \end{proof}
 
+\begin{theorem}[Real stream window RegSeqRat partition handoff]
+\label{thm:real-stream-window-regseqrat-partition-handoff}
+Let a joined finite $\mathsf{RealStreamWindowClassifier}$ window be partitioned
+into adjacent left and right windows. Then any accepted $\RegSeqRat$ handoff
+and finite $\RealUp$ seal read from the joined window factors through the two
+adjacent partition rows together with the boundary endpoint package.
+
+The handoff surface consists of the left and right
+$\mathsf{RealStreamWindowClassifier}$ rows, the selected
+$\mathsf{RatHistoryClassifier}$ boundary endpoint row, the displayed
+$\mathsf{UnaryHistory}$ and denominator rows, the finite $\hsame$ and $\Cont$
+transport rows, the $\Pkg$ provenance, and the accepted $\RegSeqRat$ spine. It
+introduces no quotient row, completion object, host index equality,
+metric-completeness row, arithmetic or order operation, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-stream-window-adjacent-partition}. The joined
+finite classifier separates into the left window and the right adjacent window,
+so the source of the accepted $\RegSeqRat$ handoff is already displayed as two
+finite partition rows.
+
+Next use
+\autoref{thm:real-stream-window-adjacent-refinement-readback-package}. The
+boundary endpoint package supplies the selected RatHistory classifier row,
+positive-denominator rows, unary rows, endpoint exclusions, and the boundary
+$\hsame$ comparison needed by the handoff.
+
+Finally apply
+\autoref{thm:real-unary-adjacent-window-terminal-source-boundary}. The terminal
+finite-window $\RealUp$ seal reads only the two adjacent source windows, the
+boundary endpoint package, the visible transport and provenance rows, and the
+accepted $\RegSeqRat$ spine. The same boundary theorem excludes quotient,
+completion, host-index, metric-completeness, arithmetic, order, and bridge
+coordinates.
+\end{proof}
+
 The ten-field fit is: traditional target finite adjacent observation windows
 over unary histories; BEDC source RealUp windows over StreamNameUp schedules
 $s,t:\Hist\to\Hist$; carrier unary anchor and bound histories; classifier

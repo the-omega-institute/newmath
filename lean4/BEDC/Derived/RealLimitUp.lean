@@ -150,4 +150,23 @@ theorem RealLimitPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
   }
   exact ⟨cert, sameHandoff, sameRoute, sameLedger⟩
 
+theorem RealLimitPacket_readback_obligation [AskSetup] [PackageSetup]
+    {schedule stream endpoint tolerance handoff route ledger readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealLimitPacket schedule stream endpoint tolerance handoff route ledger bundle pkg ->
+      Cont endpoint tolerance readback ->
+        UnaryHistory readback ∧ hsame readback (append endpoint tolerance) ∧
+          UnaryHistory stream ∧ Cont schedule stream handoff ∧
+            Cont handoff tolerance route ∧ Cont route endpoint ledger ∧
+              PkgSig bundle ledger pkg := by
+  intro packet readbackRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left readbackRow
+  exact
+    ⟨readbackUnary, readbackRow, packet.right.left,
+      packet.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.RealLimitUp
