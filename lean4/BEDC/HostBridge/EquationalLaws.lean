@@ -1,31 +1,7 @@
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.Beta
-
-namespace BEDC.MetaCIC
-
-def contractNormalizedApp : (Term → Term) → Term → Term → Term
-  | rec, Term.lam _ b, a => rec (substitute 0 a b)
-  | _, Term.var i, a => Term.app (Term.var i) a
-  | _, Term.app f x, a => Term.app (Term.app f x) a
-  | _, Term.pi d c, a => Term.app (Term.pi d c) a
-  | _, Term.sort, a => Term.app Term.sort a
-
-def normalizeBounded : Nat → Term → Term
-  | 0, t => t
-  | _ + 1, Term.var i => Term.var i
-  | _ + 1, Term.sort => Term.sort
-  | n + 1, Term.lam d b =>
-      Term.lam (normalizeBounded n d) (normalizeBounded n b)
-  | n + 1, Term.pi d c =>
-      Term.pi (normalizeBounded n d) (normalizeBounded n c)
-  | n + 1, Term.app f a =>
-      contractNormalizedApp
-        (normalizeBounded n)
-        (normalizeBounded n f)
-        (normalizeBounded n a)
-
-end BEDC.MetaCIC
+import BEDC.MetaCIC.Decidable.NormalEqDecide
 
 namespace BEDC.HostBridge
 
