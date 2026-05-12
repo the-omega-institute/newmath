@@ -136,4 +136,27 @@ theorem CauchyErrorCertificatePacket_downstream_handoff [AskSetup] [PackageSetup
       modulusTailBudget, readbackBudgetProvenance, budgetReadbackConsumer, provenancePkg,
       consumerPkg⟩
 
+theorem CauchyErrorCertificatePacket_modulus_soundness [AskSetup] [PackageSetup]
+    {readback modulus tail budget provenance nameCert tail' budget' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyErrorCertificatePacket readback modulus tail budget provenance nameCert bundle pkg ->
+      hsame tail tail' ->
+        Cont modulus tail' budget' ->
+          Cont readback budget' provenance ->
+            UnaryHistory modulus ∧ UnaryHistory tail' ∧ UnaryHistory budget' ∧
+              hsame budget budget' ∧ PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet sameTail modulusTailBudget' _readbackBudgetProvenance'
+  obtain ⟨_readbackUnary, modulusUnary, tailUnary, _budgetUnary, _provenanceUnary,
+    _nameCertUnary, modulusTailBudget, _readbackBudgetProvenance, readbackPkg,
+    _provenancePkg⟩ := packet
+  have tailUnary' : UnaryHistory tail' :=
+    unary_transport tailUnary sameTail
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_cont_closed modulusUnary tailUnary' modulusTailBudget'
+  have sameBudget : hsame budget budget' :=
+    cont_respects_hsame (hsame_refl modulus) sameTail modulusTailBudget
+      modulusTailBudget'
+  exact ⟨modulusUnary, tailUnary', budgetUnary', sameBudget, readbackPkg⟩
+
 end BEDC.Derived.CauchyErrorCertificateUp
