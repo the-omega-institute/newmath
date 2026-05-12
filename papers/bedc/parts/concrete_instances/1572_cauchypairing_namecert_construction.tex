@@ -103,16 +103,35 @@ Thus matched packets expose matched finite-window routes for every inspected req
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyPairingUp.CauchyPairingCarrier\_synchronized\_window\_stability}
 
+\begin{theorem}[Cauchy pairing scoped dependency package]
+\label{thm:cauchy-pairing-scoped-dependency-package}
+For the $\CauchyPairingUp$ source packet
+$$
+K=(A,B,W_A,W_B,L_A,L_B,\mu_A,\mu_B,\mu,E_A,E_B,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-pairing-namecert-source}, the scoped dependency surface is exactly this packet over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every consumer of the paired seal $E$ must pass through the synchronized schedule $\mu$, both finite windows $W_A,W_B$, both dyadic ledgers $L_A,L_B$, and the stored $\hsame$ and $\Cont$ transports before reading $E$. No quotient equality, selected host limit, host real equality, or ambient completeness enters the $\CauchyPairingUp$ scope.
+\end{theorem}
+\begin{proof}
+The carrier source is the finite packet of \autoref{def:cauchy-pairing-namecert-source}. Its displayed coordinates list the two regular names, side windows, dyadic ledgers, side and synchronized modulus schedules, source and paired seal rows, transport rows, continuation routes, package provenance, and local naming row.
+
+\autoref{thm:cauchy-pairing-namecert-obligations} identifies the NameCert surface carried by those rows. Carrier admission gives the packet itself, classifier stability compares only displayed components, synchronized-window exactness forces every request through $\mu$, and seal non-escape prevents a consumer from reaching $E$ without the two side readbacks.
+
+\autoref{thm:cauchy-pairing-classifier-transport-exactness} fixes the transport boundary: matched packets may move only along the stored $\hsame$ rows and displayed $\Cont$ routes. \autoref{thm:cauchy-pairing-paired-seal-non-escape} then places $E$ strictly downstream of both finite windows and both dyadic ledgers.
+
+Finally, \autoref{thm:cauchy-pairing-synchronized-window-stability} shows that every inspected request follows the same synchronized finite-window route on matched packets. Since the packet has no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, the listed packet is the whole scoped dependency surface.
+\end{proof}
+
 \closureat{CauchyPairingUp}{seedStr}
 \closureat{CauchyPairingUp}{obligationStr}
+\closureat{CauchyPairingUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyPairingUp}
   \constructivestory{A $\CauchyPairingUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, synchronized finite $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ ledgers, side and paired $\CauchyModulusUp$ schedules, source and paired $\RealUp$ seal rows, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope is the finite carrier, componentwise classifier stability, synchronized-window exactness, modulus compatibility, and paired-seal non-escape over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped dependency surface is exactly $K=(A,B,W_A,W_B,L_A,L_B,\mu_A,\mu_B,\mu,E_A,E_B,E,H,C,P,N)$ over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of reals, host real equality, selected limits, ambient $\RealUp$ completeness, diagonal uniqueness, or bridge checking.}
-  \upgradepath{Scoped closure requires naming the exact dependency scope for the paired regular names, synchronized windows, dyadic ledgers, modulus schedules, source seals, paired seal, transport rows, continuation routes, package provenance, and local certificate.}
+  \upgradepath{Public closure requires one exported public $\CauchyPairingUp$ certificate over the displayed scoped dependency packet.}
 \end{closurestatus}
