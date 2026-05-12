@@ -125,3 +125,44 @@ surface factors only through the listed StreamName, $\RegSeqRat$,
 $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
 $\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows.
 \end{proof}
+
+\begin{theorem}[StreamName cover-refinement Real seal source invariance]
+\label{thm:streamname-cover-refinement-real-seal-source-invariance}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$ and probe bundles
+$\mathcal{P}_1,\mathcal{P}_2,\mathcal{Q}:\mathsf{ProbeBundle}$, assume the
+two-window cover hypotheses for $\mathcal{P}_1$, $\mathcal{P}_2$, and
+$\mathcal{Q}$ from
+\autoref{thm:streamname-cover-refinement-transport-closure}, together with
+the same componentwise endpoint transports from $s,t$ to $s',t'$ over
+$\mathcal{Q}$. Then every downstream finite-window $\RealUp$ seal read over
+$\mathcal{Q}$ reads the same $\StreamNameUp$ source surface after refinement.
+
+That invariant surface consists exactly of the finite-window classifier, the
+selected $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership,
+$\mathsf{UnaryHistory}$, the pointwise $\RatHistoryClassifier$, displayed
+$\hsame$ transports, the $\Cont$ ledger, and $\mathsf{Pkg}$ provenance. No
+host index, quotient representative, completion object, metric row, or
+external $\RealUp$ completeness datum becomes available under the covered
+refinement.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-finite-window-cover-refinement-classifier} to the
+two certified windows and the displayed cover of $\mathcal{Q}$. This builds
+the finite-window classifier on the requested probe bundle using only the
+already certified source rows.
+
+Next apply
+\autoref{thm:streamname-cover-refinement-transport-closure}. The
+componentwise endpoint transports carry the classifier to $s',t'$ and keep the
+selected endpoint package on the same $\mathcal{Q}$ bundle, with its
+$\mathsf{InBundle}$ membership, $\mathsf{UnaryHistory}$ row, point classifier,
+$\Cont$ ledger, displayed $\hsame$ rows, and $\mathsf{Pkg}$ provenance.
+
+Finally pass to the $\StreamNameUp$ Real--$\RegSeqRat$ handoff and the
+$\RealUp$ seal factorization boundary. Those results identify exactly the
+consumer rows available to a finite-window seal read, so the refinement can
+transport the source surface but cannot add a host index, quotient
+representative, completion object, metric row, or external completeness
+datum.
+\end{proof}

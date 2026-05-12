@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -182,5 +184,94 @@ theorem RegularityModulusPacket_realup_seal_handoff [AskSetup] [PackageSetup]
     ⟨precisionUnary, modulusUnary, windowUnary, ledgerUnary, provenanceUnary, sealRowUnary,
       precisionWindowTransport, transportModulusLedger, ledgerNameProvenance, sealRowCont,
       provenancePkg, sealRowPkg⟩
+
+theorem RegularityModulusPacket_shared_rate_consumer_exhaustion [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow consumer consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont window provenance consumer ->
+        Cont consumer nameRow consumer' ->
+          PkgSig bundle consumer' pkg ->
+            UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+              UnaryHistory transport ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+                UnaryHistory consumer ∧ UnaryHistory consumer' ∧
+                  Cont precision window transport ∧ Cont transport modulus ledger ∧
+                    Cont ledger nameRow provenance ∧ Cont window provenance consumer ∧
+                      Cont consumer nameRow consumer' ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle consumer' pkg := by
+  intro packet consumerRow consumerNameRow consumerPkg
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary consumerRow
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed consumerUnary nameRowUnary consumerNameRow
+  exact
+    ⟨precisionUnary, modulusUnary, windowUnary, transportUnary, ledgerUnary, provenanceUnary,
+      consumerUnary, consumerUnary', precisionWindowTransport, transportModulusLedger,
+      ledgerNameProvenance, consumerRow, consumerNameRow, provenancePkg, consumerPkg⟩
+
+theorem RegularityModulusPacket_scheduled_tail_closure [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow scheduledTail tailRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      UnaryHistory scheduledTail ->
+        Cont provenance scheduledTail tailRead ->
+          PkgSig bundle tailRead pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row tailRead ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist => UnaryHistory precision ∧ UnaryHistory modulus ∧
+                UnaryHistory window ∧ Cont provenance scheduledTail row)
+              (fun row : BHist => PkgSig bundle row pkg ∧ Cont ledger nameRow provenance)
+              (fun row row' : BHist => PkgSig bundle row pkg ∧ hsame row row') := by
+  intro packet scheduledTailUnary provenanceScheduledTail tailReadPkg
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, _provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed provenanceUnary scheduledTailUnary provenanceScheduledTail
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro tailRead ⟨hsame_refl tailRead, tailReadUnary, tailReadPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨sourceRow.right.right, hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        cases classified.right
+        exact ⟨classified.left, hsame_refl _⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left,
+          hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact ⟨precisionUnary, modulusUnary, windowUnary, provenanceScheduledTail⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, ledgerNameProvenance⟩
+  }
 
 end BEDC.Derived.RegularityModulusUp

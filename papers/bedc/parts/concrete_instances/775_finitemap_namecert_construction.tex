@@ -107,6 +107,7 @@ $\hsame$ transport, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance. Every
 public read of lookup or support factors through these rows, and no host finite
 map or quotient graph equality is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_public\_support\_lookup\_boundary}
 \begin{proof}
 Start with \autoref{thm:finitemap-lookup-option-exactness}. It identifies every
 lookup read with the scan of the displayed $\ListUp$ spine and the resulting
@@ -138,6 +139,7 @@ from $M$ and $M'$. In particular, duplicate key rows remain visible as
 support-ledger positions and transport provenance, but only the first displayed
 matching row contributes the $\OptionUp$ value returned to a lookup consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_support\_lookup\_consumer\_determinacy}
 \begin{proof}
 First apply \autoref{thm:finitemap-lookup-option-exactness} to both packets.
 The assumed agreement of displayed $\ListUp$ spines and first-hit witnesses
@@ -166,6 +168,45 @@ keys may still be inspected as support-ledger positions, but the lookup value is
 already fixed by the first matching displayed row.
 \end{proof}
 
+\begin{theorem}[FiniteMap standard schema bridge boundary]
+\label{thm:finitemap-standard-schema-bridge-boundary}
+The public surface of
+\autoref{thm:finitemap-public-support-lookup-boundary} and
+\autoref{thm:finitemap-support-lookup-consumer-determinacy} supplies the
+standard finite-map schema bridge exactly through the finite $\ListUp$ spine of
+$\ProdUp$ key-value rows, the $\OptionUp$ first-hit lookup witness, the
+$\FinSetUp$ displayed support boundary, the duplicate-key ledger, $\hsame$
+transports, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance. Every
+standard finite-map consumer read factors through those rows.
+
+The bridge exports no host finite map, quotient graph equality, balanced tree,
+hashing table, or asymptotic cost claim.
+\end{theorem}
+\begin{proof}
+Project lookup exactness through
+\autoref{thm:finitemap-lookup-option-exactness}. The finite $\ListUp$ spine
+and $\ProdUp$ key-value rows determine the first-hit $\OptionUp$ witness, so a
+consumer lookup can read only the displayed first matching row or the displayed
+absence witness.
+
+Project support readback through
+\autoref{thm:finitemap-displayed-support-readback}. The support boundary is
+the displayed $\FinSetUp$ read of the same key projection, and duplicate key
+positions remain ledger rows rather than additional support classes.
+
+Transport the duplicate-key ledger with
+\autoref{thm:finitemap-ledger-transport}. The $\hsame$ rows, $\Cont$ lookup
+routes, and $\mathsf{Pkg}$ provenance carry exactly the visible lookup and
+support rows across accepted replacements.
+
+Finally apply \autoref{thm:finitemap-public-support-lookup-boundary}. Together
+with the consumer determinacy theorem
+\autoref{thm:finitemap-support-lookup-consumer-determinacy}, it exhausts all
+public finite-map reads by the displayed support and lookup rows. Since the
+packet contains no coordinate for host maps, quotient graph equality, balanced
+trees, hashing, or cost, none of those structures is exported by the bridge.
+\end{proof}
+
 \closureat{FiniteMapUp}{seedStr}
 \closureat{FiniteMapUp}{obligationStr}
 \closureat{FiniteMapUp}{scopedStr}
@@ -174,11 +215,12 @@ already fixed by the first matching displayed row.
 
 \begin{closurestatus}{\FiniteMapUp}
   \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:finitemap-displayed-support-boundary}, \autoref{thm:finitemap-displayed-support-readback}, \autoref{thm:finitemap-public-support-lookup-boundary}, and \autoref{thm:finitemap-support-lookup-consumer-determinacy} bind the bridge surface from the displayed association-list support and first-hit lookup boundary to public finite-map reads over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:finitemap-displayed-support-boundary}, \autoref{thm:finitemap-displayed-support-readback}, \autoref{thm:finitemap-public-support-lookup-boundary}, \autoref{thm:finitemap-support-lookup-consumer-determinacy}, and \autoref{thm:finitemap-standard-schema-bridge-boundary} bind the bridge surface from the displayed association-list support and first-hit lookup boundary to public finite-map reads over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_public\_support\_lookup\_boundary}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
-  \upgradepath{Bridge closure requires a standard finite-map bridge connecting the public association-list and support boundary to the external finite-map reading without importing host functions or quotient equality.}
+  \upgradepath{Formal verification and bridge checking remain the next verification-axis work for the same finite support and lookup surface.}
 \end{closurestatus}
