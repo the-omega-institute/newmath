@@ -18,6 +18,26 @@ theorem var_one_in_double_sort_ctx :
   apply HasType.varRule
   rfl
 
+theorem two_sort_vars :
+    HasType [Term.sort, Term.sort] (Term.pi (Term.var 0) (Term.var 1)) Term.sort := by
+  apply HasType.piRule
+  · apply HasType.varRule
+    rfl
+  · apply HasType.varRule
+    rfl
+
+theorem lam_pi_var0_var1 :
+    HasType [Term.sort]
+      (Term.lam Term.sort (Term.pi (Term.var 0) (Term.var 1)))
+      (Term.pi Term.sort Term.sort) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule [Term.sort]
+  · apply HasType.piRule
+    · apply HasType.varRule
+      rfl
+    · apply HasType.varRule
+      rfl
+
 /-- 在 [sort] ctx 下: pi (var 0) sort 类型为 sort. -/
 theorem pi_var_sort_in_sort_ctx :
     HasType [Term.sort] (Term.pi (Term.var 0) Term.sort) Term.sort := by
