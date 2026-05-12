@@ -22,11 +22,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 ## Phase A: BHist data type encoding (3-5 days)
 
-- [ ] A1: Read `lean4/BEDC/FKernel/Hist.lean` (~100 LOC). Document the 3-constructor structure (`Empty | e0 BHist | e1 BHist`) and how it differs from BMark (finite 2-element vs countable inductive). Draft BHist encoding strategy in new `rule110/docs/bhist_encoding.md`: every BHist value is a finite sequence of bits, naturally fitting the `EventEncoding` convention extended to *one event encodes one BHist*. Empty → `[]`; e0 h → `[b0, ...encoding(h)]` (or some canonical wrapper); e1 h → `[b1, ...]`. Commit `docs/bhist_encoding.md`.
+- [x] A1: Read `lean4/BEDC/FKernel/Hist.lean` (~100 LOC). Document the 3-constructor structure (`Empty | e0 BHist | e1 BHist`) and how it differs from BMark (finite 2-element vs countable inductive). Draft BHist encoding strategy in new `rule110/docs/bhist_encoding.md`: every BHist value is a finite sequence of bits, naturally fitting the `EventEncoding` convention extended to *one event encodes one BHist*. Empty → `[]`; e0 h → `[b0, ...encoding(h)]` (or some canonical wrapper); e1 h → `[b1, ...]`. Commit `docs/bhist_encoding.md`.
 
-- [ ] A2: Extend `encoder/groundcompiler_encoding.c` with `bhist_encode(BHistNode *root, uint8_t *out, size_t out_cap)` and `bhist_decode(uint8_t *in, size_t in_len, ...)`. Add `BHistNode` struct (or equivalent representation) in `encoder/groundcompiler_encoding.h`. Round-trip test in `tests/test_encoder.c` (extend, not replace existing tests): encode Empty / e0(Empty) / e1(e0(Empty)) etc., verify decode reproduces.
+- [x] A2: Extend `encoder/groundcompiler_encoding.c` with `bhist_encode(BHistNode *root, uint8_t *out, size_t out_cap)` and `bhist_decode(uint8_t *in, size_t in_len, ...)`. Add `BHistNode` struct (or equivalent representation) in `encoder/groundcompiler_encoding.h`. Round-trip test in `tests/test_encoder.c` (extend, not replace existing tests): encode Empty / e0(Empty) / e1(e0(Empty)) etc., verify decode reproduces.
 
-- [ ] A3: Document edge cases in `docs/bhist_encoding.md`: deep nesting (e.g., 100-level e0 chain), max depth handling, decoder fuel parameter.
+- [x] A3: Document edge cases in `docs/bhist_encoding.md`: deep nesting (e.g., 100-level e0 chain), max depth handling, decoder fuel parameter.
 
 ## Phase B: hsame relation (5-7 days)
 
