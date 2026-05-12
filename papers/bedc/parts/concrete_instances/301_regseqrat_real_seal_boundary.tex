@@ -1,0 +1,114 @@
+\begin{theorem}[RegSeqRat RealUp seal uniqueness boundary]\label{thm:regseqrat-real-seal-uniqueness-boundary}
+Two accepted $\RegSeqRatUp$ packets with the same displayed $\StreamNameUp$
+schedule, dyadic-radius ledger, common refinement window, and $\hsame$ and
+$\Cont$ provenance determine the same finite $\RealUp$ seal read.
+
+This uniqueness is only the finite seal-boundary read. It does not assert
+quotient Cauchy equality, host stream equality, metric-completion equality, or
+completed $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-common-window-real-seal-transitivity} to compare
+the two seal-facing reads through one common finite source surface.
+
+Use \autoref{thm:regseqrat-cofinal-tail-seal-selected-window-uniqueness} to
+identify the selected cofinal window rows, then apply
+\autoref{thm:regseqrat-streamname-cover-refinement-seal-handoff}. The latter
+forces both reads through the same public $\StreamNameUp$ cover-refinement
+boundary and leaves no quotient or completed-real coordinate to distinguish.
+\end{proof}
+
+\begin{theorem}[RegSeqRat RealUp seal route exclusion package]\label{thm:regseqrat-real-seal-route-exclusion-package}
+Every $\RealUp$ seal read obtained from an accepted $\RegSeqRatUp$ packet
+factors through exactly the displayed $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint, radius, and distance ledgers, the regularity
+ledgers, displayed $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and $\NameCert_{\RegSeqRatUp}$ provenance. Conversely, any
+seal-facing read assembled from precisely those rows repacks as the same
+$\RealUp$ seal route.
+
+This route package contains no quotient stream, no host real equality, no
+metric-completion point, and no $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+For the forward direction, project the accepted packet by
+\autoref{thm:regseqrat-scheduled-window-projection}. This exposes the
+$\StreamNameUp$ schedule rows, unary indices, endpoint rows, regularity
+ledgers, displayed transport, continuation routes, package provenance, and
+local naming provenance.
+
+Next read the dyadic endpoint, radius, and distance data through
+\autoref{thm:regseqrat-dyadic-radius-ledger-readback}. The seal-facing
+distance comparisons are therefore finite $\DyadicRatCoreUp$ ledger rows in
+the same scheduled packet.
+
+Apply \autoref{thm:regseqrat-real-seal-handoff}. It consumes exactly the
+regular-rational source surface assembled from the schedule, dyadic, regularity,
+transport, continuation, package, and naming rows just exposed.
+
+For the converse direction, start with a read assembled from exactly those
+rows. Repack the rows as the scheduled $\RegSeqRatUp$ source surface and apply
+\autoref{thm:regseqrat-real-seal-handoff} to obtain the corresponding
+$\RealUp$ seal route.
+
+Finally use \autoref{thm:regseqrat-real-seal-uniqueness-boundary}. Any two
+assembled reads with the same displayed route package give the same finite seal
+read. Since the package rows do not include quotient streams, host real
+equality, metric-completion points, or completeness data, none of those objects
+can be read by the route.
+\end{proof}
+
+\begin{theorem}[RegSeqRat cover normal form for RealUp seal]
+\label{thm:regseqrat-cover-normal-form-real-seal}
+Let $\mathcal W$ be any finite cover family of public $\StreamNameUp$ windows
+consumed by an accepted $\RegSeqRatUp$ packet and read by the $\RealUp$ seal.
+Then the seal read determines one canonical finite $\mathsf{BHist}$ packet
+consisting exactly of the public $\StreamNameUp$ window rows, the displayed
+$\mathsf{InBundle}$ rows, pointwise $\RatUp$ classifier rows, the
+$\DyadicRatCoreUp$ endpoint and radius ledgers, regularity ledgers, classifier
+ledgers, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ provenance.
+
+This normal form contains no quotient stream, host real equality, hidden limit
+selector, metric-completion point, $\RealUp$ completeness row, or
+standard-bridge coordinate.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:regseqrat-streamname-cover-refinement-seal-handoff}. It restricts
+the seal-facing read of the finite cover to the public $\StreamNameUp$ windows,
+the displayed $\mathsf{InBundle}$ rows, pointwise $\RatUp$ classifier rows,
+dyadic ledgers, and the visible transport and provenance rows.
+
+Apply \autoref{thm:regseqrat-common-window-real-seal-transitivity} to compare
+all covered seal reads through a single common finite window. The common window
+keeps the regularity and classifier ledgers inside the same accepted
+$\RegSeqRatUp$ packet.
+
+Use \autoref{thm:regseqrat-refined-window-gluing-real-seal-factorization} to
+factor the refined windows into one finite $\mathsf{BHist}$ packet carrying the
+endpoint and radius ledgers, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and $\NameCert$ provenance.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-uniqueness-boundary}. Any two
+packets with the same displayed cover-normal rows give the same finite
+$\RealUp$ seal read, and the excluded quotient, host-real, completion,
+completeness, and bridge coordinates have no row in the canonical packet.
+\end{proof}
+
+\closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
+\closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
+\closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
+\closureat{RegSeqRatUp}{bridgedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
+\closureat{RegSeqRatUp}{matureStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
+
+\begin{closurestatus}{\RegSeqRatUp}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The obligation boundary consists of the stream carrier, dyadic classifier, regularity rows, finite-window transport rows, and $\RealUp$ seal-handoff rows over $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
+  \constructivestory{Construct the packet by finite scheduled reads: $\StreamNameUp$ supplies the visible windows, $\DyadicRatCoreUp$ supplies endpoint and radius ledgers, and the regularity and classifier rows are projections of those finite observations.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient carriers, metric completeness, or standard bridge data.}
+  \upgradepath{No further paper theory-axis step is claimed for this chapter; bridge verification remains a separate status.}
+\end{closurestatus}
