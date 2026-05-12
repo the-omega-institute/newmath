@@ -1,0 +1,52 @@
+\begin{theorem}[DyadicApproximation DyadicMesh ValidatedNumerics consumer normal form]
+\label{thm:dyadicapproximation-dyadicmesh-validatednumerics-consumer-normal-form}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. Let
+$M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ cell whose
+$\RationalIntervalUp$ row $I$ contains the transported dyadic endpoint $d$ at
+the displayed precision $n$. Let $V$ be a $\ValidatedNumericsUp$ enclosure
+reading the same mesh cell through the displayed enclosure row $I$ and the same
+containment ledger.
+
+Then the three accepted packets determine one finite
+$\RegSeqRatUp$ and $\RealUp$ consumer surface. The surface consists exactly of
+the precision row $n$, the $\DyadicRatCoreUp$ endpoint $d$, the
+$\RationalIntervalUp$ containment row $I$, the $\DyadicMeshUp$ level row
+$\ell$, the cell-index row $J$, the $\RegSeqRatUp$ readback carried by $w$ and
+$l$, the $\RealUp$ seal ledger of $A$, the displayed $\hsame$ transports, the
+displayed $\Cont$ routes, the $\mathsf{Pkg}$ provenance rows, and the local
+$\NameCert$ rows of the three packets.
+
+The normal form exports no quotient real, solver-correctness claim,
+floating-point semantics, host equality, or classical completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted dyadic packet first. By
+\autoref{thm:dyadicapproximation-public-finite-window-export} and
+\autoref{thm:dyadicapproximation-terminal-refinement-window}, its public
+finite window is the displayed precision row, dyadic endpoint, stream window,
+regular-rational readback, real-seal ledger, visible transports,
+continuations, package provenance, and local certificate data.
+
+Project the mesh packet next. By
+\autoref{thm:dyadicmesh-rationalinterval-coverage} and
+\autoref{thm:dyadicmesh-validatednumerics-handoff}, the mesh contributes only
+the level row, cell-index row, rational interval coverage row, dyadic
+containment ledger, refinement route, endpoint readback, package provenance,
+and local certificate row.
+
+Read the validated enclosure through
+\autoref{thm:validatednumerics-validated-enclosure-bridge-boundary}. Its
+consumer boundary is the finite enclosure row, endpoint provenance, precision
+request, regular-rational readback, real-name readback token, containment
+routes, transports, package provenance, and local certificate row.
+
+The shared-containment hypothesis identifies the dyadic endpoint read from
+$A$, the rational interval row $I$ from $M$, and the enclosure row read by $V$
+at the displayed precision. After that identification, all remaining rows are
+the listed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ data.
+
+Repack those projected rows as the consumer surface. Carrier exhaustion in the
+three cited packets leaves no coordinate for quotient reals, solver
+correctness, floating-point hardware semantics, host equality, or classical
+completeness.
+\end{proof}
