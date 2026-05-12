@@ -84,15 +84,52 @@ Apply the exactness statement of \autoref{thm:squeeze-real-sandwich-exactness}. 
 None of the displayed coordinates is a quotient stream, host real equality, selected limiting value, order-completeness theorem, or standard bridge. The real-facing boundary is therefore the finite dyadic sandwich surface and nothing stronger.
 \end{proof}
 
+\begin{theorem}[SqueezeReal transport stability]
+\label{thm:squeeze-real-transport-stability}
+Let $Q=(l,x,u,\epsilon,L,U,S,E,P,N)$ be an accepted $\SqueezeRealUp$ packet. Componentwise $\hsame$ transport of the lower, middle, and upper $\RegularCauchyNameUp$ rows, the shared $\DyadicTailBoundUp$ row, both sandwich ledgers, the $\RealUp$ seal row, the $\Pkg$ provenance row, and the local $\NameCert_{\SqueezeRealUp}$ row preserves the carrier of \autoref{def:squeeze-real-carrier} and the classifier of \autoref{def:squeeze-real-classifier}. The transported packet is still classified only by the displayed regular-name observations, the single tolerance request, the two transported ledgers, the seal row, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:squeeze-real-carrier}. Each transported row named in the statement is already a visible coordinate of $Q$, and the transport ledger $E$ records the componentwise $\hsame$ routes for exactly those coordinates.
+
+The carrier is preserved by repacking the transported lower, middle, and upper regular-name rows with the transported tolerance row, the transported lower and upper ledgers, the transported seal, provenance, and local naming row. No additional coordinate is available in the displayed $\mathsf{BHist}$ packet.
+
+The classifier is preserved by \autoref{def:squeeze-real-classifier}. Classification compares the same rows componentwise after transport: scheduled regular-name observations, the shared tolerance request, both sandwich ledgers, the $\RealUp$ seal, the $\Pkg$ row, and the local $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[SqueezeReal dyadic tail exhaustion]
+\label{thm:squeeze-real-dyadic-tail-exhaustion}
+Every precision read of the real-facing seal in an accepted $\SqueezeRealUp$ packet factors first through the shared $\DyadicTailBoundUp$ tolerance row and then through both sandwich ledgers before any $\RealUp$ seal read. Thus a consumer can reach $S$ only by the finite route $\epsilon,L,U,S$ inside the displayed $\mathsf{BHist}$ packet.
+\end{theorem}
+\begin{proof}
+Begin with a precision request addressed to the real-facing row. The carrier of \autoref{def:squeeze-real-carrier} stores only one dyadic tolerance coordinate, namely $\epsilon$, so every such request has a unique tolerance row to consume.
+
+Next read the sandwich ledgers. The lower ledger $L$ records the finite lower comparisons against the middle regular name, and the upper ledger $U$ records the finite upper comparisons and width bounds against the same tolerance request. These two ledger reads account for the sandwich data available to the request.
+
+Only after those rows have been consumed can the seal coordinate $S$ be projected. This is exactly the route isolated in \autoref{thm:squeeze-real-sandwich-exactness}, so the precision read has no remaining access to quotient regular names, host equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[SqueezeReal completion consumer package]
+\label{thm:squeeze-real-completion-consumer-package}
+The carrier and classifier of \autoref{def:squeeze-real-carrier} and \autoref{def:squeeze-real-classifier}, together with the $\NameCert_{\SqueezeRealUp}$ obligations of \autoref{thm:squeeze-real-namecert-obligations}, sandwich exactness of \autoref{thm:squeeze-real-sandwich-exactness}, real-facing boundary of \autoref{thm:squeeze-real-realup-boundary}, transport stability of \autoref{thm:squeeze-real-transport-stability}, and dyadic-tail exhaustion of \autoref{thm:squeeze-real-dyadic-tail-exhaustion}, form the finite completion-facing packet consumed by $\RegSeqRatUp$, $\RealUp$, and completion certificates. The packet excludes quotient regular names, host equality, selected limits, and ambient order completeness.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and classifier rows first. They identify the finite $\mathsf{BHist}$ tuple and the componentwise equality route over the three regular-name rows, the shared tolerance request, both ledgers, the seal, provenance, and local naming data.
+
+Add the naming-certificate obligations and sandwich exactness. These rows show that carrier habitation, classifier transport, ledger stability, tail exhaustion, and seal boundary are all witnessed inside the displayed packet, and that the seal can be read only through $\epsilon$, $L$, and $U$.
+
+Finally add transport stability and dyadic-tail exhaustion. The resulting package is stable under the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and supplies exactly the finite consumer surface needed by $\RegSeqRatUp$, $\RealUp$, and completion certificates. Since all rows have been exhausted, no quotient regular name, host equality, selected limit, or ambient order-completeness coordinate is present.
+\end{proof}
+
 \closureat{SqueezeRealUp}{seedStr}
+\closureat{SqueezeRealUp}{obligationStr}
 
 \begin{closurestatus}{\SqueezeRealUp}
   \constructivestory{A $\SqueezeRealUp$ packet is generated from lower, middle, and upper $\RegularCauchyNameUp$ rows, a shared $\DyadicTailBoundUp$ tolerance row, two finite sandwich ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a $\RealUp$ seal row, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:squeeze-real-carrier}, \autoref{def:squeeze-real-classifier}, \autoref{thm:squeeze-real-namecert-obligations}, \autoref{thm:squeeze-real-sandwich-exactness}, and \autoref{thm:squeeze-real-realup-boundary} bind the finite dyadic sandwich seed surface and its real-facing boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:squeeze-real-carrier}, \autoref{def:squeeze-real-classifier}, \autoref{thm:squeeze-real-namecert-obligations}, \autoref{thm:squeeze-real-sandwich-exactness}, \autoref{thm:squeeze-real-realup-boundary}, \autoref{thm:squeeze-real-transport-stability}, \autoref{thm:squeeze-real-dyadic-tail-exhaustion}, and \autoref{thm:squeeze-real-completion-consumer-package} bind the finite dyadic sandwich obligation surface and its real-facing boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim quotient equality of regular names, host real equality, a selected limit, ambient order completeness, or a standard bridge.}
-  \upgradepath{Scoped closure requires checked carrier, classifier, sandwich ledger stability, dyadic tail exhaustion, exactness, and real-facing boundary theorems for the displayed finite sandwich packet.}
+  \upgradepath{Scoped closure requires paper-level proof discharge for the same carrier, classifier, sandwich ledger stability, dyadic tail exhaustion, exactness, transport stability, completion consumer package, and real-facing boundary rows.}
 \end{closurestatus}
