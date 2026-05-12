@@ -128,14 +128,14 @@ No carrier coordinate names an infinite spectrum, a host matrix space, an eigenb
 
 \begin{theorem}[Collision kernel spectrum kernel-entry source lock]
 \label{thm:collision-kernel-spectrum-kernel-entry-source-lock}
-Every collision-kernel entry displayed in the row $K$ of an accepted $\CollisionKernelSpectrumUp$ carrier is sourced only from the golden-mean window $G$, the $\FibonacciCubeUp$ fold-source row $F$, the visible fiber row $V$, the moment-index row $I$, and the componentwise $\hsame$ and $\Cont$ routes recorded in $T$. No entry of $K$ can be read from an infinite shift space, an ambient graph adjacency object, a host matrix entry, or an imported theorem object outside the displayed packet.
+Every collision-kernel entry displayed in the row $K$ of an accepted $\CollisionKernelSpectrumUp$ carrier is sourced only from the golden-mean window $G$, the $\FibonacciCubeUp$ fold-source row $F$, the visible fiber row $V$, the moment-index row $I$, and the componentwise $\hsame$ and $\Cont$ routes recorded in $T$. No entry of $K$ can be read from an infinite shift space, an ambient graph adjacency object, a host matrix entry, an imported theorem object, or an external formalization object outside the displayed packet.
 \end{theorem}
 \begin{proof}
 Project the carrier $C=(G,F,V,I,K,S,H,T,P,N)$ and focus on one displayed entry of $K$. By \autoref{thm:collision-kernel-spectrum-adjacency-moment-handoff}, the entry is indexed by a finite adjacency path, a visible fiber row, and a finite moment index from the same carrier.
 
 The golden-mean window and the fold-source row supply the allowed source coordinates. The visible fiber row supplies the two finite rows being compared, and the moment-index row supplies the selected read position.
 
-The only transport allowed between these coordinates is the componentwise $\hsame$ and $\Cont$ data stored in $T$. Since the carrier has no further coordinate for an infinite shift space, host matrix entry, ambient adjacency theorem, or imported theorem object, every accepted kernel entry is locked to the displayed finite source rows.
+The only transport allowed between these coordinates is the componentwise $\hsame$ and $\Cont$ data stored in $T$. Since the carrier has no further coordinate for an infinite shift space, host matrix entry, ambient adjacency theorem, imported theorem object, or external formalization object, every accepted kernel entry is locked to the displayed finite source rows.
 \end{proof}
 
 \begin{theorem}[Collision kernel spectrum shadow classifier stability]
@@ -156,98 +156,27 @@ Every downstream consumer of an accepted $\CollisionKernelSpectrumUp$ spectrum p
 $$
 (G,F,V,I,K,S,H,T,P,N).
 $$
-Such a consumer can read the displayed golden-mean window, fold-source row, fiber row, moment-index row, kernel row, spectral-shadow row, adjacency-moment handoff, componentwise transport, package provenance, and local naming row, but cannot read an infinite shift space, host spectral measure, selected eigenvector, host linear-algebra object, or imported theorem object.
+Such a consumer can read the displayed golden-mean window, fold-source row, fiber row, moment-index row, kernel row, spectral-shadow row, adjacency-moment handoff, componentwise transport, package provenance, and local naming row, but cannot read an infinite shift space, host spectral measure, selected eigenvector, host linear-algebra object, imported theorem object, or external formalization object.
 \end{theorem}
 \begin{proof}
 First apply \autoref{thm:collision-kernel-spectrum-ledger-non-escape}. Every exported route from the packet already factors through the listed finite coordinates.
 
 Next apply \autoref{thm:collision-kernel-spectrum-kernel-entry-source-lock}. Any consumer that reads $K$ can only recover entries sourced from $G,F,V,I$ and transported through $T$.
 
-Finally apply \autoref{thm:collision-kernel-spectrum-adjacency-moment-handoff}. The adjacency, fold, and moment reads are tied to the same carrier, while $S,H,P,N$ record the finite shadow, handoff, package, and naming rows. Since none of these coordinates contains an infinite shift space, host spectral measure, selected eigenvector, host linear-algebra object, or imported theorem object, the downstream readback package is exactly the displayed tuple.
-\end{proof}
-
-\begin{theorem}[Collision kernel spectrum window support triad]
-\label{thm:collision-kernel-spectrum-window-support-triad}
-Every accepted $\CollisionKernelSpectrumUp$ packet has a finite window support
-triad consisting of the golden-mean window $G$, the Fibonacci-cube fold-source
-row $F$, and the visible fiber row $V$. The adjacency-moment handoff $H$, the
-moment-index row $I$, and the transport row $T$ may read this triad only as
-displayed $\mathsf{BHist}$ data; they cannot add a second carrier, an infinite
-shift space, or host graph adjacency.
-\end{theorem}
-\begin{proof}
-Project the carrier of \autoref{def:collision-kernel-spectrum-carrier}. The
-window, fold-source, and fiber rows are finite coordinates of the same packet.
-
-Apply \autoref{thm:collision-kernel-spectrum-adjacency-moment-handoff}. It
-ties every moment read to the displayed golden-mean adjacency ledger, the
-finite fold-source row, and the visible fiber row.
-
-Use \autoref{thm:collision-kernel-spectrum-kernel-entry-source-lock} to close
-the support. Any kernel entry sourced from the triad is transported only by the
-componentwise $\hsame$ and $\Cont$ rows in $T$, so no further carrier or host
-adjacency object is exported.
-\end{proof}
-
-\begin{theorem}[Collision kernel spectrum moment ledger closure]
-\label{thm:collision-kernel-spectrum-moment-ledger-closure}
-The moment ledger of an accepted $\CollisionKernelSpectrumUp$ packet is closed
-under the finite rows $G,F,V,I,K,H,T,P,N$. Each row of the spectral-shadow
-ledger $S$ is read from the displayed collision entries in $K$ and the
-adjacency-moment handoff, and every downstream moment export remains inside
-the same finite $\NameCert$ packet.
-\end{theorem}
-\begin{proof}
-Begin with
-\autoref{thm:collision-kernel-spectrum-finite-window-spectral-shadow}. It
-determines $S$ from $G,F,V,I,K$ by finite row sums, diagonal weights, and
-selected moment shadows.
-
-Apply \autoref{thm:collision-kernel-spectrum-adjacency-moment-handoff}. The
-handoff row $H$ attaches those moment reads to the golden-mean and
-Fibonacci-cube finite ledgers of the same carrier.
-
-Finally use \autoref{thm:collision-kernel-spectrum-ledger-non-escape} and
-\autoref{thm:collision-kernel-spectrum-downstream-readback-package}. Every
-exported moment route factors through $G,F,V,I,K,S,H,T,P,N$, so the ledger has
-no escape path to an ambient spectrum or host linear algebra.
-\end{proof}
-
-\begin{theorem}[Collision kernel spectrum spectral-shadow exhaustion]
-\label{thm:collision-kernel-spectrum-spectral-shadow-exhaustion}
-For an accepted $\CollisionKernelSpectrumUp$ packet, the checked
-spectral-shadow row exhausts the spectral information available to consumers.
-Any shadow comparison, restriction, or downstream readback is obtained from
-the finite window support, the collision-kernel entries, the
-adjacency-moment handoff, and the componentwise $\hsame$, $\Cont$, $\Pkg$, and
-$\NameCert$ routes of the same carrier.
-\end{theorem}
-\begin{proof}
-Use \autoref{thm:collision-kernel-spectrum-shadow-classifier-stability}. It
-transports spectral-shadow rows through the displayed finite classifier
-without invoking a host spectral measure or selected eigenvector.
-
-For restrictions, apply
-\autoref{thm:collision-kernel-spectrum-window-restriction}. The smaller window
-keeps exactly the corresponding displayed kernel entries and spectral-shadow
-rows of the original packet.
-
-For downstream exports, apply
-\autoref{thm:collision-kernel-spectrum-downstream-readback-package}. The only
-readable spectral-shadow data are the rows already listed in the finite
-carrier, so the shadow ledger is exhausted by the packet itself.
+Finally apply \autoref{thm:collision-kernel-spectrum-adjacency-moment-handoff}. The adjacency, fold, and moment reads are tied to the same carrier, while $S,H,P,N$ record the finite shadow, handoff, package, and naming rows. Since none of these coordinates contains an infinite shift space, host spectral measure, selected eigenvector, host linear-algebra object, imported theorem object, or external formalization object, the downstream readback package is exactly the displayed tuple.
 \end{proof}
 
 \closureat{CollisionKernelSpectrumUp}{seedStr}
 \closureat{CollisionKernelSpectrumUp}{obligationStr}
+\closureat{CollisionKernelSpectrumUp}{scopedStr}
 
 \begin{closurestatus}{\CollisionKernelSpectrumUp}
   \constructivestory{A $\CollisionKernelSpectrumUp$ packet is generated from finite golden-mean windows, Fibonacci-cube fold-source rows, visible fiber multiplicities, finite moment indices, collision-kernel matrix rows, spectral shadows, handoff rows, componentwise transports, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the finite carrier, local NameCert obligations, finite-window spectral shadow, ledger non-escape, adjacency-moment handoff, smaller-window restriction, fiber-row symmetry, and moment-index projection for collision-kernel spectrum packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface records the finite carrier, local NameCert obligations, finite-window spectral shadow, ledger non-escape, adjacency-moment handoff, smaller-window restriction, fiber-row symmetry, moment-index projection, source lock, classifier stability, and downstream readback rows for collision-kernel spectrum packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite spectra, host linear algebra, Perron eigenvectors, spectral measures, external imports, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the five displayed finite rows.}
+  \upgradepath{Formal verification requires a Lean carrier encoding and checked coverage for the displayed scoped rows.}
 \end{closurestatus}
