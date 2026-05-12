@@ -223,6 +223,35 @@ It contributes no hidden likelihood object, host update primitive, external
 observation stream, or extra probability witness.
 \end{proof}
 
+\begin{theorem}[Belief finite evidence consumer completeness]
+\label{thm:belief-finite-evidence-consumer-completeness}
+Every finite consumer of an accepted $\BeliefUp$ packet reads exactly the prior
+row, observation row, posterior endpoint, finite evidence ledger, classifier
+transport rows, posterior trace transport rows, and the TasteGate carrier named
+by \texttt{BEDC.Derived.BeliefUp.taste\_gate}. Conversely, those rows repack as
+the public belief consumer surface.
+
+The packet exposes no hidden likelihood object, host update primitive, external
+observation stream, or extra probability witness beyond those rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:belief-tastegate-carrier-recognition}. The named TasteGate
+carrier fixes the accepted $\BeliefUp$ boundary without adding an evidence row.
+
+Use \autoref{thm:belief-posterior-trace-transport-obligation} to route the
+posterior endpoint and posterior trace through the displayed $\hsame$, $\Cont$,
+and $\mathsf{Pkg}$ coordinates.
+
+Next apply \autoref{thm:belief-finite-evidence-ledger-coverage}. This exhausts
+the finite evidence ledger available to any accepted packet consumer.
+
+Finally use \autoref{thm:belief-public-namecert-surface}. The prior,
+observation, posterior, evidence, classifier-transport, posterior-trace, and
+TasteGate rows repack as exactly the public belief consumer surface, with no
+remaining coordinate for a hidden likelihood object, host update primitive,
+external observation stream, or extra probability witness.
+\end{proof}
+
 \closureat{BeliefUp}{publicStr}[BEDC.Derived.BeliefUp.taste\_gate]
 \closureat{BeliefUp}{bridgedStr}[BEDC.Derived.BeliefUp.taste\_gate]
 \closureat{BeliefUp}{matureStr}[BEDC.Derived.BeliefUp.taste\_gate]
@@ -230,7 +259,7 @@ observation stream, or extra probability witness.
 \begin{closurestatus}{\BeliefUp}
   \constructivestory{}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The public $\NameCert_{\BeliefUp}$ surface binds the observation-update carrier
+  \scopeclosed{\autoref{thm:belief-finite-evidence-consumer-completeness} and the public $\NameCert_{\BeliefUp}$ surface bind the observation-update carrier
   definition together with the classifier-transport and ledger-exactness
   obligations, TasteGate carrier recognition, posterior trace transport, and
   finite evidence coverage for the displayed prior, observation, update trace,
