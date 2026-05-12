@@ -116,16 +116,43 @@ none of the excluded host claims.
 \end{proof}
 \leanchecked{BEDC.Derived.MapperUp.MapperCoverPreimageCarrier\_topology\_boundary\_exclusions}
 
+\begin{theorem}[Mapper public export]
+\label{thm:mapper-public-export}
+The cluster-classifier stability, simplicial-ledger exactness,
+$\NameCert_{\MapperUp}$ obligation surface, and topology-boundary exclusions
+form the public $\MapperUp$ export over the cover-preimage carrier rows.
+
+The export consists only of the finite cover, preimage, cluster, incidence,
+simplex, transport, continuation, provenance, and local naming rows. It does
+not export persistent-homology completeness, an analytic cover-refinement
+theorem, or a host topological quotient.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:mapper-cover-preimage-carrier}.
+Its rows are the cover, preimage, clustering, incidence, simplicial skeleton,
+transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:mapper-cluster-classifier-stability} and
+\autoref{thm:mapper-simplicial-ledger-exactness}. These identify the accepted
+cluster transport and the exact simplicial ledger available from the packet.
+
+Use \autoref{thm:mapper-namecert-obligation-surface} and
+\autoref{thm:mapper-topology-boundary-exclusions} to repack those rows as the
+public naming boundary. Since the four cited rows all project from the same
+finite carrier, the excluded completeness, analytic refinement, and quotient
+claims are not exported.
+\end{proof}
+
 \section{The certificate}
 \label{sec:mapper-certificate}
 
 \closureat{MapperUp}{scopedStr}[BEDC.Derived.MapperUp.MapperCoverPreimageCarrier\_namecert\_obligation\_surface]
-\closureat{MapperUp}{publicStr}[BEDC.Derived.MapperUp.MapperCoverPreimageCarrier\_topology\_boundary\_exclusions]
+\closureat{MapperUp}{publicStr}[BEDC.Derived.MapperUp.MapperCoverPreimageCarrier\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\MapperUp}
   \constructivestory{MapperUp is presented by the cover-preimage carrier, the topology cover row, the simplicial-complex ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance. These rows record finite cover membership and simplicial incidence over BEDC histories only, so the chapter does not export a host cover object or a persistent-homology completeness theorem.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped surface binds the cover-preimage carrier, cluster classifier, simplicial ledger exactness, NameCert obligation surface, and topology-boundary exclusions over $\TopologyUp$, $\SimplicialComplexUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
+  \scopeclosed{\autoref{thm:mapper-public-export} binds the cover-preimage carrier, cluster classifier, simplicial ledger exactness, NameCert obligation surface, and topology-boundary exclusions over $\TopologyUp$, $\SimplicialComplexUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.MapperUp.MapperCoverPreimageCarrier\_namecert\_obligation\_surface}
   \bridgestatus{none}
