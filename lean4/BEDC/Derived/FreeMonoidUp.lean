@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.MonoidUp
 
 namespace BEDC.Derived.FreeMonoidUp
 
@@ -155,5 +156,23 @@ theorem FreeMonoidWordCarrier_empty_concat_inversion [AskSetup] [PackageSetup]
     cont_result_hsame_transport uvRow uvEmpty
   have factorsEmpty := cont_empty_result_inversion uvEmptyRow
   exact ⟨factorsEmpty.left, factorsEmpty.right, uUnary, vUnary, uPkg⟩
+
+theorem FreeMonoidWordCarrier_list_cont_concrete_instance [AskSetup] [PackageSetup]
+    {word route provenance : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeMonoidWordCarrier word route provenance bundle pkg ->
+      SemanticNameCert UnaryHistory UnaryHistory UnaryHistory
+          (BEDC.Derived.MonoidUp.MonoidHistoryClassifier UnaryHistory) ∧
+        BEDC.Derived.MonoidUp.MonoidHistoryClassifier UnaryHistory
+          (append BHist.Empty word) word ∧
+        BEDC.Derived.MonoidUp.MonoidHistoryClassifier UnaryHistory
+          (append word BHist.Empty) word ∧
+        FreeMonoidWordCarrier word route provenance bundle pkg := by
+  intro carrier
+  rcases carrier with ⟨wordUnary, routeUnary, provenanceUnary, routeRow, pkgSig⟩
+  have monoidData := BEDC.Derived.MonoidUp.unary_append_monoid_semantic_name_certificate
+  exact
+    ⟨monoidData.left, monoidData.right.left wordUnary,
+      monoidData.right.right.left wordUnary,
+      ⟨wordUnary, routeUnary, provenanceUnary, routeRow, pkgSig⟩⟩
 
 end BEDC.Derived.FreeMonoidUp

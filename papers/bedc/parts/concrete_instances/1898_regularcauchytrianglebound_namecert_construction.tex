@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTriangleBoundUp$}
+\label{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}
+\origin{human}
+
+The $\RegularCauchyTriangleBoundUp$ interface packages the finite three-leg estimate used by the diagonal regularity step in the Real completeness capstone. It keeps the two diagonal observations, the shared intermediate observation, the two regular-sequence tail bounds, and the middle Cauchy-modulus bound in one $\NameCert$ packet. The packet is a displayed estimate surface; it is not a quotient stream, not a selected limit, and not an ambient completeness principle.
+
+\begin{definition}[RegularCauchyTriangleBound carrier]
+\label{def:regular-cauchy-triangle-bound-carrier}
+A $\RegularCauchyTriangleBoundUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D_m$ and $D_n$ are the two $\StreamNameUp$ diagonal observation rows for the requested indices $m$ and $n$;
+\item $I_m$ and $I_n$ are the two intermediate $\StreamNameUp$ rows used to compare the diagonal observations through a common Cauchy-modulus surface;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger carrying the two endpoint tolerances $1/(m+1)$ and $1/(n+1)$ and the summed output bound;
+\item $A$ stores the two $\RegSeqRatUp$ regularity reads that bound the first and third triangle legs;
+\item $B$ stores the middle $\CauchyModulusMeetUp$ read that bounds the comparison between the two intermediate observations;
+\item $H$ stores componentwise $\hsame$ transports for diagonal rows, intermediate rows, tolerance rows, regularity reads, middle-modulus reads, provenance, and the local name;
+\item $C$ stores the displayed $\Cont$ routes for diagonal inspection, intermediate-point selection, regularity reads, middle-modulus reads, dyadic tolerance addition, and local NameCert comparison;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusMeetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyTriangleBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only after transporting every displayed row to a common diagonal, intermediate-point, and dyadic tolerance surface. The carrier has no coordinate for quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyTriangleBound NameCert obligations]
+\label{thm:regular-cauchy-triangle-bound-namecert-obligations}
+The local $\NameCert_{\RegularCauchyTriangleBoundUp}$ surface for the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier} consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$;
+\item classifier transport to a common $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\CauchyModulusMeetUp$ surface;
+\item regular-leg stability for the two endpoint triangle legs stored in $A$;
+\item middle-leg exactness for the shared Cauchy-modulus comparison stored in $B$;
+\item ledger rows for dyadic tolerance addition, $\Cont$ routes, $\Pkg$ provenance, $\RealUp$ handoff reads, and the local naming certificate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-triangle-bound-carrier}. The rows display the two diagonal observations, two intermediate observations, dyadic tolerance ledger, endpoint regularity reads, middle-modulus read, transports, continuations, provenance, and local name.
+
+Classifier transport uses $H$ to move those rows to a common finite surface. Once transported, the routes in $C$ are the only ways to inspect diagonal rows, choose intermediate rows, read endpoint regularity, read the middle modulus, and add dyadic tolerances.
+
+The two endpoint estimates are stored in $A$, while the middle comparison is stored in $B$. Since the carrier has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness, the obligations are exhausted by the five displayed rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound diagonal regularity]
+\label{thm:regular-cauchy-triangle-bound-diagonal-regularity}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the two diagonal observations $D_m$ and $D_n$ are compared by the displayed three-leg route
+$$
+D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n
+$$
+and the output tolerance is the dyadic sum recorded in $Q$ from the two regular endpoint bounds in $A$ and the middle Cauchy-modulus bound in $B$. Every $\RealUp$ diagonal-regularity consumer reads this finite route before receiving the bound.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier and project the four observation rows. The continuation row $C$ supplies the route from $D_m$ to $I_m$, from $I_m$ to $I_n$, and from $I_n$ to $D_n$.
+
+The first and third legs are bounded by the two $\RegSeqRatUp$ regularity reads in $A$. The middle leg is bounded by the shared $\CauchyModulusMeetUp$ read in $B$, transported to the same intermediate surface by $H$.
+
+Finally read the dyadic ledger $Q$. It records the two endpoint tolerances and the summed output tolerance, so the consumer receives exactly the three-leg diagonal estimate and no separate completed-real object.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound non-escape]
+\label{thm:regular-cauchy-triangle-bound-nonescape}
+Every consumer-facing route out of an accepted $\RegularCauchyTriangleBoundUp$ carrier factors through the finite rows $D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N$. No route exports a quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness.
+\end{theorem}
+\begin{proof}
+Take any consumer-facing route and project the carrier. The only mathematical rows are the diagonal observations, intermediate observations, dyadic tolerance ledger, endpoint regularity reads, and middle-modulus read.
+
+The remaining rows transport, route, record provenance, and name the packet. Thus any read by a $\RegSeqRatUp$ or $\RealUp$ consumer is exhausted by the displayed finite packet.
+
+Because the carrier omits quotient streams, selected limits, ambient completeness proofs, host real equality, and host completion witnesses, none of those objects can be exported by a continuation route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound phase handoff]
+\label{thm:regular-cauchy-triangle-bound-phase-handoff}
+The $\RegularCauchyTriangleBoundUp$ packet is the finite handoff surface from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\CauchyModulusMeetUp$ into the Real completeness diagonal-regularity argument. A downstream $\RealUp$ consumer receives the transported three-leg route, the endpoint regularity reads, the middle-modulus read, the dyadic tolerance ledger, provenance, and the local $\NameCert$ row, and receives no additional limit-selection data.
+\end{theorem}
+\begin{proof}
+The dependency anchors in $P$ name the dyadic arithmetic, stream schedule, regular rational readback, and shared-modulus rows consumed by the packet. Projecting the carrier exposes exactly those rows together with transports, continuations, provenance, and local naming.
+
+The handoff to $\RealUp$ is through the diagonal-regularity route of \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. That route first displays the three triangle legs and then reads the summed dyadic bound.
+
+No downstream row is available for a selected limit, quotient stream, host real equality, or ambient completeness object. Therefore the phase handoff is precisely the finite three-leg estimate surface.
+\end{proof}
+
+\closureat{RegularCauchyTriangleBoundUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTriangleBoundUp}
+  \constructivestory{A $\RegularCauchyTriangleBoundUp$ packet is generated from two diagonal observation rows, two intermediate observation rows, a $\DyadicRatCoreUp$ tolerance ledger, two $\RegSeqRatUp$ regularity reads, one $\CauchyModulusMeetUp$ middle read, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, three-leg diagonal regularity route, non-escape boundary, and Real-completeness handoff surface for the triangle-bound packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, completion witnesses, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, endpoint-leg stability, middle-leg exactness, diagonal-regularity routing, and non-escape for the same finite packet.}
+\end{closurestatus}
