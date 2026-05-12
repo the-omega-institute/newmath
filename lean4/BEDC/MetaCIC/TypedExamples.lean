@@ -187,6 +187,34 @@ theorem dep_id_applied_to_arg_result_in_sort_ctx (a : Term) :
     lam_dependent_identity
     ha
 
+/-- 双 sort ctx 下: dependent identity 应用于满足同一 domain 的 var 0. -/
+theorem applied_dep_id_in_double_sort_ctx :
+    HasType [Term.sort, Term.sort] (Term.var 0) (Term.var 0) →
+    HasType [Term.sort, Term.sort]
+      (Term.app (Term.lam (Term.var 0) (Term.var 0)) (Term.var 0))
+      (Term.var 0) := by
+  intro harg
+  exact HasType.appRule [Term.sort, Term.sort]
+    (Term.lam (Term.var 0) (Term.var 0))
+    (Term.var 0) (Term.var 0) (Term.var 1)
+    (HasType.lamRule [Term.sort, Term.sort]
+      (Term.var 0) (Term.var 0) (Term.var 1)
+      (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl)
+      (HasType.varRule [Term.var 1, Term.sort, Term.sort] 0 (Term.var 1) rfl))
+    harg
+
+/-- 单 sort ctx 下: app (lam sort sort) sort 类型为 sort. -/
+theorem applied_const_sort :
+    HasType [Term.sort]
+      (Term.app (Term.lam Term.sort Term.sort) Term.sort)
+      Term.sort := by
+  exact HasType.appRule [Term.sort] (Term.lam Term.sort Term.sort)
+    Term.sort Term.sort Term.sort
+    (HasType.lamRule [Term.sort] Term.sort Term.sort Term.sort
+      (HasType.sortRule [Term.sort])
+      (HasType.sortRule [Term.sort, Term.sort]))
+    (HasType.sortRule [Term.sort])
+
 /-- 单 sort ctx 下: app (lam sort (var 0)) (pi (var 0) sort) 类型为 sort. -/
 theorem app_id_pi_var_sort_in_sort_ctx :
     HasType [Term.sort]
