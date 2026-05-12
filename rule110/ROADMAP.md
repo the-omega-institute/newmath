@@ -40,11 +40,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 - [ ] B5: hsame_symm: 4+ cases (reflexive + vacuous mismatches). Both `.enum.ct` and `.algo.ct`.
 
-- [ ] B6: hsame_trans: 8+ cases. Algo manifest reuses P_eq from B3.
+- [x] B6: hsame_trans: 8+ cases. Algo manifest reuses P_eq from B3.
 
 - [ ] B7: hsame Empty inversion: Empty matches Empty only — manifest + test.
 
-- [ ] B8: hsame constructor distinctness: e0(h) ≠ e1(h'), e0(h) ≠ Empty, e1(h) ≠ Empty for arbitrary h, h'. Manifest + test (use representative deep cases).
+- [x] B8: hsame constructor distinctness: e0(h) ≠ e1(h'), e0(h) ≠ Empty, e1(h) ≠ Empty for arbitrary h, h'. Manifest + test (use representative deep cases).
 
 ## Phase C: Ext relation (3-5 days)
 

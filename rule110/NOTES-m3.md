@@ -32,3 +32,12 @@
 - SigRel and SameSig need a deterministic manifest Ask fixture. This fixture is
   only for executable CT examples and should not be described as changing the
   Lean abstraction.
+
+## BHist hsame Transitivity And Constructor Distinctness
+
+- `hsame_trans` is represented by eight BHist triple cases spanning Empty,
+  depth-1, depth-2, and mixed vacuous antecedents.
+- Constructor distinctness is represented by twelve BHist pair cases: the six
+  outer-constructor directions at depth 1 and matching depth-3 representatives.
+- The current `hsame_trans.algo.ct` and `hsame_constructor_distinct.algo.ct`
+  use vacuous productions while B3 owns the unbounded BHist equality recognizer.
