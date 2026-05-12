@@ -66,6 +66,24 @@ Now compare two accepted packets with transported equivalent finite-window readb
 Since the $\RealUp$ consumer can inspect only the finite source rows just listed, the two seal candidates receive the same boundary datum. No coordinate remains from which a quotient real, host equality witness, completion point, or selected representative could be produced.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation common precision refinement]
+\label{thm:dyadic-approximation-common-precision-refinement}
+Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted $\DyadicApproximationUp$ packets. Suppose there is a displayed common unary precision row $n_\ast$ with $\hsame(n,n_\ast)$ and $\hsame(n',n_\ast)$, transported $\DyadicRatCoreUp$ endpoint rows over $n_\ast$, and a common finite $\StreamNameUp$ and $\RegSeqRatUp$ readback window carried by displayed $\Cont$ routes. Then every $\RealUp$ seal consumer comparing the two packets receives one finite source surface: the precision row $n_\ast$, the transported $\DyadicRatCoreUp$ endpoint comparison, the common observation window, the regular-sequence ledger, the displayed $\hsame$ and $\Cont$ routes, and the $\mathsf{Pkg}$ provenance for both accepted packets.
+
+The comparison remains a finite dyadic approximation comparison. It does not assert quotient-real equality, host real equality, equality of completion points, or equality of choice-selected representatives.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:dyadic-approximation-carrier}. This exposes exactly the precision rows, dyadic endpoint rows, finite windows, seal ledgers, and provenance rows that a downstream consumer may inspect.
+
+Transport the precision coordinates to the displayed row $n_\ast$. Along the same displayed $\hsame$ routes, move the endpoint rows into the common $\DyadicRatCoreUp$ comparison surface over $n_\ast$.
+
+The shared finite window identifies the $\StreamNameUp$ schedule and the $\RegSeqRatUp$ readback ledger for both packets. The displayed $\Cont$ routes carry the seal ledger rows to that same readback surface, so the regular-sequence source rows and dyadic-radius budget are read through one finite boundary.
+
+Apply \autoref{thm:dyadic-approximation-real-seal-handoff} to $A$ and to $A'$. Each handoff exports only the projected finite source rows, and after the transports above those rows are the same precision, endpoint-comparison, window, ledger, route, and provenance surface.
+
+Thus the $\RealUp$ boundary sees one finite source surface. Since all exported coordinates come from the carrier projection and the displayed transports, no quotient real, host real equality, completion point, or choice-selected representative is introduced.
+\end{proof}
+
 \begin{theorem}[DyadicApproximation classifier transport]
 \label{thm:dyadic-approximation-classifier-transport}
 Let $A=(n,d,w,l,p)$ and $A'=(n',d',w',l',p')$ be accepted $\DyadicApproximationUp$ packets. Suppose the precision rows $n,n'$, the $\DyadicRatCoreUp$ endpoint rows $d,d'$, the $\StreamNameUp$ and $\RegSeqRatUp$ finite-window readbacks $w,w'$, the $\RealUp$ seal ledgers $l,l'$, the displayed $\Cont$ routes, and the provenance rows $p,p'$ are related by componentwise displayed $\hsame$ transport along the same carrier coordinates of \autoref{def:dyadic-approximation-carrier}.
