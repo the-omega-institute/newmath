@@ -445,6 +445,44 @@ Next apply the diagonal-seal normal form of \autoref{thm:cauchy-completion-monad
 The completion root package of \autoref{thm:cauchy-completion-monad-completion-root-unblock} assembles exactly those request-side and seal-facing rows for $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ consumers. Since the package lists no quotient stream, selected limit, host equality, hidden representative, or ambient completeness coordinate, no consumer can read such a coordinate from the root surface.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMonad flattened completion source]
+\label{thm:cauchycompletionmonad-flattened-completion-source}
+Every accepted $\CauchyCompletionMonadUp$ packet exposes a flattened completion source before any completion read is consumed: the source-family row, unary schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, and diagonal $\RegSeqRatUp$ readback are all read as displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before the $\RealCauchyCompletionUp$ consumer reaches a seal-facing coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the unit boundary of \autoref{thm:cauchy-completion-monad-unit-boundary}. It identifies the boundary case as a constant source family with stationary windows, constant dyadic observations, the same diagonal readback, and the displayed $\RealUp$ seal.
+
+For a general accepted packet, apply the completion root package of \autoref{thm:cauchy-completion-monad-completion-root-unblock}. Its schedule-totality and finite-window clauses put the source family, unary schedule, selected window, and dyadic observation before any completion-facing read.
+
+Finally use diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. The componentwise $\hsame$ rows and displayed $\Cont$ routes preserve the order source family, schedule, window, observation, diagonal readback, and seal, so the completion source is flattened before the consumer reaches the completion boundary.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad flattened seal route]
+\label{thm:cauchycompletionmonad-flattened-seal-route}
+The flattened completion source of \autoref{thm:cauchycompletionmonad-flattened-completion-source}, schedule composition, diagonal-bind stability, and the $\RealCauchyCompletionUp$ consumer package compose into one $\RealUp$ seal route. This route reads the accepted packet through source-family rows, schedules, finite windows, dyadic observations, diagonal $\RegSeqRatUp$ readbacks, displayed transports, package provenance, and local naming before it reaches the public $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+First apply the schedule composition boundary of \autoref{thm:cauchy-completion-monad-schedule-composition-boundary}. It fixes the consumer order through the displayed schedule, selected finite window, dyadic observation, diagonal readback, and seal row.
+
+Next use diagonal-bind stability from \autoref{thm:cauchy-completion-monad-diagonal-bind-stability}. The bind step transports the source families, schedules, windows, observations, diagonal readbacks, and seal rows componentwise without changing the read order.
+
+Now attach the downstream consumer package of \autoref{thm:cauchy-completion-monad-realcompletion-consumer-package}. That package is precisely the $\RealCauchyCompletionUp$ reader of the same finite route.
+
+Finish with the public $\RealUp$ seal factorization of \autoref{thm:cauchy-completion-monad-public-real-seal-factorization}. Since every public seal read passes through the diagonal readback after the scheduled dyadic observation, the composed route is one flattened $\RealUp$ seal route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonad flattened non-escape package]
+\label{thm:cauchycompletionmonad-flattened-non-escape-package}
+The flattened completion route for $\CauchyCompletionMonadUp$ is the package consisting of the flattened completion source of \autoref{thm:cauchycompletionmonad-flattened-completion-source}, the flattened seal route of \autoref{thm:cauchycompletionmonad-flattened-seal-route}, and the completion root package of \autoref{thm:cauchy-completion-monad-completion-root-unblock}. It exports no quotient stream, selected limit, host real equality, hidden representative, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Assemble the source side from \autoref{thm:cauchycompletionmonad-flattened-completion-source}. It gives the source-family row, unary schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, and diagonal $\RegSeqRatUp$ readback before completion consumption.
+
+Assemble the seal side from \autoref{thm:cauchycompletionmonad-flattened-seal-route}. Schedule composition, diagonal-bind stability, the $\RealCauchyCompletionUp$ consumer package, and public $\RealUp$ seal factorization make the completion-facing read a single finite seal route.
+
+The completion root package of \autoref{thm:cauchy-completion-monad-completion-root-unblock} contains exactly those displayed rows and no coordinate for quotient streams, selected limits, host real equality, hidden representatives, or ambient completeness. Therefore the flattened package cannot supply any such object to a downstream completion reader.
+\end{proof}
+
 \closureat{CauchyCompletionMonadUp}{seedStr}
 \closureat{CauchyCompletionMonadUp}{obligationStr}
 \closureat{CauchyCompletionMonadUp}{scopedStr}
