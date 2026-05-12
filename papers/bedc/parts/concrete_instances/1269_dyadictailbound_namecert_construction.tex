@@ -96,6 +96,7 @@ Apply \autoref{thm:dyadic-tail-bound-classifier-transport-exactness}. Because th
 
 Apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} to repack the enlarged ledger as the $\RegSeqRatUp$ handoff, and then \autoref{thm:dyadic-tail-bound-real-seal-factorization} for the seal route. The handoff still factors through the displayed ledger, so the append operation does not create an unrecorded tail estimate or a separate real-facing route.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_ledger\_append\_stability}
 
 \begin{theorem}[DyadicTailBound classifier transport exactness]
 \label{thm:dyadic-tail-bound-classifier-transport-exactness}
@@ -185,6 +186,7 @@ The remaining rows $H$, $C$, $P$, and $N$ record transport, consumer reads, pack
 
 Therefore any ledger comparison is exhausted by $\mu$, $\epsilon$, and the visible ledger entry. A downstream consumer cannot cite an unrecorded tail estimate without leaving the carrier surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_ledger\_threshold\_exhaustion}
 
 \begin{theorem}[DyadicTailBound seal consumer determinacy]
 \label{thm:dyadic-tail-bound-seal-consumer-determinacy}
@@ -275,6 +277,30 @@ Classifier transport is controlled by \autoref{thm:dyadic-tail-bound-classifier-
 Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \autoref{thm:dyadic-tail-bound-real-seal-factorization}. The regular-sequence readback factors through the concatenated ledger, and the real-facing seal factors through that readback and the same composite displayed budget.
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_budget\_composition}
+
+\begin{theorem}[DyadicTailBound schedule monotone consumer]
+\label{thm:dyadic-tail-bound-schedule-monotone-consumer}
+Let
+$$
+T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
+\quad\text{and}\quad
+T'=(p',\mu',\epsilon,L',R',E',H,C,P,N)
+$$
+be accepted $\DyadicTailBoundUp$ packets sharing the displayed tolerance, componentwise $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Suppose the displayed refinement from $p$ to $p'$ transports the schedule threshold from $\mu$ to $\mu'$ through the same rows $H$ and $C$, and suppose the refined ledger $L'$ is read as the carried tail ledger for $\mu'$ and $\epsilon$.
+
+Then every $\RegSeqRatUp$ or $\RealUp$ consumer of $T'$ factors through the transported schedule row $\mu'$, the displayed dyadic tolerance row $\epsilon$, the finite ledger $L'$, and the shared transport, continuation, package, and naming rows. Such a consumer cannot reuse the old ledger through an unrecorded schedule, external radius, selected limit, quotient stream, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $T$ and apply \autoref{thm:dyadic-tail-bound-precision-refinement-stability}. The refinement of $p$ to $p'$ is not a free precision change; it transports the schedule, tolerance, ledger, readback, seal, package, and naming coordinates through the same $H$ and $C$ rows.
+
+Next use \autoref{thm:dyadic-tail-bound-ledger-threshold-exhaustion}. Every comparison consumed from the refined ledger is exhausted by the transported threshold $\mu'$ and the displayed tolerance $\epsilon$, so the ledger cannot be replayed through a schedule row absent from the packet.
+
+For a $\RegSeqRatUp$ consumer, apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness}. The readback row $R'$ is obtained only by repacking $L'$, $\mu'$, and $\epsilon$ along the displayed transport and continuation routes.
+
+For a $\RealUp$ consumer, apply \autoref{thm:dyadic-tail-bound-real-seal-factorization}. The seal row $E'$ is reached only through that regular-sequence readback and the same finite tail-budget data.
+
+Finally use \autoref{thm:dyadic-tail-bound-budget-composition} to keep composed refinements on the displayed budget surface. Since the carrier has no coordinate for an external radius, selected limit, quotient stream, host real equality, or ambient completeness, every refined consumer route must carry the schedule row together with the ledger.
+\end{proof}
 
 \closureat{DyadicTailBoundUp}{seedStr}
 \closureat{DyadicTailBoundUp}{obligationStr}
