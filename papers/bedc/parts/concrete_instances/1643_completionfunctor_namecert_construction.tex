@@ -71,6 +71,7 @@ The comparison between the monad unit boundary and the real seal boundary is rec
 \label{thm:completion-functor-extension-ledger-exactness}
 Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. Every completion-facing extension read produced from the dense $\ContinuousMapUp$ row $G$ and regular rational source row $Q$ is exactly the displayed extension ledger $E$ read through $M$, $U$, $R$, $A$, $H$, $C$, $P$, and $N$. The packet exports no second extension route, quotient completion, selected limit, or host function equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_extension\_ledger\_exactness}
 \begin{proof}
 Project the accepted carrier through \autoref{def:completion-functor-carrier}. The only row whose role is extension from dense graph data to a completion-facing continuous map is $E$, and its source rows are visibly $G$, $Q$, $M$, $U$, $R$, and $A$.
 
@@ -151,6 +152,21 @@ The public completion map surface is then determined by the three central constr
 The route-level stability needed by consumers is already internal to the same packet. Identity reads use \autoref{thm:completion-functor-identity-route-stability}, and composable dense-map reads use \autoref{thm:completion-functor-composition-route-stability}, both over the same extension ledger and transport rows.
 
 Finally combine the consumer inventory of \autoref{thm:completion-functor-completion-consumer-surface} with the dependency inventory of \autoref{thm:completion-functor-scoped-dependency-spine} and the non-escape boundary of \autoref{thm:completion-functor-non-escape}. The resulting public export is exactly the completion-functor surface available to $\CompleteMetricUp$, $\HausdorffCompletionUp$, and $\CompletionUniversalPropertyUp$, with no quotient completion, selected limit, host function equality, hidden representative, or ambient completeness field added at the boundary.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor public extension interface]
+\label{thm:completion-functor-public-extension-interface}
+Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. The packet exports a public completion-functor interface in which unit reads come from the $\CauchyCompletionMonadUp$ row $M$, extension reads come from the $\CompletionUniversalPropertyUp$ row $U$ and the exact ledger $E$, $\RealUp$ seals come from the $\RealCauchyCompletionUp$ and $\RegSeqRatUp$ rows $R$ and $Q$ together with $A$, and map transport comes from the $\ContinuousMapUp$ row $G$ and functoriality ledger $T$. Every such read is routed through displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_public\_extension\_interface}
+\begin{proof}
+For the unit side, apply \autoref{thm:completion-functor-unit-boundary}. It identifies the public completed-source read as the route through $M$, $R$, $Q$, $A$, $H$, $C$, $P$, and $N$.
+
+For extension reads, use \autoref{thm:completion-functor-extension-ledger-exactness}. The universal-property row $U$ and exact ledger $E$ give the only completion-facing extension path from the dense $\ContinuousMapUp$ row $G$.
+
+For transported maps, combine \autoref{thm:completion-functor-functoriality}, \autoref{thm:completion-functor-identity-route-stability}, and \autoref{thm:completion-functor-composition-route-stability}. These theorems route identity and composition through $T$ using the same displayed carrier rows.
+
+Finally invoke \autoref{thm:completion-functor-completion-consumer-surface} and \autoref{thm:completion-functor-non-escape}. They exhaust the public consumer surface and rule out quotient completions, selected limits, hidden representatives, host function equality, and ambient completeness.
 \end{proof}
 
 \closureat{CompletionFunctorUp}{seedStr}

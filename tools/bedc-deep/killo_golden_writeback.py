@@ -38,6 +38,24 @@ CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_TIMEOUT = 1800
 COMPILE_TIMEOUT = 600
 MAX_FILE_LINES = 800
+EXTERNAL_PROVENANCE_PATTERNS = [
+    re.compile(r"Inspired by Omega Project"),
+    re.compile(r"\b[Aa]utomath\b"),
+    re.compile(r"automath/"),
+    re.compile(r"discovery(?:\\_|\s*_)report\.json"),
+    re.compile(r"tools[\\/]+automath_newmath_bridge[\\/]+review_packets[\\/]+[^}\s]+\.json"),
+    re.compile(r"review_packets[\\/]+[^}\s]+\.json"),
+    re.compile(r"https?://"),
+    re.compile(r"github\.com", re.IGNORECASE),
+    re.compile(r"\barxiv\b", re.IGNORECASE),
+    re.compile(r"\bWikipedia\b", re.IGNORECASE),
+    re.compile(r"\b(ChatGPT|Claude|OpenAI|Anthropic)\b"),
+    re.compile(r"(?:^|[\s{(])/(?:Users|private|tmp|var|opt|home)/"),
+    re.compile(r"\b(?:Generated|Produced)\s+by\s+(?:ChatGPT|Claude|OpenAI|Anthropic)\b", re.IGNORECASE),
+    re.compile(r"\b(?:repository|repo)\s+coordinates\b", re.IGNORECASE),
+    re.compile(r"\b(?:source|repository|repo)[_-](?:path|repo|commit|ref)\b", re.IGNORECASE),
+    re.compile(r"\b(?:review|bridge)\s+packet\s+(?:path|json)\b", re.IGNORECASE),
+]
 
 
 @dataclass
@@ -228,6 +246,17 @@ def _detect_dangling_autorefs(content: str) -> list[str]:
     return missing
 
 
+def _detect_external_provenance(content: str) -> list[str]:
+    """Return paper-body lines that leak bridge/source metadata."""
+    violations: list[str] = []
+    for line_no, line in enumerate((content or "").splitlines(), start=1):
+        for pattern in EXTERNAL_PROVENANCE_PATTERNS:
+            if pattern.search(line):
+                violations.append(f"line {line_no}: {line.strip()[:220]}")
+                break
+    return violations
+
+
 def _resolve_target_tex(suggested: str) -> Optional[Path]:
     if not suggested:
         return None
@@ -357,6 +386,21 @@ def writeback(
             "have no \\label{X} anywhere under papers/bedc/parts/: "
             + ", ".join(dangling_refs[:8])
             + (f" (and {len(dangling_refs) - 8} more)" if len(dangling_refs) > 8 else "")
+        )
+    external_provenance = _detect_external_provenance(norm.content)
+    if external_provenance:
+        return WritebackResult(
+            False,
+            "reject",
+            suggested_target_tex,
+            False,
+            False,
+            [
+                "external provenance leaked into paper body: Automath / bridge / "
+                "discovery JSON records are candidate metadata only; re-derive as "
+                "BEDC-native content. "
+                + "; ".join(external_provenance[:5])
+            ],
         )
 
     # ── Step 4: claude review when blocking issues remain ──
