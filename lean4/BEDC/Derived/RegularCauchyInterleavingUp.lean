@@ -247,4 +247,30 @@ theorem RegularCauchyInterleavingPacket_carrier_admission [AskSetup] [PackageSet
         leftSealRoute, rightSealRoute, interleavedRoute, endpointRoute, endpointPkg⟩,
       leftSealUnary, rightSealUnary, interleavedSealUnary, endpointUnary⟩
 
+theorem RegularCauchyInterleavingPacket_schedule_window_coverage [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint readSchedule readSeal :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont selector readSchedule readSeal ->
+        (hsame leftSchedule readSchedule \/ hsame rightSchedule readSchedule) ->
+          hsame leftSeal readSeal \/ hsame rightSeal readSeal := by
+  intro packet readRoute scheduleSide
+  obtain ⟨_leftNameUnary, _rightNameUnary, _leftScheduleUnary, _rightScheduleUnary,
+    _selectorUnary, _modulusUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, leftSealRoute, rightSealRoute, _interleavedRoute, _endpointRoute,
+    _endpointPkg⟩ := packet
+  cases scheduleSide with
+  | inl sameLeftSchedule =>
+      exact Or.inl
+        (cont_respects_hsame (hsame_refl selector) sameLeftSchedule leftSealRoute
+          readRoute)
+  | inr sameRightSchedule =>
+      exact Or.inr
+        (cont_respects_hsame (hsame_refl selector) sameRightSchedule rightSealRoute
+          readRoute)
+
 end BEDC.Derived.RegularCauchyInterleavingUp
