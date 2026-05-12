@@ -63,6 +63,33 @@ theorem LagrangianMechanicsPacket_action_ledger_obligation [AskSetup] [PackageSe
     ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
       actionReadUnary, actionRow, actionReadRow, sameEndpoint, pkgSig⟩
 
+theorem LagrangianMechanicsPacket_eulerlagrange_interface [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate residualRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont action variation endpoint ->
+        Cont endpoint residual residualRead ->
+          PkgSig bundle residualRead pkg ->
+            UnaryHistory residual ∧ UnaryHistory residualRead ∧ Cont action variation endpoint ∧
+              Cont endpoint residual residualRead ∧ PkgSig bundle certificate pkg ∧
+                PkgSig bundle residualRead pkg := by
+  intro packet actionVariationEndpoint endpointResidualRead residualReadPkg
+  obtain ⟨_configurationUnary, _velocityUnary, variationUnary, residualUnary,
+    _symplecticUnary, _transportUnary, _provenanceUnary, _configurationVelocityAction,
+    _packetActionVariationEndpoint, _residualSymplecticCurrent, _currentTransportRoute,
+    _routeProvenanceCertificate, certificatePkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed
+      (unary_cont_closed _configurationUnary _velocityUnary _configurationVelocityAction)
+      variationUnary actionVariationEndpoint
+  have residualReadUnary : UnaryHistory residualRead :=
+    unary_cont_closed endpointUnary residualUnary endpointResidualRead
+  exact
+    ⟨residualUnary, residualReadUnary, actionVariationEndpoint, endpointResidualRead,
+      certificatePkg, residualReadPkg⟩
+
 theorem LagrangianMechanicsPacket_noether_consumer_boundary [AskSetup] [PackageSetup]
     {configuration velocity action variation endpoint residual symplectic current transport route
       provenance certificate noetherRead : BHist}
