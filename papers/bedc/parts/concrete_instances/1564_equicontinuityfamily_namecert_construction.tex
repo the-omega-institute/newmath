@@ -1,0 +1,120 @@
+\chapter{A Concrete Naming Certificate for $\EquicontinuityFamilyUp$}
+\label{ch:concrete-instances-equicontinuityfamily-namecert}
+\origin{human}
+
+The $\EquicontinuityFamilyUp$ interface names the constructive finite-ledger
+surface for a family of continuous maps with a shared source metric, shared
+target metric, finite center probes, and rational tolerance histories. It is
+the BEDC reading of the equicontinuity object used in Kelley, \emph{General
+Topology}, and Bishop--Bridges, \emph{Constructive Analysis}, re-expressed
+as finite rows over $\CompactMetricUp$, $\ContinuousMapUp$,
+$\UniformContinuityUp$, and $\CompactUniformContinuityUp$. The packet does
+not claim open-cover compactness, host function extensionality, or a chosen
+function-space topology.
+
+\begin{definition}[EquicontinuityFamily carrier]
+\label{def:equicontinuity-family-carrier}
+An $\EquicontinuityFamilyUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+E=(X,Y,F,\mathcal{P},R,M,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $X$ is the shared source $\MetricUp$ or $\CompactMetricUp$ row whose
+finite source reads are routed through displayed metric and compact-metric
+data;
+\item $Y$ is the shared target $\MetricUp$ row whose distance comparisons
+are routed through displayed metric-distance witnesses;
+\item $F$ is a finite family ledger of $\ContinuousMapUp$ graph rows from
+$X$ to $Y$;
+\item $\mathcal{P}$ is a finite $\mathsf{ProbeBundle}$ of source centers
+used as the displayed testing window for the family;
+\item $R$ records the requested $\RatUp$ tolerance histories and the
+source-radius histories offered in response;
+\item $M$ records pointwise modulus rows indexed by the centers in
+$\mathcal{P}$, uniformly over the finite family ledger $F$;
+\item $H$ records componentwise $\hsame$ transports for the source metric,
+target metric, graph rows, center bundle, rational tolerance rows, modulus
+rows, and naming rows;
+\item $C$ records the visible $\Cont$ routes by which metric,
+compact-metric, continuous-map, rational-tolerance, modulus, and
+equicontinuity-family consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\CompactMetricUp$,
+$\ContinuousMapUp$, $\UniformContinuityUp$,
+$\CompactUniformContinuityUp$, $\RatUp$, $\mathsf{ProbeBundle}$,
+$\hsame$, and $\Cont$ rows;
+\item $N$ is the local $\NameCert_{\EquicontinuityFamilyUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed source and target metric rows, finite
+family rows, rational tolerance rows, pointwise finite-center modulus rows,
+transport rows, continuation routes, package provenance, and local naming
+provenance. It contains no host function equality, no open-cover
+compactness, no selected modulus function, and no ambient function-space
+topology.
+\end{definition}
+
+\begin{theorem}[EquicontinuityFamily NameCert obligations]
+\label{thm:equicontinuity-family-namecert-obligations}
+The local $\NameCert_{\EquicontinuityFamilyUp}$ surface consists exactly of
+five finite rows:
+\begin{enumerate}
+\item carrier habitation by the finite packet of
+\autoref{def:equicontinuity-family-carrier};
+\item classifier transport comparing the shared source and target metric
+rows, the family graph rows, the pointwise modulus rows, the finite center
+bundle, the rational tolerance rows, the transport routes, and the
+provenance componentwise;
+\item shared finite-center modulus coverage, stating that every displayed
+family read used by the packet factors through one center row of
+$\mathcal{P}$ and the corresponding modulus row in $M$;
+\item rational tolerance stability, stating that tolerance and radius rows
+are transported through the $\RatUp$ classifier and the stored $\hsame$ and
+$\Cont$ routes;
+\item ledger non-escape, stating that every downstream read remains inside
+the displayed metric, continuous-map, modulus, package, and local naming
+rows.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.EquicontinuityFamilyUp.EquicontinuityFamilyPacket\_namecert\_obligations}
+\begin{proof}
+Carrier habitation is projection of
+\autoref{def:equicontinuity-family-carrier}. The shared source row, shared
+target row, family ledger, finite center bundle, rational tolerance ledger,
+pointwise modulus rows, transport rows, continuation routes, package
+provenance, and local naming row are all visible coordinates of the same
+finite packet.
+
+Classifier transport is componentwise. The source and target metric rows
+transport their displayed distance witnesses, the $\ContinuousMapUp$ rows
+transport the graph and pointwise modulus reads, the center bundle transports
+the finite probe indices, and the rational rows transport requested
+tolerances together with their offered source radii.
+
+For shared finite-center coverage, read a family member through $F$ and a
+requested tolerance through $R$. The packet routes that read to a displayed
+center of $\mathcal{P}$ and then to the corresponding row of $M$, where the
+same source-radius history is used uniformly over the finite family ledger.
+
+Rational tolerance stability follows from the same transported $R$ rows and
+the displayed $\RatUp$ comparisons. Replaying the $\Cont$ routes preserves
+which tolerance request, which radius response, and which center-indexed
+modulus row are being consumed.
+
+These rows exhaust the certificate surface. Because the carrier has no
+coordinate for host function equality, open-cover compactness, selected
+modulus functions, or ambient function-space topology, no classifier or
+consumer route can export those objects.
+\end{proof}
+
+\closureat{EquicontinuityFamilyUp}{seedStr}
+
+\begin{closurestatus}{\EquicontinuityFamilyUp}
+  \constructivestory{An $\EquicontinuityFamilyUp$ packet is generated from a shared source metric or compact-metric row, a shared target metric row, a finite family ledger of $\ContinuousMapUp$ graph rows, a finite $\mathsf{ProbeBundle}$ of source centers, rational tolerance histories, center-indexed modulus rows, displayed $\hsame$ and $\Cont$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier and five-row naming-certificate surface for equicontinuity families over shared metric rows, finite center probes, and rational tolerance ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, host function extensionality, ambient function-space topology, selected modulus functions, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, finite-center modulus coverage, rational tolerance stability, and ledger non-escape for the same packet.}
+\end{closurestatus}

@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -101,6 +103,34 @@ theorem UniformSpacePacket_symmetry_composition_obligation [AskSetup] [PackageSe
   exact
     ⟨symmetryReadUnary, compositionReadUnary, diagonalRefinementSymmetryRead,
       symmetryCompositionRead, compositionReadPkg, namePkg⟩
+
+theorem UniformSpacePacket_entourage_ledger_exactness [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name ledger
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement ledger ->
+        Cont ledger composition endpoint ->
+          PkgSig bundle endpoint pkg ->
+            UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory diagonal ∧
+              UnaryHistory refinement ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+                Cont point entourage diagonal ∧ Cont diagonal refinement ledger ∧
+                  Cont ledger composition endpoint ∧ PkgSig bundle endpoint pkg ∧
+                    PkgSig bundle name pkg := by
+  intro packet diagonalRefinementLedger ledgerCompositionEndpoint endpointPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    compositionUnary, _transportUnary, _provenanceUnary, _nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    namePkg⟩ := packet
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed ledgerUnary compositionUnary ledgerCompositionEndpoint
+  exact
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, ledgerUnary,
+      endpointUnary, pointEntourageDiagonal, diagonalRefinementLedger,
+      ledgerCompositionEndpoint, endpointPkg, namePkg⟩
 
 def UniformSpaceEntouragePacket [AskSetup] [PackageSetup]
     (base entourage diagonal symmetry composition provenance endpoint : BHist)
@@ -338,5 +368,94 @@ theorem UniformSpacePacket_common_refinement_cauchy_handoff [AskSetup] [PackageS
       cauchyUnary, completionUnary, diagonalRefinementRouteLeft, diagonalRefinementRouteRight,
       routeLeftRouteRightCommon, commonTransportCauchy, cauchyProvenanceCompletion,
       completionPkg⟩
+
+theorem UniformSpacePacket_standard_bridge [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      filterbase cauchy completion publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+        provenance name bundle pkg ->
+      Cont diagonal refinement filterbase ->
+        Cont filterbase transport cauchy ->
+          Cont cauchy provenance completion ->
+            Cont completion name publicRow ->
+              PkgSig bundle publicRow pkg ->
+                SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row publicRow ∧
+                        UniformSpacePacket point entourage diagonal refinement symmetry
+                          composition transport provenance name bundle pkg)
+                    (fun row : BHist => hsame row publicRow)
+                    (fun row : BHist => hsame row publicRow ∧ PkgSig bundle publicRow pkg)
+                    hsame ∧
+                  UnaryHistory filterbase ∧ UnaryHistory cauchy ∧ UnaryHistory completion ∧
+                    UnaryHistory publicRow ∧ Cont diagonal refinement filterbase ∧
+                      Cont filterbase transport cauchy ∧ Cont cauchy provenance completion ∧
+                        Cont completion name publicRow ∧ PkgSig bundle publicRow pkg := by
+  intro packet diagonalRefinementFilterbase filterbaseTransportCauchy
+    cauchyProvenanceCompletion completionNamePublic publicPkg
+  have packetWitness := packet
+  obtain ⟨_pointUnary, _entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, nameUnary, _pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterbaseUnary : UnaryHistory filterbase :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterbase
+  have cauchyUnary : UnaryHistory cauchy :=
+    unary_cont_closed filterbaseUnary transportUnary filterbaseTransportCauchy
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed cauchyUnary provenanceUnary cauchyProvenanceCompletion
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed completionUnary nameUnary completionNamePublic
+  have sourcePublic :
+      (fun row : BHist =>
+        hsame row publicRow ∧
+            UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+            provenance name bundle pkg) publicRow := by
+    exact ⟨hsame_refl publicRow, packetWitness⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row publicRow ∧
+            UniformSpacePacket point entourage diagonal refinement symmetry composition
+              transport provenance name bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro publicRow sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _other _third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+    }
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row publicRow ∧
+              UniformSpacePacket point entourage diagonal refinement symmetry composition
+                transport provenance name bundle pkg)
+          (fun row : BHist => hsame row publicRow)
+          (fun row : BHist => hsame row publicRow ∧ PkgSig bundle publicRow pkg)
+          hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, publicPkg⟩
+    }
+  exact
+    ⟨cert, filterbaseUnary, cauchyUnary, completionUnary, publicUnary,
+      diagonalRefinementFilterbase, filterbaseTransportCauchy, cauchyProvenanceCompletion,
+      completionNamePublic, publicPkg⟩
 
 end BEDC.Derived.UniformSpaceUp

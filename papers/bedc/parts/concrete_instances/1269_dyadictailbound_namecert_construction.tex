@@ -105,6 +105,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
 $$
 be an accepted $\DyadicTailBoundUp$ $\mathsf{BHist}$ carrier. If another displayed packet $T'$ is obtained from $T$ by the componentwise $\hsame$ transports recorded in $H$ and by the displayed $\Cont$ routes recorded in $C$, while preserving the $\Pkg$ row $P$ and the local $\NameCert_{\DyadicTailBoundUp}$ row $N$, then the classifier accepts $T'$ exactly when the transported precision row, schedule row $\mu$, tolerance row $\epsilon$, ledger row $L$, $\RegSeqRatUp$ row $R$, and $\RealUp$ seal row $E$ are the corresponding transported coordinates. In particular, classifier transport preserves accepted carriers and cannot replace the displayed tolerance, ledger, readback, or seal by unrecorded rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_classifier\_transport\_exactness}
 \begin{proof}
 Project the carrier coordinates of \autoref{def:dyadic-tail-bound-carrier}. The classifier reads only the precision row, the $\CauchyModulusUp$ schedule, the $\DyadicRatCoreUp$ tolerance, the tail ledger, the regular-sequence readback, the real seal, and the carried transport and provenance rows.
 
@@ -192,6 +193,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
 $$
 through the same displayed rows $R$, $L$, $\mu$, $\epsilon$, $H$, $C$, $P$, and $N$. Then both consumers obtain the same classifier-facing $\RealUp$ seal row $E$. This determinacy is only a statement about the visible seal row of the carrier; it does not export host equality of real numbers, quotient equality of streams, a selected limit, or a completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_seal\_consumer\_determinacy}
 \begin{proof}
 Project the seal coordinate $E$ from the carrier. The definition gives a single real-facing row attached to the regular-sequence readback route.
 
@@ -269,18 +271,21 @@ Classifier transport is controlled by \autoref{thm:dyadic-tail-bound-classifier-
 
 Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \autoref{thm:dyadic-tail-bound-real-seal-factorization}. The regular-sequence readback factors through the concatenated ledger, and the real-facing seal factors through that readback and the same composite displayed budget.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_budget\_composition}
 
 \closureat{DyadicTailBoundUp}{seedStr}
 \closureat{DyadicTailBoundUp}{obligationStr}
 \closureat{DyadicTailBoundUp}{scopedStr}
+\closureat{DyadicTailBoundUp}{publicStr}
+\closureat{DyadicTailBoundUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicTailBoundUp}
   \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the carrier, obligation surface, $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, precision refinement, ledger threshold exhaustion, and seal consumer determinacy as one finite tail-budget interface over $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged paper scope is the public tail-budget interface through the regular-sequence handoff, classifier transport, real-seal factorization, tolerance ledger exhaustion, consumer obligation package, and budget composition rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the obligation rows as a single consumer interface for $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{Machine bridge verification requires a Lean bridge theorem for the same public tail-budget interface and downstream completion schema.}
 \end{closurestatus}

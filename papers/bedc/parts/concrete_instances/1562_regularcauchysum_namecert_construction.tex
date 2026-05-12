@@ -1,0 +1,146 @@
+\chapter{RegularCauchySum NameCert Construction}
+\label{ch:concrete-instances-regularcauchysum-namecert}
+\origin{human}
+
+The $\RegularCauchySumUp$ interface names the finite pointwise-addition surface for two regular rational Cauchy names. It sits between the $\RegSeqRatUp$ readback layer and the $\RealUp$ seal: a consumer can inspect the two scheduled input windows, the displayed dyadic endpoint addition rows, and the combined finite error ledger, but it cannot read a quotient of streams, a selected host limit, or an ambient completeness principle.
+
+\begin{definition}[RegularCauchySum carrier]
+\label{def:regular-cauchy-sum-carrier}
+A $\RegularCauchySumUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose rational observation windows are to be added pointwise;
+\item $W_A$ and $W_B$ are aligned $\StreamNameUp$ windows for a shared precision request and a shared unary observation index;
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ endpoint rows read from those windows;
+\item $D$ is the displayed $\DyadicRatCoreUp$ endpoint addition row obtained from the common-exponent addition window for $D_A+D_B$;
+\item $E$ is the finite $\FiniteErrorBudgetUp$ ledger recording the two input tolerances, their sum, and the output tolerance assigned to $D$;
+\item $R$ is the $\RegSeqRatUp$ readback row whose scheduled point row is $D$ with the tolerance budget recorded by $E$;
+\item $H$ stores componentwise $\hsame$ transports for both source names, both stream windows, the three dyadic endpoint rows, the error-budget ledger, and the readback row;
+\item $C$ stores the displayed $\Cont$ routes for reading the two input windows, forming the dyadic endpoint addition row, checking the combined budget, and exposing the readback;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteErrorBudgetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchySumUp}$ row.
+\end{enumerate}
+The packet is a finite addition certificate for regular Cauchy names. It stores no quotient stream, no selected limit, no host real equality, and no ambient completeness object.
+\end{definition}
+
+\begin{theorem}[RegularCauchySum NameCert obligations]
+\label{thm:regular-cauchy-sum-namecert-obligations}
+The local $\NameCert_{\RegularCauchySumUp}$ surface for the carrier of \autoref{def:regular-cauchy-sum-carrier} consists of five finite rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed $\mathsf{BHist}$ packet $S$ with two $\RegSeqRatUp$ sources, aligned $\StreamNameUp$ windows, dyadic endpoint rows, a budget ledger, transport rows, continuation rows, provenance, and local naming data;
+\item classifier transport: classification transports the two source rows, the aligned windows, the endpoint addition row, the error ledger, and the readback row componentwise through the stored $\hsame$ and $\Cont$ rows;
+\item stability: replacing either input by a classified regular name preserves the aligned window and recomputes the same kind of displayed dyadic addition row;
+\item ledger exactness: the output tolerance row is the finite sum of the two input tolerance rows recorded in $E$;
+\item downstream handoff: every $\RegSeqRatUp$ or $\RealUp$ consumer of the sum first reads $R$ together with $A$, $B$, $W_A$, $W_B$, $D_A$, $D_B$, $D$, $E$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the direct projection of the tuple in \autoref{def:regular-cauchy-sum-carrier}. Each source row, window row, endpoint row, budget row, transport route, continuation route, provenance row, and local naming row is an explicit coordinate of $S$.
+
+Classifier transport is componentwise. The two $\RegSeqRatUp$ source rows transport their scheduled rational observations, the $\StreamNameUp$ rows transport the aligned window reads, and the $\DyadicRatCoreUp$ rows transport the endpoint addition calculation at the common exponent.
+
+The budget row is finite. It records the two input tolerances before the sum row is exposed, so the output tolerance is read as the displayed addition of those two ledger entries. The downstream handoff is then the readback row $R$, and no omitted coordinate can add quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum window budget]
+\label{thm:regular-cauchy-sum-window-budget}
+Given two accepted $\RegSeqRatUp$ source rows $A$ and $B$ in a $\RegularCauchySumUp$ packet and a shared precision request, the aligned $\StreamNameUp$ windows $W_A$ and $W_B$ display dyadic endpoint rows $D_A$ and $D_B$. The packet displays a $\DyadicRatCoreUp$ row $D$ for $D_A+D_B$ and a finite ledger $E$ whose output tolerance is the displayed sum of the two input tolerance rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_window\_budget}
+\begin{proof}
+Read the shared precision request through the two stream windows. Since $W_A$ and $W_B$ are aligned coordinates of the same packet, they expose the two endpoint rows at the same requested observation index.
+
+Apply the displayed common-exponent addition window of $\DyadicRatCoreUp$ to $D_A$ and $D_B$. The result is the endpoint row $D$, still inside the carrier.
+
+Finally read the finite budget ledger $E$. Its two input entries are the tolerances used by the two regular names, and its output entry is their displayed sum. This proves the window budget without invoking any completed real or quotient stream.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum RegSeqRat handoff]
+\label{thm:regular-cauchy-sum-regseqrat-handoff}
+The budgeted pointwise-sum windows of \autoref{thm:regular-cauchy-sum-window-budget} repack as the $\RegSeqRatUp$ readback row $R$ of \autoref{def:regular-cauchy-sum-carrier}. A consumer of $R$ reads only the aligned input windows, the dyadic endpoint addition rows, the finite error-budget ledger, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite window budget. For each requested precision, the packet exposes the two source endpoint rows, the dyadic sum endpoint, and the combined tolerance row.
+
+Repack those displayed rows as a regular rational sequence readback. The point row of $R$ is $D$, and the regularity evidence visible to the consumer is the tolerance ledger $E$ routed through the same aligned windows.
+
+The transport and continuation rows are inherited from the carrier. Since the repacking uses only coordinates already listed in \autoref{def:regular-cauchy-sum-carrier}, it introduces no host sequence quotient and no selected limit.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum RealUp seal boundary]
+\label{thm:regular-cauchy-sum-realup-seal-boundary}
+Any $\RealUp$ consumer of an accepted $\RegularCauchySumUp$ packet reads only the $\RegSeqRatUp$ readback row $R$ together with the visible provenance of the two source names, aligned windows, dyadic endpoint addition rows, finite error-budget ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ row, and local $\NameCert_{\RegularCauchySumUp}$ row.
+\end{theorem}
+\begin{proof}
+Factor the real-facing read through the regular readback. By \autoref{thm:regular-cauchy-sum-regseqrat-handoff}, $R$ is already the repacking of the budgeted pointwise-sum windows.
+
+The remaining consumer-visible data are exactly the provenance rows attached to that repacking: the two source names, aligned schedules, dyadic addition endpoints, budget ledger, transports, continuations, package row, and local naming row.
+
+The carrier has no independent $\RealUp$ equality field and no completion witness outside the readback. Therefore the real seal can consume only the displayed regular readback and its visible provenance.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum non-escape boundary]
+\label{thm:regular-cauchy-sum-non-escape-boundary}
+No accepted $\RegularCauchySumUp$ packet exports quotient streams, selected limits, host real equality, or ambient completeness. Every consumer route is exhausted by the finite $\mathsf{BHist}$ rows named in \autoref{def:regular-cauchy-sum-carrier} and by the handoff rows of \autoref{thm:regular-cauchy-sum-regseqrat-handoff} and \autoref{thm:regular-cauchy-sum-realup-seal-boundary}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only source coordinates are the two regular names, two stream windows, dyadic endpoint rows, finite error budget, readback row, transports, continuations, package row, and local naming row.
+
+The $\RegSeqRatUp$ handoff theorem shows that regular consumers receive only the budgeted pointwise-sum windows. The $\RealUp$ seal theorem places real consumers downstream of that same regular readback and its visible provenance.
+
+These two routes exhaust the packet. Since no listed coordinate is a quotient stream, selected limit, host real equality, or ambient completeness theorem, no consumer can read such an object from the $\RegularCauchySumUp$ certificate.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum budget associative visibility]
+\label{thm:regular-cauchy-sum-budget-associative-visibility}
+For any finite list of accepted $\RegularCauchySumUp$ pointwise-sum packets built by repeated pairing, composing their visible error-budget rows is associative at the consumer boundary: every rebracketing reads the same $\DyadicRatCoreUp$ endpoint-addition rows and the same $\FiniteErrorBudgetUp$ ledger entries, routed through the displayed source $\RegSeqRatUp$ rows, aligned $\StreamNameUp$ windows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. No composed budget introduces quotient streams, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read each summand packet through \autoref{thm:regular-cauchy-sum-window-budget}. A single binary sum exposes two source endpoint rows, the dyadic sum endpoint, and the finite budget entry that combines the two requested tolerances.
+
+For repeated sums, compose those binary ledger entries. Rebracketing changes only the order in which finite budget rows are paired; it does not change the displayed $\DyadicRatCoreUp$ endpoint-addition rows or the $\FiniteErrorBudgetUp$ entries consumed by the final window.
+
+The handoff and non-escape results, \autoref{thm:regular-cauchy-sum-regseqrat-handoff} and \autoref{thm:regular-cauchy-sum-non-escape-boundary}, keep the composed route on the same source rows, aligned schedules, transports, continuations, package rows, and naming rows. Since the carrier has no hidden quotient or completion coordinate, the finite budget composition remains entirely visible.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum seal consumer exhaustion]
+\label{thm:regular-cauchy-sum-seal-consumer-exhaustion}
+Every $\RealUp$ consumer of a $\RegularCauchySumUp$ sum seal factors through the displayed $\RegSeqRatUp$ readback, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint-addition row, $\FiniteErrorBudgetUp$ ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The seal has no consumer-facing coordinate for quotient streams, selected limits, host real equality, ambient completeness, or an independent completed-real addition law.
+\end{theorem}
+\begin{proof}
+Start with the real-facing seal boundary of \autoref{thm:regular-cauchy-sum-realup-seal-boundary}. It already places every $\RealUp$ read downstream of the regular readback $R$ and the provenance attached to the two source names.
+
+Use \autoref{thm:regular-cauchy-sum-regseqrat-handoff} to expand $R$. The readback is the repacking of aligned windows, dyadic endpoint addition rows, and the finite error-budget ledger.
+
+Finally apply \autoref{thm:regular-cauchy-sum-non-escape-boundary}. The packet inventory is exhausted by those rows together with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so a real consumer cannot obtain any quotient stream, selected limit, host equality, ambient completeness principle, or separate completed-real addition object from the seal.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum consumer obligation package]
+\label{thm:regular-cauchy-sum-consumer-obligation-package}
+For the $\RegularCauchySumUp$ carrier of \autoref{def:regular-cauchy-sum-carrier}, the five local $\NameCert_{\RegularCauchySumUp}$ rows of \autoref{thm:regular-cauchy-sum-namecert-obligations}, the checked window budget of \autoref{thm:regular-cauchy-sum-window-budget}, the $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-sum-regseqrat-handoff}, the $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-sum-realup-seal-boundary}, and the consumer exhaustion row of \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion} assemble a finite consumer-facing obligation package over $\DyadicRatCoreUp$, $\FiniteErrorBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This package exposes exactly the scheduled source windows, dyadic endpoint-addition rows, combined finite error ledger, displayed transports, continuation routes, provenance row, regular readback row, and local naming row; it excludes quotient streams, selected limits, host real equality, ambient completeness, and an independent completed-real addition law.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-sum-carrier}. Its coordinates are the two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, endpoint rows in $\DyadicRatCoreUp$, the finite $\FiniteErrorBudgetUp$ ledger, the $\RegSeqRatUp$ readback, the $\hsame$ and $\Cont$ rows, the $\Pkg$ provenance, and the local $\NameCert$ row.
+
+Read the five local naming obligations through \autoref{thm:regular-cauchy-sum-namecert-obligations}. They provide carrier admission, classifier transport, stability, ledger exactness, and downstream handoff, so every consumer-facing clause is already attached to a finite displayed row.
+
+Use the checked window-budget theorem, \autoref{thm:regular-cauchy-sum-window-budget}, for dyadic endpoint formation and budget exactness. Then route the displayed rows through \autoref{thm:regular-cauchy-sum-regseqrat-handoff} and \autoref{thm:regular-cauchy-sum-realup-seal-boundary}, which place regular and real consumers downstream of the same readback and visible provenance.
+
+Finally apply \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion}. The seal has no further consumer coordinate, so the assembled package cannot export quotient streams, selected limits, host real equality, ambient completeness, or a separate completed-real addition law.
+\end{proof}
+
+\closureat{RegularCauchySumUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySumUp}
+  \constructivestory{A $\RegularCauchySumUp$ packet is generated from two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint addition rows, a finite $\FiniteErrorBudgetUp$ ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, shared-window budget, regular readback handoff, real-seal boundary, and non-escape boundary for pointwise sums of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, additive group laws for real names, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, window-budget exactness, regular readback handoff, and real-seal non-escape for the sum packet.}
+\end{closurestatus}
