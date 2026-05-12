@@ -126,4 +126,26 @@ theorem BanachFixedPointPacket_cauchy_handoff [AskSetup] [PackageSetup]
     ⟨iterateUnary, modulusUnary, handoffUnary, exportUnary, contractionRatioIterate,
       iterateModulusHandoff, exportRoute, endpointPkg, exportPkg⟩
 
+theorem BanachFixedPointPacket_iteration_ledger [AskSetup] [PackageSetup]
+    {banach distance contraction ratio iterate modulus handoff endpoint transport continuation
+      provenance nameCert stepRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachFixedPointPacket banach distance contraction ratio iterate modulus handoff endpoint
+        transport continuation provenance nameCert bundle pkg ->
+      Cont iterate stepRow handoff ->
+        UnaryHistory stepRow ->
+          UnaryHistory banach ∧ UnaryHistory distance ∧ UnaryHistory contraction ∧
+            UnaryHistory ratio ∧ UnaryHistory iterate ∧ UnaryHistory stepRow ∧
+              Cont contraction ratio iterate ∧ Cont iterate stepRow handoff ∧
+                PkgSig bundle endpoint pkg := by
+  intro packet iterateStepHandoff stepRowUnary
+  obtain ⟨banachUnary, distanceUnary, contractionUnary, ratioUnary, iterateUnary,
+    _modulusUnary, _handoffUnary, _endpointUnary, _transportUnary, _continuationUnary,
+    _provenanceUnary, _nameCertUnary, _banachDistanceContraction, contractionRatioIterate,
+    _iterateModulusHandoff, _handoffTransportContinuation, _continuationProvenanceEndpoint,
+    endpointPkg⟩ := packet
+  exact
+    ⟨banachUnary, distanceUnary, contractionUnary, ratioUnary, iterateUnary, stepRowUnary,
+      contractionRatioIterate, iterateStepHandoff, endpointPkg⟩
+
 end BEDC.Derived.BanachFixedPointUp
