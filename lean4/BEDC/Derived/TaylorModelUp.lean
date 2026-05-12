@@ -118,4 +118,30 @@ theorem TaylorModelCarrier_validated_consumer_boundary [AskSetup] [PackageSetup]
     unary_cont_closed endpointUnary validatedUnary consumerRoute
   exact ⟨consumerUnary, ledgerRow, evalRow, provenancePkg, nameCertPkg⟩
 
+theorem TaylorModelCarrier_seed_public_package [AskSetup] [PackageSetup]
+    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
+      endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
+        sameRows route endpoint bundle pkg ->
+      Cont endpoint validated consumer ->
+        exists coefficientRead : BHist,
+          UnaryHistory coefficientRead ∧ UnaryHistory consumer ∧
+            hsame coefficientRead (append jet eval) ∧ hsame ledger (append jet remainder) ∧
+              hsame eval (append center jet) ∧ PkgSig bundle endpoint pkg ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier consumerRoute
+  obtain ⟨_centerUnary, jetUnary, _remainderUnary, _ledgerUnary, evalUnary,
+    validatedUnary, _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
+    _routeUnary, endpointUnary, ledgerRow, evalRow, _sameRowsRoute, _evalRoute,
+    _readbackRoute, _endpointRoute, endpointPkg, provenancePkg, nameCertPkg⟩ := carrier
+  let coefficientRead : BHist := append jet eval
+  have coefficientReadUnary : UnaryHistory coefficientRead :=
+    unary_cont_closed jetUnary evalUnary (rfl : Cont jet eval coefficientRead)
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary validatedUnary consumerRoute
+  exact ⟨coefficientRead, coefficientReadUnary, consumerUnary, rfl, ledgerRow, evalRow,
+    endpointPkg, provenancePkg, nameCertPkg⟩
+
 end BEDC.Derived.TaylorModelUp
