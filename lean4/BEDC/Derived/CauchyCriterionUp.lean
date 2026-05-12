@@ -220,6 +220,35 @@ theorem CauchyCriterionCarrier_tail_bound_real_seal [AskSetup] [PackageSetup]
       windowModulusTolerance, toleranceLedgerRegseq, ledgerRealSealConsumer, endpointPkg,
       consumerPkg⟩
 
+theorem CauchyCriterionCarrier_scoped_tail_seal_transport [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont endpoint localCert scopedRead ->
+        PkgSig bundle scopedRead pkg ->
+          UnaryHistory window ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+            UnaryHistory ledger ∧ UnaryHistory regseq ∧ UnaryHistory realSeal ∧
+              UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory endpoint ∧
+                UnaryHistory scopedRead ∧ Cont window modulus tolerance ∧
+                  Cont tolerance ledger regseq ∧ Cont regseq realSeal transport ∧
+                    Cont transport localCert route ∧ Cont route provenance endpoint ∧
+                      Cont endpoint localCert scopedRead ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle scopedRead pkg := by
+  intro carrier endpointLocalCertScopedRead scopedReadPkg
+  obtain ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary,
+    realSealUnary, transportUnary, routeUnary, _provenanceUnary, localCertUnary,
+    endpointUnary, windowModulusTolerance, toleranceLedgerRegseq, regseqRealSealTransport,
+    transportLocalCertRoute, routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed endpointUnary localCertUnary endpointLocalCertScopedRead
+  exact
+    ⟨windowUnary, modulusUnary, toleranceUnary, ledgerUnary, regseqUnary, realSealUnary,
+      transportUnary, routeUnary, endpointUnary, scopedReadUnary, windowModulusTolerance,
+      toleranceLedgerRegseq, regseqRealSealTransport, transportLocalCertRoute,
+      routeProvenanceEndpoint, endpointLocalCertScopedRead, endpointPkg, scopedReadPkg⟩
+
 theorem CauchyCriterionCarrier_dyadic_tail_ledger_exactness [AskSetup] [PackageSetup]
     {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
       tailConsumer : BHist}
