@@ -198,11 +198,14 @@ import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalIntervalUp
+import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
 import BEDC.Derived.RationalIntervalUp.ConsumerCompleteness
 import BEDC.Derived.RationalIntervalUp.ConsumerReadbackSemanticNameCertificate
 import BEDC.Derived.RationalIntervalUp.Refinement
 import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
+import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
+import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealLimitUp
