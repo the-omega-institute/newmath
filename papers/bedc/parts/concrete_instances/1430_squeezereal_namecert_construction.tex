@@ -177,16 +177,33 @@ Next attach the seal factorization. The shared tolerance row and both sandwich l
 Finally use \autoref{thm:squeeze-real-completion-consumer-package}. It repacks the dependency and seal rows as the completion-facing handoff, and the boundary rows already rule out every coordinate not displayed in the accepted $\SqueezeRealUp$ carrier.
 \end{proof}
 
+\begin{theorem}[SqueezeReal scoped tail ledger package]
+\label{thm:squeeze-real-scoped-tail-ledger-package}
+The carrier and classifier of \autoref{def:squeeze-real-carrier} and \autoref{def:squeeze-real-classifier}, the sandwich exactness of \autoref{thm:squeeze-real-sandwich-exactness}, the dyadic-tail exhaustion of \autoref{thm:squeeze-real-dyadic-tail-exhaustion}, the shared-tail determinacy of \autoref{thm:squeeze-real-shared-tail-ledger-determinacy}, the completion consumer package of \autoref{thm:squeeze-real-completion-consumer-package}, the scoped dependency packet of \autoref{thm:squeeze-real-scoped-dependency-packet}, the shared-tail real-seal factorization of \autoref{thm:squeeze-real-shared-tail-real-seal-factorization}, and the completion handoff of \autoref{thm:squeeze-real-completion-handoff-scope} assemble one scoped finite ledger over
+$$
+\DyadicTailBoundUp,\quad \RegularCauchyNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \mathsf{BHist},\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Every $\RegSeqRatUp$, $\RealUp$, or completion-facing read of the packet is exhausted by this ledger and cannot introduce quotient regular-name equality, host real equality, selected limits, or ambient order completeness.
+\end{theorem}
+\begin{proof}
+First collect the local packet rows. The carrier and classifier identify the finite sandwich tuple, and sandwich exactness forces every seal-facing read through the shared tolerance row and the two displayed ledgers.
+
+Next bind the tail ledger. Dyadic-tail exhaustion and shared-tail determinacy show that all precision reads use the same $\DyadicTailBoundUp$ request before consuming $L$, $U$, and $S$.
+
+Finally assemble the completion-facing scope. The completion consumer package, scoped dependency packet, shared-tail real-seal factorization, and completion handoff repack the same rows over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since those rows are the entire displayed packet, no unlisted completion or host-real coordinate remains.
+\end{proof}
+
 \closureat{SqueezeRealUp}{seedStr}
 \closureat{SqueezeRealUp}{obligationStr}
+\closureat{SqueezeRealUp}{scopedStr}
 
 \begin{closurestatus}{\SqueezeRealUp}
   \constructivestory{A $\SqueezeRealUp$ packet is generated from lower, middle, and upper $\RegularCauchyNameUp$ rows, a shared $\DyadicTailBoundUp$ tolerance row, two finite sandwich ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a $\RealUp$ seal row, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:squeeze-real-carrier}, \autoref{def:squeeze-real-classifier}, \autoref{thm:squeeze-real-namecert-obligations}, \autoref{thm:squeeze-real-sandwich-exactness}, \autoref{thm:squeeze-real-realup-boundary}, \autoref{thm:squeeze-real-transport-stability}, \autoref{thm:squeeze-real-dyadic-tail-exhaustion}, \autoref{thm:squeeze-real-shared-tail-ledger-determinacy}, and \autoref{thm:squeeze-real-completion-consumer-package} bind the finite dyadic sandwich obligation surface, shared tail ledger determinacy, and real-facing boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:squeeze-real-carrier}, \autoref{def:squeeze-real-classifier}, \autoref{thm:squeeze-real-namecert-obligations}, \autoref{thm:squeeze-real-sandwich-exactness}, \autoref{thm:squeeze-real-realup-boundary}, \autoref{thm:squeeze-real-transport-stability}, \autoref{thm:squeeze-real-dyadic-tail-exhaustion}, \autoref{thm:squeeze-real-shared-tail-ledger-determinacy}, \autoref{thm:squeeze-real-completion-consumer-package}, \autoref{thm:squeeze-real-scoped-dependency-packet}, \autoref{thm:squeeze-real-shared-tail-real-seal-factorization}, \autoref{thm:squeeze-real-completion-handoff-scope}, and \autoref{thm:squeeze-real-scoped-tail-ledger-package} bind the finite shared-tail ledger and completion-facing scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim quotient equality of regular names, host real equality, a selected limit, ambient order completeness, or a standard bridge.}
-  \upgradepath{Scoped closure requires paper-level proof discharge for the same carrier, classifier, sandwich ledger stability, dyadic tail exhaustion, exactness, transport stability, completion consumer package, and real-facing boundary rows.}
+  \upgradepath{Public closure requires exporting the same shared-tail ledger as a public Real and completion certificate with an explicit standard-facing route.}
 \end{closurestatus}
