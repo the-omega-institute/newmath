@@ -62,6 +62,35 @@ theorem RegularLanguageAutomatonPacket_deterministic_run_ledger [AskSetup] [Pack
   exact
     ⟨startUnary, wordUnary, runUnary', sameRun, runRow', pkgSig⟩
 
+theorem RegularLanguageAutomatonPacket_run_prefix_restriction [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance pref
+      prefRun prefEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      hsame word pref ->
+        Cont start pref prefRun ->
+          Cont prefRun transition prefEndpoint ->
+            UnaryHistory pref ∧ UnaryHistory prefRun ∧ UnaryHistory prefEndpoint ∧
+              hsame run prefRun ∧ hsame endpoint prefEndpoint ∧
+                PkgSig bundle provenance pkg := by
+  intro packet sameWord prefRunRow prefEndpointRow
+  obtain ⟨_alphabetUnary, _statesUnary, startUnary, _acceptUnary, transitionUnary,
+    wordUnary, _runUnary, _endpointUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    runRow, endpointRow, _routesRow, pkgSig⟩ := packet
+  have prefUnary : UnaryHistory pref :=
+    unary_transport wordUnary sameWord
+  have prefRunUnary : UnaryHistory prefRun :=
+    unary_cont_closed startUnary prefUnary prefRunRow
+  have prefEndpointUnary : UnaryHistory prefEndpoint :=
+    unary_cont_closed prefRunUnary transitionUnary prefEndpointRow
+  have sameRun : hsame run prefRun :=
+    cont_respects_hsame (hsame_refl start) sameWord runRow prefRunRow
+  have sameEndpoint : hsame endpoint prefEndpoint :=
+    cont_respects_hsame sameRun (hsame_refl transition) endpointRow prefEndpointRow
+  exact
+    ⟨prefUnary, prefRunUnary, prefEndpointUnary, sameRun, sameEndpoint, pkgSig⟩
+
 theorem RegularLanguageAutomatonPacket_classified_word_transport [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance run'
       transition' endpoint' : BHist}
