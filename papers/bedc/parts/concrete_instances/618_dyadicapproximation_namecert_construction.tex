@@ -257,6 +257,48 @@ quotient reals, host equality, completion points, trichotomy, selected
 representatives, or classical approximation completeness.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation rational interval window handoff]\label{thm:dyadic-approximation-rational-interval-window-handoff}
+Let an accepted $\DyadicApproximationUp$ packet expose its finite
+approximation coordinates, and let an accepted $\RationalIntervalUp$ packet
+expose a finite containment ledger recording the displayed dyadic endpoint at
+the same unary precision. Then every $\RealUp$-facing consumer read factors
+through the common finite surface: the precision row, dyadic endpoint, rational
+endpoint, rational order and containment rows, $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, visible $\hsame$, visible $\Cont$, $\mathsf{Pkg}$,
+and local $\NameCert$ provenance rows.
+
+The handoff supplies no quotient real, selected limit, host real equality,
+located subset, or interval-arithmetic closure. It only identifies the shared
+finite endpoint window already carried by the two accepted packets and their
+displayed containment ledger.
+\end{theorem}
+\begin{proof}
+Project the dyadic packet through
+\autoref{thm:dyadicapproximation-public-finite-window-export}. This gives the
+precision row, dyadic endpoint, stream window, regular-sequence readback,
+$\RealUp$ seal ledger, $\hsame$, $\Cont$, package, and local certificate rows
+available to any public consumer.
+
+Route the seal through
+\autoref{thm:dyadic-approximation-real-seal-handoff}. The seal contributes no
+completed-real coordinate; it is read through the same finite dyadic endpoint
+window and the same $\RegSeqRatUp$ readback boundary.
+
+Project the rational packet through
+\autoref{thm:rational-interval-public-rational-window-handoff}. Its public
+surface exposes the rational endpoint, rational order row, containment row,
+finite window, transport, continuation, package, and certificate provenance.
+
+Use the containment-ledger hypothesis to identify the rational endpoint window
+with the displayed dyadic endpoint at the common unary precision. After this
+identification, every listed consumer coordinate is one of the two carrier
+coordinates already projected above.
+
+The conclusion follows by carrier-coordinate exhaustion. Since neither carrier
+has a row for quotient reals, selected limits, host real equality, located
+subsets, or interval arithmetic, the handoff cannot export those objects.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
@@ -271,5 +313,5 @@ representatives, or classical approximation completeness.
   \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
-  \upgradepath{Mature closure requires examples or completeness statements for the same finite dyadic bridge.}
+  \upgradepath{Mature closure requires a comprehensive finite-window consumer treatment for the same dyadic approximation packet.}
 \end{closurestatus}

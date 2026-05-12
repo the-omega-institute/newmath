@@ -194,6 +194,16 @@ theorem betaStep_to_betaParallel {t t' : Term}
     BetaParallel t t' := by
   exact betaStep_to_parallel h
 
+theorem betaParallel_of_betaStep {t t' : Term}
+    (h : BetaStep t t') :
+    BetaParallel t t' := by
+  exact betaStep_to_parallel h
+
+theorem betaParallel_app_cong_step {f f' a : Term}
+    (h : BetaStep f f') :
+    BetaParallel (Term.app f a) (Term.app f' a) := by
+  exact BetaParallel.app (betaParallel_of_betaStep h) (betaParallel_refl a)
+
 theorem betaParallel_sort_unique {t : Term}
     (h : BetaParallel Term.sort t) :
     t = Term.sort := by
