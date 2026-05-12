@@ -82,7 +82,9 @@ import BEDC.Derived.BesselUp
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BusyBeaverUp
+import BEDC.Derived.BitVectorUp
 import BEDC.Derived.CofibrantReplacementUp
+import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.IntUp
@@ -266,6 +268,7 @@ import BEDC.Derived.RepresentationRingUp.ObligationInventory
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
