@@ -303,6 +303,39 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFiniteLedger_finite_data_anchor [AskSetup] [PackageSetup]
+    {length spine ledger provenance read consumerTail exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      UnaryHistory consumerTail ->
+        Cont read consumerTail exported ->
+          Cont length spine ledger ∧ Cont ledger provenance read ∧
+            Cont read consumerTail exported ∧ UnaryHistory ledger ∧ UnaryHistory read ∧
+              UnaryHistory exported ∧ hsame exported (append read consumerTail) ∧
+                PkgSig bundle read pkg := by
+  intro finiteLedger consumerTailUnary exportedRow
+  have lengthUnary : UnaryHistory length :=
+    finiteLedger.left
+  have spineUnary : UnaryHistory spine :=
+    finiteLedger.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    finiteLedger.right.right.left
+  have ledgerRow : Cont length spine ledger :=
+    finiteLedger.right.right.right.left
+  have readRow : Cont ledger provenance read :=
+    finiteLedger.right.right.right.right.left
+  have pkgSig : PkgSig bundle read pkg :=
+    finiteLedger.right.right.right.right.right
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed lengthUnary spineUnary ledgerRow
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed ledgerUnary provenanceUnary readRow
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed readUnary consumerTailUnary exportedRow
+  exact
+    ⟨ledgerRow, readRow, exportedRow, ledgerUnary, readUnary, exportedUnary, exportedRow,
+      pkgSig⟩
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
