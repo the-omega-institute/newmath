@@ -17057,3 +17057,390 @@ Rationale:
 The carrier states that n is the NatUp length row, L is the component spine with displayed length n, I has one ProdUp index-component row for each visible index below n, and H hides only positions outside the displayed length at papers/bedc/parts/concrete_instances/531_finitevector_namecert_construction.tex:9-25. Existing theorems cover length-index stability, componentwise ledger exactness, and the NameCert surface at lines 41-91, but not the zero-length boundary where the index set is empty. A focused grep for FiniteVector empty length/zero length/empty vector/no component and theorem labels found only the existing generic thm:finitevector-length-index-stability references at lines 42, 76, and 86, with no empty/zero theorem. Marker grep on this file returned 0 Lean markers, and find/ls for lean4/BEDC names matching FiniteVector returned 0 files; the file is only 104 lines, so it is a suitable child target rather than a hub or near-cap file.
 
 ---
+
+### B-676 - S1 finite-rank host homologization obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (codex) |
+| Object | S1 finite-rank host homologization obstruction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the S1 carrier/readback bridge setup, if a finite-rank host homologization certificate is admitted for the visible S1 bridge ledger, then the induced bounded-rank certificate is incompatible with cofinal prime-support evidence, so the finite-rank host homologization is obstructed.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+
+Rationale:
+This is a concrete obstruction target over the existing S1 carrier/readback surface rather than a marker-only or verification-axis task. It is distinct from the active S1 completion-readback injectivity prerequisite: B-675 concerns preservation of source separation through displayed completion readbacks, while this candidate asks for an obstruction to a finite-rank host homologization certificate using bounded-rank versus cofinal-support evidence. The local input is not listed as a hub file or near the 800-line cap, and the claim can be staged as a BEDC-native bridge-obligation theorem without importing Automath runtime state.
+
+---
+
+### B-675 - S1 completion-readback injectivity prerequisite
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (both) |
+| Object | S1 completion-readback injectivity prerequisite |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the visible S1 carrier/readback setup, if a cancellative additive source map is injective and the bridge reads a displayed completion representative, then source separation is preserved by the completion readback without using host quotient primitives.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+
+Rationale:
+This is a concrete bridge-prerequisite target that lands on the existing S1 carrier/readback surface rather than importing a host completion object. It is distinct from the current S1 transport, determinacy, public readback, and constructor-compatibility rows, and it is not present in the existing BOARD title index or paper labels. The landing file is not a hub and is below the line cap, so the target can be staged safely as a local theorem/proposition about visible representatives and separation.
+
+---
+
+### B-678 - Cons signature visible-branch inversion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Cons signature visible-branch inversion |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under Sig(Bcons(π,Π),h,E0(r),Δ), there exist δ, Δt, and s such that Ask(π,h,b0,δ), Sig(Π,h,s,Δt), and hsame(r,s), with the analogous E1 branch forcing head mark b1.
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete branch-inversion target for the cons signature rule. Existing paper material records cons generation, nonempty result, tail recovery, and head-mark determinacy, but does not expose the E0/E1 visible-result cases as their own theorem block. It is not a BOARD duplicate, and it lands in the existing signature-generation file safely.
+
+---
+
+### B-677 - Signature empty-result iff empty bundle
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Signature empty-result iff empty bundle |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under Sig(Π,h,r,Δ), hsame(r,emp) holds if and only if Π = Bnil.
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete inversion/classification theorem over the existing signature-generation surface. The paper already has the two directional ingredients in adjacent theorem blocks, but not the hsame-level iff for an arbitrary generated result r under a single Sig premise. It would make the empty-result boundary explicit without duplicating an existing BOARD title or paper theorem label, and the landing file is below the line cap.
+
+---
+
+### B-679 - Three-bundle signature cut inversion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Three-bundle signature cut inversion |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+Under Sig(BAppend(Π,BAppend(Θ,Ω)),h,u,Λ), there exist component results s, t, w, intermediate continuations b and u′, and ledgers witnessing Sig(Π,h,s), Sig(Θ,h,t), Sig(Ω,h,w), Cont(w,t,b), Cont(b,s,u′), and hsame(u,u′).
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a genuine reverse factorization theorem for triple append at the signature-generation layer. The paper already has binary append inversion and forward three-bundle coherence, but not the reverse cut decomposition from one right-associated signature into three component signatures and two continuation cuts. It is distinct from existing gap-composition BOARD entries and has safe local landing files.
+
+---
+
+### B-680 - GeneratedSameSig inhabitation iff sameSig
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | GeneratedSameSig inhabitation iff sameSig |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+For any Π, h, and k, Nonempty(GeneratedSameSig(Π,h,k)) holds if and only if sameSig_Π(h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This is a concrete bridge between the core signature-sameness predicate and the checker-friendly GeneratedSameSig witness object used by exact Globalize. Existing text defines both sides and gives witness projections, but the paper does not appear to contain a theorem label aligning the two interfaces directly. It is a useful low-risk bridge target rather than a marker-only or closurestatus item.
+
+---
+
+### B-682 - Entropy public readback bridge boundary
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Entropy public readback bridge boundary |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an EntropyUp public readback surface exposes the displayed source carrier, log-partition rows, transported log-weight and IntegralUp readback rows, Cont ledger, Pkg provenance, and consumer-exact boundary, then a conservative paper bridge may read only those rows and cannot import convergence, measure completion, host entropy equality, or host integral equality.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex`
+
+Rationale:
+EntropyUp has public paper closure but no bridge boundary: the BHist measure source and log-partition carrier are defined at papers/bedc/parts/concrete_instances/170_entropy_namecert_construction.tex:9-32; the chapter proves log-partition consumer exhaustion and transport closure at lines 34-89, distribution-integral boundary at lines 91-111, NameCert obligation surface at lines 116-136, log-weight transport determinacy at lines 138-169, and inventory/ledger stability at lines 171-232. Its closure block states that the next paper-axis step is a bridge boundary for the public entropy readback surface at lines 234-245. Prior discovery rejected a generic 'Entropy exported readback surface' as already covered by the distribution-integral boundary, so this candidate deliberately targets the different missing bridge-boundary implication and keeps the exclusions concrete.
+
+---
+
+### B-681 - GeneratedSameSig append closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | GeneratedSameSig append closure |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+
+Problem:
+If GeneratedSameSig(Π,h,k) and GeneratedSameSig(Θ,h,k), then GeneratedSameSig(BAppend(Π,Θ),h,k).
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/exact_globalize.tex`
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+
+Rationale:
+This lifts the existing core append closure for sameSig to the checker-facing GeneratedSameSig witness layer consumed by exact Globalize. It is a concrete closure target with downstream proof utility, not a duplicate of the core sameSig append theorem because the conclusion is at the witness-object interface. The proposed files are not hubs and are below the 800-line cap.
+
+---
+
+### B-684 - Ergodic invariant subledger restriction stays carried
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Ergodic invariant subledger restriction stays carried |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted $\ErgodicUp$ measure-preserving carrier is restricted to a displayed finite subledger of its invariant-subspace rows while retaining the same $\DynSystemUp$ transformation row, $\MeasureUp$ measure row, $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance, then the restricted packet remains an accepted $\ErgodicUp$ measure-preserving carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/174_ergodic_namecert_construction.tex`
+
+Rationale:
+ErgodicUp is unusually sparse compared with nearby probability chapters: it has only two definitions and three theorem blocks, all focused on classifier/decomposition surface rather than closure under finite subledgers. The source surface is a finite package of DynSystem rows, Measure rows, invariant-subspace classifier rows, $\hsame$ transport, finite $\Cont$ routes, and $\Pkg$ provenance at papers/bedc/parts/concrete_instances/174_ergodic_namecert_construction.tex:9-17; the measure-preserving carrier is an accepted instance of that finite source at lines 19-27. The decomposition ledger theorem says every witness is exhausted by those invariant rows and imports no host sigma-algebra quotient at lines 58-80. A subledger restriction theorem would give the chapter a concrete finite-structure closure result rather than another boundary projection.
+
+---
+
+### B-683 - Martingale finite suffix restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Martingale finite suffix restriction carrier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+
+Problem:
+If an accepted $\MartingaleUp$ adapted-sequence packet is restricted to a displayed suffix of its finite unary time spine while retaining the indexed $X$, $E$, $T$, $\rho$, and $\lambda$ rows and the same $\RandomVarUp$ and $\CondExpUp$ inputs, then the restricted tuple is again an accepted $\MartingaleUp$ adapted-sequence packet.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/168_martingale_namecert_construction.tex`
+
+Rationale:
+The stochastic-process area has a prefix theorem for martingales but not the complementary suffix closure, while the adjacent MarkovChain chapter already has both prefix and suffix restriction targets. The Martingale packet is a finite tuple $(R,C,F,X,E,T,\rho,\lambda)$ accepted exactly when the displayed RandomVar, CondExp, filtration, tower, provenance, and ledger rows are present at papers/bedc/parts/concrete_instances/168_martingale_namecert_construction.tex:93-102. The existing finite-prefix restriction theorem appears at lines 345-385, and the closure story emphasizes finite packets and prefix restriction but excludes host stochastic-process data at lines 423-435. A finite-suffix restriction theorem would fill a specific missing half of the restriction schema without adding stopping-time or convergence theory.
+
+---
+
+### B-685 - FiniteMap displayed support readback
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteMap displayed support readback |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted FiniteMapUp source is read through a FinSetUp support boundary, then the support row is exactly the displayed key rows in the ListUp spine, with duplicate keys retained as ledger entries rather than extra first-hit lookup outputs.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/775_finitemap_namecert_construction.tex`
+
+Rationale:
+This is a concrete BEDC instance-level readback theorem, not a marker or verification-axis task. The FiniteMap chapter explicitly uses finite support through FinSetUp in its story and closure surface, while the labelled theorem surface currently covers the carrier/classifier obligations, lookup Option exactness, ledger transport, and the NameCert obligation surface. The proposed target isolates the support-boundary projection that is mentioned but not separately closed, and it is distinct from existing BOARD entries and from the existing FiniteMap labels.
+
+---
+
+### B-686 - RegularLanguage empty-word acceptance exactness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RegularLanguage empty-word acceptance exactness |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+If an accepted RegularLanguageUp packet has the empty ListUp input spine, then its accepted endpoint row is exactly the start-state row together with membership of that start state in the accepting-state carrier F.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/692_regularlanguage_namecert_construction.tex`
+
+Rationale:
+This is a focused empty-spine inversion for an existing concrete instance. The RegularLanguage chapter already states the deterministic empty-word endpoint and separately states accepted-word endpoint transport, but there is no closely matching labelled theorem that packages the empty-word accepted endpoint itself as start-state plus accepting-carrier membership. The claim is narrow, concrete, lands in the existing chapter without hub or line-cap risk, and is sufficiently distinct from existing BOARD entries.
+
+---
+
+### B-689 - MPC finite-horizon prefix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | MPC finite-horizon prefix restriction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted ModelPredictiveControlUp packet over horizon N is restricted to a certified prefix horizon m≤N while retaining the first m prediction, constraint, cost, terminal, first-control, hsame, Cont, Pkg, and NameCert rows, then the restricted packet is accepted as a ModelPredictiveControlUp packet over m.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex`
+
+Rationale:
+The MPC carrier is a finite BHist packet M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C), where N is the unary prediction horizon, W is a constraint-window row indexed by horizon entries, O is a finite control-sequence candidate, and R records finite rollout routes at papers/bedc/parts/concrete_instances/716_modelpredictivecontrol_namecert_construction.tex:18-58. The existing finite-horizon obligation exposes the prediction ledger as finite rows at lines 60-68, and the constraint theorem exposes admissibility rows indexed by the same finite horizon at lines 86-94. Focused rg for `modelpredictivecontrol.*restriction|model predictive control.*restriction|modelpredictivecontrol.*prefix|model predictive control.*prefix` returned 0 hits across papers and BOARD, while the adjacent Riccati chapter already has a finite horizon tail restriction theorem, showing this is a missing local finite-ledger closure rather than a broad control-theory claim. The target file has 211 lines with 5 theorem-like blocks.
+
+---
+
+### B-687 - FreeMonoid empty concatenation inversion
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FreeMonoid empty concatenation inversion |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If accepted FreeMonoidUp words u and v have concatenation u·v classified with the empty word under the FreeMonoidUp classifier, then u and v are each classified with the empty word under the same payload, ListUp, NatUp, and MonoidUp setup.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/642_freemonoid_namecert_construction.tex`
+
+Rationale:
+The local carrier explicitly presents a FreeMonoidUp word as a finite BHist spine with ListUp positions, a NatUp length row, payload entries, and Cont routes for empty word, singleton insertion, and concatenation at papers/bedc/parts/concrete_instances/642_freemonoid_namecert_construction.tex:11-30. The chapter proves empty word unit laws at lines 32-40 and concatenation associativity at lines 53-66, and its normal-form theorem says consumer reads have exactly three ledger shapes: empty word, singleton insertion, or concatenation at lines 117-124. Focused rg for `freemonoid.*empty.*concat|concat.*empty.*freemonoid|freemonoid.*inversion|empty word.*inversion` returned only one FreeMonoid hit, the scope sentence at line 168, and no theorem label for empty-concat inversion. This is a concrete inversion result about the existing concatenation ledger, not parameter transport, and the target file has 174 lines with 5 theorem-like blocks.
+
+---
+
+### B-688 - Trie prefix subledger restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Trie prefix subledger restriction carrier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+
+Problem:
+If an accepted TrieUp source packet is restricted to a finite displayed prefix-closed subledger of its key-path, optional-payload, branch, depth, transport, continuation, and provenance rows, then the restricted packet is again accepted as a TrieUp source packet under the same BoolUp, ListUp, OptionUp, NatUp, and BitVectorUp dependencies.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/789_trie_namecert_construction.tex`
+
+Rationale:
+TrieUp is locally defined as the finite packet T=(k,v,l,b,p), with key-path, optional terminal payload, NatUp depth ledger, BoolUp branch ledger, and package provenance coordinates at papers/bedc/parts/concrete_instances/789_trie_namecert_construction.tex:10-37. Existing theorem coverage proves carrier stability under displayed hsame/Cont transport at lines 39-45, ledger coverage at lines 83-90, and lists prefix-branch determinacy as a NameCert obligation item at lines 115-123, but no standalone closure theorem restricts the finite branch ledger to a prefix-closed subpacket. Focused rg for `trie.*prefix.*restriction|trie.*restriction|trie.*subledger` returned no Trie theorem label; hits were unrelated files and one BOARD analogy for PersistentHomUp, not TrieUp. This is a finite-carrier restriction theorem, not a classifier-transport echo, and the target file has 163 lines with 4 theorem-like blocks.
+
+---
+
+### B-690 - LocatedCauchy constant window degeneracy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | LocatedCauchy constant window degeneracy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 7/10 |
+
+Problem:
+If a LocatedCauchyUp packet is the constant dyadic-stream carrier from the local carrier definition, then every requested precision window reads a located dyadic ball classified with the same degenerate dyadic endpoint under the displayed StreamNameUp, DyadicRatCoreUp, and CauchyModulusUp rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/809_locatedcauchy_namecert_construction.tex`
+
+Rationale:
+The LocatedCauchyUp carrier is the finite packet L=(S,D,M,W,H,C,P,N), with schedule S, dyadic endpoint family D, Cauchy modulus M, located-ball witnesses W, transport H, and Cont readback routes C at papers/bedc/parts/concrete_instances/809_locatedcauchy_namecert_construction.tex:11-41. The definition says a constant dyadic stream inhabits the carrier by repeating one scheduled dyadic endpoint and using degenerate located balls at each requested window at lines 37-40, and the window-stability theorem only handles refined requested windows generally at lines 61-70. The NameCert theorem uses constant-stream habitation at lines 86-103 but does not isolate the per-window degenerate readback as a theorem. Focused rg for `locatedcauchy.*degenerate|locatedcauchy.*constant.*window|constant dyadic.*window` returned no LocatedCauchy theorem label; the only nonlocal hit was a LocatedReal proof sentence. This is a boundary exactness theorem about a concrete existing carrier, and the target file has 200 lines with 4 theorem-like blocks.
+
+---
