@@ -175,6 +175,30 @@ theorem ContinuedFractionPacket_rational_interval_window_handoff_certificate [As
       exact ⟨sourceRow.right.right.right, scheduleUnary, handoffUnary, boundaryUnary⟩
   }
 
+theorem ContinuedFractionPacket_real_boundary [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance sealRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont handoff boundary sealRow ->
+        PkgSig bundle sealRow pkg ->
+          UnaryHistory schedule ∧ UnaryHistory handoff ∧ UnaryHistory boundary ∧
+            UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory sealRow ∧
+              Cont schedule numerator handoff ∧ Cont handoff ledger boundary ∧
+                Cont boundary schedule provenance ∧ Cont handoff boundary sealRow ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle sealRow pkg := by
+  intro packet handoffBoundarySeal sealPkg
+  obtain ⟨_digitsUnary, _numeratorUnary, _denominatorUnary, _radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumeratorHandoff,
+    handoffLedgerBoundary, boundaryScheduleProvenance, provenancePkg⟩ := packet
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed handoffUnary boundaryUnary handoffBoundarySeal
+  exact
+    ⟨scheduleUnary, handoffUnary, boundaryUnary, ledgerUnary, provenanceUnary, sealUnary,
+      scheduleNumeratorHandoff, handoffLedgerBoundary, boundaryScheduleProvenance,
+      handoffBoundarySeal, provenancePkg, sealPkg⟩
+
 theorem ContinuedFractionPacket_real_boundary_scope [AskSetup] [PackageSetup]
     {digits numer denom radius schedule handoff boundary ledger provenance realRead readback :
       BHist}
