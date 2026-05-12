@@ -477,6 +477,46 @@ trichotomy, selected-representative, located-subset, or choice-principle field,
 none of those objects can be exported by the terminal window.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation nested window exhaustion]
+\label{thm:dyadicapproximation-nested-window-exhaustion}
+Every finite chain of compatible $\DyadicApproximationUp$ consumer refinements
+has one terminal displayed window. Every consumer read in the chain factors
+through exactly the terminal precision row, the $\DyadicRatCoreUp$ endpoint
+row, the $\StreamNameUp$ and $\RegSeqRatUp$ observation window, the displayed
+$\hsame$ transports, the visible $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and the local $\NameCert_{\DyadicApproximationUp}$ ledger.
+
+When a $\RationalIntervalUp$ containment row is present in the chain, it is
+read through that same terminal window. The exhaustion exports no quotient
+real, host equality, completion point, trichotomy row, selected representative,
+located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+Induct over the finite refinement chain. The empty and singleton chains are
+handled by projecting the accepted packet carrier: the only consumer-visible
+rows are the displayed precision row, endpoint row, observation window,
+transport routes, package provenance, and local naming ledger.
+
+For the binary extension step, apply
+\autoref{thm:dyadicapproximation-terminal-refinement-window} to the terminal
+window already obtained for the initial segment and to the next compatible
+refinement packet. This produces one displayed terminal precision row for the
+extended chain.
+
+Use
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to remove dependence on the chosen bracketing of the finite chain. Any two
+ways of building the terminal window identify the same consumer-visible
+precision, endpoint, observation, transport, package, and ledger rows.
+
+Finally apply \autoref{thm:dyadicapproximation-consumer-completeness}. It
+exhausts all finite consumer reads through the terminal row, while
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff} accounts
+for the containment row when present. Since the carrier contains none of the
+excluded completion, quotient, trichotomy, selection, located-subset, or choice
+coordinates, the nested chain exports none of them.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}

@@ -126,6 +126,45 @@ quotient, completion witness, host index, or hidden stream equality is added in
 that repacking.
 \end{proof}
 
+\begin{theorem}[StreamName constant window union exactness]
+\label{thm:streamname-constant-window-union-exactness}
+Let $a,b:\Hist$ be rational-history endpoints, and let $I,J$ be inhabited
+finite unary constant rational $\StreamNameUp$ windows over the same BEDC
+source $\mathsf{BHist}$. Suppose both windows expose the row
+$\mathsf{RatHistoryClassifier}(a,b)$. Then the finite union window represented
+by $\mathsf{bundleAppend}(I,J)$ exposes the same classifier row.
+
+Every selected observation of $\mathsf{bundleAppend}(I,J)$ restricts back to one
+of the original constant-window rows. A finite-window $\RealUp$ or
+$\RegSeqRat$ consumer of this union window reads only $\StreamNameUp$,
+$\mathsf{ProbeBundle}$, $\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\mathsf{RatHistoryClassifier}(a,b)$. It receives no completion row, quotient,
+host stream equality, or hidden selector.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-constant-window-subwindow-exactness} to the
+inhabited window $I$. Its selected constant observations all read the displayed
+row $\mathsf{RatHistoryClassifier}(a,b)$, and the subwindow proof uses only the
+public finite-window StreamName rows.
+
+Apply the same subwindow exactness theorem to $J$. Since the endpoints are the
+same $a,b$, the second package exposes the identical rational-history
+classifier row, again without a host stream comparison.
+
+Use the finite-window structural laws recorded by
+\autoref{thm:streamname-public-finite-window-interface}. The
+$\mathsf{bundleAppend}$ membership law places every selected observation of the
+union bundle in either the $I$ branch or the $J$ branch, and each branch has
+already been reduced to the same constant-window classifier row.
+
+Finally apply \autoref{thm:streamname-constant-window-real-boundary} and
+\autoref{thm:streamname-constant-window-regseq-boundary}. These boundaries say
+that downstream $\RealUp$ and $\RegSeqRat$ finite-window consumers can read only
+the listed StreamName, probe-bundle, unary-history, transport, continuation,
+package, and rational-history classifier rows. The appended union therefore
+adds no completion, quotient, host stream equality, or hidden selector.
+\end{proof}
+
 \begin{theorem}[StreamName constant directed-overlap exactness]
 \label{thm:streamname-constant-window-directed-overlap-exactness}
 Let $a,b:\Hist$ be rational-history endpoints, and let
