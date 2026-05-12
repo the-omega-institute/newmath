@@ -229,4 +229,24 @@ theorem DyadicTailBoundCarrier_real_seal_factorization [AskSetup] [PackageSetup]
     ⟨ledgerUnary, readbackUnary, sealRowUnary, consumerUnary, scheduleToleranceLedger,
       ledgerReadbackSeal, ledgerReadbackConsumer, provenancePkg, consumerPkg⟩
 
+theorem DyadicTailBoundCarrier_tolerance_ledger_exhaustion [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      PkgSig bundle ledger pkg ->
+        UnaryHistory schedule ∧ UnaryHistory tolerance ∧ UnaryHistory ledger ∧
+          Cont schedule tolerance ledger ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle ledger pkg := by
+  intro carrier ledgerPkg
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, _readbackUnary, _sealUnary,
+    _provenanceUnary, scheduleToleranceLedger, _ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  exact
+    ⟨scheduleUnary, toleranceUnary, ledgerUnary, scheduleToleranceLedger, provenancePkg,
+      ledgerPkg⟩
+
 end BEDC.Derived.DyadicTailBoundUp
