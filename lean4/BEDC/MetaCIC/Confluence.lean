@@ -414,6 +414,62 @@ theorem betaStep_sort_absurd
   intro h
   cases h
 
+theorem betaStep_pi_iff {d c t : Term} :
+    BetaStep (Term.pi d c) t ↔
+      (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
+      (∃ d', BetaStep d d' ∧ t = Term.pi d' c) := by
+  constructor
+  · intro h
+    cases h with
+    | congPiCod d c c' hc =>
+        exact Or.inl (Exists.intro c' (And.intro hc rfl))
+    | congPiDom d d' c hd =>
+        exact Or.inr (Exists.intro d' (And.intro hd rfl))
+  · intro h
+    cases h with
+    | inl hc =>
+        cases hc with
+        | intro c' hc' =>
+            cases hc' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congPiCod d c c' hstep
+    | inr hd =>
+        cases hd with
+        | intro d' hd' =>
+            cases hd' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congPiDom d d' c hstep
+
+theorem betaStep_lam_iff {d b t : Term} :
+    BetaStep (Term.lam d b) t ↔
+      (∃ b', BetaStep b b' ∧ t = Term.lam d b') ∨
+      (∃ d', BetaStep d d' ∧ t = Term.lam d' b) := by
+  constructor
+  · intro h
+    cases h with
+    | congLam d b b' hb =>
+        exact Or.inl (Exists.intro b' (And.intro hb rfl))
+    | congLamDom d d' b hd =>
+        exact Or.inr (Exists.intro d' (And.intro hd rfl))
+  · intro h
+    cases h with
+    | inl hb =>
+        cases hb with
+        | intro b' hb' =>
+            cases hb' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congLam d b b' hstep
+    | inr hd =>
+        cases hd with
+        | intro d' hd' =>
+            cases hd' with
+            | intro hstep ht =>
+                cases ht
+                exact BetaStep.congLamDom d d' b hstep
+
 theorem betaStep_source_not_sort {t : Term} :
     ¬ BetaStep Term.sort t := by
   exact betaStep_sort_absurd
