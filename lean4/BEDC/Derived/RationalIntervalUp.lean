@@ -77,4 +77,26 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_realup_consumer_exactness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint containment consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+            UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory consumer ∧
+              Cont left right order ∧ Cont endpoint containment consumer ∧
+                PkgSig bundle consumer pkg := by
+  intro packet endpointContainmentConsumer consumerPkg
+  rcases packet with
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+      _provenanceUnary, _nameUnary, endpointUnary, leftRightOrder, _orderContainmentTransport,
+      _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary containmentUnary endpointContainmentConsumer
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, consumerUnary,
+      leftRightOrder, endpointContainmentConsumer, consumerPkg⟩
+
 end BEDC.Derived.RationalIntervalUp
