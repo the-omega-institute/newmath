@@ -255,6 +255,12 @@ theorem betaParallel_sort_unique_target {t : Term}
   cases h
   rfl
 
+theorem betaStarStep_of_betaParallel_sort {t : Term}
+    (h : BetaParallel Term.sort t) :
+    BetaStarStep Term.sort t := by
+  cases betaParallel_sort_unique h
+  exact BetaStarStep.refl Term.sort
+
 theorem betaParallel_var_unique {i : Idx} {t : Term}
     (h : BetaParallel (Term.var i) t) :
     t = Term.var i := by
@@ -266,6 +272,12 @@ theorem betaParallel_var_unique_target {i : Idx} {t : Term}
     t = Term.var i := by
   cases h
   rfl
+
+theorem betaStarStep_of_betaParallel_var {i : Idx} {t : Term}
+    (h : BetaParallel (Term.var i) t) :
+    BetaStarStep (Term.var i) t := by
+  cases betaParallel_var_unique h
+  exact BetaStarStep.refl (Term.var i)
 
 theorem betaParallel_pi_shape {d c t : Term}
     (h : BetaParallel (Term.pi d c) t) :
@@ -493,6 +505,19 @@ theorem betaStep_sort_absurd
   intro h
   cases h
 
+theorem betaStep_app_cases {f a t : Term}
+    (h : BetaStep (Term.app f a) t) :
+    (∃ d b, f = Term.lam d b ∧ t = substitute 0 a b) ∨
+    (∃ f', BetaStep f f' ∧ t = Term.app f' a) ∨
+    (∃ a', BetaStep a a' ∧ t = Term.app f a') := by
+  cases h with
+  | beta d b a =>
+      exact Or.inl (Exists.intro d (Exists.intro b (And.intro rfl rfl)))
+  | congApp1 f f' a hff' =>
+      exact Or.inr (Or.inl (Exists.intro f' (And.intro hff' rfl)))
+  | congApp2 f a a' haa' =>
+      exact Or.inr (Or.inr (Exists.intro a' (And.intro haa' rfl)))
+
 theorem betaStep_pi_iff {d c t : Term} :
     BetaStep (Term.pi d c) t ↔
       (∃ c', BetaStep c c' ∧ t = Term.pi d c') ∨
@@ -617,6 +642,36 @@ theorem betaStarStep_sort_unique_target {t : Term}
       rfl
   | step hstep _ =>
       exact False.elim (betaStep_sort_absurd hstep)
+
+theorem betaStarStep_atom_refl_only {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaStarStep t t') :
+    t' = t := by
+  cases hatom with
+  | inl hsort =>
+      cases hsort
+      exact betaStar_sort_target h
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          exact betaStar_var_target i h
+
+theorem betaStarStep_atom_reflexive {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaStarStep t t') :
+    t = t' := by
+  cases betaStarStep_atom_refl_only hatom h
+  rfl
+
+theorem betaParallel_betaStarStep_atom_coincide {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaParallel t t') :
+    t' = t ∧ BetaStarStep t t' := by
+  exact
+    And.intro
+      (betaStarStep_atom_refl_only hatom (betaStarStep_of_betaParallel_atom hatom h))
+      (betaStarStep_of_betaParallel_atom hatom h)
 
 theorem betaStar_var_join
     (i : Idx) {u1 u2 : Term}
