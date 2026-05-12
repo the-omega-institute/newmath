@@ -139,6 +139,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N),
 $$
 the $\RealUp$ seal row $E$ factors through the $\RegSeqRatUp$ row $R$, the finite tail ledger $L$, the schedule row $\mu$, and the dyadic tolerance row $\epsilon$. The rows $H$, $C$, $P$, and $N$ certify transport, readback, package provenance, and local naming for that factorization, but they do not supply a quotient of streams, a selected limit, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_real\_seal\_factorization}
 \begin{proof}
 Project the seal coordinate $E$ from the carrier. By the carrier definition, the only real-facing route first reaches the $\RegSeqRatUp$ row $R$ obtained from the displayed tail data.
 
@@ -193,6 +194,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N)
 $$
 through the same displayed rows $R$, $L$, $\mu$, $\epsilon$, $H$, $C$, $P$, and $N$. Then both consumers obtain the same classifier-facing $\RealUp$ seal row $E$. This determinacy is only a statement about the visible seal row of the carrier; it does not export host equality of real numbers, quotient equality of streams, a selected limit, or a completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_seal\_consumer\_determinacy}
 \begin{proof}
 Project the seal coordinate $E$ from the carrier. The definition gives a single real-facing row attached to the regular-sequence readback route.
 
@@ -277,11 +279,12 @@ Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \a
 \closureat{DyadicTailBoundUp}{scopedStr}
 \closureat{DyadicTailBoundUp}{publicStr}
 \closureat{DyadicTailBoundUp}{bridgedStr}
+\closureat{DyadicTailBoundUp}{matureStr}[BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_budget\_composition]
 
 \begin{closurestatus}{\DyadicTailBoundUp}
   \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridged paper scope is the public tail-budget interface through the regular-sequence handoff, classifier transport, real-seal factorization, tolerance ledger exhaustion, consumer obligation package, and budget composition rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is the finite tail-budget interface through budget composition, ledger threshold exhaustion, the $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, classifier transport, consumer obligation packaging, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

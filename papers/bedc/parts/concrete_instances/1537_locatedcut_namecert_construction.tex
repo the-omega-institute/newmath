@@ -167,15 +167,108 @@ non-escape clause excludes quotient cuts, host equality, selected suprema, and
 ambient completeness.
 \end{proof}
 
+\begin{theorem}[LocatedCut paired ledger coherence]
+\label{thm:located-cut-ledger-pair-coherence}
+For every accepted $\LocatedCutUp$ packet $L=(D^{-},D^{+},W,R,S,H,C,P,N)$,
+the lower dyadic ledger $D^{-}$ and upper dyadic ledger $D^{+}$ are transported
+as one paired located-interval row. Componentwise $\hsame$ transport and the
+displayed $\Cont$ routes preserve the common precision window $W$, the
+$\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal row $S$, the $\Pkg$ provenance,
+and the local $\NameCert_{\LocatedCutUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:located-cut-carrier}. The two dyadic
+ledgers occur as adjacent coordinates of the same finite $\BHist$ packet, and
+the window row $W$ is the only row that exposes them to consumers.
+
+Use \autoref{thm:located-cut-namecert-obligations} for the ledger-stability
+clauses. They move $D^{-}$ and $D^{+}$ along the stored $\hsame$ rows, while
+the displayed $\Cont$ routes replay the same finite window reads.
+
+Apply \autoref{thm:located-cut-dyadic-interval-exhaustion} and
+\autoref{thm:located-cut-classifier-transport}. Each visible precision row is
+therefore carried as a lower-upper pair with its endpoint names, provenance,
+handoff route, and local certificate attached.
+
+The transported object is a paired located interval row, not a quotient cut or
+host equality datum. The exclusions are exactly the non-escape exclusions
+recorded in the carrier and in \autoref{thm:located-cut-seal-boundary-exactness}.
+\end{proof}
+
+\begin{theorem}[LocatedCut window handoff totality]
+\label{thm:located-cut-window-handoff-totality}
+Every visible unary precision window in an accepted $\LocatedCutUp$ packet
+supplies the $\RegSeqRatUp$ handoff route. The route reads its lower and upper
+dyadic entries from the same stream window, transports them through the paired
+ledger row, and reaches the regular rational handoff without quotient cuts,
+selected suprema, host real equality, or $\mathsf{Classical.choice}$.
+\end{theorem}
+\begin{proof}
+Fix a visible unary precision row in $W$. By
+\autoref{thm:located-cut-located-window-exactness}, the row displays a finite
+lower dyadic entry from $D^{-}$ and a finite upper dyadic entry from $D^{+}$.
+
+Use \autoref{thm:located-cut-ledger-pair-coherence}. The two endpoint entries
+travel together as the paired located interval row, so the precision window
+does not split into unrelated lower and upper consumers.
+
+Now apply \autoref{thm:located-cut-regular-cauchy-handoff}. The handoff row
+$R$ is computed from the displayed located window and the stored transport and
+continuation routes. Thus every visible window supplies the regular rational
+handoff route demanded by the $\NameCert_{\LocatedCutUp}$ obligations.
+
+Finally, \autoref{thm:located-cut-real-seal-non-escape} excludes any alternate
+route through quotient cuts, selected suprema, host real equality, or classical
+choice.
+\end{proof}
+
+\begin{theorem}[LocatedCut Real seal factorization package]
+\label{thm:located-cut-real-seal-factorization-package}
+An accepted $\LocatedCutUp$ packet assembles a finite
+$\NameCert_{\LocatedCutUp}$ obligation package consisting of the carrier,
+classifier transport, paired dyadic ledger coherence, located-window exactness,
+window handoff totality, and real seal-boundary exactness. Consequently every
+$\RealUp$ seal-facing read factors through
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S
+$$
+with its displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local
+$\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+The carrier and finite obligation rows are supplied by
+\autoref{def:located-cut-carrier} and
+\autoref{thm:located-cut-namecert-obligations}. These rows name the two dyadic
+ledgers, stream-window row, regular rational handoff, real seal row, transport
+rows, continuation rows, provenance, and local certificate.
+
+Apply \autoref{thm:located-cut-classifier-transport} and
+\autoref{thm:located-cut-ledger-pair-coherence}. They bind classifier movement
+to componentwise finite-row transport and keep the lower and upper ledgers as
+one located interval row.
+
+Next apply \autoref{thm:located-cut-located-window-exactness} and
+\autoref{thm:located-cut-window-handoff-totality}. Every visible unary
+precision window supplies the finite dyadic pair used by the $\RegSeqRatUp$
+handoff.
+
+Finally apply \autoref{thm:located-cut-seal-boundary-exactness}. The seal row
+is reached only through the displayed chain from dyadic ledgers to $W$, then to
+$R$, then to $S$. This is exactly the finite obligation package, and it contains
+no quotient cut, host real equality, selected supremum, ambient completeness
+principle, or classical choice row.
+\end{proof}
+
 \closureat{LocatedCutUp}{seedStr}
+\closureat{LocatedCutUp}{obligationStr}
 
 \begin{closurestatus}{\LocatedCutUp}
   \constructivestory{A $\LocatedCutUp$ packet is generated from lower and upper dyadic interval ledgers, located $\StreamNameUp$ precision windows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-facing row, displayed transport and continuation rows, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, finite naming-certificate obligations, regular Cauchy handoff, dyadic interval exhaustion, and real-seal non-escape discipline for located constructive cut packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:located-cut-real-seal-factorization-package} binds the carrier, classifier transport, paired ledger coherence, located-window exactness, handoff totality, and seal-boundary exactness as the finite $\NameCert_{\LocatedCutUp}$ obligation package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient cut construction, host real equality, selected suprema, ambient order completeness, uniqueness of represented reals, or bridge checking.}
-  \upgradepath{Obligation closure requires classifier transport, located-window exactness, regular Cauchy handoff exactness, and real-seal boundary exactness for the same finite packet.}
+  \upgradepath{Scoped closure requires Lean targets for paired ledger transport, window handoff totality, and the real-seal factorization package.}
 \end{closurestatus}

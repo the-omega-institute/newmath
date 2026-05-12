@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -135,5 +136,39 @@ theorem StationaryRationalCauchyBHistCarrier_diagonal_handoff [AskSetup] [Packag
   have readUnary : UnaryHistory readRoute :=
     unary_cont_closed diagonalUnary seedUnary routeRead
   exact ⟨readUnary, diagonalEq, pkgRow⟩
+
+theorem StationaryRationalCauchyCarrier_classifier_correspondence [AskSetup] [PackageSetup]
+    {q schedule regseq dyadic «seal» provenance cert endpoint q' schedule' regseq' dyadic'
+      seal' provenance' cert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalCauchyCarrier q schedule regseq dyadic «seal» provenance cert endpoint
+        bundle pkg ->
+      hsame q q' ->
+        hsame schedule schedule' ->
+          hsame regseq regseq' ->
+            hsame dyadic dyadic' ->
+              hsame «seal» seal' ->
+                hsame provenance provenance' ->
+                  hsame cert cert' ->
+                    hsame endpoint endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        StationaryRationalCauchyCarrier q' schedule' regseq' dyadic' seal'
+                          provenance' cert' endpoint' bundle pkg := by
+  intro carrier sameQ sameSchedule sameRegseq sameDyadic sameSeal sameProvenance sameCert
+    sameEndpoint endpointPkg
+  obtain ⟨qUnary, scheduleUnary, regseqUnary, dyadicUnary, sealUnary, provenanceUnary, certUnary,
+    qScheduleRegseq, regseqDyadicSeal, provenanceCertEndpoint, _endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport qUnary sameQ,
+      unary_transport scheduleUnary sameSchedule,
+      unary_transport regseqUnary sameRegseq,
+      unary_transport dyadicUnary sameDyadic,
+      unary_transport sealUnary sameSeal,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport certUnary sameCert,
+      cont_hsame_transport sameQ sameSchedule sameRegseq qScheduleRegseq,
+      cont_hsame_transport sameRegseq sameDyadic sameSeal regseqDyadicSeal,
+      cont_hsame_transport sameProvenance sameCert sameEndpoint provenanceCertEndpoint,
+      endpointPkg⟩
 
 end BEDC.Derived.StationaryRationalCauchyUp
