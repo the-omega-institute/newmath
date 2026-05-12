@@ -109,6 +109,24 @@ Use \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport} a
 Finally apply the seal factorization of \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}. The public real-facing read reaches $E$ only through those displayed rows, so the listed coordinates are the scoped kernel interface and no unlisted dependency can be exported.
 \end{proof}
 
+\begin{theorem}[RegularCauchySubsequence public export]
+\label{thm:regular-cauchy-subsequence-public-export}
+The carrier of \autoref{def:regular-cauchy-subsequence-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-subsequence-namecert-obligations}, the real seal boundary of \autoref{thm:regular-cauchy-subsequence-real-seal-boundary}, the monotone-cofinal window transport of \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}, the tail-classifier stability of \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability}, the real seal factorization of \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}, and the scoped kernel interface of \autoref{thm:regular-cauchy-subsequence-scoped-kernel-interface} assemble the public $\RegularCauchySubsequenceUp$ export consumed by $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\RatUp$.
+
+The exported object is finite $\BHist$ reindexing data: a source row, a displayed monotone-cofinal unary ledger, selected finite stream windows, transported dyadic-radius and regularity rows, a real-seal boundary, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. It is not a choice-selected infinite subsequence and not host sequence equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+G=(S,T,W,R,E,H,C,P,N).
+$$
+The carrier and obligation theorems identify the source, monotone-cofinal reindexing ledger, finite windows, transported radius and regularity rows, seal row, and provenance rows.
+
+The boundary, window-transport, classifier-stability, and seal-factorization theorems show that every downstream read travels through those displayed coordinates. The scoped kernel interface then records that no additional dependency is available to a consumer.
+
+Therefore the public export is precisely the finite $\BHist$ reindexing surface consumed by the named regular Cauchy, regular rational, stream, dyadic, real, and rational chapters. Since the carrier has no coordinate for an externally selected infinite subsequence or host sequence equality, those objects are not exported.
+\end{proof}
+
 \closureat{RegularCauchySubsequenceUp}{seedStr}
 \closureat{RegularCauchySubsequenceUp}{obligationStr}
 \closureat{RegularCauchySubsequenceUp}{scopedStr}
