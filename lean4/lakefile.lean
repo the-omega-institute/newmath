@@ -1,6 +1,7 @@
 import Lake
 open Lake DSL
 
+-- cache invalidation marker (no semantic change)
 package "BEDC" where
   version := v!"0.1.0"
   keywords := #["math"]
