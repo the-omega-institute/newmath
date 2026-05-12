@@ -487,6 +487,7 @@ import BEDC.Derived.ComplexSeriesUp.PatternSpec
 import BEDC.Derived.ComplexSeriesUp.PointwiseAppend
 import BEDC.Derived.ComplexSeriesUp.SourceSpec
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.MartingaleUp
@@ -585,6 +586,7 @@ import BEDC.Derived.TreeUp.ObligationSurface
 import BEDC.Derived.TreeUp.GraphSourceObligationRows
 import BEDC.Derived.TreeUp.ClassifierTransportObligation
 import BEDC.Derived.TreeUp.SemanticNameCertificate
+import BEDC.Derived.TrieUp
 import BEDC.Derived.SheafUp.RefinedCoverExactness
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.DirichletSeriesUp
@@ -679,6 +681,7 @@ import BEDC.Derived.TopGroupUp.ObligationContinuityLedgerSurface
 import BEDC.Derived.TopGroupUp.ObligationClosureSurface
 import BEDC.Derived.TopGroupUp.ObligationSurfaceInventory
 import BEDC.Derived.TopGroupUp.FixedLeftTranslationContinuityRow
+import BEDC.Derived.TrieUp
 import BEDC.Derived.TopVecSpaceUp
 import BEDC.Derived.ComplexTopologyUp
 import BEDC.Derived.ComplexTopologyUp.Compact
