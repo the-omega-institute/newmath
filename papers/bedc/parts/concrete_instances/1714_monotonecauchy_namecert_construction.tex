@@ -1,0 +1,119 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneCauchyUp$}
+\label{ch:concrete-instances-monotonecauchy-namecert}
+\origin{human}
+
+The $\MonotoneCauchyUp$ interface records the finite surface through which a located monotone Cauchy packet is read by interval and real-seal consumers. In the Bishop--Bridges constructive-analysis reading, monotone convergence is exposed through displayed Cauchy windows, located upper bounds, and interval enclosures rather than by trichotomy, quotient reals, open-cover compactness, or a choice of a limiting representative.
+
+\begin{definition}[Monotone Cauchy carrier]
+\label{def:monotone-cauchy-carrier}
+A $\MonotoneCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $F$ is a displayed $\RegSeqRatUp$ rational-name row carrying the inspected monotone Cauchy observations;
+\item $\sigma$ is the $\StreamNameUp$ schedule that selects the finite windows read from $F$;
+\item $\mu$ is the $\CauchyModulusUp$ row that routes each requested dyadic tolerance to a finite tail window;
+\item $\lambda$ is the $\DyadicRatCoreUp$ ledger of tolerance rows, monotone comparison rows, and located upper-bound readbacks;
+\item $I$ is the $\LocatedIntervalUp$ enclosure row that records the lower endpoint, upper endpoint, and location proof consumed by interval handoff readers;
+\item $Q$ is the $\RealUp$ seal-facing row reached from the same regular sequence, schedule, modulus, dyadic ledger, and located interval enclosure;
+\item $H$ records componentwise $\hsame$ transports for the regular sequence, schedule, modulus, dyadic ledger, located interval, and real-seal rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect those rows;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ source certificates;
+\item $N$ is the local $\NameCert_{\MonotoneCauchyUp}$ row.
+\end{enumerate}
+The monotonicity ledger is the displayed dyadic comparison row
+$$
+\begin{gathered}
+\lambda_{\mathrm{mono}}(i,j): i \leq j \Rightarrow F_i \leq F_j,\\
+\lambda_{\mathrm{cau}}(\varepsilon): \sigma(\mu(\varepsilon)) \text{ is a tail window below } \varepsilon.
+\end{gathered}
+$$
+The located upper-bound and interval ledger is
+$$
+\begin{gathered}
+\lambda_{\mathrm{loc}}(\varepsilon): F_{\sigma(\mu(\varepsilon))} \leq I^+ \text{ and } I^- \leq F_{\sigma(\mu(\varepsilon))},\\
+I(\varepsilon)=[I^-(\varepsilon),I^+(\varepsilon)] \text{ is the located interval row read by } Q.
+\end{gathered}
+$$
+The carrier contains no quotient-name equality, selected representative, host real equality, ambient completeness theorem, trichotomy row, or choice operator.
+\end{definition}
+
+\begin{theorem}[Monotone Cauchy NameCert obligation surface]
+\label{thm:monotone-cauchy-namecert-obligation-surface}
+The local $\NameCert_{\MonotoneCauchyUp}$ surface consists exactly of five rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet of \autoref{def:monotone-cauchy-carrier};
+\item classifier by common finite windows selected from the schedule $\sigma$ and compared through the same regular-sequence, modulus, tolerance, interval, and seal rows;
+\item monotone-row transport, stating that the displayed monotonicity ledger is preserved by the componentwise $\hsame$ rows in $H$ and by the consumer routes in $C$;
+\item located interval handoff, stating that every accepted interval read reaches the displayed upper-bound and enclosure ledger before any real-seal read;
+\item $\RealUp$ seal non-escape, stating that the seal row $Q$ consumes only $F,\sigma,\mu,\lambda,I,H,C,P,N$ and no hidden completion coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite packet in \autoref{def:monotone-cauchy-carrier}. Each coordinate is a displayed history row, transport row, continuation route, package row, or local naming row.
+
+The classifier is by common finite windows. Two accepted packets are compared only after their schedules select the same requested tail window and their dyadic tolerance, monotone comparison, located interval, and real-seal rows have been transported componentwise.
+
+Monotone-row transport uses the $\hsame$ rows in $H$ to move the displayed comparisons and the $\Cont$ routes in $C$ to replay the same reads. The located interval handoff is then the projection of the ledger $\lambda_{\mathrm{loc}}$ and the enclosure row $I$.
+
+Finally, the real-seal boundary is the row $Q$. Since the carrier has no quotient-name equality, selected representative, host real equality, trichotomy row, ambient completeness row, or choice operator, no such coordinate can be read by a downstream consumer.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy located interval handoff]
+\label{thm:monotone-cauchy-located-interval-handoff}
+Let
+$$
+M=(F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchyUp$ carrier. Every $\LocatedIntervalUp$ consumer read of $M$ factors through the displayed $\RegSeqRatUp$ row $F$, the $\StreamNameUp$ schedule $\sigma$, the $\CauchyModulusUp$ tail row $\mu$, the $\DyadicRatCoreUp$ tolerance and upper-bound ledger $\lambda$, and the located interval row $I$, transported only by $H$ and $C$ with provenance $P,N$.
+
+The handoff asserts a finite located enclosure for the monotone Cauchy packet; it does not assert a selected limiting representative, host real equality, trichotomy, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The interval coordinate is $I$, and every route to it first exposes the scheduled regular-rational observations $F$, the selected window $\sigma$, the modulus row $\mu$, and the dyadic ledger $\lambda$.
+
+The located ledger records the lower and upper enclosure rows used by the interval consumer. Transporting an accepted packet moves those rows componentwise through $H$ and replays only the displayed routes in $C$.
+
+Thus the interval handoff is exhausted by $F,\sigma,\mu,\lambda,I,H,C,P,N$. None of the excluded analytic objects is present as a carrier coordinate, so no interval consumer can read it from this packet.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy Real seal boundary]
+\label{thm:monotone-cauchy-real-seal-boundary}
+For an accepted $\MonotoneCauchyUp$ packet, every $\RealUp$ seal read factors through the same displayed regular sequence $F$, schedule $\sigma$, Cauchy modulus $\mu$, dyadic monotonicity and located upper-bound ledger $\lambda$, located interval row $I$, transport row $H$, continuation row $C$, package row $P$, and local $\NameCert_{\MonotoneCauchyUp}$ row $N$.
+
+Consequently the real seal receives a finite monotone Cauchy and located-interval surface, not quotient-name equality, a selected representative, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface to force each consumer route onto a common finite window and to preserve the monotone row under transport.
+
+Apply \autoref{thm:monotone-cauchy-located-interval-handoff}. The located interval row is reached only after the regular sequence, schedule, modulus, dyadic ledger, transports, continuations, package, and local certificate have already been read.
+
+The seal coordinate $Q$ consumes that same finite surface. Since no excluded completion or host-real coordinate occurs in \autoref{def:monotone-cauchy-carrier}, the real-seal boundary cannot escape the displayed packet.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy ledger exhaustion]
+\label{thm:monotone-cauchy-ledger-exhaustion}
+Every public read of an accepted $\MonotoneCauchyUp$ carrier is exhausted by the displayed monotonicity ledger, Cauchy tail ledger, located upper-bound ledger, located interval row, real-seal row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:monotone-cauchy-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The regular rational observations, stream schedule, Cauchy modulus, dyadic comparison rows, located interval row, and real-seal row are all explicit fields of the same finite $\BHist$ packet.
+
+The transport and continuation fields account for all permitted movement of those rows. The package and local naming rows account for provenance, but they do not add analytic data.
+
+Therefore every public monotone Cauchy, located interval, or real-seal read has already appeared in the displayed ledger. There is no remaining coordinate for quotient equality, a selected representative, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.
+\end{proof}
+
+\closureat{MonotoneCauchyUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneCauchyUp}
+  \constructivestory{A $\MonotoneCauchyUp$ packet is generated from a displayed regular rational sequence, a stream schedule, a Cauchy modulus row, dyadic monotonicity and located upper-bound ledgers, a located interval row, a real-seal row, componentwise transport, displayed continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers carrier admission, common finite-window classification, monotone-row transport, located interval handoff, $\RealUp$ seal non-escape, and ledger exhaustion for located monotone Cauchy packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient reals, selected representatives, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.}
+  \upgradepath{Obligation closure requires checking carrier admission, classifier by common finite windows, monotone-row transport, located interval handoff, and RealUp seal non-escape for the displayed rows.}
+\end{closurestatus}

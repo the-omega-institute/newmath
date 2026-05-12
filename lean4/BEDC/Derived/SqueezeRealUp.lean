@@ -141,4 +141,27 @@ theorem SqueezeRealCarrier_sandwich_exactness [AskSetup] [PackageSetup]
     ⟨toleranceUnary, lowerLedgerUnary, upperLedgerUnary, sealUnary, consumerUnary,
       toleranceLowerUpper, upperSealConsumer, provenancePkg, consumerPkg⟩
 
+theorem SqueezeRealCarrier_realup_boundary [AskSetup] [PackageSetup]
+    {lower middle upper tolerance lowerLedger upperLedger realSeal transport provenance localCert
+      endpoint precisionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SqueezeRealCarrier lower middle upper tolerance lowerLedger upperLedger realSeal transport
+        provenance localCert endpoint bundle pkg ->
+      Cont tolerance lowerLedger precisionRead ->
+        PkgSig bundle precisionRead pkg ->
+          UnaryHistory tolerance ∧ UnaryHistory lowerLedger ∧ UnaryHistory upperLedger ∧
+            UnaryHistory realSeal ∧ UnaryHistory precisionRead ∧
+              Cont tolerance lowerLedger precisionRead ∧ Cont upperLedger realSeal transport ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle precisionRead pkg := by
+  intro carrier toleranceLowerPrecision precisionReadPkg
+  obtain ⟨_lowerUnary, _middleUnary, _upperUnary, toleranceUnary, lowerLedgerUnary,
+    upperLedgerUnary, realSealUnary, _transportUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, _lowerMiddleLedger, _middleUpperLedger, _toleranceLowerRealSeal,
+    upperLedgerRealSealTransport, _transportLocalEndpoint, endpointPkg⟩ := carrier
+  have precisionReadUnary : UnaryHistory precisionRead :=
+    unary_cont_closed toleranceUnary lowerLedgerUnary toleranceLowerPrecision
+  exact
+    ⟨toleranceUnary, lowerLedgerUnary, upperLedgerUnary, realSealUnary, precisionReadUnary,
+      toleranceLowerPrecision, upperLedgerRealSealTransport, endpointPkg, precisionReadPkg⟩
+
 end BEDC.Derived.SqueezeRealUp
