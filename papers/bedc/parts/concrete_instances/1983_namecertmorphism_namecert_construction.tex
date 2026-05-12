@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\NameCertMorphismUp$}
+\label{ch:concrete-instances-namecertmorphism-namecert}
+\origin{ai}
+
+The $\NameCertMorphismUp$ interface packages compiler correctness as a finite relation between two naming certificates. It keeps the source and target certificates visible, records the graph edges that move source histories to target histories, and reads correctness only as classifier and $\hsame$ preservation through displayed BEDC rows.
+
+\begin{definition}[NameCert morphism carrier]
+\label{def:namecert-morphism-carrier}
+A $\NameCertMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,T,G,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row, including its carrier, classifier, and local continuation surface;
+\item $T$ is the target $\NameCert$ row, including its carrier, classifier, and local continuation surface;
+\item $G$ is the compiler graph row over source and target carrier histories;
+\item $H$ stores componentwise $\hsame$ preservation for source-classified pairs carried by graph edges into the target certificate;
+\item $C$ stores displayed $\Cont$ routes witnessing graph lifting from source classifier membership and target-carrier transport for graph outputs;
+\item $P$ records $\Pkg$ provenance for $\BHist$, $\NameCert$, $\hsame$, $\Cont$, source classifier membership, target classifier membership, and the graph row;
+\item $N$ is the local $\NameCert_{\NameCertMorphismUp}$ row.
+\end{enumerate}
+The carrier contains no host function interpreting the graph, no quotient equality between source and target histories, and no unrecorded semantic relation outside the displayed graph and certificate rows.
+\end{definition}
+
+\begin{definition}[NameCert morphism classifier]
+\label{def:namecert-morphism-classifier}
+The classifier of a $\NameCertMorphismUp$ packet $M=(S,T,G,H,C,P,N)$ accepts exactly the graph rows whose visible obligations are witnessed inside the same packet:
+\begin{enumerate}
+\item carrier admission for the source row $S$, target row $T$, graph row $G$, preservation row $H$, route row $C$, provenance row $P$, and local name $N$;
+\item classifier preservation, sending every source-classified graph input to a target-classified graph output;
+\item graph lifting along source classifier membership, so every admitted source input has a displayed graph edge into the target carrier;
+\item target carrier transport, so every graph output is read through the target certificate rather than through an external target object;
+\item ledger non-escape from host functions, quotient equality, and compiler semantics not recorded in $G,H,C,P,N$.
+\end{enumerate}
+Thus the classifier is finite and local: a consumer can ask only whether the displayed graph preserves the displayed certificate structure.
+\end{definition}
+
+\begin{theorem}[NameCert morphism identity obligation]
+\label{thm:namecert-morphism-identity-obligation}
+For every naming certificate row $S$, the diagonal graph on the carrier of $S$ determines a $\NameCertMorphismUp$ carrier from $S$ to $S$. Its classifier preservation, graph lifting, target carrier transport, and $\hsame$ preservation are the identity rows already present in $S$.
+\end{theorem}
+
+\begin{proof}
+Build the carrier with $S=T$ and let $G$ be the displayed diagonal graph. Carrier admission is projection from the single certificate row and from the local graph coordinate.
+
+The graph-lifting and target-transport clauses use the same displayed carrier membership on both sides. A source-classified input is already a target-classified input because source and target rows coincide.
+
+The $\hsame$ clause is the identity transport in the certificate row. No host function or quotient equality is introduced, since every output history is the same displayed history read through the same local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[NameCert morphism composition obligation]
+\label{thm:namecert-morphism-composition-obligation}
+Given accepted $\NameCertMorphismUp$ carriers from $S$ to $T$ and from $T$ to $U$, their relational graph composite is an accepted $\NameCertMorphismUp$ carrier from $S$ to $U$. The composed carrier preserves source classifier membership, target carrier transport, and $\hsame$ by concatenating the displayed graph-lifting and continuation rows.
+\end{theorem}
+
+\begin{proof}
+Project the two carriers to their graph rows, preservation rows, route rows, provenance rows, and local names. The shared middle certificate is the target row of the first carrier and the source row of the second carrier.
+
+For a source-classified input, first use the first graph-lifting row to obtain a middle graph edge. Then use the second graph-lifting row on the middle classified output to obtain a final graph edge into $U$.
+
+Target carrier transport is the concatenation of the first transport into $T$ and the second transport into $U$. Componentwise $\hsame$ preservation composes through the two stored preservation rows, and the composed packet still exposes only the rows displayed in its carrier.
+\end{proof}
+
+\begin{theorem}[Compiler correctness as NameCert morphism bridge]
+\label{thm:namecert-morphism-compiler-correctness-bridge}
+A compiler graph between source and target naming certificates is correct exactly when it is an accepted $\NameCertMorphismUp$ carrier: it preserves source classifier membership, lifts graph edges into the target carrier, transports target rows through the target certificate, and preserves $\hsame$ for source-classified pairs. In this certificate, compiler correctness is read as $\hsame$ preservation and not as a host-level semantic function.
+\end{theorem}
+
+\begin{proof}
+Assume first that the compiler graph is accepted by the $\NameCertMorphismUp$ classifier. The classifier rows give carrier admission, source-to-target classifier preservation, graph lifting, target carrier transport, and the displayed $\hsame$ preservation row. These are exactly the correctness obligations visible to BEDC.
+
+Conversely, assume the graph satisfies those correctness obligations using only rows in the source certificate, target certificate, graph, preservation ledger, route ledger, and package provenance. Package them as $S,T,G,H,C,P,N$ and apply the classifier definition.
+
+The two readings coincide because neither direction has access to a host function, quotient equality, or semantic relation outside the displayed certificate rows. Correctness is therefore the preservation of the named classifier and $\hsame$ surfaces by the finite graph packet.
+\end{proof}
+
+\closureat{NameCertMorphismUp}{seedStr}
+
+\begin{closurestatus}{\NameCertMorphismUp}
+  \constructivestory{A $\NameCertMorphismUp$ packet is generated from source and target $\NameCert$ rows, a compiler graph row, componentwise $\hsame$ preservation, displayed $\Cont$ routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:namecert-morphism-carrier}, \autoref{def:namecert-morphism-classifier}, \autoref{thm:namecert-morphism-identity-obligation}, \autoref{thm:namecert-morphism-composition-obligation}, and \autoref{thm:namecert-morphism-compiler-correctness-bridge} bind the finite classifier-preserving certificate morphism surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close standard compiler semantics, host functions, quotient equality, or a mathlib bridge.}
+  \upgradepath{Obligation closure next requires checked carrier admission, classifier preservation, graph lifting, target carrier transport, ledger non-escape, identity, composition, and compiler-correctness rows for the same finite graph packet.}
+\end{closurestatus}
