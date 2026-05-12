@@ -120,6 +120,7 @@ import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
 import BEDC.Derived.DyadicBallUp.RefinementOverlap
 import BEDC.Derived.DyadicTailBoundUp
+import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.BesselUp
@@ -309,6 +310,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.CompletionSealComposition
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyFamilyUp
+import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularLimitUniquenessUp
