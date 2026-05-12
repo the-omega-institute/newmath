@@ -36,6 +36,7 @@ For the carrier of \autoref{def:located-modulus-completion-carrier}, the local $
 \item non-escape, which excludes quotient streams, selected host limits, host real equality, trichotomy, and ambient completeness from the packet surface.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedModulusCompletionUp.LocatedModulusCompletionCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the direct projection of the finite tuple in \autoref{def:located-modulus-completion-carrier}. The listed rows are all displayed in the same $\mathsf{BHist}$ packet and are named by the local certificate row.
 
@@ -134,6 +135,20 @@ Project the two consumer rows from the carrier. The $\RealUp$ row is $Q$ and the
 Use \autoref{thm:located-modulus-completion-modulus-seal-ledger-scope}. It forces any route to either consumer through the same modulus row $M$ and limit-seal row $S$, with the same regular source row $R$ read before the consumer boundary.
 
 The located evidence row $E$ therefore extends the real-seal route by visible located-read data only. Since the carrier has no coordinate for a selected completed value or an alternate source/modulus packet, the handoff preserves the same finite packet $(R,M,S)$ for both consumers.
+\end{proof}
+
+\begin{theorem}[LocatedModulusCompletion schedule seal]
+\label{thm:located-modulus-completion-schedule-seal}
+For every accepted $\LocatedModulusCompletionUp$ precision request, the consumer schedule first reads the $\CauchyModulusUp$ threshold row $M$, then the $\RegSeqRatUp$ source row $R$, then the $\CauchyLimitSealUp$ row $S$, before either the $\RealUp$ seal row $Q$ or the $\LocatedRealUp$ evidence row $E$ is exposed. This schedule is stable under the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and cannot be replaced by a quotient stream, a selected completed value, host equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the precision request. By \autoref{thm:located-modulus-completion-ledger-exactness}, the consumed threshold is exactly the one recorded by the displayed modulus row $M$, so the route cannot begin from an unrecorded convergence rate.
+
+Apply \autoref{thm:located-modulus-completion-modulus-seal-ledger-scope}. After the threshold is read, every route to $Q$ or $E$ passes through the same regular source row $R$ and the same limit-facing seal row $S$.
+
+Use \autoref{thm:located-modulus-completion-regular-seal} and \autoref{thm:located-modulus-completion-located-real-handoff} to expose the two possible consumer faces. The real seal and located evidence are downstream of the same packet $(R,M,S)$.
+
+The stability and non-escape clauses are then inherited from the carrier rows. Componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row replay the same schedule, while the carrier has no coordinate for quotient streams, selected completed values, host equality, trichotomy, or ambient completeness.
 \end{proof}
 
 \closureat{LocatedModulusCompletionUp}{seedStr}

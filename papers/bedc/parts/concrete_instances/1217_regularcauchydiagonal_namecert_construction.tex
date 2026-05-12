@@ -171,6 +171,7 @@ The bridge readback route is the same route used for diagonal-window coverage. A
 
 It remains to check the selector classifier. This is exactly \autoref{thm:regular-cauchy-diagonal-selector-stability}: componentwise $\hsame$ and $\Cont$ transport preserves the selected diagonal row and hence preserves the public readback tuple.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_bridge\_readback\_exactness}
 
 \begin{theorem}[Regular Cauchy diagonal bridge non-escape]
 \label{thm:regular-cauchy-diagonal-bridge-non-escape}
@@ -234,6 +235,7 @@ Apply \autoref{thm:regular-cauchy-diagonal-window-coverage} to identify the visi
 
 The remaining possible ambiguity is the bridge route by which the consumer reads the packet. \autoref{thm:regular-cauchy-diagonal-bridge-route-determinacy} identifies that route with the same displayed tuple $D=(Q,S,R,L,W,P,N)$, and \autoref{thm:regular-cauchy-diagonal-bridge-non-escape} excludes quotient streams, selected host limits, ambient completeness rows, and host equality.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_mature\_consumer\_exhaustion}
 
 \begin{theorem}[Regular Cauchy diagonal real-completion handoff]
 \label{thm:regular-cauchy-diagonal-real-completion-handoff}
@@ -327,6 +329,7 @@ The public certificate surface is then \autoref{thm:regular-cauchy-diagonal-name
 \label{thm:regular-cauchy-diagonal-root-source-determinacy}
 For an accepted $\RegularCauchyDiagonalUp$ root packet, the concrete source tuple $D=(Q,S,R,L,W,P,N)$ is determined as a displayed $\mathsf{BHist}$ row by the stationary $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$ route, the componentwise $\hsame$ comparisons, the displayed $\Cont$ routes, the package row $\Pkg$, and the local $\NameCert$ row. No second source for the same root packet can change $Q$, $S$, $R$, $L$, $W$, $P$, or $N$ without changing one of those displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_root\_source\_determinacy}
 \begin{proof}
 Project the root packet through \autoref{def:regular-cauchy-diagonal-source} and \autoref{def:regular-cauchy-diagonal-carrier}. The carrier exposes exactly the seven rows $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ inside the displayed $\mathsf{BHist}$ packet.
 
@@ -428,6 +431,7 @@ The $\DyadicTailBoundUp$, $\RegSeqRatUp$, and $\RealUp$ portions are therefore t
 \label{thm:regular-cauchy-diagonal-formal-target-boundary}
 The formal target for $\RegularCauchyDiagonalUp$ is the finite tuple $D=(Q,S,R,L,W,P,N)$ together with selector-fiber exhaustion, completion-seal composition, downstream route factorization, and bridge non-escape. A Lean target for this chapter should prove only this finite $\BHist$ route over $\RatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and should not prove quotient streams, selected host limits, host equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalUp.RegularCauchyDiagonalCarrier\_formal\_target\_boundary}
 \begin{proof}
 Start with selector-fiber exhaustion from \autoref{thm:regular-cauchy-diagonal-selector-fiber-exhaustion}. It identifies every classifier-facing read with the displayed tuple $D=(Q,S,R,L,W,P,N)$ and the finite window, dyadic, readback, seal, transport, package, and naming rows attached to it.
 
