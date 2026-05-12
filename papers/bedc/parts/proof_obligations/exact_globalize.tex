@@ -454,3 +454,87 @@ $$
 $$
 History-sameness reflexivity gives $\hsame(u_h,u_h)$. Using $\hsame(t_h,t_k)$, $\hsame(s_h,s_k)$, $\hsame(u_h,u_h)$, and the two displayed continuation witnesses, \autoref{thm:cont-transport-result-classified} yields $\hsame(u_h,u_k)$. The generated-sameness witness for $\Omega$ is therefore filled by the two appended signature judgments and this final history-sameness component, exactly as in \autoref{def:generated-same-sig}. Since $\Omega=\mathsf{BAppend}(\Pi,\Theta)$, this is the required generated-sameness witness for $\mathsf{BAppend}(\Pi,\Theta)$.
 \end{proof}
+
+\begin{definition}[Concrete source subdomain]
+\label{def:concrete-source-subdomain}
+A concrete source domain $D'$ is a subdomain of $D$, written
+$$
+  \mathsf{SubDom}(D',D),
+$$
+when every $D'$-admitted source is $D$-admitted:
+$$
+  \forall h,\;\InDom(D',h)\Longrightarrow\InDom(D,h).
+$$
+The condition changes only the source-admission judgment. It does not change the bundle $\Pi$, generated-signature judgments, token-introduction judgments, or the base package relation.
+\end{definition}
+
+\begin{lemma}[Subdomain gap base-change]
+\label{lem:subdomain-gap-base-change}
+Assume $\mathsf{SubDom}(D',D)$. For every bundle $\Pi$, token $p$, and source history $h$, if $\InDom(D',h)$, then
+$$
+  \InGapSig(\Pi,D',p,h)
+  \Longleftrightarrow
+  \InGapSig(\Pi,D,p,h).
+$$
+\end{lemma}
+
+\begin{proof}
+Unpack $\InGapSig$ by \autoref{def:internalized-signature-gap}. A $D'$-gap membership consists of $\InDom(D',h)$, a generated signature $\Sig(\Pi,h,s,\Delta)$, and a token-introduction judgment $\TokIntro(\Pi,s,p)$. The subdomain premise sends the admitted-source part to $\InDom(D,h)$, while the generated signature and token-introduction witnesses are unchanged. These three data repack as $\InGapSig(\Pi,D,p,h)$.
+
+Conversely, assume $\InDom(D',h)$ and unpack $\InGapSig(\Pi,D,p,h)$. The unpacked membership supplies a generated signature $\Sig(\Pi,h,s,\Delta)$ and a token-introduction judgment $\TokIntro(\Pi,s,p)$. Replacing only the admitted-source certificate by the given $\InDom(D',h)$ repacks the same signature and token witnesses as $\InGapSig(\Pi,D',p,h)$.
+\end{proof}
+
+\begin{theorem}[Exact Globalize base subdomain base-change]
+\label{thm:exact-globalize-base-subdomain-base-change}
+Assume $\ExactGlobalizeBase(\Pi,D)$ and $\mathsf{SubDom}(D',D)$. Then the concrete signature Globalize structure restricted through $\InGapSig(\Pi,D',p,h)$ satisfies
+$$
+  \ExactGlobalizeBase(\Pi,D').
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:exact-globalize-base} and \autoref{thm:exact-globalize-base-target}, it is enough to provide coverage, base soundness, and base completeness over $D'$.
+
+For coverage, fix $h$ and assume $\InDom(D',h)$. The subdomain premise gives $\InDom(D,h)$. The coverage field of $\ExactGlobalizeBase(\Pi,D)$ supplies a token $p$ with
+$$
+  \InGapSig(\Pi,D,p,h).
+$$
+The reverse direction of \autoref{lem:subdomain-gap-base-change}, applied with the original $D'$-admission premise, converts this membership into
+$$
+  \InGapSig(\Pi,D',p,h),
+$$
+which proves $D'$-coverage.
+
+For soundness, assume
+$$
+  \InGapSig(\Pi,D',p,h),
+  \qquad
+  \InGapSig(\Pi,D',q,k),
+  \qquad
+  \GeneratedSameSig(\Pi,h,k).
+$$
+Each $D'$-gap membership exposes its own $D'$-admitted-source certificate by \autoref{def:internalized-signature-gap}. The forward direction of \autoref{lem:subdomain-gap-base-change} converts the two memberships to
+$$
+  \InGapSig(\Pi,D,p,h)
+  \quad\text{and}\quad
+  \InGapSig(\Pi,D,q,k).
+$$
+Applying the base soundness field of $\ExactGlobalizeBase(\Pi,D)$ to these two converted memberships and the displayed generated-sameness witness gives
+$$
+  \psame_{\Pi}^{\mathrm{base}}(p,q).
+$$
+
+For completeness, assume
+$$
+  \InGapSig(\Pi,D',p,h),
+  \qquad
+  \InGapSig(\Pi,D',q,k),
+  \qquad
+  \psame_{\Pi}^{\mathrm{base}}(p,q).
+$$
+As in the soundness argument, the two $D'$-gap memberships transport through \autoref{lem:subdomain-gap-base-change} to $D$-gap memberships with the same histories and visible tokens. The base completeness field of $\ExactGlobalizeBase(\Pi,D)$ then yields
+$$
+  \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k)).
+$$
+These three clauses are precisely the fields required for $\ExactGlobalizeBase(\Pi,D')$.
+\end{proof}
