@@ -47,4 +47,24 @@ theorem CompletionReflectionPacket_real_seal_boundary [AskSetup] [PackageSetup]
     ⟨reflectedUnary, sealUnary', completionUnary, separatedUnary, reflectedSame,
       reflectedRow, packageRow, certSig⟩
 
+theorem CompletionReflectionPacket_extension_reflects [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      extension : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont universal completion extension ->
+        hsame extension package ->
+          UnaryHistory universal ∧ UnaryHistory completion ∧ UnaryHistory separated ∧
+            UnaryHistory diagonal ∧ UnaryHistory regular ∧ hsame extension package ∧
+              Cont universal completion extension ∧ Cont completion universal package ∧
+                PkgSig bundle cert pkg := by
+  intro packet extensionRow extensionSame
+  obtain ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, _certUnary,
+    packageRow, _provenanceRow, certSig⟩ := packet
+  exact
+    ⟨universalUnary, completionUnary, separatedUnary, diagonalUnary, regularUnary,
+      extensionSame, extensionRow, packageRow, certSig⟩
+
 end BEDC.Derived.CompletionReflectionUp
