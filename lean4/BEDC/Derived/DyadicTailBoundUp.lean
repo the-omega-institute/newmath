@@ -205,4 +205,48 @@ theorem DyadicTailBoundCarrier_seal_consumer_determinacy [AskSetup] [PackageSetu
     ⟨sameSealConsumer, sameSealConsumer', sameConsumer, consumerUnary, consumerUnary',
       provenancePkg, consumerPkg, consumerPkg'⟩
 
+theorem DyadicTailBoundCarrier_real_seal_factorization [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance localCert
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      Cont ledger readback consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory ledger ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+            UnaryHistory consumer ∧ Cont schedule tolerance ledger ∧
+              Cont ledger readback sealRow ∧ Cont ledger readback consumer ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro carrier ledgerReadbackConsumer consumerPkg
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, readbackUnary, sealRowUnary,
+    _provenanceUnary, scheduleToleranceLedger, ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary readbackUnary ledgerReadbackConsumer
+  exact
+    ⟨ledgerUnary, readbackUnary, sealRowUnary, consumerUnary, scheduleToleranceLedger,
+      ledgerReadbackSeal, ledgerReadbackConsumer, provenancePkg, consumerPkg⟩
+
+theorem DyadicTailBoundCarrier_tolerance_ledger_exhaustion [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      PkgSig bundle ledger pkg ->
+        UnaryHistory schedule ∧ UnaryHistory tolerance ∧ UnaryHistory ledger ∧
+          Cont schedule tolerance ledger ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle ledger pkg := by
+  intro carrier ledgerPkg
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, _readbackUnary, _sealUnary,
+    _provenanceUnary, scheduleToleranceLedger, _ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  exact
+    ⟨scheduleUnary, toleranceUnary, ledgerUnary, scheduleToleranceLedger, provenancePkg,
+      ledgerPkg⟩
+
 end BEDC.Derived.DyadicTailBoundUp
