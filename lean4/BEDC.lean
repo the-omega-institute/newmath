@@ -1284,6 +1284,7 @@ import BEDC.MetaCIC.TypedExamples.BasicApplications
 import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
+import BEDC.HostBridge.ChurchNatRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
