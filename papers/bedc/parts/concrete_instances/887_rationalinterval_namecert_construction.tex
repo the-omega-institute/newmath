@@ -468,6 +468,7 @@ consumer-facing rows, so a quotient real, host interval, located subset,
 interval operation, or completed equality relation has no carrier coordinate
 from which it could be projected.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_endpoint\_width\_ledger}
 
 \begin{theorem}[RationalInterval dyadic transport stability]
 \label{thm:rationalinterval-dyadic-transport-stability}
@@ -676,6 +677,56 @@ $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows. Hence the two iterated
 refinements expose one finite consumer packet and add none of the excluded
 completed-real, quotient, located-subset, apartness, arithmetic, or host
 standard interval structure.
+\end{proof}
+
+\begin{theorem}[RationalInterval midpoint bisection window]
+\label{thm:rationalinterval-midpoint-bisection-window}
+Let $I$ be an accepted $\RationalIntervalUp$ packet with displayed lower
+endpoint, upper endpoint, dyadic-width witness, containment ledger, visible
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\RationalIntervalUp}$ rows. Suppose a midpoint row $m$ is displayed
+on the same $\RatUp$ and $\DyadicRatCoreUp$ endpoint surface, and suppose two
+containment subledgers display the left window from the lower endpoint to $m$
+and the right window from $m$ to the upper endpoint.
+
+Then the two half-windows are accepted $\RationalIntervalUp$ finite packets.
+They share the midpoint boundary row, their endpoint and dyadic-width rows are
+read from the same displayed surface, and every $\RegSeqRatUp$ or finite-window
+$\RealUp$ consumer read of either half-window is one of the original endpoint,
+width, containment, refinement, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, or local $\NameCert$ rows. Conversely, every original finite
+consumer read whose endpoint and containment rows lie in one half factors
+through the corresponding half-window packet.
+
+The bisection window exports no completed $\RealUp$ equality, located subset
+datum, open cover, quotient Cauchy class, apartness row, interval arithmetic
+operation, or standard bridge datum.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:rationalinterval-endpoint-width-ledger} to read the lower
+endpoint, upper endpoint, midpoint row, and dyadic-width witnesses from the
+same $\RatUp$ and $\DyadicRatCoreUp$ surface. Apply
+\autoref{thm:rational-interval-endpoint-order-witness} to obtain the displayed
+endpoint order for the left and right half-windows.
+
+Next construct the two finite packets. Apply
+\autoref{thm:rational-interval-common-refinement-window} to the parent window
+and the midpoint row, and compose the resulting refinement routes with
+\autoref{thm:rational-interval-refinement-composition}. This gives accepted
+left and right $\RationalIntervalUp$ packets whose common endpoint is exactly
+the displayed midpoint boundary.
+
+The order in which the parent containment ledger, midpoint row, and two
+subledgers are grouped does not affect the consumer-visible packet. This is
+\autoref{thm:rationalinterval-common-refinement-associativity}, applied to the
+two ways of parenthesizing the same finite refinement data.
+
+Finally apply \autoref{thm:rationalinterval-finite-consumer-completeness}.
+Every $\RegSeqRatUp$ or finite-window $\RealUp$ read of a half-window is
+exhausted by the listed endpoint, width, containment, refinement,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$
+rows, and the same exhaustion gives the converse factorization for parent
+consumer reads restricted to either half.
 \end{proof}
 
 \begin{theorem}[RationalInterval refinement choice neutrality]
