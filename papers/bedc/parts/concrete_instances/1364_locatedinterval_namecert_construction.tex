@@ -178,6 +178,56 @@ Next read the refinement side. By \autoref{thm:locatedinterval-dyadic-refinement
 Finally apply \autoref{thm:located-interval-endpoint-transport}. The endpoint $\hsame$ witnesses, displayed $\Cont$ routes, finite windows, readbacks, seal rows, rational cells, and dyadic refinements move as one finite packet, so containment and refinement remain attached to the same endpoint and cell ledgers after transport.
 \end{proof}
 
+\begin{theorem}[LocatedInterval endpoint-window readback exhaustion]
+\label{thm:locatedinterval-endpoint-window-readback-exhaustion}
+For a displayed finite history row
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+as in \autoref{def:located-interval-carrier}, every endpoint read accepted by the local $\NameCert_{\LocatedIntervalUp}$ is exhausted by the two $\LocatedRealUp$ endpoint rows $L$ and $U$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readbacks $R$, the $\RealUp$ seal rows $E$, and the displayed transport, route, package, and provenance rows $H,C,P,N$.
+
+After endpoint transport, the same endpoint read lands in the transported copies of those rows and in no further endpoint source.
+\end{theorem}
+\begin{proof}
+Begin with the carrier display in \autoref{def:located-interval-carrier}. The only endpoint coordinates of $J$ are the lower row $L$ and the upper row $U$, and the only finite observations attached to them are the windows $S$, readbacks $R$, and seal-facing rows $E$.
+
+Apply \autoref{thm:located-interval-endpoint-transport} to any comparison of accepted packets. It transports $L,U,S,R,E$ together with the displayed $\hsame$ rows $H$, continuation routes $C$, package row $P$, and local naming row $N$.
+
+It remains to rule out an unlisted endpoint source. The carrier has no coordinate for a chosen endpoint value, quotient real equality, host interval, or completeness theorem, so every endpoint read is a projection from the displayed rows of $J$.
+\end{proof}
+
+\begin{theorem}[LocatedInterval rational--dyadic cell chain]
+\label{thm:locatedinterval-rational-dyadic-cell-chain}
+For a displayed finite history row
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+as in \autoref{def:located-interval-carrier}, every containment consumer reads either a $\RationalIntervalUp$ cell in $I$ or a $\DyadicIntervalUp$ refinement row in $D$ attached to such a rational cell. Under endpoint transport, the rational cell and its displayed dyadic refinements remain attached to the transported endpoint windows and readbacks.
+\end{theorem}
+\begin{proof}
+Read the rational side first. By \autoref{thm:locatedinterval-containment-exactness}, an accepted containment route lands in the rational ledger $I$ unless it is a routed dyadic refinement.
+
+For the dyadic side, apply \autoref{thm:locatedinterval-dyadic-refinement-handoff}. A row of $D$ can be consumed only together with the rational parent cell in $I$ that its route refines.
+
+Finally transport the endpoints by \autoref{thm:located-interval-endpoint-transport}. The endpoint rows, windows, readbacks, seal rows, rational cells, and dyadic refinements move through the same displayed $H,C,P,N$ data, so the rational--dyadic chain cannot detach from the transported endpoint ledger.
+\end{proof}
+
+\begin{theorem}[LocatedInterval scoped real-seal scope]
+\label{thm:locatedinterval-scoped-real-seal-scope}
+For a displayed finite history row
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+as in \autoref{def:located-interval-carrier}, every $\RealUp$ seal-facing read accepted by the local $\NameCert_{\LocatedIntervalUp}$ factors through $L,U,S,R,E,H,C,P,N$. Such a read cannot introduce a host interval, endpoint choice, quotient real equality, or order-completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedinterval-real-seal-non-escape} for the seal boundary. It already routes every seal-facing read through the endpoint rows, finite windows, readbacks, seal rows, transports, continuation routes, package provenance, and local naming row.
+
+The endpoint part of that factorization is exhausted by \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}; the interval side is constrained by \autoref{thm:locatedinterval-rational-dyadic-cell-chain}. Together these two dependencies keep seal reads on the same finite endpoint-window and rational--dyadic cell ledger.
+
+No remaining coordinate of \autoref{def:located-interval-carrier} can supply host interval data, an endpoint choice functional, quotient real equality, or order completeness. The scoped seal scope is therefore exactly the displayed subledger of $J$.
+\end{proof}
+
 \begin{theorem}[LocatedInterval kernel scope package]
 \label{thm:locatedinterval-kernel-scope-package}
 For a displayed finite history row
