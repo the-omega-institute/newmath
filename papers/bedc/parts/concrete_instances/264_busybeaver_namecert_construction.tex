@@ -185,16 +185,6 @@ rows gives the scoped $\NameCert_{\BusyBeaverUp}$ surface and preserves the
 stated non-claims.
 \end{proof}
 
-\begin{closurestatus}{\BusyBeaverUp}
-  \constructivestory{A $\BusyBeaverUp$ token names a unary state-count $n$ together with a finite enumeration of $n$-state two-symbol $\TuringMachineUp$ codes, a candidate unary output bound $B$, and a halted-step ledger row. The carrier accepts a witness when every code in the enumeration that halts on the empty tape, in the sense of $\NameCert_{\ComputableUp}$, has its halted output and step count bounded by $B$; non-halting codes are recorded in the non-halting witness row. The classifier is $\hsame$ on output bounds at fixed unary state count; the source covers the unary state count, the finite machine enumeration, the unary output bound, the halted-step ledger, and the non-halting witness; the pattern records halted bound admissibility, finite enumeration completeness, non-halting exclusion, bound monotonicity, and per-machine-readback exactness rows; the ledger keeps the enumeration, the halted bound $B$, the per-machine readback, and the non-halting witness rows visible. The five name-certificate obligations are supplied by the bounded-simulation certificate plus enumeration-finiteness: the inhabited identity certificate is the trivial $n=0$ certificate; classifier stability is reflexive, symmetric, and transitive $\hsame$ at fixed state count; transport repacks bounded simulations through machine enumeration; ledger exactness identifies the accepted row with the displayed halted bound; the extension boundary fixes bound monotonicity in the unary state count. A history $h$ lies in the signature gap of a $\BusyBeaverUp$ token $p$ when the source-domain accepts the enumeration-bounded readback, the signature relation pairs it with the halted maximum, and token introduction names that maximum as $p$. The chapter registers this enumeration-bounded halting surface under the name $\BusyBeaverUp$; it is a finite-state-bounded maximum object with no actual computability claim about the busy-beaver function, no asymptotic growth-rate claim, and no halting-decidability bridge.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface binds the unary state count $n$, the finite enumeration of $n$-state two-symbol machines, halted-bound admissibility, enumeration completeness, bound monotonicity, non-halting exclusion, per-machine readback exactness, the halted-step ledger, and the non-halting witness rows through \autoref{thm:busybeaver-scoped-namecert-surface}.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{The chapter does not close busy-beaver-function computability, asymptotic growth-rate theorems, halting decidability, or a standard recursion-theory bridge.}
-  \upgradepath{Public closure requires an exported certificate theorem for the displayed finite enumeration and bounded halted-readback surface.}
-\end{closurestatus}
-
 \begin{theorem}[BusyBeaver per-machine halted-readback determinacy]
 \label{thm:busybeaver-per-machine-halted-readback-determinacy}
 Let $W$ and $W'$ be accepted $\BusyBeaverUp$ witnesses with the same unary
@@ -251,3 +241,52 @@ the output readback comparison gives $T\hsame T'$, $s\hsame s'$, and
 $o\hsame o'$ as claimed.
 \end{proof}
 \leanchecked{BEDC.Derived.BusyBeaverUp.BusyBeaverPerMachineReadback\_halted\_readback\_determinacy}
+
+\begin{theorem}[BusyBeaver public finite-enumeration export]
+\label{thm:busybeaver-public-finite-enumeration-export}
+The finite enumeration, halted-bound admissibility, non-halting exclusion,
+bound monotonicity, per-machine readback exactness, scoped $\NameCert$ surface,
+and halted-readback determinacy assemble the public $\BusyBeaverUp$
+certificate surface over $\NatUp$, $\TuringMachineUp$, $\ComputableUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+The public surface preserves the non-claims about computability of the
+busy-beaver function, asymptotic growth, halting decidability, and a standard
+recursion-theory bridge.
+\end{theorem}
+\begin{proof}
+First assemble the finite enumeration side. Apply
+\autoref{thm:busybeaver-enumeration-completeness} to keep every admitted
+machine inside the displayed list, and apply
+\autoref{thm:busybeaver-halted-bound-admissibility} to bind halted entries to
+their bounded $\TuringMachineUp$ and $\ComputableUp$ endpoint rows.
+
+Next assemble the negative and transport rows. Apply
+\autoref{thm:busybeaver-nonhalting-exclusion-obligation} for the non-halting
+ledger branch, and apply \autoref{thm:busybeaver-bound-monotonicity} for
+transport of the unary output bound.
+
+Then use \autoref{thm:busybeaver-per-machine-readback-exactness},
+\autoref{thm:busybeaver-scoped-namecert-surface}, and
+\autoref{thm:busybeaver-per-machine-halted-readback-determinacy}. These
+identify the per-machine readback, the scoped naming surface, and the
+deterministic halted endpoint exposed to public finite consumers.
+
+Repacking those rows gives the public certificate surface over the stated
+BEDC dependencies. Computability of the busy-beaver function, asymptotic
+growth, halting decidability, and a standard recursion-theory bridge remain
+outside the surface because the ledger exports only finite enumeration and
+bounded readback rows.
+\end{proof}
+
+\closureat{BusyBeaverUp}{publicStr}
+
+\begin{closurestatus}{\BusyBeaverUp}
+  \constructivestory{A $\BusyBeaverUp$ token names a unary state-count $n$ together with a finite enumeration of $n$-state two-symbol $\TuringMachineUp$ codes, a candidate unary output bound $B$, and a halted-step ledger row. The carrier accepts a witness when every code in the enumeration that halts on the empty tape, in the sense of $\NameCert_{\ComputableUp}$, has its halted output and step count bounded by $B$; non-halting codes are recorded in the non-halting witness row. The classifier is $\hsame$ on output bounds at fixed unary state count; the source covers the unary state count, the finite machine enumeration, the unary output bound, the halted-step ledger, and the non-halting witness; the pattern records halted bound admissibility, finite enumeration completeness, non-halting exclusion, bound monotonicity, and per-machine-readback exactness rows; the ledger keeps the enumeration, the halted bound $B$, the per-machine readback, and the non-halting witness rows visible. The five name-certificate obligations are supplied by the bounded-simulation certificate plus enumeration-finiteness: the inhabited identity certificate is the trivial $n=0$ certificate; classifier stability is reflexive, symmetric, and transitive $\hsame$ at fixed state count; transport repacks bounded simulations through machine enumeration; ledger exactness identifies the accepted row with the displayed halted bound; the extension boundary fixes bound monotonicity in the unary state count. A history $h$ lies in the signature gap of a $\BusyBeaverUp$ token $p$ when the source-domain accepts the enumeration-bounded readback, the signature relation pairs it with the halted maximum, and token introduction names that maximum as $p$. The chapter registers this enumeration-bounded halting surface under the name $\BusyBeaverUp$; it is a finite-state-bounded maximum object with no actual computability claim about the busy-beaver function, no asymptotic growth-rate claim, and no halting-decidability bridge.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface binds the unary state count $n$, the finite enumeration of $n$-state two-symbol machines, halted-bound admissibility, enumeration completeness, bound monotonicity, non-halting exclusion, per-machine readback exactness, halted-readback determinacy, the halted-step ledger, and the non-halting witness rows through \autoref{thm:busybeaver-scoped-namecert-surface} and \autoref{thm:busybeaver-public-finite-enumeration-export}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close busy-beaver-function computability, asymptotic growth-rate theorems, halting decidability, or a standard recursion-theory bridge.}
+  \upgradepath{Standard bridge closure requires a recursion-theory bridge for the same finite enumeration and bounded halted-readback surface.}
+\end{closurestatus}
