@@ -154,4 +154,26 @@ theorem CauchyRateCarrier_ledger_exactness [AskSetup] [PackageSetup]
     ⟨cert, precisionUnary, toleranceUnary, regseqUnary, completionUnary,
       acceptedReadUnary, acceptedReadRow, provenancePkg, acceptedPkg⟩
 
+theorem CauchyRateCarrier_tail_bound_routing [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance
+      nameCert tailConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont tolerance family tailConsumer ->
+        UnaryHistory schedule ∧ UnaryHistory tolerance ∧ UnaryHistory family ∧
+          UnaryHistory regseq ∧ UnaryHistory tailConsumer ∧ Cont family tolerance regseq ∧
+            Cont tolerance family tailConsumer ∧ hsame regseq (append family tolerance) ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier tailRoute
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, familyUnary, regseqUnary,
+    _completionUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    _precisionScheduleTolerance, familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, regseqSame, pkgSig⟩ := carrier
+  have tailConsumerUnary : UnaryHistory tailConsumer :=
+    unary_cont_closed toleranceUnary familyUnary tailRoute
+  exact
+    ⟨scheduleUnary, toleranceUnary, familyUnary, regseqUnary, tailConsumerUnary,
+      familyToleranceRegseq, tailRoute, regseqSame, pkgSig⟩
+
 end BEDC.Derived.CauchyRateUp
