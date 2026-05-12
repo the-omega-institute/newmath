@@ -119,6 +119,7 @@ import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyConvolutionUp
+import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchySequenceSpaceUp
