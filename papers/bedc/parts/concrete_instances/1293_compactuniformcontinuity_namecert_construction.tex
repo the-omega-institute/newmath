@@ -271,6 +271,58 @@ The modulus certificate of \autoref{thm:compact-uniform-continuity-modulus-certi
 Finally apply the non-escape ledger \autoref{thm:compact-uniform-continuity-non-escape-ledger}. Since the carrier has no coordinate for open covers, selected subcovers, host real equality, selected minima, or external modulus functions, none of these objects can be exported to a $\RealUp$ consumer.
 \end{proof}
 
+\begin{theorem}[CompactUniformContinuity classifier transport]
+\label{thm:compact-uniform-continuity-classifier-transport}
+Let
+$$
+H=(X,Y,F,E,D,\mathcal{P},C,M,R,W,T,Q,P,N)
+$$
+and
+$$
+H'=(X',Y',F',E',D',\mathcal{P}',C',M',R',W',T',Q',P',N')
+$$
+be accepted $\CompactUniformContinuityUp$ carriers. If the source metric rows, target metric rows, graph rows, tolerance rows, precision rows, finite-net spines, coverage rows, pointwise-modulus rows, radius rows, lower-bound fold rows, continuation routes, package rows, and local $\NameCert$ rows are transported componentwise by the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence in the two packets, then $\mathsf{CompactUniformContinuityClassifier}(H,H')$ is preserved. In particular, classifier preservation is a statement about the displayed $\mathsf{BHist}$ rows of the carrier and not about open covers, selected subcovers, host minima, sequence compactness, or host modulus functions.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:compact-uniform-continuity-carrier}. The carrier lists exactly the metric, graph, tolerance, precision, finite-net, coverage, pointwise-modulus, radius, fold, route, package, and naming rows that may be transported.
+
+Apply the componentwise classifier of \autoref{def:compact-uniform-continuity-classifier}. It compares the rows just projected and has no comparison slot for an open cover, selected subcover, sequence principle, host minimum, or host modulus function.
+
+The local obligation theorem \autoref{thm:compact-uniform-continuity-namecert-obligations} identifies these transported rows as the $\NameCert_{\CompactUniformContinuityUp}$ surface. The finite-net handoff, radius-fold exactness, uniform-precision consumer route, and $\RealUp$ consumer boundary of \autoref{thm:compact-uniform-continuity-finite-net-handoff}, \autoref{thm:compact-uniform-continuity-radius-fold-exactness}, \autoref{thm:compact-uniform-continuity-uniform-precision-consumer-route}, and \autoref{thm:compact-uniform-continuity-realup-consumer-boundary} show that downstream consumers read only the transported finite rows. Hence the classifier is preserved by the displayed componentwise transport.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity precision-route totality]
+\label{thm:compact-uniform-continuity-precision-route-totality}
+For an accepted $\CompactUniformContinuityUp$ carrier
+$$
+H=(X,Y,F,E,D,\mathcal{P},C,M,R,W,T,Q,P,N),
+$$
+every accepted read of the precision history $D$ factors through the finite route
+$$
+\mathcal{P}, C, M, R, W, T, Q, P, N
+$$
+before any $\RealUp$ metric consumer may read it. Thus a real-facing metric consumer reaches the uniform precision only through compact finite-net coverage, pointwise $\ContinuousMapUp$ modulus rows, positive $\RatUp$ radius and fold rows, transported $\hsame$ evidence, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:compact-uniform-continuity-carrier}. The precision row is the displayed coordinate $D$, while $\mathcal{P}, C, M, R, W, T, Q, P,$ and $N$ are the finite rows that govern how $D$ is produced and consumed.
+
+Use \autoref{thm:compact-uniform-continuity-radius-fold-exactness} to identify $D$ with the lower-bound fold over the positive-radius ledger $R$ and witness $W$. Use \autoref{thm:compact-uniform-continuity-finite-net-handoff} to route the precision through the finite $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, coverage rows $C$, and pointwise-modulus rows $M$.
+
+The classifier and local obligation surface of \autoref{def:compact-uniform-continuity-classifier} and \autoref{thm:compact-uniform-continuity-namecert-obligations} keep this route inside the transported $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $T,Q,P,N$. Finally \autoref{thm:compact-uniform-continuity-uniform-precision-consumer-route} and \autoref{thm:compact-uniform-continuity-realup-consumer-boundary} force every real-facing metric read to pass through that route before it can consume $D$.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity NameCert ledger exhaustion]
+\label{thm:compact-uniform-continuity-namecert-ledger-exhaustion}
+The local $\NameCert_{\CompactUniformContinuityUp}$ ledger is exhausted by the $\CompactMetricUp$ finite-net coverage rows, $\ContinuousMapUp$ pointwise-modulus rows, $\mathsf{MetricDistanceWitness}$ rows, $\RatUp$ fold rows, $\RealUp$ seal reads, the transported $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. It contains no row for open covers, selected subcovers, host minima, sequence compactness, or host modulus functions.
+\end{theorem}
+\begin{proof}
+Inspect the carrier and classifier in \autoref{def:compact-uniform-continuity-carrier} and \autoref{def:compact-uniform-continuity-classifier}. The carrier supplies the finite ledgers, and the classifier confirms that only those ledgers participate in accepted comparison and transport.
+
+The NameCert obligation theorem \autoref{thm:compact-uniform-continuity-namecert-obligations} names the same ledgers as the local certificate surface. The finite-net handoff of \autoref{thm:compact-uniform-continuity-finite-net-handoff} accounts for the compact coverage rows, and the radius-fold exactness theorem \autoref{thm:compact-uniform-continuity-radius-fold-exactness} accounts for the rational fold rows.
+
+It remains to account for downstream reads. The uniform-precision consumer route of \autoref{thm:compact-uniform-continuity-uniform-precision-consumer-route} carries precision reads through the transported $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while \autoref{thm:compact-uniform-continuity-realup-consumer-boundary} accounts for the $\RealUp$ seal boundary. Since every named read is already in these ledgers and the carrier has no additional coordinate, the local NameCert ledger is exhausted by the listed rows.
+\end{proof}
+
 \begin{theorem}[CompactUniformContinuity standard bridge source packet]
 \label{thm:compact-uniform-continuity-bridge-source-packet}
 For an accepted $\CompactUniformContinuityUp$ carrier
