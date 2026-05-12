@@ -161,6 +161,43 @@ the common-window classifier stability is exhausted by the displayed finite
 packet rows.
 \end{proof}
 
+\begin{theorem}[RationalStream common-denominator window exhaustion]
+\label{thm:rationalstream-common-denominator-window-exhaustion}
+Any finite consumer read comparing scheduled rational observations from two
+accepted $\RationalStreamUp$ packets can be refined to one displayed unary
+window and one displayed common-denominator $\RatUp$ comparison ledger over
+the pointwise carrier and classifier rows. The refinement uses only the
+stored $\mathsf{UnaryHistory}$ indices, the two $\StreamNameUp$ schedules,
+the pointwise rational carrier rows $q$, the pointwise classifier rows
+$\rho$, and the $\hsame$ and $\Cont$ transport routes already present in the
+packets. It introduces no quotient Cauchy classes, selected limits, or
+completed $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Start with the consumer read and project the two accepted carrier packets of
+\autoref{def:rational-stream-carrier}. The StreamName schedule boundary
+\autoref{thm:rational-stream-streamname-schedule-boundary} identifies the
+finite unary indices on which the compared observations are read.
+
+Apply the common-window classifier stability theorem
+\autoref{thm:rational-stream-common-window-classifier-stability}. It refines
+the two schedule reads to a single displayed finite unary window and transports
+the pointwise rows along the stored $\hsame$ witnesses.
+
+On that window, use the pointwise RatUp obligations of
+\autoref{thm:rational-stream-pointwise-rat-obligations}. Each scheduled
+comparison is a rational comparison between displayed $\RatUp$ rows, so the
+finite list of denominators read by the consumer can be represented by one
+common-denominator comparison ledger inside the same pointwise carrier and
+classifier surface.
+
+The ledger is routed through the displayed $\Cont$ rows and repacked with the
+same package and local naming data. Since every row used in the construction
+is already a finite packet coordinate, the refinement has no coordinate from
+which a quotient Cauchy class, selected limit, or completed $\RealUp$ equality
+could be obtained.
+\end{proof}
+
 \begin{theorem}[RationalStream schedule transport exactness]
 \label{thm:rational-stream-schedule-transport-exactness}
 Transporting an accepted $\RationalStreamUp$ packet by the stored $\hsame$
