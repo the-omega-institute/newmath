@@ -323,4 +323,59 @@ theorem CauchyCriterionCarrier_real_seal_scope [AskSetup] [PackageSetup]
     ⟨sealReadUnary, scopedSealUnary, windowModulusTolerance, toleranceLedgerRegseq,
       ledgerRealSealSealRead, sealReadProvenanceScopedSeal, endpointPkg, scopedSealPkg⟩
 
+theorem CauchyCriterionCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      consumer handoff scopedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal transport route
+        provenance localCert bundle pkg ->
+        Cont ledger realSeal consumer ->
+          Cont regseq realSeal handoff ->
+            Cont consumer provenance scopedSeal ->
+              PkgSig bundle consumer pkg ->
+                PkgSig bundle handoff pkg ->
+                  PkgSig bundle scopedSeal pkg ->
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal
+                              transport route provenance localCert bundle pkg ∧ hsame row realSeal)
+                        (fun row : BHist =>
+                          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal
+                              transport route provenance localCert bundle pkg ∧ hsame row ledger)
+                        (fun row : BHist =>
+                          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal
+                              transport route provenance localCert bundle pkg ∧
+                            hsame row provenance)
+                        hsame ∧
+                      UnaryHistory consumer ∧ UnaryHistory handoff ∧ UnaryHistory scopedSeal := by
+  intro carrier nameCarrier ledgerRealSealConsumer regseqRealSealHandoff
+    consumerProvenanceScopedSeal _consumerPkg _handoffPkg _scopedPkg
+  obtain ⟨_windowUnary, _modulusUnary, _toleranceUnary, ledgerUnary, regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, provenanceUnary, _localCertUnary,
+    _endpointUnary, _windowModulusTolerance, _toleranceLedgerRegseq,
+    _regseqRealSealTransport, _transportLocalCertRoute, _routeProvenanceEndpoint,
+    _endpointPkg⟩ := carrier
+  have semantic :
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal transport route
+              provenance localCert bundle pkg ∧ hsame row realSeal)
+        (fun row : BHist =>
+          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal transport route
+              provenance localCert bundle pkg ∧ hsame row ledger)
+        (fun row : BHist =>
+          CauchyCriterionNameCertCarrier window modulus ledger tolerance realSeal transport route
+              provenance localCert bundle pkg ∧ hsame row provenance)
+        hsame :=
+    CauchyCriterionCarrier_namecert_obligations nameCarrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealConsumer
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed regseqUnary realSealUnary regseqRealSealHandoff
+  have scopedSealUnary : UnaryHistory scopedSeal :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceScopedSeal
+  exact ⟨semantic, consumerUnary, handoffUnary, scopedSealUnary⟩
+
 end BEDC.Derived.CauchyCriterionUp
