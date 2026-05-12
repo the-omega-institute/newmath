@@ -98,3 +98,18 @@
   constructor-positive triples, and well-formed triples with wrong result
   depth or order. The algo manifest follows the current Ext pattern: vacuous CT
   production with semantic checking in `tests/test_cont.c`.
+
+## Unary Module Encoding
+
+- `UnaryHistory` accepts exactly Empty and histories whose decoded BHist
+  payload contains only `1` constructor choices. Any decoded `0` choice is the
+  `e0` rejection path.
+- `UnaryDomain`, `UnarySourceSpec`, and `UnaryRepetitionHistory` share the same
+  executable predicate as `UnaryHistory`.
+- Unary continuation closure is checked by combining the existing Cont append
+  direction with the all-one predicate: if `choices(r) = choices(k) ++
+  choices(h)` and both inputs are all-one, then the result is all-one.
+- `unary_basic.enum.ct` and `unary_basic.algo.ct` cover Empty, one-step and
+  multi-step unary histories, e0-headed rejection, classifier equality,
+  continuation unit cases, mixed unary append, e0-result rejection, and e1
+  result classification. The semantic checker is `tests/test_unary.c`.
