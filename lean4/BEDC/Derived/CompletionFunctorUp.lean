@@ -146,4 +146,34 @@ theorem CompletionFunctorCarrier_extension_ledger_exactness [AskSetup] [PackageS
     ⟨denseMapUnary, extensionUnary, functorLedgerUnary, extensionReadUnary,
       denseMapExtensionFunctorLedger, extensionReadRow, sameExtensionRead, provenancePkg⟩
 
+theorem CompletionFunctorCarrier_identity_route_stability [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name identityLedger identityRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont denseMap extension identityLedger ->
+        hsame identityLedger functorLedger ->
+          Cont identityLedger transport identityRoute ->
+            hsame identityRoute routes ->
+              UnaryHistory denseMap ∧ UnaryHistory extension ∧ UnaryHistory identityLedger ∧
+                UnaryHistory identityRoute ∧ Cont denseMap extension identityLedger ∧
+                  hsame identityLedger functorLedger ∧
+                    Cont identityLedger transport identityRoute ∧ hsame identityRoute routes ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  intro carrier identityLedgerRow sameIdentityLedger identityRouteRow sameIdentityRoute
+  obtain ⟨_monadUnary, _universalUnary, _realCompletionUnary, _sourceUnary, _targetUnary,
+    denseMapUnary, extensionUnary, _functorLedgerUnary, transportUnary, _routesUnary,
+    _provenanceUnary, _nameUnary, _monadUniversalRealCompletion, _sourceTargetDenseMap,
+    _denseMapExtensionFunctorLedger, _functorLedgerTransportRoutes,
+    _transportRoutesProvenance, provenanceSig, nameSig⟩ := carrier
+  have identityLedgerUnary : UnaryHistory identityLedger :=
+    unary_cont_closed denseMapUnary extensionUnary identityLedgerRow
+  have identityRouteUnary : UnaryHistory identityRoute :=
+    unary_cont_closed identityLedgerUnary transportUnary identityRouteRow
+  exact
+    ⟨denseMapUnary, extensionUnary, identityLedgerUnary, identityRouteUnary,
+      identityLedgerRow, sameIdentityLedger, identityRouteRow, sameIdentityRoute,
+      provenanceSig, nameSig⟩
+
 end BEDC.Derived.CompletionFunctorUp
