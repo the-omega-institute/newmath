@@ -261,6 +261,33 @@ theorem RegularCauchyNameCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
       endpointPkg'⟩
   exact ⟨transported, sameEndpoint⟩
 
+theorem RegularCauchyNameCarrier_schedule_radius_lock [AskSetup] [PackageSetup]
+    {schedule observation radius ledger sealRow provenance namecert endpoint window
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNameCarrier schedule observation radius ledger sealRow provenance namecert
+        endpoint bundle pkg ->
+      Cont schedule observation window ->
+        Cont window radius readback ->
+          PkgSig bundle readback pkg ->
+            hsame radius window ∧ UnaryHistory window ∧ UnaryHistory readback ∧
+              Cont schedule observation window ∧ Cont window radius readback ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier scheduleObservationWindow windowRadiusReadback readbackPkg
+  obtain ⟨scheduleUnary, observationUnary, radiusUnary, _ledgerUnary, _sealUnary,
+    _namecertUnary, scheduleObservationRadius, _radiusLedgerSeal,
+    _sealProvenanceEndpoint, endpointPkg⟩ := carrier
+  have radiusSameWindow : hsame radius window :=
+    cont_deterministic scheduleObservationRadius scheduleObservationWindow
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary observationUnary scheduleObservationWindow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary radiusUnary windowRadiusReadback
+  exact
+    ⟨radiusSameWindow, windowUnary, readbackUnary, scheduleObservationWindow,
+      windowRadiusReadback, endpointPkg, readbackPkg⟩
+
 theorem RegularCauchyNameCarrier_completion_handoff_non_escape [AskSetup] [PackageSetup]
     {schedule observation radius ledger sealRow provenance namecert endpoint hostTail : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
