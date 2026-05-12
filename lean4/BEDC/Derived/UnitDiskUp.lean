@@ -85,4 +85,38 @@ theorem UnitDiskBHistCarrier_carrier_stability [AskSetup] [PackageSetup]
         endpointUnary, rfl, rfl, endpointRow', pkgRow⟩,
       rfl, rfl⟩
 
+theorem UnitDiskOriginRows_radius_ledger [AskSetup] [PackageSetup]
+    {x y origin bound boundary sameRows route provenance nameCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory x ->
+      UnaryHistory y ->
+        UnaryHistory origin ->
+          UnaryHistory bound ->
+            UnaryHistory boundary ->
+              UnaryHistory sameRows ->
+                UnaryHistory route ->
+                  UnaryHistory provenance ->
+                    UnaryHistory nameCert ->
+                      UnaryHistory endpoint ->
+                        Cont sameRows route endpoint ->
+                          PkgSig bundle endpoint pkg ->
+                            UnitDiskBHistCarrier x y (append x y) origin
+                                (append (append x y) origin) bound boundary sameRows route
+                                provenance nameCert endpoint bundle pkg ∧
+                              hsame (append (append x y) origin)
+                                (append (append x y) origin) := by
+  intro xUnary yUnary originUnary boundUnary boundaryUnary sameRowsUnary routeUnary
+    provenanceUnary nameCertUnary endpointUnary routeEndpoint pkgEndpoint
+  have pointUnary : UnaryHistory (append x y) :=
+    unary_cont_closed xUnary yUnary (rfl : Cont x y (append x y))
+  have radiusUnary : UnaryHistory (append (append x y) origin) :=
+    unary_cont_closed pointUnary originUnary
+      (rfl : Cont (append x y) origin (append (append x y) origin))
+  constructor
+  · exact
+      ⟨xUnary, yUnary, pointUnary, originUnary, radiusUnary, boundUnary, boundaryUnary,
+        sameRowsUnary, routeUnary, provenanceUnary, nameCertUnary, endpointUnary, rfl, rfl,
+        routeEndpoint, pkgEndpoint⟩
+  · rfl
+
 end BEDC.Derived.UnitDiskUp
