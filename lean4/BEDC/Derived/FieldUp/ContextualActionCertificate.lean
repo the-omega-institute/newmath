@@ -101,4 +101,22 @@ theorem RatDenomUnitContextualAction_contextual_action_certificate
       exact Iff.mpr rightContextSupport (Iff.mpr rightCoreSupport support)
   exact ⟨classifierLaw, leftSupportLaw, rightSupportLaw⟩
 
+theorem RatupFieldupDenominatorContextualAction_certificate {h k l r p q p' q' : BHist} :
+    RatDenomUnitCarrier h ->
+      RatDenomUnitCarrier k ->
+        RatDenomUnitCarrier l ->
+          RatDenomUnitCarrier r ->
+            hsame p BHist.Empty ->
+              hsame q BHist.Empty ->
+                hsame p' BHist.Empty ->
+                  hsame q' BHist.Empty ->
+                    (RatDenomUnitClassifier (RatDenomUnitContextualAction p q l r h)
+                        (RatDenomUnitContextualAction p' q' l r k) ↔
+                      RatDenomUnitClassifier h k) := by
+  intro carrierH carrierK carrierL carrierR sameP sameQ sameP' sameQ'
+  exact
+    (RatDenomUnitContextualAction_contextual_action_certificate
+      (h := h) (k := k) (l := l) (r := r) (p := p) (q := q) (p' := p') (q' := q')
+      sameP sameQ sameP' sameQ' carrierH carrierK carrierL carrierR).left
+
 end BEDC.Derived.FieldUp
