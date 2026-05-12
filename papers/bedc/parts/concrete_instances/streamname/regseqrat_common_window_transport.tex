@@ -699,3 +699,51 @@ representatives, host-index equalities, hidden selectors, host functions, or
 additional regularity witnesses, so the tail-stable common window exports the
 same public finite-window $\RealUp$ seal package and nothing outside it.
 \end{proof}
+
+\begin{theorem}[StreamName RegSeqRat glued Real seal uniqueness]
+\label{thm:streamname-regseqrat-glued-real-seal-uniqueness}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows.
+Let two terminal common-window routes for $s$ and $t$ agree on their
+$\mathsf{InBundle}$ rows, $\UnaryHistory$ rows,
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, accepted $\RegSeqRat$
+dyadic source rows, DyadicRatCore endpoint and radius rows, finite ledger
+rows, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the glued consumer-facing $\RealUp$ finite-window seal package determined
+by those two routes is unique. It consists only of the displayed StreamName
+source rows, selected unary observations, bundle-membership rows,
+rational-history classifier rows, accepted $\RegSeqRat$ dyadic sources,
+DyadicRatCore endpoint and radius rows, ledger entries, $\hsame$ transports,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\mathsf{RealLedgerPolicy}$
+rows. No completion point, quotient representative, host-index equality,
+hidden selector, host function, or extra regularity witness is exported.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}. The two
+terminal routes glue through the same terminal cover because their displayed
+bundle membership, unary observations, classifiers, dyadic source rows,
+endpoint-radius data, transport, continuation, provenance, and ledger-policy
+rows agree on the common window.
+
+Next use
+\autoref{thm:streamname-regseqrat-cover-glued-ledger-uniqueness}. After the
+cover has been glued, both routes expose the same finite ledger boundary. The
+ledger read is therefore the ledger already present in the displayed
+common-window surface, not a separately chosen downstream object.
+
+Apply
+\autoref{thm:streamname-regseqrat-common-window-selection-determinacy}. Since
+the two glued routes share the displayed classifier, accepted source, endpoint,
+radius, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\mathsf{RealLedgerPolicy}$
+rows, they determine the same terminal consumer-readable $\RegSeqRat$ source.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-tail-stable-real-seal}. The $\RealUp$ seal
+reads only the glued finite-window package already identified by the preceding
+steps. The separation clauses in the tail-stable seal leave no coordinate for
+a completion point, quotient representative, host-index equality, hidden
+selector, host function, or extra regularity witness, so both terminal routes
+produce one glued consumer-facing finite-window seal package.
+\end{proof}
