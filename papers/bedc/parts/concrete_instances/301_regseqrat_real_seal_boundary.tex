@@ -374,6 +374,46 @@ quotient reals, host equality, selected limits, completion points, or
 completeness data.
 \end{proof}
 
+\begin{theorem}[RegSeqRat Real seal schedule confluence]
+\label{thm:regseqrat-real-seal-schedule-confluence}
+Let $S$ and $T$ be finite schedules accepted as $\RealUp$ seal reads from
+accepted $\RegSeqRatUp$ packets. Suppose the two accepted reads expose the
+same public $\StreamNameUp$ window rows, the same $\DyadicRatCoreUp$ endpoint
+and radius ledgers, the same transported $\RegSeqRatUp$ classifier surface,
+the same visible $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows,
+and the same local $\NameCert$ rows. Then $S$ and $T$ replay to one and the
+same terminal finite $\RealUp$ seal route.
+
+This confluence is only the finite seal-route assertion over the displayed
+packet rows. It excludes quotient reals, host equality, selected limits,
+completion points, and $\RealUp$ completeness as route coordinates.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-real-seal-schedule-coverage} to both accepted
+schedules. Each accepted read is consumed by exactly the displayed
+$\StreamNameUp$ windows, dyadic endpoint and radius ledgers, transported
+classifier surface, $\mathsf{BHist}$ packet rows, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows named in the statement.
+
+Next use \autoref{thm:regseqrat-real-seal-route-replay}. Since the two row
+inventories are the same, the replay construction applied to $S$ and to $T$
+reconstructs seal routes from the same finite route package.
+
+Apply \autoref{thm:regseqrat-real-seal-classifier-exhaustion} to the common
+package. The transported $\RegSeqRatUp$ classifier surface exhausts the
+visible classifier read, so the two replays cannot diverge by choosing a
+second classifier, package, or local naming ledger.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-uniqueness-boundary}. The two
+replayed routes now have the same displayed schedule, dyadic-radius ledger,
+common finite window, $\hsame$ provenance, and $\Cont$ provenance, hence they
+determine one terminal finite $\RealUp$ seal route. The cited boundaries
+contain no quotient-real carrier, host equality, selected limit, completion
+point, or $\RealUp$ completeness datum, so confluence has no hidden
+real-number coordinate.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
