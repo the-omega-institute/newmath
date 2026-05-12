@@ -42,3 +42,7 @@ The current collision simulator uses a pure ether control row evolved for the sa
 | `D` | `D` | `passthrough` | The final perturbation island count is close to the initial two-particle count. |
 
 Classification remains intentionally coarse. A `passthrough` row means only that the post-window island count is approximately conserved by this heuristic. It does not certify outgoing particle identities, exact velocities, or phase restoration. A row classified as `annihilation` means the simulated row is equal to the separately evolved ether row at the end of the chosen window.
+
+## Leader observations (B3)
+
+The leader emitter uses a 20-cell row-0 overwrite `10111111010100001100` on a pre-filled Cook ether background. This pattern was selected by direct local Rule 110 simulation because it leaves detectable non-ether structure in the injection window after 500 steps and keeps far-field ether phase-aligned after 100 steps. It is a behavioral marker for the M2 construction scaffold, not a phase-exact transcription of Cook 2004 section 5.
