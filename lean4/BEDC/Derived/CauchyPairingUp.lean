@@ -160,4 +160,38 @@ theorem CauchyPairingCarrier_public_rows_zero_head_absurd [AskSetup] [PackageSet
   · intro sameEZero
     exact unary_no_zero_extension (unary_transport eUnary sameEZero)
 
+theorem CauchyPairingCarrier_synchronized_window_stability [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      mu' wA' wB' lA' lB' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      hsame mu mu' ->
+        hsame wA wA' ->
+          hsame wB wB' ->
+            Cont mu' wA' lA' ->
+              Cont mu' wB' lB' ->
+                UnaryHistory lA' ∧ UnaryHistory lB' ∧ hsame lA lA' ∧ hsame lB lB' := by
+  intro carrier sameMu sameWA sameWB lARow' lBRow'
+  obtain ⟨_aUnary, _bUnary, wAUnary, wBUnary, _lAUnary, _lBUnary, _muAUnary,
+    _muBUnary, muUnary, _eAUnary, _eBUnary, _eUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _localCertUnary, lARow, lBRow, _lAlBRow, _eProvenanceTransport,
+    _transportLocalRoute, _pkgSig⟩ := carrier
+  have muUnary' : UnaryHistory mu' :=
+    unary_transport muUnary sameMu
+  have wAUnary' : UnaryHistory wA' :=
+    unary_transport wAUnary sameWA
+  have wBUnary' : UnaryHistory wB' :=
+    unary_transport wBUnary sameWB
+  have lAUnary' : UnaryHistory lA' :=
+    unary_cont_closed muUnary' wAUnary' lARow'
+  have lBUnary' : UnaryHistory lB' :=
+    unary_cont_closed muUnary' wBUnary' lBRow'
+  have sameLA : hsame lA lA' :=
+    cont_respects_hsame sameMu sameWA lARow lARow'
+  have sameLB : hsame lB lB' :=
+    cont_respects_hsame sameMu sameWB lBRow lBRow'
+  exact And.intro lAUnary'
+    (And.intro lBUnary' (And.intro sameLA sameLB))
+
 end BEDC.Derived.CauchyPairingUp

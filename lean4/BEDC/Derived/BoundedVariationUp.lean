@@ -115,4 +115,56 @@ theorem BoundedVariationCarrier_public_rows_zero_head_absurd [AskSetup] [Package
   · intro sameNameCertZero
     exact unary_no_zero_extension (unary_transport nameCertUnary sameNameCertZero)
 
+theorem BoundedVariationCarrier_common_refinement_classifier_exactness [AskSetup]
+    [PackageSetup]
+    {interval partition endpoint dyadic variation refinement transport route provenance nameCert
+      interval' partition' endpoint' dyadic' variation' refinement' transport' route' provenance'
+      nameCert' edgeRead sumRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationCarrier interval partition endpoint dyadic variation refinement transport route
+        provenance nameCert bundle pkg ->
+      BoundedVariationCarrier interval' partition' endpoint' dyadic' variation' refinement'
+          transport' route' provenance' nameCert' bundle pkg ->
+        hsame interval interval' ->
+          hsame partition partition' ->
+            hsame endpoint endpoint' ->
+              hsame dyadic dyadic' ->
+                hsame refinement refinement' ->
+                  hsame provenance provenance' ->
+                    Cont endpoint' dyadic' edgeRead ->
+                      Cont variation' refinement' sumRead ->
+                        PkgSig bundle sumRead pkg ->
+                          UnaryHistory edgeRead ∧ UnaryHistory sumRead ∧
+                            hsame variation variation' ∧ hsame transport transport' ∧
+                              hsame route route' ∧ hsame provenance provenance' ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle sumRead pkg := by
+  intro carrier carrier' sameInterval samePartition sameEndpoint sameDyadic
+    sameRefinement sameProvenance endpointDyadicEdge variationRefinementSum sumPkg
+  obtain ⟨_intervalUnary, _partitionUnary, _endpointUnary, _dyadicUnary, _variationUnary,
+    _refinementUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    intervalPartitionEndpoint, endpointDyadicTransport, partitionDyadicVariation,
+    variationRefinementRoute, _routeProvenanceNameCert, _variationSame, provenancePkg⟩ :=
+      carrier
+  obtain ⟨_intervalUnary', _partitionUnary', endpointUnary', dyadicUnary', variationUnary',
+    refinementUnary', _transportUnary', _routeUnary', _provenanceUnary', _nameCertUnary',
+    intervalPartitionEndpoint', endpointDyadicTransport', partitionDyadicVariation',
+    variationRefinementRoute', _routeProvenanceNameCert', _variationSame',
+    _provenancePkg'⟩ := carrier'
+  have edgeReadUnary : UnaryHistory edgeRead :=
+    unary_cont_closed endpointUnary' dyadicUnary' endpointDyadicEdge
+  have sumReadUnary : UnaryHistory sumRead :=
+    unary_cont_closed variationUnary' refinementUnary' variationRefinementSum
+  have sameVariation : hsame variation variation' :=
+    cont_respects_hsame samePartition sameDyadic partitionDyadicVariation
+      partitionDyadicVariation'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameEndpoint sameDyadic endpointDyadicTransport endpointDyadicTransport'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameVariation sameRefinement variationRefinementRoute
+      variationRefinementRoute'
+  exact
+    ⟨edgeReadUnary, sumReadUnary, sameVariation, sameTransport, sameRoute, sameProvenance,
+      provenancePkg, sumPkg⟩
+
 end BEDC.Derived.BoundedVariationUp
