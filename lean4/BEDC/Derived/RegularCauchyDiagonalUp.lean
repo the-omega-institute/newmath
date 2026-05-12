@@ -70,6 +70,17 @@ theorem RegularCauchyDiagonalCarrier_stationary_compatibility [AskSetup] [Packag
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary, constantSealUnary,
       stationaryRead, constantSealRow, provenancePkg, constantSealPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_zero_seed [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PkgSig bundle BHist.Empty pkg ->
+      RegularCauchyDiagonalCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty bundle pkg := by
+  intro emptyPkg
+  exact
+    ⟨unary_empty, unary_empty, unary_empty, unary_empty, unary_empty, unary_empty,
+      unary_empty, cont_left_unit BHist.Empty, cont_left_unit BHist.Empty,
+      cont_left_unit BHist.Empty, emptyPkg⟩
+
 theorem RegularCauchyDiagonalCarrier_stationary_seal_exactness [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
       constantRead constantSeal : BHist}
