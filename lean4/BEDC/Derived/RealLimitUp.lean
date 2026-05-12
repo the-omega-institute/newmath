@@ -197,4 +197,35 @@ theorem RealLimitPacket_transported_readback_ledger_stability [AskSetup] [Packag
     cont_respects_hsame sameEndpoint sameTolerance readbackRow readbackRow'
   exact ⟨sameReadback, transported.left, transported.right.right.right⟩
 
+theorem RealLimitPacket_transport_stability_boundary [AskSetup] [PackageSetup]
+    {schedule stream endpoint tolerance handoff route ledger schedule' stream' endpoint'
+      tolerance' handoff' route' ledger' readback readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealLimitPacket schedule stream endpoint tolerance handoff route ledger bundle pkg ->
+      hsame schedule schedule' ->
+        hsame stream stream' ->
+          hsame endpoint endpoint' ->
+            hsame tolerance tolerance' ->
+              Cont schedule' stream' handoff' ->
+                Cont handoff' tolerance' route' ->
+                  Cont route' endpoint' ledger' ->
+                    PkgSig bundle ledger' pkg ->
+                      Cont endpoint tolerance readback ->
+                        Cont endpoint' tolerance' readback' ->
+                          RealLimitPacket schedule' stream' endpoint' tolerance' handoff' route'
+                              ledger' bundle pkg ∧
+                            hsame handoff handoff' ∧ hsame route route' ∧
+                              hsame ledger ledger' ∧ hsame readback readback' := by
+  intro packet sameSchedule sameStream sameEndpoint sameTolerance
+  intro scheduledHandoff' toleranceRoute' endpointLedger' pkgLedger'
+  intro readbackRow readbackRow'
+  have transportRows :=
+    RealLimitPacket_scheduled_handoff_transport packet sameSchedule sameStream sameEndpoint
+      sameTolerance scheduledHandoff' toleranceRoute' endpointLedger' pkgLedger'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameEndpoint sameTolerance readbackRow readbackRow'
+  exact
+    ⟨transportRows.left, transportRows.right.left, transportRows.right.right.left,
+      transportRows.right.right.right, sameReadback⟩
+
 end BEDC.Derived.RealLimitUp
