@@ -381,6 +381,43 @@ of the four obligations can acquire such an object through the scoped kernel
 interface.
 \end{proof}
 
+\begin{theorem}[RealLimit public finite-window interface]
+\label{thm:reallimit-public-window-interface}
+The carrier, classifier, transport, readback, ledger, and scoped kernel
+interface theorems assemble a public $\RealLimitUp$ finite-window consumer
+package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
+
+This interface exports only the scheduled regular rational stream, dyadic
+tolerance windows, real-facing seal row, transport and continuation routes,
+package provenance, and local naming ledger. It exports no completed real,
+quotient stream equality, analytic convergence theorem, or selected limiting
+object.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:reallimit-bhist-carrier}. The
+schedule, regular rational source stream, real-facing seal, dyadic tolerance
+window, transport rows, continuation rows, package provenance, and local
+naming ledger are the available finite-window coordinates.
+
+Apply \autoref{thm:reallimit-regseqrat-streamname-handoff} to route each
+real-facing read through the displayed $\StreamNameUp$, $\RegSeqRatUp$, and
+$\DyadicRatCoreUp$ rows. Then use
+\autoref{thm:reallimit-common-refinement-classifier} to compare two such reads
+on a common finite window.
+
+Use \autoref{thm:reallimit-transport-stability-boundary} to preserve the
+classifier through componentwise $\hsame$ and $\Cont$ routes, and apply
+\autoref{thm:reallimit-readback-ledger-exhaustion} to account for every
+consumer readback row.
+
+Finally invoke \autoref{thm:reallimit-scoped-kernel-interface}. It packages
+the classifier, transport, readback, and ledger obligations into the same
+finite BEDC surface, giving the public consumer interface without adding any
+completed real, quotient stream equality, analytic convergence theorem, or
+selected limit.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 \closureat{RealLimitUp}{scopedStr}
