@@ -44,27 +44,3 @@ This is an evidence-backed bridge continuation with a plausible BEDC-native land
 
 <<<<<<< Updated upstream
 =======
-
-### B-705 - UniformCauchyCriterion empty-family tail ledger
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | UniformCauchyCriterion empty-family tail ledger |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 6/10 |
-
-Problem:
-Under the UniformCauchyCriterion carrier setup, if an accepted packet has an empty finite family index ledger and an empty tail-comparison ledger, then the shared-threshold route is accepted vacuously and the RealUp seal handoff exports no completed family limit or indexwise schedule.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/1711_uniformcauchycriterion_namecert_construction.tex`
-
-Rationale:
-The candidate is a single implication about a concrete finite-family tail-bound surface already present in the UniformCauchyCriterion chapter. Existing theorems cover window stability, RealUp seal handoff, non-escape, tail-ledger exactness, shared-threshold transport, RegSeqRat tail equivalence, obligation assembly, and finite-family window exhaustion, but they do not name the empty-index and empty-tail-ledger boundary as its own base case. The theorem would make the tail-bound and seal-export discipline smaller and easier to cite without adding host completeness, selected limits, or quotient stream equality, and the file is safe for direct landing.
-
----
