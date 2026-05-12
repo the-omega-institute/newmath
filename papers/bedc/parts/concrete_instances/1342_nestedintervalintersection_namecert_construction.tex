@@ -52,6 +52,7 @@ Diagonal stability follows by transporting the source chain and the width surfac
 
 Handoff exactness is a projection from the coordinate $E$: every regular-rational read is attached to one selected endpoint enclosure. The seal boundary is a projection from $H$, which routes those same finite rows to $\RealUp$ without adding an infinite chain, compactness principle, choice operator, or host real equality.
 \end{proof}
+\leanchecked{BEDC.Derived.NestedIntervalIntersectionUp.NestedIntervalIntersectionCarrier\_namecert\_obligations}
 
 \begin{theorem}[Nested interval intersection finite diagonal handoff]
 \label{thm:nested-interval-intersection-finite-diagonal-handoff}
@@ -67,6 +68,40 @@ Read the selected interval through the source chain coordinate $N$. Its lower an
 Now project the handoff coordinate $E$. The $\RegSeqRatUp$ row is obtained by repacking the selected finite endpoint enclosure and the displayed bound. Since $E$ has no coordinate for an infinite tail or a completed point, every consumer read factors through the selected finite interval row just described.
 \end{proof}
 
+\begin{theorem}[Nested interval intersection selector transport determinacy]
+\label{thm:nested-interval-intersection-selector-transport-determinacy}
+If two accepted $\NestedIntervalIntersectionUp$ carriers classify together,
+their transported diagonal selectors choose the same visible interval row at
+each displayed precision window. Hence the selected endpoint packets, the
+displayed width or $\RegularityModulusUp$ row, the $\RegSeqRatUp$ handoff, and
+the $\RealUp$ seal-facing row are determined by classifier-visible data.
+
+In particular, selector transport cannot exchange the finite diagonal row for
+an unrecorded chain tail, a chosen intersection point, host real equality, or
+an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Use the classifier definition to transport both carriers to the same displayed
+precision window. At that window, the source chain rows, endpoint packets,
+width or modulus rows, handoff rows, seal-facing rows, package provenance, and
+local certificate rows are compared componentwise.
+
+Project the selector coordinate $D$ from each transported carrier. Since the
+classifier compares the selected endpoint enclosures at the same requested
+tolerance, both selectors point to the same visible interval row of the
+transported finite window.
+
+Apply
+\autoref{thm:nested-interval-intersection-finite-diagonal-handoff} to that
+selected row. The consumer-visible $\RegSeqRatUp$ handoff is then forced to
+factor through the same endpoint packet and the same displayed width or
+regularity-modulus witness.
+
+The seal-facing coordinate is read from this handoff and the displayed
+transports. No remaining carrier coordinate contains a hidden chain tail,
+chosen intersection element, host equality row, or completeness datum.
+\end{proof}
+
 \begin{theorem}[Nested interval intersection real seal boundary]
 \label{thm:nested-interval-intersection-real-seal-boundary}
 The $\RealUp$-facing boundary of an accepted $\NestedIntervalIntersectionUp$ carrier is exactly the finite diagonal handoff surface of \autoref{thm:nested-interval-intersection-finite-diagonal-handoff}, together with the displayed $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\NestedIntervalIntersectionUp}$ row.
@@ -79,6 +114,22 @@ Start with the seal-facing coordinate $H$ in \autoref{def:nested-interval-inters
 Use \autoref{thm:nested-interval-intersection-finite-diagonal-handoff} to identify the regular-rational inputs. Each such input has already factored through one visible interval row, its endpoint packet, and its displayed width or modulus witness.
 
 The remaining coordinates are bookkeeping rows: $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local naming certificate. None of them contains a compactness theorem, a point-selection operator, a uniqueness claim, or a host real equality row. Therefore the real-seal boundary is precisely the finite surface stated above.
+\end{proof}
+
+\begin{theorem}[Nested interval dyadic selector coverage]
+\label{thm:nested-interval-dyadic-selector-coverage}
+Every $\RealUp$-facing consumer read of an accepted $\NestedIntervalIntersectionUp$ packet is covered by one selected finite interval row. The selected row has lower and upper endpoint reads in $\DyadicRatCoreUp$, its displayed width or $\RegularityModulusUp$ row supplies the requested $\RegSeqRatUp$ handoff, and its provenance is exactly the recorded $\Pkg$ and local $\NameCert_{\NestedIntervalIntersectionUp}$ route transported through the visible $\hsame$ and $\Cont$ rows.
+
+Consequently a diagonal-limit or completion consumer reads a dyadic endpoint enclosure selected by the finite selector, not a hidden chain tail, a chosen intersection point, or an ambient compactness witness.
+\end{theorem}
+\begin{proof}
+Begin with the consumer-visible regular-rational read. By \autoref{thm:nested-interval-intersection-finite-diagonal-handoff}, the read factors through exactly one visible interval row of the source chain, its endpoint packet, its lower and upper dyadic endpoint rows, and its displayed width or modulus witness.
+
+Transport the selector data next. The determinacy result \autoref{thm:nested-interval-intersection-selector-transport-determinacy} says that classified packets choose the same visible row at the same precision window, so the lower endpoint, upper endpoint, width row, and $\RegSeqRatUp$ handoff remain tied to that selected interval.
+
+Finally apply \autoref{thm:nested-interval-intersection-real-seal-boundary}. The $\RealUp$ boundary adds only the displayed $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local naming row to the finite diagonal handoff.
+
+The carrier has no coordinate for a completed point, open-cover compactness, choice, or host real equality. Hence every $\RealUp$-facing read is covered by the selected dyadic endpoint row and its recorded provenance.
 \end{proof}
 
 \closureat{NestedIntervalIntersectionUp}{seedStr}

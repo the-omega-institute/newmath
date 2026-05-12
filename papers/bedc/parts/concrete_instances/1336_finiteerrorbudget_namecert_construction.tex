@@ -115,6 +115,139 @@ field from which a quotient stream, host real equality test, selected infinite
 limit, or ambient completeness principle could be exported.
 \end{proof}
 
+\begin{theorem}[FiniteErrorBudget tail-ledger consumption exactness]
+\label{thm:finite-error-budget-tail-ledger-consumption-exactness}
+For every accepted $\FiniteErrorBudgetUp$ carrier
+$E=(n,\epsilon,b,d,t,r,e,P,N)$, every finite budget-consumer read used by the
+$\RealCauchyCompletionUp$ handoff factors through the displayed
+$\DyadicTailBoundUp$ ledger $d$, the $\DiagonalModulusUp$ selector $b$, the
+dyadic tolerance $\epsilon$, and the $\RegSeqRatUp$ readback row $r$.
+
+If two accepted carriers classify together by
+\autoref{def:finite-error-budget-classifier}, then the consumer-visible
+ledger surface is preserved exactly: classified replacement can transport the
+same displayed rows through $\hsame$ and $\Cont$, but it cannot replace the
+handoff by an unrecorded stream tail, selected limit, host real equality, or
+ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the selector row $b$ and the tail ledger $d$ from the carrier. The
+selector names the finite schedule for the request $n$, while $d$ records the
+tail estimate available at that schedule against the displayed dyadic
+tolerance $\epsilon$.
+
+Project the budget-consumer row $t$. By the carrier definition, its summand or
+convolution windows are read only inside the schedule and tail bound already
+displayed by $b$ and $d$, and the resulting rational name is exposed only
+through the readback coordinate $r$.
+
+Classifier transport is componentwise. Therefore a classified carrier can
+transport only the precision row, tolerance row, selector, tail ledger,
+consumer row, readback row, seal row, package provenance, and certificate row
+already present in the packet.
+
+Finally apply
+\autoref{thm:finite-error-budget-diagonal-handoff}. The exported completion
+surface is the path through $\epsilon$, $b$, $d$, $t$, $r$, and $e$, so no
+unrecorded stream tail, selected limit, host equality test, or ambient
+completion datum is available to the consumer.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget classifier stability]
+\label{thm:finite-error-budget-classifier-stability}
+Let $E=(n,\epsilon,b,d,t,r,e,P,N)$ and
+$E'=(n',\epsilon',b',d',t',r',e',P',N')$ be accepted
+$\FiniteErrorBudgetUp$ carriers. If they classify together by
+\autoref{def:finite-error-budget-classifier}, then the consumer-visible rows
+$n,\epsilon,b,d,t,r,e,P,N$ transport componentwise to
+$n',\epsilon',b',d',t',r',e',P',N'$ through the displayed $\hsame$ rows and the
+displayed $\Cont$ routes of the classifier.
+
+The transport preserves the precision request, dyadic tolerance, diagonal
+selector, tail ledger, finite budget consumer, $\RegSeqRatUp$ readback,
+$\RealUp$ seal, package provenance, and local naming row as the complete
+visible surface. It introduces no hidden stream coordinate, host equality
+coordinate, selected limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. Their coordinates are exactly the rows named
+in \autoref{def:finite-error-budget-carrier}, so there is no further coordinate
+available for transport.
+
+Now apply the classifier of
+\autoref{def:finite-error-budget-classifier}. Its clauses are componentwise
+$\hsame$ comparisons together with displayed $\Cont$ routes for the finite
+precision-budget reads, so each visible row of $E$ is matched with the
+corresponding visible row of $E'$.
+
+The route list is exhausted by
+$n,\epsilon,b,d,t,r,e,P,N$. Since neither carrier definition nor classifier
+definition contains a stream representative, host equality field, selected
+limit, or completeness witness, such data cannot be exported by classifier
+transport.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget zero-budget stability]
+\label{thm:finite-error-budget-zero-budget-stability}
+The zero-budget seed of \autoref{thm:finite-error-budget-zero-seed} remains an
+accepted $\FiniteErrorBudgetUp$ packet under every classifier-preserving
+precision-row transport. The transported seed still consists only of the zero
+precision request, dyadic unit tolerance, initial diagonal selector, zero tail
+ledger, empty budget consumer, constant-zero $\RegSeqRatUp$ readback,
+zero $\RealUp$ seal, package provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start from the seed packet constructed in
+\autoref{thm:finite-error-budget-zero-seed}. Each of its coordinates is one of
+the visible carrier rows of \autoref{def:finite-error-budget-carrier}.
+
+Apply \autoref{thm:finite-error-budget-classifier-stability} to the transported
+precision row. The classifier can move the zero request only through the
+displayed $\hsame$ and $\Cont$ rows, and the remaining tolerance, selector,
+ledger, consumer, readback, seal, provenance, and naming coordinates move with
+that same finite surface.
+
+The resulting packet is accepted because the carrier predicates are the same
+componentwise rows used by the seed construction. No unrecorded stream tail,
+host real equality test, selected limit, or completeness witness is introduced
+by the transport.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget public finite-packet export]
+\label{thm:finite-error-budget-public-export}
+For every accepted $\FiniteErrorBudgetUp$ carrier
+$E=(n,\epsilon,b,d,t,r,e,P,N)$, the diagonal handoff of
+\autoref{thm:finite-error-budget-diagonal-handoff}, the tail-ledger
+consumption exactness of
+\autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}, and the
+local $\NameCert_{\FiniteErrorBudgetUp}$ rows of
+\autoref{thm:finite-error-budget-namecert-obligations} assemble a public finite
+packet export for $\RealCauchyCompletionUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Every downstream read factors through the displayed rows
+$n,\epsilon,b,d,t,r,e,P,N$, componentwise $\hsame$ transport, and displayed
+$\Cont$ routes. The export contains no quotient stream, hidden host equality
+coordinate, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First project the carrier rows. The request $n$, tolerance $\epsilon$, selector
+$b$, ledger $d$, budget consumer $t$, readback $r$, seal $e$, package row $P$,
+and naming row $N$ are the whole finite packet.
+
+Next apply \autoref{thm:finite-error-budget-diagonal-handoff}. It identifies
+the completion-facing route through the tolerance, selector, ledger, consumer,
+readback, and seal rows.
+
+Apply \autoref{thm:finite-error-budget-tail-ledger-consumption-exactness} to
+the same packet. This makes every finite consumer read pass through the
+displayed ledger and prevents replacement by an unrecorded tail surface.
+
+Finally use \autoref{thm:finite-error-budget-namecert-obligations}. Its
+carrier, classifier, zero-stability, diagonal-handoff, and non-escape rows
+repack the same finite data as the public export consumed by
+$\RealCauchyCompletionUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{proof}
+
 \begin{theorem}[FiniteErrorBudget NameCert obligations]
 \label{thm:finite-error-budget-namecert-obligations}
 The local $\NameCert_{\FiniteErrorBudgetUp}$ obligation surface consists of
@@ -159,6 +292,7 @@ The non-escape row follows because all accepted carrier coordinates have been
 listed. None of them is a quotient constructor, a host equality oracle, a
 choice of limit, or an ambient completeness datum.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations}
 
 \closureat{FiniteErrorBudgetUp}{seedStr}
 

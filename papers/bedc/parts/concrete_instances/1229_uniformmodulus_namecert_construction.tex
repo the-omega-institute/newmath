@@ -34,12 +34,29 @@ Let $U$ be an accepted $\UniformModulusUp$ carrier in the sense of \autoref{def:
 
 The fold is internal to the finite $\mathsf{ProbeBundle}$ packet. It has no coordinate for an ambient minimum of a set of rationals, a selected external enumeration, or a choice-selected modulus value.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformModulusUp.UniformModulusPacket\_finite\_probe\_bundle\_fold}
 \begin{proof}
 Read the nonempty bundle row $\mathcal{P}$ from the carrier. Each bundled probe has a visible radius row in $R$, and each such row is a positive $\RatUp$ history with the half-radius comparison needed by the compact finite-net coverage row.
 
 Perform primitive recursion over the closed $\mathsf{ProbeBundle}$ spine. At the first bundled probe, use its half-radius history as the accumulator. At each successor probe, use the $\RatUp$ order readback to replace the accumulator by the displayed lower of the current accumulator and the next half-radius row.
 
 The certificate $F$ records the comparison at every step, so the final precision history $D$ is below every bundled half-radius ledger. Because the comparisons are stored as $\RatUp$ rows and transported by the componentwise $\hsame$ rows in $L$, the result is stable under the $\UniformModulusUp$ classifier.
+\end{proof}
+
+\begin{theorem}[UniformModulus classifier transport stability]
+\label{thm:uniformmodulus-classifier-transport-stability}
+Let $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$ be an accepted $\UniformModulusUp$ packet. If the tolerance row, precision row, finite-net coverage row, pointwise-modulus rows, rational fold rows, and downstream metric-read rows are transported componentwise along the displayed $\hsame$ entries of $L$ and then read only through the displayed $\Cont$, $\Pkg$, and $\NameCert$ routes, the transported data remain one accepted classifier-facing compact-continuous packet.
+
+The transported packet preserves the same tolerance-to-precision ledger, finite $\mathsf{ProbeBundle}$ coverage, pointwise-modulus rows, rational lower-bound fold, and metric consumer boundary. It introduces no external selector, open-cover compactness row, sequential compactness row, or host analytic modulus.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:uniformmodulus-bhist-carrier}. The only classifier-readable coordinates are the tolerance, precision, bundle, radius, coverage, pointwise-modulus, fold, transport, continuation, provenance, and local naming rows listed there.
+
+Transport those coordinates through the componentwise $\hsame$ entries in $L$. The tolerance and precision histories remain positive $\RatUp$ rows, the compact finite-net row still reads the same bundled centers through $\mathcal{P}$, and the pointwise-modulus rows remain attached to those transported centers.
+
+Replay the finite $\mathsf{ProbeBundle}$ fold of \autoref{thm:uniformmodulus-finite-probebundle-fold} on the transported radius rows. The fold certificate moves with the rational comparison rows, so the transported precision remains below every transported half-radius ledger.
+
+Finally route all downstream metric reads through $Q$, $P$, and $N$. The accepted packet is therefore reconstructed from displayed carrier rows and displayed continuation routes only, leaving no coordinate for an external selector, open-cover compactness, sequential compactness, or host analytic modulus.
 \end{proof}
 
 \begin{theorem}[UniformModulus NameCert obligation surface]
