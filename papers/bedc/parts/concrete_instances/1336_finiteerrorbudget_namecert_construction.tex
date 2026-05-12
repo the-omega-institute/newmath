@@ -373,6 +373,134 @@ boundary, so the completion consumer has no route to quotient streams, host
 real equality, selected limits, or ambient completeness.
 \end{proof}
 
+\begin{definition}[FiniteErrorBudget scoped dependency tuple]
+\label{def:finite-error-budget-scoped-dependency-tuple}
+For an accepted $\FiniteErrorBudgetUp$ carrier, the scoped dependency tuple is
+the displayed finite packet
+$$
+(n,\epsilon,b,d,t,r,e,P,N).
+$$
+It is read as a tuple over the following BEDC rows:
+\begin{enumerate}
+\item $n$ is the precision request carried in $\BHist$ and read through
+$\StreamNameUp$ naming discipline;
+\item $\epsilon$ is the $\DyadicRatCoreUp$ tolerance row;
+\item $b$ is the $\DiagonalModulusUp$ selector row;
+\item $d$ is the $\DyadicTailBoundUp$ ledger row;
+\item $t$ is the finite budget-consumer row;
+\item $r$ is the $\RegSeqRatUp$ readback row;
+\item $e$ is the $\RealUp$ seal row;
+\item $P$ is the $\Pkg$ provenance row; and
+\item $N$ is the local $\NameCert_{\FiniteErrorBudgetUp}$ row.
+\end{enumerate}
+Classifier movement of this tuple is only by the displayed $\hsame$ rows and
+the displayed $\Cont$ routes of
+\autoref{def:finite-error-budget-classifier}. The tuple has no coordinate for
+a quotient stream, host real equality, selected limit, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[FiniteErrorBudget dyadic tolerance scope]
+\label{thm:finite-error-budget-dyadic-tolerance-scope}
+For every accepted carrier $E=(n,\epsilon,b,d,t,r,e,P,N)$, the dyadic
+tolerance $\epsilon$, diagonal selector $b$, and tail ledger $d$ are consumed
+through the scoped dependency tuple of
+\autoref{def:finite-error-budget-scoped-dependency-tuple}. Any completion
+handoff or budget-consumer read that uses the tolerance must pass through the
+displayed $\DyadicRatCoreUp$ row, $\DiagonalModulusUp$ row,
+$\DyadicTailBoundUp$ row, $\BHist$ packet, $\hsame$ transport, $\Cont$ route,
+$\Pkg$ provenance, and local $\NameCert$ evidence already listed there.
+\end{theorem}
+\begin{proof}
+Start with the carrier decomposition of
+\autoref{def:finite-error-budget-carrier}. The only dyadic tolerance row is
+$\epsilon$, the only diagonal selector row is $b$, and the only tail ledger row
+is $d$.
+
+Apply \autoref{thm:finite-error-budget-diagonal-handoff}. It sends every
+completion-facing request through $\epsilon$, $b$, and $d$ before any readback
+or real seal is presented.
+
+Next apply
+\autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}. The
+finite budget consumer is tied to the same selector and ledger, so the tail
+estimate consumed by the request cannot be replaced by an unrecorded schedule
+or ambient bound.
+
+Finally use \autoref{thm:finite-error-budget-classifier-row-stability} and
+\autoref{thm:finite-error-budget-public-export}. Classifier movement is by the
+displayed $\hsame$ and $\Cont$ rows, and the public export repacks only the
+same finite packet with its $\Pkg$ and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget RegSeqRat readback scope]
+\label{thm:finite-error-budget-regseqrat-readback-scope}
+For every accepted carrier $E=(n,\epsilon,b,d,t,r,e,P,N)$, the finite budget
+consumer $t$ and the $\RegSeqRatUp$ readback $r$ factor through the same scoped
+dependency tuple before the $\RealUp$ seal $e$ is exported. Consequently the
+readback seen by $\RealCauchyCompletionUp$ is determined by the displayed
+finite packet and not by a hidden stream representative, host real equality,
+selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the scoped tuple using
+\autoref{def:finite-error-budget-scoped-dependency-tuple}. The budget consumer
+$t$, readback row $r$, and real seal $e$ are coordinates of the same finite
+$\BHist$ packet as the request, tolerance, selector, and ledger.
+
+Apply \autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}.
+This places every consumer read inside the displayed selector and tail-ledger
+surface and exposes its rational output only through $r$.
+
+Then apply \autoref{thm:finite-error-budget-diagonal-selector-exactness}. The
+handoff path reaches $e$ only after passing through $\epsilon$, $b$, $d$, $t$,
+and $r$, so the $\RealUp$ seal is downstream of the finite packet rather than
+an independent completion witness.
+
+The public export theorem,
+\autoref{thm:finite-error-budget-public-export}, packages the same readback
+for $\RegSeqRatUp$, $\RealUp$, and $\RealCauchyCompletionUp$. Therefore the
+completion consumer cannot obtain any extra readback surface outside the
+scoped tuple.
+\end{proof}
+
+\begin{theorem}[FiniteErrorBudget NameCert dependency exhaustion]
+\label{thm:finite-error-budget-namecert-dependency-exhaustion}
+For every accepted carrier $E=(n,\epsilon,b,d,t,r,e,P,N)$, the local
+$\NameCert_{\FiniteErrorBudgetUp}$ dependency surface is exhausted by the
+scoped dependency tuple of
+\autoref{def:finite-error-budget-scoped-dependency-tuple}. The carrier row,
+classifier row, diagonal handoff row, tail-ledger consumption row, public
+export row, and completion-consumer boundary row all read only
+$n,\epsilon,b,d,t,r,e,P,N$ together with their displayed $\hsame$ and $\Cont$
+routes.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:finite-error-budget-namecert-obligations} to enumerate the
+local certificate rows. Each row names carrier habitation, classifier
+transport, zero-budget stability, diagonal handoff, and non-escape for the
+visible finite packet.
+
+The carrier and classifier surfaces are exactly the rows of
+\autoref{def:finite-error-budget-carrier} and
+\autoref{def:finite-error-budget-classifier}. These give
+$n,\epsilon,b,d,t,r,e,P,N$ as the complete coordinate list and allow movement
+only through the displayed $\hsame$ and $\Cont$ routes.
+
+The diagonal, tail-ledger, and public-export clauses are supplied by
+\autoref{thm:finite-error-budget-diagonal-handoff},
+\autoref{thm:finite-error-budget-tail-ledger-consumption-exactness}, and
+\autoref{thm:finite-error-budget-public-export}. They reuse the same tuple for
+the tolerance, selector, ledger, consumer, readback, real seal, package row,
+and naming row.
+
+Finally apply
+\autoref{thm:finite-error-budget-completion-consumer-boundary}. Since every
+completion consumer is already confined to the displayed finite packet, the
+local $\NameCert$ has no remaining dependency slot through which a quotient
+stream, host real equality, selected limit, or ambient completeness principle
+could enter.
+\end{proof}
+
 \closureat{FiniteErrorBudgetUp}{seedStr}
 \closureat{FiniteErrorBudgetUp}{obligationStr}[BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations]
 
@@ -380,7 +508,7 @@ real equality, selected limits, or ambient completeness.
   \constructivestory{A $\FiniteErrorBudgetUp$ packet is generated from a unary precision request, a dyadic tolerance row, a $\DiagonalModulusUp$ selector, a $\DyadicTailBoundUp$ ledger, a finite $\FastConvergentSeriesUp$ or $\FastSeriesProductUp$ budget consumer, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, package provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{thm:finite-error-budget-classifier-row-stability}, \autoref{thm:finite-error-budget-zero-budget-stability}, \autoref{thm:finite-error-budget-public-export}, and \autoref{thm:finite-error-budget-namecert-obligations} bind the finite precision-budget obligation surface.}
-  \formalstatus{\theoremCheckedV}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.FiniteErrorBudgetUp.FiniteErrorBudgetCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
