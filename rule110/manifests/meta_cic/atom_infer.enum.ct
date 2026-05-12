@@ -1,0 +1,21 @@
+# atom_infer.enum.ct
+# Lean targets:
+#   BEDC.MetaCIC.inferAtom
+#   BEDC.MetaCIC.inferAtom_sort_sound
+#   BEDC.MetaCIC.inferAtom_var_sound
+#
+# Input shape:
+#   CtxEncoding ++ AtomEncoding
+#
+# CtxEncoding([sort repeated n]) = EventEncoding([0 repeated n]).
+# AtomEncoding(sort) = EventEncoding([0]).
+# AtomEncoding(var i) = EventEncoding([1, 0 repeated i]).
+PRODUCTIONS 0
+ASSERTIONS 7
+case sort_empty_ctx:       input=11011          ; infer=some_sort
+case sort_two_ctx:         input=0011011        ; infer=some_sort
+case var0_one_sort:        input=0111011        ; infer=some_sort
+case var1_two_sorts:       input=001110011      ; infer=some_sort
+case var2_three_sorts:     input=00011100011    ; infer=some_sort
+case var1_out_of_scope:    input=01110011       ; infer=none
+case non_atom_payload:     input=110011         ; infer=none

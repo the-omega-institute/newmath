@@ -1,0 +1,20 @@
+# bhist_term_embedding.enum.ct
+# Lean targets:
+#   BEDC.MetaCIC.BHistSubstrate.bhistToTerm_closed
+#   BEDC.MetaCIC.BHistSubstrate.bhistPayloadToTerm_injective
+#   BEDC.MetaCIC.BHistSubstrate.bhistToTerm_injective
+#
+# Single-history cases check that bhistToTerm(h) is ClosedAt 0 after
+# reconstructing the Lean-side lambda payload shape from decoded BHist choices.
+# Pair cases use input = BHistEncoding(h) ++ BHistEncoding(k) and check the
+# injectivity implication on the generated payload and full term shapes.
+PRODUCTIONS 0
+ASSERTIONS 8
+case closed_empty:           input=11             ; closed_at_0=yes
+case closed_e0:              input=011            ; closed_at_0=yes
+case closed_e1:              input=1011           ; closed_at_0=yes
+case closed_mixed:           input=0100101011     ; closed_at_0=yes
+case inject_empty_empty:     input=1111           ; term_equal=yes ; hist_equal=yes
+case inject_e0_e0:           input=011011         ; term_equal=yes ; hist_equal=yes
+case inject_e0_e1:           input=0111011        ; term_equal=no  ; hist_equal=no
+case inject_deep_distinct:   input=010111001011   ; term_equal=no  ; hist_equal=no
