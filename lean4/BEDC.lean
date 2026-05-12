@@ -1348,6 +1348,7 @@ import BEDC.HostBridge.HostInterpreter
 import BEDC.HostBridge.HostInterpreterArith
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
 import BEDC.HostBridge.ChurchOptionRoundTrip
+import BEDC.HostBridge.ChurchEitherListRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
