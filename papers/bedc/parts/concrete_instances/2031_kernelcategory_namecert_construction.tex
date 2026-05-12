@@ -2,106 +2,82 @@
 \label{ch:concrete-instances-kernelcategory-namecert}
 \origin{human}
 
-The $\KernelCategoryUp$ packet records the categorical surface already present in the finite BEDC kernel. It uses unary $\BHist$ objects, displayed $\mathsf{CategoryHomCarrier}$ hom rows, $\mathsf{ContinuationMorphism}$ tail witnesses, componentwise $\hsame$ transport, $\Cont$ composition routes, $\Pkg$ provenance, and a local $\NameCert$ ledger. It is a concrete NameCert reading of the kernel-as-category vision, not a host category object and not a bridge to an external category library.
+The $\KernelCategoryUp$ packet records the category-shaped reading of the BEDC kernel without importing a host category object. Its data are finite $\BHist$ rows: unary object histories, continuation-ledger hom histories, empty continuation identities, displayed $\Cont$ composition ledgers, $\hsame$ law transports, package provenance, and one local naming row.
 
-\begin{definition}[KernelCategory NameCert source]
-\label{def:kernel-category-namecert-source}
-A $\KernelCategoryUp$ source is a finite packet
+\begin{definition}[KernelCategory carrier]
+\label{def:kernel-category-carrier}
+A $\KernelCategoryUp$ carrier is a finite $\BHist$ packet
 $$
-K=(O,H,R,I,M,T,F,A,P,N)
+K=(O,H,I,C,A,U,P,N)
 $$
-with the following displayed rows:
+with the following visible coordinates:
 \begin{enumerate}
-\item $O$ is the object row, accepting exactly the unary histories $a:\BHist$ with $\mathsf{UnaryHistory}(a)$.
-\item $H$ is the hom row, accepting triples $(a,b,f)$ exactly when $\mathsf{CategoryHomCarrier}(a,b,f)$ holds.
-\item $R$ is the continuation-tail row, storing for every accepted hom row a displayed $\mathsf{ContinuationMorphism}(a,b)$ whose tail is classified with $f$ by $\hsame$.
-\item $I$ is the identity row, storing the empty-tail continuation route from each accepted object to itself.
-\item $M$ is the composition row, storing the displayed $\Cont$ route that composes accepted hom histories $f:a\to b$ and $g:b\to c$ into an accepted hom history $fg:a\to c$.
-\item $T$ is the transport row, storing object, endpoint, and hom-tail replacement only by componentwise $\hsame$.
-\item $F$ is the $\FunctorUp$ provenance row for prefix functor reads over the same unary-continuation hom carrier.
-\item $A$ is the $\NatTransUp$ provenance row for component-family reads over the same unary-continuation hom carrier.
-\item $P$ is the $\Pkg$ row naming the object, hom, route, identity, composition, functor, and natural-transformation ledgers.
-\item $N$ is the local $\NameCert_{\KernelCategoryUp}$ row for carrier admission, classifier stability, ledger exactness, and boundary evidence.
+\item $O$ is the object table, whose rows are exactly the histories admitted by $\mathsf{UnaryHistory}$.
+\item $H$ is the hom table, whose rows are continuation-ledger histories presented as $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ data between rows of $O$.
+\item $I$ records identity rows, and these are precisely the empty continuation rows over each unary object history.
+\item $C$ records displayed composition rows, and each row is a $\Cont$-composite ledger from composable continuation-ledger hom histories.
+\item $A$ records associativity rows as $\hsame$ transports between the two displayed triple-composite ledgers with the same endpoints.
+\item $U$ records left and right unit rows as $\hsame$ transports from the empty-continuation composites back to the displayed hom row.
+\item $P$ names $\BHist$, $\mathsf{UnaryHistory}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$, and $\CategoryUp$ as the only dependency rows used by the packet.
+\item $N$ is the local $\NameCert_{\KernelCategoryUp}$ row.
 \end{enumerate}
-The source is therefore a ten-row BEDC packet. Every row is a finite history, transport, route, provenance, or naming row already visible to $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ consumers.
+The classifier for accepted packets compares only these rows, their endpoint ledgers, their displayed transports, their continuation routes, and their package and naming provenance.
 \end{definition}
 
-\begin{theorem}[KernelCategory certificate obligation surface]
-\label{thm:kernel-category-certificate-obligation-surface}
-For a source packet $K=(O,H,R,I,M,T,F,A,P,N)$, the $\NameCert_{\KernelCategoryUp}$ obligation surface consists exactly of these rows:
+\begin{theorem}[KernelCategory identity continuations]
+\label{thm:kernel-category-identity-continuation}
+In an accepted $\KernelCategoryUp$ carrier, identity homs are exactly the empty continuation rows in $I$. If endpoint rows are transported by the componentwise $\hsame$ data of the carrier, the transported identity row is again the empty continuation row over the transported endpoint, and it remains classified as an identity hom in the same packet.
+\end{theorem}
+\begin{proof}
+Project the object and identity coordinates from \autoref{def:kernel-category-carrier}. The object coordinate admits endpoints only through $\mathsf{UnaryHistory}$, and the identity coordinate has no row other than the empty continuation row over such an endpoint.
+
+Transport an endpoint by the displayed $\hsame$ rows. Since the identity row is defined by the empty continuation ledger and has no independent tail data, transporting the endpoint transports the whole identity row to the empty continuation row over the transported object.
+
+The package and local naming rows are unchanged by this componentwise transport. Thus the transported row is still classified by the same $\NameCert_{\KernelCategoryUp}$ identity coordinate.
+\end{proof}
+
+\begin{theorem}[KernelCategory composition continuations]
+\label{thm:kernel-category-composition-continuation}
+Composable hom rows in an accepted $\KernelCategoryUp$ carrier close under the displayed $\Cont$ composition rows in $C$. The resulting hom row has the source endpoint of the first input row, the target endpoint of the second input row, and no endpoint ledger outside the two input ledgers and the displayed composite route.
+\end{theorem}
+\begin{proof}
+Read two composable hom rows from $H$. By the carrier definition, each is a continuation-ledger history with endpoints already listed in the unary object table $O$.
+
+The composition coordinate $C$ records exactly the displayed $\Cont$-composite ledger for such a composable pair. Applying that row produces a hom history whose source is inherited from the first row and whose target is inherited from the second row.
+
+No additional endpoint source is present in $K$. The associativity and unit rows in $A$ and $U$ may transport composite ledgers by $\hsame$, but they do not introduce new object histories or quotient morphisms. Hence composition preserves the displayed endpoint ledger.
+\end{proof}
+
+\begin{theorem}[KernelCategory certificate surface]
+\label{thm:kernel-category-certificate-surface}
+The local $\NameCert_{\KernelCategoryUp}$ surface consists exactly of five obligation families:
 \begin{enumerate}
-\item carrier admission for unary object histories and displayed $\mathsf{CategoryHomCarrier}$ hom histories;
-\item classifier laws for objects and hom histories, both read as componentwise $\hsame$ rows in $T$;
-\item identity and binary-composition closure through the empty-tail row $I$ and the displayed $\Cont$ composition row $M$;
-\item hom exactness through $R$, relating each $\mathsf{CategoryHomCarrier}(a,b,f)$ row to unary endpoints, a unary tail, and a $\mathsf{ContinuationMorphism}(a,b)$ whose tail is $\hsame$ to $f$;
-\item prefix-functor and natural-transformation provenance through $F$ and $A$, using the existing $\FunctorUp$ and $\NatTransUp$ certificate sites over the same $\CategoryUp$ carrier;
-\item ledger exhaustiveness through $P$ and $N$.
+\item carrier admission for the finite packet $K=(O,H,I,C,A,U,P,N)$;
+\item hom classifier stability under componentwise $\hsame$ transport of endpoints and continuation-ledger hom rows;
+\item identity law rows asserting that the empty continuation rows in $I$ are the left and right unit ledgers;
+\item composition and associativity law rows asserting closure under $C$ and triple-composite transport by $A$;
+\item ledger non-escape, excluding host category objects, quotient morphisms, external equality of arrows, and any category primitive not named by $O,H,I,C,A,U,P,N$.
 \end{enumerate}
-No obligation quantifies over an abstract source-equivalence relation, a host morphism type, or a separate category carrier.
 \end{theorem}
 \begin{proof}
-Project the carrier rows of \autoref{def:kernel-category-namecert-source}. The object and hom coordinates are already the concrete BEDC rows $O$ and $H$, so carrier admission is a finite history check.
+Carrier admission is the tuple projection of \autoref{def:kernel-category-carrier}. It supplies the object table, hom table, identity rows, composition rows, associativity rows, unit rows, package provenance, and local naming row.
 
-The classifier part is also rowwise. Object replacement and hom replacement use the displayed $\hsame$ rows in $T$, with endpoint transport supplied by the unary-continuation stability package of \autoref{thm:category-unary-continuation-stability-law-package}.
+Hom classifier stability follows by componentwise transport: endpoint rows are transported inside $O$, hom histories are transported inside $H$, and the displayed continuation routes in $C$ replay the same source and target ledgers.
 
-Identity and composition are read from $I$ and $M$. The empty-tail identity row supplies identities, while $M$ records the displayed $\Cont$ route and the resulting accepted hom row.
+Use \autoref{thm:kernel-category-identity-continuation} for the identity law rows and \autoref{thm:kernel-category-composition-continuation} for composition closure. The remaining associativity and unit law rows are precisely the $\hsame$ transports stored in $A$ and $U$.
 
-The functor and natural-transformation coordinates are provenance rows, not extra structure. They point to the existing $\FunctorUp$ and $\NatTransUp$ certificate surfaces, both already built over the same unary-continuation $\CategoryUp$ carrier.
-
-The local package row $P$ and naming ledger $N$ collect these visible obligations. Since every listed coordinate is one of $O,H,R,I,M,T,F,A,P,N$, the obligation surface is exhausted by the concrete BEDC packet.
-\end{proof}
-
-\begin{theorem}[KernelCategory unary-continuation hom exactness]
-\label{thm:kernel-category-unary-continuation-hom-exactness}
-Let $K=(O,H,R,I,M,T,F,A,P,N)$ be an accepted $\KernelCategoryUp$ source. For unary histories $a,b,f:\BHist$, an accepted hom row in $H$ from $a$ to $b$ with displayed history $f$ is exactly the BEDC unary-continuation row consisting of unary endpoints, unary displayed tail, and a continuation morphism $m:\mathsf{ContinuationMorphism}(a,b)$ with $\hsame(\mathsf{tail}(m),f)$.
-
-The exactness is read through $H$, $R$, and $T$: $H$ supplies $\mathsf{CategoryHomCarrier}(a,b,f)$, $R$ supplies the continuation morphism and tail row, and $T$ supplies the required $\hsame$ transport. No source-equivalence transport or host arrow equality is used.
-\end{theorem}
-\begin{proof}
-Start from an accepted hom row in $H$. By the carrier definition, this row is precisely a displayed $\mathsf{CategoryHomCarrier}(a,b,f)$ row.
-
-Apply the continuation-tail correspondence of \autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}. Its forward direction extracts unary endpoints, a unary displayed tail, and a continuation morphism whose tail is classified with $f$ by $\hsame$.
-
-For the reverse direction, use the same correspondence and then apply the transport row $T$ when the displayed tail is replaced by an $\hsame$-classified tail. The resulting row is again accepted by $H$ because $H$ is the concrete hom-carrier coordinate of $K$.
-\end{proof}
-
-\begin{theorem}[KernelCategory NameCert ledger exhaustion]
-\label{thm:kernel-category-namecert-ledger-exhaustion}
-Every consumer route exported by an accepted $\KernelCategoryUp$ packet factors through the finite ledger
-$$
-O \longmapsto H \longmapsto R \longmapsto I \longmapsto M \longmapsto T \longmapsto F \longmapsto A \longmapsto P \longmapsto N.
-$$
-Objects, homs, identity arrows, composites, functor reads, and natural-transformation reads are therefore exhausted by unary histories, displayed hom histories, continuation-tail rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. The packet exports no quotient of histories, no host equality of morphisms, no arbitrary category object, no limit structure, and no standard category bridge.
-\end{theorem}
-\begin{proof}
-Inspect each exported operation. Object reads use $O$, hom reads use $H$ and $R$, identity reads use $I$, and composition reads use $M$ together with the transport row $T$.
-
-Functor and natural-transformation reads are not independent exits from the packet. The rows $F$ and $A$ record the existing $\FunctorUp$ and $\NatTransUp$ provenance over the same unary-continuation hom carrier, so their consumer routes still pass through $O,H,R,I,M,T$ before reaching $P$ and $N$.
-
-The package row $P$ and naming row $N$ are the final ledgers. Since the carrier has no coordinate for quotients, host morphism equality, arbitrary categories, limits, or an external bridge, no exported consumer route can obtain one of those objects from the packet.
-\end{proof}
-
-\begin{theorem}[KernelCategory TasteGate boundary]
-\label{thm:kernel-category-tastegate-boundary}
-Any $\ChapterTasteGate$ inspection of a $\KernelCategoryUp$ packet is bounded by the same finite rows $O,H,R,I,M,T,F,A,P,N$. Conservativity can inspect only the carrier admission, hom exactness, continuation composition, $\FunctorUp$ provenance, $\NatTransUp$ provenance, and local $\NameCert$ ledger. Layer separation forbids the inspection from treating $\KernelCategoryUp$ as a host category, a mathlib bridge, a quotient of histories, or a source of categorical limits and adjunctions.
-\end{theorem}
-\begin{proof}
-The inspection has a single visible carrier, namely the source packet of \autoref{def:kernel-category-namecert-source}. Thus every carrier event is one of the ten displayed rows.
-
-Conservativity follows by replaying the certificate obligation surface of \autoref{thm:kernel-category-certificate-obligation-surface}. Hom exactness, identity, composition, functor provenance, and natural-transformation provenance are all read through rows already present in $K$.
-
-Layer separation is the non-escape part of \autoref{thm:kernel-category-namecert-ledger-exhaustion}. The packet has no coordinate from which a host category object, quotient history, external bridge, limit, or adjunction can be projected.
+Finally inspect the package row $P$ and the naming row $N$. They name only the BEDC history, continuation, transport, package, NameCert, and $\CategoryUp$ rows listed in the carrier. A host category object or quotient morphism would require an additional coordinate, so it is outside the certificate surface.
 \end{proof}
 
 \closureat{KernelCategoryUp}{seedStr}
 
 \begin{closurestatus}{\KernelCategoryUp}
-  \constructivestory{A $\KernelCategoryUp$ packet is generated from unary $\BHist$ object rows, displayed $\mathsf{CategoryHomCarrier}$ hom rows, continuation-tail witnesses, empty-tail identity rows, displayed $\Cont$ composition routes, componentwise $\hsame$ transport, $\FunctorUp$ provenance, $\NatTransUp$ provenance, $\Pkg$ rows, and a local $\NameCert$ ledger.}
+  \constructivestory{A $\KernelCategoryUp$ packet is generated from unary object histories, continuation-ledger hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, $\hsame$ associativity and unit transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the concrete BEDC rows that realize the kernel-as-category reading as a finite NameCert packet.}
+  \scopeclosed{\autoref{def:kernel-category-carrier}, \autoref{thm:kernel-category-identity-continuation}, \autoref{thm:kernel-category-composition-continuation}, and \autoref{thm:kernel-category-certificate-surface} bind the finite kernel-category carrier, identity rows, composition rows, and local certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close a standard category bridge, host category semantics, categorical limits, adjunctions, equivalences, or Lean verification for the packet.}
-  \upgradepath{Scoped closure requires checked carrier admission, hom exactness, ledger exhaustion, and TasteGate boundary theorems for the displayed $\KernelCategoryUp$ packet.}
+  \notclaimed{This chapter does not close a host category universe, quotient morphisms, external arrow equality, functorial semantics, natural transformations, limits, adjunctions, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, hom classifier stability, identity and composition law rows, associativity and unit transports, and ledger non-escape for the $\KernelCategoryUp$ packet.}
 \end{closurestatus}

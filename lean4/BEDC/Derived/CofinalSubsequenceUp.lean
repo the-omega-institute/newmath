@@ -105,4 +105,50 @@ theorem CofinalSubsequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem CofinalSubsequenceCarrier_selector_transport_exactness [AskSetup] [PackageSetup]
+    {source selector window dyadic regseq realSeal transport route provenance nameCert
+      source' selector' window' dyadic' regseq' realSeal' transport' route' provenance'
+      nameCert' consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CofinalSubsequenceCarrier source selector window dyadic regseq realSeal transport route
+        provenance nameCert bundle pkg ->
+      CofinalSubsequenceCarrier source' selector' window' dyadic' regseq' realSeal' transport'
+        route' provenance' nameCert' bundle pkg ->
+        hsame source source' ->
+          hsame selector selector' ->
+            hsame window window' ->
+              hsame dyadic dyadic' ->
+                hsame regseq regseq' ->
+                  hsame realSeal realSeal' ->
+                    hsame transport transport' ->
+                      hsame route route' ->
+                        hsame provenance provenance' ->
+                          hsame nameCert nameCert' ->
+                            Cont route consumerRead nameCert ->
+                              UnaryHistory consumerRead ∧
+                                hsame (append source selector) (append source' selector') ∧
+                                  hsame (append window dyadic) (append window' dyadic') ∧
+                                    hsame (append regseq realSeal)
+                                      (append regseq' realSeal') ∧
+                                      PkgSig bundle provenance pkg := by
+  intro carrier carrier' sameSource sameSelector sameWindow sameDyadic sameRegseq
+    sameRealSeal _sameTransport _sameRoute _sameProvenance _sameNameCert consumerRow
+  obtain ⟨_sourceUnary, _selectorUnary, _windowUnary, _dyadicUnary, _regseqUnary,
+    _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, nameCertUnary,
+    _sourceSelectorWindow, _windowDyadicTransport, _regseqDyadicSeal, _sealProvenanceNameCert,
+    _sealSame, pkgSig⟩ := carrier
+  obtain ⟨_sourceUnary', _selectorUnary', _windowUnary', _dyadicUnary', _regseqUnary',
+    _realSealUnary', _transportUnary', _routeUnary', _provenanceUnary', _nameCertUnary',
+    _sourceSelectorWindow', _windowDyadicTransport', _regseqDyadicSeal',
+    _sealProvenanceNameCert', _sealSame', _pkgSig'⟩ := carrier'
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_right_factor consumerRow nameCertUnary
+  have sourceSelectorSame : hsame (append source selector) (append source' selector') :=
+    cont_respects_hsame sameSource sameSelector (cont_intro rfl) (cont_intro rfl)
+  have windowDyadicSame : hsame (append window dyadic) (append window' dyadic') :=
+    cont_respects_hsame sameWindow sameDyadic (cont_intro rfl) (cont_intro rfl)
+  have regseqRealSealSame : hsame (append regseq realSeal) (append regseq' realSeal') :=
+    cont_respects_hsame sameRegseq sameRealSeal (cont_intro rfl) (cont_intro rfl)
+  exact ⟨consumerUnary, sourceSelectorSame, windowDyadicSame, regseqRealSealSame, pkgSig⟩
+
 end BEDC.Derived.CofinalSubsequenceUp

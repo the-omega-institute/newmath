@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -227,5 +228,32 @@ theorem RegularCauchyNameCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
       namecertUnary, scheduleObservationRadius, radiusLedgerSeal', sealProvenanceEndpoint',
       endpointPkg'⟩
   exact ⟨transported, sameEndpoint⟩
+
+theorem RegularCauchyNameCarrier_completion_handoff_non_escape [AskSetup] [PackageSetup]
+    {schedule observation radius ledger sealRow provenance namecert endpoint hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNameCarrier schedule observation radius ledger sealRow provenance namecert
+        endpoint bundle pkg ->
+      (Cont endpoint (BHist.e0 hostTail) schedule -> False) ∧
+        (Cont endpoint (BHist.e1 hostTail) schedule -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier
+  obtain ⟨_scheduleUnary, _observationUnary, _radiusUnary, _ledgerUnary,
+    _sealUnary, _namecertUnary, scheduleObservationRadius, radiusLedgerSeal,
+    sealProvenanceEndpoint, _endpointPkg⟩ := carrier
+  have scheduleToSeal : Cont schedule (append observation ledger) sealRow := by
+    cases scheduleObservationRadius
+    cases radiusLedgerSeal
+    exact append_assoc schedule observation ledger
+  have scheduleToEndpoint : Cont schedule (append (append observation ledger) provenance)
+      endpoint := by
+    cases scheduleToSeal
+    cases sealProvenanceEndpoint
+    exact append_assoc schedule (append observation ledger) provenance
+  constructor
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.left scheduleToEndpoint hostReturn
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.right scheduleToEndpoint hostReturn
 
 end BEDC.Derived.RegularCauchyNameUp
