@@ -40,6 +40,7 @@ source window, target window, fold relation, ledger rows, and count rows;
 The carrier contains no host cardinality function, no analytic spectrum, no
 ambient probability measure, and no quotient of fibers.
 \end{definition}
+\leandef{BEDC.Derived.FoldMomentKernelUp.FoldMomentKernelUp}
 \leanchecked{BEDC.Derived.FoldMomentKernelUp.FoldMomentKernelTasteGate\_single\_carrier\_alignment}
 \leandef{BEDC.Derived.FoldMomentKernelUp.taste\_gate}
 
@@ -140,3 +141,83 @@ ambient measure, or a hidden completeness principle could be exported.
   \notclaimed{This chapter does not close analytic spectra, host cardinality, quotient fibers, ambient measure theory, collision asymptotics, or bridge checking.}
   \upgradepath{Scoped closure requires checked transport stability, fiber-ledger exactness, moment readback totality, and public finite-packet export for the same carrier.}
 \end{closurestatus}
+
+\begin{theorem}[FoldMomentKernel finite-window restriction carrier]
+\label{thm:fold-moment-kernel-finite-window-restriction-carrier}
+Let
+$$
+K=(W,F,L,I,Q,T,C,P,N)
+$$
+be an accepted $\FoldMomentKernelUp$ carrier, and let $\Omega$ be a displayed
+finite subwindow of the window row $W$. Suppose the packet has coherent
+restriction rows
+$$
+W_{\Omega},F_{\Omega},L_{\Omega},I_{\Omega},Q_{\Omega},T_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega}
+$$
+with the following properties:
+\begin{enumerate}
+\item $W_{\Omega}$ is the selected finite source-and-target subwindow of $W$;
+\item $F_{\Omega}$ contains exactly the fold-source entries of $F$ whose
+visible source or target addresses lie in $W_{\Omega}$;
+\item $L_{\Omega}$ contains exactly the fiber-ledger entries of $L$ above the
+displayed target entries of $W_{\Omega}$ and using fold sources from
+$F_{\Omega}$;
+\item $I_{\Omega}$ is the displayed finite family of moment requests retained
+for the subwindow;
+\item $Q_{\Omega}$ contains exactly the collision-count ledgers of $Q$ whose
+target and moment-index addresses lie in $W_{\Omega}$ and $I_{\Omega}$;
+\item $T_{\Omega}$ and $C_{\Omega}$ are the componentwise restrictions of the
+$\hsame$ transport rows and $\Cont$ read routes whose endpoints are among
+$W_{\Omega}$, $F_{\Omega}$, $L_{\Omega}$, $I_{\Omega}$, and $Q_{\Omega}$;
+\item $P_{\Omega}$ names precisely the package provenance rows consumed by the
+retained window, fold-source, ledger, moment-index, and count rows;
+\item $N_{\Omega}$ is the local $\NameCert_{\FoldMomentKernelUp}$ row restricted
+to those same retained coordinates.
+\end{enumerate}
+Then
+$$
+K_{\Omega}=(W_{\Omega},F_{\Omega},L_{\Omega},I_{\Omega},Q_{\Omega},T_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega})
+$$
+is an accepted $\FoldMomentKernelUp$ carrier.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:fold-moment-kernel-carrier}. A
+$\FoldMomentKernelUp$ carrier has only the nine displayed coordinates
+$$
+W,F,L,I,Q,T,C,P,N.
+$$
+The hypotheses provide a retained row for each of these coordinates over the
+finite subwindow $\Omega$. Thus $K_{\Omega}$ has the required window,
+fold-source, fiber-ledger, moment-index, collision-count, transport,
+continuation, provenance, and local naming entries.
+
+The fiber and count rows remain well-formed because the restriction is
+coordinatewise coherent. Every source entry in $L_{\Omega}$ is one already
+listed by the retained fold-source row $F_{\Omega}$, and every retained count
+row in $Q_{\Omega}$ is indexed by a retained target entry of $W_{\Omega}$ and a
+retained moment request of $I_{\Omega}$. Conversely, the hypotheses discard only
+rows whose visible addresses lie outside the selected subwindow, so no retained
+ledger entry loses its displayed source, target, or moment-index address.
+
+The transport and readback rows also remain internal to the restricted packet.
+By the classifier scope of \autoref{def:fold-moment-kernel-classifier}, a
+$\mathsf{FoldMomentKernelClassifier}$ comparison may inspect only displayed
+window rows, fold-source rows, fiber-ledger rows, moment-index rows,
+collision-count rows, componentwise $\hsame$ transports, $\Cont$ routes,
+package provenance, and local $\NameCert$ evidence. The rows $T_{\Omega}$ and
+$C_{\Omega}$ are exactly the retained transports and routes with endpoints in
+those restricted coordinates, so every classifier or consumer read in the
+subwindow still factors through visible rows of $K_{\Omega}$.
+
+Finally apply the obligation surface of
+\autoref{thm:fold-moment-kernel-namecert-obligation-surface}. Carrier
+inhabitation is supplied by the displayed restricted packet itself, classifier
+transport is the componentwise restricted transport just described,
+fiber-ledger exactness is the retained $F_{\Omega}$--$L_{\Omega}$--$W_{\Omega}$
+incidence, moment readback factors through $I_{\Omega}$, $Q_{\Omega}$,
+$L_{\Omega}$, $T_{\Omega}$, $C_{\Omega}$, $P_{\Omega}$, and $N_{\Omega}$, and
+non-escape follows because \autoref{def:fold-moment-kernel-carrier} gives no
+coordinate for host cardinality, analytic spectra, quotient fibers, ambient
+measure, or unrecorded fold laws. Repacking these retained rows gives the
+accepted carrier $K_{\Omega}$.
+\end{proof}
