@@ -418,6 +418,41 @@ quotient Cauchy class, selected limit, completed $\RealUp$ equality,
 trichotomy, or standard bridge, the public export exposes none of those rows.
 \end{proof}
 
+\begin{theorem}[RationalStream RegSeqRat RealUp consumer coverage]\label{thm:rational-stream-regseqrat-realup-consumer-coverage}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer read of an accepted
+$\RationalStreamUp$ packet factors through exactly the finite unary index row,
+the $\StreamNameUp$ schedule, the pointwise $\RatUp$ carrier and classifier
+rows, the displayed $\hsame$ rows, the $\Cont$ routes, the $\mathsf{Pkg}$
+provenance, and the local $\NameCert$ row already present in
+\autoref{def:rational-stream-carrier}.
+
+The coverage surface exposes no quotient Cauchy class, selected limit, host
+stream equality, completed $\RealUp$ equality, or hidden completion coordinate.
+\end{theorem}
+\begin{proof}
+Start from the public packet of \autoref{thm:rational-stream-public-export}.
+Its exported rows are the finite BEDC packet over $\mathsf{BHist}$,
+$\UnaryHistory$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ with the
+pointwise rational data and downstream-facing schedule already displayed.
+
+Next apply \autoref{thm:rational-stream-finite-window-carrier-transport}. This
+keeps every transported consumer read on the finite unary index row and the
+displayed $\hsame$ and $\Cont$ routes, so no host stream equality is introduced
+when the consumer selects a window.
+
+Use \autoref{thm:rational-stream-pointwise-classifier-laws} to identify each
+endpoint read with the visible $\RatUp$ carrier and classifier rows. Then use
+\autoref{thm:rational-stream-regseqrat-ledger-completeness} to exhaust the
+regular-sequence ledger entries available to downstream consumers.
+
+Finally apply \autoref{thm:rational-stream-regseqrat-handoff}. The handoff
+repackages exactly the displayed finite index, schedule, rational endpoint,
+transport, route, package, and naming rows. Since none of the cited surfaces has
+a coordinate for quotient Cauchy classes, selected limits, host stream equality,
+completed $\RealUp$ equality, or hidden completion coordinates, no
+$\RegSeqRatUp$ or $\RealUp$ consumer can factor through such data.
+\end{proof}
+
 \begin{theorem}[RationalStream standard bridge]\label{thm:rational-stream-standard-bridge}
 For a carried $\RationalStreamUp$ packet over unary $\StreamNameUp$
 observations and $\RatUp$ endpoint classifiers, the public export of
