@@ -1,0 +1,162 @@
+\chapter{A Concrete Naming Certificate for $\RationalIntervalUp$}
+\label{ch:concrete-instances-rationalinterval-namecert}
+
+The $\RationalIntervalUp$ interface names finite closed rational intervals on
+the path from $\RatUp$ and dyadic rational cores to $\RegSeqRatUp$ and the
+$\RealUp$ finite-window seal. In the constructive analysis tradition of
+Bishop and Bridges, an interval is not a hidden located subset of the real
+line. It is a displayed pair of rational endpoints, an order witness, and the
+finite ledgers by which consumers read containment and refinement.
+
+\begin{definition}[RationalInterval BHist carrier]
+\label{def:rational-interval-bhist-carrier}
+A $\RationalIntervalUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+I=(l,r,o,\kappa,h,c,p,n)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $l$ is the left endpoint row, a $\RatUp$ carrier displayed in the
+  packet;
+\item $r$ is the right endpoint row, a $\RatUp$ carrier displayed in the
+  packet;
+\item $o$ is the order witness row certifying the displayed endpoint
+  comparison $l \leq r$ through the $\RatUp$ comparison ledger;
+\item $\kappa$ is the containment ledger recording exactly which rational
+  sample rows are certified to lie between $l$ and $r$;
+\item $h$ records the componentwise $\hsame$ transport rows for endpoints,
+  the order witness, containment rows, and consumer-facing coordinates;
+\item $c$ records the $\Cont$ routes by which a finite consumer reads the
+  endpoint pair, order witness, containment ledger, and refinement windows;
+\item $p$ is the visible $\Pkg$ provenance row naming the $\RatUp$,
+  $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ dependency certificates
+  used by the packet;
+\item $n$ is the local $\NameCert_{\RationalIntervalUp}$ registration row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{RationalIntervalPacket}(l,r,o,\kappa,h,c,p,n)$. Its classifier
+compares two accepted packets only by transporting the displayed endpoint
+rows and replaying the $\RatUp$ order and containment ledgers over the same
+finite $\mathsf{BHist}$ surface.
+\end{definition}
+
+\begin{theorem}[RationalInterval NameCert obligation surface]
+\label{thm:rational-interval-namecert-obligation-surface}
+The local $\NameCert_{\RationalIntervalUp}$ seed obligation surface consists
+of six finite rows: the carrier of
+\autoref{def:rational-interval-bhist-carrier}, endpoint equality through the
+displayed $\RatUp$ classifiers, the endpoint order witness, containment
+ledger exactness, $\hsame$ and $\Cont$ stability for finite refinements, and
+the $\RegSeqRatUp/\RealUp$ handoff boundary for finite rational windows.
+\end{theorem}
+\begin{proof}
+Project the eight carrier coordinates. The endpoint rows $l$ and $r$ provide
+the rational carrier data, while the order witness $o$ and containment ledger
+$\kappa$ provide the comparison rows exposed to interval consumers.
+
+The stability rows are exactly $h$ and $c$. The dependency and local naming
+surface is carried by $p$ and $n$, so the six listed obligations account for
+every row of the packet.
+\end{proof}
+
+\begin{theorem}[RationalInterval endpoint order witness]
+\label{thm:rational-interval-endpoint-order-witness}
+Every accepted $\RationalIntervalUp$ packet displays a $\RatUp$ endpoint pair
+$(l,r)$ together with an order witness row $o$ certifying $l \leq r$ in the
+same finite history. Transporting the interval by its stored $\hsame$ rows
+transports both endpoints and the order witness componentwise, and it
+introduces no apartness decision, total order on completed reals, or selected
+real endpoint outside the displayed $\RatUp$ rows.
+\end{theorem}
+\begin{proof}
+Read the endpoint and order coordinates from
+\autoref{def:rational-interval-bhist-carrier}. The order witness row $o$ is
+stored next to $l$ and $r$, so a consumer cannot obtain the interval without
+also reading the finite comparison ledger that makes the endpoint order
+visible.
+
+Under transport, $h$ supplies the componentwise $\hsame$ rows for the two
+endpoints and for $o$. Repacking those transported rows preserves the same
+ordered endpoint surface and leaves no coordinate for completed real order
+or a selected external endpoint.
+\end{proof}
+
+\begin{theorem}[RationalInterval containment ledger exactness]
+\label{thm:rational-interval-containment-ledger-exactness}
+For an accepted $\RationalIntervalUp$ packet
+$I=(l,r,o,\kappa,h,c,p,n)$, every rational containment read is exactly one of
+the finite rows in $\kappa$ routed by $c$ and transported by $h$. Conversely,
+any displayed row of $\kappa$ with its endpoint, order, transport,
+continuation, package, and local naming evidence is accepted as a
+$\RationalIntervalUp$ containment read.
+\end{theorem}
+\begin{proof}
+Project $I$ through
+\autoref{def:rational-interval-bhist-carrier}. The only containment
+coordinate is $\kappa$, and its routes to consumers are the displayed
+$\Cont$ rows in $c$.
+
+The forward direction follows by reading the consumer route and then the
+corresponding containment row. The transported endpoint and order data needed
+to interpret that row are supplied by $h$ and $o$.
+
+For the reverse direction, start with a displayed row of $\kappa$ together
+with the matching endpoint, order, transport, continuation, package, and name
+rows. These are exactly the coordinates required by the carrier, so the row
+is accepted as a containment read.
+\end{proof}
+
+\begin{theorem}[RationalInterval RegSeqRat handoff]
+\label{thm:rational-interval-regseqrat-handoff}
+A $\RegSeqRatUp$ consumer of an accepted $\RationalIntervalUp$ packet may read
+only the displayed $\RatUp$ endpoints, the endpoint order witness, the finite
+containment ledger, and the associated $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows. The handoff supplies a closed rational window for regular
+rational sequence arguments; it does not assert Cauchy completeness, select a
+limit, or identify completed $\RealUp$ values.
+\end{theorem}
+\begin{proof}
+Start with the carrier packet and project the rows visible to a regular
+rational sequence consumer. The endpoint rows and order witness delimit the
+finite window, while $\kappa$ records the rational samples certified to lie
+inside it.
+
+The remaining consumer-facing information is precisely the transport,
+continuation, provenance, and naming data in $h$, $c$, $p$, and $n$.
+Repacking those rows gives the $\RegSeqRatUp$ handoff and leaves no row for a
+quotient Cauchy class or a completed real equality.
+\end{proof}
+
+\begin{theorem}[RationalInterval RealUp seed boundary]
+\label{thm:rational-interval-realup-seed-boundary}
+When a finite-window $\RealUp$ construction consumes an accepted
+$\RationalIntervalUp$ packet, the seed boundary is the same displayed rational
+interval packet: two $\RatUp$ endpoints, the order witness, containment
+ledger, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\RationalIntervalUp}$ row. The boundary is a rational closed
+window and not a completed real object, a located subset, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Use the $\RegSeqRatUp$ handoff of
+\autoref{thm:rational-interval-regseqrat-handoff}. It exposes the rational
+window as finite endpoint and containment rows, with all reads routed through
+the same transport and continuation data.
+
+The $\RealUp$ seed consumer can therefore inherit only this finite packet.
+Since the carrier has no coordinate for a completed real, a located subset,
+or a bridge witness, the seed boundary remains the displayed rational
+interval surface.
+\end{proof}
+
+\closureat{RationalIntervalUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalUp}
+  \constructivestory{A rational closed interval is represented by two displayed RatUp endpoint rows, an endpoint-order witness, a finite containment ledger, and visible hsame, Cont, package, and NameCert rows consumed by RegSeqRat and RealUp finite-window arguments.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-bhist-carrier} and \autoref{thm:rational-interval-realup-seed-boundary} bind the finite rational closed-interval seed surface over $\RatUp$, order witnesses, containment rows, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ for $\RegSeqRatUp$ and $\RealUp$ finite-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close completed RealUp equality, quotient Cauchy classes, located subsets, interval arithmetic, or standard bridges.}
+  \upgradepath{Formalization starts by encoding the finite rational interval packet and its endpoint-order and containment ledgers under BEDC.Derived.RationalIntervalUp.}
+\end{closurestatus}
