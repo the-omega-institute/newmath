@@ -218,6 +218,70 @@ theorem RegularityModulusPacket_shared_rate_consumer_exhaustion [AskSetup] [Pack
       consumerUnary, consumerUnary', precisionWindowTransport, transportModulusLedger,
       ledgerNameProvenance, consumerRow, consumerNameRow, provenancePkg, consumerPkg⟩
 
+theorem RegularityModulusPacket_standard_rate_bridge [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow consumer consumerTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont window provenance consumer ->
+        Cont consumer nameRow consumerTail ->
+          PkgSig bundle consumerTail pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row consumerTail ∧
+                RegularityModulusPacket precision modulus window transport ledger provenance
+                  nameRow bundle pkg ∧
+                  PkgSig bundle consumerTail pkg)
+              (fun row : BHist => UnaryHistory precision ∧ UnaryHistory modulus ∧
+                UnaryHistory window ∧ Cont window provenance consumer ∧
+                  Cont consumer nameRow row)
+              (fun _row : BHist => PkgSig bundle consumerTail pkg ∧
+                Cont precision window transport ∧ Cont transport modulus ledger)
+              hsame := by
+  intro packet windowProvenanceConsumer consumerNameRow consumerTailPkg
+  have exhausted :
+      UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+        UnaryHistory transport ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+          UnaryHistory consumer ∧ UnaryHistory consumerTail ∧
+            Cont precision window transport ∧ Cont transport modulus ledger ∧
+              Cont ledger nameRow provenance ∧ Cont window provenance consumer ∧
+                Cont consumer nameRow consumerTail ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumerTail pkg :=
+    RegularityModulusPacket_shared_rate_consumer_exhaustion
+      packet windowProvenanceConsumer consumerNameRow consumerTailPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerTail ⟨hsame_refl consumerTail, packet, consumerTailPkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact
+        ⟨exhausted.left, exhausted.right.left, exhausted.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.right.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact
+        ⟨sourceRow.right.right,
+          exhausted.right.right.right.right.right.right.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.left⟩
+  }
+
 theorem RegularityModulusPacket_mature_rate_consumer_completeness [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow consumer consumerTail
       scheduledTail tailRead : BHist}
