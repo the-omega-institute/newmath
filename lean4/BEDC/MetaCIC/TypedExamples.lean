@@ -416,6 +416,12 @@ theorem id_on_pi_sort_sort :
   · apply HasType.varRule
     rfl
 
+theorem pi_value_id :
+    HasType []
+      (Term.lam (Term.pi Term.sort Term.sort) (Term.var 0))
+      (Term.pi (Term.pi Term.sort Term.sort) (Term.pi Term.sort Term.sort)) := by
+  exact id_on_pi_sort_sort
+
 /-- 空 ctx 下: lam (pi sort sort) (lam sort (var 0)) 给出 pi 参数后的 sort identity. -/
 theorem proj_for_pi_arg :
     HasType []
@@ -560,6 +566,27 @@ theorem second_arg_proj :
         (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
         Term.sort)
       (substitute 0 Term.sort Term.sort) := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
+    Term.sort Term.sort Term.sort
+    (HasType.appRule []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.var 0)))
+      Term.sort Term.sort (Term.pi Term.sort Term.sort)
+      (HasType.lamRule [] Term.sort (Term.lam Term.sort (Term.var 0))
+        (Term.pi Term.sort Term.sort)
+        (HasType.sortRule [])
+        (HasType.lamRule [Term.sort] Term.sort (Term.var 0) Term.sort
+          (HasType.sortRule [Term.sort])
+          (HasType.varRule [Term.sort, Term.sort] 0 Term.sort rfl)))
+      (HasType.sortRule []))
+    (HasType.sortRule [])
+
+theorem const_sort_1_applied :
+    HasType []
+      (Term.app
+        (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
+        Term.sort)
+      Term.sort := by
   exact HasType.appRule []
     (Term.app (Term.lam Term.sort (Term.lam Term.sort (Term.var 0))) Term.sort)
     Term.sort Term.sort Term.sort
