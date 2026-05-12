@@ -111,5 +111,17 @@ By \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}, the $\RegSeqRatU
 The common refinement theorem \autoref{thm:finite-window-envelope-common-refinement-exactness} shows that transported comparisons factor through the same displayed window, ledger, seal, and endpoint rows. Finally, \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, window, scale, subwindow, readback, package, and certificate rows, so the $\StreamNameUp$ to $\RegSeqRatUp$ handoff is scoped by the listed data.
 \end{proof}
 
+\begin{theorem}[FiniteWindowEnvelope tail projection]
+\label{thm:finite-window-envelope-tail-projection}
+For every accepted $\FiniteWindowEnvelopeUp$ carrier $W=(S,A,B,L,Q,G,E,P,N)$, any displayed tail read or subwindow read of the accepted envelope factors through the same anchor row $A$, selected $\StreamNameUp$ finite window $Q$, $\DyadicRatCoreUp$ ledger $L$, $\RegSeqRatUp$ seal $G$, $\RealUp$ endpoint classifier $E$, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates already listed in the carrier. The projection introduces no quotient stream, diagonal completion, host real equality, or completeness object outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The anchor, finite window, dyadic ledger, regular-sequence seal, endpoint classifier, package row, and local naming row are displayed coordinates, and the permitted tail or subwindow read must start from that finite window surface.
+
+Apply \autoref{thm:finite-window-envelope-regseqrat-seal-handoff} to identify the $\RegSeqRatUp$ view of the read with the same selected $\StreamNameUp$ window and $\DyadicRatCoreUp$ ledger. Then use \autoref{thm:finite-window-envelope-common-refinement-exactness} to keep transported comparisons on the same window, ledger, seal, and endpoint rows.
+
+The exhaustion step is \autoref{thm:finite-window-envelope-ledger-exhaustion}, while \autoref{thm:finite-window-envelope-streamname-regseqrat-scope} supplies the non-escape boundary for the stream-to-regular-sequence handoff. Hence every displayed tail or subwindow read is a projection of the listed carrier coordinates.
+\end{proof}
+
 \closureat{FiniteWindowEnvelopeUp}{seedStr}
 \closureat{FiniteWindowEnvelopeUp}{obligationStr}
