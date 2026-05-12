@@ -68,4 +68,34 @@ theorem TaylorModelCarrier_endpoint_closure [AskSetup] [PackageSetup]
     unary_cont_closed evalClosed readbackClosed endpointRoute
   exact ⟨evalClosed, readbackClosed, endpointClosed, endpointRoute, nameCertPkg⟩
 
+theorem TaylorModelCarrier_interval_remainder_soundness [AskSetup] [PackageSetup]
+    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
+      endpoint remainder' readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
+        sameRows route endpoint bundle pkg ->
+      hsame remainder remainder' ->
+        Cont remainder' ledger readback' ->
+          Cont eval readback' endpoint ->
+            UnaryHistory remainder' ∧ UnaryHistory readback' ∧ hsame readback readback' ∧
+              UnaryHistory endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sameRemainder remainderLedgerReadback' evalReadbackEndpoint
+  obtain ⟨centerUnary, jetUnary, remainderUnary, ledgerUnary, _evalUnary, _validatedUnary,
+    _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary, _routeUnary,
+    _endpointUnary, _ledgerRow, _evalRow, _sameRowsRoute, evalRoute, readbackRoute,
+    _endpointRoute, endpointPkg, _provenancePkg, _nameCertPkg⟩ := carrier
+  have remainderUnary' : UnaryHistory remainder' :=
+    unary_transport remainderUnary sameRemainder
+  have evalClosed : UnaryHistory eval :=
+    unary_cont_closed centerUnary jetUnary evalRoute
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_cont_closed remainderUnary' ledgerUnary remainderLedgerReadback'
+  have sameReadback : hsame readback readback' :=
+    cont_respects_hsame sameRemainder (hsame_refl ledger) readbackRoute
+      remainderLedgerReadback'
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed evalClosed readbackUnary' evalReadbackEndpoint
+  exact ⟨remainderUnary', readbackUnary', sameReadback, endpointUnary, endpointPkg⟩
+
 end BEDC.Derived.TaylorModelUp
