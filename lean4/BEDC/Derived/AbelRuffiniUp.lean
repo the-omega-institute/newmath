@@ -331,6 +331,36 @@ theorem AbelRuffiniPublicCertificate_radical_tower_bridge_boundary
       publicData.right.right.right.right.right.right.right.right.right,
       bridgeRow⟩
 
+theorem AbelRuffiniFiniteConsumer_completeness
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
+      sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface consumer
+      readback : BHist} :
+    UnaryHistory polynomial -> UnaryHistory base -> UnaryHistory splittingField ->
+      UnaryHistory galoisRow -> UnaryHistory s5Row -> UnaryHistory commutator ->
+        UnaryHistory obstruction -> UnaryHistory consumer ->
+          Cont polynomial base coefficientLedger ->
+            Cont splittingField galoisRow galoisLedger ->
+              Cont coefficientLedger galoisLedger sourceSurface ->
+                Cont galoisRow s5Row subgroup -> Cont subgroup commutator next ->
+                  Cont next obstruction endpoint -> Cont sourceSurface endpoint boundary ->
+                    Cont boundary s5Row publicSurface -> Cont publicSurface consumer readback ->
+                      UnaryHistory publicSurface ∧ UnaryHistory readback ∧
+                        hsame publicSurface (append boundary s5Row) ∧
+                          hsame readback (append publicSurface consumer) := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary
+  intro commutatorUnary obstructionUnary consumerUnary coefficientRow galoisLedgerRow
+  intro sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow publicSurfaceRow readbackRow
+  have publicRows :=
+    AbelRuffiniPublicCertificateExport_namecert_surface polynomialUnary baseUnary
+      splittingFieldUnary galoisRowUnary s5RowUnary commutatorUnary obstructionUnary
+      coefficientRow galoisLedgerRow sourceSurfaceRow subgroupRow nextRow endpointRow boundaryRow
+      publicSurfaceRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed publicRows.right.right.right.right.right.left consumerUnary readbackRow
+  exact
+    ⟨publicRows.right.right.right.right.right.left, readbackUnary,
+      publicRows.right.right.right.right.right.right.right.right.right, readbackRow⟩
+
 theorem AbelRuffiniRadicalTowerBridge_standard_boundary
     {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger
       sourceSurface subgroup commutator next obstruction endpoint boundary publicSurface
