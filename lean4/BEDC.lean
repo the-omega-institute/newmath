@@ -57,6 +57,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ArzelaAscoliUp
+import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -1303,6 +1304,7 @@ import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
 import BEDC.HostBridge.ChurchNatRoundTrip
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
+import BEDC.HostBridge.ChurchOptionRoundTrip
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
