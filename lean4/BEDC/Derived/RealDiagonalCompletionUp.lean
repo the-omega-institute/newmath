@@ -83,4 +83,44 @@ theorem RealDiagonalCompletionSourcePacket_ledger_exactness [AskSetup] [PackageS
     ⟨selectorUnary, scheduleUnary, readbackUnary, sealUnary, diagonalUnary,
       rationalUnary, consumerUnary, diagonalRow, rationalRow, consumerRow, pkgSig⟩
 
+theorem RealDiagonalCompletionSourcePacket_classifier_stability [AskSetup] [PackageSetup]
+    {inputFamily modulus selector schedule readback sealRow provenance localCert selectorNew
+      scheduleNew readbackNew sealNew localCertNew : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback sealRow
+        provenance localCert bundle pkg ->
+      hsame selector selectorNew ->
+        hsame schedule scheduleNew ->
+          hsame readback readbackNew ->
+            hsame sealRow sealNew ->
+              Cont inputFamily modulus selectorNew ->
+                Cont selectorNew scheduleNew readbackNew ->
+                  Cont readbackNew sealNew localCertNew ->
+                    Cont localCertNew provenance sealNew ->
+                      RealDiagonalCompletionSourcePacket inputFamily modulus selectorNew
+                          scheduleNew readbackNew sealNew provenance localCertNew bundle pkg ∧
+                        hsame localCert localCertNew := by
+  intro packet sameSelector sameSchedule sameReadback sameSeal selectorRowNew readbackRowNew
+    localCertRowNew sealRowNew
+  obtain ⟨inputUnary, modulusUnary, scheduleUnary, sealUnary, provenanceUnary, _selectorRow,
+    _readbackRow, localCertRow, _sealRow, pkgSig⟩ := packet
+  have scheduleUnaryNew : UnaryHistory scheduleNew :=
+    unary_transport scheduleUnary sameSchedule
+  have sealUnaryNew : UnaryHistory sealNew :=
+    unary_transport sealUnary sameSeal
+  have sameLocalCert : hsame localCert localCertNew :=
+    cont_respects_hsame sameReadback sameSeal localCertRow localCertRowNew
+  exact
+    ⟨⟨inputUnary,
+        modulusUnary,
+        scheduleUnaryNew,
+        sealUnaryNew,
+        provenanceUnary,
+        selectorRowNew,
+        readbackRowNew,
+        localCertRowNew,
+        sealRowNew,
+        pkgSig⟩,
+      sameLocalCert⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
