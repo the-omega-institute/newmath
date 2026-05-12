@@ -177,6 +177,45 @@ host real equality, or a selected limit, none of those objects is exported by
 the scoped boundary.
 \end{proof}
 
+\begin{theorem}[Stationary rational diagonal classifier determinacy]
+\label{thm:stationary-rational-diagonal-classifier-determinacy}
+Let $D$ and $D'$ be accepted $\StationaryRationalDiagonalUp$ packets. If their
+displayed $\RatUp$ seed rows classify together on the local carrier, then their
+induced constant $\StreamNameUp$ schedules, stationary $\RegSeqRatUp$ windows,
+diagonal selector rows, and $\RealUp$ seal routes classify together through the
+stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Conversely, any accepted
+classifier comparison on those downstream rows restricts to the displayed
+rational seed classifier, since the rational seed coordinate is the only
+carrier coordinate that supplies rational content to the stationary diagonal
+read.
+\end{theorem}
+\begin{proof}
+Project the carriers of $D$ and $D'$ along
+\autoref{def:stationary-rational-diagonal-carrier}. The only rational source
+row in each packet is the displayed $\RatUp$ seed; the remaining rows are the
+constant stream schedule, the stationary regular-rational readback, the
+diagonal selector, the real seal ledger, and the visible transport and package
+rows.
+
+Stationarity reduces every selected regular-rational window to that same
+rational row. Therefore a seed classifier comparison transports directly to
+the constant $\StreamNameUp$ schedule and to each stationary $\RegSeqRatUp$
+window read through the stored $\hsame$ rows.
+
+Apply the real handoff of
+\autoref{thm:stationary-rational-diagonal-real-handoff} and the scoped boundary
+of \autoref{thm:stationary-rational-diagonal-scoped-boundary}. The diagonal
+selector and $\RealUp$ seal route do not add a second rational source; they
+only route the stationary read through the displayed $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+For the converse, restrict any accepted downstream classifier comparison back
+along the handoff route. The boundary theorem leaves exactly one carrier
+coordinate that can supply rational content, namely the displayed seed row, so
+the downstream classifier comparison determines the same local $\RatUp$ seed
+classifier.
+\end{proof}
+
 \closureat{StationaryRationalDiagonalUp}{seedStr}
 
 \begin{closurestatus}{\StationaryRationalDiagonalUp}
