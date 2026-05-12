@@ -91,6 +91,7 @@ transports, $\Cont$ routes, and $\Pkg$ provenance.
 Consequently the packet exports no host string type, host map lookup, ambient
 function space, infinite tree, or implicit key ordering.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_ledger\_coverage}
 \begin{proof}
 Start from the carrier definition. Its tuple lists exactly the key, terminal
 payload, depth ledger, branch ledger, and provenance coordinates.
@@ -201,6 +202,7 @@ At each displayed finite prefix below the $\NatUp$ depth row of an accepted
 $\TrieUp$ packet, the $\BoolUp$ branch tag selects exactly the recorded left
 or right subprefix. No unrecorded branch at that prefix is public.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_prefix\_branch\_determinacy}
 \begin{proof}
 Project the branch ledger $b$ and the depth ledger $l$ from
 \autoref{def:trie-bhist-source}. The ledger $l$ bounds the finite prefix
@@ -224,6 +226,7 @@ $\OptionUp$ absent-or-present terminal row at the displayed key path. The
 read never factors through a host finite map, host lookup function, or ambient
 function space.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_lookup\_payload\_projection}
 \begin{proof}
 Project the terminal payload coordinate $v$ from
 \autoref{def:trie-bhist-source}. The coordinate is an $\OptionUp$ row at the
@@ -416,6 +419,7 @@ on the same displayed finite prefix surface, with only the corresponding
 $\ListUp$ or $\BitVectorUp$ key row, branch tag, ledger row, and $\Pkg$
 provenance transported.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_key\_prefix\_transport}
 \begin{proof}
 Begin with \autoref{thm:trie-carrier-stability}. Transporting the accepted
 packet repacks the key, payload, branch, ledger, and provenance coordinates as
@@ -440,6 +444,7 @@ $\NatUp$ depth ledger, $\hsame$ rows, $\Cont$ routes, and $\Pkg$ provenance
 already present in the packet. The packet exports no host finite-map lookup,
 string equality, function extensionality, infinite tree, or key ordering.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieBHistSource\_lookup\_ledger\_exhaustion}
 \leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_lookup\_ledger\_exhaustion}
 \begin{proof}
 Use \autoref{thm:trie-branch-read-exactness} for branch-facing reads. Each such
@@ -459,6 +464,37 @@ Since the collected surface is exactly $(k,v,l,b,p)$, every lookup-facing
 consumer projection is one of the displayed rows. Host finite maps, string
 equality, function extensionality, infinite trees, and key orderings are not
 coordinates of that packet, so they are not exported.
+\end{proof}
+
+\begin{theorem}[Trie lookup prefix ledger factorization]\label{thm:trie-lookup-prefix-ledger-factorization}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet and let $q$ be a
+finite key prefix displayed by the $\ListUp$ or $\BitVectorUp$ key-path row.
+A lookup read at $q$ factors through exactly one of two visible sources: the
+optional terminal payload row at $q$, or a branch ledger row extending $q$
+below the unary depth ledger. An absent terminal payload row alone is not
+evidence for absence below $q$ unless the branch ledger below $q$ is also
+exhausted.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:trie-bhist-source}. The prefix $q$
+is read from the displayed key-path coordinate, while the optional terminal
+payload and branch rows are separate coordinates of the same packet.
+
+Use \autoref{thm:trie-branch-read-exactness} to identify every branch read
+below $q$ with a displayed finite prefix position, boolean selector, key-path
+row, transport route, and provenance row. Then use
+\autoref{thm:trie-lookup-ledger-exhaustion} to see that no other lookup-facing
+source is available.
+
+Split the optional payload row at $q$. In the present case, the lookup read
+uses the terminal $\OptionUp$ payload projection. In the absent case, the
+absence of that terminal coordinate only removes the terminal source at $q$.
+
+It remains to account for reads below the prefix. Those reads must pass
+through branch ledger rows extending $q$; only when that branch ledger is also
+exhausted does the packet provide finite evidence for absence below the
+prefix. No host map lookup, string equality, or ambient trie semantics is
+imported.
 \end{proof}
 
 \begin{theorem}[Trie finite branch consumer boundary]\label{thm:trie-finite-branch-consumer-boundary}
@@ -498,13 +534,16 @@ $\NatUp$, $\BitVectorUp$, $\hsame$, $\Cont$, and $\Pkg$ rows, so no host
 string, host map, infinite-tree coordinate, ambient lookup function, or
 key-order semantics can be projected by the consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.TrieUp.TrieFiniteBranchConsumer\_boundary}
 
 \begin{theorem}[Trie public NameCert export]\label{thm:trie-public-namecert-export}
 The source packet of \autoref{def:trie-bhist-source}, the obligation surface
 of \autoref{thm:trie-namecert-obligation-surface}, the branch read exactness
 of \autoref{thm:trie-branch-read-exactness}, the lookup ledger exhaustion of
-\autoref{thm:trie-lookup-ledger-exhaustion}, and the finite branch consumer
-boundary of \autoref{thm:trie-finite-branch-consumer-boundary} assemble the
+\autoref{thm:trie-lookup-ledger-exhaustion}, the prefix ledger factorization
+of \autoref{thm:trie-lookup-prefix-ledger-factorization}, and the finite branch
+consumer boundary of \autoref{thm:trie-finite-branch-consumer-boundary}
+assemble the
 public $\NameCert_{\TrieUp}$ surface for the finite key path, optional payload,
 unary depth ledger, branch rows, displayed $\hsame$ and $\Cont$ routes,
 $\Pkg$ provenance, and $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, and
@@ -523,6 +562,12 @@ the local $\NameCert_{\TrieUp}$ obligation surface. The branch rows are
 identified by \autoref{thm:trie-branch-read-exactness}, and the lookup-facing
 payload and ledger reads are exhausted by
 \autoref{thm:trie-lookup-ledger-exhaustion}.
+
+The prefix boundary is
+\autoref{thm:trie-lookup-prefix-ledger-factorization}: a missing terminal row
+at a prefix is separated from exhaustion of branch rows below that prefix, so
+the public export records finite failed-lookup evidence only when both visible
+sources have been accounted for.
 
 Finally use \autoref{thm:trie-finite-branch-consumer-boundary}. It states that
 every finite branch consumer read factors through the displayed terminal
@@ -568,6 +613,41 @@ finite prefix-tree read is below the displayed depth row and therefore lands
 in one of the projected rows. Since the packet has no coordinate for host
 strings, host maps, hidden infinite trees, key orderings, or ambient lookup
 functions, none is exported by the bridge.
+\end{proof}
+
+\begin{theorem}[Trie terminal-prefix readback coverage]\label{thm:trie-terminal-prefix-readback-coverage}
+Every terminal read of a finite $\TrieUp$ packet factors through the displayed
+finite key prefix, optional terminal payload row, $\BoolUp$ branch row, unary
+depth ledger, $\hsame$ transport, $\Cont$ route, $\mathsf{Pkg}$ provenance,
+and local $\NameCert_{\TrieUp}$ row.
+
+Conversely, any finite read assembled from exactly those rows repacks as a
+terminal-prefix read of the same finite packet. The readback surface contains
+no host string, host map, infinite tree, key-order semantics, ambient lookup
+function, or balancing invariant.
+\end{theorem}
+\begin{proof}
+For a prefix-facing read, apply
+\autoref{thm:trie-prefix-branch-consumer-exhaustion}. It keeps the consumer
+inside the displayed key prefix, unary depth ledger, branch rows, transport
+routes, continuation routes, provenance, and local naming evidence.
+
+For a terminal key-path read, apply
+\autoref{thm:trie-boolean-key-path-ledger-coverage}. The terminal payload is
+read at the displayed prefix endpoint, and every branch decision is one of the
+recorded $\BoolUp$ rows below the unary depth ledger.
+
+Use \autoref{thm:trie-branch-read-exactness} to identify the branch route
+used by the terminal read. Then apply
+\autoref{thm:trie-standard-finite-packet-bridge} to repack the same rows as a
+finite prefix-tree reading.
+
+The converse direction reverses this packaging: a read built from the key
+prefix, optional payload, branch, depth, transport, continuation, provenance,
+and local certificate rows is exactly a terminal-prefix read of the displayed
+finite packet. Since no cited row names host strings, host maps, infinite
+trees, key-order semantics, lookup functions, or balancing invariants, none is
+available to the readback.
 \end{proof}
 
 \begin{theorem}[Trie finite consumer completeness]\label{thm:trie-finite-consumer-completeness}
@@ -624,7 +704,7 @@ consumer interface.
 \begin{closurestatus}{\TrieUp}
   \constructivestory{A trie packet is generated by a finite key-path row, an optional terminal payload row, a unary length and depth ledger, boolean branch rows, displayed transport routes, and package provenance over Bool, List, Option, Nat, and BitVector certificates.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:trie-bhist-source}, \autoref{thm:trie-namecert-obligation-surface}, \autoref{thm:trie-branch-read-exactness}, \autoref{thm:trie-lookup-ledger-exhaustion}, \autoref{thm:trie-finite-branch-consumer-boundary}, \autoref{thm:trie-public-namecert-export}, \autoref{thm:trie-standard-finite-packet-bridge}, and \autoref{thm:trie-finite-consumer-completeness} assemble the public finite trie $\NameCert$ export, bridge it to the standard finite prefix-tree reading, and exhaust finite consumer reads over the key path, optional payload, unary depth ledger, branch rows, displayed transport and continuation routes, package provenance, and Bool, List, Option, Nat, and BitVector certificates.}
+  \scopeclosed{\autoref{def:trie-bhist-source}, \autoref{thm:trie-namecert-obligation-surface}, \autoref{thm:trie-branch-read-exactness}, \autoref{thm:trie-lookup-ledger-exhaustion}, \autoref{thm:trie-lookup-prefix-ledger-factorization}, \autoref{thm:trie-finite-branch-consumer-boundary}, \autoref{thm:trie-public-namecert-export}, \autoref{thm:trie-standard-finite-packet-bridge}, and \autoref{thm:trie-finite-consumer-completeness} assemble the public finite trie $\NameCert$ export, bridge it to the standard finite prefix-tree reading, and exhaust finite consumer reads over the key path, optional payload, unary depth ledger, branch rows, displayed transport and continuation routes, package provenance, and Bool, List, Option, Nat, and BitVector certificates.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
