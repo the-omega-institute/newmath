@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CriticalStripZetaZeroWitnessUp$}
+\label{ch:concrete-instances-criticalstripzetazerowitness-namecert}
+
+The $\CriticalStripZetaZeroWitnessUp$ interface names the finite witness packet consumed by the RH capstone. It packages a complex-history candidate together with the displayed critical-strip row, the zeta-zero row, the critical-line classifier boundary, and the local $\NameCert$ routes needed to read the witness as a BEDC object. The packet is a witness surface for the constructive form of \autoref{prop:rh-constructive-form}; it is not a proof of RH and it does not manufacture analytic zeros outside the rows already exposed by $\CritStripUp$ and $\ZetaZerosUp$.
+
+\begin{definition}[CriticalStripZetaZeroWitness carrier]
+\label{def:critical-strip-zeta-zero-witness-carrier}
+A $\CriticalStripZetaZeroWitnessUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+W=(S,Z,L,B,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is the $\CritStripUp$ row carrying the complex history $s$ and the strict-strip evidence for its real component;
+\item $Z$ is the $\ZetaZerosUp$ row carrying the zeta-value and zero-pattern evidence for the same source history $s$;
+\item $L$ is the $\CritStripUp$ critical-line classifier row naming the boundary predicate $\mathsf{OnCritLine}(s)$ or its displayed absence;
+\item $B$ is the boundary ledger recording the two open-strip boundary exclusions, the $\Re(s)=1$ non-vanishing slot, and the critical-line comparison row;
+\item $H$ records componentwise $\hsame$ transports for the strip row, zero row, critical-line row, and boundary ledger;
+\item $C$ records the $\Cont$ routes for reading the strip witness, reading the zeta-zero witness, exposing the critical-line classifier, and handing the packet to the RH predicate;
+\item $P$ is the $\Pkg$ provenance over $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CriticalStripZetaZeroWitnessUp}$ row.
+\end{enumerate}
+The carrier stores no host complex number, no analytic zero finder, no quotient equality of zero sets, no selected representative, and no proof or refutation of RH.
+\end{definition}
+
+\begin{theorem}[CriticalStripZetaZeroWitness NameCert obligations]
+\label{thm:critical-strip-zeta-zero-witness-namecert-obligations}
+The local $\NameCert_{\CriticalStripZetaZeroWitnessUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed packet $W$ with strip, zero, critical-line, boundary, transport, continuation, package, and local naming rows;
+\item shared source binding: the $\CritStripUp$ row $S$ and the $\ZetaZerosUp$ row $Z$ expose the same complex-history source through the stored $\hsame$ and $\Cont$ routes;
+\item line-boundary routing: the critical-line row $L$ and boundary ledger $B$ are read only after the strip and zero rows have been exposed;
+\item RH handoff: any citation of the RH predicate reads the carrier through $S,Z,L,B,H,C,P,N$;
+\item ledger exhaustion: the package and local certificate rows exhaust the dependency surface over $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:critical-strip-zeta-zero-witness-carrier}. The strip row, zero row, critical-line classifier, boundary ledger, transport rows, continuation rows, package row, and local naming row are explicit coordinates of the packet.
+
+The shared source binding is componentwise. The strip row names the complex history through $\CritStripUp$, the zero row names the same source through $\ZetaZerosUp$, and the stored $\hsame$ and $\Cont$ routes are the only routes by which a consumer compares them.
+
+The remaining obligations are downstream reads. The critical-line row and boundary ledger are exposed after the strip and zero rows, and the RH handoff consumes the same finite packet. Since no coordinate is a host complex number, zero finder, quotient equality, selected representative, or proof of RH, the ledger is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZeroWitness critical-line boundary]
+\label{thm:critical-strip-zeta-zero-witness-critical-line-boundary}
+Every accepted $\CriticalStripZetaZeroWitnessUp$ packet routes the critical-line question through the displayed $\CritStripUp$ classifier row $L$ and the boundary ledger $B$. A downstream RH consumer may ask whether the source history carried by $S$ and $Z$ is on the critical line, but it receives only the displayed $\mathsf{OnCritLine}(s)$ row or its boundary evidence through $H$, $C$, $P$, and $N$.
+\end{theorem}
+\begin{proof}
+Apply the line-boundary routing obligation of \autoref{thm:critical-strip-zeta-zero-witness-namecert-obligations}. It requires the source strip row and zero row to be exposed before the critical-line classifier is read.
+
+The boundary ledger $B$ contains the available boundary exclusions and comparison rows. Therefore a consumer cannot bypass $L$ and $B$ to obtain an ambient real equality, a selected representative for $\Re(s)$, or a host-level decision procedure for the critical line.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZeroWitness ledger exhaustion]
+\label{thm:critical-strip-zeta-zero-witness-ledger-exhaustion}
+For an accepted $\CriticalStripZetaZeroWitnessUp$ carrier, every fact exported to a $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, or RH-facing consumer is one of the rows $S,Z,L,B,H,C,P,N$ or a route between such rows. In particular, the witness packet exports no analytic zero search, no completed zero-set quotient, no host complex equality, no selected counterexample, and no proof of the RH predicate.
+\end{theorem}
+\begin{proof}
+List the coordinates of \autoref{def:critical-strip-zeta-zero-witness-carrier}. The only mathematical data rows are the strip row $S$, the zeta-zero row $Z$, the critical-line row $L$, and the boundary ledger $B$.
+
+Transport can only move these rows through $H$, and continuation can only expose them through $C$. The package and local certificate rows $P$ and $N$ record provenance and naming, not additional analytic data.
+
+Thus the consumer surface is exhausted by the finite packet. The excluded objects have no coordinate in the carrier and cannot be reconstructed from the exported rows.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZeroWitness concretizes RH]
+\label{thm:critical-strip-zeta-zero-witness-concretizes-rh}
+The $\CriticalStripZetaZeroWitnessUp$ packet is the concrete NameCert surface for the constructive RH premise of \autoref{prop:rh-constructive-form}. Any BEDC proof of the RH predicate may consume such a packet as the finite input carrying $\mathsf{ZetaZero}(s)$ and $\mathsf{InCritStrip}(s)$, and any constructive counterexample must export such a packet together with a displayed failure of the critical-line row. The packet itself contributes only the input surface; it does not prove the critical-line conclusion.
+\end{theorem}
+\begin{proof}
+The carrier supplies the two premise rows required by the constructive RH form: $S$ gives the critical-strip row and $Z$ gives the zeta-zero row. The shared source binding in \autoref{thm:critical-strip-zeta-zero-witness-namecert-obligations} identifies them as rows over the same complex history.
+
+The critical-line boundary theorem identifies the only route to the conclusion-side classifier, and ledger exhaustion rules out any hidden analytic or quotient data. Hence the packet is exactly the finite input surface for the RH premise. A proof may consume it to produce the critical-line row, while a counterexample must pair it with a displayed failure of that row.
+\end{proof}
+
+\closureat{CriticalStripZetaZeroWitnessUp}{seedStr}
+
+\begin{closurestatus}{\CriticalStripZetaZeroWitnessUp}
+  \constructivestory{A $\CriticalStripZetaZeroWitnessUp$ packet is generated from a $\CritStripUp$ strip row, a $\ZetaZerosUp$ zero row, a critical-line classifier row, a boundary ledger, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the finite RH premise packet over $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove RH, refute RH, construct non-trivial zeta zeros, decide the critical-line classifier, close zero-set quotients, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked carrier encoding and named finite obligations for shared source binding, critical-line boundary routing, RH handoff, and ledger exhaustion.}
+\end{closurestatus}
