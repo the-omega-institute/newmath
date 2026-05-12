@@ -37,4 +37,26 @@ typedef struct {
    Returns GC_OK + filled event/event_len/bytes_consumed, or a reject status. */
 GcDecResult gc_dec_event(const uint8_t *in, size_t in_len, size_t fuel);
 
+/* BHist representation as a buffer of constructor choices.
+ * Each byte is 0 (for e0) or 1 (for e1). Length = depth.
+ * Empty is represented by length=0. */
+typedef struct {
+    uint8_t *choices;
+    size_t   depth;
+} BHist;
+
+/* Encode a BHist as a bit stream using GroundCompiler convention.
+ * Equivalent to EventEncoding(bhist->choices). */
+size_t gc_bhist_encode(const BHist *bhist, uint8_t *out, size_t out_cap);
+
+/* Decode a bit stream into a BHist. Caller must free out->choices.
+ * Returns the same GcStatus values as gc_dec_event. */
+typedef struct {
+    GcStatus status;
+    BHist    bhist;
+    size_t   bytes_consumed;
+} GcBhistDecResult;
+
+GcBhistDecResult gc_bhist_decode(const uint8_t *in, size_t in_len, size_t fuel);
+
 #endif
