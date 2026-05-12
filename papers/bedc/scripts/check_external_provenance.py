@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Reject external bridge provenance leaked into BEDC paper body.
+"""Reject external provenance leaked into BEDC paper body.
 
-Automath / bridge records are allowed as review metadata and candidate
-seeds. The BEDC paper body must re-derive accepted material natively and
-must not cite those metadata paths as mathematical evidence.
+External source records, bridge records, URLs, local paths, and generator
+identity are allowed as review metadata and candidate seeds. The BEDC paper
+body must re-derive accepted material natively and must not cite those
+metadata paths or source identities as mathematical evidence.
 """
 
 from __future__ import annotations
@@ -27,6 +28,16 @@ FORBIDDEN = [
     re.compile(r"discovery(?:\\_|\s*_)report\.json"),
     re.compile(r"tools[\\/]+automath_newmath_bridge[\\/]+review_packets[\\/]+[^}\s]+\.json"),
     re.compile(r"review_packets[\\/]+[^}\s]+\.json"),
+    re.compile(r"https?://"),
+    re.compile(r"github\.com", re.IGNORECASE),
+    re.compile(r"\barxiv\b", re.IGNORECASE),
+    re.compile(r"\bWikipedia\b", re.IGNORECASE),
+    re.compile(r"\b(ChatGPT|Claude|OpenAI|Anthropic)\b"),
+    re.compile(r"(?:^|[\s{(])/(?:Users|private|tmp|var|opt|home)/"),
+    re.compile(r"\b(?:Generated|Produced)\s+by\s+(?:ChatGPT|Claude|OpenAI|Anthropic)\b", re.IGNORECASE),
+    re.compile(r"\b(?:repository|repo)\s+coordinates\b", re.IGNORECASE),
+    re.compile(r"\b(?:source|repository|repo)[_-](?:path|repo|commit|ref)\b", re.IGNORECASE),
+    re.compile(r"\b(?:review|bridge)\s+packet\s+(?:path|json)\b", re.IGNORECASE),
 ]
 
 
@@ -56,8 +67,9 @@ def main() -> int:
     if violations:
         print("External provenance check failed.", file=sys.stderr)
         print(
-            "Automath / bridge / discovery JSON records are candidate metadata only; "
-            "BEDC paper body must be re-derived natively.",
+            "External source records, bridge packets, URLs, local paths, and "
+            "generator identities are candidate metadata only; BEDC paper body "
+            "must be re-derived natively.",
             file=sys.stderr,
         )
         for item in violations:
