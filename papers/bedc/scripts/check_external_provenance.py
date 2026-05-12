@@ -22,6 +22,7 @@ SCAN_ROOTS = [
 
 FORBIDDEN = [
     re.compile(r"Inspired by Omega Project"),
+    re.compile(r"\b[Aa]utomath\b"),
     re.compile(r"automath/"),
     re.compile(r"discovery(?:\\_|\s*_)report\.json"),
     re.compile(r"tools[\\/]+automath_newmath_bridge[\\/]+review_packets[\\/]+[^}\s]+\.json"),
