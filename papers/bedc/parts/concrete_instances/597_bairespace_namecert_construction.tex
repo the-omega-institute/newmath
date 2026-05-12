@@ -45,6 +45,7 @@ row by the $\hsame$ and $\Cont$ data recorded in $l$, then $B'$ is again an
 accepted carrier. The prefix-cylinder classifier for the transported window
 reads exactly the transported unary rows and no tail beyond that window.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_prefix\_cylinder\_stability}
 \begin{proof}
 Project the carrier of \autoref{def:baire-space-stream-carrier}. The only
 data visible to the classifier are the stream schedule, the finite index
@@ -402,6 +403,36 @@ surface, with no additional host equality, branch selector, completed
 sequence, topological object, apartness row, or real-completeness row.
 \end{proof}
 
+\begin{theorem}[BaireSpace finite prefix-cylinder coverage]
+\label{thm:bairespace-finite-prefix-cylinder-coverage}
+Every finite stream-name consumer read of a certified $\BaireSpaceUp$ packet
+factors through a displayed prefix-cylinder row.
+
+Compatible nested prefix cylinders share a common finite prefix transport
+through the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\BaireSpaceUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:baire-space-prefix-cylinder-stability}. It keeps each
+accepted finite read inside the displayed prefix-cylinder classifier, finite
+$\NatUp$ index rows, unary answer rows, and stream schedule.
+
+For nested cylinders, apply
+\autoref{thm:baire-space-prefix-restriction-composition}. The composed
+restriction route supplies the common finite prefix transport through the same
+$\hsame$, $\Cont$, package, and local certificate rows.
+
+Use \autoref{thm:baire-space-real-name-handoff} for rational and real-facing
+consumers. Those reads remain finite stream-name handoffs rather than
+completed sequences or real-completeness assumptions.
+
+Finally combine \autoref{thm:bairespace-scoped-finite-consumer-boundary} with
+\autoref{thm:bairespace-prefix-stream-bridge}. The scoped boundary exhausts
+the finite consumer rows, and the bridge identifies the same rows with the
+stream-name presentation, yielding the stated finite prefix-cylinder
+coverage.
+\end{proof}
+
 \begin{theorem}[BaireSpace StreamName prefix sieve]
 \label{thm:bairespace-streamname-prefix-sieve}
 Every finite prefix-cylinder read consumed by $\StreamNameUp$, $\RegSeqRatUp$,
@@ -431,6 +462,43 @@ than completed host sequences.
 Finally invoke \autoref{thm:baire-space-ledger-coverage}. It exhausts the
 remaining certificate rows, so no choice-selected branch, host sequence
 equality, completed sequence, or real-completeness row is exported.
+\end{proof}
+
+\begin{theorem}[BaireSpace finite-prefix consumer completeness]
+\label{thm:bairespace-finite-prefix-consumer-completeness}
+Every accepted finite consumer of the public prefix-cylinder bridge factors
+through one displayed finite prefix window. The window consists exactly of the
+$\StreamNameUp$ schedule, $\NatUp$ index rows, unary answer rows, the
+prefix-cylinder classifier, componentwise $\hsame$ rows, prefix-restriction
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and the $\RegSeqRatUp$, $\RealUp$,
+and $\DyadicRatCoreUp$ handoff rows.
+
+This factorization exports no host sequence equality, choice branch, completed
+infinite sequence, apartness row, external topology, or real completeness row.
+\end{theorem}
+\begin{proof}
+Start with the public prefix-cylinder certificate of
+\autoref{thm:bairespace-public-prefix-cylinder-certificate}. Its exposed rows
+are already the finite schedule, prefix index window, displayed unary answers,
+classifier coordinate, componentwise transport, prefix-restriction route,
+package provenance, and downstream handoff surface.
+
+Read the same packet through \autoref{thm:bairespace-prefix-stream-bridge}. This
+identifies every bridge consumer with the stream-name presentation over the
+same finite prefix window, so the consumer has no separate access to a host
+sequence or a choice-selected branch.
+
+The remaining coverage is ledger-local. Apply
+\autoref{thm:baire-space-ledger-coverage} to exhaust the certificate rows and
+\autoref{thm:baire-space-cylinder-tail-coverage} to keep tail information inside
+the displayed finite cylinder. No completed infinite sequence or external
+topological row is produced.
+
+Finally apply \autoref{thm:baire-space-real-name-handoff}. The
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers therefore receive
+only the listed handoff rows, not real completeness, apartness on Baire space,
+or any additional host equality principle. Hence every accepted finite consumer
+factors through the displayed finite prefix window.
 \end{proof}
 
 \closureat{BaireSpaceUp}{obligationStr}
