@@ -78,6 +78,7 @@ This is a concrete obstruction target over the existing S1 carrier/readback surf
 | Risk | unknown |
 | Fit | 7/10 |
 | Novelty | 6/10 |
+| Landing kind | existing_chapter_ledger_row |
 
 Problem:
 Under the S1 boundary-readback setup, if BEDC has a named S1 readback carrier for the Cayley coordinate and the Automath Cayley coordinate/inverse evidence supplies the coordinate laws, then the displayed S1 boundary readback carries the Cayley coordinate certificate row.
