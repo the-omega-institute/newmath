@@ -135,6 +135,29 @@ theorem ComputableRealSource_namecert_obligation_surface [AskSetup] [PackageSetu
       exact ⟨packetSig, provenanceUnary, registrationUnary⟩
   }
 
+theorem ComputableRealSource_realup_handoff [AskSetup] [PackageSetup]
+    {schedule modulus dyadic regular sealRow transport route provenance registration
+      approximationWindow sealWindow packet : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSource schedule modulus dyadic regular sealRow transport route provenance
+        registration approximationWindow sealWindow packet bundle pkg ->
+      UnaryHistory regular ∧ UnaryHistory sealRow ∧ UnaryHistory sealWindow ∧
+        UnaryHistory packet ∧ Cont regular sealRow sealWindow ∧
+          Cont approximationWindow sealWindow packet ∧ PkgSig bundle packet pkg := by
+  intro source
+  obtain ⟨scheduleUnary, modulusUnary, _dyadicUnary, regularUnary, sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _registrationUnary,
+    approximationRow, sealWindowRow, packetRow, packetSig⟩ := source
+  have approximationUnary : UnaryHistory approximationWindow :=
+    unary_cont_closed scheduleUnary modulusUnary approximationRow
+  have sealWindowUnary : UnaryHistory sealWindow :=
+    unary_cont_closed regularUnary sealUnary sealWindowRow
+  have packetUnary : UnaryHistory packet :=
+    unary_cont_closed approximationUnary sealWindowUnary packetRow
+  exact
+    ⟨regularUnary, sealUnary, sealWindowUnary, packetUnary, sealWindowRow,
+      packetRow, packetSig⟩
+
 def ComputableRealPacket [AskSetup] [PackageSetup]
     (schedule modulus dyadic regular sealRow transport approximationLedger sealLedger provenance
       nameRow : BHist)

@@ -186,6 +186,7 @@ import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
+import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.RamseyUp
@@ -208,6 +209,7 @@ import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
+import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UnitaryGroupUp
