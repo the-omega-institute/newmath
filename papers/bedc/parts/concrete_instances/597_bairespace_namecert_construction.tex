@@ -45,6 +45,7 @@ row by the $\hsame$ and $\Cont$ data recorded in $l$, then $B'$ is again an
 accepted carrier. The prefix-cylinder classifier for the transported window
 reads exactly the transported unary rows and no tail beyond that window.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_prefix\_cylinder\_stability}
 \begin{proof}
 Project the carrier of \autoref{def:baire-space-stream-carrier}. The only
 data visible to the classifier are the stream schedule, the finite index
@@ -400,6 +401,37 @@ ledger rows. Reading the standard finite prefix-cylinder packet back into
 $\BaireSpaceUp$ therefore recovers exactly the displayed carrier and handoff
 surface, with no additional host equality, branch selector, completed
 sequence, topological object, apartness row, or real-completeness row.
+\end{proof}
+
+\begin{theorem}[BaireSpace StreamName prefix sieve]
+\label{thm:bairespace-streamname-prefix-sieve}
+Every finite prefix-cylinder read consumed by $\StreamNameUp$, $\RegSeqRatUp$,
+or $\RealUp$ factors through the displayed $\StreamNameUp$ schedule, $\NatUp$
+index rows, $\mathsf{UnaryHistory}$ answer rows, prefix-cylinder classifier,
+componentwise $\hsame$ rows, $\Cont$ restriction routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\BaireSpaceUp}$ ledger.
+
+The sieve exports no choice-selected branch, host sequence equality, completed
+sequence, or real-completeness row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:baire-space-prefix-cylinder-stability}. It keeps each
+finite observation inside the displayed prefix-cylinder classifier and the
+finite $\NatUp$ index and unary answer rows.
+
+Use \autoref{thm:baire-space-prefix-restriction-composition} to compose the
+restriction routes. The resulting read still travels through the same
+$\StreamNameUp$ schedule, componentwise $\hsame$ rows, $\Cont$ routes, package
+provenance, and local naming ledger.
+
+For rational and real consumers, apply
+\autoref{thm:baire-space-real-name-handoff}. The $\RegSeqRatUp$ and $\RealUp$
+rows are therefore finite prefix reads of the displayed stream schedule rather
+than completed host sequences.
+
+Finally invoke \autoref{thm:baire-space-ledger-coverage}. It exhausts the
+remaining certificate rows, so no choice-selected branch, host sequence
+equality, completed sequence, or real-completeness row is exported.
 \end{proof}
 
 \closureat{BaireSpaceUp}{obligationStr}
