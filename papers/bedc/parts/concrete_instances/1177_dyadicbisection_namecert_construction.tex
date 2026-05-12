@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBisectionUp$}
+\label{ch:concrete-instances-dyadicbisection-namecert}
+\origin{human}
+
+The $\DyadicBisectionUp$ interface names the finite bisection ledger used by real-and-completion consumers when an interval is refined by midpoint comparison. In the Bishop--Bridges constructive-analysis reading, bisection is a located finite interval process with explicit precision control; in the Moore interval-analysis reading, it is a finite enclosure refinement ledger. BEDC records the certificate rows themselves, not an analytic host search, a completed real intersection, or a hidden decision procedure.
+
+\begin{definition}[DyadicBisection carrier]
+\label{def:dyadic-bisection-carrier}
+A $\DyadicBisectionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(I,\pi,M,L,J,E,R,S,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $I$ is the initial $\RationalIntervalUp$ row, including the endpoint order and endpoint readback rows used by downstream interval consumers;
+\item $\pi$ is the unary precision row that names the requested finite stopping window;
+\item $M$ is the finite chain of $\DyadicIntervalUp$ or $\DyadicMeshUp$ midpoint-comparison rows inspected during the run;
+\item $L$ is the left/right branch ledger, with one displayed branch row for each midpoint comparison in $M$;
+\item $J$ is the $\NestedIntervalUp$ refinement row obtained by threading the selected subintervals;
+\item $E$ is the endpoint readback ledger for every retained lower endpoint, upper endpoint, midpoint, and displayed dyadic tolerance;
+\item $R$ is the $\RegSeqRatUp$ handoff row extracted from the retained endpoint windows;
+\item $S$ is the $\RealUp$ and $\StreamNameUp$ handoff surface through which real consumers read the same finite windows;
+\item $H$ stores the $\hsame$ transports for the initial interval, precision row, midpoint rows, branch ledger, nested interval row, endpoint readbacks, and handoff rows;
+\item $C$ stores the $\Cont$ routes for refinement, endpoint inspection, regular-sequence readback, and real-name consumption;
+\item $P$ is the $\Pkg$ provenance row naming $\RationalIntervalUp$, $\DyadicIntervalUp$, $\DyadicMeshUp$, $\NestedIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\StreamNameUp$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicBisectionUp}$ registration row.
+\end{enumerate}
+The carrier exports only these finite rows. It has no coordinate for a host real root, a completed interval intersection, trichotomy on reals, Dedekind-cut data, or an ambient completeness proof.
+\end{definition}
+
+\begin{definition}[DyadicBisection classifier]
+\label{def:dyadic-bisection-classifier}
+Two accepted $\DyadicBisectionUp$ carriers classify together when, after the displayed $\hsame$ and $\Cont$ transports, their initial interval rows, precision schedules, midpoint chains, branch ledgers, nested dyadic interval chains, endpoint readbacks, $\RegSeqRatUp$ rows, $\StreamNameUp$ windows, and $\RealUp$ handoff rows refine to the same finite observation window under the displayed dyadic tolerance.
+
+Concretely, if the common stopping request is $n$, then each retained endpoint window is compared only after both packets are transported to the same finite tolerance row
+$$
+\varepsilon_n = 2^{-n}.
+$$
+Agreement means row-by-row equality of the transported branch choices and endpoint readbacks at that tolerance, followed by the inherited $\NestedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ classifiers. No comparison is made by appealing to a host real value or to an infinite intersection.
+\end{definition}
+
+\begin{theorem}[DyadicBisection NameCert obligations]
+\label{thm:dyadic-bisection-namecert-obligations}
+The seed $\NameCert_{\DyadicBisectionUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite $\mathsf{BHist}$ packet of \autoref{def:dyadic-bisection-carrier};
+\item classifier: the finite-window classifier of \autoref{def:dyadic-bisection-classifier};
+\item stability: componentwise preservation of the interval, precision, branch, nested-interval, endpoint, and handoff rows under displayed $\hsame$ transport and $\Cont$ refinement routes;
+\item ledger exactness: every left/right branch choice is exactly the branch row attached to the corresponding midpoint comparison, and every retained endpoint read is one of the displayed dyadic ledger rows;
+\item handoff: the retained endpoint windows are repacked into $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ rows without adding a host real intersection or an ambient completeness theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is the assembly of the displayed finite packet. Each coordinate is either a history row, a transport row, a continuation route, package provenance, or a local naming row owned by the listed dependency certificates.
+
+The classifier is finite because the stopping request fixes the displayed tolerance and the inspected midpoint chain. After transporting both carriers to that window, comparison is componentwise on the initial interval, precision schedule, branch ledger, nested interval row, endpoint readbacks, and handoff rows.
+
+Stability follows the same component order. Transport first moves the initial interval and precision rows, then the midpoint rows and branch choices, then the nested interval and endpoint ledgers, and finally the regular-sequence, stream, and real-name handoff rows.
+
+Ledger exactness is the branch-row invariant: the $k$th branch coordinate is the only source of the $k$th left/right choice, and the retained endpoint rows are precisely the rows routed by $C$ and transported by $H$.
+
+The handoff obligation repacks the finite retained windows into $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ surfaces. Since the carrier contains no host real, infinite intersection, or completeness coordinate, no such object can be exported.
+\end{proof}
+
+\begin{theorem}[DyadicBisection nested interval bridge]
+\label{thm:dyadic-bisection-nested-interval-bridge}
+For every accepted $\DyadicBisectionUp$ carrier $B$, the displayed branch ledger determines a finite $\NestedIntervalUp$ refinement row whose $k$th interval is the subinterval selected by the $k$th midpoint comparison. The bridge exposes the initial $\RationalIntervalUp$ row, the dyadic midpoint ledger, the left/right branch ledger, the endpoint readbacks, and the $\NestedIntervalUp$ row, and it exports no completed intersection of the nested intervals.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-bisection-carrier}. The midpoint chain $M$ and branch ledger $L$ have the same finite length, so the $k$th midpoint comparison has a unique displayed branch row.
+
+Thread the interval row forward along these branch choices. At each step, the retained lower endpoint, upper endpoint, midpoint, and tolerance rows are already present in the endpoint ledger $E$, and the transport rows in $H$ record that the selected subinterval is the continuation of the previous interval.
+
+Pack the resulting finite chain into the $\NestedIntervalUp$ row $J$. This row is the bridge available to downstream consumers: it records the nested finite refinement path but does not claim that the infinite intersection exists as a host real object.
+\end{proof}
+
+\begin{theorem}[DyadicBisection real stream handoff]
+\label{thm:dyadic-bisection-real-stream-handoff}
+For every accepted $\DyadicBisectionUp$ carrier and every unary precision request $n$, the consumer-visible $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads factor through the retained dyadic endpoint window at tolerance $2^{-n}$, the branch ledger prefix needed to reach that window, the $\NestedIntervalUp$ refinement row, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance row, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with the precision row $\pi$ and the displayed request $n$. The carrier uses that row to select a finite branch-prefix length and the corresponding retained endpoint window in $E$.
+
+Use \autoref{thm:dyadic-bisection-nested-interval-bridge} to route the selected endpoint window through the nested interval row. The branch prefix identifies the retained subinterval, while the endpoint ledger supplies the rational lower and upper reads at the requested tolerance.
+
+The $\RegSeqRatUp$ row $R$ consumes those retained rational windows. The $\StreamNameUp$ and $\RealUp$ rows in $S$ then expose the same finite observation to real consumers through the displayed transports, continuation routes, package provenance, and local certificate row.
+
+Thus every real-facing read has the stated finite factorization. The handoff does not use root existence, real trichotomy, Dedekind cuts, host real equality, or a host intersection theorem.
+\end{proof}
+
+\closureat{DyadicBisectionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBisectionUp}
+  \constructivestory{A $\DyadicBisectionUp$ packet is generated from an initial $\RationalIntervalUp$ row, a unary precision row, finite $\DyadicIntervalUp$ or $\DyadicMeshUp$ midpoint comparisons, an exact left/right branch ledger, a $\NestedIntervalUp$ refinement row, endpoint readbacks, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ handoff rows, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, finite-window classifier, five-row naming-certificate obligation surface, nested interval bridge, and real-stream handoff for dyadic bisection over $\RationalIntervalUp$, $\DyadicIntervalUp$, $\DyadicMeshUp$, $\NestedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close completeness, root existence, trichotomy, Dedekind cuts, uniqueness of a limit point, or host real intersection.}
+  \upgradepath{Obligation closure requires formal carrier encoding, classifier stability, branch-ledger exactness, nested interval bridge checking, and finite handoff checking for $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ consumers.}
+\end{closurestatus}

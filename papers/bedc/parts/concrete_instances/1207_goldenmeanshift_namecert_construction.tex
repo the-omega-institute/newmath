@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\GoldenMeanShiftUp$}
+\label{ch:concrete-instances-golden-mean-shift-namecert}
+
+Inspired by Omega Project: \texttt{automath/README.md/golden-mean-shift}; here re-expressed in the BEDC mathlib-free substrate. The object is a finite-window name for binary $\mathsf{BHist}$ rows with no adjacent visible one rows, not an import of symbolic-dynamics machinery.
+
+\section{Finite binary windows}
+\label{sec:golden-mean-shift-finite-binary-windows}
+
+\begin{definition}[GoldenMeanShift carrier]
+\label{def:golden-mean-shift-carrier}
+A $\GoldenMeanShiftUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+G=(W,Z,O,P,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is a finite list of binary bit rows, each row displayed as either a zero bit row or a one bit row inside $\mathsf{BHist}$;
+\item $Z$ is the all-zero witness row for the same window shape;
+\item $O$ is the adjacency ledger whose every neighboring pair in $W$ is one of zero-zero, zero-one, or one-zero;
+\item $P$ is the $\mathsf{Pkg}$ provenance row naming the prefix and fold readbacks used to inspect the window;
+\item $L$ is the $\NameCert$ ledger recording that every accepted classifier row is a componentwise $\hsame$ comparison between displayed bit rows.
+\end{enumerate}
+The carrier accepts exactly finite binary windows whose visible bit rows contain no adjacent one rows. It contains no infinite sequence, no shift-invariant quotient, no entropy row, and no host symbolic-dynamics theorem.
+\end{definition}
+
+\begin{theorem}[GoldenMeanShift local stability]
+\label{thm:golden-mean-shift-local-stability}
+Let $G=(W,Z,O,P,L)$ be an accepted $\GoldenMeanShiftUp$ carrier. If a transported packet $G'=(W',Z',O',P',L')$ is obtained by moving each displayed bit row of $W$, each all-zero witness row, each adjacency-ledger row, and each provenance row through the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes, then $G'$ is accepted whenever every transported adjacent pair remains one of zero-zero, zero-one, or one-zero.
+
+The induced classifier between $G$ and $G'$ is the componentwise $\hsame$ classifier on visible bit rows, with the transported adjacency ledger as its exactness record.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:golden-mean-shift-carrier}. The only visible data are the binary window, the all-zero witness, the adjacency ledger, the prefix and fold provenance, and the local name-certificate ledger.
+
+Move the displayed rows through the supplied $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes. The hypothesis keeps each transported adjacent pair inside the listed local patterns, so no adjacent one-one pair can appear in the transported window.
+
+For the classifier, compare the original and transported bit rows componentwise by $\hsame$. The all-zero witness is transported by the same row movement, and the adjacency ledger gives the exactness witness that the accepted carrier condition is preserved.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift fold-prefix closure]
+\label{thm:golden-mean-shift-fold-prefix-closure}
+Let $G=(W,Z,O,P,L)$ be an accepted $\GoldenMeanShiftUp$ carrier, and let $W_{\leq k}$ be any displayed prefix read from $W$ through the recorded $\Cont$ fold route and $\mathsf{Pkg}$ provenance. The restricted packet
+$$
+G_{\leq k}=(W_{\leq k},Z_{\leq k},O_{\leq k},P_{\leq k},L_{\leq k})
+$$
+is an accepted $\GoldenMeanShiftUp$ carrier. Its classifier rows are exactly the componentwise $\hsame$ rows inherited from $G$, and its ledger is the prefix restriction of the original $\NameCert$ ledger.
+
+Equivalently, every finite fold readback of an accepted no-adjacent-one window lands again inside the same carrier surface.
+\end{theorem}
+\begin{proof}
+Read the prefix through the displayed $\Cont$ fold route and $\mathsf{Pkg}$ provenance. The route selects an initial segment of the same finite bit rows and also restricts the all-zero witness, adjacency ledger, provenance row, and name-certificate ledger.
+
+Every adjacent pair inside $W_{\leq k}$ was already an adjacent pair inside $W$. Since $G$ is accepted, each such pair is zero-zero, zero-one, or one-zero, and the restricted adjacency ledger records the same local fact.
+
+The inherited classifier is componentwise $\hsame$ on the retained bit rows. The ledger exactness row is simply the restricted $\NameCert$ row, so the fold-prefix packet has no new tail, quotient, inverse-limit, entropy, or host shift coordinate.
+\end{proof}
+
+\begin{theorem}[GoldenMeanShift NameCert obligation surface]
+\label{thm:golden-mean-shift-namecert-obligation-surface}
+The local $\NameCert_{\GoldenMeanShiftUp}$ obligation surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier habitation: the all-zero window $Z$ is accepted because every displayed adjacent pair is zero-zero;
+\item classifier laws: reflexivity, symmetry, and transitivity are inherited componentwise from $\hsame$ on the visible bit rows;
+\item carrier transport: \autoref{thm:golden-mean-shift-local-stability} transports accepted windows through displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ routes;
+\item fold-prefix closure: \autoref{thm:golden-mean-shift-fold-prefix-closure} keeps every recorded prefix and fold readback inside the same carrier;
+\item ledger exactness: the $\NameCert$ ledger records exactly the accepted bit rows, their adjacency ledger, the prefix and fold provenance, and the componentwise classifier rows.
+\end{enumerate}
+These obligations define the seed certificate surface for finite no-adjacent-one $\mathsf{BHist}$ windows.
+\end{theorem}
+\begin{proof}
+For habitation, take the all-zero window with the displayed all-zero witness. Every neighboring pair is zero-zero, so the adjacency ledger is generated without any one-one row.
+
+For the classifier laws, work componentwise over the visible bit rows. Reflexivity, symmetry, and transitivity are the corresponding $\hsame$ laws applied at each displayed position, and the carrier restriction prevents the classifier from ranging over any hidden non-binary row.
+
+Carrier transport is exactly the stability statement of \autoref{thm:golden-mean-shift-local-stability}. The transported adjacency ledger is the witness that the accepted no-adjacent-one condition remains local to the finite $\mathsf{BHist}$ packet.
+
+Fold-prefix closure is exactly \autoref{thm:golden-mean-shift-fold-prefix-closure}. A prefix or fold readback can only delete visible rows and restrict ledgers, so it cannot create an adjacent one-one pair.
+
+Finally, ledger exactness follows by unfolding the five carrier rows of \autoref{def:golden-mean-shift-carrier}. The ledger contains the accepted bit rows, adjacency decisions, prefix and fold provenance, and componentwise $\hsame$ classifier rows, and it contains no Fibonacci counting, Zeckendorf arithmetic, entropy, inverse-limit, or host symbolic-dynamics datum.
+\end{proof}
+
+\begin{closurestatus}{\GoldenMeanShiftUp}
+  \constructivestory{A golden-mean finite window is generated from binary $\mathsf{BHist}$ rows together with an adjacency ledger excluding one-one neighbors, an all-zero inhabitant, prefix and fold provenance, and componentwise $\hsame$ classifier rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope is the finite no-adjacent-one $\mathsf{BHist}$ carrier, its all-zero inhabitant, componentwise classifier laws, transport row, fold-prefix row, and exact local ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Fibonacci counting, Zeckendorf arithmetic, entropy, inverse limits, or host symbolic-dynamics theorems.}
+  \upgradepath{The next obligation is a Lean target under \texttt{BEDC.Derived.GoldenMeanShiftUp} for the carrier, local stability, fold-prefix closure, and name-certificate obligation surface.}
+\end{closurestatus}
