@@ -231,6 +231,131 @@ limits, or ambient completeness. These rows are exactly the displayed
 obligation package.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion subfamily restriction]
+\label{thm:uniform-cauchy-criterion-subfamily-restriction}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Suppose $J$ is a displayed
+finite subfamily ledger whose every read factors through the index ledger $I$
+by visible $\hsame$ comparisons and $\Cont$ rows. Then the restricted packet
+$U|_J$ is again an accepted $\UniformCauchyCriterionUp$ carrier over the same
+shared schedule $M$, tolerance row $Q$, tail ledger route, real seal row $E$,
+package row $P$, and local $\NameCert$ row $N$.
+
+The restricted carrier reads only the displayed subfamily windows selected by
+$J$ and inherits the $\hsame$ and $\Cont$ rows already present in $H$ and $C$.
+It does not introduce a quotient stream, selected limit, host equality row, or
+ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:uniform-cauchy-criterion-window-stability}. Each
+transported request from $J$ factors through $I$, so the restricted window
+read stays inside the same finite window family $W$ and uses the same shared
+schedule $M$.
+
+Next apply
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. The tail
+evidence read by the subfamily is the displayed subledger of $T$ reached
+through $I,W,M,Q$, so no separate tolerance row or tail route is created.
+
+The shared threshold is preserved by
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. Since every
+$J$-read reaches the original packet through visible $\hsame$ and $\Cont$
+rows, the restricted packet keeps the single schedule $M$ rather than
+indexwise schedules.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-real-seal-handoff}. The
+real-facing row remains $E$, and the package and local naming provenance are
+the inherited rows $P$ and $N$. The construction has no carrier coordinate for
+quotient streams, selected limits, host equality, or ambient completeness, so
+none is added by the restriction.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion RegSeqRat consumer package]
+\label{thm:uniform-cauchy-criterion-regseqrat-consumer-package}
+For every accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+each $\RegSeqRatUp$ consumer route factors through the finite family index
+ledger $I$, the shared $\StreamNameUp$ window family $W$, the single
+$\CauchyModulusUp$ schedule $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, the
+finite $\DyadicTailBoundUp$ comparison ledger $T$, the $\RealUp$ seal $E$, the
+transport row $H$, the continuation route $C$, the package provenance $P$, and
+the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniform-cauchy-criterion-obligation-assembly}. It binds
+the carrier, local classifier transport, shared-window stability, finite tail
+ledger, real seal, and non-escape boundary as one obligation package.
+
+Next apply
+\autoref{thm:uniform-cauchy-criterion-regseqrat-tail-equivalence}. The
+regular-rational read is the same finite evidence as the tail-ledger route, so
+the consumer must pass through $I,W,M,Q,T$ before reading the real seal.
+
+Finally use
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and
+\autoref{thm:uniform-cauchy-criterion-real-seal-handoff}. The shared threshold
+and seal rows keep the consumer path inside $H,C,P,N$ and expose no additional
+completion object.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-family window exhaustion]
+\label{thm:uniform-cauchy-criterion-finite-family-window-exhaustion}
+Every transported request made to an accepted $\UniformCauchyCriterionUp$
+packet uses the same finite index ledger, the same $\StreamNameUp$ window
+family, the same shared modulus schedule, the same dyadic tolerance row, and
+the same finite tail ledger. Transport may rename the displayed rows through
+$\hsame$ and read them through $\Cont$, but it cannot split the family into
+indexwise schedules or add a selected limit for any member of the family.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations in
+\autoref{thm:uniform-cauchy-criterion-namecert-obligations}. They make
+classifier transport componentwise over the displayed packet coordinates.
+
+Use \autoref{thm:uniform-cauchy-criterion-window-stability} to keep each
+transported request inside the same window family $W$. Then use
+\autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} to keep the
+threshold schedule as the one shared row $M$.
+
+It remains to account for tolerance and tails. By
+\autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}, every accepted
+comparison reads through $Q$ and $T$ after the shared window and modulus
+coordinates. The non-escape theorem then rules out indexwise schedules and
+selected limits because those objects have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion Real seal completion boundary]
+\label{thm:uniform-cauchy-criterion-real-seal-completion-boundary}
+Every $\RealUp$ seal or completion-facing consumer of an accepted
+$\UniformCauchyCriterionUp$ packet reaches the seal only after the finite
+family route through $I,W,M,Q,T,E,H,C,P,N$. The route supplies a finite uniform
+Cauchy certificate for the named family windows, but it does not supply
+quotient stream families, host real equality, selected family limits, or
+ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:uniform-cauchy-criterion-real-seal-handoff}. It sends
+every Real-facing read through the finite index ledger, shared windows,
+modulus, dyadic tolerance, and tail comparison ledger before the seal row $E$
+is consumed.
+
+Next combine
+\autoref{thm:uniform-cauchy-criterion-regseqrat-consumer-package} with
+\autoref{thm:uniform-cauchy-criterion-finite-family-window-exhaustion}. These
+package the regular-rational and transported family reads over the same
+finite rows.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-non-escape-boundary} and
+\autoref{thm:uniform-cauchy-criterion-obligation-assembly}. The completion
+consumer receives the displayed finite certificate surface and no quotient
+stream family, host equality, selected limit, or completeness principle.
+\end{proof}
+
 \closureat{UniformCauchyCriterionUp}{seedStr}
 
 \begin{closurestatus}{\UniformCauchyCriterionUp}
