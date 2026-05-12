@@ -1,0 +1,133 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFamilyUp$}
+\label{ch:concrete-instances-regularcauchyfamily-namecert}
+\origin{human}
+
+The $\RegularCauchyFamilyUp$ interface is the named input certificate consumed by $\RealCauchyCompletionUp$. Following Bishop and Bridges, \emph{Constructive Analysis}, 1985, it presents a regular Cauchy family as visible regular-rational member rows with an explicit Cauchy modulus, finite stream windows, dyadic observation ledgers, and diagonal-completion routes. The packet exports no quotient stream, no choice-selected limit, no host real carrier, and no ambient completeness object.
+
+\begin{definition}[RegularCauchyFamily carrier]
+\label{def:regular-cauchy-family-carrier}
+A $\RegularCauchyFamilyUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(I,X,\mu,W,D,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the finite $\RegSeqRatUp$ member-index ledger inspected by the family consumer;
+\item $X$ assigns to each inspected row of $I$ a $\RegSeqRatUp$ regular rational member;
+\item $\mu$ is the explicit $\CauchyModulusUp$ schedule that selects a late member row for each requested precision;
+\item $W$ is the $\StreamNameUp$ finite-window catalogue used to read the selected members;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger containing the rational endpoints, radius rows, comparison rows, and precision rows used by the member reads;
+\item $R$ is the $\RealDiagonalCompletionUp$ diagonal-route ledger that records how the selected member windows feed the completion-facing diagonal representative;
+\item $H$ and $C$ are respectively the displayed $\hsame$ comparisons and $\Cont$ routes used to transport the member, modulus, stream, dyadic, and diagonal rows;
+\item $P$ is the $\Pkg$ provenance naming $\RegSeqRatUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealDiagonalCompletionUp$, $\mathsf{BHist}$, $\hsame$, and $\Cont$;
+\item $N$ is the local $\NameCert_{\RegularCauchyFamilyUp}$ provenance row.
+\end{enumerate}
+The carrier deliberately has no coordinate for a quotient of streams, a selected limiting real, host sequence equality, or a choice principle. Every completion-facing datum is one of the displayed rows of $F$.
+\end{definition}
+
+\begin{definition}[RegularCauchyFamily classifier]
+\label{def:regular-cauchy-family-classifier}
+For accepted carriers
+$$
+F=(I,X,\mu,W,D,R,H,C,P,N)
+\quad\text{and}\quad
+F'=(I',X',\mu',W',D',R',H',C',P',N'),
+$$
+the classifier $\mathsf{RegularCauchyFamilyClassifier}(F,F')$ compares only the displayed member-index ledgers, $\RegSeqRatUp$ member rows, $\CauchyModulusUp$ schedules, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ observation ledgers, $\RealDiagonalCompletionUp$ diagonal routes, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It does not compare host functions extensionally and does not identify completed values by quotient equality.
+\end{definition}
+
+\begin{theorem}[RegularCauchyFamily NameCert obligations]
+\label{thm:regular-cauchy-family-namecert-obligations}
+The local $\NameCert_{\RegularCauchyFamilyUp}$ obligation sketch consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation by the finite packet of \autoref{def:regular-cauchy-family-carrier};
+\item classifier stability under the displayed $\hsame$ and $\Cont$ transports of \autoref{def:regular-cauchy-family-classifier};
+\item modulus-window coverage: each precision request first reads $\mu$, then one selected $\StreamNameUp$ window, and then the corresponding $\RegSeqRatUp$ member row;
+\item dyadic ledger exactness: the endpoint, radius, comparison, and precision rows consumed by the selected member read are exactly the rows recorded in $D$;
+\item diagonal-route compatibility: the completion-facing diagonal read uses only $R$ together with the selected member, stream window, dyadic ledger, package provenance, and local naming row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is obtained by projecting the finite history packet and reading its named rows. The member-index ledger $I$, member table $X$, modulus $\mu$, stream-window catalogue $W$, dyadic ledger $D$, diagonal-route ledger $R$, transport rows, package provenance, and local naming row are all explicit coordinates.
+
+Classifier stability is componentwise. Transporting an accepted packet by the displayed $\hsame$ rows and then following the recorded $\Cont$ routes moves the member rows, modulus schedule, selected windows, dyadic observations, and diagonal routes together.
+
+For modulus-window coverage, a consumer precision request reaches $\mu$ before it can inspect a member. The selected member read then passes through the corresponding $\StreamNameUp$ window and the $\RegSeqRatUp$ row named by $X$.
+
+The dyadic and diagonal rows are exhausted by $D$ and $R$. Repacking those rows with $P$ and $N$ gives the local naming certificate, and there is no remaining coordinate from which a quotient stream, a choice-selected limit, or a host real object could be read.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily diagonal handoff]
+\label{thm:regular-cauchy-family-diagonal-handoff}
+For every accepted $\RegularCauchyFamilyUp$ carrier $F=(I,X,\mu,W,D,R,H,C,P,N)$ and every unary precision request $n$, the input consumed by $\RealCauchyCompletionUp$ factors through the explicit modulus row $\mu(n)$, one selected $\RegSeqRatUp$ member row, one $\StreamNameUp$ finite window, the corresponding $\DyadicRatCoreUp$ observation ledger, and the $\RealDiagonalCompletionUp$ route $R$. The handoff supplies a completion-facing regular Cauchy family without forming a quotient stream or selecting a limit outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-family-carrier}. The modulus coordinate is the only row that selects a late family member for the precision request $n$.
+
+The selected member is read through the member ledger $X$ and the finite stream-window catalogue $W$. Its rational observation is the displayed $\RegSeqRatUp$ row whose endpoint and comparison data are recorded by the dyadic ledger $D$.
+
+The diagonal route $R$ then repacks that same selected member read for $\RealCauchyCompletionUp$. Because the route is mediated by $H$, $C$, $P$, and $N$, the completion consumer receives finite BEDC rows rather than a host sequence, quotient class, or selected limiting real.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily non-escape boundary]
+\label{thm:regular-cauchy-family-non-escape-boundary}
+An accepted $\RegularCauchyFamilyUp$ carrier exports only the finite surface generated by $\RegSeqRatUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealDiagonalCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, no choice-selected limit, no host real carrier, no host equality test, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the coordinates of \autoref{def:regular-cauchy-family-carrier}. Each coordinate is a finite history row, a displayed transport row, a continuation route, package provenance, local naming provenance, or one of the named dependency certificates.
+
+The classifier of \autoref{def:regular-cauchy-family-classifier} uses only those coordinates. It never asks whether two host functions are extensionally equal and never compares completed values by a quotient relation.
+
+The diagonal handoff of \autoref{thm:regular-cauchy-family-diagonal-handoff} preserves the same boundary. Downstream completion reads receive the selected modulus, member, window, dyadic observation, and diagonal-route rows, so no hidden stream quotient, selected limit, host real carrier, host equality test, or ambient completeness object can escape.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily carrier transport stability]
+\label{thm:regular-cauchy-family-carrier-transport-stability}
+Let $F=(I,X,\mu,W,D,R,H,C,P,N)$ be an accepted $\RegularCauchyFamilyUp$ carrier. Any displayed $\hsame$ transport that preserves the $\RegSeqRatUp$ member ledger, $\CauchyModulusUp$ schedule, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observation ledger, $\RealDiagonalCompletionUp$ route, $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ row preserves the carrier predicate and the classifier of \autoref{def:regular-cauchy-family-classifier}.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:regular-cauchy-family-carrier}. The rows $I$ and $X$ remain visible $\RegSeqRatUp$ member data under the displayed $\hsame$ transport, and the schedule $\mu$ remains the same $\CauchyModulusUp$ row after following the recorded $\Cont$ route.
+
+The window catalogue $W$ and dyadic ledger $D$ transport componentwise. Thus each selected member read still passes through the same finite $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision rows.
+
+The diagonal route $R$ is carried through $\RealDiagonalCompletionUp$, while $P$ and $N$ retain the package and local certificate provenance. Since the classifier compares exactly these displayed coordinates and no host extensional equality, the transported packet remains an accepted carrier with the same local comparison surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily modulus window exactness]
+\label{thm:regular-cauchy-family-modulus-window-exactness}
+For every accepted $\RegularCauchyFamilyUp$ carrier $F=(I,X,\mu,W,D,R,H,C,P,N)$ and every unary precision request $n$, the row $\mu(n)$ determines one displayed $\RegSeqRatUp$ member read, one finite $\StreamNameUp$ window, the corresponding $\DyadicRatCoreUp$ observation rows, and the $\RealDiagonalCompletionUp$ diagonal handoff route. The determination is entirely internal to the $\mathsf{BHist}$ packet, its $\hsame$ transports, its $\Cont$ routes, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+The modulus coordinate is part of the carrier, so the request $n$ first reads the displayed row $\mu(n)$. This row selects the late member named in the $\RegSeqRatUp$ member table $X$ over the inspected ledger $I$.
+
+The selected member is read through the finite window catalogue $W$. The dyadic ledger $D$ supplies exactly the rational endpoint, radius, comparison, and precision rows consumed by that windowed read.
+
+Finally, the route $R$ records how the same selected member read is handed to $\RealDiagonalCompletionUp$. The transports $H$, continuations $C$, package provenance $P$, and local certificate $N$ bind the route inside the finite packet, so no quotient stream, selected limit, host real carrier, or ambient completeness object is used.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFamily obligation closure package]
+\label{thm:regular-cauchy-family-obligation-closure-package}
+The carrier, classifier, $\NameCert$ obligation rows, diagonal handoff, non-escape boundary, carrier transport stability, and modulus-window exactness jointly supply the paper-side obligation package for $\RegularCauchyFamilyUp$. The package is grounded only in $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealDiagonalCompletionUp$.
+\end{theorem}
+\begin{proof}
+The carrier and classifier are \autoref{def:regular-cauchy-family-carrier} and \autoref{def:regular-cauchy-family-classifier}. They expose the finite member ledger, member rows, modulus schedule, stream windows, dyadic observations, diagonal route, transport rows, continuation rows, package provenance, and local naming row.
+
+The local $\NameCert$ obligations are supplied by \autoref{thm:regular-cauchy-family-namecert-obligations}. They bind carrier habitation, classifier stability, modulus-window coverage, dyadic ledger exactness, and diagonal-route compatibility as the rows consumed by downstream completion.
+
+The handoff and boundary are \autoref{thm:regular-cauchy-family-diagonal-handoff} and \autoref{thm:regular-cauchy-family-non-escape-boundary}. They ensure that $\RealCauchyCompletionUp$ receives a displayed regular Cauchy family route and no quotient stream, choice-selected limit, host real carrier, host equality test, or ambient completeness theorem.
+
+The stability and exactness rows are \autoref{thm:regular-cauchy-family-carrier-transport-stability} and \autoref{thm:regular-cauchy-family-modulus-window-exactness}. They show that displayed $\hsame$ and $\Cont$ transport preserves the carrier surface and that every precision request is read through the named modulus, window, dyadic ledger, and diagonal route. These rows assemble the stated obligation package without adding any coordinate outside the listed BEDC objects.
+\end{proof}
+
+\closureat{RegularCauchyFamilyUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFamilyUp}
+  \constructivestory{A $\RegularCauchyFamilyUp$ packet is generated from finite $\RegSeqRatUp$ member rows, an explicit $\CauchyModulusUp$ schedule, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ observation ledgers, $\RealDiagonalCompletionUp$ diagonal routes, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-family-carrier}, \autoref{def:regular-cauchy-family-classifier}, \autoref{thm:regular-cauchy-family-namecert-obligations}, \autoref{thm:regular-cauchy-family-diagonal-handoff}, and \autoref{thm:regular-cauchy-family-non-escape-boundary} describe the seed regular-Cauchy-family certificate consumed by $\RealCauchyCompletionUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or checked Lean implementation.}
+  \upgradepath{Obligation closure requires checked carrier habitation, classifier stability, modulus-window coverage, dyadic ledger exactness, diagonal handoff, and non-escape for $\RegularCauchyFamilyUp$.}
+\end{closurestatus}

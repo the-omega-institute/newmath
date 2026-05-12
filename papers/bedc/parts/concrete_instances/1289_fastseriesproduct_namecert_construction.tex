@@ -45,6 +45,7 @@ Let $F$ and $G$ be accepted $\FastConvergentSeriesUp$ packets displayed inside a
 \end{enumerate}
 The resulting tail-bound row in $T$ is therefore a finite BEDC witness for the Cauchy-product tail at that precision, with no appeal to an infinite summation object.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastSeriesProductUp.FastSeriesProductCarrier\_tail\_bound\_convolution}
 \begin{proof}
 Read the two source packets through \autoref{def:fast-series-product-carrier}. Each source supplies a displayed fast tail schedule and the finite windows on which the requested bounds are inspected.
 
@@ -142,6 +143,32 @@ Start with the seal row $E$ and project the regular handoff $R$ from the same ca
 Use \autoref{thm:fast-series-product-regseqrat-handoff} to identify $R$ with the repacking of $W$, $M$, and $T$. Then use \autoref{thm:fast-series-product-convolution-row-exactness} and \autoref{thm:fast-series-product-tail-bound-convolution} to bind those rows to the finite convolution coefficients, pasted source schedules, and tail estimates.
 
 The remaining coordinates $L$, $C$, $P$, and $N$ only certify transport, readback, provenance, and naming for the displayed packet. Since the carrier has no field for quotient streams, a chosen product sum, host multiplication, or completeness, the real seal factors through the finite product certificate alone.
+\end{proof}
+
+\begin{theorem}[FastSeriesProduct finite convolution obligation package]
+\label{thm:fast-series-product-finite-convolution-obligation-package}
+An accepted concrete $\FastSeriesProductUp$ $\mathsf{BHist}$ packet
+$$
+H=(F,G,K,W,M,T,R,E,L,C,P,N)
+$$
+supplies the finite convolution obligation package consumed by later $\RealUp$ series work. The package consists exactly of the following obligation rows:
+\begin{enumerate}
+\item the carrier and classifier surface of \autoref{def:fast-series-product-carrier} and \autoref{def:fast-series-product-classifier};
+\item the finite convolution tail-bound row of \autoref{thm:fast-series-product-tail-bound-convolution};
+\item the $\RegSeqRatUp$ handoff row of \autoref{thm:fast-series-product-regseqrat-handoff};
+\item the classifier transport exactness and convolution row exactness rows of \autoref{thm:fast-series-product-classifier-transport-exactness} and \autoref{thm:fast-series-product-convolution-row-exactness};
+\item the $\RealUp$ seal factorization row of \autoref{thm:fast-series-product-real-seal-factorization}.
+\end{enumerate}
+Consequently a consumer of the product certificate may project the source packets, finite convolution rows, pasted schedule, tail ledger, regular rational handoff, real-seal row, transports, continuations, package provenance, and local naming row from $H$, but obtains no quotient stream, selected limit, host real equality, or completeness principle.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $H$. The first two coordinates $F$ and $G$ are the accepted source certificates, while $K,W,M,T,R,E,L,C,P,N$ are exactly the finite product rows named in \autoref{def:fast-series-product-carrier}. The classifier surface is the same finite list read through \autoref{def:fast-series-product-classifier}.
+
+The tail-bound obligation is the row $T$, whose construction is recorded by \autoref{thm:fast-series-product-tail-bound-convolution}. The regular rational handoff is the row $R$, repacked from $W$, $M$, and $T$ by \autoref{thm:fast-series-product-regseqrat-handoff}.
+
+The exactness obligations are obtained by projecting the transport rows $L$ and read routes $C$ together with the finite convolution row $K$. Apply \autoref{thm:fast-series-product-classifier-transport-exactness} for transported packet acceptance, and apply \autoref{thm:fast-series-product-convolution-row-exactness} for the displayed coefficient rows.
+
+Finally \autoref{thm:fast-series-product-real-seal-factorization} projects the seal row $E$ through the same regular handoff and finite ledger. Since every cited row is already a coordinate of $H$ or a theorem about those coordinates, the package is assembled constructively by projection from the finite packet. No step forms a quotient stream, selects a limit, compares host real values, or invokes completeness.
 \end{proof}
 
 \closureat{FastSeriesProductUp}{seedStr}
