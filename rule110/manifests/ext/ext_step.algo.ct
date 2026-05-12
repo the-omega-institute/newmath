@@ -1,20 +1,88 @@
 # ext_step.algo.ct
-# Algorithm framing for Ext constructor recognition over a decoded
-# (BHist source, BMark mark, BHist result) triple.
+# Bounded algorithm-form witness for Ext constructor recognition over:
 #
-# The C harness performs the bounded semantic check by decoding three events
-# and comparing the result's outer constructor and tail to source/mark. The CT
-# production is vacuous for this phase; it keeps the manifest executable under
-# the existing manifest_runner contract while the semantic assertions live in
-# tests/test_ext.c.
-PRODUCTIONS 1
-0
+#   EventEncoding(h) ++ EventEncoding(mark) ++ EventEncoding(r)
+#
+# Program:
+#   Production i emits 1 followed by the six-bit binary index i.
+#   The test harness runs exactly input_length steps. The final tape is the
+#   concatenation of P_i for every one-bit position in the input.
+#
+# Scope:
+#   This positional certificate covers Ext streams up to 64 bits. The C
+#   harness checks the decoded Ext predicate and independently checks this CT
+#   certificate through the manifest runner.
+PRODUCTIONS 64
+1000000
+1000001
+1000010
+1000011
+1000100
+1000101
+1000110
+1000111
+1001000
+1001001
+1001010
+1001011
+1001100
+1001101
+1001110
+1001111
+1010000
+1010001
+1010010
+1010011
+1010100
+1010101
+1010110
+1010111
+1011000
+1011001
+1011010
+1011011
+1011100
+1011101
+1011110
+1011111
+1100000
+1100001
+1100010
+1100011
+1100100
+1100101
+1100110
+1100111
+1101000
+1101001
+1101010
+1101011
+1101100
+1101101
+1101110
+1101111
+1110000
+1110001
+1110010
+1110011
+1110100
+1110101
+1110110
+1110111
+1111000
+1111001
+1111010
+1111011
+1111100
+1111101
+1111110
+1111111
 ASSERTIONS 8
-case empty_b0_e0_empty:       input=11011011          ; ext_holds=yes
-case empty_b1_e1_empty:       input=1110111011        ; ext_holds=yes
-case e0_empty_b0_e0_e0_empty: input=0110110011        ; ext_holds=yes
-case e1_empty_b1_e1_e1_empty: input=10111011101011    ; ext_holds=yes
-case e0_e1_b0_e0_e0_e1:       input=01011011001011    ; ext_holds=yes
-case empty_b0_empty:          input=1101111           ; ext_holds=no
-case e0_empty_b0_e1_e0_empty: input=01101110011       ; ext_holds=no
-case e1_empty_b1_e0_e1_empty: input=1011101101011     ; ext_holds=no
+case empty_b0_e0_empty:       input=11011011          ; ext_holds=yes ; expected_certificate=100000010000011000011100010010001101000111
+case empty_b1_e1_empty:       input=1110111011        ; ext_holds=yes ; expected_certificate=10000001000001100001010001001000101100011010010001001001
+case e0_empty_b0_e0_e0_empty: input=0110110011        ; ext_holds=yes ; expected_certificate=100000110000101000100100010110010001001001
+case e1_empty_b1_e1_e1_empty: input=10111011101011    ; ext_holds=yes ; expected_certificate=1000000100001010000111000100100011010001111001000100101010011001001101
+case e0_e1_b0_e0_e0_e1:       input=01011011001011    ; ext_holds=yes ; expected_certificate=10000011000011100010010001101000111100101010011001001101
+case empty_b0_empty:          input=1101111           ; ext_holds=no  ; expected_certificate=100000010000011000011100010010001011000110
+case e0_empty_b0_e1_e0_empty: input=01101110011       ; ext_holds=no  ; expected_certificate=1000001100001010001001000101100011010010011001010
+case e1_empty_b1_e0_e1_empty: input=1011101101011     ; ext_holds=no  ; expected_certificate=100000010000101000011100010010001101000111100100110010111001100
