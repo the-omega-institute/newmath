@@ -336,6 +336,36 @@ theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [Package
       newClassifierTransport newNameCont newPkg
   exact And.intro transported.left transported.right.right.right
 
+theorem RationalStreamSealConsumer_boundary [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window sealRow
+      sealRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      UnaryHistory sealRow ->
+        Cont window sealRow sealRead ->
+          Cont sealRead provenance consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+                UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory sealRow ∧
+                  UnaryHistory sealRead ∧ UnaryHistory consumer ∧
+                    Cont index schedule window ∧ Cont window sealRow sealRead ∧
+                      Cont sealRead provenance consumer ∧ PkgSig bundle consumer pkg := by
+  intro packet sealUnary windowSealRead sealReadProvenanceConsumer consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, _transportRowsUnary,
+    provenanceUnary, indexScheduleWindow, _windowPointRows, _classifierTransportRows,
+    _contRowsProvenanceName, _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleWindow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary sealUnary windowSealRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed sealReadUnary provenanceUnary sealReadProvenanceConsumer
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary, sealUnary,
+      sealReadUnary, consumerUnary, indexScheduleWindow, windowSealRead,
+      sealReadProvenanceConsumer, consumerPkg⟩
+
 theorem RationalStreamPacket_regseqrat_realup_consumer_coverage [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       consumer readback : BHist}
