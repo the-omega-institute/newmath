@@ -238,14 +238,77 @@ feasibility data.
 
 \closureat{ModelPredictiveControlUp}{seedStr}
 \closureat{ModelPredictiveControlUp}{scopedStr}
+\closureat{ModelPredictiveControlUp}{publicStr}
 
 \begin{closurestatus}{\ModelPredictiveControlUp}
   \constructivestory{A $\ModelPredictiveControlUp$ packet is seeded by finite $\mathsf{BHist}$ rows for current state, finite prediction horizon, dynamics transition, constraint window, stage-cost ledger, terminal-cost or terminal-region row, optimizer-candidate row, first-control extraction, $\hsame$ transports, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, and local $\NameCert$ provenance.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support} binds the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, and NameCert surface to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:modelpredictivecontrol-scoped-kernel-support} and \autoref{thm:modelpredictivecontrol-finite-horizon-prefix-restriction} bind the finite MPC carrier, prediction ledger, constraint window, first-control boundary, consumer boundary, finite-horizon prefix export, and NameCert surface to displayed $\mathsf{BHist}$ rows, $\hsame$ transport, $\Cont$ rollout routes, $\mathsf{Pkg}$ provenance, local $\NameCert$ provenance, and the cited control-source interfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close infinite-horizon optimality, analytic convergence, stochastic control, host optimizer semantics, recursive feasibility beyond displayed terminal rows, or a standard bridge.}
-  \upgradepath{Formal verification requires a Lean target for the scoped kernel support and later bridge checking for the finite MPC carrier.}
+  \upgradepath{The next paper-axis step is a finite MPC bridge boundary over the same displayed carrier, rollout, constraint, prefix, package, and NameCert rows.}
 \end{closurestatus}
+
+\begin{theorem}[Model predictive control finite-horizon prefix restriction]
+\label{thm:modelpredictivecontrol-finite-horizon-prefix-restriction}
+Let $M=(X,U,N,A,Q,W,J,T,O,F,H,R,P,C)$ be an accepted
+$\ModelPredictiveControlUp$ packet, and let $m\leq N$ be a certified unary
+prefix horizon. Form the prefix packet $M_{\leq m}$ by replacing the horizon
+row $N$ by $m$, retaining the unindexed state, input, transition, quadratic
+cost, package, and local name-certificate rows, and retaining exactly the
+prediction, constraint-window, stage-cost, terminal, optimizer-candidate,
+first-control, $\hsame$, and $\Cont$ rows whose horizon addresses lie in the
+prefix horizon $m$. Then $M_{\leq m}$ is an accepted
+$\ModelPredictiveControlUp$ packet over horizon $m$.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:modelpredictivecontrol-bhist-carrier}. Every
+coordinate required by a $\ModelPredictiveControlUp$ packet is one of
+$$
+X,U,N,A,Q,W,J,T,O,F,H,R,P,C.
+$$
+After prefix restriction, the rows $X$, $U$, $A$, $Q$, $P$, and $C$ are the same
+displayed rows, the horizon coordinate is the certified prefix $m$, and every
+indexed row in $W$, $J$, $T$, $O$, $H$, and $R$ is a retained row whose address
+already occurred under the original horizon $N$.
+
+The prediction ledger is stable under this operation. By
+\autoref{thm:modelpredictivecontrol-finite-horizon-obligation}, an accepted MPC
+packet exposes its prediction surface exactly through the current-state, input,
+unary horizon, dynamics-transition, quadratic-cost, rollout $\Cont$, transport,
+and provenance rows. Restricting from $N$ to $m$ keeps precisely those rows at
+the prefix addresses and changes no rollout endpoint outside the retained
+prefix. Thus the prediction ledger of $M_{\leq m}$ is the finite prediction
+ledger over $m$.
+
+The admissibility, cost, and terminal reads are also prefix-local. By
+\autoref{thm:modelpredictivecontrol-constraint-ledger}, every admissibility read
+comes from the constraint-window row $W$ together with the same horizon index,
+state and control rows, rollout routes, convex and polytopal provenance, and
+terminal row. Since the prefix packet keeps exactly the rows indexed by the
+certified prefix horizon, each retained constraint, stage-cost, and terminal
+read has the same source row and the same recorded route as it had in $M$.
+No ambient feasible set or external compactness assertion is used to rebuild
+acceptance.
+
+For the receding-horizon export, use
+\autoref{thm:modelpredictivecontrol-receding-horizon-boundary}. The exported
+control is exactly the first-control extraction row $F$ applied to the displayed
+optimizer-candidate row $O$. The prefix packet retains that first-control row
+and the initial candidate entry, so the receding-horizon boundary remains the
+same boundary read inside the shorter packet.
+
+It remains to check transport and provenance. The componentwise $\hsame$ rows
+and the $\Cont$ routes retained in $M_{\leq m}$ have the same endpoints after
+restriction, because both endpoints are prefix rows. The $\Pkg$ row still names
+the same consumed $\StateSpaceModelUp$, $\DynSystemUp$, $\MatrixUp$,
+$\VecSpaceUp$, $\RealUp$, $\LQRUp$, $\RiccatiUp$, $\ConvexSetUp$,
+$\PolytopeUp$, $\ControlObservabilityUp$, and
+$\ControlControllabilityUp$ certificates, and the local $\NameCert$ row still
+names the finite receding-horizon surface. Repacking these retained carrier,
+prediction, constraint, first-control, transport, continuation, package, and
+name-certificate rows gives the accepted $\ModelPredictiveControlUp$ packet over
+$m$.
+\end{proof}

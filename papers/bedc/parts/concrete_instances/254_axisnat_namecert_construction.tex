@@ -161,6 +161,32 @@ In the empty-generator case, $h$ is $\emp$. The left disjunct follows from the e
 In the zero-extension generator case, the derivation has the displayed form $h=\Ezero(p)$ together with a predecessor derivation $\mathsf{ZeroSpine}(p)$. Choose $h_{\mathrm{pred}}:=p$ in the right disjunct. The history-sameness component is $\HSame(\Ezero(p),\Ezero(p))$, obtained by applying the $\Ezero$ history-sameness constructor to reflexivity on $p$, and the remaining component is exactly the predecessor derivation $\mathsf{ZeroSpine}(p)$.
 \end{proof}
 
+\begin{theorem}[AxisNat unary bridge consumer example]
+\label{thm:axisnat-unary-bridge-consumer-example}
+A package-level consumer of the $\AxisNatUp$-to-$\NatUp$ bridge reads only the
+zero-spine source, the unary-direction bridge boundary, the $\NatUp$ comparison
+row, the displayed $\hsame$ transports, the $\Cont$ provenance, and the local
+$\NameCert_{\AxisNatUp}$ and $\NameCert_{\NatUp}$ rows. The consumer cannot
+identify the two spines internally except at the empty history $\emp$.
+\end{theorem}
+\begin{proof}
+Start from the zero-spine source and
+\autoref{thm:zero-spine-source-shape-exhaustion}. This gives the consumer only
+the empty history case or a displayed $\Ezero$ predecessor case, with no access
+to a unary constructor inside the $\AxisNatUp$ carrier.
+
+Next use \autoref{thm:axisnat-natup-kernel-distinct}. It states that the
+zero-spine and unary-spine history predicates meet only at $\emp$, so any
+comparison with $\NatUp$ must pass through the separately displayed
+unary-direction bridge boundary.
+
+The bridge consumer then reads the $\NatUp$ comparison row, the displayed
+$\hsame$ transports, the $\Cont$ provenance, and the two local naming
+surfaces. Since the bridge boundary is the only route between the spines, no
+internal identification of $\AxisNatUp$ and $\NatUp$ is produced beyond the
+empty-history overlap.
+\end{proof}
+
 \closureat{AxisNatUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.AxisNat.AxisNat\_semantic\_name\_certificate]
 \closureat{AxisNatUp}{publicStr}[BEDC.Derived.AxisZeckendorf.AxisNat.AxisNat\_semantic\_name\_certificate]
 \closureat{AxisNatUp}{bridgedStr}[BEDC.Derived.AxisZeckendorf.AxisNat.AxisNat\_semantic\_name\_certificate]
@@ -169,7 +195,7 @@ In the zero-extension generator case, the derivation has the displayed form $h=\
 \begin{closurestatus}{\AxisNatUp}
   \constructivestory{A zero-axis natural number begins at $\emp$ and grows only by repeated $\Ezero$-extension: $\emp$ is admitted, $\Ezero(h)$ is admitted whenever $h$ is already admitted, and the first $\Eone$-headed history is excluded from the carrier. The classifier is $\HSame$ restricted to this zero-spine carrier, so two accepted histories are the same only as histories on the $\Ezero$-spine, while the source specification covers exactly zero-spine histories and the pattern specification is their closed generation from $\emp$ by $\Ezero$. The ledger keeps the raw zero-spine history behind every visible $\AxisNatUp$ class, preserving the fact that this carrier is kernel-distinct from the $\Eone$-spine used by $\NatUp$. The five name-certificate obligations are the same closed-generation facts in certificate form: $\emp$ inhabits the carrier, restricted $\HSame$ is reflexive, symmetric, and transitive, and if an admitted zero-spine history is transported along $\HSame$ then the transported history is admitted as well. A history $h$ lies in the signature gap of an $\AxisNatUp$ token $p$ when the source-domain accepts $h$ as a zero-spine history, the signature relation pairs it with an answer history and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, $h$ is a finite stack of $\Ezero$ marks whose zero-depth matches the spine encoded by $p$. The only bridge mentioned here is negative: any comparison with $\NatUp$ must pass through a separate bridge, because the two spines meet internally only at $\emp$. The chapter registers this zero-spine counting construction under the name $\AxisNatUp$; it adds no arithmetic induction, recursion principle, RealUp completion, infinite limit object, or new primitive beyond empty history and $\Ezero$-stacking.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The obligation inventory binds the zero-spine constructor, source, pattern, classifier, stability, ledger, semantic $\NameCert_{\AxisNatUp}$, the source-exhaustion rows of \autoref{thm:zero-spine-source-shape-exhaustion}, the NatUp-separation rows of \autoref{thm:axisnat-natup-kernel-distinct}, and the paper bridge boundary of \autoref{ch:concrete-instances-unary-direction-bridge}.}
+  \scopeclosed{The obligation inventory binds the zero-spine constructor, source, pattern, classifier, stability, ledger, semantic $\NameCert_{\AxisNatUp}$, the source-exhaustion rows of \autoref{thm:zero-spine-source-shape-exhaustion}, the NatUp-separation rows of \autoref{thm:axisnat-natup-kernel-distinct}, the unary bridge consumer example of \autoref{thm:axisnat-unary-bridge-consumer-example}, and the paper bridge boundary of \autoref{ch:concrete-instances-unary-direction-bridge}.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.AxisZeckendorf.AxisNat.AxisNat\_semantic\_name\_certificate}
   \bridgestatus{paperBridge}
