@@ -140,6 +140,43 @@ surface stated in the theorem, with no coordinate for quotient equality,
 choice, or host real equality.
 \end{proof}
 
+\begin{theorem}[Stationary rational diagonal scoped boundary]
+\label{thm:stationary-rational-diagonal-scoped-boundary}
+The carrier definition, NameCert obligation surface, Real handoff, and consumer
+boundary for $\StationaryRationalDiagonalUp$ form a single scoped dependency
+packet over exactly the $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in
+\autoref{def:stationary-rational-diagonal-carrier}. Every accepted consumer
+read is routed through that finite packet, and the packet exports no quotient
+stream, host real equality, or selected limit.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:stationary-rational-diagonal-carrier} lists the
+only coordinates available to the local certificate: the rational seed,
+constant stream schedule, stationary regular-rational readback, diagonal
+selector, real seal ledger, visible transports, visible continuation routes,
+package provenance, and local NameCert row.
+
+The obligation surface of
+\autoref{thm:stationary-rational-diagonal-namecert-obligation-surface} makes
+those coordinates into the full certificate interface. Its carrier,
+classifier, stability, exactness, and ledger rows mention precisely the same
+dependency names, so no consumer can acquire an additional source row through
+the certificate laws.
+
+The handoff theorem
+\autoref{thm:stationary-rational-diagonal-real-handoff} routes every real-facing
+read through the constant stream, the stationary regular readback, the diagonal
+selector, and the real seal. The consumer boundary theorem
+\autoref{thm:stationary-rational-diagonal-consumer-boundary} then applies the
+same routing to completion-facing consumers.
+
+Thus every permitted read has already passed through the displayed finite
+packet. Since none of the cited rows contains a coordinate for quotient streams,
+host real equality, or a selected limit, none of those objects is exported by
+the scoped boundary.
+\end{proof}
+
 \closureat{StationaryRationalDiagonalUp}{seedStr}
 
 \begin{closurestatus}{\StationaryRationalDiagonalUp}
