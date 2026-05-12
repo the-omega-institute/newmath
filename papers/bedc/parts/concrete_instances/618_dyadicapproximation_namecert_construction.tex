@@ -599,6 +599,54 @@ real equality, selected limits, trichotomy, located subsets, and choice
 principles are not exported.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation overlap-directed seal exhaustion]\label{thm:dyadicapproximation-overlap-directed-seal-exhaustion}
+Let two accepted $\DyadicApproximationUp$ packets carry overlapping finite
+$\StreamNameUp$ windows and overlapping finite $\RegSeqRatUp$ observation
+windows. Suppose their overlap is equipped with a displayed directed common
+unary precision refinement, so that both dyadic endpoints and both seal
+ledgers are transported to the same visible precision row. Then every
+$\RealUp$ seal read from either packet factors through one finite boundary
+surface: the common precision row, the transported dyadic endpoints, the
+$\RationalIntervalUp$ refinement window, the $\RegSeqRatUp$ source readback,
+the visible $\hsame$ transports, the visible $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert_{\DyadicApproximationUp}$ rows.
+
+This finite boundary exports no quotient-real equality, host real equality,
+completion point, trichotomy row, selected representative, located subset, or
+choice principle. The overlap theorem is only a coverage statement for the
+displayed finite rows already present in the two accepted packets and their
+directed refinement data.
+\end{theorem}
+\begin{proof}
+First put the two accepted packets on the same displayed precision row. Apply
+\autoref{thm:dyadicapproximation-directed-precision-refinement-associativity}
+to make the directed refinement independent of the binary route used to reach
+the common row.
+
+Next apply \autoref{thm:dyadicapproximation-terminal-refinement-window} to the
+overlapping two-packet family. This produces the terminal finite window
+containing the common precision row, transported endpoints, stream window,
+regular rational observation window, seal ledger, visible transports,
+continuations, package provenance, and local certificate rows.
+
+Use \autoref{thm:dyadic-approximation-rational-interval-window-handoff} to
+read the transported dyadic endpoints through the shared
+$\RationalIntervalUp$ refinement window. The handoff keeps the endpoint and
+containment data inside the same finite overlap surface.
+
+Then apply
+\autoref{thm:dyadicapproximation-window-regseqrat-source-exhaustion}. It
+identifies the $\RegSeqRatUp$ source readback and shows that both
+$\RationalIntervalUp$ and $\RealUp$ consumers read the same displayed source
+surface.
+
+Finally route the seal boundary through
+\autoref{thm:dyadicapproximation-real-seal-scope}. Since the seal scope has no
+coordinate for quotient-real equality, host equality, completion points,
+trichotomy, selected representatives, located subsets, or choice data, the
+overlap-directed read cannot export any of those objects.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
 \closureat{DyadicApproximationUp}{obligationStr}
 \closureat{DyadicApproximationUp}{scopedStr}
