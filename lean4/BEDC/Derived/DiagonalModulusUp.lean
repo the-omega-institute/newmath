@@ -172,6 +172,37 @@ theorem DiagonalModulusPacket_real_seal_nonescape [AskSetup] [PackageSetup]
       sealProvenanceConsumer,
       pkgSig⟩
 
+theorem DiagonalModulusPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {precision threshold window readback ledger sealRow provenance nameCert dyadic
+      rationalEvidence : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusPacket precision threshold window readback ledger sealRow provenance nameCert
+        bundle pkg ->
+      UnaryHistory readback ->
+        UnaryHistory dyadic ->
+          Cont readback dyadic rationalEvidence ->
+            PkgSig bundle rationalEvidence pkg ->
+              UnaryHistory window ∧ UnaryHistory ledger ∧ UnaryHistory rationalEvidence ∧
+                Cont window readback ledger ∧ Cont readback dyadic rationalEvidence ∧
+                  Cont ledger sealRow provenance ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle rationalEvidence pkg := by
+  intro packet readbackUnary dyadicUnary readbackDyadicEvidence evidencePkg
+  have windowUnary : UnaryHistory window :=
+    packet.right.right.left
+  have windowReadbackLedger : Cont window readback ledger :=
+    packet.right.right.right.right.left
+  have ledgerSealProvenance : Cont ledger sealRow provenance :=
+    packet.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackLedger
+  have rationalEvidenceUnary : UnaryHistory rationalEvidence :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicEvidence
+  exact
+    ⟨windowUnary, ledgerUnary, rationalEvidenceUnary, windowReadbackLedger,
+      readbackDyadicEvidence, ledgerSealProvenance, provenancePkg, evidencePkg⟩
+
 def DiagonalModulusWindowCarrier [AskSetup] [PackageSetup]
     (precision modulus window readback dyadic «seal» provenance nameCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
