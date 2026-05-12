@@ -123,3 +123,79 @@ A reliable extraction needs one of the following:
 
 The current bitmap parse is useful for geometry and diagnostics, but it does
 not satisfy the acceptance gate of five verified target gliders.
+
+## Verifier Refinement: C2 Diagnosis
+
+The verifier now searches seed widths from the visual width `W` through
+`W + N` with `--extended-width N`. It also requires exact candidates to keep
+the same finite perturbation mask at `T`, `2T`, and `3T`. The raw seed-window
+test is reported separately as `window`; it is no longer allowed to promote a
+candidate to phase-exact when the surrounding perturbation changes.
+
+The A sanity check still passes under this stricter rule:
+
+| Glider | Search | Candidates | Exact candidates | Best |
+|---|---|---:|---:|---|
+| A | `A 6 3 2` | 50 | 5 | width 6 seed `011101`, phase 12, exact |
+
+For C2, the Cook visual word `111` is not itself a phase-exact single-row seed.
+It recurs as a raw 3-cell window at phases 2, 3, 4, 5, and 13, but every such
+case is only `window`: after seven steps the seed word can be read again, while
+the finite perturbation relative to ether has changed shape. The nearby padded
+forms `0111`, `1110`, `1111`, `01111`, `11110`, `11111`, `011111`, and
+`111110` show the same behavior through width 7.
+
+The obstruction disappears once the seed encoding is widened. With `W=3` and
+`--extended-width 8`, the first strict C2 candidate is:
+
+| Glider | Search | Candidates | Exact candidates | Best |
+|---|---|---:|---:|---|
+| C2 | `C2 3 7 0 --extended-width 8` | 225 | 27 | width 8 seed `11101000`, phase 0, exact |
+
+This supports the diagnosis that Cook's width 3 is visual width, not the full
+single-row seed encoding width needed by this ether-backed verifier.
+
+The focused width-3-through-width-7 checks gave:
+
+| Seed width | Seed | Window phases | Exact phases |
+|---:|---|---|---|
+| 3 | `111` | 2, 3, 4, 5, 13 | none |
+| 4 | `0111` | 2, 10 | none |
+| 4 | `1110` | 13 | none |
+| 4 | `1111` | 3, 4, 12 | none |
+| 5 | `01111` | 2 | none |
+| 5 | `11110` | 4, 12 | none |
+| 5 | `11111` | 3, 11 | none |
+| 6 | `011111` | 2, 10 | none |
+| 6 | `111110` | 3, 5, 11 | none |
+| 7 | `0111110` | 2, 10 | none |
+
+Thus the failure mode for the published C2 seed word is not absence of a
+period-7 readable window. The failure is that the perturbation mask has extra
+cells and does not preserve its shape until the encoding window is widened.
+
+### Refined Search Results
+
+These runs use the refined verifier with three-period exactness. Exact means
+the perturbation mask translates at `T`, `2T`, and `3T`; window means only the
+raw seed word recurs under the single-row embedding.
+
+| Glider | Search bound | Best seed | Phase | Candidates | Exact candidates | Status |
+|---|---|---|---:|---:|---:|---|
+| B | `W..W+8` | `01111101` width 8 | 8 | 527 | 0 | window |
+| C1 | `W..W+2` | `111010000` width 9 | 0 | 137 | 26 | exact |
+| C2 | `W..W+8` | `11101000` width 8 | 0 | 225 | 27 | exact |
+| C3 | `W..W+1` | `11101000011` width 11 | 0 | 147 | 43 | exact |
+| D1 | `W..W+4` | `00101111100` width 11 | 5 | 997 | 0 | window |
+| D2 | `W..W+8` | `00101` width 5 | 5 | 730 | 0 | window |
+| F | `W..W+8` | `111100` width 6 | 4 | 141 | 0 | window |
+| G1 | `W..W+2` | `00010110001` width 11 | 12 | 167 | 0 | window |
+| H | `W..W+2` | `011011111000` width 12 | 10 | 1 | 0 | window |
+
+Full `W..W+8` enumeration for the long-period D1, G1, and H targets is
+expensive under brute-force single-row embedding, and the completed smaller
+bounds already show the same obstruction: many window recurrences do not carry
+a translated perturbation. The likely missing representation for B, D, F, G1,
+and H is a finite two-dimensional space-time mask rather than one spatial row.
+Those gliders are space-time tubes; a single row can line up with a readable
+visual word without containing all cells needed for phase-exact recurrence.
