@@ -109,6 +109,39 @@ theorem CauchyCriterionCarrier_modulus_threshold_stability [AskSetup] [PackageSe
       (And.intro sameRegseq
         (And.intro sameTransport (And.intro sameRoute sameEndpoint))))
 
+theorem CauchyCriterionRoute_precision_endpoint_closure
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert
+      endpoint : BHist} :
+    UnaryHistory window ->
+      UnaryHistory modulus ->
+        UnaryHistory ledger ->
+          UnaryHistory realSeal ->
+            UnaryHistory localCert ->
+              UnaryHistory provenance ->
+                Cont window modulus tolerance ->
+                  Cont tolerance ledger regseq ->
+                    Cont regseq realSeal transport ->
+                      Cont transport localCert route ->
+                        Cont route provenance endpoint ->
+                          UnaryHistory tolerance ∧ UnaryHistory regseq ∧
+                            UnaryHistory transport ∧ UnaryHistory route ∧
+                              UnaryHistory endpoint := by
+  intro windowUnary modulusUnary ledgerUnary realSealUnary localCertUnary provenanceUnary
+    toleranceRow regseqRow transportRow routeRow endpointRow
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed windowUnary modulusUnary toleranceRow
+  have regseqUnary : UnaryHistory regseq :=
+    unary_cont_closed toleranceUnary ledgerUnary regseqRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed regseqUnary realSealUnary transportRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed transportUnary localCertUnary routeRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeUnary provenanceUnary endpointRow
+  exact And.intro toleranceUnary
+    (And.intro regseqUnary
+      (And.intro transportUnary (And.intro routeUnary endpointUnary)))
+
 def CauchyCriterionNameCertCarrier [AskSetup] [PackageSetup]
     (window modulus tail tolerance sealRow transportRow route provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
