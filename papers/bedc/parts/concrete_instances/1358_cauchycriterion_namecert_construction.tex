@@ -171,6 +171,26 @@ The regular rational handoff is exhausted by \autoref{thm:cauchycriterion-regseq
 Finally \autoref{thm:cauchycriterion-tail-bound-real-seal} supplies the $\RealUp$ seal factorization and the non-escape boundary. Repacking these clauses gives the stated paper-side obligation package while leaving Lean verification, quotient construction, selected limits, host real equality, uniqueness of limits, and ambient completeness outside the claim.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion scoped tail-seal transport]
+\label{thm:cauchycriterion-scoped-tail-seal-transport}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier. Any transported precision read that preserves the displayed $\mathsf{BHist}$ packet, the componentwise $\hsame$ rows in $H$, the displayed $\Cont$ routes in $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CauchyCriterionUp}$ row $N$ factors through the kernel-visible route
+$$
+M \longmapsto Q \longmapsto T \longmapsto W \longmapsto E.
+$$
+This factorization is stable under the classifier of \autoref{def:cauchycriterion-classifier}: classifier-related carriers transport the same modulus row, dyadic tolerance row, finite tail ledger, regular rational handoff, and $\RealUp$ seal row as a single scoped packet.
+
+The scoped route introduces no quotient stream, selected limit, host real equality, uniqueness-of-limit claim, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First project the precision route normal form of \autoref{thm:cauchycriterion-precision-route-normal-form}. It identifies the only displayed route from a precision request to the real-facing seal, namely the passage through $M$, $Q$, $T$, $W$, and $E$ inside the same carrier.
+
+The dyadic tail ledger is exact by \autoref{thm:cauchycriterion-dyadic-tail-ledger-exactness}. Hence the transported read cannot replace $M$, $Q$, or $T$ by an undisplayed threshold, an outside radius, or an external tail certificate.
+
+Next use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The finite ledger reaches the regular rational source window $W$ before any $\RealUp$ seal row is exposed, so the handoff is part of the same scoped packet rather than a separate stream quotient.
+
+Finally apply the seal factorization of \autoref{thm:cauchycriterion-tail-bound-real-seal}. The classifier of \autoref{def:cauchycriterion-classifier} preserves exactly the displayed carrier rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ witnesses, so the same $M \longmapsto Q \longmapsto T \longmapsto W \longmapsto E$ route is transported to any classifier-related carrier. Since none of the excluded analytic data is a coordinate of the carrier, none is introduced by the scoped transport.
+\end{proof}
+
 \closureat{CauchyCriterionUp}{seedStr}
 \closureat{CauchyCriterionUp}{obligationStr}
 
