@@ -22,9 +22,9 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 ## Phase A: Background pattern + glider catalog (10-15 days)
 
-- [ ] A1: Document Cook 2004 ether pattern (width 14, period 7, pattern `00010011011111`) in `encoder/cook_construction.h` as constants. Create `encoder/cook_construction.c` skeleton with `cook_ether_emit(uint8_t *out, size_t period_count)` function. Test in new `tests/test_cook_ether.c` that emitted pattern is stable under Rule 110 evolution for 100 timesteps.
+- [x] A1: Document Cook 2004 ether pattern (width 14, period 7, pattern `00010011011111`) in `encoder/cook_construction.h` as constants. Create `encoder/cook_construction.c` skeleton with `cook_ether_emit(uint8_t *out, size_t period_count)` function. Test in new `tests/test_cook_ether.c` that emitted pattern is stable under Rule 110 evolution for 100 timesteps.
 
-- [ ] A2: Implement glider A (simplest left-moving glider). Document its bit pattern + phase. Add `cook_glider_A_emit(uint8_t *out, size_t pos)` injecting glider into ether background. Test: 100-step evolution shows glider moves left at expected speed without breaking ether.
+- [x] A2: Implement glider A (simplest left-moving glider). Document its bit pattern + phase. Add `cook_glider_A_emit(uint8_t *out, size_t pos, size_t ether_width)` injecting glider into ether background. Test: 100-step evolution shows glider moves left at expected speed without breaking ether.
 
 - [ ] A3: Implement gliders B, C, D (additional simple gliders). Each gets emit function + emergence test under Rule 110 evolution.
 
