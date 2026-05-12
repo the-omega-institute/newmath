@@ -236,6 +236,42 @@ theorem RegularCauchyDiagonalCarrier_root_selector_totality [AskSetup] [PackageS
       selectedWindowUnary, sealReadUnary, windowSelection, sealReadRow, ledgerSameSealRead,
       provenancePkg, selectedPkg, sealReadPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_root_seal_route_exhaustion [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      sealRead endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont regseqRead realSeal sealRead ->
+          Cont realSeal provenance endpoint ->
+            PkgSig bundle selectedWindow pkg ->
+              PkgSig bundle endpoint pkg ->
+                UnaryHistory ratSeed ∧ UnaryHistory streamWindow ∧ UnaryHistory regseqRead ∧
+                  UnaryHistory realSeal ∧ UnaryHistory windowLedger ∧
+                    UnaryHistory selectedWindow ∧ UnaryHistory sealRead ∧
+                      UnaryHistory endpoint ∧ Cont windowLedger streamWindow selectedWindow ∧
+                        Cont regseqRead realSeal sealRead ∧
+                          Cont realSeal provenance endpoint ∧ hsame windowLedger sealRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle selectedWindow pkg ∧
+                              PkgSig bundle endpoint pkg := by
+  intro carrier windowSelection sealReadRow endpointRow selectedPkg endpointPkg
+  obtain ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary,
+    windowLedgerUnary, provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regseqReadUnary realSealUnary sealReadRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed realSealUnary provenanceUnary endpointRow
+  have ledgerSameSealRead : hsame windowLedger sealRead :=
+    cont_deterministic regseqSealLedger sealReadRow
+  exact
+    ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, realSealUnary, windowLedgerUnary,
+      selectedWindowUnary, sealReadUnary, endpointUnary, windowSelection, sealReadRow,
+      endpointRow, ledgerSameSealRead, provenancePkg, selectedPkg, endpointPkg⟩
+
 theorem RegularCauchyDiagonalCarrier_completion_consumer_bridge [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
       completionRead : BHist}
