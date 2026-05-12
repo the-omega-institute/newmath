@@ -25,7 +25,8 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_bundle $(TEST_DIR)/test_unary \
                    $(TEST_DIR)/test_ask $(TEST_DIR)/test_external_binary \
                    $(TEST_DIR)/test_gap $(TEST_DIR)/test_package \
-                   $(TEST_DIR)/test_name_cert $(TEST_DIR)/test_settled
+                   $(TEST_DIR)/test_name_cert $(TEST_DIR)/test_settled \
+                   $(TEST_DIR)/test_topology_up
 
 .PHONY: all test clean
 all: $(STANDALONE_BINS)
@@ -153,6 +154,11 @@ $(TEST_DIR)/test_name_cert: $(TEST_DIR)/test_name_cert.c $(TEST_DIR)/manifest_ru
 $(TEST_DIR)/test_settled: $(TEST_DIR)/test_settled.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
 	    $(TEST_DIR)/test_settled.c $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_topology_up: $(TEST_DIR)/test_topology_up.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_topology_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
 test: $(TESTS)

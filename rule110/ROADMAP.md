@@ -135,7 +135,7 @@ Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
 
 Encode BEDC content outside the finite-kernel proof boundary.
 
-- [ ] L5.1: `Derived/TopologyUp` thin interface (BHist-based topology constructs).
+- [!] L5.1: `Derived/TopologyUp` thin interface (BHist-based topology constructs). Enum mirror covers finite-base neighborhood append decomposition, carrier meet-as-bundleAppend scope rows, and ledger constructor tags/no-confusion in `manifests/topology_up/`; C decoder tests pass for the representative GroundCompiler inputs. Boundary: Lean cross-check registration and non-vacuous universal cyclic-tag recognizers are outside this row.
 - [ ] L5.2: `Derived/RealUp` (real numbers via BHist limit construction).
 - [ ] L5.3: `Derived/CircleUp` (modular arithmetic + circle group).
 - [ ] L5.4: `Derived/FoldUp` (foldable structures).
