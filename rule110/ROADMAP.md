@@ -140,7 +140,7 @@ Encode BEDC content outside the finite-kernel proof boundary.
 - [ ] L5.3: `Derived/CircleUp` (modular arithmetic + circle group).
 - [ ] L5.4: `Derived/FoldUp` (foldable structures).
 - [ ] L5.5: `BaseReflection` (CIC self-reflection within rule110 substrate — challenging since rule110 is sub-Turing-complete cellular automaton; may need bridge through cyclic-tag substrate first).
-- [ ] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).
+- [!] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).  Bounded enum manifests cover BHistSubstrate closed encodings and AtomInfer atom rules in `manifests/meta_cic/`; this is not a full cyclic-tag dependent typechecker, reducer, normalizer, or self-host.
 - [ ] L5.7: `GroundCompiler` (the channel-encoding pipeline that rule110 itself uses; meta-circular).
 - [ ] L5.8: `Capstones` (vision-level constructions — see `papers/bedc/parts/visions/`).
 
