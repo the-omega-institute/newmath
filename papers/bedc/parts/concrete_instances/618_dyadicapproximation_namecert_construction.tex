@@ -100,15 +100,31 @@ Reuse the endpoint classifier supplied by $\DyadicRatCoreUp$ and the finite-wind
 Repack these transported rows into the classifier of the target packet. Carrier exhaustiveness leaves exactly the five projected coordinates, so there is no coordinate from which a completion point, quotient real, selected limit, host-real equality, or quotient-real equality could be introduced.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation precision weakening]\label{thm:dyadic-approximation-precision-weakening}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. If a displayed unary row $m$ is no finer than $n$ through the $\DyadicRatCoreUp$ radius ledger, then $A$ has a coarser accepted read at $m$. The $\RealUp$ seal handoff of this coarser read exposes only the transported precision row $m$, the transported dyadic endpoint, the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the displayed $\hsame$ and $\Cont$ routes, and the $\mathsf{Pkg}$ provenance.
+
+The weakening rule does not introduce a quotient real, host real equality, completion point, or selected representative.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $A$ and apply \autoref{thm:dyadic-approximation-real-seal-handoff}. This projects the only source rows visible to a $\RealUp$ consumer: precision, dyadic endpoint, stream window, regular-sequence readback, seal ledger, routes, and provenance.
+
+Use the displayed $\DyadicRatCoreUp$ radius ledger witnessing that $m$ is no finer than $n$ to transport the precision coordinate to the coarser row. Then apply \autoref{thm:dyadic-approximation-common-precision-refinement} with the common precision row $m$, reading the original packet and its coarser radius-ledger projection through the same finite window.
+
+Apply \autoref{thm:dyadic-approximation-classifier-transport} to repack the transported endpoint, window, regular-sequence readback, seal ledger, displayed routes, and provenance as an accepted $\DyadicApproximationUp$ classifier read at $m$.
+
+The final handoff is again the one described by \autoref{thm:dyadic-approximation-real-seal-handoff}. Every exported coordinate is a transported finite row, so no quotient real, host real equality, completion point, or selected representative is available.
+\end{proof}
+
 \closureat{DyadicApproximationUp}{seedStr}
+\closureat{DyadicApproximationUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicApproximationUp}
   \constructivestory{A finite dyadic approximation packet is generated from a unary precision row, a displayed $\DyadicRatCoreUp$ endpoint, a $\StreamNameUp$ and $\RegSeqRatUp$ finite observation window, a $\RealUp$ seal ledger, visible $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter binds the finite dyadic observation packet, precision row, $\DyadicRatCoreUp$ endpoint, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger, $\hsame$ and $\Cont$ transport, and $\mathsf{Pkg}$ provenance.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface is the finite dyadic observation packet of \autoref{thm:dyadic-approximation-window-obligations}, with carrier habitation, classifier laws, carrier transport, finite-window exactness, and Real-seal handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, host real equality, completion points, or choice-selected representatives.}
-  \upgradepath{Obligation closure requires classifier laws, carrier transport, finite-window exactness, and Real-seal handoff for the displayed dyadic approximation packet.}
+  \upgradepath{Scoped closure requires dependency binding to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\NameCert$.}
 \end{closurestatus}
