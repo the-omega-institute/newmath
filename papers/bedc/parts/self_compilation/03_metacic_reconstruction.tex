@@ -86,6 +86,31 @@ sort or variable has the same endpoint.
 \leanchecked{BEDC.MetaCIC.betaStar\_var\_join}
 \leanchecked{BEDC.MetaCIC.betaStar\_sort\_join}
 
+\subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
+
+The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
+it is the syntax and judgment-representation layer of the BEDC project. It
+does not replace the host calculus, and it does not present BEDC as a second
+kernel beside Lean. Its task is to make terms, contexts, reductions, and
+typing derivations available as inductive BEDC objects.
+
+This layer complements `\verb|BEDC.Manifest|'. The manifest side registers
+paper-anchored theorem entries as kernel-typed data, so that named results can
+be tracked through the project as typed artifacts. The MetaCIC side supplies
+the inductive description of the calculus whose syntax and judgments can be
+discussed internally.
+
+It also sits below `\verb|BEDC.Reflection|'. Reflection handles higher closure
+forms such as ext-membership, name certificates, and package-facing
+identification principles. MetaCIC supplies the typed-term syntactic
+foundation on which such higher closure forms can be related to represented
+judgments when a bridge is present.
+
+The limit is deliberate. MetaCIC does not simulate the host's full type
+checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
+formalization: its checked claims have the same foundational strength as the
+host that checks them, not a stronger one.
+
 \subsection{Typing Rules}\label{subsec:reconstruction-typing-rules}
 
 The represented typing judgment $\mathrm{HasType}\ \Gamma\ t\ A$ is generated
@@ -225,6 +250,33 @@ reconstruction studies the syntax and judgment structure of the calculus in
 which such checking is meaningful. Together they explain why ``BEDC compiles
 itself'' has a legitimate L4-mid reading and no legitimate L4a or replacement
 reading.
+
+\subsection{Self-Compilation Completeness}\label{subsec:reconstruction-self-comp-completeness}
+
+In this chapter, self-compilation has a precise BEDC meaning. It does not mean
+that BEDC compiles BEDC into an executable binary, nor that BEDC replaces the
+host kernel. It means that BEDC represents enough of a CIC fragment for the
+paper's quantified judgments about syntax, typing, reduction, closure, and
+substitution to be stated as Lean-checkable inductive objects and theorems.
+
+The completed mechanized surface covers the paper claims for syntax, typing
+rules, atom-shape preservation, atom normalization, and closed-domain
+substitution preservation. These claims are expressed over the represented
+MetaCIC terms, contexts, beta relations, closure predicate, and typing
+judgment, so Lean checks them as ordinary theorems about inductively generated
+data.
+
+The surface does not close substitute preservation for arbitrary binder
+domains, strong normalization, or a decidable type checker for arbitrary
+represented terms. Those targets require binder-domain transport, global
+termination structure, or complete inference coverage beyond the represented
+fragment used here.
+
+Thus the self-compilation status is L1 plus L4-mid. It is a syntax-and-judgment
+reconstruction layer together with finite Lean-checked paper claims. It is not
+L4a, because BEDC is not closed over the host that checks it, and it is not
+L4c, because BEDC does not replace the host kernel or identify paper closure
+with kernel verification.
 
 \subsection{Host CIC Relation}\label{subsec:reconstruction-host-cic-relation}
 
