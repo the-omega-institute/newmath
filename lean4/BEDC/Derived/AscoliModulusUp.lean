@@ -77,4 +77,41 @@ theorem AscoliModulusPacket_equicontinuity_ledger [AskSetup] [PackageSetup]
       uniformRowsCont', transportCont', provenanceCont, pkgSig⟩, sameEquicontinuity,
       sameUniformRows⟩
 
+theorem AscoliModulusPacket_arzela_ascoli_handoff [AskSetup] [PackageSetup]
+    {source target family tolerance radius probe stability equicontinuity uniformRows
+      transport routes provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AscoliModulusPacket source target family tolerance radius probe stability
+        equicontinuity uniformRows transport routes provenance nameRow bundle pkg ->
+      UnaryHistory equicontinuity ∧ UnaryHistory uniformRows ∧ UnaryHistory transport ∧
+        Cont tolerance radius equicontinuity ∧ Cont family radius uniformRows ∧
+          Cont equicontinuity uniformRows transport ∧ Cont transport routes provenance ∧
+            PkgSig bundle provenance pkg := by
+  intro packet
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, _toleranceUnary, _radiusUnary, _probeUnary,
+    _stabilityUnary, equicontinuityUnary, uniformRowsUnary, _nameUnary, equicontinuityCont,
+    uniformRowsCont, transportCont, provenanceCont, pkgSig⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed equicontinuityUnary uniformRowsUnary transportCont
+  exact
+    ⟨equicontinuityUnary, uniformRowsUnary, transportUnary, equicontinuityCont,
+      uniformRowsCont, transportCont, provenanceCont, pkgSig⟩
+
+theorem AscoliModulusPacket_finite_net_stability [AskSetup] [PackageSetup]
+    {source target family tolerance radius probe stability equicontinuity uniformRows transport
+      routes provenance nameRow stabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AscoliModulusPacket source target family tolerance radius probe stability equicontinuity
+        uniformRows transport routes provenance nameRow bundle pkg ->
+      Cont probe stability stabilityRead ->
+        UnaryHistory probe ∧ UnaryHistory stability ∧ UnaryHistory stabilityRead ∧
+          Cont probe stability stabilityRead ∧ PkgSig bundle provenance pkg := by
+  intro packet stabilityRoute
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, _toleranceUnary, _radiusUnary, probeUnary,
+    stabilityUnary, _equicontinuityUnary, _uniformRowsUnary, _nameUnary, _equicontinuityCont,
+    _uniformRowsCont, _transportCont, _provenanceCont, pkgSig⟩ := packet
+  have stabilityReadUnary : UnaryHistory stabilityRead :=
+    unary_cont_closed probeUnary stabilityUnary stabilityRoute
+  exact ⟨probeUnary, stabilityUnary, stabilityReadUnary, stabilityRoute, pkgSig⟩
+
 end BEDC.Derived.AscoliModulusUp
