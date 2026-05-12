@@ -113,6 +113,27 @@ theorem StationaryRationalDiagonalCarrier_real_handoff [AskSetup] [PackageSetup]
                 (And.intro transportRoute
                   (And.intro provenanceEndpoint pkgSig))))))))
 
+theorem StationaryRationalDiagonalCarrier_constant_window_totality
+    [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport
+        route provenance namecert endpoint bundle pkg ->
+      UnaryHistory rat ∧ UnaryHistory constantStream ∧ UnaryHistory regseq ∧
+        hsame regseq (append rat constantStream) ∧ hsame realSeal (append regseq diagonal) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨ratUnary, constantStreamUnary, regseqUnary, _diagonalUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+    constantStreamRoute, diagonalSealRoute, _transportRoute, _provenanceEndpoint, pkgSig,
+    _nameCert⟩ := carrier
+  exact And.intro ratUnary
+    (And.intro constantStreamUnary
+      (And.intro regseqUnary
+        (And.intro constantStreamRoute
+          (And.intro diagonalSealRoute pkgSig))))
+
 theorem StationaryRationalDiagonalCarrier_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {rat constantStream regseq diagonal realSeal transport route provenance namecert

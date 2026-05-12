@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\CompletionFunctorUp$}
+\label{ch:concrete-instances-completionfunctor-namecert}
+\origin{human}
+
+The $\CompletionFunctorUp$ surface names the finite functorial completion packet that transports regular rational Cauchy data and continuous maps through the existing completion envelope. Following Bishop and Bridges, \emph{Constructive Analysis}, it treats completion by explicit Cauchy data, moduli, and extension ledgers rather than by quotient completions or equality of host functions. The packet connects the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the universal-property surface of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the real Cauchy completion surface of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, and the reflection boundary of \autoref{ch:concrete-instances-completionreflection-namecert}.
+
+\begin{definition}[CompletionFunctor carrier]
+\label{def:completion-functor-carrier}
+A $\CompletionFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,U,R,Q,A,G,E,T,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $M$ is the $\CauchyCompletionMonadUp$ completion-envelope row that supplies unit and bind-facing completion reads;
+\item $U$ is the $\CompletionUniversalPropertyUp$ extension row for continuous maps out of the dense regular rational surface;
+\item $R$ is the $\RealCauchyCompletionUp$ real-completion row that seals regular rational Cauchy input as a $\RealUp$ read;
+\item $Q$ is the $\RegSeqRatUp$ source row whose finite stream windows supply the dense observations;
+\item $A$ is the $\RealUp$ target seal row exposed by the completed source;
+\item $G$ is the $\ContinuousMapUp$ dense map row, including its modulus, graph-read ledger, and finite input-output observation rows;
+\item $E$ is the transported extension ledger from $G$, $Q$, $M$, $U$, $R$, and $A$ to a completion-facing $\ContinuousMapUp$ row;
+\item $T$ is the functoriality ledger comparing identity and composition reads by displayed $\hsame$ routes over the same source, map, extension, and seal rows;
+\item $H$ stores the componentwise $\hsame$ comparisons for the completion envelope, universal-property row, real-completion row, source row, target seal, dense map, extension ledger, functoriality ledger, package row, and local naming row;
+\item $C$ stores the $\Cont$ routes through which consumers read source windows, map graph entries, completion envelopes, extension rows, real seals, and functoriality ledgers;
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CompletionFunctorUp}$ row.
+\end{enumerate}
+Two accepted carriers classify together only when all displayed rows are transported componentwise through $H$ and read through the routes in $C$. The carrier has no quotient of Cauchy streams, no selected host limit, no equality of host functions, and no ambient completeness field.
+\end{definition}
+
+\begin{theorem}[CompletionFunctor NameCert obligations]
+\label{thm:completion-functor-namecert-obligations}
+The local $\NameCert_{\CompletionFunctorUp}$ surface for \autoref{def:completion-functor-carrier} consists of carrier admission, classifier stability, extension-ledger exactness, functorial identity and composition ledgers, unit-boundary compatibility, and non-escape of quotient completions, selected limits, host function equality, and ambient completeness. Every obligation is stated over the rows $M,U,R,Q,A,G,E,T,H,C,P,N$ and their displayed $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:completion-functor-carrier}. The packet lists the completion envelope, universal-property row, real-completion row, dense regular rational source, real seal, dense continuous map, extension ledger, functoriality ledger, transport rows, continuation rows, package provenance, and local naming row.
+
+Classifier stability is componentwise. The recorded $\hsame$ rows in $H$ transport exactly the listed coordinates, while the $\Cont$ routes in $C$ preserve the read order from source windows and graph entries to completion envelopes, extension rows, real seals, and functoriality ledgers.
+
+Extension exactness is inherited as a visible row, not as an external principle. The coordinate $E$ is the only route from the dense $\ContinuousMapUp$ row $G$ and regular rational source $Q$ into the completion-facing map row supplied by $U$.
+
+The remaining public obligations are the three theorem surfaces below: functoriality, unit-boundary compatibility, and non-escape. Together they exhaust all consumer reads of the local $\NameCert_{\CompletionFunctorUp}$ packet.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor functoriality]
+\label{thm:completion-functor-functoriality}
+Let $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ be an accepted $\CompletionFunctorUp$ carrier. Identity reads and composable pairs of dense $\ContinuousMapUp$ rows are transported to completion-facing $\ContinuousMapUp$ reads by the same finite extension ledger $E$ and compared by the functoriality ledger $T$. The comparison uses only displayed $\hsame$ rows and $\Cont$ routes over $M$, $U$, $R$, $Q$, $A$, $G$, and $E$.
+\end{theorem}
+\begin{proof}
+For the identity route, read the dense identity map as a $\ContinuousMapUp$ graph row with its displayed modulus. The universal-property row $U$ and extension ledger $E$ repack that graph row through $Q$, $M$, $R$, and the seal $A$ as a completion-facing continuous map.
+
+For a composable pair, inspect the two dense graph ledgers in finite windows. The $\Cont$ routes in $C$ preserve the order of source read, first map read, second map read, extension read, and real-seal read.
+
+The ledger $T$ compares the completion of the composite dense map with the composite of the two completion-facing extension rows. Since $T$ is a displayed $\BHist$ coordinate whose comparisons are routed through $H$ and $C$, the comparison is a local $\hsame$ ledger statement and not an equality of host functions.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor unit boundary]
+\label{thm:completion-functor-unit-boundary}
+For every accepted $\CompletionFunctorUp$ carrier, the unit row of $\CauchyCompletionMonadUp$ and the real seal of $\RealCauchyCompletionUp$ agree at the public boundary through the displayed rows $M$, $R$, $Q$, $A$, $E$, $H$, $C$, $P$, and $N$. A dense regular rational input is first read as $Q$, then admitted through the completion envelope $M$, and finally exposed through the $\RealUp$ seal $A$ without adding a quotient representative or a selected limit.
+\end{theorem}
+\begin{proof}
+Start with the displayed regular rational source row $Q$. The completion envelope $M$ supplies the unit-facing packet for this source, using finite stream windows and regular rational observations.
+
+The real-completion row $R$ and seal $A$ are then read through the same source observations. The extension ledger $E$ contributes only the continuation route needed by downstream continuous-map consumers; it does not change the source row or choose a host limit.
+
+The comparison between the monad unit boundary and the real seal boundary is recorded by the componentwise transports in $H$ and the read routes in $C$. Thus the public unit boundary is a finite packet route through the named rows, with no quotient completion or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor non-escape boundary]
+\label{thm:completion-functor-non-escape}
+No accepted $\CompletionFunctorUp$ carrier exports quotient completions, host function equality, selected limits, hidden representatives, or ambient completeness. Every public read of a completed object, a transported continuous map, an identity ledger, or a composition ledger factors through the finite $\BHist$ packet of \autoref{def:completion-functor-carrier}, the extension route of \autoref{thm:completion-functor-namecert-obligations}, the functoriality ledger of \autoref{thm:completion-functor-functoriality}, and the unit boundary of \autoref{thm:completion-functor-unit-boundary}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. Its analytic rows are the completion envelope, universal-property row, real-completion row, regular rational source, real seal, dense continuous map, extension ledger, and functoriality ledger, together with finite transport, continuation, package, and naming rows.
+
+The NameCert obligation theorem makes $E$ the only completion-facing extension route. The functoriality theorem makes $T$ the only public route for identity and composition comparison. The unit-boundary theorem makes $M$, $R$, $Q$, and $A$ the only public route from dense regular rational input to completed real seal.
+
+These routes exhaust the packet. Since none of the listed coordinates is a quotient completion, host function equality proof, selected limit, hidden representative, or ambient completeness field, no public consumer can read such an object from the $\CompletionFunctorUp$ surface.
+\end{proof}
+
+\closureat{CompletionFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CompletionFunctorUp}
+  \constructivestory{A $\CompletionFunctorUp$ packet is generated from a $\CauchyCompletionMonadUp$ completion envelope, a $\CompletionUniversalPropertyUp$ extension row, a $\RealCauchyCompletionUp$ real-completion row, a $\RegSeqRatUp$ dense source, a $\RealUp$ seal, a $\ContinuousMapUp$ dense map, a finite extension ledger, a functoriality ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, functorial identity and composition ledger, monad-unit and real-seal boundary, and non-escape condition for completion-facing continuous-map transport.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient completions, host function equality, selected limits, ambient completeness, completed-category laws beyond the displayed finite ledger, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, extension-ledger exactness, functoriality ledger stability, unit-boundary compatibility, and non-escape for the completion functor packet.}
+\end{closurestatus}
