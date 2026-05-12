@@ -121,6 +121,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N),
 $$
 the $\RegSeqRatUp$ row $R$ is the handoff obtained from the same schedule row $\mu$, dyadic tolerance row $\epsilon$, and finite tail ledger $L$. Any consumer of $R$ through the displayed $\Cont$ routes must therefore retain the schedule, tolerance, and ledger data certified by the $\Pkg$ row $P$ and the local $\NameCert_{\DyadicTailBoundUp}$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_regseqrat\_handoff\_exactness}
 \begin{proof}
 Read the schedule, tolerance, ledger, and readback coordinates from the carrier. The row $L$ records the inspected tail comparisons, and each comparison is indexed by the threshold named by $\mu$ and the dyadic budget named by $\epsilon$.
 
@@ -250,14 +251,15 @@ Assembling the listed rows gives the obligation package. Since each component is
 \end{proof}
 
 \closureat{DyadicTailBoundUp}{seedStr}
+\closureat{DyadicTailBoundUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicTailBoundUp}
   \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the finite carrier and the five-row naming-certificate surface for reusable dyadic tail budgets consumed by $\FastConvergentSeriesUp$, $\RegSeqRatUp$ handoffs, and $\RealUp$ seal boundaries.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface records the carrier, classifier transport, tolerance exactness, $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, and ledger exhaustion over the displayed $\BHist$ packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, dyadic tolerance exactness, regular-sequence handoff exactness, and $\RealUp$ seal factorization for the same finite packet.}
+  \upgradepath{Scoped closure requires binding the obligation rows as a single consumer interface for $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
