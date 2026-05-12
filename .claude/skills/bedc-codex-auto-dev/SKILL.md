@@ -168,20 +168,21 @@ Monitors `tail -F` the log files the detached orchestrators write to. They are p
 
 Operate in **token-saving** mode by default. Each Monitor event resolves to **one short Chinese sentence** (≤25 字), no diagnostics commands, no log quotes, no tables. The recovery consumer + Phase D lints + closure machinery handle issues automatically, so an event arriving in your transcript is mostly informational — your job is to acknowledge that you saw it and that automation took over, not to investigate.
 
-Concrete rules for token-saving replies:
+Concrete rules for token-saving replies (filter is already tight — every arriving event is by design escalation-tier, but most still resolve themselves):
 
-1. **Recurring patterns (`Round FAILED` + ticket queued, `Merge failed —` + recovery picked up, `SHALLOW GROWTH` + ticket queued)**: one sentence — `R2364 SHALLOW GROWTH 抓住 dup → recovery 已接管` style. Don't quote the offending names, don't speculate. Stop there.
-2. **First occurrence of a new pattern (not seen this session)**: still one sentence, but flag it — `首次见到 X，观察 1-2 例后再决定要不要加 gate`. Then drop it.
-3. **`[recovery] RECOVERED` / `[recovery] unrecoverable`**: one sentence. RECOVERED is positive; unrecoverable means the worktree was marked dead and the operator may need to look at the dead/ folder later — but not now.
-4. **`closure_mark` / `deps_ready_relaxed`**: ack as positive signal in one sentence.
-5. **`[sync] codex could not resolve` / `push origin … failed`**: this is real — escalate with one sentence describing what to do (`sync daemon 调 codex 解冲突失败，等下一轮 600s 后重试 / 或手动 sync_with_auto_dev.py`).
-6. **3 events of the same kind in one tick**: one combined sentence covering all three (`R2364/R2365/R2367 都 dup-ticket→recovery，pattern 一致`). Don't reply per-event.
-7. **No actionable events in a tick**: zero output is fine.
-8. **Verbose mode override**: only switch to long-form when (a) the user asks `详细分析` / `深入看看` / `report` / `调查 ...`, (b) a self-check `/loop` tick fires, or (c) the same novel pattern repeats ≥3 times in 30 min — then briefly pull stats and propose a prompt edit.
+1. **`3 consecutive failures` (cooldown)**: one sentence — `cooldown 触发, 180s 自节流`. Don't pull stats unless the same cooldown repeats ≥2 times in 30 min.
+2. **`[recovery] unrecoverable / codex crashed / stopped`**: one sentence noting the round/paper id was abandoned. Worktree is in `.worktrees/dead/` if the operator wants to triage later — don't investigate now.
+3. **`STALE MARKER` / `SHALLOW GROWTH`**: one sentence. If the same chapter / pattern repeats ≥3 times in 30 min, that's a prompt-rule problem worth flagging.
+4. **`memory_guard.*PAUSE`**: one sentence. If it repeats, lower `lean_lake` or `lean` in `.pipeline_parallel.json`.
+5. **`[sync] codex could not resolve` / `push origin codex-auto-dev failed`**: this is real — escalate with one sentence (`sync daemon 调 codex 解冲突失败，下一轮 600s 重试 / 或手动 sync_with_auto_dev.py`). If repeats, manual sync.
+6. **`Session complete:` / `draining N in-flight workers` / `Pipeline PID token is not current`**: **orchestrator exited** — run the liveness check and report to the user immediately. Daemon must be restarted.
+7. **First occurrence of a novel pattern**: one sentence, flag it — `首次见到 X，观察 1-2 例再决定`.
+8. **No actionable events in a tick**: zero output is fine.
+9. **Verbose mode override**: only switch to long-form when (a) the user asks `详细分析` / `深入看看` / `report` / `调查 ...`, (b) a self-check `/loop` tick fires, or (c) the same novel pattern repeats ≥3 times in 30 min — then briefly pull stats and propose a prompt edit.
 
-Token-saving replies do NOT spawn shell commands unless you actually need data to decide whether action is warranted (rule 5 / rule 8). For the default ack-only path, reply with text alone.
+Token-saving replies do NOT spawn shell commands unless you actually need data to decide whether action is warranted (rule 5 / 6 / 9). For the default ack path, reply with text alone.
 
-Default to a single **active error watch** that tails BOTH log files at once and emits only actionable signals. SUCCESS / Phase transitions / audit-OK / PDF-OK / routine ff-race events are silenced; the recovery consumer + closure machinery handle most issues automatically, so events that DO arrive are ones you can act on (edit a prompt, edit `critical_path.py`, edit `.pipeline_parallel.json`, queue a manual recovery ticket).
+Default to a single **unrecoverable error watch** that tails BOTH log files at once and emits only actionable signals where automation has *already failed or is throttling*. Routine round FAILs, merge fails, and Pre-merge hard gate failures are silenced because the recovery consumer auto-picks them — surfacing those wastes transcript tokens and makes the operator chase events the pipeline is already healing. What does still arrive is the escalation tier: cooldown, recovery exhaustion, content-quality gates, daemon state changes, and sync push failures.
 
 ```bash
 tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
@@ -189,27 +190,37 @@ tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
        $REPO/scripts/logs/auto_heal.log \
   | grep -E --line-buffered \
-      'Round FAILED|Merge failed —|3 consecutive failures|Codex did not complete|Codex could not resolve|\[recovery\]\s+(queued|picking|RECOVERED|unrecoverable|codex crashed|stopped)|Pre-merge hard gate failed|STALE MARKER|SHALLOW GROWTH|Phase B failed:|Phase C failed:|Phase D failed:|Traceback|^[^:]+:\s+\bException:|builder.*FAIL|deps_ready_relaxed.*[Tt]rue|closure_mark|memory_guard.*PAUSE|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|\[heal\] .*(detected|committed|push failed)'
+      '3 consecutive failures|\[recovery\]\s+(unrecoverable|codex crashed|stopped)|STALE MARKER|SHALLOW GROWTH|memory_guard.*PAUSE|axis-confusion|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|builder.*FAIL.*(consecutive|persistent)|Codex did not complete.*(persistent|after [0-9]+ attempts)|\[heal\] .*push failed' \
+  | grep -vE --line-buffered 'queued|picking|RECOVERED'
 ```
 
-Use `persistent: true`. Describe as `BEDC active error watch`.
+Use `persistent: true`. Describe as `BEDC unrecoverable error watch`.
 
-What each pattern means and the cheapest fix:
+**Excluded by design** (handled by recovery consumer, no operator action needed):
+
+- `Round FAILED` — recovery queue auto-picks within seconds
+- `Merge failed —` — recovery queue auto-picks
+- `Pre-merge hard gate failed` (audit / lake build / axiom-purity / phase_d_lint) — recovery consumer retries with codex
+- `[recovery] queued / picking / RECOVERED` — routine consumer cycle
+- `closure_mark` — paper-side closure proposals (high volume, informational)
+- `deps_ready_relaxed: True` — critical_path auto-relax (informational)
+- `Traceback` from `_clone_lake_cache` race — orchestrator immediately FAILs and dispatches a new round; the lost round costs nothing the operator can recover
+
+If a problem persists past automation, it surfaces as: `3 consecutive failures` (cooldown), `[recovery] unrecoverable`, repeated `STALE MARKER` / `SHALLOW GROWTH`, or `[sync] push origin codex-auto-dev failed`. Those are the signals the operator must look at.
+
+What each surviving pattern means and the cheapest fix:
 
 | Pattern | Meaning | Fix without restart |
 |---|---|---|
-| `Round FAILED` | Worker FAILed; if commits exist, recovery queue auto-takes |
-| `Merge failed —` | merge_worktree_to_base exhausted retries; recovery queue auto-takes |
-| `3 consecutive failures` | Cooldown; usually paper-led horizon thresholds shifting — wait or lower `deps_ready_threshold` in `.pipeline_parallel.json` |
-| `Codex did not complete` / `could not resolve` | Codex resolver gave up; recovery queue picks it up next |
-| `[recovery] queued/picking/...` | Recovery consumer activity; positive signal that catch-all is working |
-| `Pre-merge hard gate failed: <gate>` | Specific gate failed (lake build / audit / axiom-purity / phase_d_lint) — recovery consumer attempts codex fix |
-| `STALE MARKER` | Paper marker references missing Lean target — codex prompt issue or paper-side cleanup needed |
-| `SHALLOW GROWTH` | Phase D lint detected duplicate / parameter-echo / mechanical-arity — prompt rule issue |
-| `Phase B failed: no targets extracted` | critical_path empty top OR codex couldn't pick — check `deps_ready_relaxed` or lower threshold |
-| `deps_ready_relaxed: True` | critical_path auto-relaxed `deps_ready_threshold` because strict yielded empty — informational |
-| `closure_mark` | Paper review proposed a `\closureat` for a chapter — positive signal that closure machinery is working |
-| `memory_guard.*PAUSE` | Lean orchestrator paused workers due to memory pressure — drop `lean_lake` or `lean` in `.pipeline_parallel.json` |
+| `3 consecutive failures` | MainThread cooldown; usually horizon thresholds shifting, .lake clone race burst, or a size-gate violation upstream — wait, then check what 3 prior FAILs were and whether they share a root cause (e.g. a >800-line file blocking all R rounds). Often self-heals once the next round picks the new base. |
+| `[recovery] unrecoverable / codex crashed / stopped` | Recovery consumer gave up on a ticket after retries; manual triage needed (typically a stuck worktree under `.worktrees/dead/`). |
+| `STALE MARKER` | Paper marker references missing Lean target — codex prompt issue or paper-side cleanup needed. |
+| `SHALLOW GROWTH` | Phase D lint detected duplicate / parameter-echo / mechanical-arity — prompt rule issue, edit `phase_c.txt` and bump version. |
+| `memory_guard.*PAUSE` | Lean orchestrator paused workers due to memory pressure — drop `lean_lake` or `lean` in `.pipeline_parallel.json`. |
+| `axis-confusion` | codex pipeline reject — paper closure axis written as a function of verification axis or vice versa. Means a recent prompt change broke the two-axis discipline. |
+| `[sync] codex could not resolve` / `push origin codex-auto-dev failed` | Sync daemon's codex conflict resolution failed or `git push` rejected for a non-ff reason; manual sync may be needed. |
+| `builder.*FAIL.*(consecutive\|persistent)` | paper_builder_daemon has stacked multiple failures with no recovery — usually preamble macro missing for an upstream-introduced symbol. |
+| `Codex did not complete.*(persistent\|after N attempts)` | Recovery consumer exhausted retries on a single round. |
 | `Session complete: N succeeded, M failed` / `draining N in-flight workers` / `Pipeline PID token is not current` | **Orchestrator exited or got swapped out.** Under `--continuous`, neither side should ever print these — they mean the loop terminated and no one will dispatch new rounds. Run the liveness check below and, if a daemon is missing, restart it (see "Start" / "Stop" sections). This is the single most disruptive silent failure mode: paper-side keeps crunching closure_mark while lean side hasn't moved in hours, and `closed_horizons` totals can still drift up from paper alone, masking the outage. |
 
 If you need verbose per-phase visibility for a debugging session, swap the filter to `'SUCCESS|FAILED|ERROR|WARNING|Exception|Traceback|Push rejected|Merge conflict|Merging|Merged|[PR][0-9]+'`. Don't leave the verbose filter on a long-running monitor — it produces 20+ events/min during steady state and burns transcript tokens.
