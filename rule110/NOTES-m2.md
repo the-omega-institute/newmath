@@ -46,3 +46,7 @@ Classification remains intentionally coarse. A `passthrough` row means only that
 ## Leader observations (B3)
 
 The leader emitter uses a 20-cell row-0 overwrite `10111111010100001100` on a pre-filled Cook ether background. This pattern was selected by direct local Rule 110 simulation because it leaves detectable non-ether structure in the injection window after 500 steps and keeps far-field ether phase-aligned after 100 steps. It is a behavioral marker for the M2 construction scaffold, not a phase-exact transcription of Cook 2004 section 5.
+
+## Ossifier observations (B4)
+
+The ossifier emitter uses a fixed 30-cell overwrite per production bit. Logical `0` and `1` select distinct local perturbation templates over the Cook ether, and an empty production writes nothing. This is a behavioral encoding of production-word width and persistence only; it does not certify Cook 2004 section 5 phase identity, production-index timing, or the data-block collision that appends bits after a consumed `1`.
