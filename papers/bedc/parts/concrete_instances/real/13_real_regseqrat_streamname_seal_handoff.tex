@@ -158,34 +158,45 @@ outside the consumer-visible source.
 
 \begin{theorem}[RealUp open-phase four-face pullback]
 \label{thm:realup-open-phase-four-face-pullback}
-Compatible $\DyadicRatCoreUp$ observation rows, $\StreamNameUp$ finite-window
-classifier rows, $\RegSeqRatUp$ regularity spine rows, and $\RealUp$
-seal/readback provenance determine a unique finite $\mathsf{BHist}$ pullback
-packet. The packet is the shared source whose four projections are exactly
-those rows, with the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
-$\NameCert$ data as its gluing coordinates.
+Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs. They classify
+as the same consumer-visible handoff precisely when their four open-phase faces
+classify componentwise: the $\DyadicRatCoreUp$ observation rows classify
+together, the $\StreamNameUp$ finite-window classifier rows classify together,
+the $\RegSeqRatUp$ regularity spine rows classify together, and the $\RealUp$
+seal/readback provenance rows classify together. The comparison uses the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates as its
+only gluing data.
 
-Conversely, every accepted finite $\RealUp$ seal source projects to exactly
-those four open-phase faces. No quotient carrier, host equality, real
-completeness, arithmetic package, order package, or metric-completeness row is
-part of the pullback packet or any of its four projections.
+Equivalently, compatible rows on those four faces determine a unique finite
+$\mathsf{BHist}$ pullback packet, and any accepted finite seal-source handoff
+projects to exactly that four-face packet. No quotient carrier, host equality,
+real completeness, arithmetic package, order package, or metric-completeness row
+is part of the classifier, the pullback packet, or any of its four projections.
 \end{theorem}
 \begin{proof}
-Start with compatible displayed rows for the four faces. Apply
-\autoref{thm:realup-open-phase-seal-exactness} to read them as the accepted
-finite seal-facing package over one $\mathsf{BHist}$ source shape.
+For the forward direction, start from two accepted finite seal-source handoffs
+that classify as the same consumer-visible handoff. Apply
+\autoref{thm:realup-seal-source-factorization-boundary} to each handoff. The
+factorization exposes exactly the dyadic observation face, the stream-name
+finite-window classifier face, the regularity-spine face, and the $\RealUp$
+seal/readback provenance face.
+
+The consumer-visible classification is carried only by the displayed $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. Projecting along the four
+factorization faces therefore gives componentwise classification of the
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+For the reverse direction, assume the four projected faces classify
+componentwise through the displayed gluing rows. Apply
+\autoref{thm:realup-open-phase-seal-exactness} to read the compatible rows as
+accepted finite seal-facing packages over the same $\mathsf{BHist}$ source
+shape.
 
 Next apply \autoref{thm:realup-finite-seal-source-uniqueness}. Since the four
 faces agree componentwise through the displayed $\hsame$, $\Cont$,
-$\mathsf{Pkg}$, and $\NameCert$ rows, any two packets with those projections
-expose the same finite seal source surface. This gives the unique pullback
-packet determined by the compatible rows.
-
-For the converse, begin with an accepted finite $\RealUp$ seal source. Apply
-\autoref{thm:realup-seal-source-factorization-boundary}. Its consumer-visible
-factorization is precisely the dyadic observation face, the stream-name
-finite-window classifier face, the regularity-spine face, and the RealUp
-seal/readback provenance face.
+$\mathsf{Pkg}$, and $\NameCert$ rows, the two handoffs expose the same finite
+seal-source surface. Thus they classify as the same consumer-visible handoff,
+and the compatible rows determine the unique pullback packet.
 
 The same boundary theorem, together with
 \autoref{thm:realup-open-phase-seal-exactness}, excludes every off-table
