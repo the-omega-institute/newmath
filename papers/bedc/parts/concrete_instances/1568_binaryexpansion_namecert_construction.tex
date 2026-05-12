@@ -93,15 +93,87 @@ Transport can only move these rows componentwise through $H$, and continuation c
 Thus every dyadic read available to regular-sequence or real-name consumers is already named by the finite ledger. The excluded objects have no coordinate in the packet and cannot be reconstructed from the exported rows.
 \end{proof}
 
+\begin{theorem}[BinaryExpansion prefix tail-radius monotonicity]
+\label{thm:binary-expansion-prefix-tail-radius-monotonicity}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier, and let $w \leq w'$ be displayed prefix-window rows in $W$ with $w'$ extending $w$ by finitely many binary digit rows from $D$. The dyadic tail-radius row attached to $w'$ is routed through the same $\DyadicRatCoreUp$ digit ledger and the same $\DyadicApproximationUp$ approximation ledger as the row attached to $w$, with the extended prefix exposing only a smaller or equal displayed tail-radius bound.
+
+Equivalently, extending the finite prefix window preserves the tail-radius ledger consumed downstream by $\RegSeqRatUp$ and $\RealUp$: the old radius row transports to the extended-window comparison through $H$, the extended radius row is read through the corresponding continuation in $C$, and both rows remain in the package and local $\NameCert$ surface of \autoref{def:binary-expansion-carrier}. No host infinite stream, quotient comparison, selected real representative, or ambient completeness principle is used to justify the monotonic read.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:binary-expansion-carrier}. The two windows $w$ and $w'$ are finite rows of the same $\StreamNameUp$ schedule, and the displayed relation $w \leq w'$ says that the second row is obtained by appending finitely many digit rows already present in $D$.
+
+Apply the prefix-window stability theorem \autoref{thm:binary-expansion-window-prefix-stability} to keep the common prefix, its digit rows, and the attached dyadic approximation rows on the same $\hsame$ and $\Cont$ routes. The dyadic-ledger exhaustion theorem \autoref{thm:binary-expansion-dyadic-ledger-exhaustion} then says that the only available tail-radius rows are the two rows already listed in $A$.
+
+The tail radius of a displayed binary prefix is the dyadic remainder bound stored by the $\DyadicApproximationUp$ row for that prefix. Extending the prefix consumes additional $\DyadicRatCoreUp$ bit rows, so the unrevealed suffix bound can only move to the displayed smaller-or-equal radius row named for $w'$.
+
+Finally, \autoref{thm:binary-expansion-real-readback-boundary} identifies the downstream $\RegSeqRatUp$ and $\RealUp$ reads with this same finite ledger. Hence the monotonicity claim is a statement about displayed prefix rows and their recorded tail-radius entries, not about an external stream or a quotient real.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion regular handoff factorization]
+\label{thm:binary-expansion-regular-handoff-factorization}
+Every $\RegSeqRatUp$ handoff read from an accepted $\BinaryExpansionUp$ carrier factors through three finite rows: the $\StreamNameUp$ prefix-window schedule $W$, the $\DyadicApproximationUp$ partial-sum row of $A$ selected by that window, and the $\DyadicApproximationUp$ tail-radius row of $A$ selected by that same window. The handoff row $R$ contains no independent rational stream beyond these displayed prefix, sum, and radius rows.
+
+Thus any regular-sequence consumer receives a finite route
+$$
+W \longrightarrow A_{\mathrm{sum}} \longrightarrow A_{\mathrm{tail}} \longrightarrow R
+$$
+inside the $\mathsf{BHist}$ packet of \autoref{def:binary-expansion-carrier}, transported by $H$, read by $C$, and certified by $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:binary-expansion-carrier}. A regular handoff can only inspect the row $R$, and the definition of the carrier records $R$ as downstream of the prefix-window schedule and dyadic approximation ledger.
+
+Use \autoref{thm:binary-expansion-window-prefix-stability} to identify the selected prefix window with its unique displayed partial-sum and tail-radius rows. The preceding monotonicity theorem keeps the tail-radius ledger stable when the consumer asks for a stronger precision window.
+
+Apply \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}. It rules out any hidden rational stream, extra approximation table, or external regularity witness outside $D$, $W$, $A$, $R$, $E$, $H$, $C$, $P$, and $N$.
+
+The readback boundary of \autoref{thm:binary-expansion-real-readback-boundary} gives the same factorization for every later real-facing consumer. Repacking the selected window, partial-sum row, tail-radius row, and handoff row along their displayed routes proves the claimed factorization.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion RealUp seal prefix coherence]
+\label{thm:binary-expansion-real-seal-prefix-coherence}
+Any $\RealUp$ seal read from an accepted $\BinaryExpansionUp$ carrier is coherent with the same finite prefix ledger used by the $\RegSeqRatUp$ handoff. If the seal row $E$ is cited at a requested precision, the citation factors through a displayed prefix window of $W$, its binary digit rows in $D$, its partial-sum and tail-radius rows in $A$, and the regular handoff row $R$ before reaching $E$.
+
+Consequently the $\RealUp$ seal cannot read a host infinite binary stream, quotient equality of binary expansions, endpoint convention data, a selected representative, or ambient real completeness. It reads only the finite prefix packet and its displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ consumer citation of the seal row $E$. By \autoref{thm:binary-expansion-real-readback-boundary}, such a citation must first pass through a $\StreamNameUp$ prefix window, the corresponding digit rows, the dyadic approximation ledger, and the $\RegSeqRatUp$ handoff.
+
+The regular handoff factorization above identifies the regular row $R$ with the selected prefix window, partial-sum row, and tail-radius row. The prefix tail-radius monotonicity theorem ensures that stronger precision requests remain on the same finite tail-radius ledger rather than creating a second approximation object.
+
+Now apply \autoref{thm:binary-expansion-window-prefix-stability} to transport coherent prefix comparisons through $H$ and $C$. The dyadic-ledger exhaustion theorem \autoref{thm:binary-expansion-dyadic-ledger-exhaustion} accounts for every dyadic fact that the seal can cite.
+
+Since the carrier of \autoref{def:binary-expansion-carrier} has no coordinate for host streams, quotient equality, endpoint conventions, selected representatives, or ambient completeness, the seal read is coherent exactly with the displayed finite prefix ledger.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion scoped dependency factorization]
+\label{thm:binary-expansion-scoped-dependency-factorization}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. Every scoped obligation exported by $\BinaryExpansionUp$ factors through exactly the displayed packet rows: the $\DyadicRatCoreUp$ binary digit rows in $D$, the $\StreamNameUp$ prefix-window rows in $W$, the $\DyadicApproximationUp$ partial-sum and tail-radius rows in $A$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal row $E$, and the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes $H$, $C$, $P$, and $N$.
+
+Consequently the scoped surface exports no host infinite binary stream, quotient equality of streams, selected binary-expansion representative, endpoint convention resolver, or ambient completeness principle. Any downstream citation of a binary-expansion obligation is a citation of one of the displayed finite rows or of a route between such rows.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier of \autoref{def:binary-expansion-carrier}. Its coordinates already list the only rows made available to the chapter: digits, windows, dyadic approximation rows, the regular handoff, the real seal, and the transport, continuation, package, and local certificate routes.
+
+The prefix-window stability theorem \autoref{thm:binary-expansion-window-prefix-stability} keeps every finite prefix read on the displayed $D$, $W$, $H$, and $C$ routes. The dyadic-ledger exhaustion theorem \autoref{thm:binary-expansion-dyadic-ledger-exhaustion} then accounts for every dyadic fact by rows in $D$ and $A$, including the partial sums and tail-radius entries consumed by later readers.
+
+For regular-sequence consumers, apply \autoref{thm:binary-expansion-regular-handoff-factorization}. It identifies the handoff row $R$ with the selected prefix window, partial-sum row, and tail-radius row, so no independent rational stream is exported.
+
+For real-name consumers, apply the readback boundary of \autoref{thm:binary-expansion-real-readback-boundary} and the seal coherence theorem \autoref{thm:binary-expansion-real-seal-prefix-coherence}. These route every seal citation through the same prefix ledger before reaching $E$.
+
+The remaining scoped obligations are provenance and certificate obligations. They are exactly the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes $H$, $C$, $P$, and $N$. Since the carrier has no coordinate for the excluded host-level objects, the factorization cannot read them.
+\end{proof}
+
 \closureat{BinaryExpansionUp}{seedStr}
+\closureat{BinaryExpansionUp}{obligationStr}
+\closureat{BinaryExpansionUp}{scopedStr}
 
 \begin{closurestatus}{\BinaryExpansionUp}
   \constructivestory{A $\BinaryExpansionUp$ packet is generated from finite binary digit rows, $\StreamNameUp$ prefix windows, $\DyadicApproximationUp$ partial-sum and tail-radius rows, a $\RegSeqRatUp$ regular handoff, a $\RealUp$ seal boundary, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, five-row naming obligations, prefix-window stability, real readback boundary, and dyadic-ledger exhaustion for finite dyadic-prefix packets over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface registers the carrier, five-row naming obligations, prefix-window stability, real readback boundary, dyadic-ledger exhaustion, prefix tail-radius monotonicity, regular handoff factorization, $\RealUp$ seal prefix coherence, and scoped dependency factorization for finite dyadic-prefix packets over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim binary-expansion uniqueness, base-two endpoint convention resolution, quotient equality of streams, selected representatives, host real equality, ambient real completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier encoding, prefix-window transport, dyadic approximation exactness, regular-sequence handoff, real-seal readback, and dyadic-ledger exhaustion.}
+  \upgradepath{Formal verification requires a checked Lean target for the displayed carrier encoding, prefix-window transport, dyadic approximation exactness, regular-sequence handoff, real-seal readback, dyadic-ledger exhaustion, prefix tail-radius monotonicity, regular handoff factorization, seal coherence, and scoped dependency factorization over the same displayed packet.}
 \end{closurestatus}
