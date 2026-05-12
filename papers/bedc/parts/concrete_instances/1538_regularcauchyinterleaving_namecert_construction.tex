@@ -156,6 +156,20 @@ Selector parity is exact by \autoref{thm:regular-cauchy-interleaving-selector-pa
 Finally, \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape} keeps the $\RealUp$ seal downstream of the selected regular readback, selected schedule, combined modulus row, $\hsame$ transport, $\Cont$ route, package row, and naming row. Together with \autoref{thm:regular-cauchy-interleaving-obligation-closure-package}, this exhausts the scoped kernel route and leaves no carrier coordinate for quotient equality, host limits, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving public real seal export]
+\label{thm:regular-cauchy-interleaving-public-real-seal-export}
+The public $\RegularCauchyInterleavingUp$ export of an accepted packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$ is exactly the finite $\RealUp$ seal boundary obtained from the two $\RegSeqRatUp$ source names $A,B$, the two $\StreamNameUp$ schedules $S_A,S_B$, the alternating selector $\sigma$, the combined modulus ledger $M$, the source seals $E_A,E_B$, the interleaved seal row $E$, the displayed $\hsame$ transports $H$, the $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. Every public $\RealUp$ consumer factors through this displayed packet and receives no quotient real equality, selected host limit, ambient completeness principle, or third schedule.
+\end{theorem}
+\begin{proof}
+Carrier admission is supplied by \autoref{thm:regular-cauchy-interleaving-carrier-admission}. The admitted row is the finite $\mathsf{BHist}$ packet of \autoref{def:regular-cauchy-interleaving-source}, so the public boundary has no carrier beyond the two source names, two schedules, selector, ledger, seals, transport rows, continuation rows, package row, and naming row.
+
+Classifier transport is \autoref{thm:regular-cauchy-interleaving-classifier}. Selector parity exactness is \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness}, combined modulus exactness is \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness}, and schedule-window coverage is \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage}. These rows force every consumer read to use either the $A,S_A$ side with the first component of $M$ or the $B,S_B$ side with the second component of $M$.
+
+The seal boundary is \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The obligation closure package of \autoref{thm:regular-cauchy-interleaving-obligation-closure-package} gathers the same rows, and \autoref{thm:regular-cauchy-interleaving-scoped-kernel-route} binds them to the displayed kernel route.
+
+Repack these rows as the public export packet. Since the repacked packet exposes only the displayed $\RealUp$ seal boundary, a public consumer obtains the named seal interface and none of quotient equality, a selected host limit, ambient completeness, or a third schedule.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
 \closureat{RegularCauchyInterleavingUp}{scopedStr}
