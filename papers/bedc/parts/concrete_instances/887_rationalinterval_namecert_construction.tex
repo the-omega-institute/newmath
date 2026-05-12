@@ -317,6 +317,7 @@ the endpoint-order coordinate is read against those transported components.
 Consequently endpoint transport cannot introduce a completed $\RealUp$
 equality row or an apartness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RationalIntervalUp.RationalIntervalPacket\_endpoint\_transport\_classifier}
 \begin{proof}
 Read the endpoint coordinates from
 \autoref{def:rational-interval-bhist-carrier}. The carrier separates the lower
@@ -636,6 +637,50 @@ Finally apply \autoref{thm:rational-interval-standard-boundary-bridge}. The
 standard reading is conservative over the finite rational-window packet, so
 completed real equality, quotient Cauchy classes, located subsets, and host
 interval objects remain outside the factorization.
+\end{proof}
+
+\begin{theorem}[RationalInterval window overlap consumer amalgamation]
+\label{thm:rationalinterval-window-overlap-consumer-amalgamation}
+Let two finite $\RegSeqRatUp$ consumers, or two finite-window $\RealUp$
+consumers, read an accepted $\RationalIntervalUp$ packet. Suppose their reads
+are compatible on displayed endpoint rows, endpoint order, containment rows,
+common-refinement rows, or handoff rows, and suppose the two windows overlap
+through displayed $\hsame$ and $\Cont$ routes.
+
+Then the two reads amalgamate into one finite rational-window packet over the
+same $\RatUp$ endpoints. The amalgamated packet carries the endpoint-order row,
+the containment ledger, the common finite refinement row, the
+$\mathsf{BHist}$ histories, displayed $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local $\NameCert_{\RationalIntervalUp}$
+rows consumed by the two original reads.
+
+The amalgamation introduces no completed $\RealUp$ equality, quotient Cauchy
+class, located subset, apartness predicate, interval arithmetic operation, or
+host interval datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rationalinterval-finite-consumer-completeness} to the
+two consumer reads. Each read is already exhausted by finite interval rows:
+endpoint data, order, containment, refinement, finite-window handoff,
+$\mathsf{BHist}$ histories, $\hsame$, $\Cont$, $\mathsf{Pkg}$ provenance, and
+the local $\NameCert_{\RationalIntervalUp}$ row.
+
+Next use \autoref{thm:rational-interval-common-refinement-window} on the
+compatible overlapping windows. This gives a binary finite rational window
+which carries both displayed reads over the same endpoint boundary.
+
+Choose the displayed finite basis for that overlap by
+\autoref{thm:rational-interval-directed-refinement-basis}. The chosen packet
+keeps the endpoint-order row, containment ledger, common-refinement evidence,
+handoff rows, $\hsame$ transport, and $\Cont$ routes in the rational-window
+surface.
+
+Finally apply
+\autoref{thm:rationalinterval-nested-consumer-window-factorization} to factor
+any nested access through the chosen window. The row exhaustion from the first
+step shows that no completed real equality, quotient Cauchy class, located
+subset, apartness row, interval arithmetic, or host interval datum is available
+to the amalgamation.
 \end{proof}
 
 \input{parts/concrete_instances/rationalinterval/refinement_normal_form}
