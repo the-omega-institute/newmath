@@ -63,7 +63,43 @@ theorem LagrangianMechanicsPacket_action_ledger_obligation [AskSetup] [PackageSe
     ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
       actionReadUnary, actionRow, actionReadRow, sameEndpoint, pkgSig⟩
 
-theorem LagrangianMechanicsPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+theorem LagrangianMechanicsPacket_noether_consumer_boundary [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate noetherRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont symplectic current noetherRead ->
+        PkgSig bundle noetherRead pkg ->
+          UnaryHistory configuration ∧ UnaryHistory velocity ∧ UnaryHistory action ∧
+            UnaryHistory variation ∧ UnaryHistory endpoint ∧ UnaryHistory residual ∧
+              UnaryHistory symplectic ∧ UnaryHistory current ∧ UnaryHistory transport ∧
+                UnaryHistory route ∧ UnaryHistory noetherRead ∧
+                  Cont configuration velocity action ∧ Cont action variation endpoint ∧
+                    Cont residual symplectic current ∧ Cont current transport route ∧
+                      Cont symplectic current noetherRead ∧ PkgSig bundle certificate pkg ∧
+                        PkgSig bundle noetherRead pkg := by
+  intro packet noetherReadRow noetherPkg
+  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
+    transportUnary, _provenanceUnary, actionRow, endpointRow, currentRow, routeRow,
+    _certificateRow, certificatePkg⟩ := packet
+  have actionUnary : UnaryHistory action :=
+    unary_cont_closed configurationUnary velocityUnary actionRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed actionUnary variationUnary endpointRow
+  have currentUnary : UnaryHistory current :=
+    unary_cont_closed residualUnary symplecticUnary currentRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed currentUnary transportUnary routeRow
+  have noetherUnary : UnaryHistory noetherRead :=
+    unary_cont_closed symplecticUnary currentUnary noetherReadRow
+  exact
+    ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
+      residualUnary, symplecticUnary, currentUnary, transportUnary, routeUnary,
+      noetherUnary, actionRow, endpointRow, currentRow, routeRow, noetherReadRow,
+      certificatePkg, noetherPkg⟩
+
+theorem LagrangianMechanicsPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {configuration velocity action variation endpoint residual symplectic current transport route
       provenance certificate : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -71,25 +107,16 @@ theorem LagrangianMechanicsPacket_semantic_name_certificate [AskSetup] [PackageS
         current transport route provenance certificate bundle pkg ->
       SemanticNameCert
         (fun row : BHist => hsame row certificate ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
-        (fun row : BHist =>
-          UnaryHistory configuration ∧ UnaryHistory velocity ∧ UnaryHistory action ∧
-            UnaryHistory variation ∧ UnaryHistory endpoint ∧ UnaryHistory residual ∧
-              UnaryHistory symplectic ∧ UnaryHistory current ∧ UnaryHistory transport ∧
-                UnaryHistory route ∧ UnaryHistory provenance ∧
-                  Cont configuration velocity action ∧ Cont action variation endpoint ∧
-                    Cont residual symplectic current ∧ Cont current transport route ∧
-                      Cont route provenance row)
-        (fun row : BHist => PkgSig bundle row pkg ∧ Cont route provenance row)
-        (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+        (fun row : BHist => Cont route provenance row ∧ UnaryHistory current ∧
+          UnaryHistory symplectic)
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont residual symplectic current ∧
+          Cont current transport route)
+        (fun row row' : BHist => hsame row row') := by
   intro packet
-  obtain ⟨configurationUnary, velocityUnary, variationUnary, residualUnary, symplecticUnary,
-    transportUnary, provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
-    residualSymplecticCurrent, currentTransportRoute, routeProvenanceCertificate,
-    certificatePkg⟩ := packet
-  have actionUnary : UnaryHistory action :=
-    unary_cont_closed configurationUnary velocityUnary configurationVelocityAction
-  have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed actionUnary variationUnary actionVariationEndpoint
+  obtain ⟨_configurationUnary, _velocityUnary, _variationUnary, residualUnary,
+    symplecticUnary, transportUnary, provenanceUnary, _configurationVelocityAction,
+    _actionVariationEndpoint, residualSymplecticCurrent, currentTransportRoute,
+    routeProvenanceCertificate, certificatePkg⟩ := packet
   have currentUnary : UnaryHistory current :=
     unary_cont_closed residualUnary symplecticUnary residualSymplecticCurrent
   have routeUnary : UnaryHistory route :=
@@ -99,36 +126,29 @@ theorem LagrangianMechanicsPacket_semantic_name_certificate [AskSetup] [PackageS
   exact {
     core := {
       carrier_inhabited :=
-        Exists.intro certificate
-          ⟨hsame_refl certificate, certificateUnary, certificatePkg⟩
+        Exists.intro certificate ⟨hsame_refl certificate, certificateUnary, certificatePkg⟩
       equiv_refl := by
-        intro row sourceRow
-        exact
-          ⟨PkgSig_psame_intro sourceRow.right.right sourceRow.right.right
-            (hsame_refl row), hsame_refl row⟩
+        intro row _sourceRow
+        exact hsame_refl row
       equiv_symm := by
         intro _row _row' classified
-        exact ⟨classified.left, hsame_symm classified.right⟩
+        exact hsame_symm classified
       equiv_trans := by
         intro _row _row' _row'' leftClassified rightClassified
-        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+        exact hsame_trans leftClassified rightClassified
       carrier_respects_equiv := by
         intro _row _row' classified sourceRow
-        cases classified.right
+        cases classified
         exact sourceRow
     }
     pattern_sound := by
       intro row sourceRow
-      cases sourceRow.left
       exact
-        ⟨configurationUnary, velocityUnary, actionUnary, variationUnary, endpointUnary,
-          residualUnary, symplecticUnary, currentUnary, transportUnary, routeUnary,
-          provenanceUnary, configurationVelocityAction, actionVariationEndpoint,
-          residualSymplecticCurrent, currentTransportRoute, routeProvenanceCertificate⟩
+        ⟨cont_result_hsame_transport routeProvenanceCertificate (hsame_symm sourceRow.left),
+          currentUnary, symplecticUnary⟩
     ledger_sound := by
       intro row sourceRow
-      cases sourceRow.left
-      exact ⟨certificatePkg, routeProvenanceCertificate⟩
+      exact ⟨sourceRow.right.right, residualSymplecticCurrent, currentTransportRoute⟩
   }
 
 end BEDC.Derived.LagrangianMechanicsUp
