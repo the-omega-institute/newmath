@@ -67,7 +67,7 @@ for f in papers/bedc/parts/proof_obligations/*.tex; do
 done
 echo ""
 echo "=== capstones 章节文件大小（叙述性高地）==="
-wc -l papers/bedc/parts/capstones/*.tex 2>/dev/null | sort -rn | head -10
+wc -l papers/bedc/parts/visions/*.tex 2>/dev/null | sort -rn | head -10
 ```
 
 ### D. 张力点（必跑）
