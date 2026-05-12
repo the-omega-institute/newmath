@@ -17856,3 +17856,53 @@ Rationale:
 The carrier records a finite phase-grid row G, mode-bound row K, coefficient samples M, aliasing ledger A, real handoff E, transports, routes, provenance, and NameCert at papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex:7-23. The NameCert obligations include grid recovery, handoff exactness, and non-escape at lines 28-36. The existing grid-recovery theorem is one-sided: it assumes the aliasing ledger has no nonzero colliding translated mode and then obtains coefficient determinacy from G at lines 51-60. The Real handoff and non-escape theorems require the handoff to factor through M and A at lines 63-77. A focused rg for "FinitePhaseSampling.*alias|phase sampling.*alias|aliasing.*obstruction|colliding translated" found only the no-collision recovery/handoff statements and no separate collision obstruction theorem or Lean marker. This is a concrete obstruction claim about the finite aliasing ledger, not a parameter-transport echo.
 
 ---
+
+### B-708 - CauchyOscillation seal handoff factorization
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CauchyOscillation seal handoff factorization |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If an accepted CauchyOscillationUp packet exports a RealUp seal handoff S, then every consumer read of S factors through the same finite tail window W, threshold schedule M, dyadic tolerance Q, and oscillation ledger T before the seal is available.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1734_cauchyoscillation_namecert_construction.tex`
+
+Rationale:
+This is a concrete finite-packet obligation inside the existing CauchyOscillationUp chapter. The current paper defines the tail window, modulus schedule, tolerance, oscillation ledger, seal handoff, transports, continuation routes, provenance, and local NameCert rows, and it states oscillation-bound exactness and ledger non-escape, but it does not isolate the RealUp seal handoff as its own consumer factorization theorem. It is not a new chapter: the smallest BEDC-native landing is an existing-chapter obligation/lemma tying the displayed seal row to the already named W,M,Q,T dependency surface.
+
+---
+
+### B-709 - CertificateCompiler triple composition associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CertificateCompiler triple composition associativity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+If three accepted CertificateCompilerUp packets are composable along displayed middle NameCert rows, then the two relational graph composites classify by the same displayed graph, edge-landing, classifier-transport, and continuation-compatibility rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1965_certificatecompiler_namecert_construction.tex`
+
+Rationale:
+This lands cleanly as a finite ledger row for the existing CertificateCompilerUp chapter. The paper already contains the carrier, classifier, NameCert obligations, binary composition stability, and identity ledger, while the proposed target asks for the missing three-packet associativity boundary of the displayed relational graph composite. It stays within graph rows, landing rows, classifier transport, continuation compatibility, hsame, provenance, and local NameCert evidence, so it is not an external categorical-law expansion and is distinct from existing BOARD entries.
+
+---
