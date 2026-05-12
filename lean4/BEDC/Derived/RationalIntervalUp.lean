@@ -99,6 +99,27 @@ theorem RationalIntervalPacket_endpoint_containment_transport [AskSetup] [Packag
         endpointPkg'⟩,
       sameOrder, sameTransport, sameProvenance, sameEndpoint⟩
 
+theorem RationalIntervalPacket_public_rational_window_handoff [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint publicHandoff :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint provenance publicHandoff ->
+        PkgSig bundle publicHandoff pkg ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+            UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory publicHandoff ∧
+              Cont endpoint provenance publicHandoff ∧ PkgSig bundle publicHandoff pkg := by
+  intro packet handoffRow handoffPkg
+  obtain ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder, _orderContainmentTransport,
+    _transportRouteProvenance, _provenanceNameEndpoint, _endpointPkg⟩ := packet
+  have handoffUnary : UnaryHistory publicHandoff :=
+    unary_cont_closed endpointUnary provenanceUnary handoffRow
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, handoffUnary,
+      handoffRow, handoffPkg⟩
+
 theorem RationalIntervalPacket_window_consumer_exhaustion [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint consumer readback :
       BHist}
@@ -268,6 +289,51 @@ theorem RationalIntervalEndpointRows_order_witness [AskSetup] [PackageSetup]
   exact
     ⟨leftUnary', rightUnary', orderUnary', sameEndpointPair, sameOrderSurface, endpointRow',
       orderRow', pkgSig'⟩
+
+theorem RationalIntervalFiniteConsumer_completeness [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint bridge consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      UnaryHistory bridge ->
+        Cont endpoint bridge consumer ->
+          PkgSig bundle consumer pkg ->
+            UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory order ∧
+              UnaryHistory containment ∧ UnaryHistory endpoint ∧ UnaryHistory bridge ∧
+                UnaryHistory consumer ∧ Cont left right order ∧
+                  Cont order containment transport ∧ Cont transport route provenance ∧
+                    Cont provenance name endpoint ∧ Cont endpoint bridge consumer ∧
+                      PkgSig bundle consumer pkg := by
+  intro packet bridgeUnary endpointBridgeConsumer consumerPkg
+  obtain ⟨leftUnary, rightUnary, orderUnary, containmentUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, endpointUnary, leftRightOrder, orderContainmentTransport,
+    transportRouteProvenance, provenanceNameEndpoint, _endpointPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary bridgeUnary endpointBridgeConsumer
+  exact
+    ⟨leftUnary, rightUnary, orderUnary, containmentUnary, endpointUnary, bridgeUnary,
+      consumerUnary, leftRightOrder, orderContainmentTransport, transportRouteProvenance,
+      provenanceNameEndpoint, endpointBridgeConsumer, consumerPkg⟩
+
+theorem RationalIntervalPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {left right order containment transport route provenance name endpoint consumer handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalIntervalPacket left right order containment transport route provenance name endpoint
+        bundle pkg ->
+      Cont endpoint consumer handoff ->
+        UnaryHistory consumer ->
+          PkgSig bundle handoff pkg ->
+            UnaryHistory handoff ∧ hsame handoff (append endpoint consumer) ∧
+              PkgSig bundle handoff pkg := by
+  intro packet endpointConsumerHandoff consumerUnary handoffPkg
+  rcases packet with
+    ⟨_leftUnary, _rightUnary, _orderUnary, _containmentUnary, _transportUnary,
+      _routeUnary, _provenanceUnary, _nameUnary, endpointUnary, _leftRightOrder,
+      _orderContainmentTransport, _transportRouteProvenance, _provenanceNameEndpoint,
+      _endpointPkg⟩
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary consumerUnary endpointConsumerHandoff
+  exact ⟨handoffUnary, endpointConsumerHandoff, handoffPkg⟩
 
 theorem RationalIntervalPacket_endpoint_width_ledger [AskSetup] [PackageSetup]
     {left right order containment transport route provenance name endpoint width : BHist}
