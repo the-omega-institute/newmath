@@ -152,16 +152,83 @@ infinite automaton, downstream chapters can read only the displayed finite
 certificate rows.
 \end{proof}
 
+\begin{theorem}[RegularLanguage scoped kernel dependency envelope]
+\label{thm:regularlanguage-scoped-kernel-dependency-envelope}
+For $\RegularLanguageUp$, the finite-automaton carrier, accepted-word
+classifier, deterministic run ledger, classified-word transport, and local
+$\NameCert$ obligation surface are all read from finite $\mathsf{BHist}$ word
+rows, $\hsame$ transport of accepted endpoints, $\Cont$-composed run routes,
+$\mathsf{Pkg}$ provenance, and the existing $\ListUp$, $\FinSetUp$,
+$\ComputableUp$, and $\TuringMachineUp$ certificate rows.
+
+This scoped envelope exports no host regular expression, host-language set
+extensionality, minimization uniqueness claim, infinite automaton, or external
+recognizer quotient.
+\end{theorem}
+\begin{proof}
+Read the carrier from
+\autoref{def:regularlanguage-finite-automaton-carrier}. Its alphabet, state,
+transition, word, run, accepting endpoint, transport, continuation, and
+provenance coordinates are finite displayed rows, with the named upstream
+certificates appearing only through $\mathsf{Pkg}$ provenance.
+
+Use \autoref{def:regularlanguage-classifier} to bind classifier reads to
+componentwise $\hsame$ transport. Then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger} and
+\autoref{thm:regularlanguage-classified-word-transport}; together they attach
+the accepted endpoint to the displayed word spine and to the transported final
+state.
+
+Finally repack the five-field local certificate surface with
+\autoref{thm:regularlanguage-namecert-obligation-surface}. Every field is one
+of the displayed finite packet rows or one of the named upstream certificate
+rows, so the excluded host-language and infinite-automaton objects have no
+coordinate in the scoped envelope.
+\end{proof}
+
+\begin{theorem}[RegularLanguage public automaton consumer export]\label{thm:regularlanguage-public-automaton-consumer-export}
+The public $\RegularLanguageUp$ packet exports exactly the finite alphabet row,
+finite state row, start state, accepting-state carrier, transition table,
+$\ListUp$ input word spine, deterministic run ledger, accepted endpoint,
+componentwise $\hsame$ rows, $\Cont$ routes, and $\mathsf{Pkg}$ provenance over
+$\ListUp$, $\FinSetUp$, $\ComputableUp$, and $\TuringMachineUp$.
+
+No host language set, quotient recognizer, minimization theorem,
+regular-expression equivalence, infinite automaton, or selected external
+semantics is exported.
+\end{theorem}
+\begin{proof}
+Read the finite alphabet, finite state row, start state, accepting-state
+carrier, transition table, and input word spine from
+\autoref{def:regularlanguage-finite-automaton-carrier}.
+
+Use \autoref{def:regularlanguage-classifier} to bind public classifier reads to
+the componentwise $\hsame$ rows. Then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger} to obtain the displayed
+deterministic run ledger over the $\ListUp$ spine.
+
+Next apply \autoref{thm:regularlanguage-classified-word-transport}. It
+identifies the accepted endpoint as the transported endpoint of the same finite
+run, with the stated $\Cont$ routes and package provenance.
+
+Finally use \autoref{thm:regularlanguage-namecert-obligation-surface} to repack
+these rows as the public automaton consumer surface. Since none of the carrier
+or obligation rows is a host language set, quotient recognizer, minimization
+theorem, regular-expression equivalence, infinite automaton, or external
+semantics object, the public packet exports no such object.
+\end{proof}
+
 \closureat{RegularLanguageUp}{seedStr}
 \closureat{RegularLanguageUp}{obligationStr}
+\closureat{RegularLanguageUp}{scopedStr}
 
 \begin{closurestatus}{\RegularLanguageUp}
   \constructivestory{A regular-language packet is represented by finite alphabet and state rows, a displayed transition table, a ListUp word spine, a deterministic BHist run ledger, endpoint acceptance, componentwise hsame transport, Cont routes for consuming the spine, and Pkg provenance naming ListUp, FinSetUp, ComputableUp, and TuringMachineUp.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regularlanguage-finite-automaton-carrier}, \autoref{def:regularlanguage-classifier}, \autoref{thm:regularlanguage-deterministic-run-ledger}, \autoref{thm:regularlanguage-classified-word-transport}, and \autoref{thm:regularlanguage-namecert-obligation-surface} bind the finite automaton carrier, accepted-word classifier, run ledger, endpoint transport, and NameCert obligation rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regularlanguage-finite-automaton-carrier}, \autoref{def:regularlanguage-classifier}, \autoref{thm:regularlanguage-deterministic-run-ledger}, \autoref{thm:regularlanguage-classified-word-transport}, \autoref{thm:regularlanguage-namecert-obligation-surface}, and \autoref{thm:regularlanguage-scoped-kernel-dependency-envelope} bind the finite automaton carrier, accepted-word classifier, run ledger, endpoint transport, NameCert obligation rows, and finite upstream certificate envelope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host language quotients, external regular-expression equivalence, minimization, infinite automata, or a standard bridge.}
-  \upgradepath{Scoped closure requires binding the finite automaton obligations to the precise $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\ListUp$, $\FinSetUp$, $\ComputableUp$, and $\TuringMachineUp$ primitive scope.}
+  \upgradepath{Public closure requires a finite accepted-word export theorem for downstream automata and computability consumers.}
 \end{closurestatus}
