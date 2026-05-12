@@ -29,3 +29,53 @@ transport, endpoint, finite-window, and provenance rows as the stated seal
 handoff package, while excluding every off-table claim: quotient carriers,
 host equality, completeness, arithmetic, order, and metric-completeness data.
 \end{proof}
+
+\begin{theorem}[RealUp open phase seal exactness]
+\label{thm:realup-open-phase-seal-exactness}
+A finite $\RealUp$ seal handoff is accepted precisely when its displayed rows
+factor through one $\mathsf{BHist}$ packet containing the four open-phase
+faces:
+\begin{enumerate}
+  \item the $\DyadicRatCoreUp$ observation rows for the finite unary window;
+  \item the $\StreamNameUp$ finite-window classifier and transported stream
+  name rows;
+  \item the $\RegSeqRatUp$ regularity spine ledger over the same scheduled
+  observations;
+  \item the $\RealUp$ seal, endpoint readback, and provenance ledger.
+\end{enumerate}
+The factorization uses the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows, and it exports no quotient carrier, host equality, real
+completeness, arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with an accepted finite $\RealUp$ seal
+handoff. Theorem~\ref{thm:realup-regseqrat-streamname-seal-handoff} projects
+the seal handoff into its stream-name classifier row, transported RealUp unary
+classifier row, certified unary endpoint carriers, finite-window ledger, and
+seal/readback provenance.
+
+Now separate the four open-phase faces. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+supplies the $\StreamNameUp$ classifier, transported stream-name rows, and the
+regular-sequence interface rows. Theorems
+\ref{thm:regseqrat-finite-window-seal-coverage} and
+\ref{thm:regseqrat-finite-window-real-seal-interface} identify the same finite
+window as the place where the $\DyadicRatCoreUp$ observations, the
+$\RegSeqRatUp$ spine ledger, and the $\RealUp$ seal/readback ledger are read.
+Thus every accepted handoff factors through one displayed $\mathsf{BHist}$
+packet with the stated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows.
+
+For the reverse direction, start from such a shared $\mathsf{BHist}$ packet.
+The scoped stream-name interface repacks the $\StreamNameUp$ classifier and
+regularity spine rows, while the finite-window seal coverage theorem attaches
+the dyadic observation rows to that same window.
+
+Finally apply
+\autoref{thm:regseqrat-finite-window-real-seal-interface} and then
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. The first theorem
+turns the shared finite-window packet into the $\RealUp$ seal-facing package,
+and the second identifies that package as the finite seal handoff. Since every
+row used in both directions is one of the displayed four faces, no quotient
+carrier, host equality, completeness, arithmetic, order, or
+metric-completeness datum is introduced.
+\end{proof}
