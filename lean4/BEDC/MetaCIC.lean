@@ -16,6 +16,7 @@ import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
+import BEDC.MetaCIC.Decidable
 import BEDC.MetaCIC.TypedExamples
 import BEDC.MetaCIC.TypedExamples.Projections
 import BEDC.MetaCIC.TypedExamples.BasicApplications
