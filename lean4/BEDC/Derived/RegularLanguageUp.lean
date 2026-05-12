@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -228,5 +230,55 @@ theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskS
   exact
     ⟨runUnary, endpointUnary, routesUnary, provenanceUnary, boundaryUnary, runRow, endpointRow,
       routesRow, boundaryRow, boundarySig⟩
+
+theorem RegularLanguageAutomatonPacket_scoped_kernel_dependency_envelope
+    [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      envelope : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont provenance routes envelope ->
+        PkgSig bundle envelope pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row envelope ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+            (fun row : BHist => UnaryHistory row ∧ Cont provenance routes row)
+            (fun row : BHist => PkgSig bundle row pkg ∧ UnaryHistory provenance ∧
+              UnaryHistory routes)
+            (fun row row' : BHist => hsame row row') := by
+  intro packet envelopeRow envelopeSig
+  obtain ⟨_alphabetUnary, _statesUnary, _startUnary, _acceptUnary, _transitionUnary,
+    _wordUnary, _runUnary, _endpointUnary, _transportUnary, routesUnary, provenanceUnary,
+    _runRow, _endpointRow, _routesRow, _pkgSig⟩ := packet
+  have envelopeUnary : UnaryHistory envelope :=
+    unary_cont_closed provenanceUnary routesUnary envelopeRow
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro envelope ⟨hsame_refl envelope, envelopeUnary, envelopeSig⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRow
+        exact hsame_symm sameRow
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      obtain ⟨sameEnvelope, rowUnary, _rowSig⟩ := sourceRow
+      cases sameEnvelope
+      exact ⟨rowUnary, envelopeRow⟩
+    ledger_sound := by
+      intro _row sourceRow
+      obtain ⟨_sameEnvelope, _rowUnary, rowSig⟩ := sourceRow
+      exact ⟨rowSig, provenanceUnary, routesUnary⟩
+  }
 
 end BEDC.Derived.RegularLanguageUp
