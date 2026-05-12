@@ -149,6 +149,42 @@ The classifier in \autoref{def:compact-uniform-continuity-classifier} compares e
 The obligation surface of \autoref{thm:compact-uniform-continuity-namecert-obligations} and the handoff of \autoref{thm:compact-uniform-continuity-finite-net-handoff} use the same finite rows to produce the uniform precision history. Finally, \autoref{thm:compact-uniform-continuity-real-seal-boundary} states the real-seal boundary for these rows, so the exported packet remains a finite BEDC ledger and not a classical Heine--Cantor artifact.
 \end{proof}
 
+\begin{theorem}[CompactUniformContinuity modulus choice surface]
+\label{thm:compact-uniform-continuity-modulus-choice-surface}
+For every accepted $\CompactUniformContinuityUp$ packet, the uniform precision row consumed by the compact-uniform-continuity handoff is determined only by the finite $\mathsf{ProbeBundle}$ centers, the $\ContinuousMapUp$ pointwise-modulus rows attached to those centers, the positive $\RatUp$ radius ledger, and the finite lower-bound fold witness. It is not determined by an open cover, a sequential compactness argument, a selected real minimum, or a host modulus function.
+\end{theorem}
+\begin{proof}
+Project the packet through the carrier in \autoref{def:compact-uniform-continuity-carrier}. The only coordinates from which a precision row can be read are the finite $\mathsf{ProbeBundle}$ spine, the centerwise modulus ledger, the positive-radius ledger, and the fold witness.
+
+The classifier in \autoref{def:compact-uniform-continuity-classifier} preserves those rows componentwise. The finite-net handoff of \autoref{thm:compact-uniform-continuity-finite-net-handoff} and the radius-fold exactness statement of \autoref{thm:compact-uniform-continuity-radius-fold-exactness} then identify the consumed precision row with the displayed lower-bound fold output.
+
+Finally, \autoref{thm:compact-uniform-continuity-probebundle-coverage}, \autoref{thm:compact-uniform-continuity-metric-distance-routing}, and \autoref{thm:compact-uniform-continuity-non-escape-ledger} rule out any route through unrecorded compactness, host minima, or external modulus selection.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity center-radius compatibility]
+\label{thm:compact-uniform-continuity-center-radius-compatibility}
+In every accepted $\CompactUniformContinuityUp$ carrier, each bundled center in the finite $\mathsf{ProbeBundle}$ spine has a compatible half-radius row in the positive $\RatUp$ ledger. The source metric reads that place histories inside that half-radius ball and the target metric reads that consume the corresponding pointwise modulus are mediated by displayed $\mathsf{MetricDistanceWitness}$ rows.
+\end{theorem}
+\begin{proof}
+Read the finite-net coordinate and coverage ledger from \autoref{def:compact-uniform-continuity-carrier}. Each center history appears with the half-radius coverage row supplied by the compact packet and with the positive-radius data recorded in $R$.
+
+The radius-fold exactness theorem \autoref{thm:compact-uniform-continuity-radius-fold-exactness} supplies the comparison between the displayed precision row and every bundled half-radius. The ProbeBundle coverage theorem \autoref{thm:compact-uniform-continuity-probebundle-coverage} keeps the same center and half-radius rows under classifier transport.
+
+Metric access is then fixed by \autoref{thm:compact-uniform-continuity-metric-distance-routing}. Source reads into the center ball and target reads from the pointwise-modulus conclusion both pass through $\mathsf{MetricDistanceWitness}$ rows, and the non-escape ledger of \autoref{thm:compact-uniform-continuity-non-escape-ledger} leaves no direct host-metric read outside those witnesses.
+\end{proof}
+
+\begin{theorem}[CompactUniformContinuity uniform precision consumer route]
+\label{thm:compact-uniform-continuity-uniform-precision-consumer-route}
+For an accepted $\CompactUniformContinuityUp$ packet, any consumer read below the displayed precision factors through compact finite coverage, one bundled center row, the center's $\ContinuousMapUp$ modulus row, source and target $\mathsf{MetricDistanceWitness}$ rows, the transported $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\CompactUniformContinuityUp}$ row. The route contains no open-cover compactness, sequential compactness, selected real minimum, or host modulus.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and classifier. By \autoref{def:compact-uniform-continuity-carrier} the consumer can read only the displayed compact, continuous-map, metric, rational, transport, route, package, and naming coordinates, and by \autoref{def:compact-uniform-continuity-classifier} those coordinates are the complete comparison surface.
+
+The finite-net handoff in \autoref{thm:compact-uniform-continuity-finite-net-handoff} routes a read below the displayed precision through a covered center. The radius-fold exactness statement \autoref{thm:compact-uniform-continuity-radius-fold-exactness} supplies the half-radius comparison needed to enter the center row, and \autoref{thm:compact-uniform-continuity-center-radius-compatibility} identifies the compatible metric witnesses used there.
+
+At the center, the pointwise-modulus row from $\ContinuousMapUp$ produces the target tolerance read. The ProbeBundle coverage theorem, metric-distance routing theorem, modulus choice surface, and non-escape ledger then show that the whole consumer route is carried by $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance rather than by open covers, sequences, host minima, or an external modulus.
+\end{proof}
+
 \closureat{CompactUniformContinuityUp}{seedStr}
 
 \begin{closurestatus}{\CompactUniformContinuityUp}
