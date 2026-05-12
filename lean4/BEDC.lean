@@ -1185,9 +1185,9 @@ import BEDC.Derived.FieldUp.ContextualActionThreefold
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 import BEDC.MetaCIC
+import BEDC.MetaCIC.Confluence.Core
+import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
-import BEDC.MetaCIC.Confluence.SourceShapes
-import BEDC.MetaCIC.Confluence.Atoms
 import BEDC.MetaCIC.Substitution.Core
 /- Capstone formalizations. -/
 import BEDC.Capstone

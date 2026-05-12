@@ -1,4 +1,4 @@
-import BEDC.MetaCIC.Confluence
+import BEDC.MetaCIC.Confluence.Core
 
 namespace BEDC.MetaCIC
 
@@ -331,5 +331,6 @@ theorem betaStar_sort_join
       (And.intro
         (BetaStarStep.refl Term.sort)
         (BetaStarStep.refl Term.sort))
+
 
 end BEDC.MetaCIC

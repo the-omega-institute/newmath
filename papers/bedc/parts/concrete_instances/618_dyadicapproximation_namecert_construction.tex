@@ -57,6 +57,7 @@ Every accepted $\DyadicApproximationUp$ packet $A=(n,d,w,l,p)$ exports to a $\Re
 
 If two accepted packets have the same precision and equivalent finite-window readback after componentwise $\hsame$ transport, then their $\RealUp$ seal candidates receive the same finite source surface. The handoff introduces no quotient real, host real equality, metric-completion point, or choice-selected representative.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicApproximationUp.DyadicApproximationCarrier\_real\_seal\_handoff}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-approximation-carrier}. The window row $w$ supplies the scheduled finite observations, and the ledger row $l$ records how those observations are read as a regular-sequence source for the $\RealUp$ boundary.
 
@@ -219,6 +220,7 @@ only the five displayed coordinates. Hence the common route has no coordinate
 for a quotient real, host equality, completion point, or selected
 representative.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicApproximationUp.DyadicApproximationCarrier\_real\_seal\_radius\_route\_certificate}
 
 \begin{theorem}[DyadicApproximation ledger exclusion scope]\label{thm:dyadicapproximation-ledger-exclusion-scope}
 The scoped $\DyadicApproximationUp$ ledger exports no quotient stream, selected
@@ -692,6 +694,48 @@ Finally route the seal boundary through
 coordinate for quotient-real equality, host equality, completion points,
 trichotomy, selected representatives, located subsets, or choice data, the
 overlap-directed read cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[DyadicApproximation overlap seal idempotence]\label{thm:dyadicapproximation-overlap-seal-idempotence}
+Let two accepted $\DyadicApproximationUp$ packets satisfy the hypotheses of
+\autoref{thm:dyadicapproximation-overlap-directed-seal-exhaustion}, and let
+their resulting finite $\RealUp$ seal boundary be read again through any
+compatible displayed overlap refinement. Then the second read factors through
+the same common precision row, the same transported dyadic endpoint rows, the
+same $\RationalIntervalUp$ refinement window, the same $\RegSeqRatUp$ source
+readback, the same visible $\hsame$ transports, the same visible $\Cont$
+routes, the same $\mathsf{Pkg}$ provenance, and the same local
+$\NameCert_{\DyadicApproximationUp}$ rows as the first seal read.
+
+Thus repeated $\RealUp$ seal reads through a fixed finite overlap boundary are
+idempotent as displayed packet reads. The idempotence assertion exports no
+quotient-real equality, host real equality, completion point, trichotomy row,
+selected representative, located subset, or choice principle.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:dyadicapproximation-overlap-directed-seal-exhaustion} to the two
+accepted packets and their displayed directed common precision refinement. This
+identifies the first $\RealUp$ seal read with the finite overlap boundary
+containing the common precision row, transported endpoint rows, rational
+interval window, regular rational source readback, visible transports,
+continuations, package provenance, and local certificate rows.
+
+Next apply \autoref{thm:dyadicapproximation-terminal-window-idempotence} to the
+compatible displayed overlap refinement used by the second read. Re-reading a
+terminal finite window through a compatible refinement returns the same terminal
+window, so the second seal read cannot introduce a new precision row, endpoint
+row, consumer route, package row, or local certificate row.
+
+Finally apply
+\autoref{thm:dyadicapproximation-window-regseqrat-source-exhaustion}. It
+identifies the unique $\RegSeqRatUp$-facing source surface seen by the
+$\RationalIntervalUp$ and $\RealUp$ consumers, and therefore transports the
+second seal read back to the same source surface already named by the first
+overlap-directed read. Since each cited result is a statement about finite
+displayed packet rows, the repeated read has no coordinate for quotient-real
+equality, host real equality, completion points, trichotomy, selected
+representatives, located subsets, or choice data.
 \end{proof}
 
 \closureat{DyadicApproximationUp}{seedStr}
