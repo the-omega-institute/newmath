@@ -228,6 +228,22 @@ theorem betaParallel_var_unique_target {i : Idx} {t : Term}
   cases h
   rfl
 
+theorem betaStarStep_of_betaParallel_atom {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaParallel t t') :
+    BetaStarStep t t' := by
+  cases hatom with
+  | inl hsort =>
+      cases hsort
+      cases betaParallel_sort_unique h
+      exact BetaStarStep.refl Term.sort
+  | inr hvar =>
+      cases hvar with
+      | intro i hi =>
+          cases hi
+          cases betaParallel_var_unique h
+          exact BetaStarStep.refl (Term.var i)
+
 theorem betaParallel_join_refl_left {t u : Term} :
     BetaParallel t u →
     Exists (fun v => BetaParallel t v ∧ BetaParallel u v) := by
