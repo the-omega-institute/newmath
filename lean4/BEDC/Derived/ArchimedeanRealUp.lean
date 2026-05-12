@@ -124,4 +124,73 @@ theorem ArchimedeanRealCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro provenancePkg rowUnary
   }
 
+theorem ArchimedeanRealCarrier_transported_bound_stability [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert realName' ratBound' dyadicBound' streamWindow' regseqHandoff'
+      boundLedger' transport' routes' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      hsame realName realName' ->
+        hsame ratBound ratBound' ->
+          hsame dyadicBound dyadicBound' ->
+            hsame streamWindow streamWindow' ->
+              hsame routes routes' ->
+                hsame provenance provenance' ->
+                  hsame localCert localCert' ->
+                    Cont realName' streamWindow' regseqHandoff' ->
+                      Cont ratBound' dyadicBound' boundLedger' ->
+                        Cont regseqHandoff' boundLedger' transport' ->
+                          Cont transport' routes' provenance' ->
+                            PkgSig bundle provenance' pkg ->
+                              PkgSig bundle localCert' pkg ->
+                                ArchimedeanRealCarrier realName' ratBound' dyadicBound'
+                                      streamWindow' regseqHandoff' boundLedger' transport'
+                                      routes' provenance' localCert' bundle pkg ∧
+                                  hsame regseqHandoff regseqHandoff' ∧
+                                    hsame boundLedger boundLedger' ∧
+                                      hsame transport transport' := by
+  intro carrier sameRealName sameRatBound sameDyadicBound sameStreamWindow sameRoutes
+    sameProvenance sameLocalCert realNameStreamWindowRegseq' ratDyadicBoundLedger'
+    regseqLedgerTransport' transportRoutesProvenance' provenancePkg' localCertPkg'
+  obtain ⟨realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    _regseqHandoffUnary, _boundLedgerUnary, _transportUnary, routesUnary, provenanceUnary,
+    localCertUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger, regseqLedgerTransport,
+    transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ := carrier
+  have realNameUnary' : UnaryHistory realName' :=
+    unary_transport realNameUnary sameRealName
+  have ratBoundUnary' : UnaryHistory ratBound' :=
+    unary_transport ratBoundUnary sameRatBound
+  have dyadicBoundUnary' : UnaryHistory dyadicBound' :=
+    unary_transport dyadicBoundUnary sameDyadicBound
+  have streamWindowUnary' : UnaryHistory streamWindow' :=
+    unary_transport streamWindowUnary sameStreamWindow
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_transport localCertUnary sameLocalCert
+  have regseqSame : hsame regseqHandoff regseqHandoff' :=
+    cont_respects_hsame sameRealName sameStreamWindow realNameStreamWindowRegseq
+      realNameStreamWindowRegseq'
+  have boundLedgerSame : hsame boundLedger boundLedger' :=
+    cont_respects_hsame sameRatBound sameDyadicBound ratDyadicBoundLedger
+      ratDyadicBoundLedger'
+  have regseqHandoffUnary' : UnaryHistory regseqHandoff' :=
+    unary_cont_closed realNameUnary' streamWindowUnary' realNameStreamWindowRegseq'
+  have boundLedgerUnary' : UnaryHistory boundLedger' :=
+    unary_cont_closed ratBoundUnary' dyadicBoundUnary' ratDyadicBoundLedger'
+  have transportSame : hsame transport transport' :=
+    cont_respects_hsame regseqSame boundLedgerSame regseqLedgerTransport
+      regseqLedgerTransport'
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed regseqHandoffUnary' boundLedgerUnary' regseqLedgerTransport'
+  exact
+    ⟨⟨realNameUnary', ratBoundUnary', dyadicBoundUnary', streamWindowUnary',
+      regseqHandoffUnary', boundLedgerUnary', transportUnary', routesUnary',
+      provenanceUnary', localCertUnary', realNameStreamWindowRegseq', ratDyadicBoundLedger',
+      regseqLedgerTransport', transportRoutesProvenance', provenancePkg', localCertPkg'⟩,
+      regseqSame, boundLedgerSame, transportSame⟩
+
 end BEDC.Derived.ArchimedeanRealUp
