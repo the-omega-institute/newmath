@@ -67,3 +67,42 @@ only these projected rows reconstructs the public posterior read, while any
 read requiring a host kernel, an unstated probability space, or an external
 density equality has no source field in the packet.
 \end{proof}
+
+\begin{definition}[Bayesian posterior packet carrier]
+\label{def:bayesian-posterior-packet-carrier}
+A $\BayesianUp$ posterior packet is a finite $\BHist$ packet
+$$
+\mathcal{B}=(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,\beta,H,N,P)
+$$
+with the following displayed rows. The rows $\mathcal{D}_{\pi}$ and $\mathcal{D}_{\omega}$ are $\NameCert_{\DistributionUp}$ source certificates carrying, respectively, the prior distribution row $\pi$ and the posterior distribution endpoint $\omega$ as distribution data in the sense of \autoref{def:distribution-pushforward-carrier}. The row $\mathcal{C}$ is a $\NameCert_{\CondExpUp}$ source certificate carrying the likelihood row $\lambda$ and evidence row $e$ through the singleton conditional-expectation packet of \autoref{thm:condexp-carrier-obligation}. The row $\beta$ is the Bayesian update history computed from $\pi$, $\lambda$, and $e$. The classifier row is
+$$
+H=\hsame(\beta,\omega),
+$$
+and the normalisation row is
+$$
+N=\Cont(\pi,\lambda,e;\omega).
+$$
+The provenance row $P:\Pkg$ names exactly the two distribution certificates, the conditional-expectation certificate, the prior row, the likelihood row, the evidence row, the posterior endpoint, the classifier row, and the normalisation row. The packet is accepted precisely when all these rows are present with this provenance and no additional posterior-source coordinate is exposed.
+\end{definition}
+
+\begin{theorem}[Bayesian posterior packet carrier introduction]
+\label{thm:bayesian-posterior-packet-carrier-introduction}
+Suppose the following data are supplied under the $\BayesianUp$ setup: a $\NameCert_{\DistributionUp}$ prior source carrying $\pi$, a $\NameCert_{\DistributionUp}$ posterior source carrying $\omega$, a $\NameCert_{\CondExpUp}$ row carrying the likelihood and evidence rows $\lambda$ and $e$, a Bayesian update history $\beta$ read from $\pi$, $\lambda$, and $e$, a comparison row $H=\hsame(\beta,\omega)$, a normalisation row $N=\Cont(\pi,\lambda,e;\omega)$, and a provenance row $P:\Pkg$ naming exactly these sources and rows. Then these rows assemble an accepted $\BayesianUp$ posterior packet in the carrier of \autoref{def:bayesian-posterior-packet-carrier}. Its public posterior source is exactly
+$$
+(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,H,N,P).
+$$
+In particular, every public posterior read factors through the displayed prior, likelihood, evidence, posterior, classifier, normalisation, and provenance rows, and no host probability kernel, ambient measurable-space quotient, or external conditional-density equality is part of the accepted packet.
+\end{theorem}
+\begin{proof}
+Form the tuple
+$$
+\mathcal{B}=(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,\beta,H,N,P).
+$$
+The two distribution certificates license the prior and posterior distribution rows by the carrier discipline of \autoref{def:distribution-pushforward-carrier}. The conditional-expectation certificate licenses the likelihood and evidence rows by the packet discipline of \autoref{thm:condexp-carrier-obligation}.
+
+The supplied comparison row $H$ identifies the computed Bayesian update history $\beta$ with the displayed posterior endpoint $\omega$ through $\hsame$. The supplied normalisation row $N$ records that the visible prior, likelihood, and evidence rows continue to the visible posterior endpoint. The provenance row $P$ names exactly these dependency, classifier, and continuation rows.
+
+These are precisely the acceptance clauses of \autoref{def:bayesian-posterior-packet-carrier}, so the tuple is an accepted $\BayesianUp$ posterior packet. Projection of an accepted packet returns only its displayed coordinates. Hence every public posterior read is obtained from the two distribution sources, the conditional-expectation source, $\pi$, $\lambda$, $e$, $\omega$, $H$, $N$, and $P$.
+
+Conversely, each row in the displayed source list is a coordinate of the accepted tuple, so the list is not missing any public posterior-source row. Since the carrier definition contains no coordinate for a host probability kernel, an ambient measurable-space quotient, or an external conditional-density equality, no such datum can be read from the accepted packet.
+\end{proof}
