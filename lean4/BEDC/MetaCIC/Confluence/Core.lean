@@ -216,6 +216,12 @@ theorem betaParallel_app_beta_redex {f a _f' a' d b : Term}
     BetaParallel (Term.app f a) (substitute 0 a' b) := by
   exact BetaParallel.appBeta hf ha
 
+theorem betaParallel_app_select_beta {f a _f' a' d b : Term}
+    (hf : BetaParallel f (Term.lam d b))
+    (ha : BetaParallel a a') :
+    BetaParallel (Term.app f a) (substitute 0 a' b) := by
+  exact BetaParallel.appBeta hf ha
+
 theorem betaStep_to_parallel {t u : Term} :
     BetaStep t u → BetaParallel t u := by
   intro h
