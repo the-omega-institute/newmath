@@ -88,6 +88,41 @@ read of the run endpoint is reconstructed by these start, transition, and
 spine rows.
 \end{proof}
 
+\begin{theorem}[RegularLanguage run-prefix restriction]
+\label{thm:regularlanguage-run-prefix-restriction}
+For an accepted $\RegularLanguageUp$ packet and any displayed finite prefix of
+its $\ListUp$ input word spine, the restricted run ledger is determined by the
+same start-state row, the transition table rows along the prefix, the prefix
+word rows, componentwise $\hsame$ rows, $\Cont$ routes, and $\Pkg$ provenance.
+The endpoint of the restricted run transports to the corresponding endpoint of
+the full accepted run along the displayed classifier rows.
+
+This restriction introduces no host language quotient, external regular
+expression equivalence, minimization datum, infinite automaton, or hidden
+automaton state.
+\end{theorem}
+\begin{proof}
+Induct on the displayed prefix. In the empty-prefix case, the restricted run
+ledger is the start-state row, which is the empty-spine case of
+\autoref{thm:regularlanguage-deterministic-run-ledger}.
+
+For a cons prefix, read the head symbol and the current state from the packet.
+The deterministic transition table supplies the unique next displayed state,
+and the $\Cont$ route passes the remaining prefix to the induction hypothesis.
+Thus the restricted ledger is determined only by the prefix word rows and the
+transition rows exposed along that prefix.
+
+Apply \autoref{thm:regularlanguage-deterministic-run-ledger} to the full word
+spine and to the displayed prefix restriction. The two ledgers agree on every
+state reached inside the prefix because they use the same start row and the
+same transition-table entries.
+
+Finally use \autoref{thm:regularlanguage-classified-word-transport} for the
+transported endpoint rows. The endpoint comparison is componentwise through
+$\hsame$, $\Cont$, and $\Pkg$, and no external language quotient,
+minimization, infinite automaton, or hidden state is available in the packet.
+\end{proof}
+
 \begin{theorem}[RegularLanguage classified word transport]
 \label{thm:regularlanguage-classified-word-transport}
 If two accepted $\RegularLanguageUp$ packets classify together, then their
@@ -222,6 +257,37 @@ Since none of the carrier or obligation rows is a host language quotient,
 regular-expression equivalence, minimization result, infinite automaton,
 selected recognizer semantics, or hidden automaton state, the public packet
 exports no such object.
+\end{proof}
+
+\begin{theorem}[RegularLanguage standard finite-automaton bridge boundary]
+\label{thm:regularlanguage-standard-automaton-bridge-boundary}
+The standard finite-automaton reading of the public $\RegularLanguageUp$ packet
+consumes exactly the finite state row, start row, accepting row, transition
+ledger, input-word $\ListUp$ rows, deterministic run ledger, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ surface already
+exported by \autoref{thm:regularlanguage-public-accepted-word-export}.
+
+The bridge boundary supplies no minimization theorem, Kleene algebra surface,
+pumping-lemma witness, language-complement closure, or machine-checked bridge
+evidence.
+\end{theorem}
+\begin{proof}
+Read the automaton rows from
+\autoref{def:regularlanguage-finite-automaton-carrier}. The finite state row,
+start row, accepting row, transition table, and input-word $\ListUp$ spine are
+all displayed fields of the carrier.
+
+Use \autoref{def:regularlanguage-classifier} to bind accepted-word reads to the
+componentwise $\hsame$ transport, then apply
+\autoref{thm:regularlanguage-deterministic-run-ledger}. This supplies the
+finite deterministic run ledger over exactly the displayed transition and word
+rows.
+
+Finally apply \autoref{thm:regularlanguage-public-accepted-word-export}. It
+repackages those rows with the $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\NameCert$ surface, while the excluded minimization, algebraic, pumping,
+complement, and machine-checking objects have no coordinate in the public
+packet.
 \end{proof}
 
 \closureat{RegularLanguageUp}{seedStr}
