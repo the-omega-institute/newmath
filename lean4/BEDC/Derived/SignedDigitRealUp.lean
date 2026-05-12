@@ -103,4 +103,25 @@ theorem SignedDigitRealPacket_window_classifier_stability [AskSetup] [PackageSet
       sealRows.right.right.right.right.left, sealRows.right.right.right.right.right.left,
       sealRows.right.right.right.right.right.right⟩
 
+theorem SignedDigitRealPacket_seal_ledger_exactness [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      Cont enclosure located sealRead ->
+        hsame sealRead sealRow ->
+          UnaryHistory enclosure ∧ UnaryHistory located ∧ UnaryHistory sealRow ∧
+            UnaryHistory sealRead ∧ Cont enclosure located sealRow ∧
+              Cont enclosure located sealRead ∧ hsame sealRead sealRow ∧
+                PkgSig bundle cert pkg := by
+  intro packet sealReadRoute sealReadSame
+  obtain ⟨_streamUnary, _windowUnary, enclosureUnary, locatedUnary, sealRowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _certUnary, sealRoute, _provenanceRoute,
+    certSig⟩ := packet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed enclosureUnary locatedUnary sealReadRoute
+  exact
+    ⟨enclosureUnary, locatedUnary, sealRowUnary, sealReadUnary, sealRoute, sealReadRoute,
+      sealReadSame, certSig⟩
+
 end BEDC.Derived.SignedDigitRealUp
