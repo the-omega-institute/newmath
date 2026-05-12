@@ -152,4 +152,31 @@ theorem RealDiagonalCompletionSourcePacket_seal_factorization [AskSetup] [Packag
       exactness.right.right.right.right.right.right.left,
       exactness.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem RealDiagonalCompletionSourcePacket_window_extraction [AskSetup] [PackageSetup]
+    {inputFamily modulus selector schedule readback sealRow provenance localCert precision
+      selectedWindow selectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealDiagonalCompletionSourcePacket inputFamily modulus selector schedule readback sealRow
+        provenance localCert bundle pkg ->
+      Cont modulus selector precision ->
+        Cont precision schedule selectedWindow ->
+          Cont selectedWindow readback selectedRead ->
+            UnaryHistory precision ∧ UnaryHistory selectedWindow ∧
+              UnaryHistory selectedRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet precisionRoute windowRoute readRoute
+  obtain ⟨inputUnary, modulusUnary, scheduleUnary, _sealUnary, _provenanceUnary, selectorRoute,
+    readbackRoute, _localCertRoute, _sealRoute, provenancePkg⟩ := packet
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed inputUnary modulusUnary selectorRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectorUnary scheduleUnary readbackRoute
+  have precisionUnary : UnaryHistory precision :=
+    unary_cont_closed modulusUnary selectorUnary precisionRoute
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed precisionUnary scheduleUnary windowRoute
+  have selectedReadUnary : UnaryHistory selectedRead :=
+    unary_cont_closed selectedWindowUnary readbackUnary readRoute
+  exact ⟨precisionUnary, selectedWindowUnary, selectedReadUnary, provenancePkg⟩
+
 end BEDC.Derived.RealDiagonalCompletionUp
