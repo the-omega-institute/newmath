@@ -450,6 +450,65 @@ theorem DyadicTailBoundCarrier_ledger_append_stability [AskSetup] [PackageSetup]
       enlargedLedgerCont,
       enlargedSealCont⟩
 
+theorem DyadicTailBoundCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row sealRow ∧
+            DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport
+              route provenance localCert bundle pkg)
+        (fun row : BHist => hsame row sealRow)
+        (fun row : BHist => hsame row sealRow ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  intro carrier
+  have carrierProof := carrier
+  obtain ⟨_precisionUnary, _scheduleUnary, _toleranceUnary, _readbackUnary, _sealUnary,
+    _provenanceUnary, _scheduleToleranceLedger, _ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, pkgSig⟩ := carrier
+  have sourceSeal :
+      (fun row : BHist =>
+        hsame row sealRow ∧
+          DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport
+            route provenance localCert bundle pkg) sealRow := by
+    exact ⟨hsame_refl sealRow, carrierProof⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row sealRow ∧
+            DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport
+              route provenance localCert bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro sealRow sourceSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other same source
+        constructor
+        · exact hsame_trans (hsame_symm same) source.left
+        · exact source.right
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro row source
+      exact source.left
+    ledger_sound := by
+      intro row source
+      exact ⟨source.left, pkgSig⟩
+  }
+
 theorem DyadicTailBoundCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {precision schedule tolerance ledger readback sealRow transport route provenance
       localCert : BHist}
