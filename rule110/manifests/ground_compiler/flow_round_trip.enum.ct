@@ -1,0 +1,16 @@
+# flow_round_trip.enum.ct
+# Lean targets:
+#   BEDC.GroundCompiler.ChannelEncoding.flow_level_round_trip
+#   BEDC.GroundCompiler.ChannelEncoding.channel_conservativity
+#   BEDC.GroundCompiler.ChannelEncoding.prototype_roundtrip_correctness
+#
+# Input shape:
+#   FlowEncoding(S), with all events decoded through the same GroundCompiler
+#   channel used by rule110 manifests.
+PRODUCTIONS 0
+ASSERTIONS 5
+case empty_flow:        input=            ; theorem=flow_level_round_trip ; events=0 ; round_trip=yes ; conservative_marks=yes ; canonical=yes
+case single_empty:      input=11          ; theorem=flow_level_round_trip ; events=1 ; round_trip=yes ; conservative_marks=yes ; canonical=yes
+case b0_then_b1:        input=0111011     ; theorem=flow_level_round_trip ; events=2 ; round_trip=yes ; conservative_marks=yes ; canonical=yes
+case mixed_three:       input=0101110011011 ; theorem=prototype_roundtrip_correctness ; events=3 ; round_trip=yes ; conservative_marks=yes ; canonical=yes
+case long_payload_pair: input=0100101100101011 ; theorem=channel_conservativity ; events=2 ; round_trip=yes ; conservative_marks=yes ; canonical=yes
