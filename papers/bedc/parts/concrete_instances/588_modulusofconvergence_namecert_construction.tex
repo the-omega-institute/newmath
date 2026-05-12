@@ -197,6 +197,7 @@ The packet preserves the displayed $\DyadicRatCoreUp$, $\StreamNameUp$,
 $\RegSeqRatUp$, and $\RealUp$ anchors. It excludes quotient completion,
 selected real limits, and global threshold choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_scoped\_dependency\_packet}
 \begin{proof}
 Project the seven carrier coordinates of
 \autoref{def:modulusofconvergence-bhist-carrier}. They are the precision
@@ -402,6 +403,46 @@ Finally apply \autoref{thm:modulusofconvergence-standard-bridge}. The standard
 explicit-modulus bridge reads exactly the displayed BEDC rows, so narrowing to
 a later tail cannot introduce quotient completion, a selected real limit, a
 global threshold choice outside the ledger, or host real equality.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence synchronized double-tail restriction]
+\label{thm:modulusofconvergence-synchronized-double-tail-restriction}
+Let an accepted $\ModulusOfConvergenceUp$ $\BHist$ packet display a precision
+request, unary threshold selector, modulus row, $\StreamNameUp$ observation
+schedule, $\RegSeqRatUp$ late-window witness, $\DyadicRatCoreUp$ endpoint
+ledger, dependency ledger, $\mathsf{Pkg}$ provenance, and local $\NameCert$
+row. Suppose it also displays two unary tail restrictions, each connected to
+the next packet by concrete $\Cont$ rows. The twice-restricted packet preserves
+the same precision request, selector, modulus row, late-window witness,
+dependency ledger, package provenance, and NameCert row as the original packet.
+
+Moreover, every $\RegSeqRatUp$ or $\RealUp$ consumer of the second tail factors
+through the original accepted packet, using only the two displayed $\Cont$
+windows and the finite rows already present in that packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:modulusofconvergence-tail-restriction-stability} to the
+first displayed tail. This keeps the precision request, unary threshold
+selector, modulus row, late-window witness, dependency ledger, package
+provenance, and local $\NameCert$ row on the restricted packet.
+
+Apply \autoref{thm:modulusofconvergence-tail-restriction-stability} again to
+the restricted packet and its second displayed tail. The same rows are preserved
+through the second restriction, so the twice-restricted packet still reads the
+original finite convergence-rate data.
+
+Use \autoref{thm:modulusofconvergence-composition-stability} to compose the two
+displayed $\Cont$ windows. The composite window identifies the second tail as a
+single displayed restriction of the original packet, without introducing a new
+threshold choice or hidden representative.
+
+Finally combine \autoref{thm:modulusofconvergence-ledger-exactness},
+\autoref{thm:modulusofconvergence-realup-public-export}, and
+\autoref{thm:modulusofconvergence-standard-bridge}. Ledger exactness identifies
+the finite rows available to a consumer, the public export supplies the
+$\RegSeqRatUp$ and $\RealUp$ read surface, and the bridge shows that the second
+tail consumer factors through the original packet rather than through any
+quotient completion, selected real limit, or host real equality.
 \end{proof}
 
 \closureat{ModulusOfConvergenceUp}{obligationStr}
