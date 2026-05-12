@@ -56,6 +56,43 @@ Apply the ledger-exactness clause of \autoref{thm:archimedean-real-namecert-obli
 
 Thus the exported witness is exactly the finite pair $(Q,D)$ with its ledger $B$ and provenance routes $H,C,P,N$. No coordinate of the packet is a supremum operator, a selected least bound, a quotient of streams, or a completeness principle, so none of those objects is available to a consumer of the rational-bound witness.
 \end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealPacket\_rational\_bound\_witness}
+
+\begin{theorem}[ArchimedeanReal transported bound stability]
+\label{thm:archimedean-real-transported-bound-stability}
+Let $A=(R,Q,D,S,G,B,H,C,P,N)$ and $A'=(R',Q',D',S',G',B',H',C',P',N')$ be accepted $\ArchimedeanRealUp$ packets. If the real-name row, rational bound row, dyadic bound row, stream window, regular-Cauchy handoff, bound ledger, transport table, continuation table, provenance row, and local naming row are replaced only by rows classified through the displayed $\hsame$ and $\Cont$ routes, then the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness} is transported unchanged as a witness surface: the exported $\RatUp$ row, $\DyadicRatCoreUp$ row, and finite ledger comparison remain the same displayed bound rows for the classified $\RealUp$ name.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:archimedean-real-carrier} stores $Q$, $D$, and $B$ as explicit coordinates, together with the transport table $H$ and continuation table $C$. The NameCert obligations state that classification acts componentwise on exactly these rows.
+
+Apply \autoref{thm:archimedean-real-rational-bound-witness}. The witness is not an external bound; it is the visible pair $Q,D$ with the ledger $B$ comparing inspected $\RegSeqRatUp$ observations against those rows.
+
+After replacing the packet by classified rows, the displayed $\hsame$ and $\Cont$ routes carry the same $Q,D,B$ witness surface to $A'$. Therefore the rational and dyadic bound rows remain stable for the transported $\RealUp$ name.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal consumer bound handoff]
+\label{thm:archimedean-real-consumer-bound-handoff}
+Every $\RealUp$ order, locatedness, or completion-facing consumer of an accepted $\ArchimedeanRealUp$ packet receives the displayed rows $Q,D,S,G,B,H,C,P,N$ before it uses the bound on $R$. In particular, the consumer reads the rational bound through $\RatUp$, the dyadic presentation through $\DyadicRatCoreUp$, finite observations through $\StreamNameUp$ and $\RegSeqRatUp$, and the comparison through the ledger $B$ with its transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier tuple. The real name $R$ is not exported with a bare boundedness assertion; the packet also carries $Q,D,S,G,B,H,C,P,N$.
+
+The rational-bound witness theorem identifies the witness used by a consumer as $Q,D$ together with the ledger $B$. The NameCert obligations further require the consumer-facing export to preserve the stream window, regular-Cauchy handoff, transport rows, continuation routes, provenance, and local naming row.
+
+Thus any order, locatedness, or completion-facing read of the bound must pass through those displayed rows before the bound is used. The handoff is a finite BEDC packet over the visible witness surface.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal bound-ledger non-escape]
+\label{thm:archimedean-real-bound-ledger-nonescape}
+An accepted $\ArchimedeanRealUp$ packet exports no supremum, no selected least bound, no quotient stream equality, no host limit, and no ambient completeness coordinate. Its bound surface is only the displayed $\RatUp$ row $Q$, $\DyadicRatCoreUp$ row $D$, finite inspection rows $S,G$, ledger $B$, transport rows $H$, continuation rows $C$, provenance row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:archimedean-real-carrier}. The listed coordinates are exactly $R,Q,D,S,G,B,H,C,P,N$; none of them is a supremum operator, selected least-bound witness, quotient stream equality, host limit, or ambient completeness datum.
+
+The NameCert obligations and rational-bound witness theorem both read boundedness from the same finite ledger surface. Since those theorems use only the carrier coordinates and their displayed transports, there is no additional export channel for a host-side bound object.
+
+Therefore every consumer of the Archimedean bound remains inside the finite $Q,D,S,G,B,H,C,P,N$ ledger boundary.
+\end{proof}
 
 \closureat{ArchimedeanRealUp}{seedStr}
 
