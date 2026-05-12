@@ -1,0 +1,90 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.LocatedCauchyUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def LocatedCauchyCarrier [AskSetup] [PackageSetup]
+    (schedule endpoints modulus witnesses transport routes provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory schedule ∧ UnaryHistory endpoints ∧ UnaryHistory modulus ∧
+    UnaryHistory witnesses ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+      UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont schedule endpoints modulus ∧
+        Cont modulus witnesses transport ∧ Cont transport routes provenance ∧
+          Cont provenance nameRow routes ∧ PkgSig bundle provenance pkg
+
+theorem LocatedCauchyCarrier_window_stability [AskSetup] [PackageSetup]
+    {schedule endpoints modulus witnesses transport routes provenance nameRow schedule' endpoints'
+      modulus' witnesses' transport' routes' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyCarrier schedule endpoints modulus witnesses transport routes provenance nameRow
+        bundle pkg ->
+      hsame schedule schedule' ->
+        hsame endpoints endpoints' ->
+          hsame witnesses witnesses' ->
+            hsame routes routes' ->
+              hsame provenance provenance' ->
+                hsame nameRow nameRow' ->
+                  Cont schedule' endpoints' modulus' ->
+                    Cont modulus' witnesses' transport' ->
+                      Cont transport' routes' provenance' ->
+                        Cont provenance' nameRow' routes' ->
+                          LocatedCauchyCarrier schedule' endpoints' modulus' witnesses'
+                              transport' routes' provenance' nameRow' bundle pkg ∧
+                            hsame modulus modulus' ∧ hsame transport transport' := by
+  intro carrier sameSchedule sameEndpoints sameWitnesses sameRoutes sameProvenance sameNameRow
+    scheduleEndpointsModulus' modulusWitnessesTransport' transportRoutesProvenance'
+    provenanceNameRoutes'
+  rcases carrier with
+    ⟨scheduleUnary, endpointsUnary, modulusUnary, witnessesUnary, transportUnary, routesUnary,
+      provenanceUnary, nameUnary, scheduleEndpointsModulus, modulusWitnessesTransport,
+      transportRoutesProvenance, provenanceNameRoutes, pkgSig⟩
+  have sameModulus : hsame modulus modulus' :=
+    cont_respects_hsame sameSchedule sameEndpoints scheduleEndpointsModulus
+      scheduleEndpointsModulus'
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameModulus sameWitnesses modulusWitnessesTransport
+      modulusWitnessesTransport'
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have endpointsUnary' : UnaryHistory endpoints' :=
+    unary_transport endpointsUnary sameEndpoints
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have witnessesUnary' : UnaryHistory witnesses' :=
+    unary_transport witnessesUnary sameWitnesses
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory nameRow' :=
+    unary_transport nameUnary sameNameRow
+  cases sameProvenance
+  exact And.intro
+    (And.intro scheduleUnary'
+      (And.intro endpointsUnary'
+        (And.intro modulusUnary'
+          (And.intro witnessesUnary'
+            (And.intro transportUnary'
+              (And.intro routesUnary'
+                (And.intro provenanceUnary'
+                  (And.intro nameUnary'
+                    (And.intro scheduleEndpointsModulus'
+                      (And.intro modulusWitnessesTransport'
+                        (And.intro transportRoutesProvenance'
+                          (And.intro provenanceNameRoutes' pkgSig))))))))))))
+    (And.intro sameModulus sameTransport)
+
+end BEDC.Derived.LocatedCauchyUp
