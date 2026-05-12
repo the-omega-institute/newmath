@@ -18,6 +18,12 @@ theorem var_one_in_double_sort_ctx :
   apply HasType.varRule
   rfl
 
+/-- 三 sort ctx 中, var 1 指向中间的 sort, 其类型为 sort。 -/
+theorem middle_var_in_triple_sort :
+    HasType [Term.sort, Term.sort, Term.sort] (Term.var 1) Term.sort := by
+  apply HasType.varRule
+  rfl
+
 theorem two_sort_vars :
     HasType [Term.sort, Term.sort] (Term.pi (Term.var 0) (Term.var 1)) Term.sort := by
   apply HasType.piRule
@@ -523,6 +529,20 @@ theorem app_with_pi_context :
       (HasType.sortRule [Term.pi Term.sort Term.sort])
       (HasType.varRule [Term.sort, Term.pi Term.sort Term.sort] 1
         (Term.pi Term.sort Term.sort) rfl))
+    (HasType.sortRule [Term.pi Term.sort Term.sort])
+
+/-- pi sort sort ctx 下: var 0 作为函数应用到 sort, 结果类型为 sort。 -/
+theorem app_pi_var_to_sort :
+    HasType [Term.pi Term.sort Term.sort]
+      (Term.app (Term.var 0) Term.sort)
+      Term.sort := by
+  exact HasType.appRule [Term.pi Term.sort Term.sort]
+    (Term.var 0)
+    Term.sort
+    Term.sort
+    Term.sort
+    (HasType.varRule [Term.pi Term.sort Term.sort] 0
+      (Term.pi Term.sort Term.sort) rfl)
     (HasType.sortRule [Term.pi Term.sort Term.sort])
 
 /-- 单 sort ctx 下: app (lam sort (var 0)) (pi (var 0) sort) 类型为 sort. -/
