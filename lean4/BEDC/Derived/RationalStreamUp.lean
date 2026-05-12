@@ -214,6 +214,40 @@ theorem RationalStreamPacket_schedule_transport_exactness [AskSetup] [PackageSet
       newPkg⟩
   exact And.intro transported (And.intro sameWindow (And.intro sameContRows sameNameRow))
 
+theorem RationalStreamPacket_real_seal_common_window_normal_form [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      commonWindow readback sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg →
+      UnaryHistory commonWindow →
+        Cont window commonWindow readback →
+          Cont readback nameRow sealRow →
+            PkgSig bundle sealRow pkg →
+              UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+                UnaryHistory classifierRows ∧ UnaryHistory window ∧ UnaryHistory commonWindow ∧
+                  UnaryHistory readback ∧ UnaryHistory sealRow ∧ Cont index schedule window ∧
+                    Cont window commonWindow readback ∧ Cont readback nameRow sealRow ∧
+                      PkgSig bundle sealRow pkg := by
+  intro packet commonWindowUnary readbackRow sealRowRow sealPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, indexScheduleRow, _windowPointRow, classifierTransportRow, nameRowRow,
+    _namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary commonWindowUnary readbackRow
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary nameRowUnary sealRowRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
+      commonWindowUnary, readbackUnary, sealRowUnary, indexScheduleRow, readbackRow, sealRowRow,
+      sealPkg⟩
+
 theorem RationalStreamPacket_finite_window_carrier_transport [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       index' schedule' pointRows' classifierRows' transportRows' contRows' provenance' nameRow'
