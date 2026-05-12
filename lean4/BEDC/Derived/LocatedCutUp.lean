@@ -65,4 +65,18 @@ theorem LocatedCutCarrier_namecert_obligations [AskSetup] [PackageSetup]
         (hsame_trans source.right source.left.right.right.right.right.right.right)
   }
 
+theorem LocatedCutCarrier_seal_boundary_exactness [AskSetup] [PackageSetup]
+    {lower upper window handoff sealRow transportRow route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCutCarrier lower upper window handoff sealRow transportRow route provenance localCert
+        bundle pkg ->
+      hsame handoff provenance ∧ Cont window handoff transportRow ∧
+        Cont provenance localCert sealRow ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨_windowRoute, handoffRoute, _provenanceRoute, sealRoute, packageSig, sameSealHandoff,
+    sameSealProvenance⟩ := carrier
+  have sameHandoffProvenance : hsame handoff provenance :=
+    hsame_trans (hsame_symm sameSealHandoff) sameSealProvenance
+  exact ⟨sameHandoffProvenance, handoffRoute, sealRoute, packageSig⟩
+
 end BEDC.Derived.LocatedCutUp
