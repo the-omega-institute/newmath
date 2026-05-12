@@ -337,6 +337,27 @@ theorem BitVectorSourcePacket_finite_data_anchor [AskSetup] [PackageSetup]
     ⟨nUnary, spineUnary, ledgerUnary, provenanceUnary, ledgerRow, provenanceRow,
       ledgerRow, provenanceRow, pkgRow⟩
 
+theorem BitVectorSourcePacket_fixed_length_consumer_determinacy [AskSetup] [PackageSetup]
+    {n spine ledger route provenance source n' spine' ledger' route' provenance' source' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorSourcePacket n spine ledger route provenance source bundle pkg ->
+      BitVectorSourcePacket n' spine' ledger' route' provenance' source' bundle pkg ->
+        hsame n n' ->
+          hsame spine spine' ->
+            hsame route route' ->
+              hsame ledger ledger' ∧ hsame provenance provenance' := by
+  intro packet packet' sameLength sameSpine sameRoute
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameLength sameSpine
+      packet.right.right.right.left
+      packet'.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameLedger sameRoute
+      packet.right.right.right.right.left
+      packet'.right.right.right.right.left
+  exact ⟨sameLedger, sameProvenance⟩
+
 theorem BitVectorSource_semantic_name_certificate [AskSetup] [PackageSetup]
     {length spine ledger provenance : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
