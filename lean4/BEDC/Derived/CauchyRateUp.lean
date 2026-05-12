@@ -342,4 +342,74 @@ theorem CauchyRateCarrier_tail_bound_routing [AskSetup] [PackageSetup]
     ⟨scheduleUnary, toleranceUnary, familyUnary, regseqUnary, tailConsumerUnary,
       familyToleranceRegseq, tailRoute, regseqSame, pkgSig⟩
 
+theorem CauchyRateCarrier_public_certificate [AskSetup] [PackageSetup]
+    {precision schedule tolerance family regseq completion transport route provenance nameCert
+      acceptedRead completionRead completionRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyRateCarrier precision schedule tolerance family regseq completion transport route
+        provenance nameCert bundle pkg ->
+      Cont provenance nameCert acceptedRead ->
+        Cont regseq completion completionRead ->
+          Cont completionRead route completionRoute ->
+            PkgSig bundle acceptedRead pkg ->
+              PkgSig bundle completionRoute pkg ->
+                SemanticNameCert
+                  (fun row : BHist => hsame row acceptedRead ∧ UnaryHistory row ∧
+                    PkgSig bundle row pkg)
+                  (fun row : BHist => hsame row acceptedRead ∧ Cont provenance nameCert row)
+                  (fun _row : BHist =>
+                    hsame regseq (append family tolerance) ∧ PkgSig bundle provenance pkg)
+                  hsame ∧ UnaryHistory completionRead ∧ UnaryHistory completionRoute ∧
+                    PkgSig bundle completionRoute pkg := by
+  intro carrier acceptedReadRow completionReadRow completionRouteRow acceptedPkg
+    completionRoutePkg
+  obtain ⟨_precisionUnary, _scheduleUnary, _toleranceUnary, _familyUnary, regseqUnary,
+    completionUnary, _transportUnary, routeUnary, provenanceUnary, nameCertUnary,
+    _precisionScheduleTolerance, _familyToleranceRegseq, _regseqCompletionTransport,
+    _transportRouteProvenance, _provenanceNameCertCompletion, regseqSame,
+    provenancePkg⟩ := carrier
+  have acceptedReadUnary : UnaryHistory acceptedRead :=
+    unary_cont_closed provenanceUnary nameCertUnary acceptedReadRow
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed regseqUnary completionUnary completionReadRow
+  have completionRouteUnary : UnaryHistory completionRoute :=
+    unary_cont_closed completionReadUnary routeUnary completionRouteRow
+  have sourceAccepted :
+      hsame acceptedRead acceptedRead ∧ UnaryHistory acceptedRead ∧
+        PkgSig bundle acceptedRead pkg :=
+    ⟨hsame_refl acceptedRead, acceptedReadUnary, acceptedPkg⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row acceptedRead ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist => hsame row acceptedRead ∧ Cont provenance nameCert row)
+        (fun _row : BHist =>
+          hsame regseq (append family tolerance) ∧ PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro acceptedRead sourceAccepted
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact ⟨hsame_refl acceptedRead, acceptedReadRow⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact ⟨regseqSame, provenancePkg⟩
+  }
+  exact ⟨cert, completionReadUnary, completionRouteUnary, completionRoutePkg⟩
+
 end BEDC.Derived.CauchyRateUp
