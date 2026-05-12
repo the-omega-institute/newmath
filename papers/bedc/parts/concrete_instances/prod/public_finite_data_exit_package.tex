@@ -64,3 +64,49 @@ $\hsame$, $\Cont$, displayed-pair ledger, source certificate rows, and
 $\mathsf{Pkg}$ provenance, so they repackage exactly the advertised public
 finite-data product surface.
 \end{proof}
+
+\begin{theorem}[Product finite-data public exit consumer universality]
+\label{thm:prod-finite-data-public-exit-consumer-universality}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be their
+source classifiers, and let
+$\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$ be the source certificate rows. Assume a
+displayed witness of
+$\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$.
+
+Every public finite-data consumer of a product history whose reads are
+invariant under the componentwise semantic certificate, the displayed-pair
+ledger endpoints, the descent-to-envelope row, $\hsame$, $\Cont$, and
+$\mathsf{Pkg}$ provenance factors through the package displayed in
+\autoref{thm:prod-public-finite-data-exit-package}. The factorization reads
+only the package rows: source $\NameCert$ rows, the componentwise classifier
+certificate, displayed-pair ledger endpoints, descent to the product history
+envelope, $\hsame$ transport, $\Cont$ continuation, and $\mathsf{Pkg}$
+provenance.
+
+No step of the factorization exposes host tuple equality, outside-ledger
+component projections, or a quotient of pair representatives.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-public-finite-data-exit-package}. It displays the
+candidate rows available to any public finite-data read of the product
+history: the semantic componentwise certificate, displayed-pair ledger
+endpoints, descent to the envelope classifier, source certificate rows,
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Next apply \autoref{thm:prod-finite-data-consumer-row-exhaustion}. The
+consumer invariance assumptions force every public read to be one of those
+displayed rows; there is no separate host tuple row and no projection outside
+the displayed product ledger.
+
+It remains to identify endpoint reads. Use
+\autoref{thm:prod-component-ledger-endpoint-determinacy}. Any endpoint datum
+read by the consumer is already the displayed-pair ledger endpoint supplied by
+the public package, so endpoint access cannot introduce a second product
+representation or a quotient of pair representatives.
+
+Thus all public consumer reads are exhausted by the rows of
+\autoref{thm:prod-public-finite-data-exit-package}, and the consumer factors
+through that package.
+\end{proof}

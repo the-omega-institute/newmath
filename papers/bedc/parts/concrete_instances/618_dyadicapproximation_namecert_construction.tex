@@ -183,6 +183,41 @@ Consequently the seal read consumes only the finite handoff rows. It does not
 select a limit, identify a quotient real, or add a host equality coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicApproximation Real seal radius route]
+\label{thm:dyadicapproximation-real-seal-radius-route}
+Let $A=(n,d,w,l,p)$ be an accepted $\DyadicApproximationUp$ packet. For any
+coarser precision row $m$ certified by the displayed $\DyadicRatCoreUp$ radius
+ledger, the resulting $\RealUp$ seal read factors through the same finite
+route package: the transported precision row, transported dyadic endpoint, the
+$\StreamNameUp$ window, the $\RegSeqRatUp$ readback, visible $\hsame$ and
+$\Cont$ routes, and $\mathsf{Pkg}$ provenance.
+
+This radius route does not introduce quotient reals, host real equality,
+completion points, or selected representatives.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-approximation-real-seal-handoff}. It projects
+the $\RealUp$ seal read to the precision row, dyadic endpoint, finite
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, radius ledger, displayed
+routes, and provenance.
+
+Apply \autoref{thm:dyadic-approximation-precision-weakening} to the coarser
+precision row $m$. The displayed $\DyadicRatCoreUp$ radius ledger transports
+the precision coordinate and keeps the endpoint and regular-sequence readback
+inside the same finite packet.
+
+Use \autoref{thm:dyadic-approximation-common-precision-refinement} to compare
+the original packet and its coarser read through one common precision surface,
+then apply \autoref{thm:dyadic-approximation-classifier-transport} to repack
+the transported endpoint, window, readback, routes, and provenance as an
+accepted classifier read.
+
+Carrier exhaustiveness for \autoref{def:dyadic-approximation-carrier} leaves
+only the five displayed coordinates. Hence the common route has no coordinate
+for a quotient real, host equality, completion point, or selected
+representative.
+\end{proof}
+
 \begin{theorem}[DyadicApproximation ledger exclusion scope]\label{thm:dyadicapproximation-ledger-exclusion-scope}
 The scoped $\DyadicApproximationUp$ ledger exports no quotient stream, selected
 limit, host real equality, trichotomy, or completeness row. Its exported data

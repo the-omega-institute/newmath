@@ -148,6 +148,7 @@ row, and a real-name consumer may combine that finite read with the
 $\DyadicRatCoreUp$ provenance named by $p$. Neither consumer receives a
 primitive infinite history, a completed real, or an unlogged tail equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_real\_name\_handoff\_transport}
 \begin{proof}
 Project the accepted packet through
 \autoref{def:baire-space-stream-carrier}. The stream schedule is present only
@@ -162,6 +163,40 @@ A $\RealUp$ consumer can additionally use the $\DyadicRatCoreUp$ provenance
 named by $p$ when interpreting the finite answer as a dyadic or regular
 sequence component. The packet still exposes only the selected prefix rows, so
 no completed infinite object is exported.
+\end{proof}
+
+\begin{theorem}[BaireSpace Real stream prefix determinacy]
+\label{thm:bairespace-real-stream-prefix-determinacy}
+Let $B=(s,w,c,l,p)$ and $B'=(s',w',c',l',p')$ be accepted $\BaireSpaceUp$
+packets. Suppose their scheduled finite prefix indices agree and the unary
+answer rows at each displayed index are paired componentwise by $\hsame$.
+Then every $\RegSeqRatUp$ or $\RealUp$ consumer reads the same finite
+stream-prefix boundary from $B$ and $B'$.
+
+The determinacy is only for logged finite prefix rows. It does not identify
+primitive infinite histories, host sequences, completed reals, or unlogged
+tails.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:baire-space-prefix-cylinder-stability} to transport the
+componentwise unary answer rows through the common scheduled prefix indices.
+The transported classifier still reads only the displayed finite window.
+
+Use \autoref{thm:baire-space-prefix-restriction-composition} to compare any
+consumer-requested subwindow of the two packets inside the same restricted
+prefix. The composed restriction preserves the schedule, answer rows,
+classifier, ledger, and provenance rows needed by the consumer.
+
+For $\RegSeqRatUp$ and $\RealUp$ consumers, invoke
+\autoref{thm:baire-space-real-name-handoff}. Those consumers receive only the
+finite prefix requests and unary answer rows, with the $\DyadicRatCoreUp$
+provenance available to the real-name interpretation.
+
+Finally apply \autoref{thm:baire-space-ledger-coverage}. Since the ledger
+covers exactly the displayed stream packet, unary answer rows, prefix window,
+classifier, $\hsame$ comparisons, $\Cont$ routes, and provenance, there is no
+row from which an infinite history, host sequence equality, completed real, or
+unlogged tail could distinguish the two reads.
 \end{proof}
 
 \begin{theorem}[BaireSpace ledger coverage]
