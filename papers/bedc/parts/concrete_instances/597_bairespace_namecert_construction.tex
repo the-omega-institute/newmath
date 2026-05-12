@@ -537,6 +537,47 @@ or any additional host equality principle. Hence every accepted finite consumer
 factors through the displayed finite prefix window.
 \end{proof}
 
+\begin{theorem}[BaireSpace prefix intersection normal form]
+\label{thm:bairespace-prefix-intersection-normal-form}
+Two compatible finite prefix-cylinder consumers of an accepted
+$\BaireSpaceUp$ packet, whose requested $\NatUp$ prefix windows overlap through
+displayed $\hsame$ and $\Cont$ routes, factor through one displayed finite
+prefix window. The normal-form window carries the $\StreamNameUp$ schedule,
+$\NatUp$ index rows, $\mathsf{UnaryHistory}$ answer rows, the prefix-cylinder
+classifier, componentwise $\hsame$ rows, $\Cont$ restrictions, $\mathsf{Pkg}$
+provenance, and the $\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ handoff
+rows.
+
+The intersection read exports no host sequence equality, choice branch,
+completed infinite sequence, apartness row, external topology, or
+real-completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:baire-space-prefix-cylinder-stability} on each consumer. Both
+reads remain inside finite prefix-cylinder rows whose schedule, requested
+$\NatUp$ indices, unary answers, and prefix classifier are displayed in the
+accepted packet.
+
+Apply \autoref{thm:baire-space-prefix-restriction-composition} to the overlap
+routes. Compatibility through $\hsame$ and $\Cont$ lets the two requested
+windows compose to one finite window carrying the common componentwise
+transport, restriction provenance, and $\mathsf{Pkg}$ row.
+
+Read the resulting window through
+\autoref{thm:bairespace-prefix-stream-bridge} and
+\autoref{thm:bairespace-streamname-prefix-sieve}. These identify the
+intersection as a $\StreamNameUp$ schedule read and exhaust the finite prefix
+coordinates before any completed host sequence or choice-selected branch can be
+formed.
+
+Finally invoke
+\autoref{thm:bairespace-finite-prefix-consumer-completeness}. The
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers receive only the
+listed handoff rows, so the compatible intersection has the stated finite
+normal form and exports none of the excluded topology, apartness, or
+real-completeness data.
+\end{proof}
+
 \closureat{BaireSpaceUp}{obligationStr}
 \closureat{BaireSpaceUp}{scopedStr}
 \closureat{BaireSpaceUp}{publicStr}
