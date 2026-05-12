@@ -1,0 +1,115 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.DiagonalModulusUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def DiagonalModulusPacket [AskSetup] [PackageSetup]
+    (precision threshold window readback ledger «seal» provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory window ∧
+    Cont precision threshold window ∧ Cont window readback ledger ∧
+      Cont ledger «seal» provenance ∧ PkgSig bundle provenance pkg ∧ UnaryHistory nameCert
+
+theorem DiagonalModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {precision threshold window readback ledger «seal» provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusPacket precision threshold window readback ledger «seal» provenance nameCert
+        bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row «seal» ∧
+              DiagonalModulusPacket precision threshold window readback ledger «seal» provenance
+                nameCert bundle pkg)
+          (fun row : BHist => hsame row «seal»)
+          (fun row : BHist => hsame row «seal» ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory window ∧
+          Cont precision threshold window ∧ Cont window readback ledger ∧
+            Cont ledger «seal» provenance ∧ PkgSig bundle provenance pkg := by
+  intro packet
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have thresholdUnary : UnaryHistory threshold :=
+    packet.right.left
+  have windowUnary : UnaryHistory window :=
+    packet.right.right.left
+  have precisionThresholdWindow : Cont precision threshold window :=
+    packet.right.right.right.left
+  have windowReadbackLedger : Cont window readback ledger :=
+    packet.right.right.right.right.left
+  have ledgerSealProvenance : Cont ledger «seal» provenance :=
+    packet.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.left
+  have sourceSeal :
+      (fun row : BHist =>
+        hsame row «seal» ∧
+          DiagonalModulusPacket precision threshold window readback ledger «seal» provenance
+            nameCert bundle pkg) «seal» := by
+    exact ⟨hsame_refl «seal», packet⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row «seal» ∧
+            DiagonalModulusPacket precision threshold window readback ledger «seal» provenance
+              nameCert bundle pkg)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro «seal» sourceSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro row other same source
+        constructor
+        · exact hsame_trans (hsame_symm same) source.left
+        · exact source.right
+    }
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row «seal» ∧
+              DiagonalModulusPacket precision threshold window readback ledger «seal» provenance
+                nameCert bundle pkg)
+          (fun row : BHist => hsame row «seal»)
+          (fun row : BHist => hsame row «seal» ∧ PkgSig bundle provenance pkg)
+          hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row source
+        exact source.left
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, pkgSig⟩
+    }
+  exact
+    ⟨cert,
+      precisionUnary,
+      thresholdUnary,
+      windowUnary,
+      precisionThresholdWindow,
+      windowReadbackLedger,
+      ledgerSealProvenance,
+      pkgSig⟩
+
+end BEDC.Derived.DiagonalModulusUp
