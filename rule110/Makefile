@@ -137,3 +137,12 @@ $(TEST_DIR)/test_cook_leader: $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110
 
 TESTS += $(TEST_DIR)/test_cook_leader
 test: $(TEST_DIR)/test_cook_leader
+
+$(TEST_DIR)/test_cook_encode_empty: $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_encode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_encode.c
+
+TESTS += $(TEST_DIR)/test_cook_encode_empty
+test: $(TEST_DIR)/test_cook_encode_empty
