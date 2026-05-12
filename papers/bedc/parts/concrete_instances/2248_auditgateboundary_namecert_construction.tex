@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\AuditGateBoundaryUp$}
+\label{ch:concrete-instances-auditgateboundary-namecert}
+\origin{human}
+
+The $\AuditGateBoundaryUp$ surface packages the manuscript and Lean audit gates as a finite naming certificate. It is not a proof that the entire repository is complete. It records the exact boundary packets by which source-token scans, axiom-purity reports, paper-Lean target audits, origin and import conservativity ledgers, transport rows, continuation routes, package provenance, GAP boundary rows, and the local naming row remain visible to downstream governance consumers.
+
+\begin{definition}[AuditGateBoundary carrier]
+\label{def:audit-gate-boundary-carrier}
+An $\AuditGateBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-token scan row, recording the finite file set, token classifier, and refusal result for substrate-internal axiom declarations;
+\item $D$ is the axiom-purity dependency report row, recording the theorem names inspected, the reported proof ancestry, and the forbidden dependency classifier for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$;
+\item $L$ is the paper-Lean target audit row, recording each manuscript marker, its named Lean target, and the finite resolution result used by the drift gate;
+\item $O$ is the origin and import conservativity report row, recording the chapter-origin ledger, the protected module prefixes, and the import-edge classifier that separates baseline and non-baseline surfaces;
+\item $H$ records componentwise $\hsame$ transports for $S,D,L,O,G$, the continuation row, the package row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the token scan, dependency report, target audit, origin/import report, boundary row, provenance, and local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\mathsf{GAP}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, Lean target names, source-file scans, dependency reports, and origin ledgers;
+\item $G$ is the $\mathsf{GAP}$ boundary row recording that the gates refuse only the displayed boundary crossings and do not provide a hidden theorem of global correctness;
+\item $N$ is the local $\NameCert_{\AuditGateBoundaryUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no unrestricted semantic conservativity theorem, no host-kernel completeness proof, no hidden permission to use source axioms, no selected Lean declaration beyond the named audit rows, and no global guarantee that paper prose carries a stronger interpretation than the resolving markers display.
+\end{definition}
+
+\begin{theorem}[AuditGateBoundary NameCert obligations]
+\label{thm:audit-gate-boundary-namecert-obligations}
+The local $\NameCert_{\AuditGateBoundaryUp}$ surface for the carrier of \autoref{def:audit-gate-boundary-carrier} consists of carrier admission for
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+source-token refusal, axiom-purity dependency refusal, paper-Lean target exactness, origin/import conservativity separation, componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, the $\mathsf{GAP}$ boundary row, and non-escape for global semantic conservativity, host-kernel completeness, source axioms, unresolved marker names, and untracked origin flow.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:audit-gate-boundary-carrier}. The rows $S,D,L,O,H,C,P,G,N$ are the only data admitted to the packet.
+
+The first four rows expose the gate faces. The source-token scan is read from $S$, the dependency report from $D$, the paper-Lean target audit from $L$, and the origin/import conservativity report from $O$.
+
+Transport and consumer access are then confined by $H$ and $C$. These rows replay the displayed audits under componentwise $\hsame$ movement and do not add any unrecorded proof principle or import edge.
+
+Finally $P,G,N$ record provenance, the boundary socket, and the local certificate. Since the excluded objects have no coordinate in the carrier, no NameCert projection can export them.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary axiom-purity soundness]
+\label{thm:audit-gate-boundary-axiom-purity-soundness}
+For an accepted $\AuditGateBoundaryUp$ packet, the source-token row $S$ and dependency report row $D$ are sufficient to decide the audit-facing axiom boundary claimed by the packet. A passed source-token scan means no displayed BEDC source file contributes a substrate-internal axiom declaration, and a passed dependency report means no inspected public theorem row is reported with a forbidden dependency among $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$.
+
+This soundness is local to the reported rows. It does not assert host-kernel completeness, semantic completeness of the theorem inventory, or any theorem outside the finite report carried by $D$.
+\end{theorem}
+\begin{proof}
+Read the source side first. The row $S$ contains the finite file set, token classifier, and refusal result, so the source-axiom boundary claimed by the packet is exactly the boundary displayed by $S$.
+
+Read the theorem-dependency side next. The row $D$ contains the inspected theorem names, their reported proof ancestry, and the forbidden dependency classifier. Therefore the axiom-purity claim is the finite absence result recorded by $D$.
+
+The $\mathsf{GAP}$ row $G$ fixes the scope. The packet certifies only these displayed reports and refuses to turn them into a hidden theorem about all possible host behaviour or every unlisted declaration.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary paper-Lean drift exactness]
+\label{thm:audit-gate-boundary-paper-lean-drift-exactness}
+For an accepted $\AuditGateBoundaryUp$ packet, the paper-Lean audit row $L$ is the exact public surface for resolving manuscript markers against Lean declarations. A consumer may read a marker as a naming certificate only through the tuple consisting of the marker text, the target name, the finite resolution result, the componentwise transport row, the continuation route, the package provenance, and the local $\NameCert_{\AuditGateBoundaryUp}$ row.
+
+No consumer of $L$ may replace a missing target with a similar theorem, a nearby namespace, a paper-side interpretation, or an unresolved string.
+\end{theorem}
+\begin{proof}
+Project $L$ from the carrier. By definition it records each manuscript marker, the target name being claimed, and the finite resolution result.
+
+Use $H$ and $C$ to transport and read the row. The marker remains the same displayed marker after transport, and the continuation route exposes only the named resolution result.
+
+The non-escape clause follows from the absence of any coordinate for fuzzy matching, namespace guessing, or prose interpretation. A marker therefore functions as a certificate only when $L$ records that the named target resolves.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary origin conservativity]
+\label{thm:audit-gate-boundary-origin-conservativity}
+For an accepted $\AuditGateBoundaryUp$ packet, the origin/import row $O$ is the exact finite ledger by which non-baseline surfaces are kept from silently entering baseline theorem space. A consumer may use $O$ to read chapter origins, protected module prefixes, inspected import edges, and the pass-or-refuse result, but it may not extract a semantic conservativity theorem for arbitrary extensions or a global proof that all recognized content is baseline content.
+\end{theorem}
+\begin{proof}
+Project $O$ from the carrier. It contains origin rows, protected prefixes, inspected import edges, and the classifier result for those edges.
+
+Transport and replay through $H$ and $C$. The consumer sees the same finite ledger and the same route to the origin/import classifier, with provenance recorded by $P$ and local naming recorded by $N$.
+
+The boundary row $G$ prevents overreading. Since $O$ has no coordinate for arbitrary model-theoretic conservativity or for reclassifying non-baseline material as baseline, the packet certifies only the displayed import separation.
+\end{proof}
