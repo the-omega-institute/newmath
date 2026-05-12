@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CofinalSubsequenceUp$}
+\label{ch:concrete-instances-cofinalsubsequence-namecert}
+\origin{human}
+
+The $\CofinalSubsequenceUp$ interface packages the discovery-channel selector packet used when regular Cauchy data are consumed through a cofinal subsequence. Following Bishop and Bridges, \emph{Constructive Analysis}, 1985, the selector is a displayed finite row: it records only inspected precision requests, their chosen indices, monotonicity checks, cofinal witnesses for the inspected thresholds, and the regular rational observations carried through those rows. It does not choose a host-level infinite subsequence, identify quotient streams, or appeal to ambient completeness.
+
+Its dependency list is $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+\begin{definition}[CofinalSubsequence carrier]
+\label{def:cofinalsubsequence-carrier}
+A $\CofinalSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,\phi,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the accepted $\RegularCauchyNameUp$ or $\RegSeqRatUp$ source row whose precision windows may be inspected;
+\item $\phi$ is a unary selector row assigning each displayed precision request to a selected source index, together with monotonicity and cofinality witnesses for the inspected threshold rows;
+\item $W$ records the selected finite $\StreamNameUp$ windows before and after applying $\phi$;
+\item $D$ records the $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision observations attached to the selected windows;
+\item $R$ is the $\RegSeqRatUp$ handoff row that reads the selected rational observations as regular rational data;
+\item $E$ is the $\RealUp$ seal row exposed after the selected windows, dyadic observations, and regular rational handoff have been displayed;
+\item $H$ records the displayed $\hsame$ transports for source, selector, window, observation, regularity, and seal rows;
+\item $C$ records the $\Cont$ routes through the same rows;
+\item $P$ is the $\Pkg$ provenance over the visible dependencies;
+\item $N$ is the local $\NameCert_{\CofinalSubsequenceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through these rows and their transported finite read paths. In particular, $\phi$ is a unary finite selector ledger, not a host subsequence function.
+\end{definition}
+
+\begin{theorem}[CofinalSubsequence NameCert obligations]
+\label{thm:cofinalsubsequence-namecert-obligations}
+Every accepted $\CofinalSubsequenceUp$ carrier of \autoref{def:cofinalsubsequence-carrier} carries the following five NameCert obligation rows:
+\begin{enumerate}
+\item carrier habitation: the packet stores the source row, unary selector row, selected finite windows, dyadic observations, regular rational handoff, real seal, transport rows, continuation rows, package provenance, and local naming row;
+\item selector discipline: the row $\phi$ is unary, monotone on displayed precision requests, and cofinal on every inspected threshold row;
+\item finite-window exactness: each selected $\StreamNameUp$ window is read from $S$ only along $\phi$, and its dyadic observation row $D$ is transported with that window;
+\item regular rational handoff: the $\RegSeqRatUp$ row $R$ consumes exactly the selected window and dyadic observation rows before any $\RealUp$ seal read is exposed;
+\item non-escape: the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exhaust the provenance of the packet, so no quotient stream, host sequence equality, choice-selected subsequence, or completeness datum is exported.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is obtained by projecting the coordinates of $Q$. The finite history row names the source, selector, selected windows, dyadic observations, regular rational handoff, seal, and provenance rows in one packet.
+
+Selector discipline is read from the $\phi$ coordinate. Its domain is the displayed unary precision ledger, and its stored comparison rows certify monotonicity and cofinality only for inspected thresholds.
+
+Finite-window exactness follows by replaying the continuation route from $S$ through $\phi$ to $W$. The dyadic row $D$ is attached to that selected window, so the endpoint, radius, comparison, and precision observations move with the same finite route.
+
+The regular rational handoff is the projection to $R$. Since $R$ is stored after $W$ and $D$, every regular rational read is reached through the selected window and its dyadic observation ledger before the real seal row $E$ is available.
+
+Finally inspect the classifier. It contains no coordinate for quotient-stream equality, host sequence equality, an externally chosen infinite subsequence, or ambient completeness, and the rows $H$, $C$, $P$, and $N$ account for all visible transport and provenance.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence RegSeqRat consumer boundary]
+\label{thm:cofinalsubsequence-regseqrat-consumer-boundary}
+Let $Q=(S,\phi,W,D,R,E,H,C,P,N)$ be an accepted $\CofinalSubsequenceUp$ carrier. Every $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer read from $Q$ factors through the displayed cofinal selector $\phi$, the selected finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ observation rows $D$, the $\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal $E$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H$, $C$, $P$, and $N$. Thus the consumer boundary is a finite cofinal selector certificate over regular Cauchy data, not a quotient stream, host sequence equality, choice-selected subsequence, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_regseqrat\_consumer\_boundary}
+\begin{proof}
+Start with a consumer read from the accepted carrier. The source row $S$ can be inspected only through the unary selector coordinate $\phi$, because no other coordinate names a selected index.
+
+Apply the selector and finite-window clauses of \autoref{thm:cofinalsubsequence-namecert-obligations}. They force the selected $\StreamNameUp$ window $W$ and its $\DyadicRatCoreUp$ observation row $D$ to travel along the same monotone cofinal route.
+
+Next use the regular rational handoff clause. A $\RegSeqRatUp$ consumer reaches $R$ only after the selected window and dyadic observation rows have been displayed, and a $\RealCauchyCompletionUp$ consumer reaches the real-facing seal only through the same $R$ and $E$ rows.
+
+The remaining coordinates are provenance rows. The displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ certificate, and local $\NameCert$ row exhaust the consumer-visible ledger, so the carrier provides no further dependency outside the listed finite selector packet.
+\end{proof}
+
+\closureat{CofinalSubsequenceUp}{seedStr}
+\closureat{CofinalSubsequenceUp}{obligationStr}
+
+\begin{closurestatus}{\CofinalSubsequenceUp}
+  \constructivestory{A $\CofinalSubsequenceUp$ packet is generated from regular Cauchy or regular rational source data, a displayed unary monotone cofinal selector row, selected finite stream windows, dyadic observation rows, a regular rational handoff, a real seal, and visible provenance.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, and \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary} describe the concrete finite selector certificate and the RegSeqRat or RealCauchyCompletion consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, host sequence equality, selected infinite subsequences, uniqueness of completion limits, ambient completeness, or bridge checking.}
+  \upgradepath{Lean verification requires checked targets for selector carrier habitation, monotone cofinal finite-window transport, RegSeqRat handoff exactness, and the RealUp seal boundary.}
+\end{closurestatus}

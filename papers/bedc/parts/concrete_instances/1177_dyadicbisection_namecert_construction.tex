@@ -138,6 +138,7 @@ an infinite intersection, a trichotomy decision, or a completeness principle,
 the branch-prefix ledger segment is the determinant of the retained endpoint
 window and its downstream reads.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicBisectionUp.DyadicBisectionCarrier\_branch\_endpoint\_transport}
 
 \begin{theorem}[DyadicBisection branch nested-window scope]
 \label{thm:dyadic-bisection-branch-nested-window-scope}
@@ -155,6 +156,26 @@ Next identify the nested-window row. Apply \autoref{thm:dyadic-bisection-nested-
 Now use \autoref{thm:dyadic-bisection-nested-window-handoff}. The same branch prefix and endpoint readbacks determine the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads through the displayed transport and continuation rows.
 
 Finally apply \autoref{thm:dyadic-bisection-real-stream-handoff} to bind the resulting regular and stream reads to the real-facing handoff surface $S$. The construction never leaves the displayed carrier rows, so it exports no host root, infinite intersection, trichotomy decision, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[DyadicBisection selector interval stability]
+\label{thm:dyadic-bisection-selector-interval-stability}
+For an accepted $\DyadicBisectionUp$ carrier
+$$
+B=(I,\pi,M,L,J,E,R,S,H,C,P,N),
+$$
+transporting the initial interval $I$, precision row $\pi$, midpoint chain $M$, and branch ledger $L$ through the displayed $\hsame$ ledger $H$ and $\Cont$ routes $C$ preserves the selected retained interval row. It also preserves the retained endpoint readbacks in $E$, the $\NestedIntervalUp$ row $J$, and the downstream $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ handoff rows $R,S$.
+
+The stability statement is entirely internal to the displayed bisection carrier, package provenance $P$, and local $\NameCert_{\DyadicBisectionUp}$ row $N$; it does not rely on a hidden root, trichotomy, or a completed interval intersection.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadic-bisection-nested-interval-bridge}. The transported branch ledger threads the transported midpoint chain into the same finite $\NestedIntervalUp$ row, so the selected retained interval row remains a displayed row of the carrier.
+
+Next use \autoref{thm:dyadic-bisection-branch-endpoint-determinacy}. Once the retained interval row is fixed at the requested precision, the lower endpoint, upper endpoint, midpoint, tolerance row, and downstream handoff rows are determined by the same finite branch-prefix ledger.
+
+Apply \autoref{thm:dyadic-bisection-nested-window-handoff} to identify the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads with that retained nested window and its endpoint readbacks. The transports in $H$ and routes in $C$ move these rows componentwise.
+
+Finally use \autoref{thm:dyadic-bisection-branch-nested-window-scope}. The selected branch ledger, nested row, endpoint ledger, and handoff rows remain inside the carried packet $B$, so no host root, real trichotomy, or completed intersection object participates in the stability claim.
 \end{proof}
 
 \closureat{DyadicBisectionUp}{seedStr}

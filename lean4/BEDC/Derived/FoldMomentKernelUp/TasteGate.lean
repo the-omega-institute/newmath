@@ -14,7 +14,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.MainTheorems
 open BEDC.Meta.TasteGate
 
-/-- Finite collision-moment kernel packet with the nine visible BEDC rows. -/
+/-- Finite fold-moment kernel packet with the nine BEDC rows visible to consumers. -/
 inductive FoldMomentKernelUp : Type where
   | mk :
       (window foldSource fiberLedger momentIndex collisionCount transport continuation
@@ -46,7 +46,7 @@ private theorem foldMomentKernelDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
+def foldMomentKernelToEventFlow : FoldMomentKernelUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | FoldMomentKernelUp.mk window foldSource fiberLedger momentIndex collisionCount
       transport continuation provenance nameCert =>
@@ -225,6 +225,33 @@ theorem FoldMomentKernelUp_zero_window_packet :
 def taste_gate : ChapterTasteGate FoldMomentKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
   foldMomentKernelChapterTasteGate
+
+theorem FoldMomentKernelTasteGate_zero_window_display :
+    foldMomentKernelToEventFlow
+      (FoldMomentKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+      [[BMark.b0],
+        [],
+        [BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        [],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        []] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
 
 theorem FoldMomentKernelTasteGate_single_carrier_alignment :
     (∀ h : BHist, foldMomentKernelDecodeBHist (foldMomentKernelEncodeBHist h) = h) ∧
