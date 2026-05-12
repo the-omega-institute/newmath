@@ -176,3 +176,18 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
   and check domain, token, and composition witness predicates.
 - [x] Add `docs/gap_design.md` documenting the concrete fixtures and manifest
   contract.
+
+## NameCert module (beyond original M3 scope)
+
+- [x] Read `lean4/BEDC/FKernel/NameCert.lean`,
+  `NameCert/Descent.lean`, and `NameCert/StabilityMode.lean`.
+- [x] Encode a concrete certificate fixture with
+  `Carrier_bound(h) := depth(h) <= bound` and
+  `Equiv(h,k) := depth(h) = depth(k)`.
+- [x] Add `rule110/manifests/name_cert/name_cert_basic.enum.ct` and
+  `name_cert_basic.algo.ct` for core certificates, semantic transport, seal
+  witnesses, descent, composition, and stability modes.
+- [x] Add `tests/test_name_cert.c` to decode tagged NameCert streams and check
+  the executable obligations.
+- [x] Add `docs/name_cert_design.md` documenting the fixture and manifest
+  contract.
