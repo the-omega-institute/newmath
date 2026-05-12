@@ -1190,6 +1190,9 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution.Core
+import BEDC.MetaCIC.TypedExamples.Projections
+import BEDC.MetaCIC.TypedExamples.BasicApplications
+import BEDC.MetaCIC.TypedExamples.Applications
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest

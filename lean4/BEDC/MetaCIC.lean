@@ -10,5 +10,8 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.TypedExamples
+import BEDC.MetaCIC.TypedExamples.Projections
+import BEDC.MetaCIC.TypedExamples.BasicApplications
+import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
