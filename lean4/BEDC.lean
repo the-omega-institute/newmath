@@ -93,6 +93,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalReadbackComposition
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
+import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.NestedIntervalIntersectionUp
@@ -216,6 +217,7 @@ import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
+import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.StationaryRationalDiagonalUp
