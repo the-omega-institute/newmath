@@ -1,0 +1,16 @@
+# fold_injectivity.enum.ct
+# Theorem family:
+#   foldMomentKernelToEventFlow_injective
+#   foldMomentKernelChapterTasteGate.layer_separation
+#   FoldMomentKernelTasteGate_visible_rows
+#
+# Input shape:
+#   Full FoldMomentKernelUp event flow ++ Full FoldMomentKernelUp event flow.
+#
+# Runtime harness decodes both flows, canonicalizes them, and checks that
+# event-flow equality agrees with pointwise equality of the nine BHist fields.
+PRODUCTIONS 0
+ASSERTIONS 3
+case same_all_empty:       input=011111001111101001111101010011111010101001111101010101001111101010101010011111010101010101001111101010101010101001111011111001111101001111101010011111010101001111101010101001111101010101010011111010101010101001111101010101010101001111 ; theorem=fold_event_flow_injective ; left_fields=9 ; right_fields=9 ; flows_equal=yes ; fields_equal=yes ; conclusion_holds=yes
+case different_window:     input=011111001111101001111101010011111010101001111101010101001111101010101010011111010101010101001111101010101010101001111011011100111011101001101011101010011100111010101001111101010101001110101110101010101001100111010101010101001110111010101010101010011011 ; theorem=fold_layer_separation ; left_fields=9 ; right_fields=9 ; flows_equal=no ; fields_equal=no ; layer_separation=yes ; conclusion_holds=yes
+case different_name_cert:  input=0110111001110111010011010111010100111001110101010011111010101010011101011101010101010011001110101010101010011101110101010101010100110110110111001110111010011010111010100111001110101010011111010101010011101011101010101010011001110101010101010011101110101010101010100111011 ; theorem=fold_event_flow_injective ; left_fields=9 ; right_fields=9 ; flows_equal=no ; fields_equal=no ; conclusion_holds=yes
