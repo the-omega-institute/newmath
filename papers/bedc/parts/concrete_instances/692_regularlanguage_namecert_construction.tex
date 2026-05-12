@@ -102,6 +102,7 @@ This restriction introduces no host language quotient, external regular
 expression equivalence, minimization datum, infinite automaton, or hidden
 automaton state.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_run\_prefix\_restriction}
 \begin{proof}
 Induct on the displayed prefix. In the empty-prefix case, the restricted run
 ledger is the start-state row, which is the empty-spine case of
@@ -238,6 +239,7 @@ The export contains no host language quotient, external regular-expression
 equivalence, minimization result, infinite automaton, selected recognizer
 semantics, or hidden automaton state.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_public\_accepted\_word\_export}
 \begin{proof}
 Read the finite alphabet, finite state row, start state, accepting-state
 carrier, transition table, and input word spine from
@@ -330,14 +332,15 @@ packet.
 \closureat{RegularLanguageUp}{scopedStr}
 \closureat{RegularLanguageUp}{publicStr}
 \closureat{RegularLanguageUp}{bridgedStr}
+\closureat{RegularLanguageUp}{matureStr}
 
 \begin{closurestatus}{\RegularLanguageUp}
   \constructivestory{A regular-language packet is represented by finite alphabet and state rows, a displayed transition table, a ListUp word spine, a deterministic BHist run ledger, endpoint acceptance, componentwise hsame transport, Cont routes for consuming the spine, and Pkg provenance naming ListUp, FinSetUp, ComputableUp, and TuringMachineUp.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:regularlanguage-finite-automaton-carrier}, \autoref{def:regularlanguage-classifier}, \autoref{thm:regularlanguage-deterministic-run-ledger}, \autoref{thm:regularlanguage-classified-word-transport}, \autoref{thm:regularlanguage-namecert-obligation-surface}, \autoref{thm:regularlanguage-scoped-kernel-dependency-envelope}, \autoref{thm:regularlanguage-public-accepted-word-export}, and \autoref{thm:regularlanguage-standard-automaton-bridge-boundary} bind the finite automaton carrier, accepted-word classifier, run ledger, endpoint transport, NameCert obligation rows, finite upstream certificate envelope, public accepted-word export, and standard finite-automaton bridge boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host language quotients, external regular-expression equivalence, minimization, infinite automata, or machine-checked bridge evidence.}
-  \upgradepath{Mature closure requires finite downstream consumer examples for the displayed standard finite-automaton bridge.}
+  \upgradepath{No further paper theory-axis upgrade is claimed while formal and bridge verification remain separate.}
 \end{closurestatus}
