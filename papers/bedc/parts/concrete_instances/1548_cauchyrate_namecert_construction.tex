@@ -127,6 +127,7 @@ K=(p,\mu,\tau,F,Q,E,H,C,P,N),
 $$
 each precision request admitted by the packet is answered first by the displayed $\CauchyModulusUp$ schedule row $\mu$. The consumer route must expose the finite window selected by $\mu$ before it may read the $\DyadicTailBoundUp$ tolerance row $\tau$, the $\RegularCauchyFamilyUp$ source row $F$, or the $\RegSeqRatUp$ readback row $Q$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_scheduled\_window\_totality}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-rate-bhist-source}. The precision row $p$ and the schedule row $\mu$ are stored as visible coordinates, and the route inventory contains $\Cont(p,\mu)$ as the first consumer step.
 
@@ -261,6 +262,7 @@ Combining the two routes gives the stated factorization through $Q,F,\tau,\mu$ b
 \label{thm:cauchy-rate-public-certificate}
 Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped $\CauchyRateUp$ package. The $\mathsf{BHist}$ source, $\NameCert$ obligations, regular-family handoff, real-completion consumer boundary, ledger exactness, transport stability, scheduled-window totality, tolerance readback exactness, scoped consumer exhaustion, source scope, effective-route scope, ledger scope, window monotonicity, tail-bound routing, and real-seal consumption assemble a single exported $\CauchyRateUp$ public certificate. Its public consumers are exactly the $\RegSeqRatUp$, $\RealCauchyCompletionUp$, and $\RealUp$ readers that factor through the displayed effective-rate rows, and it exports no RealUp completeness, quotient stream equality, selected limit, or host equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateUp.CauchyRateCarrier\_public\_certificate}
 \begin{proof}
 Project the scoped package $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ from \autoref{def:cauchy-rate-scoped-obligation-package}. The $\mathsf{BHist}$ source of \autoref{def:cauchy-rate-bhist-source} supplies the carrier rows, and \autoref{thm:cauchy-rate-namecert-obligations} exposes the local $\NameCert$ obligations attached to those rows.
 
@@ -271,6 +273,64 @@ The route and ledger boundary is fixed by \autoref{thm:cauchy-rate-ledger-exactn
 The downstream boundary is fixed by \autoref{thm:cauchy-rate-tail-bound-routing}, \autoref{thm:cauchy-rate-real-seal-consumption}, and \autoref{thm:cauchy-rate-scoped-consumer-exhaustion}. A $\RegSeqRatUp$ reader consumes $Q$ only after the scheduled tail-bound route, a $\RealCauchyCompletionUp$ reader consumes $E$ only through $Q,F,\tau,\mu$, and a $\RealUp$ reader sees only that same effective-rate certificate.
 
 It remains to inspect the excluded objects. The package has no coordinate for RealUp completeness, quotient stream equality, selected limits, or host equality, and the scoped consumer-exhaustion clause leaves no route that escapes $p,\mu,\tau,F,Q,E,H,C,P,N$. The assembled object is therefore a public $\CauchyRateUp$ certificate over the displayed effective-rate rows and nothing stronger.
+\end{proof}
+
+\begin{theorem}[CauchyRate bridge source exactness]
+\label{thm:cauchy-rate-bridge-source-exactness}
+The standard effective Cauchy-rate bridge source is exactly the packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-rate-scoped-obligation-package}. Its source rows are the precision request, schedule, tail-bound, regular family, regular-rational readback, completion consumer, displayed $\hsame$ ledger, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no $\RealUp$ completeness theorem, quotient stream equality, selected limit, or host equality.
+\end{theorem}
+\begin{proof}
+Project the scoped packet $K$ from \autoref{def:cauchy-rate-scoped-obligation-package}. Its coordinates are precisely $p,\mu,\tau,F,Q,E,H,C,P,N$, so any bridge source read begins with the same precision, schedule, tail-bound, regular-family, readback, completion-consumer, ledger, route, package, and certificate rows.
+
+Attach the effective-rate routes. Scheduled-window totality fixes the precision schedule, tail-bound routing forces the readback through $\mu,\tau,F,Q$, and real-seal consumption routes the completion-facing consumer through $Q,F,\tau,\mu$ before $E$ is read.
+
+Finally use ledger exactness and the public certificate. The ledger theorem keeps the exposed rows equal to the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, while \autoref{thm:cauchy-rate-public-certificate} exports exactly that surface as the public $\CauchyRateUp$ object. Repacking these rows gives the standard effective Cauchy-rate bridge source and leaves no coordinate for the excluded RealUp completeness, quotient, selected-limit, or host-equality objects.
+\end{proof}
+
+\begin{theorem}[CauchyRate standard bridge source packet]
+\label{thm:cauchy-rate-standard-bridge-source-packet}
+For the public $\CauchyRateUp$ certificate, the bridge source is exactly the finite packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-rate-bhist-source}. Its rows are read over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$, with no additional bridge-source coordinate.
+\end{theorem}
+\begin{proof}
+Project the public certificate through \autoref{def:cauchy-rate-bhist-source}. The displayed source has precisely the rows $p,\mu,\tau,F,Q,E,H,C,P,N$, and the local classifier compares only those rows together with their package and naming provenance.
+
+Use \autoref{thm:cauchy-rate-public-certificate} to export the same packet as a public object. Its proof already assembles the source row, the $\NameCert$ obligations, the route scope, the ledger scope, the tail-bound route, and the completion-facing consumer boundary.
+
+It remains to identify the bridge source. Since \autoref{thm:cauchy-rate-bhist-source-scope}, \autoref{thm:cauchy-rate-effective-route-scope}, and \autoref{thm:cauchy-rate-ledger-scope} exhaust the available rows, a standard bridge reading can cite exactly the displayed packet and no further coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyRate bridge non-escape boundary]
+\label{thm:cauchy-rate-bridge-non-escape-boundary}
+Every bridge read from the public $\CauchyRateUp$ certificate is bounded by the displayed effective-rate packet $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$. In particular, the bridge cannot read RealUp completeness, quotient stream equality, selected limits, host real equality, or any completion oracle not routed through $Q,F,\tau,\mu$ and the stored $\RealCauchyCompletionUp$ consumer row $E$.
+\end{theorem}
+\begin{proof}
+Start from the source packet fixed by \autoref{thm:cauchy-rate-standard-bridge-source-packet}. The only completion-facing coordinate in that packet is $E$, and \autoref{thm:cauchy-rate-real-seal-consumption} forces every read of $E$ through $Q,F,\tau,\mu$ before the completion-facing row is consumed.
+
+The upstream readback is also bounded. By \autoref{thm:cauchy-rate-tail-bound-routing}, every read of $Q$ passes first through the scheduled modulus row, the dyadic tail-bound row, and the regular-family row stored in the same packet.
+
+Finally inspect the public ledger. The public certificate of \autoref{thm:cauchy-rate-public-certificate} and the scoped consumer exhaustion theorem rule out RealUp completeness, quotient stream equality, selected limits, host real equality, and any unscoped completion oracle as exported rows. Therefore a bridge read cannot escape the finite effective-rate boundary.
+\end{proof}
+
+\begin{theorem}[CauchyRate standard bridge obligation package]
+\label{thm:cauchy-rate-standard-bridge-obligation-package}
+The CauchyRate standard bridge obligation package is assembled from the source packet of \autoref{thm:cauchy-rate-standard-bridge-source-packet}, the non-escape boundary of \autoref{thm:cauchy-rate-bridge-non-escape-boundary}, the public certificate of \autoref{thm:cauchy-rate-public-certificate}, scheduled-window totality, tail-bound routing, and real-seal consumption. The package presents the standard effective-rate reading as a consumer of $p,\mu,\tau,F,Q,E,H,C,P,N$ and nothing beyond that public surface.
+\end{theorem}
+\begin{proof}
+First build the bridge source. Apply \autoref{thm:cauchy-rate-standard-bridge-source-packet} to recover exactly the displayed $\mathsf{BHist}$ packet over the named dependency rows.
+
+Next attach the effective-rate obligations. The schedule is supplied by \autoref{thm:cauchy-rate-scheduled-window-totality}, the rational readback route is supplied by \autoref{thm:cauchy-rate-tail-bound-routing}, and the completion-facing consumption route is supplied by \autoref{thm:cauchy-rate-real-seal-consumption}.
+
+Now repack the public surface. The public certificate in \autoref{thm:cauchy-rate-public-certificate} exports the same rows as the consumer-facing object, while \autoref{thm:cauchy-rate-bridge-non-escape-boundary} excludes RealUp completeness, quotient stream equality, selected limits, host real equality, and unscoped completion reads.
+
+These ingredients are exactly the bridge obligations: a fixed source packet, a scheduled finite window, a routed tail-bound readback, a completion consumer route, a public certificate, and a non-escape boundary. Hence the standard bridge obligation package is determined by $p,\mu,\tau,F,Q,E,H,C,P,N$.
 \end{proof}
 
 \closureat{CauchyRateUp}{seedStr}
