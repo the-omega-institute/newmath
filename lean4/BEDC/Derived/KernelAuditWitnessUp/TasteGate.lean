@@ -11,24 +11,24 @@ open BEDC.Meta.TasteGate
 
 inductive KernelAuditWitnessUp : Type where
   | mk :
-      (generator acceptance ledger ancestry transport continuation provenance name : BHist) ->
-        KernelAuditWitnessUp
+      (generator acceptance ledger ancestry transport replay provenance name : BHist) →
+      KernelAuditWitnessUp
   deriving DecidableEq
 
-def kernelAuditWitnessEncodeBHist : BHist -> RawEvent
+private def kernelAuditWitnessEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: kernelAuditWitnessEncodeBHist h
   | BHist.e1 h => BMark.b1 :: kernelAuditWitnessEncodeBHist h
 
-def kernelAuditWitnessDecodeBHist : RawEvent -> BHist
+private def kernelAuditWitnessDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (kernelAuditWitnessDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kernelAuditWitnessDecodeBHist tail)
 
 private theorem kernelAuditWitnessDecode_encode_bhist :
-    forall h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h := by
+    ∀ h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,10 +39,36 @@ private theorem kernelAuditWitnessDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def kernelAuditWitnessToEventFlow : KernelAuditWitnessUp -> EventFlow
+private theorem kernelAuditWitness_mk_congr
+    {generator generator' acceptance acceptance' ledger ledger' ancestry ancestry'
+      transport transport' replay replay' provenance provenance' name name' : BHist}
+    (hGenerator : generator' = generator)
+    (hAcceptance : acceptance' = acceptance)
+    (hLedger : ledger' = ledger)
+    (hAncestry : ancestry' = ancestry)
+    (hTransport : transport' = transport)
+    (hReplay : replay' = replay)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    KernelAuditWitnessUp.mk generator' acceptance' ledger' ancestry' transport' replay'
+        provenance' name' =
+      KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport replay provenance
+        name := by
   -- BEDC touchpoint anchor: BHist BMark
-  | KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport continuation
-      provenance name =>
+  cases hGenerator
+  cases hAcceptance
+  cases hLedger
+  cases hAncestry
+  cases hTransport
+  cases hReplay
+  cases hProvenance
+  cases hName
+  rfl
+
+private def kernelAuditWitnessToEventFlow : KernelAuditWitnessUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport replay provenance
+      name =>
       [[BMark.b0],
         kernelAuditWitnessEncodeBHist generator,
         [BMark.b1, BMark.b0],
@@ -54,14 +80,14 @@ def kernelAuditWitnessToEventFlow : KernelAuditWitnessUp -> EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         kernelAuditWitnessEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelAuditWitnessEncodeBHist continuation,
+        kernelAuditWitnessEncodeBHist replay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         kernelAuditWitnessEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         kernelAuditWitnessEncodeBHist name]
 
-def kernelAuditWitnessFromEventFlow : EventFlow -> Option KernelAuditWitnessUp
+private def kernelAuditWitnessFromEventFlow : EventFlow → Option KernelAuditWitnessUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -97,7 +123,7 @@ def kernelAuditWitnessFromEventFlow : EventFlow -> Option KernelAuditWitnessUp
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | continuation :: rest11 =>
+                                              | replay :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -114,31 +140,23 @@ def kernelAuditWitnessFromEventFlow : EventFlow -> Option KernelAuditWitnessUp
                                                                   | [] =>
                                                                       some
                                                                         (KernelAuditWitnessUp.mk
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            generator)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            acceptance)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            ledger)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            ancestry)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            transport)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            continuation)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            provenance)
-                                                                          (kernelAuditWitnessDecodeBHist
-                                                                            name))
+                                                                          (kernelAuditWitnessDecodeBHist generator)
+                                                                          (kernelAuditWitnessDecodeBHist acceptance)
+                                                                          (kernelAuditWitnessDecodeBHist ledger)
+                                                                          (kernelAuditWitnessDecodeBHist ancestry)
+                                                                          (kernelAuditWitnessDecodeBHist transport)
+                                                                          (kernelAuditWitnessDecodeBHist replay)
+                                                                          (kernelAuditWitnessDecodeBHist provenance)
+                                                                          (kernelAuditWitnessDecodeBHist name))
                                                                   | _ :: _ => none
 
 private theorem kernelAuditWitness_round_trip :
-    forall x : KernelAuditWitnessUp,
+    ∀ x : KernelAuditWitnessUp,
       kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk generator acceptance ledger ancestry transport continuation provenance name =>
+  | mk generator acceptance ledger ancestry transport replay provenance name =>
       change
         some
           (KernelAuditWitnessUp.mk
@@ -147,23 +165,26 @@ private theorem kernelAuditWitness_round_trip :
             (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist ledger))
             (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist ancestry))
             (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist transport))
-            (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist continuation))
+            (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist replay))
             (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist provenance))
             (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist name))) =
           some
-            (KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport
-              continuation provenance name)
-      rw [kernelAuditWitnessDecode_encode_bhist generator,
-        kernelAuditWitnessDecode_encode_bhist acceptance,
-        kernelAuditWitnessDecode_encode_bhist ledger,
-        kernelAuditWitnessDecode_encode_bhist ancestry,
-        kernelAuditWitnessDecode_encode_bhist transport,
-        kernelAuditWitnessDecode_encode_bhist continuation,
-        kernelAuditWitnessDecode_encode_bhist provenance,
-        kernelAuditWitnessDecode_encode_bhist name]
+            (KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport replay
+              provenance name)
+      exact
+        congrArg some
+          (kernelAuditWitness_mk_congr
+            (kernelAuditWitnessDecode_encode_bhist generator)
+            (kernelAuditWitnessDecode_encode_bhist acceptance)
+            (kernelAuditWitnessDecode_encode_bhist ledger)
+            (kernelAuditWitnessDecode_encode_bhist ancestry)
+            (kernelAuditWitnessDecode_encode_bhist transport)
+            (kernelAuditWitnessDecode_encode_bhist replay)
+            (kernelAuditWitnessDecode_encode_bhist provenance)
+            (kernelAuditWitnessDecode_encode_bhist name))
 
 private theorem kernelAuditWitnessToEventFlow_injective {x y : KernelAuditWitnessUp} :
-    kernelAuditWitnessToEventFlow x = kernelAuditWitnessToEventFlow y -> x = y := by
+    kernelAuditWitnessToEventFlow x = kernelAuditWitnessToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -190,54 +211,20 @@ instance kernelAuditWitnessChapterTasteGate : ChapterTasteGate KernelAuditWitnes
     exact hxy (kernelAuditWitnessToEventFlow_injective heq)
 
 theorem KernelAuditWitnessTasteGate_single_carrier_alignment :
-    (forall h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h) /\
-      (forall x : KernelAuditWitnessUp,
-        kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow x) = some x) /\
-        (forall x y : KernelAuditWitnessUp,
-          kernelAuditWitnessToEventFlow x = kernelAuditWitnessToEventFlow y -> x = y) /\
+    (∀ h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h) ∧
+      (∀ x : KernelAuditWitnessUp,
+        kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow x) = some x) ∧
+        (∀ x y : KernelAuditWitnessUp,
+          kernelAuditWitnessToEventFlow x = kernelAuditWitnessToEventFlow y → x = y) ∧
           kernelAuditWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  have hdecode :
-      forall h : BHist, kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist h) = h := by
-    intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
-  have hround :
-      forall x : KernelAuditWitnessUp,
-        kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow x) = some x := by
-    intro x
-    cases x with
-    | mk generator acceptance ledger ancestry transport continuation provenance name =>
-        change
-          some
-            (KernelAuditWitnessUp.mk
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist generator))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist acceptance))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist ledger))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist ancestry))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist transport))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist continuation))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist provenance))
-              (kernelAuditWitnessDecodeBHist (kernelAuditWitnessEncodeBHist name))) =
-            some
-              (KernelAuditWitnessUp.mk generator acceptance ledger ancestry transport
-                continuation provenance name)
-        rw [hdecode generator, hdecode acceptance, hdecode ledger, hdecode ancestry,
-          hdecode transport, hdecode continuation, hdecode provenance, hdecode name]
-  have hinj :
-      forall x y : KernelAuditWitnessUp,
-        kernelAuditWitnessToEventFlow x = kernelAuditWitnessToEventFlow y -> x = y := by
-    intro x y heq
-    have hread :
-        kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow x) =
-          kernelAuditWitnessFromEventFlow (kernelAuditWitnessToEventFlow y) :=
-      congrArg kernelAuditWitnessFromEventFlow heq
-    exact Option.some.inj (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
-  exact And.intro hdecode (And.intro hround (And.intro hinj rfl))
+  constructor
+  · exact kernelAuditWitnessDecode_encode_bhist
+  · constructor
+    · exact kernelAuditWitness_round_trip
+    · constructor
+      · intro x y heq
+        exact kernelAuditWitnessToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.KernelAuditWitnessUp
