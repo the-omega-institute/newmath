@@ -102,11 +102,32 @@ Make `cook_encode` produce correct Rule 110 initial patterns.
 
 Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
 
-- [ ] L4.1: Design correspondence schema. For each `*.enum.ct` representing Lean theorem `T : ∀ x₁..xₙ, P(x₁..xₙ)`, define a Lean meta-program that: (a) reads the manifest, (b) extracts the input bit strings, (c) decodes them to BEDC types, (d) checks T holds on each decoded input.
-- [ ] L4.2: Build the meta-program as a Lean 4 tactic / executable (lives at `lean4/scripts/rule110_cross_check.lean`).
-- [ ] L4.3: Cross-check all 44 manifests against their target Lean theorems.
-- [ ] L4.4: Add CI gate: `lake build rule110-cross-check` on every commit; both Lean kernel + ANSI C evaluator must accept.
-- [ ] L4.5: Document the trust-loop closure in `docs/cross_check.md`.
+- [ ] L4.1: Design correspondence schema.
+  - [ ] L4.1.a: Define the manifest parser contract: `PRODUCTIONS`, `ASSERTIONS`, case name, `input=...`, and family-specific key/value fields.
+  - [ ] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.
+  - [ ] L4.1.c: Register path-to-target specs for Mark, Hist, Ext, SigRel, SameSig, Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, and Settled.
+  - [ ] L4.1.d: Separate positive theorem-instance checks from negative complement checks such as `ext_holds=no`, `cont_holds=no`, malformed input, and trailing-input rejection.
+  - [ ] L4.1.e: Record the concrete setup instances needed by parameterized modules: parity `AskSetup`, `Pkg := BHist`, `TokIntro := hsame`, bounded-domain fixture, depth-equivalence NameCert fixture, and identity stable transformation.
+- [ ] L4.2: Build the Lean 4 executable.
+  - [ ] L4.2.a: Create `lean4/scripts/rule110_cross_check.lean` as a read-only checker over existing manifests.
+  - [ ] L4.2.b: Reuse `BEDC.GroundCompiler.ChannelEncoding.DecEvent` for event decoding; do not fork the channel encoding.
+  - [ ] L4.2.c: Implement one closed-kernel slice first: `mark/msame_refl.enum.ct`, `hist/hsame_refl.enum.ct`, and `ext/ext_step.enum.ct`.
+  - [ ] L4.2.d: Add structured PASS/FAIL output with manifest path, case name, decoded values when available, and Lean target key.
+  - [ ] L4.2.e: Exit nonzero on parse, decode, type, fixture, target, or semantic failure.
+- [ ] L4.3: Cross-check all manifest families.
+  - [ ] L4.3.a: Cover all `.enum.ct` manifests as strict Level 4 targets.
+  - [ ] L4.3.b: Report `.algo.ct` manifests as semantic-only until Level 2 supplies real recognizers, except bounded `hist/hsame_refl.algo.ct` which can be checked as a finite recognizer case set.
+  - [ ] L4.3.c: Reuse lower-family checkers inside aggregate files where possible, especially `settled/settled_basic.enum.ct`.
+  - [ ] L4.3.d: Ensure representative finite manifests are reported as ground instances of Lean universal theorems, not as exhaustive coverage claims for infinite types.
+- [ ] L4.4: Add CI gate.
+  - [ ] L4.4.a: Add Lake target `rule110-cross-check` that runs the Lean executable over the registered manifest list.
+  - [ ] L4.4.b: CI acceptance requires `cd rule110 && make test` and `cd lean4 && lake build rule110-cross-check`.
+  - [ ] L4.4.c: Gate failure messages distinguish C evaluator failure, Lean decode failure, Lean semantic mismatch, missing target registration, and fixture incompleteness.
+  - [ ] L4.4.d: Track runtime budget for roughly `44 manifests × ~30 assertions`, with startup/import time expected to dominate.
+- [ ] L4.5: Document trust-loop closure.
+  - [ ] L4.5.a: Keep the design source at `rule110/docs/cross_check_design.md`.
+  - [ ] L4.5.b: After the checker exists, write the operational trust-chain page `rule110/docs/cross_check.md` with exact commands and acceptance criteria.
+  - [ ] L4.5.c: State remaining boundaries clearly: Level 4 checks Lean correspondence for manifest assertions; Level 2 handles real CT recognizers; Level 3 handles `.r110` round-trip.
 
 **Outcome**: rule110 is no longer self-consistent-only; it is *Lean-verified*. The bisubstrate property starts taking shape.
 
