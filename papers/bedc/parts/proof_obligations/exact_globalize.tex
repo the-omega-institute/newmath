@@ -391,3 +391,66 @@ This target may be upgraded from paper-level to checked only if the report inclu
 \end{enumerate}
 \leanchecked{BEDC.BaseReflection.checked\_acceptance\_gate\_exactBase\_exports\_public\_shape}
 \end{protocol}
+
+\begin{theorem}[Generated signature witness inhabitation]
+\label{thm:generated-same-sig-inhabitation-iff-samesig}
+For every generated probe bundle $\Pi$ and histories $h,k$, the following are equivalent:
+\begin{enumerate}
+  \item there is an element $G:\GeneratedSameSig(\Pi,h,k)$;
+  \item $\sameSig_\Pi(h,k)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Unpack Definition~\autoref{def:generated-same-sig}. An element $G:\GeneratedSameSig(\Pi,h,k)$ consists of histories $s,t$, evidence objects $\Delta,\Theta$, generation judgments
+$$
+\Sig(\Pi,h,s,\Delta)
+\quad\text{and}\quad
+\Sig(\Pi,k,t,\Theta),
+$$
+and a sameness witness $\hsame(s,t)$. These are exactly the witnesses required by Definition~\autoref{def:signature-sameness} for $\sameSig_\Pi(h,k)$. This proves the forward implication.
+
+Conversely, unpack $\sameSig_\Pi(h,k)$ using Definition~\autoref{def:signature-sameness}. It supplies histories $s,t$, evidence objects $\Delta,\Theta$, the two displayed generation judgments, and $\hsame(s,t)$. By Definition~\autoref{def:generated-same-sig}, these fields assemble an element of $\GeneratedSameSig(\Pi,h,k)$.
+\end{proof}
+
+\begin{theorem}[Generated signature sameness closure under bundle append]
+\label{thm:generated-same-sig-bundle-append-closure}
+For probe bundles $\Pi,\Theta$ and histories $h,k$, if
+$G:\GeneratedSameSig(\Pi,h,k)$ and $H:\GeneratedSameSig(\Theta,h,k)$, then
+$$
+\GeneratedSameSig(\mathsf{BAppend}(\Pi,\Theta),h,k).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $\Omega$ be the appended bundle with $\Omega=\mathsf{BAppend}(\Pi,\Theta)$.
+Unpack $G$ as signatures $s_h,s_k$ with evidence $\Delta_h,\Delta_k$,
+$$
+\Sig(\Pi,h,s_h,\Delta_h),
+\qquad
+\Sig(\Pi,k,s_k,\Delta_k),
+\qquad
+\hsame(s_h,s_k),
+$$
+and unpack $H$ as signatures $t_h,t_k$ with evidence $\Gamma_h,\Gamma_k$,
+$$
+\Sig(\Theta,h,t_h,\Gamma_h),
+\qquad
+\Sig(\Theta,k,t_k,\Gamma_k),
+\qquad
+\hsame(t_h,t_k).
+$$
+Apply \autoref{thm:signature-generation-bundle-append} to the two $h$-side signatures, with appended-bundle witness $\Omega$. This gives a history $u_h$ and evidence $\Lambda_h$ such that
+$$
+\ContR(t_h,s_h,u_h)
+\quad\text{and}\quad
+\Sig(\Omega,h,u_h,\Lambda_h).
+$$
+Apply the same theorem to the two $k$-side signatures, with the same appended-bundle witness $\Omega$. This gives a history $u_k$ and evidence $\Lambda_k$ such that
+$$
+\ContR(t_k,s_k,u_k)
+\quad\text{and}\quad
+\Sig(\Omega,k,u_k,\Lambda_k).
+$$
+History-sameness reflexivity gives $\hsame(u_h,u_h)$. Using $\hsame(t_h,t_k)$, $\hsame(s_h,s_k)$, $\hsame(u_h,u_h)$, and the two displayed continuation witnesses, \autoref{thm:cont-transport-result-classified} yields $\hsame(u_h,u_k)$. The generated-sameness witness for $\Omega$ is therefore filled by the two appended signature judgments and this final history-sameness component, exactly as in \autoref{def:generated-same-sig}. Since $\Omega=\mathsf{BAppend}(\Pi,\Theta)$, this is the required generated-sameness witness for $\mathsf{BAppend}(\Pi,\Theta)$.
+\end{proof}
