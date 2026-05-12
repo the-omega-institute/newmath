@@ -93,6 +93,7 @@ The refined read remains a finite $\mathsf{BHist}$ packet with transported
 $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, and it introduces no
 additional stream quotient or hidden modulus selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularityModulusUp.RegularityModulusPacket\_window\_monotonicity}
 \begin{proof}
 Project the accepted packet through
 \autoref{def:regularitymodulus-dyadic-window-carrier}. The precision row, the
@@ -156,6 +157,83 @@ Transport the seal boundary along the displayed $\hsame$ rows and follow the
 recorded $\Cont$ routes. Repacking these rows preserves the finite handoff
 surface and leaves no coordinate for a quotient representative, selected
 limit, or choice-based tail.
+\end{proof}
+
+\begin{theorem}[RegularityModulus dyadic-window exactness]
+\label{thm:regularitymodulus-dyadic-window-exactness}
+For an accepted $\RegularityModulusUp$ packet
+$R=(k,m,w,h,c,p,n)$, every consumer-visible dyadic window read is exactly the
+endpoint, radius, comparison, precision, modulus, transport, continuation,
+package, and name row displayed by $w,h,c,p,n$. Conversely, every displayed
+row of this form is accepted as a $\RegularityModulusUp$ consumer read.
+\end{theorem}
+\begin{proof}
+Project $R$ through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The carrier stores the
+unary precision and modulus rows together with the dyadic window data, so the
+endpoint, radius, comparison, precision, and modulus coordinates are precisely
+the displayed rows.
+
+For refined precision requests, apply
+\autoref{thm:regularitymodulus-window-monotonicity}. This transports the same
+window data through the recorded $\hsame$ and $\Cont$ rows without creating a
+new endpoint or comparison coordinate.
+
+The downstream direction is fixed by the existing handoffs. Use
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary} for the
+$\RegSeqRatUp$ read and
+\autoref{thm:regularitymodulus-realup-seal-handoff} for the $\RealUp$ seal.
+Both consume only the package and name rows already shown by $p$ and $n$.
+
+Thus every accepted read is one of the displayed dyadic-window rows, and every
+displayed row is accepted because it is a coordinate of the carrier together
+with its transport, continuation, package, and local naming evidence.
+\end{proof}
+
+\begin{theorem}[RegularityModulus common-window exactness]
+\label{thm:regularitymodulus-common-window-exactness}
+Let
+$$
+R=(k,m,w,h,c,p,n)
+\quad\text{and}\quad
+R'=(k',m',w',h',c',p',n')
+$$
+be accepted $\RegularityModulusUp$ packets. Suppose the displayed unary
+precision rows of $R$ and $R'$ both refine to a common row $k_*$, and suppose
+the dyadic-window, transport, continuation, package, and local naming rows
+classify componentwise through the displayed $\hsame$ and $\Cont$ routes.
+Then every $\RegSeqRatUp$ or $\RealUp$ consumer read of either transported
+packet factors through one common finite $\mathsf{BHist}$ window carrying the
+shared precision row, modulus row, dyadic endpoint rows, transported window,
+$\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$
+surface.
+
+The common readback surface exports no quotient stream, selected limit, hidden
+modulus selector, host real equality, or choice-based tail.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through
+\autoref{def:regularitymodulus-dyadic-window-carrier}. The seven carrier
+coordinates are the only available readback rows for precision, modulus,
+dyadic-window data, transport, continuation, provenance, and local naming.
+
+Use \autoref{thm:regularitymodulus-window-monotonicity} twice, once for $R$
+and once for $R'$, to transport both precision requests to $k_*$. The
+componentwise $\hsame$ rows identify the transported precision, modulus, and
+dyadic endpoint coordinates, while the displayed $\Cont$ routes identify the
+finite readback path used by consumers.
+
+For a $\RegSeqRatUp$ consumer, apply
+\autoref{thm:regularitymodulus-regseqrat-consumption-boundary}; for a
+$\RealUp$ seal, apply
+\autoref{thm:regularitymodulus-realup-seal-handoff}. In both cases the
+consumer can read only the transported finite regularity-rate rows already
+present in the common carrier surface.
+
+Carrier-coordinate exhaustion gives the conclusion. Since neither packet has
+a coordinate for quotient streams, selected limits, hidden modulus selection,
+host real equality, or choice-based tails, none of those objects can be
+exported by the common window.
 \end{proof}
 
 \begin{closurestatus}{\RegularityModulusUp}
