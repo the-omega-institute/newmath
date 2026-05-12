@@ -95,4 +95,23 @@ theorem MonotoneCauchyCarrier_located_interval_handoff [AskSetup] [PackageSetup]
       cases modulusLedgerInterval
       rfl, nameRowPkg⟩
 
+theorem MonotoneCauchyCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      UnaryHistory regular ∧ UnaryHistory schedule ∧ UnaryHistory modulus ∧
+        UnaryHistory ledger ∧ UnaryHistory interval ∧ UnaryHistory realSeal ∧
+          Cont regular schedule modulus ∧ Cont modulus ledger interval ∧
+            Cont interval realSeal nameRow ∧ PkgSig bundle nameRow pkg := by
+  intro carrier
+  obtain ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    _transportRouteProvenance, nameRowPkg⟩ := carrier
+  exact
+    ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary, realSealUnary,
+      regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow, nameRowPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
