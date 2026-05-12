@@ -391,4 +391,46 @@ theorem AbelRuffiniRadicalTowerBridge_standard_boundary
     ⟨exportRows.right.right.right.right.right.left, standardReadUnary,
       exportRows.right.right.right.right.right.right.right.right.right, standardReadRow⟩
 
+theorem AbelRuffiniRadicalTowerBridge_reassociation_witness
+    {polynomial base splittingField galoisRow s5Row coefficientLedger galoisLedger seed
+      publicSurface read folded bridge : BHist}
+    {derivedRows : List BHist} :
+    UnaryHistory polynomial ->
+      UnaryHistory base ->
+        UnaryHistory splittingField ->
+          UnaryHistory galoisRow ->
+            UnaryHistory s5Row ->
+              UnaryHistory seed ->
+                (forall row : BHist, List.Mem row derivedRows -> UnaryHistory row) ->
+                  UnaryHistory read ->
+                    Cont polynomial base coefficientLedger ->
+                      Cont splittingField galoisRow galoisLedger ->
+                        Cont coefficientLedger galoisLedger seed ->
+                          Cont (List.foldl append seed derivedRows) s5Row publicSurface ->
+                            Cont publicSurface read folded ->
+                              Cont folded s5Row bridge ->
+                                exists tail : BHist, exists bridge' : BHist,
+                                  Cont read s5Row tail ∧ Cont publicSurface tail bridge' ∧
+                                    hsame bridge bridge' ∧ UnaryHistory tail ∧
+                                      UnaryHistory bridge' := by
+  intro polynomialUnary baseUnary splittingFieldUnary galoisRowUnary s5RowUnary seedUnary
+  intro derivedUnary readUnary coefficientRow galoisLedgerRow seedRow publicSurfaceRow
+  intro publicReadRow foldedS5Row
+  have publicData :=
+    AbelRuffiniPublicCertificate_export polynomialUnary baseUnary splittingFieldUnary
+      galoisRowUnary s5RowUnary seedUnary derivedUnary coefficientRow galoisLedgerRow seedRow
+      publicSurfaceRow
+  have publicSurfaceUnary : UnaryHistory publicSurface :=
+    publicData.right.right.right.left
+  cases cont_assoc_left_exists publicReadRow foldedS5Row with
+  | intro tail reassociated =>
+      have tailUnary : UnaryHistory tail :=
+        unary_cont_closed readUnary s5RowUnary reassociated.left
+      have bridgeUnary : UnaryHistory bridge :=
+        unary_cont_closed
+          (unary_cont_closed publicSurfaceUnary readUnary publicReadRow) s5RowUnary foldedS5Row
+      exact
+        ⟨tail, bridge, reassociated.left, reassociated.right, hsame_refl bridge, tailUnary,
+          bridgeUnary⟩
+
 end BEDC.Derived.AbelRuffiniUp
