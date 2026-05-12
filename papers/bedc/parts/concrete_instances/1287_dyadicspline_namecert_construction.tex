@@ -113,15 +113,102 @@ Apply \autoref{thm:dyadic-spline-regseqrat-real-boundary}. The $\RegSeqRatUp$ an
 The downstream $\DyadicApproximationUp$ consumer therefore receives exactly the finite piecewise-linear tuple named in the statement. There is no remaining carrier coordinate from which a host function, completed real graph, quotient real, or choice-selected limit could be read.
 \end{proof}
 
+\begin{theorem}[DyadicSpline common refinement segment exhaustion]
+\label{thm:dyadic-spline-common-refinement-segment-exhaustion}
+Let $S=(K,A,L,I,Q,R,H,C,P,N)$ and $S'=(K',A',L',I',Q',R',H',C',P',N')$ be accepted $\DyadicSplineUp$ packets compared by classifier transport. Then their comparison refines to one displayed dyadic mesh and one finite segment ledger. Every compared endpoint coefficient, rational cell, $\RegSeqRatUp$ readback, and $\RealUp$ seal read factors through that common mesh and ledger.
+
+The exhaustion exports only the shared $\DyadicMeshUp$ row, finite $\DyadicRatCoreUp$ endpoint coefficients, $\RationalIntervalUp$ cell rows, segment ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. It does not read a host function, completed graph, quotient real, infinite knot sequence, or selected limit.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:dyadic-spline-finite-carrier}. The classifier compares knot rows, endpoint coefficient rows, rational cell rows, segment ledgers, readback rows, seal rows, and provenance rows only after displayed transport.
+
+Apply \autoref{thm:dyadic-spline-mesh-refinement-handoff} to refine both mesh rows to a common displayed dyadic mesh. Then apply \autoref{thm:dyadic-spline-endpoint-mesh-transport-stability} to transport the endpoint coefficients, interval cells, and segment ledgers onto that common mesh.
+
+Finally use \autoref{thm:dyadic-spline-standard-piecewise-linear-reading}. Once the packets have been transported to the same mesh, the public read is exactly the finite mesh, endpoint, cell, ledger, readback, seal, transport, continuation, provenance, and local naming tuple, so no host-level reading remains.
+\end{proof}
+
+\begin{theorem}[DyadicSpline zero segment carrier]
+\label{thm:dyadic-spline-zero-segment-carrier}
+The constant zero endpoint coefficient packet inhabits the $\DyadicSplineUp$ carrier. Its segment ledger has the displayed zero $\DyadicRatCoreUp$ endpoint rows on every retained cell, its $\RegSeqRatUp$ readback is the zero readback route, and its $\RealUp$ seal factors through that same zero readback.
+
+This carrier is a finite BEDC packet over $\DyadicMeshUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ only. It does not add a host zero function, completed graph, quotient real, infinite mesh, or selected limit.
+\end{theorem}
+\begin{proof}
+Start with any displayed finite $\DyadicMeshUp$ row and choose the zero $\DyadicRatCoreUp$ coefficient row at both endpoints of each retained segment. The definition of \autoref{def:dyadic-spline-finite-carrier} then supplies the finite segment ledger, the rational cell ledger, transport rows, continuation rows, provenance, and local name row.
+
+Read a consumer window through the segment ledger. Because both endpoint coefficient rows on every segment are the displayed zero rows, the resulting finite rational observation is the zero $\RegSeqRatUp$ readback.
+
+Apply \autoref{thm:dyadic-spline-regseqrat-real-boundary} to route the $\RealUp$ seal through that readback, and apply \autoref{thm:dyadic-spline-standard-piecewise-linear-reading} to identify the public packet with the finite zero mesh data. No separate host zero function or completed graph is introduced.
+\end{proof}
+
+\begin{theorem}[DyadicSpline Real seal mesh factorization]
+\label{thm:dyadic-spline-real-seal-mesh-factorization}
+Every $\RealUp$ seal consumer read of an accepted $\DyadicSplineUp$ packet factors through the displayed mesh, cell ledger, endpoint coefficients, $\RegSeqRatUp$ readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The consumer reaches the seal only after selecting a finite mesh cell, reading its endpoint coefficients, and passing the resulting rational observation through the regular-rational readback.
+
+The factorization exports no host function semantics, completed real graph, quotient real, uniform convergence claim, infinite knot sequence, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:dyadic-spline-finite-carrier}. The only seal-facing coordinates are the mesh row, endpoint coefficient rows, segment ledger, rational cell ledger, readback row, real seal row, transports, continuations, provenance, and local naming row.
+
+Apply \autoref{thm:dyadic-spline-regseqrat-real-boundary}. A real-name consumer first chooses a displayed segment, reads its $\RationalIntervalUp$ cell and endpoint coefficients, and then routes the finite rational observation through the $\RegSeqRatUp$ row before the $\RealUp$ seal is consumed.
+
+Apply \autoref{thm:dyadic-spline-common-refinement-segment-exhaustion} when the consumer compares transported packets, and apply \autoref{thm:dyadic-spline-standard-piecewise-linear-reading} to identify the exported surface. Thus every seal read factors through the finite mesh package, with no ambient analytic object available to the consumer.
+\end{proof}
+
+\begin{theorem}[DyadicSpline refinement classifier transport]
+\label{thm:dyadic-spline-refinement-classifier-transport}
+Let $S=(K,A,L,I,Q,R,H,C,P,N)$ and $S'=(K',A',L',I',Q',R',H',C',P',N')$ be accepted $\DyadicSplineUp$ packets whose classifier comparison is displayed on a common dyadic refinement. Then the classifier transports the knot rows, endpoint coefficient rows, segment ledgers, rational cell rows, $\RegSeqRatUp$ readbacks, and $\RealUp$ seal rows through that same refinement.
+
+The transported comparison is exhausted by the $\DyadicMeshUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of the two finite carriers. It has no coordinate for a host spline function, completed graph, quotient real, infinite knot sequence, or selected limit.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:dyadic-spline-finite-carrier}. The only classifier-facing rows are the displayed knot, endpoint, segment, cell, readback, seal, transport, continuation, provenance, and local naming coordinates.
+
+Apply \autoref{thm:dyadic-spline-common-refinement-segment-exhaustion}. The comparison first moves both carriers to one displayed dyadic mesh and one finite segment ledger, so every later read is made on that common finite row.
+
+Apply \autoref{thm:dyadic-spline-endpoint-mesh-transport-stability}. Endpoint coefficients, cell rows, segment entries, rational readbacks, and real seals move componentwise along the stored $\hsame$ witnesses and displayed $\Cont$ routes.
+
+The standard reading theorem then identifies the transported packet with the same finite piecewise-linear surface. Since each inspected item is a carrier projection or displayed continuation route, no host-level analytic object remains in the classifier.
+\end{proof}
+
+\begin{theorem}[DyadicSpline Real seal stability]
+\label{thm:dyadic-spline-real-seal-stability}
+For every accepted $\DyadicSplineUp$ packet and every displayed dyadic refinement accepted by \autoref{thm:dyadic-spline-mesh-refinement-handoff}, each $\RealUp$ seal read after refinement is still routed through a selected segment row, its rational cell row, its transported endpoint coefficient rows, and the $\RegSeqRatUp$ readback row.
+
+Thus refinement preserves the real-seal non-escape boundary: the seal read remains inside the finite $\DyadicMeshUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Start with the refined packet supplied by \autoref{thm:dyadic-spline-mesh-refinement-handoff}. Its refined mesh, endpoint rows, segment ledger, cell ledger, readback row, seal row, transports, continuations, provenance, and local name are again the coordinates of \autoref{def:dyadic-spline-finite-carrier}.
+
+Use \autoref{thm:dyadic-spline-real-seal-mesh-factorization}. A seal consumer first selects a finite mesh cell, reads its transported endpoint coefficients, and then reaches the $\RegSeqRatUp$ row before the $\RealUp$ seal is consumed.
+
+The boundary theorem \autoref{thm:dyadic-spline-regseqrat-real-boundary} excludes every route outside those finite rows. Therefore mesh refinement changes the displayed carrier rows but does not open a path to host functions, quotient reals, completed graphs, infinite meshes, or selected limits.
+\end{proof}
+
+\begin{theorem}[DyadicSpline obligation closure package]
+\label{thm:dyadic-spline-obligation-closure-package}
+The finite carrier of \autoref{def:dyadic-spline-finite-carrier}, the NameCert obligation surface of \autoref{thm:dyadic-spline-namecert-obligation-surface}, the mesh-refinement handoff, the endpoint transport stability theorem, the rational-real boundary theorem, the standard piecewise-linear reading, the refinement classifier transport theorem, and the real-seal stability theorem assemble the $\DyadicSplineUp$ obligation package.
+
+The package supplies carrier habitation, classifier transport, mesh-refinement stability, readback boundary, real-seal stability, and the standard finite piecewise-linear reading for $\DyadicSplineUp$ consumers. It asserts no host-function semantics, quotient real, completed spline graph, infinite knot sequence, uniform convergence theorem, or choice-selected limit.
+\end{theorem}
+\begin{proof}
+Carrier habitation and the row inventory are supplied by \autoref{def:dyadic-spline-finite-carrier} and \autoref{thm:dyadic-spline-namecert-obligation-surface}. They expose the finite mesh, endpoint, segment, cell, readback, seal, transport, continuation, package, and local name rows.
+
+Mesh-refinement stability is \autoref{thm:dyadic-spline-mesh-refinement-handoff}, with endpoint and cell transport supplied by \autoref{thm:dyadic-spline-endpoint-mesh-transport-stability}. The classifier transport theorem places the compared packets on the same displayed refinement before any consumer read.
+
+The readback and seal boundaries are supplied by \autoref{thm:dyadic-spline-regseqrat-real-boundary} and \autoref{thm:dyadic-spline-real-seal-stability}. Finally, \autoref{thm:dyadic-spline-standard-piecewise-linear-reading} identifies the public reading with exactly those rows, so the assembled obligation package has no remaining analytic escape coordinate.
+\end{proof}
+
 \closureat{DyadicSplineUp}{seedStr}
+\closureat{DyadicSplineUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicSplineUp}
   \constructivestory{A $\DyadicSplineUp$ packet is generated by a finite $\DyadicMeshUp$ knot row, finite $\DyadicRatCoreUp$ coefficient rows, a piecewise-linear segment ledger, a $\RationalIntervalUp$ cell ledger, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-spline-finite-carrier}, \autoref{thm:dyadic-spline-namecert-obligation-surface}, \autoref{thm:dyadic-spline-mesh-refinement-handoff}, \autoref{thm:dyadic-spline-regseqrat-real-boundary}, and \autoref{thm:dyadic-spline-standard-piecewise-linear-reading} describe the seed finite dyadic piecewise-linear spline surface over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, and $\DyadicApproximationUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:dyadic-spline-obligation-closure-package} binds the finite carrier, classifier transport, mesh-refinement stability, rational readback, $\RealUp$ seal stability, and standard piecewise-linear reading over $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\RealUp$, and $\DyadicApproximationUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host-function semantics, quotient reals, infinite knot sequences, uniform convergence of spline families, choice-selected limits, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier inhabitation, classifier transport, mesh-refinement stability, rational readback, real-seal non-escape, and standard piecewise-linear reading rows for $\DyadicSplineUp$.}
+  \upgradepath{Scoped closure requires binding the finite dyadic spline obligation package to the exact downstream $\DyadicApproximationUp$ dependency scope and its completion-facing consumer boundary.}
 \end{closurestatus}
