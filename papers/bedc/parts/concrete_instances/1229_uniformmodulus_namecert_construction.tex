@@ -72,6 +72,48 @@ The compact row is the coverage coordinate $C$ together with the bundled centers
 The rational fold row is \autoref{thm:uniformmodulus-finite-probebundle-fold}. Repacking these rows with $L$, $Q$, $P$, and $N$ gives exactly the finite local $\NameCert_{\UniformModulusUp}$ surface, and no hidden selector or analytic compactness object is available to the consumer.
 \end{proof}
 
+\begin{theorem}[UniformModulus carrier obligation]
+\label{thm:uniformmodulus-modulus-carrier-obligation}
+For an accepted $\UniformModulusUp$ carrier $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, carrier admission is exactly the displayed finite $\BHist$ packet of \autoref{def:uniformmodulus-bhist-carrier}. The admitted rows are the positive $\RatUp$ tolerance $E$, the positive $\RatUp$ precision $D$, the nonempty $\mathsf{ProbeBundle}$ finite fold spine $\mathcal{P}$, the $\RatUp$ tolerance and precision rows in $R$, the $\CompactMetricUp$ finite-net row $C$, the $\ContinuousMapUp$ pointwise-modulus rows $M$, the finite rational fold $F$, componentwise $\hsame$ data $L$, displayed $\Cont$ routes $Q$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
+
+No admitted carrier coordinate is an open-cover compactness principle, a host minimum operation, or an external modulus selector.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:uniformmodulus-bhist-carrier}. Each row named in the statement occurs as one finite coordinate of the same $\BHist$ packet.
+
+The $\mathsf{ProbeBundle}$ row supplies the finite fold spine, while the $\RatUp$ rows provide the tolerance, precision, radius, and comparison data consumed by the fold. The compact row is the finite-net coverage coordinate, and the continuous row is the displayed pointwise-modulus ledger at bundled centers.
+
+The remaining rows $L$, $Q$, $P$, and $N$ are transport, continuation, package, and naming boundaries. Since carrier admission is exhausted by these displayed coordinates, there is no place for open-cover compactness, a host minimum, or an external modulus selector.
+\end{proof}
+
+\begin{theorem}[UniformModulus classifier stability obligation]
+\label{thm:uniformmodulus-classifier-stability-obligation}
+Classifier stability for an accepted $\UniformModulusUp$ packet preserves the existing $\BHist$ carrier packet, the finite $\mathsf{ProbeBundle}$ fold, the positive $\RatUp$ tolerance and precision rows, the $\CompactMetricUp$ finite-net row, the $\ContinuousMapUp$ pointwise-modulus rows, the componentwise $\hsame$ ledger, the displayed $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row.
+
+Thus any classifier-related packet reads the same finite tolerance-to-precision surface through displayed rows only. It cannot gain an open-cover compactness row, a host minimum, or an external modulus selector during transport.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise $\hsame$ data $L$. It transports the tolerance, precision, radius, coverage, pointwise-modulus, and fold ledgers without changing which coordinates are classifier-visible.
+
+Use the displayed $\Cont$ routes $Q$ to read the transported packet. The compact finite-net row still points to the same finite $\mathsf{ProbeBundle}$ spine, and the continuous pointwise-modulus rows remain attached to the bundled centers.
+
+The $\Pkg$ provenance $P$ and local $\NameCert$ row $N$ bound the transported read. Because these rows only re-expose the finite carrier inventory, transport cannot introduce open-cover compactness, a host minimum, or an external modulus selector.
+\end{proof}
+
+\begin{theorem}[UniformModulus ledger exactness obligation]
+\label{thm:uniformmodulus-ledger-exactness-obligation}
+The ledger exactness obligation for $\UniformModulusUp$ says that the precision row $D$ is consumed only as the result of the finite $\mathsf{ProbeBundle}$ fold $F$ over displayed $\RatUp$ radius rows, with compact coverage supplied by $C$, pointwise-modulus rows supplied by $M$, componentwise $\hsame$ transport supplied by $L$, continuation routes supplied by $Q$, package provenance supplied by $P$, and local naming supplied by $N$.
+
+Every tolerance-to-precision read must therefore account for the same finite fold ledger. No read may replace the fold with open-cover compactness, a host minimum, or an external modulus selector.
+\end{theorem}
+\begin{proof}
+Read the precision row $D$ through \autoref{thm:uniformmodulus-finite-probebundle-fold}. Its only source is the finite lower-bound fold over the bundled radius rows.
+
+Next read compactness and continuity through $C$ and $M$. The finite-net coordinate supplies a bundled center, and the pointwise-modulus coordinate supplies the local tolerance handoff at that center.
+
+Finally repack the route through $L$, $Q$, $P$, and $N$. These rows record transport, continuation, package, and local naming evidence for the same finite ledger, so the precision read has no remaining coordinate from which to import open-cover compactness, a host minimum, or an external modulus selector.
+\end{proof}
+
 \begin{theorem}[UniformModulus compact-continuous handoff]
 \label{thm:uniformmodulus-compact-continuous-handoff}
 Suppose a $\CompactMetricUp$ packet exposes a nonempty $\mathsf{ProbeBundle}$ finite-net row for a positive tolerance history and a $\ContinuousMapUp$ packet over the same $\MetricUp$ source exposes pointwise-modulus rows at every bundled center. If these rows are admitted into a $\UniformModulusUp$ carrier, then the precision history produced by the finite lower-bound fold is a conservative uniform-modulus handoff for compact-continuous consumers: every source-distance read below that precision factors through one compact coverage row, the corresponding pointwise-modulus row, the target metric rows, and the same finite $\RatUp$ fold certificate.
