@@ -168,4 +168,41 @@ theorem DyadicTailBoundCarrier_budget_composition [AskSetup] [PackageSetup]
       compositeSealUnary,
       compositePkgSig⟩
 
+theorem DyadicTailBoundCarrier_seal_consumer_determinacy [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance localCert
+      consumer consumer' transport' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      Cont ledger readback consumer ->
+        Cont ledger readback consumer' ->
+          Cont precision consumer transport ->
+            Cont precision consumer' transport' ->
+              PkgSig bundle consumer pkg ->
+                PkgSig bundle consumer' pkg ->
+                  hsame sealRow consumer ∧ hsame sealRow consumer' ∧
+                    hsame consumer consumer' ∧ UnaryHistory consumer ∧
+                      UnaryHistory consumer' ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle consumer pkg ∧ PkgSig bundle consumer' pkg := by
+  intro carrier consumerRead consumerRead' _consumerTransport _consumerTransport'
+    consumerPkg consumerPkg'
+  obtain ⟨_precisionUnary, scheduleUnary, toleranceUnary, readbackUnary, _sealUnary,
+    _provenanceUnary, scheduleToleranceRow, sealRead, _transportRow, _routeRow,
+    _sealRouteRow, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceRow
+  have sameSealConsumer : hsame sealRow consumer :=
+    cont_deterministic sealRead consumerRead
+  have sameSealConsumer' : hsame sealRow consumer' :=
+    cont_deterministic sealRead consumerRead'
+  have sameConsumer : hsame consumer consumer' :=
+    hsame_trans (hsame_symm sameSealConsumer) sameSealConsumer'
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary readbackUnary consumerRead
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed ledgerUnary readbackUnary consumerRead'
+  exact
+    ⟨sameSealConsumer, sameSealConsumer', sameConsumer, consumerUnary, consumerUnary',
+      provenancePkg, consumerPkg, consumerPkg'⟩
+
 end BEDC.Derived.DyadicTailBoundUp
