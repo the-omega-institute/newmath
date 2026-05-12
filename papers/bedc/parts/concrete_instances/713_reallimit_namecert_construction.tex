@@ -315,6 +315,7 @@ No coordinate of \autoref{def:reallimit-bhist-carrier} stores completeness,
 quotient-stream equality, or a selected limit. Therefore the readback surface
 has no source from which any of those objects can be read.
 \end{proof}
+\leanchecked{BEDC.Derived.RealLimitUp.RealLimitPacket\_readback\_obligation}
 
 \begin{theorem}[RealLimit ledger obligation]
 \label{thm:reallimit-ledger-obligation}
@@ -486,6 +487,38 @@ equality, selected limit object, or $\RealUp$ completeness witness, hence the
 standard boundary cannot introduce one.
 \end{proof}
 
+\begin{theorem}[RealLimit finite real-seal consumer completeness]
+\label{thm:reallimit-finite-real-seal-consumer-completeness}
+Every finite consumer read of a displayed $\RealLimitUp$ packet factors through
+exactly the $\StreamNameUp$ schedule row, the $\RegSeqRatUp$ source stream row,
+the $\RealUp$ endpoint row, the $\DyadicRatCoreUp$ tolerance rows, the
+componentwise $\hsame$ rows, the visible $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the local $\NameCert_{\RealLimitUp}$ ledger. Conversely, those
+rows repack as the finite real-seal consumer surface.
+
+This consumer surface adds no $\RealUp$ completeness theorem, quotient stream
+equality, selected limit object, or host completion principle beyond the
+standard bridge boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:reallimit-regseqrat-streamname-handoff} to identify the
+scheduled stream name and regular rational source stream that any finite
+consumer can inspect.
+
+Apply \autoref{thm:reallimit-readback-ledger-exhaustion}. This accounts for the
+$\RealUp$ endpoint row, dyadic tolerance rows, componentwise $\hsame$
+transports, visible $\Cont$ routes, package provenance, and local naming ledger.
+
+Next use \autoref{thm:reallimit-public-real-window-export}. It presents the
+same exhausted rows as the public real-window packet available to downstream
+finite consumers.
+
+Finally apply \autoref{thm:reallimit-standard-bridge-boundary}. The bridge
+boundary contributes no hidden completion, quotient, or selected-limit row, so
+the displayed rows are also sufficient in the reverse direction to repack the
+finite real-seal consumer surface.
+\end{proof}
+
 \closureat{RealLimitUp}{seedStr}
 \closureat{RealLimitUp}{obligationStr}
 \closureat{RealLimitUp}{scopedStr}
@@ -496,7 +529,7 @@ standard boundary cannot introduce one.
 \begin{closurestatus}{\RealLimitUp}
   \constructivestory{A finite limit-name packet records a stream schedule, regular rational source stream, proposed real seal endpoint, dyadic tolerance windows, transport rows, continuation routes, package provenance, and local naming ledger.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{thm:reallimit-scoped-kernel-interface}, \autoref{thm:reallimit-readback-ledger-exhaustion}, \autoref{thm:reallimit-regseqrat-streamname-handoff}, \autoref{thm:reallimit-public-real-window-export}, \autoref{thm:reallimit-standard-finite-seal-bridge}, and \autoref{thm:reallimit-standard-bridge-boundary} bind the classifier, stability, readback, ledger, public real-window export, standard finite-seal bridge, and standard bridge boundary to the finite carrier of \autoref{def:reallimit-bhist-carrier}, componentwise $\hsame$ transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance, the $\NameCert$ ledger, and the downstream $\RealUp$ endpoint row.}
+  \scopeclosed{\autoref{thm:reallimit-scoped-kernel-interface}, \autoref{thm:reallimit-readback-ledger-exhaustion}, \autoref{thm:reallimit-regseqrat-streamname-handoff}, \autoref{thm:reallimit-public-real-window-export}, \autoref{thm:reallimit-standard-finite-seal-bridge}, \autoref{thm:reallimit-standard-bridge-boundary}, and \autoref{thm:reallimit-finite-real-seal-consumer-completeness} bind the classifier, stability, readback, ledger, public real-window export, standard finite-seal bridge, standard bridge boundary, and finite real-seal consumer surface to the finite carrier of \autoref{def:reallimit-bhist-carrier}, componentwise $\hsame$ transport, $\Cont$ schedule refinements, $\mathsf{Pkg}$ provenance, the $\NameCert$ ledger, and the downstream $\RealUp$ endpoint row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
