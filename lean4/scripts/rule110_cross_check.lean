@@ -330,8 +330,14 @@ def checkManifest (path : String) (manifest : Manifest) : Except String (List St
   | Family.hist => manifest.assertions.mapM (checkHsameRefl path)
   | Family.ext => manifest.assertions.mapM (checkExtStep path)
 
+def registeredManifests : List String := [
+  "../rule110/manifests/mark/msame_refl.enum.ct",
+  "../rule110/manifests/hist/hsame_refl.enum.ct",
+  "../rule110/manifests/ext/ext_step.enum.ct"
+]
+
 def usage : String :=
-  "usage: cd lean4 && lake env lean --run scripts/rule110_cross_check.lean <manifest.enum.ct>..."
+  "usage: cd lean4 && lake exe rule110-cross-check [manifest.enum.ct]..."
 
 def runOne (path : String) : IO UInt32 := do
   let content <- IO.FS.readFile path
@@ -353,9 +359,7 @@ partial def runMany : List String -> IO UInt32
 
 def run (args : List String) : IO UInt32 := do
   match args with
-  | [] =>
-      IO.eprintln usage
-      pure 1
+  | [] => runMany registeredManifests
   | _ => runMany args
 
 end BEDC.Rule110CrossCheck

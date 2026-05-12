@@ -120,7 +120,7 @@ Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
   - [ ] L4.3.c: Reuse lower-family checkers inside aggregate files where possible, especially `settled/settled_basic.enum.ct`.
   - [ ] L4.3.d: Ensure representative finite manifests are reported as ground instances of Lean universal theorems, not as exhaustive coverage claims for infinite types.
 - [ ] L4.4: Add CI gate.
-  - [ ] L4.4.a: Add Lake target `rule110-cross-check` that runs the Lean executable over the registered manifest list.
+  - [x] L4.4.a: Add Lake target `rule110-cross-check` that runs the Lean executable over the registered manifest list.
   - [ ] L4.4.b: CI acceptance requires `cd rule110 && make test` and `cd lean4 && lake build rule110-cross-check`.
   - [ ] L4.4.c: Gate failure messages distinguish C evaluator failure, Lean decode failure, Lean semantic mismatch, missing target registration, and fixture incompleteness.
   - [ ] L4.4.d: Track runtime budget for roughly `44 manifests × ~30 assertions`, with startup/import time expected to dominate.
