@@ -251,6 +251,33 @@ which such checking is meaningful. Together they explain why ``BEDC compiles
 itself'' has a legitimate L4-mid reading and no legitimate L4a or replacement
 reading.
 
+\subsection{Self-Compilation Completeness}\label{subsec:reconstruction-self-comp-completeness}
+
+In this chapter, self-compilation has a precise BEDC meaning. It does not mean
+that BEDC compiles BEDC into an executable binary, nor that BEDC replaces the
+host kernel. It means that BEDC represents enough of a CIC fragment for the
+paper's quantified judgments about syntax, typing, reduction, closure, and
+substitution to be stated as Lean-checkable inductive objects and theorems.
+
+The completed mechanized surface covers the paper claims for syntax, typing
+rules, atom-shape preservation, atom normalization, and closed-domain
+substitution preservation. These claims are expressed over the represented
+MetaCIC terms, contexts, beta relations, closure predicate, and typing
+judgment, so Lean checks them as ordinary theorems about inductively generated
+data.
+
+The surface does not close substitute preservation for arbitrary binder
+domains, strong normalization, or a decidable type checker for arbitrary
+represented terms. Those targets require binder-domain transport, global
+termination structure, or complete inference coverage beyond the represented
+fragment used here.
+
+Thus the self-compilation status is L1 plus L4-mid. It is a syntax-and-judgment
+reconstruction layer together with finite Lean-checked paper claims. It is not
+L4a, because BEDC is not closed over the host that checks it, and it is not
+L4c, because BEDC does not replace the host kernel or identify paper closure
+with kernel verification.
+
 \subsection{Host CIC Relation}\label{subsec:reconstruction-host-cic-relation}
 
 MetaCIC is represented inside the host Lean calculus, not beside it. The

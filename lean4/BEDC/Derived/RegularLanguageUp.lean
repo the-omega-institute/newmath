@@ -154,4 +154,30 @@ theorem RegularLanguageAutomatonPacket_namecert_obligation_surface [AskSetup] [P
       runUnary', endpointUnary', publicReadUnary, sameRun, sameEndpoint, publicReadRow,
       publicReadPkg⟩
 
+theorem RegularLanguageAutomatonPacket_public_accepted_word_export [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont routes provenance publicExport ->
+        PkgSig bundle publicExport pkg ->
+          UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+            UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+              UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory transport ∧
+                UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory publicExport ∧
+                  Cont start word run ∧ Cont run transition endpoint ∧
+                    Cont endpoint transport routes ∧ Cont routes provenance publicExport ∧
+                      PkgSig bundle publicExport pkg := by
+  intro packet exportRow publicSig
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, runRow,
+    endpointRow, routesRow, _pkgSig⟩ := packet
+  have publicUnary : UnaryHistory publicExport :=
+    unary_cont_closed routesUnary provenanceUnary exportRow
+  exact
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, publicUnary,
+        runRow, endpointRow, routesRow, exportRow, publicSig⟩
+
 end BEDC.Derived.RegularLanguageUp
