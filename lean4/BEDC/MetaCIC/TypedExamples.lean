@@ -75,6 +75,20 @@ theorem polymorphic_identity :
   · exact HasType.sortRule []
   · exact lam_dependent_identity
 
+theorem nested_poly_id :
+    HasType []
+      (Term.lam Term.sort (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))))
+      (Term.pi Term.sort (Term.pi Term.sort (Term.pi (Term.var 0) (Term.var 1)))) := by
+  apply HasType.lamRule
+  · exact HasType.sortRule []
+  · apply HasType.lamRule
+    · exact HasType.sortRule [Term.sort]
+    · apply HasType.lamRule
+      · apply HasType.varRule
+        rfl
+      · apply HasType.varRule
+        rfl
+
 theorem id_applied_to_sort_type :
     HasType []
       (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0))) Term.sort)
@@ -86,6 +100,29 @@ theorem id_applied_to_sort_type :
     (Term.pi (Term.var 0) (Term.var 1))
     polymorphic_identity
     (HasType.sortRule [])
+
+theorem poly_id_to_pi_type :
+    HasType []
+      (Term.app (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+        (Term.pi Term.sort Term.sort))
+        (Term.lam Term.sort Term.sort))
+      (substitute 0 (Term.lam Term.sort Term.sort) (Term.pi Term.sort Term.sort)) := by
+  exact HasType.appRule []
+    (Term.app (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+      (Term.pi Term.sort Term.sort))
+    (Term.lam Term.sort Term.sort)
+    (Term.pi Term.sort Term.sort)
+    (Term.pi Term.sort Term.sort)
+    (HasType.appRule []
+      (Term.lam Term.sort (Term.lam (Term.var 0) (Term.var 0)))
+      (Term.pi Term.sort Term.sort)
+      Term.sort
+      (Term.pi (Term.var 0) (Term.var 1))
+      polymorphic_identity
+      pi_sort_sort_in_empty_ctx)
+    (HasType.lamRule [] Term.sort Term.sort Term.sort
+      (HasType.sortRule [])
+      (HasType.sortRule [Term.sort]))
 
 /-- 空 ctx 下: lambda 内构造 pi (var 0) (var 1), 外层类型为 pi sort sort. -/
 theorem lam_constructs_dependent_pi :
