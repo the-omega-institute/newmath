@@ -134,6 +134,7 @@ import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FreeMonoidUp
@@ -241,6 +242,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
+import BEDC.Derived.UnitDiskUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.VermaModuleUp
