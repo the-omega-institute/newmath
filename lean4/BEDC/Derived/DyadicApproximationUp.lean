@@ -196,4 +196,25 @@ theorem DyadicApproximationCarrier_real_seal_radius_route_certificate [AskSetup]
       exact ⟨sourceRow.right.right.right, sameProvenance, sameEndpoint⟩
   }
 
+theorem DyadicApproximationCarrier_window_scope [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont window provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+            UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory consumer ∧
+              Cont precision endpoint window ∧ Cont window ledger provenance ∧
+                Cont window provenance consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  intro carrier windowProvenanceConsumer consumerPkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
+      windowProvenanceConsumer, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp
