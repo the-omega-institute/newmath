@@ -466,7 +466,53 @@ FKernel 余下部分。规模约 50 周以上 wall clock 估算 (1061 theorem ×
 
 ---
 
-## 13. 已知不变量 (rule110/ 自身的纪律, 不引入主 BEDC)
+## 13. Alternative ground-up paradigms (BEDC 已建, honest acknowledge)
+
+BEDC 主仓库内部已经存在 *另一条* ground-up substrate path, 跟本 spec 的 cyclic tag / Rule 110 path 平行但 paradigm 不同。本 init spec 选 cyclic tag path, **不** 等于否定另一条; 二者将在 milestone-3 时正面相遇, 需要届时再做 design decision。
+
+### 13.1 两条 ground-up paths
+
+| | Path A (本 spec) | Path B (BEDC 内部已建) |
+|---|---|---|
+| 核心 substrate | cyclic tag system / Rule 110 cellular automaton | mini-CIC (Term ::= var \| app \| lam \| pi \| sort) + BHist binary substrate |
+| 模块位置 | `rule110/` (新建, sibling experiment) | `lean4/BEDC/MetaCIC/` + `MetaCIC/BHistSubstrate.lean` |
+| 当前规模 | 0 (init 中) | 42 文件 / 8901 行 / 539 theorem / 13 inductive |
+| Paradigm | string rewriting (Post 1943 / Cook 2004) | 类型论自我内化 (mini-CIC self-host) |
+| 元层信任面 | ANSI C evaluator (~130 行) | Lean kernel + MetaCIC 自身 metatheory (Beta/Confluence/SR/Normalization) |
+| BEDC content encoding 方向 | BEDC RawEvent → bit stream → cyclic tag tape | CIC term → BHist binary substrate |
+| Type 抽象 | 无 (cyclic tag 没 lambda 也没 type) | 完整 mini-CIC 类型系统 (var/app/lam/pi/sort + typing rules) |
+
+### 13.2 选 Path A 的理由 (init scope 内)
+
+1. **Substrate 更 minimal**: cyclic tag system 比 mini-CIC 简单一档 — 没 lambda 抽象, 没 type system, 没 binding scope, 只有 string + 重写规则 + cyclic pointer。元层 trust ANSI C ~130 行 vs Lean kernel + 8901 行 MetaCIC 元理论, 一个数量级差距
+2. **直接连接 Rule 110**: Cook 2004 universal construction 就是 cyclic tag → Rule 110 路线, mini-CIC 到 Rule 110 没有公开 universality construction
+3. **GroundCompiler convention 复用**: BEDC 已建的 `ChannelEncoding.lean` 是 RawEvent → bit stream 风格, 自然 fit cyclic tag substrate, 不 fit mini-CIC term
+4. **Paradigm distance**: Path A 完全脱离 type theory paradigm (string rewriting only), Path B 仍在 type theory paradigm 内 (只是 self-internalize)。本 spec 立场是 "找 paradigm 上最远的 ground-up", Path A 更彻底
+
+### 13.3 milestone-3 时两条 paths 的关系
+
+把 BHist / Ext / SigRel 移到 ground-up 时, 两条 paths 会面对同一问题但各有解法:
+
+- **Path A 解法**: BHist 自然延展 GroundCompiler convention (BHist 是 list of bits = 单个 event), Ext / SigRel 是 inductive Prop, 编码成"存在 cyclic tag program 见证 relation holds for given inputs"
+- **Path B 解法**: BHist 已经 *是* Path B 的 substrate, Ext / SigRel 在 mini-CIC 内部表达为 typed term (用 lam/pi/sort 表达 Π-type relation), BHistSubstrate 把它们 flatten 成 BHist
+
+两条解法 *不能* 直接合并 (paradigm 不同), 也不互相否定。可能的 milestone-3 outcome:
+
+- **(a) 二选一**: 选 Path A 或 Path B 作为 BEDC 长期 ground-up substrate, 另一条 archive
+- **(b) 平行延续**: 两条都长, 各自 cover BEDC 不同子集 (e.g., Path A 做 FKernel hard core, Path B 做 derived interfaces), 都是 valid ground-up 但不同 audit framework
+- **(c) 桥接 layer**: 写一个 cyclic-tag-to-mini-CIC 或反向 translator, 让两条 paths cross-verify (但这等于多一份元层信任成本)
+
+**不在 init scope 决定**: vertical slice 完 + 跑 1-2 周稳定后, milestone-3 启动时再 evaluate。届时数据包括: Path A 5-7 day sprint 实际感受 / Path B 539 已 theorem 的 amortization wisdom / BHist 移植具体技术 friction 在哪一边。
+
+### 13.4 vertical slice 不依赖也不影响 Path B
+
+- Path B (`lean4/BEDC/MetaCIC/`) 在主 dev 分支继续生长, 受 codex pipeline 维护, 本 spec 不动它
+- 本 spec ship 的 `rule110/` 完全独立, ANSI C reimplement, 不 import Lean / 不 link MetaCIC 任何 module
+- 两条 paths 共享 *BMark / BHist datatype 定义* (来自 `lean4/BEDC/FKernel/{Mark,Hist}.lean`), 但只在 *规范层* 共享, 实现层各自独立
+
+---
+
+## 14. 已知不变量 (rule110/ 自身的纪律, 不引入主 BEDC)
 
 - **0 binary dependency**: 只依赖 ANSI C stdlib `<stdio.h> <stdlib.h> <string.h> <stdint.h>`
 - **0 fancy 优化**: 不 bit-pack, 不 SIMD, 不 multithread — audit 优先
@@ -475,7 +521,7 @@ FKernel 余下部分。规模约 50 周以上 wall clock 估算 (1061 theorem ×
 
 ---
 
-## 14. 参考
+## 15. 参考
 
 - Cook, M. (2004). "Universality in Elementary Cellular Automata". *Complex Systems* 15(1): 1-40. ([Wolfram-hosted PDF](http://wpmedia.wolfram.com/sites/13/2018/02/15-1-1.pdf))
 - Post, E. L. (1943). "Formal Reductions of the General Combinatorial Decision Problem". *American Journal of Mathematics* 65(2): 197-215.
@@ -483,3 +529,5 @@ FKernel 余下部分。规模约 50 周以上 wall clock 估算 (1061 theorem ×
 - `lean4/BEDC/GroundCompiler/ChannelEncoding.lean` (本 spec encoding convention 来源)
 - `lean4/BEDC/GroundCompiler/MinimalPrototype.lean` (reject reason taxonomy 来源)
 - `lean4/BEDC/FKernel/Mark.lean` (本 spec 要 encode 的 4 theorem 来源)
+- `lean4/BEDC/MetaCIC/Syntax.lean` (§13 提到的 alternative ground-up Path B 入口)
+- `lean4/BEDC/MetaCIC/BHistSubstrate.lean` (Path B 的 CIC-term → BHist 编码)
