@@ -302,6 +302,7 @@ import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformSpaceUp
