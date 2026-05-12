@@ -16,6 +16,81 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BishopRealPacket [AskSetup] [PackageSetup]
+    (schedule regular dyadic modulus located apartness realSeal transport routes provenance
+      nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory schedule ∧ UnaryHistory regular ∧ UnaryHistory dyadic ∧
+    UnaryHistory modulus ∧ UnaryHistory located ∧ UnaryHistory apartness ∧
+      UnaryHistory realSeal ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+        UnaryHistory provenance ∧ UnaryHistory nameCert ∧ Cont schedule regular dyadic ∧
+          Cont dyadic modulus realSeal ∧ Cont transport routes provenance ∧
+            PkgSig bundle provenance pkg
+
+theorem BishopRealPacket_located_apartness_transport [AskSetup] [PackageSetup]
+    {schedule regular dyadic modulus located apartness realSeal transport routes provenance
+      nameCert schedule' regular' dyadic' modulus' located' apartness' realSeal'
+      transport' routes' provenance' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRealPacket schedule regular dyadic modulus located apartness realSeal transport routes
+        provenance nameCert bundle pkg ->
+      hsame schedule schedule' ->
+        hsame regular regular' ->
+          hsame dyadic dyadic' ->
+            hsame modulus modulus' ->
+              hsame located located' ->
+                hsame apartness apartness' ->
+                  hsame realSeal realSeal' ->
+                    hsame transport transport' ->
+                      hsame routes routes' ->
+                        hsame provenance provenance' ->
+                          hsame nameCert nameCert' ->
+                            Cont schedule' regular' dyadic' ->
+                              Cont dyadic' modulus' realSeal' ->
+                                Cont transport' routes' provenance' ->
+                                  PkgSig bundle provenance' pkg ->
+                                    BishopRealPacket schedule' regular' dyadic' modulus'
+                                        located' apartness' realSeal' transport' routes'
+                                        provenance' nameCert' bundle pkg ∧
+                                      hsame realSeal realSeal' ∧ hsame located located' ∧
+                                        hsame apartness apartness' := by
+  intro packet sameSchedule sameRegular sameDyadic sameModulus sameLocated
+  intro sameApartness sameSeal sameTransport sameRoutes sameProvenance sameNameCert
+  intro scheduleRegularDyadic dyadicModulusSeal transportRoutesProvenance provenancePkg
+  rcases packet with
+    ⟨scheduleUnary, regularUnary, dyadicUnary, modulusUnary, locatedUnary,
+      apartnessUnary, sealUnary, transportUnary, routesUnary, provenanceUnary, nameCertUnary,
+      _scheduleRegularDyadic, _dyadicModulusSeal, _transportRoutesProvenance,
+      _provenancePkg⟩
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have regularUnary' : UnaryHistory regular' :=
+    unary_transport regularUnary sameRegular
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have locatedUnary' : UnaryHistory located' :=
+    unary_transport locatedUnary sameLocated
+  have apartnessUnary' : UnaryHistory apartness' :=
+    unary_transport apartnessUnary sameApartness
+  have sealUnary' : UnaryHistory realSeal' :=
+    unary_transport sealUnary sameSeal
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameCertUnary' : UnaryHistory nameCert' :=
+    unary_transport nameCertUnary sameNameCert
+  exact
+    ⟨⟨scheduleUnary', regularUnary', dyadicUnary', modulusUnary', locatedUnary',
+        apartnessUnary', sealUnary', transportUnary', routesUnary', provenanceUnary',
+        nameCertUnary', scheduleRegularDyadic, dyadicModulusSeal,
+        transportRoutesProvenance, provenancePkg⟩,
+      sameSeal, sameLocated, sameApartness⟩
+
 theorem BishopRealPacket_standard_finite_packet_bridge [AskSetup] [PackageSetup]
     {schedule regular endpoint modulus located apart sealRow transport route provenance ledger
       bridge : BHist}
@@ -87,17 +162,6 @@ theorem BishopRealPacket_standard_finite_packet_bridge [AskSetup] [PackageSetup]
       intro _row sourceRow
       exact ⟨sourceRow.right.right.right, ledgerPkg, routeSealLedger⟩
   }
-
-def BishopRealPacket [AskSetup] [PackageSetup]
-    (schedule regular dyadic modulus located apartness realSeal transport routes provenance
-      nameCert : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory schedule ∧ UnaryHistory regular ∧ UnaryHistory dyadic ∧
-    UnaryHistory modulus ∧ UnaryHistory located ∧ UnaryHistory apartness ∧
-      UnaryHistory realSeal ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
-        UnaryHistory provenance ∧ UnaryHistory nameCert ∧ Cont schedule regular dyadic ∧
-          Cont dyadic modulus realSeal ∧ Cont transport routes provenance ∧
-            PkgSig bundle provenance pkg
 
 theorem BishopRealPacket_regseqrat_readback [AskSetup] [PackageSetup]
     {schedule regular dyadic modulus located apartness realSeal transport routes provenance
