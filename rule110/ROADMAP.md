@@ -177,11 +177,16 @@ At each level, declare ship-ready iff:
 
 ## History (archived)
 
-- `history/ROADMAP-m2-cook-construction.md` — M2 milestone (Cook construction primitives), behavioral scaffold completed 2026-05-12.
-- `history/ROADMAP-m3-fkernel-modules.md` — M3 milestone (13 FKernel modules ground-up encoded), completed 2026-05-12.
+Active references (read these first):
+- `rule110/docs/` — 14 per-module design docs + cook_construction.md (canonical current design)
+- `rule110/README.md` — top-level reproducibility + trust chain summary
+
+Historical audit trail (kept for provenance, not for active lookup):
+- `history/ROADMAP-m2-cook-construction.md` — M2 milestone roadmap (Cook construction, 60% done as behavioral scaffold).
+- `history/ROADMAP-m3-fkernel-modules.md` — M3 milestone roadmap (13 FKernel modules, 79% done).
+- `history/NOTES-m2-cook-observations.md` — M2 worker observations (per-glider best-effort rationale, collision sim outputs).
+- `history/NOTES-m3-fkernel-observations.md` — M3 worker observations (per-Lean-file LOC + theorem counts, per-module encoding choice timestamps).
 - Original vertical slice spec + plan: `docs/superpowers/specs/2026-05-12-rule110-init-design.md`, `docs/superpowers/plans/2026-05-12-rule110-init.md`.
-- Design docs: `rule110/docs/` (per-module design notes for all 13 FKernel encodings + Cook construction).
-- Working notes: `rule110/NOTES-m2.md`, `rule110/NOTES-m3.md` — design observations from milestones M2/M3 (kept at top level for active reference).
 
 ---
 
