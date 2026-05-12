@@ -604,3 +604,33 @@ For the forward implication, assume $\hsame(r,\emp)$ and classify the bundle $\P
 
 For the reverse implication, assume $\Pi=\Bnil$ and substitute this into the signature premise. Inverting the resulting empty-bundle signature leaves only the empty-signature rule, so the produced result history is internally the same as $\emp$, exactly as in \autoref{lem:empty-signature-inversion}.
 \end{proof}
+
+\begin{theorem}[Duplicate-probe signature contraction obstruction]
+\label{thm:duplicate-probe-signature-contraction-obstruction}
+For every probe $\pi$, probe bundle $\Pi$, source history $h$, and result
+histories $r,s$, if
+$$
+\Sig(\Bcons(\pi,\Bcons(\pi,\Pi)),h,r,\Delta)
+\qquad\text{and}\qquad
+\Sig(\Bcons(\pi,\Pi),h,s,\Gamma),
+$$
+then
+$$
+\neg\,\hsame(r,s).
+$$
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:signature-result-length-bundle-length} to the two displayed
+signature derivations. The first result has external binary length
+$\mathsf{BLEN}(\Bcons(\pi,\Bcons(\pi,\Pi)))=2+\mathsf{BLEN}(\Pi)$, while the
+second has external binary length
+$\mathsf{BLEN}(\Bcons(\pi,\Pi))=1+\mathsf{BLEN}(\Pi)$ by
+\autoref{def:bundle-length}. If $\hsame(r,s)$ held, the internal equality
+reading of history-sameness would identify the two generated histories and
+therefore identify their external binary lengths. This would force
+$$
+2+\mathsf{BLEN}(\Pi)=1+\mathsf{BLEN}(\Pi),
+$$
+contradicting natural-number successor no-confusion. Hence the two generated
+signature histories cannot be internally history-same.
+\end{proof}
