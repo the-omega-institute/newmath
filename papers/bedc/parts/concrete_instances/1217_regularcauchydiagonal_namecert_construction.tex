@@ -244,6 +244,66 @@ Next collect the bridge-facing clauses. The standard source is \autoref{thm:regu
 It remains to connect the bridge surface to the completion consumers. This is exactly the mature consumer exhaustion of \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion} together with the real-completion handoff of \autoref{thm:regular-cauchy-diagonal-real-completion-handoff}. These clauses package the accepted packet as the displayed tuple and finite ledger consumed at the current $\RealUp$ completion boundary.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy diagonal source stability obligation]
+\label{thm:regular-cauchy-diagonal-source-stability-obligation}
+Let $D=(Q,S,R,L,W,P,N)$ be an accepted $\RegularCauchyDiagonalUp$ source row. If the displayed $\hsame$ comparisons and $\Cont$ routes transport $Q$, $S$, $R$, $L$, $W$, $P$, and $N$ to another accepted source row, then carrier admission, the diagonal selector classifier, the stationary rational route, and the $\RealUp$ seal route are transported through the same finite tuple. No transported source read leaves the rows named in $D$.
+\end{theorem}
+\begin{proof}
+Project $D$ through \autoref{def:regular-cauchy-diagonal-source} and \autoref{def:regular-cauchy-diagonal-carrier}. The classifier compares only the rational seed, stream-window row, regular readback, seal row, finite window ledger, package row, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-diagonal-selector-stability}. The displayed $\hsame$ comparisons and $\Cont$ routes preserve the selector classifier through the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ coordinates.
+
+For the completion-facing read, apply \autoref{thm:regular-cauchy-diagonal-real-seal-handoff}. The seal row $L$ is reached only after the transported source rows, so source stability is exactly the finite transport of $D$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal window ledger exactness]
+\label{thm:regular-cauchy-diagonal-window-ledger-exactness}
+For every accepted $\RegularCauchyDiagonalUp$ source row $D=(Q,S,R,L,W,P,N)$, every diagonal consumer window is exactly one of the finite entries of the displayed ledger $W$. The entry names its $\StreamNameUp$ window, the matching $\RegSeqRatUp$ readback, the stationary $\RatUp$ seed route when present, and the $\Cont$ route by which the $\RealUp$ seal can later be read.
+\end{theorem}
+\begin{proof}
+Start with a consumer window request. By \autoref{thm:regular-cauchy-diagonal-window-coverage}, the request factors through a displayed diagonal window, a stream-window row, a regular rational readback row, and the local provenance rows.
+
+The carrier definition records no unlisted window source. Therefore the displayed window reached by the consumer is an entry of $W$, with the associated $\Cont$ route and readback rows already attached to that entry.
+
+In the stationary case, \autoref{thm:regular-cauchy-diagonal-stationary-compatibility} identifies the same entry with the constant $\RatUp$ seed route. The seal-facing route is then supplied by \autoref{thm:regular-cauchy-diagonal-real-seal-handoff}, so the ledger entry is exact for downstream consumers.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal NameCert consumer surface]
+\label{thm:regular-cauchy-diagonal-namecert-consumer-surface}
+The public $\NameCert_{\RegularCauchyDiagonalUp}$ consumer surface for $D=(Q,S,R,L,W,P,N)$ consists exactly of carrier admission, source stability, finite window-ledger exactness, stationary rational compatibility, selector stability, and the $\RealUp$ seal handoff. Each clause is read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row already displayed by the source tuple.
+\end{theorem}
+\begin{proof}
+First collect the local certificate rows. Carrier admission and local naming obligations are \autoref{thm:regular-cauchy-diagonal-namecert-obligations}; source stability is \autoref{thm:regular-cauchy-diagonal-source-stability-obligation}.
+
+Next collect the selector-facing rows. Window-ledger exactness is \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}, stationary rational compatibility is \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}, and selector stability is \autoref{thm:regular-cauchy-diagonal-selector-stability}.
+
+Finally attach the seal-facing read with \autoref{thm:regular-cauchy-diagonal-real-seal-handoff}. These rows are all projections of the finite source tuple and its displayed transport routes, so the consumer surface has no quotient stream, selected host limit, ambient completeness theorem, or host equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal real-completion handoff package]
+\label{thm:regular-cauchy-diagonal-real-completion-handoff-package}
+Every $\RealCauchyCompletionUp$ or $\RealDiagonalCompletionUp$ consumer of an accepted $\RegularCauchyDiagonalUp$ source row receives the completion handoff through the tuple $D=(Q,S,R,L,W,P,N)$, the exact finite window ledger $W$, the $\RegSeqRatUp$ readback row $R$, and the $\RealUp$ seal row $L$. The handoff packages only the visible diagonal route and does not supply quotient streams, selected host limits, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the completion-consumer bridge of \autoref{thm:regular-cauchy-diagonal-completion-consumer-bridge}. It routes every $\RealDiagonalCompletionUp$ or $\RealCauchyCompletionUp$ request through the displayed source tuple, the window coverage row, and the seal handoff.
+
+Replace the coverage row by the exact ledger statement \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}. This identifies each requested window with an entry of $W$ and fixes the associated $\StreamNameUp$ and $\RegSeqRatUp$ reads.
+
+Then apply \autoref{thm:regular-cauchy-diagonal-real-completion-handoff}. The completion-facing object is the displayed $\RealUp$ seal row $L$, reached through the finite route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$ where the stationary route applies.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal downstream-unblock package]
+\label{thm:regular-cauchy-diagonal-downstream-unblock-package}
+The $\RegularCauchyDiagonalUp$ downstream package for the real-completion diagonal route is the composition of source stability, window-ledger exactness, the NameCert consumer surface, and the real-completion handoff package. Consequently every downstream $\RealCauchyCompletionUp$ or $\RealDiagonalCompletionUp$ read is accounted for by the displayed tuple $D=(Q,S,R,L,W,P,N)$, its finite ledger $W$, and the local $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-diagonal-source-stability-obligation}. This fixes the transport spine of the source tuple under the displayed $\hsame$ comparisons and $\Cont$ routes.
+
+Next apply \autoref{thm:regular-cauchy-diagonal-window-ledger-exactness}. Every consumer window is one of the finite entries of $W$, with its stream-window route, regular readback, and seal-facing continuation already named.
+
+The public certificate surface is then \autoref{thm:regular-cauchy-diagonal-namecert-consumer-surface}. The real-completion read is \autoref{thm:regular-cauchy-diagonal-real-completion-handoff-package}. Composing these rows gives the downstream package and excludes all non-displayed completion objects.
+\end{proof}
+
 \closureat{RegularCauchyDiagonalUp}{seedStr}
 \closureat{RegularCauchyDiagonalUp}{obligationStr}
 \closureat{RegularCauchyDiagonalUp}{scopedStr}
@@ -254,10 +314,10 @@ It remains to connect the bridge surface to the completion consumers. This is ex
 \begin{closurestatus}{\RegularCauchyDiagonalUp}
   \constructivestory{A $\RegularCauchyDiagonalUp$ packet is generated from a stationary $\RatUp$ seed row, a $\StreamNameUp$ window row, a $\RegSeqRatUp$ diagonal readback, a $\RealUp$ seal row, finite diagonal-window $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The public export, bridge-facing surface, and current completion-consumer surface are closed by the mature consumer exhaustion, real-completion handoff, and mature closure certificate of \autoref{thm:regular-cauchy-diagonal-mature-consumer-exhaustion}, \autoref{thm:regular-cauchy-diagonal-real-completion-handoff}, and \autoref{thm:regular-cauchy-diagonal-mature-closure-certificate}.}
+  \scopeclosed{The mature paper scope is the standard bridge source, readback exactness, non-escape boundary, stationary-family exhaustion, and route determinacy of \autoref{thm:regular-cauchy-diagonal-standard-bridge-source}, \autoref{thm:regular-cauchy-diagonal-bridge-readback-exactness}, \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}, \autoref{thm:regular-cauchy-diagonal-stationary-family-exhaustion}, and \autoref{thm:regular-cauchy-diagonal-bridge-route-determinacy}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected host limits, ambient completeness, or bridge checking.}
-  \upgradepath{Only Lean-side formal targets and bridge checking remain for the displayed diagonal consumer package.}
+  \upgradepath{Lean formalization and bridge checking remain for the same diagonal selector and completion-seal interface.}
 \end{closurestatus}

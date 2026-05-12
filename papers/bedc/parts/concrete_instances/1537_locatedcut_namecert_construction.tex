@@ -38,6 +38,7 @@ The local $\NameCert_{\LocatedCutUp}$ surface consists of six finite rows:
 \end{enumerate}
 These rows certify a located constructive real without quotient cuts, host real equality, selected suprema, or $\mathsf{Classical.choice}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedCutUp.LocatedCutCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier habitation is projection of \autoref{def:located-cut-carrier}. The lower ledger, upper ledger, stream-window, regular-sequence, real-seal, transport, continuation, package, and local naming rows are finite coordinates of the same $\BHist$ packet.
 
@@ -259,16 +260,41 @@ no quotient cut, host real equality, selected supremum, ambient completeness
 principle, or classical choice row.
 \end{proof}
 
+\begin{theorem}[LocatedCut scoped kernel route]
+\label{thm:located-cut-scoped-kernel-route}
+Every consumer route of an accepted $\LocatedCutUp$ packet is exhausted by the lower dyadic ledger $D^{-}$, the upper dyadic ledger $D^{+}$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal $S$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\LocatedCutUp}$ rows. No route can pass through a quotient cut, host real equality, selected supremum, ambient completeness row, or classical choice field.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-cut-carrier}. Its visible coordinates are exactly the two dyadic ledgers, the stream-window row, the regular rational handoff, the real seal, transports, continuations, package provenance, and local naming row.
+
+Use \autoref{thm:located-cut-located-window-exactness} and \autoref{thm:located-cut-ledger-pair-coherence}. They show that every visible precision window reads a lower-upper dyadic pair from the same packet and transports it as one located interval row.
+
+Then apply \autoref{thm:located-cut-window-handoff-totality} and \autoref{thm:located-cut-real-seal-factorization-package}. The handoff and seal routes are already the displayed chain from $(D^{-},D^{+})$ through $W$ and $R$ to $S$, with the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{proof}
+
+\begin{theorem}[LocatedCut obligation scope package]
+\label{thm:located-cut-obligation-scope-package}
+The $\LocatedCutUp$ scoped $\NameCert$ surface consists exactly of the carrier of \autoref{def:located-cut-carrier}, classifier transport, paired ledger coherence, located-window exactness, handoff totality, and seal-boundary exactness. This package binds the lower and upper dyadic ledgers, $\StreamNameUp$ window, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as the complete kernel scope for located-cut consumers.
+\end{theorem}
+\begin{proof}
+Start with carrier habitation and classifier movement. The carrier is \autoref{def:located-cut-carrier}, and \autoref{thm:located-cut-classifier-transport} states that transport is componentwise over the finite rows named there.
+
+Next package the dyadic and window obligations. The paired ledger coherence theorem \autoref{thm:located-cut-ledger-pair-coherence} keeps the lower and upper ledgers attached, while \autoref{thm:located-cut-located-window-exactness} identifies the finite window entries consumed at each visible precision.
+
+Finally package the handoff and seal obligations. The window handoff totality theorem \autoref{thm:located-cut-window-handoff-totality}, the seal-boundary exactness theorem \autoref{thm:located-cut-seal-boundary-exactness}, and the scoped kernel route \autoref{thm:located-cut-scoped-kernel-route} exhaust the real-facing route without adding quotient cuts, host equality, selected suprema, ambient completeness, or classical choice.
+\end{proof}
+
 \closureat{LocatedCutUp}{seedStr}
 \closureat{LocatedCutUp}{obligationStr}
+\closureat{LocatedCutUp}{scopedStr}
 
 \begin{closurestatus}{\LocatedCutUp}
   \constructivestory{A $\LocatedCutUp$ packet is generated from lower and upper dyadic interval ledgers, located $\StreamNameUp$ precision windows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-facing row, displayed transport and continuation rows, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:located-cut-real-seal-factorization-package} binds the carrier, classifier transport, paired ledger coherence, located-window exactness, handoff totality, and seal-boundary exactness as the finite $\NameCert_{\LocatedCutUp}$ obligation package.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:located-cut-obligation-scope-package} binds the carrier, classifier transport, paired ledger coherence, located-window exactness, handoff totality, and seal-boundary exactness as the complete finite $\NameCert_{\LocatedCutUp}$ kernel scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient cut construction, host real equality, selected suprema, ambient order completeness, uniqueness of represented reals, or bridge checking.}
-  \upgradepath{Scoped closure requires Lean targets for paired ledger transport, window handoff totality, and the real-seal factorization package.}
+  \upgradepath{Formal verification remains the route from the scoped paper treatment to checked theorem, axiom-clean, and bridge-checked status over the same displayed dyadic ledger, window, handoff, seal, package, and naming rows.}
 \end{closurestatus}
