@@ -140,6 +140,50 @@ Use \autoref{thm:collision-kernel-hankel-shadow-boundary} to identify the same f
 Consequently the readback surface is exhausted by $I$, $M$, $S$, $L$, $H$, $C$, $P$, and $N$, and it has no coordinate for spectrum, measure, infinite Hankel structure, quotient fibers, hidden counting, or analytic moment laws.
 \end{proof}
 
+\begin{theorem}[CollisionKernel zero-window determinacy]
+\label{thm:collision-kernel-zero-window-determinacy}
+Let $K=(W,F,L,M,I,S,H,C,P,N)$ and $K'=(W,F,L,M,I',S',H',C',P',N')$ be accepted zero-window $\CollisionKernelUp$ packets with the same finite window $W$, fold-source row $F$, target-fiber ledger $L$, collision-kernel matrix row $M$, and moment index whenever a moment read is requested. Then the two packets are classified by \autoref{def:collision-kernel-classifier}; their visible collision-kernel output is determined by those shared finite rows.
+
+In particular, zero-window habitation cannot create a second classifier through hidden source sets, host matrix entries, quotient fibers, ambient measures, spectra, or unrecorded moment laws.
+\end{theorem}
+\begin{proof}
+Start from the zero-window inhabitant of \autoref{thm:collision-kernel-zero-window-habitation}. It supplies an accepted finite packet whose source and target-fiber data are the displayed zero-window rows.
+
+Project the classifier surface in \autoref{def:collision-kernel-classifier}. The classifier inspects the finite window, fold source, target-fiber ledger, matrix row, moment-index row, Hankel-shadow row, transport row, continuation row, package provenance, and local naming row.
+
+Because $K$ and $K'$ share $W,F,L,M$ and the requested moment index, the non-shared rows can only replay the same displayed continuation and naming routes. The finite classifier therefore identifies the two zero-window packets on the shared ledger.
+
+Finally use \autoref{thm:collision-kernel-moment-readback-exhaustion}. Any moment-facing read returns to $I,M,S,L,H,C,P,N$, so it cannot separate the two packets by an external source.
+\end{proof}
+
+\begin{theorem}[CollisionKernel fiber classifier composition]
+\label{thm:collision-kernel-fiber-classifier-composition}
+For accepted $\CollisionKernelUp$ packets, componentwise $\hsame$ transports of the target-fiber ledger $L$ compose through the displayed $\Cont$ rows and preserve the classifier of \autoref{def:collision-kernel-classifier}. The composed classifier route still reads only the finite window $W$, fold-source row $F$, target-fiber ledger $L$, matrix row $M$, moment-index row $I$, Hankel-shadow row $S$, transport row $H$, continuation row $C$, package row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+First isolate the ledger. By \autoref{thm:collision-kernel-fiber-ledger-exactness}, every matrix entry in $M$ is read from the displayed target-fiber ledger $L$ and tied back to the finite window $W$ and fold-source row $F$.
+
+Next compose the transports. The classifier-transport scope in \autoref{thm:collision-kernel-classifier-transport-scope} permits only componentwise $\hsame$ movement along the displayed rows and only the displayed $\Cont$ routes for replaying consumers.
+
+The classifier definition then has no further input to inspect. Applying \autoref{def:collision-kernel-classifier} after the composed ledger transport yields the same finite classification, and \autoref{thm:collision-kernel-hankel-shadow-boundary} keeps any shadow read on the same ledger boundary.
+\end{proof}
+
+\begin{theorem}[CollisionKernel moment ledger noninterference]
+\label{thm:collision-kernel-moment-ledger-noninterference}
+In an accepted $\CollisionKernelUp$ packet $K=(W,F,L,M,I,S,H,C,P,N)$, a moment read or Hankel-shadow read may alter only the displayed moment-index row $I$ or Hankel-shadow row $S$ of the consumer route. It cannot alter the finite source window $W$, fold-source row $F$, matrix row $M$, package provenance $P$, or local $\NameCert$ row $N$.
+
+Thus moment-facing readback is noninterfering with the finite source ledger and the local naming surface of the collision-kernel packet.
+\end{theorem}
+\begin{proof}
+Read the moment-facing rows from \autoref{thm:collision-kernel-moment-readback-exhaustion}. Every moment and Hankel-shadow request factors through $I,M,S,L,H,C,P,N$ before it is exported.
+
+The source side is already fixed by \autoref{thm:collision-kernel-fiber-ledger-exactness}. Matrix entries in $M$ come from the target-fiber ledger $L$ tied to $F$ and $W$, so a moment read has no coordinate through which to rewrite the finite source window or fold-source row.
+
+The naming side is fixed by \autoref{thm:collision-kernel-classifier-transport-scope}. Transport preserves only the displayed rows and replayed continuations; it does not replace package provenance or the local $\NameCert$ row.
+
+Therefore a moment or Hankel-shadow consumer can vary only the moment-facing index or shadow rows of the read, while $W,F,M,P,N$ remain the same visible ledger data.
+\end{proof}
+
 \closureat{CollisionKernelUp}{seedStr}
 
 \begin{closurestatus}{\CollisionKernelUp}
