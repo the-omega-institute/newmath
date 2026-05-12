@@ -50,7 +50,6 @@ import BEDC.FKernel.Unary
 import BEDC.BaseReflection
 import BEDC.GroundCompiler
 import BEDC.Meta
-import BEDC.MetaCIC.TypedExamplesMore
 /- Derived interfaces (licensed objects). -/
 import BEDC.Derived.NatUp
 import BEDC.Derived.AddUp
@@ -74,6 +73,7 @@ import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -166,6 +166,7 @@ import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
+import BEDC.Derived.S1Up.CompletionReadback
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.ModulusOfConvergenceUp

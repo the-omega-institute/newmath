@@ -47,6 +47,35 @@ theorem UniformSpacePacket_filterbase_diagonal_obligation [AskSetup] [PackageSet
     ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, filterbaseUnary,
       pointEntourageDiagonal, diagonalRefinementFilterbase, filterbasePkg⟩
 
+theorem UniformSpacePacket_common_refinement_functoriality [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      route01 route12 route02 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement route01 ->
+        Cont route01 symmetry route12 ->
+          Cont route12 composition route02 ->
+            PkgSig bundle route02 pkg ->
+              UnaryHistory route01 ∧ UnaryHistory route12 ∧ UnaryHistory route02 ∧
+                Cont diagonal refinement route01 ∧ Cont route01 symmetry route12 ∧
+                  Cont route12 composition route02 ∧ PkgSig bundle route02 pkg ∧
+                    PkgSig bundle name pkg := by
+  intro packet diagonalRefinementRoute routeSymmetry routeComposition routePkg
+  obtain ⟨_pointUnary, _entourageUnary, diagonalUnary, refinementUnary, symmetryUnary,
+    compositionUnary, _transportUnary, _provenanceUnary, _nameUnary,
+    _pointEntourageDiagonal, _diagonalRefinementSymmetry, _symmetryCompositionTransport,
+    _transportProvenanceName, namePkg⟩ := packet
+  have route01Unary : UnaryHistory route01 :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementRoute
+  have route12Unary : UnaryHistory route12 :=
+    unary_cont_closed route01Unary symmetryUnary routeSymmetry
+  have route02Unary : UnaryHistory route02 :=
+    unary_cont_closed route12Unary compositionUnary routeComposition
+  exact
+    ⟨route01Unary, route12Unary, route02Unary, diagonalRefinementRoute, routeSymmetry,
+      routeComposition, routePkg, namePkg⟩
+
 def UniformSpaceEntouragePacket [AskSetup] [PackageSetup]
     (base entourage diagonal symmetry composition provenance endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -175,5 +204,36 @@ theorem UniformSpacePacket_scoped_entourage_package [AskSetup] [PackageSetup]
     ⟨pointUnary, entourageUnary, filterbaseUnary, cauchyUnary, completionUnary,
       pointEntourageDiagonal, diagonalRefinementFilterbase, filterbaseTransportCauchy,
       cauchyProvenanceCompletion, completionPkg⟩
+
+theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition provenance name pointRoute ledger
+      endpoint handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpaceClassifierPacket point entourage diagonal refinement symmetry composition provenance
+        name pointRoute ledger endpoint bundle pkg ->
+      Cont endpoint provenance handoff ->
+        PkgSig bundle handoff pkg ->
+          UnaryHistory pointRoute ∧ UnaryHistory ledger ∧ UnaryHistory endpoint ∧
+            UnaryHistory handoff ∧ Cont point entourage pointRoute ∧
+              Cont diagonal refinement ledger ∧ Cont symmetry composition endpoint ∧
+                Cont endpoint provenance handoff ∧ PkgSig bundle endpoint pkg ∧
+                  PkgSig bundle handoff pkg := by
+  intro packet endpointProvenanceHandoff handoffPkg
+  rcases packet with
+    ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, symmetryUnary,
+      compositionUnary, provenanceUnary, _nameUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointPkg⟩
+  have pointRouteUnary : UnaryHistory pointRoute :=
+    unary_cont_closed pointUnary entourageUnary pointEntouragePointRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementLedger
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed symmetryUnary compositionUnary symmetryCompositionEndpoint
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceHandoff
+  exact
+    ⟨pointRouteUnary, ledgerUnary, endpointUnary, handoffUnary, pointEntouragePointRoute,
+      diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
+      endpointPkg, handoffPkg⟩
 
 end BEDC.Derived.UniformSpaceUp

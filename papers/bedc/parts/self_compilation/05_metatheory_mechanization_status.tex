@@ -1,0 +1,298 @@
+\section*{MetaCIC Mechanization Status Dashboard}
+\label{sec:metacic-mechanization-status}
+
+The \texttt{BEDC.MetaCIC} formalization is a mathlib-free, zero-axiom,
+zero-sorry Lean 4 development over a first-principles represented calculus.
+The dashboard below reads that development against a standard CIC
+metatheory checklist. It distinguishes proved Lean targets, statement-level
+interfaces, finite galleries, and open textbook theorems without upgrading
+any open entry into a closure claim.
+
+\begin{longtable}{p{0.25\textwidth}p{0.16\textwidth}p{0.30\textwidth}p{0.21\textwidth}}
+\toprule
+\textbf{Metatheory property} & \textbf{BEDC status} & \textbf{Lean target} & \textbf{Notes}\\
+\midrule
+\endhead
+Object syntax grammar &
+encoded &
+\texttt{BEDC.MetaCIC.Term} &
+de Bruijn terms with sort, variable, application, lambda, and Pi shapes\\
+Context lookup &
+encoded &
+\texttt{BEDC.MetaCIC.Ctx.lookup} &
+structural list lookup for represented contexts\\
+Shift operation &
+encoded &
+\texttt{BEDC.MetaCIC.shift} &
+native structural recursion over represented terms\\
+Substitution operation &
+encoded &
+\texttt{BEDC.MetaCIC.substitute} &
+capture-aware de Bruijn substitution with binder shift\\
+Typing judgment &
+encoded &
+\texttt{BEDC.MetaCIC.HasType} &
+inductive represented typing relation\\
+One-step beta reduction &
+encoded &
+\texttt{BEDC.MetaCIC.BetaStep} &
+contraction plus app, lambda, and Pi congruence shapes\\
+Closure predicate &
+encoded &
+\texttt{BEDC.MetaCIC.ClosedAt} &
+boundary-indexed local closedness predicate\\
+Closed shift stability &
+proved &
+\texttt{BEDC.MetaCIC.shift\_closed} &
+shift is inert at a closed boundary\\
+Closed substitution stability &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_closed} &
+substitution is inert at a closed boundary\\
+Same-depth shift/substitute cancellation &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_shift\_at\_eq} &
+core de Bruijn bookkeeping equality\\
+Substitution preservation on sort/variable atoms &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_preserves\_typing\_sort\_var} &
+atom-shaped typing preservation surface\\
+Substitution preservation for Pi &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_preserves\_typing\_pi} &
+closed-domain and atom-shape hypotheses\\
+Substitution preservation for lambda &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_preserves\_typing\_lam} &
+closed-domain and atom-shape hypotheses\\
+Substitution preservation for closed binder domains &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_preserves\_typing\_closed\_binder\_domains} &
+closed binder-domain surface\\
+Naive substitution composition &
+refuted &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_unclosed\_counterexample} &
+false without closure discipline\\
+Closed substitution composition, sort case &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_sort} &
+shape-local positive case\\
+Closed substitution composition, variable case &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_var} &
+shape-local positive case\\
+Closed substitution composition, app case &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_app} &
+shape-local positive case\\
+Closed substitution composition, lambda anchor &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_lam\_closed\_anchor} &
+closed-anchor binder case\\
+Closed substitution composition, Pi anchor &
+proved &
+\texttt{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_pi\_closed\_anchor} &
+closed-anchor binder case\\
+Beta substitution preservation interface &
+statement &
+\texttt{BEDC.MetaCIC.BetaSubstitutionPreservation} &
+global contract used by subject reduction\\
+Beta substitution preservation, sort/variable cases &
+proved &
+\texttt{BEDC.MetaCIC.betaSubstitutionPreservation\_sort\_var} &
+direct atom inversion\\
+Beta substitution preservation, depth-one atoms &
+proved &
+\texttt{BEDC.MetaCIC.betaSubstitutionPreservation\_depth\_one\_sort\_var} &
+binder-frame atom case\\
+Beta substitution preservation, Pi body &
+proved &
+\texttt{BEDC.MetaCIC.betaSubstitutionPreservation\_pi\_body} &
+constructor-specific case lemma\\
+Beta substitution preservation, lambda body &
+proved &
+\texttt{BEDC.MetaCIC.betaSubstitutionPreservation\_lam\_body} &
+constructor-specific case lemma\\
+Beta substitution preservation, app body &
+proved &
+\texttt{BEDC.MetaCIC.betaSubstitutionPreservation\_app\_body} &
+constructor-specific case lemma\\
+Closure preservation under beta &
+proved &
+\texttt{BEDC.MetaCIC.betaStep\_preserves\_closed} &
+\texttt{ClosurePreservation} module\\
+Closure preservation under beta-star &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_preserves\_closed} &
+multi-step induction over beta-star\\
+Beta-star relation &
+encoded &
+\texttt{BEDC.MetaCIC.BetaStarStep} &
+reflexive transitive closure over one-step beta\\
+Beta-star transitivity &
+proved &
+\texttt{BEDC.MetaCIC.betaStar\_trans} &
+composition of beta-star evidence\\
+Beta-star app congruence &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_app\_double} &
+componentwise multi-step application congruence\\
+Beta-star lambda congruence &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_lam\_double} &
+domain and body multi-step congruence\\
+Beta-star Pi congruence &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_pi\_double} &
+domain and codomain multi-step congruence\\
+Confluence, beta-star sort atom &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_diamond\_sort} &
+atom-level diamond component\\
+Confluence, beta-star variable atom &
+proved &
+\texttt{BEDC.MetaCIC.betaStarStep\_diamond\_var} &
+atom-level diamond component\\
+Parallel beta relation &
+encoded &
+\texttt{BEDC.MetaCIC.BetaParallel} &
+parallel reduction substrate for diamond assembly\\
+Parallel beta reflexivity &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_refl} &
+reflexive parallel reduction\\
+One-step beta embeds in parallel beta &
+proved &
+\texttt{BEDC.MetaCIC.betaStep\_to\_parallel} &
+ordinary beta step to parallel step\\
+Parallel beta to beta-star &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_to\_betaStar} &
+parallel step embeds in beta-star\\
+Parallel confluence, variable atom &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_var\_diamond} &
+atom component of parallel diamond\\
+Parallel confluence, sort atom &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_sort\_diamond} &
+atom component of parallel diamond\\
+Parallel confluence, application component &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components} &
+component diamond assembler\\
+Parallel confluence, lambda component &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components} &
+component diamond assembler\\
+Parallel confluence, Pi component &
+proved &
+\texttt{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components} &
+component diamond assembler\\
+Full beta confluence &
+open &
+\textit{none} &
+extension from component diamonds to the full textbook theorem\\
+Subject reduction, beta contraction &
+hypothesis-based &
+\texttt{BEDC.MetaCIC.subject\_reduction\_beta} &
+uses the beta-substitution preservation interface\\
+Subject reduction, app function congruence &
+proved &
+\texttt{BEDC.MetaCIC.subject\_reduction\_congApp1} &
+preserves the represented type under function-step congruence\\
+Subject reduction, app argument congruence &
+proved &
+\texttt{BEDC.MetaCIC.subject\_reduction\_congApp2} &
+uses application-argument type stability\\
+Subject reduction, lambda body congruence &
+proved &
+\texttt{BEDC.MetaCIC.subject\_reduction\_congLam} &
+body-step congruence case\\
+Subject reduction, Pi codomain congruence &
+proved &
+\texttt{BEDC.MetaCIC.subject\_reduction\_congPi} &
+codomain-step congruence case\\
+Subject reduction, closed terms &
+hypothesis-based &
+\texttt{BEDC.MetaCIC.subject\_reduction} &
+requires beta substitution, app-argument stability, and binder-domain stability hypotheses\\
+Subject reduction, retyping wrapper &
+hypothesis-based &
+\texttt{BEDC.MetaCIC.subject\_reduction\_retype} &
+packages type preservation as existence of a post-step typing witness\\
+Lambda-domain stability interface &
+statement &
+\texttt{BEDC.MetaCIC.LamDomainSubjectReduction} &
+domain-step stability hypothesis for subject reduction\\
+Pi-domain stability interface &
+statement &
+\texttt{BEDC.MetaCIC.PiDomainSubjectReduction} &
+domain-step stability hypothesis for subject reduction\\
+Application argument stability interface &
+statement &
+\texttt{BEDC.MetaCIC.AppArgTypeStable} &
+argument-step type-stability hypothesis for subject reduction\\
+Closed local-redex obstruction &
+proved &
+\texttt{BEDC.MetaCIC.closed\_term\_step\_has\_unclosed\_local\_argument} &
+closed outer terms can contain locally open redex arguments\\
+Strong normalization &
+open &
+\textit{none} &
+no global termination theorem for beta reduction\\
+Bounded normalizer &
+not exported &
+\textit{none} &
+no \texttt{normalizeBounded} target exists in the MetaCIC namespace\\
+Atomic normal forms &
+proved &
+\texttt{BEDC.MetaCIC.closed\_atom\_normal\_form} &
+closed atom-shaped typed terms cannot beta-step\\
+Sort has no beta target &
+proved &
+\texttt{BEDC.MetaCIC.sort\_no\_beta} &
+normal-form component\\
+Variable has no beta target &
+proved &
+\texttt{BEDC.MetaCIC.closed\_var\_no\_beta} &
+normal-form component\\
+Atom inference, sort &
+proved &
+\texttt{BEDC.MetaCIC.inferAtom\_sort\_sound} &
+minimal inference procedure sound on sort\\
+Atom inference, variable &
+proved &
+\texttt{BEDC.MetaCIC.inferAtom\_var\_sound} &
+minimal inference procedure sound on context lookup\\
+Representational adequacy &
+partial &
+\texttt{parts/self\_compilation/04\_metatheory\_representational\_adequacy} &
+finite typed gallery witnesses, not a full adequacy theorem\\
+Host-kernel reflection bridge &
+open &
+\textit{none} &
+no checked bridge from represented typing to the host kernel\\
+\bottomrule
+\end{longtable}
+
+\leanchecked{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanchecked{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+\leanchecked{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_retype}
+\leanstmt{BEDC.MetaCIC.LamDomainSubjectReduction}
+\leanstmt{BEDC.MetaCIC.PiDomainSubjectReduction}
+\leanstmt{BEDC.MetaCIC.AppArgTypeStable}
+
+\subsection*{What is not claimed}
+\label{subsec:metacic-mechanization-not-claimed}
+
+The dashboard does not claim universe polymorphism, cumulative universes,
+inductive families, large eliminations, proof irrelevance, eta conversion,
+quotients, classical choice, or a bridge from represented typing into Lean's
+kernel typing judgment. It also does not claim full beta confluence, strong
+normalization, decidable type checking for the represented calculus, or a
+global representational adequacy theorem. The checked entries are exactly
+the Lean targets named above and the already marked MetaCIC targets cited
+elsewhere in this chapter.
