@@ -86,3 +86,15 @@
 - `sigrel_basic` covers empty bundle, singleton probes, two-probe bundles, and
   wrong-result negative cases. `samesig_equiv` covers reflexivity, symmetry,
   transitivity, and vacuous antecedents under the same fixture signatures.
+
+## Cont Relation Encoding
+
+- `Cont.lean` defines `append` by recursion on the second history argument:
+  `append h Empty = h`, `append h (e0 k) = e0 (append h k)`, and similarly for
+  `e1`.
+- Under the existing BHist event encoding, `Cont h k r` is checked by decoding
+  three events and requiring `choices(r) = choices(k) ++ choices(h)`.
+- `cont_basic.enum.ct` and `cont_basic.algo.ct` cover identity cases, mixed
+  constructor-positive triples, and well-formed triples with wrong result
+  depth or order. The algo manifest follows the current Ext pattern: vacuous CT
+  production with semantic checking in `tests/test_cont.c`.

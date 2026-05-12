@@ -1,0 +1,25 @@
+# cont_basic.enum.ct
+# Theorem family: Cont h k r, defined in Lean as r = append h k.
+#
+# Encoding:
+#   input = EventEncoding(h) ++ EventEncoding(k) ++ EventEncoding(r)
+# where h, k, and r are BHist events.
+#
+# With BHist choices listed outermost first, Lean append satisfies:
+#   choices(append h k) = choices(k) ++ choices(h)
+#
+# Positive cases cover empty suffix, empty prefix, and mixed constructor
+# histories. Negative cases are well-formed triples whose result does not match
+# the decoded append.
+PRODUCTIONS 0
+ASSERTIONS 10
+case empty_empty_empty:        input=111111                 ; cont_holds=yes
+case e0_empty_e0:              input=01111011               ; cont_holds=yes
+case empty_e1_e1:              input=1110111011             ; cont_holds=yes
+case e0_e1_e1_e0:              input=011101110011           ; cont_holds=yes
+case e1_e0_e1_e0_e1:           input=1011010110101011       ; cont_holds=yes
+case e0_e1__e1_e0__e1_e0_e0_e1: input=010111001110001011    ; cont_holds=yes
+case empty_empty_e0:           input=1111011                ; cont_holds=no
+case empty_e0_empty:           input=1101111                ; cont_holds=no
+case e0_e1_wrong_order:        input=011101101011           ; cont_holds=no
+case e1_e0_wrong_outer:        input=101101110011           ; cont_holds=no
