@@ -50,7 +50,7 @@ Secondary: Genaro Martínez et al., [arXiv:1307.7951](https://arxiv.org/abs/1307
 
 - [x] C1: Design `cook_encode(const CyclicTag *ct, uint8_t *out, size_t *out_len)` function signature. Document the encoding strategy: ether background + leader + ossifiers for each production + data block for initial tape.
 
-- [ ] C2: Implement encoder for empty CT (just ether + leader, no productions). Verify Rule 110 evolution preserves shape indefinitely.
+- [x] C2: Implement encoder for empty CT (just ether + leader, no productions). Verify Rule 110 evolution preserves shape indefinitely.
 
 - [ ] C3: Implement encoder for CT with 1 production. Verify by running Cook's example or constructing a minimal example.
 
