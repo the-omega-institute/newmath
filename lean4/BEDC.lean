@@ -91,6 +91,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalSelector
 import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalIntervalMeshReadback
 import BEDC.Derived.DyadicApproximationUp.TerminalDyadicNetConsumer
+import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalReadbackComposition
 import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
