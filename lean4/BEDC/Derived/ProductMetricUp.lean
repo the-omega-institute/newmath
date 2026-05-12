@@ -141,6 +141,32 @@ theorem ProductMetricCarrier_projection_route_exactness [AskSetup] [PackageSetup
   exact
     ⟨productRow, leftReadSame, rightReadSame, leftReadUnary, rightReadUnary, provenancePkg⟩
 
+theorem ProductMetricCarrier_projection_non_escape [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont left product leftRead ->
+        Cont right product rightRead ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory leftDistance ∧
+            UnaryHistory rightDistance ∧ UnaryHistory product ∧ UnaryHistory leftRead ∧
+              UnaryHistory rightRead ∧ Cont left right product ∧ Cont left product leftRead ∧
+                Cont right product rightRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier leftProjection rightProjection
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, _distanceRow, _transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed leftUnary productUnary leftProjection
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed rightUnary productUnary rightProjection
+  exact
+    ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, productUnary,
+      leftReadUnary, rightReadUnary, productRow, leftProjection, rightProjection, provenancePkg⟩
+
 theorem ProductMetricCarrier_distance_ledger_triangle_route [AskSetup] [PackageSetup]
     {left right leftDistance rightDistance product distance transport route provenance localCert
       triangleRead : BHist}
