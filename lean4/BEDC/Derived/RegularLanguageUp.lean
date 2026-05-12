@@ -180,4 +180,30 @@ theorem RegularLanguageAutomatonPacket_public_accepted_word_export [AskSetup] [P
       runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, publicUnary,
         runRow, endpointRow, routesRow, exportRow, publicSig⟩
 
+theorem RegularLanguageAutomatonPacket_standard_automaton_bridge_boundary [AskSetup]
+    [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont routes accept boundary ->
+        PkgSig bundle boundary pkg ->
+          UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+            UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+              UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory transport ∧
+                UnaryHistory routes ∧ UnaryHistory boundary ∧ Cont start word run ∧
+                  Cont run transition endpoint ∧ Cont endpoint transport routes ∧
+                    Cont routes accept boundary ∧ PkgSig bundle boundary pkg := by
+  intro packet routesAcceptBoundary boundaryPkg
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, routesUnary, _provenanceUnary, runRow,
+    endpointRow, routesRow, _provenancePkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed routesUnary acceptUnary routesAcceptBoundary
+  exact
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary, endpointUnary, transportUnary, routesUnary, boundaryUnary, runRow,
+      endpointRow, routesRow, routesAcceptBoundary, boundaryPkg⟩
+
 end BEDC.Derived.RegularLanguageUp
