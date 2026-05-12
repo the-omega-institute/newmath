@@ -122,6 +122,32 @@ theorem StoppingTimeSourcePacket_ledger_coverage [AskSetup] [PackageSetup]
     ⟨probUnary, processUnary, filtrationUnary, witnessUnary, eventReadUnary,
       eventReadRow, pkgSig⟩
 
+theorem StoppingTimeSourcePacket_scoped_dependency_envelope [AskSetup] [PackageSetup]
+    {prob process filtration horizon witness transport routes provenance prefixEvent prefixRoute
+      eventRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoppingTimeSourcePacket prob process filtration horizon witness transport routes provenance
+        bundle pkg ->
+      UnaryHistory prefixEvent ->
+        Cont filtration prefixEvent prefixRoute ->
+          Cont prefixRoute witness eventRead ->
+            UnaryHistory prob ∧ UnaryHistory process ∧ UnaryHistory filtration ∧
+              UnaryHistory horizon ∧ UnaryHistory witness ∧ UnaryHistory prefixEvent ∧
+                UnaryHistory prefixRoute ∧ UnaryHistory eventRead ∧
+                  Cont filtration prefixEvent prefixRoute ∧
+                    Cont prefixRoute witness eventRead ∧ PkgSig bundle provenance pkg := by
+  intro packet prefixUnary prefixRow eventReadRow
+  obtain ⟨probUnary, processUnary, filtrationUnary, horizonUnary, witnessUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _filtrationRow, _witnessRow,
+    _routesRow, _probRow, provenanceSig⟩ := packet
+  have prefixRouteUnary : UnaryHistory prefixRoute :=
+    unary_cont_closed filtrationUnary prefixUnary prefixRow
+  have eventReadUnary : UnaryHistory eventRead :=
+    unary_cont_closed prefixRouteUnary witnessUnary eventReadRow
+  exact
+    ⟨probUnary, processUnary, filtrationUnary, horizonUnary, witnessUnary, prefixUnary,
+      prefixRouteUnary, eventReadUnary, prefixRow, eventReadRow, provenanceSig⟩
+
 theorem StoppingTimeSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {prob process filtration horizon witness transport routes provenance eventRead prefixRoute :
       BHist}
@@ -173,5 +199,56 @@ theorem StoppingTimeSourcePacket_namecert_obligation_surface [AskSetup] [Package
       intro _row _sourceRow
       exact ⟨provenanceSig, prefixRouteRow, provenanceUnary⟩
   }
+
+theorem StoppingTimeSourcePacket_standard_boundary [AskSetup] [PackageSetup]
+    {prob process filtration horizon witness transport routes provenance eventRead prefixRoute :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoppingTimeSourcePacket prob process filtration horizon witness transport routes
+        provenance bundle pkg ->
+      Cont filtration witness eventRead ->
+        Cont process eventRead prefixRoute ->
+          UnaryHistory prob ∧ UnaryHistory process ∧ UnaryHistory horizon ∧
+            UnaryHistory eventRead ∧ UnaryHistory prefixRoute ∧
+              Cont filtration witness eventRead ∧ Cont process eventRead prefixRoute ∧
+                PkgSig bundle provenance pkg := by
+  intro packet eventReadRow prefixRouteRow
+  obtain ⟨probUnary, processUnary, _filtrationUnary, horizonUnary, _witnessUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _filtrationRow, _witnessRow,
+    _routesRow, _probRow, pkgSig⟩ := packet
+  have eventReadUnary : UnaryHistory eventRead :=
+    unary_cont_closed _filtrationUnary _witnessUnary eventReadRow
+  have prefixRouteUnary : UnaryHistory prefixRoute :=
+    unary_cont_closed processUnary eventReadUnary prefixRouteRow
+  exact
+    ⟨probUnary, processUnary, horizonUnary, eventReadUnary, prefixRouteUnary,
+      eventReadRow, prefixRouteRow, pkgSig⟩
+
+theorem StoppingTimeSourcePacket_public_consumer_export [AskSetup] [PackageSetup]
+    {prob process filtration horizon witness transport routes provenance eventRead prefixRoute
+      exportLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StoppingTimeSourcePacket prob process filtration horizon witness transport routes
+        provenance bundle pkg ->
+      Cont filtration witness eventRead ->
+        Cont process eventRead prefixRoute ->
+          Cont prefixRoute provenance exportLedger ->
+            UnaryHistory prob ∧ UnaryHistory process ∧ UnaryHistory filtration ∧
+              UnaryHistory horizon ∧ UnaryHistory witness ∧ UnaryHistory eventRead ∧
+                UnaryHistory prefixRoute ∧ UnaryHistory exportLedger ∧
+                  Cont prefixRoute provenance exportLedger ∧ PkgSig bundle provenance pkg := by
+  intro packet eventReadRow prefixRouteRow exportRow
+  obtain ⟨probUnary, processUnary, filtrationUnary, horizonUnary, witnessUnary,
+    _transportUnary, _routesUnary, provenanceUnary, _filtrationRow, _witnessRow,
+    _routesRow, _probRow, pkgSig⟩ := packet
+  have eventReadUnary : UnaryHistory eventRead :=
+    unary_cont_closed filtrationUnary witnessUnary eventReadRow
+  have prefixRouteUnary : UnaryHistory prefixRoute :=
+    unary_cont_closed processUnary eventReadUnary prefixRouteRow
+  have exportLedgerUnary : UnaryHistory exportLedger :=
+    unary_cont_closed prefixRouteUnary provenanceUnary exportRow
+  exact
+    ⟨probUnary, processUnary, filtrationUnary, horizonUnary, witnessUnary,
+      eventReadUnary, prefixRouteUnary, exportLedgerUnary, exportRow, pkgSig⟩
 
 end BEDC.Derived.StoppingTimeUp
