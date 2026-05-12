@@ -97,4 +97,63 @@ theorem RegularCauchyComparisonCarrier_semantic_name_certificate [AskSetup] [Pac
       exact source
   }
 
+theorem RegularCauchyComparisonCarrier_public_rows_zero_head_absurd [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert zWindow zLedger zSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      (hsame window (BHist.e0 zWindow) -> False) ∧
+        (hsame ledger (BHist.e0 zLedger) -> False) ∧
+          (hsame sealRow (BHist.e0 zSeal) -> False) := by
+  intro carrier
+  obtain ⟨_leftUnary, _rightUnary, windowUnary, _observationsUnary, _toleranceUnary,
+    ledgerUnary, sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, _ledgerSame, _pkgSig⟩ := carrier
+  constructor
+  · intro sameWindowZero
+    exact unary_no_zero_extension (unary_transport windowUnary sameWindowZero)
+  constructor
+  · intro sameLedgerZero
+    exact unary_no_zero_extension (unary_transport ledgerUnary sameLedgerZero)
+  · intro sameSealZero
+    exact unary_no_zero_extension (unary_transport sealUnary sameSealZero)
+
+theorem RegularCauchyComparisonCarrier_real_classifier_handoff [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert sharedRead observationRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont leftName window sharedRead ->
+        Cont rightName window sharedRead ->
+          Cont sharedRead observations observationRead ->
+            Cont observationRead tolerance toleranceRead ->
+              Cont ledger sealRow sealRead ->
+                PkgSig bundle sealRead pkg ->
+                  UnaryHistory sharedRead ∧ UnaryHistory observationRead ∧
+                    UnaryHistory toleranceRead ∧ UnaryHistory sealRead ∧
+                      Cont ledger sealRow sealRead ∧
+                        hsame ledger (append observations tolerance) ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  intro carrier leftWindowRead _rightWindowRead observationReadRow toleranceReadRow
+    ledgerSealRead sealReadPkg
+  obtain ⟨leftUnary, _rightUnary, windowUnary, observationsUnary, toleranceUnary, ledgerUnary,
+    sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have sharedReadUnary : UnaryHistory sharedRead :=
+    unary_cont_closed leftUnary windowUnary leftWindowRead
+  have observationReadUnary : UnaryHistory observationRead :=
+    unary_cont_closed sharedReadUnary observationsUnary observationReadRow
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationReadUnary toleranceUnary toleranceReadRow
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary sealUnary ledgerSealRead
+  exact
+    ⟨sharedReadUnary, observationReadUnary, toleranceReadUnary, sealReadUnary,
+      ledgerSealRead, ledgerSame, provenancePkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyComparisonUp
