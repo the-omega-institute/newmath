@@ -108,6 +108,39 @@ theorem DyadicTailBoundCarrier_classifier_transport_exactness [AskSetup] [Packag
       sameTransport,
       sameRoute⟩
 
+theorem DyadicTailBoundCarrier_precision_window_restriction [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      UnaryHistory precision ∧ UnaryHistory schedule ∧ UnaryHistory tolerance ∧
+        UnaryHistory ledger ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+          UnaryHistory provenance ∧ Cont schedule tolerance ledger ∧
+            Cont ledger readback sealRow ∧ Cont precision sealRow transport ∧
+              Cont transport localCert route ∧ Cont route provenance sealRow ∧
+                PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, readbackUnary, sealRowUnary,
+    provenanceUnary, scheduleToleranceLedger, ledgerReadbackSeal, precisionSealTransport,
+    transportLocalRoute, routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  exact
+    ⟨precisionUnary,
+      scheduleUnary,
+      toleranceUnary,
+      ledgerUnary,
+      readbackUnary,
+      sealRowUnary,
+      provenanceUnary,
+      scheduleToleranceLedger,
+      ledgerReadbackSeal,
+      precisionSealTransport,
+      transportLocalRoute,
+      routeProvenanceSeal,
+      provenancePkg⟩
+
 theorem DyadicTailBoundCarrier_budget_composition [AskSetup] [PackageSetup]
     {precision schedule tolerance ledger readback sealRow transport route provenance localCert
       ledger2 readback2 sealRow2 compositeLedger compositeReadback compositeSeal : BHist}
@@ -387,5 +420,66 @@ theorem DyadicTailBoundCarrier_ledger_append_stability [AskSetup] [PackageSetup]
       enlargedSealUnary,
       enlargedLedgerCont,
       enlargedSealCont⟩
+
+theorem DyadicTailBoundCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {precision schedule tolerance ledger readback sealRow transport route provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow transport route
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row sealRow ∧
+              DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow
+                transport route provenance localCert bundle pkg)
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory ledger ∧ UnaryHistory readback)
+          (fun row : BHist => hsame row sealRow ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory precision ∧ UnaryHistory schedule ∧ UnaryHistory tolerance ∧
+          UnaryHistory ledger ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+            Cont schedule tolerance ledger ∧ Cont ledger readback sealRow ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier
+  have carrierSource := carrier
+  obtain ⟨precisionUnary, scheduleUnary, toleranceUnary, readbackUnary, sealUnary,
+    _provenanceUnary, scheduleToleranceLedger, ledgerReadbackSeal, _precisionSealTransport,
+    _transportLocalRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed scheduleUnary toleranceUnary scheduleToleranceLedger
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row sealRow ∧
+              DyadicTailBoundCarrier precision schedule tolerance ledger readback sealRow
+                transport route provenance localCert bundle pkg)
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory ledger ∧ UnaryHistory readback)
+          (fun row : BHist => hsame row sealRow ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRow (And.intro (hsame_refl sealRow) carrierSource)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro row source
+      exact And.intro source.left (And.intro ledgerUnary readbackUnary)
+    ledger_sound := by
+      intro row source
+      exact And.intro source.left provenancePkg
+  }
+  exact
+    ⟨cert, precisionUnary, scheduleUnary, toleranceUnary, ledgerUnary, readbackUnary, sealUnary,
+      scheduleToleranceLedger, ledgerReadbackSeal, provenancePkg⟩
 
 end BEDC.Derived.DyadicTailBoundUp
