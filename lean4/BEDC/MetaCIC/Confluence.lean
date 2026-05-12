@@ -68,6 +68,16 @@ theorem betaStar_trans {t u v : Term} :
   | step htw hwu ih =>
       exact BetaStarStep.step htw (ih huv)
 
+theorem betaStarStep_concat {t t' t'' : Term}
+    (h1 : BetaStarStep t t') (h2 : BetaStep t' t'') :
+    BetaStarStep t t'' := by
+  exact betaStar_trans h1 (betaStar_one h2)
+
+theorem betaStarStep_cons {t t' t'' : Term}
+    (h1 : BetaStep t t') (h2 : BetaStarStep t' t'') :
+    BetaStarStep t t'' := by
+  exact BetaStarStep.step h1 h2
+
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
   intro h
