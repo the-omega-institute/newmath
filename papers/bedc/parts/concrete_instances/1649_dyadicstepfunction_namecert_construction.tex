@@ -275,6 +275,36 @@ The analytic handoff is exactly the one already bounded locally. Apply \autoref{
 Finally combine the non-escape clauses of \autoref{thm:dyadic-step-function-ledger-exactness} and \autoref{thm:dyadic-step-function-scoped-window-package}. They exclude open-cover compactness, host function spaces, selected limits, quotient representatives, measure completion, and ambient equality oracles from the exported surface.
 \end{proof}
 
+\begin{theorem}[Dyadic step function refinement boundary coverage]
+\label{thm:dyadic-step-function-refinement-boundary-coverage}
+Every accepted common-refinement consumer read of a $\DyadicStepFunctionUp$ packet is covered by the displayed finite cells, endpoint ledgers, carried-value rows, classifier rows, and $\BHist$ ledger entries of the carrier. Equivalently, a consumer that reads through a common dyadic refinement must first land on one cell of the visible refinement window and then consume only the endpoint transport in $E$, the carried values in $V$, the classifier rows in $R$, the finite ledger $L$, and the stored $\hsame$ and $\Cont$ routes.
+
+The refinement boundary exports no host step function, measure completion, quotient representative, selected limit, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. It places every accepted consumer comparison on a displayed common-refinement cell and identifies the available read coordinates as $I,M,E,V,R,L,C,P,N$.
+
+Next use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. On the selected cell, endpoint transport and carried-value transport determine the same visible read, so the consumer cannot split the endpoint route from the value route.
+
+Finally apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} and \autoref{thm:dyadic-step-function-refinement-ledger-scope}. These keep $\RegSeqRatUp$ handoffs and $\RealUp$ seal reads inside the same finite ledger before any downstream consumer can inspect them.
+\end{proof}
+
+\begin{theorem}[Dyadic step function scope transport package]
+\label{thm:dyadic-step-function-scope-transport-package}
+The carrier surface, refinement stability, endpoint-value determinacy, $\RealUp$--$\RegSeqRatUp$ scope lock, and refinement ledger scope assemble into one kernel-scoped $\DyadicStepFunctionUp$ package over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package binds every accepted partition cell, common-refinement read, endpoint transport, carried-value row, classifier row, regular-sequence handoff, real seal read, and ledger entry to the displayed finite carrier rows.
+
+This scope transport package is the single packet consumed by downstream step-function, regular Cauchy, and real-facing readers; it has no coordinate for open-cover compactness, host function spaces, quotient representatives, selected limits, measure completion, or ambient equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier data of \autoref{def:dyadic-step-function-carrier}. The packet exposes the finite partition, interval cells, carried values, refinement map, endpoint ledger, finite history ledger, continuation routes, provenance, and local naming row.
+
+Use \autoref{thm:dyadic-step-function-refinement-stability} and \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. They transport common-refinement cells and identify endpoint and carried-value reads by the stored $\hsame$ and $\Cont$ routes.
+
+Next apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} and \autoref{thm:dyadic-step-function-refinement-ledger-scope}. These bind the $\RegSeqRatUp$ handoff, $\RealUp$ seal, and refinement ledger to the same finite rows.
+
+Finally invoke \autoref{thm:dyadic-step-function-scoped-obligation-package}. It packages the carrier, stability, handoff, ledger, coverage, endpoint-value, and seal-window rows into the kernel-scoped obligation surface, so the stated scope transport package has no hidden analytic coordinate.
+\end{proof}
+
 \closureat{DyadicStepFunctionUp}{seedStr}
 \closureat{DyadicStepFunctionUp}{obligationStr}
 
