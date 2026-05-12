@@ -139,6 +139,24 @@ the branch-prefix ledger segment is the determinant of the retained endpoint
 window and its downstream reads.
 \end{proof}
 
+\begin{theorem}[DyadicBisection branch nested-window scope]
+\label{thm:dyadic-bisection-branch-nested-window-scope}
+For every accepted $\DyadicBisectionUp$ carrier over $\DyadicIntervalUp$, $\DyadicMeshUp$, $\NestedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$, the selected branch ledger determines the finite nested-window row and transports it through the displayed $\hsame$ and $\Cont$ rows to the same $\RealUp$ seal endpoint. The scope is the carried packet
+$$
+B=(I,\pi,M,L,J,E,R,S,H,C,P,N),
+$$
+where the finite branch prefix in $L$ determines the retained endpoint rows in $E$, the nested interval row $J$, the regular readback $R$, and the real-stream handoff surface $S$.
+\end{theorem}
+\begin{proof}
+Start with the branch ledger and its endpoint determination. Apply \autoref{thm:dyadic-bisection-branch-endpoint-determinacy}: for a unary precision request, the finite branch prefix fixes the retained endpoint window, tolerance row, nested interval row, and downstream handoff rows.
+
+Next identify the nested-window row. Apply \autoref{thm:dyadic-bisection-nested-interval-bridge} to thread the branch choices through the dyadic midpoint chain and pack the retained subintervals into $J$.
+
+Now use \autoref{thm:dyadic-bisection-nested-window-handoff}. The same branch prefix and endpoint readbacks determine the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads through the displayed transport and continuation rows.
+
+Finally apply \autoref{thm:dyadic-bisection-real-stream-handoff} to bind the resulting regular and stream reads to the real-facing handoff surface $S$. The construction never leaves the displayed carrier rows, so it exports no host root, infinite intersection, trichotomy decision, or ambient completeness row.
+\end{proof}
+
 \closureat{DyadicBisectionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicBisectionUp}
