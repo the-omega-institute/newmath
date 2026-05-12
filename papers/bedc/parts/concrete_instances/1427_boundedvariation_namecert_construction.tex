@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\BoundedVariationUp$}
+\label{ch:concrete-instances-boundedvariation-namecert}
+\origin{human}
+
+The $\BoundedVariationUp$ interface names the finite partition-variation packet used by real-analysis consumers of $\RealUp$ data. It follows the Jordan bounded-variation surface treated in Rudin, \emph{Principles of Mathematical Analysis}, and Folland, \emph{Real Analysis}, but expresses every read as a finite partition ledger over regular rational names, dyadic observations, endpoint transports, and package provenance. The packet does not introduce a completed function space, a supremum over all partitions, a variation measure, or a host real-valued function quotient.
+
+Its dependency list is $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and interval-partition rows supplied by $\RationalIntervalUp$ or $\NestedIntervalUp$ when such endpoints are available.
+
+\begin{definition}[BoundedVariation carrier]
+\label{def:bounded-variation-carrier}
+A $\BoundedVariationUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(I,\Pi,X,D,V,R,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $I$ is the rational or nested interval row on which the variation packet is read;
+\item $\Pi$ is a finite ordered interval-partition ledger with displayed endpoint rows and common-refinement rows;
+\item $X$ records the $\RealUp$ endpoint values or their $\RegSeqRatUp$ regular-name representatives at the partition points;
+\item $D$ records the $\DyadicRatCoreUp$ observation rows used to compare endpoint differences on each partition edge;
+\item $V$ is the finite dyadic variation-sum ledger attached to the displayed partition;
+\item $R$ records common-refinement comparison rows for transported partitions and endpoint reads;
+\item $H$, $C$, $P$, and $N$ are respectively the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\BoundedVariationUp}$ provenance rows.
+\end{enumerate}
+The classifier compares accepted packets only through common refinements of $\Pi$, transported endpoint values, dyadic variation-sum ledgers, endpoint-difference comparisons, and the displayed provenance rows.
+\end{definition}
+
+\begin{theorem}[BoundedVariation NameCert obligations]
+\label{thm:bounded-variation-namecert-obligations}
+Every accepted $\BoundedVariationUp$ packet with carrier \autoref{def:bounded-variation-carrier} carries the following naming-certificate obligations:
+\begin{enumerate}
+\item carrier habitation by a constant $\RealUp$ or $\RegSeqRatUp$ endpoint row, with zero dyadic variation sum on every displayed finite partition;
+\item classifier comparison by common refinement of the finite partition ledgers and componentwise endpoint transport;
+\item dyadic variation-sum exactness for each displayed partition edge, read through $\DyadicRatCoreUp$ observations and $\RegSeqRatUp$ endpoint comparisons;
+\item carrier transport under displayed $\hsame$ and $\Cont$ routes for interval rows, partitions, endpoint names, dyadic observations, variation sums, and refinement rows;
+\item boundary exclusion of completed function spaces, variation measures, host supremum principles, quotient functions, and hidden partitions.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For habitation, take a constant real-name or regular-rational endpoint row. Every edge of a displayed finite partition has equal endpoint reads, so the dyadic edge differences and their finite sum are the zero variation ledger.
+
+Classifier comparison is by common refinement. Refine two displayed partition ledgers to a shared finite ledger, transport the endpoint rows componentwise, and compare the dyadic edge observations along that shared list.
+
+Variation-sum exactness is read edge by edge from the carrier. The $\DyadicRatCoreUp$ observations give the displayed endpoint-difference rows, and the finite sum row $V$ records exactly those edge rows and no unlisted partition.
+
+Transport uses the stored $\hsame$ and $\Cont$ coordinates. Moving the interval, partition, endpoint, dyadic, sum, and refinement rows along those routes repacks the same finite packet with the same local $\NameCert$ provenance.
+
+The boundary exclusion follows because the carrier has no coordinate for a completed function space, variation measure, host supremum over all partitions, quotient of functions, or hidden partition family.
+\end{proof}
+
+\begin{theorem}[BoundedVariation variation-ledger exactness]
+\label{thm:bounded-variation-variation-ledger-exactness}
+For every accepted $\BoundedVariationUp$ packet and every displayed finite partition row $\Pi$, the public variation read factors through the interval row, the ordered endpoint ledger, the $\RealUp$ or $\RegSeqRatUp$ endpoint names, the $\DyadicRatCoreUp$ edge-difference observations, and the finite dyadic variation-sum row $V$. A common-refinement read transports the same edge data and repacks the same finite sum ledger.
+\end{theorem}
+\begin{proof}
+Start from the displayed partition row $\Pi$. Its ordered endpoint ledger gives the only edges whose variation contribution may be read by the packet.
+
+For each edge, read the two endpoint names through $X$ and the dyadic comparison row through $D$. The regular-name and real-seal data are therefore consumed before the finite variation sum is formed.
+
+The row $V$ stores the finite sum of exactly those displayed edge observations. When a common refinement is supplied by $R$, the endpoint transports and dyadic edge rows are repacked along the refinement ledger, so the public read remains a finite partition-sum read.
+\end{proof}
+
+\begin{theorem}[BoundedVariation carrier transport]
+\label{thm:bounded-variation-carrier-transport}
+Let $B$ and $B'$ be accepted $\BoundedVariationUp$ packets. If their interval rows, finite partition ledgers, endpoint-name rows, dyadic observation rows, variation-sum ledgers, and common-refinement rows are transported componentwise by displayed $\hsame$ routes and read through the corresponding $\Cont$ routes, then the local classifier identifies the same bounded-variation packet on every common finite refinement.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:bounded-variation-carrier}. It compares only the interval row, partition ledger, endpoint names, dyadic observations, finite variation sums, refinement rows, and provenance.
+
+Move each of those coordinates along the displayed $\hsame$ routes. The $\Cont$ routes preserve the read order from an interval request to a partition, then to endpoint names, edge observations, and the finite sum row.
+
+Apply \autoref{thm:bounded-variation-variation-ledger-exactness} on the common refinement. The transported endpoint and dyadic rows repack the same finite variation ledger, leaving no extra classifier coordinate on which the packets could differ.
+\end{proof}
+
+\begin{theorem}[BoundedVariation no-escape boundary]
+\label{thm:bounded-variation-no-escape-boundary}
+The $\BoundedVariationUp$ public boundary exports only finite interval-partition rows, transported endpoint names, dyadic edge-difference observations, common-refinement ledgers, finite variation sums, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. It exports no completed function-space carrier, variation measure, supremum over all partitions, quotient of real-valued functions, or hidden partition family.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:bounded-variation-carrier}. The only analysis-facing data are the displayed interval row, the finite partition ledger, endpoint names, dyadic observations, the finite sum row, and common-refinement rows.
+
+The exactness theorem \autoref{thm:bounded-variation-variation-ledger-exactness} shows that every public variation read factors through those rows. The transport theorem \autoref{thm:bounded-variation-carrier-transport} shows that moving the packet preserves the same finite ledger.
+
+No coordinate names a completed function space, variation measure, host supremum over all partitions, quotient function, or hidden partition family. Hence none of those objects is exported by the public boundary.
+\end{proof}
+
+\closureat{BoundedVariationUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationUp}
+  \constructivestory{A $\BoundedVariationUp$ packet is generated from an interval row, a finite ordered partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\DyadicRatCoreUp$ edge observations, a finite dyadic variation-sum row, common-refinement rows, displayed transport, continuation, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the carrier, classifier route, NameCert obligation surface, variation-ledger exactness, carrier transport sketch, and no-escape boundary for finite partition-variation packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close completed function spaces, variation measures, host suprema over all partitions, quotient real-valued functions, hidden partition families, Jordan decomposition, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean targets for carrier habitation, common-refinement classifier transport, dyadic variation-sum exactness, endpoint transport, and the finite no-escape boundary.}
+\end{closurestatus}
