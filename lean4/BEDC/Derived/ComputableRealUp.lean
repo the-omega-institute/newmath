@@ -100,8 +100,8 @@ theorem ComputableRealSourcePacket_classifier_transport [AskSetup] [PackageSetup
               (unary_transport coverage.right.right.right.right.left sameSeal)
               (And.intro newTransport
                 (And.intro newRoutes
-                  (And.intro newProvenance
-                    (And.intro newEndpoint newPkg)))))))))
+                    (And.intro newProvenance
+                      (And.intro newEndpoint newPkg)))))))))
     sameEndpoint
 
 end BEDC.Derived.ComputableRealUp
