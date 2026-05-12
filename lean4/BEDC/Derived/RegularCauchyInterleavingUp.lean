@@ -126,6 +126,34 @@ theorem RegularCauchyInterleavingPacket_namecert_obligations [AskSetup] [Package
       exact source
   }
 
+theorem RegularCauchyInterleavingPacket_selector_parity_exactness [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint leftSeal' rightSeal' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont selector leftSchedule leftSeal' ->
+        Cont selector rightSchedule rightSeal' ->
+          UnaryHistory leftSeal' ∧ UnaryHistory rightSeal' ∧ hsame leftSeal leftSeal' ∧
+            hsame rightSeal rightSeal' := by
+  intro packet leftSealRoute' rightSealRoute'
+  obtain ⟨_leftNameUnary, _rightNameUnary, leftScheduleUnary, rightScheduleUnary,
+    selectorUnary, _modulusUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, leftSealRoute, rightSealRoute, _interleavedRoute, _endpointRoute,
+    _endpointPkg⟩ := packet
+  have leftSealUnary' : UnaryHistory leftSeal' :=
+    unary_cont_closed selectorUnary leftScheduleUnary leftSealRoute'
+  have rightSealUnary' : UnaryHistory rightSeal' :=
+    unary_cont_closed selectorUnary rightScheduleUnary rightSealRoute'
+  have sameLeftSeal : hsame leftSeal leftSeal' :=
+    cont_respects_hsame (hsame_refl selector) (hsame_refl leftSchedule) leftSealRoute
+      leftSealRoute'
+  have sameRightSeal : hsame rightSeal rightSeal' :=
+    cont_respects_hsame (hsame_refl selector) (hsame_refl rightSchedule) rightSealRoute
+      rightSealRoute'
+  exact ⟨leftSealUnary', rightSealUnary', sameLeftSeal, sameRightSeal⟩
+
 theorem RegularCauchyInterleavingPacket_real_seal_non_escape [AskSetup] [PackageSetup]
     {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
       interleavedSeal transport routes provenance nameCert endpoint endpoint' : BHist}

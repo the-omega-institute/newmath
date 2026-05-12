@@ -18,75 +18,54 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-675 - S1 completion-readback injectivity prerequisite
+### B-708 - CauchyOscillation seal handoff factorization
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (both) |
-| Object | S1 completion-readback injectivity prerequisite |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CauchyOscillation seal handoff factorization |
 | Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
-| Fit | 7/10 |
+| Fit | 8/10 |
 | Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
 
 Problem:
-Under the visible S1 carrier/readback setup, if a cancellative additive source map is injective and the bridge reads a displayed completion representative, then source separation is preserved by the completion readback without using host quotient primitives.
+If an accepted CauchyOscillationUp packet exports a RealUp seal handoff S, then every consumer read of S factors through the same finite tail window W, threshold schedule M, dyadic tolerance Q, and oscillation ledger T before the seal is available.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+- `papers/bedc/parts/concrete_instances/1734_cauchyoscillation_namecert_construction.tex`
 
 Rationale:
-This is a concrete bridge-prerequisite target that lands on the existing S1 carrier/readback surface rather than importing a host completion object. It is distinct from the current S1 transport, determinacy, public readback, and constructor-compatibility rows, and it is not present in the existing BOARD title index or paper labels. The landing file is not a hub and is below the line cap, so the target can be staged safely as a local theorem/proposition about visible representatives and separation.
+This is a concrete finite-packet obligation inside the existing CauchyOscillationUp chapter. The current paper defines the tail window, modulus schedule, tolerance, oscillation ledger, seal handoff, transports, continuation routes, provenance, and local NameCert rows, and it states oscillation-bound exactness and ledger non-escape, but it does not isolate the RealUp seal handoff as its own consumer factorization theorem. It is not a new chapter: the smallest BEDC-native landing is an existing-chapter obligation/lemma tying the displayed seal row to the already named W,M,Q,T dependency surface.
 
 ---
 
-### B-676 - S1 finite-rank host homologization obstruction
+
+### B-709 - CertificateCompiler triple composition associativity
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | S1 finite-rank host homologization obstruction |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CertificateCompiler triple composition associativity |
 | Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 7/10 |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_ledger_row |
 
 Problem:
-Under the S1 carrier/readback bridge setup, if a finite-rank host homologization certificate is admitted for the visible S1 bridge ledger, then the induced bounded-rank certificate is incompatible with cofinal prime-support evidence, so the finite-rank host homologization is obstructed.
+If three accepted CertificateCompilerUp packets are composable along displayed middle NameCert rows, then the two relational graph composites classify by the same displayed graph, edge-landing, classifier-transport, and continuation-compatibility rows.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
+- `papers/bedc/parts/concrete_instances/1965_certificatecompiler_namecert_construction.tex`
 
 Rationale:
-This is a concrete obstruction target over the existing S1 carrier/readback surface rather than a marker-only or verification-axis task. It is distinct from the active S1 completion-readback injectivity prerequisite: B-675 concerns preservation of source separation through displayed completion readbacks, while this candidate asks for an obstruction to a finite-rank host homologization certificate using bounded-rank versus cofinal-support evidence. The local input is not listed as a hub file or near the 800-line cap, and the claim can be staged as a BEDC-native bridge-obligation theorem without importing Automath runtime state.
-
----
-
-### B-677 - S1 boundary-readback Cayley coordinate certificate
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (codex) |
-| Object | S1 boundary-readback Cayley coordinate certificate |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 7/10 |
-| Novelty | 6/10 |
-
-Problem:
-Under the S1 boundary-readback setup, if BEDC has a named S1 readback carrier for the Cayley coordinate and the Automath Cayley coordinate/inverse evidence supplies the coordinate laws, then the displayed S1 boundary readback carries the Cayley coordinate certificate row.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/s1/carrier_readbacks.tex`
-
-Rationale:
-This is an evidence-backed bridge continuation with a plausible BEDC-native landing surface: the existing S1 carrier/readback file is already the active locus for S1 bridge/readback targets, and this candidate asks for one concrete certificate row rather than analytic boundary theory. It is distinct from B-675, which is about completion-readback injectivity preservation, and B-676, which is about finite-rank host homologization obstruction. Provenance must be preserved: Automath source the-omega-institute/automath@origin/dev, commit aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f, source path papers/publication/2026_cayley_chebyshev_poisson_entropy_strip_rkhs_jfa/sec_cayley_gate.tex, evidence packet tools\automath_newmath_bridge\review_packets\papers-publication-2026-cayley-chebyshev-poisson-entropy-strip-rkhs-jfa-sec-cayley-gate-tex-ce39cd0cc9a6.json, source labels sec:cayley-gate, eq:phase-coord, eq:angular-var, eq:cayley-embed, prop:cayley-homeo, eq:cayley-inverse. Reuse instruction: inspect and consume existing Automath evidence first; do not rediscover or re-prove the Automath theorem unless BEDC needs a native restatement. Expected NewMath delta: one S1 boundary-readback Cayley coordinate certificate row or a rejected BEDC-fit note. Reject if no S1 boundary-readback carrier or name-certificate host can represent the Cayley coordinate.
+This lands cleanly as a finite ledger row for the existing CertificateCompilerUp chapter. The paper already contains the carrier, classifier, NameCert obligations, binary composition stability, and identity ledger, while the proposed target asks for the missing three-packet associativity boundary of the displayed relational graph composite. It stays within graph rows, landing rows, classifier transport, continuation compatibility, hsame, provenance, and local NameCert evidence, so it is not an external categorical-law expansion and is distinct from existing BOARD entries.
 
 ---
 
