@@ -280,4 +280,40 @@ theorem DyadicPrecisionSchedule_successor_schedule_exactness
     ⟨successorPrecisionUnary, successorTransportUnary, successorLedgerUnary,
       successorPrecisionRow, successorTransportRow, successorLedgerRow⟩
 
+theorem DyadicPrecisionSchedule_classifier_consumer_transport
+    {precision radius window transport provenance nameCert ledger precision' radius' window'
+      transport' provenance' nameCert' ledger' consumer consumer' : BHist} :
+    DyadicPrecisionSchedule precision radius window transport provenance nameCert ledger ->
+      DyadicPrecisionSchedule precision' radius' window' transport' provenance' nameCert'
+          ledger' ->
+        hsame precision precision' ->
+          hsame radius radius' ->
+            hsame window window' ->
+              hsame provenance provenance' ->
+                hsame nameCert nameCert' ->
+                  Cont precision' window' transport' ->
+                    Cont transport' provenance' ledger' ->
+                      Cont ledger nameCert consumer ->
+                        Cont ledger' nameCert' consumer' ->
+                          hsame transport transport' ∧ hsame ledger ledger' ∧
+                            hsame consumer consumer' ∧ UnaryHistory consumer ∧
+                              UnaryHistory consumer' := by
+  intro schedule schedule' samePrecision _sameRadius sameWindow sameProvenance sameNameCert
+    transportRow ledgerRow consumerRow consumerRow'
+  have readback :=
+    DyadicPrecisionSchedule_common_window_readback schedule schedule' samePrecision sameWindow
+      sameProvenance transportRow ledgerRow
+  have coverage := DyadicPrecisionSchedule_radius_window_coverage schedule
+  have coverage' := DyadicPrecisionSchedule_radius_window_coverage schedule'
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame readback.right sameNameCert consumerRow consumerRow'
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed coverage.right.right.right.right.right.right.left
+      coverage.right.right.right.left consumerRow
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed coverage'.right.right.right.right.right.right.left
+      coverage'.right.right.right.left consumerRow'
+  exact
+    ⟨readback.left, readback.right, sameConsumer, consumerUnary, consumerUnary'⟩
+
 end BEDC.Derived.DyadicPrecisionUp

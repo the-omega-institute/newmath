@@ -347,4 +347,45 @@ theorem ComputableRealSourcePacket_regseqrat_seal_factorization [AskSetup] [Pack
       sealReadUnary, consumerUnary, streamModulusRow, dyadicRegseqRow, transportRoutesRow,
       provenanceNameEndpoint, sealReadRow, consumerRow, endpointPkg, consumerPkg⟩
 
+theorem ComputableRealSourcePacket_modulus_window_stability [AskSetup] [PackageSetup]
+    {stream modulus dyadic regseq sealRow transport routes provenance name endpoint stream'
+      transport' provenance' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ComputableRealSourcePacket stream modulus dyadic regseq sealRow transport routes provenance
+        name endpoint bundle pkg ->
+      hsame stream stream' ->
+        Cont stream' modulus transport' ->
+          Cont transport' routes provenance' ->
+            Cont provenance' name endpoint' ->
+              PkgSig bundle endpoint' pkg ->
+                ComputableRealSourcePacket stream' modulus dyadic regseq sealRow transport'
+                    routes provenance' name endpoint' bundle pkg ∧
+                  hsame transport transport' ∧ hsame provenance provenance' ∧
+                    hsame endpoint endpoint' := by
+  intro packet sameStream transportRow provenanceRow endpointRow endpointPkg
+  have coverage := ComputableRealSourcePacket_ledger_coverage packet
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameStream (hsame_refl modulus)
+      coverage.right.right.right.right.right.left transportRow
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport (hsame_refl routes)
+      coverage.right.right.right.right.right.right.right.left provenanceRow
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameProvenance (hsame_refl name)
+      coverage.right.right.right.right.right.right.right.right.left endpointRow
+  exact
+    ⟨⟨unary_transport coverage.left sameStream,
+        coverage.right.left,
+        coverage.right.right.left,
+        coverage.right.right.right.left,
+        coverage.right.right.right.right.left,
+        transportRow,
+        coverage.right.right.right.right.right.right.left,
+        provenanceRow,
+        endpointRow,
+        endpointPkg⟩,
+      sameTransport,
+      sameProvenance,
+      sameEndpoint⟩
+
 end BEDC.Derived.ComputableRealUp
