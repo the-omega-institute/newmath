@@ -33,6 +33,9 @@ jobs:
             lean4-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain') }}-
             lean4-lake-${{ runner.os }}-
 
+      - name: Drop stale incremental build artefacts
+        run: rm -rf lean4/.lake/build
+
       - name: Build Lean4 project
         uses: leanprover/lean-action@c544e89643240c6b398f14a431bcdc6309e36b3e # v1
         with:
