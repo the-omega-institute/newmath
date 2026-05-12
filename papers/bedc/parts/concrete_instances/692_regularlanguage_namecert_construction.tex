@@ -344,6 +344,7 @@ quotient, regular-expression equivalence, minimization result, infinite
 automaton, hidden recognizer state, or bridge-external semantic coordinate is
 needed to reconstruct the finite consumer surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularLanguageUp.RegularLanguageAutomatonPacket\_finite\_bridge\_consumer\_completeness}
 \begin{proof}
 First read the finite carrier from
 \autoref{def:regularlanguage-finite-automaton-carrier}. This provides the
@@ -408,6 +409,43 @@ infinite-automaton, hidden-semantics, and host-language objects are not rows of
 that bridge boundary.
 \end{proof}
 
+\begin{theorem}[RegularLanguage prefix bridge consumer boundary]
+\label{thm:regularlanguage-prefix-bridge-consumer-boundary}
+Every finite prefix consumer of a public $\RegularLanguageUp$ packet factors
+through the displayed prefix word spine, the restricted deterministic run
+ledger, endpoint transport, $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert$ rows exported by the public finite-automaton
+bridge.
+
+Such a consumer cannot read minimization data, host language equality,
+regular-expression quotient equivalence, infinite automata, or hidden
+recognizer state.
+\end{theorem}
+\begin{proof}
+First restrict the displayed input to the finite prefix under inspection.
+By \autoref{thm:regularlanguage-run-prefix-restriction}, the consumed prefix is
+read through the same $\ListUp$ word spine and the corresponding restricted
+deterministic run ledger.
+
+Next use
+\autoref{thm:regularlanguage-transition-ledger-standard-boundary} to identify
+which rows a standard finite-automaton reader may consume: the transition
+ledger, endpoint row, displayed $\hsame$ transports, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ rows.
+
+Apply
+\autoref{thm:regularlanguage-standard-automaton-bridge-boundary} to repack
+those rows as the public finite-automaton bridge surface. Then
+\autoref{thm:regularlanguage-displayed-automaton-consumer-examples} shows that
+the word-spine, step-bounded transition, and finite run-trace consumers are
+all conservative reads of that same displayed surface.
+
+The excluded objects are not coordinates of the restricted run ledger or of
+the public bridge surface. Hence a finite prefix consumer has no route to
+minimization, host language equality, regular-expression quotient equivalence,
+infinite automata, or hidden recognizer state.
+\end{proof}
+
 \closureat{RegularLanguageUp}{seedStr}
 \closureat{RegularLanguageUp}{obligationStr}
 \closureat{RegularLanguageUp}{scopedStr}
@@ -418,7 +456,7 @@ that bridge boundary.
 \begin{closurestatus}{\RegularLanguageUp}
   \constructivestory{A regular-language packet is represented by finite alphabet and state rows, a displayed transition table, a ListUp word spine, a deterministic BHist run ledger, endpoint acceptance, componentwise hsame transport, Cont routes for consuming the spine, and Pkg provenance naming ListUp, FinSetUp, ComputableUp, and TuringMachineUp.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:regularlanguage-finite-automaton-carrier}, \autoref{def:regularlanguage-classifier}, \autoref{thm:regularlanguage-deterministic-run-ledger}, \autoref{thm:regularlanguage-classified-word-transport}, \autoref{thm:regularlanguage-namecert-obligation-surface}, \autoref{thm:regularlanguage-scoped-kernel-dependency-envelope}, \autoref{thm:regularlanguage-public-accepted-word-export}, \autoref{thm:regularlanguage-standard-automaton-bridge-boundary}, \autoref{thm:regularlanguage-finite-bridge-consumer-completeness}, and \autoref{thm:regularlanguage-displayed-automaton-consumer-examples} bind the finite automaton carrier, accepted-word classifier, run ledger, endpoint transport, NameCert obligation rows, finite upstream certificate envelope, public accepted-word export, standard finite-automaton bridge boundary, finite bridge consumer completeness, and displayed automaton consumer examples.}
+  \scopeclosed{\autoref{def:regularlanguage-finite-automaton-carrier}, \autoref{def:regularlanguage-classifier}, \autoref{thm:regularlanguage-deterministic-run-ledger}, \autoref{thm:regularlanguage-classified-word-transport}, \autoref{thm:regularlanguage-namecert-obligation-surface}, \autoref{thm:regularlanguage-scoped-kernel-dependency-envelope}, \autoref{thm:regularlanguage-public-accepted-word-export}, \autoref{thm:regularlanguage-standard-automaton-bridge-boundary}, \autoref{thm:regularlanguage-finite-bridge-consumer-completeness}, \autoref{thm:regularlanguage-displayed-automaton-consumer-examples}, and \autoref{thm:regularlanguage-prefix-bridge-consumer-boundary} bind the finite automaton carrier, accepted-word classifier, run ledger, endpoint transport, NameCert obligation rows, finite upstream certificate envelope, public accepted-word export, standard finite-automaton bridge boundary, finite bridge consumer completeness, displayed automaton consumer examples, and finite prefix bridge consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

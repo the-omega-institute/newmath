@@ -231,6 +231,34 @@ theorem RegularLanguageAutomatonPacket_transition_ledger_standard_boundary [AskS
     ⟨runUnary, endpointUnary, routesUnary, provenanceUnary, boundaryUnary, runRow, endpointRow,
       routesRow, boundaryRow, boundarySig⟩
 
+theorem RegularLanguageAutomatonPacket_finite_bridge_consumer_completeness
+    [AskSetup] [PackageSetup]
+    {alphabet states start accept transition word run endpoint transport routes provenance
+      publicExport bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLanguageAutomatonPacket alphabet states start accept transition word run endpoint
+        transport routes provenance bundle pkg ->
+      Cont routes provenance publicExport ->
+        Cont publicExport transport bridgeRead ->
+          PkgSig bundle publicExport pkg ->
+            PkgSig bundle bridgeRead pkg ->
+              UnaryHistory alphabet ∧ UnaryHistory states ∧ UnaryHistory start ∧
+                UnaryHistory accept ∧ UnaryHistory transition ∧ UnaryHistory word ∧
+                  UnaryHistory run ∧ UnaryHistory endpoint ∧ UnaryHistory publicExport ∧
+                    UnaryHistory bridgeRead ∧ Cont routes provenance publicExport ∧
+                      Cont publicExport transport bridgeRead ∧ PkgSig bundle bridgeRead pkg := by
+  intro packet publicRow bridgeRow _publicSig bridgeSig
+  obtain ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+    runUnary, endpointUnary, transportUnary, routesUnary, provenanceUnary, _runRow,
+    _endpointRow, _routesRow, _pkgSig⟩ := packet
+  have publicUnary : UnaryHistory publicExport :=
+    unary_cont_closed routesUnary provenanceUnary publicRow
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicUnary transportUnary bridgeRow
+  exact
+    ⟨alphabetUnary, statesUnary, startUnary, acceptUnary, transitionUnary, wordUnary,
+      runUnary, endpointUnary, publicUnary, bridgeUnary, publicRow, bridgeRow, bridgeSig⟩
+
 theorem RegularLanguageAutomatonPacket_scoped_kernel_dependency_envelope
     [AskSetup] [PackageSetup]
     {alphabet states start accept transition word run endpoint transport routes provenance
