@@ -109,30 +109,32 @@ inductive judgment \texttt{ClosedAt}. All of these objects are ordinary Lean 4
 inductive types or definitions, use no axioms, and have exactly the strength of
 the host CIC that checks them.
 
-\subsection{Strategic Position}\label{subsec:reconstruction-strategic-position}
+\subsection{Positioning Within BEDC}\label{subsec:reconstruction-positioning}
 
-The strategic role of `\verb|BEDC.MetaCIC|' is an L1 stratification role:
-it is the syntax and judgment-representation layer of the BEDC project. It
-does not replace the host calculus, and it does not present BEDC as a second
-kernel beside Lean. Its task is to make terms, contexts, reductions, and
-typing derivations available as inductive BEDC objects.
+The \texttt{BEDC.MetaCIC} namespace occupies a calculus-reconstruction
+position within the BEDC codebase. \texttt{BEDC.FKernel} is the foundational
+kernel layer, carrying the \texttt{BMark}, \texttt{BHist}, and probe
+primitives. \texttt{BEDC.Derived} builds derived mathematical structures such
+as real objects, groups, modules, and related packets on top of that base.
 
-This layer complements `\verb|BEDC.Manifest|'. The manifest side registers
-paper-anchored theorem entries as kernel-typed data, so that named results can
-be tracked through the project as typed artifacts. The MetaCIC side supplies
-the inductive description of the calculus whose syntax and judgments can be
-discussed internally.
+\texttt{BEDC.Manifest} is the paper-anchored theorem registry: it records
+named theorem entries as kernel-typed artifacts. \texttt{BEDC.Reflection}
+handles closure and certificate forms, including package-facing
+identification principles and name-certificate surfaces. These modules give
+the project its object layer, registry layer, and certificate layer.
 
-It also sits below `\verb|BEDC.Reflection|'. Reflection handles higher closure
-forms such as ext-membership, name certificates, and package-facing
-identification principles. MetaCIC supplies the typed-term syntactic
-foundation on which such higher closure forms can be related to represented
-judgments when a bridge is present.
+\texttt{BEDC.MetaCIC} is complementary to those layers rather than downstream
+of them. It gives an inductive description of a CIC fragment itself: terms,
+contexts, reduction, typing, and closure as represented syntax and judgments.
+It therefore formalizes a calculus fragment in isolation from the derived
+structure, manifest, and reflection APIs, while sharing the same axiom-free
+Lean checking discipline as the rest of BEDC.
 
-The limit is deliberate. MetaCIC does not simulate the host's full type
-checker, and it does not replace Lean-kernel reduction. BEDC is an inside-host
-formalization: its checked claims have the same foundational strength as the
-host that checks them, not a stronger one.
+MetaCIC does not replace the host CIC or serve as a second kernel beside Lean.
+It represents a fragment inside the host, so theorems about represented
+derivations remain host-checked BEDC theorems. The foundational guarantee is
+the same project-wide one: the surface is built from inductive definitions and
+checked proofs, with no additional axioms.
 
 \subsection{Stratification Recap}\label{subsec:reconstruction-stratification-recap}
 
