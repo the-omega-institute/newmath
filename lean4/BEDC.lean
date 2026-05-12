@@ -1022,6 +1022,7 @@ import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.FourierUp
 import BEDC.Derived.ModNUp
+import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaFunctionUp
