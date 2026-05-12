@@ -70,6 +70,42 @@ The output side is the diagonal representative already carried by $\RealDiagonal
 This is the Bishop-style reading of completion as an explicit transformation from regular Cauchy data to a real name with a visible modulus and ledger. The certificate records the construction interface and its boundary, leaving machine checking of the full real-completion theorem to the corresponding Lean namespace.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion carrier transport stability]
+\label{thm:real-cauchy-completion-carrier-transport-stability}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier. Any displayed $\hsame$ transport that preserves the $X$, $\mu$, $D$, $E$, $P$, and $N$ coordinates through the $\RegSeqRatUp$, $\RealDiagonalCompletionUp$, $\RealUp$, $\Pkg$, $\Cont$, and $\NameCert$ rows preserves both the $\RealCauchyCompletionUp$ carrier predicate and the local classifier. In particular, transported packets are compared only by the same component rows that classified the original packet.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:real-cauchy-completion-carrier}. The regular family coordinate $X$ and the modulus coordinate $\mu$ are transported through the displayed $\RegSeqRatUp$ rows, so the input side remains a visible regular Cauchy family with the same precision schedule.
+
+The diagonal coordinate $D$ is transported through $\RealDiagonalCompletionUp$, and the seal coordinate $E$ is transported through $\RealUp$. The recorded $\Cont$ routes carry the finite readback ledgers along those transports, so the consumer-facing route continues to expose the same scheduled stream windows and rational observations.
+
+Finally, $P$ and $N$ transport through the package and local certificate rows. Since the classifier of \autoref{def:real-cauchy-completion-carrier} compares exactly these displayed coordinates, componentwise transport preserves accepted carriers and preserves classifier equivalence.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion modulus diagonal exactness]
+\label{thm:real-cauchy-completion-modulus-diagonal-exactness}
+For an accepted $\RealCauchyCompletionUp$ carrier $C=(X,\mu,D,E,P,N)$ and a unary precision request $n$, the row $\mu(n)$ determines the displayed diagonal packet used for that request together with its finite $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ readback rows. The route contains no quotient of regular streams, no host real equality, and no choice-selected limit.
+\end{theorem}
+\begin{proof}
+The modulus row is a coordinate of the carrier, not an external completeness principle. Evaluating it at $n$ selects the late regular-sequence member whose readback must be inspected for that precision.
+
+The diagonal coordinate $D$ then gives the corresponding displayed packet: a scheduled stream window, the regular-sequence ledger for that window, and the dyadic rational observation rows used by the readback. These rows are finite history data already named by the carrier provenance.
+
+Because the selected route is exhausted by $\mu$, $D$, and the finite readback ledgers, there is no remaining operation that could form quotient stream equality, appeal to host real equality, or select a limit by choice.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion real seal readback scope]
+\label{thm:real-cauchy-completion-real-seal-readback-scope}
+The $\RealUp$ seal exported by an accepted $\RealCauchyCompletionUp$ carrier is consumed only through the diagonal readback route named by $\mu$ and $D$. Every consumer read of the seal is mediated by the displayed finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\Cont$, $\Pkg$, and $\NameCert$ packet rows.
+\end{theorem}
+\begin{proof}
+The seal coordinate $E$ is attached to the diagonal representative carried by $D$. A consumer therefore reaches $E$ only after the modulus row has selected the relevant regular-sequence member and the diagonal ledger has exposed the finite window and rational observation rows.
+
+The $\Cont$ routes record how those rows are read without leaving the displayed packet. The package provenance $P$ and local certificate row $N$ bind the dependency certificates that make the route public to downstream consumers.
+
+Thus the exported seal has a restricted readback scope: it is a real-facing boundary for the named diagonal packet, not an independent host real, quotient class, or ambient completion object.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
 
 \begin{closurestatus}{\RealCauchyCompletionUp}
