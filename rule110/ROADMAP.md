@@ -139,7 +139,7 @@ Encode BEDC content outside the finite-kernel proof boundary.
 - [ ] L5.2: `Derived/RealUp` (real numbers via BHist limit construction).
 - [ ] L5.3: `Derived/CircleUp` (modular arithmetic + circle group).
 - [ ] L5.4: `Derived/FoldUp` (foldable structures).
-- [ ] L5.5: `BaseReflection` (CIC self-reflection within rule110 substrate — challenging since rule110 is sub-Turing-complete cellular automaton; may need bridge through cyclic-tag substrate first).
+- [!] L5.5: `BaseReflection` substrate mirror design.  `docs/base_reflection_design.md` records the Lean package/signature reflection surface, explains why direct CIC self-reflection requires a cyclic-tag MetaCIC bridge, and scopes this row to design plus obstruction documentation.  Boundary: no executable BaseReflection manifests are claimed until L5.6 fixes a concrete MetaCIC-on-BHist encoding and a closed-judgment accept/reject protocol.
 - [ ] L5.6: `MetaCIC` (mini-CIC self-host on BHist; this already exists in Lean — rule110 mirror).
 - [ ] L5.7: `GroundCompiler` (the channel-encoding pipeline that rule110 itself uses; meta-circular).
 - [ ] L5.8: `Capstones` (vision-level constructions — see `papers/bedc/parts/visions/`).
