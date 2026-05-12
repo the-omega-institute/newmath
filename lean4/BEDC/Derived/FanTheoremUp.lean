@@ -112,4 +112,24 @@ theorem FanTheoremPacket_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, treeUnary, barUnary, depthUnary, windowUnary, treeBarDepth, depthWindowEndpoint,
       endpointPkg⟩
 
+theorem FanTheoremPacket_real_completion_boundary [AskSetup] [PackageSetup]
+    {tree bar depth window transport traversal provenance nameCert endpoint realConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+        bundle pkg ->
+      Cont endpoint provenance realConsumer ->
+        PkgSig bundle realConsumer pkg ->
+          UnaryHistory endpoint ∧ UnaryHistory realConsumer ∧ Cont tree bar depth ∧
+            Cont depth window endpoint ∧ Cont endpoint provenance realConsumer ∧
+              PkgSig bundle endpoint pkg ∧ PkgSig bundle realConsumer pkg := by
+  intro packet endpointProvenanceRealConsumer realConsumerPkg
+  obtain ⟨_treeUnary, _barUnary, _depthUnary, _windowUnary, _transportUnary,
+    _traversalUnary, provenanceUnary, _nameCertUnary, endpointUnary, treeBarDepth,
+    depthWindowEndpoint, _transportTraversalProvenance, endpointPkg⟩ := packet
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceRealConsumer
+  exact
+    ⟨endpointUnary, realConsumerUnary, treeBarDepth, depthWindowEndpoint,
+      endpointProvenanceRealConsumer, endpointPkg, realConsumerPkg⟩
+
 end BEDC.Derived.FanTheoremUp

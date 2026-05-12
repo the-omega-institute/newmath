@@ -232,6 +232,45 @@ theorem RegularCauchySubsequenceCarrier_real_seal_factorization [AskSetup] [Pack
       finalSealUnary, sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint,
       sealLocalCertConsumer, consumerEndpointFinal, endpointPkg, finalSealPkg⟩
 
+theorem RegularCauchySubsequenceCarrier_scoped_kernel_interface [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        Cont consumerRead endpoint finalRead ->
+          PkgSig bundle finalRead pkg ->
+            UnaryHistory source ∧ UnaryHistory reindex ∧ UnaryHistory windows ∧
+              UnaryHistory radius ∧ UnaryHistory sealRow ∧ UnaryHistory consumerRead ∧
+                UnaryHistory finalRead ∧ Cont source reindex windows ∧
+                  Cont windows radius sealRow ∧ Cont provenance localCert endpoint ∧
+                    Cont source (append reindex (append radius (append localCert endpoint)))
+                      finalRead ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle finalRead pkg := by
+  intro carrier sealLocalCertConsumer consumerEndpointFinal finalReadPkg
+  obtain ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, _sameRowsUnary,
+    _routeRowsUnary, _provenanceUnary, localCertUnary, endpointUnary, sourceReindexWindows,
+    windowsRadiusSeal, _sameRowsRouteRowsProvenance, provenanceLocalCertEndpoint,
+    _endpointAppend, endpointPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed consumerUnary endpointUnary consumerEndpointFinal
+  have sourceFinalRead :
+      Cont source (append reindex (append radius (append localCert endpoint))) finalRead := by
+    cases sourceReindexWindows
+    cases windowsRadiusSeal
+    cases sealLocalCertConsumer
+    cases consumerEndpointFinal
+    exact (append_assoc (append (append source reindex) radius) localCert endpoint).trans
+      ((append_assoc (append source reindex) radius (append localCert endpoint)).trans
+        (append_assoc source reindex (append radius (append localCert endpoint))))
+  exact
+    ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, consumerUnary,
+      finalReadUnary, sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint,
+      sourceFinalRead, endpointPkg, finalReadPkg⟩
+
 theorem RegularCauchySubsequenceCarrier_standard_bridge_source [AskSetup] [PackageSetup]
     {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
       consumerRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -272,5 +311,37 @@ theorem RegularCauchySubsequenceCarrier_bridge_non_escape [AskSetup] [PackageSet
     exact cont_mutual_extension_right_tail_absurd.left bridgeSource hostReturn
   · intro hostReturn
     exact cont_mutual_extension_right_tail_absurd.right bridgeSource hostReturn
+
+theorem RegularCauchySubsequenceCarrier_mature_consumer_route [AskSetup] [PackageSetup]
+    {source reindex windows radius sealRow sameRows routeRows provenance localCert endpoint
+      consumerRead finalRead hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius sealRow sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont sealRow localCert consumerRead ->
+        Cont consumerRead endpoint finalRead ->
+          PkgSig bundle finalRead pkg ->
+            UnaryHistory finalRead ∧
+              Cont source (append reindex (append radius (append localCert endpoint)))
+                finalRead ∧
+                PkgSig bundle finalRead pkg ∧
+                  (Cont finalRead (BHist.e0 hostTail) source -> False) ∧
+                    (Cont finalRead (BHist.e1 hostTail) source -> False) := by
+  intro carrier sealLocalCertConsumer consumerEndpointFinal finalReadPkg
+  have scopedData :=
+    RegularCauchySubsequenceCarrier_scoped_kernel_interface carrier sealLocalCertConsumer
+      consumerEndpointFinal finalReadPkg
+  have sourceFinalRead := scopedData.right.right.right.right.right.right.right.right.right.right.left
+  constructor
+  · exact scopedData.right.right.right.right.right.right.left
+  constructor
+  · exact sourceFinalRead
+  constructor
+  · exact finalReadPkg
+  constructor
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.left sourceFinalRead hostReturn
+  · intro hostReturn
+    exact cont_mutual_extension_right_tail_absurd.right sourceFinalRead hostReturn
 
 end BEDC.Derived.RegularCauchySubsequenceUp
