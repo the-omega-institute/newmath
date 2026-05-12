@@ -132,6 +132,7 @@ as in \autoref{def:located-interval-carrier}, every seal-facing read accepted by
 
 Consequently the packet cannot export a host real interval, a selected endpoint value, quotient real equality, or ambient order completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedIntervalUp.LocatedIntervalPacket\_real\_seal\_non\_escape}
 \begin{proof}
 Read the seal-facing part of the carrier. The only real rows present are the lower and upper $\LocatedRealUp$ endpoint displays, their finite $\StreamNameUp$ windows, the associated $\RegSeqRatUp$ readbacks, and the $\RealUp$ rows explicitly recorded in $E$.
 
@@ -301,6 +302,46 @@ The comparison first enters through the public consumer route of \autoref{thm:lo
 Apply \autoref{thm:locatedinterval-real-seal-non-escape} for the seal boundary and \autoref{thm:locatedinterval-scoped-real-seal-scope} for its scoped form. These results route the comparison through $L,U,S,R,E,H,C,P,N$ and keep the rational and dyadic side attached by \autoref{thm:locatedinterval-rational-dyadic-cell-chain}.
 
 Finally use \autoref{thm:locatedinterval-kernel-scope-package}. The package contains no host interval primitive, selected endpoint value, quotient real equality witness, or order-completeness principle, so the public comparison boundary has exactly the displayed rows and no additional real construction.
+\end{proof}
+
+\begin{theorem}[LocatedInterval endpoint-cell route totality]
+\label{thm:locatedinterval-endpoint-cell-route-totality}
+For every accepted $\LocatedIntervalUp$ packet
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N),
+$$
+each endpoint request and each containment request routes through the same displayed finite surface: the endpoint-window rows $L,U,S,R,E$, the rational and dyadic cell rows $I,D$, and the BEDC rows $H,C,P,N$. No accepted endpoint or containment read uses a coordinate outside this surface.
+\end{theorem}
+\begin{proof}
+Endpoint-window and endpoint-readback requests are exhausted by \autoref{thm:locatedinterval-endpoint-window-readback-exhaustion}. They therefore read only the lower and upper endpoint rows, the attached $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the $\RealUp$ seal rows, and the displayed transport and continuation rows.
+
+Containment requests are exhausted by \autoref{thm:locatedinterval-rational-dyadic-cell-chain}. Rational containment reads enter through $I$, dyadic refinement reads enter through $D$, and both return to the same endpoint rows under the displayed containment transport.
+
+Finally apply \autoref{thm:locatedinterval-public-consumer-route}. It repacks the endpoint and cell routes as one public consumer surface over $J$, so endpoint, rational containment, and dyadic containment requests are total exactly on the rows $L,U,I,D,S,R,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[LocatedInterval stream readback cell compatibility]
+\label{thm:locatedinterval-stream-readback-cell-compatibility}
+In every accepted $\LocatedIntervalUp$ packet, the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks attached to the lower and upper endpoints remain compatible with transported rational and dyadic containment cells. Transport of an endpoint read along $H$ and $C$ preserves the containment-cell route through $I$ and $D$, and transport of a containment read preserves the endpoint-window and readback rows through $L,U,S,R,E$.
+\end{theorem}
+\begin{proof}
+Begin with endpoint transport. By \autoref{thm:located-interval-endpoint-transport}, endpoint comparisons and readbacks move componentwise through the displayed $\hsame$ and $\Cont$ rows, so the $\StreamNameUp$ and $\RegSeqRatUp$ rows remain attached to the same lower and upper endpoints.
+
+Now use the containment transport scope of \autoref{thm:locatedinterval-containment-transport-scope}. It states that rational containment rows and dyadic refinements are transported through the same endpoint package rather than through a separate interval carrier.
+
+Combining these two transport statements with \autoref{thm:locatedinterval-rational-dyadic-cell-chain} gives compatibility: endpoint-window readback cannot detach from $I$ or $D$, and cell containment cannot detach from $L,U,S,R,E$.
+\end{proof}
+
+\begin{theorem}[LocatedInterval downstream root-unblock package]
+\label{thm:locatedinterval-downstream-root-unblock-package}
+For every accepted $\LocatedIntervalUp$ packet $J=(L,U,I,D,S,R,E,H,C,P,N)$, the finite root package consumed by $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RationalIntervalUp$, and $\DyadicIntervalUp$ is exactly the public export packet of \autoref{thm:locatedinterval-public-export-packet}, the real comparison boundary of \autoref{thm:locatedinterval-real-comparison-boundary}, the endpoint-cell route totality of \autoref{thm:locatedinterval-endpoint-cell-route-totality}, and the stream-readback cell compatibility of \autoref{thm:locatedinterval-stream-readback-cell-compatibility}. This package excludes host intervals, selected endpoints, quotient real equality, and order completeness.
+\end{theorem}
+\begin{proof}
+The public export packet supplies the finite carrier-facing surface over $L,U,I,D,S,R,E,H,C,P,N$. It already names the endpoint, cell, seal, transport, continuation, provenance, and local naming rows available to downstream consumers.
+
+The endpoint-cell route totality theorem gives a single route for endpoint requests and containment requests. The stream-readback cell compatibility theorem then shows that these routes remain attached under endpoint transport and containment transport.
+
+Finally use the real comparison boundary. It is the $\RealUp$ and $\RegSeqRatUp$ edge of the same package, and it excludes host intervals, selected endpoints, quotient real equality, and order completeness. Hence the five downstream consumers receive exactly the displayed finite root package.
 \end{proof}
 
 \begin{theorem}[LocatedInterval bridge-facing certificate package]
