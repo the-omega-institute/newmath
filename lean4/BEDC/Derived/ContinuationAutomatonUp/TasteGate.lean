@@ -10,9 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ContinuationAutomatonUp : Type where
-  | mk :
-      (states initial accepting transition behaviour transport route provenance name : BHist) →
-        ContinuationAutomatonUp
+  | mk (states initial accepting transitions behaviour transport routes provenance nameCert :
+      BHist) : ContinuationAutomatonUp
   deriving DecidableEq
 
 def continuationAutomatonEncodeBHist : BHist → RawEvent
@@ -39,38 +38,10 @@ private theorem continuationAutomatonDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem continuationAutomaton_mk_congr
-    {states states' initial initial' accepting accepting' transition transition' behaviour
-      behaviour' transport transport' route route' provenance provenance' name name' : BHist}
-    (hStates : states' = states)
-    (hInitial : initial' = initial)
-    (hAccepting : accepting' = accepting)
-    (hTransition : transition' = transition)
-    (hBehaviour : behaviour' = behaviour)
-    (hTransport : transport' = transport)
-    (hRoute : route' = route)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    ContinuationAutomatonUp.mk states' initial' accepting' transition' behaviour' transport' route'
-        provenance' name' =
-      ContinuationAutomatonUp.mk states initial accepting transition behaviour transport route
-        provenance name := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hStates
-  cases hInitial
-  cases hAccepting
-  cases hTransition
-  cases hBehaviour
-  cases hTransport
-  cases hRoute
-  cases hProvenance
-  cases hName
-  rfl
-
 def continuationAutomatonToEventFlow : ContinuationAutomatonUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ContinuationAutomatonUp.mk states initial accepting transition behaviour transport route
-      provenance name =>
+  | ContinuationAutomatonUp.mk states initial accepting transitions behaviour transport routes
+      provenance nameCert =>
       [[BMark.b0],
         continuationAutomatonEncodeBHist states,
         [BMark.b1, BMark.b0],
@@ -78,19 +49,19 @@ def continuationAutomatonToEventFlow : ContinuationAutomatonUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b0],
         continuationAutomatonEncodeBHist accepting,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        continuationAutomatonEncodeBHist transition,
+        continuationAutomatonEncodeBHist transitions,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         continuationAutomatonEncodeBHist behaviour,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         continuationAutomatonEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        continuationAutomatonEncodeBHist route,
+        continuationAutomatonEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         continuationAutomatonEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        continuationAutomatonEncodeBHist name]
+        continuationAutomatonEncodeBHist nameCert]
 
 def continuationAutomatonFromEventFlow : EventFlow → Option ContinuationAutomatonUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -116,7 +87,7 @@ def continuationAutomatonFromEventFlow : EventFlow → Option ContinuationAutoma
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | transition :: rest7 =>
+                              | transitions :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
@@ -134,7 +105,7 @@ def continuationAutomatonFromEventFlow : EventFlow → Option ContinuationAutoma
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | route :: rest13 =>
+                                                      | routes :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -146,7 +117,7 @@ def continuationAutomatonFromEventFlow : EventFlow → Option ContinuationAutoma
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | name :: rest17 =>
+                                                                      | nameCert :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
@@ -158,17 +129,17 @@ def continuationAutomatonFromEventFlow : EventFlow → Option ContinuationAutoma
                                                                                   (continuationAutomatonDecodeBHist
                                                                                     accepting)
                                                                                   (continuationAutomatonDecodeBHist
-                                                                                    transition)
+                                                                                    transitions)
                                                                                   (continuationAutomatonDecodeBHist
                                                                                     behaviour)
                                                                                   (continuationAutomatonDecodeBHist
                                                                                     transport)
                                                                                   (continuationAutomatonDecodeBHist
-                                                                                    route)
+                                                                                    routes)
                                                                                   (continuationAutomatonDecodeBHist
                                                                                     provenance)
                                                                                   (continuationAutomatonDecodeBHist
-                                                                                    name))
+                                                                                    nameCert))
                                                                           | _ :: _ => none
 
 private theorem continuationAutomaton_round_trip :
@@ -177,34 +148,31 @@ private theorem continuationAutomaton_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk states initial accepting transition behaviour transport route provenance name =>
+  | mk states initial accepting transitions behaviour transport routes provenance nameCert =>
       change
         some
           (ContinuationAutomatonUp.mk
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist states))
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist initial))
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist accepting))
-            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist transition))
+            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist transitions))
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist behaviour))
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist transport))
-            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist route))
+            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist routes))
             (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist provenance))
-            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist name))) =
+            (continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist nameCert))) =
           some
-            (ContinuationAutomatonUp.mk states initial accepting transition behaviour transport
-              route provenance name)
-      exact
-        congrArg some
-          (continuationAutomaton_mk_congr
-            (continuationAutomatonDecode_encode_bhist states)
-            (continuationAutomatonDecode_encode_bhist initial)
-            (continuationAutomatonDecode_encode_bhist accepting)
-            (continuationAutomatonDecode_encode_bhist transition)
-            (continuationAutomatonDecode_encode_bhist behaviour)
-            (continuationAutomatonDecode_encode_bhist transport)
-            (continuationAutomatonDecode_encode_bhist route)
-            (continuationAutomatonDecode_encode_bhist provenance)
-            (continuationAutomatonDecode_encode_bhist name))
+            (ContinuationAutomatonUp.mk states initial accepting transitions behaviour transport
+              routes provenance nameCert)
+      rw [continuationAutomatonDecode_encode_bhist states,
+        continuationAutomatonDecode_encode_bhist initial,
+        continuationAutomatonDecode_encode_bhist accepting,
+        continuationAutomatonDecode_encode_bhist transitions,
+        continuationAutomatonDecode_encode_bhist behaviour,
+        continuationAutomatonDecode_encode_bhist transport,
+        continuationAutomatonDecode_encode_bhist routes,
+        continuationAutomatonDecode_encode_bhist provenance,
+        continuationAutomatonDecode_encode_bhist nameCert]
 
 private theorem continuationAutomatonToEventFlow_injective {x y : ContinuationAutomatonUp} :
     continuationAutomatonToEventFlow x = continuationAutomatonToEventFlow y → x = y := by
