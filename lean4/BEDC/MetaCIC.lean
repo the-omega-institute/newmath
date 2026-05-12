@@ -12,6 +12,7 @@ import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
 import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.SubjectReduction
+import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.TypedExamples
