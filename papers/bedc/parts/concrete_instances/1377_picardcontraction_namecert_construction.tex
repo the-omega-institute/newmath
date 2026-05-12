@@ -168,15 +168,96 @@ local naming-certificate surface and leave fixed-point convergence outside
 the seed packet.
 \end{proof}
 
+\begin{theorem}[PicardContraction classifier stability]
+\label{thm:picardcontraction-classifier-stability}
+Finite $\PicardContractionUp$ packets over $\mathsf{BHist}$ preserve the classifier of \autoref{def:picardcontraction-classifier} under every $\hsame$-compatible $\Cont$ row whose stage indices are read through the unary history ledger of \autoref{def:picardcontraction-bhist-carrier}. In particular, transporting the $\BanachUp$ source, contraction-map row, Lipschitz ledger, finite Picard-iterate ledger, modulus row, endpoint seal, $\Pkg$ provenance, and local $\NameCert_{\PicardContractionUp}$ row componentwise produces another packet classified as the same finite contraction packet.
+\end{theorem}
+\begin{proof}
+Unpack the carrier rows. The only indexed iteration coordinate is the finite Picard ledger $I$, and its stage reads are carried by the unary history entries named in the packet.
+
+Unpack the classifier. It compares accepted packets coordinate by coordinate through the displayed $\hsame$ transports and $\Cont$ routes, so an $\hsame$-compatible continuation row can move a stage only by moving the visible unary history row that names it.
+
+The Banach source, contraction row, rational ratio ledger, modulus row, endpoint seal, provenance, and local certificate are ordinary carrier coordinates. Transporting them componentwise therefore preserves exactly the classifier described in \autoref{def:picardcontraction-classifier}, with no coordinate for a completed orbit or host fixed point.
+\end{proof}
+
+\begin{theorem}[PicardContraction contraction-step package]
+\label{thm:picardcontraction-contraction-step-package}
+One finite contraction step in a $\PicardContractionUp$ carrier is packaged as a concrete $\mathsf{BHist}$ and $\Cont$ witness: it consists of the source stage row $x_k$, the displayed contraction-map row $T$, the application row reading $x_{k+1}$ from $T$ and $x_k$, the Lipschitz-ratio ledger row, and the endpoint/modulus readback route. This package is the finite step consumed by both \autoref{thm:picardcontraction-finite-iterate-closure} and \autoref{thm:picardcontraction-banach-ode-boundary}.
+\end{theorem}
+\begin{proof}
+Project the finite Picard ledger from \autoref{def:picardcontraction-bhist-carrier}. A step is not a host function application; it is the displayed pair of consecutive history rows together with the $\Cont$ route that reads the next row from the contraction-map coordinate.
+
+Use \autoref{thm:picardcontraction-finite-iterate-closure} to see that such steps concatenate inside the same $\mathsf{BHist}$ packet when the endpoint row of one finite segment is $\hsame$ to the initial row of the next segment.
+
+Use \autoref{thm:picardcontraction-banach-ode-boundary} for the consumer side. ODE and Newton reads receive this same finite step package through the Banach source, contraction map, Lipschitz ledger, modulus row, and endpoint seal, not through a Banach fixed-point theorem or a selected limit.
+\end{proof}
+
+\begin{theorem}[PicardContraction fixed-point ledger boundary]
+\label{thm:picardcontraction-fixed-point-ledger-boundary}
+The finite contraction orbit ledger of a $\PicardContractionUp$ packet hides only the scheduled iterate index, the modulus row, and the endpoint witness selected inside the Picard packet. No Banach source outside the displayed packet, no external contraction principle, no ambient completeness theorem, no completed orbit, and no host fixed point enters the $\NameCert_{\PicardContractionUp}$ surface.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation surface. Its rows are carrier inhabitation, classifier transport, finite-iterate stability, modulus and endpoint readback exactness, and ledger non-escape.
+
+The hidden data named in the statement are internal scheduling data for the finite packet: which retained iterate is read, which modulus row is used, and which endpoint witness is exported. Each is already a coordinate of \autoref{def:picardcontraction-bhist-carrier}.
+
+Apply \autoref{thm:picardcontraction-classifier-stability} to transport these rows without changing the accepted packet. Apply \autoref{thm:picardcontraction-contraction-step-package} and \autoref{thm:picardcontraction-banach-ode-boundary} to force every consumer read through the finite step package. Since the carrier has no coordinate for an external source or completed fixed point, the ledger cannot expose one through the local naming certificate.
+\end{proof}
+
+\begin{theorem}[PicardContraction modulus-window transport]
+\label{thm:picardcontraction-modulus-window-transport}
+Let $P=(B,T,L,I,M,E,H,C,G,N)$ be an accepted $\PicardContractionUp$ carrier. Any displayed $\hsame$ and $\Cont$ transport that preserves the rows $B$, $T$, $L$, $I$, $M$, $E$, $H$, $C$, $G$, and $N$ of \autoref{def:picardcontraction-bhist-carrier} also preserves the modulus-window readback row $M$ and the endpoint seal $E$ as the exact rows consumed by the packet. The transported packet has the same finite classifier of \autoref{def:picardcontraction-classifier}, the same finite-iterate closure surface of \autoref{thm:picardcontraction-finite-iterate-closure}, and the same ODE/Newton boundary of \autoref{thm:picardcontraction-banach-ode-boundary}.
+
+In particular, modulus-window readback is a $\mathsf{BHist}$-anchored transport claim about displayed finite rows. It does not introduce a host fixed point, a completed orbit, an ambient completeness theorem, or a choice-selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier named in \autoref{def:picardcontraction-bhist-carrier}. The modulus coordinate $M$ and endpoint seal $E$ are explicit rows of the packet, so a transport that preserves all ten carrier rows already preserves the only locations from which a modulus window or endpoint read can be taken.
+
+Use the classifier of \autoref{def:picardcontraction-classifier}. It compares accepted packets componentwise through displayed $\hsame$ rows and $\Cont$ routes; hence $M$ and $E$ cannot be replaced by a host limit, a completed orbit, or an external convergence witness.
+
+The finite-iterate closure theorem identifies how transported finite segments concatenate, and the Banach ODE boundary theorem identifies the consumer-facing route. Together, \autoref{thm:picardcontraction-finite-iterate-closure} and \autoref{thm:picardcontraction-banach-ode-boundary} force every modulus and endpoint read to remain on the displayed $M$ and $E$ rows.
+\end{proof}
+
+\begin{theorem}[PicardContraction ratio ledger nonexpansion]
+\label{thm:picardcontraction-ratio-ledger-nonexpansion}
+Let $P$ and $Q$ be accepted finite $\PicardContractionUp$ packets whose endpoint and initial rows splice as in \autoref{thm:picardcontraction-finite-iterate-closure}. If the two packets use the same positive rational Lipschitz ledger row $L$ below the unit bound, then their concatenation reuses the transported ledger $L$ and creates no stronger host contraction claim. The resulting $\NameCert_{\PicardContractionUp}$ surface is still the componentwise $\mathsf{BHist}$ packet classified by \autoref{def:picardcontraction-classifier} and bounded at consumers by \autoref{thm:picardcontraction-banach-ode-boundary}.
+
+The conclusion excludes a new fixed point, completed Picard orbit, ambient completeness proof, Banach fixed-point theorem, and choice-selected limit.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:picardcontraction-bhist-carrier}. The Lipschitz ratio is stored as the finite rational row $L$, and the iterate data are stored separately in the finite ledger $I$.
+
+Apply \autoref{thm:picardcontraction-finite-iterate-closure} to concatenate the two iterate ledgers. Its conclusion explicitly reuses the transported shared $L$ coordinate, so the concatenated packet has no additional row from which a tighter or host-level contraction estimate could be read.
+
+The classifier of \autoref{def:picardcontraction-classifier} then transports the concatenated packet componentwise. Finally, \autoref{thm:picardcontraction-banach-ode-boundary} restricts ODE and Newton consumers to the displayed Banach, contraction, ratio, iterate, modulus, endpoint, provenance, and local-name rows. No omitted coordinate can assert a stronger contraction principle or a selected limiting point.
+\end{proof}
+
+\begin{theorem}[PicardContraction finite consumer exhaustion]
+\label{thm:picardcontraction-finite-consumer-exhaustion}
+Every $\OdeUp$, $\NewtonIterationUp$, $\RegSeqRatUp$, or $\RealUp$ consumer read of a $\PicardContractionUp$ packet is exhausted by the rows
+$$
+B,T,L,I,M,E,H,C,G,N
+$$
+of \autoref{def:picardcontraction-bhist-carrier}. The classifier of \autoref{def:picardcontraction-classifier}, the finite concatenation theorem \autoref{thm:picardcontraction-finite-iterate-closure}, and the boundary theorem \autoref{thm:picardcontraction-banach-ode-boundary} leave no consumer route through fixed points, completed orbits, ambient completeness, or choice-selected limits.
+\end{theorem}
+\begin{proof}
+For ODE and Newton reads, apply \autoref{thm:picardcontraction-banach-ode-boundary}. It already factors the consumer through the Banach source, contraction map, rational ledger, finite iterate rows, explicit modulus row, and endpoint/seal routes.
+
+For $\RegSeqRatUp$ and $\RealUp$ reads, use the same modulus and endpoint coordinates. The rows $M$ and $E$ are displayed inside the carrier, while $H$, $C$, $G$, and $N$ provide only transport, continuation, provenance, and local naming evidence for those rows.
+
+The finite-iterate closure theorem supplies the only operation that extends visible iterate data, and the classifier theorem supplies the only comparison operation. Since both operate on the carrier rows listed in the statement, every listed consumer is exhausted by the same finite $\mathsf{BHist}$ packet and receives no host fixed point, completed orbit, completeness theorem, or selected limit.
+\end{proof}
+
 \closureat{PicardContractionUp}{seedStr}
+\closureat{PicardContractionUp}{obligationStr}
 
 \begin{closurestatus}{\PicardContractionUp}
   \constructivestory{A $\PicardContractionUp$ packet is generated from a $\BanachUp$ source row, a displayed contraction-map row, a positive rational Lipschitz-ratio ledger below the unit bound, a finite Picard-iterate ledger, an explicit Cauchy-modulus row, endpoint and seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:picardcontraction-bhist-carrier}, \autoref{def:picardcontraction-classifier}, \autoref{thm:picardcontraction-finite-iterate-closure}, \autoref{thm:picardcontraction-banach-ode-boundary}, and \autoref{thm:picardcontraction-namecert-obligation-surface} describe the seed finite contraction-iteration packet for downstream ODE and Newton consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:picardcontraction-bhist-carrier}, \autoref{def:picardcontraction-classifier}, \autoref{thm:picardcontraction-finite-iterate-closure}, \autoref{thm:picardcontraction-banach-ode-boundary}, \autoref{thm:picardcontraction-namecert-obligation-surface}, \autoref{thm:picardcontraction-classifier-stability}, \autoref{thm:picardcontraction-contraction-step-package}, \autoref{thm:picardcontraction-fixed-point-ledger-boundary}, \autoref{thm:picardcontraction-modulus-window-transport}, \autoref{thm:picardcontraction-ratio-ledger-nonexpansion}, and \autoref{thm:picardcontraction-finite-consumer-exhaustion} describe the obligation scope: the finite packet, classifier, finite-iterate closure, consumer boundary, NameCert surface, classifier stability, contraction-step package, fixed-point ledger boundary, modulus-window transport, ratio-ledger nonexpansion, and finite consumer exhaustion for downstream ODE, Newton, regular-rational, and real-name consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full Banach fixed-point convergence, uniqueness of a host fixed point, ambient completeness, a choice-selected limit, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier transport, classifier stability, finite-iterate closure, modulus readback exactness, and ledger non-escape for the same finite contraction packet.}
+  \upgradepath{Scoped closure requires checked coverage of the displayed Banach source, contraction row, rational Lipschitz ledger, finite iterate ledger, modulus row, endpoint seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.}
 \end{closurestatus}

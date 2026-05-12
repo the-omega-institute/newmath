@@ -50,15 +50,53 @@ The martingale-window handoff is the bounded finite-window form of Doob optional
 Ledger exactness follows by projecting $O$. No consumer read can reach a probability, random variable, stopping-time decision, martingale conditioning row, integrability witness, transport, continuation, package, or local certificate outside the displayed coordinates.
 \end{proof}
 
+\begin{theorem}[OptionalStopping bounded stopped-value readback]
+\label{thm:optional-stopping-bounded-stopped-value-readback}
+Let $O=(\Omega,X,T,b,V,F,I,H,C,P,N)$ be an accepted $\OptionalStoppingUp$ carrier. The stopped value row $V$ is read from the first displayed stopping branch of $T$ that occurs before the bound $b$, together with the corresponding finite process row of $X$ and filtration-window row of $F$. No stopped value may be read from an unbounded stopping branch or from a branch absent from the displayed finite ledger.
+\end{theorem}
+\begin{proof}
+Project the stopping row $T$, the bound $b$, the stopped value $V$, and the filtration ledger $F$ from the accepted carrier. The carrier description makes $V$ the row attached to the first displayed branch satisfying the stopping decision before the bound.
+
+Use the stopping-time stability clause of \autoref{thm:optional-stopping-namecert-obligations}. It says that each stopping decision is read from the finite filtration data available at that time and remains bounded by $b$.
+
+The stopped value is therefore obtained from the matching process row in $X$ and the matching filtration-window row in $F$. Since no unbounded branch is a carrier coordinate, no consumer can read $V$ from outside the displayed finite ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.OptionalStoppingUp.OptionalStoppingCarrier\_bounded\_stopped\_value\_readback}
+
+\begin{theorem}[OptionalStopping finite expectation window]
+\label{thm:optional-stopping-finite-expectation-window}
+Every expectation-style read of an accepted $\OptionalStoppingUp$ packet factors through the finite probability row, martingale-window rows, filtration-window ledger, bounded stopped value, integrability row, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row already present in the carrier. The read does not invoke measure completion, almost-sure quotient equality, or an unbounded optional-stopping theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier tuple of \autoref{def:optional-stopping-carrier}. The only probability and expectation-facing coordinates are $\Omega$, the stopped-process rows $X$, the martingale and filtration ledger $F$, and the integrability row $I$.
+
+Apply \autoref{thm:optional-stopping-bounded-stopped-value-readback} to identify the stopped value route. The selected row is finite, bounded by $b$, and tied to the displayed stopping-time and filtration windows.
+
+The remaining expectation read can use only the transports, continuation routes, package provenance, and local certificate stored in $H$, $C$, $P$, and $N$. Thus every expectation-style consumer factors through the displayed finite ledger and never reaches a measure completion, almost-sure quotient, or unbounded optional-stopping principle.
+\end{proof}
+
+\begin{theorem}[OptionalStopping no-escape boundary]
+\label{thm:optional-stopping-no-escape-boundary}
+The public boundary of $\OptionalStoppingUp$ exports the bounded finite-window stopped-value packet and its displayed expectation ledger only. It exports no unbounded stopping time, no measure completion, no almost-sure quotient, and no uniform-integrability principle beyond the finite integrability row recorded in the carrier.
+\end{theorem}
+\begin{proof}
+Inspect the accepted packet. Its time information is bounded by the displayed row $b$, and its stopped value is the finite readback of \autoref{thm:optional-stopping-bounded-stopped-value-readback}.
+
+The expectation-facing data is exactly the finite window of \autoref{thm:optional-stopping-finite-expectation-window}. The integrability row $I$ is part of that finite ledger, not a principle about unbounded families.
+
+No coordinate of $O$ names a measure completion, almost-sure quotient, unbounded stopping argument, or uniform-integrability theorem. Therefore none of those objects can be exported by the public boundary.
+\end{proof}
+
 \closureat{OptionalStoppingUp}{seedStr}
+\closureat{OptionalStoppingUp}{obligationStr}
 
 \begin{closurestatus}{\OptionalStoppingUp}
   \constructivestory{An $\OptionalStoppingUp$ packet is generated from a finite probability row, bounded stopped-process random variables, a stopping-time row, a visible stopping bound, the stopped value, filtration-window ledger rows, integrability provenance, displayed transports, continuation routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the finite carrier and five-row naming-certificate obligation surface for bounded optional stopping over $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, and $\StoppingTimeUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope registers the finite carrier, bounded stopped-value readback, finite expectation window, no-escape boundary, and five-row naming-certificate surface for bounded optional stopping over $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, and $\StoppingTimeUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close unbounded stopping, measure completion, almost-sure quotient equality, uniform integrability beyond the displayed finite row, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, stopping-time stability, martingale-window handoff, stopped-value readback, and ledger exactness for the bounded finite packet.}
+  \upgradepath{Scoped closure requires Lean targets for carrier transport, stopping-time stability, martingale-window handoff, stopped-value readback, and ledger exactness for the bounded finite packet.}
 \end{closurestatus}

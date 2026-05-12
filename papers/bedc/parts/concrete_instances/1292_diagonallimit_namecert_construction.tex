@@ -108,16 +108,35 @@ The package dependencies are exactly the coordinates and provenance rows listed 
 \autoref{thm:diagonallimit-real-cauchy-handoff-boundary} keeps the completion and $\RealUp$ consumer route attached to the same provenance rows. Finally, \autoref{thm:diagonallimit-non-escape-boundary} excludes every dependency outside the named package, so the dependency package is stable under the displayed classifier.
 \end{proof}
 
+\begin{theorem}[DiagonalLimit public export]
+\label{thm:diagonal-limit-public-export}
+The carrier of \autoref{def:diagonallimit-regular-cauchy-family-carrier}, the NameCert surface of \autoref{thm:diagonallimit-namecert-obligation-surface}, the diagonal regularity bound of \autoref{thm:diagonallimit-diagonal-regularity-bound}, the real-Cauchy handoff boundary of \autoref{thm:diagonallimit-real-cauchy-handoff-boundary}, the non-escape boundary of \autoref{thm:diagonallimit-non-escape-boundary}, the transport scope of \autoref{thm:diagonallimit-obligation-transport-scope}, the completion seal factorization of \autoref{thm:diagonallimit-completion-seal-factorization}, and the dependency stability package of \autoref{thm:diagonallimit-dependency-stability-package} assemble the public $\DiagonalLimitUp$ export.
+
+The export consists of the displayed regular-family rows, explicit modulus row, finite stream-window schedule, dyadic readback ledger, diagonal completion packet, $\RealUp$ seal row, componentwise transport, continuation routes, package provenance, and local naming row. It does not assert $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite carrier
+$$
+L=(F,M,S,D,C,E,P,N).
+$$
+The carrier and NameCert surface expose the regular-family, modulus, stream-window, dyadic-ledger, completion-packet, real-seal, package, and local naming rows.
+
+The diagonal regularity and handoff theorems route each requested read through the displayed modulus, selected stream window, rational readback, dyadic ledger, completion packet, and seal row. The transport and dependency theorems keep those rows stable under the accepted $\hsame$ and $\Cont$ routes.
+
+The non-escape and seal-factorization theorems exclude quotient streams, selected host limits, uniqueness of limits, host real construction, and ambient completeness. Hence the public export is the displayed finite diagonal-limit surface alone, with no claim of $\RealUp$ completeness.
+\end{proof}
+
 \closureat{DiagonalLimitUp}{seedStr}
 \closureat{DiagonalLimitUp}{obligationStr}
+\closureat{DiagonalLimitUp}{scopedStr}
 
 \begin{closurestatus}{\DiagonalLimitUp}
   \constructivestory{A $\DiagonalLimitUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy family, an explicit $\CauchyModulusUp$ row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observation ledgers, a $\RealDiagonalCompletionUp$ packet, a $\RealUp$ seal row, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope registers the carrier, displayed classifier route, diagonal regularity bound, completion-to-$\RealUp$ handoff boundary, ledger non-escape surface, accepted transport scope, seal factorization, and dependency stability over $\RegSeqRatUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealDiagonalCompletionUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Scoped closure requires public determinacy and readback compatibility beyond the displayed obligation package.}
+  \upgradepath{The next paper grade is a public $\DiagonalLimitUp$ export theorem over the same displayed regular-family, modulus, stream-window, dyadic-ledger, completion-packet, $\RealUp$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
