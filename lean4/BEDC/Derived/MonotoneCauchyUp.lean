@@ -75,4 +75,24 @@ theorem MonotoneCauchyCarrier_namecert_obligation_surface [AskSetup] [PackageSet
       exact ⟨nameRowPkg, source.right⟩
   }
 
+theorem MonotoneCauchyCarrier_located_interval_handoff [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      UnaryHistory interval ∧ UnaryHistory realSeal ∧ hsame interval (append modulus ledger) ∧
+        hsame nameRow (append (append modulus ledger) realSeal) ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  obtain ⟨_regularUnary, _scheduleUnary, _modulusUnary, _ledgerUnary, intervalUnary,
+    realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    _transportRouteProvenance, nameRowPkg⟩ := carrier
+  exact
+    ⟨intervalUnary, realSealUnary, modulusLedgerInterval, by
+      cases intervalRealSealNameRow
+      cases modulusLedgerInterval
+      rfl, nameRowPkg⟩
+
 end BEDC.Derived.MonotoneCauchyUp
