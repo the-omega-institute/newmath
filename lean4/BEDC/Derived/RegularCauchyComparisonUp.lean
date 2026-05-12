@@ -178,4 +178,33 @@ theorem RegularCauchyComparisonCarrier_tolerance_row_stability [AskSetup] [Packa
     unary_cont_closed observationsUnary transportedToleranceUnary toleranceReadRow
   exact ⟨transportedToleranceUnary, toleranceReadUnary, ledgerSame, provenancePkg⟩
 
+theorem RegularCauchyComparisonCarrier_seal_handoff_obligation [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert sharedRead observationRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont leftName window sharedRead ->
+        Cont rightName window sharedRead ->
+          Cont sharedRead observations observationRead ->
+            Cont observationRead tolerance toleranceRead ->
+              Cont ledger sealRow sealRead ->
+                PkgSig bundle sealRead pkg ->
+                  UnaryHistory window ∧ UnaryHistory ledger ∧ UnaryHistory sealRow ∧
+                    UnaryHistory sealRead ∧ Cont ledger sealRow sealRead ∧
+                      hsame ledger (append observations tolerance) ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  intro carrier _leftWindowRead _rightWindowRead _observationReadRow _toleranceReadRow
+    ledgerSealRead sealReadPkg
+  obtain ⟨_leftUnary, _rightUnary, windowUnary, _observationsUnary, _toleranceUnary,
+    ledgerUnary, sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed ledgerUnary sealUnary ledgerSealRead
+  exact
+    ⟨windowUnary, ledgerUnary, sealUnary, sealReadUnary, ledgerSealRead, ledgerSame,
+      provenancePkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyComparisonUp
