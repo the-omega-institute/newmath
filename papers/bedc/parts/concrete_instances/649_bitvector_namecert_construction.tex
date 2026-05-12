@@ -38,6 +38,7 @@ are transported by displayed $\hsame$ along the same $\Cont$ routes named by
 $p$, then the transported packet $B'=(n',s',l',p')$ is again an accepted
 $\BitVectorUp$ source packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.BitVectorUp.BitVectorSourcePacket\_carrier\_stability}
 \begin{proof}
 Project the four coordinates of \autoref{def:bitvector-bhist-source}. The
 $\NatUp$ length row transports first, so the displayed target length is fixed
@@ -121,6 +122,7 @@ componentwise classifier rows, continuation routes, and provenance ledger.
 These rows are the complete seed obligation for the fixed-length bit-vector
 name.
 \end{theorem}
+\leanchecked{BEDC.Derived.BitVectorUp.BitVectorSourcePacket\_namecert\_obligation\_surface}
 \begin{proof}
 For carrier habitation, choose the zero unary length row and the empty
 $\ListUp$ spine of $\BoolUp$ entries. The length ledger has no public bit
@@ -227,6 +229,66 @@ $\NatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
 $\NameCert$. There is no coordinate for host bit-string equality, binary
 numeric interpretation, padding, overflow, hashing, or an error-correction
 metric, so none can be exported by the scoped package.
+\end{proof}
+
+\begin{theorem}[BitVector Boolean-list width exhaustion]
+\label{thm:bitvector-boolean-list-width-exhaustion}
+An accepted $\BitVectorUp$ packet is completely exhausted by its unary
+$\NatUp$ width row, its $\ListUp$ spine of $\BoolUp$ histories, component
+classifier rows, length ledger, $\hsame$ transport, $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence. Conversely, those
+displayed finite-data rows supply the abstract fixed-width $\BitVectorUp$
+interface.
+
+The interface has no extra coordinate for host bit-string equality, numeric
+binary encoding, padding convention, hashing semantics, matrix indexing,
+overflow, or error-correction metrics.
+\end{theorem}
+\begin{proof}
+Start from the source carrier of \autoref{def:bitvector-bhist-source}. It
+exposes only a unary width row and a list spine of boolean component histories.
+
+Apply \autoref{thm:bitvector-classifier-laws} to read the component
+classifier rows and \autoref{thm:bitvector-ledger-coverage} to identify the
+length ledger. These two results account for the fixed-width and component
+readback coordinates.
+
+Use \autoref{thm:bitvector-namecert-obligation-surface} for the displayed
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows, and apply
+\autoref{thm:bitvector-finite-data-anchor} to expose the finite-data consumer
+surface.
+
+Finally apply \autoref{thm:bitvector-scoped-dependency-binding}. The scoped
+packet contains exactly the listed $\BoolUp$, $\ListUp$, $\NatUp$,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, so
+the abstract fixed-width interface is supplied by those rows and no external
+bit-string or arithmetic coordinate remains.
+\end{proof}
+
+\begin{theorem}[BitVector standard bridge boundary]\label{thm:bitvector-standard-bridge-boundary}
+The public $\BitVectorUp$ packet interprets as a standard finite boolean
+vector exactly through the unary $\NatUp$ length row, the $\ListUp$ spine, the
+$\BoolUp$ component rows, the component classifier, the length ledger, $\hsame$
+transport, and $\mathsf{Pkg}$ provenance already listed in the public export
+and scoped dependency theorems.
+
+The bridge boundary has no coordinate for numeric binary encodings, hashing,
+matrix indexing, overflow, or error-correction metrics.
+\end{theorem}
+\begin{proof}
+Read the public packet through
+\autoref{thm:bitvector-public-finite-algebra-export}. It exposes only the
+unary length, boolean list spine, component classifier rows, length ledger,
+$\hsame$ transports, $\Cont$ routes, and package provenance.
+
+Apply \autoref{thm:bitvector-scoped-dependency-binding}. This fixes the whole
+dependency surface over $\BoolUp$, $\ListUp$, $\NatUp$, $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$, so the standard finite
+boolean-vector reading has no additional field to inspect.
+
+The exclusions follow from the same projection. Numeric binary encodings,
+hashing, matrix indexing, overflow, and error-correction metrics are absent
+from both cited surfaces, so none belongs to the bridge boundary.
 \end{proof}
 
 \closureat{BitVectorUp}{seedStr}
