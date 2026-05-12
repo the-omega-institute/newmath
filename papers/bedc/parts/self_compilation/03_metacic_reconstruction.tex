@@ -734,6 +734,8 @@ closedness on closed binder domains.
 
 \input{parts/self_compilation/03_metacic_reconstruction_substrate_stack.tex}
 
+\input{parts/self_compilation/03_metacic_reconstruction_substrate_components_table.tex}
+
 \input{parts/self_compilation/03_metacic_reconstruction_current_state.tex}
 
 \input{parts/self_compilation/03_metacic_reconstruction_evolution_trajectory.tex}
@@ -744,24 +746,7 @@ closedness on closed binder domains.
 
 \input{parts/self_compilation/03_metacic_reconstruction_build_audit_process.tex}
 
-\subsection{Axiom-Free Claim}\label{subsec:reconstruction-axiom-free-claim}
-
-The axiom-free claim for \texttt{BEDC.MetaCIC} has two distinct parts. First,
-no \texttt{BEDC.MetaCIC} module declares a host axiom. This is a project-wide
-hard invariant: \texttt{tools/check-axioms.py} exits with failure if an axiom
-declaration appears in the BEDC Lean sources.
-
-Second, the checked \texttt{BEDC.MetaCIC} theorems do not depend on Lean
-stdlib axioms such as \texttt{Classical.choice}, \texttt{Quot.sound}, or
-\texttt{propext}. This dependency claim is audited by
-\texttt{bedc\_ci.py axiom-purity --strict}, which queries Lean through
-\texttt{\#print axioms} and rejects those extra axiom dependencies.
-
-Thus the commitment is stronger than the absence of local axiom declarations:
-the reconstructed MetaCIC layer is a pure constructive fragment inside CIC,
-with no reliance on Lean's additional axioms beyond CIC. The audit currently
-covers more than 9,000 checked theorems, and the exact count is allowed to
-change with the theorem set.
+\input{parts/self_compilation/03_metacic_reconstruction_axiom_free_claim.tex}
 
 \subsection{Reconstruction Summary}\label{subsec:reconstruction-summary}
 
