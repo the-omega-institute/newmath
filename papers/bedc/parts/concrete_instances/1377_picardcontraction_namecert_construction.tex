@@ -292,6 +292,54 @@ For $\RegSeqRatUp$ and $\RealUp$ reads, use the same modulus and endpoint coordi
 The finite-iterate closure theorem supplies the only operation that extends visible iterate data, and the classifier theorem supplies the only comparison operation. Since both operate on the carrier rows listed in the statement, every listed consumer is exhausted by the same finite $\mathsf{BHist}$ packet and receives no host fixed point, completed orbit, completeness theorem, or selected limit.
 \end{proof}
 
+\begin{theorem}[PicardContraction modulus row finite-tail lock]
+\label{thm:picardcontraction-modulus-row-finite-tail-lock}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+the modulus row $M$ is locked to the finite iterate ledger $I$, the rational Lipschitz row $L$, the displayed $\hsame$ rows $H$, and the displayed $\Cont$ routes $C$. Any consumer that reads $M$ must therefore read the same finite $\mathsf{BHist}$ packet and has no route to a completed Picard orbit, a host fixed point, ambient completeness, or a choice-selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:picardcontraction-bhist-carrier}. The rows $L$, $I$, $M$, $H$, and $C$ are displayed coordinates of the same packet, so the modulus row is not an external convergence witness.
+
+Use the classifier stability and finite-iterate closure rows already recorded in this chapter. Classifier stability keeps $M$ attached to the componentwise transport rows $H$ and read routes $C$, while finite-iterate closure keeps every extension of visible Picard data inside $I$ with the same rational ledger $L$.
+
+Finally apply \autoref{thm:picardcontraction-modulus-window-transport}. It identifies the modulus-window readback as the finite row $M$ and transports it only through the displayed $H$ and $C$ coordinates, so downstream modulus consumers remain locked to the finite tail packet named in the statement.
+\end{proof}
+
+\begin{theorem}[PicardContraction RegSeqRat RealUp seal package]
+\label{thm:picardcontraction-regseqrat-real-seal-package}
+Every $\RegSeqRatUp$ or $\RealUp$ seal consumer of an accepted $\PicardContractionUp$ packet factors through
+$$
+B,T,L,I,M,E,H,C,G,N.
+$$
+The consumer may use the downstream modulus exposure, the real--regular-rational handoff, and finite consumer exhaustion, but it cannot obtain a completed orbit, a host fixed point, a selected limit, or ambient completeness from the packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:picardcontraction-downstream-modulus-exposure}. It gives seal-facing consumers the modulus and endpoint route only through $M$, $E$, $H$, and $C$, together with the Banach, contraction, rational, iterate, provenance, and naming rows.
+
+Next use \autoref{thm:picardcontraction-real-regseqrat-consumer-handoff}. The $\RegSeqRatUp$ readback and the $\RealUp$ seal read the same finite modulus-window packet rather than a completed orbit or a host fixed-point theorem.
+
+Finally apply \autoref{thm:picardcontraction-finite-consumer-exhaustion}. Its consumer list includes both $\RegSeqRatUp$ and $\RealUp$, so the seal package is exhausted by the carrier rows and cannot pass through any omitted completion, fixed-point, limit-selection, or ambient-completeness object.
+\end{proof}
+
+\begin{theorem}[PicardContraction root consumer triad exhaustion]
+\label{thm:picardcontraction-root-consumer-triad-exhaustion}
+The $\OdeUp$ and $\NewtonIterationUp$ family, the $\RegSeqRatUp$ family, and the $\RealUp$ family of consumers of an accepted $\PicardContractionUp$ packet are jointly exhausted by the same finite triad: the iterate ledger $I$, the modulus row $M$, and the endpoint seal row $E$, together with their surrounding $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in
+$$
+B,T,L,I,M,E,H,C,G,N.
+$$
+No family receives a host fixed point, completed Picard orbit, selected limit, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+First handle $\OdeUp$ and $\NewtonIterationUp$ consumers. Apply \autoref{thm:picardcontraction-banach-ode-boundary} and \autoref{thm:picardcontraction-fixed-point-ledger-boundary}; these bind root-facing reads to the Banach source, contraction row, rational ledger, finite iterate ledger, modulus row, endpoint seal, and displayed transport and continuation routes.
+
+Next handle $\RegSeqRatUp$ and $\RealUp$ consumers. The modulus row finite-tail lock of \autoref{thm:picardcontraction-modulus-row-finite-tail-lock} fixes $M$ to $I$, $L$, $H$, and $C$, and the seal package of \autoref{thm:picardcontraction-regseqrat-real-seal-package} keeps regular-rational and real-facing reads inside the same carrier.
+
+The three consumer families therefore meet at the finite triad $I,M,E$ and its surrounding BEDC rows. Since the carrier has no further coordinate for a host fixed point, completed orbit, selected limit, or ambient completeness proof, the triad exhausts the root consumer surface.
+\end{proof}
+
 \begin{theorem}[PicardContraction Banach source row scope]
 \label{thm:picardcontraction-banach-source-row-scope}
 Every accepted $\PicardContractionUp$ packet reads its Banach source, contraction row, rational Lipschitz ledger, finite iterate ledger, and local $\NameCert$ row only through the displayed $\mathsf{BHist}$ carrier rows
