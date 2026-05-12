@@ -79,7 +79,7 @@ Current state: each `*.algo.ct` (except `manifests/hist/hsame_refl.algo.ct` whic
 - [!] L2.8: Universal ExternalBinary recognizer. Bounded positional-certificate CTS covers the representative and depth `<= 2` ExternalBinary corpus; because ExternalBinary append is definitionally Cont append, the universal queue-copy/compare recognizer is the same deferred unbounded problem as L2.4.
 - [ ] L2.9: Universal Gap (InGapSig + CompGap) recognizer.
 - [ ] L2.10: Universal Package (psame + TokenPolicy) recognizer.
-- [ ] L2.11: Universal NameCert (Carrier + Equiv + descent + composition + stability mode) recognizer.
+- [!] L2.11: Universal NameCert recognizer. Bounded positional-certificate CTS covers the representative NameCert fixtures and a small generated sweep over the concrete depth/equivalence fixture; a universal recognizer is blocked by the Prop-parameterized Carrier/Equiv/descent/stability interfaces and is specified as deferred in `docs/namecert_algo_design.md`.
 - [ ] L2.12: Universal Settled (aggregator) recognizer.
 
 **Risk register**: each item is comparable to "designing a string-rewriting decision procedure" — 1-4 weeks median per module, much more if novel encoding tricks needed. Some relations may be Π⁰₁-hard and not admit Σ⁰₁ CT recognition; in that case mark `[!]` with explicit "halts iff" reformulation.
