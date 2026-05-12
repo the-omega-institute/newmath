@@ -135,6 +135,42 @@ coordinates, so the $\NameCert$ surface of
 value is fixed by the recorded rows and by no host-side tree structure.
 \end{proof}
 
+\begin{theorem}[Trie prefix branch consumer exhaustion]
+\label{thm:trie-prefix-branch-consumer-exhaustion}
+Any accepted $\TrieUp$ prefix-branch consumer read factors through the displayed
+finite $\mathsf{BHist}$ prefix row, the $\BoolUp$ branch tag, the $\ListUp$ path
+spine, the $\NatUp$ depth counter, the $\OptionUp$ terminal payload row,
+displayed $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+the local $\NameCert_{\TrieUp}$ ledger.
+
+The consumer surface is exactly this finite BEDC row surface. It exports no
+host map, external tree equality, unbounded lookup function, hidden node object,
+or host key ordering.
+\end{theorem}
+\begin{proof}
+Project the source tuple $(k,v,l,b,p)$ of
+\autoref{def:trie-bhist-source}. The key coordinate supplies the displayed
+finite prefix row as a $\ListUp$ spine, the branch ledger supplies the
+$\BoolUp$ branch tag, the depth coordinate supplies the $\NatUp$ counter, and
+the terminal coordinate supplies the $\OptionUp$ payload row.
+
+Use \autoref{thm:trie-obligation-prefix-branch-exactness} to bind a public
+prefix-branch read to those coordinates. Its route records the same displayed
+$\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance named by the
+source packet.
+
+Repack the resulting finite read through
+\autoref{thm:trie-namecert-obligation-surface}. The local $\NameCert_{\TrieUp}$
+ledger accepts exactly the carrier rows, classifier rows, prefix-branch
+determinacy rows, transport rows, and ledger-exactness rows already displayed
+in the packet.
+
+Apply \autoref{thm:trie-ledger-coverage} for the exclusion claim. Since every
+consumer projection is a row of $(k,v,l,b,p)$ or the named local certificate
+ledger, no host map, external tree equality, unbounded lookup function, hidden
+node object, or host key ordering is exported.
+\end{proof}
+
 \begin{theorem}[Trie key-path exhaustion]\label{thm:trie-key-path-exhaustion}
 Every public key-path read of an accepted $\TrieUp$ packet is exhausted by
 the displayed $\BitVectorUp$ or $\ListUp$ key row, the $\NatUp$ depth ledger,
@@ -142,6 +178,7 @@ the $\hsame$ transports and $\Cont$ routes named by the packet, and the
 $\Pkg$ provenance row. No host string, host ordering, ambient finite map, or
 hidden key predicate contributes an additional public key-path coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_key\_path\_route\_exhaustion}
 \begin{proof}
 Project the key coordinate $k$ and depth ledger $l$ from
 \autoref{def:trie-bhist-source}. The definition gives $k$ only as a displayed
@@ -317,6 +354,7 @@ visible $\BoolUp$ branch rows, the $\ListUp$ key-spine rows, the transported
 $\hsame$ and $\Cont$ rows, the $\Pkg$ provenance, and the terminal packet of
 \autoref{def:trie-terminal-value-packet}.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieTerminalPacket\_boolean\_key\_path\_ledger\_coverage}
 \begin{proof}
 Induct on the displayed $\ListUp$ key spine. For the empty spine, the lookup
 path is already at the terminal prefix, so the ledger contains the single
@@ -344,6 +382,8 @@ Conversely, every displayed branch row of that form is an accepted public
 branch read of $T$. No host string, host finite map, ambient lookup function,
 or hidden key-order coordinate contributes an additional public branch read.
 \end{theorem}
+\leanchecked{BEDC.Derived.TrieUp.TrieBranchRead\_exactness}
+\leanchecked{BEDC.Derived.TrieUp.TrieSourcePacket\_branch\_read\_exactness}
 \begin{proof}
 Project the five coordinates of \autoref{def:trie-bhist-source}. The branch
 ledger $b$ records only boolean branch tags at finite prefix positions, and the
@@ -456,17 +496,90 @@ string, host map, infinite-tree coordinate, ambient lookup function, or
 key-order semantics can be projected by the consumer.
 \end{proof}
 
+\begin{theorem}[Trie public NameCert export]\label{thm:trie-public-namecert-export}
+The source packet of \autoref{def:trie-bhist-source}, the obligation surface
+of \autoref{thm:trie-namecert-obligation-surface}, the branch read exactness
+of \autoref{thm:trie-branch-read-exactness}, the lookup ledger exhaustion of
+\autoref{thm:trie-lookup-ledger-exhaustion}, and the finite branch consumer
+boundary of \autoref{thm:trie-finite-branch-consumer-boundary} assemble the
+public $\NameCert_{\TrieUp}$ surface for the finite key path, optional payload,
+unary depth ledger, branch rows, displayed $\hsame$ and $\Cont$ routes,
+$\Pkg$ provenance, and $\BoolUp$, $\ListUp$, $\OptionUp$, $\NatUp$, and
+$\BitVectorUp$ certificates.
+
+This public export contains no host strings, host finite maps, infinite trees,
+key ordering, or ambient lookup function.
+\end{theorem}
+\begin{proof}
+Project the scoped packet rows from \autoref{def:trie-bhist-source}. They are
+exactly the finite key path, optional terminal payload, unary depth ledger,
+branch ledger, transport routes, continuation routes, and provenance rows.
+
+Apply \autoref{thm:trie-namecert-obligation-surface} to package these rows as
+the local $\NameCert_{\TrieUp}$ obligation surface. The branch rows are
+identified by \autoref{thm:trie-branch-read-exactness}, and the lookup-facing
+payload and ledger reads are exhausted by
+\autoref{thm:trie-lookup-ledger-exhaustion}.
+
+Finally use \autoref{thm:trie-finite-branch-consumer-boundary}. It states that
+every finite branch consumer read factors through the displayed terminal
+payload or branch route, so the assembled packet is a public consumer surface
+over precisely the named rows.
+
+The excluded objects are not coordinates of the source packet and are not
+introduced by any of the cited projections. Hence host strings, host finite
+maps, infinite trees, key ordering, and ambient lookup functions are absent
+from the public $\NameCert_{\TrieUp}$ export.
+\end{proof}
+
+\begin{theorem}[Trie standard finite packet bridge]\label{thm:trie-standard-finite-packet-bridge}
+The finite $\TrieUp$ packet of \autoref{def:trie-bhist-source} and the public
+export of \autoref{thm:trie-public-namecert-export} bridge to the standard
+finite prefix-tree reading. The visible key path, optional payload, unary
+depth ledger, $\BoolUp$ branch rows, $\mathsf{BHist}$ packet rows, $\hsame$
+transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert_{\TrieUp}$
+rows are exactly the public bridge surface.
+
+The bridge exports no host string, host finite map, hidden infinite tree, key
+ordering, or ambient lookup function.
+\end{theorem}
+\begin{proof}
+Project the finite packet as $(k,v,l,b,p)$ from
+\autoref{def:trie-bhist-source}. The coordinates are the displayed key path,
+optional terminal payload, unary depth ledger, branch rows, and provenance
+rows, with the $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ surfaces already named by the source and public export.
+
+Use \autoref{thm:trie-key-path-exhaustion} to identify the standard
+prefix-tree path with the displayed finite key row. Use
+\autoref{thm:trie-prefix-branch-determinacy} to identify each finite branch
+decision with its recorded $\BoolUp$ row below the depth ledger.
+
+Apply \autoref{thm:trie-lookup-payload-projection} for the optional terminal
+payload. Then apply \autoref{thm:trie-public-namecert-export} to package the
+path, payload, branch, transport, continuation, provenance, and local naming
+rows as the public $\NameCert_{\TrieUp}$ surface.
+
+Finally, exhaust the remaining reads through the unary ledger. Every standard
+finite prefix-tree read is below the displayed depth row and therefore lands
+in one of the projected rows. Since the packet has no coordinate for host
+strings, host maps, hidden infinite trees, key orderings, or ambient lookup
+functions, none is exported by the bridge.
+\end{proof}
+
 \closureat{TrieUp}{seedStr}
 \closureat{TrieUp}{obligationStr}
 \closureat{TrieUp}{scopedStr}
+\closureat{TrieUp}{publicStr}
+\closureat{TrieUp}{bridgedStr}
 
 \begin{closurestatus}{\TrieUp}
   \constructivestory{A trie packet is generated by a finite key-path row, an optional terminal payload row, a unary length and depth ledger, boolean branch rows, displayed transport routes, and package provenance over Bool, List, Option, Nat, and BitVector certificates.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:trie-bhist-source}, \autoref{thm:trie-carrier-stability}, \autoref{thm:trie-classifier-laws}, \autoref{thm:trie-ledger-coverage}, \autoref{thm:trie-branch-read-exactness}, \autoref{def:trie-terminal-value-packet}, \autoref{thm:trie-prefix-extension-classifier-stability}, \autoref{thm:trie-key-prefix-transport}, \autoref{thm:trie-lookup-ledger-exhaustion}, and \autoref{thm:trie-namecert-obligation-surface} inventory the finite trie carrier, classifier, ledger, branch exactness, terminal packet, prefix-extension stability, key-prefix transport, lookup exhaustion, and NameCert obligation surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:trie-bhist-source}, \autoref{thm:trie-namecert-obligation-surface}, \autoref{thm:trie-branch-read-exactness}, \autoref{thm:trie-lookup-ledger-exhaustion}, \autoref{thm:trie-finite-branch-consumer-boundary}, \autoref{thm:trie-public-namecert-export}, and \autoref{thm:trie-standard-finite-packet-bridge} assemble the public finite trie $\NameCert$ export and bridge it to the standard finite prefix-tree reading over the key path, optional payload, unary depth ledger, branch rows, displayed transport and continuation routes, package provenance, and Bool, List, Option, Nat, and BitVector certificates.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close host strings, host finite maps, function extensionality, infinite trees, key-order semantics, balancing invariants, or a standard bridge.}
-  \upgradepath{Public closure requires a single exported $\TrieUp$ $\NameCert$ consumer theorem for the scoped finite trie packet.}
+  \notclaimed{This chapter does not close host strings, host finite maps, function extensionality, infinite trees, key-order semantics, balancing invariants, or finite consumer completeness examples.}
+  \upgradepath{Mature closure requires finite consumer completeness examples for the same bridge surface.}
 \end{closurestatus}
