@@ -1,0 +1,23 @@
+\subsection{Godel-Tarski Boundary}\label{subsec:reconstruction-godel-tarski-boundary}
+
+\texttt{BEDC.MetaCIC} does not try to cross the Godel-II or Tarski
+undefinability boundaries. It is a representation of a CIC fragment inside the
+host CIC, not an external standpoint from which the host can certify itself.
+
+The typing judgment \texttt{BEDC.MetaCIC.HasType} is an inductive proposition in
+the host. Its inhabitants are host-checked derivation objects for the
+represented calculus, but the existence of such a predicate does not supply a
+proof of the host's own consistency without an external consistency assumption
+for that host.
+
+Likewise, a strong-normalization theorem for the represented calculus, if
+proved, would be a theorem using the host's full proof strength. In Lean this
+includes the kernel's accepted structural and well-founded recursion principles
+and the definitional computation of dependent-function reduction. Such a theorem
+would establish normalization for the represented syntax under host checking; it
+would not be a host-independent normalization proof for Lean itself.
+
+Finally, \texttt{BEDC.MetaCIC.Term} ranges over represented terms only. It can
+state and prove claims about this syntax and its generated judgments, but it
+cannot quantify over every host term and assert that each host term has a normal
+form without moving beyond the strength of the same host being represented.
