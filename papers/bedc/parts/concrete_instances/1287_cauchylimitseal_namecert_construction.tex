@@ -72,15 +72,28 @@ Use the non-escape boundary to identify what remains visible after the seal is r
 Therefore the $\RealUp$ consumer boundary is precisely the finite route listed in the statement. The seal is a public endpoint for displayed regular-Cauchy data, not a source of an independent real-completeness principle.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal obligation closure package]
+\label{thm:cauchy-limit-seal-obligation-closure-package}
+The carrier definition, the $\NameCert_{\CauchyLimitSealUp}$ obligations, the finite-window factorization, the non-escape boundary, and the $\RealUp$ consumer boundary jointly supply the full paper-side obligation surface for $\CauchyLimitSealUp$ over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCore$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package preserves the exclusions on quotient streams, selected host limits, uniqueness of limits, host real construction, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-limit-seal-carrier}. Its coordinates name exactly the regular rational source, schedule, dyadic ledger, completion row, real seal, transport rows, package provenance, and local certificate that form the public packet.
+
+Apply the component obligations in order. The $\NameCert$ obligation theorem supplies habitation, classifier stability, exactness, and non-escape requirements; the window factorization theorem identifies the consumer route through the scheduled finite observations; the non-escape theorem records the absent quotient, host-limit, uniqueness, and completeness fields; and the $\RealUp$ consumer-boundary theorem fixes the public endpoint of the route.
+
+These rows are finite and exhaust the displayed packet surface. Since the carrier contains no further coordinate from which an omitted quotient, selected limit, uniqueness principle, host real, or ambient-completeness datum could be read, the listed component rows provide the whole paper-side obligation package.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
+\closureat{CauchyLimitSealUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyLimitSealUp}
   \constructivestory{A $\CauchyLimitSealUp$ packet is generated from a displayed $\RegSeqRatUp$ family, a $\StreamNameUp$ schedule, a $\DyadicRatCore$ observation ledger, a $\RealCauchyCompletionUp$ diagonal row, a $\RealUp$ seal row, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the carrier, finite-window factorization, non-escape boundary, and $\RealUp$ consumer boundary for the visible regular-Cauchy seal packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the carrier, NameCert obligations, finite-window factorization, non-escape boundary, and $\RealUp$ consumer boundary for the visible regular-Cauchy seal packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient Cauchy completion, uniqueness of limits, host real construction, ambient real completeness, or bridge checking.}
-  \upgradepath{Formal closure requires Lean targets for the carrier predicate, classifier transport, window factorization, non-escape boundary, and $\RealUp$ consumer boundary.}
+  \upgradepath{Scoped closure requires explicit dependency scoping for the carrier, classifier transport, window factorization, non-escape boundary, and $\RealUp$ consumer boundary.}
 \end{closurestatus}
