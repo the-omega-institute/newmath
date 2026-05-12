@@ -373,4 +373,31 @@ theorem DyadicApproximationCarrier_terminal_window_prefix_projection [AskSetup] 
         terminalWindowLedgerProvenance', terminalPkgSig⟩
       (And.intro rereadUnary samePrefixTerminalWindow))
 
+theorem DyadicApproximationCarrier_standard_finite_approximation_bridge
+    [AskSetup] [PackageSetup]
+    {precision endpoint window ledger provenance realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicApproximationCarrier precision endpoint window ledger provenance bundle pkg ->
+      Cont ledger provenance realSeal ->
+        PkgSig bundle realSeal pkg ->
+          Cont window provenance consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory precision ∧ UnaryHistory endpoint ∧ UnaryHistory window ∧
+                UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory realSeal ∧
+                  UnaryHistory consumer ∧ Cont precision endpoint window ∧
+                    Cont window ledger provenance ∧ Cont ledger provenance realSeal ∧
+                      Cont window provenance consumer ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle realSeal pkg ∧ PkgSig bundle consumer pkg := by
+  intro carrier ledgerProvenanceSeal sealPkg windowProvenanceConsumer consumerPkg
+  obtain ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+    precisionEndpointWindow, windowLedgerProvenance, provenancePkg⟩ := carrier
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceSeal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, endpointUnary, windowUnary, ledgerUnary, provenanceUnary,
+      realSealUnary, consumerUnary, precisionEndpointWindow, windowLedgerProvenance,
+      ledgerProvenanceSeal, windowProvenanceConsumer, provenancePkg, sealPkg, consumerPkg⟩
+
 end BEDC.Derived.DyadicApproximationUp

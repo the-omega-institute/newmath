@@ -169,4 +169,26 @@ theorem DyadicMeshPacket_refinement_stability [AskSetup] [PackageSetup]
         levelCellInterval', intervalEndpointRadius', provenancePkg'⟩,
       sameInterval⟩
 
+theorem DyadicMeshPacket_rational_interval_coverage [AskSetup] [PackageSetup]
+    {level cell interval endpoint radius order transport refinement provenance nameCert coverage :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMeshPacket level cell interval endpoint radius order transport refinement provenance
+        nameCert bundle pkg ->
+      Cont interval endpoint coverage ->
+        PkgSig bundle coverage pkg ->
+          UnaryHistory interval ∧ UnaryHistory endpoint ∧ UnaryHistory coverage ∧
+            Cont interval endpoint radius ∧ Cont interval endpoint coverage ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle coverage pkg := by
+  intro packet intervalEndpointCoverage coveragePkg
+  rcases packet with
+    ⟨_levelUnary, _cellUnary, intervalUnary, endpointUnary, _radiusUnary, _orderUnary,
+      _transportUnary, _refinementUnary, _provenanceUnary, _nameCertUnary,
+      _levelCellInterval, intervalEndpointRadius, provenancePkg⟩
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointCoverage
+  exact
+    ⟨intervalUnary, endpointUnary, coverageUnary, intervalEndpointRadius,
+      intervalEndpointCoverage, provenancePkg, coveragePkg⟩
+
 end BEDC.Derived.DyadicMeshUp
