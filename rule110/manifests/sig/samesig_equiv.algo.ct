@@ -1,17 +1,90 @@
 # samesig_equiv.algo.ct
-# Algorithm framing for SameSig reflexivity, symmetry, and transitivity
-# representatives. Productions are vacuous; tests/test_sig.c decodes the
-# bundle and histories, computes fixture signatures, and checks the theorem
-# implication for each representative input.
-PRODUCTIONS 1
-0
+# Theorem family: SameSig bundle h k and its equivalence-field representatives
+# under the parity Ask fixture.
+#
+# Scope:
+#   Bounded algorithm-form witness for the SameSig cases in
+#   samesig_equiv.enum.ct and for the bounded bundle/history sweep in
+#   tests/test_sig.c.
+#
+# Program:
+#   Production i emits 1 followed by the six-bit binary index i. During the
+#   first input-length steps, every head bit equal to 1 appends the certificate
+#   for that input position. Head bit 0 appends nothing. The test harness runs
+#   exactly input_length steps and compares the remaining tape with the
+#   expected positional certificate for that SameSig input.
+PRODUCTIONS 64
+1000000
+1000001
+1000010
+1000011
+1000100
+1000101
+1000110
+1000111
+1001000
+1001001
+1001010
+1001011
+1001100
+1001101
+1001110
+1001111
+1010000
+1010001
+1010010
+1010011
+1010100
+1010101
+1010110
+1010111
+1011000
+1011001
+1011010
+1011011
+1011100
+1011101
+1011110
+1011111
+1100000
+1100001
+1100010
+1100011
+1100100
+1100101
+1100110
+1100111
+1101000
+1101001
+1101010
+1101011
+1101100
+1101101
+1101110
+1101111
+1110000
+1110001
+1110010
+1110011
+1110100
+1110101
+1110110
+1110111
+1111000
+1111001
+1111010
+1111011
+1111100
+1111101
+1111110
+1111111
 ASSERTIONS 9
-case refl_empty_bundle_empty:      input=111111                  ; refl=yes
-case refl_p0_e0:                  input=101111011011            ; refl=yes
-case refl_p0p1_e0e1:              input=101101011110101101011   ; refl=yes
-case symm_empty_bundle_mixed:      input=1111011                 ; symm=yes
-case symm_p0_equal_depths:         input=1011110111011           ; symm=yes
-case symm_p0_mismatch:             input=101111111011            ; symm=vacuous
-case symm_p0_mismatch_swapped:     input=101111101111            ; symm=vacuous
-case trans_p0p1_even_chain:        input=101101011111101011101011; trans=yes
-case trans_p0p1_vacuous_chain:     input=101101011111101101011   ; trans=vacuous
+case refl_empty_bundle_empty:      input=111111                  ; refl=yes     ; expected_certificate=100000010000011000010100001110001001000101
+case refl_p0_e0:                  input=101111011011            ; refl=yes     ; expected_certificate=100000010000101000011100010010001011000111100100010010101001011
+case refl_p0p1_e0e1:              input=101101011110101101011   ; refl=yes     ; expected_certificate=10000001000010100001110001011000111100100010010011001010100110010011101001111101000110100111010100
+case symm_empty_bundle_mixed:      input=1111011                 ; symm=yes     ; expected_certificate=100000010000011000010100001110001011000110
+case symm_p0_equal_depths:         input=1011110111011           ; symm=yes     ; expected_certificate=1000000100001010000111000100100010110001111001000100100110010111001100
+case symm_p0_mismatch:             input=101111111011            ; symm=vacuous ; expected_certificate=1000000100001010000111000100100010110001101000111100100010010101001011
+case symm_p0_mismatch_swapped:     input=101111101111            ; symm=vacuous ; expected_certificate=1000000100001010000111000100100010110001101001000100100110010101001011
+case trans_p0p1_even_chain:        input=101101011111101011101011; trans=yes    ; expected_certificate=10000001000010100001110001011000111100100010010011001010100101110011001001110101000010100011010010101010010101101010111
+case trans_p0p1_vacuous_chain:     input=101101011111101101011   ; trans=vacuous; expected_certificate=100000010000101000011100010110001111001000100100110010101001011100110010011101001111101000110100111010100
