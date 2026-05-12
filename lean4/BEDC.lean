@@ -102,6 +102,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalOverlap
 import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
+import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetExhaustion
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
