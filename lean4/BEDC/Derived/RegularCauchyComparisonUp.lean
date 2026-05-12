@@ -207,4 +207,37 @@ theorem RegularCauchyComparisonCarrier_seal_handoff_obligation [AskSetup] [Packa
     ⟨windowUnary, ledgerUnary, sealUnary, sealReadUnary, ledgerSealRead, ledgerSame,
       provenancePkg, sealReadPkg⟩
 
+theorem RegularCauchyComparisonCarrier_common_window_stability [AskSetup] [PackageSetup]
+    {leftName rightName window observations tolerance ledger sealRow sameRows routes provenance
+      nameCert sharedLeft sharedRight observationRead toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      Cont leftName window sharedLeft ->
+        Cont rightName window sharedRight ->
+          hsame sharedLeft sharedRight ->
+            Cont sharedLeft observations observationRead ->
+              Cont observationRead tolerance toleranceRead ->
+                UnaryHistory window ∧ UnaryHistory sharedLeft ∧ UnaryHistory sharedRight ∧
+                  UnaryHistory observationRead ∧ UnaryHistory toleranceRead ∧
+                    hsame sharedLeft sharedRight ∧ hsame ledger (append observations tolerance) ∧
+                      PkgSig bundle provenance pkg := by
+  intro carrier leftWindowRead rightWindowRead sameShared observationReadRow toleranceReadRow
+  obtain ⟨leftUnary, rightUnary, windowUnary, observationsUnary, toleranceUnary, _ledgerUnary,
+    _sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _nameCertUnary,
+    _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, _ledgerSealProvenance, ledgerSame, provenancePkg⟩ :=
+      carrier
+  have sharedLeftUnary : UnaryHistory sharedLeft :=
+    unary_cont_closed leftUnary windowUnary leftWindowRead
+  have sharedRightUnary : UnaryHistory sharedRight :=
+    unary_cont_closed rightUnary windowUnary rightWindowRead
+  have observationReadUnary : UnaryHistory observationRead :=
+    unary_cont_closed sharedLeftUnary observationsUnary observationReadRow
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed observationReadUnary toleranceUnary toleranceReadRow
+  exact
+    ⟨windowUnary, sharedLeftUnary, sharedRightUnary, observationReadUnary, toleranceReadUnary,
+      sameShared, ledgerSame, provenancePkg⟩
+
 end BEDC.Derived.RegularCauchyComparisonUp
