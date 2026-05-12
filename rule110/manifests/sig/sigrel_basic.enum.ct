@@ -1,0 +1,22 @@
+# sigrel_basic.enum.ct
+# Relation: SigRel bundle h result.
+# Input: BundleEncoding(bundle) ++ BHistEncoding(h) ++ BHistEncoding(result).
+#
+# ProbeName(n) is the unary event payload [0 repeated n, 1].
+# BundleEncoding(Bnil) is the empty event "11".
+# BundleEncoding(Bcons p tail) is ProbeNameEncoding(p) ++ BundleEncoding(tail).
+#
+# Executable fixture Ask policy for these ground cases:
+#   Ask(n, h) returns b0 when n + depth(h) is even, b1 otherwise.
+# Then SigRel computes the signature payload in bundle order.
+PRODUCTIONS 0
+ASSERTIONS 9
+case empty_empty_to_empty:      input=111111             ; sigrel=yes
+case empty_e1_to_empty:         input=11101111           ; sigrel=yes
+case empty_wrong_result:        input=1111011            ; sigrel=no
+case p0_empty_to_e0:            input=10111111011        ; sigrel=yes
+case p0_e0_to_e1:               input=1011110111011      ; sigrel=yes
+case p0_empty_wrong_mark:       input=101111111011       ; sigrel=no
+case p1_empty_to_e1:            input=0101111111011      ; sigrel=yes
+case p0p1_empty_to_e0e1:        input=101101011111101011 ; sigrel=yes
+case p0p1_empty_wrong_tail:     input=10110101111110011  ; sigrel=no

@@ -60,11 +60,11 @@ Primary source: `lean4/BEDC/FKernel/Hist.lean` (BHist + hsame), `lean4/BEDC/FKer
 
 - [x] D1: Read `lean4/BEDC/FKernel/Sig.lean` and `lean4/BEDC/FKernel/Sig/SameSig.lean`. SigRel involves ProbeBundle parameterization — design how to encode an abstract ProbeBundle in CT manifests.
 
-- [ ] D2: Implement ProbeBundle encoding (list of probe names, each name itself bit-encoded).
+- [x] D2: Implement ProbeBundle encoding (list of probe names, each name itself bit-encoded).
 
-- [ ] D3: Encode SigRel manifests for the canonical examples in Sig.lean.
+- [x] D3: Encode SigRel manifests for the canonical examples in Sig.lean.
 
-- [ ] D4: sameSig equivalence theorems → manifests + tests.
+- [x] D4: sameSig equivalence theorems → manifests + tests.
 
 ## Phase E: Documentation + ship (1-2 days)
 

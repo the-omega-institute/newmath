@@ -61,3 +61,15 @@
   does not reject unequal histories. The remaining hard part is retaining the
   first event payload while the second event is consumed and detecting both
   terminators in the same comparison cycle.
+
+## SigRel and SameSig Manifests
+
+- `ProbeName` is grounded as unary natural numbers, encoded as event payloads
+  `[0 repeated n, 1]`. A bundle is a sequence of these probe events followed by
+  the empty event terminator `"11"`.
+- The executable fixture Ask policy returns parity of `probe_name + depth(h)`.
+  This keeps SigRel representative cases decidable while leaving Lean's
+  abstract `AskSetup` untouched.
+- `sigrel_basic` covers empty bundle, singleton probes, two-probe bundles, and
+  wrong-result negative cases. `samesig_equiv` covers reflexivity, symmetry,
+  transitivity, and vacuous antecedents under the same fixture signatures.
