@@ -1,0 +1,25 @@
+# bundle_length.algo.ct
+# Algorithm framing for ProbeBundle length, append, associativity, and
+# fixed-length split uniqueness over decoded bundle streams.
+#
+# The semantic checker lives in tests/test_bundle.c. This CT production is
+# intentionally vacuous under the current manifest-runner contract, while the
+# assertions below provide executable fixtures and audit-readable theorem
+# points.
+PRODUCTIONS 1
+0
+ASSERTIONS 14
+case length_append_empty_empty:        input=101011101011                                                   ; theorem=bundleLength_append ; conclusion_holds=yes
+case length_append_empty_two:          input=1010111011001011101011                                         ; theorem=bundleLength_append ; conclusion_holds=yes
+case length_append_two_one:            input=010110010111010111011101011                                    ; theorem=bundleLength_append ; conclusion_holds=yes
+case nil_right_empty:                  input=101011                                                         ; theorem=bundleAppend_nil_right ; conclusion_holds=yes
+case nil_right_three:                  input=010110010110001011101011                                       ; theorem=bundleAppend_nil_right ; conclusion_holds=yes
+case assoc_empty_left:                 input=101011101110101101011101011                                    ; theorem=bundleAppend_assoc ; conclusion_holds=yes
+case assoc_nonempty:                   input=101110101101011101011001011101011                             ; theorem=bundleAppend_assoc ; conclusion_holds=yes
+case eq_right_left_nil:                input=101011001011101011                                             ; theorem=bundleAppend_eq_right_iff_left_nil ; conclusion_holds=yes
+case eq_right_nonempty_left:           input=1011101011101011                                               ; theorem=bundleAppend_eq_right_iff_left_nil ; conclusion_holds=yes
+case eq_left_right_nil:                input=001011101011101011                                             ; theorem=bundleAppend_eq_left_iff_right_nil ; conclusion_holds=yes
+case eq_left_nonempty_right:           input=101110101101011101011                                          ; theorem=bundleAppend_eq_left_iff_right_nil ; conclusion_holds=yes
+case split_unique_fixed_prefix:        input=010110010111010111011101011010110010111010111011101011         ; theorem=bundleAppend_split_unique_fixed_length ; conclusion_holds=yes
+case split_unique_fixed_suffix:        input=010110010111010111011101011010110010111010111011101011         ; theorem=bundleAppend_split_unique_fixed_suffix_length ; conclusion_holds=yes
+case three_split_unique_fixed_lengths: input=101110101101011101011001011101011101110101101011101011001011101011 ; theorem=bundleAppend_three_split_unique_fixed_lengths ; conclusion_holds=yes
