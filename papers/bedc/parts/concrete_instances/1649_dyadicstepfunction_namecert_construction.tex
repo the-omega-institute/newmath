@@ -112,6 +112,22 @@ Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Any tr
 Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route on that cell. Then apply \autoref{thm:dyadic-step-function-ledger-exactness} to place the resulting read in $L$ before the $\RealUp$ seal is consumed. This exhausts the available carrier coordinates and leaves no path to quotient data, host functions, or selected limits.
 \end{proof}
 
+\begin{theorem}[Dyadic step function cellwise sum closure]
+\label{thm:dyadic-step-function-cellwise-sum-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Suppose they admit a displayed common dyadic refinement whose refined cells are finite $\mathsf{BHist}$ cells, and suppose that on every refined cell the transported carried-value row of $S$, the transported carried-value row of $T$, and the displayed $\DyadicRatCoreUp$ or $\RealUp$ sum row are recorded in the carrier ledger. Then the pointwise cellwise sum repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet uses only the displayed refined cell list, endpoint transport, carried-value rows, classifier rows, finite ledger rows, and the componentwise $\hsame$ and $\Cont$ route data. It does not introduce a host step function, a quotient representative, a selected limit, or an equality oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ through \autoref{def:dyadic-step-function-carrier}. The carrier exposes the finite cell list, endpoint rows, carried-value rows, classifier rows, ledger rows, and transport data from which the sum packet must be built.
+
+Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Every consumer-visible comparison of the two packets first lands on one displayed common-refinement cell, and the finite $\mathsf{BHist}$ list gives the induction spine for checking all cells.
+
+On each refined cell, use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. The endpoint route and the carried-value route determine the same transported read, so the two summand values are the visible rows named by the refined packet data.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. The assumed $\DyadicRatCoreUp$ or $\RealUp$ sum row is already recorded in the carrier ledger for that refined cell, and the stored $\hsame$ and $\Cont$ routes transport it componentwise. Repacking those finitely many rows gives the accepted $\DyadicStepFunctionUp$ sum packet with no access to host functions, quotient representatives, selected limits, or hidden equalities.
+\end{proof}
+
 \closureat{DyadicStepFunctionUp}{seedStr}
 \closureat{DyadicStepFunctionUp}{obligationStr}
 

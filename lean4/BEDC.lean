@@ -82,6 +82,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
+import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicSubdivisionUp
@@ -250,6 +251,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TriangulatedCatUp
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp
@@ -286,18 +288,21 @@ import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
+import BEDC.Derived.RealCauchyCompletionUp.FamilyTailSynchronization
 import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularCauchyDiagonalUp
+import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularLanguageUp
+import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularityModulusUp
@@ -1311,6 +1316,7 @@ import BEDC.MetaCIC.Consistency
 import BEDC.HostBridge.MetaCICTransport
 import BEDC.HostBridge.EquationalLaws
 import BEDC.HostBridge.ChurchNatRoundTrip
+import BEDC.HostBridge.HostInterpreter
 import BEDC.HostBridge.ChurchBoolPairRoundTrip
 import BEDC.HostBridge.ChurchOptionRoundTrip
 /- Capstone formalizations. -/
