@@ -1090,11 +1090,11 @@ function renderCy() {
         style: {
           "width": 1.5, "line-color": "#7a8a99",
           "target-arrow-color": "#7a8a99", "target-arrow-shape": "triangle",
-          "curve-style": "bezier", "arrow-scale": 0.95,
+          "curve-style": "bezier", "arrow-scale": 1.5,
           "opacity": 0.55,
         },
       },
-      { selector: "edge.highlight", style: { "line-color": "#c0392b", "target-arrow-color": "#c0392b", "width": 3, "opacity": 1 } },
+      { selector: "edge.highlight", style: { "line-color": "#c0392b", "target-arrow-color": "#c0392b", "width": 3, "arrow-scale": 1.9, "opacity": 1 } },
       { selector: "edge.faded", style: { "opacity": 0.06 } },
       { selector: "node.faded", style: { "opacity": 0.15 } },
     ],
@@ -1133,6 +1133,7 @@ function renderCy() {
       document.getElementById("detail-content").innerHTML =
         `<div class="hint">${t("hint")}</div>`;
       CY.elements().removeClass("highlight").removeClass("faded");
+      CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
       CY.nodes().unselect();
       // Tapping empty space clears the selection only — keep the current
       // zoom / pan so the user's view isn't snapped back unexpectedly.
@@ -1170,45 +1171,92 @@ function showNodeDetail(id) {
   if (!node) return;
 
   CY.elements().removeClass("highlight").removeClass("faded");
+  CY.edges().removeStyle("opacity line-color target-arrow-color width arrow-scale curve-style control-point-distances control-point-weights");
   CY.nodes().unselect();
   const cyNode = CY.getElementById(id);
   cyNode.select();
 
-  // Find the full upstream subtree (all ancestors) and downstream subtree (all descendants)
-  const upstream = new Set([id]);
-  const downstream = new Set([id]);
+  // Highlight the full upstream subtree (clicked node + all transitive
+  // ancestors). Downstream is intentionally not included — tapping a node
+  // asks "what does this depend on?", not "what depends on this?".
+  // BFS upward, recording shortest-path distance from each ancestor to the
+  // clicked node. We use this distance (NOT the gradient x-distance below)
+  // to decide which edges are "on a shortest path" — a node X at depth k
+  // contributes only the edges X→Y where Y is at depth k-1. Long shortcuts
+  // (e.g., kernel→bool when bool is 3 hops away but kernel is 1 hop away)
+  // are NOT on any shortest path and would otherwise visually clutter the
+  // graph with edges that don't help understand the dependency chain.
+  const keep = new Set([id]);
+  const bfsDist = new Map([[id, 0]]);
   const queueUp = [id];
   while (queueUp.length) {
     const cur = queueUp.shift();
+    const cd = bfsDist.get(cur);
     DEPS.edges.forEach(e => {
-      if (e.target === cur && !upstream.has(e.source)) {
-        upstream.add(e.source);
+      if (e.target === cur && !keep.has(e.source)) {
+        keep.add(e.source);
+        bfsDist.set(e.source, cd + 1);
         queueUp.push(e.source);
       }
     });
   }
-  const queueDown = [id];
-  while (queueDown.length) {
-    const cur = queueDown.shift();
-    DEPS.edges.forEach(e => {
-      if (e.source === cur && !downstream.has(e.target)) {
-        downstream.add(e.target);
-        queueDown.push(e.target);
-      }
-    });
-  }
-  const keep = new Set([...upstream, ...downstream]);
+
+  // Distance metric: dagre LR layout puts deep primitives (Kernel, Add, Nat)
+  // at small x and derived nodes at large x, so xClicked - x(n) is the
+  // visually correct "primitive depth" — and avoids BFS shortest-path
+  // anomalies (Kernel is a direct parent of Group, but conceptually the
+  // deepest root, so should be the lightest, not the darkest).
+  // dependency.json is not strictly acyclic, so longest-path relaxation
+  // diverges; x-distance is robust against the cycles.
+  const xClicked = cyNode.position("x");
+  const depthOf = new Map([[id, 0]]);
+  keep.forEach(n => {
+    if (n === id) return;
+    const cyN = CY.getElementById(n);
+    const dx = xClicked - cyN.position("x");
+    depthOf.set(n, Math.max(0, dx));
+  });
+  const maxDepth = depthOf.size > 1 ? Math.max(...depthOf.values()) : 1;
+
+  // Gradient endpoints: near (depth 1) = saturated red + thick, far (maxDepth)
+  // = near-gray + thin + low opacity. The width / opacity range is wide
+  // (5px → 0.6px, 1.0 → 0.12) so distance from the clicked node is obvious
+  // even when 200+ edges fan out from a hub node.
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const rgb = (r, g, b) => `rgb(${r|0},${g|0},${b|0})`;
+  const NEAR = { r: 220, g: 20,  b: 0,   width: 5.0, arrow: 7.0, opacity: 1.0  };
+  const FAR  = { r: 218, g: 60,  b: 40,  width: 3.0, arrow: 5.0, opacity: 0.85 };
 
   CY.nodes().forEach(n => { if (!keep.has(n.id())) n.addClass("faded"); });
   CY.edges().forEach(e => {
     const s = e.data("source"), t = e.data("target");
-    if (keep.has(s) && keep.has(t)) e.addClass("highlight");
-    else e.addClass("faded");
+    // Highlight an edge only when it lies on a BFS shortest path from some
+    // ancestor down to the clicked node — i.e., bfsDist(source) is exactly
+    // one more than bfsDist(target). This drops shortcut edges like
+    // kernel→bool that connect two ancestors but don't help reach clicked.
+    const onShortestPath =
+      keep.has(s) && keep.has(t) && bfsDist.get(s) === bfsDist.get(t) + 1;
+    if (onShortestPath) {
+      // edge depth = source's x-distance from clicked; deeper roots = lighter.
+      // dependency.json is not strictly acyclic, so back-edges can give a
+      // negative dx for the clicked node itself; clamp tt into [0, 1].
+      const d = depthOf.get(s) ?? 0;
+      const tt = maxDepth <= 0 ? 0 : clamp(d / maxDepth, 0, 1);
+      const color = rgb(lerp(NEAR.r, FAR.r, tt), lerp(NEAR.g, FAR.g, tt), lerp(NEAR.b, FAR.b, tt));
+      e.style("line-color", color);
+      e.style("target-arrow-color", color);
+      e.style("width", lerp(NEAR.width, FAR.width, tt));
+      e.style("arrow-scale", lerp(NEAR.arrow, FAR.arrow, tt));
+      e.style("opacity", lerp(NEAR.opacity, FAR.opacity, tt));
+    } else {
+      e.addClass("faded");
+    }
   });
 
-  // Zoom into the connected subgraph (selected node + ancestors +
-  // descendants). Tap on background restores the global fit (see the
-  // tap-on-CY handler below).
+  // Zoom into the upstream subgraph (selected node + ancestors).
+  // Tap on background restores the global fit (see the tap-on-CY
+  // handler below).
   const focusEles = CY.elements().filter(el => {
     if (el.isNode()) return keep.has(el.id());
     return keep.has(el.data("source")) && keep.has(el.data("target"));
