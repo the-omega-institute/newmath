@@ -220,4 +220,27 @@ theorem CauchyCriterionCarrier_tail_bound_real_seal [AskSetup] [PackageSetup]
       windowModulusTolerance, toleranceLedgerRegseq, ledgerRealSealConsumer, endpointPkg,
       consumerPkg⟩
 
+theorem CauchyCriterionCarrier_dyadic_tail_ledger_exactness [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      tailConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont ledger provenance tailConsumer ->
+        PkgSig bundle tailConsumer pkg ->
+          UnaryHistory modulus ∧ UnaryHistory tolerance ∧ UnaryHistory ledger ∧
+            UnaryHistory tailConsumer ∧ Cont window modulus tolerance ∧
+              Cont tolerance ledger regseq ∧ Cont ledger provenance tailConsumer ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle tailConsumer pkg := by
+  intro carrier ledgerProvenanceTailConsumer tailConsumerPkg
+  obtain ⟨_windowUnary, modulusUnary, toleranceUnary, ledgerUnary, _regseqUnary,
+    _realSealUnary, _transportUnary, _routeUnary, provenanceUnary, _localCertUnary,
+    _endpointUnary, windowModulusTolerance, toleranceLedgerRegseq, _regseqRealSealTransport,
+    _transportLocalRoute, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  have tailConsumerUnary : UnaryHistory tailConsumer :=
+    unary_cont_closed ledgerUnary provenanceUnary ledgerProvenanceTailConsumer
+  exact
+    ⟨modulusUnary, toleranceUnary, ledgerUnary, tailConsumerUnary, windowModulusTolerance,
+      toleranceLedgerRegseq, ledgerProvenanceTailConsumer, endpointPkg, tailConsumerPkg⟩
+
 end BEDC.Derived.CauchyCriterionUp
