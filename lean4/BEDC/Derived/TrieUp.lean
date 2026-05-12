@@ -113,4 +113,48 @@ theorem TriePacket_carrier_stability [AskSetup] [PackageSetup]
                 (And.intro hBranchRoute (And.intro hEndpoint hPkg))))))
   · exact And.intro keyPayloadSame (And.intro branchRouteSame endpointSame)
 
+def TrieBHistSource [AskSetup] [PackageSetup]
+    (key payload depth branch provenance keyBranch payloadRoute endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory key ∧ UnaryHistory payload ∧ UnaryHistory depth ∧ UnaryHistory branch ∧
+    UnaryHistory provenance ∧ Cont key branch keyBranch ∧ Cont keyBranch payload payloadRoute ∧
+      Cont payloadRoute depth endpoint ∧ PkgSig bundle provenance pkg
+
+theorem TrieBHistSource_carrier_stability [AskSetup] [PackageSetup]
+    {key payload depth branch provenance keyBranch payloadRoute endpoint
+      key' payload' depth' branch' provenance' keyBranch' payloadRoute' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TrieBHistSource key payload depth branch provenance keyBranch payloadRoute endpoint bundle pkg ->
+      hsame key key' -> hsame payload payload' -> hsame depth depth' ->
+        hsame branch branch' -> hsame provenance provenance' ->
+          Cont key' branch' keyBranch' -> Cont keyBranch' payload' payloadRoute' ->
+            Cont payloadRoute' depth' endpoint' -> PkgSig bundle provenance' pkg ->
+              TrieBHistSource key' payload' depth' branch' provenance' keyBranch' payloadRoute'
+                  endpoint' bundle pkg ∧
+                hsame keyBranch keyBranch' ∧ hsame payloadRoute payloadRoute' ∧
+                  hsame endpoint endpoint' := by
+  intro source sameKey samePayload sameDepth sameBranch sameProvenance keyBranchRow'
+    payloadRouteRow' endpointRow' pkgSig'
+  obtain ⟨keyUnary, payloadUnary, depthUnary, branchUnary, provenanceUnary, keyBranchRow,
+    payloadRouteRow, endpointRow, _pkgSig⟩ := source
+  have sameKeyBranch : hsame keyBranch keyBranch' :=
+    cont_respects_hsame sameKey sameBranch keyBranchRow keyBranchRow'
+  have samePayloadRoute : hsame payloadRoute payloadRoute' :=
+    cont_respects_hsame sameKeyBranch samePayload payloadRouteRow payloadRouteRow'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame samePayloadRoute sameDepth endpointRow endpointRow'
+  have transported :
+      TrieBHistSource key' payload' depth' branch' provenance' keyBranch' payloadRoute'
+        endpoint' bundle pkg :=
+    ⟨unary_transport keyUnary sameKey,
+      unary_transport payloadUnary samePayload,
+      unary_transport depthUnary sameDepth,
+      unary_transport branchUnary sameBranch,
+      unary_transport provenanceUnary sameProvenance,
+      keyBranchRow',
+      payloadRouteRow',
+      endpointRow',
+      pkgSig'⟩
+  exact ⟨transported, sameKeyBranch, samePayloadRoute, sameEndpoint⟩
+
 end BEDC.Derived.TrieUp

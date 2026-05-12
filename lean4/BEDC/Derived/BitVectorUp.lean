@@ -303,6 +303,32 @@ theorem BitVectorFiniteLedger_ledger_coverage [AskSetup] [PackageSetup]
       (And.intro ledgerRow
         (And.intro readRow pkgSig)))
 
+theorem BitVectorFiniteLedger_public_export_transport [AskSetup] [PackageSetup]
+    {length spine ledger provenance read length' spine' ledger' provenance' read' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BitVectorFiniteLedger length spine ledger provenance read bundle pkg ->
+      hsame length length' -> hsame spine spine' -> hsame provenance provenance' ->
+        Cont length' spine' ledger' -> Cont ledger' provenance' read' ->
+          PkgSig bundle read' pkg ->
+            BitVectorFiniteLedger length' spine' ledger' provenance' read' bundle pkg ∧
+              hsame ledger ledger' ∧ hsame read read' := by
+  intro finiteLedger sameLength sameSpine sameProvenance ledgerRow' readRow' pkgSig'
+  obtain ⟨lengthUnary, spineUnary, provenanceUnary, ledgerRow, readRow, _pkgSig⟩ :=
+    finiteLedger
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame sameLength sameSpine ledgerRow ledgerRow'
+  have sameRead : hsame read read' :=
+    cont_respects_hsame sameLedger sameProvenance readRow readRow'
+  have transported :
+      BitVectorFiniteLedger length' spine' ledger' provenance' read' bundle pkg :=
+    ⟨unary_transport lengthUnary sameLength,
+      unary_transport spineUnary sameSpine,
+      unary_transport provenanceUnary sameProvenance,
+      ledgerRow',
+      readRow',
+      pkgSig'⟩
+  exact ⟨transported, sameLedger, sameRead⟩
+
 def BitVectorSourcePacket [AskSetup] [PackageSetup]
     (n spine ledger route provenance source : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
