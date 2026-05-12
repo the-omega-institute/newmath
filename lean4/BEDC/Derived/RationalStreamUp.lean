@@ -140,6 +140,38 @@ theorem RationalStreamPacket_regseqrat_finite_window_surface [AskSetup] [Package
     ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, windowUnary,
       consumerUnary, indexScheduleRow, consumerRow, consumerPkg⟩
 
+theorem RationalStreamPacket_regseqrat_obligation_package [AskSetup] [PackageSetup]
+    {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalStreamPacket index schedule pointRows classifierRows transportRows contRows provenance
+        nameRow window bundle pkg ->
+      Cont window nameRow consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory index ∧ UnaryHistory schedule ∧ UnaryHistory pointRows ∧
+            UnaryHistory classifierRows ∧ UnaryHistory transportRows ∧ UnaryHistory window ∧
+              UnaryHistory contRows ∧ UnaryHistory nameRow ∧ UnaryHistory consumer ∧
+                Cont index schedule window ∧ Cont window pointRows classifierRows ∧
+                  Cont classifierRows transportRows contRows ∧
+                    Cont contRows provenance nameRow ∧ Cont window nameRow consumer ∧
+                      PkgSig bundle nameRow pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRow consumerPkg
+  obtain ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+    provenanceUnary, indexScheduleRow, windowPointRow, classifierTransportRow, nameRowRow,
+    namePkg⟩ := packet
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed indexUnary scheduleUnary indexScheduleRow
+  have contRowsUnary : UnaryHistory contRows :=
+    unary_cont_closed classifierRowsUnary transportRowsUnary classifierTransportRow
+  have nameRowUnary : UnaryHistory nameRow :=
+    unary_cont_closed contRowsUnary provenanceUnary nameRowRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary nameRowUnary consumerRow
+  exact
+    ⟨indexUnary, scheduleUnary, pointRowsUnary, classifierRowsUnary, transportRowsUnary,
+      windowUnary, contRowsUnary, nameRowUnary, consumerUnary, indexScheduleRow,
+      windowPointRow, classifierTransportRow, nameRowRow, consumerRow, namePkg, consumerPkg⟩
+
 theorem RationalStreamPacket_common_window_classifier_stability [AskSetup] [PackageSetup]
     {index schedule pointRows classifierRows transportRows contRows provenance nameRow window
       commonWindow consumer : BHist}
