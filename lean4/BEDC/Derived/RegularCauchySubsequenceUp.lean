@@ -180,4 +180,26 @@ theorem RegularCauchySubsequenceCarrier_tail_classifier_stability [AskSetup] [Pa
           exact hsame_refl (append provenance localCert))),
       endpointPkg⟩
 
+theorem RegularCauchySubsequenceCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {source reindex windows radius «seal» sameRows routeRows provenance localCert endpoint
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubsequenceCarrier source reindex windows radius «seal» sameRows routeRows
+        provenance localCert endpoint bundle pkg ->
+      Cont «seal» localCert consumerRead ->
+        UnaryHistory source ∧ UnaryHistory reindex ∧ UnaryHistory windows ∧
+          UnaryHistory radius ∧ UnaryHistory «seal» ∧ UnaryHistory consumerRead ∧
+            Cont source reindex windows ∧ Cont windows radius «seal» ∧
+              Cont provenance localCert endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier sealLocalCertConsumer
+  obtain ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, _sameRowsUnary,
+    _routeRowsUnary, _provenanceUnary, localCertUnary, _endpointUnary, sourceReindexWindows,
+    windowsRadiusSeal, _sameRowsRouteRowsProvenance, provenanceLocalCertEndpoint,
+    _endpointAppend, endpointPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary localCertUnary sealLocalCertConsumer
+  exact
+    ⟨sourceUnary, reindexUnary, windowsUnary, radiusUnary, sealUnary, consumerUnary,
+      sourceReindexWindows, windowsRadiusSeal, provenanceLocalCertEndpoint, endpointPkg⟩
+
 end BEDC.Derived.RegularCauchySubsequenceUp
