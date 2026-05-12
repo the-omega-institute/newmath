@@ -8,6 +8,7 @@ import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.Typing
+import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.AtomInfer
