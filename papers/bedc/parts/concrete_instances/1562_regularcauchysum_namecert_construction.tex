@@ -148,6 +148,42 @@ Use the checked window-budget theorem, \autoref{thm:regular-cauchy-sum-window-bu
 Finally apply \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion}. The seal has no further consumer coordinate, so the assembled package cannot export quotient streams, selected limits, host real equality, ambient completeness, or a separate completed-real addition law.
 \end{proof}
 
+\begin{theorem}[RegularCauchySum obligation surface]
+\label{thm:regular-cauchy-sum-obligation-surface}
+The $\RegularCauchySumUp$ carrier of \autoref{def:regular-cauchy-sum-carrier} exposes a finite obligation surface over the two $\RegSeqRatUp$ source rows, their aligned $\StreamNameUp$ windows, the two source $\DyadicRatCoreUp$ endpoint rows, the displayed endpoint addition row, the finite error-budget ledger, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal-facing route, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. Every consumer obligation for the sum packet is a projection of those rows together with \autoref{thm:regular-cauchy-sum-consumer-obligation-package}.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple. Its source windows, endpoint rows, budget ledger, readback row, transports, continuations, package row, and local naming row are already listed as coordinates of $S$.
+
+Use \autoref{thm:regular-cauchy-sum-consumer-obligation-package} to assemble the consumer-facing obligations. The package reads the local naming rows, window-budget exactness, regular readback handoff, real-seal boundary, and seal consumer exhaustion from those displayed coordinates.
+
+Thus the obligation surface is finite and $\mathsf{BHist}$-anchored. It does not introduce a completed-real addition operation, quotient equality of names, selected limit, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum classifier stability]
+\label{thm:regular-cauchy-sum-classifier-stability}
+Let two accepted $\RegularCauchySumUp$ packets have source rows, aligned windows, endpoint rows, finite error budgets, readbacks, real-seal routes, transports, continuations, package provenance, and local $\NameCert$ rows matched componentwise by their displayed $\hsame$ classifiers. Then every consumer route supplied by the obligation surface of \autoref{thm:regular-cauchy-sum-obligation-surface} transports to the corresponding route of the second packet.
+\end{theorem}
+\begin{proof}
+Start with the componentwise classifier data. The two source rows transport together with their aligned windows, so the scheduled rational observations remain paired at the requested precision.
+
+Transport the endpoint rows and budget ledger next. The dyadic endpoint addition row and the finite error-budget row stay attached to the transported source windows, so the $\RegSeqRatUp$ readback still reads the displayed sum row through the same kind of ledger.
+
+Finally route the transported readback through the real-seal boundary and the local package rows. By \autoref{thm:regular-cauchy-sum-consumer-obligation-package}, every consumer route is one of these displayed projections, so classifier stability follows without invoking completed-real addition or quotient equality.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum ledger exactness]
+\label{thm:regular-cauchy-sum-ledger-exactness}
+For every accepted $\RegularCauchySumUp$ packet, the ledger consumed by a $\RegSeqRatUp$ or $\RealUp$ read is exactly the finite error-budget row $E$ attached to the two aligned source windows and the displayed dyadic endpoint addition row. The packet has no alternate ledger for host real addition, quotient-stream equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Inspect a read of the regular sum. The read first reaches the aligned windows $W_A,W_B$, the endpoint rows $D_A,D_B$, the displayed addition row $D$, and the finite budget row $E$.
+
+The $\RegSeqRatUp$ handoff repacks exactly those rows as $R$. The $\RealUp$ seal boundary reads downstream of $R$, so a real consumer sees the same finite ledger rather than a separate completed-real operation.
+
+The consumer obligation package exhausts the route through $A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N$. Since the carrier contains no additional budget or equality coordinate, ledger exactness is precisely the displayed finite row $E$.
+\end{proof}
+
 \closureat{RegularCauchySumUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchySumUp}
