@@ -87,6 +87,24 @@ Cross-Hist causal dependence requires an additional predicate over pairs or rout
 Therefore the accepted packet is a configuration boundary for later chapters. It provides the finite carrier and local classifier they can consume, while leaving causal dependence and rate extraction outside the present public surface.
 \end{proof}
 
+\begin{theorem}[MultiHistConfig NameCert obligation package]
+\label{thm:multihistconfig-namecert-obligation-package}
+For an accepted $\MultiHistConfigUp$ carrier
+$$
+M=(H,L,S,R,C,P,N),
+$$
+the carrier row, habitation theorem, componentwise classifier stability, no-global-sync ledger, finite ledger obligations, and downstream handoff assemble the local $\NameCert_{\MultiHistConfigUp}$ obligation package over $\BHist$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes exactly the seven visible coordinates of $M$ and leaves causal predicates and maximum-rate bounds outside the present packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:multi-hist-config-namecert-carrier}. The seven coordinates $H,L,S,R,C,P,N$ give the finite observer rows, probe ledgers, no-global-sync witness, componentwise transport table, continuation routes, package provenance, and local naming row.
+
+The carrier and habitation rows are supplied by \autoref{thm:multihistconfig-carrier-habitation}; the componentwise classifier row is supplied by \autoref{thm:multihistconfig-componentwise-classifier-stability}. These rows bind the local classifier to the displayed $\BHist$ and $\mathsf{ProbeBundle}$ data rather than to any host-side equality or synchronization object.
+
+The no-global-sync and finite-ledger rows are supplied by \autoref{thm:multi-hist-config-no-global-sync-ledger} and \autoref{thm:multi-hist-config-finite-ledger-obligations}. They state that the visible ledger is exhausted by $L$, $S$, and $C$, with no global frame, shared clock, hidden observation, external quotient, or unrecorded list equality.
+
+Finally, \autoref{thm:multihistconfig-crosshist-maxcausal-handoff} identifies the downstream boundary. A later inter-Hist consumer may read the finite carrier, classifier, ledgers, routes, provenance, and naming row, but any cross-Hist causal predicate or maximum-rate bound must be supplied by that later chapter as an additional row.
+\end{proof}
+
 \closureat{MultiHistConfigUp}{seedStr}
 
 \begin{closurestatus}{\MultiHistConfigUp}
