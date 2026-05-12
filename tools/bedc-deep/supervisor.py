@@ -715,6 +715,34 @@ def ahead_behind_upstream() -> tuple[int, int] | None:
     return ahead, behind
 
 
+def merge_current_upstream_for_push(branch: str) -> bool:
+    """Integrate the current branch's upstream before retrying a push.
+
+    This handles the common non-fast-forward case where the bridge lane pushed
+    a small commit to this same branch while the local supervisor accumulated
+    paper-writeback commits. It only runs from clean post-commit states.
+    """
+    dirty = _git(["status", "--porcelain"]).stdout.strip()
+    if dirty:
+        supervisor_log("push-sync: skipped upstream merge because worktree is dirty")
+        return False
+    upstream = current_upstream()
+    if not upstream:
+        supervisor_log("push-sync: skipped upstream merge because upstream is unknown")
+        return False
+    fetch = _git(["fetch", "origin"], capture=False)
+    if fetch.returncode != 0:
+        supervisor_log(f"push-sync: fetch {branch} failed rc={fetch.returncode}")
+        return False
+    merge = _git(["merge", "--no-edit", upstream], capture=False)
+    if merge.returncode == 0:
+        supervisor_log(f"push-sync: merged {upstream} into {branch}")
+        return True
+    supervisor_log(f"push-sync: merge {upstream} failed rc={merge.returncode}; aborting merge")
+    _git(["merge", "--abort"], capture=False)
+    return False
+
+
 def retry_pending_network_push() -> bool:
     """Resume a push that may have failed during a network outage.
 
@@ -744,16 +772,28 @@ def retry_pending_network_push() -> bool:
             _clear_network_resume_checkpoint()
         return False
     if behind:
-        reason = f"branch is ahead={ahead} and behind={behind}; waiting for normal sync"
-        _write_network_resume_checkpoint(
-            "push_blocked_diverged",
-            branch,
-            reason,
-            head=current_head(),
-            upstream=current_upstream(),
+        supervisor_log(
+            f"network-resume: branch is ahead={ahead} and behind={behind}; "
+            "merging current upstream before push"
         )
-        supervisor_log(f"network-resume: {reason}")
-        return False
+        if not merge_current_upstream_for_push(branch):
+            reason = f"branch is ahead={ahead} and behind={behind}; upstream merge failed"
+            _write_network_resume_checkpoint(
+                "push_blocked_diverged",
+                branch,
+                reason,
+                head=current_head(),
+                upstream=current_upstream(),
+            )
+            supervisor_log(f"network-resume: {reason}")
+            return False
+        relation = ahead_behind_upstream()
+        if relation is None:
+            return False
+        ahead, behind = relation
+        if behind:
+            supervisor_log(f"network-resume: still behind={behind} after upstream merge")
+            return False
     supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
     push = _git(["push", "origin", branch], capture=False)
     if push.returncode != 0:
@@ -802,6 +842,23 @@ def commit_and_push_if_changed() -> bool:
             supervisor_log("auto-commit: git commit returned non-zero (race or empty)")
             return False
         branch = current_branch_name()
+        relation = ahead_behind_upstream()
+        if relation:
+            ahead, behind = relation
+            if behind:
+                supervisor_log(
+                    f"auto-commit: branch behind upstream by {behind}; "
+                    "merging before push"
+                )
+                if not merge_current_upstream_for_push(branch):
+                    _write_network_resume_checkpoint(
+                        "push_blocked_diverged",
+                        branch,
+                        f"branch behind upstream by {behind}; upstream merge failed",
+                        head=current_head(),
+                        upstream=current_upstream(),
+                    )
+                    return False
         push = _git(["push", "origin", branch], capture=False)
         if push.returncode != 0:
             supervisor_log(f"auto-commit: push failed rc={push.returncode}")
