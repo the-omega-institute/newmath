@@ -644,6 +644,13 @@ theorem betaStarStep_atom_refl_only {t t' : Term}
           cases hi
           exact betaStar_var_target i h
 
+theorem betaStarStep_atom_reflexive {t t' : Term}
+    (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
+    (h : BetaStarStep t t') :
+    t = t' := by
+  cases betaStarStep_atom_refl_only hatom h
+  rfl
+
 theorem betaParallel_betaStarStep_atom_coincide {t t' : Term}
     (hatom : t = Term.sort ∨ ∃ i, t = Term.var i)
     (h : BetaParallel t t') :
