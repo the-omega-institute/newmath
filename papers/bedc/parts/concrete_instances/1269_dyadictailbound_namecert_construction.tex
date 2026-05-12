@@ -121,6 +121,7 @@ T=(p,\mu,\epsilon,L,R,E,H,C,P,N),
 $$
 the $\RegSeqRatUp$ row $R$ is the handoff obtained from the same schedule row $\mu$, dyadic tolerance row $\epsilon$, and finite tail ledger $L$. Any consumer of $R$ through the displayed $\Cont$ routes must therefore retain the schedule, tolerance, and ledger data certified by the $\Pkg$ row $P$ and the local $\NameCert_{\DyadicTailBoundUp}$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBoundUp.DyadicTailBoundCarrier\_regseqrat\_handoff\_exactness}
 \begin{proof}
 Read the schedule, tolerance, ledger, and readback coordinates from the carrier. The row $L$ records the inspected tail comparisons, and each comparison is indexed by the threshold named by $\mu$ and the dyadic budget named by $\epsilon$.
 
@@ -249,15 +250,36 @@ The readback and real-facing rows are supplied by \autoref{thm:dyadic-tail-bound
 Assembling the listed rows gives the obligation package. Since each component is a projection or repacking of the same $\mathsf{BHist}$ packet, no extra carrier for quotient streams, selected limits, host real equality, or ambient completeness is introduced.
 \end{proof}
 
+\begin{theorem}[DyadicTailBound budget composition]
+\label{thm:dyadic-tail-bound-budget-composition}
+Let
+$$
+T_1=(p,\mu,\epsilon,L_1,R_1,E_1,H,C,P,N)
+\quad\text{and}\quad
+T_2=(p,\mu,\epsilon,L_2,R_2,E_2,H,C,P,N)
+$$
+be accepted $\DyadicTailBoundUp$ packets sharing the displayed precision row, schedule threshold, dyadic tolerance, componentwise $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. If the second displayed tail ledger refines or extends the first through those same rows, then the concatenated ledger $L_1L_2$ is an accepted $\DyadicTailBoundUp$ packet whose $\RegSeqRatUp$ handoff and $\RealUp$ seal factor through the composite displayed budget. The conclusion exports only the composed finite ledger surface and no quotient stream, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the two accepted carriers and project their common rows. The precision, threshold, tolerance, transport, continuation, package, and local naming coordinates agree by hypothesis, so the only displayed change is the refinement from $L_1$ to $L_2$ and the concatenated ledger $L_1L_2$.
+
+Apply \autoref{thm:dyadic-tail-bound-ledger-append-stability} along the displayed refinement rows to accept each appended comparison with the same $\mu$, $\epsilon$, $H$, $C$, $P$, and $N$. Then use \autoref{thm:dyadic-tail-bound-ledger-threshold-exhaustion} to keep every comparison in the composite ledger tied to the displayed threshold and tolerance.
+
+Classifier transport is controlled by \autoref{thm:dyadic-tail-bound-classifier-transport-exactness}. It prevents the composite packet from replacing the shared provenance by an unrecorded tolerance, external estimate, or separate ledger surface.
+
+Finally apply \autoref{thm:dyadic-tail-bound-regseqrat-handoff-exactness} and \autoref{thm:dyadic-tail-bound-real-seal-factorization}. The regular-sequence readback factors through the concatenated ledger, and the real-facing seal factors through that readback and the same composite displayed budget.
+\end{proof}
+
 \closureat{DyadicTailBoundUp}{seedStr}
+\closureat{DyadicTailBoundUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicTailBoundUp}
   \constructivestory{A $\DyadicTailBoundUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a finite tail comparison ledger, a $\RegSeqRatUp$ readback route, a $\RealUp$ seal-facing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the finite carrier and the five-row naming-certificate surface for reusable dyadic tail budgets consumed by $\FastConvergentSeriesUp$, $\RegSeqRatUp$ handoffs, and $\RealUp$ seal boundaries.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation surface records the carrier, classifier transport, tolerance exactness, $\RegSeqRatUp$ handoff, $\RealUp$ seal factorization, and ledger exhaustion over the displayed $\BHist$ packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires formal carrier transport, dyadic tolerance exactness, regular-sequence handoff exactness, and $\RealUp$ seal factorization for the same finite packet.}
+  \upgradepath{Scoped closure requires binding the obligation rows as a single consumer interface for $\FastConvergentSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
