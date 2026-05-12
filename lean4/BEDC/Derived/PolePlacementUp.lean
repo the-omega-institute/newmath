@@ -124,4 +124,28 @@ theorem PolePlacementSourcePacket_consumer_boundary [AskSetup] [PackageSetup]
       closedLoopRow, comparisonRow, consumerReadRow, consumerExportRow, provenancePkg,
       consumerExportPkg⟩
 
+theorem PolePlacementSourcePacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {state input transition inputMatrix gain feedbackProduct closedLoop target comparison
+      provenance boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolePlacementSourcePacket state input transition inputMatrix gain feedbackProduct closedLoop
+        target comparison provenance boundary bundle pkg ->
+      UnaryHistory feedbackProduct ∧ UnaryHistory closedLoop ∧ UnaryHistory comparison ∧
+        Cont inputMatrix gain feedbackProduct ∧ Cont transition feedbackProduct closedLoop ∧
+          Cont closedLoop target comparison ∧ Cont comparison boundary provenance ∧
+            PkgSig bundle provenance pkg := by
+  intro packet
+  obtain ⟨_stateUnary, _inputUnary, transitionUnary, inputMatrixUnary, gainUnary,
+    targetUnary, _boundaryUnary, feedbackRow, closedLoopRow, comparisonRow,
+    provenanceRow, provenanceSig⟩ := packet
+  have feedbackUnary : UnaryHistory feedbackProduct :=
+    unary_cont_closed inputMatrixUnary gainUnary feedbackRow
+  have closedLoopUnary : UnaryHistory closedLoop :=
+    unary_cont_closed transitionUnary feedbackUnary closedLoopRow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed closedLoopUnary targetUnary comparisonRow
+  exact
+    ⟨feedbackUnary, closedLoopUnary, comparisonUnary, feedbackRow, closedLoopRow,
+      comparisonRow, provenanceRow, provenanceSig⟩
+
 end BEDC.Derived.PolePlacementUp
