@@ -88,6 +88,20 @@ The $\RegSeqRatUp$ row $R$ consumes those retained rational windows. The $\Strea
 Thus every real-facing read has the stated finite factorization. The handoff does not use root existence, real trichotomy, Dedekind cuts, host real equality, or a host intersection theorem.
 \end{proof}
 
+\begin{theorem}[DyadicBisection nested window handoff]
+\label{thm:dyadic-bisection-nested-window-handoff}
+For every accepted $\DyadicBisectionUp$ carrier and every unary precision request $n$, the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads are determined by the unique branch-prefix ledger segment that reaches the retained nested interval window at tolerance $2^{-n}$, together with the endpoint readbacks and displayed $\hsame$ and $\Cont$ transports. This handoff introduces no host intersection, completed real root, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the branch ledger of \autoref{def:dyadic-bisection-carrier}. The precision request $n$ selects the finite prefix length whose branch choices reach the retained endpoint window recorded in $E$.
+
+Apply \autoref{thm:dyadic-bisection-nested-interval-bridge}. The selected branch prefix determines the corresponding $\NestedIntervalUp$ row, and that row exposes the retained lower endpoint, upper endpoint, midpoint, and tolerance readbacks from the finite ledger.
+
+Now apply \autoref{thm:dyadic-bisection-real-stream-handoff}. The $\RegSeqRatUp$ row reads those retained rational windows, while the $\StreamNameUp$ and $\RealUp$ rows expose the same finite observation through the displayed transports and continuation routes.
+
+The carrier has no field for an intersection of all retained intervals and no field for a completeness theorem. Therefore the nested window is the exact surface consumed by the handoff.
+\end{proof}
+
 \closureat{DyadicBisectionUp}{seedStr}
 
 \begin{closurestatus}{\DyadicBisectionUp}
