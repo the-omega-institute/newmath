@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.11 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.12 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -141,6 +141,55 @@ How to use this signal:
 The pipeline never strictly requires a vision-derived target; rounds that
 do not propose one are not penalized. Vision discovery is a soft track
 running alongside the hard-gate frontier.
+
+## HARD GATE — paper-side closure saturation forces a discovery candidate
+
+When `critical_path.top_root_unblocks` is empty AND
+`critical_path.drift_chapters_total < 5`, the paper side has drained
+its high-leverage closure_mark / drift / bridge_sync work and would
+otherwise spin on low-leverage tokens. To prevent that and keep
+discovery moving, **the candidate_pool MUST include AT LEAST ONE of
+the three discovery channels** (emit just one, NOT all three —
+multiple discovery proposals in the same round overload Phase Revise):
+
+- `kind = "vision_concretization"` — anchor in `parts/visions/*.tex`
+  (source #7 above; 21 internal exploratory narrative chapters)
+- `kind = "automath_concretization"` — anchor in `/Users/chronoai/automath/{theory,papers,discovery}/`
+  (source #8 above; sibling Omega Project, 3427+ Lean theorems,
+  Fibonacci forcing chain)
+- `kind = "human_chapter_extension"` — anchor in known mathematical
+  textbook / Wikipedia / Bourbaki / nLab neighbour of an existing
+  `parts/concrete_instances/<X>Up` chapter (the much larger human
+  mathematical corpus; pick a chapter that names a recognized object
+  one or two BHist rows beyond what an existing frontier chapter
+  binds; see the "How to identify the missing chapter" subsection
+  of the human_chapter_extension gate below for the slug-list
+  procedure). Use this when the visions / automath sources do not
+  yield a substantive opportunity for the current round but the
+  human-known mathematics frontier does.
+
+Choose the channel with the most tasteful concretization opportunity
+this round. The three sources are NOT ranked by priority — codex
+should evaluate each honestly and pick the one with the strongest
+mathematical content for the current state of `parts/concrete_instances/`.
+If you genuinely cannot identify a substantive discovery target across
+ALL THREE sources after honest inspection, emit a `notes` entry
+explaining the exhaustion — but the bar for that exemption is
+extraordinarily high: the union of visions (21) + automath (3427+
+theorems) + human-known mathematics (entire textbook corpus) leaves
+"nothing concretizable" essentially impossible. Mechanically, all
+three flows produce a new `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`
+that goes through the standard BEDC gate stack (TasteGate framework +
+NameCert obligations + axiom-purity --strict + Phase D shallow-growth /
+no-touchpoint / parameter-echo), so no additional Phase Review taste
+filter is needed beyond verifying the candidate slug is novel.
+
+Saturation gate composition: this paper-side discovery mandate stacks
+with the `human_chapter_extension`-only saturation gate below (which
+fires on a stricter condition: `closed_horizons / open_horizons > 2.0`
+AND `len(top) <= 2`). Both can fire in the same round (the strict gate
+adds a SECOND new chapter on top of this one), or only this one if
+the stricter condition isn't met.
 
 ## HARD GATE — human-known chapter extension when frontier saturates
 
