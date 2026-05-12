@@ -67,6 +67,7 @@ import BEDC.Derived.BayesianUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BousfieldLocalizationUp
@@ -158,6 +159,7 @@ import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.MirrorSymmetryUp
+import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.ModularArithmeticUp
@@ -182,6 +184,7 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
+import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiccatiUp
