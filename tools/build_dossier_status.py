@@ -343,17 +343,13 @@ REGION_ALIASES: dict[str, str] = {
     "criticalstrip":        "critstrip",
     "zetacontinuation":     "zetacont",
     "complexdifferentiability": "complexdiff",
-    # `52_real_analytic_namecert_construction.tex` lives under the real region
-    "realanalytic": "real",
-    # `54_complex_analytic` is the analytic-continuation operation specialized
-    "complexanalytic": "anacont",
-    # `55_complex_topology` -- intentionally NOT aliased to complex. Aliasing
-    # would collapse ComplexTopologyUp (which imports HolomorphicUp) with
-    # ComplexUp (which HolomorphicUp imports), producing a spurious Lean
-    # cycle complex↔holomorphic. ComplexTopology is downstream of Holomorphic;
-    # plain Complex is upstream. Distinct nodes.
-    # `53_gamma_function` is the schema-only Gamma block inside zeta-continuation
-    "gammafunction": "zetacont",
+    # No more concept-folding aliases below this line. Past entries like
+    # complextopology→complex, realanalytic→real, complexanalytic→anacont,
+    # gammafunction→zetacont merged distinct mathematical objects into one
+    # node and caused (or risked causing) Lean cycles. Each chapter that
+    # introduces a genuinely new namecert now gets its own node, even if
+    # conceptually adjacent to an existing region. Renames above this line
+    # are pure naming normalization, not concept folding.
 }
 
 
