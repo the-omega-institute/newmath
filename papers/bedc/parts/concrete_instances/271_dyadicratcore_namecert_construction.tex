@@ -194,6 +194,39 @@ radius refinement entirely inside the displayed unary ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreCarrier\_monotone\_radius\_obligation}
 
+\begin{theorem}[DyadicRatCore arithmetic-monotone window package]
+\label{thm:dyadicratcore-arithmetic-monotone-window-package}
+Let $D_0,D_1,D'_0,D'_1$ be accepted $\DyadicRatCoreUp$ packets satisfying
+the arithmetic-window transport hypotheses of
+\autoref{thm:dyadicratcore-arithmetic-window-stability}, and suppose the
+visible radius rows of the transported packet are refined along displayed
+unary exponent extensions as in
+\autoref{thm:dyadicratcore-monotone-radius-obligation}. Then the transported
+arithmetic endpoint and the refined radius ledger repack into one public
+finite window consumed by $\RegSeqRat$ and $\RealUp$. This window reads only
+mantissa, exponent, denominator, common-exponent, distance and arithmetic,
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, and it exposes
+no quotient rational, host equality, completion endpoint, or trichotomy row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicratcore-arithmetic-window-stability}. The
+transported arithmetic endpoint is read from the common-exponent scaling
+ledger, the displayed mantissas, the denominator rows, and the transported
+$\Pkg$ provenance.
+
+Next apply \autoref{thm:dyadicratcore-monotone-radius-obligation} to the
+visible unary extension of the radius row. The refined denominator ledger
+keeps the radius bound inside the same $\mathsf{BHist}$ and $\Cont$ surface.
+
+The two ledgers have the same public coordinates: mantissa, exponent,
+denominator, common exponent, arithmetic or distance readback, history
+comparison, continuation, and package provenance. Repack those coordinates as
+the shared finite-window surface required by the $\RegSeqRat$ and $\RealUp$
+consumers. Since neither input theorem exports quotient rational equality,
+host equality, a completion endpoint, or a trichotomy classifier, the combined
+window does not introduce any such row.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore common-exponent exactness]
 \label{thm:dyadicratcore-common-exponent-exactness}
 Suppose two classifier witnesses compare accepted packets $D$ and $D'$ by
