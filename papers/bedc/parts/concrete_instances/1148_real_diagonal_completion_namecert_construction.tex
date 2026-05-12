@@ -28,6 +28,7 @@ The classifier compares two accepted source packets only by the displayed modulu
 \label{thm:real-diagonal-completion-carrier}
 Every regular Cauchy input family over $\RegSeqRatUp$ with an explicit unary modulus row and displayed finite readbacks determines an accepted $\RealDiagonalCompletionUp$ carrier by placing the input family, modulus, diagonal selector, $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback ledger, $\RealUp$ seal ledger, package provenance, and local $\NameCert$ row into the source packet of \autoref{def:real-diagonal-completion-source}.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealDiagonalCompletionUp.RealDiagonalCompletionSourcePacket\_carrier\_habitation}
 \begin{proof}
 Start with the finite rows supplied by the regular Cauchy input. The family row gives the $\RegSeqRatUp$-indexed source, and the modulus row gives a displayed unary bound for each requested precision.
 
@@ -52,12 +53,37 @@ Finally repack the $\RealUp$ seal ledger and the package provenance. Since the c
 \label{thm:real-diagonal-completion-ledger-exactness}
 For every accepted $\RealDiagonalCompletionUp$ packet, each $\RealUp$ consumer read of the diagonal representative factors through one displayed diagonal selector row, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, the associated $\DyadicRatCoreUp$ rational observation ledger, and the visible $\Pkg$ and $\NameCert$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealDiagonalCompletionUp.RealDiagonalCompletionSourcePacket\_ledger\_exactness}
 \begin{proof}
 Read the accepted packet through its source definition. The $\RealUp$ seal coordinate is not independent data; it is attached to the selected diagonal windows and their regular rational readbacks.
 
 A consumer precision request first meets the unary modulus row, then the diagonal selector row, and then the scheduled finite stream window. The readback ledger records the $\RegSeqRatUp$ observation and its $\DyadicRatCoreUp$ rational evidence at that same window.
 
 Thus the visible ledger exhausts the read. There is no remaining coordinate from which a quotient representative, host real endpoint, hidden tail choice, or ambient completeness proof could be exported.
+\end{proof}
+
+\begin{theorem}[RealDiagonalCompletion diagonal window extraction]
+\label{thm:real-diagonal-completion-window-extraction}
+For every accepted $\RealDiagonalCompletionUp$ packet $D$ and every unary precision request $n$, the consumer read of the diagonal representative factors through a displayed modulus row $M(n)$, a displayed diagonal selector row $\Delta(n)$, one scheduled $\StreamNameUp$ window $S(n)$, and one $\RegSeqRatUp$ readback row $R(n)$. These rows are transported only by the visible $\hsame$ comparisons and $\Cont$ routes carried by the packet provenance.
+\end{theorem}
+\begin{proof}
+Project $D$ by \autoref{def:real-diagonal-completion-source}. The modulus coordinate supplies the finite member of the regular Cauchy input family selected for the unary request $n$.
+
+Use the diagonal selector coordinate to identify the displayed window inside that member. The scheduled $\StreamNameUp$ row is exactly the finite window named by this selector, and the $\RegSeqRatUp$ readback row is the corresponding regular rational observation.
+
+Repack these rows with the visible $\Pkg$ and $\NameCert$ provenance. Since the packet classifier transports exactly these coordinates through $\hsame$ and $\Cont$, the extracted window is a consumer-facing factor of the diagonal read rather than an ambient limit selection.
+\end{proof}
+
+\begin{theorem}[RealDiagonalCompletion real seal factorization]
+\label{thm:real-diagonal-completion-seal-factorization}
+The $\RealUp$ seal ledger $E$ of an accepted $\RealDiagonalCompletionUp$ packet is determined by the family of extracted diagonal windows of \autoref{thm:real-diagonal-completion-window-extraction} together with the displayed $\RegSeqRatUp$ readback ledger. No host limit, quotient representative, or ambient completeness proof is exported by this factorization.
+\end{theorem}
+\begin{proof}
+Combine \autoref{thm:real-diagonal-completion-ledger-exactness} with the window extraction surface of \autoref{thm:real-diagonal-completion-window-extraction}. Every consumer read of the diagonal representative has already passed through the modulus row, selector row, scheduled stream window, and regular rational readback.
+
+The source packet attaches the $\RealUp$ seal coordinate to exactly those finite readbacks. Therefore two accepted packets with the same extracted windows and the same displayed $\RegSeqRatUp$ readback ledger expose the same $\RealUp$ seal ledger to consumers.
+
+The conclusion is only a finite ledger factorization. It does not form a quotient of regular streams, choose a host real limit, or appeal to an ambient completeness theorem.
 \end{proof}
 
 \begin{theorem}[RealDiagonalCompletion constant rational handoff]
@@ -91,16 +117,68 @@ For the ledger boundary, inspect the source packet. Its coordinates name only th
 These five rows are precisely the naming-certificate obligations for the diagonal completion object. They turn the diagonal representative into a concrete $\mathsf{BHist}$ packet surface while this chapter leaves machine-checked real completeness unclaimed.
 \end{proof}
 
+\begin{theorem}[RealDiagonalCompletion scoped consumer seal package]
+\label{thm:real-diagonal-completion-scoped-consumer-seal-package}
+Every accepted $\RealDiagonalCompletionUp$ packet satisfying the source row of \autoref{def:real-diagonal-completion-source}, the carrier construction, classifier stability, ledger exactness, diagonal window extraction, seal factorization, constant rational handoff, and $\NameCert$ obligation surface determines a scoped dependency package over $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.
+
+Every $\RealUp$-facing consumer read of that package factors through the displayed diagonal selector, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal ledger, and provenance rows. No quotient stream, choice-selected limit, host real equality, or ambient completeness object is part of the scoped package.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:real-diagonal-completion-source}. Its visible coordinates are the finite $\mathsf{BHist}$ carrier row, the displayed transport routes through $\hsame$ and $\Cont$, the package and local $\NameCert$ provenance, and the source certificates for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$.
+
+The carrier row is supplied by \autoref{thm:real-diagonal-completion-carrier}. Classifier transport is supplied by \autoref{thm:real-diagonal-completion-classifier-stability}, and each consumer read is forced through the displayed diagonal-window ledger by \autoref{thm:real-diagonal-completion-ledger-exactness} and \autoref{thm:real-diagonal-completion-window-extraction}.
+
+The seal route is the factorization of \autoref{thm:real-diagonal-completion-seal-factorization}. For stationary rational inputs, \autoref{thm:real-diagonal-completion-constant-rational-handoff} keeps the handoff inside the same $\RatUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.
+
+The complete local obligation surface is the five-row $\NameCert$ packet of \autoref{thm:real-diagonal-completion-namecert-obligation-surface}. These rows exhaust the available fields of the accepted packet.
+
+Since none of the cited rows contains a quotient stream, choice-selected limit, host real equality, or ambient completeness object, the scoped consumer seal package has exactly the dependency surface stated above.
+\end{proof}
+
+\begin{theorem}[RealDiagonalCompletion public RealUp handoff]
+\label{thm:real-diagonal-completion-public-realup-handoff}
+Every accepted $\RealDiagonalCompletionUp$ packet is repacked as a consumer-facing $\RealUp$ seal read through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows only. The repacking is exactly the composition of diagonal-window extraction, real-seal factorization, constant rational handoff, and scoped primitive dependency over the accepted packet surface.
+
+The handoff exports no $\RealUp$ completeness theorem, quotient equality of regular streams, selected limit, uniqueness of limits, or host real construction.
+\end{theorem}
+\begin{proof}
+Begin with the extracted consumer window of \autoref{thm:real-diagonal-completion-window-extraction}. It routes each requested read through the displayed modulus, diagonal selector, finite $\StreamNameUp$ window, and $\RegSeqRatUp$ readback row.
+
+Next apply the seal factorization of \autoref{thm:real-diagonal-completion-seal-factorization}. The $\RealUp$ seal is read from those extracted windows and their displayed rational observations, with $\hsame$ and $\Cont$ accounting for the permitted transports.
+
+For stationary rational inputs, \autoref{thm:real-diagonal-completion-constant-rational-handoff} identifies the same surface with the constant $\RatUp$ handoff inside the $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ dependency rows.
+
+Finally use the scoped dependency package of \autoref{thm:real-diagonal-completion-scoped-consumer-seal-package}. That package exhausts the accepted packet fields by $\mathsf{BHist}$ carrier data, package provenance, local $\NameCert$ rows, and the named dependency certificates. Since none of these rows contains completeness, quotient equality, a selected limit, uniqueness of limits, or a host real carrier, the public read has exactly the stated boundary.
+\end{proof}
+
+\begin{theorem}[RealDiagonalCompletion public finite completeness interface]
+\label{thm:real-diagonal-completion-public-finite-completeness-interface}
+Every accepted $\RealDiagonalCompletionUp$ packet satisfying the source packet, carrier construction, classifier stability, ledger exactness, diagonal-window extraction, seal factorization, constant rational handoff, $\NameCert$ obligation surface, and scoped consumer seal package exports a public $\RealUp$-facing finite completeness interface.
+
+For every requested consumer read, the interface factors the read through an explicit unary modulus, the displayed diagonal selector, a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, $\Pkg$ provenance, and a local $\NameCert$ row. It exports no quotient stream, selected host limit, uniqueness theorem, or ambient real completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the source packet of \autoref{def:real-diagonal-completion-source}. The carrier theorem \autoref{thm:real-diagonal-completion-carrier} supplies the finite rows, and \autoref{thm:real-diagonal-completion-classifier-stability} transports those rows only along the displayed $\hsame$ and $\Cont$ routes.
+
+The read itself is the diagonal-window readback of \autoref{thm:real-diagonal-completion-ledger-exactness} and \autoref{thm:real-diagonal-completion-window-extraction}. These two results exhibit the unary modulus, diagonal selector, finite stream window, regular-sequence readback, and dyadic observation ledger used by the consumer.
+
+The $\RealUp$ output row is the seal factorization of \autoref{thm:real-diagonal-completion-seal-factorization}. For constant rational inputs, \autoref{thm:real-diagonal-completion-constant-rational-handoff} keeps the read inside the same $\RatUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ dependency rows.
+
+Finally, \autoref{thm:real-diagonal-completion-namecert-obligation-surface}, \autoref{thm:real-diagonal-completion-scoped-consumer-seal-package}, and \autoref{thm:real-diagonal-completion-public-realup-handoff} repack these finite rows into the public consumer interface. Since the cited packet rows contain no quotient stream, selected host limit, uniqueness theorem, or ambient real-completeness object, the public interface has exactly the stated boundary.
+\end{proof}
+
 \closureat{RealDiagonalCompletionUp}{seedStr}
 \closureat{RealDiagonalCompletionUp}{obligationStr}
+\closureat{RealDiagonalCompletionUp}{scopedStr}
+\closureat{RealDiagonalCompletionUp}{publicStr}
 
 \begin{closurestatus}{\RealDiagonalCompletionUp}
   \constructivestory{A $\RealDiagonalCompletionUp$ packet is generated from a $\RegSeqRatUp$-indexed regular Cauchy input, an explicit unary modulus, a diagonal selector, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal ledger, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed boundary binds the finite diagonal completion carrier, classifier transport, diagonal-window readback exactness, constant rational handoff, and ledger non-escape surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:real-diagonal-completion-scoped-consumer-seal-package} and \autoref{thm:real-diagonal-completion-public-finite-completeness-interface} bind the finite diagonal completion carrier, classifier transport, diagonal-window readback exactness, constant rational handoff, public $\RealUp$ finite completeness interface, and ledger non-escape surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Scoped closure requires each obligation row to cite the precise $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RatUp$ primitives it depends on.}
+  \upgradepath{Bridged closure requires a standard bridge for this finite public $\RealUp$ completeness interface.}
 \end{closurestatus}

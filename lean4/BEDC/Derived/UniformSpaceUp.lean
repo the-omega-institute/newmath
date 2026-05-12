@@ -236,4 +236,81 @@ theorem UniformSpaceClassifierPacket_cauchy_completion_handoff [AskSetup] [Packa
       diagonalRefinementLedger, symmetryCompositionEndpoint, endpointProvenanceHandoff,
       endpointPkg, handoffPkg⟩
 
+theorem UniformSpacePacket_entourage_public_export [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name
+      filterbase cauchy completion publicRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport
+        provenance name bundle pkg ->
+      Cont diagonal refinement filterbase ->
+        Cont filterbase transport cauchy ->
+          Cont cauchy provenance completion ->
+            Cont completion name publicRow ->
+              PkgSig bundle publicRow pkg ->
+                UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory filterbase ∧
+                  UnaryHistory cauchy ∧ UnaryHistory completion ∧ UnaryHistory publicRow ∧
+                    Cont point entourage diagonal ∧ Cont diagonal refinement filterbase ∧
+                      Cont filterbase transport cauchy ∧ Cont cauchy provenance completion ∧
+                        Cont completion name publicRow ∧ PkgSig bundle publicRow pkg := by
+  intro packet diagonalRefinementFilterbase filterbaseTransportCauchy
+  intro cauchyProvenanceCompletion completionNamePublic publicPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, nameUnary, pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have filterbaseUnary : UnaryHistory filterbase :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementFilterbase
+  have cauchyUnary : UnaryHistory cauchy :=
+    unary_cont_closed filterbaseUnary transportUnary filterbaseTransportCauchy
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed cauchyUnary provenanceUnary cauchyProvenanceCompletion
+  have publicUnary : UnaryHistory publicRow :=
+    unary_cont_closed completionUnary nameUnary completionNamePublic
+  exact
+    ⟨pointUnary, entourageUnary, filterbaseUnary, cauchyUnary, completionUnary,
+      publicUnary, pointEntourageDiagonal, diagonalRefinementFilterbase,
+      filterbaseTransportCauchy, cauchyProvenanceCompletion, completionNamePublic,
+      publicPkg⟩
+
+theorem UniformSpacePacket_common_refinement_cauchy_handoff [AskSetup] [PackageSetup]
+    {point entourage diagonal refinement symmetry composition transport provenance name routeLeft
+      routeRight common cauchy completion : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformSpacePacket point entourage diagonal refinement symmetry composition transport provenance
+        name bundle pkg ->
+      Cont diagonal refinement routeLeft ->
+        Cont diagonal refinement routeRight ->
+          Cont routeLeft routeRight common ->
+            Cont common transport cauchy ->
+              Cont cauchy provenance completion ->
+                PkgSig bundle completion pkg ->
+                  UnaryHistory point ∧ UnaryHistory entourage ∧ UnaryHistory routeLeft ∧
+                    UnaryHistory routeRight ∧ UnaryHistory common ∧ UnaryHistory cauchy ∧
+                      UnaryHistory completion ∧ Cont diagonal refinement routeLeft ∧
+                        Cont diagonal refinement routeRight ∧ Cont routeLeft routeRight common ∧
+                          Cont common transport cauchy ∧
+                            Cont cauchy provenance completion ∧
+                              PkgSig bundle completion pkg := by
+  intro packet diagonalRefinementRouteLeft diagonalRefinementRouteRight
+    routeLeftRouteRightCommon commonTransportCauchy cauchyProvenanceCompletion completionPkg
+  obtain ⟨pointUnary, entourageUnary, diagonalUnary, refinementUnary, _symmetryUnary,
+    _compositionUnary, transportUnary, provenanceUnary, _nameUnary, _pointEntourageDiagonal,
+    _diagonalRefinementSymmetry, _symmetryCompositionTransport, _transportProvenanceName,
+    _namePkg⟩ := packet
+  have routeLeftUnary : UnaryHistory routeLeft :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementRouteLeft
+  have routeRightUnary : UnaryHistory routeRight :=
+    unary_cont_closed diagonalUnary refinementUnary diagonalRefinementRouteRight
+  have commonUnary : UnaryHistory common :=
+    unary_cont_closed routeLeftUnary routeRightUnary routeLeftRouteRightCommon
+  have cauchyUnary : UnaryHistory cauchy :=
+    unary_cont_closed commonUnary transportUnary commonTransportCauchy
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed cauchyUnary provenanceUnary cauchyProvenanceCompletion
+  exact
+    ⟨pointUnary, entourageUnary, routeLeftUnary, routeRightUnary, commonUnary,
+      cauchyUnary, completionUnary, diagonalRefinementRouteLeft, diagonalRefinementRouteRight,
+      routeLeftRouteRightCommon, commonTransportCauchy, cauchyProvenanceCompletion,
+      completionPkg⟩
+
 end BEDC.Derived.UniformSpaceUp

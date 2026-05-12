@@ -67,3 +67,151 @@ only these projected rows reconstructs the public posterior read, while any
 read requiring a host kernel, an unstated probability space, or an external
 density equality has no source field in the packet.
 \end{proof}
+
+\begin{definition}[Bayesian posterior packet carrier]
+\label{def:bayesian-posterior-packet-carrier}
+A $\BayesianUp$ posterior packet is a finite $\BHist$ packet
+$$
+\mathcal{B}=(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,\beta,H,N,P)
+$$
+with the following displayed rows. The rows $\mathcal{D}_{\pi}$ and $\mathcal{D}_{\omega}$ are $\NameCert_{\DistributionUp}$ source certificates carrying, respectively, the prior distribution row $\pi$ and the posterior distribution endpoint $\omega$ as distribution data in the sense of \autoref{def:distribution-pushforward-carrier}. The row $\mathcal{C}$ is a $\NameCert_{\CondExpUp}$ source certificate carrying the likelihood row $\lambda$ and evidence row $e$ through the singleton conditional-expectation packet of \autoref{thm:condexp-carrier-obligation}. The row $\beta$ is the Bayesian update history computed from $\pi$, $\lambda$, and $e$. The classifier row is
+$$
+H=\hsame(\beta,\omega),
+$$
+and the normalisation row is
+$$
+N=\Cont(\pi,\lambda,e;\omega).
+$$
+The provenance row $P:\Pkg$ names exactly the two distribution certificates, the conditional-expectation certificate, the prior row, the likelihood row, the evidence row, the posterior endpoint, the classifier row, and the normalisation row. The packet is accepted precisely when all these rows are present with this provenance and no additional posterior-source coordinate is exposed.
+\end{definition}
+
+\begin{theorem}[Bayesian posterior packet carrier introduction]
+\label{thm:bayesian-posterior-packet-carrier-introduction}
+Suppose the following data are supplied under the $\BayesianUp$ setup: a $\NameCert_{\DistributionUp}$ prior source carrying $\pi$, a $\NameCert_{\DistributionUp}$ posterior source carrying $\omega$, a $\NameCert_{\CondExpUp}$ row carrying the likelihood and evidence rows $\lambda$ and $e$, a Bayesian update history $\beta$ read from $\pi$, $\lambda$, and $e$, a comparison row $H=\hsame(\beta,\omega)$, a normalisation row $N=\Cont(\pi,\lambda,e;\omega)$, and a provenance row $P:\Pkg$ naming exactly these sources and rows. Then these rows assemble an accepted $\BayesianUp$ posterior packet in the carrier of \autoref{def:bayesian-posterior-packet-carrier}. Its public posterior source is exactly
+$$
+(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,H,N,P).
+$$
+In particular, every public posterior read factors through the displayed prior, likelihood, evidence, posterior, classifier, normalisation, and provenance rows, and no host probability kernel, ambient measurable-space quotient, or external conditional-density equality is part of the accepted packet.
+\end{theorem}
+\begin{proof}
+Form the tuple
+$$
+\mathcal{B}=(\mathcal{D}_{\pi},\mathcal{D}_{\omega},\mathcal{C},\pi,\lambda,e,\omega,\beta,H,N,P).
+$$
+The two distribution certificates license the prior and posterior distribution rows by the carrier discipline of \autoref{def:distribution-pushforward-carrier}. The conditional-expectation certificate licenses the likelihood and evidence rows by the packet discipline of \autoref{thm:condexp-carrier-obligation}.
+
+The supplied comparison row $H$ identifies the computed Bayesian update history $\beta$ with the displayed posterior endpoint $\omega$ through $\hsame$. The supplied normalisation row $N$ records that the visible prior, likelihood, and evidence rows continue to the visible posterior endpoint. The provenance row $P$ names exactly these dependency, classifier, and continuation rows.
+
+These are precisely the acceptance clauses of \autoref{def:bayesian-posterior-packet-carrier}, so the tuple is an accepted $\BayesianUp$ posterior packet. Projection of an accepted packet returns only its displayed coordinates. Hence every public posterior read is obtained from the two distribution sources, the conditional-expectation source, $\pi$, $\lambda$, $e$, $\omega$, $H$, $N$, and $P$.
+
+Conversely, each row in the displayed source list is a coordinate of the accepted tuple, so the list is not missing any public posterior-source row. Since the carrier definition contains no coordinate for a host probability kernel, an ambient measurable-space quotient, or an external conditional-density equality, no such datum can be read from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior classifier transport]
+\label{thm:bayesian-posterior-classifier-transport}
+Let $\mathcal{B}$ and $\mathcal{B}'$ be accepted Bayesian update packets over
+$\NameCert_{\DistributionUp}$ and $\NameCert_{\CondExpUp}$. Write the public
+rows of $\mathcal{B}$, with its explicit Bayesian-update witness history $b$, as
+$$
+(\pi,\lambda,e,b,\omega,n,\rho,
+  \hsame(b,\omega),
+  \Cont(\pi,\lambda,e;\omega))
+$$
+and the corresponding public rows of $\mathcal{B}'$, with its explicit
+Bayesian-update witness history $b'$, as
+$$
+(\pi',\lambda',e',b',\omega',n',\rho',
+  \hsame(b',\omega'),
+  \Cont(\pi',\lambda',e';\omega')).
+$$
+Assume the displayed prior, likelihood, evidence, Bayesian-update witness,
+posterior, normalisation, and provenance rows are matched componentwise by
+$\hsame$ rows, with the prior, Bayesian-update witness, and posterior
+comparisons read through the $\DistributionUp$ classifier and the likelihood
+and evidence comparisons read through the $\CondExpUp$ classifier. If the
+$\Cont$ normalisation row and the $\Pkg$ provenance row are transported along
+these displayed comparisons, then the transported rows form an accepted
+$\BayesianUp$ posterior packet, and the transported posterior endpoint
+$\omega'$ is classified with the original posterior endpoint $\omega$. This is
+only a componentwise classifier-transport and row-repackaging statement for the
+Bayesian packet surface; it asserts no concrete closure, inversion, coverage,
+determinacy, uniqueness, bridge, or obstruction claim about $\BayesianUp$.
+\end{theorem}
+\begin{proof}
+Project $\mathcal{B}$ by \autoref{thm:bayesian-posterior-source-obligation}.
+The projected surface consists exactly of the prior distribution row $\pi$, the
+likelihood row $\lambda$, the evidence row $e$, the explicit Bayesian-update
+witness history $b$, the posterior endpoint $\omega$, the classifier comparison
+$\hsame(b,\omega)$, the normalisation row $\Cont(\pi,\lambda,e;\omega)$, and
+the provenance row. By \autoref{thm:bayesian-update-ledger-exactness}, every
+public posterior read of an accepted packet factors through this displayed
+inventory and through no other row.
+
+Use the supplied componentwise $\hsame$ comparisons to move the dependency
+rows. By \autoref{thm:semantic-namecert-pattern-ledger-transport} and
+\autoref{thm:semantic-namecert-classifier-chain-transport}, the
+$\DistributionUp$ classifier transports the prior row, the Bayesian-update
+witness history, and the posterior endpoint, so $\pi'$ remains a
+distribution-side prior row, $b'$ remains the displayed Bayesian-update witness
+history, and $\omega'$ remains a distribution-side posterior endpoint. By
+\autoref{thm:semantic-namecert-pattern-ledger-transport} and
+\autoref{thm:semantic-namecert-classifier-chain-transport}, the $\CondExpUp$
+classifier transports the likelihood and evidence rows, so the conditioning
+ledger that reads $\lambda$ against $e$ is replaced by the displayed ledger that
+reads $\lambda'$ against $e'$. Thus the dependency part of the Bayesian packet
+has the same accepted shape after transport.
+
+It remains to account for the Bayesian-specific rows. The transported
+normalisation row is, by hypothesis, the visible continuation
+$\Cont(\pi',\lambda',e';\omega')$. The transported provenance row is the same
+$\Pkg$-named source row read at the transported endpoint. Since the accepted
+Bayesian carrier exposes no row besides the two dependency certificates, the
+prior, likelihood, evidence, Bayesian-update witness, posterior, classifier,
+normalisation, and provenance rows, these transported coordinates repack as an
+accepted $\BayesianUp$ posterior packet.
+
+Finally compare endpoints. One of the componentwise hypotheses is precisely
+the posterior transport $\hsame(\omega,\omega')$ supplied through the
+$\DistributionUp$ endpoint classifier. By symmetry of the displayed
+history-sameness classifier, the transported endpoint also satisfies
+$\hsame(\omega',\omega)$. Hence the posterior endpoint of the transported
+packet is classified with the original posterior endpoint, and the classifier
+read remains the same visible Bayesian posterior read described by
+\autoref{thm:bayesian-update-ledger-exactness}.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior NameCert obligation surface]
+\label{thm:bayesian-posterior-namecert-obligation-surface}
+The public $\NameCert_{\BayesianUp}$ posterior surface is exactly the finite packet formed by the $\DistributionUp$ prior and posterior rows, the $\CondExpUp$ likelihood and evidence rows, the posterior comparison row $\hsame(\mathsf{Bayes}(\pi,\lambda,e),\omega)$, the normalisation row $\Cont(\pi,\lambda,e;\omega)$, and the $\Pkg$ provenance naming those dependency rows. A posterior read is accepted only when those rows are present in the carrier of \autoref{def:bayesian-posterior-packet-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bayesian-posterior-packet-carrier}. Its dependency coordinates are the two $\DistributionUp$ rows and the $\CondExpUp$ row, and these are the only sources for the visible prior, likelihood, evidence, and posterior endpoint.
+
+The Bayesian-specific coordinates are the displayed posterior comparison, the normalisation continuation, and the package provenance. Together with the dependency rows, these coordinates are exactly the public posterior surface described by the source and ledger exactness theorems above.
+
+No further obligation is hidden behind the classifier. Acceptance is therefore the presence of these finite rows in the packet and their readback through the displayed dependency certificates.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior non-escape boundary]
+\label{thm:bayesian-posterior-non-escape-boundary}
+An accepted $\BayesianUp$ posterior packet exports no host probability kernel, no external density equality, no ambient measurable-space quotient, and no choice-selected posterior. Every public posterior read is mediated by the displayed $\DistributionUp$ rows, $\CondExpUp$ rows, $\hsame$ comparison, $\Cont$ normalisation, $\Pkg$ provenance, and local packet carrier.
+\end{theorem}
+\begin{proof}
+Inspect the accepted packet. Each coordinate is either a dependency certificate row, a displayed Bayesian-update history, a posterior endpoint, a classifier comparison, a continuation row, or provenance.
+
+The carrier has no coordinate for a host kernel, a density equality outside the packet, a quotient of measurable spaces, or a selected posterior obtained by choice. Transport can only move the displayed coordinates along their $\hsame$ and $\Cont$ rows.
+
+Thus a downstream posterior read factors through the finite packet boundary. Any read requiring one of the excluded objects has no source coordinate in the accepted $\BayesianUp$ surface.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior public source exhaustion]
+\label{thm:bayesian-posterior-public-source-exhaustion}
+Every public posterior read from $\NameCert_{\BayesianUp}$ factors through the finite rows listed in \autoref{def:bayesian-posterior-packet-carrier}. In particular, the read is exhausted by $\mathcal{D}_{\pi}$, $\mathcal{D}_{\omega}$, $\mathcal{C}$, $\pi$, $\lambda$, $e$, $\omega$, $\beta$, $H$, $N$, and $P$, with no additional posterior-source coordinate.
+\end{theorem}
+\begin{proof}
+Start with a public posterior read. By \autoref{thm:bayesian-posterior-source-obligation}, the read first projects the dependency rows and the displayed posterior endpoint.
+
+Apply \autoref{thm:bayesian-update-ledger-exactness}. The ledger forces the read to pass through the visible Bayesian-update history, classifier row, normalisation row, and provenance row, and it gives no operation for introducing an external probability object.
+
+The carrier definition lists exactly these coordinates. Repacking them reconstructs the public posterior read, while any attempted read outside this list is blocked by \autoref{thm:bayesian-posterior-non-escape-boundary}.
+\end{proof}

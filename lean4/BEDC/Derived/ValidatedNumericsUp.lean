@@ -27,6 +27,20 @@ def ValidatedNumericsPacket [AskSetup] [PackageSetup]
           Cont observation interval containment ∧ Cont containment provenance name ∧
             PkgSig bundle name pkg
 
+theorem ValidatedNumericsPacket_carrier_classifier_obligations [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback transport containment provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ValidatedNumericsPacket interval precision modulus observation readback transport containment
+        provenance name bundle pkg ->
+      UnaryHistory interval ∧ UnaryHistory precision ∧ UnaryHistory modulus ∧
+        UnaryHistory observation ∧ UnaryHistory readback ∧ UnaryHistory transport ∧
+          UnaryHistory containment ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont precision modulus observation ∧ Cont observation readback transport ∧
+              Cont observation interval containment ∧ Cont containment provenance name ∧
+                PkgSig bundle name pkg := by
+  intro packet
+  exact packet
+
 theorem ValidatedNumericsPacket_precision_refinement_containment
     [AskSetup] [PackageSetup]
     {interval precision modulus observation readback transport containment provenance name
@@ -213,5 +227,30 @@ theorem ValidatedNumericsFiniteEnclosure_exported_bridge [AskSetup] [PackageSetu
       intro _row sourceRow
       exact ⟨sourceRow.right.right, observationReadbackContainment⟩
   }
+
+theorem ValidatedNumericsKernel_dependency_boundary [AskSetup] [PackageSetup]
+    {interval precision modulus observation readback containment provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory interval ->
+      UnaryHistory precision ->
+        UnaryHistory modulus ->
+          UnaryHistory readback ->
+            Cont modulus precision observation ->
+              Cont observation readback containment ->
+                PkgSig bundle provenance pkg ->
+                  PkgSig bundle localName pkg ->
+                    UnaryHistory observation ∧ UnaryHistory containment ∧
+                      Cont modulus precision observation ∧
+                        Cont observation readback containment ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  intro _intervalUnary precisionUnary modulusUnary readbackUnary modulusPrecision
+    observationReadback provenancePkg localNamePkg
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed modulusUnary precisionUnary modulusPrecision
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed observationUnary readbackUnary observationReadback
+  exact
+    ⟨observationUnary, containmentUnary, modulusPrecision, observationReadback, provenancePkg,
+      localNamePkg⟩
 
 end BEDC.Derived.ValidatedNumericsUp

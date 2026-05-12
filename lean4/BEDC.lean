@@ -77,6 +77,15 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
+import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
+import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
+import BEDC.Derived.DyadicApproximationUp.FiniteMeshEnclosure
+import BEDC.Derived.DyadicApproximationUp.TerminalFinitePacketRealReadback
+import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
+import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
+import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
+import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
@@ -190,6 +199,7 @@ import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
+import BEDC.Derived.ModelPredictiveControlUp
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedDyadicIntervalUp
@@ -211,6 +221,7 @@ import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalIntervalUp.NameCertObligationSurface
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
+import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegularLanguageUp
@@ -1186,6 +1197,7 @@ import BEDC.Derived.Observer
 import BEDC.Derived.FieldUp.RatExternalUnitSeparation
 import BEDC.Derived.FieldUp.RatDenominatorExternalUnitNormalForm
 import BEDC.Derived.FieldUp.ContextualActionThreefold
+import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Reflection
 import BEDC.MetaCIC
@@ -1193,6 +1205,10 @@ import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
 import BEDC.MetaCIC.Substitution.Core
+import BEDC.MetaCIC.TypedExamples.Projections
+import BEDC.MetaCIC.TypedExamples.BasicApplications
+import BEDC.MetaCIC.TypedExamples.Applications
+import BEDC.HostBridge.MetaCICTransport
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
