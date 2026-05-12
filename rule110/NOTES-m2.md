@@ -57,4 +57,10 @@ The Cook data-block emitter uses a fixed 50-cell slot per cyclic-tag tape bit. L
 
 ## Empty cyclic-tag encoder observations (C2)
 
-The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the current leader marker at cell 100. Because this row is only 700 cells wide, the 500-step check compares against a separately evolved pure-ether row with the same finite zero-boundary evaluator. The observed difference is therefore attributed to the leader marker rather than to boundary phase drift. Non-empty cyclic-tag inputs remain outside the C2 envelope and return zero bytes.
+The empty cyclic-tag encoder emits 50 periods of Cook ether and overlays the current leader marker at cell 100. Because this row is only 700 cells wide, the 500-step check compares against a separately evolved pure-ether row with the same finite zero-boundary evaluator. The observed difference is therefore attributed to the leader marker rather than to boundary phase drift. Cyclic-tag inputs with productions remain outside the C2 envelope and return zero bytes.
+
+## Round-trip scaffold observations (D2)
+
+The round-trip test exercises the current pipeline on `manifests/mark/msame_refl.enum.ct`: it parses the cyclic-tag manifest, extracts the first assertion input as the tape, calls `cook_encode`, writes a temporary `.r110` manifest with the locally simulated Rule 110 final row, and verifies that both `mr_run_ct_manifest` and `mr_run_r110_manifest` complete successfully.
+
+This is a scaffold only. The generated Rule 110 row is deterministic and evaluable by the manifest runner, but no Cook decoder exists here and the row is not a phase-exact simulation of the cyclic-tag tape. Correct CT-to-Rule-110 equivalence still requires productive leader, ossifier, and data-block collisions plus an observable decoder from evolved Rule 110 particles back to cyclic-tag state.
