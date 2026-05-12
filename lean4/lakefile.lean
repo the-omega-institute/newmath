@@ -12,3 +12,6 @@ package "BEDC" where
 @[default_target]
 lean_lib «BEDC» where
   -- add any library configuration options here
+
+lean_exe "rule110-cross-check" where
+  root := `scripts.rule110_cross_check
