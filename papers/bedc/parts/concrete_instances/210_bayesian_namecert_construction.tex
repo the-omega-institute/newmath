@@ -179,3 +179,40 @@ packet is classified with the original posterior endpoint, and the classifier
 read remains the same visible Bayesian posterior read described by
 \autoref{thm:bayesian-update-ledger-exactness}.
 \end{proof}
+\leanchecked{BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_classifier\_transport}
+
+\begin{theorem}[Bayesian posterior NameCert obligation surface]
+\label{thm:bayesian-posterior-namecert-obligation-surface}
+The public $\NameCert_{\BayesianUp}$ posterior surface is exactly the finite packet formed by the $\DistributionUp$ prior and posterior rows, the $\CondExpUp$ likelihood and evidence rows, the posterior comparison row $\hsame(\mathsf{Bayes}(\pi,\lambda,e),\omega)$, the normalisation row $\Cont(\pi,\lambda,e;\omega)$, and the $\Pkg$ provenance naming those dependency rows. A posterior read is accepted only when those rows are present in the carrier of \autoref{def:bayesian-posterior-packet-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bayesian-posterior-packet-carrier}. Its dependency coordinates are the two $\DistributionUp$ rows and the $\CondExpUp$ row, and these are the only sources for the visible prior, likelihood, evidence, and posterior endpoint.
+
+The Bayesian-specific coordinates are the displayed posterior comparison, the normalisation continuation, and the package provenance. Together with the dependency rows, these coordinates are exactly the public posterior surface described by the source and ledger exactness theorems above.
+
+No further obligation is hidden behind the classifier. Acceptance is therefore the presence of these finite rows in the packet and their readback through the displayed dependency certificates.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior non-escape boundary]
+\label{thm:bayesian-posterior-non-escape-boundary}
+An accepted $\BayesianUp$ posterior packet exports no host probability kernel, no external density equality, no ambient measurable-space quotient, and no choice-selected posterior. Every public posterior read is mediated by the displayed $\DistributionUp$ rows, $\CondExpUp$ rows, $\hsame$ comparison, $\Cont$ normalisation, $\Pkg$ provenance, and local packet carrier.
+\end{theorem}
+\begin{proof}
+Inspect the accepted packet. Each coordinate is either a dependency certificate row, a displayed Bayesian-update history, a posterior endpoint, a classifier comparison, a continuation row, or provenance.
+
+The carrier has no coordinate for a host kernel, a density equality outside the packet, a quotient of measurable spaces, or a selected posterior obtained by choice. Transport can only move the displayed coordinates along their $\hsame$ and $\Cont$ rows.
+
+Thus a downstream posterior read factors through the finite packet boundary. Any read requiring one of the excluded objects has no source coordinate in the accepted $\BayesianUp$ surface.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior public source exhaustion]
+\label{thm:bayesian-posterior-public-source-exhaustion}
+Every public posterior read from $\NameCert_{\BayesianUp}$ factors through the finite rows listed in \autoref{def:bayesian-posterior-packet-carrier}. In particular, the read is exhausted by $\mathcal{D}_{\pi}$, $\mathcal{D}_{\omega}$, $\mathcal{C}$, $\pi$, $\lambda$, $e$, $\omega$, $\beta$, $H$, $N$, and $P$, with no additional posterior-source coordinate.
+\end{theorem}
+\begin{proof}
+Start with a public posterior read. By \autoref{thm:bayesian-posterior-source-obligation}, the read first projects the dependency rows and the displayed posterior endpoint.
+
+Apply \autoref{thm:bayesian-update-ledger-exactness}. The ledger forces the read to pass through the visible Bayesian-update history, classifier row, normalisation row, and provenance row, and it gives no operation for introducing an external probability object.
+
+The carrier definition lists exactly these coordinates. Repacking them reconstructs the public posterior read, while any attempted read outside this list is blocked by \autoref{thm:bayesian-posterior-non-escape-boundary}.
+\end{proof}
