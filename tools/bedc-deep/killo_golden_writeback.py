@@ -45,6 +45,16 @@ EXTERNAL_PROVENANCE_PATTERNS = [
     re.compile(r"discovery(?:\\_|\s*_)report\.json"),
     re.compile(r"tools[\\/]+automath_newmath_bridge[\\/]+review_packets[\\/]+[^}\s]+\.json"),
     re.compile(r"review_packets[\\/]+[^}\s]+\.json"),
+    re.compile(r"https?://"),
+    re.compile(r"github\.com", re.IGNORECASE),
+    re.compile(r"\barxiv\b", re.IGNORECASE),
+    re.compile(r"\bWikipedia\b", re.IGNORECASE),
+    re.compile(r"\b(ChatGPT|Claude|OpenAI|Anthropic)\b"),
+    re.compile(r"(?:^|[\s{(])/(?:Users|private|tmp|var|opt|home)/"),
+    re.compile(r"\b(?:Generated|Produced)\s+by\s+(?:ChatGPT|Claude|OpenAI|Anthropic)\b", re.IGNORECASE),
+    re.compile(r"\b(?:repository|repo)\s+coordinates\b", re.IGNORECASE),
+    re.compile(r"\b(?:source|repository|repo)[_-](?:path|repo|commit|ref)\b", re.IGNORECASE),
+    re.compile(r"\b(?:review|bridge)\s+packet\s+(?:path|json)\b", re.IGNORECASE),
 ]
 
 
