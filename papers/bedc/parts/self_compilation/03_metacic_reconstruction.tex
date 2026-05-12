@@ -120,6 +120,40 @@ $$
 \end{aligned}
 $$
 
+\subsection{Context Mechanics}\label{subsec:reconstruction-context-mechanics}
+
+A context is the Lean stdlib list $\mathrm{Ctx}=\mathrm{List}\ \mathrm{Term}$.
+Its entries are represented types, stored as a de Bruijn stack: the head is
+the type of variable $0$, the next entry is the type of variable $1$, and so
+on down the list. The operation $\Gamma.\mathrm{lookup}\ i$ returns the
+$i$th entry of $\Gamma$, counted from this top position.
+
+The important invariant is that lookup and binder crossing perform the same
+index accounting. When a fresh binder contributes a top entry $B$, the top
+variable is read directly, while every deeper lookup is raised by
+$\mathrm{shift}\ 0\ 1$:
+
+$$
+\begin{aligned}
+(B :: \Gamma).\mathrm{lookup}\ 0
+  &= \mathrm{some}\ B, \\
+(B :: \Gamma).\mathrm{lookup}\ (i+1)
+  &=
+  \begin{cases}
+    \mathrm{some}\ (\mathrm{shift}\ 0\ 1\ T),
+      & \Gamma.\mathrm{lookup}\ i=\mathrm{some}\ T, \\
+    \mathrm{none},
+      & \Gamma.\mathrm{lookup}\ i=\mathrm{none}.
+  \end{cases}
+\end{aligned}
+$$
+
+\leanchecked{BEDC.MetaCIC.lookup\_cons\_zero}
+\leanchecked{BEDC.MetaCIC.lookup\_cons\_succ}
+Thus the type of a deeper variable automatically accumulates exactly the
+number of binders crossed. This is the context-side companion to the
+shift-aware design of $\mathrm{substitute}$ under binders.
+
 \subsection{Reduction Layer Summary}\label{subsec:reconstruction-reduction-summary}
 
 The reduction layer has three relations. $\mathrm{BetaStep}$ is single-step
@@ -247,6 +281,33 @@ substitution do not commute freely under an open binder. Substitution
 preservation therefore carries closure hypotheses in the binder cases; those
 hypotheses make the shifted domain stable and let the represented typing
 context line up without capture.
+
+\subsection{Closure Discipline}\label{subsec:reconstruction-closure-discipline}
+
+The main substitute-preservation theorems are closure-conditioned because the
+binder domain participates directly in the represented context. In the
+shift-aware typing rule, a lambda or Pi body is checked under
+$(\mathrm{shift}\ 0\ 1\ \mathrm{dom}) :: \Gamma$, so preservation under
+substitution must keep that domain aligned with the context obtained after the
+binder is crossed.
+
+The closed-domain hypothesis supplies exactly that alignment. When
+$\mathrm{ClosedAt}\ 0\ \mathrm{dom}$ holds, the closed-shift lemma gives
+$\mathrm{shift}\ 0\ 1\ \mathrm{dom} = \mathrm{dom}$. The lift/lower path
+inside $\mathrm{substitute}$ then has a stable binder entry: descending under
+the binder raises the substitution depth and shifts the incoming term, but the
+domain stored in the context is unchanged.
+
+For open binder domains, the same preservation shape requires a general
+shift-substitute commutation theorem strong enough to transport the open
+domain through both operations. That commutation theorem is not part of the
+available substrate. The explicit condition keeps the theorem statement at the
+proved boundary rather than hiding a missing transport principle.
+
+$\mathrm{ClosedAt}$ is the inductive predicate defined in
+\texttt{BEDC.MetaCIC.ClosedTerm}: $\mathrm{var}\ i$ is closed at $n$ when
+$i<n$, and compound terms are closed exactly when their immediate subterms
+are closed at the appropriate binder depth.
 
 \subsection{Shift Mechanism Detail}\label{subsec:reconstruction-shift-detail}
 
