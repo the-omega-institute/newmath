@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -99,5 +101,55 @@ theorem RealCauchyCompletionCarrier_diagonal_handoff [AskSetup] [PackageSetup]
     unary_cont_closed sealUnary localCertUnary consumerRow
   exact ⟨diagonalUnary, windowUnary, readbackUnary, dyadicUnary, sealUnary, consumerUnary,
     familyModulusRow, diagonalWindowRow, readbackDyadicRow, pkgSig⟩
+
+theorem RealCauchyCompletionCarrier_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {family modulus diagonal window readback dyadic sealRow provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row provenance ∧
+            RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+              provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory family ∧ UnaryHistory modulus ∧ Cont family modulus diagonal ∧
+            Cont diagonal window readback ∧ Cont readback dyadic sealRow)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame := by
+  intro carrier
+  have carrierData :
+      RealCauchyCompletionCarrier family modulus diagonal window readback dyadic sealRow
+        provenance localCert bundle pkg :=
+    carrier
+  obtain ⟨familyUnary, modulusUnary, _windowUnary, _dyadicUnary, provenanceUnary,
+    familyModulusRow, diagonalWindowRow, readbackDyadicRow, _sealLocalCertRow,
+    provenancePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance ⟨hsame_refl provenance, carrierData⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameRow sameRow'
+        exact hsame_trans sameRow sameRow'
+      carrier_respects_equiv := by
+        intro _row _row' sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨familyUnary, modulusUnary, familyModulusRow, diagonalWindowRow,
+          readbackDyadicRow⟩
+    ledger_sound := by
+      intro row sourceRow
+      exact ⟨provenancePkg, unary_transport provenanceUnary (hsame_symm sourceRow.left)⟩
+  }
 
 end BEDC.Derived.RealCauchyCompletionUp

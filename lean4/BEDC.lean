@@ -238,6 +238,7 @@ import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyNameUp
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
