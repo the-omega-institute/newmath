@@ -66,4 +66,63 @@ theorem DyadicSubdivisionSource_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+def DyadicSubdivisionPacket [AskSetup] [PackageSetup]
+    (parent level cells mesh validation provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory parent ∧ UnaryHistory level ∧ UnaryHistory cells ∧
+    UnaryHistory provenance ∧ UnaryHistory name ∧ Cont level cells mesh ∧
+      Cont mesh validation provenance ∧ PkgSig bundle provenance pkg
+
+theorem DyadicSubdivisionPacket_refinement_stability [AskSetup] [PackageSetup]
+    {parent level cells mesh validation provenance name parent' level' cells' mesh' validation'
+      provenance' name' : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionPacket parent level cells mesh validation provenance name bundle pkg ->
+      hsame parent parent' -> hsame level level' -> hsame cells cells' ->
+        hsame provenance provenance' -> hsame name name' -> Cont level' cells' mesh' ->
+          Cont mesh' validation' provenance' -> PkgSig bundle provenance' pkg ->
+            DyadicSubdivisionPacket parent' level' cells' mesh' validation' provenance' name'
+              bundle pkg /\ hsame mesh mesh' /\ hsame validation validation' := by
+  -- BEDC touchpoint anchor: BHist
+  intro packet parentSame levelSame cellsSame provenanceSame nameSame refinedMesh
+    refinedValidation refinedPkg
+  have parentUnary : UnaryHistory parent := packet.left
+  have levelUnary : UnaryHistory level := packet.right.left
+  have cellsUnary : UnaryHistory cells := packet.right.right.left
+  have provenanceUnary : UnaryHistory provenance := packet.right.right.right.left
+  have nameUnary : UnaryHistory name := packet.right.right.right.right.left
+  have meshCont : Cont level cells mesh := packet.right.right.right.right.right.left
+  have validationCont : Cont mesh validation provenance :=
+    packet.right.right.right.right.right.right.left
+  have parentUnary' : UnaryHistory parent' := unary_transport parentUnary parentSame
+  have levelUnary' : UnaryHistory level' := unary_transport levelUnary levelSame
+  have cellsUnary' : UnaryHistory cells' := unary_transport cellsUnary cellsSame
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary provenanceSame
+  have nameUnary' : UnaryHistory name' := unary_transport nameUnary nameSame
+  have meshSame : hsame mesh mesh' :=
+    cont_respects_hsame levelSame cellsSame meshCont refinedMesh
+  have validationSame : hsame validation validation' := by
+    cases meshSame
+    cases provenanceSame
+    exact cont_left_cancel validationCont refinedValidation
+  constructor
+  · constructor
+    · exact parentUnary'
+    · constructor
+      · exact levelUnary'
+      · constructor
+        · exact cellsUnary'
+        · constructor
+          · exact provenanceUnary'
+          · constructor
+            · exact nameUnary'
+            · constructor
+              · exact refinedMesh
+              · constructor
+                · exact refinedValidation
+                · exact refinedPkg
+  · constructor
+    · exact meshSame
+    · exact validationSame
+
 end BEDC.Derived.DyadicSubdivisionUp
