@@ -100,6 +100,48 @@ The exactness theorem \autoref{thm:bounded-variation-variation-ledger-exactness}
 No coordinate names a completed function space, variation measure, host supremum over all partitions, quotient function, or hidden partition family. Hence none of those objects is exported by the public boundary.
 \end{proof}
 
+\begin{theorem}[BoundedVariation partition scope binding]
+\label{thm:bounded-variation-partition-scope-binding}
+The carrier, NameCert obligation surface, and variation-ledger exactness rows of \autoref{def:bounded-variation-carrier}, \autoref{thm:bounded-variation-namecert-obligations}, and \autoref{thm:bounded-variation-variation-ledger-exactness} bind the finite partition-variation packet to $\DyadicRatCoreUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The bound is a finite partition-sum scope: every variation read passes through the displayed interval row, partition ledger, endpoint rows, dyadic edge observations, finite variation sum, and local provenance before it can be consumed by a bounded-variation classifier.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:bounded-variation-carrier}. It names the interval row, finite partition ledger, endpoint rows, dyadic observations, finite variation sum, common-refinement rows, and provenance rows.
+
+Apply \autoref{thm:bounded-variation-namecert-obligations}. The local certificate records habitation, classifier comparison, variation-sum exactness, carrier transport, and boundary exclusion for those same coordinates.
+
+Finally use \autoref{thm:bounded-variation-variation-ledger-exactness}. Each public variation read factors through a displayed finite partition and its dyadic edge ledger, so the partition-sum scope is exactly the listed dependency stack.
+\end{proof}
+
+\begin{theorem}[BoundedVariation refinement ledger scope]
+\label{thm:bounded-variation-refinement-ledger-scope}
+The common-refinement classifier exactness row of \autoref{thm:bounded-variation-common-refinement-classifier-exactness}, together with the variation-ledger exactness row of \autoref{thm:bounded-variation-variation-ledger-exactness}, gives the scoped refinement ledger for $\BoundedVariationUp$. Accepted packets compare only by a displayed common finite refinement whose interval, endpoint, dyadic observation, finite sum, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are visible over $\DyadicRatCoreUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$.
+
+No classifier comparison in this scope uses a hidden partition family, host supremum, variation measure, quotient function, or completed function-space carrier.
+\end{theorem}
+\begin{proof}
+Project the classifier through \autoref{thm:bounded-variation-common-refinement-classifier-exactness}. The comparison data are a displayed common finite refinement with componentwise endpoint, dyadic, finite-sum, package, and naming rows.
+
+Use \autoref{thm:bounded-variation-variation-ledger-exactness} on that refinement. Both public variation reads are finite sums over the displayed edge observations and transported endpoint rows.
+
+Thus the refinement ledger is already the classifier scope. Since the carrier has no hidden partition family or host supremum coordinate, no additional comparison object can enter.
+\end{proof}
+
+\begin{theorem}[BoundedVariation endpoint transport scope]
+\label{thm:bounded-variation-endpoint-transport-scope}
+The carrier transport and no-escape boundary rows of \autoref{thm:bounded-variation-carrier-transport} and \autoref{thm:bounded-variation-no-escape-boundary} give the endpoint transport scope for $\BoundedVariationUp$. Endpoint reads may move only along displayed $\hsame$ and $\Cont$ routes for the interval row, finite partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\StreamNameUp$ read schedule, $\DyadicRatCoreUp$ observations, finite variation ledger, $\BHist$, $\Pkg$, and $\NameCert$ provenance.
+
+The endpoint transport scope exports no completed function space, variation measure, host supremum over all partitions, quotient real-valued function, or hidden partition row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bounded-variation-carrier-transport}. It moves interval rows, finite partition ledgers, endpoint-name rows, dyadic observation rows, variation-sum ledgers, and common-refinement rows componentwise through displayed transport and continuation routes.
+
+Then use \autoref{thm:bounded-variation-no-escape-boundary}. The public boundary exports only the finite partition rows, transported endpoints, dyadic edge observations, common refinements, finite sums, and visible provenance.
+
+The two rows together give the endpoint transport scope. Every endpoint read remains attached to the displayed dependency stack, and no absent host object is exported.
+\end{proof}
+
 \closureat{BoundedVariationUp}{seedStr}
 \closureat{BoundedVariationUp}{obligationStr}
 
