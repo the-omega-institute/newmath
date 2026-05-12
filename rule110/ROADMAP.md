@@ -102,18 +102,18 @@ Make `cook_encode` produce correct Rule 110 initial patterns.
 
 Close the trust loop: prove each rule110 manifest corresponds to a Lean theorem.
 
-- [ ] L4.1: Design correspondence schema.
-  - [ ] L4.1.a: Define the manifest parser contract: `PRODUCTIONS`, `ASSERTIONS`, case name, `input=...`, and family-specific key/value fields.
-  - [ ] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.
+- [!] L4.1: Design correspondence schema.  POC implemented for `mark/msame_refl.enum.ct`; full family registry remains L4.3 scope.
+  - [x] L4.1.a: Define the manifest parser contract: `PRODUCTIONS`, `ASSERTIONS`, case name, `input=...`, and family-specific key/value fields.
+  - [!] L4.1.b: Define typed decoders from GroundCompiler events into `BMark`, `BHist`, `ProbeName := Nat`, `ProbeBundle Nat`, tags, booleans, packages, evidence, domains, and certificate fixture payloads.  `BMark` is implemented in the POC.
   - [ ] L4.1.c: Register path-to-target specs for Mark, Hist, Ext, SigRel, SameSig, Cont, Bundle, Unary, Ask, ExternalBinary, Gap, Package, NameCert, and Settled.
   - [ ] L4.1.d: Separate positive theorem-instance checks from negative complement checks such as `ext_holds=no`, `cont_holds=no`, malformed input, and trailing-input rejection.
   - [ ] L4.1.e: Record the concrete setup instances needed by parameterized modules: parity `AskSetup`, `Pkg := BHist`, `TokIntro := hsame`, bounded-domain fixture, depth-equivalence NameCert fixture, and identity stable transformation.
-- [ ] L4.2: Build the Lean 4 executable.
-  - [ ] L4.2.a: Create `lean4/scripts/rule110_cross_check.lean` as a read-only checker over existing manifests.
-  - [ ] L4.2.b: Reuse `BEDC.GroundCompiler.ChannelEncoding.DecEvent` for event decoding; do not fork the channel encoding.
-  - [ ] L4.2.c: Implement one closed-kernel slice first: `mark/msame_refl.enum.ct`, `hist/hsame_refl.enum.ct`, and `ext/ext_step.enum.ct`.
-  - [ ] L4.2.d: Add structured PASS/FAIL output with manifest path, case name, decoded values when available, and Lean target key.
-  - [ ] L4.2.e: Exit nonzero on parse, decode, type, fixture, target, or semantic failure.
+- [!] L4.2: Build the Lean 4 executable.  `lean --run` script exists; Lake exe target is outside the script-only whitelist.
+  - [x] L4.2.a: Create `lean4/scripts/rule110_cross_check.lean` as a read-only checker over existing manifests.
+  - [x] L4.2.b: Reuse `BEDC.GroundCompiler.ChannelEncoding.DecEvent` for event decoding; do not fork the channel encoding.
+  - [!] L4.2.c: Implement one closed-kernel slice first: `mark/msame_refl.enum.ct`, `hist/hsame_refl.enum.ct`, and `ext/ext_step.enum.ct`.  `mark/msame_refl.enum.ct` is implemented.
+  - [x] L4.2.d: Add structured PASS/FAIL output with manifest path, case name, decoded values when available, and Lean target key.
+  - [x] L4.2.e: Exit nonzero on parse, decode, type, fixture, target, or semantic failure.
 - [ ] L4.3: Cross-check all manifest families.
   - [ ] L4.3.a: Cover all `.enum.ct` manifests as strict Level 4 targets.
   - [ ] L4.3.b: Report `.algo.ct` manifests as semantic-only until Level 2 supplies real recognizers, except bounded `hist/hsame_refl.algo.ct` which can be checked as a finite recognizer case set.
