@@ -92,6 +92,29 @@ theorem BoundedVariationCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem BoundedVariationCarrier_public_rows_zero_head_absurd [AskSetup] [PackageSetup]
+    {interval partition endpoint dyadic variation refinement transport route provenance nameCert
+      zInterval zVariation zNameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationCarrier interval partition endpoint dyadic variation refinement transport route
+        provenance nameCert bundle pkg ->
+      (hsame interval (BHist.e0 zInterval) -> False) ∧
+        (hsame variation (BHist.e0 zVariation) -> False) ∧
+          (hsame nameCert (BHist.e0 zNameCert) -> False) := by
+  intro carrier
+  obtain ⟨intervalUnary, _partitionUnary, _endpointUnary, _dyadicUnary, variationUnary,
+    _refinementUnary, _transportUnary, _routeUnary, _provenanceUnary, nameCertUnary,
+    _intervalPartitionEndpoint, _endpointDyadicTransport, _partitionDyadicVariation,
+    _variationRefinementRoute, _routeProvenanceNameCert, _variationSame, _pkgSig⟩ := carrier
+  constructor
+  · intro sameIntervalZero
+    exact unary_no_zero_extension (unary_transport intervalUnary sameIntervalZero)
+  constructor
+  · intro sameVariationZero
+    exact unary_no_zero_extension (unary_transport variationUnary sameVariationZero)
+  · intro sameNameCertZero
+    exact unary_no_zero_extension (unary_transport nameCertUnary sameNameCertZero)
+
 theorem BoundedVariationCarrier_common_refinement_classifier_exactness [AskSetup]
     [PackageSetup]
     {interval partition endpoint dyadic variation refinement transport route provenance nameCert
