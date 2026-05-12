@@ -128,6 +128,41 @@ The only optimization-facing rows in that carrier are the primal, multiplier, re
 All excluded analytic objects require rows absent from the carrier. The downstream boundary therefore stops at the finite BEDC packet and cannot project host optimization semantics or solver evidence.
 \end{proof}
 
+\begin{theorem}[KKTUp public finite-packet export]
+\label{thm:kkt-public-finite-packet-export}
+The public export for $\KKTUp$ is exactly the finite primal, multiplier,
+residual, stationarity, feasibility, complementary-slackness, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows of
+\autoref{def:kkt-bhist-carrier}. Its dependency reads pass only through
+$\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$ rows
+already recorded in the carrier and its local certificate surface.
+
+The export contains no full nonlinear optimization semantics, Slater
+existence, analytic differentiability, host minimization predicate, or solver
+certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:kkt-primal-dual-row-obligations}. It binds the primal,
+multiplier, residual, stationarity, and feasibility rows to the displayed
+$\ConvexSetUp$, $\LPDualityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\RealUp$
+dependency reads.
+
+Use \autoref{thm:kkt-stationarity-feasibility-hsame-transport} for the
+componentwise $\hsame$ routes. These routes preserve the public row inventory
+because they transport only the displayed stationarity and feasibility
+certificates.
+
+Apply \autoref{thm:kkt-complementarity-ledger-exactness} for the
+complementary-slackness ledger. Then use
+\autoref{thm:kkt-downstream-consumer-boundary} to restrict every downstream
+read to the finite carrier rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+local $\NameCert_{\KKTUp}$ surface.
+
+The carrier has no coordinate for nonlinear optimization semantics, Slater
+existence, analytic differentiability, host minimization, or solver evidence.
+The listed finite rows are therefore the whole public packet export.
+\end{proof}
+
 \closureat{KKTUp}{seedStr}
 \closureat{KKTUp}{obligationStr}
 \closureat{KKTUp}{scopedStr}[BEDC.Derived.KKTUp.KKTCarrierPacket\_downstream\_consumer\_boundary]
