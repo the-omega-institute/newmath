@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMeshUp$}
+\label{ch:concrete-instances-dyadicmesh-namecert}
+\origin{human}
+
+The $\DyadicMeshUp$ interface names finite dyadic grid packets used by real-completion and validated-numerics consumers. In the Moore--Kearfott--Cloud interval-analysis reading, a mesh is a finite grid of rational interval cells with explicit enclosure ledgers; in BEDC it is only a displayed $\mathsf{BHist}$ package over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicPrecisionUp$, $\DyadicApproximationUp$, $\RealUp$, and $\ValidatedNumericsUp$.
+
+\begin{definition}[DyadicMesh BHist source]
+\label{def:dyadicmesh-bhist-source}
+A $\DyadicMeshUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+M=(\ell,J,I,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $\ell$ is a unary level row naming the displayed grid precision;
+\item $J$ is the finite dyadic cell-index row at level $\ell$;
+\item $I$ is the $\RationalIntervalUp$ endpoint row for the cell selected by $J$;
+\item $E$ is the containment ledger against $\DyadicRatCoreUp$, recording the dyadic lower endpoint, upper endpoint, midpoint, radius, and endpoint-order reads for the cell;
+\item $H$ stores componentwise $\hsame$ transport for the level, cell index, rational interval endpoints, dyadic endpoint reads, and containment ledger;
+\item $C$ stores the $\Cont$ routes by which refinement, endpoint readback, and downstream enclosure consumers inspect the same finite cell;
+\item $P$ is the $\Pkg$ provenance row naming $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicPrecisionUp$, $\DyadicApproximationUp$, $\RealUp$, and $\ValidatedNumericsUp$;
+\item $N$ is the local $\NameCert_{\DyadicMeshUp}$ registration row.
+\end{enumerate}
+The classifier identifies accepted mesh packets by transporting them to a common displayed refinement level, comparing the refined cell-index rows there, and then comparing the rational interval endpoints by the inherited $\RationalIntervalUp$ $\hsame$ rows. The carrier has no coordinate for a completed real cell, infinite grid, host interval tree, or solver object.
+\end{definition}
+
+\begin{theorem}[DyadicMesh cell containment obligation]
+\label{thm:dyadicmesh-cell-containment-obligation}
+Every accepted $\DyadicMeshUp$ packet $M=(\ell,J,I,E,H,C,P,N)$ exposes one finite dyadic cell. Its public containment surface is exactly the unary level row $\ell$, the dyadic cell-index row $J$, the rational interval row $I$, the $\DyadicRatCoreUp$ endpoint and radius reads stored in $E$, the displayed transport rows $H$, the continuation routes $C$, the package provenance $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadicmesh-bhist-source}. The selected cell is not reconstructed from an ambient grid object; it is the displayed pair of a level row and a finite cell-index row.
+
+Read the rational interval coordinate $I$ and the dyadic containment ledger $E$. These two rows provide the endpoint, midpoint, radius, and endpoint-order data visible to a consumer.
+
+The remaining coordinates route and certify those reads. The transport row $H$, continuation row $C$, package row $P$, and naming row $N$ exhaust the public containment surface, leaving no coordinate for a completed cell or external solver state.
+\end{proof}
+
+\begin{theorem}[DyadicMesh refinement stability]
+\label{thm:dyadicmesh-refinement-stability}
+Let $M=(\ell,J,I,E,H,C,P,N)$ be an accepted $\DyadicMeshUp$ packet. If $M'$ is obtained by appending displayed refinement evidence to $C$ so that the level and cell-index rows refine to a finer dyadic row while the covered rational interval cell is transported by the same endpoint $\hsame$ rows, then $M'$ is again an accepted $\DyadicMeshUp$ packet and covers the same real cell boundary visible to $\RealUp$ consumers.
+\end{theorem}
+\begin{proof}
+Start with the finite packet of \autoref{def:dyadicmesh-bhist-source}. Appending refinement evidence changes only the displayed continuation route by which the finer level and cell-index rows are read.
+
+Transport the rational interval endpoint rows through $H$. Because the same endpoint $\hsame$ rows are preserved, the $\RationalIntervalUp$ boundary seen after refinement is the transported form of $I$ rather than a new completed real cell.
+
+Repack the refined level, refined cell index, transported interval, dyadic containment ledger, updated continuation route, package provenance, and local name row. These are exactly the carrier coordinates, so the refined packet is accepted and the visible $\RealUp$ boundary is unchanged.
+\end{proof}
+
+\begin{theorem}[DyadicMesh RationalInterval coverage]
+\label{thm:dyadicmesh-rationalinterval-coverage}
+For every accepted $\DyadicMeshUp$ packet $M=(\ell,J,I,E,H,C,P,N)$, the rational interval row $I$ is the complete coverage object exported by the mesh cell. A $\RationalIntervalUp$ consumer may read the endpoint order, containment ledger, and refinement routes through $I$, $E$, $H$, and $C$, but it cannot read an infinite mesh, a host subset of $\RealUp$, or a global real-completion proof from the mesh packet.
+\end{theorem}
+\begin{proof}
+Project the interval coordinate $I$ from the carrier. It is the only coverage row of the packet, and its endpoint and order data are interpreted by the existing $\RationalIntervalUp$ surface.
+
+Use the dyadic ledger $E$ only to identify the dyadic endpoint and radius rows that support the interval read. The routes $H$ and $C$ transport and expose those finite rows to the consumer.
+
+Since the carrier contains no additional coverage coordinate, the exported coverage is precisely $I$ with its finite dyadic ledger. Infinite meshes, host subsets, and real-completion proofs are outside the packet surface.
+\end{proof}
+
+\begin{theorem}[DyadicMesh NameCert obligation surface]
+\label{thm:dyadicmesh-namecert-obligation-surface}
+The seed $\NameCert_{\DyadicMeshUp}$ obligation surface has five rows:
+\begin{enumerate}
+\item carrier: the finite $\mathsf{BHist}$ packet of \autoref{def:dyadicmesh-bhist-source};
+\item classifier: common-refinement comparison of level and cell-index rows followed by endpoint $\hsame$ comparison through $\RationalIntervalUp$;
+\item stability: $\Cont$ appends refinement evidence while preserving the transported rational interval cell;
+\item exactness: every endpoint, midpoint, radius, order, and containment read is one of the dyadic ledger rows in $E$ routed by $C$ and transported by $H$;
+\item ledger: the $\Pkg$ and local $\NameCert$ rows record exactly the dependency surface over $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\DyadicPrecisionUp$, $\DyadicApproximationUp$, $\RealUp$, and $\ValidatedNumericsUp$.
+\end{enumerate}
+These rows are the full seed naming surface for finite dyadic meshes.
+\end{theorem}
+\begin{proof}
+The carrier row is the source packet itself. It lists the only visible coordinates from which a mesh cell can be read.
+
+The classifier row first transports mesh packets to a common displayed refinement level. Once the cell-index rows are compared there, the rational interval endpoints are compared through the inherited endpoint $\hsame$ rows.
+
+Stability is the refinement route of \autoref{thm:dyadicmesh-refinement-stability}. Exactness is the assertion that the dyadic endpoint, midpoint, radius, order, and containment reads are exactly the ledger entries in $E$ routed by $C$ and transported by $H$.
+
+The ledger row is the package and local-name boundary. It records the named dependency certificates and therefore completes the seed $\NameCert$ surface without adding an analytic or solver coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicMesh ValidatedNumerics handoff]
+\label{thm:dyadicmesh-validatednumerics-handoff}
+A $\ValidatedNumericsUp$ consumer of an accepted $\DyadicMeshUp$ packet may read exactly the finite enclosure package consisting of the level row, dyadic cell index, $\RationalIntervalUp$ cell coverage row, $\DyadicRatCoreUp$ containment ledger, displayed $\DyadicPrecisionUp$ refinement route, $\DyadicApproximationUp$ endpoint readback, $\RealUp$ boundary token, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The handoff supplies a finite enclosure mesh cell and does not assert solver correctness, floating-point hardware semantics, classical real completeness, or a global mesh refinement theorem.
+\end{theorem}
+\begin{proof}
+Read the mesh packet through \autoref{thm:dyadicmesh-cell-containment-obligation}. The level, cell index, interval row, dyadic containment ledger, transport, continuation, provenance, and local name rows are the only public coordinates.
+
+Apply \autoref{thm:dyadicmesh-rationalinterval-coverage}. The coverage object exported to the validated-numerics side is the finite $\RationalIntervalUp$ row, supported by the dyadic endpoint and radius ledger.
+
+Use \autoref{thm:dyadicmesh-refinement-stability} for precision movement. Refinement is a displayed continuation route and therefore preserves the same covered cell boundary visible to the real-name consumer.
+
+Thus the validated-numerics handoff is a finite enclosure mesh cell with named dependency rows. No row supplies solver correctness, hardware semantics, classical completeness, or a global refinement theorem.
+\end{proof}
+
+\closureat{DyadicMeshUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMeshUp}
+  \constructivestory{A $\DyadicMeshUp$ packet is generated by a unary level row, a finite dyadic cell-index row, a $\RationalIntervalUp$ cell coverage row, a $\DyadicRatCoreUp$ containment ledger, componentwise $\hsame$ transports, displayed $\Cont$ refinement routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadicmesh-bhist-source}, \autoref{thm:dyadicmesh-cell-containment-obligation}, \autoref{thm:dyadicmesh-refinement-stability}, \autoref{thm:dyadicmesh-rationalinterval-coverage}, \autoref{thm:dyadicmesh-namecert-obligation-surface}, and \autoref{thm:dyadicmesh-validatednumerics-handoff} specify the finite seed carrier, classifier, refinement, interval coverage, ledger, and validated-numerics handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close solver correctness, floating-point hardware semantics, classical real completeness, infinite meshes, or a global refinement theorem.}
+  \upgradepath{Obligation closure requires formal carrier, classifier, refinement-stability, exactness, and ledger rows for the finite mesh packet.}
+\end{closurestatus}
