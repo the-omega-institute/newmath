@@ -96,6 +96,43 @@ $\RealUp$ seal read, and the excluded quotient, host-real, completion,
 completeness, and bridge coordinates have no row in the canonical packet.
 \end{proof}
 
+\begin{theorem}[RegSeqRat RealUp seal transport fusion]
+\label{thm:regseqrat-real-seal-transport-fusion}
+Let $P$ and $P'$ be accepted $\RegSeqRatUp$ packets. Suppose $P'$ is obtained
+from $P$ by transporting the visible $\StreamNameUp$ schedule rows, dyadic
+endpoint and radius ledgers, finite-window readback, regularity ledgers, and
+$\mathsf{Pkg}$ provenance along displayed $\hsame$ and $\Cont$ rows. Then $P$
+and $P'$ determine the same $\RealUp$ finite seal route through the canonical
+finite $\mathsf{BHist}$ packet of
+\autoref{thm:regseqrat-cover-normal-form-real-seal}.
+
+The fused route is only the displayed finite seal boundary. It does not assert
+quotient-stream equality, host real equality, existence of a completion point,
+or equality of selected limits.
+\end{theorem}
+\begin{proof}
+Project both seal-facing reads through
+\autoref{thm:regseqrat-real-seal-route-exclusion-package}. The only rows
+available to either route are the schedule, dyadic ledger, regularity,
+transport, continuation, package, and naming rows.
+
+Use \autoref{thm:regseqrat-cover-normal-form-real-seal} to name the canonical
+finite $\mathsf{BHist}$ packet carrying those rows. The transported packet has
+the same normal-form coordinates because the hypotheses preserve the schedule,
+endpoint and radius ledgers, finite-window readback, regularity ledgers, and
+provenance.
+
+Apply \autoref{thm:regseqrat-finite-window-transport-closure} to move the
+window rows along the displayed $\hsame$ and $\Cont$ routes, and then use
+\autoref{thm:regseqrat-refined-window-gluing} to repack the original and
+transported reads through one common finite refinement.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-uniqueness-boundary}. Since
+both reads now use the same canonical finite packet, the resulting $\RealUp$
+finite seal route is the same, with no quotient stream, host real equality,
+completion point, or selected limit available as an extra coordinate.
+\end{proof}
+
 \closureat{RegSeqRatUp}{obligationStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{scopedStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_regularity\_obligation\_surface]
 \closureat{RegSeqRatUp}{publicStr}[BEDC.Derived.RegSeqRatUp.RegSeqRatStreamCarrier\_real\_seal\_handoff]
