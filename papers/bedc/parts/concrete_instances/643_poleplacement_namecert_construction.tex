@@ -246,14 +246,15 @@ none of those objects can be exported by the public interface.
 
 \closureat{PolePlacementUp}{obligationStr}
 \closureat{PolePlacementUp}{scopedStr}
+\closureat{PolePlacementUp}{publicStr}
 
 \begin{closurestatus}{\PolePlacementUp}
   \constructivestory{A $\PolePlacementUp$ packet is seeded by finite $\mathsf{BHist}$ rows for state, input, transition matrix, input matrix, gain, closed-loop matrix $A+BK$, target characteristic row, characteristic-comparison ledger, $\hsame$ transports, $\Cont$ routes, and $\mathsf{Pkg}$ provenance over the state-space, controllability, matrix, vector-space, and linear-map certificates.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:poleplacement-scoped-dependency-packet} binds the finite pole-placement carrier, closed-loop ledger, target-polynomial ledger, NameCert obligation rows, consumer boundary, standard finite data shape, and displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\StateSpaceModelUp$, and $\ControlControllabilityUp$ dependencies.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:poleplacement-scoped-dependency-packet} binds the finite pole-placement carrier, closed-loop ledger, target-polynomial ledger, NameCert obligation rows, consumer boundary, standard finite data shape, and displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\StateSpaceModelUp$, and $\ControlControllabilityUp$ dependencies, while \autoref{thm:poleplacement-public-consumer-export} exposes the downstream finite-control public export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close analytic spectral theory, pole-existence theorems, stabilizing feedback existence, controllability-rank completeness, host trajectory semantics, feedback optimality, or a machine-checked standard bridge.}
-  \upgradepath{Public closure requires an export theorem identifying the downstream finite-control consumers that may read this scoped packet.}
+  \upgradepath{Bridged closure requires a standard finite-control bridge over the same displayed state, input, matrix, feedback, target-polynomial, transport, continuation, package, and consumer rows.}
 \end{closurestatus}
