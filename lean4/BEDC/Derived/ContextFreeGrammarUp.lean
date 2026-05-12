@@ -224,4 +224,35 @@ theorem ContextFreeGrammarPacket_namecert_obligation_surface [AskSetup] [Package
       exact sourceRow
   }
 
+theorem ContextFreeGrammarPacket_regularlanguage_turingmachine_bridge_boundary [AskSetup]
+    [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+      transport route provenance name endpoint bundle pkg ->
+      Cont endpoint name consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory terminal ∧ UnaryHistory nonterminal ∧ UnaryHistory start ∧
+            UnaryHistory production ∧ UnaryHistory yield ∧ UnaryHistory derivation ∧
+              UnaryHistory readback ∧ UnaryHistory route ∧ UnaryHistory endpoint ∧
+                UnaryHistory consumer ∧ Cont terminal nonterminal start ∧
+                  Cont production yield readback ∧ Cont derivation transport route ∧
+                    Cont route provenance name ∧ Cont endpoint name consumer ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet endpointNameConsumer consumerPkg
+  obtain ⟨terminalUnary, nonterminalUnary, startUnary, productionUnary, yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, routeUnary, _provenanceUnary,
+    nameUnary, endpointUnary, terminalNonterminalStart, productionYieldReadback,
+    derivationTransportRoute, routeProvenanceName, _nameEndpointEndpoint,
+    endpointPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed endpointUnary nameUnary endpointNameConsumer
+  exact
+    ⟨terminalUnary, nonterminalUnary, startUnary, productionUnary, yieldUnary,
+      derivationUnary, readbackUnary, routeUnary, endpointUnary, consumerUnary,
+      terminalNonterminalStart, productionYieldReadback, derivationTransportRoute,
+      routeProvenanceName, endpointNameConsumer, endpointPkg, consumerPkg⟩
+
 end BEDC.Derived.ContextFreeGrammarUp
