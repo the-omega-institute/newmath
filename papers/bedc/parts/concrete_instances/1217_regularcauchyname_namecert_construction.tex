@@ -406,6 +406,18 @@ Next attach the seal-readback row. By \autoref{thm:regularcauchyname-seal-readba
 Finally use the public export and consumer coverage rows. The public seal export of \autoref{thm:regularcauchyname-public-real-seal-export} keeps the $\RealUp$ seal on the same displayed packet, and \autoref{thm:regularcauchyname-completion-consumer-coverage} says that the completion-facing consumers receive no additional route outside that packet. Thus the two reads refine to the same listed rows.
 \end{proof}
 
+\begin{theorem}[RegularCauchyName synchronized precision pullback]
+\label{thm:regularcauchyname-synchronized-precision-pullback}
+Let $G=(S,Q,\rho,L,E,P,N)$ be an accepted $\RegularCauchyNameUp$ packet, and let $p$ and $p'$ be two displayed consumer precision requests. Suppose the $\StreamNameUp$ schedule admits one common finite refinement window $W$ for both requests, and suppose both requests route through the $\CauchyRateUp$ schedule and tail-bound surface before any regular rational readback is consumed. Then the normalized readback packets for $p$ and $p'$ factor through the same window $W$, the same transported $\DyadicRatCoreUp$ observation row, the same dyadic-radius row, the same pointwise $\RegSeqRatUp$ classifier row, and the same $\RealUp$ seal ledger. No quotient stream, host sequence equality, selected limit, or ambient completeness datum participates in this pullback.
+\end{theorem}
+\begin{proof}
+Apply the common-window refinement theorem \autoref{thm:regularcauchyname-common-window-refinement} to align the two precision reads inside the displayed $\StreamNameUp$ window. This identifies the transported dyadic observation, radius, classifier, ledger, transport, continuation, package, and naming rows as one finite comparison surface.
+
+Next use the FiniteWindowEnvelope common-window lock \autoref{thm:finite-window-envelope-common-window-lock}. The lock keeps the envelope read on the selected window $W$ and prevents the dyadic ledger, regular-sequence seal, and endpoint row from being read through a second window.
+
+Finally route both reads through the CauchyRate surface. Scheduled-window totality \autoref{thm:cauchy-rate-scheduled-window-totality} supplies the displayed schedule row, while tail-bound routing \autoref{thm:cauchy-rate-tail-bound-routing} forces the regular rational readback through the schedule, tolerance, and source rows before the $\RegSeqRatUp$ row is available. The normalized readback packet of \autoref{def:regularcauchyname-normalized-window-readback} then exhausts the remaining $\RealUp$ seal ledger, so the two reads share the stated pullback and have no route through the excluded completion objects.
+\end{proof}
+
 \begin{theorem}[RegularCauchyName dyadic-radius readback]
 \label{thm:regularcauchyname-dyadic-radius-readback}
 For every accepted $\RegularCauchyNameUp$ packet $G=(S,Q,\rho,L,E,P,N)$, the dyadic-radius row $\rho$ is the exact finite readback surface consumed by $\RegularCauchySubsequenceUp$, $\RegularCauchyDiagonalUp$, and $\RegularCauchyFamilyUp$ after they enter the common $\StreamNameUp$ window. These consumers read the window $S$, the $\DyadicRatCoreUp$ observation $Q$, the radius row $\rho$, the pointwise $\RegSeqRatUp$ classifier in $L$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes; they do not receive a host sequence, quotient stream, selected limit, independent real carrier, or ambient completeness datum.
