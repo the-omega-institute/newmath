@@ -152,4 +152,32 @@ theorem CauchyDoubleSequenceCarrier_diagonal_handoff [AskSetup] [PackageSetup]
               (And.intro scheduleToleranceRoute
                 (And.intro diagonalCompletionRoute pkgSig))))))
 
+theorem CauchyDoubleSequenceCarrier_real_consumer_boundary [AskSetup] [PackageSetup]
+    {array schedule tolerance diagonal completion sealRow transport route provenance
+      localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDoubleSequenceCarrier array schedule tolerance diagonal completion sealRow
+        transport route provenance localCert bundle pkg →
+      Cont sealRow localCert consumer →
+        UnaryHistory consumer ∧ Cont array schedule diagonal ∧
+          Cont schedule tolerance diagonal ∧ Cont diagonal completion sealRow ∧
+            Cont transport localCert route ∧ Cont route provenance sealRow ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier sealConsumer
+  have handoff :
+      UnaryHistory diagonal ∧ UnaryHistory completion ∧ UnaryHistory sealRow ∧
+        UnaryHistory consumer ∧ Cont array schedule diagonal ∧
+          Cont schedule tolerance diagonal ∧ Cont diagonal completion sealRow ∧
+            PkgSig bundle provenance pkg :=
+    CauchyDoubleSequenceCarrier_diagonal_handoff carrier sealConsumer
+  obtain ⟨_diagonalUnary, _completionUnary, _sealUnary, consumerUnary,
+    arrayScheduleRoute, scheduleToleranceRoute, diagonalCompletionRoute, pkgSig⟩ := handoff
+  have transportLocalCertRoute : Cont transport localCert route :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have routeProvenanceSeal : Cont route provenance sealRow :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  exact
+    ⟨consumerUnary, arrayScheduleRoute, scheduleToleranceRoute, diagonalCompletionRoute,
+      transportLocalCertRoute, routeProvenanceSeal, pkgSig⟩
+
 end BEDC.Derived.CauchyDoubleSequenceUp
