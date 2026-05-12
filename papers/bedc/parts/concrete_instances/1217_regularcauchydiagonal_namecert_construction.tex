@@ -172,6 +172,42 @@ The carrier definition in \autoref{def:regular-cauchy-diagonal-carrier} adds onl
 The bridge source of \autoref{thm:regular-cauchy-diagonal-standard-bridge-source} is assembled from this same carrier together with window coverage, selector stability, stationary compatibility, NameCert obligations, and the RealUp seal handoff. Therefore every bridge read remains inside those named rows, and the listed host-level objects cannot be exported by the bridge.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy diagonal selector-window functoriality]
+\label{thm:regular-cauchy-diagonal-selector-window-functoriality}
+Let $D=(Q,S,R,L,W,P,N)$ be an accepted $\RegularCauchyDiagonalUp$ source row. If the displayed $\hsame$ comparisons and $\Cont$ routes transport the visible carrier rows of $D$ to another accepted carrier row, then the diagonal selector transports the same finite $W$ window route through the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ coordinates. In particular, selector transport preserves the chosen window route and does not introduce a second selector outside the displayed finite ledger.
+\end{theorem}
+\begin{proof}
+Project the transport data through \autoref{def:regular-cauchy-diagonal-carrier}. The classifier compares only the displayed rational seed, stream-window row, regular readback, real-seal row, finite window ledger, and provenance rows, all carried by $\hsame$ or $\Cont$.
+
+Apply \autoref{thm:regular-cauchy-diagonal-selector-stability} to the transported carrier row. The selector still reads a member of the same finite ledger $W$, and \autoref{thm:regular-cauchy-diagonal-window-coverage} identifies the matching $\StreamNameUp$ window and $\RegSeqRatUp$ readback.
+
+The bridge source of \autoref{thm:regular-cauchy-diagonal-standard-bridge-source} uses exactly these rows as its selector-facing input. Therefore the transported selector route is the displayed finite route, not a host-level re-selection or a route through an unlisted completion object.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal stationary-family exhaustion]
+\label{thm:regular-cauchy-diagonal-stationary-family-exhaustion}
+Every stationary rational diagonal packet accepted by $\RegularCauchyDiagonalUp$ is exhausted by the displayed route $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$. Equivalently, the packet has no stationary-family read outside the rational seed $Q$, the constant stream row $S$, the regular rational readback $R$, and the seal row $L$ of its source tuple $D=(Q,S,R,L,W,P,N)$.
+\end{theorem}
+\begin{proof}
+Start with a stationary accepted carrier. By \autoref{def:regular-cauchy-diagonal-carrier}, the stationary rows factor through the same $\RatUp$ seed, the same constant $\StreamNameUp$ witness, and the same $\RealUp$ seal row.
+
+Apply \autoref{thm:regular-cauchy-diagonal-stationary-compatibility}. Each diagonal window reads the same rational seed through the constant stream row and the associated $\RegSeqRatUp$ readback. Then apply \autoref{thm:regular-cauchy-diagonal-stationary-seal-exactness} to identify the completion-facing seal route with the displayed chain $\RatUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$.
+
+Finally use \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}. Since the bridge exports no quotient stream, host limit, ambient completeness theorem, or host equality, there is no remaining stationary-family coordinate outside $Q$, $S$, $R$, and $L$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal bridge route determinacy]
+\label{thm:regular-cauchy-diagonal-bridge-route-determinacy}
+For the standard $\RegularCauchyDiagonalUp$ bridge source, bridge readback has exactly the displayed route through $D=(Q,S,R,L,W,P,N)$. Any bridge consumer read that recovers the public surface factors through the same source tuple, the same finite window ledger, and the same local $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance; there is no second bridge route outside $D$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-diagonal-standard-bridge-source}. The bridge source is built from the seven displayed coordinates, the carrier classifier, the finite window route, selector stability, stationary compatibility, NameCert obligations, and the $\RealUp$ seal handoff.
+
+Read the source back through \autoref{thm:regular-cauchy-diagonal-bridge-readback-exactness}. The public readback recovers the same tuple $D=(Q,S,R,L,W,P,N)$ and preserves the selector classifier by componentwise $\hsame$ and $\Cont$ transport.
+
+It remains to exclude competing routes. This is exactly the non-escape content of \autoref{thm:regular-cauchy-diagonal-bridge-non-escape}: every bridge consumer read remains inside the displayed tuple, finite ledger, BEDC rows, and local provenance. Hence bridge readback is determined by $D$.
+\end{proof}
+
 \closureat{RegularCauchyDiagonalUp}{seedStr}
 \closureat{RegularCauchyDiagonalUp}{obligationStr}
 \closureat{RegularCauchyDiagonalUp}{scopedStr}
