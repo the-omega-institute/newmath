@@ -336,6 +336,41 @@ theorem RegularCauchyDiagonalCarrier_bridge_route_determinacy [AskSetup] [Packag
     cont_deterministic completionRow alternateRow
   exact ⟨completionSameAlternate, completionUnary, alternateUnary, provenancePkg⟩
 
+theorem RegularCauchyDiagonalCarrier_bridge_non_escape_certificate [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert selectedWindow
+      completionRead directCompletion : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont windowLedger streamWindow selectedWindow ->
+        Cont selectedWindow regseqRead completionRead ->
+          Cont windowLedger (append streamWindow regseqRead) directCompletion ->
+            PkgSig bundle completionRead pkg ->
+              PkgSig bundle directCompletion pkg ->
+                hsame completionRead directCompletion ∧ UnaryHistory completionRead ∧
+                  UnaryHistory directCompletion ∧ PkgSig bundle provenance pkg := by
+  intro carrier windowSelection completionRow directCompletionRow _completionPkg
+    _directCompletionPkg
+  obtain ⟨_ratSeedUnary, streamWindowUnary, regseqReadUnary, _realSealUnary,
+    windowLedgerUnary, _provenanceUnary, _localCertUnary, _ratStreamRegseq,
+    _regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have selectedWindowUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed windowLedgerUnary streamWindowUnary windowSelection
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed selectedWindowUnary regseqReadUnary completionRow
+  have streamRegseqUnary : UnaryHistory (append streamWindow regseqRead) :=
+    unary_cont_closed streamWindowUnary regseqReadUnary (cont_intro rfl)
+  have directCompletionUnary : UnaryHistory directCompletion :=
+    unary_cont_closed windowLedgerUnary streamRegseqUnary directCompletionRow
+  have completionDirectRow :
+      Cont windowLedger (append streamWindow regseqRead) completionRead := by
+    cases windowSelection
+    cases completionRow
+    exact append_assoc windowLedger streamWindow regseqRead
+  have completionSameDirect : hsame completionRead directCompletion :=
+    cont_deterministic completionDirectRow directCompletionRow
+  exact ⟨completionSameDirect, completionUnary, directCompletionUnary, provenancePkg⟩
+
 theorem RegularCauchyDiagonalCarrier_selector_stability [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert ratSeed'
       streamWindow' regseqRead' realSeal' windowLedger' provenance' localCert' : BHist}
