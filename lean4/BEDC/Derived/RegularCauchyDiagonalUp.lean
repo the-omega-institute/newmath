@@ -46,6 +46,35 @@ theorem RegularCauchyDiagonalCarrier_window_coverage [AskSetup] [PackageSetup]
     ⟨ratSeedUnary, streamWindowUnary, regseqReadUnary, selectedWindowUnary,
       windowSelection, provenancePkg, selectedPkg⟩
 
+theorem RegularCauchyDiagonalCarrier_stationary_seal_exactness [AskSetup] [PackageSetup]
+    {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert
+      constantRead constantSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyDiagonalCarrier ratSeed streamWindow regseqRead realSeal windowLedger
+        provenance localCert bundle pkg ->
+      Cont ratSeed streamWindow constantRead ->
+        Cont constantRead realSeal constantSeal ->
+          PkgSig bundle constantSeal pkg ->
+            hsame regseqRead constantRead ∧ hsame windowLedger constantSeal ∧
+              UnaryHistory constantSeal ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle constantSeal pkg := by
+  intro carrier stationaryRead stationarySeal constantSealPkg
+  obtain ⟨ratSeedUnary, streamWindowUnary, _regseqReadUnary, realSealUnary,
+    _windowLedgerUnary, _provenanceUnary, _localCertUnary, ratStreamRegseq,
+    regseqSealLedger, _sealLocalProvenance, provenancePkg⟩ := carrier
+  have regseqSameConstant : hsame regseqRead constantRead :=
+    cont_deterministic ratStreamRegseq stationaryRead
+  have windowLedgerSameSeal : hsame windowLedger constantSeal :=
+    cont_respects_hsame regseqSameConstant (hsame_refl realSeal) regseqSealLedger
+      stationarySeal
+  have constantReadUnary : UnaryHistory constantRead :=
+    unary_cont_closed ratSeedUnary streamWindowUnary stationaryRead
+  have constantSealUnary : UnaryHistory constantSeal :=
+    unary_cont_closed constantReadUnary realSealUnary stationarySeal
+  exact
+    ⟨regseqSameConstant, windowLedgerSameSeal, constantSealUnary, provenancePkg,
+      constantSealPkg⟩
+
 theorem RegularCauchyDiagonalCarrier_source_stability_obligation [AskSetup] [PackageSetup]
     {ratSeed streamWindow regseqRead realSeal windowLedger provenance localCert ratSeed'
       streamWindow' regseqRead' realSeal' windowLedger' provenance' localCert' : BHist}
