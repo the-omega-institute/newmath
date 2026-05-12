@@ -116,16 +116,114 @@ Transport each visible coordinate by the corresponding $\hsame$ row in $H$. Then
 The ledger exactness theorem \autoref{thm:cauchy-rate-ledger-exactness} rules out any additional premise during this transport. Hence the transported packet is accepted by the same classifier surface and still withholds RealUp completeness, quotient stream equality, selected limits, and host real equality.
 \end{proof}
 
+\begin{theorem}[CauchyRate BHist source scope]
+\label{thm:cauchy-rate-bhist-source-scope}
+For every accepted $\CauchyRateUp$ packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N),
+$$
+the $\mathsf{BHist}$ source scope is exactly the displayed coordinate list $p,\mu,\tau,F,Q,E,H,C,P,N$. No RealUp completeness principle, quotient stream equality, selected limit, host real equality, or unrecorded completion carrier is a dependency of the source packet.
+\end{theorem}
+\begin{proof}
+Read the carrier definition in \autoref{def:cauchy-rate-bhist-source}. It exposes precisely the ten rows $p,\mu,\tau,F,Q,E,H,C,P,N$, and no other coordinate is available to the packet classifier.
+
+Apply \autoref{thm:cauchy-rate-namecert-obligations} to identify the visible obligations. Apply \autoref{thm:cauchy-rate-regular-family-handoff} and \autoref{thm:cauchy-rate-real-cauchy-consumer-boundary} to locate the only downstream reads of $Q$ and $E$ inside the same displayed source packet.
+
+It remains to rule out hidden source dependencies. The ledger theorem \autoref{thm:cauchy-rate-ledger-exactness} exhausts the available package rows, and \autoref{thm:cauchy-rate-transport-stability} preserves the same classifier under componentwise transport. Hence the source scope is exactly the displayed $\mathsf{BHist}$ row list.
+\end{proof}
+
+\begin{theorem}[CauchyRate effective route scope]
+\label{thm:cauchy-rate-effective-route-scope}
+Every effective-rate consumer route for an accepted $\CauchyRateUp$ packet factors through the displayed continuation rows
+$$
+\Cont(p,\mu),\quad \Cont(\mu,\tau),\quad \Cont((\mu,\tau),F),\quad
+\Cont((F,\tau),Q),\quad \Cont((Q,F,\tau,\mu),E).
+$$
+Thus a consumer may inspect the completion-facing row only after passing through the precision request, modulus schedule, dyadic tail bound, regular Cauchy family source, and regular rational readback recorded in the same packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:cauchy-rate-bhist-source}. Its route row $C$ displays the five continuation entries from $p$ to $\mu$, from $\mu$ to $\tau$, from $(\mu,\tau)$ to $F$, from $(F,\tau)$ to $Q$, and from $(Q,F,\tau,\mu)$ to $E$.
+
+Apply \autoref{thm:cauchy-rate-namecert-obligations} for classifier exactness and \autoref{thm:cauchy-rate-regular-family-handoff} for the readback row $Q$. Then apply \autoref{thm:cauchy-rate-real-cauchy-consumer-boundary} to place $E$ downstream of $Q,F,\tau,\mu$.
+
+The route cannot fork through an extra consumer row. By \autoref{thm:cauchy-rate-ledger-exactness}, the ledger has no hidden carrier for an alternate read, and by \autoref{thm:cauchy-rate-transport-stability}, componentwise transport preserves the same route inventory. Therefore every effective-rate consumer route factors through the displayed continuation chain.
+\end{proof}
+
+\begin{theorem}[CauchyRate ledger scope]
+\label{thm:cauchy-rate-ledger-scope}
+For an accepted $\CauchyRateUp$ packet $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, the $\Pkg$ row $P$ and local $\NameCert_{\CauchyRateUp}$ row $N$ exhaust the dependency ledger over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RegularCauchyFamilyUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No dependency outside that list may be used to justify an effective-rate read.
+\end{theorem}
+\begin{proof}
+Project the packet carrier of \autoref{def:cauchy-rate-bhist-source}. The package row $P$ names the external dependency surface, while $N$ names the local certificate surface for exactly the same finite packet.
+
+Use \autoref{thm:cauchy-rate-namecert-obligations} to recover carrier exposure, classifier exactness, handoff, boundary, and ledger exhaustion. The handoff theorem \autoref{thm:cauchy-rate-regular-family-handoff} accounts for $\RegSeqRatUp$, and \autoref{thm:cauchy-rate-real-cauchy-consumer-boundary} accounts for $\RealCauchyCompletionUp$.
+
+Finally, apply \autoref{thm:cauchy-rate-ledger-exactness} to close the package inventory and \autoref{thm:cauchy-rate-transport-stability} to keep it stable under $\hsame$ transport and displayed $\Cont$ routes. The only remaining rows are $P$ and $N$, so the stated dependency list is exhaustive.
+\end{proof}
+
+\begin{definition}[CauchyRate scoped obligation package]
+\label{def:cauchy-rate-scoped-obligation-package}
+The scoped obligation package for $\CauchyRateUp$ is the accepted finite packet
+$$
+K=(p,\mu,\tau,F,Q,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-rate-bhist-source}, read as a $\mathsf{BHist}$ carrier over exactly the displayed dependencies
+$$
+\CauchyModulusUp,\quad \DyadicTailBoundUp,\quad
+\RegularCauchyFamilyUp,\quad \RegSeqRatUp,\quad \RealCauchyCompletionUp.
+$$
+Its scope consists of the precision row $p$, the modulus schedule $\mu$, the tail-bound row $\tau$, the regular Cauchy family row $F$, the regular rational readback $Q$, the completion consumer row $E$, the componentwise $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchyRateUp}$ row $N$.
+
+The package admits a consumer only when the consumer route factors through these rows in the displayed order. It has no coordinate for RealUp completeness, host real equality, quotient stream equality, selected limits, or an unscoped completion oracle.
+\end{definition}
+
+\begin{theorem}[CauchyRate window monotonicity]
+\label{thm:cauchy-rate-window-monotonicity}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped obligation package for $\CauchyRateUp$. If a consumer refines a precision request from $p$ to a stricter displayed request $p'$, then the accepted schedule window for $p'$ is obtained by transporting $p'$ through the same $\CauchyModulusUp$ row $\mu$ and the same $\DyadicTailBoundUp$ row $\tau$. The transported classifier may enlarge the inspected finite window, but it cannot replace $\mu$, bypass $\tau$, or read $F,Q,E$ from a different package.
+\end{theorem}
+\begin{proof}
+Project the scoped carrier of \autoref{def:cauchy-rate-scoped-obligation-package}. The only row that turns a precision request into a finite inspection window is $\mu$, and the only tail budget attached to that window is $\tau$.
+
+Transport the refined request by the precision component of $H$. Replaying the route $\Cont(p,\mu)$ for the transported request keeps the schedule inside the same $\CauchyModulusUp$ row, and replaying $\Cont(\mu,\tau)$ keeps the dyadic tail-bound ledger attached to the scheduled window.
+
+The classifier described in \autoref{def:cauchy-rate-bhist-source} compares packets only through displayed $\hsame$ and $\Cont$ rows. Thus a stricter request can ask the same schedule row for a larger visible window, but no classifier branch can substitute a different modulus, omit the tolerance row, or fetch the downstream rows from outside $K$.
+\end{proof}
+
+\begin{theorem}[CauchyRate tail-bound routing]
+\label{thm:cauchy-rate-tail-bound-routing}
+For every scoped $\CauchyRateUp$ package $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, every read of the $\RegSeqRatUp$ row $Q$ must first pass through the scheduled $\CauchyModulusUp$ row $\mu$, the $\DyadicTailBoundUp$ row $\tau$, and the $\RegularCauchyFamilyUp$ row $F$. In particular, no $Q$-consumer can inspect a regular rational readback before the tail-bound route through $\tau$ has been displayed.
+\end{theorem}
+\begin{proof}
+Read the route inventory from the scoped package. The route into $Q$ is $\Cont((F,\tau),Q)$, and the row $F$ is itself reached only after the schedule and tolerance rows have been exposed through the displayed route chain.
+
+Apply the regular-family handoff theorem \autoref{thm:cauchy-rate-regular-family-handoff}. It identifies $Q$ as the readback produced from the same scheduled family row and the same dyadic tail-bound row, so the rational readback is not an independent source row.
+
+Finally inspect $P$ and $N$. Their provenance names the displayed dependency package and the local certificate only; neither row adds an alternate path to $Q$. Hence a consumer of $Q$ must see $\mu$, $\tau$, and $F$ before it obtains the regular rational readback.
+\end{proof}
+
+\begin{theorem}[CauchyRate real-seal consumption]
+\label{thm:cauchy-rate-real-seal-consumption}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be a scoped $\CauchyRateUp$ package. Every $\RealCauchyCompletionUp$ consumer read of $E$ factors through $Q,F,\tau,\mu$ in that order before any completion-facing row is consumed. The factorization is a scoped completion-consumer route, not a proof of RealUp completeness, quotient equality of streams, a selected limit, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the completion-facing coordinate from $K$. The only displayed route into $E$ is $\Cont((Q,F,\tau,\mu),E)$, so the consumer boundary begins with the regular rational readback and carries the family, tail-bound, and schedule rows with it.
+
+Use \autoref{thm:cauchy-rate-tail-bound-routing} for the upstream read of $Q$. That theorem forces the readback itself through $\mu$, $\tau$, and $F$ before $Q$ is available to any later consumer.
+
+Combining the two routes gives the stated factorization through $Q,F,\tau,\mu$ before $E$. The scoped obligation package has no coordinate for the excluded RealUp, quotient, selected-limit, or host-equality objects, so the completion-facing read consumes only the displayed effective-rate certificate.
+\end{proof}
+
 \closureat{CauchyRateUp}{seedStr}
 \closureat{CauchyRateUp}{obligationStr}
+\closureat{CauchyRateUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyRateUp}
   \constructivestory{A $\CauchyRateUp$ packet is generated from a unary precision row, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ tolerance row, a $\RegularCauchyFamilyUp$ source, a $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer row, displayed $\hsame$ and $\Cont$ rows, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope records the finite carrier, effective-rate handoff, completion-consumer boundary, ledger exactness, and transport stability for the displayed packet rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped dependency rows fix the $\mathsf{BHist}$ source scope, effective route scope, and ledger scope for the displayed Cauchy-rate packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular streams, selected limits, host real equality, public-object export, or bridge checking.}
-  \upgradepath{Scoped closure requires fixing the dependency scope for the $\mathsf{BHist}$ source, effective-rate handoff, completion-consumer boundary, ledger exactness, and transport stability over $\CauchyModulusUp$, $\DyadicTailBoundUp$, $\RealCauchyCompletionUp$, $\RegSeqRatUp$, and $\RegularCauchyFamilyUp$.}
+  \upgradepath{Public closure requires a single exported $\CauchyRateUp$ public certificate consumed by Real and Completion readers.}
 \end{closurestatus}
