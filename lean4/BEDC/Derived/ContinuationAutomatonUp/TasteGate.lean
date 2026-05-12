@@ -203,15 +203,7 @@ instance continuationAutomatonChapterTasteGate : ChapterTasteGate ContinuationAu
 
 def taste_gate : ChapterTasteGate ContinuationAutomatonUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  {
-    round_trip := by
-      intro x
-      change continuationAutomatonFromEventFlow (continuationAutomatonToEventFlow x) = some x
-      exact continuationAutomaton_round_trip x
-    layer_separation := by
-      intro x y hxy heq
-      exact hxy (continuationAutomatonToEventFlow_injective heq)
-  }
+  continuationAutomatonChapterTasteGate
 
 theorem ContinuationAutomatonTasteGate_single_carrier_alignment :
     (∀ h : BHist, continuationAutomatonDecodeBHist (continuationAutomatonEncodeBHist h) = h) ∧
