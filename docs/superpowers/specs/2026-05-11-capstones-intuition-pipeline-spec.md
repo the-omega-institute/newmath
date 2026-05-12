@@ -2,7 +2,7 @@
 
 状态: **v5 final — gate-only philosophy, user 批准 2026-05-11**
 日期: 2026-05-11
-范围: BEDC 项目 `papers/bedc/parts/capstones/` 与 `papers/bedc/parts/concrete_instances/` 的角色 + AI 自动化管线 admission protocol
+范围: BEDC 项目 `papers/bedc/parts/visions/` 与 `papers/bedc/parts/concrete_instances/` 的角色 + AI 自动化管线 admission protocol
 
 ---
 
@@ -38,7 +38,7 @@
 
 ### 2.3 TasteGate framework — 定义"独立理论"的 gate (已存在)
 
-- `papers/bedc/parts/capstones/theory_stability_taste_gate.tex` — 4 义务定义
+- `papers/bedc/parts/visions/theory_stability_taste_gate.tex` — 4 义务定义
 - `papers/bedc/parts/ground_compiler/` 28 章 — 编译器要求实施
 - `lean4/BEDC/Meta/TasteGate.lean` — `ChapterTasteGate X` Lean class
 - working examples: `BeliefUp` / `PolicyUp` TasteGate 实例
@@ -115,10 +115,10 @@ AI 任何 P-round / R-round commit 必须**同时通过**以下所有适用 gate
 
 ### 4.4 新增 G_derived_from_traceability
 
-任何 P-round 创建的 `human_chapter_extension` 章节, 若其 `taste_gate_feasibility` 任一字段引用了 `parts/capstones/<theme>.tex` 中的语句, chapter 顶部必须加:
+任何 P-round 创建的 `human_chapter_extension` 章节, 若其 `taste_gate_feasibility` 任一字段引用了 `parts/visions/<theme>.tex` 中的语句, chapter 顶部必须加:
 
 ```latex
-\derivedfrom{ch:capstones-<theme>}{rationale: "<引述 capstone 中具体话>"}
+\derivedfrom{ch:visions-<theme>}{rationale: "<引述 capstone 中具体话>"}
 ```
 
 实施: `phase_revise.txt` 加 ~15 行模板; `bedc_ci.py` 加 ~30 行 audit (`<theme>` 存在 + rationale 非空).
@@ -176,7 +176,7 @@ deferred_candidates:
 implemented_targets:
   - name: <X>Up
     file: papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex
-    derivedfrom: ch:capstones-<theme>  # 若有
+    derivedfrom: ch:visions-<theme>  # 若有
 ```
 
 实施: `phase_revise.txt` 加 commit message 模板 (~30 行); `bedc_ci.py` 加 YAML 解析 (~20 行).
@@ -268,7 +268,7 @@ user 单边切换: `touch .creation_paused` / `rm .creation_paused`.
 
 **success 标准**:
 - commit message / critical_path JSON 出现非空 `rejected_candidates` 或 `deferred_candidates`
-- 若有 PASS candidate, chapter 含 `\derivedfrom{ch:capstones-inter-hist-locality}{...}`
+- 若有 PASS candidate, chapter 含 `\derivedfrom{ch:visions-inter-hist-locality}{...}`
 - 所有 gate 没 false positive (合法工作未被错拒)
 - 所有 gate 没 false negative (不合法工作未被错放)
 

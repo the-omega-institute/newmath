@@ -98,7 +98,7 @@ lean4/scripts/critical_path.py            metadata/priority oracle
 Reads:
 - `papers/bedc/parts/**/*.tex` for closurestatus blocks, lean markers
 - `lean4/BEDC/**/*.lean` for theorem inventory, `*Up_StdBridge` etc
-- `papers/bedc/parts/capstones/` for cross-cutting overlap analysis
+- `papers/bedc/parts/visions/` for cross-cutting overlap analysis
 
 Outputs (consumed by phase_review / phase_b prompts):
 - `top[]`: priority chapters needing attention

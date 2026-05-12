@@ -4,7 +4,7 @@ import BEDC.FKernel.NameCert
 
 /-
 BEDC.Reflection: statement-only scaffolds for the capstone chapter
-`papers/bedc/parts/capstones/reflection_and_limits.tex`. Each definition
+`papers/bedc/parts/visions/reflection_and_limits.tex`. Each definition
 records the proposition asserted by a chapter theorem; later R-rounds
 substantiate the body with the actual Lean statement and then add a
 matching theorem proof, at which point the paper marker switches from
