@@ -314,6 +314,42 @@ solver correctness, floating-point hardware semantics, classical completeness,
 and global convergence remain outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics exported enclosure bridge]
+\label{thm:validatednumerics-exported-enclosure-bridge}
+The public $\ValidatedNumericsUp$ export bridges a finite validated enclosure
+packet to exactly the displayed boundary consisting of the
+$\RationalIntervalUp$ enclosure, the dyadic or rational endpoint row, the
+finite modulus request, the $\RegSeqRatUp$ observation window, the $\RealUp$
+readback token, the containment ledger, $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance, and the local $\NameCert$ row.
+
+The bridge does not export solver correctness, floating-point hardware
+semantics, host real equality, or classical completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite enclosure obligation. Apply
+\autoref{thm:validatednumerics-interval-enclosure-obligation}; this fixes the
+$\RationalIntervalUp$ enclosure, endpoint row, finite modulus request, and
+continuation ledger as the carrier side of the public packet.
+
+Next attach the real readback boundary. Apply
+\autoref{thm:validatednumerics-real-readback-soundness}; the $\RealUp$ token is
+read only through the $\RegSeqRatUp$ observation window and finite modulus
+request, so no host real equality is introduced.
+
+The exported packet must remain stable under sharper finite requests. Apply
+\autoref{thm:validatednumerics-precision-refinement-containment} and
+\autoref{thm:validatednumerics-containment-ledger-transport}; refinement
+narrows the interval while the hidden containment ledger is carried by the
+displayed $\hsame$ transports and $\Cont$ routes.
+
+Finally apply \autoref{thm:validatednumerics-namecert-obligation-surface}. The
+local $\NameCert$ row and $\Pkg$ provenance repack the preceding rows as the
+public bridge boundary. Since each step projects from the displayed finite
+packet, solver correctness, floating-point hardware semantics, host real
+equality, and classical completeness remain outside the bridge.
+\end{proof}
+
 \begin{theorem}[ValidatedNumerics public finite-enclosure consumer certificate]
 \label{thm:validatednumerics-public-finite-enclosure-consumer-certificate}
 A scoped $\ValidatedNumericsUp$ packet exports a public finite-enclosure
