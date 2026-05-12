@@ -84,6 +84,7 @@ import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.ContinuedFractionUp
+import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
