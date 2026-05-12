@@ -331,4 +331,62 @@ theorem ModulusOfConvergencePacket_ledger_exactness
       exact And.intro precisionWindow
         (And.intro selectorWindow (And.intro streamRoute ledgerRoute))
 
+def ModulusOfConvergenceRatePacket [AskSetup] [PackageSetup]
+    (precision selector modulus schedule witness ledger provenance endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory precision ∧ UnaryHistory selector ∧ UnaryHistory schedule ∧
+    UnaryHistory witness ∧ UnaryHistory provenance ∧ Cont precision selector modulus ∧
+      Cont schedule witness ledger ∧ Cont modulus ledger endpoint ∧
+        PkgSig bundle endpoint pkg
+
+theorem ModulusOfConvergenceRatePacket_tail_restriction_stability [AskSetup] [PackageSetup]
+    {precision selector modulus schedule witness ledger provenance endpoint tail restrictedSchedule
+      restrictedLedger restrictedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModulusOfConvergenceRatePacket precision selector modulus schedule witness ledger provenance
+        endpoint bundle pkg ->
+      UnaryHistory tail ->
+        Cont schedule tail restrictedSchedule ->
+          Cont restrictedSchedule witness restrictedLedger ->
+            Cont modulus restrictedLedger restrictedEndpoint ->
+              PkgSig bundle restrictedEndpoint pkg ->
+                ModulusOfConvergenceRatePacket precision selector modulus restrictedSchedule witness
+                    restrictedLedger provenance restrictedEndpoint bundle pkg ∧
+                  hsame restrictedSchedule (append schedule tail) ∧
+                    hsame restrictedLedger (append restrictedSchedule witness) := by
+  intro packet tailUnary restrictedScheduleRow restrictedLedgerRow restrictedEndpointRow pkgSig
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have selectorUnary : UnaryHistory selector :=
+    packet.right.left
+  have scheduleUnary : UnaryHistory schedule :=
+    packet.right.right.left
+  have witnessUnary : UnaryHistory witness :=
+    packet.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.left
+  have modulusRow : Cont precision selector modulus :=
+    packet.right.right.right.right.right.left
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed precisionUnary selectorUnary modulusRow
+  have restrictedScheduleUnary : UnaryHistory restrictedSchedule :=
+    unary_cont_closed scheduleUnary tailUnary restrictedScheduleRow
+  have restrictedLedgerUnary : UnaryHistory restrictedLedger :=
+    unary_cont_closed restrictedScheduleUnary witnessUnary restrictedLedgerRow
+  have _restrictedEndpointUnary : UnaryHistory restrictedEndpoint :=
+    unary_cont_closed modulusUnary restrictedLedgerUnary restrictedEndpointRow
+  have restrictedPacket :
+      ModulusOfConvergenceRatePacket precision selector modulus restrictedSchedule witness
+        restrictedLedger provenance restrictedEndpoint bundle pkg :=
+    And.intro precisionUnary
+      (And.intro selectorUnary
+        (And.intro restrictedScheduleUnary
+          (And.intro witnessUnary
+            (And.intro provenanceUnary
+              (And.intro modulusRow
+                (And.intro restrictedLedgerRow
+                  (And.intro restrictedEndpointRow pkgSig)))))))
+  exact And.intro restrictedPacket
+    (And.intro restrictedScheduleRow restrictedLedgerRow)
+
 end BEDC.Derived.ModulusOfConvergenceUp
