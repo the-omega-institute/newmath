@@ -1363,6 +1363,7 @@ import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.FieldCertificateObligations
 import BEDC.Derived.FieldUp.RatupFieldupAssembledSupportNeutralityCertificate
 import BEDC.Derived.FieldUp.StdBridge
+import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
 import BEDC.MetaCIC.Confluence.Core
