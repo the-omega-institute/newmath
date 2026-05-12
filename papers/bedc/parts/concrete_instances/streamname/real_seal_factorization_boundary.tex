@@ -47,3 +47,40 @@ theorems introduces completion data, quotient representatives, host index
 equality, Classical choice, or a $\RealUp$ completeness field, the reverse
 packing uses exactly the displayed rows and no further datum.
 \end{proof}
+
+\begin{theorem}[StreamName Real seal factorization refinement stability]
+\label{thm:streamname-real-seal-factorization-refinement-stability}
+Let $W \subseteq W'$ be finite public $\StreamNameUp$ rational observation
+windows related by displayed prefix refinement. Suppose both windows carry
+accepted $\RegSeqRat$ seal rows over the certified unary indices, and suppose
+the source tuple for $W'$ restricts to the source tuple for $W$ through the same
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, $\Cont$,
+$\hsame$, and $\mathsf{Pkg}$ rows. Then the finite-window $\RealUp$ seal
+factorization over $W$ is exactly the restriction of the factorization over
+$W'$.
+
+The restricted factorization contains no completion datum, quotient
+representative, host index equality, choice row, or $\RealUp$ completeness
+field beyond the displayed accepted $\RegSeqRat$ seal rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-seal-factorization-boundary} to both finite
+windows. Each factorization is read through the StreamName point rows, the
+accepted $\RegSeqRat$ seal rows, bundle membership, unary observations, finite
+continuation ledger, displayed $\hsame$ transports, and package provenance.
+
+Use \autoref{thm:streamname-regseqrat-uniform-finite-window-seal} on the prefix
+refinement $W \subseteq W'$. It identifies the seal rows on the smaller window
+with the restriction of the rows displayed on the larger window.
+
+It remains to identify the source tuple. The determinacy theorem
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy} says the
+restricted source is fixed by the displayed StreamName, bundle, history,
+transport, continuation, and provenance rows. The minimality theorem
+\autoref{thm:streamname-regseqrat-realup-seal-source-minimality} rules out any
+extra source coordinate outside those rows.
+
+Therefore restricting the $W'$ factorization along the displayed prefix
+refinement gives exactly the factorization obtained directly over $W$, with no
+additional completion, quotient, host-equality, choice, or completeness data.
+\end{proof}
