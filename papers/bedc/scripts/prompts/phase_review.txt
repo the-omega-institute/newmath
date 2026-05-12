@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.12 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.13 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -15,7 +15,7 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
 5. `critical_path.top[0..9]` — open horizon chapters.
 6. Theory_extension on any chapter file — paper labels without companion theorems.
-7. **Vision concretization** (`kind = "vision_concretization"`) — at most ONE per round, opt-in (no HARD GATE forcing each round to include one). Scan `parts/visions/*.tex` for a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. If found, this is a valid candidate. **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real.
+7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
 
 8. **Automath candidate intake** (`kind = "automath_concretization"`) — at most ONE per round, opt-in. The **sibling project at `/Users/chronoai/automath/`** (The Omega Project, mathlib-based, Fibonacci-forcing theory compiler, 3427+ Lean theorems, 0 axioms) is a READ-ONLY additional-information source for candidate discovery only. You MAY read these paths (and only these) as context: `automath/README.md`, `automath/CHANGELOG.md`, `automath/theory/`, `automath/papers/publication/`, `automath/discovery/discovery_report.json`. **Do NOT** scan `automath/lean4/` (38K files, 64 GB total — read summaries/headers only if needed). **Do NOT write anywhere under `automath/`** — it is a separate git repository with its own pipeline. Concretization rules: pick one concrete mathematical object / construction / theorem statement from automath that is NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` AND that can be re-expressed inside BEDC's mathlib-free, 0-axiom, NameCert + TasteGate substrate (re-derive from first principles; do NOT import mathlib). The new chapter goes into `parts/concrete_instances/` and goes through the full standard project gate stack: BHistCarrier + ChapterTasteGate, NameCert 5 obligations, axiom-purity --strict, Phase D shallow-growth / parameter-echo. Mechanically identical to the `human_chapter_extension` flow, but the resulting chapter must be BEDC-native: do not cite, quote, or name the Automath path, bridge packet, discovery JSON, or source repository in the paper body. The source record is review metadata only; it may guide candidate selection, but it is not paper evidence. Hard provenance boundary: `automath/*`, `discovery_report.json`, bridge review-packet JSON paths, and the phrase "Inspired by Omega Project" MUST NOT appear in BEDC paper body, theorem statements, proofs, chapter intro prose, `\texttt{...}` citations, or closure prose. Per-round cap: 1 automath_concretization candidate maximum.
 
@@ -168,10 +168,20 @@ multiple discovery proposals in the same round overload Phase Revise):
   yield a substantive opportunity for the current round but the
   human-known mathematics frontier does.
 
-Choose the channel with the most tasteful concretization opportunity
-this round. The three sources are NOT ranked by priority — codex
-should evaluate each honestly and pick the one with the strongest
-mathematical content for the current state of `parts/concrete_instances/`.
+**Channel priority (v4.13)**: `vision_concretization` is the preferred
+discovery channel and is already ALWAYS-ON via the dedicated HARD GATE
+at source #7 above; that gate fires every round until `parts/visions/`
+coverage is saturated (≥ 14 of 16 narrative chapters have at least one
+`\concretizedIn` marker). When this saturation gate ALSO fires (i.e.
+both `top_root_unblocks empty` AND `drift_chapters_total < 5`), the
+candidate_pool already has vision Target 1 from gate #7 — this gate
+adds an OPTIONAL second discovery candidate from `automath_concretization`
+or `human_chapter_extension` if the round still has slot budget. Do NOT
+emit a second `vision_concretization` here (one per round is the cap).
+If vision coverage is genuinely saturated and gate #7 is opt-in this
+round, then this gate's three sources ARE evaluated equally — pick the
+one with the strongest mathematical content for the current state of
+`parts/concrete_instances/`.
 If you genuinely cannot identify a substantive discovery target across
 ALL THREE sources after honest inspection, emit a `notes` entry
 explaining the exhaustion — but the bar for that exemption is
