@@ -54,16 +54,6 @@ theorem betaStar_one {t u : Term} :
   intro h
   exact BetaStarStep.step h (BetaStarStep.refl u)
 
-theorem betaStep_to_star {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact betaStar_one h
-
-theorem betaStarStep_single {t t' : Term}
-    (h : BetaStep t t') :
-    BetaStarStep t t' := by
-  exact BetaStarStep.step h (BetaStarStep.refl t')
-
 theorem betaStar_trans {t u v : Term} :
     BetaStarStep t u → BetaStarStep u v → BetaStarStep t v := by
   intro htu huv
@@ -96,7 +86,7 @@ theorem betaStarStep_triple {a b c d : Term}
 theorem betaStarStep_three_steps {a b c d : Term}
     (h1 : BetaStep a b) (h2 : BetaStep b c) (h3 : BetaStep c d) :
     BetaStarStep a d := by
-  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStarStep_single h3)
+  exact betaStar_trans (betaStarStep_of_two_steps h1 h2) (betaStar_one h3)
 
 theorem betaStarStep_lam_cong {d b b' : Term} :
     BetaStarStep b b' → BetaStarStep (Term.lam d b) (Term.lam d b') := by
@@ -366,6 +356,16 @@ theorem betaParallel_var_diamond
       (Term.var i)
       (And.intro (BetaParallel.var i) (BetaParallel.var i))
 
+theorem betaParallel_diamond_var {i : Idx} {t1 t2 : Term}
+    (h1 : BetaParallel (Term.var i) t1) (h2 : BetaParallel (Term.var i) t2) :
+    ∃ v, BetaParallel t1 v ∧ BetaParallel t2 v := by
+  cases betaParallel_var_unique h1
+  cases betaParallel_var_unique h2
+  exact
+    Exists.intro
+      (Term.var i)
+      (And.intro (BetaParallel.var i) (BetaParallel.var i))
+
 theorem betaParallel_sort_diamond
     {u1 u2 : Term}
     (h1 : BetaParallel Term.sort u1)
@@ -373,6 +373,16 @@ theorem betaParallel_sort_diamond
     Exists (fun v => BetaParallel u1 v ∧ BetaParallel u2 v) := by
   cases h1
   cases h2
+  exact
+    Exists.intro
+      Term.sort
+      (And.intro BetaParallel.sort BetaParallel.sort)
+
+theorem betaParallel_diamond_sort {t1 t2 : Term}
+    (h1 : BetaParallel Term.sort t1) (h2 : BetaParallel Term.sort t2) :
+    ∃ v, BetaParallel t1 v ∧ BetaParallel t2 v := by
+  cases betaParallel_sort_unique h1
+  cases betaParallel_sort_unique h2
   exact
     Exists.intro
       Term.sort

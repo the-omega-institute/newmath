@@ -242,4 +242,33 @@ theorem RationalBallPacket_namecert_obligations [AskSetup] [PackageSetup]
           nameUnary⟩
   }
 
+theorem RationalBallPacket_metric_positive_containment_transport [AskSetup] [PackageSetup]
+    {center radius order transport containment provenance name endpoint consumer metric : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalBallPacket center radius order transport containment provenance name endpoint
+        bundle pkg ->
+      Cont containment endpoint consumer ->
+        Cont consumer provenance metric ->
+          PkgSig bundle metric pkg ->
+            UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory containment ∧
+              UnaryHistory endpoint ∧ UnaryHistory consumer ∧ UnaryHistory metric ∧
+                Cont center radius order ∧ Cont order containment transport ∧
+                  Cont transport provenance endpoint ∧ Cont containment endpoint consumer ∧
+                    Cont consumer provenance metric ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle metric pkg := by
+  intro packet containmentEndpointConsumer consumerProvenanceMetric metricPkg
+  obtain ⟨centerUnary, radiusUnary, _orderUnary, transportUnary, containmentUnary,
+    provenanceUnary, _nameUnary, centerRadiusOrder, orderContainmentTransport,
+    transportProvenanceEndpoint, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceEndpoint
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed containmentUnary endpointUnary containmentEndpointConsumer
+  have metricUnary : UnaryHistory metric :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceMetric
+  exact
+    ⟨centerUnary, radiusUnary, containmentUnary, endpointUnary, consumerUnary, metricUnary,
+      centerRadiusOrder, orderContainmentTransport, transportProvenanceEndpoint,
+      containmentEndpointConsumer, consumerProvenanceMetric, endpointPkg, metricPkg⟩
+
 end BEDC.Derived.RationalBallUp
