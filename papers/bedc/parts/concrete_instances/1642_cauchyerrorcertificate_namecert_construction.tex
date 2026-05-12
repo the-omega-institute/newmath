@@ -197,16 +197,31 @@ Next bind compatibility. Theorem~\ref{thm:cauchy-error-certificate-diagonal-tail
 Finally bind the seal boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed rows, and the non-escape boundary excludes all host-side completion objects. Repacking these rows gives the announced finite $\RealUp$ seal budget package.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate scoped budget-window package]
+\label{thm:cauchy-error-certificate-scoped-budget-window-package}
+For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, the displayed modulus row, tail-or-diagonal packet, finite error-budget ledger, provenance row, readback boundary, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows form the scoped dependency surface for every dyadic error request. The scoped package exports no quotient stream, selected host limit, host real equality, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First bind the request route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} routes each dyadic error request through the modulus row and into the displayed tail-or-diagonal packet.
+
+Next bind the finite window. Theorem~\ref{thm:cauchy-error-certificate-budget-window-exhaustion} exhausts the request through $M,T,E$ before the readback row is visible, and Theorem~\ref{thm:cauchy-error-certificate-shared-modulus-transport} keeps that route stable under the displayed $\hsame$ and $\Cont$ transports.
+
+Now fix the readback boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} identifies the $\RegSeqRatUp/\RealUp$ boundary relative to the displayed modulus, tail-or-diagonal, budget, and provenance rows.
+
+Finally apply Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package}. It repacks the displayed rows as the finite seal budget package, while its boundary clause leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the scoped surface.
+\end{proof}
+
 \closureat{CauchyErrorCertificateUp}{seedStr}
 \closureat{CauchyErrorCertificateUp}{obligationStr}
+\closureat{CauchyErrorCertificateUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyErrorCertificateUp}
   \constructivestory{A $\CauchyErrorCertificateUp$ packet is generated from a regular-rational and real readback route, a unary precision modulus, a dyadic tail or diagonal row, a finite error-budget ledger, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The chapter displays the carrier, NameCert obligations, modulus soundness route, budget-window exhaustion, shared modulus transport, readback determinacy, and finite seal budget package for dyadic error certificates.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected host limits, ambient real completeness, host real equality, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the displayed budget-window route, shared modulus transport, and finite seal package to a checked dependency scope.}
+  \upgradepath{Formal closure requires Lean encoding of the scoped budget-window package and checked dependency scope.}
 \end{closurestatus}
