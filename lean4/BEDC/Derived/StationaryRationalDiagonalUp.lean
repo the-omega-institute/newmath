@@ -82,6 +82,37 @@ theorem StationaryRationalDiagonalCarrier_namecert_obligation_surface
       exact source
   }
 
+theorem StationaryRationalDiagonalCarrier_real_handoff [AskSetup] [PackageSetup]
+    {rat constantStream regseq diagonal realSeal transport route provenance namecert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalDiagonalCarrier rat constantStream regseq diagonal realSeal transport
+        route provenance namecert endpoint bundle pkg →
+      UnaryHistory rat ∧
+        UnaryHistory constantStream ∧
+          UnaryHistory regseq ∧
+            UnaryHistory diagonal ∧
+              UnaryHistory realSeal ∧
+                Cont rat constantStream regseq ∧
+                  Cont regseq diagonal realSeal ∧
+                    Cont realSeal transport route ∧
+                      Cont route provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier
+  obtain ⟨ratUnary, constantStreamUnary, regseqUnary, diagonalUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary,
+    constantStreamRoute, diagonalSealRoute, transportRoute, provenanceEndpoint, pkgSig,
+    _nameCert⟩ := carrier
+  exact And.intro ratUnary
+    (And.intro constantStreamUnary
+      (And.intro regseqUnary
+        (And.intro diagonalUnary
+          (And.intro realSealUnary
+            (And.intro constantStreamRoute
+              (And.intro diagonalSealRoute
+                (And.intro transportRoute
+                  (And.intro provenanceEndpoint pkgSig))))))))
+
 theorem StationaryRationalDiagonalCarrier_semantic_name_certificate
     [AskSetup] [PackageSetup]
     {rat constantStream regseq diagonal realSeal transport route provenance namecert
