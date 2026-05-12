@@ -133,9 +133,9 @@ manifest assertion PASS/FAIL
 - [x] T-B.5: 为 FKernel `.enum.ct` 生成对应 `.r110` direct-carrier initial pattern
 - [x] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` direct-carrier input
 - [x] T-B.7: `make test` 扩到 FKernel `.r110` smoke test; Beyond-FKernel appendix 四目录不纳入覆盖
-- [ ] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
+- [x] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
 
-**预估**: 外部数据等待已移除. 剩余为 phase-row simulation、packet layout、decoder round-trip 和 test expansion; 约 2-4 周工程工作, 具体取决于 D1/D2 与 leader / ossifier packet 对齐难度.
+**Tier B ship 状态**: `.enum.ct` direct-carrier 子集已 ship. `.algo.ct` 与 Beyond-FKernel 显式不在 Tier B 范围.
 
 ---
 

@@ -1,6 +1,6 @@
 # rule110 status
 
-Status: Level 0 Behavioral Scaffold Complete.
+Status: Tier A (cyclic-tag witness) **shipped**; Tier B (.enum.ct direct-carrier round-trip) **shipped**.
 
 This snapshot records the current citable state of the `rule110/` artifact.
 The master plan is `ROADMAP.md`.
@@ -9,9 +9,9 @@ The master plan is `ROADMAP.md`.
 
 详细见 `ROADMAP.md`. 简要:
 
-- **当前状态**: Tier A (cyclic-tag witness) 接近 ship. 信任基 ≈ 250 行 C + 文本 manifest, Lean kernel 不在 trust path.
-- **下一步**: T-A.1~T-A.8 收尾, 预估 1-3 天.
-- **严格目标 (Tier B)**: Rule 110 物理 witness via Cook construction. FKernel `.r110` direct-carrier manifests 已接入 `make test`; Martinez phase / collision catalogs 已接入, 剩余为 phase 验证和 packet composition.
+- **Tier A 状态**: ship 完成. Tag `rule110-v2.0-fkernel-tier-a` at `d3ae91028`. 信任基 ≈ 250 行 C + 文本 manifest. Lean kernel 不在 trust path. `make test` exit 0, CI 全绿, 0 axiom invariant 保持. `papers/bedc/` external-witness 引用已接入.
+- **Tier B 状态**: ship 完成 (`.enum.ct` 范围). Tag `rule110-v3.0-fkernel-tier-b`. 25 个 FKernel `.r110.ct` direct-carrier manifests, round-trip 全过. Martinez 2001 phase catalog + Martinez 2012 collision/soliton table 已接入 `encoder/glider_phases.c/h` + `encoder/martinez_2012_collisions.txt`. Cook packet phase-exact bodies (ossifier/leader/data_block) wired through canonical lookup. 信任路径降到 `evaluator/rule110.c` (~50 行) + `.r110` 文本.
+- **不在 Tier B 范围**: `.algo.ct` (bounded recognizers, 不需要物理嵌入); Beyond-FKernel 4 模块 (appendix).
 
 L4 cross-check / L5 Beyond-FKernel mirrors 重新定位为开发工具 / 附录, 见 ROADMAP §"Lean / L4 / L5 重新定位".
 
