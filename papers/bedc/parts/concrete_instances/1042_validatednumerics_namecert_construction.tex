@@ -314,6 +314,42 @@ solver correctness, floating-point hardware semantics, classical completeness,
 and global convergence remain outside the packet boundary.
 \end{proof}
 
+\begin{theorem}[ValidatedNumerics public finite-enclosure consumer certificate]
+\label{thm:validatednumerics-public-finite-enclosure-consumer-certificate}
+A scoped $\ValidatedNumericsUp$ packet exports a public finite-enclosure
+consumer certificate. The interval enclosure obligation gives the carrier row,
+real readback soundness gives the $\RealUp$ interpretation, precision refinement
+containment supplies monotone narrowing, and containment ledger transport
+records the hidden refinement ledger. Downstream $\RealUp$ and $\RegSeqRatUp$
+consumers may use the enclosure packet without assuming any host real-number
+primitive.
+\end{theorem}
+\begin{proof}
+First build the finite enclosure source. Apply
+\autoref{thm:validatednumerics-interval-enclosure-obligation}; the displayed
+endpoint and interval rows provide the carrier-side enclosure data, while the
+continuation routes record the finite containment obligation.
+
+Next interpret the enclosure as a real readback packet. By
+\autoref{thm:validatednumerics-real-readback-soundness}, the readback is routed
+through the $\RegSeqRatUp$ observation window, the finite modulus request, and
+the named $\RealUp$ row, so the consumer sees a BEDC real-name interpretation
+rather than a host completed-real primitive.
+
+The public certificate must also be stable under tighter requests. Apply
+\autoref{thm:validatednumerics-precision-refinement-containment}; smaller
+precision demands retain the enclosing row by monotone narrowing and preserve
+the same displayed transport surface.
+
+Finally apply
+\autoref{thm:validatednumerics-containment-ledger-transport}. The hidden
+refinement ledger is carried as $\Cont/\hsame$ provenance, not as a solver
+oracle. Repacking these four rows gives a public finite-enclosure consumer
+certificate usable by downstream $\RealUp$ and $\RegSeqRatUp$ consumers, with
+solver correctness, floating-point semantics, and classical real completeness
+remaining outside the exported packet.
+\end{proof}
+
 \closureat{ValidatedNumericsUp}{seedStr}
 \closureat{ValidatedNumericsUp}{obligationStr}
 \closureat{ValidatedNumericsUp}{scopedStr}
