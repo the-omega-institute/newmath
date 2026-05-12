@@ -79,6 +79,7 @@ import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
+import BEDC.Derived.DyadicApproximationUp.DiagonalMeshSelector
 import BEDC.Derived.DyadicApproximationUp.CommonRefinementEnclosureCertificate
 import BEDC.Derived.DyadicApproximationUp.NameCertObligationSurface
 import BEDC.Derived.DyadicApproximationUp.FinitePacketReadback
@@ -134,8 +135,10 @@ import BEDC.Derived.FastCauchyUp.WindowSynchronization
 import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
 import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchySeqUp
+import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FreeMonoidUp
@@ -243,6 +246,7 @@ import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
+import BEDC.Derived.UnitDiskUp
 import BEDC.Derived.UnitUp
 import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.VermaModuleUp
@@ -1211,6 +1215,7 @@ import BEDC.MetaCIC.TypedExamples.Projections
 import BEDC.MetaCIC.TypedExamples.BasicApplications
 import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.HostBridge.MetaCICTransport
+import BEDC.HostBridge.EquationalLaws
 /- Capstone formalizations. -/
 import BEDC.Capstone
 import BEDC.Manifest
