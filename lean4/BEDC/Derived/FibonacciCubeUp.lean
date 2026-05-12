@@ -15,31 +15,65 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def FibonacciCubePacket [AskSetup] [PackageSetup]
-    (length path word support provenance deps nameRow : BHist)
+    (length graph word support zeckendorf deps provenance certificate : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory length ∧ UnaryHistory path ∧ UnaryHistory word ∧ UnaryHistory support ∧
-    UnaryHistory provenance ∧ UnaryHistory deps ∧ UnaryHistory nameRow ∧
-      Cont length path word ∧ Cont support provenance deps ∧ Cont deps nameRow nameRow ∧
-        PkgSig bundle nameRow pkg
+  UnaryHistory length ∧ UnaryHistory graph ∧ UnaryHistory zeckendorf ∧
+    UnaryHistory deps ∧ UnaryHistory provenance ∧ Cont length graph word ∧
+      Cont word graph support ∧ Cont support zeckendorf deps ∧
+        Cont deps provenance certificate ∧ PkgSig bundle certificate pkg
 
-theorem FibonacciCubePacket_carrier_habitation [AskSetup] [PackageSetup]
-    {length path word support provenance deps nameRow emptySupport zeroWord : BHist}
+theorem FibonacciCubePacket_word_path_support_correspondence [AskSetup] [PackageSetup]
+    {length graph word support zeckendorf deps provenance certificate supportRead
+      independent : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    FibonacciCubePacket length path word support provenance deps nameRow bundle pkg ->
-      hsame support emptySupport ->
-        hsame word zeroWord ->
-          UnaryHistory length ∧ UnaryHistory path ∧ UnaryHistory emptySupport ∧
-            UnaryHistory zeroWord ∧ hsame support emptySupport ∧ hsame word zeroWord ∧
-              Cont length path word ∧ PkgSig bundle nameRow pkg := by
-  intro packet sameSupport sameWord
-  obtain ⟨lengthUnary, pathUnary, wordUnary, supportUnary, _provenanceUnary, _depsUnary,
-    _nameUnary, pathWordRow, _depsRow, _nameRow, namePkg⟩ := packet
-  have emptySupportUnary : UnaryHistory emptySupport :=
-    unary_transport supportUnary sameSupport
-  have zeroWordUnary : UnaryHistory zeroWord :=
-    unary_transport wordUnary sameWord
+    FibonacciCubePacket length graph word support zeckendorf deps provenance certificate bundle pkg ->
+      Cont word graph supportRead ->
+        Cont supportRead graph independent ->
+          UnaryHistory word ∧ UnaryHistory graph ∧ UnaryHistory supportRead ∧
+            UnaryHistory independent ∧ Cont word graph supportRead ∧
+              Cont supportRead graph independent ∧ PkgSig bundle certificate pkg := by
+  intro packet wordGraphSupportRead supportReadGraphIndependent
+  obtain ⟨lengthUnary, graphUnary, _zeckendorfUnary, _depsUnary, _provenanceUnary,
+    lengthGraphWord, _wordGraphSupport, _supportZeckendorfDeps, _depsProvenanceCertificate,
+    certificatePkg⟩ := packet
+  have wordUnary : UnaryHistory word :=
+    unary_cont_closed lengthUnary graphUnary lengthGraphWord
+  have supportReadUnary : UnaryHistory supportRead :=
+    unary_cont_closed wordUnary graphUnary wordGraphSupportRead
+  have independentUnary : UnaryHistory independent :=
+    unary_cont_closed supportReadUnary graphUnary supportReadGraphIndependent
   exact
-    ⟨lengthUnary, pathUnary, emptySupportUnary, zeroWordUnary, sameSupport, sameWord,
-      pathWordRow, namePkg⟩
+    ⟨wordUnary, graphUnary, supportReadUnary, independentUnary, wordGraphSupportRead,
+      supportReadGraphIndependent, certificatePkg⟩
+
+def FibonacciCubeCarrier [AskSetup] [PackageSetup]
+    (length path word support deps cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory length ∧ UnaryHistory path ∧ Cont length path word ∧
+    Cont word BHist.Empty deps ∧ Cont deps BHist.Empty cert ∧ PkgSig bundle cert pkg
+
+theorem FibonacciCubeCarrier_habitation [AskSetup] [PackageSetup]
+    {length path word deps cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory length ->
+      UnaryHistory path ->
+        Cont length path word ->
+          Cont word BHist.Empty deps ->
+            Cont deps BHist.Empty cert ->
+              PkgSig bundle cert pkg ->
+                FibonacciCubeCarrier length path word BHist.Empty deps cert bundle pkg ∧
+                  UnaryHistory word ∧ UnaryHistory deps ∧ UnaryHistory cert := by
+  intro lengthUnary pathUnary lengthPathWord wordEmptyDeps depsEmptyCert certPkg
+  have wordUnary : UnaryHistory word :=
+    unary_cont_closed lengthUnary pathUnary lengthPathWord
+  have emptyUnary : UnaryHistory BHist.Empty :=
+    unary_empty
+  have depsUnary : UnaryHistory deps :=
+    unary_cont_closed wordUnary emptyUnary wordEmptyDeps
+  have certUnary : UnaryHistory cert :=
+    unary_cont_closed depsUnary emptyUnary depsEmptyCert
+  exact
+    ⟨⟨lengthUnary, pathUnary, lengthPathWord, wordEmptyDeps, depsEmptyCert, certPkg⟩,
+      wordUnary, depsUnary, certUnary⟩
 
 end BEDC.Derived.FibonacciCubeUp

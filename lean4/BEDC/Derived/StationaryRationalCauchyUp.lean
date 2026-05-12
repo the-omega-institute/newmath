@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -51,10 +52,16 @@ theorem StationaryRationalCauchyCarrier_namecert_obligations [AskSetup] [Package
                 endpoint bundle pkg ∧ hsame row endpoint)
             hsame := by
   intro carrier
+  have carrierCopy :
+      StationaryRationalCauchyCarrier q schedule regseq dyadic «seal» provenance cert endpoint
+          bundle pkg :=
+    carrier
+  obtain ⟨qUnary, _scheduleUnary, _regseqUnary, _dyadicUnary, _sealUnary, _provenanceUnary,
+    _certUnary, regseqRow, sealRow, _endpointRow, pkgRow⟩ := carrier
   have endpointSource :
       StationaryRationalCauchyCarrier q schedule regseq dyadic «seal» provenance cert endpoint
           bundle pkg ∧ hsame endpoint endpoint :=
-    And.intro carrier (hsame_refl endpoint)
+    And.intro carrierCopy (hsame_refl endpoint)
   have semantic :
       SemanticNameCert
         (fun row : BHist =>
@@ -89,11 +96,30 @@ theorem StationaryRationalCauchyCarrier_namecert_obligations [AskSetup] [Package
       intro _row sourceRow
       exact sourceRow
   }
-  exact And.intro carrier.left
-    (And.intro carrier.right.right.right.right.right.right.right.left
-      (And.intro carrier.right.right.right.right.right.right.right.right.left
-        (And.intro carrier.right.right.right.right.right.right.right.right.right.right
-          semantic)))
+  exact And.intro qUnary
+    (And.intro regseqRow (And.intro sealRow (And.intro pkgRow semantic)))
+
+theorem StationaryRationalCauchyCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {q schedule regseq dyadic «seal» provenance cert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalCauchyCarrier q schedule regseq dyadic «seal» provenance cert endpoint
+        bundle pkg →
+      UnaryHistory q ∧ UnaryHistory schedule ∧ UnaryHistory regseq ∧
+        UnaryHistory dyadic ∧ UnaryHistory «seal» ∧
+          hsame regseq (append q schedule) ∧
+            hsame «seal» (append regseq dyadic) ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier
+  obtain ⟨qUnary, scheduleUnary, regseqUnary, dyadicUnary, sealUnary, _provenanceUnary,
+    _certUnary, regseqRow, sealRow, _endpointRow, pkgRow⟩ := carrier
+  exact
+    And.intro qUnary
+      (And.intro scheduleUnary
+        (And.intro regseqUnary
+          (And.intro dyadicUnary
+            (And.intro sealUnary
+              (And.intro regseqRow
+                (And.intro sealRow pkgRow))))))
 
 theorem StationaryRationalCauchyBHistCarrier_diagonal_handoff [AskSetup] [PackageSetup]
     {seed stream regular ledger realSeal provenance nameCert diagonalRoute readRoute : BHist}
@@ -110,5 +136,39 @@ theorem StationaryRationalCauchyBHistCarrier_diagonal_handoff [AskSetup] [Packag
   have readUnary : UnaryHistory readRoute :=
     unary_cont_closed diagonalUnary seedUnary routeRead
   exact ⟨readUnary, diagonalEq, pkgRow⟩
+
+theorem StationaryRationalCauchyCarrier_classifier_correspondence [AskSetup] [PackageSetup]
+    {q schedule regseq dyadic «seal» provenance cert endpoint q' schedule' regseq' dyadic'
+      seal' provenance' cert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryRationalCauchyCarrier q schedule regseq dyadic «seal» provenance cert endpoint
+        bundle pkg ->
+      hsame q q' ->
+        hsame schedule schedule' ->
+          hsame regseq regseq' ->
+            hsame dyadic dyadic' ->
+              hsame «seal» seal' ->
+                hsame provenance provenance' ->
+                  hsame cert cert' ->
+                    hsame endpoint endpoint' ->
+                      PkgSig bundle endpoint' pkg ->
+                        StationaryRationalCauchyCarrier q' schedule' regseq' dyadic' seal'
+                          provenance' cert' endpoint' bundle pkg := by
+  intro carrier sameQ sameSchedule sameRegseq sameDyadic sameSeal sameProvenance sameCert
+    sameEndpoint endpointPkg
+  obtain ⟨qUnary, scheduleUnary, regseqUnary, dyadicUnary, sealUnary, provenanceUnary, certUnary,
+    qScheduleRegseq, regseqDyadicSeal, provenanceCertEndpoint, _endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport qUnary sameQ,
+      unary_transport scheduleUnary sameSchedule,
+      unary_transport regseqUnary sameRegseq,
+      unary_transport dyadicUnary sameDyadic,
+      unary_transport sealUnary sameSeal,
+      unary_transport provenanceUnary sameProvenance,
+      unary_transport certUnary sameCert,
+      cont_hsame_transport sameQ sameSchedule sameRegseq qScheduleRegseq,
+      cont_hsame_transport sameRegseq sameDyadic sameSeal regseqDyadicSeal,
+      cont_hsame_transport sameProvenance sameCert sameEndpoint provenanceCertEndpoint,
+      endpointPkg⟩
 
 end BEDC.Derived.StationaryRationalCauchyUp

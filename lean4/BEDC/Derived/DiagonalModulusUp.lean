@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -142,6 +143,66 @@ theorem DiagonalModulusPacket_window_selector_total [AskSetup] [PackageSetup]
     ⟨precisionUnary, thresholdUnary, windowUnary, selectorUnary, regseqUnary,
       precisionThresholdSelector, selectorWindowRead, provenancePkg, regseqPkg⟩
 
+theorem DiagonalModulusPacket_real_seal_nonescape [AskSetup] [PackageSetup]
+    {precision threshold window readback ledger sealRow provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusPacket precision threshold window readback ledger sealRow provenance nameCert
+        bundle pkg ->
+      Cont ledger sealRow provenance -> Cont sealRow provenance consumer ->
+        UnaryHistory precision ∧ UnaryHistory threshold ∧ UnaryHistory window ∧
+          hsame window (append precision threshold) ∧ hsame provenance (append ledger sealRow) ∧
+            hsame consumer (append sealRow provenance) ∧ PkgSig bundle provenance pkg := by
+  intro packet ledgerSealProvenance sealProvenanceConsumer
+  have precisionUnary : UnaryHistory precision :=
+    packet.left
+  have thresholdUnary : UnaryHistory threshold :=
+    packet.right.left
+  have windowUnary : UnaryHistory window :=
+    packet.right.right.left
+  have precisionThresholdWindow : Cont precision threshold window :=
+    packet.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.left
+  exact
+    ⟨precisionUnary,
+      thresholdUnary,
+      windowUnary,
+      precisionThresholdWindow,
+      ledgerSealProvenance,
+      sealProvenanceConsumer,
+      pkgSig⟩
+
+theorem DiagonalModulusPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {precision threshold window readback ledger sealRow provenance nameCert dyadic
+      rationalEvidence : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusPacket precision threshold window readback ledger sealRow provenance nameCert
+        bundle pkg ->
+      UnaryHistory readback ->
+        UnaryHistory dyadic ->
+          Cont readback dyadic rationalEvidence ->
+            PkgSig bundle rationalEvidence pkg ->
+              UnaryHistory window ∧ UnaryHistory ledger ∧ UnaryHistory rationalEvidence ∧
+                Cont window readback ledger ∧ Cont readback dyadic rationalEvidence ∧
+                  Cont ledger sealRow provenance ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle rationalEvidence pkg := by
+  intro packet readbackUnary dyadicUnary readbackDyadicEvidence evidencePkg
+  have windowUnary : UnaryHistory window :=
+    packet.right.right.left
+  have windowReadbackLedger : Cont window readback ledger :=
+    packet.right.right.right.right.left
+  have ledgerSealProvenance : Cont ledger sealRow provenance :=
+    packet.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    packet.right.right.right.right.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackLedger
+  have rationalEvidenceUnary : UnaryHistory rationalEvidence :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicEvidence
+  exact
+    ⟨windowUnary, ledgerUnary, rationalEvidenceUnary, windowReadbackLedger,
+      readbackDyadicEvidence, ledgerSealProvenance, provenancePkg, evidencePkg⟩
+
 def DiagonalModulusWindowCarrier [AskSetup] [PackageSetup]
     (precision modulus window readback dyadic «seal» provenance nameCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -165,5 +226,37 @@ theorem DiagonalModulusWindowCarrier_selector_total [AskSetup] [PackageSetup]
   have sealUnary : UnaryHistory «seal» :=
     unary_cont_closed windowUnary readbackUnary sealRow
   exact ⟨windowUnary, sealUnary, windowRow, sealRow, sealPkg⟩
+
+theorem DiagonalModulusWindowCarrier_completion_classifier_transport [AskSetup] [PackageSetup]
+    {precision modulus window readback dyadic sealRow provenance nameCert precision' modulus'
+      window' readback' dyadic' sealRow' provenance' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalModulusWindowCarrier precision modulus window readback dyadic sealRow provenance
+        nameCert bundle pkg ->
+      hsame precision precision' ->
+        hsame modulus modulus' ->
+          hsame window window' ->
+            hsame readback readback' ->
+              hsame dyadic dyadic' ->
+                hsame sealRow sealRow' ->
+                  hsame provenance provenance' ->
+                    hsame nameCert nameCert' ->
+                      PkgSig bundle sealRow' pkg ->
+                        DiagonalModulusWindowCarrier precision' modulus' window' readback'
+                          dyadic' sealRow' provenance' nameCert' bundle pkg := by
+  intro carrier samePrecision sameModulus sameWindow sameReadback sameDyadic sameSeal
+    sameProvenance sameNameCert sealPkg'
+  obtain ⟨precisionUnary, modulusUnary, readbackUnary, dyadicUnary, nameCertUnary,
+    precisionModulusWindow, windowReadbackSeal, readbackDyadicProvenance, _sealPkg⟩ := carrier
+  exact
+    ⟨unary_transport precisionUnary samePrecision,
+      unary_transport modulusUnary sameModulus,
+      unary_transport readbackUnary sameReadback,
+      unary_transport dyadicUnary sameDyadic,
+      unary_transport nameCertUnary sameNameCert,
+      cont_hsame_transport samePrecision sameModulus sameWindow precisionModulusWindow,
+      cont_hsame_transport sameWindow sameReadback sameSeal windowReadbackSeal,
+      cont_hsame_transport sameReadback sameDyadic sameProvenance readbackDyadicProvenance,
+      sealPkg'⟩
 
 end BEDC.Derived.DiagonalModulusUp
