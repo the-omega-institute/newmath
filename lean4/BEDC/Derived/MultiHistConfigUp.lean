@@ -1,5 +1,6 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -36,7 +37,6 @@ theorem MultiHistConfigCarrier_habitation [AskSetup] [PackageSetup]
                             provenance localCert bundle pkg ∧
                           UnaryHistory ledger0 ∧ UnaryHistory sameRow ∧
                             UnaryHistory provenance ∧ UnaryHistory ledger1 := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
   intro h0Unary h1Unary noSyncUnary routeUnary localCertUnary h0H1Ledger
     ledgerNoSyncSame sameRouteProvenance provenanceLocalLedger pkgSig
   have ledger0Unary : UnaryHistory ledger0 :=
@@ -53,5 +53,30 @@ theorem MultiHistConfigCarrier_habitation [AskSetup] [PackageSetup]
     ⟨h0Unary, h1Unary, h0H1Ledger, ledgerNoSyncSame, sameRouteProvenance,
       provenanceLocalLedger, pkgSig⟩
   exact ⟨carrier, ledger0Unary, sameRowUnary, provenanceUnary, ledger1Unary⟩
+
+theorem MultiHistConfig_carrier_habitation (h0 h1 : BHist) :
+    (Cont h0 BHist.Empty h0 ∧ Cont h1 BHist.Empty h1) ∧
+      BEDC.FKernel.NameCert.NameCert
+        (fun h : BHist => hsame h h0 ∨ hsame h h1) hsame := by
+  constructor
+  · constructor
+    · exact cont_right_unit h0
+    · exact cont_right_unit h1
+  · exact {
+      carrier_inhabited := Exists.intro h0 (Or.inl (hsame_refl h0))
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro h k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro a b c sameAB sameBC
+        exact hsame_trans sameAB sameBC
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        cases sameHK
+        exact carrierH
+    }
 
 end BEDC.Derived.MultiHistConfigUp
