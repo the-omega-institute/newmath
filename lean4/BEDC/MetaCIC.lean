@@ -28,6 +28,7 @@ import BEDC.MetaCIC.TypedExamples.Applications
 import BEDC.MetaCIC.TypedExamples.Polymorphic
 import BEDC.MetaCIC.TypedExamples.ChurchGallery
 import BEDC.MetaCIC.TypedExamples.ChurchAlgebra
+import BEDC.MetaCIC.TypedExamples.ChurchBoolLogic
 import BEDC.MetaCIC.TypedExamples.ChurchNatRec
 import BEDC.MetaCIC.TypedExamples.ChurchNatArith
 import BEDC.MetaCIC.TypedExamples.BetaRedex
