@@ -634,3 +634,60 @@ $$
 contradicting natural-number successor no-confusion. Hence the two generated
 signature histories cannot be internally history-same.
 \end{proof}
+
+\begin{theorem}[Signature append cut decomposition uniqueness]
+\label{thm:signature-append-cut-decomposition-uniqueness}
+For probe bundles $\Pi,\Theta,A$, domain $D$, and source history $h$, assume
+$A=\mathsf{BAppend}(\Pi,\Theta)$,
+$\mathsf{BundleAskPolicy}(\Pi,D)$, $\mathsf{BundleAskPolicy}(\Theta,D)$, and
+$h\in D$. If
+$$
+\Sig(A,h,u,\Lambda)
+$$
+has two append-inversion decompositions
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\ContR(t,s,u),
+$$
+and
+$$
+\Sig(\Pi,h,s',\Delta'),
+\qquad
+\Sig(\Theta,h,t',\Gamma'),
+\qquad
+\ContR(t',s',u),
+$$
+then
+$$
+\hsame(s,s')
+\quad\text{and}\quad
+\hsame(t,t').
+$$
+\end{theorem}
+\begin{proof}
+The displayed rows are two decompositions of the same appended signature, but
+component uniqueness is local to the two recovered bundles. Apply
+\autoref{thm:bundle-local-signature-determinacy} to the policy
+$\mathsf{BundleAskPolicy}(\Pi,D)$, the admitted source history $h\in D$, and
+the two recovered $\Pi$ signatures
+$$
+\Sig(\Pi,h,s,\Delta),
+\qquad
+\Sig(\Pi,h,s',\Delta').
+$$
+This gives $\hsame(s,s')$. Apply the same determinacy theorem to the policy
+$\mathsf{BundleAskPolicy}(\Theta,D)$, the same admitted source history, and the
+two recovered $\Theta$ signatures
+$$
+\Sig(\Theta,h,t,\Gamma),
+\qquad
+\Sig(\Theta,h,t',\Gamma').
+$$
+This gives $\hsame(t,t')$. The appended signature premise, together with
+$A=\mathsf{BAppend}(\Pi,\Theta)$ and the two continuation witnesses, certifies
+that both pairs are append-inversion cuts of the same event; the two component
+comparisons follow from bundle-local determinacy on the fixed source.
+\end{proof}
