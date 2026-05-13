@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFrontierIndexUp$}
+\label{ch:concrete-instances-audit-map-frontier-index-namecert}
+\origin{ai}
+
+The $\AuditMapFrontierIndexUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as finite frontier-index routing data. It sits beside the family ledger of \autoref{ch:concrete-instances-auditmapfamilyledger-namecert}, the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and the synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}: those chapters expose local rows and family ledgers, while this packet records how frontier entries are routed between local maps, neighbouring-map rows, obstruction rows, and synthesis consumers without closing the frontier itself.
+
+\begin{definition}[Audit-map frontier index carrier]
+\label{def:audit-map-frontier-index-carrier}
+An $\AuditMapFrontierIndexUp$ carrier is a finite $\BHist$ packet
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the map tag naming the local audit-map module and its BEDC substrate;
+\item $A$ is the local audit row whose frontier is being indexed;
+\item $E$ is the neighbouring-map row listing the sibling audit packets that may supply or consume frontier entries;
+\item $P$ is the positive row recording entries already available in the local map;
+\item $R$ is the conditional route row naming the displayed discharge route required before a conditional entry may be consumed;
+\item $O$ is the obstruction row whose named boundary must remain visible to every route;
+\item $F$ is the frontier row offered to downstream consumers as a named boundary and not as a closed theorem;
+\item $S$ is the synthesis-consumer row naming the finite reader that consumes the indexed frontier together with neighbouring-map links;
+\item $H$ records componentwise $\hsame$ transports for the map tag, local audit row, neighbouring-map row, positive row, conditional route row, obstruction row, frontier row, synthesis-consumer row, provenance row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes from the local map to neighbouring maps, from conditional rows to their named routes, from obstruction rows to frontier rows, and from frontier rows to synthesis consumers;
+\item $K$ is the $\Pkg$ provenance row over the audit-map family ledger, local audit maps, neighbouring-map links, frontier rows, synthesis consumers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditMapFrontierIndexUp}$ row.
+\end{enumerate}
+The carrier is the finite frontier index. It contains no coordinate for a hidden discharge of the obstruction row, a closed proof of a frontier entry, an unlisted neighbouring map, a global subject-reduction theorem, full closed consistency, ambient confluence, or host semantic equality.
+\end{definition}
+
+\begin{theorem}[Audit-map frontier index NameCert obligations]
+\label{thm:audit-map-frontier-index-namecert-obligations}
+For the carrier of \autoref{def:audit-map-frontier-index-carrier}, the local $\NameCert_{\AuditMapFrontierIndexUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for $I=(T,A,E,P,R,O,F,S,H,C,K,N)$ as finite $\BHist$ data;
+\item family-map readback through the map tag $T$, local audit row $A$, and neighbouring-map row $E$;
+\item frontier-row exactness saying that $F$ is read only as the displayed frontier row associated to $A,E,P,R,O$;
+\item obstruction non-escape saying that no consumer route can bypass $O$ or read $F$ as a discharge of $O$;
+\item synthesis-consumer handoff saying that $S$ receives only the displayed frontier row, neighbouring-map links, transports, continuations, provenance, and local name through $H,C,K,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier $I$. The rows $T,A,E$ identify the local audit map and its neighbouring-map surface, while $P,R,O,F$ separate positive entries, conditional routes, obstruction entries, and frontier entries.
+
+The frontier exactness obligation is then finite row inspection. The only frontier coordinate in the packet is $F$, and the displayed continuation row $C$ routes it together with the local row, neighbouring-map row, positive row, conditional route row, and obstruction row.
+
+For non-escape, inspect the obstruction and consumer rows. Since $O$ is a separate carrier coordinate and $F$ is only a frontier coordinate, a consumer cannot turn the frontier row into a proof of the obstruction or bypass the named conditional route $R$.
+
+Finally read $S,H,C,K,N$. These rows hand the indexed frontier to synthesis consumers, preserve the same component rows under $\hsame$, replay the displayed $\Cont$ routes, record package provenance, and bind the local name. No remaining coordinate can supply an unlisted neighbouring map, hidden discharge, global subject-reduction theorem, full closed consistency, ambient confluence, or host semantic equality.
+\end{proof}
+
+\closureat{AuditMapFrontierIndexUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFrontierIndexUp}
+  \constructivestory{An $\AuditMapFrontierIndexUp$ packet is generated from a map tag, local audit row, neighbouring-map row, positive row, conditional route row, obstruction row, frontier row, synthesis-consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-frontier-index-carrier} and \autoref{thm:audit-map-frontier-index-namecert-obligations} bind the finite audit-map frontier index and its synthesis-consumer handoff boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close obstruction rows, conditional discharge routes, frontier entries, subject reduction, full closed consistency, ambient confluence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, family-map readback, frontier-row exactness, obstruction non-escape, synthesis-consumer handoff, transport, continuation, provenance, and naming for the same finite packet.}
+\end{closurestatus}
