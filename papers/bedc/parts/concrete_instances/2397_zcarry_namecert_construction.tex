@@ -134,14 +134,15 @@ reading, and no primitive rewrite row is available in the packet.
 
 \closureat{ZCarryUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
 \closureat{ZCarryUp}{publicStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
+\closureat{ZCarryUp}{bridgedStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
 
 \begin{closurestatus}{\ZCarryUp}
   \constructivestory{A $\ZCarryUp$ packet is generated from the displayed Zeckendorf carry row, source non-normal ledger, target normal ledger, non-$\hsame$ boundary, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:zcarry-namecert-assembly} and \autoref{cor:zcarry-licensed-classifier-boundary} expose the public $\ZCarryUp$ classifier boundary: every consumer of the displayed Zeckendorf carry row must read the generated carry row $G$, source non-normal ledger $N_h$, target normal ledger $N_k$, non-$\hsame$ boundary $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The checked $\mathsf{zCarry\_namecert}$ assembly of \autoref{thm:zcarry-namecert-assembly} and the licensed boundary of \autoref{cor:zcarry-licensed-classifier-boundary} bind the public $\ZCarryUp$ classifier boundary to the bridge-readable package rows $G,N_h,N_k,H,C,P,N$ for the displayed Zeckendorf carry.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert}
   \bridgestatus{none}
   \notclaimed{This chapter does not identify the source and target histories by $\hsame$, does not install quotient rewriting, and does not close arbitrary Zeckendorf carry generation.}
-  \upgradepath{Scoped closure requires binding the generated-carry, normality, non-$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to their exact kernel and package dependency scope.}
+  \upgradepath{Mature closure requires a consumer example or completeness row for the same displayed generated-carry, normality, non-$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.}
 \end{closurestatus}
