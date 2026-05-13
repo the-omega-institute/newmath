@@ -15,13 +15,13 @@ inductive MetaCICSubjectReductionBoundaryUp : Type where
         MetaCICSubjectReductionBoundaryUp
   deriving DecidableEq
 
-def metaCICSubjectReductionBoundaryEncodeBHist : BHist → RawEvent
+private def metaCICSubjectReductionBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: metaCICSubjectReductionBoundaryEncodeBHist h
   | BHist.e1 h => BMark.b1 :: metaCICSubjectReductionBoundaryEncodeBHist h
 
-def metaCICSubjectReductionBoundaryDecodeBHist : RawEvent → BHist
+private def metaCICSubjectReductionBoundaryDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (metaCICSubjectReductionBoundaryDecodeBHist tail)
@@ -73,7 +73,7 @@ private theorem metaCICSubjectReductionBoundary_mk_congr
   cases hName
   rfl
 
-def metaCICSubjectReductionBoundaryToEventFlow :
+private def metaCICSubjectReductionBoundaryToEventFlow :
     MetaCICSubjectReductionBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | MetaCICSubjectReductionBoundaryUp.mk beta app lam pi preservation obstruction audit
@@ -105,26 +105,101 @@ def metaCICSubjectReductionBoundaryToEventFlow :
           BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         metaCICSubjectReductionBoundaryEncodeBHist name]
 
-def metaCICSubjectReductionBoundaryFromEventFlow :
+private def metaCICSubjectReductionBoundaryFromEventFlow :
     EventFlow → Option MetaCICSubjectReductionBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | _tag0 :: beta :: _tag1 :: app :: _tag2 :: lam :: _tag3 :: pi :: _tag4 ::
-      preservation :: _tag5 :: obstruction :: _tag6 :: audit :: _tag7 :: transport ::
-      _tag8 :: route :: _tag9 :: provenance :: _tag10 :: name :: [] =>
-      some
-        (MetaCICSubjectReductionBoundaryUp.mk
-          (metaCICSubjectReductionBoundaryDecodeBHist beta)
-          (metaCICSubjectReductionBoundaryDecodeBHist app)
-          (metaCICSubjectReductionBoundaryDecodeBHist lam)
-          (metaCICSubjectReductionBoundaryDecodeBHist pi)
-          (metaCICSubjectReductionBoundaryDecodeBHist preservation)
-          (metaCICSubjectReductionBoundaryDecodeBHist obstruction)
-          (metaCICSubjectReductionBoundaryDecodeBHist audit)
-          (metaCICSubjectReductionBoundaryDecodeBHist transport)
-          (metaCICSubjectReductionBoundaryDecodeBHist route)
-          (metaCICSubjectReductionBoundaryDecodeBHist provenance)
-          (metaCICSubjectReductionBoundaryDecodeBHist name))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | beta :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | app :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | lam :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | pi :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | preservation :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | obstruction :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | audit :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | transport :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | route :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | provenance :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | name :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] =>
+                                                                                              some
+                                                                                                (MetaCICSubjectReductionBoundaryUp.mk
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    beta)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    app)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    lam)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    pi)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    preservation)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    obstruction)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    audit)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    transport)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    route)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    provenance)
+                                                                                                  (metaCICSubjectReductionBoundaryDecodeBHist
+                                                                                                    name))
+                                                                                          | _ :: _ => none
 
 private theorem metaCICSubjectReductionBoundary_round_trip :
     ∀ x : MetaCICSubjectReductionBoundaryUp,
@@ -134,20 +209,45 @@ private theorem metaCICSubjectReductionBoundary_round_trip :
   intro x
   cases x with
   | mk beta app lam pi preservation obstruction audit transport route provenance name =>
-      exact
-        congrArg some
-          (metaCICSubjectReductionBoundary_mk_congr
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist beta)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist app)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist lam)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist pi)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist preservation)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist obstruction)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist audit)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist transport)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist route)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist provenance)
-            (metaCICSubjectReductionBoundaryDecode_encode_bhist name))
+      change
+        some
+          (MetaCICSubjectReductionBoundaryUp.mk
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist beta))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist app))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist lam))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist pi))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist preservation))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist obstruction))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist audit))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist transport))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist route))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist provenance))
+            (metaCICSubjectReductionBoundaryDecodeBHist
+              (metaCICSubjectReductionBoundaryEncodeBHist name))) =
+          some
+            (MetaCICSubjectReductionBoundaryUp.mk beta app lam pi preservation obstruction
+              audit transport route provenance name)
+      rw [metaCICSubjectReductionBoundaryDecode_encode_bhist beta,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist app,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist lam,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist pi,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist preservation,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist obstruction,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist audit,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist transport,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist route,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist provenance,
+        metaCICSubjectReductionBoundaryDecode_encode_bhist name]
 
 private theorem metaCICSubjectReductionBoundaryToEventFlow_injective
     {x y : MetaCICSubjectReductionBoundaryUp} :
