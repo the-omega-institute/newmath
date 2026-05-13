@@ -47,6 +47,24 @@ Finally $H,C,P,N$ transport, route, package, and name the same displayed rows. S
 \end{proof}
 \leanchecked{BEDC.Derived.SubjectReductionDischargeUp.SubjectReductionDischargeCarrier\_namecert\_obligations}
 
+\begin{theorem}[Subject-reduction discharge socket dependency]
+\label{thm:subject-reduction-discharge-socket-dependency}
+Every accepted $\SubjectReductionDischargeUp$ packet
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N)
+$$
+consumes the same four discharge rows as the finite socket surface of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The compiler-boundary rows $S,K$ and obstruction row $O$ are support and boundary data, not a fifth discharge premise and not a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-discharge-carrier}. Its only subject-reduction discharge coordinates are $B,A,L,\Pi$.
+
+Compare those four coordinates with the socket carrier of \autoref{def:subject-reduction-discharge-socket-carrier}. The socket names the beta-substitution, application-argument, lambda-domain, and Pi-domain rows as its finite discharge surface, and its NameCert obligations are checked by the socket chapter.
+
+Now use \autoref{thm:subject-reduction-discharge-obligations}. It identifies $S,K$ as compiler-boundary support and $O$ as the obstruction boundary, while $H,C,P,N$ transport, route, package, and name the displayed rows.
+
+Since neither carrier has a fifth discharge coordinate and the discharge packet has no coordinate for a closed subject-reduction theorem, every accepted read of $D$ consumes the socket's four-row surface rather than escaping to an additional premise or closed theorem.
+\end{proof}
+
 \begin{theorem}[Subject-reduction discharge boundary]
 \label{thm:subject-reduction-discharge-boundary}
 Every accepted $\SubjectReductionDischargeUp$ packet preserves the obstruction boundary between the parameterised MetaCIC subject-reduction theorem and the unavailable closed subject-reduction statement. A consumer may read the four displayed obligation rows, the closed-substitution and compiler rows, the obstruction row, transports, routes, provenance, and local name; it may not replace those rows by a hidden closed subject-reduction theorem or a host substitution theorem.
@@ -92,7 +110,7 @@ The excluded principles have no carrier coordinate. Therefore every downstream r
 \begin{closurestatus}{\SubjectReductionDischargeUp}
   \constructivestory{A $\SubjectReductionDischargeUp$ packet is generated from the four MetaCIC subject-reduction discharge obligation rows, closed-substitution and compiler boundary rows, the checked obstruction row, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:subject-reduction-discharge-carrier}, \autoref{thm:subject-reduction-discharge-obligations}, \autoref{thm:subject-reduction-discharge-boundary}, \autoref{thm:subject-reduction-discharge-four-row-completeness}, and \autoref{thm:subject-reduction-discharge-nonescape} specify the finite subject-reduction discharge packet and its obstruction boundary.}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-carrier}, \autoref{thm:subject-reduction-discharge-obligations}, \autoref{thm:subject-reduction-discharge-socket-dependency}, \autoref{thm:subject-reduction-discharge-boundary}, \autoref{thm:subject-reduction-discharge-four-row-completeness}, and \autoref{thm:subject-reduction-discharge-nonescape} specify the finite subject-reduction discharge packet, its socket dependency, and its obstruction boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
