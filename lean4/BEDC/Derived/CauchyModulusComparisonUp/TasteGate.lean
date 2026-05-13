@@ -232,6 +232,9 @@ instance cauchyModulusComparisonChapterTasteGate :
     intro x y hxy heq
     exact hxy (cauchyModulusComparisonToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CauchyModulusComparisonUp :=
+  cauchyModulusComparisonChapterTasteGate
+
 theorem CauchyModulusComparisonTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cauchyModulusComparisonDecodeBHist (cauchyModulusComparisonEncodeBHist h) = h) ∧
