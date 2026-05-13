@@ -1,0 +1,53 @@
+\chapter{TwinSubstrateRoundtrip NameCert Construction}
+\label{ch:concrete-instances-twinsubstrateroundtrip-namecert}
+\origin{human}
+
+The $\TwinSubstrateRoundtripUp$ packet is the finite cross-substrate certificate for the architecture of \autoref{ch:twin-substrate-synthesis}. It keeps the MetaCIC audit rows of \autoref{ch:metacic-audit-synthesis} separate from the GroundCompiler audit rows of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, while reusing the substitution-context handoff of \autoref{ch:concrete-instances-substitutioncontextaudit-namecert} to identify the closed-calculus rows that may be read by the compiler-facing report. The carrier records a roundtrip boundary, not a merged substrate.
+
+\begin{definition}[TwinSubstrateRoundtrip carrier]
+\label{def:twinsubstrate-roundtrip-carrier}
+A $\TwinSubstrateRoundtripUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,G,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit row, read through the closed-calculus audit family of \autoref{ch:metacic-audit-synthesis};
+\item $G$ is the GroundCompiler audit row, read through the finite compiler packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert};
+\item $S$ is the substitution-context audit row of \autoref{ch:concrete-instances-substitutioncontextaudit-namecert}, naming exactly the closed-calculus context data that the roundtrip may expose to the compiler side;
+\item $B$ is the boundary ledger stating which roundtrip reads are MetaCIC reads, which are GroundCompiler reads, and which are shared only through the displayed substitution-context row;
+\item $H$ records componentwise $\hsame$ transports for $M,G,S,B$ and the local structural rows;
+\item $C$ records the displayed $\Cont$ routes for MetaCIC inspection, GroundCompiler inspection, substitution-context handoff, and boundary-ledger replay;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the MetaCIC audit surface, the GroundCompiler audit surface, and the substitution-context audit surface;
+\item $N$ is the local $\NameCert_{\TwinSubstrateRoundtripUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed rows $M,G,S,B,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[TwinSubstrateRoundtrip NameCert obligations]
+\label{thm:twinsubstrate-roundtrip-namecert-obligations}
+The local $\NameCert_{\TwinSubstrateRoundtripUp}$ surface for \autoref{def:twinsubstrate-roundtrip-carrier} consists of carrier admission, MetaCIC audit-row exposure, GroundCompiler audit-row exposure, substitution-context handoff exposure, boundary-ledger exactness, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and non-escape from host compilation evidence, hidden closed-CIC transport, compiler reports promoted to proofs, or a collapsed one-substrate reading.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple $T=(M,G,S,B,H,C,P,N)$ of \autoref{def:twinsubstrate-roundtrip-carrier}. The rows $M$ and $G$ are separate coordinates, so a consumer can inspect the MetaCIC audit side and the GroundCompiler audit side without identifying them.
+
+The substitution-context row $S$ is the only shared handoff coordinate. It names the closed-calculus context data that may be read across the boundary, and the boundary ledger $B$ records whether a roundtrip read is MetaCIC-facing, GroundCompiler-facing, or shared through that row.
+
+The structural rows $H,C,P,N$ supply only transport, continuation replay, provenance, and local naming for the displayed packet. Since the carrier has no coordinate for host compilation evidence, hidden closed-CIC transport, proof evidence extracted from compiler reports, or a one-substrate collapse, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateRoundtrip substrate separation]
+\label{thm:twinsubstrate-roundtrip-substrate-separation}
+Every accepted $\TwinSubstrateRoundtripUp$ packet preserves the substrate separation stated in \autoref{ch:twin-substrate-synthesis}. A MetaCIC-facing consumer may read only $M,S,B,H,C,P,N$, a GroundCompiler-facing consumer may read only $G,S,B,H,C,P,N$, and a cross-substrate consumer must pass through the displayed substitution-context row $S$ and boundary ledger $B$ before either audit row is used.
+
+The packet exports no theorem turning GroundCompiler reports into MetaCIC proof evidence, no compiler-side replacement for the MetaCIC frontier, no hidden host compiler input, and no collapsed audit namespace.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The MetaCIC audit row $M$ and the GroundCompiler audit row $G$ are different coordinates, while the only shared coordinate is the substitution-context row $S$ together with the boundary ledger $B$.
+
+Use the MetaCIC synthesis of \autoref{ch:metacic-audit-synthesis} to read $M$ as a closed-calculus audit surface. Use the GroundCompiler NameCert of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} to read $G$ as a compiler-facing audit packet. The substitution-context chapter \autoref{ch:concrete-instances-substitutioncontextaudit-namecert} supplies the shared context route, but it does not identify the two audit rows.
+
+The boundary ledger $B$ and structural rows $H,C,P,N$ route every cross-substrate read through the displayed packet. Therefore no consumer can replace the MetaCIC frontier by a compiler report, import hidden host compiler input, or collapse the two audit namespaces into one substrate.
+\end{proof}
+
+\closureat{TwinSubstrateRoundtripUp}{seedStr}

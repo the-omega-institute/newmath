@@ -248,4 +248,76 @@ theorem CauchyModulusMeetPacket_binary_projection_lock [AskSetup] [PackageSetup]
     ⟨source0Unary, source1Unary, sharedUnary, s0Mu0H, s1Mu1C, hCMu, source0Row,
       source1Row, sharedRow, pPkg, sharedPkg⟩
 
+theorem CauchyModulusMeetPacket_joint_consumer_exactness [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n source0 source1 sharedRead realRoute handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont s0 mu0 source0 ->
+        Cont s1 mu1 source1 ->
+          Cont source0 source1 sharedRead ->
+            Cont mu n realRoute ->
+              Cont realRoute p handoff ->
+                PkgSig bundle sharedRead pkg ->
+                  UnaryHistory source0 /\ UnaryHistory source1 /\
+                    UnaryHistory sharedRead /\ UnaryHistory realRoute /\
+                      UnaryHistory handoff /\ Cont s0 mu0 h /\ Cont s1 mu1 c /\
+                        Cont h c mu /\ Cont s0 mu0 source0 /\
+                          Cont s1 mu1 source1 /\ Cont source0 source1 sharedRead /\
+                            Cont mu n realRoute /\ Cont realRoute p handoff /\
+                              PkgSig bundle p pkg /\ PkgSig bundle sharedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet source0Row source1Row sharedRow realRouteRow handoffRow sharedPkg
+  obtain ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, _hUnary, _cUnary, pUnary,
+    nUnary, s0Mu0H, s1Mu1C, hCMu, _samePN, pPkg⟩ := packet
+  have source0Unary : UnaryHistory source0 :=
+    unary_cont_closed s0Unary mu0Unary source0Row
+  have source1Unary : UnaryHistory source1 :=
+    unary_cont_closed s1Unary mu1Unary source1Row
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed source0Unary source1Unary sharedRow
+  have realRouteUnary : UnaryHistory realRoute :=
+    unary_cont_closed muUnary nUnary realRouteRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed realRouteUnary pUnary handoffRow
+  exact
+    ⟨source0Unary, source1Unary, sharedUnary, realRouteUnary, handoffUnary, s0Mu0H,
+      s1Mu1C, hCMu, source0Row, source1Row, sharedRow, realRouteRow, handoffRow,
+      pPkg, sharedPkg⟩
+
+theorem CauchyModulusMeetPacket_root_unblock_export [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n source0 source1 sharedRead realRoute handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont s0 mu0 source0 ->
+        Cont s1 mu1 source1 ->
+          Cont source0 source1 sharedRead ->
+            Cont mu n realRoute ->
+              Cont realRoute p handoff ->
+                PkgSig bundle sharedRead pkg ->
+                  UnaryHistory s0 /\ UnaryHistory s1 /\ UnaryHistory mu0 /\
+                    UnaryHistory mu1 /\ UnaryHistory mu /\ UnaryHistory source0 /\
+                      UnaryHistory source1 /\ UnaryHistory sharedRead /\
+                        UnaryHistory realRoute /\ UnaryHistory handoff /\
+                          Cont h c mu /\ Cont source0 source1 sharedRead /\
+                            Cont mu n realRoute /\ Cont realRoute p handoff /\
+                              PkgSig bundle p pkg /\ PkgSig bundle sharedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet source0Row source1Row sharedRow realRouteRow handoffRow sharedPkg
+  obtain ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, _hUnary, _cUnary, pUnary,
+    nUnary, _s0Mu0H, _s1Mu1C, hCMu, _samePN, pPkg⟩ := packet
+  have source0Unary : UnaryHistory source0 :=
+    unary_cont_closed s0Unary mu0Unary source0Row
+  have source1Unary : UnaryHistory source1 :=
+    unary_cont_closed s1Unary mu1Unary source1Row
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed source0Unary source1Unary sharedRow
+  have realRouteUnary : UnaryHistory realRoute :=
+    unary_cont_closed muUnary nUnary realRouteRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed realRouteUnary pUnary handoffRow
+  exact
+    ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, source0Unary, source1Unary,
+      sharedUnary, realRouteUnary, handoffUnary, hCMu, sharedRow, realRouteRow,
+      handoffRow, pPkg, sharedPkg⟩
+
 end BEDC.Derived.CauchyModulusMeetUp

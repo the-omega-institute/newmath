@@ -89,4 +89,29 @@ theorem KernelAcceptanceAuditWitnessCarrier_namecert_obligations
       exact hsame_trans source ledgerFromRoute
   }
 
+theorem KernelAcceptanceAuditWitnessCarrier_route_determinacy
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      replayRoute queryRoute : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      Cont generated candidate replayRoute →
+        Cont accepted ledger queryRoute →
+          hsame accepted replayRoute ∧ hsame axiomQuery queryRoute ∧
+            hsame route (append queryRoute replay) ∧ hsame name accepted ∧
+              hsame name ledger := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier replayRead queryRead
+  obtain ⟨generatedCandidateAccepted, acceptedLedgerAxiom, axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  have acceptedReplayRoute : hsame accepted replayRoute :=
+    cont_respects_hsame (hsame_refl generated) (hsame_refl candidate)
+      generatedCandidateAccepted replayRead
+  have axiomQueryRoute : hsame axiomQuery queryRoute :=
+    cont_respects_hsame (hsame_refl accepted) (hsame_refl ledger) acceptedLedgerAxiom
+      queryRead
+  have routeQueryReplay : hsame route (append queryRoute replay) := by
+    cases axiomQueryRoute
+    exact axiomReplayRoute
+  exact ⟨acceptedReplayRoute, axiomQueryRoute, routeQueryReplay, nameAccepted, nameLedger⟩
+
 end BEDC.Derived.KernelAcceptanceAuditWitnessUp

@@ -158,6 +158,60 @@ Read $W$ and $Q$ as the finite observation package. The dyadic request and selec
 The seal-facing and certification rows are $E,H,C,P,N$. They hand the package to $\RealUp$, preserve componentwise agreement, replay the route, record provenance, and name the packet without adding any further comparison datum.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus comparison threshold-window coherence]
+\label{thm:cauchy-modulus-comparison-threshold-window-coherence}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Every accepted packet routes both schedules through the same threshold row $T$ before any finite $\StreamNameUp$ window $W$ or $\DyadicRatCoreUp$ and $\RegSeqRatUp$ ledger $Q$ is read. Thus the window and tolerance reads are downstream of one displayed shared-threshold route, not independent side reads of the two schedules.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-comparison-carrier}. Its third coordinate is the shared $\RegularCauchyTailMeetUp$ row $T$, and the finite window and tolerance-readback coordinates $W$ and $Q$ are listed only after that threshold row.
+
+Apply the directional routing of \autoref{thm:cauchy-modulus-comparison-directional-monotonicity}. A comparison-facing consumer must read $M_0,M_1,T,W,Q,H,C,P,N$, so the schedules meet at $T$ before any window or tolerance ledger is inspected.
+
+Use \autoref{thm:cauchy-modulus-comparison-shared-tail-exactness} and \autoref{thm:cauchy-modulus-comparison-shared-threshold-package}. Both name the same threshold coordinate as the sole shared tail row and place $W$ and $Q$ downstream of it. Hence threshold-window coherence is exactly the displayed carrier route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus comparison window-ledger source exhaustion]
+\label{thm:cauchy-modulus-comparison-window-ledger-source-exhaustion}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Every Real-facing comparison read whose seal row is $E$ is sourced exactly by the two schedule rows $M_0,M_1$, the single shared threshold row $T$, the selected $\StreamNameUp$ window ledger $W$, and the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ ledger $Q$. The route cannot substitute an independent window, an unlisted tolerance row, a quotient stream, host real equality, or ambient completeness for those displayed sources.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-comparison-carrier}. The rows available to a seal-facing comparison read are the two schedules $M_0,M_1$, the shared threshold $T$, the window ledger $W$, the tolerance and regular-readback ledger $Q$, the seal $E$, the transport row $H$, the route row $C$, provenance $P$, and the local naming row $N$.
+
+Apply \autoref{thm:cauchy-modulus-comparison-threshold-window-coherence}. It forces the route through $T$ before $W$ and $Q$ are read, so the selected window and tolerance ledgers are downstream of one displayed shared threshold rather than independent side data.
+
+Apply \autoref{thm:cauchy-modulus-comparison-schedule-pair-source-lock}. The only schedule sources are $M_0$ and $M_1$, and every comparison read starts from that pair before moving through the displayed threshold, window, ledger, transport, and route rows.
+
+Finally use \autoref{thm:cauchy-modulus-comparison-real-seal-comparison-nonescape}. The seal row $E$ is a downstream Real-facing row of this finite route, and the carrier inventory contains no coordinate for an independent window, unlisted tolerance row, quotient stream, host real equality, or ambient completeness. Hence the listed rows exhaust the source surface for the seal-facing comparison read.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus comparison schedule-pair source lock]
+\label{thm:cauchy-modulus-comparison-schedule-pair-source-lock}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. The pair $(M_0,M_1)$ is the complete source surface for comparison reads. It cannot be replaced by a hidden third modulus schedule, an external ordering of host functions, or a comparison source not transported through the displayed $\hsame$ and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Read the first two coordinates of the carrier in \autoref{def:cauchy-modulus-comparison-carrier}. They are the only $\CauchyModulusUp$ schedule rows in the packet.
+
+The paired schedule admission theorem and \autoref{thm:cauchy-modulus-comparison-directional-monotonicity} start every comparison route from those same two rows. The route then proceeds through $T,W,Q,H,C,P,N$ rather than through a host-level order or an unlisted schedule.
+
+Finally apply \autoref{thm:cauchy-modulus-comparison-nonescape-boundary} and \autoref{thm:cauchy-modulus-comparison-shared-threshold-package}. The non-escape boundary excludes hidden schedules and external orders, while the package theorem lists no source coordinate beyond $M_0$ and $M_1$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus comparison Real seal comparison non-escape]
+\label{thm:cauchy-modulus-comparison-real-seal-comparison-nonescape}
+For an accepted $\CauchyModulusComparisonUp$ carrier $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$, the $\RealUp$ seal $E$ is only a downstream seal of the displayed finite comparison route
+$$
+M_0,M_1,T,W,Q,E,H,C,P,N.
+$$
+It does not assert $\RealUp$ completeness, selected limits, quotient stream equality, or host real equality.
+\end{theorem}
+\begin{proof}
+Start from the seal coordinate in \autoref{def:cauchy-modulus-comparison-carrier}. The carrier places $E$ after the two schedules, the shared threshold, the finite window ledger, and the dyadic and regular rational readback ledger.
+
+Apply \autoref{thm:cauchy-modulus-comparison-real-seal-handoff}. It states that every Real-facing consumer receives $E$ only after the displayed comparison route has been read.
+
+Use \autoref{thm:cauchy-modulus-comparison-nonescape-boundary} for the excluded conclusions. Since the carrier has no coordinate for completeness, selected limiting representatives, quotient stream equality, or host real equality, the seal remains a downstream row of the finite comparison packet. The shared threshold package records the same finite route and supplies no additional Real-side claim.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus comparison obligation closure package]
 \label{thm:cauchy-modulus-comparison-obligation-closure-package}
 The finite obligation-closure surface for $\CauchyModulusComparisonUp$ is assembled by the carrier of \autoref{def:cauchy-modulus-comparison-carrier}, the NameCert obligations of \autoref{thm:cauchy-modulus-comparison-namecert-obligations}, the directional monotonicity route of \autoref{thm:cauchy-modulus-comparison-directional-monotonicity}, the shared-tail exactness of \autoref{thm:cauchy-modulus-comparison-shared-tail-exactness}, the Real seal handoff of \autoref{thm:cauchy-modulus-comparison-real-seal-handoff}, and the non-escape boundary of \autoref{thm:cauchy-modulus-comparison-nonescape-boundary}.
