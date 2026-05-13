@@ -54,6 +54,8 @@ WRITE_LATEX_PROMPT_PATH = SCRIPT_DIR / "prompts" / "write_paper_latex.txt"
 DEFAULT_SAFETY_NET_TURNS = 3
 DEFAULT_WALL_CLOCK_HOURS = 12
 DEFAULT_LOW_PROGRESS_THRESHOLD = 1
+CLIENT_ZERO_EXTRACTION_HANG_SECONDS = 900
+CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
 
 def http_post(url: str, data: dict, timeout: int = 30) -> dict:
@@ -75,6 +77,47 @@ def server_status(server_url: str) -> dict:
     return http_get(f"{server_url}/status", timeout=5)
 
 
+def _safe_int(value, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _infer_zero_extraction_hang(status: dict) -> dict:
+    """Backfill zero-extraction hang diagnosis for older oracle servers."""
+    if status.get("zero_extraction_hang_agents"):
+        return status
+    pending = status.get("agents") or {}
+    recent = status.get("recent_agents") or {}
+    hung: list[str] = []
+    for aid in pending:
+        rec = recent.get(aid) or {}
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        if metrics.get("generating") is not True:
+            continue
+        elapsed = _safe_int(metrics.get("elapsed_seconds"))
+        extracted = _safe_int(metrics.get("extracted_chars"))
+        page_chars = _safe_int(metrics.get("page_chars"))
+        if (
+            elapsed >= CLIENT_ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            hung.append(str(aid))
+    if not hung:
+        return status
+    out = dict(status)
+    out["zero_extraction_hang_agents"] = hung
+    out.setdefault("zero_extraction_hang_seconds", CLIENT_ZERO_EXTRACTION_HANG_SECONDS)
+    out.setdefault("zero_extraction_min_page_chars", CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS)
+    if out.get("diagnosis") == "agent_busy":
+        out["diagnosis"] = "agent_busy_zero_extraction_hang"
+    return out
+
+
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
     zero_hang = status.get("zero_extraction_hang_agents") or []
@@ -89,7 +132,7 @@ def status_line(status: dict) -> str:
 
 def print_status_hint(server_url: str) -> dict:
     try:
-        status = server_status(server_url)
+        status = _infer_zero_extraction_hang(server_status(server_url))
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise SystemExit(
             f"oracle server is not reachable at {server_url}; "
