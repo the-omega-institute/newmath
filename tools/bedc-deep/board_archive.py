@@ -63,7 +63,19 @@ def existing_target_titles(*, include_archive: bool = True) -> set[str]:
 
 
 def completed_state_exists(target: BedcTarget) -> bool:
-    return (SCRIPT_DIR / "state" / f"{target.slug}.json").exists()
+    if (SCRIPT_DIR / "state" / f"{target.slug}.json").exists():
+        return True
+    try:
+        import lifecycle
+    except Exception:
+        return False
+    state = {
+        "target_id": target.target_id,
+        "title": target.title,
+        "stage1_verdict": "done",
+        "stage2": {"verdict": "compile_failed"},
+    }
+    return lifecycle.derive_failure_kind(state) == "posthoc_paper_covered"
 
 
 def _split_board_text(text: str) -> tuple[str, list[tuple[str, str]]]:
