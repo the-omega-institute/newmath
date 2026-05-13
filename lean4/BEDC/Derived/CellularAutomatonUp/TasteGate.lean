@@ -241,3 +241,11 @@ theorem CellularAutomatonTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.CellularAutomatonUp.TasteGate
+
+namespace BEDC.Derived.CellularAutomatonUp
+
+def taste_gate :
+    BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CellularAutomatonUp :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.CellularAutomatonUp
