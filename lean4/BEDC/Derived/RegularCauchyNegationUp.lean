@@ -70,4 +70,44 @@ theorem RegularCauchyNegationCarrier_namecert_obligations [AskSetup] [PackageSet
       exact sourceRow
   }
 
+theorem RegularCauchyNegationCarrier_public_seal_export [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      realBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg →
+      Cont name route realBoundary →
+        PkgSig bundle realBoundary pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow
+                    transportRow route provenance name bundle pkg ∧ hsame row sealRow)
+              (fun row : BHist =>
+                RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow
+                    transportRow route provenance name bundle pkg ∧ hsame row sealRow)
+              (fun row : BHist =>
+                RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow
+                    transportRow route provenance name bundle pkg ∧ hsame row sealRow)
+              hsame ∧
+            UnaryHistory sealRow ∧
+            UnaryHistory name ∧
+            UnaryHistory realBoundary ∧
+            Cont sealRow provenance name ∧
+            Cont name route realBoundary ∧
+            PkgSig bundle name pkg ∧
+            PkgSig bundle realBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier nameRouteBoundary boundaryPkg
+  have cert :=
+    RegularCauchyNegationCarrier_namecert_obligations carrier
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, _classifierUnary, _flippedUnary,
+    sealUnary, _transportUnary, routeUnary, _provenanceUnary, nameUnary,
+    _sourceWindowDyadic, _dyadicClassifierFlipped, _flippedSealTransport,
+    _transportRouteProvenance, sealProvenanceName, _provenancePkg, namePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory realBoundary :=
+    unary_cont_closed nameUnary routeUnary nameRouteBoundary
+  exact
+    ⟨cert, sealUnary, nameUnary, boundaryUnary, sealProvenanceName, nameRouteBoundary, namePkg,
+      boundaryPkg⟩
+
 end BEDC.Derived.RegularCauchyNegationUp
