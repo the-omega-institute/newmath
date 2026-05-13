@@ -70,6 +70,7 @@ import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.AxisZeckendorfCannotClaimUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
@@ -153,6 +154,7 @@ import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
+import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceTraceUp

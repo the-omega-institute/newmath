@@ -10,19 +10,17 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MetacicConfluenceAuditWitnessUp : Type where
-  | mk :
-      (parallelStep substitutionBoundary diamondHandoff confluenceHandoff obstruction
-        transport route provenance nameCert : BHist) →
-      MetacicConfluenceAuditWitnessUp
+  | mk (parallel substitution diamond confluence obstruction component route ledger name :
+      BHist) : MetacicConfluenceAuditWitnessUp
   deriving DecidableEq
 
-private def metacicConfluenceAuditWitnessEncodeBHist : BHist → RawEvent
+def metacicConfluenceAuditWitnessEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: metacicConfluenceAuditWitnessEncodeBHist h
   | BHist.e1 h => BMark.b1 :: metacicConfluenceAuditWitnessEncodeBHist h
 
-private def metacicConfluenceAuditWitnessDecodeBHist : RawEvent → BHist
+def metacicConfluenceAuditWitnessDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (metacicConfluenceAuditWitnessDecodeBHist tail)
@@ -31,8 +29,7 @@ private def metacicConfluenceAuditWitnessDecodeBHist : RawEvent → BHist
 private theorem metacicConfluenceAuditWitnessDecode_encode_bhist :
     ∀ h : BHist,
       metacicConfluenceAuditWitnessDecodeBHist
-          (metacicConfluenceAuditWitnessEncodeBHist h) =
-        h := by
+        (metacicConfluenceAuditWitnessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,89 +40,58 @@ private theorem metacicConfluenceAuditWitnessDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem metacicConfluenceAuditWitness_mk_congr
-    {parallelStep parallelStep' substitutionBoundary substitutionBoundary'
-      diamondHandoff diamondHandoff' confluenceHandoff confluenceHandoff'
-      obstruction obstruction' transport transport' route route' provenance provenance'
-      nameCert nameCert' : BHist}
-    (hParallelStep : parallelStep' = parallelStep)
-    (hSubstitutionBoundary : substitutionBoundary' = substitutionBoundary)
-    (hDiamondHandoff : diamondHandoff' = diamondHandoff)
-    (hConfluenceHandoff : confluenceHandoff' = confluenceHandoff)
-    (hObstruction : obstruction' = obstruction)
-    (hTransport : transport' = transport)
-    (hRoute : route' = route)
-    (hProvenance : provenance' = provenance)
-    (hNameCert : nameCert' = nameCert) :
-    MetacicConfluenceAuditWitnessUp.mk parallelStep' substitutionBoundary'
-        diamondHandoff' confluenceHandoff' obstruction' transport' route' provenance'
-        nameCert' =
-      MetacicConfluenceAuditWitnessUp.mk parallelStep substitutionBoundary diamondHandoff
-        confluenceHandoff obstruction transport route provenance nameCert := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hParallelStep
-  cases hSubstitutionBoundary
-  cases hDiamondHandoff
-  cases hConfluenceHandoff
-  cases hObstruction
-  cases hTransport
-  cases hRoute
-  cases hProvenance
-  cases hNameCert
-  rfl
-
-private def metacicConfluenceAuditWitnessToEventFlow :
+def metacicConfluenceAuditWitnessToEventFlow :
     MetacicConfluenceAuditWitnessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | MetacicConfluenceAuditWitnessUp.mk parallelStep substitutionBoundary diamondHandoff
-      confluenceHandoff obstruction transport route provenance nameCert =>
+  | MetacicConfluenceAuditWitnessUp.mk parallel substitution diamond confluence obstruction
+      component route ledger name =>
       [[BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist parallelStep,
+        metacicConfluenceAuditWitnessEncodeBHist parallel,
         [BMark.b1, BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist substitutionBoundary,
+        metacicConfluenceAuditWitnessEncodeBHist substitution,
         [BMark.b1, BMark.b1, BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist diamondHandoff,
+        metacicConfluenceAuditWitnessEncodeBHist diamond,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist confluenceHandoff,
+        metacicConfluenceAuditWitnessEncodeBHist confluence,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         metacicConfluenceAuditWitnessEncodeBHist obstruction,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist transport,
+        metacicConfluenceAuditWitnessEncodeBHist component,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         metacicConfluenceAuditWitnessEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist provenance,
+        metacicConfluenceAuditWitnessEncodeBHist ledger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        metacicConfluenceAuditWitnessEncodeBHist nameCert]
+        metacicConfluenceAuditWitnessEncodeBHist name]
 
-private def metacicConfluenceAuditWitnessFromEventFlow :
+def metacicConfluenceAuditWitnessFromEventFlow :
     EventFlow → Option MetacicConfluenceAuditWitnessUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | parallelStep :: rest1 =>
+      | parallel :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | substitutionBoundary :: rest3 =>
+              | substitution :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | diamondHandoff :: rest5 =>
+                      | diamond :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | confluenceHandoff :: rest7 =>
+                              | confluence :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
@@ -137,7 +103,7 @@ private def metacicConfluenceAuditWitnessFromEventFlow :
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transport :: rest11 =>
+                                              | component :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -149,74 +115,78 @@ private def metacicConfluenceAuditWitnessFromEventFlow :
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance :: rest15 =>
+                                                              | ledger :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | nameCert :: rest17 =>
+                                                                      | name :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
                                                                                 (MetacicConfluenceAuditWitnessUp.mk
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist parallelStep)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist substitutionBoundary)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist diamondHandoff)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist confluenceHandoff)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist obstruction)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist transport)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist route)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist provenance)
-                                                                                  (metacicConfluenceAuditWitnessDecodeBHist nameCert))
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    parallel)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    substitution)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    diamond)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    confluence)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    obstruction)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    component)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    route)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    ledger)
+                                                                                  (metacicConfluenceAuditWitnessDecodeBHist
+                                                                                    name))
                                                                           | _ :: _ => none
 
 private theorem metacicConfluenceAuditWitness_round_trip :
     ∀ x : MetacicConfluenceAuditWitnessUp,
       metacicConfluenceAuditWitnessFromEventFlow
-          (metacicConfluenceAuditWitnessToEventFlow x) =
-        some x := by
+        (metacicConfluenceAuditWitnessToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk parallelStep substitutionBoundary diamondHandoff confluenceHandoff obstruction
-      transport route provenance nameCert =>
+  | mk parallel substitution diamond confluence obstruction component route ledger name =>
       change
         some
           (MetacicConfluenceAuditWitnessUp.mk
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist parallelStep))
+              (metacicConfluenceAuditWitnessEncodeBHist parallel))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist substitutionBoundary))
+              (metacicConfluenceAuditWitnessEncodeBHist substitution))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist diamondHandoff))
+              (metacicConfluenceAuditWitnessEncodeBHist diamond))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist confluenceHandoff))
+              (metacicConfluenceAuditWitnessEncodeBHist confluence))
             (metacicConfluenceAuditWitnessDecodeBHist
               (metacicConfluenceAuditWitnessEncodeBHist obstruction))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist transport))
+              (metacicConfluenceAuditWitnessEncodeBHist component))
             (metacicConfluenceAuditWitnessDecodeBHist
               (metacicConfluenceAuditWitnessEncodeBHist route))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist provenance))
+              (metacicConfluenceAuditWitnessEncodeBHist ledger))
             (metacicConfluenceAuditWitnessDecodeBHist
-              (metacicConfluenceAuditWitnessEncodeBHist nameCert))) =
+              (metacicConfluenceAuditWitnessEncodeBHist name))) =
           some
-            (MetacicConfluenceAuditWitnessUp.mk parallelStep substitutionBoundary
-              diamondHandoff confluenceHandoff obstruction transport route provenance nameCert)
-      exact
-        congrArg some
-          (metacicConfluenceAuditWitness_mk_congr
-            (metacicConfluenceAuditWitnessDecode_encode_bhist parallelStep)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist substitutionBoundary)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist diamondHandoff)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist confluenceHandoff)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist obstruction)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist transport)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist route)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist provenance)
-            (metacicConfluenceAuditWitnessDecode_encode_bhist nameCert))
+            (MetacicConfluenceAuditWitnessUp.mk parallel substitution diamond confluence
+              obstruction component route ledger name)
+      rw [metacicConfluenceAuditWitnessDecode_encode_bhist parallel,
+        metacicConfluenceAuditWitnessDecode_encode_bhist substitution,
+        metacicConfluenceAuditWitnessDecode_encode_bhist diamond,
+        metacicConfluenceAuditWitnessDecode_encode_bhist confluence,
+        metacicConfluenceAuditWitnessDecode_encode_bhist obstruction,
+        metacicConfluenceAuditWitnessDecode_encode_bhist component,
+        metacicConfluenceAuditWitnessDecode_encode_bhist route,
+        metacicConfluenceAuditWitnessDecode_encode_bhist ledger,
+        metacicConfluenceAuditWitnessDecode_encode_bhist name]
 
 private theorem metacicConfluenceAuditWitnessToEventFlow_injective
     {x y : MetacicConfluenceAuditWitnessUp} :
@@ -248,21 +218,7 @@ instance metacicConfluenceAuditWitnessChapterTasteGate :
     intro x
     change
       metacicConfluenceAuditWitnessFromEventFlow
-          (metacicConfluenceAuditWitnessToEventFlow x) =
-        some x
-    exact metacicConfluenceAuditWitness_round_trip x
-  layer_separation := by
-    intro x y hxy heq
-    exact hxy (metacicConfluenceAuditWitnessToEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate MetacicConfluenceAuditWitnessUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change
-      metacicConfluenceAuditWitnessFromEventFlow
-          (metacicConfluenceAuditWitnessToEventFlow x) =
-        some x
+        (metacicConfluenceAuditWitnessToEventFlow x) = some x
     exact metacicConfluenceAuditWitness_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -270,13 +226,11 @@ def taste_gate : ChapterTasteGate MetacicConfluenceAuditWitnessUp where
 
 theorem MetacicConfluenceAuditWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      metacicConfluenceAuditWitnessDecodeBHist
-          (metacicConfluenceAuditWitnessEncodeBHist h) =
-        h) ∧
+        metacicConfluenceAuditWitnessDecodeBHist
+          (metacicConfluenceAuditWitnessEncodeBHist h) = h) ∧
       (∀ x : MetacicConfluenceAuditWitnessUp,
         metacicConfluenceAuditWitnessFromEventFlow
-            (metacicConfluenceAuditWitnessToEventFlow x) =
-          some x) ∧
+          (metacicConfluenceAuditWitnessToEventFlow x) = some x) ∧
         (∀ x y : MetacicConfluenceAuditWitnessUp,
           metacicConfluenceAuditWitnessToEventFlow x =
               metacicConfluenceAuditWitnessToEventFlow y →
