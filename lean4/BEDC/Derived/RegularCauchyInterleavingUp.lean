@@ -312,4 +312,44 @@ theorem RegularCauchyInterleavingPacket_selector_transport_determinacy
     ⟨leftScheduleUnary', rightScheduleUnary', leftSealUnary', rightSealUnary',
       sameLeftSeal, sameRightSeal⟩
 
+theorem RegularCauchyInterleavingPacket_public_real_seal_export [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont endpoint provenance publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory leftSchedule ∧
+            UnaryHistory rightSchedule ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+              UnaryHistory leftSeal ∧ UnaryHistory rightSeal ∧ UnaryHistory interleavedSeal ∧
+                UnaryHistory endpoint ∧ UnaryHistory publicRead ∧
+                  Cont selector leftSchedule leftSeal ∧ Cont selector rightSchedule rightSeal ∧
+                    Cont leftSeal rightSeal interleavedSeal ∧
+                      Cont interleavedSeal modulus endpoint ∧
+                        Cont endpoint provenance publicRead ∧ PkgSig bundle endpoint pkg ∧
+                          PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro packet publicRoute publicPkg
+  obtain ⟨leftNameUnary, rightNameUnary, leftScheduleUnary, rightScheduleUnary,
+    selectorUnary, modulusUnary, _transportUnary, _routesUnary, provenanceUnary,
+    _nameCertUnary, leftSealRoute, rightSealRoute, interleavedRoute, endpointRoute,
+    endpointPkg⟩ := packet
+  have leftSealUnary : UnaryHistory leftSeal :=
+    unary_cont_closed selectorUnary leftScheduleUnary leftSealRoute
+  have rightSealUnary : UnaryHistory rightSeal :=
+    unary_cont_closed selectorUnary rightScheduleUnary rightSealRoute
+  have interleavedUnary : UnaryHistory interleavedSeal :=
+    unary_cont_closed leftSealUnary rightSealUnary interleavedRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed interleavedUnary modulusUnary endpointRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary provenanceUnary publicRoute
+  exact
+    ⟨leftNameUnary, rightNameUnary, leftScheduleUnary, rightScheduleUnary, selectorUnary,
+      modulusUnary, leftSealUnary, rightSealUnary, interleavedUnary, endpointUnary,
+      publicReadUnary, leftSealRoute, rightSealRoute, interleavedRoute, endpointRoute,
+      publicRoute, endpointPkg, publicPkg⟩
+
 end BEDC.Derived.RegularCauchyInterleavingUp
