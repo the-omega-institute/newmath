@@ -18,31 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-712 - CauchyNet finite subwindow restriction
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | CauchyNet finite subwindow restriction |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 7/10 |
-| Landing kind | existing_chapter_lemma |
-
-Problem:
-If an accepted \(\CauchyNetUp\) packet is restricted to a finite directed subwindow that still contains the displayed common upper-window witnesses for the requested tolerances, then the restricted packet is again an accepted \(\CauchyNetUp\) carrier and its \(\RealUp\) handoff factors through the same \(\RegSeqRatUp\) row.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/2642_cauchynet_namecert_construction.tex`
-
-Rationale:
-The target is a concrete finite-window closure theorem inside an existing \(\CauchyNetUp\) chapter, not a verification marker or closurestatus update. The local chapter exposes the finite directed index-window ledger, scheduled observations, \(\RegSeqRatUp\) row, common-window classifier, and \(\RealUp\) handoff, but currently states only the carrier and NameCert obligation surface. Existing BOARD entries include finite restriction patterns for other objects, but none for \(\CauchyNetUp\), so this is a distinct local closure target with safe landing in a short non-hub file.
-
----
-
 ### B-714 - Decompiler right-inverse classifier theorem
 
 | field | value |
