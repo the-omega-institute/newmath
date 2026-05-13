@@ -283,4 +283,88 @@ theorem RegularCauchySumCarrier_consumer_obligation_package [AskSetup] [PackageS
       pkgSig,
       consumerPkg⟩
 
+theorem RegularCauchySumCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert leftSource' rightSource' leftWindow'
+      rightWindow' leftEndpoint' rightEndpoint' sumEndpoint' budget' readback' transports'
+      routes' provenance' localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg →
+      hsame leftSource leftSource' →
+        hsame rightSource rightSource' →
+          hsame leftWindow leftWindow' →
+            hsame rightWindow rightWindow' →
+              hsame leftEndpoint leftEndpoint' →
+                hsame rightEndpoint rightEndpoint' →
+                  hsame sumEndpoint sumEndpoint' →
+                    hsame budget budget' →
+                      hsame readback readback' →
+                        hsame transports transports' →
+                          hsame routes routes' →
+                            hsame provenance provenance' →
+                              hsame localCert localCert' →
+                                Cont leftWindow' leftEndpoint' transports' →
+                                  Cont rightWindow' rightEndpoint' routes' →
+                                    Cont leftEndpoint' rightEndpoint' sumEndpoint' →
+                                      Cont sumEndpoint' budget' readback' →
+                                        Cont readback' routes' provenance' →
+                                          PkgSig bundle provenance' pkg →
+                                            RegularCauchySumCarrier leftSource'
+                                                rightSource' leftWindow' rightWindow'
+                                                leftEndpoint' rightEndpoint' sumEndpoint' budget'
+                                                readback' transports' routes' provenance'
+                                                localCert' bundle pkg ∧
+                                              hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier sameLeftSource sameRightSource sameLeftWindow sameRightWindow
+    sameLeftEndpoint sameRightEndpoint _sameSumEndpoint sameBudget _sameReadback
+    sameTransports sameRoutes sameProvenance sameLocalCert leftRoute rightRoute sumRoute
+    readbackRoute provenanceRoute provenancePkg
+  obtain ⟨leftSourceUnary, rightSourceUnary, leftWindowUnary, rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, transportsUnary, routesUnary,
+    provenanceUnary, localCertUnary, _oldLeftRoute, _oldRightRoute, _oldSumRoute,
+    _oldReadbackRoute, _oldProvenanceRoute, _oldPkgSig⟩ := carrier
+  have leftSourceUnary' : UnaryHistory leftSource' :=
+    unary_transport leftSourceUnary sameLeftSource
+  have rightSourceUnary' : UnaryHistory rightSource' :=
+    unary_transport rightSourceUnary sameRightSource
+  have leftWindowUnary' : UnaryHistory leftWindow' :=
+    unary_transport leftWindowUnary sameLeftWindow
+  have rightWindowUnary' : UnaryHistory rightWindow' :=
+    unary_transport rightWindowUnary sameRightWindow
+  have leftEndpointUnary' : UnaryHistory leftEndpoint' :=
+    unary_transport leftEndpointUnary sameLeftEndpoint
+  have rightEndpointUnary' : UnaryHistory rightEndpoint' :=
+    unary_transport rightEndpointUnary sameRightEndpoint
+  have budgetUnary' : UnaryHistory budget' :=
+    unary_transport budgetUnary sameBudget
+  have transportsUnary' : UnaryHistory transports' :=
+    unary_transport transportsUnary sameTransports
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have localCertUnary' : UnaryHistory localCert' :=
+    unary_transport localCertUnary sameLocalCert
+  exact
+    ⟨⟨leftSourceUnary',
+      rightSourceUnary',
+      leftWindowUnary',
+      rightWindowUnary',
+      leftEndpointUnary',
+      rightEndpointUnary',
+      budgetUnary',
+      transportsUnary',
+      routesUnary',
+      provenanceUnary',
+      localCertUnary',
+      leftRoute,
+      rightRoute,
+      sumRoute,
+      readbackRoute,
+      provenanceRoute,
+      provenancePkg⟩,
+      sameProvenance⟩
+
 end BEDC.Derived.RegularCauchySumUp
