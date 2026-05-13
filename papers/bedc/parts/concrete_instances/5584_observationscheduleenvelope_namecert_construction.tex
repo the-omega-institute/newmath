@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\ObservationScheduleEnvelopeUp$}
+\label{ch:concrete-instances-observationscheduleenvelope-namecert}
+\origin{ai}
+
+The $\ObservationScheduleEnvelopeUp$ packet realizes the Type IV finite-record schedule socket of \autoref{sec:transcendental-supply-type-IV} as a finite envelope over accepted schedule rows. It consumes the prefix and request-window discipline of \autoref{ch:concrete-instances-countableobservationschedule-namecert}, the finite naming surface of \autoref{ch:concrete-instances-streamname-namecert}, and the Real-facing budget route of \autoref{ch:concrete-instances-real-observation-budget-namecert}. The envelope gives downstream Real and Completion consumers one packet that displays the schedule source, request window, refusal boundary, transport, route, provenance, and local name without reading observed prefixes as completed streams.
+
+\falsifiablePrediction{Any RealUp-facing schedule read from an accepted envelope factors through the displayed request-window and StreamName source rows; a read without those rows refutes the envelope.}
+
+\independenceWitness{Nearest siblings: countableobservationschedule, streamname, realobservationbudget, finiteobservationbudgetselector, and observationbudgetlimiter. None is bijective to $\ObservationScheduleEnvelopeUp$ because the envelope has a joint refusal row and a consumer-handoff row tying the schedule source to the Real-facing window; no sibling alone carries both rows in one local NameCert packet.}
+
+\begin{definition}[Observation schedule envelope carrier]
+\label{def:observation-schedule-envelope-carrier}
+An $\ObservationScheduleEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,S,W,R,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the accepted $\CountableObservationScheduleUp$ source packet supplying observed prefixes and finite request windows;
+\item $S$ is the finite $\StreamNameUp$ source row through which the schedule is addressed;
+\item $W$ is the Real-facing request-window row read by budget and completion consumers;
+\item $R$ is the joint refusal row blocking completed streams, future-law claims, hidden persistence, and unbounded observation schedules;
+\item $J$ is the consumer-handoff row tying the schedule source $Q$, StreamName row $S$, and Real-facing window $W$ into one envelope;
+\item $H$ records componentwise $\hsame$ transports for $Q,S,W,R,J,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes that expose schedule prefixes, StreamName source names, Real-facing windows, refusal data, and the handoff row;
+\item $P$ records $\Pkg$ provenance over $\CountableObservationScheduleUp$, $\StreamNameUp$, $\RealObservationBudgetUp$, $\FiniteObservationBudgetSelectorUp$, $\ObservationBudgetLimiterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObservationScheduleEnvelopeUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite envelope. It exports no completed countable stream, no unobserved future row, no hidden causal-continuity principle, no quotient schedule equality, no selected Real value, and no ambient completion theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.ObservationScheduleEnvelopeUp.ObservationScheduleEnvelopeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Observation schedule envelope NameCert obligations]
+\label{thm:observation-schedule-envelope-namecert-obligations}
+For the carrier of \autoref{def:observation-schedule-envelope-carrier}, the local $\NameCert_{\ObservationScheduleEnvelopeUp}$ surface consists exactly of carrier admission for
+$$
+E=(Q,S,W,R,J,H,C,P,N),
+$$
+schedule-source exposure, StreamName source accountability, Real-facing request-window exposure, joint refusal, consumer handoff, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and non-escape for completed streams, future observations, hidden persistence laws, quotient schedule equality, selected Real values, and ambient completion.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observation-schedule-envelope-carrier}. The rows $Q,S,W,R,J,H,C,P,N$ are all displayed coordinates of one finite $\BHist$ packet.
+
+Schedule-source exposure reads $Q$ through \autoref{ch:concrete-instances-countableobservationschedule-namecert}. StreamName accountability reads $S$ through \autoref{ch:concrete-instances-streamname-namecert}, while the Real-facing window $W$ is the only route by which a budget consumer may ask for schedule data.
+
+The refusal and handoff rows then bind the envelope. The refusal row $R$ blocks completed streams and future-law data, and the handoff row $J$ forces the consumer to carry $Q,S,W$ together before the route is authenticated by $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Observation schedule envelope window transport]
+\label{thm:observation-schedule-envelope-window-transport}
+For an accepted $\ObservationScheduleEnvelopeUp$ carrier $E=(Q,S,W,R,J,H,C,P,N)$, any displayed transport of the Real-facing request window preserves the same source schedule row $Q$, StreamName source row $S$, joint refusal row $R$, and consumer-handoff row $J$. Transport may replay the window through $H$ and $C$, but it may not enlarge $W$, replace $S$ by an unlisted source, or turn the observed prefix carried by $Q$ into a completed stream.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the componentwise transport row $H$. The row records transport for the schedule source, StreamName source, Real-facing window, refusal row, handoff row, route row, provenance row, and local name.
+
+Replay the consumer route through $C$. A transported Real-facing read still reaches $W$ only together with $Q,S,R,J$, so the same finite source and refusal boundary remain visible.
+
+Apply non-escape from \autoref{thm:observation-schedule-envelope-namecert-obligations}. Since the envelope has no coordinate for window enlargement, an unlisted source, or a completed stream, transport cannot create any of those rows.
+\end{proof}
+
+\begin{theorem}[Observation schedule envelope StreamName handoff]
+\label{thm:observation-schedule-envelope-streamname-handoff}
+Every $\StreamNameUp$, $\RealObservationBudgetUp$, $\FiniteObservationBudgetSelectorUp$, or $\ObservationBudgetLimiterUp$ consumer of an accepted $\ObservationScheduleEnvelopeUp$ packet reads the schedule through the same StreamName source row $S$ and the same Real-facing window row $W$. The consumer receives the handoff row $J$ with the schedule source $Q$, refusal row $R$, componentwise transport $H$, displayed routes $C$, provenance $P$, and local name $N$; it receives no independent schedule carrier and no completed stream.
+\end{theorem}
+\begin{proof}
+Begin with the sibling surfaces. The schedule row $Q$ supplies finite prefixes and request windows, while the StreamName chapter supplies the named source row $S$ through which the schedule is addressed.
+
+For a Real-facing consumer, route the same source through $W$ and $J$. The handoff row ties $Q,S,W$ before budget selectors or limiters can read the schedule, so the consumer sees one envelope rather than separate replacement rows.
+
+The refusal row and non-escape clause exclude the missing objects. A consumer can inspect the displayed envelope, but it cannot obtain an independent carrier, a completed stream, a future observation law, or ambient completion from the handoff.
+\end{proof}
+
+\begin{theorem}[Observation schedule envelope non-escape]
+\label{thm:observation-schedule-envelope-nonescape}
+Every consumer of an accepted $\ObservationScheduleEnvelopeUp$ packet factors through the finite rows
+$$
+Q,S,W,R,J,H,C,P,N.
+$$
+No consumer may replace those rows by a completed countable stream, an unobserved future row, a hidden causal-continuity principle, quotient schedule equality, selected Real data, an independent observation-budget carrier, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory in \autoref{def:observation-schedule-envelope-carrier}. It lists exactly the schedule source, StreamName source, Real-facing request window, refusal row, handoff row, transports, routes, provenance, and local naming row.
+
+Use the NameCert obligation surface to authenticate the inventory. Each consumer-facing read must pass through the displayed rows and then through $H,C,P,N$.
+
+The excluded objects have no coordinate in the packet. Therefore a route that asks for a completed stream, a future observation, hidden persistence, quotient equality, selected Real data, an independent budget carrier, or ambient completion exits the accepted envelope.
+\end{proof}
+
+The Lean TasteGate surface for this chapter carries \texttt{Nontrivial ObservationScheduleEnvelopeUp} and \texttt{FieldFaithful ObservationScheduleEnvelopeUp} instances for the same finite envelope carrier.
