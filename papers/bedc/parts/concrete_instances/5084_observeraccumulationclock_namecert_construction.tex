@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ObserverAccumulationClockUp$}
+\label{ch:concrete-instances-observer-accumulation-clock-namecert}
+\origin{ai}
+
+The $\ObserverAccumulationClockUp$ packet makes the time-as-accumulation reading of \autoref{ch:visions-consciousness-universe-observer-in-bedc} into a finite NameCert carrier. It reads its state side through \autoref{ch:concrete-instances-consciousobserverstate-namecert}, its observer-history identity side through \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, and its order side through \autoref{ch:concrete-instances-observation-time-order-namecert}. Unlike the state, identity, locality, order, or frame siblings, the packet stores a named transition witness that produces the next public clock tick only when the accumulated-record edge is displayed.
+
+\begin{definition}[ObserverAccumulationClock carrier]
+\label{def:observer-accumulation-clock-carrier}
+An $\ObserverAccumulationClockUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S_0,S_1,A,G,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ is the present observer-state row, read through the $\ConsciousObserverStateUp$ surface;
+\item $S_1$ is the successor observer-state row, carrying the records visible after the next accepted accumulation step;
+\item $A$ is the accumulation-edge row, naming the retained-record inclusion from $S_0$ to $S_1$ and producing the public tick;
+\item $G$ is the $\Gap$ residue row for demanded tick reads whose accumulation edge, retained-record comparison, or successor state is absent;
+\item $H$ records componentwise $\hsame$ transport for present state, successor state, accumulation edge, gap residue, route, package, and local naming rows;
+\item $R$ records displayed $\Cont$ routes by which consumers read $S_0$, then $S_1$, then $A$, and only then the clock-read result;
+\item $P$ is the $\Pkg$ provenance over $\ConsciousObserverStateUp$, $\ObserverHistoryIdentityUp$, $\ObservationTimeOrderUp$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverAccumulationClockUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host scalar clock, global synchronization map, direct state-to-clock read, reversible tick, or time read detached from the displayed accumulation edge.
+\end{definition}
+
+\begin{theorem}[ObserverAccumulationClock NameCert obligations]
+\label{thm:observer-accumulation-clock-namecert-obligations}
+For the carrier of \autoref{def:observer-accumulation-clock-carrier}, the local $\NameCert_{\ObserverAccumulationClockUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $C=(S_0,S_1,A,G,H,R,P,N)$;
+\item successor-record exposure, requiring $S_1$ to be read as a successor observer-state row of the same observer-history identity surface as $S_0$;
+\item accumulation-edge exactness, requiring $A$ to witness retained-record accumulation from $S_0$ to $S_1$ before any tick can be exported;
+\item $\Gap$ residue exactness, requiring $G$ to classify any demanded tick lacking $S_1$ or $A$ as outside the accepted clock surface;
+\item stability and non-escape under the componentwise $\hsame$ row $H$, displayed route row $R$, package provenance $P$, and local naming row $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observer-accumulation-clock-carrier}. The displayed packet exposes the two observer-state rows, the accumulation edge, the gap residue, transport, route, provenance, and local name.
+
+The successor-record clause uses the conscious-state and observer-history identity siblings. The row $S_1$ is not a free clock value; it is another observer-state row on the same identity surface as $S_0$.
+
+The accumulation-edge clause then reads $A$. By the observation-time-order sibling, a time comparison is record retention between displayed states, so a public tick is obtained only after the route has exposed the retained-record edge from $S_0$ to $S_1$.
+
+The gap-residue row $G$ handles failed tick demands. If a consumer asks for a tick without a successor state or without the accumulation edge, the request remains a residue rather than an accepted clock read.
+
+Finally $H,R,P,N$ transport, replay, package, and name the same finite packet. Since no displayed row stores a host scalar clock, direct state-to-clock function, global synchronization map, or reversible tick, the local certificate exports none.
+\end{proof}
+
+\begin{theorem}[ObserverAccumulationClock falsifiable boundary]
+\label{thm:observer-accumulation-clock-falsifiable-boundary}
+Every accepted $\ObserverAccumulationClockUp$ consumer that claims a time tick factors through the displayed route
+$$
+S_0 \to S_1 \to A
+$$
+and then through the transport, package, and local naming rows $H,R,P,N$. A direct read from a single observer-state row to a clock value, or a tick read that bypasses the accumulation-edge row $A$, is a counter-witness to the accepted packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The only two state coordinates are $S_0$ and $S_1$, and the only row that relates them as a tick-producing transition is $A$.
+
+The displayed route row $R$ fixes the consumer order: read the present state, read the successor state, then read the accumulation edge. The transport row $H$ preserves those coordinates componentwise, while $P$ and $N$ bind the route to the local package and name.
+
+Thus a claimed clock read that starts and ends at a single state has no carrier coordinate that can justify it. Likewise a read from $S_0$ to $S_1$ that omits $A$ has not displayed the accumulation witness required by the packet.
+\end{proof}
+
+\begin{theorem}[ObserverAccumulationClock TasteGate obligation]
+\label{thm:observer-accumulation-clock-tastegate-obligation}
+The later Lean target in \texttt{lean4/BEDC/Derived/ObserverAccumulationClockUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ObserverAccumulationClockUp$ and $\mathsf{FieldFaithful}\ \ObserverAccumulationClockUp$ using explicit witness pairs and field projections. These instances must distinguish the present state, successor state, accumulation-edge row, $\Gap$ residue, transport row, displayed route, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the two-state edge shape. A packet that collapses $S_0$, $S_1$, and $A$ into one indistinct point cannot witness a tick-producing accumulation edge.
+
+Field faithfulness is forced by the carrier inventory. The field projections must preserve the state rows, the edge row, the residue row, and the structural rows separately so a consumer can reject a direct state-to-clock read.
+\end{proof}
+
+\falsifiablePrediction{Any accepted ObserverAccumulationClockUp consumer that claims a time tick must factor through the displayed accumulation-edge row; a direct state-to-clock read is a counter-witness.}
+
+\independenceWitness{Nearest siblings: consciousobserverstate, observerhistoryidentity, observerlocalitycell, observationtimeorder, observercoordinateframe. The clock packet is not bijective to any of them because it carries a tick-producing accumulation-edge and clock-read row; the siblings carry state, identity, locality, order, or frame rows without this named transition witness.}
+
+\closureat{ObserverAccumulationClockUp}{seedStr}
+
+\begin{closurestatus}{\ObserverAccumulationClockUp}
+  \constructivestory{An $\ObserverAccumulationClockUp$ packet is generated from present observer-state, successor observer-state, accumulation-edge, GAP-residue, componentwise hsame transport, displayed route, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-accumulation-clock-carrier}, \autoref{thm:observer-accumulation-clock-namecert-obligations}, \autoref{thm:observer-accumulation-clock-falsifiable-boundary}, and \autoref{thm:observer-accumulation-clock-tastegate-obligation} specify the finite observer-accumulation clock packet and its tick boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host scalar time, global synchronization, reversible ticks, or direct state-to-clock reads.}
+  \upgradepath{Obligation closure requires checked carrier admission, successor-record exposure, accumulation-edge exactness, GAP-residue exactness, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
