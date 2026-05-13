@@ -303,6 +303,7 @@ import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.ObservationScheduleEnvelopeUp
+import BEDC.Derived.ObservationBudgetLimiterUp.TasteGate
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
