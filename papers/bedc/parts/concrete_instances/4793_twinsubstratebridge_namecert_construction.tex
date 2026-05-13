@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateBridgeUp$}
+\label{ch:concrete-instances-twinsubstratebridge-namecert}
+\origin{human}
+
+The $\TwinSubstrateBridgeUp$ packet realizes the twin-substrate architecture of \autoref{ch:twin-substrate-synthesis} as a finite bridge certificate. It sits beside the MetaCIC audit synthesis of \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, the GroundCompiler audit map of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, and the audit-map frontier packet of \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}. Those sibling chapters provide the two substrate rows and the frontier boundary; this chapter records the bridge packet that lets a consumer read them together without identifying their audit ledgers.
+
+\begin{definition}[TwinSubstrateBridge carrier]
+\label{def:twin-substrate-bridge-carrier}
+A $\TwinSubstrateBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,G,F,R,L,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit-synthesis row consumed from \autoref{ch:concrete-instances-metacicauditsynthesis-namecert};
+\item $G$ is the GroundCompiler audit-map row consumed from \autoref{ch:concrete-instances-groundcompilerauditmap-namecert};
+\item $F$ is the audit-map frontier packet row consumed from \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert};
+\item $R$ is the bridge-route classifier separating MetaCIC-facing, GroundCompiler-facing, and frontier-facing reads;
+\item $L$ is the two-sided bridge ledger recording which substrate row each read consumes;
+\item $H$ stores componentwise $\hsame$ transport for $M,G,F,R,L$;
+\item $C$ stores displayed $\Cont$ routes through the bridge rows;
+\item $P$ records $\Pkg$ provenance over the sibling chapters, the route classifier, the ledger, and the structural rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateBridgeUp}$ row.
+\end{enumerate}
+The carrier has no row identifying $M$ with $G$, no common audit equality, no compiler report promoted to MetaCIC proof evidence, and no MetaCIC derivation promoted to compiler acceptance.
+\end{definition}
+
+\begin{theorem}[TwinSubstrateBridge NameCert obligations]
+\label{thm:twin-substrate-bridge-namecert-obligations}
+For every accepted $\TwinSubstrateBridgeUp$ carrier $B=(M,G,F,R,L,H,C,P,N)$, the local $\NameCert_{\TwinSubstrateBridgeUp}$ surface consists exactly of carrier admission, MetaCIC audit-synthesis readback through $M$, GroundCompiler audit-map readback through $G$, frontier readback through $F$, bridge-route classification through $R$, two-sided ledger exactness through $L$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:twin-substrate-bridge-carrier}. The rows $M,G,F,R,L,H,C,P,N$ are the complete finite packet, so carrier admission and row readback are coordinate projections.
+
+The route classifier $R$ is read before the ledger $L$. A MetaCIC-facing read is therefore sent to $M$ and may cite $F$ only as frontier context; a GroundCompiler-facing read is sent to $G$ and may cite $F$ only as frontier context. The ledger row records this choice rather than replacing either substrate row.
+
+The structural rows preserve the same packet. Componentwise $\hsame$ transport in $H$ moves $M,G,F,R,L$ without merging them, $\Cont$ replay in $C$ exposes only displayed routes, and $P,N$ repack the same rows as provenance and local naming. Hence the NameCert surface is exactly the stated finite obligation list.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateBridge audit separation]
+\label{thm:twin-substrate-bridge-audit-separation}
+Every public consumer of an accepted $\TwinSubstrateBridgeUp$ carrier preserves the separation between the MetaCIC row $M$ and the GroundCompiler row $G$. A MetaCIC-facing consumer may read $M,F,R,L,H,C,P,N$; a GroundCompiler-facing consumer may read $G,F,R,L,H,C,P,N$; and a bridge-facing consumer may compare the two only through the displayed frontier row $F$ and ledger row $L$.
+\end{theorem}
+\begin{proof}
+Begin with the route classifier $R$. It assigns each consumer request to the MetaCIC-facing, GroundCompiler-facing, or bridge-facing route before any audit row is exposed.
+
+For the MetaCIC route, the only audit row supplied by the carrier is $M$. The frontier row $F$ and ledger row $L$ can record compiler-side context, but no row of the packet converts $G$ into proof evidence for $M$.
+
+For the GroundCompiler route, the only compiler-facing audit row supplied by the carrier is $G$. The same frontier and ledger rows can record MetaCIC context, but no row converts $M$ into compiler acceptance evidence.
+
+The bridge route reads both sides only through $F,L,H,C,P,N$. These rows display comparison context, transport, continuation, provenance, and naming; they do not add a common substrate equality. Thus every public consumer preserves the two audit ledgers as distinct coordinates of the same finite packet.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateBridge non-escape]
+\label{thm:twin-substrate-bridge-nonescape}
+An accepted $\TwinSubstrateBridgeUp$ carrier exports no hidden common substrate, host audit oracle, compiler proof checker, MetaCIC evaluator, collapsed equality between $M$ and $G$, or frontier-closing theorem. Every exported read factors through the finite rows $M,G,F,R,L,H,C,P,N$ and through the local $\NameCert_{\TwinSubstrateBridgeUp}$ surface.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:twin-substrate-bridge-namecert-obligations}. The local NameCert row exposes only the displayed carrier, sibling readbacks, route classifier, ledger, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:twin-substrate-bridge-audit-separation}. Any request involving both substrates must pass through the frontier and ledger rows, so the packet cannot manufacture a common equality or a shared audit oracle.
+
+The sibling chapters provide only their own named surfaces: MetaCIC synthesis, GroundCompiler audit mapping, and audit-map frontier accounting. Since the bridge carrier has no coordinate for a compiler proof checker, MetaCIC evaluator, hidden host oracle, or frontier-closing theorem, none of those objects can be exported by a consumer route.
+\end{proof}
+
+\closureat{TwinSubstrateBridgeUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateBridgeUp}
+  \constructivestory{A $\TwinSubstrateBridgeUp$ packet is generated from a MetaCIC audit-synthesis row, a GroundCompiler audit-map row, an audit-map frontier row, a bridge-route classifier, a two-sided bridge ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-bridge-carrier}, \autoref{thm:twin-substrate-bridge-namecert-obligations}, \autoref{thm:twin-substrate-bridge-audit-separation}, and \autoref{thm:twin-substrate-bridge-nonescape} bind the finite bridge carrier, local NameCert obligation surface, audit separation, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, a public standard bridge, a common substrate equality, compiler proof checking, MetaCIC evaluation, frontier closure, or host audit automation.}
+  \upgradepath{Formal closure requires checked carrier admission, substrate readback, route classification, ledger exactness, componentwise transport, continuation replay, provenance, naming, and non-escape for the same finite bridge packet.}
+\end{closurestatus}
