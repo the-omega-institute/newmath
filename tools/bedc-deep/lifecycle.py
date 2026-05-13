@@ -220,6 +220,33 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:distribution-null-completion-random-variable-descent" in text
+    if target_id == "B-725" and title == "docalculus intervention prefix locality":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1784_docalculus_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return (
+                "def:do-calculus-displayed-prefix-subledger" in text
+                and "thm:do-calculus-intervention-prefix-locality" in text
+            )
+    if target_id == "B-726" and title == "enrichedcat two-step composition reassociation":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "160_enrichedcat_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:enrichedcat-two-step-composition-reassociation" in text
     return False
 
 
@@ -264,6 +291,8 @@ def derive_failure_kind(state: dict) -> str:
         if s2v == "duplicate_of":
             return "stage2_duplicate_content"
         if s2v == "compile_failed":
+            if _is_posthoc_paper_covered_target(state):
+                return "posthoc_paper_covered"
             return "stage2_compile_failed"
         if s2v == "reject":
             attempts = s2.get("attempts") or []

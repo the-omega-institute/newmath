@@ -96,8 +96,6 @@ def _infer_zero_extraction_hang(status: dict) -> dict:
         if rec.get("event") != "heartbeat" or not rec.get("recent", False):
             continue
         metrics = rec.get("metrics") or {}
-        if metrics.get("generating") is not True:
-            continue
         elapsed = _safe_int(metrics.get("elapsed_seconds"))
         extracted = _safe_int(metrics.get("extracted_chars"))
         page_chars = _safe_int(metrics.get("page_chars"))
@@ -168,7 +166,7 @@ def print_status_hint(server_url: str) -> dict:
         seconds = status.get("zero_extraction_hang_seconds", "?")
         url_tails = zero_extraction_url_tails(status)
         print(
-            f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
+            f"[status] {agents or 'an agent'} has an active task but extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
         if url_tails:
