@@ -314,13 +314,40 @@ Apply the scope-closed route theorem. It identifies the finite passage through $
 The sibling $\RegularCauchyTailMeetUp$ packet consumes exactly that finite tail/window surface as a downstream consumer surface. Since $S$ has no coordinate for quotient streams, selected limits, host equality, or completeness, the handoff is only the scoped finite route and not an additional analytic closure claim.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule tail-meet seal comparison]
+\label{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison}
+Let
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWitnessScheduleUp$ packet. Let an accepted $\RegularCauchyTailMeetUp$ packet have its paired source, finite-window, modulus, threshold, comparison, transport, route, provenance, and local naming rows transported to the same displayed $W,D,R,T,H,C,P,N$ surface. Then the consumer-visible $\RealUp$ seal route of $S$ is the same finite route consumed by the sibling tail-meet surface.
+
+Equivalently, both presentations reach the seal only through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No quotient stream, selected limit, host equality row, or completeness row can distinguish the schedule presentation from the transported tail-meet consumer presentation.
+\end{theorem}
+\begin{proof}
+Project $S$ to the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. The carrier and \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations} expose exactly the rows $X,\mu,W,D,R,T,H,C,P,N$ and no analytic escape coordinate.
+
+Use window-modulus alignment and diagonal readback to bind the route through $\mu,W,D,R$. The Real seal readiness theorem then identifies $T$ as the displayed $\RealUp$ seal reached from the finite $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ data.
+
+Now apply the scope-closed route theorem and the scoped tail-meet handoff. They identify the same route as the finite consumer surface shared with the sibling $\RegularCauchyTailMeetUp$ chapter, whose public surface is recorded in \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
+
+The two TasteGate anchors
+$$
+\begin{gathered}
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},\\
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleUp\_taste\_gate\_boundary}
+\end{gathered}
+$$
+keep the $\origin{ai}$ packet inside this finite carrier boundary. Since both presentations expose the same $W,D,R,T,H,C,P,N$ rows at the consumer surface, and since neither packet supplies quotient streams, selected limits, host equality, or completeness as coordinates, no downstream $\RealUp$ consumer can distinguish the two seal routes.
+\end{proof}
+
 \closureat{RegularCauchyWitnessScheduleUp}{obligationStr}
 \closureat{RegularCauchyWitnessScheduleUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
   \constructivestory{A $\RegularCauchyWitnessScheduleUp$ packet is generated from a $\RegSeqRatUp$ family row, explicit modulus row, selected $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ observation ledger, diagonal readback row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}, \autoref{thm:regular-cauchy-witness-schedule-scope-closed-route}, and \autoref{thm:regular-cauchy-witness-schedule-scoped-tail-meet-handoff} bind the finite modulus-indexed scoped route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal and the shared RegularCauchyTailMeet consumer surface.}
+  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness}, \autoref{thm:regular-cauchy-witness-schedule-scope-closed-route}, \autoref{thm:regular-cauchy-witness-schedule-scoped-tail-meet-handoff}, and \autoref{thm:regular-cauchy-witness-schedule-tail-meet-seal-comparison} bind the finite modulus-indexed scoped route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal and the shared RegularCauchyTailMeet consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
