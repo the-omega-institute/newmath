@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\TypedExampleGalleryUp$}
+\label{ch:concrete-instances-typedexamplegallery-namecert}
+\origin{human}
+
+The $\TypedExampleGalleryUp$ packet realizes the audit reading of \autoref{ch:metacic-typedexamples-audit-map} as finite BEDC data. Its source material is the existing MetaCIC typed-example corpus: Church booleans and naturals, pairs and options, lists and sums, identity and polymorphic identity rows, application forms, beta redexes, projections, Pi forms, constants, and sort-indexed context examples. The packet sits after the closed substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the derivation route of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and the proof-erasure route of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. It names the gallery as a finite regression surface without turning the examples into subject reduction, normalisation, confluence, or global conversion theorems.
+
+\begin{definition}[Typed example gallery carrier]
+\label{def:typed-example-gallery-carrier}
+A $\TypedExampleGalleryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(E,T,C,B,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite gallery-entry row for the accepted Church, identity, application, beta-redex, projection, Pi, constant, and sort-context examples;
+\item $T$ is the type-checking row recording each displayed $\mathsf{HasType}$ or checker-accepted example;
+\item $C$ is the closedness row recording the $\mathsf{ClosedAt}$ inputs consumed by the typed examples and computation rows;
+\item $B$ is the beta-computation row for the selected redex, eliminator, boolean, natural-number, list, sum, and equality examples that compute inside the gallery;
+\item $R$ is the regression-surface row recording the finite families whose preservation is required when checker, closedness, substitution, beta, projection, or binder code is changed;
+\item $H$ records componentwise $\hsame$ transport across $E,T,C,B,R,K,P,N$;
+\item $K$ records the displayed $\Cont$ routes by which consumers replay gallery entry reads, checker reads, closedness reads, beta reads, and regression-surface reads;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-typedexamples-audit-map}, \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert};
+\item $N$ is the local $\NameCert_{\TypedExampleGalleryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary MetaCIC term, no global type-safety theorem, no closed-term normalisation theorem, no confluence theorem, no proof-erased compiler theorem, and no host evaluator.
+\end{definition}
+
+\begin{theorem}[Typed example gallery NameCert obligations]
+\label{thm:typed-example-gallery-namecert-obligations}
+For the carrier of \autoref{def:typed-example-gallery-carrier}, the local $\NameCert_{\TypedExampleGalleryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $G=(E,T,C,B,R,H,K,P,N)$;
+\item checker visibility through the displayed type-checking row $T$ for every accepted gallery entry in $E$;
+\item closedness visibility through $C$ for each example whose typing or computation row consumes a $\mathsf{ClosedAt}$ input;
+\item beta visibility through $B$ for the selected computation rows and no other conversion surface;
+\item regression-surface visibility through $R$, transported only by $H,K,P,N$ and grounded in the sibling provenance listed in $P$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite packet $G$. Carrier admission supplies the displayed entry, checker, closedness, beta, regression, transport, replay, provenance, and local naming rows.
+
+The checker obligation reads $T$ only against entries already present in $E$. The closedness obligation reads $C$ only for entries whose displayed theorem rows require $\mathsf{ClosedAt}$ inputs. The beta obligation reads $B$ only for the selected computations in the gallery.
+
+Finally read $R,H,K,P,N$. The regression row names the finite families whose checked behavior is preserved as a gallery surface, while transport, replay, provenance, and local naming keep every consumer inside the same displayed packet. No row adds a general subject-reduction, normalisation, confluence, global conversion, proof-erasure, or host-evaluation endpoint.
+\end{proof}
+
+\begin{theorem}[Typed example gallery regression surface]
+\label{thm:typed-example-gallery-regression-surface}
+Every consumer of an accepted $\TypedExampleGalleryUp$ packet receives a finite regression surface for the typed-example corpus: accepted typing rows, closedness inputs, selected beta computations, and sibling provenance through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet cannot be reread as a theorem about all represented terms, all closed substitutions, all beta steps, all erased proof terms, or all checker results.
+\end{theorem}
+\begin{proof}
+The regression surface is the row $R$ together with the entry, checker, closedness, and beta rows $E,T,C,B$. These rows are finite and are indexed by the gallery families recorded in \autoref{ch:metacic-typedexamples-audit-map}.
+
+The sibling references in $P$ locate the required substrate: closed substitution supplies the closed-term boundary, derivation traces supply finite checker routes, and proof-erasure traces supply the erased-readback discipline. The packet records dependence on those surfaces without merging their theorem rows into the gallery.
+
+Since the carrier contains no row for an arbitrary represented term, arbitrary closed substitution, arbitrary beta step, arbitrary proof erasure, or arbitrary checker result, the consumer cannot export a global metatheorem. The accepted reading is exactly the finite gallery regression surface.
+\end{proof}
+
+\closureat{TypedExampleGalleryUp}{seedStr}
+
+\begin{closurestatus}{\TypedExampleGalleryUp}
+  \constructivestory{A $\TypedExampleGalleryUp$ packet is generated from finite typed-example entries, checker rows, closedness rows, selected beta-computation rows, a regression-surface row, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-example-gallery-carrier}, \autoref{thm:typed-example-gallery-namecert-obligations}, and \autoref{thm:typed-example-gallery-regression-surface} bind the finite gallery-entry, checker, closedness, beta, regression, sibling-provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close subject reduction, strong normalisation, confluence, global conversion decidability, proof-erased compiler correctness, arbitrary checker completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checking carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface non-escape, and sibling provenance for the displayed packet.}
+\end{closurestatus}
