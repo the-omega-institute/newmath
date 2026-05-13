@@ -18,45 +18,6 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-725 - DoCalculus intervention prefix locality
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | DoCalculus intervention prefix locality |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
-| Landing kind | existing_chapter_lemma |
-
-Problem:
-If an accepted \DoCalculusUp packet restricts its finite intervention ledger to a displayed prefix whose observed-variable, adjustment, independence, distribution, and expectation rows are retained, then every intervention-facing read for that prefix factors through the retained rows and cannot read a later intervention row.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex`
-
-
-Logic packet discipline:
-- `axiom_budget`: B0_finite_witness
-- `strength_level`: B0_finite_witness
-- `budget_reason`: The target is a finite prefix projection of an already displayed intervention ledger; all rows are inherited from the packet, so the weakest adequate resource is a finite witness for the retained prefix and its retained route entries.
-- `witness_extractor`: intervention_prefix_subledger
-- `existence_mode`: constructive_witness
-- `cut_rank`: 1
-- `elimination_plan`: Eliminate the cut through the full intervention packet by projecting the prefix rows from I,V,A,M,R,H,C,P,N, then reusing the existing non-escape argument on the restricted route family.
-- `equality_kind`: propositionally_equal
-- `interpretation_kind`: none
-- `resource_trace`: Consumes the finite intervention ledger I, observed-variable row V, adjustment ledger A, distribution rows M, independence certificates R, expectation row J, export row E, hsame rows H, Cont routes C, package row P, and local naming row N; no causal graph or counterfactual selector is introduced.
-- `dependency_trace`: The DoCalculus carrier defines I as a finite intervention ledger with displayed intervention order at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:35-37, and the intervention non-escape theorem says every intervention-facing consumer factors through I,V,A,M,R,H,C,P,N at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:136-145.
-- `oracle_mode`: witness_synthesis
-Rationale:
-
-
----
-
 ### B-726 - EnrichedCat two-step composition reassociation
 
 | field | value |
