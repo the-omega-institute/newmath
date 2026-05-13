@@ -4,6 +4,8 @@
 
 The $\RegularCauchyProductBudgetUp$ packet records the finite product-window ledger needed by Real-and-Completion multiplication consumers. It starts with two $\RegSeqRatUp$ source names, opens only displayed $\StreamNameUp$ windows, reads the product row through $\DyadicRatCoreUp$, accounts for the finite error split through $\FiniteErrorBudgetUp$, hands the result back as a $\RegSeqRatUp$ row, and seals the completion-facing read through $\RealUp$. The packet is a local product-budget certificate; it is not quotient stream equality, host real multiplication, an ambient completeness theorem, or a selected host limit.
 
+The product-budget carrier consumes the sibling routes of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-finiteerrorbudget-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}. These links are substantive: paired finite stream windows supply the source observations, DyadicRatCore supplies the displayed product row, FiniteErrorBudget supplies the finite split ledger, and RegSeqRat receives the product handoff.
+
 \begin{definition}[RegularCauchyProductBudget carrier]
 \label{def:regular-cauchy-product-budget-carrier}
 A $\RegularCauchyProductBudgetUp$ carrier is a finite $\BHist$ packet
@@ -27,6 +29,36 @@ with the following displayed rows:
 The local classifier compares accepted carriers only through the visible rows $A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N$.
 \end{definition}
 \leandef{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudgetUp}
+
+\begin{theorem}[RegularCauchyProductBudget falsifiable prediction]
+\label{thm:regular-cauchy-product-budget-falsifiable-prediction}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier has a falsifiable finite-product prediction: if a candidate packet omits either paired $\StreamNameUp$ window or omits the $\FiniteErrorBudgetUp$ row, then it cannot export the same $\RegSeqRatUp$ product handoff and $\RealUp$ seal as the carrier of \autoref{def:regular-cauchy-product-budget-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The two source windows $W_A,W_B$ are the only rows from which the dyadic source observations $D_A,D_B$ can be read, so deleting either window leaves no displayed route to the product row $D$.
+
+Project the finite ledger coordinate $E$. The readback row $R$ is downstream of $D$ and $E$, and the seal row $S$ is downstream of $R$ in the same finite packet.
+
+Therefore a candidate that lacks either paired window or the budget ledger cannot preserve both the $\RegSeqRatUp$ handoff and the $\RealUp$ seal. The Lean follow-up must provide \texttt{Nontrivial RegularCauchyProductBudgetUp} and \texttt{FieldFaithful RegularCauchyProductBudgetUp} in \texttt{TasteGate.lean}.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProductBudget independence witness]
+\label{thm:regular-cauchy-product-budget-independence-witness}
+The $\RegularCauchyProductBudgetUp$ packet is not bijective, as a local $\NameCert$ surface, to the sibling slugs bounded-cauchy-cover, observablecauchyseal, regularcauchymerge, or regularcauchyswapbisimulation. It has two source windows, a dyadic product row, and a finite error-budget row, while those siblings respectively expose one budget-to-cover route, one observation seal route, two cofinal selector routes, or selector-swap symmetry without a dyadic multiplication budget.
+\end{theorem}
+\begin{proof}
+Compare carrier inventories. The product-budget carrier contains the two source rows, paired $\StreamNameUp$ windows, dyadic source rows, one dyadic product row, one finite error-budget row, one $\RegSeqRatUp$ readback, and one $\RealUp$ seal.
+
+The bounded-cauchy-cover sibling has a single budget-to-cover route rather than paired product windows. The observablecauchyseal sibling has a seal route rather than the dyadic product and finite error split.
+
+The regularcauchymerge sibling records two cofinal selector routes, and the regularcauchyswapbisimulation sibling records selector-swap symmetry. Neither supplies the dyadic multiplication budget row required by the product carrier.
+
+Thus no bijection can preserve the displayed coordinates and the local $\NameCert$ obligations at once. The Lean follow-up must provide \texttt{Nontrivial RegularCauchyProductBudgetUp} and \texttt{FieldFaithful RegularCauchyProductBudgetUp} in \texttt{TasteGate.lean}.
+\end{proof}
+
+\falsifiablePrediction{Any accepted product-budget carrier omitting either paired StreamName window or the FiniteErrorBudget row cannot export the same RegSeqRat handoff and RealUp seal.}
+
+\independenceWitness{bounded-cauchy-cover, observablecauchyseal, regularcauchymerge, regularcauchyswapbisimulation: ProductBudget is not bijective to these siblings because it has two source windows plus dyadic product and finite error-budget rows, while the siblings respectively have one budget-to-cover route, one observation seal route, two cofinal selector routes, or selector-swap symmetry without dyadic multiplication budget.}
 
 \begin{theorem}[RegularCauchyProductBudget window admission]
 \label{thm:regular-cauchy-product-budget-window-admission}
@@ -119,7 +151,7 @@ Finally repack the structural obligations. Apply \autoref{thm:regular-cauchy-pro
 \begin{closurestatus}{\RegularCauchyProductBudgetUp}
   \constructivestory{A $\RegularCauchyProductBudgetUp$ packet is generated from two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, dyadic source rows, a $\DyadicRatCoreUp$ product row, a $\FiniteErrorBudgetUp$ ledger, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, and \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness} bind the finite product-budget carrier and its local NameCert obligation surface.}
+  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-falsifiable-prediction}, \autoref{thm:regular-cauchy-product-budget-independence-witness}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, and \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness} bind the finite product-budget carrier and its local NameCert obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

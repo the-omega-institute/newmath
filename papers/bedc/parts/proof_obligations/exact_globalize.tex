@@ -355,10 +355,40 @@ $$
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_soundness\_direction}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_completeness\_direction}
 \leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_covered\_classification\_directions}
-\leanvariant{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_admitted\_pair\_export}
 
 \begin{proof}
 The theorem is the constructor for $\ExactGlobalizeBase(\Pi,D)$ from its coverage, soundness, and completeness fields. The soundness field consumes an actual $\GeneratedSameSig(\Pi,h,k)$ witness object; the completeness field returns the inhabited-witness proposition.
+\end{proof}
+
+\begin{theorem}[Exact Globalize admitted-pair export from fields]
+\label{thm:exact-globalize-base-pair-witness-export}
+Assume the three field hypotheses of Theorem~\ref{thm:exact-globalize-base-target}. For admitted histories $h$ and $k$ with $\InDom(D,h)$ and $\InDom(D,k)$, there exist packages $p$ and $q$ such that
+$$
+\begin{aligned}
+  &\ExactGlobalizeBase(\Pi,D)
+  \wedge \InGapSig(\Pi,D,p,h)
+  \wedge \InGapSig(\Pi,D,q,k)
+  \\
+  &\qquad\wedge\;
+  \bigl(\psame_{\Pi}^{\mathrm{base}}(p,q)
+    \Longleftrightarrow \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k))\bigr).
+\end{aligned}
+$$
+\end{theorem}
+\leanchecked{BEDC.BaseReflection.ExactGlobalizeBase\_from\_fields\_admitted\_pair\_export}
+
+\begin{proof}
+First build the exactness witness from the three fields by Theorem~\ref{thm:exact-globalize-base-target}. This gives $\ExactGlobalizeBase(\Pi,D)$ with the same coverage, soundness, and completeness data.
+
+Apply coverage to the displayed admission $\InDom(D,h)$ to obtain a package $p$ with $\InGapSig(\Pi,D,p,h)$. Apply coverage again to $\InDom(D,k)$ to obtain a package $q$ with $\InGapSig(\Pi,D,q,k)$.
+
+The local classification projection for $\ExactGlobalizeBase(\Pi,D)$ applies to these two displayed gap-signature witnesses. Its equivalence is precisely
+$$
+  \psame_{\Pi}^{\mathrm{base}}(p,q)
+  \Longleftrightarrow
+  \mathsf{Nonempty}(\GeneratedSameSig(\Pi,h,k)).
+$$
+Together with the constructed exactness witness and the two coverage witnesses, this gives the required package pair.
 \end{proof}
 
 \begin{corollary}[No closure export]
