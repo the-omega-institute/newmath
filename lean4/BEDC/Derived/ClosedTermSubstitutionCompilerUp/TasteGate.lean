@@ -221,6 +221,9 @@ instance closedTermSubstitutionCompilerChapterTasteGate :
     intro x y hxy heq
     exact hxy (closedTermSubstitutionCompilerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ClosedTermSubstitutionCompilerUp :=
+  closedTermSubstitutionCompilerChapterTasteGate
+
 theorem ClosedTermSubstitutionCompilerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       closedTermSubstitutionCompilerDecodeBHist
