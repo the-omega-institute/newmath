@@ -63,14 +63,15 @@ Finally use the refusal row $R$. Any candidate with a forbidden dependency repor
 \end{proof}
 
 \closureat{KernelAcceptanceWitnessUp}{seedStr}
+\closureat{KernelAcceptanceWitnessUp}{obligationStr}
 
 \begin{closurestatus}{\KernelAcceptanceWitnessUp}
   \constructivestory{A $\KernelAcceptanceWitnessUp$ packet is generated from a candidate declaration row, an accepted declaration row, an environment ledger row, an axiom-query row, refusal-boundary evidence, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, and \autoref{thm:kernel-acceptance-witness-ledger-purity} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, and refusal boundaries.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean implementation, host-kernel completeness, semantic conservativity of all accepted declarations, bridge checking, or acceptance for candidates on the refusal side.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for candidate matching, environment replay, dependency-query visibility, refusal separation, and ledger non-escape.}
+  \upgradepath{Scoped closure requires checked carrier matching, environment replay, dependency-query visibility, refusal separation, and ledger non-escape over the same finite packet.}
 \end{closurestatus}

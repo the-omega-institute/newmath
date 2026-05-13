@@ -669,6 +669,18 @@ Use composition stability for arrows. Binary composition is graph composition ov
 Use triple composite associativity only as a boundary statement. It aligns the two finite replay routes over three displayed graph edges, but it adds no semantic interpretation of compilers, programs, optimizers, or ambient categories.
 \end{proof}
 
+\begin{theorem}[CertificateCompiler formal target surface]
+\label{thm:certificate-compiler-formal-target-surface}
+The Lean-facing formal target for $\CertificateCompilerUp$ is the finite packet surface $S,T,G,E,C,H,P,N$ together with endpoint certificate availability, displayed edge witness totality, the consumer replay obligation triad, composition stability, the identity ledger, edge-classifier exactness, triple composite associativity, the public consumer boundary, and finite-route non-escape. It excludes host compiler semantics, optimizer correctness, ambient program equality, decompiler semantics, and unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:certificate-compiler-carrier}, \autoref{thm:certificate-compiler-endpoint-certificate-availability}, and \autoref{thm:certificate-compiler-displayed-edge-witness-totality} to expose $S,T,G,E,C,H,P,N$, endpoint certificate availability, and displayed edge witness totality.
+
+Apply \autoref{thm:certificate-compiler-consumer-replay-obligation-triad}, \autoref{thm:certificate-compiler-edge-classifier-exactness}, \autoref{thm:certificate-compiler-composition-stability}, \autoref{thm:certificate-compiler-identity-ledger}, and \autoref{thm:certificate-compiler-triple-composite-associativity}. These results keep all formal obligations inside displayed edge, landing, classifier, continuation, transport, provenance, and naming rows.
+
+Finally apply \autoref{thm:certificate-compiler-public-consumer-boundary} and \autoref{thm:certificate-compiler-finite-route-non-escape}. They state that consumers receive only the finite route packet, so host compiler semantics, optimizer correctness, ambient program equality, decompiler semantics, and unrecorded target behavior are outside the formal target.
+\end{proof}
+
 \closureat{CertificateCompilerUp}{obligationStr}
 \closureat{CertificateCompilerUp}{scopedStr}
 \closureat{CertificateCompilerUp}{publicStr}

@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.InscriptionGapLedgerUp
@@ -261,5 +262,31 @@ theorem InscriptionGapLedgerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact inscriptionGapLedgerToEventFlow_injective heq
       · rfl
+
+theorem InscriptionGapLedger_source_boundary :
+    ∀ source name route check consumer residue transport continuation provenance localName : BHist,
+      let packet :=
+        InscriptionGapLedgerUp.mk source name route check consumer residue transport continuation
+          provenance localName
+      BEDC.FKernel.Cont.Cont source route (BEDC.FKernel.Cont.append source route) ∧
+        hsame check check ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow packet) = some packet := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro source name route check consumer residue transport continuation provenance localName
+  constructor
+  · rfl
+  · constructor
+    · exact hsame_refl check
+    · change
+        inscriptionGapLedgerFromEventFlow
+            (inscriptionGapLedgerToEventFlow
+              (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+                continuation provenance localName)) =
+          some
+            (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+              continuation provenance localName)
+      exact inscriptionGapLedger_round_trip
+        (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+          continuation provenance localName)
 
 end BEDC.Derived.InscriptionGapLedgerUp
