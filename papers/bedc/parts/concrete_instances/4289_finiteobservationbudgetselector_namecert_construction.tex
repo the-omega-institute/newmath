@@ -155,17 +155,48 @@ The route is then forced rather than chosen from an ambient source. By \autoref{
 Finally apply \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}. It identifies Real-completion, diagonal-limit, selected-tail, and schedule consumers as consumers of precisely this finite route together with $H,C,P,N$. Since the carrier and obligations contain no coordinate for quotient streams, host real equality, countable choice, hidden selectors, or ambient completeness, no such object is exported from the scoped primitive surface.
 \end{proof}
 
+\begin{theorem}[Finite observation-budget selector public export]
+\label{thm:finite-observation-budget-selector-public-export}
+Every accepted $\FiniteObservationBudgetSelectorUp$ packet publicly exports
+one finite budget-to-seal route
+$$
+B \to S \to W \to D \to R \to E
+$$
+together with the $H,C,P,N$ rows. This route is consumable by
+Real-completion, diagonal-limit, selected-tail, and schedule consumers, and
+it exports no quotient stream, host real equality, countable choice, hidden
+selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the route from the carrier and the NameCert obligations. The carrier
+displays $B,S,W,D,R,E,H,C,P,N$, and the obligations force budget admission,
+window selection, dyadic ledger coverage, RegSeqRat handoff, and Real seal
+access through the displayed rows.
+
+Apply \autoref{thm:finite-observation-budget-selector-budget-route-determinacy}
+and \autoref{thm:finite-observation-budget-selector-primitive-scope}. They
+make the route a single public finite object over the BEDC primitive surface
+rather than a branch selected from an ambient analytic source.
+
+Finally use \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}
+and \autoref{thm:finite-observation-budget-selector-nonescape}. The named
+consumers may read the route, while quotient streams, host real equality,
+countable choice, hidden selectors, and ambient completeness are absent from
+the packet.
+\end{proof}
+
 \closureat{FiniteObservationBudgetSelectorUp}{seedStr}
 \closureat{FiniteObservationBudgetSelectorUp}{obligationStr}
 \closureat{FiniteObservationBudgetSelectorUp}{scopedStr}
+\closureat{FiniteObservationBudgetSelectorUp}{publicStr}
 
 \begin{closurestatus}{\FiniteObservationBudgetSelectorUp}
   \constructivestory{A $\FiniteObservationBudgetSelectorUp$ packet is generated from a precision budget row $B$, selected schedule row $S$, finite $\StreamNameUp$ window family $W$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff row $R$, $\RealUp$ seal row $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and a local $\NameCert$ row $N$.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finite-observation-budget-selector-carrier}, \autoref{thm:finite-observation-budget-selector-namecert-obligations}, \autoref{thm:finite-observation-budget-selector-schedule-admission}, \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, \autoref{thm:finite-observation-budget-selector-nonescape}, \autoref{thm:finite-observation-budget-selector-budget-route-determinacy}, \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}, and \autoref{thm:finite-observation-budget-selector-primitive-scope} bind the finite budget-to-seal route, its deterministic schedule path, the exhausted dyadic-window boundary, the diagonal consumer boundary, and the exact primitive surface for one displayed selector packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:finite-observation-budget-selector-carrier}, \autoref{thm:finite-observation-budget-selector-namecert-obligations}, \autoref{thm:finite-observation-budget-selector-schedule-admission}, \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, \autoref{thm:finite-observation-budget-selector-nonescape}, \autoref{thm:finite-observation-budget-selector-budget-route-determinacy}, \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, \autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}, \autoref{thm:finite-observation-budget-selector-primitive-scope}, and \autoref{thm:finite-observation-budget-selector-public-export} bind the public finite budget-to-seal route, its deterministic schedule path, the exhausted dyadic-window boundary, the diagonal consumer boundary, the exact primitive surface, and the public consumer export for one displayed selector packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, hidden limit selectors, ambient completeness, or checked Lean verification.}
-  \upgradepath{Public closure requires a checked Lean target and a public-object export that preserves the same finite budget-to-seal route.}
+  \upgradepath{Bridged closure requires a checked bridge target preserving the same finite budget-to-seal route.}
 \end{closurestatus}
