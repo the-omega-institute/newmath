@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationBigStepUp$}
+\label{ch:concrete-instances-continuationbigstep-namecert}
+\origin{human}
+
+The $\ContinuationBigStepUp$ packet realizes terminal-read computation as a finite continuation certificate. It reads a big-step result only from the terminal row of a displayed small-step trace, the $\Cont$ replay route, componentwise $\hsame$ transport, package provenance, and local naming. The packet adds no host evaluator, semantic evaluation relation, quotient behaviour class, or hidden totality principle.
+
+\begin{definition}[ContinuationBigStep carrier]
+\label{def:continuation-big-step-carrier}
+A $\ContinuationBigStepUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,T,R,Q,H,C,P,N)
+$$
+whose displayed coordinates are as follows:
+\begin{enumerate}
+\item $S$ is the source row whose computation is being read;
+\item $T$ is the finite small-step trace ledger, displayed as the ordered $\BHist$, $\BMark$, tail, and target rows already readable by $\ContinuationTraceUp$;
+\item $R$ is the terminal row reached by the last displayed trace entry;
+\item $Q$ is the terminal-read witness that records the result read from $R$;
+\item $H$ is the componentwise $\hsame$ transport row for the source, trace, terminal, terminal-read, continuation, provenance, and naming coordinates;
+\item $C$ is the $\Cont$ replay route that replays the finite trace ledger from $S$ to $R$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\ContinuationTraceUp$, $\hsame$, $\Cont$, terminal-read witnesses, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ContinuationBigStepUp}$ row.
+\end{enumerate}
+Two accepted packets classify together only when these eight displayed coordinates are transported componentwise. The terminal-read witness $Q$ is a read from $R$ along the listed replay route, not an external big-step semantic object.
+\end{definition}
+
+\begin{theorem}[ContinuationBigStep NameCert obligations]
+\label{thm:continuation-big-step-namecert-obligations}
+The local $\NameCert_{\ContinuationBigStepUp}$ surface for the carrier of \autoref{def:continuation-big-step-carrier} consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $B=(S,T,R,Q,H,C,P,N)$;
+\item small-step trace factorization of $T$ through the $\ContinuationTraceUp$ rows named by $P$;
+\item terminal readback from the terminal row $R$ through the witness $Q$;
+\item non-escape from host evaluators, host big-step semantics, quotient behaviours, and hidden termination principles;
+\item consumer exactness for reads through $S,T,R,Q,H,C,P,N$ and no other coordinates.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:continuation-big-step-carrier}. The accepted packet exposes the source, trace ledger, terminal row, terminal-read witness, transport, replay, provenance, and local naming coordinates.
+
+The small-step factorization obligation is supplied by the $\ContinuationTraceUp$ route recorded in $T$ and named by $P$. Each displayed step of the ledger is replayed through the continuation row $C$, with componentwise movement controlled by $H$.
+
+Terminal readback then projects $Q$ from the terminal row $R$. The witness reads only the row reached by the finite replay and therefore contributes a terminal observation, not a host-level evaluator result.
+
+The non-escape and consumer-exactness clauses follow from the same coordinate list. Since the carrier has no field for an ambient evaluation relation, quotient behaviour, selected evaluator, or hidden termination principle, every consumer route is exhausted by $S,T,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep small-step factorization]
+\label{thm:continuation-big-step-small-step-factorization}
+For an accepted $\ContinuationBigStepUp$ carrier $B=(S,T,R,Q,H,C,P,N)$, every terminal computation read factors through a finite route
+$$
+S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q.
+$$
+The trace coordinate $T$ is read as a $\ContinuationTraceUp$ small-step packet, $C$ replays its listed $\Cont$ rows, $R$ is the terminal row reached by that replay, and $Q$ is the terminal-read witness attached to $R$. Conversely, a consumer that reads $Q$ from $R$ after replaying $T$ through $C$ reads exactly the big-step packet surface carried by $B$, with transport and provenance supplied by $H,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the trace ledger $T$. By the $\ContinuationTraceUp$ small-step readback surface, each row of $T$ is a finite source, mark, tail, and target read, and no step is imported from an external evaluator.
+
+Replay the listed rows through $C$. The continuation replay composes the displayed route from the source row $S$ to the terminal row $R$, while $H$ accounts only for componentwise $\hsame$ transport of the listed coordinates.
+
+Read the terminal witness $Q$ from $R$. This gives the terminal-read surface of the packet, and $P,N$ bind it to the package provenance and local naming row.
+
+For the reverse direction, suppose a consumer starts with the displayed replay of $T$ through $C$ and then reads $Q$ at $R$. The carrier has exactly the coordinates required to repack that route as $B$, so the consumer obtains the same finite terminal-read packet and no host-wide big-step semantics.
+\end{proof}
