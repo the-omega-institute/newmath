@@ -202,4 +202,40 @@ theorem UniformCauchyCriterionPacket_root_tolerance_ledger_exactness [AskSetup]
     ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, tailReadUnary,
       indexWindowsModulus, modulusToleranceTail, indexTailRead, namePkg, tailReadPkg⟩
 
+theorem UniformCauchyCriterionPacket_finite_family_regseq_real_handoff [AskSetup]
+    [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name regseqRead
+      realRead sharedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg →
+      Cont index tail regseqRead →
+        Cont tail sealRow realRead →
+          Cont regseqRead realRead sharedRoute →
+            PkgSig bundle regseqRead pkg →
+              PkgSig bundle realRead pkg →
+                PkgSig bundle sharedRoute pkg →
+                  UnaryHistory regseqRead ∧ UnaryHistory realRead ∧
+                    UnaryHistory sharedRoute ∧ Cont index windows modulus ∧
+                      Cont modulus tolerance tail ∧ Cont index tail regseqRead ∧
+                        Cont tail sealRow realRead ∧ Cont regseqRead realRead sharedRoute ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle regseqRead pkg ∧
+                            PkgSig bundle realRead pkg ∧ PkgSig bundle sharedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet indexTailRegseq tailSealReal regseqRealShared regseqPkg realPkg sharedPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRegseq
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealReal
+  have sharedUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed regseqUnary realUnary regseqRealShared
+  exact
+    ⟨regseqUnary, realUnary, sharedUnary, indexWindowsModulus, modulusToleranceTail,
+      indexTailRegseq, tailSealReal, regseqRealShared, namePkg, regseqPkg, realPkg,
+      sharedPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
