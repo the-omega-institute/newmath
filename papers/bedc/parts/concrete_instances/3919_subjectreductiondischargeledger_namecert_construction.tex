@@ -69,6 +69,46 @@ The transport, continuation, package, and naming rows preserve access to the dis
 The excluded closed or host-side principles have no row in the packet. A request for one of them therefore remains outside the accepted carrier rather than becoming a hidden route through the ledger.
 \end{proof}
 
+\begin{theorem}[SubjectReductionDischargeLedger carrier exposure]
+\label{thm:subject-reduction-discharge-ledger-carrier-exposure}
+Every accepted $\SubjectReductionDischargeLedgerUp$ carrier exposes exactly the finite rows
+$$
+B,A,LD,PD,R,H,C,P,N.
+$$
+The public ledger surface consists of the four preservation rows, the $\SubjectReductionUp$ route, componentwise transport, displayed continuation replay, package provenance, and local naming; it contains no additional MetaCIC preservation coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition \autoref{def:subject-reduction-discharge-ledger-carrier}. It lists $B,A,LD,PD,R,H,C,P,N$ as the full finite packet.
+
+Apply the obligation theorem \autoref{thm:subject-reduction-discharge-ledger-obligations}. Its carrier-admission and four-row exposure clauses identify the public preservation surface with $B,A,LD,PD$ and the subject-reduction route with $R$.
+
+The handoff theorem \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} and non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} leave only $H,C,P,N$ as structural replay, provenance, and naming rows. Hence the accepted carrier exposes exactly the displayed ledger rows.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeLedger transport replay]
+\label{thm:subject-reduction-discharge-ledger-transport-replay}
+For every accepted $\SubjectReductionDischargeLedgerUp$ carrier, the transport row $H$ and continuation row $C$ transport and replay only the four preservation rows $B,A,LD,PD$ and the $\SubjectReductionUp$ route row $R$, together with the provenance and local naming rows needed to authenticate that finite route.
+\end{theorem}
+\begin{proof}
+Project the carrier using \autoref{def:subject-reduction-discharge-ledger-carrier}. The transport coordinate $H$ is declared componentwise over the four obligation rows, the route row, provenance, and local naming.
+
+Use \autoref{thm:subject-reduction-discharge-ledger-obligations} to read the continuation coordinate $C$. It replays the displayed obligations and the $\SubjectReductionUp$ route, with no fifth preservation row and no closed subject-reduction row.
+
+Finally apply \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} and \autoref{thm:subject-reduction-discharge-ledger-nonescape}. They force every replay to remain inside $B,A,LD,PD,R,H,C,P,N$, so $H$ and $C$ cannot transport or replay an off-ledger preservation premise.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeLedger provenance exactness]
+\label{thm:subject-reduction-discharge-ledger-provenance-exactness}
+For an accepted $\SubjectReductionDischargeLedgerUp$ carrier, the rows $P$ and $N$ account exactly for the finite MetaCIC, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance of $B,A,LD,PD,R,H,C$. They do not add closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read $P$ and $N$ from the carrier definition. The package row names the finite provenance dependencies, and the local naming row names the same displayed ledger.
+
+Apply \autoref{thm:subject-reduction-discharge-ledger-obligations}. The obligation surface already accounts for the four preservation rows, route row, transport row, continuation row, package row, and name row.
+
+Use the handoff theorem and non-escape theorem to close the provenance boundary. Since all downstream reads factor through the same displayed packet, $P$ and $N$ authenticate the finite ledger without creating a closed subject-reduction theorem or any excluded host-side principle.
+\end{proof}
+
 \closureat{SubjectReductionDischargeLedgerUp}{seedStr}
 
 \begin{closurestatus}{\SubjectReductionDischargeLedgerUp}
