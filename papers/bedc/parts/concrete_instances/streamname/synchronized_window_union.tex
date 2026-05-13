@@ -105,6 +105,46 @@ host-function, external-real, completion, and real-completeness objects have
 no coordinate in either face.
 \end{proof}
 
+\begin{theorem}[StreamName synchronized-window Real seal handoff]
+\label{thm:streamname-synchronized-window-real-seal-handoff}
+Let $\mathcal S$ be a synchronized $\StreamNameUp$ window whose
+$\RegSeqRatUp$ endpoint, radius, regularity, and readback rows are transported
+through \autoref{thm:streamname-synchronized-window-regseqrat-seal}. Then
+every route from $\mathcal S$ to the finite $\RealUp$ seal factors through
+exactly the synchronized $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$
+membership rows, $\mathsf{UnaryHistory}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, $\DyadicRatCoreUp$ endpoint and radius
+rows, the accepted $\RegSeqRatUp$ source rows, componentwise $\hsame$ rows,
+displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The handoff has no coordinate for quotient streams, host functions, ambient
+real completeness, or route-dependent seal rows from the original left or
+right window.
+\end{theorem}
+\begin{proof}
+Start with the synchronized carrier union of
+\autoref{thm:streamname-synchronized-window-union-carrier}. It places the
+left and right finite windows over one displayed $\mathsf{ProbeBundle}$, with
+the same $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$, pointwise
+$\mathsf{RatHistoryClassifier}$, $\hsame$, $\Cont$, and $\Pkg$ coordinates.
+
+Next apply \autoref{thm:streamname-regseqrat-common-window-transport}. The
+endpoint, radius, regularity, and readback rows of the accepted
+$\RegSeqRatUp$ spine are therefore transported through the common window, not
+through a left-only or right-only route.
+
+Use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy} to identify
+the $\DyadicRatCoreUp$ endpoint and radius data read by the seal. Then apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}; the
+finite $\RealUp$ seal consumes only the displayed StreamName, dyadic,
+$\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The excluded objects have no row in this assembled boundary. Quotient
+streams, host functions, ambient real completeness, and route-dependent seal
+rows cannot be introduced after the boundary is exhausted by the synchronized
+packet.
+\end{proof}
+
 \begin{theorem}[StreamName synchronized-window classifier coverage]
 \label{thm:streamname-synchronized-window-union-classifier-coverage}
 Let $\mathcal W_L$ and $\mathcal W_R$ be displayed finite
