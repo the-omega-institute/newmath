@@ -59,6 +59,23 @@ def _section(title: str) -> str:
     return f"\n┌{bar}┐\n│  {title}  │\n└{bar}┘"
 
 
+def _fmt_age(seconds: object) -> str:
+    try:
+        total = int(seconds)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        return "?"
+    if total < 60:
+        return f"{total}s"
+    minutes = total // 60
+    if minutes < 60:
+        return f"{minutes}m"
+    hours = minutes // 60
+    if hours < 48:
+        return f"{hours}h{minutes % 60:02d}m"
+    days = hours // 24
+    return f"{days}d{hours % 24:02d}h"
+
+
 def render_server(s: dict) -> str:
     if "_error" in s:
         err = str(s["_error"])
@@ -114,14 +131,25 @@ def render_board() -> str:
 def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     by_event = data.get("by_event") or {}
     if not by_event:
-        return [f"  {label}: events=0"]
-    parts = [f"{k}={v}" for k, v in by_event.items()]
-    lines = [
-        (
-            f"  {label}: events={data.get('windowed', data.get('sampled', 0))} "
-            f"sampled={data.get('sampled', 0)}   " + "   ".join(parts)
+        lines = [f"  {label}: events=0 sampled={data.get('sampled', 0)}"]
+    else:
+        parts = [f"{k}={v}" for k, v in by_event.items()]
+        lines = [
+            (
+                f"  {label}: events={data.get('windowed', data.get('sampled', 0))} "
+                f"sampled={data.get('sampled', 0)}   " + "   ".join(parts)
+            )
+        ]
+    if data.get("latest_event_ts"):
+        latest = data.get("latest_event") or {}
+        title = str(latest.get("title") or "")[:48]
+        lines.append(
+            (
+                f"  {label} latest: {_fmt_age(data.get('latest_event_age_seconds'))} ago "
+                f"{latest.get('event') or '?'} from {latest.get('source') or '?'}"
+                + (f" — {title}" if title else "")
+            )
         )
-    ]
     rejection_reasons = data.get("rejection_reasons") or []
     if rejection_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])

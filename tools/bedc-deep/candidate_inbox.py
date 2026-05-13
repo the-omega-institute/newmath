@@ -434,7 +434,15 @@ def _parse_record_ts(value: Any) -> datetime | None:
 
 def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     if not INBOX_PATH.exists():
-        return {"events": 0, "sampled": 0, "windowed": 0, "by_event": {}}
+        return {
+            "events": 0,
+            "sampled": 0,
+            "windowed": 0,
+            "latest_event_ts": None,
+            "latest_event_age_seconds": None,
+            "latest_event": None,
+            "by_event": {},
+        }
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
     tail = lines[-limit:] if limit > 0 else lines
     window_start: datetime | None = None
@@ -447,13 +455,22 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     by_source_reason: dict[str, dict[str, int]] = {}
     seen_rejection_keys: set[tuple[str, str]] = set()
     windowed = 0
+    latest_ts: datetime | None = None
+    latest_event: dict[str, Any] | None = None
     for line in tail:
         try:
             rec = json.loads(line)
         except json.JSONDecodeError:
             continue
+        ts = _parse_record_ts(rec.get("ts"))
+        if ts is not None and (latest_ts is None or ts > latest_ts):
+            latest_ts = ts
+            latest_event = {
+                "event": rec.get("event"),
+                "source": rec.get("source"),
+                "title": rec.get("title"),
+            }
         if window_start is not None:
-            ts = _parse_record_ts(rec.get("ts"))
             if ts is None or ts < window_start:
                 continue
         windowed += 1
@@ -493,6 +510,12 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         "windowed": windowed,
         "since_hours": since_hours,
         "window_start": window_start.isoformat(timespec="seconds") if window_start else None,
+        "latest_event_ts": latest_ts.isoformat(timespec="seconds") if latest_ts else None,
+        "latest_event_age_seconds": (
+            int((datetime.now(timezone.utc) - latest_ts).total_seconds())
+            if latest_ts else None
+        ),
+        "latest_event": latest_event,
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
         "rejection_sources": _top(by_rejection_source),
