@@ -165,12 +165,33 @@ For packets backed by the completion-side ledgers, apply \autoref{thm:finite-cau
 Finally apply \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}. The diagonal-window coverage and mesh-budget rows are read as backing ledgers for the same finite handoff, so the resulting obligation closure contains the displayed rows and named ledgers, with no selected real value, quotient stream equality, infinite tail, host metric, or completeness principle.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation observation-budget compatibility]
+\label{thm:finite-cauchy-approximation-observation-budget-compatibility}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet, and let an accepted $\RealObservationBudgetUp$ packet share the precision request, finite window rows, dyadic ledger rows, regular-sequence handoff rows, seal rows, componentwise $\hsame$ transports, and displayed $\Cont$ routes with $F$. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $F$ factors through the same finite observation-budget route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+as the accepted observation-budget packet, with $E$ read as the displayed precision request on the observation-budget side and as the explicit finite error row attached to the selected precision on the finite-approximation side.
+
+The compatible handoff exports no selected real value, quotient stream equality, infinite tail, host metric or equality, ambient completeness, or hidden limit selector.
+\end{theorem}
+\begin{proof}
+First read the finite approximation side. The seal coverage theorem confines every $\RealUp$ or $\CauchyLimitSealUp$ consumer to the displayed rows of $F$, and the mesh-budget projection keeps the downstream mesh-budget handoff inside the same finite source, window, dyadic ledger, error-row, transport, route, provenance, and naming surface.
+
+The obligation closure theorem then packages those rows as the complete local $\NameCert_{\FiniteCauchyApproximationUp}$ obligation surface. In particular, the finite approximation does not contribute an extra completion coordinate beyond the route through $E,W,D,R,S$ and the displayed bookkeeping rows.
+
+Now read the shared observation-budget packet. The finite-window seal-route totality theorem for $\RealObservationBudgetUp$ sends every admitted seal read through $E \longmapsto W \longmapsto D \longmapsto R \longmapsto S$. Route determinacy identifies any two accepted routes with the same displayed rows up to the componentwise $\hsame$ transports, and non-escape excludes hidden quotient, host equality, ambient completeness, hidden selector, and unbounded-schedule data.
+
+Since the packets share the precision, window, dyadic, regular-sequence, seal, $\hsame$, and $\Cont$ rows, the two consumer surfaces have the same displayed route. The finite approximation handoff is therefore the observation-budget handoff restricted to the finite Cauchy approximation rows, with no selected real value, quotient stream equality, infinite tail, host metric or equality, ambient completeness, or hidden limit selector exported.
+\end{proof}
+
 \closureat{FiniteCauchyApproximationUp}{seedStr}
+\closureat{FiniteCauchyApproximationUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteCauchyApproximationUp}
   \constructivestory{A $\FiniteCauchyApproximationUp$ packet is generated from a $\RegSeqRatUp$ source row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, $\RealUp$ and $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-real-handoff}, and \autoref{thm:finite-cauchy-approximation-observation-surface} bind the finite approximation carrier, selected modulus threshold, stream window, dyadic observation ledger, error-bound row, and real-facing handoff.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-observation-surface}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, and \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility} bind the finite approximation carrier, selected modulus threshold, stream window, dyadic observation ledger, error-bound row, real-facing handoff, local obligation surface, and observation-budget compatibility route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
