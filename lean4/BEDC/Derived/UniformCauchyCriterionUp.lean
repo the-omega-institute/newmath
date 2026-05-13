@@ -442,4 +442,55 @@ theorem UniformCauchyCriterionPacket_window_refinement_seal_route [AskSetup]
     ⟨transportedPacketFinal, refinedUnary, sealReadUnary, rootReadUnary, tailSealRead,
       refinedSealRoot, rootReadPkg⟩
 
+theorem UniformCauchyCriterionPacket_overlap_refinement_determinacy [AskSetup]
+    [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name refinedA
+      refinedB sealReadA sealReadB rootA rootB : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index windows refinedA ->
+        Cont index windows refinedB ->
+          Cont tail sealRow sealReadA ->
+            Cont tail sealRow sealReadB ->
+              Cont refinedA sealReadA rootA ->
+                Cont refinedB sealReadB rootB ->
+                  PkgSig bundle rootA pkg ->
+                    PkgSig bundle rootB pkg ->
+                      UnaryHistory refinedA ∧ UnaryHistory refinedB ∧
+                        UnaryHistory sealReadA ∧ UnaryHistory sealReadB ∧
+                          UnaryHistory rootA ∧ UnaryHistory rootB ∧
+                            hsame refinedA refinedB ∧ hsame sealReadA sealReadB ∧
+                              Cont refinedA sealReadA rootA ∧
+                                Cont refinedB sealReadB rootB ∧ PkgSig bundle name pkg ∧
+                                  PkgSig bundle rootA pkg ∧ PkgSig bundle rootB pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet indexWindowsRefinedA indexWindowsRefinedB tailSealReadA tailSealReadB
+    refinedSealRootA refinedSealRootB rootPkgA rootPkgB
+  obtain ⟨indexUnary, windowsUnary, _modulusUnary, _toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    _modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have refinedUnaryA : UnaryHistory refinedA :=
+    unary_cont_closed indexUnary windowsUnary indexWindowsRefinedA
+  have refinedUnaryB : UnaryHistory refinedB :=
+    unary_cont_closed indexUnary windowsUnary indexWindowsRefinedB
+  have sealReadUnaryA : UnaryHistory sealReadA :=
+    unary_cont_closed tailUnary sealRowUnary tailSealReadA
+  have sealReadUnaryB : UnaryHistory sealReadB :=
+    unary_cont_closed tailUnary sealRowUnary tailSealReadB
+  have rootUnaryA : UnaryHistory rootA :=
+    unary_cont_closed refinedUnaryA sealReadUnaryA refinedSealRootA
+  have rootUnaryB : UnaryHistory rootB :=
+    unary_cont_closed refinedUnaryB sealReadUnaryB refinedSealRootB
+  have refinedSame : hsame refinedA refinedB :=
+    cont_respects_hsame (hsame_refl index) (hsame_refl windows) indexWindowsRefinedA
+      indexWindowsRefinedB
+  have sealReadSame : hsame sealReadA sealReadB :=
+    cont_respects_hsame (hsame_refl tail) (hsame_refl sealRow) tailSealReadA tailSealReadB
+  exact
+    ⟨refinedUnaryA, refinedUnaryB, sealReadUnaryA, sealReadUnaryB, rootUnaryA, rootUnaryB,
+      refinedSame, sealReadSame, refinedSealRootA, refinedSealRootB, namePkg, rootPkgA,
+      rootPkgB⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
