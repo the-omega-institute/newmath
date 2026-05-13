@@ -114,4 +114,27 @@ theorem AscoliModulusPacket_finite_net_stability [AskSetup] [PackageSetup]
     unary_cont_closed probeUnary stabilityUnary stabilityRoute
   exact ⟨probeUnary, stabilityUnary, stabilityReadUnary, stabilityRoute, pkgSig⟩
 
+theorem AscoliModulusPacket_rational_radius_transport [AskSetup] [PackageSetup]
+    {source target family tolerance radius probe stability equicontinuity uniformRows
+      transport routes provenance nameRow radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AscoliModulusPacket source target family tolerance radius probe stability equicontinuity
+        uniformRows transport routes provenance nameRow bundle pkg ->
+      Cont tolerance radius radiusRead ->
+        PkgSig bundle radiusRead pkg ->
+          UnaryHistory tolerance ∧ UnaryHistory radius ∧ UnaryHistory radiusRead ∧
+            Cont tolerance radius equicontinuity ∧ Cont tolerance radius radiusRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet toleranceRadiusRead radiusReadPkg
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, toleranceUnary, radiusUnary, _probeUnary,
+    _stabilityUnary, _equicontinuityUnary, _uniformRowsUnary, _nameUnary,
+    toleranceRadiusEquicontinuity, _familyRadiusUniformRows, _transportCont,
+    _provenanceCont, provenancePkg⟩ := packet
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed toleranceUnary radiusUnary toleranceRadiusRead
+  exact
+    ⟨toleranceUnary, radiusUnary, radiusReadUnary, toleranceRadiusEquicontinuity,
+      toleranceRadiusRead, provenancePkg, radiusReadPkg⟩
+
 end BEDC.Derived.AscoliModulusUp
