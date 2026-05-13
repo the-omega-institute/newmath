@@ -139,6 +139,18 @@ Use \autoref{thm:contour-integral-pl-contour-boundary} to keep path data inside 
 Apply \autoref{thm:contour-integral-public-export}. The public operation surface is precisely $G,F,S,M,I,H,C,P,N$. A residue-facing consumer can route through that surface, but the carrier has no coordinate for residue calculus or host analytic integration principles.
 \end{proof}
 
+\begin{theorem}[Contour-integral operation classifier stability]
+\label{thm:contour-integral-operation-classifier-stability}
+Let $T=(G,F,S,M,I,H,C,P,N)$ and $T'=(G',F',S',M',I',H',C',P',N')$ be accepted $\ContourIntegralOperationUp$ packets. If the contour row, holomorphic input, Riemann-sum ledger, modulus row, output row, route rows, package provenance, and local $\NameCert$ row are related componentwise by $\hsame$, then $T'$ is again classified as a $\ContourIntegralOperationUp$ packet over the transported rows. The transport adds no host path equality, hidden sample choice, global branch choice, or ambient integral data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contour-integral-namecert-obligations}. Its classifier-stability clause requires exactly componentwise transport of the contour, holomorphic input, Riemann-sum ledger, modulus, output, routes, provenance, and local naming rows.
+
+Use \autoref{thm:contour-integral-operation-modulus-transport} for the modulus side. The transported modulus remains the only public witness from finite Riemann sums to the transported output row, so hidden sample choice and unledgered limiting data cannot enter during transport.
+
+Finally apply \autoref{thm:contour-integral-public-export}. The exported packet after transport is still the finite operation surface $G',F',S',M',I',H',C',P',N'$, and the public surface contains no coordinate for host path equality, global branch choice, or an ambient integral operator.
+\end{proof}
+
 \closureat{ContourIntegralOperationUp}{seedStr}
 
 \begin{closurestatus}{\ContourIntegralOperationUp}
